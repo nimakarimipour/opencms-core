@@ -28,117 +28,138 @@
 package org.opencms.importexport;
 
 /**
- * Import parameters.<p>
+ * Import parameters.
+ *
+ * <p>
  *
  * @since 7.0.4
  */
 public class CmsImportParameters {
 
-    /** The path in the OpenCms VFS to import into.*/
-    private String m_destinationPath;
+  /** The path in the OpenCms VFS to import into. */
+  private String m_destinationPath;
 
-    /** If set, the permissions set on existing resources will not be modified.*/
-    private boolean m_keepPermissions;
+  /** If set, the permissions set on existing resources will not be modified. */
+  private boolean m_keepPermissions;
 
-    /** The file path, could be a folder or a zip file. */
-    private String m_path;
+  /** The file path, could be a folder or a zip file. */
+  private String m_path;
 
-    /** If set, the manifest.xml file will be validated during the import. */
-    private boolean m_xmlValidation;
+  /** If set, the manifest.xml file will be validated during the import. */
+  private boolean m_xmlValidation;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param path the file path, could be a folder or a zip file
-     * @param destination path in the OpenCms VFS to import into
-     * @param keepPermissions if set, the permissions set on existing resources will not be modified
-     */
-    public CmsImportParameters(String path, String destination, boolean keepPermissions) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param path the file path, could be a folder or a zip file
+   * @param destination path in the OpenCms VFS to import into
+   * @param keepPermissions if set, the permissions set on existing resources will not be modified
+   */
+  public CmsImportParameters(String path, String destination, boolean keepPermissions) {
 
-        setPath(path);
-        setDestinationPath(destination);
-        setKeepPermissions(keepPermissions);
-    }
+    setPath(path);
+    setDestinationPath(destination);
+    setKeepPermissions(keepPermissions);
+  }
 
-    /**
-     * Returns the path in the OpenCms VFS to import into.<p>
-     *
-     * @return the path in the OpenCms VFS to import into
-     */
-    public String getDestinationPath() {
+  /**
+   * Returns the path in the OpenCms VFS to import into.
+   *
+   * <p>
+   *
+   * @return the path in the OpenCms VFS to import into
+   */
+  public String getDestinationPath() {
 
-        return m_destinationPath;
-    }
+    return m_destinationPath;
+  }
 
-    /**
-     * Returns the file path, could be a folder or a zip file.<p>
-     *
-     * @return the file path
-     */
-    public String getPath() {
+  /**
+   * Returns the file path, could be a folder or a zip file.
+   *
+   * <p>
+   *
+   * @return the file path
+   */
+  public String getPath() {
 
-        return m_path;
-    }
+    return m_path;
+  }
 
-    /**
-     * Returns the keep permissions flags.
-     * if set, the permissions set on existing resources will not be modified.<p>
-     *
-     * @return the keep permissions flag
-     */
-    public boolean isKeepPermissions() {
+  /**
+   * Returns the keep permissions flags. if set, the permissions set on existing resources will not
+   * be modified.
+   *
+   * <p>
+   *
+   * @return the keep permissions flag
+   */
+  public boolean isKeepPermissions() {
 
-        return m_keepPermissions;
-    }
+    return m_keepPermissions;
+  }
 
-    /**
-     * Checks if the manifest.xml file will be validated during the import.<p>
-     *
-     * @return the xml validation flag
-     */
-    public boolean isXmlValidation() {
+  /**
+   * Checks if the manifest.xml file will be validated during the import.
+   *
+   * <p>
+   *
+   * @return the xml validation flag
+   */
+  public boolean isXmlValidation() {
 
-        return m_xmlValidation;
-    }
+    return m_xmlValidation;
+  }
 
-    /**
-     * Sets the path in the OpenCms VFS to import into.<p>
-     *
-     * @param importPath the import path to set
-     */
-    public void setDestinationPath(String importPath) {
+  /**
+   * Sets the path in the OpenCms VFS to import into.
+   *
+   * <p>
+   *
+   * @param importPath the import path to set
+   */
+  public void setDestinationPath(String importPath) {
 
-        m_destinationPath = importPath;
-    }
+    m_destinationPath = importPath;
+  }
 
-    /**
-     * Sets the keep permissions flag.
-     * If set, the permissions set on existing resources will not be modified.<p>
-     *
-     * @param keepPermissions the keep permissions flag to set
-     */
-    public void setKeepPermissions(boolean keepPermissions) {
+  /**
+   * Sets the keep permissions flag. If set, the permissions set on existing resources will not be
+   * modified.
+   *
+   * <p>
+   *
+   * @param keepPermissions the keep permissions flag to set
+   */
+  public void setKeepPermissions(boolean keepPermissions) {
 
-        m_keepPermissions = keepPermissions;
-    }
+    m_keepPermissions = keepPermissions;
+  }
 
-    /**
-     * Sets the file path, could be a folder or a zip file.<p>
-     *
-     * @param path the file path, could be a folder or a zip file
-     */
-    public void setPath(String path) {
+  /**
+   * Sets the file path, could be a folder or a zip file.
+   *
+   * <p>
+   *
+   * @param path the file path, could be a folder or a zip file
+   */
+  public void setPath(String path) {
 
-        m_path = path;
-    }
+    m_path = path;
+  }
 
-    /**
-     * Sets the xml validation flag. If set, the manifest.xml file will be validated during the import.<p>
-     *
-     * @param xmlValidation the xml validation flag to set
-     */
-    public void setXmlValidation(boolean xmlValidation) {
+  /**
+   * Sets the xml validation flag. If set, the manifest.xml file will be validated during the
+   * import.
+   *
+   * <p>
+   *
+   * @param xmlValidation the xml validation flag to set
+   */
+  public void setXmlValidation(boolean xmlValidation) {
 
-        m_xmlValidation = xmlValidation;
-    }
+    m_xmlValidation = xmlValidation;
+  }
 }

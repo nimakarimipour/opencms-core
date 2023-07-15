@@ -27,58 +27,67 @@
 
 package org.opencms.ade.sitemap.shared;
 
+import java.util.List;
 import org.opencms.gwt.shared.CmsListInfoBean;
 
-import java.util.List;
-
 /**
- * The gallery type bean.<p>
+ * The gallery type bean.
+ *
+ * <p>
  */
 public class CmsGalleryType extends CmsListInfoBean {
 
-    /** The gallery content type names. */
-    private List<String> m_contentTypeNames;
+  /** The gallery content type names. */
+  private List<String> m_contentTypeNames;
 
-    /** The resource type id. */
-    private int m_typeId;
+  /** The resource type id. */
+  private int m_typeId;
 
-    /**
-     * Returns the gallery content type names.<p>
-     *
-     * @return the gallery content type names
-     */
-    public List<String> getContentTypeNames() {
+  /**
+   * Returns the gallery content type names.
+   *
+   * <p>
+   *
+   * @return the gallery content type names
+   */
+  public List<String> getContentTypeNames() {
 
-        return m_contentTypeNames;
-    }
+    return m_contentTypeNames;
+  }
 
-    /**
-     * Returns the type id.<p>
-     *
-     * @return the type id
-     */
-    public int getTypeId() {
+  /**
+   * Returns the type id.
+   *
+   * <p>
+   *
+   * @return the type id
+   */
+  public int getTypeId() {
 
-        return m_typeId;
-    }
+    return m_typeId;
+  }
 
-    /**
-     * Sets the gallery content type names.<p>
-     *
-     * @param contentTypeNames the gallery content type names to set
-     */
-    public void setContentTypeNames(List<String> contentTypeNames) {
+  /**
+   * Sets the gallery content type names.
+   *
+   * <p>
+   *
+   * @param contentTypeNames the gallery content type names to set
+   */
+  public void setContentTypeNames(List<String> contentTypeNames) {
 
-        m_contentTypeNames = contentTypeNames;
-    }
+    m_contentTypeNames = contentTypeNames;
+  }
 
-    /**
-     * Sets the type id.<p>
-     *
-     * @param typeId the type id to set
-     */
-    public void setTypeId(int typeId) {
+  /**
+   * Sets the type id.
+   *
+   * <p>
+   *
+   * @param typeId the type id to set
+   */
+  public void setTypeId(int typeId) {
 
-        m_typeId = typeId;
-    }
+    m_typeId = typeId;
+  }
 }

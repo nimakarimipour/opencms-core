@@ -27,6 +27,10 @@
 
 package org.opencms.ade.galleries.client;
 
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
 import org.opencms.ade.galleries.client.ui.CmsSitemapTab;
 import org.opencms.ade.galleries.shared.CmsSiteSelectorOption;
 import org.opencms.ade.galleries.shared.CmsSitemapEntryBean;
@@ -36,201 +40,216 @@ import org.opencms.gwt.client.util.I_CmsSimpleCallback;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Set;
-
 /**
- * Handler class for the sitemap tree tab.<p>
+ * Handler class for the sitemap tree tab.
+ *
+ * <p>
  *
  * @since 8.5.0
  */
 public class CmsSitemapTabHandler extends A_CmsTabHandler {
 
-    /** The site root used for loading / saving tree state data. */
-    private String m_siteRoot;
+  /** The site root used for loading / saving tree state data. */
+  private String m_siteRoot;
 
-    /**
-     * Creates a new sitemap tab handler.<p>
-     *
-     * @param controller the gallery controller
-     */
-    public CmsSitemapTabHandler(CmsGalleryController controller) {
+  /**
+   * Creates a new sitemap tab handler.
+   *
+   * <p>
+   *
+   * @param controller the gallery controller
+   */
+  public CmsSitemapTabHandler(CmsGalleryController controller) {
 
-        super(controller);
+    super(controller);
+  }
+
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#clearParams() */
+  @Override
+  public void clearParams() {
+
+    // nothing to do, no parameters from this tab
+  }
+
+  /**
+   * Gets the selected site root.
+   *
+   * <p>
+   *
+   * @return the selected site root
+   */
+  public String getDefaultSelectedSiteRoot() {
+
+    return m_controller.getDefaultSitemapTabSiteRoot();
+  }
+
+  /**
+   * Gets the path which is used when the sitemap entry is selected.
+   *
+   * <p>
+   *
+   * @param sitemapEntry the sitemap entry
+   * @return the path to use when the entry is selected
+   */
+  public String getSelectPath(CmsSitemapEntryBean sitemapEntry) {
+
+    String normalizedSiteRoot = CmsStringUtil.joinPaths(CmsCoreProvider.get().getSiteRoot(), "/");
+    String rootPath = sitemapEntry.getRootPath();
+    if (rootPath.startsWith(normalizedSiteRoot)) {
+      return rootPath.substring(normalizedSiteRoot.length() - 1);
     }
+    return sitemapEntry.getRootPath();
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#clearParams()
-     */
-    @Override
-    public void clearParams() {
+  /**
+   * Gets the select options for the sort list.
+   *
+   * <p>
+   *
+   * @return the select options for the sort list
+   */
+  public LinkedHashMap<String, String> getSortList() {
 
-        // nothing to do, no parameters from this tab
+    if (!m_controller.isShowSiteSelector()
+        || !(m_controller.getSitemapSiteSelectorOptions().size() > 1)) {
+      return null;
     }
-
-    /**
-     * Gets the selected site root.<p>
-     *
-     * @return the selected site root
-     */
-    public String getDefaultSelectedSiteRoot() {
-
-        return m_controller.getDefaultSitemapTabSiteRoot();
+    LinkedHashMap<String, String> options = new LinkedHashMap<String, String>();
+    for (CmsSiteSelectorOption option : m_controller.getSitemapSiteSelectorOptions()) {
+      options.put(option.getSiteRoot(), option.getMessage());
     }
+    return options;
+  }
 
-    /**
-     * Gets the path which is used when the sitemap entry is selected.<p>
-     *
-     * @param sitemapEntry the sitemap entry
-     *
-     * @return the path to use when the entry is selected
-     */
-    public String getSelectPath(CmsSitemapEntryBean sitemapEntry) {
+  /**
+   * Loads the sub entries for the given path.
+   *
+   * <p>
+   *
+   * @param rootPath the root path
+   * @param isRoot <code>true</code> if the requested entry is the root entry
+   * @param callback the callback to execute with the result
+   */
+  public void getSubEntries(
+      String rootPath, boolean isRoot, I_CmsSimpleCallback<List<CmsSitemapEntryBean>> callback) {
 
-        String normalizedSiteRoot = CmsStringUtil.joinPaths(CmsCoreProvider.get().getSiteRoot(), "/");
-        String rootPath = sitemapEntry.getRootPath();
-        if (rootPath.startsWith(normalizedSiteRoot)) {
-            return rootPath.substring(normalizedSiteRoot.length() - 1);
-        }
-        return sitemapEntry.getRootPath();
+    m_controller.getSubEntries(rootPath, isRoot, null, callback);
+  }
+
+  /**
+   * Returns if this tab should offer select resource buttons.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this tab should offer select resource buttons
+   */
+  public boolean hasSelectResource() {
+
+    return m_controller.hasSelectFolder();
+  }
+
+  /**
+   * Initializes the sitemap tab's content.
+   *
+   * <p>
+   */
+  public void initializeSitemapTab() {
+
+    String siteRoot =
+        m_controller.getPreselectOption(
+            m_controller.getStartSiteRoot(), m_controller.getSitemapSiteSelectorOptions());
+    getTab().setSortSelectBoxValue(siteRoot, true);
+    m_controller.getDefaultScope();
+    if (siteRoot == null) {
+      siteRoot = m_controller.getDefaultSitemapTabSiteRoot();
     }
+    m_siteRoot = siteRoot;
+    getSubEntries(
+        siteRoot,
+        true,
+        new I_CmsSimpleCallback<List<CmsSitemapEntryBean>>() {
 
-    /**
-     * Gets the select options for the sort list.<p>
-     *
-     * @return the select options for the sort list
-     */
-    public LinkedHashMap<String, String> getSortList() {
+          public void execute(List<CmsSitemapEntryBean> result) {
 
-        if (!m_controller.isShowSiteSelector() || !(m_controller.getSitemapSiteSelectorOptions().size() > 1)) {
-            return null;
-        }
-        LinkedHashMap<String, String> options = new LinkedHashMap<String, String>();
-        for (CmsSiteSelectorOption option : m_controller.getSitemapSiteSelectorOptions()) {
-            options.put(option.getSiteRoot(), option.getMessage());
-        }
-        return options;
-    }
-
-    /**
-     * Loads the sub entries for the given path.<p>
-     *
-     * @param rootPath the root path
-     * @param isRoot <code>true</code> if the requested entry is the root entry
-     * @param callback the callback to execute with the result
-     */
-    public void getSubEntries(
-        String rootPath,
-        boolean isRoot,
-        I_CmsSimpleCallback<List<CmsSitemapEntryBean>> callback) {
-
-        m_controller.getSubEntries(rootPath, isRoot, null, callback);
-    }
-
-    /**
-     * Returns if this tab should offer select resource buttons.<p>
-     *
-     * @return <code>true</code> if this tab should offer select resource buttons
-     */
-    public boolean hasSelectResource() {
-
-        return m_controller.hasSelectFolder();
-    }
-
-    /**
-     * Initializes the sitemap tab's content.<p>
-     */
-    public void initializeSitemapTab() {
-
-        String siteRoot = m_controller.getPreselectOption(
-            m_controller.getStartSiteRoot(),
-            m_controller.getSitemapSiteSelectorOptions());
-        getTab().setSortSelectBoxValue(siteRoot, true);
-        m_controller.getDefaultScope();
-        if (siteRoot == null) {
-            siteRoot = m_controller.getDefaultSitemapTabSiteRoot();
-        }
-        m_siteRoot = siteRoot;
-        getSubEntries(siteRoot, true, new I_CmsSimpleCallback<List<CmsSitemapEntryBean>>() {
-
-            public void execute(List<CmsSitemapEntryBean> result) {
-
-                getTab().fillDefault(result);
-                getTab().onContentChange();
-            }
-        });
-
-    }
-
-    /**
-     * This method is called when the tree open state changes.<p>
-     *
-     * @param openItemIds the structure ids of open entries
-     */
-    public void onChangeTreeState(Set<CmsUUID> openItemIds) {
-
-        m_controller.saveTreeState(I_CmsGalleryProviderConstants.TREE_SITEMAP, m_siteRoot, openItemIds);
-    }
-
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSelection()
-     */
-    @Override
-    public void onSelection() {
-
-        if (getTab().isInitialized()) {
+            getTab().fillDefault(result);
             getTab().onContentChange();
-        } else {
-            initializeSitemapTab();
-        }
-    }
-
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSort(java.lang.String, java.lang.String)
-     */
-    @Override
-    public void onSort(final String sortParams, String filter) {
-
-        m_controller.getSubEntries(sortParams, true, filter, new I_CmsSimpleCallback<List<CmsSitemapEntryBean>>() {
-
-            public void execute(List<CmsSitemapEntryBean> entries) {
-
-                getTab().fill(entries);
-                setSiteRoot(sortParams);
-                onChangeTreeState(new HashSet<CmsUUID>());
-            }
+          }
         });
+  }
 
+  /**
+   * This method is called when the tree open state changes.
+   *
+   * <p>
+   *
+   * @param openItemIds the structure ids of open entries
+   */
+  public void onChangeTreeState(Set<CmsUUID> openItemIds) {
+
+    m_controller.saveTreeState(I_CmsGalleryProviderConstants.TREE_SITEMAP, m_siteRoot, openItemIds);
+  }
+
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSelection() */
+  @Override
+  public void onSelection() {
+
+    if (getTab().isInitialized()) {
+      getTab().onContentChange();
+    } else {
+      initializeSitemapTab();
     }
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#removeParam(java.lang.String)
-     */
-    @Override
-    public void removeParam(String paramKey) {
+  /**
+   * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSort(java.lang.String,
+   *     java.lang.String)
+   */
+  @Override
+  public void onSort(final String sortParams, String filter) {
 
-        // nothing to do, no parameters from this tab
-    }
+    m_controller.getSubEntries(
+        sortParams,
+        true,
+        filter,
+        new I_CmsSimpleCallback<List<CmsSitemapEntryBean>>() {
 
-    /**
-     * Returns the sitemap tab.<p>
-     *
-     * @return the sitemap tab
-     */
-    protected CmsSitemapTab getTab() {
+          public void execute(List<CmsSitemapEntryBean> entries) {
 
-        return m_controller.m_handler.m_galleryDialog.getSitemapTab();
-    }
+            getTab().fill(entries);
+            setSiteRoot(sortParams);
+            onChangeTreeState(new HashSet<CmsUUID>());
+          }
+        });
+  }
 
-    /**
-     * Setter for the site root attribute.<p>
-     *
-     * @param siteRoot the new value for the site root attribute
-     */
-    protected void setSiteRoot(String siteRoot) {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#removeParam(java.lang.String) */
+  @Override
+  public void removeParam(String paramKey) {
 
-        m_siteRoot = siteRoot;
-    }
+    // nothing to do, no parameters from this tab
+  }
+
+  /**
+   * Returns the sitemap tab.
+   *
+   * <p>
+   *
+   * @return the sitemap tab
+   */
+  protected CmsSitemapTab getTab() {
+
+    return m_controller.m_handler.m_galleryDialog.getSitemapTab();
+  }
+
+  /**
+   * Setter for the site root attribute.
+   *
+   * <p>
+   *
+   * @param siteRoot the new value for the site root attribute
+   */
+  protected void setSiteRoot(String siteRoot) {
+
+    m_siteRoot = siteRoot;
+  }
 }

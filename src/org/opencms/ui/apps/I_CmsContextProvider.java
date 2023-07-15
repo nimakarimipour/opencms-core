@@ -30,14 +30,18 @@ package org.opencms.ui.apps;
 import org.opencms.ui.I_CmsDialogContext;
 
 /**
- * Provides the dialog context to context menus and other context sensitive dialogs.<p>
+ * Provides the dialog context to context menus and other context sensitive dialogs.
+ *
+ * <p>
  */
 public interface I_CmsContextProvider {
 
-    /**
-     * Returns the dialog context for dialogs opened from the context menu.<p>
-     *
-     * @return the dialog context
-     */
-    I_CmsDialogContext getDialogContext();
+  /**
+   * Returns the dialog context for dialogs opened from the context menu.
+   *
+   * <p>
+   *
+   * @return the dialog context
+   */
+  I_CmsDialogContext getDialogContext();
 }

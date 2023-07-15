@@ -27,6 +27,13 @@
 
 package org.opencms.ui.apps.cacheadmin;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.Label;
+import java.util.Calendar;
+import java.util.Collections;
 import org.opencms.loader.CmsImageLoader;
 import org.opencms.main.CmsEvent;
 import org.opencms.main.I_CmsEventListener;
@@ -37,106 +44,108 @@ import org.opencms.ui.apps.cacheadmin.CmsFlushCache.I_CloseableDialog;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsDateField;
 
-import java.util.Calendar;
-import java.util.Collections;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.v7.shared.ui.label.ContentMode;
-import com.vaadin.v7.ui.Label;
-
 /**
- * Dialog to clean Image Cache.<p>
+ * Dialog to clean Image Cache.
+ *
+ * <p>
  */
 public class CmsImageCacheCleanDialog extends CmsBasicDialog implements I_CloseableDialog {
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = -6902585433676013120L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -6902585433676013120L;
 
-    /**Runnable for close action.*/
-    Runnable m_closeRunnable;
+  /** Runnable for close action. */
+  Runnable m_closeRunnable;
 
-    /**Runnable for ok action. */
-    Runnable m_okRunnable;
+  /** Runnable for ok action. */
+  Runnable m_okRunnable;
 
-    /**Vaadin component.*/
-    private Button m_cancelButton;
+  /** Vaadin component. */
+  private Button m_cancelButton;
 
-    /**Date field.*/
-    private CmsDateField m_dateField;
+  /** Date field. */
+  private CmsDateField m_dateField;
 
-    /**Vaadin component.*/
-    private Label m_icon;
+  /** Vaadin component. */
+  private Label m_icon;
 
-    /**Vaadin component.*/
-    private Button m_okButton;
+  /** Vaadin component. */
+  private Button m_okButton;
 
-    /**
-     * Public constructor.<p>
-     */
-    public CmsImageCacheCleanDialog() {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   */
+  public CmsImageCacheCleanDialog() {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
-        //Setup icon
-        m_icon.setContentMode(ContentMode.HTML);
-        m_icon.setValue(FontOpenCms.WARNING.getHtml());
+    // Setup icon
+    m_icon.setContentMode(ContentMode.HTML);
+    m_icon.setValue(FontOpenCms.WARNING.getHtml());
 
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MINUTE, -30);
-        m_dateField.setDate(cal.getTime());
-        m_okButton.addClickListener(new ClickListener() {
+    Calendar cal = Calendar.getInstance();
+    cal.add(Calendar.MINUTE, -30);
+    m_dateField.setDate(cal.getTime());
+    m_okButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 8281661241498918564L;
+          private static final long serialVersionUID = 8281661241498918564L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                flushCache();
-                m_closeRunnable.run();
-                if (m_okRunnable != null) {
-                    m_okRunnable.run();
-                }
+            flushCache();
+            m_closeRunnable.run();
+            if (m_okRunnable != null) {
+              m_okRunnable.run();
             }
+          }
         });
-        m_cancelButton.addClickListener(new ClickListener() {
+    m_cancelButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = -936541994114016527L;
+          private static final long serialVersionUID = -936541994114016527L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                m_closeRunnable.run();
-            }
+            m_closeRunnable.run();
+          }
         });
-    }
+  }
 
-    /**
-     * @see org.opencms.ui.apps.cacheadmin.CmsFlushCache.I_CloseableDialog#setCloseRunnable(java.lang.Runnable)
-     */
-    public void setCloseRunnable(Runnable closeRunnable) {
+  /**
+   * @see
+   *     org.opencms.ui.apps.cacheadmin.CmsFlushCache.I_CloseableDialog#setCloseRunnable(java.lang.Runnable)
+   */
+  public void setCloseRunnable(Runnable closeRunnable) {
 
-        m_closeRunnable = closeRunnable;
+    m_closeRunnable = closeRunnable;
+  }
 
-    }
+  /**
+   * @see
+   *     org.opencms.ui.apps.cacheadmin.CmsFlushCache.I_CloseableDialog#setOkRunnable(java.lang.Runnable)
+   */
+  public void setOkRunnable(Runnable okRunnable) {
 
-    /**
-     * @see org.opencms.ui.apps.cacheadmin.CmsFlushCache.I_CloseableDialog#setOkRunnable(java.lang.Runnable)
-     */
-    public void setOkRunnable(Runnable okRunnable) {
+    m_okRunnable = okRunnable;
+  }
 
-        m_okRunnable = okRunnable;
+  /**
+   * Clears the Image Cache according to value of date field.
+   *
+   * <p>
+   */
+  void flushCache() {
 
-    }
-
-    /**
-     * Clears the Image Cache according to value of date field.<p>
-     */
-    void flushCache() {
-
-        float age = (System.currentTimeMillis() - m_dateField.getDate().getTime()) / (60f * 60f * 1000f);
-        OpenCms.fireCmsEvent(
-            new CmsEvent(
-                I_CmsEventListener.EVENT_CLEAR_CACHES,
-                Collections.<String, Object> singletonMap(CmsImageLoader.PARAM_CLEAR_IMAGES_CACHE, "" + age)));
-    }
+    float age =
+        (System.currentTimeMillis() - m_dateField.getDate().getTime()) / (60f * 60f * 1000f);
+    OpenCms.fireCmsEvent(
+        new CmsEvent(
+            I_CmsEventListener.EVENT_CLEAR_CACHES,
+            Collections.<String, Object>singletonMap(
+                CmsImageLoader.PARAM_CLEAR_IMAGES_CACHE, "" + age)));
+  }
 }

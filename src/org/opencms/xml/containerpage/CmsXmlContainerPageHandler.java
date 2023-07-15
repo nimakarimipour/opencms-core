@@ -27,6 +27,9 @@
 
 package org.opencms.xml.containerpage;
 
+import java.util.Iterator;
+import java.util.Locale;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsFile;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResourceFilter;
@@ -42,158 +45,170 @@ import org.opencms.xml.types.CmsXmlVarLinkValue;
 import org.opencms.xml.types.CmsXmlVfsFileValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 
-import java.util.Iterator;
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Container page handler to validate consistency.<p>
+ * Container page handler to validate consistency.
+ *
+ * <p>
  *
  * @since 7.6
  */
 public class CmsXmlContainerPageHandler extends CmsDefaultXmlContentHandler {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsXmlContainerPageHandler.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsXmlContainerPageHandler.class);
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsXmlContainerPageHandler() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsXmlContainerPageHandler() {
 
-        super();
+    super();
+  }
+
+  /** @see org.opencms.xml.content.CmsDefaultXmlContentHandler#hasModifiableFormatters() */
+  @Override
+  public boolean hasModifiableFormatters() {
+
+    return false;
+  }
+
+  /**
+   * @see
+   *     org.opencms.xml.content.CmsDefaultXmlContentHandler#prepareForWrite(org.opencms.file.CmsObject,
+   *     org.opencms.xml.content.CmsXmlContent, org.opencms.file.CmsFile)
+   */
+  @Override
+  public CmsFile prepareForWrite(CmsObject cms, CmsXmlContent content, CmsFile file)
+      throws CmsException {
+
+    Object attribute =
+        cms.getRequestContext().getAttribute(CmsXmlContent.AUTO_CORRECTION_ATTRIBUTE);
+    boolean autoCorrectionEnabled = (attribute != null) && ((Boolean) attribute).booleanValue();
+    if (autoCorrectionEnabled) { // this is to ensure that 'touch' converts pages to the V12 format.
+      CmsXmlContainerPage page = (CmsXmlContainerPage) content;
+      try {
+        page.writeContainerPage(cms, page.getContainerPage(cms));
+      } catch (Exception e) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
+    }
+    return super.prepareForWrite(cms, content, file);
+  }
+
+  /**
+   * @see
+   *     org.opencms.xml.content.I_CmsXmlContentHandler#resolveValidation(org.opencms.file.CmsObject,
+   *     org.opencms.xml.types.I_CmsXmlContentValue,
+   *     org.opencms.xml.content.CmsXmlContentErrorHandler)
+   */
+  @Override
+  public CmsXmlContentErrorHandler resolveValidation(
+      CmsObject cms, I_CmsXmlContentValue value, CmsXmlContentErrorHandler errorHandler) {
+
+    if (errorHandler == null) {
+      // init a new error handler if required
+      errorHandler = new CmsXmlContentErrorHandler();
     }
 
-    /**
-     * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#hasModifiableFormatters()
-     */
-    @Override
-    public boolean hasModifiableFormatters() {
-
-        return false;
+    // we only have to validate containers
+    if ((value != null)
+        && CmsXmlUtils.removeXpath(value.getPath())
+            .equals(CmsXmlContainerPage.XmlNode.Containers.name())) {
+      CmsXmlContent content = (CmsXmlContent) value.getDocument();
+      try {
+        validateNames(cms, value, content);
+      } catch (CmsXmlException e) {
+        errorHandler.addError(value, e.getLocalizedMessage());
+      }
     }
 
-    /**
-     * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#prepareForWrite(org.opencms.file.CmsObject, org.opencms.xml.content.CmsXmlContent, org.opencms.file.CmsFile)
-     */
-    @Override
-    public CmsFile prepareForWrite(CmsObject cms, CmsXmlContent content, CmsFile file) throws CmsException {
+    return errorHandler;
+  }
 
-        Object attribute = cms.getRequestContext().getAttribute(CmsXmlContent.AUTO_CORRECTION_ATTRIBUTE);
-        boolean autoCorrectionEnabled = (attribute != null) && ((Boolean)attribute).booleanValue();
-        if (autoCorrectionEnabled) { // this is to ensure that 'touch' converts pages to the V12 format.
-            CmsXmlContainerPage page = (CmsXmlContainerPage)content;
-            try {
-                page.writeContainerPage(cms, page.getContainerPage(cms));
-            } catch (Exception e) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-        }
-        return super.prepareForWrite(cms, content, file);
+  /**
+   * @see
+   *     org.opencms.xml.content.CmsDefaultXmlContentHandler#validateLink(org.opencms.file.CmsObject,
+   *     org.opencms.xml.types.I_CmsXmlContentValue,
+   *     org.opencms.xml.content.CmsXmlContentErrorHandler)
+   */
+  @Override
+  protected boolean validateLink(
+      CmsObject cms, I_CmsXmlContentValue value, CmsXmlContentErrorHandler errorHandler) {
+
+    // if there is a value of type file reference
+    if ((value == null)
+        || (!(value instanceof CmsXmlVfsFileValue) && !(value instanceof CmsXmlVarLinkValue))) {
+      return false;
     }
-
-    /**
-     * @see org.opencms.xml.content.I_CmsXmlContentHandler#resolveValidation(org.opencms.file.CmsObject, org.opencms.xml.types.I_CmsXmlContentValue, org.opencms.xml.content.CmsXmlContentErrorHandler)
-     */
-    @Override
-    public CmsXmlContentErrorHandler resolveValidation(
-        CmsObject cms,
-        I_CmsXmlContentValue value,
-        CmsXmlContentErrorHandler errorHandler) {
-
-        if (errorHandler == null) {
-            // init a new error handler if required
-            errorHandler = new CmsXmlContentErrorHandler();
-        }
-
-        // we only have to validate containers
-        if ((value != null)
-            && CmsXmlUtils.removeXpath(value.getPath()).equals(CmsXmlContainerPage.XmlNode.Containers.name())) {
-            CmsXmlContent content = (CmsXmlContent)value.getDocument();
-            try {
-                validateNames(cms, value, content);
-            } catch (CmsXmlException e) {
-                errorHandler.addError(value, e.getLocalizedMessage());
-            }
-        }
-
-        return errorHandler;
+    // if the value has a link (this will automatically fix, for instance, the path of moved
+    // resources)
+    CmsLink link = null;
+    if (value instanceof CmsXmlVfsFileValue) {
+      link = ((CmsXmlVfsFileValue) value).getLink(cms);
+    } else if (value instanceof CmsXmlVarLinkValue) {
+      link = ((CmsXmlVarLinkValue) value).getLink(cms);
     }
-
-    /**
-     * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#validateLink(org.opencms.file.CmsObject, org.opencms.xml.types.I_CmsXmlContentValue, org.opencms.xml.content.CmsXmlContentErrorHandler)
-     */
-    @Override
-    protected boolean validateLink(CmsObject cms, I_CmsXmlContentValue value, CmsXmlContentErrorHandler errorHandler) {
-
-        // if there is a value of type file reference
-        if ((value == null) || (!(value instanceof CmsXmlVfsFileValue) && !(value instanceof CmsXmlVarLinkValue))) {
-            return false;
-        }
-        // if the value has a link (this will automatically fix, for instance, the path of moved resources)
-        CmsLink link = null;
-        if (value instanceof CmsXmlVfsFileValue) {
-            link = ((CmsXmlVfsFileValue)value).getLink(cms);
-        } else if (value instanceof CmsXmlVarLinkValue) {
-            link = ((CmsXmlVarLinkValue)value).getLink(cms);
-        }
-        if ((link == null) || !link.isInternal()) {
-            return false;
-        }
-        try {
-            String sitePath = cms.getRequestContext().removeSiteRoot(link.getTarget());
-            // validate the link for error
-            cms.readResource(sitePath, CmsResourceFilter.IGNORE_EXPIRATION);
-
-            // we handle expiration in the cms:container tag, so don't validate it here
-
-        } catch (CmsException e) {
-            if (errorHandler != null) {
-                // generate error message
-                errorHandler.addError(
-                    value,
-                    org.opencms.xml.content.Messages.get().getBundle(value.getLocale()).key(
-                        org.opencms.xml.content.Messages.GUI_XMLCONTENT_CHECK_ERROR_0));
-            }
-            return true;
-        }
-        return false;
+    if ((link == null) || !link.isInternal()) {
+      return false;
     }
+    try {
+      String sitePath = cms.getRequestContext().removeSiteRoot(link.getTarget());
+      // validate the link for error
+      cms.readResource(sitePath, CmsResourceFilter.IGNORE_EXPIRATION);
 
-    /**
-     * Validates container names, so that they are unique in the page.<p>
-     *
-     * @param cms the cms context
-     * @param value the value to validate
-     * @param content the container page to validate
-     *
-     * @throws CmsXmlException if there are duplicated names
-     */
-    protected void validateNames(CmsObject cms, I_CmsXmlContentValue value, CmsXmlContent content)
-    throws CmsXmlException {
+      // we handle expiration in the cms:container tag, so don't validate it here
 
-        // get the current name
-        Locale locale = value.getLocale();
-        String namePath = CmsXmlUtils.concatXpath(value.getPath(), CmsXmlContainerPage.XmlNode.Name.name());
-        String name = content.getValue(namePath, locale).getStringValue(cms);
-        // iterate over all containers
-        Iterator<I_CmsXmlContentValue> itValues = content.getValues(
-            CmsXmlContainerPage.XmlNode.Containers.name(),
-            locale).iterator();
-        while (itValues.hasNext()) {
-            I_CmsXmlContentValue itValue = itValues.next();
-            if (itValue.getPath().equals(value.getPath())) {
-                // skip current container
-                continue;
-            }
-            // get container name
-            namePath = CmsXmlUtils.concatXpath(itValue.getPath(), CmsXmlContainerPage.XmlNode.Name.name());
-            String itName = content.getValue(namePath, locale).getStringValue(cms);
-            // validate
-            if (name.equals(itName)) {
-                throw new CmsXmlException(Messages.get().container(Messages.ERR_DUPLICATE_NAME_1, name));
-            }
-        }
+    } catch (CmsException e) {
+      if (errorHandler != null) {
+        // generate error message
+        errorHandler.addError(
+            value,
+            org.opencms.xml.content.Messages.get()
+                .getBundle(value.getLocale())
+                .key(org.opencms.xml.content.Messages.GUI_XMLCONTENT_CHECK_ERROR_0));
+      }
+      return true;
     }
+    return false;
+  }
+
+  /**
+   * Validates container names, so that they are unique in the page.
+   *
+   * <p>
+   *
+   * @param cms the cms context
+   * @param value the value to validate
+   * @param content the container page to validate
+   * @throws CmsXmlException if there are duplicated names
+   */
+  protected void validateNames(CmsObject cms, I_CmsXmlContentValue value, CmsXmlContent content)
+      throws CmsXmlException {
+
+    // get the current name
+    Locale locale = value.getLocale();
+    String namePath =
+        CmsXmlUtils.concatXpath(value.getPath(), CmsXmlContainerPage.XmlNode.Name.name());
+    String name = content.getValue(namePath, locale).getStringValue(cms);
+    // iterate over all containers
+    Iterator<I_CmsXmlContentValue> itValues =
+        content.getValues(CmsXmlContainerPage.XmlNode.Containers.name(), locale).iterator();
+    while (itValues.hasNext()) {
+      I_CmsXmlContentValue itValue = itValues.next();
+      if (itValue.getPath().equals(value.getPath())) {
+        // skip current container
+        continue;
+      }
+      // get container name
+      namePath =
+          CmsXmlUtils.concatXpath(itValue.getPath(), CmsXmlContainerPage.XmlNode.Name.name());
+      String itName = content.getValue(namePath, locale).getStringValue(cms);
+      // validate
+      if (name.equals(itName)) {
+        throw new CmsXmlException(Messages.get().container(Messages.ERR_DUPLICATE_NAME_1, name));
+      }
+    }
+  }
 }

@@ -37,55 +37,58 @@ import org.opencms.search.extractors.CmsExtractorOpenOffice;
 import org.opencms.search.extractors.I_CmsExtractionResult;
 
 /**
- * Lucene document factory class to extract index data from a cms resource
- * containing Open Document Format data.<p>
+ * Lucene document factory class to extract index data from a cms resource containing Open Document
+ * Format data.
+ *
+ * <p>
  *
  * @since 7.0.4
  */
 public class CmsDocumentOpenOffice extends A_CmsVfsDocument {
 
-    /**
-     * Creates a new instance of this lucene document factory.<p>
-     *
-     * @param name name of the document type
-     */
-    public CmsDocumentOpenOffice(String name) {
+  /**
+   * Creates a new instance of this lucene document factory.
+   *
+   * <p>
+   *
+   * @param name name of the document type
+   */
+  public CmsDocumentOpenOffice(String name) {
 
-        super(name);
+    super(name);
+  }
+
+  /**
+   * Returns the raw text content of a given vfs resource containing MS Word data.
+   *
+   * <p>
+   *
+   * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource,
+   *     I_CmsSearchIndex)
+   */
+  public I_CmsExtractionResult extractContent(
+      CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+      throws CmsIndexException, CmsException {
+
+    logContentExtraction(resource, index);
+    CmsFile file = readFile(cms, resource);
+    try {
+      return CmsExtractorOpenOffice.getExtractor().extractText(file.getContents());
+    } catch (Exception e) {
+      throw new CmsIndexException(
+          Messages.get().container(Messages.ERR_TEXT_EXTRACTION_1, resource.getRootPath()), e);
     }
+  }
 
-    /**
-     * Returns the raw text content of a given vfs resource containing MS Word data.<p>
-     *
-     * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
-     */
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
-    throws CmsIndexException, CmsException {
+  /** @see org.opencms.search.documents.I_CmsDocumentFactory#isLocaleDependend() */
+  public boolean isLocaleDependend() {
 
-        logContentExtraction(resource, index);
-        CmsFile file = readFile(cms, resource);
-        try {
-            return CmsExtractorOpenOffice.getExtractor().extractText(file.getContents());
-        } catch (Exception e) {
-            throw new CmsIndexException(
-                Messages.get().container(Messages.ERR_TEXT_EXTRACTION_1, resource.getRootPath()),
-                e);
-        }
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.search.documents.I_CmsDocumentFactory#isLocaleDependend()
-     */
-    public boolean isLocaleDependend() {
+  /** @see org.opencms.search.documents.I_CmsDocumentFactory#isUsingCache() */
+  public boolean isUsingCache() {
 
-        return false;
-    }
-
-    /**
-     * @see org.opencms.search.documents.I_CmsDocumentFactory#isUsingCache()
-     */
-    public boolean isUsingCache() {
-
-        return true;
-    }
+    return true;
+  }
 }

@@ -30,100 +30,116 @@ package org.opencms.ade.publish.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * Work flow action information.<p>
+ * Work flow action information.
+ *
+ * <p>
  */
 public class CmsWorkflowAction implements IsSerializable {
 
-    /** The cancel workflow action. */
-    public static final String ACTION_CANCEL = "cancel";
+  /** The cancel workflow action. */
+  public static final String ACTION_CANCEL = "cancel";
 
-    /** The action key. */
-    private String m_action;
+  /** The action key. */
+  private String m_action;
 
-    /** The action label. */
-    private String m_label;
+  /** The action label. */
+  private String m_label;
 
-    /** Action enabled flag. */
-    private boolean m_enabled;
+  /** Action enabled flag. */
+  private boolean m_enabled;
 
-    /** A flag which indicates whether this workflow action is actually a publish action. */
-    private boolean m_isPublish;
+  /** A flag which indicates whether this workflow action is actually a publish action. */
+  private boolean m_isPublish;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param actionKey the action key
-     * @param label the action label
-     * @param isEnabled <code>true</code> if the action is enabled
-     */
-    public CmsWorkflowAction(String actionKey, String label, boolean isEnabled) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param actionKey the action key
+   * @param label the action label
+   * @param isEnabled <code>true</code> if the action is enabled
+   */
+  public CmsWorkflowAction(String actionKey, String label, boolean isEnabled) {
 
-        m_action = actionKey;
-        m_label = label;
-        m_enabled = isEnabled;
-    }
+    m_action = actionKey;
+    m_label = label;
+    m_enabled = isEnabled;
+  }
 
-    /**
-     * Constructor.<p>
-     *
-     * @param actionKey the action key
-     * @param label the action label
-     * @param isEnabled <code>true</code> if the action is enabled
-     * @param isPublish a flag to distinguish publish actions from other workflow actions
-     */
-    public CmsWorkflowAction(String actionKey, String label, boolean isEnabled, boolean isPublish) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param actionKey the action key
+   * @param label the action label
+   * @param isEnabled <code>true</code> if the action is enabled
+   * @param isPublish a flag to distinguish publish actions from other workflow actions
+   */
+  public CmsWorkflowAction(String actionKey, String label, boolean isEnabled, boolean isPublish) {
 
-        m_action = actionKey;
-        m_label = label;
-        m_enabled = isEnabled;
-        m_isPublish = isPublish;
-    }
+    m_action = actionKey;
+    m_label = label;
+    m_enabled = isEnabled;
+    m_isPublish = isPublish;
+  }
 
-    /**
-     * Constructor. For serialization only.<p>
-     */
-    protected CmsWorkflowAction() {
+  /**
+   * Constructor. For serialization only.
+   *
+   * <p>
+   */
+  protected CmsWorkflowAction() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Returns the action key.<p>
-     *
-     * @return the action key
-     */
-    public String getAction() {
+  /**
+   * Returns the action key.
+   *
+   * <p>
+   *
+   * @return the action key
+   */
+  public String getAction() {
 
-        return m_action;
-    }
+    return m_action;
+  }
 
-    /**
-     * Returns the action label.<p>
-     *
-     * @return the action label
-     */
-    public String getLabel() {
+  /**
+   * Returns the action label.
+   *
+   * <p>
+   *
+   * @return the action label
+   */
+  public String getLabel() {
 
-        return m_label;
-    }
+    return m_label;
+  }
 
-    /**
-     * Returns if the action is enabled.<p>
-     *
-     * @return <code>true</code> if the action is enabled
-     */
-    public boolean isEnabled() {
+  /**
+   * Returns if the action is enabled.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the action is enabled
+   */
+  public boolean isEnabled() {
 
-        return m_enabled;
-    }
+    return m_enabled;
+  }
 
-    /**
-     * Check whether this action is a publish action.<p>
-     *
-     * @return true if this is a publish action
-     */
-    public boolean isPublish() {
+  /**
+   * Check whether this action is a publish action.
+   *
+   * <p>
+   *
+   * @return true if this is a publish action
+   */
+  public boolean isPublish() {
 
-        return m_isPublish;
-    }
+    return m_isPublish;
+  }
 }

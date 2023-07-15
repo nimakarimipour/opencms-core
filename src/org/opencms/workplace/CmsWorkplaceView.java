@@ -28,98 +28,101 @@
 package org.opencms.workplace;
 
 /**
- * Contains the data of a single workplace view.<p>
+ * Contains the data of a single workplace view.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsWorkplaceView implements Comparable<CmsWorkplaceView> {
 
-    /** The localization key of this view. */
-    private String m_key;
+  /** The localization key of this view. */
+  private String m_key;
 
-    /** The sort order of the view. */
-    private Float m_order;
+  /** The sort order of the view. */
+  private Float m_order;
 
-    /** The URI of the OpenCms VFS resource (folder) of the view. */
-    private String m_uri;
+  /** The URI of the OpenCms VFS resource (folder) of the view. */
+  private String m_uri;
 
-    /**
-     * Creates a new workplace view.<p>
-     *
-     * @param key the localization key for the display name of the view
-     * @param uri of the view page in the OpenCms VFS
-     * @param order the sort order of the view
-     */
-    public CmsWorkplaceView(String key, String uri, Float order) {
+  /**
+   * Creates a new workplace view.
+   *
+   * <p>
+   *
+   * @param key the localization key for the display name of the view
+   * @param uri of the view page in the OpenCms VFS
+   * @param order the sort order of the view
+   */
+  public CmsWorkplaceView(String key, String uri, Float order) {
 
-        m_key = key;
-        m_uri = uri;
-        m_order = order;
+    m_key = key;
+    m_uri = uri;
+    m_order = order;
+  }
+
+  /** @see java.lang.Comparable#compareTo(java.lang.Object) */
+  public int compareTo(CmsWorkplaceView obj) {
+
+    if (obj == this) {
+      return 0;
     }
+    return m_order.compareTo(obj.getOrder());
+  }
 
-    /**
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    public int compareTo(CmsWorkplaceView obj) {
+  /** @see java.lang.Object#equals(java.lang.Object) */
+  @Override
+  public boolean equals(Object obj) {
 
-        if (obj == this) {
-            return 0;
-        }
-        return m_order.compareTo(obj.getOrder());
+    if (obj == this) {
+      return true;
     }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-
-        if (obj == this) {
-            return true;
-        }
-        if (obj instanceof CmsWorkplaceView) {
-            return ((CmsWorkplaceView)obj).m_uri.equals(m_uri);
-        }
-        return false;
+    if (obj instanceof CmsWorkplaceView) {
+      return ((CmsWorkplaceView) obj).m_uri.equals(m_uri);
     }
+    return false;
+  }
 
-    /**
-     * Returns the localization key for the display name of this view .<p>
-     *
-     * @return the localization key
-     */
-    public String getKey() {
+  /**
+   * Returns the localization key for the display name of this view .
+   *
+   * <p>
+   *
+   * @return the localization key
+   */
+  public String getKey() {
 
-        return m_key;
-    }
+    return m_key;
+  }
 
-    /**
-     * Returns the sort order of this view.<p>
-     *
-     * @return the sort order of this view
-     */
-    public Float getOrder() {
+  /**
+   * Returns the sort order of this view.
+   *
+   * <p>
+   *
+   * @return the sort order of this view
+   */
+  public Float getOrder() {
 
-        return m_order;
-    }
+    return m_order;
+  }
 
-    /**
-     * Returns the OpenCms VFS uri of this view.<p>
-     *
-     * @return the uri
-     */
-    public String getUri() {
+  /**
+   * Returns the OpenCms VFS uri of this view.
+   *
+   * <p>
+   *
+   * @return the uri
+   */
+  public String getUri() {
 
-        return m_uri;
-    }
+    return m_uri;
+  }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
+  /** @see java.lang.Object#hashCode() */
+  @Override
+  public int hashCode() {
 
-        return getUri().hashCode();
-    }
-
+    return getUri().hashCode();
+  }
 }

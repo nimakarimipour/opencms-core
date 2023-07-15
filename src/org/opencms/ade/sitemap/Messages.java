@@ -31,91 +31,102 @@ import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
 
 /**
- * Convenience class to access the localized messages of this OpenCms package.<p>
+ * Convenience class to access the localized messages of this OpenCms package.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public final class Messages extends A_CmsMessageBundle {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_ALIAS_DUPLICATE_ALIAS_PATH_0 = "ERR_ALIAS_DUPLICATE_ALIAS_PATH_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_ALIAS_DUPLICATE_ALIAS_PATH_0 = "ERR_ALIAS_DUPLICATE_ALIAS_PATH_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_ALIAS_INVALID_ALIAS_PATH_0 = "ERR_ALIAS_INVALID_ALIAS_PATH_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_ALIAS_INVALID_ALIAS_PATH_0 = "ERR_ALIAS_INVALID_ALIAS_PATH_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_ALIAS_RESOURCE_NOT_FOUND_0 = "ERR_ALIAS_RESOURCE_NOT_FOUND_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_ALIAS_RESOURCE_NOT_FOUND_0 = "ERR_ALIAS_RESOURCE_NOT_FOUND_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_CREATING_SUB_SITEMAP_WRONG_CONFIG_FILE_TYPE_2 = "ERR_CREATING_SUB_SITEMAP_WRONG_CONFIG_FILE_TYPE_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_CREATING_SUB_SITEMAP_WRONG_CONFIG_FILE_TYPE_2 =
+      "ERR_CREATING_SUB_SITEMAP_WRONG_CONFIG_FILE_TYPE_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_DEFAULT_DETAIL_PAGE_DESCRIPTION_0 = "GUI_DEFAULT_DETAIL_PAGE_DESCRIPTION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_DEFAULT_DETAIL_PAGE_DESCRIPTION_0 =
+      "GUI_DEFAULT_DETAIL_PAGE_DESCRIPTION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_DEFAULT_DETAIL_PAGE_TITLE_0 = "GUI_DEFAULT_DETAIL_PAGE_TITLE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_DEFAULT_DETAIL_PAGE_TITLE_0 = "GUI_DEFAULT_DETAIL_PAGE_TITLE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_NO_FUNCTION_DETAIL_CONTAINER_1 = "ERR_NO_FUNCTION_DETAIL_CONTAINER_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_NO_FUNCTION_DETAIL_CONTAINER_1 =
+      "ERR_NO_FUNCTION_DETAIL_CONTAINER_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_TITLE_MUST_NOT_BE_EMPTY_0 = "ERR_TITLE_MUST_NOT_BE_EMPTY_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_TITLE_MUST_NOT_BE_EMPTY_0 = "ERR_TITLE_MUST_NOT_BE_EMPTY_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_EDITOR_TITLE_1 = "GUI_EDITOR_TITLE_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_EDITOR_TITLE_1 = "GUI_EDITOR_TITLE_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_NAVIGATION_LEVEL_SUBTITLE_0 = "GUI_NAVIGATION_LEVEL_SUBTITLE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_NAVIGATION_LEVEL_SUBTITLE_0 = "GUI_NAVIGATION_LEVEL_SUBTITLE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_NAVIGATION_LEVEL_TITLE_0 = "GUI_NAVIGATION_LEVEL_TITLE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_NAVIGATION_LEVEL_TITLE_0 = "GUI_NAVIGATION_LEVEL_TITLE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_REDIRECT_SUB_LEVEL_0 = "GUI_REDIRECT_SUB_LEVEL_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_REDIRECT_SUB_LEVEL_0 = "GUI_REDIRECT_SUB_LEVEL_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_REDIRECT_TARGET_LABEL_0 = "GUI_REDIRECT_TARGET_LABEL_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_REDIRECT_TARGET_LABEL_0 = "GUI_REDIRECT_TARGET_LABEL_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_SITEMAP_NO_EDIT_0 = "GUI_SITEMAP_NO_EDIT_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_SITEMAP_NO_EDIT_0 = "GUI_SITEMAP_NO_EDIT_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_VFS_PATH_0 = "GUI_VFS_PATH_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_VFS_PATH_0 = "GUI_VFS_PATH_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_SITEMAP_NO_EDIT_ONLINE_0 = "GUI_SITEMAP_NO_EDIT_ONLINE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_SITEMAP_NO_EDIT_ONLINE_0 = "GUI_SITEMAP_NO_EDIT_ONLINE_0";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.ade.sitemap.messages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME = "org.opencms.ade.sitemap.messages";
 
-    /** Static instance member. */
-    private static final I_CmsMessageBundle INSTANCE = new Messages();
+  /** Static instance member. */
+  private static final I_CmsMessageBundle INSTANCE = new Messages();
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
-    }
+    // hide the constructor
+  }
 
-    /**
-     * Returns an instance of this localized message accessor.<p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static I_CmsMessageBundle get() {
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static I_CmsMessageBundle get() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the bundle name for this OpenCms package.<p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
 
-        return BUNDLE_NAME;
-    }
+    return BUNDLE_NAME;
+  }
 }

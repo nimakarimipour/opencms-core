@@ -33,38 +33,38 @@ import java.util.SortedSet;
 /** Controller for the individual pattern panel. */
 public class CmsPatternPanelIndividualController extends A_CmsPatternPanelController {
 
-    /** The controlled view. */
-    private final CmsPatternPanelIndividualView m_view;
+  /** The controlled view. */
+  private final CmsPatternPanelIndividualView m_view;
 
-    /**
-     * Constructor for the individual pattern panel controller
-     * @param model the model to read data from.
-     * @param changeHandler the value change handler.
-     */
-    CmsPatternPanelIndividualController(final CmsSerialDateValue model, final I_ChangeHandler changeHandler) {
-        super(model, changeHandler);
-        m_view = new CmsPatternPanelIndividualView(this, m_model);
+  /**
+   * Constructor for the individual pattern panel controller
+   *
+   * @param model the model to read data from.
+   * @param changeHandler the value change handler.
+   */
+  CmsPatternPanelIndividualController(
+      final CmsSerialDateValue model, final I_ChangeHandler changeHandler) {
+    super(model, changeHandler);
+    m_view = new CmsPatternPanelIndividualView(this, m_model);
+  }
+
+  /** @see org.opencms.acacia.client.widgets.serialdate.A_CmsPatternPanelController#getView() */
+  @Override
+  public I_CmsSerialDatePatternView getView() {
+
+    return m_view;
+  }
+
+  /**
+   * Set the individual dates.
+   *
+   * @param dates the dates to set.
+   */
+  public void setDates(SortedSet<Date> dates) {
+
+    if (!m_model.getIndividualDates().equals(dates)) {
+      m_model.setIndividualDates(dates);
+      onValueChange();
     }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.serialdate.A_CmsPatternPanelController#getView()
-     */
-    @Override
-    public I_CmsSerialDatePatternView getView() {
-
-        return m_view;
-    }
-
-    /**
-     * Set the individual dates.
-     * @param dates the dates to set.
-     */
-    public void setDates(SortedSet<Date> dates) {
-
-        if (!m_model.getIndividualDates().equals(dates)) {
-            m_model.setIndividualDates(dates);
-            onValueChange();
-        }
-
-    }
+  }
 }

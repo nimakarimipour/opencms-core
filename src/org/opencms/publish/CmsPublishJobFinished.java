@@ -28,49 +28,59 @@
 package org.opencms.publish;
 
 /**
- * Defines a read-only publish job that has been already published.<p>
+ * Defines a read-only publish job that has been already published.
+ *
+ * <p>
  *
  * @since 6.5.5
  */
 public class CmsPublishJobFinished extends CmsPublishJobBase {
 
-    /**
-     * Default constructor.<p>
-     *
-     * @param publishJob the delegate publish job
-     */
-    protected CmsPublishJobFinished(CmsPublishJobInfoBean publishJob) {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   *
+   * @param publishJob the delegate publish job
+   */
+  protected CmsPublishJobFinished(CmsPublishJobInfoBean publishJob) {
 
-        super(publishJob);
-    }
+    super(publishJob);
+  }
 
-    /**
-     * Returns the time this object has been created.<p>
-     *
-     * @return the time this object has been created
-     */
-    public long getEnqueueTime() {
+  /**
+   * Returns the time this object has been created.
+   *
+   * <p>
+   *
+   * @return the time this object has been created
+   */
+  public long getEnqueueTime() {
 
-        return m_publishJob.getEnqueueTime();
-    }
+    return m_publishJob.getEnqueueTime();
+  }
 
-    /**
-     * Returns the time the publish job ends.<p>
-     *
-     * @return the time the publish job ends
-     */
-    public long getFinishTime() {
+  /**
+   * Returns the time the publish job ends.
+   *
+   * <p>
+   *
+   * @return the time the publish job ends
+   */
+  public long getFinishTime() {
 
-        return m_publishJob.getFinishTime();
-    }
+    return m_publishJob.getFinishTime();
+  }
 
-    /**
-     * Returns the time the publish job did actually start.<p>
-     *
-     * @return the time the publish job did actually start
-     */
-    public long getStartTime() {
+  /**
+   * Returns the time the publish job did actually start.
+   *
+   * <p>
+   *
+   * @return the time the publish job did actually start
+   */
+  public long getStartTime() {
 
-        return m_publishJob.getStartTime();
-    }
+    return m_publishJob.getStartTime();
+  }
 }

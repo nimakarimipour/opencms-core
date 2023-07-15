@@ -27,6 +27,14 @@
 
 package org.opencms.ui.apps;
 
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Resource;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
+import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.jsp.CmsJspTagEnableAde;
@@ -39,184 +47,167 @@ import org.opencms.ui.CmsCssIcon;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.Resource;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Notification.Type;
-
 /**
- * The page editor app configuration.<p>
+ * The page editor app configuration.
+ *
+ * <p>
  */
-public class CmsPageEditorConfiguration extends A_CmsWorkplaceAppConfiguration implements I_CmsHasAppLaunchCommand {
+public class CmsPageEditorConfiguration extends A_CmsWorkplaceAppConfiguration
+    implements I_CmsHasAppLaunchCommand {
 
-    /** The app id. */
-    public static final String APP_ID = "pageeditor";
+  /** The app id. */
+  public static final String APP_ID = "pageeditor";
 
-    /** The app icon resource (size 32x32). */
-    public static final CmsCssIcon ICON = new CmsCssIcon("oc-icon-32-edit-point");
+  /** The app icon resource (size 32x32). */
+  public static final CmsCssIcon ICON = new CmsCssIcon("oc-icon-32-edit-point");
 
-    /** The logger for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsPageEditorConfiguration.class);
+  /** The logger for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsPageEditorConfiguration.class);
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppCategory()
-     */
-    @Override
-    public String getAppCategory() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppCategory() */
+  @Override
+  public String getAppCategory() {
 
-        return CmsWorkplaceAppManager.MAIN_CATEGORY_ID;
-    }
+    return CmsWorkplaceAppManager.MAIN_CATEGORY_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance()
-     */
-    public I_CmsWorkplaceApp getAppInstance() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance() */
+  public I_CmsWorkplaceApp getAppInstance() {
 
-        throw new IllegalStateException("The editor app should be launched through the app launch command only.");
-    }
+    throw new IllegalStateException(
+        "The editor app should be launched through the app launch command only.");
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsHasAppLaunchCommand#getAppLaunchCommand()
-     */
-    public Runnable getAppLaunchCommand() {
+  /** @see org.opencms.ui.apps.I_CmsHasAppLaunchCommand#getAppLaunchCommand() */
+  public Runnable getAppLaunchCommand() {
 
-        return this::openPageEditor;
-    }
+    return this::openPageEditor;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
-     */
-    @Override
-    public String getHelpText(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale) */
+  @Override
+  public String getHelpText(Locale locale) {
 
-        return Messages.get().getBundle(locale).key(Messages.GUI_PAGEEDITOR_HELP_0);
-    }
+    return Messages.get().getBundle(locale).key(Messages.GUI_PAGEEDITOR_HELP_0);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon()
-     */
-    public Resource getIcon() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon() */
+  public Resource getIcon() {
 
-        return ICON;
-    }
+    return ICON;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId() */
+  public String getId() {
 
-        return APP_ID;
-    }
+    return APP_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
-     */
-    @Override
-    public String getName(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
+  @Override
+  public String getName(Locale locale) {
 
-        return Messages.get().getBundle(locale).key(Messages.GUI_PAGEEDITOR_TITLE_0);
-    }
+    return Messages.get().getBundle(locale).key(Messages.GUI_PAGEEDITOR_TITLE_0);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getOrder()
-     */
-    @Override
-    public int getOrder() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getOrder() */
+  @Override
+  public int getOrder() {
 
-        return 1;
-    }
+    return 1;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getRequiredRole()
-     */
-    @Override
-    public CmsRole getRequiredRole() {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getRequiredRole() */
+  @Override
+  public CmsRole getRequiredRole() {
 
-        return CmsRole.ELEMENT_AUTHOR;
+    return CmsRole.ELEMENT_AUTHOR;
+  }
 
-    }
+  /**
+   * @see
+   *     org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getVisibility(org.opencms.file.CmsObject)
+   */
+  @Override
+  public CmsAppVisibilityStatus getVisibility(CmsObject cms) {
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getVisibility(org.opencms.file.CmsObject)
-     */
-    @Override
-    public CmsAppVisibilityStatus getVisibility(CmsObject cms) {
-
-        boolean active = !cms.getRequestContext().getCurrentProject().isOnlineProject()
+    boolean active =
+        !cms.getRequestContext().getCurrentProject().isOnlineProject()
             && CmsStringUtil.isNotEmptyOrWhitespaceOnly(cms.getRequestContext().getSiteRoot());
-        HttpServletRequest req = CmsVaadinUtils.getRequest();
-        String message = null;
-        if (active) {
-            if (req != null) {
-                // this is a VAADIN UI request
-                active = getPath(cms, req.getSession()) != null;
-                if (!active) {
-                    message = Messages.get().getBundle(OpenCms.getWorkplaceManager().getWorkplaceLocale(cms)).key(
-                        Messages.GUI_PAGE_EDITOR_PLEASE_SELECT_PAGE_0);
-                }
-            }
-        } else {
-            message = Messages.get().getBundle(OpenCms.getWorkplaceManager().getWorkplaceLocale(cms)).key(
-                Messages.GUI_PAGE_EDITOR_NOT_AVAILABLE_0);
+    HttpServletRequest req = CmsVaadinUtils.getRequest();
+    String message = null;
+    if (active) {
+      if (req != null) {
+        // this is a VAADIN UI request
+        active = getPath(cms, req.getSession()) != null;
+        if (!active) {
+          message =
+              Messages.get()
+                  .getBundle(OpenCms.getWorkplaceManager().getWorkplaceLocale(cms))
+                  .key(Messages.GUI_PAGE_EDITOR_PLEASE_SELECT_PAGE_0);
         }
-        return new CmsAppVisibilityStatus(true, active, message);
+      }
+    } else {
+      message =
+          Messages.get()
+              .getBundle(OpenCms.getWorkplaceManager().getWorkplaceLocale(cms))
+              .key(Messages.GUI_PAGE_EDITOR_NOT_AVAILABLE_0);
     }
+    return new CmsAppVisibilityStatus(true, active, message);
+  }
 
-    /**
-     * Opens the page editor for the current site.<p>
-     */
-    void openPageEditor() {
+  /**
+   * Opens the page editor for the current site.
+   *
+   * <p>
+   */
+  void openPageEditor() {
 
-        CmsAppWorkplaceUi ui = CmsAppWorkplaceUi.get();
-        if (ui.beforeViewChange(new ViewChangeEvent(ui.getNavigator(), ui.getCurrentView(), null, APP_ID, null))) {
-            CmsObject cms = A_CmsUI.getCmsObject();
-            HttpServletRequest req = CmsVaadinUtils.getRequest();
-            if (req == null) {
-                // called from outside the VAADIN UI, not allowed
-                throw new RuntimeException("Wrong usage, this can not be called from outside a VAADIN UI.");
-            }
-            CmsJspTagEnableAde.removeDirectEditFlagFromSession(req.getSession());
-            String page = getPath(cms, req.getSession());
-            if (page != null) {
-                A_CmsUI.get().getPage().setLocation(OpenCms.getLinkManager().substituteLink(cms, page));
+    CmsAppWorkplaceUi ui = CmsAppWorkplaceUi.get();
+    if (ui.beforeViewChange(
+        new ViewChangeEvent(ui.getNavigator(), ui.getCurrentView(), null, APP_ID, null))) {
+      CmsObject cms = A_CmsUI.getCmsObject();
+      HttpServletRequest req = CmsVaadinUtils.getRequest();
+      if (req == null) {
+        // called from outside the VAADIN UI, not allowed
+        throw new RuntimeException("Wrong usage, this can not be called from outside a VAADIN UI.");
+      }
+      CmsJspTagEnableAde.removeDirectEditFlagFromSession(req.getSession());
+      String page = getPath(cms, req.getSession());
+      if (page != null) {
+        A_CmsUI.get().getPage().setLocation(OpenCms.getLinkManager().substituteLink(cms, page));
 
-            } else {
-                String message = CmsVaadinUtils.getMessageText(Messages.GUI_PAGE_EDITOR_NOT_AVAILABLE_0);
-                Notification.show(message, Type.WARNING_MESSAGE);
-            }
+      } else {
+        String message = CmsVaadinUtils.getMessageText(Messages.GUI_PAGE_EDITOR_NOT_AVAILABLE_0);
+        Notification.show(message, Type.WARNING_MESSAGE);
+      }
+    }
+  }
+
+  /**
+   * Returns the page editor path to open.
+   *
+   * <p>
+   *
+   * @param cms the cms context
+   * @param session the user session
+   * @return the path or <code>null</code>
+   */
+  private String getPath(CmsObject cms, HttpSession session) {
+
+    CmsQuickLaunchLocationCache locationCache =
+        CmsQuickLaunchLocationCache.getLocationCache(session);
+    String page = locationCache.getPageEditorLocation(cms, cms.getRequestContext().getSiteRoot());
+    if (page == null) {
+      try {
+        CmsResource mainDefaultFile = cms.readDefaultFile("/");
+        if (mainDefaultFile != null) {
+          page = cms.getSitePath(mainDefaultFile);
         }
+      } catch (CmsException e) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
     }
-
-    /**
-     * Returns the page editor path to open.<p>
-     *
-     * @param cms the cms context
-     * @param session the user session
-     *
-     * @return the path or <code>null</code>
-     */
-    private String getPath(CmsObject cms, HttpSession session) {
-
-        CmsQuickLaunchLocationCache locationCache = CmsQuickLaunchLocationCache.getLocationCache(session);
-        String page = locationCache.getPageEditorLocation(cms, cms.getRequestContext().getSiteRoot());
-        if (page == null) {
-            try {
-                CmsResource mainDefaultFile = cms.readDefaultFile("/");
-                if (mainDefaultFile != null) {
-                    page = cms.getSitePath(mainDefaultFile);
-                }
-            } catch (CmsException e) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-        }
-        return page;
-    }
-
+    return page;
+  }
 }

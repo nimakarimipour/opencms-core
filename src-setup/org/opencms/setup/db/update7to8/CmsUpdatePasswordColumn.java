@@ -27,45 +27,48 @@
 
 package org.opencms.setup.db.update7to8;
 
-import org.opencms.setup.CmsSetupDb;
-import org.opencms.setup.db.A_CmsUpdateDBPart;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.opencms.setup.CmsSetupDb;
+import org.opencms.setup.db.A_CmsUpdateDBPart;
 
 /**
- * Updates the password column length in the CMS_USERS table.<p>
+ * Updates the password column length in the CMS_USERS table.
+ *
+ * <p>
  */
 public class CmsUpdatePasswordColumn extends A_CmsUpdateDBPart {
 
-    /**
-     * Gets the new column length.<p>
-     *
-     * @return the new column length
-     */
-    public int getNewColumnLength() {
+  /**
+   * Gets the new column length.
+   *
+   * <p>
+   *
+   * @return the new column length
+   */
+  public int getNewColumnLength() {
 
-        return 255;
-    }
+    return 255;
+  }
 
-    /**
-     * Gets the SQL to execute.<p>
-     *
-     * @return the SQL to execute
-     */
-    public String getUpdateSql() {
+  /**
+   * Gets the SQL to execute.
+   *
+   * <p>
+   *
+   * @return the SQL to execute
+   */
+  public String getUpdateSql() {
 
-        return "ALTER TABLE CMS_USERS MODIFY USER_PASSWORD VARCHAR(255) BINARY";
-    }
+    return "ALTER TABLE CMS_USERS MODIFY USER_PASSWORD VARCHAR(255) BINARY";
+  }
 
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#internalExecute(org.opencms.setup.CmsSetupDb)
-     */
-    @Override
-    protected void internalExecute(CmsSetupDb setupDb) throws SQLException {
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#internalExecute(org.opencms.setup.CmsSetupDb) */
+  @Override
+  protected void internalExecute(CmsSetupDb setupDb) throws SQLException {
 
-        setupDb.updateSqlStatement(getUpdateSql(), new HashMap<String, String>(), new ArrayList<Object>());
-
-    }
+    setupDb.updateSqlStatement(
+        getUpdateSql(), new HashMap<String, String>(), new ArrayList<Object>());
+  }
 }

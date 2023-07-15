@@ -30,15 +30,19 @@ package org.opencms.ui.contextmenu;
 import org.opencms.ui.I_CmsDialogContext;
 
 /**
- * Builds an explorer context menu based on the set of selected resources' IDs.<p>
+ * Builds an explorer context menu based on the set of selected resources' IDs.
+ *
+ * <p>
  */
 public interface I_CmsContextMenuBuilder extends I_CmsContextMenuItemProvider {
 
-    /**
-     * Fills the given context menu with options appropriate for the selected resources.<p>
-     *
-     * @param dialogContext the dialog context
-     * @param menu the menu
-     */
-    void buildContextMenu(I_CmsDialogContext dialogContext, CmsContextMenu menu);
+  /**
+   * Fills the given context menu with options appropriate for the selected resources.
+   *
+   * <p>
+   *
+   * @param dialogContext the dialog context
+   * @param menu the menu
+   */
+  void buildContextMenu(I_CmsDialogContext dialogContext, CmsContextMenu menu);
 }

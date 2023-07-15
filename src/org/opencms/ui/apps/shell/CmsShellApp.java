@@ -27,44 +27,37 @@
 
 package org.opencms.ui.apps.shell;
 
-import org.opencms.ui.apps.A_CmsWorkplaceApp;
-
+import com.vaadin.ui.Component;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import com.vaadin.ui.Component;
+import org.opencms.ui.apps.A_CmsWorkplaceApp;
 
 /**
- * Shell script app.<p>
+ * Shell script app.
+ *
+ * <p>
  */
 public class CmsShellApp extends A_CmsWorkplaceApp {
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String)
-     */
-    @Override
-    protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String) */
+  @Override
+  protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String)
-     */
-    @Override
-    protected Component getComponentForState(String state) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String) */
+  @Override
+  protected Component getComponentForState(String state) {
 
-        m_rootLayout.setMainHeightFull(true);
-        return new CmsShellScriptLayout();
-    }
+    m_rootLayout.setMainHeightFull(true);
+    return new CmsShellScriptLayout();
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String)
-     */
-    @Override
-    protected List<NavEntry> getSubNavEntries(String state) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String) */
+  @Override
+  protected List<NavEntry> getSubNavEntries(String state) {
 
-        return null;
-    }
-
+    return null;
+  }
 }

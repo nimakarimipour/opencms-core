@@ -31,34 +31,39 @@ import org.opencms.ade.contenteditor.shared.CmsComplexWidgetData;
 import org.opencms.file.CmsObject;
 
 /**
- * Interface for complex widgets which are used in the Acacia editor to render whole nested contents.<p>
+ * Interface for complex widgets which are used in the Acacia editor to render whole nested
+ * contents.
+ *
+ * <p>
  */
 public interface I_CmsComplexWidget {
 
-    /**
-     * Returns a copy of this widget which has been configured with the given configuration string.<p>
-     *
-     * @param configuration the configuration string
-     *
-     * @return the configured copy of the widget
-     */
-    I_CmsComplexWidget configure(String configuration);
+  /**
+   * Returns a copy of this widget which has been configured with the given configuration string.
+   *
+   * <p>
+   *
+   * @param configuration the configuration string
+   * @return the configured copy of the widget
+   */
+  I_CmsComplexWidget configure(String configuration);
 
-    /**
-     * Gets the name of the complex widget.<p>
-     *
-     * The string returned by this function should be a valid Javascript identifier.
-     *
-     * @return the name of the complex widget
-     */
-    String getName();
+  /**
+   * Gets the name of the complex widget.
+   *
+   * <p>The string returned by this function should be a valid Javascript identifier.
+   *
+   * @return the name of the complex widget
+   */
+  String getName();
 
-    /**
-     * Gets the data needed for the editor to render the complex widget.<p>
-     *
-     * @param cms The CMS object to use for VFS operations
-     *
-     * @return the data for the complex widget
-     */
-    CmsComplexWidgetData getWidgetData(CmsObject cms);
+  /**
+   * Gets the data needed for the editor to render the complex widget.
+   *
+   * <p>
+   *
+   * @param cms The CMS object to use for VFS operations
+   * @return the data for the complex widget
+   */
+  CmsComplexWidgetData getWidgetData(CmsObject cms);
 }

@@ -27,6 +27,12 @@
 
 package org.opencms.gwt.client.ui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Command;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.client.Messages;
 import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
@@ -34,151 +40,146 @@ import org.opencms.gwt.client.util.CmsEmbeddedDialogHandler;
 import org.opencms.gwt.shared.CmsGwtConstants;
 import org.opencms.util.CmsUUID;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Command;
-
 /**
- * The user info toolbar button.<p>
+ * The user info toolbar button.
+ *
+ * <p>
  */
 public class CmsUserInfo extends A_CmsToolbarButton<I_CmsToolbarHandler> {
 
-    /** The embedded dialog handler. */
-    private CmsEmbeddedDialogHandler m_dialogHandler;
+  /** The embedded dialog handler. */
+  private CmsEmbeddedDialogHandler m_dialogHandler;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsUserInfo() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsUserInfo() {
 
-        super(null, null);
-        addStyleName(I_CmsLayoutBundle.INSTANCE.toolbarCss().userInfo());
-        getUpFace().setHTML("<img src=\"" + CmsCoreProvider.get().getUserInfo().getUserIcon() + "\" />");
-        setTitle(Messages.get().key(Messages.GUI_USER_INFO_0));
-        m_dialogHandler = new CmsEmbeddedDialogHandler();
-        addClickHandler(new ClickHandler() {
+    super(null, null);
+    addStyleName(I_CmsLayoutBundle.INSTANCE.toolbarCss().userInfo());
+    getUpFace()
+        .setHTML("<img src=\"" + CmsCoreProvider.get().getUserInfo().getUserIcon() + "\" />");
+    setTitle(Messages.get().key(Messages.GUI_USER_INFO_0));
+    m_dialogHandler = new CmsEmbeddedDialogHandler();
+    addClickHandler(
+        new ClickHandler() {
 
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            @Override
-            public void onClick(ClickEvent event) {
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          @Override
+          public void onClick(ClickEvent event) {
 
-                onToolbarClick();
-            }
+            onToolbarClick();
+          }
         });
-    }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#isActive()
-     */
-    @Override
-    public boolean isActive() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#isActive() */
+  @Override
+  public boolean isActive() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate()
-     */
-    @Override
-    public void onToolbarActivate() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate() */
+  @Override
+  public void onToolbarActivate() {
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("left", String.valueOf(getElement().getAbsoluteLeft()));
-        m_dialogHandler.setOnCloseCommand(new Command() {
+    Map<String, String> params = new HashMap<String, String>();
+    params.put("left", String.valueOf(getElement().getAbsoluteLeft()));
+    m_dialogHandler.setOnCloseCommand(
+        new Command() {
 
-            public void execute() {
+          public void execute() {
 
-                onClose();
-            }
+            onClose();
+          }
         });
-        m_dialogHandler.openDialog(
-            "org.opencms.ui.actions.CmsUserInfoDialogAction",
-            CmsGwtConstants.CONTEXT_TYPE_APP_TOOLBAR,
-            Collections.<CmsUUID> emptyList(),
-            params);
+    m_dialogHandler.openDialog(
+        "org.opencms.ui.actions.CmsUserInfoDialogAction",
+        CmsGwtConstants.CONTEXT_TYPE_APP_TOOLBAR,
+        Collections.<CmsUUID>emptyList(),
+        params);
+  }
+
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarClick() */
+  @Override
+  public void onToolbarClick() {
+
+    boolean active = isActive();
+
+    setActive(!active);
+  }
+
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate() */
+  @Override
+  public void onToolbarDeactivate() {
+
+    m_dialogHandler.setOnCloseCommand(null);
+    m_dialogHandler.finish(null);
+  }
+
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#setActive(boolean) */
+  @Override
+  public void setActive(boolean active) {
+
+    if (active) {
+      if (m_handler != null) {
+        m_handler.deactivateCurrentButton();
+        m_handler.setActiveButton(this);
+      }
+      onToolbarActivate();
+
+    } else {
+      onToolbarDeactivate();
+
+      if (m_handler != null) {
+        m_handler.setActiveButton(null);
+        m_handler.activateSelection();
+      }
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarClick()
-     */
-    @Override
-    public void onToolbarClick() {
+  /**
+   * Sets the button handler.
+   *
+   * <p>
+   *
+   * @param handler the button handler
+   */
+  public void setHandler(I_CmsToolbarHandler handler) {
 
-        boolean active = isActive();
+    m_handler = handler;
+  }
 
-        setActive(!active);
+  /**
+   * Returns the container-page handler.
+   *
+   * <p>
+   *
+   * @return the container-page handler
+   */
+  @Override
+  protected I_CmsToolbarHandler getHandler() {
 
+    return m_handler;
+  }
+
+  /**
+   * Executed on window close.
+   *
+   * <p>
+   */
+  protected void onClose() {
+
+    onToolbarDeactivate();
+    if (m_handler != null) {
+      m_handler.setActiveButton(null);
+      m_handler.activateSelection();
     }
-
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate()
-     */
-    @Override
-    public void onToolbarDeactivate() {
-
-        m_dialogHandler.setOnCloseCommand(null);
-        m_dialogHandler.finish(null);
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#setActive(boolean)
-     */
-    @Override
-    public void setActive(boolean active) {
-
-        if (active) {
-            if (m_handler != null) {
-                m_handler.deactivateCurrentButton();
-                m_handler.setActiveButton(this);
-            }
-            onToolbarActivate();
-
-        } else {
-            onToolbarDeactivate();
-
-            if (m_handler != null) {
-                m_handler.setActiveButton(null);
-                m_handler.activateSelection();
-            }
-        }
-    }
-
-    /**
-     * Sets the button handler.<p>
-     *
-     * @param handler the button handler
-     */
-    public void setHandler(I_CmsToolbarHandler handler) {
-
-        m_handler = handler;
-    }
-
-    /**
-     * Returns the container-page handler.<p>
-     *
-     * @return the container-page handler
-     */
-    @Override
-    protected I_CmsToolbarHandler getHandler() {
-
-        return m_handler;
-    }
-
-    /**
-     * Executed on window close.<p>
-     */
-    protected void onClose() {
-
-        onToolbarDeactivate();
-        if (m_handler != null) {
-            m_handler.setActiveButton(null);
-            m_handler.activateSelection();
-        }
-    }
+  }
 }

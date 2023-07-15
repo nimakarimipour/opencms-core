@@ -28,23 +28,23 @@
 package org.opencms.file.wrapper;
 
 /**
- * Exception to be used in wrappers for exceptions that you don't want to be logged as errors. It is the responsibility of the calling
- * code to handle these exceptions differently.
+ * Exception to be used in wrappers for exceptions that you don't want to be logged as errors. It is
+ * the responsibility of the calling code to handle these exceptions differently.
  */
 public class CmsSilentWrapperException extends RuntimeException {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = -2430486808917111327L;
+  /** Serial version id. */
+  private static final long serialVersionUID = -2430486808917111327L;
 
-    /**
-     * Creates a new exception instance.<p>
-     *
-     * @param e the cause
-     *
-     */
-    public CmsSilentWrapperException(Throwable e) {
+  /**
+   * Creates a new exception instance.
+   *
+   * <p>
+   *
+   * @param e the cause
+   */
+  public CmsSilentWrapperException(Throwable e) {
 
-        super(e);
-    }
-
+    super(e);
+  }
 }

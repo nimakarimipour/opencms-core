@@ -30,48 +30,46 @@ package org.opencms.ugc;
 import org.apache.commons.fileupload.FileItem;
 
 /**
- * Implementation of the I_CmsFormDataItem which delegates its methods to a FileItem from Apache Commons Upload.<p>
+ * Implementation of the I_CmsFormDataItem which delegates its methods to a FileItem from Apache
+ * Commons Upload.
+ *
+ * <p>
  */
 public class CmsUgcDataItem implements I_CmsFormDataItem {
 
-    /** The wrapped file item. */
-    private FileItem m_fileItem;
+  /** The wrapped file item. */
+  private FileItem m_fileItem;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param item the file item to wrap
-     */
-    public CmsUgcDataItem(FileItem item) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param item the file item to wrap
+   */
+  public CmsUgcDataItem(FileItem item) {
 
-        m_fileItem = item;
-    }
+    m_fileItem = item;
+  }
 
-    /**
-     * @see org.opencms.ugc.I_CmsFormDataItem#getData()
-     */
-    @Override
-    public byte[] getData() {
+  /** @see org.opencms.ugc.I_CmsFormDataItem#getData() */
+  @Override
+  public byte[] getData() {
 
-        return m_fileItem.get();
-    }
+    return m_fileItem.get();
+  }
 
-    /**
-     * @see org.opencms.ugc.I_CmsFormDataItem#getFieldName()
-     */
-    @Override
-    public String getFieldName() {
+  /** @see org.opencms.ugc.I_CmsFormDataItem#getFieldName() */
+  @Override
+  public String getFieldName() {
 
-        return m_fileItem.getFieldName();
-    }
+    return m_fileItem.getFieldName();
+  }
 
-    /**
-     * @see org.opencms.ugc.I_CmsFormDataItem#getFileName()
-     */
-    @Override
-    public String getFileName() {
+  /** @see org.opencms.ugc.I_CmsFormDataItem#getFileName() */
+  @Override
+  public String getFileName() {
 
-        return m_fileItem.getName();
-    }
-
+    return m_fileItem.getName();
+  }
 }

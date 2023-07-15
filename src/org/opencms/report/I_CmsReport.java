@@ -27,235 +27,273 @@
 
 package org.opencms.report;
 
-import org.opencms.i18n.CmsMessageContainer;
-
 import java.util.List;
 import java.util.Locale;
+import org.opencms.i18n.CmsMessageContainer;
 
 /**
- * This is the interface for the report classes which are used for the output
- * during operations that run on a spearate Thread in OpenCms,
- * like publish, import, export etc.<p>
+ * This is the interface for the report classes which are used for the output during operations that
+ * run on a spearate Thread in OpenCms, like publish, import, export etc.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsReport {
 
-    /** Indicates default formatting. */
-    int FORMAT_DEFAULT = 0;
+  /** Indicates default formatting. */
+  int FORMAT_DEFAULT = 0;
 
-    /** Indicates error formatting. */
-    int FORMAT_ERROR = 5;
+  /** Indicates error formatting. */
+  int FORMAT_ERROR = 5;
 
-    /** Indicates headline formatting. */
-    int FORMAT_HEADLINE = 2;
+  /** Indicates headline formatting. */
+  int FORMAT_HEADLINE = 2;
 
-    /** Indicates note formatting. */
-    int FORMAT_NOTE = 3;
+  /** Indicates note formatting. */
+  int FORMAT_NOTE = 3;
 
-    /** Indicates OK formatting. */
-    int FORMAT_OK = 4;
+  /** Indicates OK formatting. */
+  int FORMAT_OK = 4;
 
-    /** Indicates warning formatting. */
-    int FORMAT_WARNING = 1;
+  /** Indicates warning formatting. */
+  int FORMAT_WARNING = 1;
 
-    /** Request parameter value that this report should create an "extended" output. */
-    String REPORT_TYPE_EXTENDED = "extended";
+  /** Request parameter value that this report should create an "extended" output. */
+  String REPORT_TYPE_EXTENDED = "extended";
 
-    /** Request parameter value that this report should create a "simple" output. */
-    String REPORT_TYPE_SIMPLE = "simple";
+  /** Request parameter value that this report should create a "simple" output. */
+  String REPORT_TYPE_SIMPLE = "simple";
 
-    /**
-     * Adds an error object to the list of errors that occurred during the report.<p>
-     *
-     * @param obj the error object
-     */
-    void addError(Object obj);
+  /**
+   * Adds an error object to the list of errors that occurred during the report.
+   *
+   * <p>
+   *
+   * @param obj the error object
+   */
+  void addError(Object obj);
 
-    /**
-     * Adds a warning object to the list of warnings that occurred during the report.<p>
-     *
-     * @param obj the error object
-     */
-    void addWarning(Object obj);
+  /**
+   * Adds a warning object to the list of warnings that occurred during the report.
+   *
+   * <p>
+   *
+   * @param obj the error object
+   */
+  void addWarning(Object obj);
 
-    /**
-     * Formats the runtime formatted as "hh:mm:ss".<p>
-     *
-     * @return the runtime formatted as "hh:mm:ss"
-     */
-    String formatRuntime();
+  /**
+   * Formats the runtime formatted as "hh:mm:ss".
+   *
+   * <p>
+   *
+   * @return the runtime formatted as "hh:mm:ss"
+   */
+  String formatRuntime();
 
-    /**
-     * Returns a list of all errors that occurred during the report.<p>
-     *
-     * @return an error list that occurred during the report
-     */
-    List<Object> getErrors();
+  /**
+   * Returns a list of all errors that occurred during the report.
+   *
+   * <p>
+   *
+   * @return an error list that occurred during the report
+   */
+  List<Object> getErrors();
 
-    /**
-     * Returns the time of last report entry.<p>
-     *
-     * Will return zero if no entry has been written.<p>
-     *
-     * @return time of last report entry
-     */
-    long getLastEntryTime();
+  /**
+   * Returns the time of last report entry.
+   *
+   * <p>Will return zero if no entry has been written.
+   *
+   * <p>
+   *
+   * @return time of last report entry
+   */
+  long getLastEntryTime();
 
-    /**
-     * Returns the locale this report was initialized with.<p>
-     *
-     * @return the locale this report was initialized with
-     */
-    Locale getLocale();
+  /**
+   * Returns the locale this report was initialized with.
+   *
+   * <p>
+   *
+   * @return the locale this report was initialized with
+   */
+  Locale getLocale();
 
-    /**
-     * Updates this report, this processes all new output added since
-     * the last call to this method.<p>
-     *
-     * This is only required in case the output is written to a HTML page,
-     * if the shell output is used, this will just return an empty String.<p>
-     *
-     * @return new elements that have been added to the report and not yet processed.
-     */
-    String getReportUpdate();
+  /**
+   * Updates this report, this processes all new output added since the last call to this method.
+   *
+   * <p>This is only required in case the output is written to a HTML page, if the shell output is
+   * used, this will just return an empty String.
+   *
+   * <p>
+   *
+   * @return new elements that have been added to the report and not yet processed.
+   */
+  String getReportUpdate();
 
-    /**
-     * Fetches the report update for this report since the last time this method was called.<p>
-     *
-     * @param formatter the formatter to use for formatting the report output
-     *
-     * @return the output for report elements that have been added to the report and not yet processed
-     */
-    String getReportUpdate(I_CmsReportUpdateFormatter formatter);
+  /**
+   * Fetches the report update for this report since the last time this method was called.
+   *
+   * <p>
+   *
+   * @param formatter the formatter to use for formatting the report output
+   * @return the output for report elements that have been added to the report and not yet processed
+   */
+  String getReportUpdate(I_CmsReportUpdateFormatter formatter);
 
-    /**
-     * Returns the time this report has been running.<p>
-     *
-     * @return the time this report has been running
-     */
-    long getRuntime();
+  /**
+   * Returns the time this report has been running.
+   *
+   * <p>
+   *
+   * @return the time this report has been running
+   */
+  long getRuntime();
 
-    /**
-     * Returns the original site root of the user who started this report,
-     * or <code>null</code> if the original site root has not been set.<p>
-     *
-     * @return the original site root of the user who started this report
-     */
-    String getSiteRoot();
+  /**
+   * Returns the original site root of the user who started this report, or <code>null</code> if the
+   * original site root has not been set.
+   *
+   * <p>
+   *
+   * @return the original site root of the user who started this report
+   */
+  String getSiteRoot();
 
-    /**
-     * Returns a list of all warnings that occurred during the report.<p>
-     *
-     * @return a warning list that occurred during the report
-     */
-    List<Object> getWarnings();
+  /**
+   * Returns a list of all warnings that occurred during the report.
+   *
+   * <p>
+   *
+   * @return a warning list that occurred during the report
+   */
+  List<Object> getWarnings();
 
-    /**
-     * Returns if the report generated an error output.<p>
-     *
-     * @return true if the report generated an error, otherwise false
-     */
-    boolean hasError();
+  /**
+   * Returns if the report generated an error output.
+   *
+   * <p>
+   *
+   * @return true if the report generated an error, otherwise false
+   */
+  boolean hasError();
 
-    /**
-     * Returns if the report generated a warning output.<p>
-     *
-     * @return true if the report generated a warning, otherwise false
-     */
-    boolean hasWarning();
+  /**
+   * Returns if the report generated a warning output.
+   *
+   * <p>
+   *
+   * @return true if the report generated a warning, otherwise false
+   */
+  boolean hasWarning();
 
-    /**
-     * Prints a localized message to the report.<p>
-     *
-     * @param container the String to add
-     */
-    void print(CmsMessageContainer container);
+  /**
+   * Prints a localized message to the report.
+   *
+   * <p>
+   *
+   * @param container the String to add
+   */
+  void print(CmsMessageContainer container);
 
-    /**
-     * Prints a localized message to the report, using the indicated formatting.<p>
-     *
-     * Use the contants starting with <code>FORMAT</code> from this interface
-     * to indicate which formatting to use.<p>
-     *
-     * @param container the String to add
-     * @param format the formatting to use for the output
-     */
-    void print(CmsMessageContainer container, int format);
+  /**
+   * Prints a localized message to the report, using the indicated formatting.
+   *
+   * <p>Use the contants starting with <code>FORMAT</code> from this interface to indicate which
+   * formatting to use.
+   *
+   * <p>
+   *
+   * @param container the String to add
+   * @param format the formatting to use for the output
+   */
+  void print(CmsMessageContainer container, int format);
 
-    /**
-     * Adds a line break to the report.<p>
-     */
-    void println();
+  /**
+   * Adds a line break to the report.
+   *
+   * <p>
+   */
+  void println();
 
-    /**
-     * Prints a localized message to the report.<p>
-     *
-     * @param container the message container to add
-     */
-    void println(CmsMessageContainer container);
+  /**
+   * Prints a localized message to the report.
+   *
+   * <p>
+   *
+   * @param container the message container to add
+   */
+  void println(CmsMessageContainer container);
 
-    /**
-     * Prints a localized message to the report, using the indicated formatting.<p>
-     *
-     * Use the contants starting with <code>FORMAT</code> from this interface
-     * to indicate which formatting to use.<p>
-     *
-     * @param container the message container to add
-     * @param format the formatting to use for the output
-     */
-    void println(CmsMessageContainer container, int format);
+  /**
+   * Prints a localized message to the report, using the indicated formatting.
+   *
+   * <p>Use the contants starting with <code>FORMAT</code> from this interface to indicate which
+   * formatting to use.
+   *
+   * <p>
+   *
+   * @param container the message container to add
+   * @param format the formatting to use for the output
+   */
+  void println(CmsMessageContainer container, int format);
 
-    /**
-     * Adds an Exception to the report, ensuring that the Exception content is
-     * processed to generate a valid output esp. for HTML pages.<p>
-     *
-     * The exception will be stored and the output will later be processed
-     * in a special way.<p>
-     *
-     * @param t the exception to add
-     */
-    void println(Throwable t);
+  /**
+   * Adds an Exception to the report, ensuring that the Exception content is processed to generate a
+   * valid output esp. for HTML pages.
+   *
+   * <p>The exception will be stored and the output will later be processed in a special way.
+   *
+   * <p>
+   *
+   * @param t the exception to add
+   */
+  void println(Throwable t);
 
-    /**
-     * Prints a localized message followed by a parametera and dots to the report.<p>
-     *
-     * @param container the Message to add
-     * @param param the Parameter to add
-     */
-    void printMessageWithParam(CmsMessageContainer container, Object param);
+  /**
+   * Prints a localized message followed by a parametera and dots to the report.
+   *
+   * <p>
+   *
+   * @param container the Message to add
+   * @param param the Parameter to add
+   */
+  void printMessageWithParam(CmsMessageContainer container, Object param);
 
-    /**
-     * Convenience method to print a localized message, followed by a parameter and dots to the report.<p>
-     *
-     * The output follows the pattern: ( 3 / 8 ) Deleting filename.txt ...
-     *
-     * @param m the number of the report output
-     * @param n the total number of report outputs
-     * @param container the Message to add
-     * @param param the Parameter to add
-     *
-     */
-    void printMessageWithParam(int m, int n, CmsMessageContainer container, Object param);
+  /**
+   * Convenience method to print a localized message, followed by a parameter and dots to the
+   * report.
+   *
+   * <p>The output follows the pattern: ( 3 / 8 ) Deleting filename.txt ...
+   *
+   * @param m the number of the report output
+   * @param n the total number of report outputs
+   * @param container the Message to add
+   * @param param the Parameter to add
+   */
+  void printMessageWithParam(int m, int n, CmsMessageContainer container, Object param);
 
-    /**
-     * Removes the report site root prefix from the absolute path in the resource name,
-     * that is adjusts the resource name for the report site root.<p>
-     *
-     * If the site root for this report has not been set,
-     * or the resource name does not start with the report site root,
-     * the name it is left untouched.<p>
-     *
-     * @param resourcename the resource name (full path)
-     *
-     * @return the resource name adjusted for the report site root
-     *
-     * @see org.opencms.file.CmsRequestContext#removeSiteRoot(String)
-     */
-    String removeSiteRoot(String resourcename);
+  /**
+   * Removes the report site root prefix from the absolute path in the resource name, that is
+   * adjusts the resource name for the report site root.
+   *
+   * <p>If the site root for this report has not been set, or the resource name does not start with
+   * the report site root, the name it is left untouched.
+   *
+   * <p>
+   *
+   * @param resourcename the resource name (full path)
+   * @return the resource name adjusted for the report site root
+   * @see org.opencms.file.CmsRequestContext#removeSiteRoot(String)
+   */
+  String removeSiteRoot(String resourcename);
 
-    /**
-     * Resets the runtime to 0 milliseconds.<p>
-     */
-    void resetRuntime();
+  /**
+   * Resets the runtime to 0 milliseconds.
+   *
+   * <p>
+   */
+  void resetRuntime();
 }

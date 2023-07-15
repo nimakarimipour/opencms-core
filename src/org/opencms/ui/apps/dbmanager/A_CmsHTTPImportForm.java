@@ -27,14 +27,6 @@
 
 package org.opencms.ui.apps.dbmanager;
 
-import org.opencms.main.OpenCms;
-import org.opencms.util.CmsStringUtil;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Upload;
 import com.vaadin.v7.ui.Upload.ChangeEvent;
@@ -43,33 +35,46 @@ import com.vaadin.v7.ui.Upload.StartedEvent;
 import com.vaadin.v7.ui.Upload.StartedListener;
 import com.vaadin.v7.ui.Upload.SucceededEvent;
 import com.vaadin.v7.ui.Upload.SucceededListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import org.opencms.main.OpenCms;
+import org.opencms.util.CmsStringUtil;
 
 /**
- *Abstract class for HTTP imports.<p>
+ * Abstract class for HTTP imports.
+ *
+ * <p>
  */
 public abstract class A_CmsHTTPImportForm extends A_CmsImportForm {
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = 8268966029442189695L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 8268966029442189695L;
 
-    /**
-     * public constructor.<p>
-     *
-     * @param app calling app instance
-     * @param pathToServer path to server to save uploaded file
-     * @param validate indicates if import should be validated (only possible for modules)
-     */
-    @SuppressWarnings("deprecation")
-    public A_CmsHTTPImportForm(I_CmsReportApp app, final String pathToServer, final boolean validate) {
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param app calling app instance
+   * @param pathToServer path to server to save uploaded file
+   * @param validate indicates if import should be validated (only possible for modules)
+   */
+  @SuppressWarnings("deprecation")
+  public A_CmsHTTPImportForm(
+      I_CmsReportApp app, final String pathToServer, final boolean validate) {
 
-        super(app);
+    super(app);
 
-        getUpload().setImmediate(true);
-        getUpload().addStartedListener(new StartedListener() {
+    getUpload().setImmediate(true);
+    getUpload()
+        .addStartedListener(
+            new StartedListener() {
 
-            private static final long serialVersionUID = -1167851886739855757L;
+              private static final long serialVersionUID = -1167851886739855757L;
 
-            public void uploadStarted(StartedEvent event) {
+              public void uploadStarted(StartedEvent event) {
 
                 getOkButton().setEnabled(false);
                 getSiteSelector().setEnabled(true);
@@ -77,72 +82,84 @@ public abstract class A_CmsHTTPImportForm extends A_CmsImportForm {
                 String name = event.getFilename();
                 name = processFileName(name);
                 getUploadLabel().setValue(name);
-            }
-        });
+              }
+            });
 
-        getUpload().addChangeListener(new ChangeListener() {
+    getUpload()
+        .addChangeListener(
+            new ChangeListener() {
 
-            private static final long serialVersionUID = -8531203923548531981L;
+              private static final long serialVersionUID = -8531203923548531981L;
 
-            public void filenameChanged(ChangeEvent event) {
+              public void filenameChanged(ChangeEvent event) {
 
                 getOkButton().setEnabled(false);
                 getSiteSelector().setEnabled(true);
 
                 String name = processFileName(event.getFilename());
                 getUploadLabel().setValue(name);
-            }
-        });
+              }
+            });
 
-        getUpload().setReceiver(new Upload.Receiver() {
+    getUpload()
+        .setReceiver(
+            new Upload.Receiver() {
 
-            private static final long serialVersionUID = 5860617055589937645L;
+              private static final long serialVersionUID = 5860617055589937645L;
 
-            public OutputStream receiveUpload(String filename, String mimeType) {
+              public OutputStream receiveUpload(String filename, String mimeType) {
 
-                String path = CmsStringUtil.joinPaths(
-                    OpenCms.getSystemInfo().getWebInfRfsPath(),
-                    pathToServer,
-                    processFileName(filename));
+                String path =
+                    CmsStringUtil.joinPaths(
+                        OpenCms.getSystemInfo().getWebInfRfsPath(),
+                        pathToServer,
+                        processFileName(filename));
                 // make sure parent folders exist
                 File rfsFile = new File(path);
                 rfsFile.getParentFile().mkdirs();
                 m_importFile = new CmsImportFile(path);
                 try {
-                    return new FileOutputStream(m_importFile.getPath());
+                  return new FileOutputStream(m_importFile.getPath());
                 } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e); // shouldn't happen, but if it does, there is no point in continuing
+                  throw new RuntimeException(
+                      e); // shouldn't happen, but if it does, there is no point in continuing
                 }
-            }
-        });
-        getUpload().addSucceededListener(new SucceededListener() {
+              }
+            });
+    getUpload()
+        .addSucceededListener(
+            new SucceededListener() {
 
-            private static final long serialVersionUID = 3430913281578577509L;
+              private static final long serialVersionUID = 3430913281578577509L;
 
-            public void uploadSucceeded(SucceededEvent event) {
+              public void uploadSucceeded(SucceededEvent event) {
 
                 if (validate) {
-                    validateModuleFile();
+                  validateModuleFile();
                 } else {
-                    getOkButton().setEnabled(true);
+                  getOkButton().setEnabled(true);
                 }
-            }
-        });
-    }
+              }
+            });
+  }
 
-    /**
-     *Gets the upload button.<p>
-     *
-     * @return a vaadin upload button
-     */
-    @SuppressWarnings("deprecation")
-    protected abstract Upload getUpload();
+  /**
+   * Gets the upload button.
+   *
+   * <p>
+   *
+   * @return a vaadin upload button
+   */
+  @SuppressWarnings("deprecation")
+  protected abstract Upload getUpload();
 
-    /**
-     * Gets the upload label, which shows the name of the uploaded file.<p>
-     *
-     * @return a vaadin label
-     */
-    @SuppressWarnings("deprecation")
-    protected abstract Label getUploadLabel();
+  /**
+   * Gets the upload label, which shows the name of the uploaded file.
+   *
+   * <p>
+   *
+   * @return a vaadin label
+   */
+  @SuppressWarnings("deprecation")
+  protected abstract Label getUploadLabel();
 }

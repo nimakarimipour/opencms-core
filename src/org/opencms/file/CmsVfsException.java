@@ -31,42 +31,49 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Used to signal VFS related issues, for example during file access.<p>
+ * Used to signal VFS related issues, for example during file access.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsVfsException extends CmsDataAccessException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 3412336809721934632L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 3412336809721934632L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsVfsException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsVfsException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * Creates a new localized Exception that also contains a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsVfsException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also contains a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsVfsException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsVfsException(container, cause);
-    }
+    return new CmsVfsException(container, cause);
+  }
 }

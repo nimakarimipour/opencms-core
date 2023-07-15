@@ -31,38 +31,43 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * Increases the visibility of some key methods of a {@link ResourceBundle}.<p>
+ * Increases the visibility of some key methods of a {@link ResourceBundle}.
  *
- * This interface is required because the methods {@link #setParent(ResourceBundle)} and
- * {@link #setLocale(Locale)} are not visible in the standard implementation. However,
- * access to these methods is required by the {@link org.opencms.i18n.CmsResourceBundleLoader}.<p>
+ * <p>This interface is required because the methods {@link #setParent(ResourceBundle)} and {@link
+ * #setLocale(Locale)} are not visible in the standard implementation. However, access to these
+ * methods is required by the {@link org.opencms.i18n.CmsResourceBundleLoader}.
+ *
+ * <p>
  *
  * @since 8.0.1
- *
  * @see org.opencms.i18n.CmsResourceBundleLoader
  */
 public interface I_CmsResourceBundle {
 
-    /**
-     * Creates a clone of the resource bundle.<p>
-     *
-     * (This may not actually clone the resource bundle if it is immutable).
-     *
-     * @return a clone of the resource bundle
-     */
-    I_CmsResourceBundle getClone();
+  /**
+   * Creates a clone of the resource bundle.
+   *
+   * <p>(This may not actually clone the resource bundle if it is immutable).
+   *
+   * @return a clone of the resource bundle
+   */
+  I_CmsResourceBundle getClone();
 
-    /**
-     * Sets the locale used for this resource bundle.<p>
-     *
-     * @param l the locale to set
-     */
-    void setLocale(Locale l);
+  /**
+   * Sets the locale used for this resource bundle.
+   *
+   * <p>
+   *
+   * @param l the locale to set
+   */
+  void setLocale(Locale l);
 
-    /**
-     * Sets the parent bundle.<p>
-     *
-     * @param parent the parent bundle to set
-     */
-    void setParent(ResourceBundle parent);
+  /**
+   * Sets the parent bundle.
+   *
+   * <p>
+   *
+   * @param parent the parent bundle to set
+   */
+  void setParent(ResourceBundle parent);
 }

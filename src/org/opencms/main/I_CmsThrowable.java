@@ -27,48 +27,56 @@
 
 package org.opencms.main;
 
+import java.util.Locale;
 import org.opencms.i18n.CmsMessageContainer;
 
-import java.util.Locale;
-
 /**
- * Provides localized Exception handling based on the OpenCms default locale.<p>
+ * Provides localized Exception handling based on the OpenCms default locale.
  *
- * Instances of this class are assumed to have full localized exception messages.<p>
+ * <p>Instances of this class are assumed to have full localized exception messages.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsThrowable {
 
-    /**
-     * Returns a localized exception message based on the OpenCms default locale.<p>
-     *
-     * @return a localized exception message based on the OpenCms default locale
-     * @see Throwable#getLocalizedMessage()
-     */
-    String getLocalizedMessage();
+  /**
+   * Returns a localized exception message based on the OpenCms default locale.
+   *
+   * <p>
+   *
+   * @return a localized exception message based on the OpenCms default locale
+   * @see Throwable#getLocalizedMessage()
+   */
+  String getLocalizedMessage();
 
-    /**
-     * Returns a localized exception message based on the given Locale.<p>
-     *
-     * @param locale the Locale to get the message for
-     *
-     * @return a localized exception message based on the given Locale
-     */
-    String getLocalizedMessage(Locale locale);
+  /**
+   * Returns a localized exception message based on the given Locale.
+   *
+   * <p>
+   *
+   * @param locale the Locale to get the message for
+   * @return a localized exception message based on the given Locale
+   */
+  String getLocalizedMessage(Locale locale);
 
-    /**
-     * Returns a localized exception message based on the OpenCms default locale.<p>
-     *
-     * @return a localized exception message based on the OpenCms default locale
-     * @see Throwable#getMessage()
-     */
-    String getMessage();
+  /**
+   * Returns a localized exception message based on the OpenCms default locale.
+   *
+   * <p>
+   *
+   * @return a localized exception message based on the OpenCms default locale
+   * @see Throwable#getMessage()
+   */
+  String getMessage();
 
-    /**
-     * Returns the localized message container used to build this localized exception.<p>
-     *
-     * @return the localized message container used to build this localized exception
-     */
-    CmsMessageContainer getMessageContainer();
+  /**
+   * Returns the localized message container used to build this localized exception.
+   *
+   * <p>
+   *
+   * @return the localized message container used to build this localized exception
+   */
+  CmsMessageContainer getMessageContainer();
 }

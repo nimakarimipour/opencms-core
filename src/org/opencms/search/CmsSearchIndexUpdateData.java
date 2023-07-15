@@ -27,131 +27,162 @@
 
 package org.opencms.search;
 
-import org.opencms.db.CmsPublishedResource;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.opencms.db.CmsPublishedResource;
 
 /**
- * A collection of resources for the incremental update of a search index.<p>
+ * A collection of resources for the incremental update of a search index.
+ *
+ * <p>
  *
  * @since 6.0.1
  */
 public class CmsSearchIndexUpdateData {
 
-    /** The indexer of this update collection. */
-    private I_CmsIndexer m_indexer;
+  /** The indexer of this update collection. */
+  private I_CmsIndexer m_indexer;
 
-    /** List of <code>{@link org.opencms.db.CmsPublishedResource}</code> instances that must be deleted. */
-    private List<CmsPublishedResource> m_resourcesToDelete;
+  /**
+   * List of <code>{@link org.opencms.db.CmsPublishedResource}</code> instances that must be
+   * deleted.
+   */
+  private List<CmsPublishedResource> m_resourcesToDelete;
 
-    /** List of <code>{@link org.opencms.db.CmsPublishedResource}</code> instances that must be updated. */
-    private List<CmsPublishedResource> m_resourcesToUpdate;
+  /**
+   * List of <code>{@link org.opencms.db.CmsPublishedResource}</code> instances that must be
+   * updated.
+   */
+  private List<CmsPublishedResource> m_resourcesToUpdate;
 
-    /** The search index source of this update collection. */
-    private CmsSearchIndexSource m_source;
+  /** The search index source of this update collection. */
+  private CmsSearchIndexSource m_source;
 
-    /**
-     * Creates a new instance of an update collection.<p>
-     *
-     * @param source the search index source of this update collection
-     * @param indexer the indexer of this update collection
-     */
-    public CmsSearchIndexUpdateData(CmsSearchIndexSource source, I_CmsIndexer indexer) {
+  /**
+   * Creates a new instance of an update collection.
+   *
+   * <p>
+   *
+   * @param source the search index source of this update collection
+   * @param indexer the indexer of this update collection
+   */
+  public CmsSearchIndexUpdateData(CmsSearchIndexSource source, I_CmsIndexer indexer) {
 
-        m_source = source;
-        m_indexer = indexer;
-        m_resourcesToDelete = new ArrayList<CmsPublishedResource>();
-        m_resourcesToUpdate = new ArrayList<CmsPublishedResource>();
-    }
+    m_source = source;
+    m_indexer = indexer;
+    m_resourcesToDelete = new ArrayList<CmsPublishedResource>();
+    m_resourcesToUpdate = new ArrayList<CmsPublishedResource>();
+  }
 
-    /**
-     * Adds the given resource to the resources that must be deleted from the search index.<p>
-     *
-     * @param resource the resource to add
-     */
-    public void addResourceToDelete(CmsPublishedResource resource) {
+  /**
+   * Adds the given resource to the resources that must be deleted from the search index.
+   *
+   * <p>
+   *
+   * @param resource the resource to add
+   */
+  public void addResourceToDelete(CmsPublishedResource resource) {
 
-        m_resourcesToDelete.add(resource);
-    }
+    m_resourcesToDelete.add(resource);
+  }
 
-    /**
-     * Adds the given resource to the resources that must be updated in the search index.<p>
-     *
-     * @param resource the resource to add
-     */
-    public void addResourceToUpdate(CmsPublishedResource resource) {
+  /**
+   * Adds the given resource to the resources that must be updated in the search index.
+   *
+   * <p>
+   *
+   * @param resource the resource to add
+   */
+  public void addResourceToUpdate(CmsPublishedResource resource) {
 
-        m_resourcesToUpdate.add(resource);
-    }
+    m_resourcesToUpdate.add(resource);
+  }
 
-    /**
-     * Returns the indexer of this update collection.<p>
-     *
-     * @return the indexer of this update collection
-     */
-    public I_CmsIndexer getIndexer() {
+  /**
+   * Returns the indexer of this update collection.
+   *
+   * <p>
+   *
+   * @return the indexer of this update collection
+   */
+  public I_CmsIndexer getIndexer() {
 
-        return m_indexer;
-    }
+    return m_indexer;
+  }
 
-    /**
-     * Returns the list of <code>{@link org.opencms.db.CmsPublishedResource}</code> instances that must be deleted.<p>
-     *
-     * @return the list of <code>{@link org.opencms.db.CmsPublishedResource}</code> instances that must be deleted
-     */
-    public List<CmsPublishedResource> getResourcesToDelete() {
+  /**
+   * Returns the list of <code>{@link org.opencms.db.CmsPublishedResource}</code> instances that
+   * must be deleted.
+   *
+   * <p>
+   *
+   * @return the list of <code>{@link org.opencms.db.CmsPublishedResource}</code> instances that
+   *     must be deleted
+   */
+  public List<CmsPublishedResource> getResourcesToDelete() {
 
-        return m_resourcesToDelete;
-    }
+    return m_resourcesToDelete;
+  }
 
-    /**
-     * Returns the list of <code>{@link org.opencms.db.CmsPublishedResource}</code> instances that must be updated.<p>
-     *
-     * @return the list of <code>{@link org.opencms.db.CmsPublishedResource}</code> instances that must be updated
-     */
-    public List<CmsPublishedResource> getResourcesToUpdate() {
+  /**
+   * Returns the list of <code>{@link org.opencms.db.CmsPublishedResource}</code> instances that
+   * must be updated.
+   *
+   * <p>
+   *
+   * @return the list of <code>{@link org.opencms.db.CmsPublishedResource}</code> instances that
+   *     must be updated
+   */
+  public List<CmsPublishedResource> getResourcesToUpdate() {
 
-        return m_resourcesToUpdate;
-    }
+    return m_resourcesToUpdate;
+  }
 
-    /**
-     * Returns the search index source of this update collection.<p>
-     *
-     * @return the search index source of this update collection
-     */
-    public CmsSearchIndexSource getSource() {
+  /**
+   * Returns the search index source of this update collection.
+   *
+   * <p>
+   *
+   * @return the search index source of this update collection
+   */
+  public CmsSearchIndexSource getSource() {
 
-        return m_source;
-    }
+    return m_source;
+  }
 
-    /**
-     * Returns <code>true</code> if this collections contains resources to delete.<p>
-     *
-     * @return <code>true</code> if this collections contains resources to delete
-     */
-    public boolean hasResourcesToDelete() {
+  /**
+   * Returns <code>true</code> if this collections contains resources to delete.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this collections contains resources to delete
+   */
+  public boolean hasResourcesToDelete() {
 
-        return !m_resourcesToDelete.isEmpty();
-    }
+    return !m_resourcesToDelete.isEmpty();
+  }
 
-    /**
-     * Returns <code>true</code> if this collections contains resources to update.<p>
-     *
-     * @return <code>true</code> if this collections contains resources to update
-     */
-    public boolean hasResourceToUpdate() {
+  /**
+   * Returns <code>true</code> if this collections contains resources to update.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this collections contains resources to update
+   */
+  public boolean hasResourceToUpdate() {
 
-        return !m_resourcesToUpdate.isEmpty();
-    }
+    return !m_resourcesToUpdate.isEmpty();
+  }
 
-    /**
-     * Returns <code>true</code> if this collections contains no resources to update or delete.<p>
-     *
-     * @return <code>true</code> if this collections contains no resources to update or delete
-     */
-    public boolean isEmpty() {
+  /**
+   * Returns <code>true</code> if this collections contains no resources to update or delete.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this collections contains no resources to update or delete
+   */
+  public boolean isEmpty() {
 
-        return m_resourcesToDelete.isEmpty() && m_resourcesToUpdate.isEmpty();
-    }
+    return m_resourcesToDelete.isEmpty() && m_resourcesToUpdate.isEmpty();
+  }
 }

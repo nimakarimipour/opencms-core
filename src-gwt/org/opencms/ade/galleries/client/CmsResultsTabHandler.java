@@ -27,185 +27,197 @@
 
 package org.opencms.ade.galleries.client;
 
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.user.client.ui.PopupPanel;
 import org.opencms.ade.galleries.client.ui.CmsResultsTab.ParamType;
 import org.opencms.ade.galleries.shared.CmsGallerySearchScope;
 
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.user.client.ui.PopupPanel;
-
 /**
- * The results tab handler.<p>
+ * The results tab handler.
  *
- * This class receives event information from the results tab and
- * delegates it to the gallery controller.
+ * <p>This class receives event information from the results tab and delegates it to the gallery
+ * controller.
  *
  * @since 8.0.0
  */
 public class CmsResultsTabHandler extends A_CmsTabHandler {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param controller the gallery controller
-     */
-    public CmsResultsTabHandler(CmsGalleryController controller) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param controller the gallery controller
+   */
+  public CmsResultsTabHandler(CmsGalleryController controller) {
 
-        super(controller);
+    super(controller);
+  }
+
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#clearParams() */
+  @Override
+  public void clearParams() {
+
+    // nothing to do here
+  }
+
+  /**
+   * Deletes the given resource.
+   *
+   * <p>
+   *
+   * @param resourcePath the resource path of the resource to delete
+   */
+  public void deleteResource(String resourcePath) {
+
+    m_controller.deleteResource(resourcePath);
+  }
+
+  /**
+   * Returns the result view type.
+   *
+   * <p>
+   *
+   * @return the result view type
+   */
+  public String getResultViewType() {
+
+    return m_controller.getResultViewType();
+  }
+
+  /**
+   * Returns if a preview is available for the given resource type.
+   *
+   * <p>
+   *
+   * @param resourceType the requested resource type
+   * @return <code>true</code> if a preview is available for the given resource type
+   */
+  public boolean hasPreview(String resourceType) {
+
+    return m_controller.hasPreview(resourceType);
+  }
+
+  /**
+   * Returns if resource entries in the search result are selectable.
+   *
+   * <p>
+   *
+   * @return if resource entries in the search result are selectable
+   */
+  public boolean hasSelectResource() {
+
+    return m_controller.hasSelectResource() && m_controller.hasResultsSelectable();
+  }
+
+  /**
+   * Returns if a load results request is currently running.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if a load results request is currently running
+   */
+  public boolean isLoading() {
+
+    return m_controller.isLoading();
+  }
+
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.A_CmsTabHandler#onClose(com.google.gwt.event.logical.shared.CloseEvent)
+   */
+  @Override
+  public void onClose(CloseEvent<PopupPanel> event) {
+
+    m_controller.updateResultsTab(false);
+  }
+
+  /**
+   * Will be triggered when the bottom of the result list is reached by scrolling.
+   *
+   * <p>
+   */
+  public void onScrollToBottom() {
+
+    m_controller.updateResultsTab(true);
+  }
+
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSelection() */
+  @Override
+  public void onSelection() {
+
+    if (m_controller.isSearchObjectChanged()) {
+      m_controller.updateResultsTab(false);
     }
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#clearParams()
-     */
-    @Override
-    public void clearParams() {
+  /**
+   * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSort(java.lang.String,java.lang.String)
+   */
+  @Override
+  public void onSort(String sortParams, String filter) {
 
-        // nothing to do here
+    // ignore filter, not available for this tab
+    m_controller.sortResults(sortParams);
+  }
+
+  /**
+   * Will be triggered when the result item is clicked.
+   *
+   * <p>
+   *
+   * @param resourcePath the resource path of the result
+   * @param resourceType the resource type
+   */
+  public void openPreview(String resourcePath, String resourceType) {
+
+    m_controller.openPreview(resourcePath, resourceType);
+  }
+
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#removeParam(java.lang.String) */
+  @Override
+  public void removeParam(String paramKey) {
+
+    if (ParamType.scope.name().equals(paramKey)) {
+      m_controller.removeScope();
+
+    } else if (ParamType.text.name().equals(paramKey)) {
+      m_controller.removeQuery();
     }
+  }
 
-    /**
-     * Deletes the given resource.<p>
-     *
-     * @param resourcePath the resource path of the resource to delete
-     */
-    public void deleteResource(String resourcePath) {
+  /**
+   * Stores the result view type.
+   *
+   * <p>
+   *
+   * @param resultViewType the result view type
+   */
+  public void setResultViewType(String resultViewType) {
 
-        m_controller.deleteResource(resourcePath);
-    }
+    m_controller.setResultViewType(resultViewType);
+  }
 
-    /**
-     * Returns the result view type.<p>
-     *
-     * @return the result view type
-     */
-    public String getResultViewType() {
+  /**
+   * Sets the search scope.
+   *
+   * <p>
+   *
+   * @param scope the search scope
+   */
+  public void setScope(CmsGallerySearchScope scope) {
 
-        return m_controller.getResultViewType();
-    }
+    m_controller.addScope(scope);
+    m_controller.updateResultsTab(false);
+  }
 
-    /**
-     * Returns if a preview is available for the given resource type.<p>
-     *
-     * @param resourceType the requested resource type
-     *
-     * @return <code>true</code> if a preview is available for the given resource type
-     */
-    public boolean hasPreview(String resourceType) {
+  /**
+   * Updates the result tab.
+   *
+   * <p>
+   */
+  public void updateResult() {
 
-        return m_controller.hasPreview(resourceType);
-    }
-
-    /**
-     * Returns if resource entries in the search result are selectable.<p>
-     *
-     * @return if resource entries in the search result are selectable
-     */
-    public boolean hasSelectResource() {
-
-        return m_controller.hasSelectResource() && m_controller.hasResultsSelectable();
-    }
-
-    /**
-     * Returns if a load results request is currently running.<p>
-     *
-     * @return <code>true</code> if a load results request is currently running
-     */
-    public boolean isLoading() {
-
-        return m_controller.isLoading();
-    }
-
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onClose(com.google.gwt.event.logical.shared.CloseEvent)
-     */
-    @Override
-    public void onClose(CloseEvent<PopupPanel> event) {
-
-        m_controller.updateResultsTab(false);
-    }
-
-    /**
-     * Will be triggered when the bottom of the result list is reached by scrolling.<p>
-     */
-    public void onScrollToBottom() {
-
-        m_controller.updateResultsTab(true);
-
-    }
-
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSelection()
-     */
-    @Override
-    public void onSelection() {
-
-        if (m_controller.isSearchObjectChanged()) {
-            m_controller.updateResultsTab(false);
-        }
-    }
-
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSort(java.lang.String,java.lang.String)
-     */
-    @Override
-    public void onSort(String sortParams, String filter) {
-
-        // ignore filter, not available for this tab
-        m_controller.sortResults(sortParams);
-    }
-
-    /**
-     * Will be triggered when the result item is clicked.<p>
-     *
-     * @param resourcePath the resource path of the result
-     * @param resourceType the resource type
-     */
-    public void openPreview(String resourcePath, String resourceType) {
-
-        m_controller.openPreview(resourcePath, resourceType);
-
-    }
-
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#removeParam(java.lang.String)
-     */
-    @Override
-    public void removeParam(String paramKey) {
-
-        if (ParamType.scope.name().equals(paramKey)) {
-            m_controller.removeScope();
-
-        } else if (ParamType.text.name().equals(paramKey)) {
-            m_controller.removeQuery();
-
-        }
-    }
-
-    /**
-     * Stores the result view type.<p>
-     *
-     * @param resultViewType the result view type
-     */
-    public void setResultViewType(String resultViewType) {
-
-        m_controller.setResultViewType(resultViewType);
-    }
-
-    /**
-     * Sets the search scope.<p>
-     *
-     * @param scope the search scope
-     */
-    public void setScope(CmsGallerySearchScope scope) {
-
-        m_controller.addScope(scope);
-        m_controller.updateResultsTab(false);
-    }
-
-    /**
-     * Updates the result tab.<p>
-     */
-    public void updateResult() {
-
-        m_controller.updateResultsTab(false);
-    }
+    m_controller.updateResultsTab(false);
+  }
 }

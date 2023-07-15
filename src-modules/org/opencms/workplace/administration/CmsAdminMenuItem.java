@@ -33,150 +33,169 @@ import org.opencms.workplace.tools.CmsHtmlIconButtonStyleEnum;
 import org.opencms.workplace.tools.CmsToolMacroResolver;
 
 /**
- * Html icon button implementation that generates the
- * required html code for a menu item.<p>
+ * Html icon button implementation that generates the required html code for a menu item.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsAdminMenuItem {
 
-    /** Enabled flag. */
-    private boolean m_enabled;
+  /** Enabled flag. */
+  private boolean m_enabled;
 
-    /** Help text. */
-    private final String m_helpText;
+  /** Help text. */
+  private final String m_helpText;
 
-    /** Path to the icon. */
-    private final String m_iconPath;
+  /** Path to the icon. */
+  private final String m_iconPath;
 
-    /** Dhtml id, from name. */
-    private final String m_id;
+  /** Dhtml id, from name. */
+  private final String m_id;
 
-    /** Link to follow when selected. */
-    private final String m_link;
+  /** Link to follow when selected. */
+  private final String m_link;
 
-    /** Display name of the item. */
-    private final String m_name;
+  /** Display name of the item. */
+  private final String m_name;
 
-    /** Target frame. */
-    private final String m_target;
+  /** Target frame. */
+  private final String m_target;
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id a unique id
-     * @param name the name of the item
-     * @param iconPath the icon to display
-     * @param link the link to open when selected
-     * @param helpText the help text to display
-     * @param enabled if enabled or not
-     * @param target the target frame to open the link into
-     */
-    public CmsAdminMenuItem(
-        String id,
-        String name,
-        String iconPath,
-        String link,
-        String helpText,
-        boolean enabled,
-        String target) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id a unique id
+   * @param name the name of the item
+   * @param iconPath the icon to display
+   * @param link the link to open when selected
+   * @param helpText the help text to display
+   * @param enabled if enabled or not
+   * @param target the target frame to open the link into
+   */
+  public CmsAdminMenuItem(
+      String id,
+      String name,
+      String iconPath,
+      String link,
+      String helpText,
+      boolean enabled,
+      String target) {
 
-        m_id = id;
-        m_name = name;
-        m_iconPath = iconPath;
-        m_link = link;
-        m_helpText = helpText;
-        m_enabled = enabled;
-        m_target = target;
-    }
+    m_id = id;
+    m_name = name;
+    m_iconPath = iconPath;
+    m_link = link;
+    m_helpText = helpText;
+    m_enabled = enabled;
+    m_target = target;
+  }
 
-    /**
-     * Returns the help text.<p>
-     *
-     * @return the help text
-     */
-    public String getHelpText() {
+  /**
+   * Returns the help text.
+   *
+   * <p>
+   *
+   * @return the help text
+   */
+  public String getHelpText() {
 
-        return m_helpText;
-    }
+    return m_helpText;
+  }
 
-    /**
-     * Returns the path to the icon.<p>
-     *
-     * @return the path to the icon
-     */
-    public String getIconPath() {
+  /**
+   * Returns the path to the icon.
+   *
+   * <p>
+   *
+   * @return the path to the icon
+   */
+  public String getIconPath() {
 
-        return m_iconPath;
-    }
+    return m_iconPath;
+  }
 
-    /**
-     * Returns the dhtml unique id.<p>
-     *
-     * @return the dhtml unique id
-     */
-    public String getId() {
+  /**
+   * Returns the dhtml unique id.
+   *
+   * <p>
+   *
+   * @return the dhtml unique id
+   */
+  public String getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Returns the link.<p>
-     *
-     * @return the link
-     */
-    public String getLink() {
+  /**
+   * Returns the link.
+   *
+   * <p>
+   *
+   * @return the link
+   */
+  public String getLink() {
 
-        return m_link;
-    }
+    return m_link;
+  }
 
-    /**
-     * Returns the display name.<p>
-     *
-     * @return the name
-     */
-    public String getName() {
+  /**
+   * Returns the display name.
+   *
+   * <p>
+   *
+   * @return the name
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the target.<p>
-     *
-     * @return the target
-     */
-    public String getTarget() {
+  /**
+   * Returns the target.
+   *
+   * <p>
+   *
+   * @return the target
+   */
+  public String getTarget() {
 
-        return m_target;
-    }
+    return m_target;
+  }
 
-    /**
-     * Returns if enabled or disabled.<p>
-     *
-     * @return if enabled or disabled
-     */
-    public boolean isEnabled() {
+  /**
+   * Returns if enabled or disabled.
+   *
+   * <p>
+   *
+   * @return if enabled or disabled
+   */
+  public boolean isEnabled() {
 
-        return m_enabled;
-    }
+    return m_enabled;
+  }
 
-    /**
-     * Returns the necessary html code.<p>
-     *
-     * @param wp the workplace
-     *
-     * @return html code
-     */
-    public String itemHtml(CmsWorkplace wp) {
+  /**
+   * Returns the necessary html code.
+   *
+   * <p>
+   *
+   * @param wp the workplace
+   * @return html code
+   */
+  public String itemHtml(CmsWorkplace wp) {
 
-        StringBuffer html = new StringBuffer(1024);
-        html.append("<table border='0' cellspacing='0' cellpadding='0' width='100%' class='node' id='");
-        html.append(getId());
-        html.append("'>\n");
-        html.append("\t<tr>\n");
-        html.append("\t\t<td>\n");
-        String onClic = "return openView('" + getId() + "', '" + m_link + "', '" + m_target + "');";
-        html.append(A_CmsHtmlIconButton.defaultButtonHtml(
+    StringBuffer html = new StringBuffer(1024);
+    html.append("<table border='0' cellspacing='0' cellpadding='0' width='100%' class='node' id='");
+    html.append(getId());
+    html.append("'>\n");
+    html.append("\t<tr>\n");
+    html.append("\t\t<td>\n");
+    String onClic = "return openView('" + getId() + "', '" + m_link + "', '" + m_target + "');";
+    html.append(
+        A_CmsHtmlIconButton.defaultButtonHtml(
             CmsHtmlIconButtonStyleEnum.SMALL_ICON_TEXT,
             getId(),
             getName(),
@@ -186,10 +205,9 @@ public class CmsAdminMenuItem {
             null,
             onClic));
 
-        html.append("\t\t</td>\n");
-        html.append("\t</tr>\n");
-        html.append("</table>\n");
-        return CmsToolMacroResolver.resolveMacros(html.toString(), wp);
-    }
-
+    html.append("\t\t</td>\n");
+    html.append("\t</tr>\n");
+    html.append("</table>\n");
+    return CmsToolMacroResolver.resolveMacros(html.toString(), wp);
+  }
 }

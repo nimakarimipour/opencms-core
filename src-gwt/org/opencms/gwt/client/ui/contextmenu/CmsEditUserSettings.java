@@ -32,55 +32,60 @@ import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsUUID;
 
 /**
- * ADE context menu option for undeleting a file.<p>
+ * ADE context menu option for undeleting a file.
+ *
+ * <p>
  */
 public class CmsEditUserSettings implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand {
 
-    /**
-     * Creates a new context menu command.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Creates a new context menu command.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new CmsEditUserSettings();
-    }
+    return new CmsEditUserSettings();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public void execute(
-        final CmsUUID structureId,
-        final I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public void execute(
+      final CmsUUID structureId,
+      final I_CmsContextMenuHandler handler,
+      CmsContextMenuEntryBean bean) {
 
-        CmsUserSettingsDialog.loadAndShow(new Runnable() {
+    CmsUserSettingsDialog.loadAndShow(
+        new Runnable() {
 
-            public void run() {
+          public void run() {
 
-                handler.refreshResource(structureId);
-            }
-
+            handler.refreshResource(structureId);
+          }
         });
-    }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget()
-     */
-    public boolean hasItemWidget() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget() */
+  public boolean hasItemWidget() {
 
-        return false;
-    }
-
+    return false;
+  }
 }

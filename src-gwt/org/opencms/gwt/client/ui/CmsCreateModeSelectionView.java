@@ -36,53 +36,59 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * UiBinder widget for the create-mode selection dialog content. <p>
+ * UiBinder widget for the create-mode selection dialog content.
+ *
+ * <p>
  */
 public class CmsCreateModeSelectionView extends Composite {
 
-    /** UiBinder interface. */
-    interface I_CmsCreateModeSelectionViewUiBinder extends UiBinder<Widget, CmsCreateModeSelectionView> {
-        // empty interface
-    }
+  /** UiBinder interface. */
+  interface I_CmsCreateModeSelectionViewUiBinder
+      extends UiBinder<Widget, CmsCreateModeSelectionView> {
+    // empty interface
+  }
 
-    /** UiBinder instance. */
-    private static I_CmsCreateModeSelectionViewUiBinder uiBinder = GWT.create(
-        I_CmsCreateModeSelectionViewUiBinder.class);
+  /** UiBinder instance. */
+  private static I_CmsCreateModeSelectionViewUiBinder uiBinder =
+      GWT.create(I_CmsCreateModeSelectionViewUiBinder.class);
 
-    /** UiBinder widget. */
-    @UiField
-    protected FlowPanel m_infoBox;
+  /** UiBinder widget. */
+  @UiField protected FlowPanel m_infoBox;
 
-    /** UiBinder widget. */
-    @UiField
-    protected Label m_label;
+  /** UiBinder widget. */
+  @UiField protected Label m_label;
 
-    /**
-     * Create a new instance.<p>
-     */
-    public CmsCreateModeSelectionView() {
+  /**
+   * Create a new instance.
+   *
+   * <p>
+   */
+  public CmsCreateModeSelectionView() {
 
-        initWidget(uiBinder.createAndBindUi(this));
-    }
+    initWidget(uiBinder.createAndBindUi(this));
+  }
 
-    /**
-     * Returns the infoBox.<p>
-     *
-     * @return the infoBox
-     */
-    public FlowPanel getInfoBox() {
+  /**
+   * Returns the infoBox.
+   *
+   * <p>
+   *
+   * @return the infoBox
+   */
+  public FlowPanel getInfoBox() {
 
-        return m_infoBox;
-    }
+    return m_infoBox;
+  }
 
-    /**
-     * Returns the label.<p>
-     *
-     * @return the label
-     */
-    public Label getLabel() {
+  /**
+   * Returns the label.
+   *
+   * <p>
+   *
+   * @return the label
+   */
+  public Label getLabel() {
 
-        return m_label;
-    }
-
+    return m_label;
+  }
 }

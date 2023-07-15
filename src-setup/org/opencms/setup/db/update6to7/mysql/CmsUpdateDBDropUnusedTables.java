@@ -27,40 +27,33 @@
 
 package org.opencms.setup.db.update6to7.mysql;
 
+import java.io.IOException;
 import org.opencms.file.CmsResource;
 
-import java.io.IOException;
-
 /**
- * This class drops the outdated tables from the OpenCms database.<p>
+ * This class drops the outdated tables from the OpenCms database.
  *
- * These tables are
- * CMS_SYSTEMID
- * CMS_TASK
- * CMS_TASKLOG
- * CMS_TASKPAR
- * CMS_TASKTYPE
- * TEMP_PROJECT_UUIDS
+ * <p>These tables are CMS_SYSTEMID CMS_TASK CMS_TASKLOG CMS_TASKPAR CMS_TASKTYPE TEMP_PROJECT_UUIDS
  */
-public class CmsUpdateDBDropUnusedTables extends org.opencms.setup.db.update6to7.CmsUpdateDBDropUnusedTables {
+public class CmsUpdateDBDropUnusedTables
+    extends org.opencms.setup.db.update6to7.CmsUpdateDBDropUnusedTables {
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the sql queries properties file could not be read
-     */
-    public CmsUpdateDBDropUnusedTables()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the sql queries properties file could not be read
+   */
+  public CmsUpdateDBDropUnusedTables() throws IOException {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation()
-     */
-    @Override
-    protected String getPropertyFileLocation() {
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation() */
+  @Override
+  protected String getPropertyFileLocation() {
 
-        return CmsResource.getParentFolder(super.getPropertyFileLocation());
-    }
+    return CmsResource.getParentFolder(super.getPropertyFileLocation());
+  }
 }

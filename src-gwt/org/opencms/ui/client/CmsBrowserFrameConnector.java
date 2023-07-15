@@ -27,53 +27,49 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.ui.shared.CmsBrowserFrameState;
-
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentConnector;
 import com.vaadin.shared.ui.AbstractEmbeddedState;
 import com.vaadin.shared.ui.Connect;
+import org.opencms.ui.shared.CmsBrowserFrameState;
 
 /**
- * Connector for the CmsBrowserFrame component.<p>
+ * Connector for the CmsBrowserFrame component.
+ *
+ * <p>
  */
 @Connect(org.opencms.ui.components.CmsBrowserFrame.class)
 public class CmsBrowserFrameConnector extends AbstractComponentConnector {
 
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#getState()
-     */
-    @Override
-    public CmsBrowserFrameState getState() {
+  /** @see com.vaadin.client.ui.AbstractComponentConnector#getState() */
+  @Override
+  public CmsBrowserFrameState getState() {
 
-        return (CmsBrowserFrameState)super.getState();
+    return (CmsBrowserFrameState) super.getState();
+  }
+
+  /** @see com.vaadin.client.ui.AbstractComponentConnector#getWidget() */
+  @Override
+  public CmsVBrowserFrame getWidget() {
+
+    return (CmsVBrowserFrame) super.getWidget();
+  }
+
+  /**
+   * @see
+   *     com.vaadin.client.ui.AbstractComponentConnector#onStateChanged(com.vaadin.client.communication.StateChangeEvent)
+   */
+  @Override
+  public void onStateChanged(StateChangeEvent stateChangeEvent) {
+
+    super.onStateChanged(stateChangeEvent);
+
+    getWidget().setAlternateText(getState().alternateText);
+    String name = getState().getName();
+    if (name == null) {
+      name = getConnectorId();
     }
-
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#getWidget()
-     */
-    @Override
-    public CmsVBrowserFrame getWidget() {
-
-        return (CmsVBrowserFrame)super.getWidget();
-    }
-
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#onStateChanged(com.vaadin.client.communication.StateChangeEvent)
-     */
-    @Override
-    public void onStateChanged(StateChangeEvent stateChangeEvent) {
-
-        super.onStateChanged(stateChangeEvent);
-
-        getWidget().setAlternateText(getState().alternateText);
-        String name = getState().getName();
-        if (name == null) {
-            name = getConnectorId();
-        }
-        getWidget().setName(name);
-        getWidget().setSource(getResourceUrl(AbstractEmbeddedState.SOURCE_RESOURCE));
-
-    }
-
+    getWidget().setName(name);
+    getWidget().setSource(getResourceUrl(AbstractEmbeddedState.SOURCE_RESOURCE));
+  }
 }

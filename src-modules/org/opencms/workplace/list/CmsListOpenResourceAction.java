@@ -33,83 +33,83 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 
 /**
- * Opens the selected resource in a new window.<p>
+ * Opens the selected resource in a new window.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListOpenResourceAction extends A_CmsListDefaultJsAction {
 
-    /** Id of the column with the resource root path. */
-    private final String m_resColumnPathId;
+  /** Id of the column with the resource root path. */
+  private final String m_resColumnPathId;
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id the unique id
-     * @param resColumnPathId the id of the column with the resource root path
-     */
-    public CmsListOpenResourceAction(String id, String resColumnPathId) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id the unique id
+   * @param resColumnPathId the id of the column with the resource root path
+   */
+  public CmsListOpenResourceAction(String id, String resColumnPathId) {
 
-        super(id);
-        m_resColumnPathId = resColumnPathId;
-        setName(Messages.get().container(Messages.GUI_OPENRESOURCE_ACTION_NAME_0));
-        setHelpText(Messages.get().container(Messages.GUI_OPENRESOURCE_ACTION_HELP_0));
+    super(id);
+    m_resColumnPathId = resColumnPathId;
+    setName(Messages.get().container(Messages.GUI_OPENRESOURCE_ACTION_NAME_0));
+    setHelpText(Messages.get().container(Messages.GUI_OPENRESOURCE_ACTION_HELP_0));
+  }
+
+  /** @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getHelpText() */
+  @Override
+  public CmsMessageContainer getHelpText() {
+
+    if (isEnabled()) {
+      return super.getHelpText();
     }
+    return Messages.get().container(Messages.GUI_OPENRESOURCE_ACTION_DISABLED_HELP_0);
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getHelpText()
-     */
-    @Override
-    public CmsMessageContainer getHelpText() {
+  /** @see org.opencms.workplace.tools.I_CmsHtmlIconButton#isEnabled() */
+  @Override
+  public boolean isEnabled() {
 
-        if (isEnabled()) {
-            return super.getHelpText();
-        }
-        return Messages.get().container(Messages.GUI_OPENRESOURCE_ACTION_DISABLED_HELP_0);
+    if (getResourceName() != null) {
+      return super.isEnabled();
     }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsHtmlIconButton#isEnabled()
-     */
-    @Override
-    public boolean isEnabled() {
+  /** @see org.opencms.workplace.list.A_CmsListDefaultJsAction#jsCode() */
+  @Override
+  public String jsCode() {
 
-        if (getResourceName() != null) {
-            return super.isEnabled();
-        }
-        return false;
+    StringBuffer jsCode = new StringBuffer(256);
+    jsCode.append("javascript:top.openwinfull('");
+    jsCode.append(getResourceName());
+    jsCode.append("', true)");
+    return jsCode.toString();
+  }
+
+  /**
+   * Returns the most possible right resource name.
+   *
+   * <p>
+   *
+   * @return the most possible right resource name
+   */
+  protected String getResourceName() {
+
+    String resource = getItem().get(m_resColumnPathId).toString();
+    if (!getWp().getCms().existsResource(resource, CmsResourceFilter.DEFAULT)) {
+      String siteRoot = OpenCms.getSiteManager().getSiteRoot(resource);
+      if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(siteRoot)) {
+        resource = resource.substring(siteRoot.length());
+      }
+      if (!getWp().getCms().existsResource(resource, CmsResourceFilter.DEFAULT)) {
+        resource = null;
+      }
     }
-
-    /**
-     * @see org.opencms.workplace.list.A_CmsListDefaultJsAction#jsCode()
-     */
-    @Override
-    public String jsCode() {
-
-        StringBuffer jsCode = new StringBuffer(256);
-        jsCode.append("javascript:top.openwinfull('");
-        jsCode.append(getResourceName());
-        jsCode.append("', true)");
-        return jsCode.toString();
-    }
-
-    /**
-     * Returns the most possible right resource name.<p>
-     *
-     * @return the most possible right resource name
-     */
-    protected String getResourceName() {
-
-        String resource = getItem().get(m_resColumnPathId).toString();
-        if (!getWp().getCms().existsResource(resource, CmsResourceFilter.DEFAULT)) {
-            String siteRoot = OpenCms.getSiteManager().getSiteRoot(resource);
-            if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(siteRoot)) {
-                resource = resource.substring(siteRoot.length());
-            }
-            if (!getWp().getCms().existsResource(resource, CmsResourceFilter.DEFAULT)) {
-                resource = null;
-            }
-        }
-        return resource;
-    }
+    return resource;
+  }
 }

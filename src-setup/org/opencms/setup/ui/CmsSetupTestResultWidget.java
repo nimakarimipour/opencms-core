@@ -27,49 +27,45 @@
 
 package org.opencms.setup.ui;
 
-import org.opencms.setup.comptest.CmsSetupTestResult;
-
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import org.opencms.setup.comptest.CmsSetupTestResult;
 
-/**
- * The widget used to show setup test results.
- */
+/** The widget used to show setup test results. */
 public class CmsSetupTestResultWidget extends HorizontalLayout {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The test result. */
-    private CmsSetupTestResult m_result;
+  /** The test result. */
+  private CmsSetupTestResult m_result;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param result the result
-     */
-    public CmsSetupTestResultWidget(CmsSetupTestResult result) {
+  /**
+   * Creates a new instance.
+   *
+   * @param result the result
+   */
+  public CmsSetupTestResultWidget(CmsSetupTestResult result) {
 
-        m_result = result;
-        if (!result.isGreen()) {
-            setDescription(result.getInfo());
-        }
-        Label nameLabel = new Label(result.getName());
-        nameLabel.setWidth("250px");
-        Label resultLabel = new Label(result.getResult());
-        addComponent(nameLabel);
-        addComponent(resultLabel);
-        String style = null;
-        if (result.isRed()) {
-            style = "o-setuptest-red";
-        } else if (result.isYellow()) {
-            style = "o-setuptest-yellow";
-        } else if (result.isGreen()) {
-            style = "o-setuptest-green";
-        }
-        resultLabel.addStyleName(style);
-        setComponentAlignment(resultLabel, Alignment.MIDDLE_RIGHT);
+    m_result = result;
+    if (!result.isGreen()) {
+      setDescription(result.getInfo());
     }
-
+    Label nameLabel = new Label(result.getName());
+    nameLabel.setWidth("250px");
+    Label resultLabel = new Label(result.getResult());
+    addComponent(nameLabel);
+    addComponent(resultLabel);
+    String style = null;
+    if (result.isRed()) {
+      style = "o-setuptest-red";
+    } else if (result.isYellow()) {
+      style = "o-setuptest-yellow";
+    } else if (result.isGreen()) {
+      style = "o-setuptest-green";
+    }
+    resultLabel.addStyleName(style);
+    setComponentAlignment(resultLabel, Alignment.MIDDLE_RIGHT);
+  }
 }

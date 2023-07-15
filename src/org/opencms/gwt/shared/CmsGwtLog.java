@@ -30,29 +30,30 @@ package org.opencms.gwt.shared;
 /**
  * Dummy log that does nothing on the server side.
  *
- * <p>For the actual client side implementation, look in the super_src folder. We are doing this
- * so that shared classes can use logging functions when run on the client.
+ * <p>For the actual client side implementation, look in the super_src folder. We are doing this so
+ * that shared classes can use logging functions when run on the client.
  */
 public class CmsGwtLog {
 
-    /**
-     * Logs a message to the browser console if possible.<p>
-     *
-     * @param message the message to log
-     */
-    public static void log(String mesage) {
+  /**
+   * Logs a message to the browser console if possible.
+   *
+   * <p>
+   *
+   * @param message the message to log
+   */
+  public static void log(String mesage) {
 
-        // dummy implementation, do nothing
-    }
+    // dummy implementation, do nothing
+  }
 
-    /**
-     * Logs a message with the current stack trace to the browser console if possible.
-     *
-     * @param message the message to log
-     */
-    public static void trace(String message) {
+  /**
+   * Logs a message with the current stack trace to the browser console if possible.
+   *
+   * @param message the message to log
+   */
+  public static void trace(String message) {
 
-        // dummy implementation, do nothing
-    }
-
+    // dummy implementation, do nothing
+  }
 }

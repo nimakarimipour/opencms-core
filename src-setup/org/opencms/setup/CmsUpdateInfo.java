@@ -29,49 +29,50 @@ package org.opencms.setup;
 
 import org.opencms.module.CmsModuleVersion;
 
-/**
- * Conveniently stores information necessary during the update.
- */
+/** Conveniently stores information necessary during the update. */
 public class CmsUpdateInfo {
 
-    /** The single instance of this class. */
-    public static CmsUpdateInfo INSTANCE = new CmsUpdateInfo();
+  /** The single instance of this class. */
+  public static CmsUpdateInfo INSTANCE = new CmsUpdateInfo();
 
-    /** The containerpage editor version or null. */
-    private CmsModuleVersion m_adeModuleVersion;
+  /** The containerpage editor version or null. */
+  private CmsModuleVersion m_adeModuleVersion;
 
-    /**
-     * Gets the container page editor version.<p>
-     *
-     * @return the module version
-     */
-    public CmsModuleVersion getAdeModuleVersion() {
+  /**
+   * Gets the container page editor version.
+   *
+   * <p>
+   *
+   * @return the module version
+   */
+  public CmsModuleVersion getAdeModuleVersion() {
 
-        return m_adeModuleVersion;
+    return m_adeModuleVersion;
+  }
+
+  /**
+   * Checks if the categoryfolder setting needs to be updated.
+   *
+   * @return true if the categoryfolder setting needs to be updated
+   */
+  public boolean needToSetCategoryFolder() {
+
+    if (m_adeModuleVersion == null) {
+      return true;
     }
+    CmsModuleVersion categoryFolderUpdateVersion = new CmsModuleVersion("9.0.0");
+    return (m_adeModuleVersion.compareTo(categoryFolderUpdateVersion) == -1);
+  }
 
-    /**
-     * Checks if the categoryfolder setting needs to be updated.
-     *
-     * @return true if the categoryfolder setting needs to be updated
-     */
-    public boolean needToSetCategoryFolder() {
+  /**
+   * Sets the container page editor version.
+   *
+   * <p>
+   *
+   * @param version the module version
+   */
+  public void setAdeModuleVersion(CmsModuleVersion version) {
 
-        if (m_adeModuleVersion == null) {
-            return true;
-        }
-        CmsModuleVersion categoryFolderUpdateVersion = new CmsModuleVersion("9.0.0");
-        return (m_adeModuleVersion.compareTo(categoryFolderUpdateVersion) == -1);
-    }
-
-    /**
-     * Sets the container page editor version.<p>
-     *
-     * @param version the module version
-     */
-    public void setAdeModuleVersion(CmsModuleVersion version) {
-
-        m_adeModuleVersion = version;
-    }
-
+    m_adeModuleVersion = version;
+  }
 }

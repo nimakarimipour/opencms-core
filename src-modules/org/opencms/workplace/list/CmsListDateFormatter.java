@@ -32,52 +32,57 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Simple formatter for dates.<p>
+ * Simple formatter for dates.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListDateFormatter implements I_CmsListFormatter {
 
-    /** The date style. */
-    private int m_dateStyle;
+  /** The date style. */
+  private int m_dateStyle;
 
-    /** The time style. */
-    private int m_timeStyle;
+  /** The time style. */
+  private int m_timeStyle;
 
-    /**
-     * Default constructor.<p>
-     *
-     * Use medium style.<p>
-     */
-    public CmsListDateFormatter() {
+  /**
+   * Default constructor.
+   *
+   * <p>Use medium style.
+   *
+   * <p>
+   */
+  public CmsListDateFormatter() {
 
-        m_dateStyle = DateFormat.MEDIUM;
-        m_timeStyle = DateFormat.MEDIUM;
+    m_dateStyle = DateFormat.MEDIUM;
+    m_timeStyle = DateFormat.MEDIUM;
+  }
+
+  /**
+   * Customizable constructor.
+   *
+   * <p>
+   *
+   * @param dateStyle the style for the date part
+   * @param timeStyle the style for the time part
+   * @see DateFormat
+   */
+  public CmsListDateFormatter(int dateStyle, int timeStyle) {
+
+    m_dateStyle = dateStyle;
+    m_timeStyle = timeStyle;
+  }
+
+  /**
+   * @see org.opencms.workplace.list.I_CmsListFormatter#format(java.lang.Object, java.util.Locale)
+   */
+  public String format(Object data, Locale locale) {
+
+    if ((data == null) || !(data instanceof Date)) {
+      return "";
     }
-
-    /**
-     * Customizable constructor.<p>
-     *
-     * @param dateStyle the style for the date part
-     * @param timeStyle the style for the time part
-     *
-     * @see DateFormat
-     */
-    public CmsListDateFormatter(int dateStyle, int timeStyle) {
-
-        m_dateStyle = dateStyle;
-        m_timeStyle = timeStyle;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.I_CmsListFormatter#format(java.lang.Object, java.util.Locale)
-     */
-    public String format(Object data, Locale locale) {
-
-        if ((data == null) || !(data instanceof Date)) {
-            return "";
-        }
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(m_dateStyle, m_timeStyle);
-        return dateFormat.format(data);
-    }
+    DateFormat dateFormat = DateFormat.getDateTimeInstance(m_dateStyle, m_timeStyle);
+    return dateFormat.format(data);
+  }
 }

@@ -27,6 +27,11 @@
 
 package org.opencms.ugc;
 
+import com.google.common.base.Optional;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import junit.framework.Test;
 import org.opencms.file.CmsGroup;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
@@ -36,52 +41,47 @@ import org.opencms.test.OpenCmsTestProperties;
 import org.opencms.ugc.shared.CmsUgcException;
 import org.opencms.util.CmsUUID;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-
-import com.google.common.base.Optional;
-
-import junit.framework.Test;
-
-/**
- * Test cases for the org.opencms.editors.usergenerated package.
- */
+/** Test cases for the org.opencms.editors.usergenerated package. */
 public class TestFormSessionSecurityLimits extends OpenCmsTestCase {
 
-    /**
-     * Creates a new test instance.<p<
-     *
-     * @param name the test name
-     */
-    public TestFormSessionSecurityLimits(String name) {
+  /**
+   * Creates a new test instance.<p<
+   *
+   * @param name the test name
+   */
+  public TestFormSessionSecurityLimits(String name) {
 
-        super(name);
-    }
+    super(name);
+  }
 
-    /**
-     * Returns the test suite.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Returns the test suite.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
-        return generateSetupTestWrapper(TestFormSessionSecurityLimits.class, "systemtest", "/");
-    }
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    return generateSetupTestWrapper(TestFormSessionSecurityLimits.class, "systemtest", "/");
+  }
 
-    /**
-     * Tests that an error occurs when trying to upload without a configured upload folder.<p>
-     *
-     * @throws Exception -
-     */
-    public void testErrorNoUploadsAllowed() throws Exception {
+  /**
+   * Tests that an error occurs when trying to upload without a configured upload folder.
+   *
+   * <p>
+   *
+   * @throws Exception -
+   */
+  public void testErrorNoUploadsAllowed() throws Exception {
 
-        CmsObject cms = getCmsObject();
-        CmsUser admin = cms.readUser("Admin");
-        CmsResource rootFolder = cms.readResource("/");
-        CmsGroup administrators = cms.readGroup("Administrators");
-        CmsUgcConfiguration config = new CmsUgcConfiguration(
+    CmsObject cms = getCmsObject();
+    CmsUser admin = cms.readUser("Admin");
+    CmsResource rootFolder = cms.readResource("/");
+    CmsGroup administrators = cms.readGroup("Administrators");
+    CmsUgcConfiguration config =
+        new CmsUgcConfiguration(
             new CmsUUID(),
             Optional.of(admin),
             administrators,
@@ -89,37 +89,40 @@ public class TestFormSessionSecurityLimits extends OpenCmsTestCase {
             rootFolder,
             "n_%(number)",
             Locale.ENGLISH,
-            Optional.<CmsResource> absent(),
-            Optional.<Long> absent(),
+            Optional.<CmsResource>absent(),
+            Optional.<Long>absent(),
             Optional.of(Integer.valueOf(100)),
-            Optional.<Long> absent(),
-            Optional.<Integer> absent(),
+            Optional.<Long>absent(),
+            Optional.<Integer>absent(),
             false,
             Optional.of(Arrays.asList(".jpg", ".PNG")));
 
-        try {
-            CmsUgcSessionSecurityUtil.checkCreateUpload(cms, config, "foo.png", 100L);
-            fail("Exception should have been thrown!");
-        } catch (CmsUgcException e) {
-            // empty
-        }
-
+    try {
+      CmsUgcSessionSecurityUtil.checkCreateUpload(cms, config, "foo.png", 100L);
+      fail("Exception should have been thrown!");
+    } catch (CmsUgcException e) {
+      // empty
     }
+  }
 
-    /**
-     * Tests that errors are thrown when the configured upload / content limits in the configuration are violated.<p>
-     *
-     * @throws Exception -
-     */
-    public void testLimits() throws Exception {
+  /**
+   * Tests that errors are thrown when the configured upload / content limits in the configuration
+   * are violated.
+   *
+   * <p>
+   *
+   * @throws Exception -
+   */
+  public void testLimits() throws Exception {
 
-        CmsObject cms = getCmsObject();
-        CmsUser admin = cms.readUser("Admin");
+    CmsObject cms = getCmsObject();
+    CmsUser admin = cms.readUser("Admin");
 
-        CmsResource uploadFolder = cms.createResource("/uploads", 0);
-        CmsResource rootFolder = cms.readResource("/");
-        CmsGroup administrators = cms.readGroup("Administrators");
-        CmsUgcConfiguration config = new CmsUgcConfiguration(
+    CmsResource uploadFolder = cms.createResource("/uploads", 0);
+    CmsResource rootFolder = cms.readResource("/");
+    CmsGroup administrators = cms.readGroup("Administrators");
+    CmsUgcConfiguration config =
+        new CmsUgcConfiguration(
             new CmsUUID(),
             Optional.of(admin),
             administrators,
@@ -130,46 +133,47 @@ public class TestFormSessionSecurityLimits extends OpenCmsTestCase {
             Optional.of(uploadFolder),
             Optional.of(Long.valueOf(10000)),
             Optional.of(Integer.valueOf(0)),
-            Optional.<Long> absent(),
-            Optional.<Integer> absent(),
+            Optional.<Long>absent(),
+            Optional.<Integer>absent(),
             false,
             Optional.of(Arrays.asList(".jpg", ".PNG")));
-        try {
-            CmsUgcSessionSecurityUtil.checkCreateUpload(cms, config, "foo.png", 50000);
-            fail("Exception should have been thrown!");
-        } catch (CmsUgcException e) {
-            // empty
-        }
+    try {
+      CmsUgcSessionSecurityUtil.checkCreateUpload(cms, config, "foo.png", 50000);
+      fail("Exception should have been thrown!");
+    } catch (CmsUgcException e) {
+      // empty
+    }
 
-        try {
-            CmsUgcSessionSecurityUtil.checkCreateUpload(cms, config, "foo.png", 3);
-        } catch (CmsUgcException e) {
-            fail("Exception was thrown: " + e.getLocalizedMessage());
-        }
+    try {
+      CmsUgcSessionSecurityUtil.checkCreateUpload(cms, config, "foo.png", 3);
+    } catch (CmsUgcException e) {
+      fail("Exception was thrown: " + e.getLocalizedMessage());
+    }
 
-        try {
-            CmsUgcSessionSecurityUtil.checkCreateUpload(cms, config, "foo.doc", 100L);
-            fail("Exception should have been thrown!");
-        } catch (CmsUgcException e) {
-            // empty
+    try {
+      CmsUgcSessionSecurityUtil.checkCreateUpload(cms, config, "foo.doc", 100L);
+      fail("Exception should have been thrown!");
+    } catch (CmsUgcException e) {
+      // empty
 
-        }
+    }
 
-        try {
-            CmsUgcSessionSecurityUtil.checkCreateUpload(cms, config, "foo.JPG", 100L);
-        } catch (CmsUgcException e) {
-            fail("Exceptikon was thrown: " + e.getLocalizedMessage());
-        }
+    try {
+      CmsUgcSessionSecurityUtil.checkCreateUpload(cms, config, "foo.JPG", 100L);
+    } catch (CmsUgcException e) {
+      fail("Exceptikon was thrown: " + e.getLocalizedMessage());
+    }
 
-        try {
-            CmsUgcSessionSecurityUtil.checkCreateContent(cms, config);
-            fail("Exception should have been thrown!");
-        } catch (CmsUgcException e) {
-            // empty
+    try {
+      CmsUgcSessionSecurityUtil.checkCreateContent(cms, config);
+      fail("Exception should have been thrown!");
+    } catch (CmsUgcException e) {
+      // empty
 
-        }
+    }
 
-        config = new CmsUgcConfiguration(
+    config =
+        new CmsUgcConfiguration(
             new CmsUUID(),
             Optional.of(admin),
             administrators,
@@ -178,35 +182,37 @@ public class TestFormSessionSecurityLimits extends OpenCmsTestCase {
             "n_%(number)",
             Locale.ENGLISH,
             Optional.of(uploadFolder),
-            Optional.<Long> absent(),
+            Optional.<Long>absent(),
             Optional.of(Integer.valueOf(100)),
-            Optional.<Long> absent(),
-            Optional.<Integer> absent(),
+            Optional.<Long>absent(),
+            Optional.<Integer>absent(),
             false,
             Optional.of(Arrays.asList(".jpg", ".PNG")));
 
-        try {
-            CmsUgcSessionSecurityUtil.checkCreateContent(cms, config);
-        } catch (CmsUgcException e) {
-            fail("Exception was thrown: " + e.getLocalizedMessage());
-        }
-
+    try {
+      CmsUgcSessionSecurityUtil.checkCreateContent(cms, config);
+    } catch (CmsUgcException e) {
+      fail("Exception was thrown: " + e.getLocalizedMessage());
     }
+  }
 
-    /**
-     * Tests that errors are not thrown if no limits are configured in the form configuration.<p>
-     *
-     * @throws Exception -
-     */
-    public void testNoLimits() throws Exception {
+  /**
+   * Tests that errors are not thrown if no limits are configured in the form configuration.
+   *
+   * <p>
+   *
+   * @throws Exception -
+   */
+  public void testNoLimits() throws Exception {
 
-        CmsObject cms = getCmsObject();
-        CmsUser admin = cms.readUser("Admin");
+    CmsObject cms = getCmsObject();
+    CmsUser admin = cms.readUser("Admin");
 
-        CmsResource uploadFolder = cms.createResource("/uploads2", 0);
-        CmsResource rootFolder = cms.readResource("/");
-        CmsGroup administrators = cms.readGroup("Administrators");
-        CmsUgcConfiguration config = new CmsUgcConfiguration(
+    CmsResource uploadFolder = cms.createResource("/uploads2", 0);
+    CmsResource rootFolder = cms.readResource("/");
+    CmsGroup administrators = cms.readGroup("Administrators");
+    CmsUgcConfiguration config =
+        new CmsUgcConfiguration(
             new CmsUUID(),
             Optional.of(admin),
             administrators,
@@ -215,17 +221,17 @@ public class TestFormSessionSecurityLimits extends OpenCmsTestCase {
             "n_%(number)",
             Locale.ENGLISH,
             Optional.of(uploadFolder),
-            Optional.<Long> absent(),
-            Optional.<Integer> absent(),
-            Optional.<Long> absent(),
-            Optional.<Integer> absent(),
+            Optional.<Long>absent(),
+            Optional.<Integer>absent(),
+            Optional.<Long>absent(),
+            Optional.<Integer>absent(),
             false,
-            Optional.<List<String>> absent());
+            Optional.<List<String>>absent());
 
-        try {
-            CmsUgcSessionSecurityUtil.checkCreateUpload(cms, config, "foo.aasdfasdfasdf", 99999999L);
-        } catch (CmsUgcException e) {
-            fail("Exception was thrown: " + e);
-        }
+    try {
+      CmsUgcSessionSecurityUtil.checkCreateUpload(cms, config, "foo.aasdfasdfasdf", 99999999L);
+    } catch (CmsUgcException e) {
+      fail("Exception was thrown: " + e);
     }
+  }
 }

@@ -30,20 +30,20 @@ package org.opencms.jsp.search.controller;
 import org.opencms.jsp.search.config.I_CmsSearchConfigurationGeoFilter;
 import org.opencms.jsp.search.state.I_CmsSearchStateGeoFilter;
 
-/**
- * Interface to get controllers state and configuration - version for the Geo filter.
- */
+/** Interface to get controllers state and configuration - version for the Geo filter. */
 public interface I_CmsSearchControllerGeoFilter extends I_CmsSearchController {
 
-    /**
-     * Returns the configuration.
-     * @return the configuration
-     */
-    I_CmsSearchConfigurationGeoFilter getConfig();
+  /**
+   * Returns the configuration.
+   *
+   * @return the configuration
+   */
+  I_CmsSearchConfigurationGeoFilter getConfig();
 
-    /**
-     * Returns the state.
-     * @return the state
-     */
-    I_CmsSearchStateGeoFilter getState();
+  /**
+   * Returns the state.
+   *
+   * @return the state
+   */
+  I_CmsSearchStateGeoFilter getState();
 }

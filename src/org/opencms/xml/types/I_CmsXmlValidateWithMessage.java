@@ -31,21 +31,23 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.xml.content.CmsDefaultXmlContentHandler;
 
 /**
- * Interface to provide specific error messages on validation</p>
- * Should be used as an extension of {@link I_CmsXmlSchemaType}.
- * The {@link CmsDefaultXmlContentHandler} checks for that interface when it validates values.
+ * Interface to provide specific error messages on validation Should be used as an extension of
+ * {@link I_CmsXmlSchemaType}. The {@link CmsDefaultXmlContentHandler} checks for that interface
+ * when it validates values.
  */
 public interface I_CmsXmlValidateWithMessage {
 
-    /**
-     * Checks if a given value is valid according validation rules of this schema type in the XML schema.<p>
-     *
-     * In contrast to {@link I_CmsXmlSchemaType#validateValue(String)} a specific error message is returned
-     * in the case of validation errors.<p>
-     *
-     * @param value the value to validate
-     *
-     * @return <code>null</code> if the value is valid, a localized error message otherwise.
-     */
-    CmsMessageContainer validateWithMessage(String value);
+  /**
+   * Checks if a given value is valid according validation rules of this schema type in the XML
+   * schema.
+   *
+   * <p>In contrast to {@link I_CmsXmlSchemaType#validateValue(String)} a specific error message is
+   * returned in the case of validation errors.
+   *
+   * <p>
+   *
+   * @param value the value to validate
+   * @return <code>null</code> if the value is valid, a localized error message otherwise.
+   */
+  CmsMessageContainer validateWithMessage(String value);
 }

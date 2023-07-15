@@ -27,43 +27,42 @@
 
 package org.opencms.file.types;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsResource;
 import org.opencms.loader.CmsRedirectLoader;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 
-import org.apache.commons.logging.Log;
-
 /**
- * The HTML redirect resource type.<p>
+ * The HTML redirect resource type.
+ *
+ * <p>
  */
 public class CmsResourceTypeHtmlRedirect extends CmsResourceTypeXmlAdeConfiguration {
 
-    private static final Log LOG = CmsLog.getLog(CmsResourceTypeHtmlRedirect.class);
+  private static final Log LOG = CmsLog.getLog(CmsResourceTypeHtmlRedirect.class);
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 2757710991033290640L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 2757710991033290640L;
 
-    /** Type name constant. */
-    public static final String TYPE_NAME = "htmlredirect";
+  /** Type name constant. */
+  public static final String TYPE_NAME = "htmlredirect";
 
-    /**
-     * Checks if the given resource is a htmlredirect.
-     *
-     * @param resource the resource to check
-     * @return true if it is an htmlredirect
-     */
-    public static boolean isRedirect(CmsResource resource) {
+  /**
+   * Checks if the given resource is a htmlredirect.
+   *
+   * @param resource the resource to check
+   * @return true if it is an htmlredirect
+   */
+  public static boolean isRedirect(CmsResource resource) {
 
-        return OpenCms.getResourceManager().matchResourceType(TYPE_NAME, resource.getTypeId());
-    }
+    return OpenCms.getResourceManager().matchResourceType(TYPE_NAME, resource.getTypeId());
+  }
 
-    /**
-     * @see org.opencms.file.types.CmsResourceTypeXmlContent#getLoaderId()
-     */
-    @Override
-    public int getLoaderId() {
+  /** @see org.opencms.file.types.CmsResourceTypeXmlContent#getLoaderId() */
+  @Override
+  public int getLoaderId() {
 
-        return CmsRedirectLoader.LOADER_ID;
-    }
+    return CmsRedirectLoader.LOADER_ID;
+  }
 }

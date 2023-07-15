@@ -27,47 +27,52 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.opencms.ade.containerpage.client.CmsContainerpageHandler;
 import org.opencms.gwt.client.ui.I_CmsButton;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-
 /**
- * Option bar button for displaying resource information.<p>
+ * Option bar button for displaying resource information.
+ *
+ * <p>
  */
 public class CmsToolbarInfoButton extends A_CmsToolbarOptionButton {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param handler the container-page handler
-     */
-    public CmsToolbarInfoButton(CmsContainerpageHandler handler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param handler the container-page handler
+   */
+  public CmsToolbarInfoButton(CmsContainerpageHandler handler) {
 
-        super(I_CmsButton.ButtonData.INFO_BUTTON, handler);
+    super(I_CmsButton.ButtonData.INFO_BUTTON, handler);
+  }
+
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#isOptionAvailable(org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
+   */
+  @Override
+  public boolean isOptionAvailable(CmsContainerPageElementPanel element) {
+
+    try {
+      element.getStructureId();
+      return true;
+    } catch (Throwable t) {
+      return false;
     }
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#isOptionAvailable(org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
-     */
-    @Override
-    public boolean isOptionAvailable(CmsContainerPageElementPanel element) {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#onElementClick(com.google.gwt.event.dom.client.ClickEvent,
+   *     org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
+   */
+  @Override
+  public void onElementClick(ClickEvent event, CmsContainerPageElementPanel element) {
 
-        try {
-            element.getStructureId();
-            return true;
-        } catch (Throwable t) {
-            return false;
-        }
-    }
-
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#onElementClick(com.google.gwt.event.dom.client.ClickEvent, org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
-     */
-    @Override
-    public void onElementClick(ClickEvent event, CmsContainerPageElementPanel element) {
-
-        getHandler().showElementInfo(element);
-    }
-
+    getHandler().showElementInfo(element);
+  }
 }

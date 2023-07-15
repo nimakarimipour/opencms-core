@@ -27,126 +27,133 @@
 
 package org.opencms.setup.db.update6to7.oracle;
 
-import org.opencms.setup.CmsSetupDb;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.opencms.setup.CmsSetupDb;
 
 /**
- * Oracle implementation to create the new tables for version 7 of OpenCms.<p>
+ * Oracle implementation to create the new tables for version 7 of OpenCms.
+ *
+ * <p>
  *
  * @since 7.0.0
  */
 public class CmsUpdateDBNewTables extends org.opencms.setup.db.update6to7.CmsUpdateDBNewTables {
 
-    /** Constant for the SQL query properties.<p> */
-    private static final String QUERY_PROPERTY_FILE = "cms_new_tables_queries.properties";
+  /**
+   * Constant for the SQL query properties.
+   *
+   * <p>
+   */
+  private static final String QUERY_PROPERTY_FILE = "cms_new_tables_queries.properties";
 
-    /** Constant for the replacement in the sql query. */
-    private static final String REPLACEMENT_TABLEINDEX_SPACE = "${indexTablespace}";
+  /** Constant for the replacement in the sql query. */
+  private static final String REPLACEMENT_TABLEINDEX_SPACE = "${indexTablespace}";
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the sql queries properties file could not be read
-     */
-    public CmsUpdateDBNewTables()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the sql queries properties file could not be read
+   */
+  public CmsUpdateDBNewTables() throws IOException {
 
-        super();
-        loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
-    }
+    super();
+    loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+  }
 
-    /**
-     * @see org.opencms.setup.db.update6to7.CmsUpdateDBNewTables#internalExecute(org.opencms.setup.CmsSetupDb)
-     */
-    @Override
-    protected void internalExecute(CmsSetupDb dbCon) throws SQLException {
+  /**
+   * @see
+   *     org.opencms.setup.db.update6to7.CmsUpdateDBNewTables#internalExecute(org.opencms.setup.CmsSetupDb)
+   */
+  @Override
+  protected void internalExecute(CmsSetupDb dbCon) throws SQLException {
 
-        System.out.println(new Exception().getStackTrace()[0].toString());
+    System.out.println(new Exception().getStackTrace()[0].toString());
 
-        String indexTablespace = m_poolData.get("indexTablespace");
+    String indexTablespace = m_poolData.get("indexTablespace");
 
-        Map<String, List<String>> elements = new HashMap<String, List<String>>();
+    Map<String, List<String>> elements = new HashMap<String, List<String>>();
 
-        List<String> indexes = new ArrayList<String>();
-        indexes.add("CREATE_INDEX_CMS_OFFLINE_RELATIONS_01");
-        indexes.add("CREATE_INDEX_CMS_OFFLINE_RELATIONS_02");
-        indexes.add("CREATE_INDEX_CMS_OFFLINE_RELATIONS_03");
-        indexes.add("CREATE_INDEX_CMS_OFFLINE_RELATIONS_04");
-        indexes.add("CREATE_INDEX_CMS_OFFLINE_RELATIONS_05");
-        elements.put("CMS_OFFLINE_RESOURCE_RELATIONS", indexes);
+    List<String> indexes = new ArrayList<String>();
+    indexes.add("CREATE_INDEX_CMS_OFFLINE_RELATIONS_01");
+    indexes.add("CREATE_INDEX_CMS_OFFLINE_RELATIONS_02");
+    indexes.add("CREATE_INDEX_CMS_OFFLINE_RELATIONS_03");
+    indexes.add("CREATE_INDEX_CMS_OFFLINE_RELATIONS_04");
+    indexes.add("CREATE_INDEX_CMS_OFFLINE_RELATIONS_05");
+    elements.put("CMS_OFFLINE_RESOURCE_RELATIONS", indexes);
 
-        indexes = new ArrayList<String>();
-        indexes.add("CREATE_INDEX_CMS_ONLINE_RELATIONS_01");
-        indexes.add("CREATE_INDEX_CMS_ONLINE_RELATIONS_02");
-        indexes.add("CREATE_INDEX_CMS_ONLINE_RELATIONS_03");
-        indexes.add("CREATE_INDEX_CMS_ONLINE_RELATIONS_04");
-        indexes.add("CREATE_INDEX_CMS_ONLINE_RELATIONS_05");
-        elements.put("CMS_ONLINE_RESOURCE_RELATIONS", indexes);
+    indexes = new ArrayList<String>();
+    indexes.add("CREATE_INDEX_CMS_ONLINE_RELATIONS_01");
+    indexes.add("CREATE_INDEX_CMS_ONLINE_RELATIONS_02");
+    indexes.add("CREATE_INDEX_CMS_ONLINE_RELATIONS_03");
+    indexes.add("CREATE_INDEX_CMS_ONLINE_RELATIONS_04");
+    indexes.add("CREATE_INDEX_CMS_ONLINE_RELATIONS_05");
+    elements.put("CMS_ONLINE_RESOURCE_RELATIONS", indexes);
 
-        elements.put("CMS_PUBLISH_JOBS", new ArrayList<String>());
-        elements.put("CMS_RESOURCE_LOCKS", new ArrayList<String>());
+    elements.put("CMS_PUBLISH_JOBS", new ArrayList<String>());
+    elements.put("CMS_RESOURCE_LOCKS", new ArrayList<String>());
 
-        indexes = new ArrayList<String>();
-        indexes.add("CREATE_INDEX_CMS_CONTENTS_01");
-        indexes.add("CREATE_INDEX_CMS_CONTENTS_02");
-        indexes.add("CREATE_INDEX_CMS_CONTENTS_03");
-        indexes.add("CREATE_INDEX_CMS_CONTENTS_04");
-        indexes.add("CREATE_INDEX_CMS_CONTENTS_05");
-        elements.put("CMS_CONTENTS", indexes);
+    indexes = new ArrayList<String>();
+    indexes.add("CREATE_INDEX_CMS_CONTENTS_01");
+    indexes.add("CREATE_INDEX_CMS_CONTENTS_02");
+    indexes.add("CREATE_INDEX_CMS_CONTENTS_03");
+    indexes.add("CREATE_INDEX_CMS_CONTENTS_04");
+    indexes.add("CREATE_INDEX_CMS_CONTENTS_05");
+    elements.put("CMS_CONTENTS", indexes);
 
-        elements.put("CMS_HISTORY_PROJECTRESOURCES", new ArrayList<String>());
-        elements.put("CMS_HISTORY_PROPERTYDEF", new ArrayList<String>());
+    elements.put("CMS_HISTORY_PROJECTRESOURCES", new ArrayList<String>());
+    elements.put("CMS_HISTORY_PROPERTYDEF", new ArrayList<String>());
 
-        indexes = new ArrayList<String>();
-        indexes.add("CREATE_INDEX_CMS_HISTORY_PROPERTIES_01");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_PROPERTIES_02");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_PROPERTIES_03");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_PROPERTIES_04");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_PROPERTIES_05");
-        elements.put("CMS_HISTORY_PROPERTIES", indexes);
+    indexes = new ArrayList<String>();
+    indexes.add("CREATE_INDEX_CMS_HISTORY_PROPERTIES_01");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_PROPERTIES_02");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_PROPERTIES_03");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_PROPERTIES_04");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_PROPERTIES_05");
+    elements.put("CMS_HISTORY_PROPERTIES", indexes);
 
-        indexes = new ArrayList<String>();
-        indexes.add("CREATE_INDEX_CMS_HISTORY_RESOURCES_01");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_RESOURCES_02");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_RESOURCES_03");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_RESOURCES_04");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_RESOURCES_05");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_RESOURCES_06");
-        elements.put("CMS_HISTORY_RESOURCES", indexes);
+    indexes = new ArrayList<String>();
+    indexes.add("CREATE_INDEX_CMS_HISTORY_RESOURCES_01");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_RESOURCES_02");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_RESOURCES_03");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_RESOURCES_04");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_RESOURCES_05");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_RESOURCES_06");
+    elements.put("CMS_HISTORY_RESOURCES", indexes);
 
-        indexes = new ArrayList<String>();
-        indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_01");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_02");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_03");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_04");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_05");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_06");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_07");
-        indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_08");
-        elements.put("CMS_HISTORY_STRUCTURE", indexes);
+    indexes = new ArrayList<String>();
+    indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_01");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_02");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_03");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_04");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_05");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_06");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_07");
+    indexes.add("CREATE_INDEX_CMS_HISTORY_STRUCTURE_08");
+    elements.put("CMS_HISTORY_STRUCTURE", indexes);
 
-        Map<String, String> replacer = new HashMap<String, String>();
-        replacer.put(REPLACEMENT_TABLEINDEX_SPACE, indexTablespace);
+    Map<String, String> replacer = new HashMap<String, String>();
+    replacer.put(REPLACEMENT_TABLEINDEX_SPACE, indexTablespace);
 
-        for (Map.Entry<String, List<String>> entry : elements.entrySet()) {
-            String table = entry.getKey();
-            if (!dbCon.hasTableOrColumn(table, null)) {
-                String query = readQuery(table);
-                dbCon.updateSqlStatement(query, replacer, null);
+    for (Map.Entry<String, List<String>> entry : elements.entrySet()) {
+      String table = entry.getKey();
+      if (!dbCon.hasTableOrColumn(table, null)) {
+        String query = readQuery(table);
+        dbCon.updateSqlStatement(query, replacer, null);
 
-                for (String index : entry.getValue()) {
-                    query = readQuery(index);
-                    dbCon.updateSqlStatement(query, replacer, null);
-                }
-            } else {
-                System.out.println("table " + table + " already exists");
-            }
+        for (String index : entry.getValue()) {
+          query = readQuery(index);
+          dbCon.updateSqlStatement(query, replacer, null);
         }
+      } else {
+        System.out.println("table " + table + " already exists");
+      }
     }
+  }
 }

@@ -27,64 +27,64 @@
 
 package org.opencms.ui.components.extensions;
 
-import org.opencms.ui.shared.components.CmsScrollPositionCssState;
-
 import com.vaadin.server.AbstractExtension;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractSingleComponentContainer;
+import org.opencms.ui.shared.components.CmsScrollPositionCssState;
 
 /**
- * Extension to add a CSS class to any component depending on it's scroll position.<p>
+ * Extension to add a CSS class to any component depending on it's scroll position.
+ *
+ * <p>
  */
 public class CmsScrollPositionCss extends AbstractExtension {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 3382283389411937891L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 3382283389411937891L;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param componentContainer the component to extend
-     * @param scrollBarrier the scroll barrier
-     * @param barrierMargin the margin
-     * @param styleName the style name to set beyond the scroll barrier
-     */
-    public CmsScrollPositionCss(
-        AbstractComponent componentContainer,
-        int scrollBarrier,
-        int barrierMargin,
-        String styleName) {
-        super.extend(componentContainer);
-        getState().setScrollBarrier(scrollBarrier);
-        getState().setBarrierMargin(barrierMargin);
-        getState().setStyleName(styleName);
-    }
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param componentContainer the component to extend
+   * @param scrollBarrier the scroll barrier
+   * @param barrierMargin the margin
+   * @param styleName the style name to set beyond the scroll barrier
+   */
+  public CmsScrollPositionCss(
+      AbstractComponent componentContainer,
+      int scrollBarrier,
+      int barrierMargin,
+      String styleName) {
+    super.extend(componentContainer);
+    getState().setScrollBarrier(scrollBarrier);
+    getState().setBarrierMargin(barrierMargin);
+    getState().setStyleName(styleName);
+  }
 
-    /**
-     * Adds the scroll position CSS extension to the given component
-     *
-     * @param componentContainer the component to extend
-     * @param scrollBarrier the scroll barrier
-     * @param barrierMargin the margin
-     * @param styleName the style name to set beyond the scroll barrier
-     */
-    @SuppressWarnings("unused")
-    public static void addTo(
-        AbstractSingleComponentContainer componentContainer,
-        int scrollBarrier,
-        int barrierMargin,
-        String styleName) {
+  /**
+   * Adds the scroll position CSS extension to the given component
+   *
+   * @param componentContainer the component to extend
+   * @param scrollBarrier the scroll barrier
+   * @param barrierMargin the margin
+   * @param styleName the style name to set beyond the scroll barrier
+   */
+  @SuppressWarnings("unused")
+  public static void addTo(
+      AbstractSingleComponentContainer componentContainer,
+      int scrollBarrier,
+      int barrierMargin,
+      String styleName) {
 
-        new CmsScrollPositionCss(componentContainer, scrollBarrier, barrierMargin, styleName);
-    }
+    new CmsScrollPositionCss(componentContainer, scrollBarrier, barrierMargin, styleName);
+  }
 
-    /**
-     * @see com.vaadin.server.AbstractClientConnector#getState()
-     */
-    @Override
-    protected CmsScrollPositionCssState getState() {
+  /** @see com.vaadin.server.AbstractClientConnector#getState() */
+  @Override
+  protected CmsScrollPositionCssState getState() {
 
-        return (CmsScrollPositionCssState)super.getState();
-    }
-
+    return (CmsScrollPositionCssState) super.getState();
+  }
 }

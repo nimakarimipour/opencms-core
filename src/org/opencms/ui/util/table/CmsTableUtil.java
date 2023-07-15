@@ -27,41 +27,44 @@
 
 package org.opencms.ui.util.table;
 
-import org.opencms.ui.components.OpenCmsTheme;
-
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.themes.ValoTheme;
+import org.opencms.ui.components.OpenCmsTheme;
 
 /**
- * Contains utility methods for Vaadin tables.<p>
+ * Contains utility methods for Vaadin tables.
+ *
+ * <p>
  */
 public final class CmsTableUtil {
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    private CmsTableUtil() {
-        // do nothing
-    }
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  private CmsTableUtil() {
+    // do nothing
+  }
 
-    /**
-     * Creates an icon button.<p>
-     *
-     * @param icon the resource for the icon
-     * @param caption the caption
-     *
-     * @return the created button
-     */
-    public static Button createIconButton(Resource icon, String caption) {
+  /**
+   * Creates an icon button.
+   *
+   * <p>
+   *
+   * @param icon the resource for the icon
+   * @param caption the caption
+   * @return the created button
+   */
+  public static Button createIconButton(Resource icon, String caption) {
 
-        Button button = new Button();
+    Button button = new Button();
 
-        button.addStyleName(OpenCmsTheme.BUTTON_TABLE_ICON);
-        button.addStyleName(ValoTheme.BUTTON_BORDERLESS);
-        button.setIcon(icon);
-        button.setDescription(caption);
-        return button;
-    }
-
+    button.addStyleName(OpenCmsTheme.BUTTON_TABLE_ICON);
+    button.addStyleName(ValoTheme.BUTTON_BORDERLESS);
+    button.setIcon(icon);
+    button.setDescription(caption);
+    return button;
+  }
 }

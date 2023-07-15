@@ -28,80 +28,79 @@
 package org.opencms.ade.galleries.client;
 
 /**
- * The results tab handler.<p>
+ * The results tab handler.
  *
- * This class receives events information from the results tab and
- * delegates them to the gallery controller.
+ * <p>This class receives events information from the results tab and delegates them to the gallery
+ * controller.
  *
  * @since 8.0.0
  */
 public class CmsTypesTabHandler extends A_CmsTabHandler {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param controller the gallery controller
-     */
-    public CmsTypesTabHandler(CmsGalleryController controller) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param controller the gallery controller
+   */
+  public CmsTypesTabHandler(CmsGalleryController controller) {
 
-        super(controller);
-    }
+    super(controller);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#clearParams()
-     */
-    @Override
-    public void clearParams() {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#clearParams() */
+  @Override
+  public void clearParams() {
 
-        m_controller.clearTypes();
-    }
+    m_controller.clearTypes();
+  }
 
-    /**
-     * Will be triggered when the user unchecks the checkbox to deselect a type.<p>
-     *
-     * @param resourceType the resource type as id
-     */
-    public void deselectType(String resourceType) {
+  /**
+   * Will be triggered when the user unchecks the checkbox to deselect a type.
+   *
+   * <p>
+   *
+   * @param resourceType the resource type as id
+   */
+  public void deselectType(String resourceType) {
 
-        m_controller.removeType(resourceType);
-    }
+    m_controller.removeType(resourceType);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSelection()
-     */
-    @Override
-    public void onSelection() {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSelection() */
+  @Override
+  public void onSelection() {
 
-        m_controller.updatesTypesTab();
-    }
+    m_controller.updatesTypesTab();
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSort(java.lang.String,java.lang.String)
-     */
-    @Override
-    public void onSort(String sortParams, String filter) {
+  /**
+   * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSort(java.lang.String,java.lang.String)
+   */
+  @Override
+  public void onSort(String sortParams, String filter) {
 
-        // ignore filter, not available for this tab
-        m_controller.sortTypes(sortParams);
-    }
+    // ignore filter, not available for this tab
+    m_controller.sortTypes(sortParams);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#removeParam(java.lang.String)
-     */
-    @Override
-    public void removeParam(String paramKey) {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#removeParam(java.lang.String) */
+  @Override
+  public void removeParam(String paramKey) {
 
-        m_controller.removeTypeParam(paramKey);
-    }
+    m_controller.removeTypeParam(paramKey);
+  }
 
-    /**
-     * Will be triggered when the user checks the checkbox to select a type.<p>
-     *
-     * @param resourceType the resource type as id
-     */
-    public void selectType(String resourceType) {
+  /**
+   * Will be triggered when the user checks the checkbox to select a type.
+   *
+   * <p>
+   *
+   * @param resourceType the resource type as id
+   */
+  public void selectType(String resourceType) {
 
-        m_controller.addType(resourceType);
-    }
-
+    m_controller.addType(resourceType);
+  }
 }

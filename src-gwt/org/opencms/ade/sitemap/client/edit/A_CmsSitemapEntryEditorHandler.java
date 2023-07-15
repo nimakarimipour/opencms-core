@@ -32,36 +32,38 @@ import org.opencms.ade.sitemap.shared.CmsClientSitemapEntry;
 import org.opencms.gwt.client.property.I_CmsPropertyEditorHandler;
 
 /**
- * The skeleton for the sitemap entry editor handlers.<p>
+ * The skeleton for the sitemap entry editor handlers.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public abstract class A_CmsSitemapEntryEditorHandler implements I_CmsPropertyEditorHandler {
 
-    /** The sitemap controller for this mode handler. */
-    protected CmsSitemapController m_controller;
+  /** The sitemap controller for this mode handler. */
+  protected CmsSitemapController m_controller;
 
-    /** The sitemap entry for this mode handler. */
-    protected CmsClientSitemapEntry m_entry;
+  /** The sitemap entry for this mode handler. */
+  protected CmsClientSitemapEntry m_entry;
 
-    /**
-     * Creates a new instance of this class.<p>
-     *
-     * @param controller the sitemap controller for this mode
-     * @param entry the sitemap entry for this mode
-     */
-    public A_CmsSitemapEntryEditorHandler(CmsSitemapController controller, CmsClientSitemapEntry entry) {
+  /**
+   * Creates a new instance of this class.
+   *
+   * <p>
+   *
+   * @param controller the sitemap controller for this mode
+   * @param entry the sitemap entry for this mode
+   */
+  public A_CmsSitemapEntryEditorHandler(
+      CmsSitemapController controller, CmsClientSitemapEntry entry) {
 
-        m_controller = controller;
-        m_entry = entry;
-    }
+    m_controller = controller;
+    m_entry = entry;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getName()
-     */
-    public String getName() {
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getName() */
+  public String getName() {
 
-        return m_entry.getName();
-    }
-
+    return m_entry.getName();
+  }
 }

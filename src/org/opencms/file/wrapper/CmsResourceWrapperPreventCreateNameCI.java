@@ -27,6 +27,9 @@
 
 package org.opencms.file.wrapper;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.opencms.db.Messages;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
@@ -36,82 +39,78 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.security.CmsPermissionViolationException;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
- * Resource wrapper class which is used to prevent resources with a certain name from being created.<p>
+ * Resource wrapper class which is used to prevent resources with a certain name from being created.
  *
- * This can be used to prevent file browsers accessing the repository from creating thumbnail files.
- * This class does not distinguish between upper case and lower case letters in file names.
+ * <p>This can be used to prevent file browsers accessing the repository from creating thumbnail
+ * files. This class does not distinguish between upper case and lower case letters in file names.
  */
 public class CmsResourceWrapperPreventCreateNameCI extends A_CmsResourceWrapper {
 
-    /** File name separator. */
-    public static final String NAME_SEPARATOR = "|";
+  /** File name separator. */
+  public static final String NAME_SEPARATOR = "|";
 
-    /**
-     * The set of illegal file names.<p>
-     */
-    private Set<String> m_disabledNames = new HashSet<String>();
+  /**
+   * The set of illegal file names.
+   *
+   * <p>
+   */
+  private Set<String> m_disabledNames = new HashSet<String>();
 
-    /**
-     * @see org.opencms.file.wrapper.A_CmsResourceWrapper#configure(java.lang.String)
-     */
-    @Override
-    public void configure(String configString) {
+  /** @see org.opencms.file.wrapper.A_CmsResourceWrapper#configure(java.lang.String) */
+  @Override
+  public void configure(String configString) {
 
-        List<String> tokens = CmsStringUtil.splitAsList(configString, NAME_SEPARATOR);
-        for (String token : tokens) {
-            m_disabledNames.add(token.trim().toLowerCase());
-        }
+    List<String> tokens = CmsStringUtil.splitAsList(configString, NAME_SEPARATOR);
+    for (String token : tokens) {
+      m_disabledNames.add(token.trim().toLowerCase());
     }
+  }
 
-    /**
-     * @see org.opencms.file.wrapper.A_CmsResourceWrapper#createResource(org.opencms.file.CmsObject, java.lang.String, int, byte[], java.util.List)
-     */
-    @Override
-    public CmsResource createResource(
-        CmsObject cms,
-        String resourcepath,
-        int type,
-        byte[] content,
-        List<CmsProperty> properties) throws CmsIllegalArgumentException {
+  /**
+   * @see org.opencms.file.wrapper.A_CmsResourceWrapper#createResource(org.opencms.file.CmsObject,
+   *     java.lang.String, int, byte[], java.util.List)
+   */
+  @Override
+  public CmsResource createResource(
+      CmsObject cms, String resourcepath, int type, byte[] content, List<CmsProperty> properties)
+      throws CmsIllegalArgumentException {
 
-        String name = CmsResource.getName(resourcepath);
-        if (m_disabledNames.contains(name.toLowerCase())) {
-            throw new CmsSilentWrapperException(
-                new CmsPermissionViolationException(
-                    Messages.get().container(Messages.ERR_PERM_DENIED_2, resourcepath, "+c")));
-        } else {
-            return null;
-        }
+    String name = CmsResource.getName(resourcepath);
+    if (m_disabledNames.contains(name.toLowerCase())) {
+      throw new CmsSilentWrapperException(
+          new CmsPermissionViolationException(
+              Messages.get().container(Messages.ERR_PERM_DENIED_2, resourcepath, "+c")));
+    } else {
+      return null;
     }
+  }
 
-    /**
-     * @see org.opencms.file.wrapper.I_CmsResourceWrapper#isWrappedResource(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
-     */
-    public boolean isWrappedResource(CmsObject cms, CmsResource res) {
+  /**
+   * @see
+   *     org.opencms.file.wrapper.I_CmsResourceWrapper#isWrappedResource(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource)
+   */
+  public boolean isWrappedResource(CmsObject cms, CmsResource res) {
 
-        return false;
+    return false;
+  }
+
+  /**
+   * @see org.opencms.file.wrapper.A_CmsResourceWrapper#moveResource(org.opencms.file.CmsObject,
+   *     java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean moveResource(CmsObject cms, String source, String destination)
+      throws CmsException, CmsIllegalArgumentException {
+
+    String name = CmsResource.getName(destination);
+
+    if (m_disabledNames.contains(name)) {
+      throw new CmsPermissionViolationException(
+          Messages.get().container(Messages.ERR_PERM_DENIED_2, destination, "+c"));
+    } else {
+      return false;
     }
-
-    /**
-     * @see org.opencms.file.wrapper.A_CmsResourceWrapper#moveResource(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
-     */
-    @Override
-    public boolean moveResource(CmsObject cms, String source, String destination)
-    throws CmsException, CmsIllegalArgumentException {
-
-        String name = CmsResource.getName(destination);
-
-        if (m_disabledNames.contains(name)) {
-            throw new CmsPermissionViolationException(
-                Messages.get().container(Messages.ERR_PERM_DENIED_2, destination, "+c"));
-        } else {
-            return false;
-        }
-    }
-
+  }
 }

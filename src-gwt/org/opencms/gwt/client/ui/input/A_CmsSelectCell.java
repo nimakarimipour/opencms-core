@@ -27,8 +27,6 @@
 
 package org.opencms.gwt.client.ui.input;
 
-import org.opencms.gwt.client.util.CmsDomUtil;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.event.dom.client.DomEvent;
@@ -36,53 +34,58 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RootPanel;
+import org.opencms.gwt.client.util.CmsDomUtil;
 
 /**
- * An abstract class for widgets which represent options for select boxes.<p>
+ * An abstract class for widgets which represent options for select boxes.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  */
 public abstract class A_CmsSelectCell extends Composite {
 
-    /**
-     * Measures the required width for this cell.<p>
-     *
-     * @return the required width
-     */
-    public int getRequiredWidth() {
+  /**
+   * Measures the required width for this cell.
+   *
+   * <p>
+   *
+   * @return the required width
+   */
+  public int getRequiredWidth() {
 
-        Element clone = CmsDomUtil.clone(getElement());
-        clone.getStyle().setPosition(Position.ABSOLUTE);
-        RootPanel.getBodyElement().appendChild(clone);
-        int result = clone.getOffsetWidth();
-        clone.removeFromParent();
-        return result;
-    }
+    Element clone = CmsDomUtil.clone(getElement());
+    clone.getStyle().setPosition(Position.ABSOLUTE);
+    RootPanel.getBodyElement().appendChild(clone);
+    int result = clone.getOffsetWidth();
+    clone.removeFromParent();
+    return result;
+  }
 
-    /**
-     * Returns the value of the select option as a string.<p>
-     *
-     * @return the value of the select option
-     */
-    public abstract String getValue();
+  /**
+   * Returns the value of the select option as a string.
+   *
+   * <p>
+   *
+   * @return the value of the select option
+   */
+  public abstract String getValue();
 
-    /**
-     * Adds a new event handler to the widget.<p>
-     *
-     * This method is used because we want the select box to register some event handlers on this widget,
-     * but we can't use {@link com.google.gwt.user.client.ui.Widget#addDomHandler} directly, since it's both protected
-     * and final.
-     *
-     * @param <H> the event type
-     * @param handler the new event handler
-     * @param type the event type object
-     *
-     * @return the HandlerRegistration for removing the event handler
-     */
-    public <H extends EventHandler> HandlerRegistration registerDomHandler(final H handler, DomEvent.Type<H> type) {
+  /**
+   * Adds a new event handler to the widget.
+   *
+   * <p>This method is used because we want the select box to register some event handlers on this
+   * widget, but we can't use {@link com.google.gwt.user.client.ui.Widget#addDomHandler} directly,
+   * since it's both protected and final.
+   *
+   * @param <H> the event type
+   * @param handler the new event handler
+   * @param type the event type object
+   * @return the HandlerRegistration for removing the event handler
+   */
+  public <H extends EventHandler> HandlerRegistration registerDomHandler(
+      final H handler, DomEvent.Type<H> type) {
 
-        return addDomHandler(handler, type);
-    }
-
+    return addDomHandler(handler, type);
+  }
 }

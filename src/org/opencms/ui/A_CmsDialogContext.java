@@ -27,6 +27,11 @@
 
 package org.opencms.ui;
 
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Window;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProject;
 import org.opencms.file.CmsResource;
@@ -36,191 +41,168 @@ import org.opencms.ui.components.CmsBasicDialog.DialogWidth;
 import org.opencms.ui.components.CmsErrorDialog;
 import org.opencms.util.CmsUUID;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Window;
-
 /**
- * Abstract dialog context.<p>
+ * Abstract dialog context.
+ *
+ * <p>
  */
 public abstract class A_CmsDialogContext implements I_CmsDialogContext {
 
-    /** The window used to display the dialog. */
-    protected Window m_window;
+  /** The window used to display the dialog. */
+  protected Window m_window;
 
-    /** The app id. */
-    private String m_appId;
+  /** The app id. */
+  private String m_appId;
 
-    /** The context type. */
-    private ContextType m_contextType;
+  /** The context type. */
+  private ContextType m_contextType;
 
-    /** The list of resources. */
-    private List<CmsResource> m_resources;
+  /** The list of resources. */
+  private List<CmsResource> m_resources;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param appId the app id
-     * @param contextType the context type, to be used for visibility evaluation
-     * @param resources the list of resources
-     */
-    protected A_CmsDialogContext(String appId, ContextType contextType, List<CmsResource> resources) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param appId the app id
+   * @param contextType the context type, to be used for visibility evaluation
+   * @param resources the list of resources
+   */
+  protected A_CmsDialogContext(String appId, ContextType contextType, List<CmsResource> resources) {
 
-        m_appId = appId;
-        m_resources = resources != null ? resources : Collections.<CmsResource> emptyList();
-        m_contextType = contextType;
+    m_appId = appId;
+    m_resources = resources != null ? resources : Collections.<CmsResource>emptyList();
+    m_contextType = contextType;
+  }
+
+  /**
+   * Closes the dialog window.
+   *
+   * <p>
+   */
+  protected void closeWindow() {
+
+    if (m_window != null) {
+      m_window.close();
+      m_window = null;
     }
+  }
 
-    /**
-     * Closes the dialog window.<p>
-     */
-    protected void closeWindow() {
+  /** @see org.opencms.ui.I_CmsDialogContext#error(java.lang.Throwable) */
+  public void error(Throwable error) {
 
-        if (m_window != null) {
-            m_window.close();
-            m_window = null;
-        }
-    }
+    closeWindow();
+    CmsErrorDialog.showErrorDialog(
+        error,
+        new Runnable() {
 
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#error(java.lang.Throwable)
-     */
-    public void error(Throwable error) {
+          public void run() {
 
-        closeWindow();
-        CmsErrorDialog.showErrorDialog(error, new Runnable() {
-
-            public void run() {
-
-                finish(null);
-            }
-        });
-    }
-
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#finish(org.opencms.file.CmsProject, java.lang.String)
-     */
-    public void finish(CmsProject project, String siteRoot) {
-
-        if ((project != null) || (siteRoot != null)) {
-            reload();
-        } else {
             finish(null);
-        }
+          }
+        });
+  }
+
+  /**
+   * @see org.opencms.ui.I_CmsDialogContext#finish(org.opencms.file.CmsProject, java.lang.String)
+   */
+  public void finish(CmsProject project, String siteRoot) {
+
+    if ((project != null) || (siteRoot != null)) {
+      reload();
+    } else {
+      finish(null);
     }
+  }
 
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#finish(java.util.Collection)
-     */
-    public void finish(Collection<CmsUUID> result) {
+  /** @see org.opencms.ui.I_CmsDialogContext#finish(java.util.Collection) */
+  public void finish(Collection<CmsUUID> result) {
 
-        closeWindow();
-        CmsAppWorkplaceUi.get().enableGlobalShortcuts();
+    closeWindow();
+    CmsAppWorkplaceUi.get().enableGlobalShortcuts();
+  }
+
+  /** @see org.opencms.ui.I_CmsDialogContext#getAppId() */
+  public String getAppId() {
+
+    return m_appId;
+  }
+
+  /** @see org.opencms.ui.I_CmsDialogContext#getCms() */
+  public CmsObject getCms() {
+
+    return A_CmsUI.getCmsObject();
+  }
+
+  /** @see org.opencms.ui.I_CmsDialogContext#getContextType() */
+  public ContextType getContextType() {
+
+    return m_contextType;
+  }
+
+  /** @see org.opencms.ui.I_CmsDialogContext#getResources() */
+  public List<CmsResource> getResources() {
+
+    return m_resources;
+  }
+
+  /**
+   * Returns the window.
+   *
+   * @return the window
+   */
+  public Window getWindow() {
+
+    return m_window;
+  }
+
+  /** @see org.opencms.ui.I_CmsDialogContext#navigateTo(java.lang.String) */
+  public void navigateTo(String appId) {
+
+    closeWindow();
+    A_CmsUI.get().getNavigator().navigateTo(appId);
+  }
+
+  /** @see org.opencms.ui.I_CmsDialogContext#onViewChange() */
+  public void onViewChange() {
+
+    if (m_window != null) {
+      m_window.center();
     }
+  }
 
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#getAppId()
-     */
-    public String getAppId() {
+  /** @see org.opencms.ui.I_CmsDialogContext#reload() */
+  public void reload() {
 
-        return m_appId;
+    closeWindow();
+    CmsAppWorkplaceUi.get().reload();
+  }
+
+  /** @see org.opencms.ui.I_CmsDialogContext#setWindow(com.vaadin.ui.Window) */
+  public void setWindow(Window window) {
+
+    m_window = window;
+  }
+
+  /** @see org.opencms.ui.I_CmsDialogContext#start(java.lang.String, com.vaadin.ui.Component) */
+  public void start(String title, Component dialog) {
+
+    start(title, dialog, DialogWidth.narrow);
+  }
+
+  /** @see org.opencms.ui.I_CmsDialogContext#start(java.lang.String, com.vaadin.ui.Component) */
+  public void start(String title, Component dialog, DialogWidth style) {
+
+    if (dialog != null) {
+      CmsAppWorkplaceUi.get().disableGlobalShortcuts();
+      m_window = CmsBasicDialog.prepareWindow(style);
+      m_window.setCaption(title);
+      m_window.setContent(dialog);
+      CmsAppWorkplaceUi.get().addWindow(m_window);
+      if (dialog instanceof CmsBasicDialog) {
+        ((CmsBasicDialog) dialog).initActionHandler(m_window);
+      }
     }
-
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#getCms()
-     */
-    public CmsObject getCms() {
-
-        return A_CmsUI.getCmsObject();
-    }
-
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#getContextType()
-     */
-    public ContextType getContextType() {
-
-        return m_contextType;
-    }
-
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#getResources()
-     */
-    public List<CmsResource> getResources() {
-
-        return m_resources;
-    }
-
-    /**
-     * Returns the window.
-     *
-     * @return the window
-     */
-    public Window getWindow() {
-
-        return m_window;
-    }
-
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#navigateTo(java.lang.String)
-     */
-    public void navigateTo(String appId) {
-
-        closeWindow();
-        A_CmsUI.get().getNavigator().navigateTo(appId);
-    }
-
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#onViewChange()
-     */
-    public void onViewChange() {
-
-        if (m_window != null) {
-            m_window.center();
-        }
-    }
-
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#reload()
-     */
-    public void reload() {
-
-        closeWindow();
-        CmsAppWorkplaceUi.get().reload();
-    }
-
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#setWindow(com.vaadin.ui.Window)
-     */
-    public void setWindow(Window window) {
-
-        m_window = window;
-    }
-
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#start(java.lang.String, com.vaadin.ui.Component)
-     */
-    public void start(String title, Component dialog) {
-
-        start(title, dialog, DialogWidth.narrow);
-    }
-
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#start(java.lang.String, com.vaadin.ui.Component)
-     */
-    public void start(String title, Component dialog, DialogWidth style) {
-
-        if (dialog != null) {
-            CmsAppWorkplaceUi.get().disableGlobalShortcuts();
-            m_window = CmsBasicDialog.prepareWindow(style);
-            m_window.setCaption(title);
-            m_window.setContent(dialog);
-            CmsAppWorkplaceUi.get().addWindow(m_window);
-            if (dialog instanceof CmsBasicDialog) {
-                ((CmsBasicDialog)dialog).initActionHandler(m_window);
-            }
-        }
-    }
+  }
 }

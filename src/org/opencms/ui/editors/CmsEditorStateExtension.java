@@ -27,47 +27,50 @@
 
 package org.opencms.ui.editors;
 
-import org.opencms.ui.shared.rpc.I_CmsEditorStateRPC;
-
 import com.vaadin.server.AbstractExtension;
 import com.vaadin.ui.AbstractComponent;
+import org.opencms.ui.shared.rpc.I_CmsEditorStateRPC;
 
 /**
- * Extension for iFrame embedded editors storing the changed state of the edited content.<p>
+ * Extension for iFrame embedded editors storing the changed state of the edited content.
+ *
+ * <p>
  */
 public class CmsEditorStateExtension extends AbstractExtension implements I_CmsEditorStateRPC {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -7159723321228453105L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -7159723321228453105L;
 
-    /** The changed flag. */
-    private boolean m_hasChanges;
+  /** The changed flag. */
+  private boolean m_hasChanges;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param component the component to extend
-     */
-    public CmsEditorStateExtension(AbstractComponent component) {
-        extend(component);
-        registerRpc(this);
-    }
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param component the component to extend
+   */
+  public CmsEditorStateExtension(AbstractComponent component) {
+    extend(component);
+    registerRpc(this);
+  }
 
-    /**
-     * Returns whether the editor has content changes.<p>
-     *
-     * @return <code>true</code> in case the editor has content changes
-     */
-    public boolean hasChanges() {
+  /**
+   * Returns whether the editor has content changes.
+   *
+   * <p>
+   *
+   * @return <code>true</code> in case the editor has content changes
+   */
+  public boolean hasChanges() {
 
-        return m_hasChanges;
-    }
+    return m_hasChanges;
+  }
 
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsEditorStateRPC#setHasChanges(boolean)
-     */
-    public void setHasChanges(boolean hasChanges) {
+  /** @see org.opencms.ui.shared.rpc.I_CmsEditorStateRPC#setHasChanges(boolean) */
+  public void setHasChanges(boolean hasChanges) {
 
-        m_hasChanges = hasChanges;
-    }
+    m_hasChanges = hasChanges;
+  }
 }

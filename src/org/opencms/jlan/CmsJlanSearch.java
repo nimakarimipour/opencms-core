@@ -30,110 +30,108 @@ package org.opencms.jlan;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.alfresco.jlan.server.filesys.FileInfo;
 import org.alfresco.jlan.server.filesys.SearchContext;
 
 /**
- * This class represents the state of a search operation in a JLAN repository. It just contains
- * the list of all search results and an index into that list which points to the next result
- * which hasn't been fetched yet.<p>
+ * This class represents the state of a search operation in a JLAN repository. It just contains the
+ * list of all search results and an index into that list which points to the next result which
+ * hasn't been fetched yet.
+ *
+ * <p>
  */
 public class CmsJlanSearch extends SearchContext {
 
-    /** The files constituting the search result. */
-    private List<CmsJlanNetworkFile> m_files;
+  /** The files constituting the search result. */
+  private List<CmsJlanNetworkFile> m_files;
 
-    /** The position of the next unfetched result. */
-    private int m_position;
+  /** The position of the next unfetched result. */
+  private int m_position;
 
-    /**
-     * Creates a new instance based on a given result list.<p>
-     *
-     * @param files the result list
-     */
-    public CmsJlanSearch(List<CmsJlanNetworkFile> files) {
+  /**
+   * Creates a new instance based on a given result list.
+   *
+   * <p>
+   *
+   * @param files the result list
+   */
+  public CmsJlanSearch(List<CmsJlanNetworkFile> files) {
 
-        m_files = new ArrayList<CmsJlanNetworkFile>(files);
-    }
+    m_files = new ArrayList<CmsJlanNetworkFile>(files);
+  }
 
-    /**
-     * @see org.alfresco.jlan.server.filesys.SearchContext#getResumeId()
-     */
-    @Override
-    public int getResumeId() {
+  /** @see org.alfresco.jlan.server.filesys.SearchContext#getResumeId() */
+  @Override
+  public int getResumeId() {
 
-        return m_position;
-    }
+    return m_position;
+  }
 
-    /**
-     * @see org.alfresco.jlan.server.filesys.SearchContext#hasMoreFiles()
-     */
-    @Override
-    public boolean hasMoreFiles() {
+  /** @see org.alfresco.jlan.server.filesys.SearchContext#hasMoreFiles() */
+  @Override
+  public boolean hasMoreFiles() {
 
-        return m_position < m_files.size();
-    }
+    return m_position < m_files.size();
+  }
 
-    /**
-     * @see org.alfresco.jlan.server.filesys.SearchContext#nextFileInfo(org.alfresco.jlan.server.filesys.FileInfo)
-     */
-    @Override
-    public boolean nextFileInfo(FileInfo info) {
+  /**
+   * @see
+   *     org.alfresco.jlan.server.filesys.SearchContext#nextFileInfo(org.alfresco.jlan.server.filesys.FileInfo)
+   */
+  @Override
+  public boolean nextFileInfo(FileInfo info) {
 
-        try {
-            CmsJlanNetworkFile file = nextFile();
-            if (file == null) {
-                return false;
-            }
-            info.copyFrom(file.getFileInfo());
-            return true;
-        } catch (IOException e) {
-            // shouldn't normally happen
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * @see org.alfresco.jlan.server.filesys.SearchContext#nextFileName()
-     */
-    @Override
-    public String nextFileName() {
-
-        return nextFile().getName();
-    }
-
-    /**
-     * @see org.alfresco.jlan.server.filesys.SearchContext#restartAt(org.alfresco.jlan.server.filesys.FileInfo)
-     */
-    @Override
-    public boolean restartAt(FileInfo info) {
-
+    try {
+      CmsJlanNetworkFile file = nextFile();
+      if (file == null) {
         return false;
+      }
+      info.copyFrom(file.getFileInfo());
+      return true;
+    } catch (IOException e) {
+      // shouldn't normally happen
+      throw new RuntimeException(e);
     }
+  }
 
-    /**
-     * @see org.alfresco.jlan.server.filesys.SearchContext#restartAt(int)
-     */
-    @Override
-    public boolean restartAt(int resumeId) {
+  /** @see org.alfresco.jlan.server.filesys.SearchContext#nextFileName() */
+  @Override
+  public String nextFileName() {
 
-        return false;
+    return nextFile().getName();
+  }
+
+  /**
+   * @see
+   *     org.alfresco.jlan.server.filesys.SearchContext#restartAt(org.alfresco.jlan.server.filesys.FileInfo)
+   */
+  @Override
+  public boolean restartAt(FileInfo info) {
+
+    return false;
+  }
+
+  /** @see org.alfresco.jlan.server.filesys.SearchContext#restartAt(int) */
+  @Override
+  public boolean restartAt(int resumeId) {
+
+    return false;
+  }
+
+  /**
+   * Returns the next file object in the search result.
+   *
+   * <p>
+   *
+   * @return the next file object
+   */
+  protected CmsJlanNetworkFile nextFile() {
+
+    if (!hasMoreFiles()) {
+      return null;
     }
-
-    /**
-     * Returns the next file object in the search result.<p>
-     *
-     * @return the next file object
-     */
-    protected CmsJlanNetworkFile nextFile() {
-
-        if (!hasMoreFiles()) {
-            return null;
-        }
-        CmsJlanNetworkFile file = m_files.get(m_position);
-        m_position += 1;
-        return file;
-    }
-
+    CmsJlanNetworkFile file = m_files.get(m_position);
+    m_position += 1;
+    return file;
+  }
 }

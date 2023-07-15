@@ -31,40 +31,41 @@ import org.opencms.gwt.A_CmsClientMessageBundle;
 import org.opencms.gwt.I_CmsClientMessageBundle;
 
 /**
- * The client messages class for the SEO dialog.<p>
+ * The client messages class for the SEO dialog.
+ *
+ * <p>
  */
 public final class ClientMessages extends A_CmsClientMessageBundle {
 
-    /** Internal instance. */
-    private static ClientMessages INSTANCE;
+  /** Internal instance. */
+  private static ClientMessages INSTANCE;
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private ClientMessages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private ClientMessages() {}
 
+  /**
+   * Returns the client message instance.
+   *
+   * <p>
+   *
+   * @return the client message instance
+   */
+  public static I_CmsClientMessageBundle get() {
+
+    if (INSTANCE == null) {
+      INSTANCE = new ClientMessages();
     }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the client message instance.<p>
-     *
-     * @return the client message instance
-     */
-    public static I_CmsClientMessageBundle get() {
+  /** @see org.opencms.gwt.I_CmsClientMessageBundle#getClientImpl() */
+  @Override
+  public Class<?> getClientImpl() throws Exception {
 
-        if (INSTANCE == null) {
-            INSTANCE = new ClientMessages();
-        }
-        return INSTANCE;
-    }
-
-    /**
-     * @see org.opencms.gwt.I_CmsClientMessageBundle#getClientImpl()
-     */
-    @Override
-    public Class<?> getClientImpl() throws Exception {
-
-        return Class.forName("org.opencms.gwt.client.seo.Messages");
-    }
-
+    return Class.forName("org.opencms.gwt.client.seo.Messages");
+  }
 }

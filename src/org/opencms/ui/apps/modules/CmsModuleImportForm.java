@@ -27,18 +27,6 @@
 
 package org.opencms.ui.apps.modules;
 
-import org.opencms.main.CmsLog;
-import org.opencms.main.OpenCms;
-import org.opencms.ui.components.CmsAutoItemCreatingComboBox;
-import org.opencms.util.CmsStringUtil;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-
-import org.apache.commons.logging.Log;
-
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptAll;
@@ -57,203 +45,218 @@ import com.vaadin.v7.ui.Upload.StartedListener;
 import com.vaadin.v7.ui.Upload.SucceededEvent;
 import com.vaadin.v7.ui.Upload.SucceededListener;
 import com.vaadin.v7.ui.VerticalLayout;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import org.apache.commons.logging.Log;
+import org.opencms.main.CmsLog;
+import org.opencms.main.OpenCms;
+import org.opencms.ui.components.CmsAutoItemCreatingComboBox;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * The form for importing modules via HTTP.<p>
+ * The form for importing modules via HTTP.
+ *
+ * <p>
  */
 public class CmsModuleImportForm extends A_CmsModuleImportForm {
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsModuleImportForm.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsModuleImportForm.class);
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** Drag and drop wrapper. */
-    private DragAndDropWrapper m_dnd;
+  /** Drag and drop wrapper. */
+  private DragAndDropWrapper m_dnd;
 
-    /** The cancel button. */
-    protected Button m_cancel;
+  /** The cancel button. */
+  protected Button m_cancel;
 
-    /** The OK button. */
-    protected Button m_ok;
+  /** The OK button. */
+  protected Button m_ok;
 
-    /** The site  selector. */
-    protected CmsAutoItemCreatingComboBox m_siteSelect;
+  /** The site selector. */
+  protected CmsAutoItemCreatingComboBox m_siteSelect;
 
-    /** The upload widget. */
-    protected Upload m_upload;
+  /** The upload widget. */
+  protected Upload m_upload;
 
-    /** The label for the upload widget. */
-    protected Label m_uploadLabel;
+  /** The label for the upload widget. */
+  protected Label m_uploadLabel;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param app the module manager app instance for which this was opened
-     */
-    @SuppressWarnings("deprecation")
-    public CmsModuleImportForm(CmsModuleApp app, VerticalLayout start, VerticalLayout report, Runnable run) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param app the module manager app instance for which this was opened
+   */
+  @SuppressWarnings("deprecation")
+  public CmsModuleImportForm(
+      CmsModuleApp app, VerticalLayout start, VerticalLayout report, Runnable run) {
 
-        super(app, start, report, run);
-        m_upload.setImmediate(true);
-        m_dnd.setDropHandler(new DropHandler() {
+    super(app, start, report, run);
+    m_upload.setImmediate(true);
+    m_dnd.setDropHandler(
+        new DropHandler() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void drop(DragAndDropEvent event) {
+          public void drop(DragAndDropEvent event) {
 
-                WrapperTransferable transfer = (WrapperTransferable)event.getTransferable();
-                Html5File[] files = transfer.getFiles();
-                if (files.length == 1) {
-                    final Html5File file = files[0];
-                    m_uploadLabel.setValue(file.getFileName());
-                    file.setStreamVariable(new StreamVariable() {
+            WrapperTransferable transfer = (WrapperTransferable) event.getTransferable();
+            Html5File[] files = transfer.getFiles();
+            if (files.length == 1) {
+              final Html5File file = files[0];
+              m_uploadLabel.setValue(file.getFileName());
+              file.setStreamVariable(
+                  new StreamVariable() {
 
-                        private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
 
-                        public OutputStream getOutputStream() {
+                    public OutputStream getOutputStream() {
 
-                            String path = CmsStringUtil.joinPaths(
-                                OpenCms.getSystemInfo().getWebInfRfsPath(),
-                                "packages/modules",
-                                processFileName(file.getFileName()));
-                            m_importFile = new CmsModuleImportFile(path);
-                            try {
-                                return new FileOutputStream(m_importFile.getPath());
-                            } catch (FileNotFoundException e) {
-                                throw new RuntimeException(e); // shouldn't happen, but if it does, there is no point in continuing
-                            }
-                        }
+                      String path =
+                          CmsStringUtil.joinPaths(
+                              OpenCms.getSystemInfo().getWebInfRfsPath(),
+                              "packages/modules",
+                              processFileName(file.getFileName()));
+                      m_importFile = new CmsModuleImportFile(path);
+                      try {
+                        return new FileOutputStream(m_importFile.getPath());
+                      } catch (FileNotFoundException e) {
+                        throw new RuntimeException(
+                            e); // shouldn't happen, but if it does, there is no point in continuing
+                      }
+                    }
 
-                        public boolean isInterrupted() {
+                    public boolean isInterrupted() {
 
-                            return false;
-                        }
+                      return false;
+                    }
 
-                        public boolean listenProgress() {
+                    public boolean listenProgress() {
 
-                            return false;
-                        }
+                      return false;
+                    }
 
-                        public void onProgress(StreamingProgressEvent evt) {
-                            // do nothing
-                        }
+                    public void onProgress(StreamingProgressEvent evt) {
+                      // do nothing
+                    }
 
-                        @SuppressWarnings("synthetic-access")
-                        public void streamingFailed(StreamingErrorEvent evt) {
+                    @SuppressWarnings("synthetic-access")
+                    public void streamingFailed(StreamingErrorEvent evt) {
 
-                            LOG.info("Upload streaming failed: " + evt.getFileName(), evt.getException());
-                        }
+                      LOG.info("Upload streaming failed: " + evt.getFileName(), evt.getException());
+                    }
 
-                        public void streamingFinished(StreamingEndEvent evt) {
+                    public void streamingFinished(StreamingEndEvent evt) {
 
-                            validateModuleFile();
-                        }
+                      validateModuleFile();
+                    }
 
-                        public void streamingStarted(StreamingStartEvent evt) {
+                    public void streamingStarted(StreamingStartEvent evt) {
 
-                            m_ok.setEnabled(false);
-                            m_siteSelect.setEnabled(true);
-                        }
-                    });
-                }
+                      m_ok.setEnabled(false);
+                      m_siteSelect.setEnabled(true);
+                    }
+                  });
             }
+          }
 
-            public AcceptCriterion getAcceptCriterion() {
+          public AcceptCriterion getAcceptCriterion() {
 
-                return AcceptAll.get();
-            }
+            return AcceptAll.get();
+          }
         });
-        m_upload.addStartedListener(new StartedListener() {
+    m_upload.addStartedListener(
+        new StartedListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void uploadStarted(StartedEvent event) {
+          public void uploadStarted(StartedEvent event) {
 
-                m_ok.setEnabled(false);
-                m_siteSelect.setEnabled(true);
+            m_ok.setEnabled(false);
+            m_siteSelect.setEnabled(true);
 
-                String name = event.getFilename();
-                name = processFileName(name);
-                m_uploadLabel.setValue(name);
-
-            }
-
-        });
-
-        m_upload.addChangeListener(new ChangeListener() {
-
-            private static final long serialVersionUID = 1L;
-
-            public void filenameChanged(ChangeEvent event) {
-
-                m_ok.setEnabled(false);
-                m_siteSelect.setEnabled(true);
-
-                String name = processFileName(event.getFilename());
-                m_uploadLabel.setValue(name);
-            }
+            String name = event.getFilename();
+            name = processFileName(name);
+            m_uploadLabel.setValue(name);
+          }
         });
 
-        m_upload.setReceiver(new Upload.Receiver() {
+    m_upload.addChangeListener(
+        new ChangeListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public OutputStream receiveUpload(String filename, String mimeType) {
+          public void filenameChanged(ChangeEvent event) {
 
-                String path = CmsStringUtil.joinPaths(
+            m_ok.setEnabled(false);
+            m_siteSelect.setEnabled(true);
+
+            String name = processFileName(event.getFilename());
+            m_uploadLabel.setValue(name);
+          }
+        });
+
+    m_upload.setReceiver(
+        new Upload.Receiver() {
+
+          private static final long serialVersionUID = 1L;
+
+          public OutputStream receiveUpload(String filename, String mimeType) {
+
+            String path =
+                CmsStringUtil.joinPaths(
                     OpenCms.getSystemInfo().getWebInfRfsPath(),
                     "packages/modules",
                     processFileName(filename));
-                // make sure parent folders exist
-                File rfsFile = new File(path);
-                rfsFile.getParentFile().mkdirs();
+            // make sure parent folders exist
+            File rfsFile = new File(path);
+            rfsFile.getParentFile().mkdirs();
 
-                m_importFile = new CmsModuleImportFile(path);
-                try {
-                    return new FileOutputStream(m_importFile.getPath());
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e); // shouldn't happen, but if it does, there is no point in continuing
-                }
+            m_importFile = new CmsModuleImportFile(path);
+            try {
+              return new FileOutputStream(m_importFile.getPath());
+            } catch (FileNotFoundException e) {
+              throw new RuntimeException(
+                  e); // shouldn't happen, but if it does, there is no point in continuing
             }
+          }
         });
-        m_upload.addSucceededListener(new SucceededListener() {
+    m_upload.addSucceededListener(
+        new SucceededListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void uploadSucceeded(SucceededEvent event) {
+          public void uploadSucceeded(SucceededEvent event) {
 
-                validateModuleFile();
-            }
+            validateModuleFile();
+          }
         });
-    }
+  }
 
-    /**
-     * @see org.opencms.ui.apps.modules.A_CmsModuleImportForm#getCancelButton()
-     */
-    @Override
-    protected Button getCancelButton() {
+  /** @see org.opencms.ui.apps.modules.A_CmsModuleImportForm#getCancelButton() */
+  @Override
+  protected Button getCancelButton() {
 
-        return m_cancel;
-    }
+    return m_cancel;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.modules.A_CmsModuleImportForm#getOkButton()
-     */
-    @Override
-    protected Button getOkButton() {
+  /** @see org.opencms.ui.apps.modules.A_CmsModuleImportForm#getOkButton() */
+  @Override
+  protected Button getOkButton() {
 
-        return m_ok;
-    }
+    return m_ok;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.modules.A_CmsModuleImportForm#getSiteSelector()
-     */
-    @Override
-    protected CmsAutoItemCreatingComboBox getSiteSelector() {
+  /** @see org.opencms.ui.apps.modules.A_CmsModuleImportForm#getSiteSelector() */
+  @Override
+  protected CmsAutoItemCreatingComboBox getSiteSelector() {
 
-        return m_siteSelect;
-    }
-
+    return m_siteSelect;
+  }
 }

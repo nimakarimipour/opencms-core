@@ -27,6 +27,7 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.opencms.ade.containerpage.client.Messages;
 import org.opencms.ade.contenteditor.shared.CmsEditorConstants;
 import org.opencms.gwt.client.CmsCoreProvider;
@@ -36,100 +37,92 @@ import org.opencms.gwt.client.ui.I_CmsButton.ButtonColor;
 import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * Dialog for selecting between copying and reusing an element dropped from the clipboard into the page.<p>
+ * Dialog for selecting between copying and reusing an element dropped from the clipboard into the
+ * page.
+ *
+ * <p>
  */
 public class CmsDroppedElementModeSelectionDialog extends CmsCreateModeSelectionDialog {
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param info the file information
-     *
-     * @param createModeCallback the callback to call with the result
-     */
-    public CmsDroppedElementModeSelectionDialog(CmsListInfoBean info, AsyncCallback<String> createModeCallback) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param info the file information
+   * @param createModeCallback the callback to call with the result
+   */
+  public CmsDroppedElementModeSelectionDialog(
+      CmsListInfoBean info, AsyncCallback<String> createModeCallback) {
 
-        super(info, createModeCallback);
-    }
+    super(info, createModeCallback);
+  }
 
-    /**
-     * Shows the dialog.<p>
-     *
-     * @param referenceId the  structure id of the resource for which to load the dialog
-     * @param createModeCallback the callback to call with the result
-     */
-    public static void showDialog(final CmsUUID referenceId, final AsyncCallback<String> createModeCallback) {
+  /**
+   * Shows the dialog.
+   *
+   * <p>
+   *
+   * @param referenceId the structure id of the resource for which to load the dialog
+   * @param createModeCallback the callback to call with the result
+   */
+  public static void showDialog(
+      final CmsUUID referenceId, final AsyncCallback<String> createModeCallback) {
 
-        CmsRpcAction<CmsListInfoBean> action = new CmsRpcAction<CmsListInfoBean>() {
+    CmsRpcAction<CmsListInfoBean> action =
+        new CmsRpcAction<CmsListInfoBean>() {
 
-            @Override
-            public void execute() {
+          @Override
+          public void execute() {
 
-                start(0, true);
-                CmsCoreProvider.getVfsService().getPageInfo(referenceId, this);
+            start(0, true);
+            CmsCoreProvider.getVfsService().getPageInfo(referenceId, this);
+          }
 
-            }
+          @Override
+          protected void onResponse(CmsListInfoBean result) {
 
-            @Override
-            protected void onResponse(CmsListInfoBean result) {
-
-                stop(false);
-                (new CmsDroppedElementModeSelectionDialog(result, createModeCallback)).center();
-            }
+            stop(false);
+            (new CmsDroppedElementModeSelectionDialog(result, createModeCallback)).center();
+          }
         };
-        action.execute();
+    action.execute();
+  }
 
-    }
+  /** @see org.opencms.gwt.client.ui.CmsCreateModeSelectionDialog#messageAskMode() */
+  @Override
+  public String messageAskMode() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.CmsCreateModeSelectionDialog#messageAskMode()
-     */
-    @Override
-    public String messageAskMode() {
+    return Messages.get().key(Messages.GUI_SELECT_COPY_OR_REUSE_TEXT_0);
+  }
 
-        return Messages.get().key(Messages.GUI_SELECT_COPY_OR_REUSE_TEXT_0);
-    }
+  /** @see org.opencms.gwt.client.ui.CmsCreateModeSelectionDialog#messageCaption() */
+  @Override
+  public String messageCaption() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.CmsCreateModeSelectionDialog#messageCaption()
-     */
-    @Override
-    public String messageCaption() {
+    return Messages.get().key(Messages.GUI_SELECT_COPY_OR_REUSE_CAPTION_0);
+  }
 
-        return Messages.get().key(Messages.GUI_SELECT_COPY_OR_REUSE_CAPTION_0);
-    }
+  /** @see org.opencms.gwt.client.ui.CmsCreateModeSelectionDialog#messageCopy() */
+  @Override
+  public String messageCopy() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.CmsCreateModeSelectionDialog#messageCopy()
-     */
-    @Override
-    public String messageCopy() {
+    return Messages.get().key(Messages.GUI_COPY_ELEMENT_0);
+  }
 
-        return Messages.get().key(Messages.GUI_COPY_ELEMENT_0);
-    }
+  /** @see org.opencms.gwt.client.ui.CmsCreateModeSelectionDialog#messageNew() */
+  @Override
+  public String messageNew() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.CmsCreateModeSelectionDialog#messageNew()
-     */
-    @Override
-    public String messageNew() {
+    return Messages.get().key(Messages.GUI_REUSE_ELEMENT_0);
+  }
 
-        return Messages.get().key(Messages.GUI_REUSE_ELEMENT_0);
+  /** @see org.opencms.gwt.client.ui.CmsCreateModeSelectionDialog#addButtons() */
+  @Override
+  protected void addButtons() {
 
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.CmsCreateModeSelectionDialog#addButtons()
-     */
-    @Override
-    protected void addButtons() {
-
-        addButton(createButton(messageNew(), ButtonColor.BLUE, CmsEditorConstants.MODE_REUSE));
-        addButton(createButton(messageCopy(), ButtonColor.GREEN, CmsEditorConstants.MODE_COPY));
-
-    }
-
+    addButton(createButton(messageNew(), ButtonColor.BLUE, CmsEditorConstants.MODE_REUSE));
+    addButton(createButton(messageCopy(), ButtonColor.GREEN, CmsEditorConstants.MODE_COPY));
+  }
 }

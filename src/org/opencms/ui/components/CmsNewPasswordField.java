@@ -30,19 +30,17 @@ package org.opencms.ui.components;
 import com.vaadin.ui.PasswordField;
 
 /**
- * Password field with the autocomplete=new-password attribute, to persuade the browser to not auto-fill it.
+ * Password field with the autocomplete=new-password attribute, to persuade the browser to not
+ * auto-fill it.
  */
 public class CmsNewPasswordField extends PasswordField {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.
-     */
-    public CmsNewPasswordField() {
+  /** Creates a new instance. */
+  public CmsNewPasswordField() {
 
-        super();
-    }
-
+    super();
+  }
 }

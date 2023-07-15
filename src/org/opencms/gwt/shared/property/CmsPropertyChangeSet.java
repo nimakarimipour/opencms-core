@@ -27,63 +27,74 @@
 
 package org.opencms.gwt.shared.property;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+import java.util.List;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * A bean representing a set of property changes.<p>
+ * A bean representing a set of property changes.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsPropertyChangeSet implements IsSerializable {
 
-    /** The list of changes. */
-    private List<CmsPropertyModification> m_propertyChanges;
+  /** The list of changes. */
+  private List<CmsPropertyModification> m_propertyChanges;
 
-    /** The structure id of the target to which the property changes should be applied.<p> */
-    private CmsUUID m_target;
+  /**
+   * The structure id of the target to which the property changes should be applied.
+   *
+   * <p>
+   */
+  private CmsUUID m_target;
 
-    /**
-     * Creates a new property change set.<p>
-     *
-     * @param target the structure of the target resource
-     * @param propertyChanges the property changes themselves
-     */
-    public CmsPropertyChangeSet(CmsUUID target, List<CmsPropertyModification> propertyChanges) {
+  /**
+   * Creates a new property change set.
+   *
+   * <p>
+   *
+   * @param target the structure of the target resource
+   * @param propertyChanges the property changes themselves
+   */
+  public CmsPropertyChangeSet(CmsUUID target, List<CmsPropertyModification> propertyChanges) {
 
-        m_propertyChanges = propertyChanges;
-        m_target = target;
-    }
+    m_propertyChanges = propertyChanges;
+    m_target = target;
+  }
 
-    /**
-     * Hidden default constructor for serialization.<p>
-     */
-    protected CmsPropertyChangeSet() {
+  /**
+   * Hidden default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsPropertyChangeSet() {
 
-        // only used for serialization
-    }
+    // only used for serialization
+  }
 
-    /**
-     * Gets the list of property change beans.<p>
-     *
-     * @return the list of property change beans
-     */
-    public List<CmsPropertyModification> getChanges() {
+  /**
+   * Gets the list of property change beans.
+   *
+   * <p>
+   *
+   * @return the list of property change beans
+   */
+  public List<CmsPropertyModification> getChanges() {
 
-        return m_propertyChanges;
-    }
+    return m_propertyChanges;
+  }
 
-    /**
-     * Gets the structure id of the target resource.<p>
-     *
-     * @return the structure id of the target resource
-     */
-    public CmsUUID getTargetStructureId() {
+  /**
+   * Gets the structure id of the target resource.
+   *
+   * <p>
+   *
+   * @return the structure id of the target resource
+   */
+  public CmsUUID getTargetStructureId() {
 
-        return m_target;
-    }
-
+    return m_target;
+  }
 }

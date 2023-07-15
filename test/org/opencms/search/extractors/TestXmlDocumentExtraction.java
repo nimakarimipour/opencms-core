@@ -27,6 +27,12 @@
 
 package org.opencms.search.extractors;
 
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.search.CmsSearchIndex;
@@ -35,112 +41,114 @@ import org.opencms.search.documents.CmsDocumentXmlPage;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
-
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Tests the text extraction for <code>xmlpage</code> and <code>xmlcontent</code> resources.<p>
+ * Tests the text extraction for <code>xmlpage</code> and <code>xmlcontent</code> resources.
  *
+ * <p>
  */
 public class TestXmlDocumentExtraction extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestXmlDocumentExtraction(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestXmlDocumentExtraction(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestXmlDocumentExtraction.class.getName());
+    TestSuite suite = new TestSuite();
+    suite.setName(TestXmlDocumentExtraction.class.getName());
 
-        suite.addTest(new TestXmlDocumentExtraction("textXmlPageExtraction"));
-        suite.addTest(new TestXmlDocumentExtraction("textXmlContentExtraction"));
+    suite.addTest(new TestXmlDocumentExtraction("textXmlPageExtraction"));
+    suite.addTest(new TestXmlDocumentExtraction("textXmlContentExtraction"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
+    return wrapper;
+  }
+
+  /**
+   * Tests the <code>xmlpage</code> content extraction.
+   *
+   * <p>
+   *
+   * @throws Exception if the test fails
+   */
+  public void textXmlPageExtraction() throws Exception {
+
+    CmsDocumentXmlPage doc = new CmsDocumentXmlPage("xmlpage");
+    CmsObject cms = getCmsObject();
+    CmsResource resource = cms.readResource("/folder1/page4.html");
+    CmsSearchIndex index = new CmsSearchIndex();
+    index.setLocale(Locale.ENGLISH);
+
+    I_CmsExtractionResult extractionResult = doc.extractContent(cms, resource, index);
+    Map<String, String> items = extractionResult.getContentItems();
+    assertEquals(3, items.size());
+    assertTrue(items.containsKey(I_CmsExtractionResult.ITEM_CONTENT));
+    assertTrue(items.containsKey("body"));
+    assertTrue(items.containsKey("special"));
+  }
+
+  /**
+   * Tests the <code>xmlcontent</code> content extraction.
+   *
+   * <p>
+   *
+   * @throws Exception if the test fails
+   */
+  public void textXmlContentExtraction() throws Exception {
+
+    CmsDocumentXmlContent doc = new CmsDocumentXmlContent("xmlcontent");
+    CmsObject cms = getCmsObject();
+    CmsResource resource = cms.readResource("/xmlcontent/article_0003.html");
+    CmsSearchIndex index = new CmsSearchIndex();
+    index.setLocale(Locale.ENGLISH);
+
+    I_CmsExtractionResult extractionResult = doc.extractContent(cms, resource, index);
+    Map<String, String> items = extractionResult.getContentItems();
+    Iterator<Map.Entry<String, String>> i = items.entrySet().iterator();
+    while (i.hasNext()) {
+      Map.Entry<String, String> entry = i.next();
+      System.out.println(entry.getKey());
     }
 
-    /**
-     * Tests the <code>xmlpage</code> content extraction.<p>
-     *
-     * @throws Exception if the test fails
-     */
-    public void textXmlPageExtraction() throws Exception {
-
-        CmsDocumentXmlPage doc = new CmsDocumentXmlPage("xmlpage");
-        CmsObject cms = getCmsObject();
-        CmsResource resource = cms.readResource("/folder1/page4.html");
-        CmsSearchIndex index = new CmsSearchIndex();
-        index.setLocale(Locale.ENGLISH);
-
-        I_CmsExtractionResult extractionResult = doc.extractContent(cms, resource, index);
-        Map<String, String> items = extractionResult.getContentItems();
-        assertEquals(3, items.size());
-        assertTrue(items.containsKey(I_CmsExtractionResult.ITEM_CONTENT));
-        assertTrue(items.containsKey("body"));
-        assertTrue(items.containsKey("special"));
-    }
-
-    /**
-     * Tests the <code>xmlcontent</code> content extraction.<p>
-     *
-     * @throws Exception if the test fails
-     */
-    public void textXmlContentExtraction() throws Exception {
-
-        CmsDocumentXmlContent doc = new CmsDocumentXmlContent("xmlcontent");
-        CmsObject cms = getCmsObject();
-        CmsResource resource = cms.readResource("/xmlcontent/article_0003.html");
-        CmsSearchIndex index = new CmsSearchIndex();
-        index.setLocale(Locale.ENGLISH);
-
-        I_CmsExtractionResult extractionResult = doc.extractContent(cms, resource, index);
-        Map<String, String> items = extractionResult.getContentItems();
-        Iterator<Map.Entry<String, String>> i = items.entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry<String, String> entry = i.next();
-            System.out.println(entry.getKey());
-        }
-
-        assertEquals(7, items.size());
-        assertTrue(items.containsKey(I_CmsExtractionResult.ITEM_CONTENT));
-        assertTrue(items.containsKey("Title[1]"));
-        assertTrue(items.containsKey("Teaser[1]"));
-        assertTrue(items.containsKey("Teaser[2]"));
-        assertTrue(items.containsKey("Teaser[3]"));
-        assertTrue(items.containsKey("Text[1]"));
-        assertTrue(items.containsKey("Author[1]"));
-    }
+    assertEquals(7, items.size());
+    assertTrue(items.containsKey(I_CmsExtractionResult.ITEM_CONTENT));
+    assertTrue(items.containsKey("Title[1]"));
+    assertTrue(items.containsKey("Teaser[1]"));
+    assertTrue(items.containsKey("Teaser[2]"));
+    assertTrue(items.containsKey("Teaser[3]"));
+    assertTrue(items.containsKey("Text[1]"));
+    assertTrue(items.containsKey("Author[1]"));
+  }
 }

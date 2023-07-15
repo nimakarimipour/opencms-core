@@ -27,125 +27,139 @@
 
 package org.opencms.ui.apps.modules;
 
+import com.google.common.base.Strings;
+import com.vaadin.server.Resource;
 import org.opencms.module.CmsModule;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.ui.util.table.Column;
 
-import com.google.common.base.Strings;
-import com.vaadin.server.Resource;
-
 /**
- * Represents a row of the modules overview table.<p>
+ * Represents a row of the modules overview table.
  *
- * The equals() and hashCode() methods are overridden to only compare/hash the module name.
+ * <p>The equals() and hashCode() methods are overridden to only compare/hash the module name.
  */
 public class CmsModuleRow {
 
-    /** The module which this row represents. */
-    private CmsModule m_module;
+  /** The module which this row represents. */
+  private CmsModule m_module;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param module the module for which this is a row
-     */
-    public CmsModuleRow(CmsModule module) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param module the module for which this is a row
+   */
+  public CmsModuleRow(CmsModule module) {
 
-        m_module = module;
-    }
+    m_module = module;
+  }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object other) {
+  /** @see java.lang.Object#equals(java.lang.Object) */
+  @Override
+  public boolean equals(Object other) {
 
-        return (other instanceof CmsModuleRow) && ((CmsModuleRow)other).getName().equals(getName());
-    }
+    return (other instanceof CmsModuleRow) && ((CmsModuleRow) other).getName().equals(getName());
+  }
 
-    /**
-     * Gets the module group.<p>
-     *
-     * @return the module group
-     */
-    @Column(header = Messages.GUI_MODULES_HEADER_GROUP_0, order = 40, width = 200)
-    public String getGroup() {
+  /**
+   * Gets the module group.
+   *
+   * <p>
+   *
+   * @return the module group
+   */
+  @Column(header = Messages.GUI_MODULES_HEADER_GROUP_0, order = 40, width = 200)
+  public String getGroup() {
 
-        return Strings.nullToEmpty(m_module.getGroup());
-    }
+    return Strings.nullToEmpty(m_module.getGroup());
+  }
 
-    /**
-     * Gets the icon to display.<p>
-     *
-     * @return the icon to display
-     */
-    public Resource getIcon() {
+  /**
+   * Gets the icon to display.
+   *
+   * <p>
+   *
+   * @return the icon to display
+   */
+  public Resource getIcon() {
 
-        return CmsModuleApp.Icons.LIST_ICON;
-    }
+    return CmsModuleApp.Icons.LIST_ICON;
+  }
 
-    /**
-     * Gets the module.<p>
-     *
-     * @return the module
-     */
-    public CmsModule getModule() {
+  /**
+   * Gets the module.
+   *
+   * <p>
+   *
+   * @return the module
+   */
+  public CmsModule getModule() {
 
-        return m_module;
-    }
+    return m_module;
+  }
 
-    /**
-     * Gets the name of the module.<p>
-     *
-     * @return the module name
-     */
-    @Column(header = Messages.GUI_MODULES_HEADER_NAME_0, styleName = OpenCmsTheme.HOVER_COLUMN, width = 350, order = 10)
-    public String getName() {
+  /**
+   * Gets the name of the module.
+   *
+   * <p>
+   *
+   * @return the module name
+   */
+  @Column(
+      header = Messages.GUI_MODULES_HEADER_NAME_0,
+      styleName = OpenCmsTheme.HOVER_COLUMN,
+      width = 350,
+      order = 10)
+  public String getName() {
 
-        return m_module.getName();
-    }
+    return m_module.getName();
+  }
 
-    /**
-     * Gets the nice name of the module.<p>
-     *
-     * @return the nice name of the module
-     */
-    @Column(header = Messages.GUI_MODULES_HEADER_TITLE_0, expandRatio = 1.0f, order = 20)
-    public String getTitle() {
+  /**
+   * Gets the nice name of the module.
+   *
+   * <p>
+   *
+   * @return the nice name of the module
+   */
+  @Column(header = Messages.GUI_MODULES_HEADER_TITLE_0, expandRatio = 1.0f, order = 20)
+  public String getTitle() {
 
-        return Strings.nullToEmpty(m_module.getNiceName());
-    }
+    return Strings.nullToEmpty(m_module.getNiceName());
+  }
 
-    /**
-     * Gets the number of resource types defined.<p>
-     *
-     * @return the number of resource types
-     */
-    @Column(header = Messages.GUI_MODULES_HEADER_TYPES_0, order = 50)
-    public int getTypes() {
+  /**
+   * Gets the number of resource types defined.
+   *
+   * <p>
+   *
+   * @return the number of resource types
+   */
+  @Column(header = Messages.GUI_MODULES_HEADER_TYPES_0, order = 50)
+  public int getTypes() {
 
-        return m_module.getResourceTypes().size();
-    }
+    return m_module.getResourceTypes().size();
+  }
 
-    /**
-     * Gets the version.<p>
-     *
-     * @return the module version
-     */
-    @Column(header = Messages.GUI_MODULES_HEADER_VERSION_0, width = 80, order = 30)
-    public String getVersion() {
+  /**
+   * Gets the version.
+   *
+   * <p>
+   *
+   * @return the module version
+   */
+  @Column(header = Messages.GUI_MODULES_HEADER_VERSION_0, width = 80, order = 30)
+  public String getVersion() {
 
-        return m_module.getVersion().toString();
-    }
+    return m_module.getVersion().toString();
+  }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
+  /** @see java.lang.Object#hashCode() */
+  @Override
+  public int hashCode() {
 
-        return getName().hashCode();
-    }
-
+    return getName().hashCode();
+  }
 }

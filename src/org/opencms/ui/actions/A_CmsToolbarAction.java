@@ -27,37 +27,41 @@
 
 package org.opencms.ui.actions;
 
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.I_CmsDialogContext.ContextType;
 import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 
-import java.util.List;
-
 /**
- * Workplace action only visible in the toolbar context menus, not within the file table.<p>
+ * Workplace action only visible in the toolbar context menus, not within the file table.
+ *
+ * <p>
  */
 public abstract class A_CmsToolbarAction extends A_CmsWorkplaceAction {
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
 
-        return ((resources != null) && !resources.isEmpty())
+    return ((resources != null) && !resources.isEmpty())
         ? CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE
         : CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
-    }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
-     */
-    @Override
-    public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.A_CmsWorkplaceAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
+   */
+  @Override
+  public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
 
-        return ContextType.fileTable.equals(context.getContextType())
+    return ContextType.fileTable.equals(context.getContextType())
         ? CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE
         : CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
-    }
+  }
 }

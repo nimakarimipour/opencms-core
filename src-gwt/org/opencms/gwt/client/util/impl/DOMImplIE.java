@@ -30,19 +30,24 @@ package org.opencms.gwt.client.util.impl;
 import com.google.gwt.dom.client.Document;
 
 /**
- * Helper class for DOM operations not made available by the GWT core classes.<p>
+ * Helper class for DOM operations not made available by the GWT core classes.
  *
- * Implementation for all MSIE browsers.<p>
+ * <p>Implementation for all MSIE browsers.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class DOMImplIE extends DOMImpl {
 
-    /**
-     * @see org.opencms.gwt.client.util.impl.DOMImpl#createIFrameElement(com.google.gwt.dom.client.Document, java.lang.String)
-     */
-    @Override
-    public native com.google.gwt.dom.client.Element createIFrameElement(Document doc, String name) /*-{
+  /**
+   * @see
+   *     org.opencms.gwt.client.util.impl.DOMImpl#createIFrameElement(com.google.gwt.dom.client.Document,
+   *     java.lang.String)
+   */
+  @Override
+  public native com.google.gwt.dom.client.Element createIFrameElement(
+      Document doc, String name) /*-{
                                                                                                    // attributes need to be set at creation of the iframe DOM element to take effect in rendering
                                                                                                    return doc
                                                                                                    .createElement("<iframe name='"

@@ -33,20 +33,24 @@ import org.opencms.xml.xml2json.handler.CmsJsonHandlerException;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerXmlContent.PathNotFoundException;
 
 /**
- * Interface representing a JSON document.<p>
+ * Interface representing a JSON document.
+ *
+ * <p>
  */
 public interface I_CmsJsonDocument {
 
-    /**
-     * Returns the JSON document.<p>
-     *
-     * @return the JSON document
-     * @throws JSONException if rendering the JSON document fails
-     * @throws CmsException if reading a resource or evaluating a SOLR search fails
-     * @throws CmsJsonHandlerException if the request is not valid according to the specification
-     * @throws PathNotFoundException if the selected path does not exist
-     * @throws Exception if something else goes wrong
-     */
-    public Object getJson()
-    throws JSONException, CmsException, CmsJsonHandlerException, PathNotFoundException, Exception;
+  /**
+   * Returns the JSON document.
+   *
+   * <p>
+   *
+   * @return the JSON document
+   * @throws JSONException if rendering the JSON document fails
+   * @throws CmsException if reading a resource or evaluating a SOLR search fails
+   * @throws CmsJsonHandlerException if the request is not valid according to the specification
+   * @throws PathNotFoundException if the selected path does not exist
+   * @throws Exception if something else goes wrong
+   */
+  public Object getJson()
+      throws JSONException, CmsException, CmsJsonHandlerException, PathNotFoundException, Exception;
 }

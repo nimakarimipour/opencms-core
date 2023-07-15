@@ -27,27 +27,30 @@
 
 package org.opencms.gwt.client.property.definition;
 
+import java.util.Collection;
 import org.opencms.gwt.client.ui.CmsPopup;
 
-import java.util.Collection;
-
 /**
- * Popup dialog for creating new properties.<p>
+ * Popup dialog for creating new properties.
+ *
+ * <p>
  */
 public class CmsPropertyDefinitionDialog extends CmsPopup {
 
-    /**
-     * Creates a new dialog instance.<p>
-     *
-     * @param existingProperties the list of existing property names
-     */
-    public CmsPropertyDefinitionDialog(Collection<String> existingProperties) {
+  /**
+   * Creates a new dialog instance.
+   *
+   * <p>
+   *
+   * @param existingProperties the list of existing property names
+   */
+  public CmsPropertyDefinitionDialog(Collection<String> existingProperties) {
 
-        super(CmsPropertyDefinitionMessages.messageDialogCaption());
-        CmsPropertyDefinitionView defView = new CmsPropertyDefinitionView(existingProperties);
-        setMainContent(defView);
-        defView.setPopup(this);
-        addButton(defView.getCancelButton());
-        addButton(defView.getOkButton());
-    }
+    super(CmsPropertyDefinitionMessages.messageDialogCaption());
+    CmsPropertyDefinitionView defView = new CmsPropertyDefinitionView(existingProperties);
+    setMainContent(defView);
+    defView.setPopup(this);
+    addButton(defView.getCancelButton());
+    addButton(defView.getOkButton());
+  }
 }

@@ -30,16 +30,24 @@ package org.opencms.jsp.search.controller;
 import java.util.Collection;
 import java.util.Map;
 
-/** Interface the controller for all range facets must implement - just allow access to the single controllers. */
+/**
+ * Interface the controller for all range facets must implement - just allow access to the single
+ * controllers.
+ */
 public interface I_CmsSearchControllerFacetsRange extends I_CmsSearchController {
 
-    /** Get access to the controllers by the range facet's names.
-     * @return The map with all range facet controllers, where the facet's names are the keys and the facet's controllers are the values.
-     */
-    Map<String, I_CmsSearchControllerFacetRange> getRangeFacetController();
+  /**
+   * Get access to the controllers by the range facet's names.
+   *
+   * @return The map with all range facet controllers, where the facet's names are the keys and the
+   *     facet's controllers are the values.
+   */
+  Map<String, I_CmsSearchControllerFacetRange> getRangeFacetController();
 
-    /** Get the collection of all range facet controllers.
-     * @return The collection of all range facet controllers.
-     */
-    Collection<I_CmsSearchControllerFacetRange> getRangeFacetControllers();
+  /**
+   * Get the collection of all range facet controllers.
+   *
+   * @return The collection of all range facet controllers.
+   */
+  Collection<I_CmsSearchControllerFacetRange> getRangeFacetControllers();
 }

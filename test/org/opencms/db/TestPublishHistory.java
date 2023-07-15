@@ -27,6 +27,15 @@
 
 package org.opencms.db;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.types.CmsResourceTypePlain;
@@ -38,325 +47,329 @@ import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 import org.opencms.util.CmsUUID;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Unit tests for OpenCms publish history.<p>
+ * Unit tests for OpenCms publish history.
+ *
+ * <p>
  */
 public class TestPublishHistory extends OpenCmsTestCase implements I_CmsEventListener {
 
-    /** Internal shared variable to test the right publish history. */
-    private static CmsResourceState m_test;
+  /** Internal shared variable to test the right publish history. */
+  private static CmsResourceState m_test;
 
-    /** Name of resource to test. */
-    private static final String RESOURCENAME = "/folder1/testfile.txt";
+  /** Name of resource to test. */
+  private static final String RESOURCENAME = "/folder1/testfile.txt";
 
-    /** Name of resource to test after renaming. */
-    private static final String RESOURCENAME_MOVED = "/folder1/testfile_moved.txt";
+  /** Name of resource to test after renaming. */
+  private static final String RESOURCENAME_MOVED = "/folder1/testfile_moved.txt";
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestPublishHistory(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestPublishHistory(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestPublishHistory.class.getName());
-        suite.addTest(new TestPublishHistory("testCleanupPublishHistory1"));
-        suite.addTest(new TestPublishHistory("testCleanupPublishHistory2"));
-        suite.addTest(new TestPublishHistory("testPublishNewFile"));
-        suite.addTest(new TestPublishHistory("testPublishChangedFile"));
-        suite.addTest(new TestPublishHistory("testPublishMovedFile"));
-        suite.addTest(new TestPublishHistory("testPublishDeletedFile"));
+    TestSuite suite = new TestSuite();
+    suite.setName(TestPublishHistory.class.getName());
+    suite.addTest(new TestPublishHistory("testCleanupPublishHistory1"));
+    suite.addTest(new TestPublishHistory("testCleanupPublishHistory2"));
+    suite.addTest(new TestPublishHistory("testPublishNewFile"));
+    suite.addTest(new TestPublishHistory("testPublishChangedFile"));
+    suite.addTest(new TestPublishHistory("testPublishMovedFile"));
+    suite.addTest(new TestPublishHistory("testPublishDeletedFile"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
-    }
+    return wrapper;
+  }
 
-    /**
-     * @see org.opencms.main.I_CmsEventListener#cmsEvent(org.opencms.main.CmsEvent)
-     */
-    public void cmsEvent(CmsEvent event) {
+  /** @see org.opencms.main.I_CmsEventListener#cmsEvent(org.opencms.main.CmsEvent) */
+  public void cmsEvent(CmsEvent event) {
 
-        switch (event.getType()) {
-            case I_CmsEventListener.EVENT_PUBLISH_PROJECT:
-                try {
-                    CmsObject cms = getCmsObject();
-                    // event data contains a list of the published resources
-                    CmsUUID publishHistoryId = new CmsUUID(
-                        (String)event.getData().get(I_CmsEventListener.KEY_PUBLISHID));
-                    List publishedResources = cms.readPublishedResources(publishHistoryId);
-                    CmsPublishedResource pubRes = null;
-                    if (m_test.isNew()) {
-                        assertEquals(1, publishedResources.size());
-                        pubRes = (CmsPublishedResource)publishedResources.get(0);
-                        assertEquals("/sites/default" + RESOURCENAME, pubRes.getRootPath());
-                        assertEquals(CmsResource.STATE_NEW, pubRes.getState());
-                        assertFalse(pubRes.isMoved());
-                    } else if (m_test.isChanged()) {
-                        assertEquals(1, publishedResources.size());
-                        pubRes = (CmsPublishedResource)publishedResources.get(0);
-                        assertEquals("/sites/default" + RESOURCENAME, pubRes.getRootPath());
-                        assertEquals(CmsResource.STATE_CHANGED, pubRes.getState());
-                        assertFalse(pubRes.isMoved());
-                    } else if (m_test == CmsPublishedResource.STATE_MOVED_SOURCE) {
-                        assertEquals(2, publishedResources.size());
-                        pubRes = (CmsPublishedResource)publishedResources.get(0);
-                        boolean moved = false;
-                        if (pubRes.getRootPath().endsWith(RESOURCENAME)) {
-                            assertEquals("/sites/default" + RESOURCENAME, pubRes.getRootPath());
-                            assertEquals(CmsResource.STATE_DELETED, pubRes.getState());
-                            assertEquals(CmsPublishedResource.STATE_MOVED_SOURCE, pubRes.getMovedState());
-                            assertTrue(pubRes.isMoved());
-                            moved = false;
-                        } else if (pubRes.getRootPath().endsWith(RESOURCENAME_MOVED)) {
-                            assertEquals("/sites/default" + RESOURCENAME_MOVED, pubRes.getRootPath());
-                            assertEquals(CmsResource.STATE_NEW, pubRes.getState());
-                            assertEquals(CmsPublishedResource.STATE_MOVED_DESTINATION, pubRes.getMovedState());
-                            assertTrue(pubRes.isMoved());
-                            moved = true;
-                        } else {
-                            fail("unexpected publish resource " + pubRes.getRootPath());
-                        }
-                        pubRes = (CmsPublishedResource)publishedResources.get(1);
-                        if (moved && pubRes.getRootPath().endsWith(RESOURCENAME)) {
-                            assertEquals("/sites/default" + RESOURCENAME, pubRes.getRootPath());
-                            assertEquals(CmsResource.STATE_DELETED, pubRes.getState());
-                            assertTrue(pubRes.isMoved());
-                        } else if (!moved && pubRes.getRootPath().endsWith(RESOURCENAME_MOVED)) {
-                            assertEquals("/sites/default" + RESOURCENAME_MOVED, pubRes.getRootPath());
-                            assertEquals(CmsResource.STATE_NEW, pubRes.getState());
-                            assertTrue(pubRes.isMoved());
-                        } else {
-                            fail("unexpected publish resource " + pubRes.getRootPath());
-                        }
-                    } else if (m_test.isDeleted()) {
-                        assertEquals(1, publishedResources.size());
-                        pubRes = (CmsPublishedResource)publishedResources.get(0);
-                        assertEquals("/sites/default" + RESOURCENAME_MOVED, pubRes.getRootPath());
-                        assertEquals(CmsResource.STATE_DELETED, pubRes.getState());
-                        assertFalse(pubRes.isMoved());
-                    } else {
-                        fail("should never happen!");
-                    }
-                } catch (CmsException e) {
-                    fail(e.getMessage());
-                }
-                break;
-            default:
-                fail("should never happen!");
-        }
-    }
-
-    /**
-     * Tests publish history cleanup.
-     * @throws Exception if something goes wrong
-     */
-    public void testCleanupPublishHistory1() throws Exception {
-
-        String prefix = "tph1_";
-        OpenCms.addCmsEventListener(evt -> {
-            if (evt.getType() == I_CmsEventListener.EVENT_PUBLISH_PROJECT) {
-                System.out.println(evt.getData().get(I_CmsEventListener.KEY_PUBLISHID));
-            }
-        });
-        CmsObject cms = getCmsObject();
-        CmsUUID[] historyIds = new CmsUUID[12];
-        for (int i = 0; i < 12; i++) {
-            String path = "/" + prefix + i + ".txt";
-            CmsResource res = cms.createResource(path, 1);
-            CmsUUID historyId = OpenCms.getPublishManager().publishResource(cms, path);
-            historyIds[i] = historyId;
-            OpenCms.getPublishManager().waitWhileRunning();
-        }
-        Thread.sleep(1000);
-        // publish history size is configured as 10, auto publish resource cleanup is on,
-        // we have published 12 times, check that the cleanup worked
-        assertEquals(0, cms.readPublishedResources(historyIds[0]).size());
-        assertEquals(0, cms.readPublishedResources(historyIds[1]).size());
-        assertEquals(1, cms.readPublishedResources(historyIds[2]).size());
-        assertEquals(1, cms.readPublishedResources(historyIds[3]).size());
-    }
-
-    /**
-     * Tests publish history cleanup.
-     * @throws Exception if something goes wrong
-     */
-    public void testCleanupPublishHistory2() throws Exception {
-
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet res = null;
-        List<CmsUUID> fakeHistoryIds = Arrays.asList(new CmsUUID(), new CmsUUID(), new CmsUUID());
+    switch (event.getType()) {
+      case I_CmsEventListener.EVENT_PUBLISH_PROJECT:
         try {
-            conn = OpenCms.getSqlManager().getConnection(OpenCms.getSqlManager().getDefaultDbPoolName());
-            stmt = conn.prepareStatement("INSERT INTO CMS_PUBLISH_HISTORY VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            for (CmsUUID id : fakeHistoryIds) {
-                stmt.setString(1, id.toString());
-                stmt.setInt(2, 0);
-                stmt.setString(3, new CmsUUID().toString());
-                stmt.setString(4, new CmsUUID().toString());
-                stmt.setString(5, "/" + Math.random());
-                stmt.setInt(6, 0);
-                stmt.setInt(7, 1);
-                stmt.setInt(8, 1);
-                stmt.addBatch();
+          CmsObject cms = getCmsObject();
+          // event data contains a list of the published resources
+          CmsUUID publishHistoryId =
+              new CmsUUID((String) event.getData().get(I_CmsEventListener.KEY_PUBLISHID));
+          List publishedResources = cms.readPublishedResources(publishHistoryId);
+          CmsPublishedResource pubRes = null;
+          if (m_test.isNew()) {
+            assertEquals(1, publishedResources.size());
+            pubRes = (CmsPublishedResource) publishedResources.get(0);
+            assertEquals("/sites/default" + RESOURCENAME, pubRes.getRootPath());
+            assertEquals(CmsResource.STATE_NEW, pubRes.getState());
+            assertFalse(pubRes.isMoved());
+          } else if (m_test.isChanged()) {
+            assertEquals(1, publishedResources.size());
+            pubRes = (CmsPublishedResource) publishedResources.get(0);
+            assertEquals("/sites/default" + RESOURCENAME, pubRes.getRootPath());
+            assertEquals(CmsResource.STATE_CHANGED, pubRes.getState());
+            assertFalse(pubRes.isMoved());
+          } else if (m_test == CmsPublishedResource.STATE_MOVED_SOURCE) {
+            assertEquals(2, publishedResources.size());
+            pubRes = (CmsPublishedResource) publishedResources.get(0);
+            boolean moved = false;
+            if (pubRes.getRootPath().endsWith(RESOURCENAME)) {
+              assertEquals("/sites/default" + RESOURCENAME, pubRes.getRootPath());
+              assertEquals(CmsResource.STATE_DELETED, pubRes.getState());
+              assertEquals(CmsPublishedResource.STATE_MOVED_SOURCE, pubRes.getMovedState());
+              assertTrue(pubRes.isMoved());
+              moved = false;
+            } else if (pubRes.getRootPath().endsWith(RESOURCENAME_MOVED)) {
+              assertEquals("/sites/default" + RESOURCENAME_MOVED, pubRes.getRootPath());
+              assertEquals(CmsResource.STATE_NEW, pubRes.getState());
+              assertEquals(CmsPublishedResource.STATE_MOVED_DESTINATION, pubRes.getMovedState());
+              assertTrue(pubRes.isMoved());
+              moved = true;
+            } else {
+              fail("unexpected publish resource " + pubRes.getRootPath());
             }
-            stmt.executeBatch();
-        } catch (SQLException e) {
-            // noop
-
-        } finally {
-            if (res != null) {
-                try {
-                    res.close();
-                } catch (Exception e) {
-                    // noop
-                }
+            pubRes = (CmsPublishedResource) publishedResources.get(1);
+            if (moved && pubRes.getRootPath().endsWith(RESOURCENAME)) {
+              assertEquals("/sites/default" + RESOURCENAME, pubRes.getRootPath());
+              assertEquals(CmsResource.STATE_DELETED, pubRes.getState());
+              assertTrue(pubRes.isMoved());
+            } else if (!moved && pubRes.getRootPath().endsWith(RESOURCENAME_MOVED)) {
+              assertEquals("/sites/default" + RESOURCENAME_MOVED, pubRes.getRootPath());
+              assertEquals(CmsResource.STATE_NEW, pubRes.getState());
+              assertTrue(pubRes.isMoved());
+            } else {
+              fail("unexpected publish resource " + pubRes.getRootPath());
             }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (Exception e) {
-                    // noop
-                }
-            }
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (Exception e) {
-                    // noop
-                }
-            }
-
+          } else if (m_test.isDeleted()) {
+            assertEquals(1, publishedResources.size());
+            pubRes = (CmsPublishedResource) publishedResources.get(0);
+            assertEquals("/sites/default" + RESOURCENAME_MOVED, pubRes.getRootPath());
+            assertEquals(CmsResource.STATE_DELETED, pubRes.getState());
+            assertFalse(pubRes.isMoved());
+          } else {
+            fail("should never happen!");
+          }
+        } catch (CmsException e) {
+          fail(e.getMessage());
         }
+        break;
+      default:
+        fail("should never happen!");
+    }
+  }
 
-        CmsObject cms = getCmsObject();
-        for (CmsUUID id : fakeHistoryIds) {
-            assertEquals(1, cms.readPublishedResources(id).size());
+  /**
+   * Tests publish history cleanup.
+   *
+   * @throws Exception if something goes wrong
+   */
+  public void testCleanupPublishHistory1() throws Exception {
+
+    String prefix = "tph1_";
+    OpenCms.addCmsEventListener(
+        evt -> {
+          if (evt.getType() == I_CmsEventListener.EVENT_PUBLISH_PROJECT) {
+            System.out.println(evt.getData().get(I_CmsEventListener.KEY_PUBLISHID));
+          }
+        });
+    CmsObject cms = getCmsObject();
+    CmsUUID[] historyIds = new CmsUUID[12];
+    for (int i = 0; i < 12; i++) {
+      String path = "/" + prefix + i + ".txt";
+      CmsResource res = cms.createResource(path, 1);
+      CmsUUID historyId = OpenCms.getPublishManager().publishResource(cms, path);
+      historyIds[i] = historyId;
+      OpenCms.getPublishManager().waitWhileRunning();
+    }
+    Thread.sleep(1000);
+    // publish history size is configured as 10, auto publish resource cleanup is on,
+    // we have published 12 times, check that the cleanup worked
+    assertEquals(0, cms.readPublishedResources(historyIds[0]).size());
+    assertEquals(0, cms.readPublishedResources(historyIds[1]).size());
+    assertEquals(1, cms.readPublishedResources(historyIds[2]).size());
+    assertEquals(1, cms.readPublishedResources(historyIds[3]).size());
+  }
+
+  /**
+   * Tests publish history cleanup.
+   *
+   * @throws Exception if something goes wrong
+   */
+  public void testCleanupPublishHistory2() throws Exception {
+
+    Connection conn = null;
+    PreparedStatement stmt = null;
+    ResultSet res = null;
+    List<CmsUUID> fakeHistoryIds = Arrays.asList(new CmsUUID(), new CmsUUID(), new CmsUUID());
+    try {
+      conn = OpenCms.getSqlManager().getConnection(OpenCms.getSqlManager().getDefaultDbPoolName());
+      stmt =
+          conn.prepareStatement("INSERT INTO CMS_PUBLISH_HISTORY VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+      for (CmsUUID id : fakeHistoryIds) {
+        stmt.setString(1, id.toString());
+        stmt.setInt(2, 0);
+        stmt.setString(3, new CmsUUID().toString());
+        stmt.setString(4, new CmsUUID().toString());
+        stmt.setString(5, "/" + Math.random());
+        stmt.setInt(6, 0);
+        stmt.setInt(7, 1);
+        stmt.setInt(8, 1);
+        stmt.addBatch();
+      }
+      stmt.executeBatch();
+    } catch (SQLException e) {
+      // noop
+
+    } finally {
+      if (res != null) {
+        try {
+          res.close();
+        } catch (Exception e) {
+          // noop
         }
-        OpenCms.getPublishManager().cleanupPublishHistory(cms, Arrays.asList(fakeHistoryIds.get(0)));
-        assertEquals(1, cms.readPublishedResources(fakeHistoryIds.get(0)).size());
-        assertEquals(0, cms.readPublishedResources(fakeHistoryIds.get(1)).size());
-        assertEquals(0, cms.readPublishedResources(fakeHistoryIds.get(1)).size());
-
+      }
+      if (conn != null) {
+        try {
+          conn.close();
+        } catch (Exception e) {
+          // noop
+        }
+      }
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (Exception e) {
+          // noop
+        }
+      }
     }
 
-    /**
-     * Test the publish history for a changed file.<p>
-     *
-     * @throws Throwable if something goes wrong
-     */
-    public void testPublishChangedFile() throws Throwable {
-
-        CmsObject cms = getCmsObject();
-        echo("Testing publish history for a changed file");
-
-        // set the test to changed file
-        m_test = CmsResource.STATE_CHANGED;
-
-        cms.lockResource(RESOURCENAME);
-        cms.setDateLastModified(RESOURCENAME, System.currentTimeMillis(), false);
-        cms.unlockResource(RESOURCENAME);
-        OpenCms.getPublishManager().publishResource(cms, RESOURCENAME);
-        OpenCms.getPublishManager().waitWhileRunning();
+    CmsObject cms = getCmsObject();
+    for (CmsUUID id : fakeHistoryIds) {
+      assertEquals(1, cms.readPublishedResources(id).size());
     }
+    OpenCms.getPublishManager().cleanupPublishHistory(cms, Arrays.asList(fakeHistoryIds.get(0)));
+    assertEquals(1, cms.readPublishedResources(fakeHistoryIds.get(0)).size());
+    assertEquals(0, cms.readPublishedResources(fakeHistoryIds.get(1)).size());
+    assertEquals(0, cms.readPublishedResources(fakeHistoryIds.get(1)).size());
+  }
 
-    /**
-     * Test the publish history for a deleted file.<p>
-     *
-     * @throws Throwable if something goes wrong
-     */
-    public void testPublishDeletedFile() throws Throwable {
+  /**
+   * Test the publish history for a changed file.
+   *
+   * <p>
+   *
+   * @throws Throwable if something goes wrong
+   */
+  public void testPublishChangedFile() throws Throwable {
 
-        CmsObject cms = getCmsObject();
-        echo("Testing publish history for a deleted file");
+    CmsObject cms = getCmsObject();
+    echo("Testing publish history for a changed file");
 
-        // set the test to deleted file
-        m_test = CmsResource.STATE_DELETED;
+    // set the test to changed file
+    m_test = CmsResource.STATE_CHANGED;
 
-        cms.lockResource(RESOURCENAME_MOVED);
-        cms.deleteResource(RESOURCENAME_MOVED, CmsResource.DELETE_PRESERVE_SIBLINGS);
-        cms.unlockResource(RESOURCENAME_MOVED);
-        OpenCms.getPublishManager().publishResource(cms, RESOURCENAME_MOVED);
-        OpenCms.getPublishManager().waitWhileRunning();
-    }
+    cms.lockResource(RESOURCENAME);
+    cms.setDateLastModified(RESOURCENAME, System.currentTimeMillis(), false);
+    cms.unlockResource(RESOURCENAME);
+    OpenCms.getPublishManager().publishResource(cms, RESOURCENAME);
+    OpenCms.getPublishManager().waitWhileRunning();
+  }
 
-    /**
-     * Test the publish history for a moved file.<p>
-     *
-     * @throws Throwable if something goes wrong
-     */
-    public void testPublishMovedFile() throws Throwable {
+  /**
+   * Test the publish history for a deleted file.
+   *
+   * <p>
+   *
+   * @throws Throwable if something goes wrong
+   */
+  public void testPublishDeletedFile() throws Throwable {
 
-        CmsObject cms = getCmsObject();
-        echo("Testing publish history for a moved file");
+    CmsObject cms = getCmsObject();
+    echo("Testing publish history for a deleted file");
 
-        // set the test to new file
-        m_test = CmsPublishedResource.STATE_MOVED_SOURCE;
+    // set the test to deleted file
+    m_test = CmsResource.STATE_DELETED;
 
-        cms.lockResource(RESOURCENAME);
-        cms.moveResource(RESOURCENAME, RESOURCENAME_MOVED);
-        cms.unlockResource(RESOURCENAME_MOVED);
-        OpenCms.getPublishManager().publishResource(cms, RESOURCENAME_MOVED);
-        OpenCms.getPublishManager().waitWhileRunning();
-    }
+    cms.lockResource(RESOURCENAME_MOVED);
+    cms.deleteResource(RESOURCENAME_MOVED, CmsResource.DELETE_PRESERVE_SIBLINGS);
+    cms.unlockResource(RESOURCENAME_MOVED);
+    OpenCms.getPublishManager().publishResource(cms, RESOURCENAME_MOVED);
+    OpenCms.getPublishManager().waitWhileRunning();
+  }
 
-    /**
-     * Test publish history for a new file.<p>
-     *
-     * @throws Throwable if something goes wrong
-     */
-    public void testPublishNewFile() throws Throwable {
+  /**
+   * Test the publish history for a moved file.
+   *
+   * <p>
+   *
+   * @throws Throwable if something goes wrong
+   */
+  public void testPublishMovedFile() throws Throwable {
 
-        CmsObject cms = getCmsObject();
-        echo("Testing publish history for a new file");
+    CmsObject cms = getCmsObject();
+    echo("Testing publish history for a moved file");
 
-        // THIS is the first test case, so register the event listener here!
-        OpenCms.addCmsEventListener(this, new int[] {I_CmsEventListener.EVENT_PUBLISH_PROJECT});
+    // set the test to new file
+    m_test = CmsPublishedResource.STATE_MOVED_SOURCE;
 
-        // set the test to new file
-        m_test = CmsResource.STATE_NEW;
+    cms.lockResource(RESOURCENAME);
+    cms.moveResource(RESOURCENAME, RESOURCENAME_MOVED);
+    cms.unlockResource(RESOURCENAME_MOVED);
+    OpenCms.getPublishManager().publishResource(cms, RESOURCENAME_MOVED);
+    OpenCms.getPublishManager().waitWhileRunning();
+  }
 
-        cms.createResource(RESOURCENAME, CmsResourceTypePlain.getStaticTypeId());
-        cms.unlockResource(RESOURCENAME);
-        OpenCms.getPublishManager().publishResource(cms, RESOURCENAME);
-        OpenCms.getPublishManager().waitWhileRunning();
-    }
+  /**
+   * Test publish history for a new file.
+   *
+   * <p>
+   *
+   * @throws Throwable if something goes wrong
+   */
+  public void testPublishNewFile() throws Throwable {
+
+    CmsObject cms = getCmsObject();
+    echo("Testing publish history for a new file");
+
+    // THIS is the first test case, so register the event listener here!
+    OpenCms.addCmsEventListener(this, new int[] {I_CmsEventListener.EVENT_PUBLISH_PROJECT});
+
+    // set the test to new file
+    m_test = CmsResource.STATE_NEW;
+
+    cms.createResource(RESOURCENAME, CmsResourceTypePlain.getStaticTypeId());
+    cms.unlockResource(RESOURCENAME);
+    OpenCms.getPublishManager().publishResource(cms, RESOURCENAME);
+    OpenCms.getPublishManager().waitWhileRunning();
+  }
 }

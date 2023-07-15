@@ -28,33 +28,42 @@
 package org.opencms.gwt.client.ui.input.form;
 
 /**
- * The interface for objects which should be notified when a {@link CmsForm} is successfully submitted.<p>
+ * The interface for objects which should be notified when a {@link CmsForm} is successfully
+ * submitted.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsFormHandler {
 
-    /**
-     * Returns true if properties are currently being submitted.<p>
-     *
-     * @return true if properties are being submitted
-     */
-    boolean isSubmitting();
+  /**
+   * Returns true if properties are currently being submitted.
+   *
+   * <p>
+   *
+   * @return true if properties are being submitted
+   */
+  boolean isSubmitting();
 
-    /**
-     * This method is called when the validation triggered by an attempt to submit the form has finished.<p>
-     *
-     * @param form the form
-     * @param ok the validation result
-     */
-    void onSubmitValidationResult(CmsForm form, boolean ok);
+  /**
+   * This method is called when the validation triggered by an attempt to submit the form has
+   * finished.
+   *
+   * <p>
+   *
+   * @param form the form
+   * @param ok the validation result
+   */
+  void onSubmitValidationResult(CmsForm form, boolean ok);
 
-    /**
-     * This method is called when the normal validation triggered by changing fields has finished.<p>
-     *
-     * @param form the form
-     * @param ok the validation result
-     */
-    void onValidationResult(CmsForm form, boolean ok);
-
+  /**
+   * This method is called when the normal validation triggered by changing fields has finished.
+   *
+   * <p>
+   *
+   * @param form the form
+   * @param ok the validation result
+   */
+  void onValidationResult(CmsForm form, boolean ok);
 }

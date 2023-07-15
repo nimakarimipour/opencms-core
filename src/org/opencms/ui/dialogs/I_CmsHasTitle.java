@@ -30,16 +30,19 @@ package org.opencms.ui.dialogs;
 import java.util.Locale;
 
 /**
- * Implementing classes provide a title.<p>
+ * Implementing classes provide a title.
+ *
+ * <p>
  */
 public interface I_CmsHasTitle {
 
-    /**
-     * Returns the title.<p>
-     *
-     * @param locale the locale
-     *
-     * @return the title
-     */
-    String getTitle(Locale locale);
+  /**
+   * Returns the title.
+   *
+   * <p>
+   *
+   * @param locale the locale
+   * @return the title
+   */
+  String getTitle(Locale locale);
 }

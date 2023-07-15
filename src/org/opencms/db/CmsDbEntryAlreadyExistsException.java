@@ -31,37 +31,36 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Signals that an attempt to create an object was not successfull because it already exists.<p>
+ * Signals that an attempt to create an object was not successfull because it already exists.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDbEntryAlreadyExistsException extends CmsDbException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -3605466011434350322L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -3605466011434350322L;
 
-    /**
-     * @see org.opencms.main.CmsException#CmsException(CmsMessageContainer)
-     */
-    public CmsDbEntryAlreadyExistsException(CmsMessageContainer container) {
+  /** @see org.opencms.main.CmsException#CmsException(CmsMessageContainer) */
+  public CmsDbEntryAlreadyExistsException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#CmsException(CmsMessageContainer, Throwable)
-     */
-    public CmsDbEntryAlreadyExistsException(CmsMessageContainer container, Throwable cause) {
+  /** @see org.opencms.main.CmsException#CmsException(CmsMessageContainer, Throwable) */
+  public CmsDbEntryAlreadyExistsException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsDbEntryAlreadyExistsException(container, cause);
-    }
+    return new CmsDbEntryAlreadyExistsException(container, cause);
+  }
 }

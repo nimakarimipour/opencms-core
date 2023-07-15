@@ -30,25 +30,31 @@ package org.opencms.setup.db.update6to7.postgresql;
 import java.io.IOException;
 
 /**
- * PostgreSQL implementation to update the OUs of of the database.<p>
+ * PostgreSQL implementation to update the OUs of of the database.
+ *
+ * <p>
  *
  * @since 7.0.2
  */
 public class CmsUpdateDBUpdateOU extends org.opencms.setup.db.update6to7.CmsUpdateDBUpdateOU {
 
-    /** Constant for the SQL query properties.<p> */
-    private static final String QUERY_PROPERTY_FILE = "cms_ou_query.properties";
+  /**
+   * Constant for the SQL query properties.
+   *
+   * <p>
+   */
+  private static final String QUERY_PROPERTY_FILE = "cms_ou_query.properties";
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the sql queries properties file could not be read
-     */
-    public CmsUpdateDBUpdateOU()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the sql queries properties file could not be read
+   */
+  public CmsUpdateDBUpdateOU() throws IOException {
 
-        super();
-        loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
-    }
-
+    super();
+    loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+  }
 }

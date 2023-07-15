@@ -30,56 +30,56 @@ package org.opencms.gwt;
 import com.google.gwt.user.server.rpc.SerializationPolicy;
 
 /**
- * A serialization policy which allows serialization and deserialization of all classes.<p>
+ * A serialization policy which allows serialization and deserialization of all classes.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsDummySerializationPolicy extends SerializationPolicy {
 
-    /**
-     * @see com.google.gwt.user.server.rpc.SerializationPolicy#shouldDeserializeFields(java.lang.Class)
-     */
-    @Override
-    public boolean shouldDeserializeFields(Class<?> clazz) {
+  /**
+   * @see
+   *     com.google.gwt.user.server.rpc.SerializationPolicy#shouldDeserializeFields(java.lang.Class)
+   */
+  @Override
+  public boolean shouldDeserializeFields(Class<?> clazz) {
 
-        if ((clazz == null) || (clazz == Object.class)) {
-            return false;
-        }
-
-        return true;
+    if ((clazz == null) || (clazz == Object.class)) {
+      return false;
     }
 
-    /**
-     * @see com.google.gwt.user.server.rpc.SerializationPolicy#shouldSerializeFields(java.lang.Class)
-     */
-    @Override
-    public boolean shouldSerializeFields(Class<?> clazz) {
+    return true;
+  }
 
-        if ((clazz == null) || (clazz == Object.class)) {
-            return false;
-        }
+  /**
+   * @see com.google.gwt.user.server.rpc.SerializationPolicy#shouldSerializeFields(java.lang.Class)
+   */
+  @Override
+  public boolean shouldSerializeFields(Class<?> clazz) {
 
-        return true;
+    if ((clazz == null) || (clazz == Object.class)) {
+      return false;
     }
 
-    /**
-     * @see com.google.gwt.user.server.rpc.SerializationPolicy#validateDeserialize(java.lang.Class)
-     */
-    @Override
-    public void validateDeserialize(Class<?> clazz) {
+    return true;
+  }
 
-        // do nothing
+  /**
+   * @see com.google.gwt.user.server.rpc.SerializationPolicy#validateDeserialize(java.lang.Class)
+   */
+  @Override
+  public void validateDeserialize(Class<?> clazz) {
 
-    }
+    // do nothing
 
-    /**
-     * @see com.google.gwt.user.server.rpc.SerializationPolicy#validateSerialize(java.lang.Class)
-     */
-    @Override
-    public void validateSerialize(Class<?> clazz) {
+  }
 
-        // do nothing
+  /** @see com.google.gwt.user.server.rpc.SerializationPolicy#validateSerialize(java.lang.Class) */
+  @Override
+  public void validateSerialize(Class<?> clazz) {
 
-    }
+    // do nothing
 
+  }
 }

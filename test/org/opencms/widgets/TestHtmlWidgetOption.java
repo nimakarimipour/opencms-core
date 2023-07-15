@@ -27,30 +27,33 @@
 
 package org.opencms.widgets;
 
+import java.util.Map;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.util.CmsPair;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.Map;
-
 /**
- * Test cases for the parsing of select widget options.<p>
+ * Test cases for the parsing of select widget options.
  *
+ * <p>
  */
 public class TestHtmlWidgetOption extends OpenCmsTestCase {
 
-    /**
-     * Tests parsing of the embedded gallery configuration.<p>
-     */
-    public void testParseEmbeddedGalleryOptions() {
+  /**
+   * Tests parsing of the embedded gallery configuration.
+   *
+   * <p>
+   */
+  public void testParseEmbeddedGalleryOptions() {
 
-        String config = "imagegallery{foo},xyzzy,downloadgallery{bar},bbb,endswithimagegallery{ttt}";
+    String config = "imagegallery{foo},xyzzy,downloadgallery{bar},bbb,endswithimagegallery{ttt}";
 
-        CmsPair<String, Map<String, String>> result = CmsHtmlWidgetOption.parseEmbeddedGalleryOptions(config);
-        assertEquals("imagegallery,xyzzy,downloadgallery,bbb,endswithimagegallery{ttt}", result.getFirst());
-        Map<String, String> expected = CmsStringUtil.splitAsMap("imagegallery:{foo}|downloadgallery:{bar}", "|", ":");
-        assertEquals(expected, result.getSecond());
-
-    }
-
+    CmsPair<String, Map<String, String>> result =
+        CmsHtmlWidgetOption.parseEmbeddedGalleryOptions(config);
+    assertEquals(
+        "imagegallery,xyzzy,downloadgallery,bbb,endswithimagegallery{ttt}", result.getFirst());
+    Map<String, String> expected =
+        CmsStringUtil.splitAsMap("imagegallery:{foo}|downloadgallery:{bar}", "|", ":");
+    assertEquals(expected, result.getSecond());
+  }
 }

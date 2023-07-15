@@ -27,46 +27,48 @@
 
 package org.opencms.ui.apps;
 
+import com.vaadin.server.Resource;
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 
-import java.util.Locale;
-
-import com.vaadin.server.Resource;
-
-/**
- * Displays a sub menu in the app launch pad.
- */
+/** Displays a sub menu in the app launch pad. */
 public interface I_CmsFolderAppCategory extends I_CmsAppCategory {
 
-    /**
-     * Returns the button style.<p>
-     *
-     * @return the button style
-     */
-    String getButtonStyle();
+  /**
+   * Returns the button style.
+   *
+   * <p>
+   *
+   * @return the button style
+   */
+  String getButtonStyle();
 
-    /**
-     * Gets the help text for the app in the given locale.<p>
-     *
-     * @param locale the locale to use
-     *
-     * @return the help text
-     */
-    String getHelpText(Locale locale);
+  /**
+   * Gets the help text for the app in the given locale.
+   *
+   * <p>
+   *
+   * @param locale the locale to use
+   * @return the help text
+   */
+  String getHelpText(Locale locale);
 
-    /**
-     * Returns the app icon resource.<p>
-     *
-     * @return the icon resource
-     */
-    Resource getIcon();
+  /**
+   * Returns the app icon resource.
+   *
+   * <p>
+   *
+   * @return the icon resource
+   */
+  Resource getIcon();
 
-    /**
-     * Returns the visibility status of the app for the given user context.<p>
-     *
-     * @param cms the user context
-     *
-     * @return the visibility status
-     */
-    CmsAppVisibilityStatus getVisibility(CmsObject cms);
+  /**
+   * Returns the visibility status of the app for the given user context.
+   *
+   * <p>
+   *
+   * @param cms the user context
+   * @return the visibility status
+   */
+  CmsAppVisibilityStatus getVisibility(CmsObject cms);
 }

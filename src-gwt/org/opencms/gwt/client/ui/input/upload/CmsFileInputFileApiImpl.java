@@ -31,44 +31,48 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.InputElement;
 
 /**
- * The HTML5 file input implementation.<p>
+ * The HTML5 file input implementation.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsFileInputFileApiImpl implements I_CmsFileInputService {
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.upload.I_CmsFileInputService#getFiles(com.google.gwt.dom.client.InputElement)
-     */
-    public native JsArray<CmsFileInfo> getFiles(InputElement inputElement) /*-{
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.upload.I_CmsFileInputService#getFiles(com.google.gwt.dom.client.InputElement)
+   */
+  public native JsArray<CmsFileInfo> getFiles(InputElement inputElement) /*-{
         return inputElement.files;
     }-*/;
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.upload.I_CmsFileInputService#isAllowMultipleFiles(com.google.gwt.dom.client.InputElement)
-     */
-    public boolean isAllowMultipleFiles(InputElement inputElement) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.upload.I_CmsFileInputService#isAllowMultipleFiles(com.google.gwt.dom.client.InputElement)
+   */
+  public boolean isAllowMultipleFiles(InputElement inputElement) {
 
-        return inputElement.hasAttribute("multiple");
+    return inputElement.hasAttribute("multiple");
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.upload.I_CmsFileInputService#setAllowMultipleFiles(com.google.gwt.dom.client.InputElement,
+   *     boolean)
+   */
+  public void setAllowMultipleFiles(InputElement inputElement, boolean allow) {
+
+    if (allow) {
+      inputElement.setAttribute("multiple", "");
+    } else {
+      inputElement.removeAttribute("multiple");
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.upload.I_CmsFileInputService#setAllowMultipleFiles(com.google.gwt.dom.client.InputElement, boolean)
-     */
-    public void setAllowMultipleFiles(InputElement inputElement, boolean allow) {
+  /** @see org.opencms.gwt.client.ui.input.upload.I_CmsFileInputService#supportsFileAPI() */
+  public boolean supportsFileAPI() {
 
-        if (allow) {
-            inputElement.setAttribute("multiple", "");
-        } else {
-            inputElement.removeAttribute("multiple");
-        }
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.upload.I_CmsFileInputService#supportsFileAPI()
-     */
-    public boolean supportsFileAPI() {
-
-        return true;
-    }
+    return true;
+  }
 }

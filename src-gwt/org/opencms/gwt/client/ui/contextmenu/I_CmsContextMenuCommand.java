@@ -31,39 +31,44 @@ import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsUUID;
 
 /**
- * Interface for context menu commands.<p>
+ * Interface for context menu commands.
+ *
+ * <p>
  *
  * @since version 8.0.1
  */
 public interface I_CmsContextMenuCommand {
 
-    /**
-     * Executed on context menu item click.<p>
-     *
-     * @param structureId the structure id of the resource
-     * @param handler the context menu handler
-     * @param bean the context menu entry bean
-     */
-    void execute(CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean);
+  /**
+   * Executed on context menu item click.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource
+   * @param handler the context menu handler
+   * @param bean the context menu entry bean
+   */
+  void execute(CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean);
 
-    /**
-     * Returns the special menu item widget for this command.<p>
-     *
-     * @param structureId the structure id of the resource
-     * @param handler the context menu handler
-     * @param bean the context menu entry bean
-     *
-     * @return the special menu item widget for this command
-     */
-    A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean);
+  /**
+   * Returns the special menu item widget for this command.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource
+   * @param handler the context menu handler
+   * @param bean the context menu entry bean
+   * @return the special menu item widget for this command
+   */
+  A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean);
 
-    /**
-     * Returns if this command provides it's own menu item widget.<p>
-     *
-     * @return <code>true</code> if this command provides it's own menu item widget
-     */
-    boolean hasItemWidget();
+  /**
+   * Returns if this command provides it's own menu item widget.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this command provides it's own menu item widget
+   */
+  boolean hasItemWidget();
 }

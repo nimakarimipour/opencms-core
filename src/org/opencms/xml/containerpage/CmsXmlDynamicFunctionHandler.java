@@ -27,81 +27,85 @@
 
 package org.opencms.xml.containerpage;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.xml.content.CmsDefaultXmlContentHandler;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 /**
- * This is the XML content handler class for the "dynamic functionality" resource type.<p>
+ * This is the XML content handler class for the "dynamic functionality" resource type.
  *
- * This resource type needs special handling of formatters and element settings: They are
- * read from each content of this type rather than from the XSD.<p>
+ * <p>This resource type needs special handling of formatters and element settings: They are read
+ * from each content of this type rather than from the XSD.
+ *
+ * <p>
  */
 public class CmsXmlDynamicFunctionHandler extends CmsDefaultXmlContentHandler {
 
-    /** The node name for the formatter settings. */
-    public static final String N_CONTAINER_SETTINGS = "ContainerSettings";
+  /** The node name for the formatter settings. */
+  public static final String N_CONTAINER_SETTINGS = "ContainerSettings";
 
-    /** The resource type for dynamic functions. */
-    public static final String TYPE_FUNCTION = "function";
+  /** The resource type for dynamic functions. */
+  public static final String TYPE_FUNCTION = "function";
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsXmlDynamicFunctionHandler() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsXmlDynamicFunctionHandler() {
 
-        super();
+    super();
+  }
+
+  /**
+   * @see
+   *     org.opencms.xml.content.CmsDefaultXmlContentHandler#getFormatterConfiguration(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource)
+   */
+  @Override
+  public CmsFormatterConfiguration getFormatterConfiguration(CmsObject cms, CmsResource resource) {
+
+    try {
+      CmsDynamicFunctionParser parser = new CmsDynamicFunctionParser();
+      CmsDynamicFunctionBean functionBean = parser.parseFunctionBean(cms, resource);
+      List<CmsFormatterBean> formatters = functionBean.getFormatters();
+      List<I_CmsFormatterBean> wrappers = new ArrayList<I_CmsFormatterBean>();
+      for (CmsFormatterBean formatter : formatters) {
+        wrappers.add(new CmsSchemaFormatterBeanWrapper(cms, formatter, this, resource));
+      }
+      return CmsFormatterConfiguration.create(cms, wrappers);
+    } catch (CmsException e) {
+      return CmsFormatterConfiguration.EMPTY_CONFIGURATION;
     }
+  }
 
-    /**
-     * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#getFormatterConfiguration(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
-     */
-    @Override
-    public CmsFormatterConfiguration getFormatterConfiguration(CmsObject cms, CmsResource resource) {
+  /**
+   * @see
+   *     org.opencms.xml.content.CmsDefaultXmlContentHandler#getSettings(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource)
+   */
+  @Override
+  public Map<String, CmsXmlContentProperty> getSettings(CmsObject cms, CmsResource res) {
 
-        try {
-            CmsDynamicFunctionParser parser = new CmsDynamicFunctionParser();
-            CmsDynamicFunctionBean functionBean = parser.parseFunctionBean(cms, resource);
-            List<CmsFormatterBean> formatters = functionBean.getFormatters();
-            List<I_CmsFormatterBean> wrappers = new ArrayList<I_CmsFormatterBean>();
-            for (CmsFormatterBean formatter : formatters) {
-                wrappers.add(new CmsSchemaFormatterBeanWrapper(cms, formatter, this, resource));
-            }
-            return CmsFormatterConfiguration.create(cms, wrappers);
-        } catch (CmsException e) {
-            return CmsFormatterConfiguration.EMPTY_CONFIGURATION;
-        }
+    try {
+      CmsDynamicFunctionParser parser = new CmsDynamicFunctionParser();
+      CmsDynamicFunctionBean functionBean = parser.parseFunctionBean(cms, res);
+      return functionBean.getSettings();
+    } catch (CmsException e) {
+      return Collections.<String, CmsXmlContentProperty>emptyMap();
     }
+  }
 
-    /**
-     * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#getSettings(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
-     */
-    @Override
-    public Map<String, CmsXmlContentProperty> getSettings(CmsObject cms, CmsResource res) {
+  /** @see org.opencms.xml.content.CmsDefaultXmlContentHandler#hasModifiableFormatters() */
+  @Override
+  public boolean hasModifiableFormatters() {
 
-        try {
-            CmsDynamicFunctionParser parser = new CmsDynamicFunctionParser();
-            CmsDynamicFunctionBean functionBean = parser.parseFunctionBean(cms, res);
-            return functionBean.getSettings();
-        } catch (CmsException e) {
-            return Collections.<String, CmsXmlContentProperty> emptyMap();
-        }
-    }
-
-    /**
-     * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#hasModifiableFormatters()
-     */
-    @Override
-    public boolean hasModifiableFormatters() {
-
-        return false;
-    }
-
+    return false;
+  }
 }

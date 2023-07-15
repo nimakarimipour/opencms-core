@@ -30,48 +30,45 @@ package org.opencms.crypto;
 import org.opencms.configuration.I_CmsConfigurationParameterHandler;
 import org.opencms.file.CmsObject;
 
-/**
- * Interfaces for classes that encrypt text as text.
- */
+/** Interfaces for classes that encrypt text as text. */
 public interface I_CmsTextEncryption extends I_CmsConfigurationParameterHandler {
 
-    /**
-     * Decrypts encrypted data.
-     *
-     * @param input the encrypted data
-     * @return the decrypted data
-     * @throws CmsEncryptionException if the data couldn't be decrypted
-     */
-    public String decrypt(String input) throws CmsEncryptionException;
+  /**
+   * Decrypts encrypted data.
+   *
+   * @param input the encrypted data
+   * @return the decrypted data
+   * @throws CmsEncryptionException if the data couldn't be decrypted
+   */
+  public String decrypt(String input) throws CmsEncryptionException;
 
-    /**
-     * Encrypts data.
-     *
-     * @param input the data to encrypt
-     * @return the encrypted data
-     * @throws CmsEncryptionException if the data couldn't be encrypted
-     */
-    public String encrypt(String input) throws CmsEncryptionException;
+  /**
+   * Encrypts data.
+   *
+   * @param input the data to encrypt
+   * @return the encrypted data
+   * @throws CmsEncryptionException if the data couldn't be encrypted
+   */
+  public String encrypt(String input) throws CmsEncryptionException;
 
-    /**
-     * Gets the name of the encryption handler.
-     *
-     * @return the name
-     */
-    String getName();
+  /**
+   * Gets the name of the encryption handler.
+   *
+   * @return the name
+   */
+  String getName();
 
-    /**
-     * Initializes the encryption handler.
-     *
-     * @param cms an Admin CMS context
-     */
-    void initialize(CmsObject cms);
+  /**
+   * Initializes the encryption handler.
+   *
+   * @param cms an Admin CMS context
+   */
+  void initialize(CmsObject cms);
 
-    /**
-     * Sets the name of the encryption handler.
-     *
-     * @param name the name that should be set
-     */
-    void setName(String name);
-
+  /**
+   * Sets the name of the encryption handler.
+   *
+   * @param name the name that should be set
+   */
+  void setName(String name);
 }

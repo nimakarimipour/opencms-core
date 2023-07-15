@@ -32,40 +32,40 @@ import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
 
 /**
- * Sitemap context menu got page entry.<p>
+ * Sitemap context menu got page entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsGotoMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsGotoMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsGotoMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_GOTO_0));
-        setActive(true);
-        setVisible(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_GOTO_0));
+    setActive(true);
+    setVisible(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-        CmsSitemapController controller = getHoverbar().getController();
-        controller.leaveEditor(getHoverbar().getEntry().getSitePath());
-    }
+    CmsSitemapController controller = getHoverbar().getController();
+    controller.leaveEditor(getHoverbar().getEntry().getSitePath());
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        setVisible(!CmsSitemapView.getInstance().isSpecialMode());
-    }
+    setVisible(!CmsSitemapView.getInstance().isSpecialMode());
+  }
 }

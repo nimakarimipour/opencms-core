@@ -27,152 +27,162 @@
 
 package org.opencms.ade.galleries.client.ui;
 
-import org.opencms.ade.galleries.shared.CmsGallerySearchBean;
-import org.opencms.ade.galleries.shared.CmsResultItemBean;
-import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.SortParams;
-
-import java.util.List;
-
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import java.util.List;
+import org.opencms.ade.galleries.shared.CmsGallerySearchBean;
+import org.opencms.ade.galleries.shared.CmsResultItemBean;
+import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.SortParams;
 
 /**
- * Scroll handler class which loads more items in the front of the search result list when the user scrolls to the
- * top.<p>
+ * Scroll handler class which loads more items in the front of the search result list when the user
+ * scrolls to the top.
+ *
+ * <p>
  */
 public class CmsResultsBackwardsScrollHandler implements ScrollHandler {
 
-    /** The scroll threshold in pixels. */
-    public static final int SCROLL_THRESHOLD = 50;
+  /** The scroll threshold in pixels. */
+  public static final int SCROLL_THRESHOLD = 50;
 
-    /** Flag used to temporarily disable the scroll handler. */
-    protected boolean m_enabled = true;
+  /** Flag used to temporarily disable the scroll handler. */
+  protected boolean m_enabled = true;
 
-    /** The index of the first shown page. */
-    protected int m_firstShownPage;
+  /** The index of the first shown page. */
+  protected int m_firstShownPage;
 
-    /** The number of results per page. */
-    protected int m_pageSize;
+  /** The number of results per page. */
+  protected int m_pageSize;
 
-    /** The list of search result beans. */
-    protected List<CmsResultItemBean> m_resultBeans;
+  /** The list of search result beans. */
+  protected List<CmsResultItemBean> m_resultBeans;
 
-    /** The search results tab. */
-    protected CmsResultsTab m_resultsTab;
+  /** The search results tab. */
+  protected CmsResultsTab m_resultsTab;
 
-    /** The search bean. */
-    protected CmsGallerySearchBean m_searchBean;
+  /** The search bean. */
+  protected CmsGallerySearchBean m_searchBean;
 
-    /**
-     * Creates a new handler instance for a given results tab.<p>
-     *
-     * @param resultsTab the results tab for which to create the handler
-     */
-    public CmsResultsBackwardsScrollHandler(CmsResultsTab resultsTab) {
+  /**
+   * Creates a new handler instance for a given results tab.
+   *
+   * <p>
+   *
+   * @param resultsTab the results tab for which to create the handler
+   */
+  public CmsResultsBackwardsScrollHandler(CmsResultsTab resultsTab) {
 
-        m_resultsTab = resultsTab;
+    m_resultsTab = resultsTab;
+  }
+
+  /**
+   * Checks whether more items can be loaded at the front of the list.
+   *
+   * <p>
+   *
+   * @return true if more items can be loaded at the front of the list
+   */
+  public boolean hasMore() {
+
+    return m_firstShownPage > 1;
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.ScrollHandler#onScroll(com.google.gwt.event.dom.client.ScrollEvent)
+   */
+  public void onScroll(ScrollEvent event) {
+
+    if (m_searchBean == null) {
+      return;
     }
-
-    /**
-     * Checks whether more items can be loaded at the front of the list.<p>
-     *
-     * @return true if more items can be loaded at the front of the list
-     */
-    public boolean hasMore() {
-
-        return m_firstShownPage > 1;
+    if (m_resultBeans == null) {
+      return;
     }
+    if (!m_enabled) {
+      return;
+    }
+    final ScrollPanel scrollPanel = (ScrollPanel) event.getSource();
+    final int scrollPos = scrollPanel.getVerticalScrollPosition();
+    if ((scrollPos <= SCROLL_THRESHOLD) && hasMore()) {
+      m_enabled = false;
+      Scheduler.get()
+          .scheduleDeferred(
+              new ScheduledCommand() {
 
-    /**
-     * @see com.google.gwt.event.dom.client.ScrollHandler#onScroll(com.google.gwt.event.dom.client.ScrollEvent)
-     */
-    public void onScroll(ScrollEvent event) {
-
-        if (m_searchBean == null) {
-            return;
-        }
-        if (m_resultBeans == null) {
-            return;
-        }
-        if (!m_enabled) {
-            return;
-        }
-        final ScrollPanel scrollPanel = (ScrollPanel)event.getSource();
-        final int scrollPos = scrollPanel.getVerticalScrollPosition();
-        if ((scrollPos <= SCROLL_THRESHOLD) && hasMore()) {
-            m_enabled = false;
-            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-                /**
-                 * @see com.google.gwt.core.client.Scheduler.ScheduledCommand#execute()
-                 */
+                /** @see com.google.gwt.core.client.Scheduler.ScheduledCommand#execute() */
                 public void execute() {
 
-                    m_enabled = true;
-                    m_resultsTab.getList().setVerticalScrollPosition(50);
+                  m_enabled = true;
+                  m_resultsTab.getList().setVerticalScrollPosition(50);
                 }
-            });
-            loadPreviousPage();
-        }
-
+              });
+      loadPreviousPage();
     }
+  }
 
-    /**
-     * Updates the handler with a new search bean.<p>
-     *
-     * @param searchBean the search bean
-     */
-    public void updateSearchBean(CmsGallerySearchBean searchBean) {
+  /**
+   * Updates the handler with a new search bean.
+   *
+   * <p>
+   *
+   * @param searchBean the search bean
+   */
+  public void updateSearchBean(CmsGallerySearchBean searchBean) {
 
-        m_searchBean = searchBean;
-        if (searchBean != null) {
-            m_pageSize = searchBean.getMatchesPerPage();
-            int lastPage = searchBean.getLastPage();
-            // we don't just store the search bean because it gets reused for multiple searches
-            // and so the result list may change.
-            m_resultBeans = searchBean.getResults();
-            if (lastPage != -1) {
-                loadPage(lastPage);
-                m_firstShownPage = lastPage;
-                if (lastPage > 1) {
-                    loadPage(lastPage - 1);
-                    m_firstShownPage = lastPage - 1;
-                }
-            }
-        } else {
-            m_resultBeans = null;
+    m_searchBean = searchBean;
+    if (searchBean != null) {
+      m_pageSize = searchBean.getMatchesPerPage();
+      int lastPage = searchBean.getLastPage();
+      // we don't just store the search bean because it gets reused for multiple searches
+      // and so the result list may change.
+      m_resultBeans = searchBean.getResults();
+      if (lastPage != -1) {
+        loadPage(lastPage);
+        m_firstShownPage = lastPage;
+        if (lastPage > 1) {
+          loadPage(lastPage - 1);
+          m_firstShownPage = lastPage - 1;
         }
+      }
+    } else {
+      m_resultBeans = null;
     }
+  }
 
-    /**
-     * Loads a page with a given index.<p>
-     *
-     * @param pageNum the index of the page to load
-     */
-    protected void loadPage(int pageNum) {
+  /**
+   * Loads a page with a given index.
+   *
+   * <p>
+   *
+   * @param pageNum the index of the page to load
+   */
+  protected void loadPage(int pageNum) {
 
-        int start = (pageNum - 1) * m_pageSize;
-        List<CmsResultItemBean> results = m_resultBeans;
-        int end = start + m_pageSize;
-        if (end > results.size()) {
-            end = results.size();
-        }
-        List<CmsResultItemBean> page = results.subList(start, end);
-        boolean showPath = SortParams.path_asc.name().equals(m_searchBean.getSortOrder())
+    int start = (pageNum - 1) * m_pageSize;
+    List<CmsResultItemBean> results = m_resultBeans;
+    int end = start + m_pageSize;
+    if (end > results.size()) {
+      end = results.size();
+    }
+    List<CmsResultItemBean> page = results.subList(start, end);
+    boolean showPath =
+        SortParams.path_asc.name().equals(m_searchBean.getSortOrder())
             || SortParams.path_desc.name().equals(m_searchBean.getSortOrder());
-        m_resultsTab.addContentItems(page, true, showPath);
-    }
+    m_resultsTab.addContentItems(page, true, showPath);
+  }
 
-    /**
-     * Loads the page before the first shown page.<p>
-     */
-    protected void loadPreviousPage() {
+  /**
+   * Loads the page before the first shown page.
+   *
+   * <p>
+   */
+  protected void loadPreviousPage() {
 
-        loadPage(m_firstShownPage - 1);
-        m_firstShownPage -= 1;
-    }
-
+    loadPage(m_firstShownPage - 1);
+    m_firstShownPage -= 1;
+  }
 }

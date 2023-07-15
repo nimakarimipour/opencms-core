@@ -27,72 +27,73 @@
 
 package org.opencms.xml;
 
-import org.opencms.util.CmsStringUtil;
-
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.util.XMLErrorHandler;
+import org.opencms.util.CmsStringUtil;
 import org.xml.sax.SAXParseException;
 
 /**
- * Error hander for writing errors found during XML validation to the OpenCms log.<p>
+ * Error hander for writing errors found during XML validation to the OpenCms log.
  *
- * Exceptions caused by warnings are suppressed (but written to the log if level is set to WARN).<p>
+ * <p>Exceptions caused by warnings are suppressed (but written to the log if level is set to WARN).
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsXmlValidationErrorHandler extends XMLErrorHandler {
 
-    /** Stores the warnings that occur during a SAX parse. */
-    private Element m_warnings;
+  /** Stores the warnings that occur during a SAX parse. */
+  private Element m_warnings;
 
-    /**
-     * Constructor from superclass.<p>
-     */
-    public CmsXmlValidationErrorHandler() {
+  /**
+   * Constructor from superclass.
+   *
+   * <p>
+   */
+  public CmsXmlValidationErrorHandler() {
 
-        super();
-        m_warnings = DocumentHelper.createElement("warnings");
+    super();
+    m_warnings = DocumentHelper.createElement("warnings");
+  }
+
+  /** @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException) */
+  @Override
+  public void error(SAXParseException e) {
+
+    String message = e.getMessage();
+    if (CmsStringUtil.isNotEmpty(message)) {
+
+      if (message.startsWith("sch-props-correct.2")) {
+        // HACK: multiple schema includes cause errors in validation with Xerces 2
+        // the schema nevertheless is usable
+        // redirect this error to be a warning
+        warning(e);
+        return;
+      }
     }
 
-    /**
-     * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
-     */
-    @Override
-    public void error(SAXParseException e) {
+    super.error(e);
+  }
 
-        String message = e.getMessage();
-        if (CmsStringUtil.isNotEmpty(message)) {
+  /**
+   * Returns the warnings.
+   *
+   * <p>
+   *
+   * @return the warnings
+   */
+  public Element getWarnings() {
 
-            if (message.startsWith("sch-props-correct.2")) {
-                // HACK: multiple schema includes cause errors in validation with Xerces 2
-                // the schema nevertheless is usable
-                // redirect this error to be a warning
-                warning(e);
-                return;
-            }
-        }
+    return m_warnings;
+  }
 
-        super.error(e);
-    }
+  /** @see org.dom4j.util.XMLErrorHandler#warning(org.xml.sax.SAXParseException) */
+  @Override
+  public void warning(SAXParseException e) {
 
-    /**
-     * Returns the warnings.<p>
-     *
-     * @return the warnings
-     */
-    public Element getWarnings() {
-
-        return m_warnings;
-    }
-
-    /**
-     * @see org.dom4j.util.XMLErrorHandler#warning(org.xml.sax.SAXParseException)
-     */
-    @Override
-    public void warning(SAXParseException e) {
-
-        Element element = m_warnings.addElement(WARNING_QNAME);
-        addException(element, e);
-    }
+    Element element = m_warnings.addElement(WARNING_QNAME);
+    addException(element, e);
+  }
 }

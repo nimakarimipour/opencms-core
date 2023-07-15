@@ -27,6 +27,13 @@
 
 package org.opencms.jsp.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
 import org.opencms.file.CmsResource;
@@ -38,112 +45,112 @@ import org.opencms.main.OpenCms;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /** Tests for the {@link CmsJspNavigationBean} - and thus indirectly for the tag cms:navigation. */
 public class TestCmsJspNavigationBean extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestCmsJspNavigationBean(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestCmsJspNavigationBean(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestCmsJspNavigationBean.class.getName());
+    TestSuite suite = new TestSuite();
+    suite.setName(TestCmsJspNavigationBean.class.getName());
 
-        suite.addTest(new TestCmsJspNavigationBean("testLocaleSpecificNavigation"));
+    suite.addTest(new TestCmsJspNavigationBean("testLocaleSpecificNavigation"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
-    }
+    return wrapper;
+  }
 
-    /**
-     * Tests locale specific property access.
-     *
-     * @throws CmsException thrown if creation of the test resource or property writing/reading fails.
-     */
-    public void testLocaleSpecificNavigation() throws CmsException {
+  /**
+   * Tests locale specific property access.
+   *
+   * @throws CmsException thrown if creation of the test resource or property writing/reading fails.
+   */
+  public void testLocaleSpecificNavigation() throws CmsException {
 
-        CmsObject cms = getCmsObject();
-        String resourcePath = "/test_navigation_tag.txt";
-        CmsResource resource = cms.createResource(
+    CmsObject cms = getCmsObject();
+    String resourcePath = "/test_navigation_tag.txt";
+    CmsResource resource =
+        cms.createResource(
             resourcePath,
             OpenCms.getResourceManager().getResourceType(CmsResourceTypePlain.getStaticTypeName()));
-        List<CmsProperty> properties = new ArrayList<CmsProperty>();
-        List<String> propertyNames = Arrays.asList(new String[] {"Title", "NavText", "Test"});
-        List<String> localeSuffixes = Arrays.asList(new String[] {"", "_de", "_de_DE", "_en"});
-        Locale[] testLocales = new Locale[] {
-            null,
-            new Locale("de"),
-            new Locale("de", "DE"),
-            new Locale("en"),
-            new Locale("en", "GB"),
-            new Locale("it")};
-        String[] expectedPostfix = new String[] {"", "_de", "_de_DE", "_en", "_en", ""};
+    List<CmsProperty> properties = new ArrayList<CmsProperty>();
+    List<String> propertyNames = Arrays.asList(new String[] {"Title", "NavText", "Test"});
+    List<String> localeSuffixes = Arrays.asList(new String[] {"", "_de", "_de_DE", "_en"});
+    Locale[] testLocales =
+        new Locale[] {
+          null,
+          new Locale("de"),
+          new Locale("de", "DE"),
+          new Locale("en"),
+          new Locale("en", "GB"),
+          new Locale("it")
+        };
+    String[] expectedPostfix = new String[] {"", "_de", "_de_DE", "_en", "_en", ""};
 
-        for (String property : propertyNames) {
-            for (String suffix : localeSuffixes) {
-                properties.add(new CmsProperty(property + suffix, property + suffix, property + suffix));
-            }
-        }
-
-        cms.writePropertyObjects(resource, properties);
-
-        for (int i = 0; i < testLocales.length; i++) {
-            CmsJspNavigationBean navBean = new CmsJspNavigationBean(
-                cms,
-                Type.forResource,
-                Integer.MIN_VALUE,
-                Integer.MAX_VALUE,
-                resourcePath,
-                null,
-                testLocales[i]);
-            CmsJspNavElement item = navBean.getItems().get(0);
-            for (String property : propertyNames) {
-                if (property.equals("Title")) {
-                    assertEquals(property + expectedPostfix[i], item.getTitle());
-                } else if (property.equals("NavText")) {
-                    assertEquals(property + expectedPostfix[i], item.getNavText());
-                } else {
-                    assertEquals(property + expectedPostfix[i], item.getProperties().get(property));
-                    assertEquals(property + expectedPostfix[i], item.getProperty(property));
-                }
-            }
-        }
+    for (String property : propertyNames) {
+      for (String suffix : localeSuffixes) {
+        properties.add(new CmsProperty(property + suffix, property + suffix, property + suffix));
+      }
     }
+
+    cms.writePropertyObjects(resource, properties);
+
+    for (int i = 0; i < testLocales.length; i++) {
+      CmsJspNavigationBean navBean =
+          new CmsJspNavigationBean(
+              cms,
+              Type.forResource,
+              Integer.MIN_VALUE,
+              Integer.MAX_VALUE,
+              resourcePath,
+              null,
+              testLocales[i]);
+      CmsJspNavElement item = navBean.getItems().get(0);
+      for (String property : propertyNames) {
+        if (property.equals("Title")) {
+          assertEquals(property + expectedPostfix[i], item.getTitle());
+        } else if (property.equals("NavText")) {
+          assertEquals(property + expectedPostfix[i], item.getNavText());
+        } else {
+          assertEquals(property + expectedPostfix[i], item.getProperties().get(property));
+          assertEquals(property + expectedPostfix[i], item.getProperty(property));
+        }
+      }
+    }
+  }
 }

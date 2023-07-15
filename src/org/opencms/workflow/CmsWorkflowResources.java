@@ -27,99 +27,110 @@
 
 package org.opencms.workflow;
 
+import java.util.List;
 import org.opencms.ade.publish.shared.CmsWorkflow;
 import org.opencms.file.CmsResource;
 import org.opencms.main.OpenCms;
 
-import java.util.List;
-
 /**
- * Set of workflow resources, and an optional workflow.<p>
+ * Set of workflow resources, and an optional workflow.
+ *
+ * <p>
  */
 public class CmsWorkflowResources {
 
-    /** Override workflow. */
-    private CmsWorkflow m_overrideWorkflow;
+  /** Override workflow. */
+  private CmsWorkflow m_overrideWorkflow;
 
-    /** The workflow resources. */
-    private List<CmsResource> m_workflowResources;
+  /** The workflow resources. */
+  private List<CmsResource> m_workflowResources;
 
-    /** If set, there are too many resources, and the value contains the approximate amount of resources. */
-    private Integer m_tooManyCount;
+  /**
+   * If set, there are too many resources, and the value contains the approximate amount of
+   * resources.
+   */
+  private Integer m_tooManyCount;
 
-    /**
-     * Creates new instance.<p>
-     *
-     * @param workflowResources the workflow resources
-     * @param overrideWorkflow the workflow to override the selected workflow
-     * @param tooManyCount null if there are not too many resources, otherwise the approximate resource count
-     */
-    public CmsWorkflowResources(
-        List<CmsResource> workflowResources,
-        CmsWorkflow overrideWorkflow,
-        Integer tooManyCount) {
+  /**
+   * Creates new instance.
+   *
+   * <p>
+   *
+   * @param workflowResources the workflow resources
+   * @param overrideWorkflow the workflow to override the selected workflow
+   * @param tooManyCount null if there are not too many resources, otherwise the approximate
+   *     resource count
+   */
+  public CmsWorkflowResources(
+      List<CmsResource> workflowResources, CmsWorkflow overrideWorkflow, Integer tooManyCount) {
 
-        m_workflowResources = workflowResources;
-        m_overrideWorkflow = overrideWorkflow;
-        m_tooManyCount = tooManyCount;
+    m_workflowResources = workflowResources;
+    m_overrideWorkflow = overrideWorkflow;
+    m_tooManyCount = tooManyCount;
+  }
+
+  /**
+   * Gets a number that can be used as a lower bound for the number of publish resources if the list
+   * is too big (bigger than the workflow manager's resource limit).
+   *
+   * @return a lower bound for the number of publish resources
+   */
+  public int getLowerBoundForSize() {
+
+    if (m_tooManyCount != null) {
+      return m_tooManyCount.intValue();
+    } else {
+      return m_workflowResources.size();
     }
+  }
 
-    /**
-     * Gets a number that can be used as a lower bound for the number of publish resources if the list is too big (bigger than the workflow manager's resource limit).
-     *
-     * @return a lower bound for the number of publish resources
-     */
-    public int getLowerBoundForSize() {
+  /**
+   * Gets the override workflow, or null.
+   *
+   * <p>
+   *
+   * @return the override workflow, or null
+   */
+  public CmsWorkflow getOverrideWorkflow() {
 
-        if (m_tooManyCount != null) {
-            return m_tooManyCount.intValue();
-        } else {
-            return m_workflowResources.size();
-        }
-    }
+    return m_overrideWorkflow;
+  }
 
-    /**
-     * Gets the override workflow, or null.<p>
-     *
-     * @return the override workflow, or null
-     */
-    public CmsWorkflow getOverrideWorkflow() {
+  /**
+   * Gets the approximate amount of resources if there are too many resources.
+   *
+   * <p>
+   *
+   * @return the approximate amount of resources if there are too many
+   */
+  public Integer getTooManyCount() {
 
-        return m_overrideWorkflow;
-    }
+    return m_tooManyCount;
+  }
 
-    /**
-     * Gets the approximate amount of resources if there are too many resources.<p>
-     *
-     * @return the approximate amount of resources if there are too many
-     */
-    public Integer getTooManyCount() {
+  /**
+   * Returns the workflowResources.
+   *
+   * <p>Note that if the isTooMany() method returns true, this method may return an empty list.
+   *
+   * @return the workflowResources
+   */
+  public List<CmsResource> getWorkflowResources() {
 
-        return m_tooManyCount;
-    }
+    return m_workflowResources;
+  }
 
-    /**
-     * Returns the workflowResources.<p>
-     *
-     * Note that if the isTooMany() method returns true, this method may return an empty list.
-     *
-     * @return the workflowResources
-     */
-    public List<CmsResource> getWorkflowResources() {
+  /**
+   * Returns true if there are too many resources.
+   *
+   * <p>
+   *
+   * @return true if there are too many resources
+   */
+  public boolean isTooMany() {
 
-        return m_workflowResources;
-    }
-
-    /**
-     * Returns true if there are too many resources.<p>
-     *
-     * @return true if there are too many resources
-     */
-    public boolean isTooMany() {
-
-        return (m_tooManyCount != null)
-            || ((m_workflowResources != null)
-                && (m_workflowResources.size() > OpenCms.getWorkflowManager().getResourceLimit()));
-    }
-
+    return (m_tooManyCount != null)
+        || ((m_workflowResources != null)
+            && (m_workflowResources.size() > OpenCms.getWorkflowManager().getResourceLimit()));
+  }
 }

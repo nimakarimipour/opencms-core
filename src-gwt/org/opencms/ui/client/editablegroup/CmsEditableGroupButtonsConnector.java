@@ -27,80 +27,78 @@
 
 package org.opencms.ui.client.editablegroup;
 
+import com.vaadin.client.communication.StateChangeEvent;
+import com.vaadin.client.ui.AbstractComponentConnector;
+import com.vaadin.shared.ui.Connect;
 import org.opencms.ui.components.editablegroup.CmsEditableGroupButtons;
 import org.opencms.ui.shared.CmsEditableGroupButtonsState;
 import org.opencms.ui.shared.rpc.I_CmsEditableGroupButtonsServerRpc;
 
-import com.vaadin.client.communication.StateChangeEvent;
-import com.vaadin.client.ui.AbstractComponentConnector;
-import com.vaadin.shared.ui.Connect;
-
 /**
- * Connector for edit buttons for multivalued fields.<p>
+ * Connector for edit buttons for multivalued fields.
+ *
+ * <p>
  */
 @Connect(CmsEditableGroupButtons.class)
 public class CmsEditableGroupButtonsConnector extends AbstractComponentConnector {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsEditableGroupButtonsConnector() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsEditableGroupButtonsConnector() {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * Gets the RPC proxy object.<p>
-     *
-     * @return the RPC proxy object
-     */
-    public I_CmsEditableGroupButtonsServerRpc getRpc() {
+  /**
+   * Gets the RPC proxy object.
+   *
+   * <p>
+   *
+   * @return the RPC proxy object
+   */
+  public I_CmsEditableGroupButtonsServerRpc getRpc() {
 
-        return getRpcProxy(I_CmsEditableGroupButtonsServerRpc.class);
-    }
+    return getRpcProxy(I_CmsEditableGroupButtonsServerRpc.class);
+  }
 
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#getState()
-     */
-    @Override
-    public CmsEditableGroupButtonsState getState() {
+  /** @see com.vaadin.client.ui.AbstractComponentConnector#getState() */
+  @Override
+  public CmsEditableGroupButtonsState getState() {
 
-        return (CmsEditableGroupButtonsState)super.getState();
-    }
+    return (CmsEditableGroupButtonsState) super.getState();
+  }
 
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#getWidget()
-     */
-    @Override
-    public CmsClientEditableGroupButtons getWidget() {
+  /** @see com.vaadin.client.ui.AbstractComponentConnector#getWidget() */
+  @Override
+  public CmsClientEditableGroupButtons getWidget() {
 
-        return (CmsClientEditableGroupButtons)(super.getWidget());
-    }
+    return (CmsClientEditableGroupButtons) (super.getWidget());
+  }
 
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#onStateChanged(com.vaadin.client.communication.StateChangeEvent)
-     */
-    @Override
-    public void onStateChanged(StateChangeEvent stateChangeEvent) {
+  /**
+   * @see
+   *     com.vaadin.client.ui.AbstractComponentConnector#onStateChanged(com.vaadin.client.communication.StateChangeEvent)
+   */
+  @Override
+  public void onStateChanged(StateChangeEvent stateChangeEvent) {
 
-        super.onStateChanged(stateChangeEvent);
-        getWidget().setFirst(getState().isFirst());
-        getWidget().setLast(getState().isLast());
-        getWidget().setHideAdd(getState().isAddOptionHidden());
-        getWidget().setEditVisible(getState().isEditEnabled());
+    super.onStateChanged(stateChangeEvent);
+    getWidget().setFirst(getState().isFirst());
+    getWidget().setLast(getState().isLast());
+    getWidget().setHideAdd(getState().isAddOptionHidden());
+    getWidget().setEditVisible(getState().isEditEnabled());
+  }
 
-    }
+  /** @see com.vaadin.client.ui.AbstractComponentConnector#createWidget() */
+  @Override
+  protected CmsClientEditableGroupButtons createWidget() {
 
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#createWidget()
-     */
-    @Override
-    protected CmsClientEditableGroupButtons createWidget() {
-
-        return new CmsClientEditableGroupButtons(this);
-    }
-
+    return new CmsClientEditableGroupButtons(this);
+  }
 }

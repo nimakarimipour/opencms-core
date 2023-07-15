@@ -27,45 +27,50 @@
 
 package org.opencms.jsp.util;
 
-import org.opencms.test.OpenCmsTestProperties;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.opencms.test.OpenCmsTestProperties;
 
 /**
- * Main test suite for the package <code>{@link org.opencms.jsp.util}</code>.<p>
+ * Main test suite for the package <code>{@link org.opencms.jsp.util}</code>.
+ *
+ * <p>
  *
  * @since 7.0.2
  */
 public final class AllTests {
 
-    /**
-     * Hide constructor to prevent generation of class instances.<p>
-     */
-    private AllTests() {
+  /**
+   * Hide constructor to prevent generation of class instances.
+   *
+   * <p>
+   */
+  private AllTests() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * Returns the JUnit test suite for this package.<p>
-     *
-     * @return the JUnit test suite for this package
-     */
-    public static Test suite() {
+  /**
+   * Returns the JUnit test suite for this package.
+   *
+   * <p>
+   *
+   * @return the JUnit test suite for this package
+   */
+  public static Test suite() {
 
-        TestSuite suite = new TestSuite("Tests for package " + AllTests.class.getPackage().getName());
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
-        //$JUnit-BEGIN$
-        suite.addTest(TestCmsJspContentAccessBean.suite());
-        suite.addTest(TestCmsJspResourceWrapper.suite());
-        suite.addTest(TestCmsJspVfsAccessBean.suite());
-        suite.addTest(TestCmsJspNavigationBean.suite());
-        suite.addTest(TestCmsJspResourceAccessBean.suite());
-        suite.addTest(TestCmsStringTemplateResolver.suite());
-        suite.addTest(TestCmsJspDateSeriesBean.suite());
-        suite.addTest(TestCmsJspInstanceDateBean.suite());
-        //$JUnit-END$
-        return suite;
-    }
+    TestSuite suite = new TestSuite("Tests for package " + AllTests.class.getPackage().getName());
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    // $JUnit-BEGIN$
+    suite.addTest(TestCmsJspContentAccessBean.suite());
+    suite.addTest(TestCmsJspResourceWrapper.suite());
+    suite.addTest(TestCmsJspVfsAccessBean.suite());
+    suite.addTest(TestCmsJspNavigationBean.suite());
+    suite.addTest(TestCmsJspResourceAccessBean.suite());
+    suite.addTest(TestCmsStringTemplateResolver.suite());
+    suite.addTest(TestCmsJspDateSeriesBean.suite());
+    suite.addTest(TestCmsJspInstanceDateBean.suite());
+    // $JUnit-END$
+    return suite;
+  }
 }

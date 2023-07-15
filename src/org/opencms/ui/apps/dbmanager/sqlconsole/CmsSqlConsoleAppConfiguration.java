@@ -27,6 +27,8 @@
 
 package org.opencms.ui.apps.dbmanager.sqlconsole;
 
+import com.vaadin.server.Resource;
+import java.util.Locale;
 import org.opencms.security.CmsRole;
 import org.opencms.ui.CmsCssIcon;
 import org.opencms.ui.CmsVaadinUtils;
@@ -37,93 +39,73 @@ import org.opencms.ui.apps.Messages;
 import org.opencms.ui.apps.dbmanager.CmsDbManagerFolder;
 import org.opencms.ui.components.OpenCmsTheme;
 
-import java.util.Locale;
-
-import com.vaadin.server.Resource;
-
 /**
- * Configuration class for property app.<p>
+ * Configuration class for property app.
+ *
+ * <p>
  */
 public class CmsSqlConsoleAppConfiguration extends A_CmsWorkplaceAppConfiguration {
 
-    /** The app id. */
-    public static final String APP_ID = "db-admin-sqlconsole";
+  /** The app id. */
+  public static final String APP_ID = "db-admin-sqlconsole";
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppCategory()
-     */
-    @Override
-    public String getAppCategory() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppCategory() */
+  @Override
+  public String getAppCategory() {
 
-        return CmsDbManagerFolder.ID;
-    }
+    return CmsDbManagerFolder.ID;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance()
-     */
-    public I_CmsWorkplaceApp getAppInstance() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance() */
+  public I_CmsWorkplaceApp getAppInstance() {
 
-        return new CmsSqlConsoleApp();
-    }
+    return new CmsSqlConsoleApp();
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getButtonStyle()
-     */
-    @Override
-    public String getButtonStyle() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getButtonStyle() */
+  @Override
+  public String getButtonStyle() {
 
-        return FontOpenCms.DATABASE.getButtonOverlayStyle() + " " + OpenCmsTheme.BUTTON_OVERLAY_CYAN;
-    }
+    return FontOpenCms.DATABASE.getButtonOverlayStyle() + " " + OpenCmsTheme.BUTTON_OVERLAY_CYAN;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
-     */
-    @Override
-    public String getHelpText(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale) */
+  @Override
+  public String getHelpText(Locale locale) {
 
-        return CmsVaadinUtils.getMessageText(org.opencms.ui.apps.Messages.GUI_SQLCONSOLE_APP_HELP_0);
-    }
+    return CmsVaadinUtils.getMessageText(org.opencms.ui.apps.Messages.GUI_SQLCONSOLE_APP_HELP_0);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon()
-     */
-    public Resource getIcon() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon() */
+  public Resource getIcon() {
 
-        return new CmsCssIcon(OpenCmsTheme.ICON_TERMINAL);
-    }
+    return new CmsCssIcon(OpenCmsTheme.ICON_TERMINAL);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId() */
+  public String getId() {
 
-        return APP_ID;
-    }
+    return APP_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
-     */
-    @Override
-    public String getName(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
+  @Override
+  public String getName(Locale locale) {
 
-        return Messages.get().getBundle(locale).key(Messages.GUI_SQLCONSOLE_APP_TITLE_0);
-    }
+    return Messages.get().getBundle(locale).key(Messages.GUI_SQLCONSOLE_APP_TITLE_0);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getOrder()
-     */
-    @Override
-    public int getOrder() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getOrder() */
+  @Override
+  public int getOrder() {
 
-        return 20;
-    }
+    return 20;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getRequiredRole()
-     */
-    @Override
-    public CmsRole getRequiredRole() {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getRequiredRole() */
+  @Override
+  public CmsRole getRequiredRole() {
 
-        return CmsRole.ROOT_ADMIN;
-    }
+    return CmsRole.ROOT_ADMIN;
+  }
 }

@@ -27,6 +27,7 @@
 
 package org.opencms.xml.xml2json.renderer;
 
+import java.util.Locale;
 import org.opencms.configuration.I_CmsConfigurationParameterHandler;
 import org.opencms.file.CmsObject;
 import org.opencms.json.JSONException;
@@ -34,38 +35,32 @@ import org.opencms.main.CmsException;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerContext;
 
-import java.util.Locale;
-
-/**
- * Renders a single-locale content tree as JSON.
- */
+/** Renders a single-locale content tree as JSON. */
 public interface I_CmsJsonRendererXmlContent extends I_CmsConfigurationParameterHandler {
 
-    /**
-     * Initializes the context for the renderer.
-     *
-     * @param context the context to set
-     * @throws CmsException if something goes wrong
-     */
-    void initialize(CmsJsonHandlerContext context) throws CmsException;
+  /**
+   * Initializes the context for the renderer.
+   *
+   * @param context the context to set
+   * @throws CmsException if something goes wrong
+   */
+  void initialize(CmsJsonHandlerContext context) throws CmsException;
 
-    /**
-     * Initializes the context for the renderer.
-     *
-     * @param cms the CMS object to set
-     * @throws CmsException if something goes wrong
-     */
-    void initialize(CmsObject cms) throws CmsException;
+  /**
+   * Initializes the context for the renderer.
+   *
+   * @param cms the CMS object to set
+   * @throws CmsException if something goes wrong
+   */
+  void initialize(CmsObject cms) throws CmsException;
 
-    /**
-     * Converts the XML content for a single locale to a JSON object
-     *
-     * @param content the content
-     * @param locale the locale
-     * @return the JSON object
-     *
-     * @throws JSONException if something goes wrong
-     */
-    Object render(CmsXmlContent content, Locale locale) throws JSONException;
-
+  /**
+   * Converts the XML content for a single locale to a JSON object
+   *
+   * @param content the content
+   * @param locale the locale
+   * @return the JSON object
+   * @throws JSONException if something goes wrong
+   */
+  Object render(CmsXmlContent content, Locale locale) throws JSONException;
 }

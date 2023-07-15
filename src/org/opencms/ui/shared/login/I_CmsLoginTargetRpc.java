@@ -30,22 +30,25 @@ package org.opencms.ui.shared.login;
 import com.vaadin.shared.communication.ClientRpc;
 
 /**
- * Client RPC interface for opening a login target.<p>
+ * Client RPC interface for opening a login target.
+ *
+ * <p>
  */
 public interface I_CmsLoginTargetRpc extends ClientRpc {
 
-    /**
-     * Opens a login target (private PC case).
-     *
-     * @param encryptedTarget the login target, encrypted with the default text encryption
-     */
-    void openTargetForPrivatePc(String encryptedTarget);
+  /**
+   * Opens a login target (private PC case).
+   *
+   * @param encryptedTarget the login target, encrypted with the default text encryption
+   */
+  void openTargetForPrivatePc(String encryptedTarget);
 
-    /**
-     * Opens a login target (public PC case).<p>
-     *
-     * @param target the login target
-     */
-    void openTargetForPublicPc(String target);
-
+  /**
+   * Opens a login target (public PC case).
+   *
+   * <p>
+   *
+   * @param target the login target
+   */
+  void openTargetForPublicPc(String target);
 }

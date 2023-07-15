@@ -27,54 +27,56 @@
 
 package org.opencms.ui.client;
 
+import com.vaadin.client.ServerConnector;
+import com.vaadin.client.extensions.AbstractExtensionConnector;
+import com.vaadin.shared.ui.Connect;
 import org.opencms.ui.components.extensions.CmsWindowExtension;
 import org.opencms.ui.shared.rpc.I_CmsWindowClientRpc;
 import org.opencms.ui.shared.rpc.I_CmsWindowServerRpc;
 
-import com.vaadin.client.ServerConnector;
-import com.vaadin.client.extensions.AbstractExtensionConnector;
-import com.vaadin.shared.ui.Connect;
-
 /**
- * Client connector for CmsWindowExtension.<p>
+ * Client connector for CmsWindowExtension.
+ *
+ * <p>
  */
 @Connect(CmsWindowExtension.class)
-public class CmsWindowExtensionConnector extends AbstractExtensionConnector implements I_CmsWindowClientRpc {
+public class CmsWindowExtensionConnector extends AbstractExtensionConnector
+    implements I_CmsWindowClientRpc {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsWindowClientRpc#open(java.lang.String, java.lang.String, java.lang.String)
-     */
-    public void open(String url, String target, String id) {
+  /**
+   * @see org.opencms.ui.shared.rpc.I_CmsWindowClientRpc#open(java.lang.String, java.lang.String,
+   *     java.lang.String)
+   */
+  public void open(String url, String target, String id) {
 
-        boolean ok = openInternal(url, target);
-        getRpcProxy(I_CmsWindowServerRpc.class).handleOpenResult(id, ok);
-    }
+    boolean ok = openInternal(url, target);
+    getRpcProxy(I_CmsWindowServerRpc.class).handleOpenResult(id, ok);
+  }
 
-    /**
-     * @see com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
-     */
-    @Override
-    protected void extend(ServerConnector target) {
+  /**
+   * @see
+   *     com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
+   */
+  @Override
+  protected void extend(ServerConnector target) {
 
-        registerRpc(I_CmsWindowClientRpc.class, this);
-    }
+    registerRpc(I_CmsWindowClientRpc.class, this);
+  }
 
-    /**
-     * Opens the given URI in the window with the given name.<p>
-     *
-     * Returns false if opening the new page fails.
-     *
-     * @param uri the URI to open
-     * @param target the target window name
-     *
-     * @return a boolean indicating whether opening the page was successful
-     */
-    private native boolean openInternal(String uri, String target) /*-{
+  /**
+   * Opens the given URI in the window with the given name.
+   *
+   * <p>Returns false if opening the new page fails.
+   *
+   * @param uri the URI to open
+   * @param target the target window name
+   * @return a boolean indicating whether opening the page was successful
+   */
+  private native boolean openInternal(String uri, String target) /*-{
                                                                    var openResult = $wnd.open(uri, target);
                                                                    return openResult != null;
                                                                    }-*/;
-
 }

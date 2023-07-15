@@ -28,17 +28,19 @@
 package org.opencms.security;
 
 /**
- * Default implementation of a I_CmsCredentialResolver, which does nothing but return the
- * credential which was passed in.<p>
+ * Default implementation of a I_CmsCredentialResolver, which does nothing but return the credential
+ * which was passed in.
+ *
+ * <p>
  */
 public class CmsDefaultCredentialsResolver implements I_CmsCredentialsResolver {
 
-    /**
-     * @see org.opencms.security.I_CmsCredentialsResolver#resolveCredential(java.lang.String, java.lang.String)
-     */
-    public String resolveCredential(String credentialType, String valueFromConfiguration) {
+  /**
+   * @see org.opencms.security.I_CmsCredentialsResolver#resolveCredential(java.lang.String,
+   *     java.lang.String)
+   */
+  public String resolveCredential(String credentialType, String valueFromConfiguration) {
 
-        return valueFromConfiguration;
-    }
-
+    return valueFromConfiguration;
+  }
 }

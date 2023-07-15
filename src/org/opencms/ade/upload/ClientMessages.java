@@ -31,33 +31,39 @@ import org.opencms.gwt.A_CmsClientMessageBundle;
 import org.opencms.gwt.I_CmsClientMessageBundle;
 
 /**
- * Convenience class to access the localized messages of this OpenCms package.<p>
+ * Convenience class to access the localized messages of this OpenCms package.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public final class ClientMessages extends A_CmsClientMessageBundle {
 
-    /** Internal instance. */
-    private static ClientMessages INSTANCE;
+  /** Internal instance. */
+  private static ClientMessages INSTANCE;
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private ClientMessages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private ClientMessages() {
 
-        // hide the constructor
+    // hide the constructor
+  }
+
+  /**
+   * Returns the client message instance.
+   *
+   * <p>
+   *
+   * @return the client message instance
+   */
+  public static I_CmsClientMessageBundle get() {
+
+    if (INSTANCE == null) {
+      INSTANCE = new ClientMessages();
     }
-
-    /**
-     * Returns the client message instance.<p>
-     *
-     * @return the client message instance
-     */
-    public static I_CmsClientMessageBundle get() {
-
-        if (INSTANCE == null) {
-            INSTANCE = new ClientMessages();
-        }
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 }

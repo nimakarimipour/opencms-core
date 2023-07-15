@@ -27,61 +27,60 @@
 
 package org.opencms.letsencrypt;
 
-import org.opencms.main.CmsLog;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-
 import org.apache.commons.logging.Log;
+import org.opencms.main.CmsLog;
 
 /**
- * Updates the certificate configuration for the LetsEncrypt container.<p>
+ * Updates the certificate configuration for the LetsEncrypt container.
+ *
+ * <p>
  */
 public class CmsLetsEncryptUpdater implements I_CmsLetsEncryptUpdater {
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsLetsEncryptUpdater.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsLetsEncryptUpdater.class);
 
-    /** The LetsEncrypt configuration. */
-    private CmsLetsEncryptConfiguration m_config;
+  /** The LetsEncrypt configuration. */
+  private CmsLetsEncryptConfiguration m_config;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param config the configuration
-     */
-    public CmsLetsEncryptUpdater(CmsLetsEncryptConfiguration config) {
-        m_config = config;
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param config the configuration
+   */
+  public CmsLetsEncryptUpdater(CmsLetsEncryptConfiguration config) {
+    m_config = config;
+  }
+
+  /** @see org.opencms.letsencrypt.I_CmsLetsEncryptUpdater#update(java.lang.String) */
+  public boolean update(String certConfig) {
+
+    if (m_config.isValidAndEnabled()) {
+      LOG.debug("Trying to write certificate configuration: " + certConfig);
+      String certConfigPath = m_config.getCertConfigPath();
+      try (FileOutputStream fos = new FileOutputStream(certConfigPath)) {
+        fos.write(certConfig.getBytes("UTF-8"));
+      } catch (IOException e) {
+        LOG.error("Error writing certificate configuration: " + e.getLocalizedMessage(), e);
+        return false;
+      }
+      String host = m_config.getHost();
+      int port = m_config.getPort();
+      try (Socket socket = new Socket(host, port)) {
+        socket.getOutputStream().write("update".getBytes("UTF-8"));
+      } catch (Exception e) {
+        LOG.error("Couldn't notify LetsEncrypt container: " + e.getLocalizedMessage(), e);
+        return false;
+      }
+      return true;
+    } else {
+      LOG.info("LetsEncrypt configuration is invalid or disabled. ");
+      return false;
     }
-
-    /**
-     * @see org.opencms.letsencrypt.I_CmsLetsEncryptUpdater#update(java.lang.String)
-     */
-    public boolean update(String certConfig) {
-
-        if (m_config.isValidAndEnabled()) {
-            LOG.debug("Trying to write certificate configuration: " + certConfig);
-            String certConfigPath = m_config.getCertConfigPath();
-            try (FileOutputStream fos = new FileOutputStream(certConfigPath)) {
-                fos.write(certConfig.getBytes("UTF-8"));
-            } catch (IOException e) {
-                LOG.error("Error writing certificate configuration: " + e.getLocalizedMessage(), e);
-                return false;
-            }
-            String host = m_config.getHost();
-            int port = m_config.getPort();
-            try (Socket socket = new Socket(host, port)) {
-                socket.getOutputStream().write("update".getBytes("UTF-8"));
-            } catch (Exception e) {
-                LOG.error("Couldn't notify LetsEncrypt container: " + e.getLocalizedMessage(), e);
-                return false;
-            }
-            return true;
-        } else {
-            LOG.info("LetsEncrypt configuration is invalid or disabled. ");
-            return false;
-        }
-    }
-
+  }
 }

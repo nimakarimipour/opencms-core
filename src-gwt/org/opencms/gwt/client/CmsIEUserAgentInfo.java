@@ -28,16 +28,15 @@
 package org.opencms.gwt.client;
 
 /**
- * IE implementation of the I_CmsUserAgentInfo interface.<p>
+ * IE implementation of the I_CmsUserAgentInfo interface.
+ *
+ * <p>
  */
 public class CmsIEUserAgentInfo implements I_CmsUserAgentInfo {
 
-    /**
-     * @see org.opencms.gwt.client.I_CmsUserAgentInfo#isIE7()
-     */
-    public boolean isIE7() {
+  /** @see org.opencms.gwt.client.I_CmsUserAgentInfo#isIE7() */
+  public boolean isIE7() {
 
-        return true;
-    }
-
+    return true;
+  }
 }

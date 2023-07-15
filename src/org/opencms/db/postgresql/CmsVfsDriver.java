@@ -30,18 +30,18 @@ package org.opencms.db.postgresql;
 import org.opencms.db.generic.CmsSqlManager;
 
 /**
- * PostgreSql implementation of the VFS driver methods.<p>
+ * PostgreSql implementation of the VFS driver methods.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsVfsDriver extends org.opencms.db.generic.CmsVfsDriver {
 
-    /**
-     * @see org.opencms.db.I_CmsVfsDriver#initSqlManager(String)
-     */
-    @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  /** @see org.opencms.db.I_CmsVfsDriver#initSqlManager(String) */
+  @Override
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
 
-        return CmsSqlManager.getInstance(classname);
-    }
+    return CmsSqlManager.getInstance(classname);
+  }
 }

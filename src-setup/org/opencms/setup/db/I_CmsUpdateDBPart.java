@@ -30,16 +30,20 @@ package org.opencms.setup.db;
 import java.util.Map;
 
 /**
- * Represent a part of the database update process.<p>
+ * Represent a part of the database update process.
+ *
+ * <p>
  *
  * @since 6.9.2
  */
 public interface I_CmsUpdateDBPart {
 
-    /**
-     * Executes the update part.<p>
-     *
-     * @param dbPoolData the database pool data
-     */
-    void execute(Map<String, String> dbPoolData);
+  /**
+   * Executes the update part.
+   *
+   * <p>
+   *
+   * @param dbPoolData the database pool data
+   */
+  void execute(Map<String, String> dbPoolData);
 }

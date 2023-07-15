@@ -30,72 +30,69 @@ package org.opencms.widgets;
 import org.opencms.util.CmsStringUtil;
 
 /**
- * Provides a widget that allows access to the available OpenCms image galleries, for use on a widget dialog.<p>
+ * Provides a widget that allows access to the available OpenCms image galleries, for use on a
+ * widget dialog.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsImageGalleryWidget extends A_CmsGalleryWidget {
 
-    /**
-     * Creates a new image gallery widget.<p>
-     */
-    public CmsImageGalleryWidget() {
+  /**
+   * Creates a new image gallery widget.
+   *
+   * <p>
+   */
+  public CmsImageGalleryWidget() {
 
-        // empty constructor is required for class registration
-        this("");
-    }
+    // empty constructor is required for class registration
+    this("");
+  }
 
-    /**
-     * Creates a new image gallery widget with the given configuration.<p>
-     *
-     * @param configuration the configuration to use
-     */
-    public CmsImageGalleryWidget(String configuration) {
+  /**
+   * Creates a new image gallery widget with the given configuration.
+   *
+   * <p>
+   *
+   * @param configuration the configuration to use
+   */
+  public CmsImageGalleryWidget(String configuration) {
 
-        super(configuration);
-    }
+    super(configuration);
+  }
 
-    /**
-     * @see org.opencms.widgets.A_CmsGalleryWidget#getNameLower()
-     */
-    @Override
-    public String getNameLower() {
+  /** @see org.opencms.widgets.A_CmsGalleryWidget#getNameLower() */
+  @Override
+  public String getNameLower() {
 
-        return "image";
-    }
+    return "image";
+  }
 
-    /**
-     * @see org.opencms.widgets.A_CmsGalleryWidget#getNameUpper()
-     */
-    @Override
-    public String getNameUpper() {
+  /** @see org.opencms.widgets.A_CmsGalleryWidget#getNameUpper() */
+  @Override
+  public String getNameUpper() {
 
-        return "Image";
-    }
+    return "Image";
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
-     */
-    @Override
-    public String getWidgetName() {
+  /** @see org.opencms.widgets.I_CmsADEWidget#getWidgetName() */
+  @Override
+  public String getWidgetName() {
 
-        return CmsImageGalleryWidget.class.getName();
-    }
+    return CmsImageGalleryWidget.class.getName();
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsWidget#newInstance()
-     */
-    public I_CmsWidget newInstance() {
+  /** @see org.opencms.widgets.I_CmsWidget#newInstance() */
+  public I_CmsWidget newInstance() {
 
-        return new CmsImageGalleryWidget(getConfiguration());
-    }
+    return new CmsImageGalleryWidget(getConfiguration());
+  }
 
-    /**
-     * @see org.opencms.widgets.A_CmsGalleryWidget#showPreview(java.lang.String)
-     */
-    @Override
-    public boolean showPreview(String value) {
+  /** @see org.opencms.widgets.A_CmsGalleryWidget#showPreview(java.lang.String) */
+  @Override
+  public boolean showPreview(String value) {
 
-        return CmsStringUtil.isNotEmpty(value) && value.startsWith("/");
-    }
+    return CmsStringUtil.isNotEmpty(value) && value.startsWith("/");
+  }
 }

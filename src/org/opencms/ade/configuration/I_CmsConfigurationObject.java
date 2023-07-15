@@ -28,44 +28,47 @@
 package org.opencms.ade.configuration;
 
 /**
- * Interface for a single named configuration object that can either be merged with other configuration
- * objects or disable a configuration object with the same name.<p>
+ * Interface for a single named configuration object that can either be merged with other
+ * configuration objects or disable a configuration object with the same name.
+ *
+ * <p>
  *
  * @author Georg Westenberger
- *
  * @version $Revision: 1.0$
- *
  * @since 8.0.1
- *
  * @param <X> the configuration object type which can be merged
  */
 public interface I_CmsConfigurationObject<X extends I_CmsConfigurationObject<X>> {
 
-    /** Default order constant for module configurations. */
-    int DEFAULT_ORDER = 10000;
+  /** Default order constant for module configurations. */
+  int DEFAULT_ORDER = 10000;
 
-    /**
-     * The name of the configuration object.<p>
-     *
-     * This name should be unique for each single configuration
-     *
-     * @return the name
-     */
-    String getKey();
+  /**
+   * The name of the configuration object.
+   *
+   * <p>This name should be unique for each single configuration
+   *
+   * @return the name
+   */
+  String getKey();
 
-    /**
-     * If true, this configuration object will disable an inherited configuration object of the same name.<p>
-     *
-     * @return true if this configuration object is marked as "disabled"
-     */
-    boolean isDisabled();
+  /**
+   * If true, this configuration object will disable an inherited configuration object of the same
+   * name.
+   *
+   * <p>
+   *
+   * @return true if this configuration object is marked as "disabled"
+   */
+  boolean isDisabled();
 
-    /**
-     * Merges this configuration object with a child configuration object.<p>
-     *
-     * @param child the child configuration object
-     *
-     * @return the merged configuration objects
-     */
-    X merge(X child);
+  /**
+   * Merges this configuration object with a child configuration object.
+   *
+   * <p>
+   *
+   * @param child the child configuration object
+   * @return the merged configuration objects
+   */
+  X merge(X child);
 }

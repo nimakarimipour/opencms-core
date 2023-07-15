@@ -27,70 +27,69 @@
 
 package org.opencms.workplace.threads;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 import org.opencms.report.A_CmsReportThread;
 import org.opencms.util.CmsUUID;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Deletes a project.<p>
+ * Deletes a project.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsProjectDeleteThread extends A_CmsReportThread {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsProjectDeleteThread.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsProjectDeleteThread.class);
 
-    /** The throwable. */
-    private Throwable m_error;
+  /** The throwable. */
+  private Throwable m_error;
 
-    /** The project id. */
-    private CmsUUID m_projectId;
+  /** The project id. */
+  private CmsUUID m_projectId;
 
-    /**
-     * Creates the project delete thread.<p>
-     *
-     * @param cms the current OpenCms context object
-     * @param projectId the project id to delete
-     */
-    public CmsProjectDeleteThread(CmsObject cms, CmsUUID projectId) {
+  /**
+   * Creates the project delete thread.
+   *
+   * <p>
+   *
+   * @param cms the current OpenCms context object
+   * @param projectId the project id to delete
+   */
+  public CmsProjectDeleteThread(CmsObject cms, CmsUUID projectId) {
 
-        super(cms, Messages.get().getBundle().key(Messages.GUI_DELETE_PROJECT_THREAD_NAME_1, projectId));
-        m_projectId = projectId;
+    super(
+        cms, Messages.get().getBundle().key(Messages.GUI_DELETE_PROJECT_THREAD_NAME_1, projectId));
+    m_projectId = projectId;
+  }
+
+  /** @see org.opencms.report.A_CmsReportThread#getError() */
+  @Override
+  public Throwable getError() {
+
+    return m_error;
+  }
+
+  /** @see org.opencms.report.A_CmsReportThread#getReportUpdate() */
+  @Override
+  public String getReportUpdate() {
+
+    return "";
+  }
+
+  /** @see java.lang.Runnable#run() */
+  @Override
+  public void run() {
+
+    try {
+      getCms().deleteProject(m_projectId);
+    } catch (Throwable e) {
+      m_error = e;
+      LOG.warn(
+          Messages.get().getBundle().key(Messages.LOG_PROJECT_DELETE_FAILED_1, m_projectId), e);
     }
-
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getError()
-     */
-    @Override
-    public Throwable getError() {
-
-        return m_error;
-    }
-
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
-
-        return "";
-    }
-
-    /**
-     * @see java.lang.Runnable#run()
-     */
-    @Override
-    public void run() {
-
-        try {
-            getCms().deleteProject(m_projectId);
-        } catch (Throwable e) {
-            m_error = e;
-            LOG.warn(Messages.get().getBundle().key(Messages.LOG_PROJECT_DELETE_FAILED_1, m_projectId), e);
-        }
-    }
+  }
 }

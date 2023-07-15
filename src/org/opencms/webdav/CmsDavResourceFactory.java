@@ -36,37 +36,38 @@ import org.apache.jackrabbit.webdav.DavServletResponse;
 import org.apache.jackrabbit.webdav.DavSession;
 import org.apache.jackrabbit.webdav.lock.LockManager;
 
-/**
- * The resource factory.
- */
+/** The resource factory. */
 public class CmsDavResourceFactory implements DavResourceFactory {
 
-    private LockManager m_lockManager;
+  private LockManager m_lockManager;
 
-    /**
-     * @see org.apache.jackrabbit.webdav.DavResourceFactory#createResource(org.apache.jackrabbit.webdav.DavResourceLocator, org.apache.jackrabbit.webdav.DavServletRequest, org.apache.jackrabbit.webdav.DavServletResponse)
-     */
-    public DavResource createResource(
-        DavResourceLocator locator,
-        DavServletRequest request,
-        DavServletResponse response)
-    throws DavException {
+  /**
+   * @see
+   *     org.apache.jackrabbit.webdav.DavResourceFactory#createResource(org.apache.jackrabbit.webdav.DavResourceLocator,
+   *     org.apache.jackrabbit.webdav.DavServletRequest,
+   *     org.apache.jackrabbit.webdav.DavServletResponse)
+   */
+  public DavResource createResource(
+      DavResourceLocator locator, DavServletRequest request, DavServletResponse response)
+      throws DavException {
 
-        return new CmsDavResource(locator, this, (CmsDavSession)request.getDavSession(), m_lockManager);
+    return new CmsDavResource(
+        locator, this, (CmsDavSession) request.getDavSession(), m_lockManager);
+  }
 
-    }
+  /**
+   * @see
+   *     org.apache.jackrabbit.webdav.DavResourceFactory#createResource(org.apache.jackrabbit.webdav.DavResourceLocator,
+   *     org.apache.jackrabbit.webdav.DavSession)
+   */
+  public DavResource createResource(DavResourceLocator locator, DavSession session)
+      throws DavException {
 
-    /**
-     * @see org.apache.jackrabbit.webdav.DavResourceFactory#createResource(org.apache.jackrabbit.webdav.DavResourceLocator, org.apache.jackrabbit.webdav.DavSession)
-     */
-    public DavResource createResource(DavResourceLocator locator, DavSession session) throws DavException {
+    return new CmsDavResource(locator, this, (CmsDavSession) session, m_lockManager);
+  }
 
-        return new CmsDavResource(locator, this, (CmsDavSession)session, m_lockManager);
-    }
+  public void setLockManager(LockManager lockManager) {
 
-    public void setLockManager(LockManager lockManager) {
-
-        m_lockManager = lockManager;
-    }
-
+    m_lockManager = lockManager;
+  }
 }

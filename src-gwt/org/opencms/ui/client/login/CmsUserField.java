@@ -30,16 +30,19 @@ package org.opencms.ui.client.login;
 import com.google.gwt.user.client.DOM;
 
 /**
- * User name field for use by the login dialog.<p>
+ * User name field for use by the login dialog.
+ *
+ * <p>
  */
 public class CmsUserField extends A_CmsLoginField {
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsUserField() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsUserField() {
 
-        super(DOM.getElementById("hidden-username"));
-    }
-
+    super(DOM.getElementById("hidden-username"));
+  }
 }

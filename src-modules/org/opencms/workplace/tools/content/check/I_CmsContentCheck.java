@@ -27,77 +27,90 @@
 
 package org.opencms.workplace.tools.content.check;
 
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 
-import java.util.List;
-
 /**
- * This interface defines an OpenCms content check. A content check will
- * test the content of the properties of all resources inside of OpenCms if they
- * follow the rules which are defined inside the test implementing this interface.<p>
+ * This interface defines an OpenCms content check. A content check will test the content of the
+ * properties of all resources inside of OpenCms if they follow the rules which are defined inside
+ * the test implementing this interface.
+ *
+ * <p>
  *
  * @since 6.1.2
  */
 public interface I_CmsContentCheck {
 
-    /** Parameter name for widgets. */
-    String PARAMETER = "active";
+  /** Parameter name for widgets. */
+  String PARAMETER = "active";
 
-    /**
-     * Main method of the content check. It holds the implementation of the content check.<p>
-     *
-     * @param cms the CmsObject
-     * @param testResource a CmsContentTestResource containing the results of previous tests
-     * @return the updated testResouce containing the results of the content check
-     * @throws CmsException if an error occurs
-     */
-    CmsContentCheckResource executeContentCheck(CmsObject cms, CmsContentCheckResource testResource)
-    throws CmsException;
+  /**
+   * Main method of the content check. It holds the implementation of the content check.
+   *
+   * <p>
+   *
+   * @param cms the CmsObject
+   * @param testResource a CmsContentTestResource containing the results of previous tests
+   * @return the updated testResouce containing the results of the content check
+   * @throws CmsException if an error occurs
+   */
+  CmsContentCheckResource executeContentCheck(CmsObject cms, CmsContentCheckResource testResource)
+      throws CmsException;
 
-    /**
-     * Defines the name of the parameter which is used by the CmsContentCheckDialog to enable
-     * or disable the content check.<p>
-     *
-     * @return the name of the dialog parameter.
-     */
-    String getDialogParameterName();
+  /**
+   * Defines the name of the parameter which is used by the CmsContentCheckDialog to enable or
+   * disable the content check.
+   *
+   * <p>
+   *
+   * @return the name of the dialog parameter.
+   */
+  String getDialogParameterName();
 
-    /**
-     * Gets a list of all required message bundles by this content check.<p>
-     *
-     * @return list of message bundle names
-     */
-    List getMessageBundles();
+  /**
+   * Gets a list of all required message bundles by this content check.
+   *
+   * <p>
+   *
+   * @return list of message bundle names
+   */
+  List getMessageBundles();
 
-    /**
-     * Gets the name of this content check.<p>
-     *
-     * @return name of the content check
-     */
-    String getName();
+  /**
+   * Gets the name of this content check.
+   *
+   * <p>
+   *
+   * @return name of the content check
+   */
+  String getName();
 
-    /**
-     * Initializer for the content check.<p>
-     *
-     * @param cms the current CmsObject
-     * @throws CmsException if an error occurs
-     */
-    void init(CmsObject cms) throws CmsException;
+  /**
+   * Initializer for the content check.
+   *
+   * <p>
+   *
+   * @param cms the current CmsObject
+   * @throws CmsException if an error occurs
+   */
+  void init(CmsObject cms) throws CmsException;
 
-    /**
-     * Signals if this content check is active or not.<p>
-     *
-     *
-     * @return true if this content check is active, false otherwise.
-     */
-    boolean isActive();
+  /**
+   * Signals if this content check is active or not.
+   *
+   * <p>
+   *
+   * @return true if this content check is active, false otherwise.
+   */
+  boolean isActive();
 
-    /**
-     * Sets the active flag for the content check.<p>
-     *
-     * @param value the value for the active flag
-     */
-    void setActive(boolean value);
-
+  /**
+   * Sets the active flag for the content check.
+   *
+   * <p>
+   *
+   * @param value the value for the active flag
+   */
+  void setActive(boolean value);
 }

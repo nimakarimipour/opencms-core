@@ -27,46 +27,50 @@
 
 package org.opencms.search.extractors;
 
-import org.opencms.test.OpenCmsTestCase;
-
 import java.io.InputStream;
 import java.util.Map;
+import org.opencms.test.OpenCmsTestCase;
 
 /**
- * Tests the text extraction form an Excel file.<p>
+ * Tests the text extraction form an Excel file.
+ *
+ * <p>
  */
 public class TestHtmllExtraction extends OpenCmsTestCase {
 
-    /**
-     * Tests the basic Html extraction.<p>
-     *
-     * @throws Exception if the test fails
-     */
-    public void testBasicHtmlExtraction() throws Exception {
+  /**
+   * Tests the basic Html extraction.
+   *
+   * <p>
+   *
+   * @throws Exception if the test fails
+   */
+  public void testBasicHtmlExtraction() throws Exception {
 
-        // open an input stream for the test file
-        InputStream in = getClass().getClassLoader().getResourceAsStream("org/opencms/search/extractors/test1.html");
+    // open an input stream for the test file
+    InputStream in =
+        getClass().getClassLoader().getResourceAsStream("org/opencms/search/extractors/test1.html");
 
-        // extract the content
-        I_CmsExtractionResult extractionResult = CmsExtractorHtml.getExtractor().extractText(in);
+    // extract the content
+    I_CmsExtractionResult extractionResult = CmsExtractorHtml.getExtractor().extractText(in);
 
-        Map<String, String> items = extractionResult.getContentItems();
-        assertEquals(2, items.size());
-        assertTrue(items.containsKey(I_CmsExtractionResult.ITEM_CONTENT));
-        assertTrue(items.containsKey(I_CmsExtractionResult.ITEM_RAW));
-        String result = extractionResult.getContent();
-        assertEquals(result, items.get(I_CmsExtractionResult.ITEM_CONTENT));
+    Map<String, String> items = extractionResult.getContentItems();
+    assertEquals(2, items.size());
+    assertTrue(items.containsKey(I_CmsExtractionResult.ITEM_CONTENT));
+    assertTrue(items.containsKey(I_CmsExtractionResult.ITEM_RAW));
+    String result = extractionResult.getContent();
+    assertEquals(result, items.get(I_CmsExtractionResult.ITEM_CONTENT));
 
-        System.out.println("---------------------------------------------------------------");
-        System.out.println("Extracted from HTML:");
-        System.out.println(result);
+    System.out.println("---------------------------------------------------------------");
+    System.out.println("Extracted from HTML:");
+    System.out.println(result);
 
-        assertTrue(result.indexOf("Alkacon Software") > -1);
-        assertTrue(result.indexOf("The OpenCms experts") > -1);
-        assertTrue(result.indexOf("Some content here.") > -1);
-        assertTrue(result.indexOf("Some content there.") > -1);
-        assertTrue(result.indexOf("Some content on a second sheet.") > -1);
-        assertTrue(result.indexOf("Some content on the third sheet.") > -1);
-        assertTrue(result.indexOf("\u00e4\u00f6\u00fc\u00c4\u00d6\u00dc\u00df\u20ac") > -1);
-    }
+    assertTrue(result.indexOf("Alkacon Software") > -1);
+    assertTrue(result.indexOf("The OpenCms experts") > -1);
+    assertTrue(result.indexOf("Some content here.") > -1);
+    assertTrue(result.indexOf("Some content there.") > -1);
+    assertTrue(result.indexOf("Some content on a second sheet.") > -1);
+    assertTrue(result.indexOf("Some content on the third sheet.") > -1);
+    assertTrue(result.indexOf("\u00e4\u00f6\u00fc\u00c4\u00d6\u00dc\u00df\u20ac") > -1);
+  }
 }

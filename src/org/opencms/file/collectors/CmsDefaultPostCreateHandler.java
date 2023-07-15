@@ -27,30 +27,30 @@
 
 package org.opencms.file.collectors;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsLog;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Default implementation for the post-create handler interface.<p>
+ * Default implementation for the post-create handler interface.
  *
- * This default implementation does nothing.
+ * <p>This default implementation does nothing.
  */
 public class CmsDefaultPostCreateHandler implements I_CmsCollectorPostCreateHandler {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsDefaultPostCreateHandler.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsDefaultPostCreateHandler.class);
 
-    /**
-     * @see org.opencms.file.collectors.I_CmsCollectorPostCreateHandler#onCreate(org.opencms.file.CmsObject, org.opencms.file.CmsResource, boolean)
-     */
-    public void onCreate(CmsObject cms, CmsResource createdResource, boolean copyMode) {
+  /**
+   * @see
+   *     org.opencms.file.collectors.I_CmsCollectorPostCreateHandler#onCreate(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, boolean)
+   */
+  public void onCreate(CmsObject cms, CmsResource createdResource, boolean copyMode) {
 
-        // This method does nothing useful
+    // This method does nothing useful
 
-        LOG.debug("onCreate " + createdResource.getRootPath() + ", copyMode = " + copyMode);
-    }
-
+    LOG.debug("onCreate " + createdResource.getRootPath() + ", copyMode = " + copyMode);
+  }
 }

@@ -31,17 +31,22 @@ import org.opencms.main.CmsLog;
 import org.opencms.search.CmsSearchManager;
 
 /**
- * Dummy implementation for a search manager, to test the configuration.<p>
+ * Dummy implementation for a search manager, to test the configuration.
+ *
+ * <p>
  */
 public class CmsCustomSearchManager extends CmsSearchManager {
 
-    /**
-     * Public constructor.<p>
-     */
-    public CmsCustomSearchManager() {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   */
+  public CmsCustomSearchManager() {
 
-        if (CmsLog.INIT.isInfoEnabled()) {
-            CmsLog.INIT.info("!!!!!!!!!!!!!!!!!!!!!! My very special custom search manager !!!!!!!!!!!!!!!!!");
-        }
+    if (CmsLog.INIT.isInfoEnabled()) {
+      CmsLog.INIT.info(
+          "!!!!!!!!!!!!!!!!!!!!!! My very special custom search manager !!!!!!!!!!!!!!!!!");
     }
+  }
 }

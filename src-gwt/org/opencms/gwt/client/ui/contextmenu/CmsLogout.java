@@ -35,69 +35,76 @@ import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsUUID;
 
 /**
- * The class for the "logout" context menu entries.<p>
+ * The class for the "logout" context menu entries.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public final class CmsLogout implements I_CmsHasContextMenuCommand {
 
-    /**
-     * Hidden utility class constructor.<p>
-     */
-    private CmsLogout() {
+  /**
+   * Hidden utility class constructor.
+   *
+   * <p>
+   */
+  private CmsLogout() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Returns the context menu command according to
-     * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new I_CmsContextMenuCommand() {
+    return new I_CmsContextMenuCommand() {
 
-            public void execute(
-                CmsUUID structureId,
-                final I_CmsContextMenuHandler handler,
-                CmsContextMenuEntryBean bean) {
+      public void execute(
+          CmsUUID structureId,
+          final I_CmsContextMenuHandler handler,
+          CmsContextMenuEntryBean bean) {
 
-                CmsConfirmDialog dialog = new CmsConfirmDialog(
-                    Messages.get().key(Messages.GUI_DIALOG_LOGOUT_TITLE_0),
-                    Messages.get().key(Messages.GUI_DIALOG_LOGOUT_TEXT_0));
-                dialog.setOkText(Messages.get().key(Messages.GUI_YES_0));
-                dialog.setCloseText(Messages.get().key(Messages.GUI_NO_0));
-                dialog.setHandler(new I_CmsConfirmDialogHandler() {
+        CmsConfirmDialog dialog =
+            new CmsConfirmDialog(
+                Messages.get().key(Messages.GUI_DIALOG_LOGOUT_TITLE_0),
+                Messages.get().key(Messages.GUI_DIALOG_LOGOUT_TEXT_0));
+        dialog.setOkText(Messages.get().key(Messages.GUI_YES_0));
+        dialog.setCloseText(Messages.get().key(Messages.GUI_NO_0));
+        dialog.setHandler(
+            new I_CmsConfirmDialogHandler() {
 
-                    public void onClose() {
+              public void onClose() {
 
-                        // nothing to do
-                    }
+                // nothing to do
+              }
 
-                    public void onOk() {
+              public void onOk() {
 
-                        String logoutTarget = CmsCoreProvider.get().link(CmsCoreProvider.get().getLoginURL())
-                            + "?logout=true";
-                        handler.leavePage(logoutTarget);
-                    }
-                });
-                dialog.center();
-            }
+                String logoutTarget =
+                    CmsCoreProvider.get().link(CmsCoreProvider.get().getLoginURL())
+                        + "?logout=true";
+                handler.leavePage(logoutTarget);
+              }
+            });
+        dialog.center();
+      }
 
-            public A_CmsContextMenuItem getItemWidget(
-                CmsUUID structureId,
-                I_CmsContextMenuHandler handler,
-                CmsContextMenuEntryBean bean) {
+      public A_CmsContextMenuItem getItemWidget(
+          CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-                return null;
-            }
+        return null;
+      }
 
-            public boolean hasItemWidget() {
+      public boolean hasItemWidget() {
 
-                return false;
-            }
-        };
-    }
+        return false;
+      }
+    };
+  }
 }

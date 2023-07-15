@@ -27,59 +27,64 @@
 
 package org.opencms.workplace.tools.accounts;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsUser;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsDialog;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Workplace dialog to kill user sessions.<p>
+ * Workplace dialog to kill user sessions.
+ *
+ * <p>
  */
 public class CmsUserKillSessions extends CmsDialog {
 
-    /** The user id of the user to unlock. */
-    protected String m_paramUserId;
+  /** The user id of the user to unlock. */
+  protected String m_paramUserId;
 
-    /**
-     * Creates a new dialog instance.<p>
-     *
-     * @param context the page context
-     * @param req the current request
-     * @param res the current response
-     */
-    public CmsUserKillSessions(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Creates a new dialog instance.
+   *
+   * <p>
+   *
+   * @param context the page context
+   * @param req the current request
+   * @param res the current response
+   */
+  public CmsUserKillSessions(PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        super(context, req, res);
+    super(context, req, res);
+  }
 
-    }
+  /**
+   * Unlocks the user.
+   *
+   * <p>
+   *
+   * @throws Exception if something goes wrong
+   */
+  public void actionKillUserSessions() throws Exception {
 
-    /**
-     * Unlocks the user.<p>
-     *
-     * @throws Exception if something goes wrong
-     */
-    public void actionKillUserSessions() throws Exception {
+    CmsUUID userId = new CmsUUID(m_paramUserId);
+    CmsObject cms = getCms();
+    CmsUser user = cms.readUser(userId);
+    OpenCms.getSessionManager().killSession(cms, user);
+    actionCloseDialog();
+  }
 
-        CmsUUID userId = new CmsUUID(m_paramUserId);
-        CmsObject cms = getCms();
-        CmsUser user = cms.readUser(userId);
-        OpenCms.getSessionManager().killSession(cms, user);
-        actionCloseDialog();
-    }
+  /**
+   * Sets the user id parameter.
+   *
+   * <p>
+   *
+   * @param userId the user id
+   */
+  public void setParamUserId(String userId) {
 
-    /**
-     * Sets the user id parameter.<p>
-     *
-     * @param userId the user id
-     */
-    public void setParamUserId(String userId) {
-
-        m_paramUserId = userId;
-    }
-
+    m_paramUserId = userId;
+  }
 }

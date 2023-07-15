@@ -27,6 +27,10 @@
 
 package org.opencms.workplace.commons;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
@@ -35,64 +39,66 @@ import org.opencms.workplace.list.A_CmsListExplorerDialog;
 import org.opencms.workplace.list.A_CmsListResourceCollector;
 import org.opencms.workplace.list.CmsListItem;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 /**
- * Collector for resources with links that could get broken after deletion.<p>
+ * Collector for resources with links that could get broken after deletion.
+ *
+ * <p>
  *
  * @since 6.5.4
  */
 public class CmsDeleteBrokenRelationsCollector extends A_CmsListResourceCollector {
 
-    /** Parameter of the default collector name. */
-    public static final String COLLECTOR_NAME = "brokenResources";
+  /** Parameter of the default collector name. */
+  public static final String COLLECTOR_NAME = "brokenResources";
 
-    /**
-     * Constructor, creates a new instance.<p>
-     *
-     * @param wp the workplace object
-     * @param resources list of locked resources
-     */
-    public CmsDeleteBrokenRelationsCollector(A_CmsListExplorerDialog wp, List<String> resources) {
+  /**
+   * Constructor, creates a new instance.
+   *
+   * <p>
+   *
+   * @param wp the workplace object
+   * @param resources list of locked resources
+   */
+  public CmsDeleteBrokenRelationsCollector(A_CmsListExplorerDialog wp, List<String> resources) {
 
-        super(wp);
-        setResourcesParam(resources);
+    super(wp);
+    setResourcesParam(resources);
+  }
+
+  /** @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames() */
+  public List<String> getCollectorNames() {
+
+    List<String> names = new ArrayList<String>();
+    names.add(COLLECTOR_NAME);
+    return names;
+  }
+
+  /**
+   * @see
+   *     org.opencms.workplace.list.A_CmsListResourceCollector#getResources(org.opencms.file.CmsObject,
+   *     java.util.Map)
+   */
+  @Override
+  public List<CmsResource> getResources(CmsObject cms, Map<String, String> params)
+      throws CmsException {
+
+    List<CmsResource> resources = new ArrayList<CmsResource>();
+    Iterator<String> itResourceNames = getResourceNamesFromParam(params).iterator();
+    while (itResourceNames.hasNext()) {
+      String resName = itResourceNames.next();
+      resources.add(cms.readResource(resName));
     }
+    return resources;
+  }
 
-    /**
-     * @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames()
-     */
-    public List<String> getCollectorNames() {
+  /**
+   * @see
+   *     org.opencms.workplace.list.A_CmsListResourceCollector#setAdditionalColumns(org.opencms.workplace.list.CmsListItem,
+   *     org.opencms.workplace.explorer.CmsResourceUtil)
+   */
+  @Override
+  protected void setAdditionalColumns(CmsListItem item, CmsResourceUtil resUtil) {
 
-        List<String> names = new ArrayList<String>();
-        names.add(COLLECTOR_NAME);
-        return names;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.A_CmsListResourceCollector#getResources(org.opencms.file.CmsObject, java.util.Map)
-     */
-    @Override
-    public List<CmsResource> getResources(CmsObject cms, Map<String, String> params) throws CmsException {
-
-        List<CmsResource> resources = new ArrayList<CmsResource>();
-        Iterator<String> itResourceNames = getResourceNamesFromParam(params).iterator();
-        while (itResourceNames.hasNext()) {
-            String resName = itResourceNames.next();
-            resources.add(cms.readResource(resName));
-        }
-        return resources;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.A_CmsListResourceCollector#setAdditionalColumns(org.opencms.workplace.list.CmsListItem, org.opencms.workplace.explorer.CmsResourceUtil)
-     */
-    @Override
-    protected void setAdditionalColumns(CmsListItem item, CmsResourceUtil resUtil) {
-
-        // no-op
-    }
+    // no-op
+  }
 }

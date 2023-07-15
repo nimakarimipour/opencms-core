@@ -29,16 +29,14 @@ package org.opencms.ui.shared.rpc;
 
 import com.vaadin.shared.communication.ServerRpc;
 
-/**
- * Client-to-server RPC for embedding Vaadin dialogs in GWT.
- */
+/** Client-to-server RPC for embedding Vaadin dialogs in GWT. */
 public interface I_CmsEmbeddingServerRpc extends ServerRpc {
 
-    /**
-     * Loads the dialog for the given dialog information.
-     *
-     * @param dialogInfo the dialog information as JSON representation of an I_CmsEmbeddedDialogInfo auto bean
-     */
-    void loadDialog(String dialogInfo);
-
+  /**
+   * Loads the dialog for the given dialog information.
+   *
+   * @param dialogInfo the dialog information as JSON representation of an I_CmsEmbeddedDialogInfo
+   *     auto bean
+   */
+  void loadDialog(String dialogInfo);
 }

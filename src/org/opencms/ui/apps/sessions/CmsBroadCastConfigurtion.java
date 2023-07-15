@@ -27,6 +27,8 @@
 
 package org.opencms.ui.apps.sessions;
 
+import com.vaadin.server.Resource;
+import java.util.Locale;
 import org.opencms.security.CmsRole;
 import org.opencms.ui.CmsCssIcon;
 import org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration;
@@ -34,87 +36,69 @@ import org.opencms.ui.apps.CmsWorkplaceAppManager;
 import org.opencms.ui.apps.I_CmsWorkplaceApp;
 import org.opencms.ui.apps.Messages;
 
-import java.util.Locale;
-
-import com.vaadin.server.Resource;
-
 /**
- * Configuration class of app.<p>
+ * Configuration class of app.
+ *
+ * <p>
  */
 public class CmsBroadCastConfigurtion extends A_CmsWorkplaceAppConfiguration {
 
-    /** The app id. */
-    public static final String APP_ID = "sessions";
+  /** The app id. */
+  public static final String APP_ID = "sessions";
 
-    /** The app icon resource (size 32x32). */
-    public static final CmsCssIcon ICON = new CmsCssIcon("oc-icon-32-session");
+  /** The app icon resource (size 32x32). */
+  public static final CmsCssIcon ICON = new CmsCssIcon("oc-icon-32-session");
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppCategory()
-     */
-    @Override
-    public String getAppCategory() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppCategory() */
+  @Override
+  public String getAppCategory() {
 
-        return CmsWorkplaceAppManager.ADMINISTRATION_CATEGORY_ID;
-    }
+    return CmsWorkplaceAppManager.ADMINISTRATION_CATEGORY_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance()
-     */
-    public I_CmsWorkplaceApp getAppInstance() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance() */
+  public I_CmsWorkplaceApp getAppInstance() {
 
-        return new CmsSessionsApp();
-    }
+    return new CmsSessionsApp();
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
-     */
-    @Override
-    public String getHelpText(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale) */
+  @Override
+  public String getHelpText(Locale locale) {
 
-        return Messages.get().getBundle(locale).key(Messages.GUI_MESSAGES_BROADCAST_ADMIN_TOOL_HELP_0);
-    }
+    return Messages.get().getBundle(locale).key(Messages.GUI_MESSAGES_BROADCAST_ADMIN_TOOL_HELP_0);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon()
-     */
-    public Resource getIcon() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon() */
+  public Resource getIcon() {
 
-        return ICON;
-    }
+    return ICON;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId() */
+  public String getId() {
 
-        return APP_ID;
-    }
+    return APP_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
-     */
-    @Override
-    public String getName(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
+  @Override
+  public String getName(Locale locale) {
 
-        return Messages.get().getBundle(locale).key(Messages.GUI_MESSAGES_BROADCAST_ADMIN_TOOL_NAME_0);
-    }
+    return Messages.get().getBundle(locale).key(Messages.GUI_MESSAGES_BROADCAST_ADMIN_TOOL_NAME_0);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getOrder()
-     */
-    @Override
-    public int getOrder() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getOrder() */
+  @Override
+  public int getOrder() {
 
-        return 20;
-    }
+    return 20;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getRequiredRole()
-     */
-    @Override
-    public CmsRole getRequiredRole() {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getRequiredRole() */
+  @Override
+  public CmsRole getRequiredRole() {
 
-        return CmsRole.ROOT_ADMIN;
-    }
+    return CmsRole.ROOT_ADMIN;
+  }
 }

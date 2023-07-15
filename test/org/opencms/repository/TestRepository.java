@@ -27,6 +27,9 @@
 
 package org.opencms.repository;
 
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.file.CmsProperty;
 import org.opencms.file.CmsPropertyDefinition;
 import org.opencms.main.I_CmsEventListener;
@@ -35,73 +38,78 @@ import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 import org.opencms.util.CmsStringUtil;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Test for Webdav repositories.<p>
+ * Test for Webdav repositories.
+ *
+ * <p>
  */
 public class TestRepository extends OpenCmsTestCase {
 
-    /**
-     * Create test instance.<p>
-     *
-     * @param name the test name
-     */
-    public TestRepository(String name) {
+  /**
+   * Create test instance.
+   *
+   * <p>
+   *
+   * @param name the test name
+   */
+  public TestRepository(String name) {
 
-        super(name);
-    }
+    super(name);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestRepository.class.getName());
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSuite suite = new TestSuite();
+    suite.setName(TestRepository.class.getName());
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
-        suite.addTest(new TestRepository("testPropertyCachingBug"));
+    suite.addTest(new TestRepository("testPropertyCachingBug"));
 
-        return wrapper;
-    }
+    return wrapper;
+  }
 
-    /**
-     * Test for a bug with property caching caused by CmsResourceWrapperSystemFolder.<p>
-     *
-     * @throws Exception
-     */
-    public void testPropertyCachingBug() throws Exception {
+  /**
+   * Test for a bug with property caching caused by CmsResourceWrapperSystemFolder.
+   *
+   * <p>
+   *
+   * @throws Exception
+   */
+  public void testPropertyCachingBug() throws Exception {
 
-        OpenCms.getEventManager().fireEvent(I_CmsEventListener.EVENT_CLEAR_CACHES);
-        OpenCms.getMemoryMonitor().clearCache();
-        OpenCms.getRepositoryManager().getRepository("standard", CmsRepository.class).login("Admin", "admin").getItem(
-            "/");
-        CmsProperty templateElements = getCmsObject().readPropertyObject(
-            "/",
-            CmsPropertyDefinition.PROPERTY_TEMPLATE,
-            true);
-        System.out.println(templateElements);
-        assertTrue(
-            "template-elements property should not be empty",
-            !CmsStringUtil.isEmptyOrWhitespaceOnly(templateElements.getValue()));
-    }
+    OpenCms.getEventManager().fireEvent(I_CmsEventListener.EVENT_CLEAR_CACHES);
+    OpenCms.getMemoryMonitor().clearCache();
+    OpenCms.getRepositoryManager()
+        .getRepository("standard", CmsRepository.class)
+        .login("Admin", "admin")
+        .getItem("/");
+    CmsProperty templateElements =
+        getCmsObject().readPropertyObject("/", CmsPropertyDefinition.PROPERTY_TEMPLATE, true);
+    System.out.println(templateElements);
+    assertTrue(
+        "template-elements property should not be empty",
+        !CmsStringUtil.isEmptyOrWhitespaceOnly(templateElements.getValue()));
+  }
 }

@@ -27,91 +27,99 @@
 
 package org.opencms.file.types;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.file.CmsResource;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Resource type descriptor for sub site map folder types.<p>
+ * Resource type descriptor for sub site map folder types.
  *
- * This type extends an extended folder with a configurable type id and type name.<p>
+ * <p>This type extends an extended folder with a configurable type id and type name.
+ *
+ * <p>
  *
  * @since 8.5.0
  */
 public class CmsResourceTypeFolderSubSitemap extends CmsResourceTypeFolderExtended {
 
-    /** The type name for subsitemaps. */
-    public static final String TYPE_SUBSITEMAP = "subsitemap";
+  /** The type name for subsitemaps. */
+  public static final String TYPE_SUBSITEMAP = "subsitemap";
 
-    /** The registered sub site map resource type id's.    */
-    private static List<Integer> m_subSitemapResourceTypeIds = new ArrayList<Integer>();
+  /** The registered sub site map resource type id's. */
+  private static List<Integer> m_subSitemapResourceTypeIds = new ArrayList<Integer>();
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 3152961195421254155L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 3152961195421254155L;
 
-    /**
-     * Returns the registered sub site map resource type id's.<p>
-     *
-     * @return the resource type id's
-     */
-    public static List<Integer> getSubSitemapResourceTypeIds() {
+  /**
+   * Returns the registered sub site map resource type id's.
+   *
+   * <p>
+   *
+   * @return the resource type id's
+   */
+  public static List<Integer> getSubSitemapResourceTypeIds() {
 
-        return m_subSitemapResourceTypeIds;
-    }
+    return m_subSitemapResourceTypeIds;
+  }
 
-    /**
-     * Returns <code>true</code> in case the given resource is a sub site map.<p>
-     *
-     * Internally this checks if the given resource type has an id that is registered as a sub site map resource type.<p>
-     *
-     * @param resource the resource to check
-     *
-     * @return <code>true</code> in case the given resource is a sub site map
-     *
-     * @since 8.0.0
-     */
-    public static boolean isSubSitemap(CmsResource resource) {
+  /**
+   * Returns <code>true</code> in case the given resource is a sub site map.
+   *
+   * <p>Internally this checks if the given resource type has an id that is registered as a sub site
+   * map resource type.
+   *
+   * <p>
+   *
+   * @param resource the resource to check
+   * @return <code>true</code> in case the given resource is a sub site map
+   * @since 8.0.0
+   */
+  public static boolean isSubSitemap(CmsResource resource) {
 
-        return resource == null ? false : isSubSitemapTypeId(resource.getTypeId());
-    }
+    return resource == null ? false : isSubSitemapTypeId(resource.getTypeId());
+  }
 
-    /**
-     * Returns <code>true</code> in case the given resource type id is a sub site map type.<p>
-     *
-     * Internally this checks if the given resource type id is registered as a sub site map resource type.<p>
-     *
-     * @param typeId the resource type id to check
-     *
-     * @return <code>true</code> in case the given resource type id is a sub site map type
-     *
-     * @since 8.0.0
-     */
-    public static boolean isSubSitemapTypeId(int typeId) {
+  /**
+   * Returns <code>true</code> in case the given resource type id is a sub site map type.
+   *
+   * <p>Internally this checks if the given resource type id is registered as a sub site map
+   * resource type.
+   *
+   * <p>
+   *
+   * @param typeId the resource type id to check
+   * @return <code>true</code> in case the given resource type id is a sub site map type
+   * @since 8.0.0
+   */
+  public static boolean isSubSitemapTypeId(int typeId) {
 
-        return m_subSitemapResourceTypeIds.contains(Integer.valueOf(typeId));
-    }
+    return m_subSitemapResourceTypeIds.contains(Integer.valueOf(typeId));
+  }
 
-    /**
-     * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
-     */
-    @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+  /**
+   * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String,
+   *     java.lang.String, String)
+   */
+  @Override
+  public void initConfiguration(String name, String id, String className)
+      throws CmsConfigurationException {
 
-        super.initConfiguration(name, id, className);
-        // set static members with values from the configuration
-        addTypeId(m_typeId);
-    }
+    super.initConfiguration(name, id, className);
+    // set static members with values from the configuration
+    addTypeId(m_typeId);
+  }
 
-    /**
-     * Adds another resource type id to the registered sub site map resource type id's.<p>
-     *
-     * @param typeId the resource type id to add
-     */
-    private void addTypeId(int typeId) {
+  /**
+   * Adds another resource type id to the registered sub site map resource type id's.
+   *
+   * <p>
+   *
+   * @param typeId the resource type id to add
+   */
+  private void addTypeId(int typeId) {
 
-        m_subSitemapResourceTypeIds.add(Integer.valueOf(typeId));
-    }
-
+    m_subSitemapResourceTypeIds.add(Integer.valueOf(typeId));
+  }
 }

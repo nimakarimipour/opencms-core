@@ -32,6 +32,5 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true)
 public interface I_CmsEmbeddedDialogLoader {
 
-    void loadDialog(String dialogInfoJson);
-
+  void loadDialog(String dialogInfoJson);
 }

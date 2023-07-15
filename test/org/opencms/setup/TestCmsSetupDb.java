@@ -27,156 +27,169 @@
 
 package org.opencms.setup;
 
-import org.opencms.test.OpenCmsTestCase;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.opencms.test.OpenCmsTestCase;
 
 /**
- * Tests the database creation / removal used during setup.<p>
+ * Tests the database creation / removal used during setup.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class TestCmsSetupDb extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestCmsSetupDb(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestCmsSetupDb(String arg0) {
 
-        super(arg0);
+    super(arg0);
+  }
+
+  /**
+   * Test suite for this test class (becasue the order of test cases is important here).
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
+
+    TestSuite suite = new TestSuite();
+    suite.setName(TestCmsSetupDb.class.getName());
+
+    suite.addTest(new TestCmsSetupDb("testCreateDatabase"));
+    suite.addTest(new TestCmsSetupDb("testCreateTables"));
+    suite.addTest(new TestCmsSetupDb("testDropTables"));
+    suite.addTest(new TestCmsSetupDb("testDropDatabase"));
+    suite.addTest(new TestCmsSetupDb("testJdbcDriverVersions"));
+
+    return suite;
+  }
+
+  /**
+   * Tests database creation.
+   *
+   * <p>
+   */
+  public void testCreateDatabase() {
+
+    if (DB_ORACLE.equals(getDatabaseProduct())) {
+      System.out.println("testCreateDatabase not applicable for oracle.");
+      return;
     }
 
-    /**
-     * Test suite for this test class (becasue the order of test cases is important here).<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+    // use create method form superclass
+    CmsSetupDb setupDb = getSetupDb(m_setupConnection);
+    setupDb.createDatabase(getDbProduct(), getReplacer(m_defaultConnection), true);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestCmsSetupDb.class.getName());
+    // check for errors
+    checkErrors(setupDb);
 
-        suite.addTest(new TestCmsSetupDb("testCreateDatabase"));
-        suite.addTest(new TestCmsSetupDb("testCreateTables"));
-        suite.addTest(new TestCmsSetupDb("testDropTables"));
-        suite.addTest(new TestCmsSetupDb("testDropDatabase"));
-        suite.addTest(new TestCmsSetupDb("testJdbcDriverVersions"));
+    // close connections
+    setupDb.closeConnection();
+  }
 
-        return suite;
+  /**
+   * Tests table creation.
+   *
+   * <p>
+   */
+  public void testCreateTables() {
+
+    if (DB_ORACLE.equals(getDatabaseProduct())) {
+      System.out.println("testDropDatabase not applicable for oracle.");
+      return;
     }
 
-    /**
-     * Tests database creation.<p>
-     */
-    public void testCreateDatabase() {
+    // use create method form superclass
+    CmsSetupDb setupDb = getSetupDb(m_defaultConnection);
+    setupDb.createTables(getDbProduct(), getReplacer(m_defaultConnection), true);
 
-        if (DB_ORACLE.equals(getDatabaseProduct())) {
-            System.out.println("testCreateDatabase not applicable for oracle.");
-            return;
-        }
+    // check for errors
+    checkErrors(setupDb);
 
-        // use create method form superclass
-        CmsSetupDb setupDb = getSetupDb(m_setupConnection);
-        setupDb.createDatabase(getDbProduct(), getReplacer(m_defaultConnection), true);
+    // close connections
+    setupDb.closeConnection();
+  }
 
-        // check for errors
-        checkErrors(setupDb);
+  /**
+   * Tests database removal.
+   *
+   * <p>
+   */
+  public void testDropDatabase() {
 
-        // close connections
-        setupDb.closeConnection();
+    if (DB_ORACLE.equals(getDatabaseProduct())) {
+      System.out.println("testDropDatabase not applicable for oracle.");
+      return;
     }
 
-    /**
-     * Tests table creation.<p>
-     */
-    public void testCreateTables() {
+    // use drop method form superclass
+    CmsSetupDb setupDb = getSetupDb(m_setupConnection);
+    setupDb.dropDatabase(getDbProduct(), getReplacer(m_defaultConnection), true);
 
-        if (DB_ORACLE.equals(getDatabaseProduct())) {
-            System.out.println("testDropDatabase not applicable for oracle.");
-            return;
-        }
+    // check for errors
+    checkErrors(setupDb);
 
-        // use create method form superclass
-        CmsSetupDb setupDb = getSetupDb(m_defaultConnection);
-        setupDb.createTables(getDbProduct(), getReplacer(m_defaultConnection), true);
+    // close connections
+    setupDb.closeConnection();
+  }
 
-        // check for errors
-        checkErrors(setupDb);
+  /**
+   * Tests table removal.
+   *
+   * <p>
+   */
+  public void testDropTables() {
 
-        // close connections
-        setupDb.closeConnection();
+    if (DB_ORACLE.equals(getDatabaseProduct())) {
+      System.out.println("testDropDatabase not applicable for oracle.");
+      return;
     }
 
-    /**
-     * Tests database removal.<p>
-     */
-    public void testDropDatabase() {
+    // use drop method form superclass
+    CmsSetupDb setupDb = getSetupDb(m_defaultConnection);
+    setupDb.dropTables(getDbProduct(), getReplacer(m_defaultConnection), true);
 
-        if (DB_ORACLE.equals(getDatabaseProduct())) {
-            System.out.println("testDropDatabase not applicable for oracle.");
-            return;
-        }
+    // check for errors
+    checkErrors(setupDb);
 
-        // use drop method form superclass
-        CmsSetupDb setupDb = getSetupDb(m_setupConnection);
-        setupDb.dropDatabase(getDbProduct(), getReplacer(m_defaultConnection), true);
+    // close connections
+    setupDb.closeConnection();
+  }
 
-        // check for errors
-        checkErrors(setupDb);
+  /**
+   * Tests that JDBC drivers referenced in database.properties actually match the existing Jar
+   * files.
+   *
+   * @throws Exception
+   */
+  public void testJdbcDriverVersions() throws Exception {
 
-        // close connections
-        setupDb.closeConnection();
+    File baseFolder = new File("./webapp/WEB-INF/setupdata/database");
+    for (File dbFolder : baseFolder.listFiles()) {
+      if (!dbFolder.isDirectory()) {
+        continue;
+      }
+      File propFile = new File(dbFolder, "database.properties");
+      Properties props = new Properties();
+      try (FileInputStream stream = new FileInputStream(propFile)) {
+        props.load(stream);
+        String name = dbFolder.getName();
+        String lib = (String) props.get(name + ".libs");
+        File driverFile = new File(dbFolder, lib);
+        assertTrue("JDBC driver not found or wrong version: " + driverFile, driverFile.exists());
+      }
     }
-
-    /**
-     * Tests table removal.<p>
-     */
-    public void testDropTables() {
-
-        if (DB_ORACLE.equals(getDatabaseProduct())) {
-            System.out.println("testDropDatabase not applicable for oracle.");
-            return;
-        }
-
-        // use drop method form superclass
-        CmsSetupDb setupDb = getSetupDb(m_defaultConnection);
-        setupDb.dropTables(getDbProduct(), getReplacer(m_defaultConnection), true);
-
-        // check for errors
-        checkErrors(setupDb);
-
-        // close connections
-        setupDb.closeConnection();
-    }
-
-    /**
-     * Tests that JDBC drivers referenced in database.properties actually match the existing Jar files.
-     *
-     * @throws Exception
-     */
-    public void testJdbcDriverVersions() throws Exception {
-
-        File baseFolder = new File("./webapp/WEB-INF/setupdata/database");
-        for (File dbFolder : baseFolder.listFiles()) {
-            if (!dbFolder.isDirectory()) {
-                continue;
-            }
-            File propFile = new File(dbFolder, "database.properties");
-            Properties props = new Properties();
-            try (FileInputStream stream = new FileInputStream(propFile)) {
-                props.load(stream);
-                String name = dbFolder.getName();
-                String lib = (String)props.get(name + ".libs");
-                File driverFile = new File(dbFolder, lib);
-                assertTrue("JDBC driver not found or wrong version: " + driverFile, driverFile.exists());
-            }
-        }
-    }
+  }
 }

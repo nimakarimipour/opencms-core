@@ -30,30 +30,28 @@ package org.opencms.workplace.tools;
 import org.opencms.file.CmsObject;
 
 /**
- * This tool handler disables the tool if in online project.<p>
+ * This tool handler disables the tool if in online project.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsOfflineToolHandler extends CmsDefaultToolHandler {
 
-    /**
-     * @see org.opencms.workplace.tools.A_CmsToolHandler#getDisabledHelpText()
-     */
-    @Override
-    public String getDisabledHelpText() {
+  /** @see org.opencms.workplace.tools.A_CmsToolHandler#getDisabledHelpText() */
+  @Override
+  public String getDisabledHelpText() {
 
-        if (super.getDisabledHelpText().equals(DEFAULT_DISABLED_HELPTEXT)) {
-            return "${key." + Messages.GUI_TOOLS_DISABLED_ONLINE_HELP_0 + "}";
-        }
-        return super.getDisabledHelpText();
+    if (super.getDisabledHelpText().equals(DEFAULT_DISABLED_HELPTEXT)) {
+      return "${key." + Messages.GUI_TOOLS_DISABLED_ONLINE_HELP_0 + "}";
     }
+    return super.getDisabledHelpText();
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject)
-     */
-    @Override
-    public boolean isEnabled(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject) */
+  @Override
+  public boolean isEnabled(CmsObject cms) {
 
-        return !cms.getRequestContext().getCurrentProject().isOnlineProject();
-    }
+    return !cms.getRequestContext().getCurrentProject().isOnlineProject();
+  }
 }

@@ -28,88 +28,90 @@
 package org.opencms.ade.galleries.client;
 
 /**
- * The galleries(folders) tab handler.<p>
+ * The galleries(folders) tab handler.
  *
- * This class receives event information from the galleries tab and
- * delegates it to the gallery controller.
+ * <p>This class receives event information from the galleries tab and delegates it to the gallery
+ * controller.
  *
  * @since 8.0.0
  */
 public class CmsGalleriesTabHandler extends A_CmsTabHandler {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param controller the gallery controller
-     */
-    public CmsGalleriesTabHandler(CmsGalleryController controller) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param controller the gallery controller
+   */
+  public CmsGalleriesTabHandler(CmsGalleryController controller) {
 
-        super(controller);
-    }
+    super(controller);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#clearParams()
-     */
-    @Override
-    public void clearParams() {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#clearParams() */
+  @Override
+  public void clearParams() {
 
-        m_controller.clearGalleries();
-    }
+    m_controller.clearGalleries();
+  }
 
-    /**
-     * Returns true if the galleries should be selectable.<p>
-     *
-     * @return true if the galleries should be selectable
-     */
-    public boolean hasGalleriesSelectable() {
+  /**
+   * Returns true if the galleries should be selectable.
+   *
+   * <p>
+   *
+   * @return true if the galleries should be selectable
+   */
+  public boolean hasGalleriesSelectable() {
 
-        return m_controller.hasGalleriesSelectable();
-    }
+    return m_controller.hasGalleriesSelectable();
+  }
 
-    /**
-     * Will be triggered when the user unchecks the checkbox to deselect a gallery.<p>
-     *
-     * @param galleryPath the category path as id
-     */
-    public void onDeselectGallery(String galleryPath) {
+  /**
+   * Will be triggered when the user unchecks the checkbox to deselect a gallery.
+   *
+   * <p>
+   *
+   * @param galleryPath the category path as id
+   */
+  public void onDeselectGallery(String galleryPath) {
 
-        m_controller.removeGallery(galleryPath);
-    }
+    m_controller.removeGallery(galleryPath);
+  }
 
-    /**
-     * Will be triggered when the user checks the checkbox to select a gallery.<p>
-     *
-     * @param galleryPath the gallery path as id
-     */
-    public void onSelectGallery(String galleryPath) {
+  /**
+   * Will be triggered when the user checks the checkbox to select a gallery.
+   *
+   * <p>
+   *
+   * @param galleryPath the gallery path as id
+   */
+  public void onSelectGallery(String galleryPath) {
 
-        m_controller.addGallery(galleryPath);
-    }
+    m_controller.addGallery(galleryPath);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSelection()
-     */
-    @Override
-    public void onSelection() {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSelection() */
+  @Override
+  public void onSelection() {
 
-        m_controller.updateGalleriesTab();
-    }
+    m_controller.updateGalleriesTab();
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSort(java.lang.String,java.lang.String)
-     */
-    @Override
-    public void onSort(String sortParams, String filter) {
+  /**
+   * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSort(java.lang.String,java.lang.String)
+   */
+  @Override
+  public void onSort(String sortParams, String filter) {
 
-        m_controller.sortGalleries(sortParams, filter);
-    }
+    m_controller.sortGalleries(sortParams, filter);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#removeParam(java.lang.String)
-     */
-    @Override
-    public void removeParam(String paramKey) {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#removeParam(java.lang.String) */
+  @Override
+  public void removeParam(String paramKey) {
 
-        m_controller.removeGalleryParam(paramKey);
-    }
+    m_controller.removeGalleryParam(paramKey);
+  }
 }

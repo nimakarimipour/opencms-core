@@ -27,6 +27,9 @@
 
 package org.opencms.ui.sitemap;
 
+import java.util.Collection;
+import java.util.Locale;
+import org.apache.commons.logging.Log;
 import org.opencms.ade.sitemap.shared.CmsClientSitemapEntry;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
@@ -40,195 +43,210 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsUUID;
 
-import java.util.Collection;
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-
-/**
- * Represents the data of a sitemap tree node.
- */
+/** Represents the data of a sitemap tree node. */
 public class CmsSitemapTreeNodeData {
 
-    /** The log instance for this class. */
-    @SuppressWarnings("unused")
-    private static final Log LOG = CmsLog.getLog(CmsSitemapTreeNodeData.class);
+  /** The log instance for this class. */
+  @SuppressWarnings("unused")
+  private static final Log LOG = CmsLog.getLog(CmsSitemapTreeNodeData.class);
 
-    /** The client sitemap entry. */
-    private CmsClientSitemapEntry m_entry;
+  /** The client sitemap entry. */
+  private CmsClientSitemapEntry m_entry;
 
-    /** Indicates whether we have definitely no children. */
-    private boolean m_hasNoChildren;
+  /** Indicates whether we have definitely no children. */
+  private boolean m_hasNoChildren;
 
-    /** Sitmap entry is copyable (ie has the 'Copy page' option). */
-    private boolean m_isCopyable;
+  /** Sitmap entry is copyable (ie has the 'Copy page' option). */
+  private boolean m_isCopyable;
 
-    /** Flag indicating whether the linked resource is directly linked. */
-    private boolean m_isDirectLink;
+  /** Flag indicating whether the linked resource is directly linked. */
+  private boolean m_isDirectLink;
 
-    /** The linked resource. */
-    private CmsResource m_linkedResource;
+  /** The linked resource. */
+  private CmsResource m_linkedResource;
 
-    /** String containing locales for which no translations should be provided, read from locale.notranslation property. */
-    private String m_noTranslation;
+  /**
+   * String containing locales for which no translations should be provided, read from
+   * locale.notranslation property.
+   */
+  private String m_noTranslation;
 
-    /** The other locale. */
-    private Locale m_otherLocale;
+  /** The other locale. */
+  private Locale m_otherLocale;
 
-    /** The entry resource. */
-    private CmsResource m_resource;
+  /** The entry resource. */
+  private CmsResource m_resource;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param mainLocale the main locale
-     * @param otherLocale the other locale
-     */
-    public CmsSitemapTreeNodeData(Locale mainLocale, Locale otherLocale) {
-        m_otherLocale = otherLocale;
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param mainLocale the main locale
+   * @param otherLocale the other locale
+   */
+  public CmsSitemapTreeNodeData(Locale mainLocale, Locale otherLocale) {
+    m_otherLocale = otherLocale;
+  }
+
+  /**
+   * Gets the client sitemap entry.
+   *
+   * <p>
+   *
+   * @return the client sitemap entry
+   */
+  public CmsClientSitemapEntry getClientEntry() {
+
+    return m_entry;
+  }
+
+  /**
+   * Gets the linked resource.
+   *
+   * <p>
+   *
+   * @return the linked resource
+   */
+  public CmsResource getLinkedResource() {
+
+    return m_linkedResource;
+  }
+
+  /**
+   * Gets the sitemap entry resource.
+   *
+   * <p>
+   *
+   * @return the resource
+   */
+  public CmsResource getResource() {
+
+    return m_resource;
+  }
+
+  /**
+   * Returns true if the node definitely has no children to load.
+   *
+   * <p>
+   *
+   * @return true if there are definitely no children to load
+   */
+  public boolean hasNoChildren() {
+
+    return m_hasNoChildren;
+  }
+
+  /**
+   * Initializes the bean.
+   *
+   * <p>
+   *
+   * @param cms the CMS context to use
+   * @throws CmsException if something goes wrong
+   */
+  public void initialize(CmsObject cms) throws CmsException {
+
+    CmsUUID id = m_entry.getId();
+    CmsResource resource = cms.readResource(id, CmsResourceFilter.IGNORE_EXPIRATION);
+    m_resource = resource;
+    CmsResource defaultFile = resource;
+    if (resource.isFolder()) {
+      defaultFile = cms.readDefaultFile(resource, CmsResourceFilter.IGNORE_EXPIRATION);
     }
-
-    /**
-     * Gets the client sitemap entry.<p>
-     *
-     * @return the client sitemap entry
-     */
-    public CmsClientSitemapEntry getClientEntry() {
-
-        return m_entry;
+    CmsLocaleGroup localeGroup = cms.getLocaleGroupService().readLocaleGroup(defaultFile);
+    CmsResource primary = localeGroup.getPrimaryResource();
+    CmsProperty noTranslationProp =
+        cms.readPropertyObject(primary, CmsPropertyDefinition.PROPERTY_LOCALE_NOTRANSLATION, false);
+    m_noTranslation = noTranslationProp.getValue();
+    CmsUUID defaultFileId = (defaultFile != null) ? defaultFile.getStructureId() : null;
+    m_isCopyable =
+        (defaultFile != null) && CmsResourceTypeXmlContainerPage.isContainerPage(defaultFile);
+    Collection<CmsResource> resourcesForTargetLocale =
+        localeGroup.getResourcesForLocale(m_otherLocale);
+    if (!resourcesForTargetLocale.isEmpty()) {
+      m_linkedResource = resourcesForTargetLocale.iterator().next();
+      if (primary.getStructureId().equals(m_resource.getStructureId())
+          || primary.getStructureId().equals(defaultFileId)
+          || primary.getStructureId().equals(m_linkedResource.getStructureId())) {
+        m_isDirectLink = true;
+      }
     }
+  }
 
-    /**
-     * Gets the linked resource.<p>
-     *
-     * @return the linked resource
-     */
-    public CmsResource getLinkedResource() {
+  /**
+   * Returns true if the 'Copy page' function should be offered for this entry.
+   *
+   * <p>
+   *
+   * @return true if the 'copy pgae' function should be available
+   */
+  public boolean isCopyable() {
 
-        return m_linkedResource;
+    return m_isCopyable;
+  }
+
+  /**
+   * Returns true if the linked resource is directly linked.
+   *
+   * <p>
+   *
+   * @return true if the linked resource is directly linked
+   */
+  public boolean isDirectLink() {
+
+    return m_isDirectLink;
+  }
+
+  /**
+   * Returns true if this sitemap entry has a linked resource.
+   *
+   * <p>
+   *
+   * @return true if there is a linked resource
+   */
+  public boolean isLinked() {
+
+    return m_linkedResource != null;
+  }
+
+  /**
+   * Checks if this entry is marked as 'do not translate' for the given locale .
+   *
+   * <p>
+   *
+   * @param locale the locale
+   * @return true if the 'do not translate' mark for the given locale is set
+   */
+  public boolean isMarkedNoTranslation(Locale locale) {
+
+    if (m_noTranslation != null) {
+      return CmsLocaleManager.getLocales(m_noTranslation).contains(locale);
     }
+    return false;
+  }
 
-    /**
-     * Gets the sitemap entry resource.<p>
-     *
-     * @return the resource
-     */
-    public CmsResource getResource() {
+  /**
+   * Sets the client entry.
+   *
+   * <p>
+   *
+   * @param entry the client entry
+   */
+  public void setClientEntry(CmsClientSitemapEntry entry) {
 
-        return m_resource;
+    m_entry = entry;
+  }
 
-    }
+  /**
+   * Sets the 'has no children' flag.
+   *
+   * <p>
+   *
+   * @param b the new value
+   */
+  public void setHasNoChildren(boolean b) {
 
-    /**
-     * Returns true if the node definitely has no children to load.<p>
-     *
-     * @return true if there are definitely no children to load
-     */
-    public boolean hasNoChildren() {
-
-        return m_hasNoChildren;
-    }
-
-    /**
-     * Initializes the bean.<p>
-     *
-     * @param cms the CMS context to use
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public void initialize(CmsObject cms) throws CmsException {
-
-        CmsUUID id = m_entry.getId();
-        CmsResource resource = cms.readResource(id, CmsResourceFilter.IGNORE_EXPIRATION);
-        m_resource = resource;
-        CmsResource defaultFile = resource;
-        if (resource.isFolder()) {
-            defaultFile = cms.readDefaultFile(resource, CmsResourceFilter.IGNORE_EXPIRATION);
-        }
-        CmsLocaleGroup localeGroup = cms.getLocaleGroupService().readLocaleGroup(defaultFile);
-        CmsResource primary = localeGroup.getPrimaryResource();
-        CmsProperty noTranslationProp = cms.readPropertyObject(
-            primary,
-            CmsPropertyDefinition.PROPERTY_LOCALE_NOTRANSLATION,
-            false);
-        m_noTranslation = noTranslationProp.getValue();
-        CmsUUID defaultFileId = (defaultFile != null) ? defaultFile.getStructureId() : null;
-        m_isCopyable = (defaultFile != null) && CmsResourceTypeXmlContainerPage.isContainerPage(defaultFile);
-        Collection<CmsResource> resourcesForTargetLocale = localeGroup.getResourcesForLocale(m_otherLocale);
-        if (!resourcesForTargetLocale.isEmpty()) {
-            m_linkedResource = resourcesForTargetLocale.iterator().next();
-            if (primary.getStructureId().equals(m_resource.getStructureId())
-                || primary.getStructureId().equals(defaultFileId)
-                || primary.getStructureId().equals(m_linkedResource.getStructureId())) {
-                m_isDirectLink = true;
-            }
-        }
-    }
-
-    /**
-     * Returns true if the 'Copy page' function should be offered for this entry.<p>
-     *
-     * @return true if the 'copy pgae' function should be available
-     */
-    public boolean isCopyable() {
-
-        return m_isCopyable;
-    }
-
-    /**
-     * Returns true if the linked resource is directly linked.<p>
-     *
-     * @return true if the linked resource is directly linked
-     */
-    public boolean isDirectLink() {
-
-        return m_isDirectLink;
-
-    }
-
-    /**
-     * Returns true if this sitemap entry has a linked resource.<p>
-     *
-     * @return true if there is a linked resource
-     */
-    public boolean isLinked() {
-
-        return m_linkedResource != null;
-    }
-
-    /**
-     * Checks if this entry is marked as 'do not translate' for the given locale .<p>
-     *
-     * @param locale the locale
-     * @return true if the 'do not translate' mark for the given locale is set
-     */
-    public boolean isMarkedNoTranslation(Locale locale) {
-
-        if (m_noTranslation != null) {
-            return CmsLocaleManager.getLocales(m_noTranslation).contains(locale);
-        }
-        return false;
-    }
-
-    /**
-     * Sets the client entry.<p>
-     *
-     * @param entry the client entry
-     */
-    public void setClientEntry(CmsClientSitemapEntry entry) {
-
-        m_entry = entry;
-    }
-
-    /**
-     * Sets the 'has no children' flag.<p>
-     *
-     * @param b the new value
-     */
-    public void setHasNoChildren(boolean b) {
-
-        m_hasNoChildren = b;
-
-    }
-
+    m_hasNoChildren = b;
+  }
 }

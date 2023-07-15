@@ -27,132 +27,116 @@
 
 package org.opencms.ui.apps.dbmanager;
 
-import org.opencms.report.A_CmsReportThread;
-import org.opencms.ui.CmsVaadinUtils;
-import org.opencms.ui.apps.Messages;
-import org.opencms.workplace.threads.CmsDatabaseImportThread;
-
 import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Upload;
+import org.opencms.report.A_CmsReportThread;
+import org.opencms.ui.CmsVaadinUtils;
+import org.opencms.ui.apps.Messages;
+import org.opencms.workplace.threads.CmsDatabaseImportThread;
 
 /**
- * HTTP import class.<p>
+ * HTTP import class.
+ *
+ * <p>
  */
 public class CmsDbImportHTTP extends A_CmsHTTPImportForm {
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = -2918164495466630578L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -2918164495466630578L;
 
-    /**Checkbox for the keep permission option.*/
-    private CheckBox m_keepPermissions;
+  /** Checkbox for the keep permission option. */
+  private CheckBox m_keepPermissions;
 
-    /** The OK button. */
-    private Button m_ok;
+  /** The OK button. */
+  private Button m_ok;
 
-    /**The site select combo box.*/
-    private ComboBox m_siteSelect;
+  /** The site select combo box. */
+  private ComboBox m_siteSelect;
 
-    /**vaadin component.*/
-    private ComboBox m_projectSelect;
+  /** vaadin component. */
+  private ComboBox m_projectSelect;
 
-    /** The upload widget. */
-    private Upload m_upload;
+  /** The upload widget. */
+  private Upload m_upload;
 
-    /** The label for the upload widget. */
-    private Label m_uploadLabel;
+  /** The label for the upload widget. */
+  private Label m_uploadLabel;
 
-    /**
-     * public constructor.<p>
-     *
-     * @param app calling app
-     */
-    public CmsDbImportHTTP(I_CmsReportApp app) {
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param app calling app
+   */
+  public CmsDbImportHTTP(I_CmsReportApp app) {
 
-        super(app, "packages", false);
-    }
+    super(app, "packages", false);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getCancelButton()
-     */
-    @Override
-    protected Button getCancelButton() {
+  /** @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getCancelButton() */
+  @Override
+  protected Button getCancelButton() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getOkButton()
-     */
-    @Override
-    protected Button getOkButton() {
+  /** @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getOkButton() */
+  @Override
+  protected Button getOkButton() {
 
-        return m_ok;
-    }
+    return m_ok;
+  }
 
-    @Override
-    protected ComboBox getProjectSelector() {
+  @Override
+  protected ComboBox getProjectSelector() {
 
-        return m_projectSelect;
-    }
+    return m_projectSelect;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getReportPath()
-     */
-    @Override
-    protected String getReportPath() {
+  /** @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getReportPath() */
+  @Override
+  protected String getReportPath() {
 
-        return CmsDbImportApp.PATH_REPORT_HTTP;
-    }
+    return CmsDbImportApp.PATH_REPORT_HTTP;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getSiteSelector()
-     */
-    @Override
-    protected ComboBox getSiteSelector() {
+  /** @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getSiteSelector() */
+  @Override
+  protected ComboBox getSiteSelector() {
 
-        return m_siteSelect;
-    }
+    return m_siteSelect;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getThread()
-     */
-    @Override
-    protected A_CmsReportThread getThread() {
+  /** @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getThread() */
+  @Override
+  protected A_CmsReportThread getThread() {
 
-        return new CmsDatabaseImportThread(
-            getCmsObject(),
-            m_importFile.getPath(),
-            m_keepPermissions.getValue().booleanValue());
-    }
+    return new CmsDatabaseImportThread(
+        getCmsObject(), m_importFile.getPath(), m_keepPermissions.getValue().booleanValue());
+  }
 
-    /**
-     * @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getTitle()
-     */
-    @Override
-    protected String getTitle() {
+  /** @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getTitle() */
+  @Override
+  protected String getTitle() {
 
-        return CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_IMPORTHTTP_ADMIN_TOOL_NAME_0);
-    }
+    return CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_IMPORTHTTP_ADMIN_TOOL_NAME_0);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.dbmanager.A_CmsHTTPImportForm#getUpload()
-     */
-    @Override
-    protected Upload getUpload() {
+  /** @see org.opencms.ui.apps.dbmanager.A_CmsHTTPImportForm#getUpload() */
+  @Override
+  protected Upload getUpload() {
 
-        return m_upload;
-    }
+    return m_upload;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.dbmanager.A_CmsHTTPImportForm#getUploadLabel()
-     */
-    @Override
-    protected Label getUploadLabel() {
+  /** @see org.opencms.ui.apps.dbmanager.A_CmsHTTPImportForm#getUploadLabel() */
+  @Override
+  protected Label getUploadLabel() {
 
-        return m_uploadLabel;
-    }
-
+    return m_uploadLabel;
+  }
 }

@@ -28,24 +28,27 @@
 package org.opencms.acacia.client.widgets.serialdate;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * Test suite to run all acacia data back-end tests.<p>
+ * Test suite to run all acacia data back-end tests.
+ *
+ * <p>
  */
 public class AllTests extends GWTTestSuite {
 
-    /**
-     * Creates the test suite.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Creates the test suite.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        TestSuite suite = new TestSuite("Test the serial date value wrapper");
-        suite.addTestSuite(TestSerialDateValue.class);
-        return suite;
-    }
+    TestSuite suite = new TestSuite("Test the serial date value wrapper");
+    suite.addTestSuite(TestSerialDateValue.class);
+    return suite;
+  }
 }

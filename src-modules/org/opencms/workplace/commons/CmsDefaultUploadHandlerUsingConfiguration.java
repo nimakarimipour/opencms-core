@@ -31,15 +31,19 @@ import org.opencms.file.CmsObject;
 import org.opencms.workplace.I_CmsPostUploadDialogHandler;
 
 /**
- * Default upload handler implementation.<p>
+ * Default upload handler implementation.
+ *
+ * <p>
  */
 public class CmsDefaultUploadHandlerUsingConfiguration implements I_CmsPostUploadDialogHandler {
 
-    /**
-     * @see org.opencms.workplace.I_CmsPostUploadDialogHandler#getUploadHook(org.opencms.file.CmsObject, java.lang.String)
-     */
-    public String getUploadHook(CmsObject cms, String uploadFolderSitePath) {
+  /**
+   * @see
+   *     org.opencms.workplace.I_CmsPostUploadDialogHandler#getUploadHook(org.opencms.file.CmsObject,
+   *     java.lang.String)
+   */
+  public String getUploadHook(CmsObject cms, String uploadFolderSitePath) {
 
-        return "/system/workplace/commons/postupload_useconfig.jsp";
-    }
+    return "/system/workplace/commons/postupload_useconfig.jsp";
+  }
 }

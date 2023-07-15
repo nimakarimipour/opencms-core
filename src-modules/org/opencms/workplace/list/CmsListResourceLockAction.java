@@ -30,59 +30,58 @@ package org.opencms.workplace.list;
 import org.opencms.i18n.CmsMessageContainer;
 
 /**
- * Displays an icon action for the lock type.<p>
+ * Displays an icon action for the lock type.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListResourceLockAction extends CmsListExplorerDirectAction {
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id the unique id
-     */
-    public CmsListResourceLockAction(String id) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id the unique id
+   */
+  public CmsListResourceLockAction(String id) {
 
-        super(id);
+    super(id);
+  }
+
+  /** @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getHelpText() */
+  @Override
+  public CmsMessageContainer getHelpText() {
+
+    if (super.getHelpText() == null) {
+      return Messages.get().container(Messages.GUI_EXPLORER_LIST_ACTION_LOCK_HELP_0);
     }
+    return super.getHelpText();
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getHelpText()
-     */
-    @Override
-    public CmsMessageContainer getHelpText() {
+  /** @see org.opencms.workplace.tools.A_CmsHtmlIconButton#getIconPath() */
+  @Override
+  public String getIconPath() {
 
-        if (super.getHelpText() == null) {
-            return Messages.get().container(Messages.GUI_EXPLORER_LIST_ACTION_LOCK_HELP_0);
-        }
-        return super.getHelpText();
+    return getResourceUtil().getIconPathLock();
+  }
+
+  /** @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getName() */
+  @Override
+  public CmsMessageContainer getName() {
+
+    if (super.getName() == null) {
+      if (!getResourceUtil().getLock().isUnlocked()) {
+        return Messages.get()
+            .container(
+                Messages.GUI_EXPLORER_LIST_ACTION_LOCK_NAME_2,
+                getResourceUtil().getLockedByName(),
+                getResourceUtil().getLockedInProjectName());
+      } else {
+        return Messages.get().container(Messages.GUI_EXPLORER_LIST_ACTION_UNLOCK_NAME_0);
+      }
     }
-
-    /**
-     * @see org.opencms.workplace.tools.A_CmsHtmlIconButton#getIconPath()
-     */
-    @Override
-    public String getIconPath() {
-
-        return getResourceUtil().getIconPathLock();
-    }
-
-    /**
-     * @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getName()
-     */
-    @Override
-    public CmsMessageContainer getName() {
-
-        if (super.getName() == null) {
-            if (!getResourceUtil().getLock().isUnlocked()) {
-                return Messages.get().container(
-                    Messages.GUI_EXPLORER_LIST_ACTION_LOCK_NAME_2,
-                    getResourceUtil().getLockedByName(),
-                    getResourceUtil().getLockedInProjectName());
-            } else {
-                return Messages.get().container(Messages.GUI_EXPLORER_LIST_ACTION_UNLOCK_NAME_0);
-            }
-        }
-        return super.getName();
-    }
+    return super.getName();
+  }
 }

@@ -31,31 +31,36 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * A prepared statement of type 'long'.<p>
+ * A prepared statement of type 'long'.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsPreparedStatementLongParameter implements I_CmsPreparedStatementParameter {
 
-    /** The 'long' value of the parameter. */
-    private long m_param;
+  /** The 'long' value of the parameter. */
+  private long m_param;
 
-    /**
-     * Constructs a new prepared statement parameter with a 'long' value.<p>
-     *
-     * @param param a value of type 'long'
-     */
-    public CmsPreparedStatementLongParameter(long param) {
+  /**
+   * Constructs a new prepared statement parameter with a 'long' value.
+   *
+   * <p>
+   *
+   * @param param a value of type 'long'
+   */
+  public CmsPreparedStatementLongParameter(long param) {
 
-        m_param = param;
-    }
+    m_param = param;
+  }
 
-    /**
-     * @see org.opencms.db.I_CmsPreparedStatementParameter#insertIntoStatement(java.sql.PreparedStatement, int)
-     */
-    public void insertIntoStatement(PreparedStatement stmt, int index) throws SQLException {
+  /**
+   * @see
+   *     org.opencms.db.I_CmsPreparedStatementParameter#insertIntoStatement(java.sql.PreparedStatement,
+   *     int)
+   */
+  public void insertIntoStatement(PreparedStatement stmt, int index) throws SQLException {
 
-        stmt.setLong(index, m_param);
-    }
-
+    stmt.setLong(index, m_param);
+  }
 }

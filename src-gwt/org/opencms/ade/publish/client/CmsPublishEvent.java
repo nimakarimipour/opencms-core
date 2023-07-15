@@ -30,39 +30,33 @@ package org.opencms.ade.publish.client;
 import com.google.web.bindery.event.shared.Event;
 
 /**
- * Event which is thrown after a publish job has been sent to the server.<p>
+ * Event which is thrown after a publish job has been sent to the server.
+ *
+ * <p>
  */
 public class CmsPublishEvent extends Event<I_CmsPublishEventHandler> {
 
-    /**
-     * Handler type.
-     */
-    public static Type<I_CmsPublishEventHandler> TYPE = new Type<I_CmsPublishEventHandler>();
+  /** Handler type. */
+  public static Type<I_CmsPublishEventHandler> TYPE = new Type<I_CmsPublishEventHandler>();
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsPublishEvent() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsPublishEvent() {}
 
-    }
+  /** @see com.google.web.bindery.event.shared.Event#getAssociatedType() */
+  @Override
+  public Event.Type<I_CmsPublishEventHandler> getAssociatedType() {
 
-    /**
-     * @see com.google.web.bindery.event.shared.Event#getAssociatedType()
-     */
-    @Override
-    public Event.Type<I_CmsPublishEventHandler> getAssociatedType() {
+    return TYPE;
+  }
 
-        return TYPE;
+  /** @see com.google.web.bindery.event.shared.Event#dispatch(java.lang.Object) */
+  @Override
+  protected void dispatch(I_CmsPublishEventHandler handler) {
 
-    }
-
-    /**
-     * @see com.google.web.bindery.event.shared.Event#dispatch(java.lang.Object)
-     */
-    @Override
-    protected void dispatch(I_CmsPublishEventHandler handler) {
-
-        handler.onPublish(this);
-    }
-
+    handler.onPublish(this);
+  }
 }

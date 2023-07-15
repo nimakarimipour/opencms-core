@@ -27,6 +27,12 @@
 
 package org.opencms.workplace.tools.accounts;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.file.CmsResource;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.main.OpenCms;
@@ -40,201 +46,210 @@ import org.opencms.widgets.CmsTextareaWidget;
 import org.opencms.widgets.CmsVfsFileWidget;
 import org.opencms.workplace.CmsWidgetDialogParameter;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Dialog to edit new or existing organizational unit in the administration view.<p>
+ * Dialog to edit new or existing organizational unit in the administration view.
+ *
+ * <p>
  *
  * @since 6.5.6
  */
 public class CmsOrgUnitEditDialog extends A_CmsOrgUnitDialog {
 
-    /** Request parameter name for the sub organizational unit fqn. */
-    public static final String PARAM_SUBOUFQN = "suboufqn";
+  /** Request parameter name for the sub organizational unit fqn. */
+  public static final String PARAM_SUBOUFQN = "suboufqn";
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsOrgUnitEditDialog(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsOrgUnitEditDialog(CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsOrgUnitEditDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsOrgUnitEditDialog(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-    /**
-     * @see org.opencms.workplace.CmsWidgetDialog#actionCommit()
-     */
-    @Override
-    public void actionCommit() {
+  /** @see org.opencms.workplace.CmsWidgetDialog#actionCommit() */
+  @Override
+  public void actionCommit() {
 
-        List<Throwable> errors = new ArrayList<Throwable>();
+    List<Throwable> errors = new ArrayList<Throwable>();
 
-        try {
-            // if new create it first
-            if (isNewOrgUnit()) {
-                List<String> resourceNames = CmsFileUtil.removeRedundancies(m_orgUnitBean.getResources());
-                CmsOrganizationalUnit newOrgUnit = OpenCms.getOrgUnitManager().createOrganizationalUnit(
+    try {
+      // if new create it first
+      if (isNewOrgUnit()) {
+        List<String> resourceNames = CmsFileUtil.removeRedundancies(m_orgUnitBean.getResources());
+        CmsOrganizationalUnit newOrgUnit =
+            OpenCms.getOrgUnitManager()
+                .createOrganizationalUnit(
                     getCms(),
                     m_orgUnitBean.getFqn(),
                     m_orgUnitBean.getDescription(),
                     m_orgUnitBean.getFlags(),
-                    resourceNames.isEmpty() ? null : (String)resourceNames.get(0));
+                    resourceNames.isEmpty() ? null : (String) resourceNames.get(0));
 
-                if (!resourceNames.isEmpty()) {
-                    resourceNames.remove(0);
-                    Iterator<String> itResourceNames = CmsFileUtil.removeRedundancies(resourceNames).iterator();
-                    while (itResourceNames.hasNext()) {
-                        OpenCms.getOrgUnitManager().addResourceToOrgUnit(
-                            getCms(),
-                            newOrgUnit.getName(),
-                            itResourceNames.next());
-                    }
-                }
-            } else {
-                CmsOrganizationalUnit orgunit = OpenCms.getOrgUnitManager().readOrganizationalUnit(
-                    getCms(),
-                    m_orgUnitBean.getFqn());
-                orgunit.setDescription(m_orgUnitBean.getDescription());
-                orgunit.setFlags(m_orgUnitBean.getFlags());
-                List<String> resourceNamesNew = CmsFileUtil.removeRedundancies(m_orgUnitBean.getResources());
-                List<CmsResource> resourcesOld = OpenCms.getOrgUnitManager().getResourcesForOrganizationalUnit(
-                    getCms(),
-                    orgunit.getName());
-                List<String> resourceNamesOld = new ArrayList<String>();
-                Iterator<CmsResource> itResourcesOld = resourcesOld.iterator();
-                while (itResourcesOld.hasNext()) {
-                    CmsResource resourceOld = itResourcesOld.next();
-                    resourceNamesOld.add(getCms().getSitePath(resourceOld));
-                }
-                Iterator<String> itResourceNamesNew = resourceNamesNew.iterator();
-                // add new resources to ou
-                while (itResourceNamesNew.hasNext()) {
-                    String resourceNameNew = itResourceNamesNew.next();
-                    if (!resourceNamesOld.contains(resourceNameNew)) {
-                        OpenCms.getOrgUnitManager().addResourceToOrgUnit(getCms(), orgunit.getName(), resourceNameNew);
-                    }
-                }
-                Iterator<String> itResourceNamesOld = resourceNamesOld.iterator();
-                // delete old resources from ou
-                while (itResourceNamesOld.hasNext()) {
-                    String resourceNameOld = itResourceNamesOld.next();
-                    if (!resourceNamesNew.contains(resourceNameOld)) {
-                        OpenCms.getOrgUnitManager().removeResourceFromOrgUnit(
-                            getCms(),
-                            orgunit.getName(),
-                            resourceNameOld);
-                    }
-                }
-                // write the edited organizational unit
-                OpenCms.getOrgUnitManager().writeOrganizationalUnit(getCms(), orgunit);
-            }
-        } catch (Throwable t) {
-            errors.add(t);
+        if (!resourceNames.isEmpty()) {
+          resourceNames.remove(0);
+          Iterator<String> itResourceNames =
+              CmsFileUtil.removeRedundancies(resourceNames).iterator();
+          while (itResourceNames.hasNext()) {
+            OpenCms.getOrgUnitManager()
+                .addResourceToOrgUnit(getCms(), newOrgUnit.getName(), itResourceNames.next());
+          }
         }
-
-        // set the list of errors to display when saving failed
-        setCommitErrors(errors);
+      } else {
+        CmsOrganizationalUnit orgunit =
+            OpenCms.getOrgUnitManager().readOrganizationalUnit(getCms(), m_orgUnitBean.getFqn());
+        orgunit.setDescription(m_orgUnitBean.getDescription());
+        orgunit.setFlags(m_orgUnitBean.getFlags());
+        List<String> resourceNamesNew =
+            CmsFileUtil.removeRedundancies(m_orgUnitBean.getResources());
+        List<CmsResource> resourcesOld =
+            OpenCms.getOrgUnitManager()
+                .getResourcesForOrganizationalUnit(getCms(), orgunit.getName());
+        List<String> resourceNamesOld = new ArrayList<String>();
+        Iterator<CmsResource> itResourcesOld = resourcesOld.iterator();
+        while (itResourcesOld.hasNext()) {
+          CmsResource resourceOld = itResourcesOld.next();
+          resourceNamesOld.add(getCms().getSitePath(resourceOld));
+        }
+        Iterator<String> itResourceNamesNew = resourceNamesNew.iterator();
+        // add new resources to ou
+        while (itResourceNamesNew.hasNext()) {
+          String resourceNameNew = itResourceNamesNew.next();
+          if (!resourceNamesOld.contains(resourceNameNew)) {
+            OpenCms.getOrgUnitManager()
+                .addResourceToOrgUnit(getCms(), orgunit.getName(), resourceNameNew);
+          }
+        }
+        Iterator<String> itResourceNamesOld = resourceNamesOld.iterator();
+        // delete old resources from ou
+        while (itResourceNamesOld.hasNext()) {
+          String resourceNameOld = itResourceNamesOld.next();
+          if (!resourceNamesNew.contains(resourceNameOld)) {
+            OpenCms.getOrgUnitManager()
+                .removeResourceFromOrgUnit(getCms(), orgunit.getName(), resourceNameOld);
+          }
+        }
+        // write the edited organizational unit
+        OpenCms.getOrgUnitManager().writeOrganizationalUnit(getCms(), orgunit);
+      }
+    } catch (Throwable t) {
+      errors.add(t);
     }
 
-    /**
-     * @see org.opencms.workplace.CmsWidgetDialog#createDialogHtml(java.lang.String)
-     */
-    @Override
-    protected String createDialogHtml(String dialog) {
+    // set the list of errors to display when saving failed
+    setCommitErrors(errors);
+  }
 
-        StringBuffer result = new StringBuffer(1024);
+  /** @see org.opencms.workplace.CmsWidgetDialog#createDialogHtml(java.lang.String) */
+  @Override
+  protected String createDialogHtml(String dialog) {
 
-        result.append(createWidgetTableStart());
-        // show error header once if there were validation errors
-        result.append(createWidgetErrorHeader());
+    StringBuffer result = new StringBuffer(1024);
 
-        if (dialog.equals(PAGES[0])) {
-            // create the widgets for the first dialog page
-            result.append(dialogBlockStart(key(Messages.GUI_ORGUNIT_EDITOR_LABEL_IDENTIFICATION_BLOCK_0)));
-            result.append(createWidgetTableStart());
-            result.append(createDialogRowsHtml(0, 2));
-            result.append(createWidgetTableEnd());
-            result.append(dialogBlockEnd());
-            result.append(dialogBlockStart(key(Messages.GUI_ORGUNIT_EDITOR_LABEL_FLAGS_BLOCK_0)));
-            result.append(createWidgetTableStart());
-            result.append(createDialogRowsHtml(3, 4));
-            result.append(createWidgetTableEnd());
-            result.append(dialogBlockStart(key(Messages.GUI_ORGUNIT_EDITOR_LABEL_CONTENT_BLOCK_0)));
-            result.append(createWidgetTableStart());
-            result.append(createDialogRowsHtml(5, 5));
-            result.append(createWidgetTableEnd());
-            result.append(dialogBlockEnd());
-        }
+    result.append(createWidgetTableStart());
+    // show error header once if there were validation errors
+    result.append(createWidgetErrorHeader());
 
-        result.append(createWidgetTableEnd());
-        return result.toString();
+    if (dialog.equals(PAGES[0])) {
+      // create the widgets for the first dialog page
+      result.append(
+          dialogBlockStart(key(Messages.GUI_ORGUNIT_EDITOR_LABEL_IDENTIFICATION_BLOCK_0)));
+      result.append(createWidgetTableStart());
+      result.append(createDialogRowsHtml(0, 2));
+      result.append(createWidgetTableEnd());
+      result.append(dialogBlockEnd());
+      result.append(dialogBlockStart(key(Messages.GUI_ORGUNIT_EDITOR_LABEL_FLAGS_BLOCK_0)));
+      result.append(createWidgetTableStart());
+      result.append(createDialogRowsHtml(3, 4));
+      result.append(createWidgetTableEnd());
+      result.append(dialogBlockStart(key(Messages.GUI_ORGUNIT_EDITOR_LABEL_CONTENT_BLOCK_0)));
+      result.append(createWidgetTableStart());
+      result.append(createDialogRowsHtml(5, 5));
+      result.append(createWidgetTableEnd());
+      result.append(dialogBlockEnd());
     }
 
-    /**
-     * @see org.opencms.workplace.CmsWidgetDialog#defineWidgets()
-     */
-    @Override
-    protected void defineWidgets() {
+    result.append(createWidgetTableEnd());
+    return result.toString();
+  }
 
-        super.defineWidgets();
+  /** @see org.opencms.workplace.CmsWidgetDialog#defineWidgets() */
+  @Override
+  protected void defineWidgets() {
 
-        // widgets to display
-        if (isNewOrgUnit()) {
-            addWidget(new CmsWidgetDialogParameter(m_orgUnitBean, "name", PAGES[0], new CmsInputWidget()));
-        } else {
-            addWidget(new CmsWidgetDialogParameter(m_orgUnitBean, "name", PAGES[0], new CmsDisplayWidget()));
-        }
-        addWidget(new CmsWidgetDialogParameter(m_orgUnitBean, "description", PAGES[0], new CmsTextareaWidget()));
-        addWidget(new CmsWidgetDialogParameter(m_orgUnitBean, "parentOuDesc", PAGES[0], new CmsDisplayWidget()));
+    super.defineWidgets();
 
-        if (isNewOrgUnit()) {
-            addWidget(new CmsWidgetDialogParameter(m_orgUnitBean, "nologin", PAGES[0], new CmsCheckboxWidget()));
-            addWidget(new CmsWidgetDialogParameter(m_orgUnitBean, "webusers", PAGES[0], new CmsCheckboxWidget()));
-        } else {
-            if (m_orgUnitBean.isWebusers()) {
-                addWidget(new CmsWidgetDialogParameter(m_orgUnitBean, "nologin", PAGES[0], new CmsDisplayWidget()));
-            } else {
-                addWidget(new CmsWidgetDialogParameter(m_orgUnitBean, "nologin", PAGES[0], new CmsCheckboxWidget()));
-            }
-            addWidget(new CmsWidgetDialogParameter(m_orgUnitBean, "webusers", PAGES[0], new CmsDisplayWidget()));
-        }
+    // widgets to display
+    if (isNewOrgUnit()) {
+      addWidget(
+          new CmsWidgetDialogParameter(m_orgUnitBean, "name", PAGES[0], new CmsInputWidget()));
+    } else {
+      addWidget(
+          new CmsWidgetDialogParameter(m_orgUnitBean, "name", PAGES[0], new CmsDisplayWidget()));
+    }
+    addWidget(
+        new CmsWidgetDialogParameter(
+            m_orgUnitBean, "description", PAGES[0], new CmsTextareaWidget()));
+    addWidget(
+        new CmsWidgetDialogParameter(
+            m_orgUnitBean, "parentOuDesc", PAGES[0], new CmsDisplayWidget()));
+
+    if (isNewOrgUnit()) {
+      addWidget(
+          new CmsWidgetDialogParameter(
+              m_orgUnitBean, "nologin", PAGES[0], new CmsCheckboxWidget()));
+      addWidget(
+          new CmsWidgetDialogParameter(
+              m_orgUnitBean, "webusers", PAGES[0], new CmsCheckboxWidget()));
+    } else {
+      if (m_orgUnitBean.isWebusers()) {
         addWidget(
             new CmsWidgetDialogParameter(
-                m_orgUnitBean,
-                "resources",
-                PAGES[0],
-                new CmsVfsFileWidget(false, getCms().getRequestContext().getSiteRoot(), false)));
+                m_orgUnitBean, "nologin", PAGES[0], new CmsDisplayWidget()));
+      } else {
+        addWidget(
+            new CmsWidgetDialogParameter(
+                m_orgUnitBean, "nologin", PAGES[0], new CmsCheckboxWidget()));
+      }
+      addWidget(
+          new CmsWidgetDialogParameter(
+              m_orgUnitBean, "webusers", PAGES[0], new CmsDisplayWidget()));
     }
+    addWidget(
+        new CmsWidgetDialogParameter(
+            m_orgUnitBean,
+            "resources",
+            PAGES[0],
+            new CmsVfsFileWidget(false, getCms().getRequestContext().getSiteRoot(), false)));
+  }
 
-    /**
-     * @see org.opencms.workplace.CmsWidgetDialog#validateParamaters()
-     */
-    @Override
-    protected void validateParamaters() throws Exception {
+  /** @see org.opencms.workplace.CmsWidgetDialog#validateParamaters() */
+  @Override
+  protected void validateParamaters() throws Exception {
 
-        OpenCms.getRoleManager().checkRole(getCms(), CmsRole.ACCOUNT_MANAGER.forOrgUnit(getParamOufqn()));
-        if (!isNewOrgUnit()) {
-            // test the needed parameters
-            OpenCms.getOrgUnitManager().readOrganizationalUnit(getCms(), getParamOufqn()).getName();
-        }
+    OpenCms.getRoleManager()
+        .checkRole(getCms(), CmsRole.ACCOUNT_MANAGER.forOrgUnit(getParamOufqn()));
+    if (!isNewOrgUnit()) {
+      // test the needed parameters
+      OpenCms.getOrgUnitManager().readOrganizationalUnit(getCms(), getParamOufqn()).getName();
     }
+  }
 }

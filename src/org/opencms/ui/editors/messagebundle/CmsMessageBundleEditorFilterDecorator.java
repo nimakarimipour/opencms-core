@@ -27,167 +27,141 @@
 
 package org.opencms.ui.editors.messagebundle;
 
-import org.opencms.i18n.CmsMessageException;
-import org.opencms.main.CmsLog;
-
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-
-import org.tepi.filtertable.FilterDecorator;
-import org.tepi.filtertable.numberfilter.NumberFilterPopupConfig;
-
 import com.vaadin.server.Resource;
 import com.vaadin.ui.UI;
 import com.vaadin.v7.shared.ui.datefield.Resolution;
+import java.util.Locale;
+import org.apache.commons.logging.Log;
+import org.opencms.i18n.CmsMessageException;
+import org.opencms.main.CmsLog;
+import org.tepi.filtertable.FilterDecorator;
+import org.tepi.filtertable.numberfilter.NumberFilterPopupConfig;
 
 /** Adjust the style of the filter bar of the table. */
 class CmsMessageBundleEditorFilterDecorator implements FilterDecorator {
 
-    /** Serialization id. - {@link java.io.Serializable} is a super interface of {@link FilterDecorator}. */
-    private static final long serialVersionUID = -7166112054012313157L;
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsMessageBundleEditorFilterDecorator.class);
+  /**
+   * Serialization id. - {@link java.io.Serializable} is a super interface of {@link
+   * FilterDecorator}.
+   */
+  private static final long serialVersionUID = -7166112054012313157L;
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsMessageBundleEditorFilterDecorator.class);
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getAllItemsVisibleString()
-     */
-    public String getAllItemsVisibleString() {
+  /** @see org.tepi.filtertable.FilterDecorator#getAllItemsVisibleString() */
+  public String getAllItemsVisibleString() {
 
-        try {
-            return Messages.get().getBundle(UI.getCurrent().getLocale()).getString(Messages.GUI_FILTER_SHOW_ALL);
-        } catch (CmsMessageException e) {
-            LOG.error(e.getLocalizedMessage(), e);
-        }
-        return null;
+    try {
+      return Messages.get()
+          .getBundle(UI.getCurrent().getLocale())
+          .getString(Messages.GUI_FILTER_SHOW_ALL);
+    } catch (CmsMessageException e) {
+      LOG.error(e.getLocalizedMessage(), e);
     }
+    return null;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getBooleanFilterDisplayName(java.lang.Object, boolean)
-     */
-    public String getBooleanFilterDisplayName(Object propertyId, boolean value) {
+  /**
+   * @see org.tepi.filtertable.FilterDecorator#getBooleanFilterDisplayName(java.lang.Object,
+   *     boolean)
+   */
+  public String getBooleanFilterDisplayName(Object propertyId, boolean value) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getBooleanFilterIcon(java.lang.Object, boolean)
-     */
-    public Resource getBooleanFilterIcon(Object propertyId, boolean value) {
+  /** @see org.tepi.filtertable.FilterDecorator#getBooleanFilterIcon(java.lang.Object, boolean) */
+  public Resource getBooleanFilterIcon(Object propertyId, boolean value) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getClearCaption()
-     */
-    public String getClearCaption() {
+  /** @see org.tepi.filtertable.FilterDecorator#getClearCaption() */
+  public String getClearCaption() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getDateFieldResolution(java.lang.Object)
-     */
-    public Resolution getDateFieldResolution(Object propertyId) {
+  /** @see org.tepi.filtertable.FilterDecorator#getDateFieldResolution(java.lang.Object) */
+  public Resolution getDateFieldResolution(Object propertyId) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getDateFormatPattern(java.lang.Object)
-     */
-    public String getDateFormatPattern(Object propertyId) {
+  /** @see org.tepi.filtertable.FilterDecorator#getDateFormatPattern(java.lang.Object) */
+  public String getDateFormatPattern(Object propertyId) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getEnumFilterDisplayName(java.lang.Object, java.lang.Object)
-     */
-    public String getEnumFilterDisplayName(Object propertyId, Object value) {
+  /**
+   * @see org.tepi.filtertable.FilterDecorator#getEnumFilterDisplayName(java.lang.Object,
+   *     java.lang.Object)
+   */
+  public String getEnumFilterDisplayName(Object propertyId, Object value) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getEnumFilterIcon(java.lang.Object, java.lang.Object)
-     */
-    public Resource getEnumFilterIcon(Object propertyId, Object value) {
+  /**
+   * @see org.tepi.filtertable.FilterDecorator#getEnumFilterIcon(java.lang.Object, java.lang.Object)
+   */
+  public Resource getEnumFilterIcon(Object propertyId, Object value) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getFromCaption()
-     */
-    public String getFromCaption() {
+  /** @see org.tepi.filtertable.FilterDecorator#getFromCaption() */
+  public String getFromCaption() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getLocale()
-     */
-    public Locale getLocale() {
+  /** @see org.tepi.filtertable.FilterDecorator#getLocale() */
+  public Locale getLocale() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getNumberFilterPopupConfig()
-     */
-    public NumberFilterPopupConfig getNumberFilterPopupConfig() {
+  /** @see org.tepi.filtertable.FilterDecorator#getNumberFilterPopupConfig() */
+  public NumberFilterPopupConfig getNumberFilterPopupConfig() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getNumberValidationErrorMessage()
-     */
-    public String getNumberValidationErrorMessage() {
+  /** @see org.tepi.filtertable.FilterDecorator#getNumberValidationErrorMessage() */
+  public String getNumberValidationErrorMessage() {
 
-        return "";
-    }
+    return "";
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getSetCaption()
-     */
-    public String getSetCaption() {
+  /** @see org.tepi.filtertable.FilterDecorator#getSetCaption() */
+  public String getSetCaption() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getTextChangeTimeout(java.lang.Object)
-     */
-    public int getTextChangeTimeout(Object propertyId) {
+  /** @see org.tepi.filtertable.FilterDecorator#getTextChangeTimeout(java.lang.Object) */
+  public int getTextChangeTimeout(Object propertyId) {
 
-        return 500;
-    }
+    return 500;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#getToCaption()
-     */
-    public String getToCaption() {
+  /** @see org.tepi.filtertable.FilterDecorator#getToCaption() */
+  public String getToCaption() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#isTextFilterImmediate(java.lang.Object)
-     */
-    public boolean isTextFilterImmediate(Object propertyId) {
+  /** @see org.tepi.filtertable.FilterDecorator#isTextFilterImmediate(java.lang.Object) */
+  public boolean isTextFilterImmediate(Object propertyId) {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.tepi.filtertable.FilterDecorator#usePopupForNumericProperty(java.lang.Object)
-     */
-    public boolean usePopupForNumericProperty(Object propertyId) {
+  /** @see org.tepi.filtertable.FilterDecorator#usePopupForNumericProperty(java.lang.Object) */
+  public boolean usePopupForNumericProperty(Object propertyId) {
 
-        return false;
-    }
-
+    return false;
+  }
 }

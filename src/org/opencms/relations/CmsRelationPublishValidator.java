@@ -27,6 +27,12 @@
 
 package org.opencms.relations;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.apache.commons.logging.Log;
 import org.opencms.db.CmsPublishList;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsPropertyDefinition;
@@ -34,121 +40,120 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Util class to find broken links in a bundle of resources to be published.<p>
+ * Util class to find broken links in a bundle of resources to be published.
+ *
+ * <p>
  *
  * @since 6.5.5
  */
 public class CmsRelationPublishValidator {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsRelationPublishValidator.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsRelationPublishValidator.class);
 
-    /** The internal computed broken relations map. */
-    protected Map<String, List<CmsRelation>> m_brokenRelations;
+  /** The internal computed broken relations map. */
+  protected Map<String, List<CmsRelation>> m_brokenRelations;
 
-    /** the cms context object. */
-    private CmsObject m_cms;
+  /** the cms context object. */
+  private CmsObject m_cms;
 
-    /**
-     * Creates a new helper object.<p>
-     *
-     * @param cms the cms object
-     * @param publishList a publish list to validate
-     */
-    public CmsRelationPublishValidator(CmsObject cms, CmsPublishList publishList) {
+  /**
+   * Creates a new helper object.
+   *
+   * <p>
+   *
+   * @param cms the cms object
+   * @param publishList a publish list to validate
+   */
+  public CmsRelationPublishValidator(CmsObject cms, CmsPublishList publishList) {
 
+    try {
+      m_cms = OpenCms.initCmsObject(cms);
+    } catch (CmsException e) {
+      // should never happen
+      LOG.error(e.getLocalizedMessage(), e);
+      m_cms = cms;
+    }
+    try {
+      m_brokenRelations = OpenCms.getPublishManager().validateRelations(m_cms, publishList, null);
+    } catch (Exception e) {
+      // should never happen
+      LOG.error(e.getLocalizedMessage(), e);
+    }
+  }
+
+  /**
+   * Returns the information bean for the given entry.
+   *
+   * <p>
+   *
+   * @param resourceName the entry name
+   * @return the information bean for the given entry
+   */
+  public CmsRelationValidatorInfoEntry getInfoEntry(String resourceName) {
+
+    String resName = resourceName;
+    String siteRoot = m_cms.getRequestContext().getSiteRoot();
+    String siteName = null;
+    if (resName.startsWith(m_cms.getRequestContext().getSiteRoot())) {
+      resName = m_cms.getRequestContext().removeSiteRoot(resName);
+    } else {
+      siteRoot = OpenCms.getSiteManager().getSiteRoot(resName);
+      siteName = siteRoot;
+      if (siteRoot != null) {
+        String oldSite = m_cms.getRequestContext().getSiteRoot();
         try {
-            m_cms = OpenCms.initCmsObject(cms);
+          m_cms.getRequestContext().setSiteRoot("/");
+          siteName =
+              m_cms
+                  .readPropertyObject(siteRoot, CmsPropertyDefinition.PROPERTY_TITLE, false)
+                  .getValue(siteRoot);
         } catch (CmsException e) {
-            // should never happen
-            LOG.error(e.getLocalizedMessage(), e);
-            m_cms = cms;
+          siteName = siteRoot;
+        } finally {
+          m_cms.getRequestContext().setSiteRoot(oldSite);
         }
-        try {
-            m_brokenRelations = OpenCms.getPublishManager().validateRelations(m_cms, publishList, null);
-        } catch (Exception e) {
-            // should never happen
-            LOG.error(e.getLocalizedMessage(), e);
-        }
+        resName = resName.substring(siteRoot.length());
+      } else {
+        siteName = "/";
+      }
     }
+    return new CmsRelationValidatorInfoEntry(
+        resourceName,
+        resName,
+        siteName,
+        siteRoot,
+        Collections.unmodifiableList(m_brokenRelations.get(resourceName)));
+  }
 
-    /**
-     * Returns the information bean for the given entry.<p>
-     *
-     * @param resourceName the entry name
-     *
-     * @return the information bean for the given entry
-     */
-    public CmsRelationValidatorInfoEntry getInfoEntry(String resourceName) {
+  /**
+   * If no relation would be broken deleting the given resources.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if no relation would be broken deleting the given resources
+   */
+  public boolean isEmpty() {
 
-        String resName = resourceName;
-        String siteRoot = m_cms.getRequestContext().getSiteRoot();
-        String siteName = null;
-        if (resName.startsWith(m_cms.getRequestContext().getSiteRoot())) {
-            resName = m_cms.getRequestContext().removeSiteRoot(resName);
-        } else {
-            siteRoot = OpenCms.getSiteManager().getSiteRoot(resName);
-            siteName = siteRoot;
-            if (siteRoot != null) {
-                String oldSite = m_cms.getRequestContext().getSiteRoot();
-                try {
-                    m_cms.getRequestContext().setSiteRoot("/");
-                    siteName = m_cms.readPropertyObject(siteRoot, CmsPropertyDefinition.PROPERTY_TITLE, false).getValue(
-                        siteRoot);
-                } catch (CmsException e) {
-                    siteName = siteRoot;
-                } finally {
-                    m_cms.getRequestContext().setSiteRoot(oldSite);
-                }
-                resName = resName.substring(siteRoot.length());
-            } else {
-                siteName = "/";
-            }
-        }
-        return new CmsRelationValidatorInfoEntry(
-            resourceName,
-            resName,
-            siteName,
-            siteRoot,
-            Collections.unmodifiableList(m_brokenRelations.get(resourceName)));
-    }
+    return m_brokenRelations.isEmpty();
+  }
 
-    /**
-     * If no relation would be broken deleting the given resources.<p>
-     *
-     * @return <code>true</code> if no relation would be broken deleting the given resources
-     */
-    public boolean isEmpty() {
+  /**
+   * @see java.util.Map#keySet()
+   * @return the broken relations key set
+   */
+  public Set<String> keySet() {
 
-        return m_brokenRelations.isEmpty();
-    }
+    return m_brokenRelations.keySet();
+  }
 
-    /**
-     * @see java.util.Map#keySet()
-     *
-     * @return the broken relations key set
-     */
-    public Set<String> keySet() {
+  /**
+   * @see java.util.Map#values()
+   * @return the broken relations value set
+   */
+  public Collection<List<CmsRelation>> values() {
 
-        return m_brokenRelations.keySet();
-    }
-
-    /**
-     * @see java.util.Map#values()
-     *
-     * @return the broken relations value set
-     */
-    public Collection<List<CmsRelation>> values() {
-
-        return m_brokenRelations.values();
-    }
+    return m_brokenRelations.values();
+  }
 }

@@ -27,70 +27,74 @@
 
 package org.opencms.ade.sitemap.client.control;
 
+import com.google.gwt.event.shared.GwtEvent;
 import org.opencms.ade.sitemap.shared.CmsSitemapChange;
 
-import com.google.gwt.event.shared.GwtEvent;
-
 /**
- * Sitemap change event.<p>
+ * Sitemap change event.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.ade.sitemap.client.control.CmsSitemapController
  */
 public class CmsSitemapChangeEvent extends GwtEvent<I_CmsSitemapChangeHandler> {
 
-    /** Event type for sitemap change events. */
-    private static final Type<I_CmsSitemapChangeHandler> TYPE = new Type<I_CmsSitemapChangeHandler>();
+  /** Event type for sitemap change events. */
+  private static final Type<I_CmsSitemapChangeHandler> TYPE = new Type<I_CmsSitemapChangeHandler>();
 
-    /** The change. */
-    private CmsSitemapChange m_change;
+  /** The change. */
+  private CmsSitemapChange m_change;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param change the change
-     */
-    public CmsSitemapChangeEvent(CmsSitemapChange change) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param change the change
+   */
+  public CmsSitemapChangeEvent(CmsSitemapChange change) {
 
-        m_change = change;
-    }
+    m_change = change;
+  }
 
-    /**
-     * Gets the event type associated with change events.<p>
-     *
-     * @return the handler type
-     */
-    public static Type<I_CmsSitemapChangeHandler> getType() {
+  /**
+   * Gets the event type associated with change events.
+   *
+   * <p>
+   *
+   * @return the handler type
+   */
+  public static Type<I_CmsSitemapChangeHandler> getType() {
 
-        return TYPE;
-    }
+    return TYPE;
+  }
 
-    /**
-     * @see com.google.gwt.event.shared.GwtEvent#getAssociatedType()
-     */
-    @Override
-    public final Type<I_CmsSitemapChangeHandler> getAssociatedType() {
+  /** @see com.google.gwt.event.shared.GwtEvent#getAssociatedType() */
+  @Override
+  public final Type<I_CmsSitemapChangeHandler> getAssociatedType() {
 
-        return TYPE;
-    }
+    return TYPE;
+  }
 
-    /**
-     * Returns the change.<p>
-     *
-     * @return the change
-     */
-    public CmsSitemapChange getChange() {
+  /**
+   * Returns the change.
+   *
+   * <p>
+   *
+   * @return the change
+   */
+  public CmsSitemapChange getChange() {
 
-        return m_change;
-    }
+    return m_change;
+  }
 
-    /**
-     * @see com.google.gwt.event.shared.GwtEvent#dispatch(com.google.gwt.event.shared.EventHandler)
-     */
-    @Override
-    protected void dispatch(I_CmsSitemapChangeHandler handler) {
+  /**
+   * @see com.google.gwt.event.shared.GwtEvent#dispatch(com.google.gwt.event.shared.EventHandler)
+   */
+  @Override
+  protected void dispatch(I_CmsSitemapChangeHandler handler) {
 
-        handler.onChange(this);
-    }
+    handler.onChange(this);
+  }
 }

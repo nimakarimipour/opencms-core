@@ -27,6 +27,10 @@
 
 package org.opencms.ade.galleries.client.ui;
 
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import org.opencms.ade.galleries.client.Messages;
 import org.opencms.ade.galleries.client.ui.CmsResultItemWidget.ImageTile;
 import org.opencms.ade.galleries.client.ui.css.I_CmsLayoutBundle;
@@ -37,199 +41,218 @@ import org.opencms.gwt.client.ui.CmsPushButton;
 import org.opencms.gwt.client.ui.I_CmsButton;
 import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
 
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-
 /**
- * Provides the specific list item for the results list.<p>
+ * Provides the specific list item for the results list.
+ *
+ * <p>
  *
  * @since 8.0.
  */
 public class CmsResultListItem extends CmsListItem {
 
-    /** The name. */
-    private String m_name;
+  /** The name. */
+  private String m_name;
 
-    /** The preview button. */
-    private CmsPushButton m_previewButton;
+  /** The preview button. */
+  private CmsPushButton m_previewButton;
 
-    /** The resource type name of the resource. */
-    private String m_resourceType;
+  /** The resource type name of the resource. */
+  private String m_resourceType;
 
-    /** The search result bean. */
-    private CmsResultItemBean m_result;
+  /** The search result bean. */
+  private CmsResultItemBean m_result;
 
-    /** The select button. */
-    private CmsPushButton m_selectButton;
+  /** The select button. */
+  private CmsPushButton m_selectButton;
 
-    /**
-     * Creates a new result list item with a main widget.<p>
-     *
-     * @param resultItem the result item
-     * @param hasPreview if the item has a preview option
-     * @param showPath <code>true</code> to show the resource path in sub title
-     * @param dndHandler the drag and drop handler
-     */
-    public CmsResultListItem(
-        CmsResultItemBean resultItem,
-        boolean hasPreview,
-        boolean showPath,
-        CmsDNDHandler dndHandler) {
+  /**
+   * Creates a new result list item with a main widget.
+   *
+   * <p>
+   *
+   * @param resultItem the result item
+   * @param hasPreview if the item has a preview option
+   * @param showPath <code>true</code> to show the resource path in sub title
+   * @param dndHandler the drag and drop handler
+   */
+  public CmsResultListItem(
+      CmsResultItemBean resultItem,
+      boolean hasPreview,
+      boolean showPath,
+      CmsDNDHandler dndHandler) {
 
-        m_result = resultItem;
-        resultItem.addAdditionalInfo(Messages.get().key(Messages.GUI_PREVIEW_LABEL_PATH_0), resultItem.getPath());
-        CmsResultItemWidget resultItemWidget = new CmsResultItemWidget(resultItem, showPath);
-        ImageTile imageTile = resultItemWidget.getImageTile();
-        resultItemWidget.setUnselectable();
-        initContent(resultItemWidget);
-        if (dndHandler != null) {
-            if (imageTile != null) {
-                imageTile.setDraggable(this);
-                imageTile.addMouseDownHandler(dndHandler);
-            }
-            setId(resultItem.getClientId());
-            if (resultItem.getTitle() != null) {
-                setName(resultItem.getTitle().toLowerCase().replace("/", "-").replace(" ", "_"));
-            } else {
-                setName(resultItem.getClientId());
-            }
-            if (!resultItem.isDeactivated()) {
-                initMoveHandle(dndHandler);
-            }
-        }
-        if (resultItemWidget.hasTileView()) {
-            addStyleName(I_CmsLayoutBundle.INSTANCE.galleryResultItemCss().tilingItem());
-        }
-
-        // add  preview button
-        if (hasPreview) {
-            m_previewButton = createButton(
-                I_CmsButton.PREVIEW_SMALL,
-                Messages.get().key(Messages.GUI_PREVIEW_BUTTON_SHOW_0));
-            resultItemWidget.addButton(m_previewButton);
-        }
-        m_selectButton = createButton(
-            I_CmsButton.CHECK_SMALL,
-            Messages.get().key(Messages.GUI_PREVIEW_BUTTON_SELECT_0));
-        m_selectButton.setVisible(false);
-        resultItemWidget.addButton(m_selectButton);
-
-        if (!resultItem.isReleasedAndNotExpired() || resultItem.isDeactivated()) {
-            addStyleName(I_CmsLayoutBundle.INSTANCE.galleryResultItemCss().expired());
-        }
+    m_result = resultItem;
+    resultItem.addAdditionalInfo(
+        Messages.get().key(Messages.GUI_PREVIEW_LABEL_PATH_0), resultItem.getPath());
+    CmsResultItemWidget resultItemWidget = new CmsResultItemWidget(resultItem, showPath);
+    ImageTile imageTile = resultItemWidget.getImageTile();
+    resultItemWidget.setUnselectable();
+    initContent(resultItemWidget);
+    if (dndHandler != null) {
+      if (imageTile != null) {
+        imageTile.setDraggable(this);
+        imageTile.addMouseDownHandler(dndHandler);
+      }
+      setId(resultItem.getClientId());
+      if (resultItem.getTitle() != null) {
+        setName(resultItem.getTitle().toLowerCase().replace("/", "-").replace(" ", "_"));
+      } else {
+        setName(resultItem.getClientId());
+      }
+      if (!resultItem.isDeactivated()) {
+        initMoveHandle(dndHandler);
+      }
+    }
+    if (resultItemWidget.hasTileView()) {
+      addStyleName(I_CmsLayoutBundle.INSTANCE.galleryResultItemCss().tilingItem());
     }
 
-    /**
-     * Creates the delete button for this item.<p>
-     *
-     * @return the delete button
-     */
-    public static CmsPushButton createDeleteButton() {
-
-        return createButton(I_CmsButton.TRASH_SMALL, Messages.get().key(Messages.GUI_RESULT_BUTTON_DELETE_0));
+    // add  preview button
+    if (hasPreview) {
+      m_previewButton =
+          createButton(
+              I_CmsButton.PREVIEW_SMALL, Messages.get().key(Messages.GUI_PREVIEW_BUTTON_SHOW_0));
+      resultItemWidget.addButton(m_previewButton);
     }
+    m_selectButton =
+        createButton(
+            I_CmsButton.CHECK_SMALL, Messages.get().key(Messages.GUI_PREVIEW_BUTTON_SELECT_0));
+    m_selectButton.setVisible(false);
+    resultItemWidget.addButton(m_selectButton);
 
-    /**
-     * Creates a button for the list item.<p>
-     *
-     * @param imageClass the icon image class
-     * @param title the button title
-     *
-     * @return the button
-     */
-    private static CmsPushButton createButton(String imageClass, String title) {
-
-        CmsPushButton result = new CmsPushButton();
-        result.setImageClass(imageClass);
-        result.setButtonStyle(ButtonStyle.FONT_ICON, null);
-        result.setTitle(title);
-        return result;
+    if (!resultItem.isReleasedAndNotExpired() || resultItem.isDeactivated()) {
+      addStyleName(I_CmsLayoutBundle.INSTANCE.galleryResultItemCss().expired());
     }
+  }
 
-    /**
-     * Adds a double click event handler.<p>
-     *
-     * @param handler the event handler to add
-     *
-     * @return the handler registration for removing the event handler
-     */
-    public HandlerRegistration addDoubleClickHandler(DoubleClickHandler handler) {
+  /**
+   * Creates the delete button for this item.
+   *
+   * <p>
+   *
+   * @return the delete button
+   */
+  public static CmsPushButton createDeleteButton() {
 
-        return addDomHandler(handler, DoubleClickEvent.getType());
+    return createButton(
+        I_CmsButton.TRASH_SMALL, Messages.get().key(Messages.GUI_RESULT_BUTTON_DELETE_0));
+  }
+
+  /**
+   * Creates a button for the list item.
+   *
+   * <p>
+   *
+   * @param imageClass the icon image class
+   * @param title the button title
+   * @return the button
+   */
+  private static CmsPushButton createButton(String imageClass, String title) {
+
+    CmsPushButton result = new CmsPushButton();
+    result.setImageClass(imageClass);
+    result.setButtonStyle(ButtonStyle.FONT_ICON, null);
+    result.setTitle(title);
+    return result;
+  }
+
+  /**
+   * Adds a double click event handler.
+   *
+   * <p>
+   *
+   * @param handler the event handler to add
+   * @return the handler registration for removing the event handler
+   */
+  public HandlerRegistration addDoubleClickHandler(DoubleClickHandler handler) {
+
+    return addDomHandler(handler, DoubleClickEvent.getType());
+  }
+
+  /**
+   * Adds the preview button click handler.
+   *
+   * <p>
+   *
+   * @param handler the click handler
+   */
+  public void addPreviewClickHandler(ClickHandler handler) {
+
+    if (m_previewButton != null) {
+      m_previewButton.addClickHandler(handler);
     }
+  }
 
-    /**
-     * Adds the preview button click handler.<p>
-     *
-     * @param handler the click handler
-     */
-    public void addPreviewClickHandler(ClickHandler handler) {
+  /**
+   * Adds the select button click handler.
+   *
+   * <p>
+   *
+   * @param handler the click handler
+   */
+  public void addSelectClickHandler(ClickHandler handler) {
 
-        if (m_previewButton != null) {
-            m_previewButton.addClickHandler(handler);
-        }
-    }
+    m_selectButton.setVisible(true);
+    m_selectButton.addClickHandler(handler);
+  }
 
-    /**
-     * Adds the select button click handler.<p>
-     *
-     * @param handler the click handler
-     */
-    public void addSelectClickHandler(ClickHandler handler) {
+  /**
+   * Returns the name.
+   *
+   * <p>
+   *
+   * @return the name
+   */
+  public String getName() {
 
-        m_selectButton.setVisible(true);
-        m_selectButton.addClickHandler(handler);
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the name.<p>
-     *
-     * @return the name
-     */
-    public String getName() {
+  /**
+   * Returns the resource type name.
+   *
+   * <p>
+   *
+   * @return the resource type name
+   */
+  public String getResourceType() {
 
-        return m_name;
-    }
+    return m_resourceType;
+  }
 
-    /**
-     * Returns the resource type name.<p>
-     *
-     * @return the resource type name
-     */
-    public String getResourceType() {
+  /**
+   * Gets the search result bean.
+   *
+   * <p>
+   *
+   * @return the search result bean
+   */
+  public CmsResultItemBean getResult() {
 
-        return m_resourceType;
-    }
+    return m_result;
+  }
 
-    /**
-     * Gets the search result bean.<p>
-     *
-     * @return the search result bean
-     */
-    public CmsResultItemBean getResult() {
+  /**
+   * Sets the name.
+   *
+   * <p>
+   *
+   * @param name the name to set
+   */
+  public void setName(String name) {
 
-        return m_result;
-    }
+    m_name = name;
+  }
 
-    /**
-     * Sets the name.<p>
-     *
-     * @param name the name to set
-     */
-    public void setName(String name) {
+  /**
+   * Sets the resource type name.
+   *
+   * <p>
+   *
+   * @param resourceType the resource type name to set
+   */
+  public void setResourceType(String resourceType) {
 
-        m_name = name;
-    }
-
-    /**
-     * Sets the resource type name.<p>
-     *
-     * @param resourceType the resource type name to set
-     */
-    public void setResourceType(String resourceType) {
-
-        m_resourceType = resourceType;
-    }
+    m_resourceType = resourceType;
+  }
 }

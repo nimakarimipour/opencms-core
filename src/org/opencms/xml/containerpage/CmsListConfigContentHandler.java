@@ -34,18 +34,20 @@ import org.opencms.xml.content.CmsDefaultXmlContentHandler;
 import org.opencms.xml.content.CmsXmlContent;
 
 /**
- * Special handler for list configurations that rewrites the TypesToCollect field using formatter keys if possible, rather than IDs.
+ * Special handler for list configurations that rewrites the TypesToCollect field using formatter
+ * keys if possible, rather than IDs.
  */
 public class CmsListConfigContentHandler extends CmsDefaultXmlContentHandler {
 
-    /**
-     * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#prepareForWrite(org.opencms.file.CmsObject, org.opencms.xml.content.CmsXmlContent, org.opencms.file.CmsFile)
-     */
-    @Override
-    public CmsFile prepareForWrite(CmsObject cms, CmsXmlContent content, CmsFile file) throws CmsException {
+  /**
+   * @see
+   *     org.opencms.xml.content.CmsDefaultXmlContentHandler#prepareForWrite(org.opencms.file.CmsObject,
+   *     org.opencms.xml.content.CmsXmlContent, org.opencms.file.CmsFile)
+   */
+  @Override
+  public CmsFile prepareForWrite(CmsObject cms, CmsXmlContent content, CmsFile file)
+      throws CmsException {
 
-        return super.prepareForWrite(cms, content, file);
-
-    }
-
+    return super.prepareForWrite(cms, content, file);
+  }
 }

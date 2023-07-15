@@ -27,6 +27,8 @@
 
 package org.opencms.ui.actions;
 
+import java.util.List;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsLog;
@@ -35,52 +37,44 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.ui.dialogs.CmsReindexDialog;
 
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
-/**
- * Action to reindex resources.
- */
+/** Action to reindex resources. */
 public class CmsReindexDialogAction extends A_CmsWorkplaceAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "reindex";
+  /** The action id. */
+  public static final String ACTION_ID = "reindex";
 
-    /** The logger instance for this class. */
-    static final Log LOG = CmsLog.getLog(CmsReindexDialogAction.class);
+  /** The logger instance for this class. */
+  static final Log LOG = CmsLog.getLog(CmsReindexDialogAction.class);
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsContextMenuAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsContextMenuAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        openDialog(new CmsReindexDialog(context), context);
-    }
+    openDialog(new CmsReindexDialog(context), context);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
-    }
+    return ACTION_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
 
-        return CmsStandardVisibilityCheck.REINDEX.getVisibility(cms, resources);
-    }
+    return CmsStandardVisibilityCheck.REINDEX.getVisibility(cms, resources);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return org.opencms.workplace.explorer.Messages.GUI_EXPLORER_CONTEXT_REINDEX_0;
-    }
-
+    return org.opencms.workplace.explorer.Messages.GUI_EXPLORER_CONTEXT_REINDEX_0;
+  }
 }

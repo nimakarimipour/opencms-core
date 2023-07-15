@@ -27,63 +27,65 @@
 
 package org.opencms.util;
 
+import org.htmlparser.util.ParserException;
 import org.opencms.test.OpenCmsTestCase;
 
-import org.htmlparser.util.ParserException;
-
 /**
- * Tests the HTML validator.<p>
+ * Tests the HTML validator.
+ *
+ * <p>
  */
 public class TestCmsHtmlValidator extends OpenCmsTestCase {
 
-    /**
-     * Test HTML validation.<p>
-     *
-     * @throws ParserException in case parsing fails
-     */
-    public void testValidation() throws ParserException {
+  /**
+   * Test HTML validation.
+   *
+   * <p>
+   *
+   * @throws ParserException in case parsing fails
+   */
+  public void testValidation() throws ParserException {
 
-        CmsHtmlValidator validator = new CmsHtmlValidator();
-        validator.validate("<div></div>");
-        assertTrue(validator.isBalanced());
-        assertEquals(1, validator.getRootElementCount());
+    CmsHtmlValidator validator = new CmsHtmlValidator();
+    validator.validate("<div></div>");
+    assertTrue(validator.isBalanced());
+    assertEquals(1, validator.getRootElementCount());
 
-        validator.validate("<div><p></p></div>");
-        assertTrue(validator.isBalanced());
-        assertEquals(1, validator.getRootElementCount());
+    validator.validate("<div><p></p></div>");
+    assertTrue(validator.isBalanced());
+    assertEquals(1, validator.getRootElementCount());
 
-        validator.validate("<div><img src='' /></div>");
-        assertTrue(validator.isBalanced());
-        assertEquals(1, validator.getRootElementCount());
+    validator.validate("<div><img src='' /></div>");
+    assertTrue(validator.isBalanced());
+    assertEquals(1, validator.getRootElementCount());
 
-        validator.validate("<div><br></div>");
-        assertTrue(validator.isBalanced());
-        assertEquals(1, validator.getRootElementCount());
+    validator.validate("<div><br></div>");
+    assertTrue(validator.isBalanced());
+    assertEquals(1, validator.getRootElementCount());
 
-        validator.validate("<div><div /></div>");
-        assertTrue(validator.isBalanced());
-        assertEquals(1, validator.getRootElementCount());
+    validator.validate("<div><div /></div>");
+    assertTrue(validator.isBalanced());
+    assertEquals(1, validator.getRootElementCount());
 
-        validator.validate("<div><header><br></header><img ></div>");
-        assertTrue(validator.isBalanced());
-        assertEquals(1, validator.getRootElementCount());
+    validator.validate("<div><header><br></header><img ></div>");
+    assertTrue(validator.isBalanced());
+    assertEquals(1, validator.getRootElementCount());
 
-        validator.validate("<div><p ></div>");
-        assertFalse(validator.isBalanced());
-        assertEquals(1, validator.getRootElementCount());
+    validator.validate("<div><p ></div>");
+    assertFalse(validator.isBalanced());
+    assertEquals(1, validator.getRootElementCount());
 
-        validator.validate("<div><header><br></header><img ></div><div />");
-        assertTrue(validator.isBalanced());
-        assertEquals(2, validator.getRootElementCount());
+    validator.validate("<div><header><br></header><img ></div><div />");
+    assertTrue(validator.isBalanced());
+    assertEquals(2, validator.getRootElementCount());
 
-        validator.validate(
-            "<div><header><br></header><img ></div><div><header><br></header><img ></div><div><header><br></header><img ></div>");
-        assertTrue(validator.isBalanced());
-        assertEquals(3, validator.getRootElementCount());
+    validator.validate(
+        "<div><header><br></header><img ></div><div><header><br></header><img ></div><div><header><br></header><img ></div>");
+    assertTrue(validator.isBalanced());
+    assertEquals(3, validator.getRootElementCount());
 
-        validator.validate("<!-- --><div><p ></div>");
-        assertFalse(validator.isBalanced());
-        assertEquals(1, validator.getRootElementCount());
-    }
-
+    validator.validate("<!-- --><div><p ></div>");
+    assertFalse(validator.isBalanced());
+    assertEquals(1, validator.getRootElementCount());
+  }
 }

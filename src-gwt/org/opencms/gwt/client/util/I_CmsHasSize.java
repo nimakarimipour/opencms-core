@@ -28,17 +28,20 @@
 package org.opencms.gwt.client.util;
 
 /**
- * Interface for objects which have an  integer-valued size, e.g. custom containers.<p>
+ * Interface for objects which have an integer-valued size, e.g. custom containers.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsHasSize {
 
-    /**
-     * Gets the size of the object.<p>
-     *
-     * @return the size of the object
-     */
-    int getSize();
-
+  /**
+   * Gets the size of the object.
+   *
+   * <p>
+   *
+   * @return the size of the object
+   */
+  int getSize();
 }

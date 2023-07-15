@@ -31,109 +31,120 @@ import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
 
 /**
- * Convenience class to access the localized messages of this OpenCms package.<p>
+ * Convenience class to access the localized messages of this OpenCms package.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public final class Messages extends A_CmsMessageBundle {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_BUILD_TYPE_LIST_1 = "ERR_BUILD_TYPE_LIST_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_BUILD_TYPE_LIST_1 = "ERR_BUILD_TYPE_LIST_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_INSTANCING_PREVIEW_PROVIDER_2 = "ERR_INSTANCING_PREVIEW_PROVIDER_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_INSTANCING_PREVIEW_PROVIDER_2 =
+      "ERR_INSTANCING_PREVIEW_PROVIDER_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_DOWNLOAD_GALLERY_TITLE_0 = "GUI_DOWNLOAD_GALLERY_TITLE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_DOWNLOAD_GALLERY_TITLE_0 = "GUI_DOWNLOAD_GALLERY_TITLE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_EXTERNAL_LINK_0 = "GUI_EXTERNAL_LINK_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_EXTERNAL_LINK_0 = "GUI_EXTERNAL_LINK_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERIES_TITLE_0 = "GUI_GALLERIES_TITLE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERIES_TITLE_0 = "GUI_GALLERIES_TITLE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_IMAGE_GALLERY_TITLE_0 = "GUI_IMAGE_GALLERY_TITLE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_IMAGE_GALLERY_TITLE_0 = "GUI_IMAGE_GALLERY_TITLE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_NO_UPLOAD_FOR_REPLACED_SEARCH_RESULTS_0 = "GUI_NO_UPLOAD_FOR_REPLACED_SEARCH_RESULTS_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_NO_UPLOAD_FOR_REPLACED_SEARCH_RESULTS_0 =
+      "GUI_NO_UPLOAD_FOR_REPLACED_SEARCH_RESULTS_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_RESOURCE_NOT_FOUND_0 = "GUI_RESOURCE_NOT_FOUND_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_RESOURCE_NOT_FOUND_0 = "GUI_RESOURCE_NOT_FOUND_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_RESOURCE_OUT_OF_TIME_RANGE_1 = "GUI_RESOURCE_OUT_OF_TIME_RANGE_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_RESOURCE_OUT_OF_TIME_RANGE_1 = "GUI_RESOURCE_OUT_OF_TIME_RANGE_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_RESULT_LABEL_COPYRIGHT_0 = "GUI_RESULT_LABEL_COPYRIGHT_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_RESULT_LABEL_COPYRIGHT_0 = "GUI_RESULT_LABEL_COPYRIGHT_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_RESULT_LABEL_DATE_0 = "GUI_RESULT_LABEL_DATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_RESULT_LABEL_DATE_0 = "GUI_RESULT_LABEL_DATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_RESULT_LABEL_DATE_CHANGED_0 = "GUI_RESULT_LABEL_DATE_CHANGED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_RESULT_LABEL_DATE_CHANGED_0 = "GUI_RESULT_LABEL_DATE_CHANGED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_RESULT_LABEL_DATE_EXPIRED_0 = "GUI_RESULT_LABEL_DATE_EXPIRED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_RESULT_LABEL_DATE_EXPIRED_0 = "GUI_RESULT_LABEL_DATE_EXPIRED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_RESULT_LABEL_DATE_RELEASED_0 = "GUI_RESULT_LABEL_DATE_RELEASED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_RESULT_LABEL_DATE_RELEASED_0 = "GUI_RESULT_LABEL_DATE_RELEASED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_RESULT_LABEL_DESCRIPTION_0 = "GUI_RESULT_LABEL_DESCRIPTION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_RESULT_LABEL_DESCRIPTION_0 = "GUI_RESULT_LABEL_DESCRIPTION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_RESULT_LABEL_DIMENSION_0 = "GUI_RESULT_LABEL_DIMENSION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_RESULT_LABEL_DIMENSION_0 = "GUI_RESULT_LABEL_DIMENSION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_RESULT_LABEL_EXCERPT_0 = "GUI_RESULT_LABEL_EXCERPT_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_RESULT_LABEL_EXCERPT_0 = "GUI_RESULT_LABEL_EXCERPT_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_RESULT_LABEL_RESOURCE_TYPE_0 = "GUI_RESULT_LABEL_RESOURCE_TYPE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_RESULT_LABEL_RESOURCE_TYPE_0 = "GUI_RESULT_LABEL_RESOURCE_TYPE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_RESULT_LABEL_SIZE_0 = "GUI_RESULT_LABEL_SIZE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_RESULT_LABEL_SIZE_0 = "GUI_RESULT_LABEL_SIZE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_ROOT_SITE_0 = "GUI_ROOT_SITE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_ROOT_SITE_0 = "GUI_ROOT_SITE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_SITESELECTOR_CURRENT_SUBSITE_0 = "GUI_SITESELECTOR_CURRENT_SUBSITE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_SITESELECTOR_CURRENT_SUBSITE_0 =
+      "GUI_SITESELECTOR_CURRENT_SUBSITE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_STATIC_RESOURCE_0 = "GUI_STATIC_RESOURCE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_STATIC_RESOURCE_0 = "GUI_STATIC_RESOURCE_0";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.ade.galleries.messages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME = "org.opencms.ade.galleries.messages";
 
-    /** Static instance member. */
-    private static final I_CmsMessageBundle INSTANCE = new Messages();
+  /** Static instance member. */
+  private static final I_CmsMessageBundle INSTANCE = new Messages();
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
-    }
+    // hide the constructor
+  }
 
-    /**
-     * Returns an instance of this localized message accessor.<p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static I_CmsMessageBundle get() {
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static I_CmsMessageBundle get() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the bundle name for this OpenCms package.<p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
 
-        return BUNDLE_NAME;
-    }
+    return BUNDLE_NAME;
+  }
 }

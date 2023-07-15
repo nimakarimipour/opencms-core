@@ -28,14 +28,18 @@
 package org.opencms.gwt.client.ui;
 
 /**
- * Handles the clicks buttons of the dialog.<p>
+ * Handles the clicks buttons of the dialog.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsCloseDialogHandler {
 
-    /**
-     * Function to be called on close. The dialog will be closed afterwards.<p>
-     */
-    void onClose();
+  /**
+   * Function to be called on close. The dialog will be closed afterwards.
+   *
+   * <p>
+   */
+  void onClose();
 }

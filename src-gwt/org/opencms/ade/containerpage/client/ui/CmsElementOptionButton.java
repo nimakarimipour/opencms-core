@@ -27,85 +27,92 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import com.google.gwt.user.client.Event;
 import org.opencms.gwt.client.dnd.I_CmsDragHandle;
 import org.opencms.gwt.client.dnd.I_CmsDraggable;
 import org.opencms.gwt.client.ui.CmsPushButton;
 import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
 
-import com.google.gwt.user.client.Event;
-
 /**
- * An optional container element button.<p>
+ * An optional container element button.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsElementOptionButton extends CmsPushButton implements I_CmsDragHandle {
 
-    /** The associated container element. */
-    private CmsContainerPageElementPanel m_dragElement;
+  /** The associated container element. */
+  private CmsContainerPageElementPanel m_dragElement;
 
-    /** The associated tool-bar button. */
-    private A_CmsToolbarOptionButton m_toolbarButton;
+  /** The associated tool-bar button. */
+  private A_CmsToolbarOptionButton m_toolbarButton;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param toolbarButton the tool-bar button associated with this button, providing all necessary information
-     * @param element the element to create this button for
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param toolbarButton the tool-bar button associated with this button, providing all necessary
+   *     information
+   * @param element the element to create this button for
+   */
+  public CmsElementOptionButton(
+      A_CmsToolbarOptionButton toolbarButton, CmsContainerPageElementPanel element) {
+
+    super();
+    setImageClass(toolbarButton.getButtonData().getSmallIconClass());
+    setButtonStyle(ButtonStyle.FONT_ICON, null);
+    setTitle(toolbarButton.getTitle());
+    m_toolbarButton = toolbarButton;
+    m_dragElement = element;
+  }
+
+  /**
+   * Returns the dragElement.
+   *
+   * <p>
+   *
+   * @return the dragElement
+   */
+  public CmsContainerPageElementPanel getContainerElement() {
+
+    return m_dragElement;
+  }
+
+  /** @see org.opencms.gwt.client.dnd.I_CmsDragHandle#getDraggable() */
+  public I_CmsDraggable getDraggable() {
+
+    return m_dragElement;
+  }
+
+  /**
+   * Returns the associated tool-bar button.
+   *
+   * <p>
+   *
+   * @return the associated tool-bar button
+   */
+  public A_CmsToolbarOptionButton getToolbarButton() {
+
+    return m_toolbarButton;
+  }
+
+  /**
+   * @see org.opencms.gwt.client.ui.CmsPushButton#onBrowserEvent(com.google.gwt.user.client.Event)
+   */
+  @Override
+  public void onBrowserEvent(Event event) {
+
+    /* This is to prevent click events from leaking out to the surrounding container element.
+     * We can't just use preventDefault in the click handler itself, since the GWT button widget class does
+     * some magic related to event handling (it ignores the initial click event, then fires *another* click
+     * event when receiving a mouseup event - the click handler doesn't get to see the first event).
      */
-    public CmsElementOptionButton(A_CmsToolbarOptionButton toolbarButton, CmsContainerPageElementPanel element) {
-
-        super();
-        setImageClass(toolbarButton.getButtonData().getSmallIconClass());
-        setButtonStyle(ButtonStyle.FONT_ICON, null);
-        setTitle(toolbarButton.getTitle());
-        m_toolbarButton = toolbarButton;
-        m_dragElement = element;
+    if (event.getTypeInt() == Event.ONCLICK) {
+      event.preventDefault();
+      event.stopPropagation();
     }
-
-    /**
-     * Returns the dragElement.<p>
-     *
-     * @return the dragElement
-     */
-    public CmsContainerPageElementPanel getContainerElement() {
-
-        return m_dragElement;
-    }
-
-    /**
-     * @see org.opencms.gwt.client.dnd.I_CmsDragHandle#getDraggable()
-     */
-    public I_CmsDraggable getDraggable() {
-
-        return m_dragElement;
-    }
-
-    /**
-     * Returns the associated tool-bar button.<p>
-     *
-     * @return the associated tool-bar button
-     */
-    public A_CmsToolbarOptionButton getToolbarButton() {
-
-        return m_toolbarButton;
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.CmsPushButton#onBrowserEvent(com.google.gwt.user.client.Event)
-     */
-    @Override
-    public void onBrowserEvent(Event event) {
-
-        /* This is to prevent click events from leaking out to the surrounding container element.
-         * We can't just use preventDefault in the click handler itself, since the GWT button widget class does
-         * some magic related to event handling (it ignores the initial click event, then fires *another* click
-         * event when receiving a mouseup event - the click handler doesn't get to see the first event).
-         */
-        if (event.getTypeInt() == Event.ONCLICK) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        super.onBrowserEvent(event);
-    }
+    super.onBrowserEvent(event);
+  }
 }

@@ -27,6 +27,38 @@
 
 package org.opencms.ui.dialogs;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.vaadin.event.LayoutEvents.LayoutClickEvent;
+import com.vaadin.event.LayoutEvents.LayoutClickListener;
+import com.vaadin.server.Resource;
+import com.vaadin.server.VaadinService;
+import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.declarative.Design;
+import com.vaadin.v7.data.Property.ValueChangeEvent;
+import com.vaadin.v7.data.Property.ValueChangeListener;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import org.apache.commons.logging.Log;
 import org.opencms.ade.configuration.CmsADEManager;
 import org.opencms.ade.configuration.CmsElementView;
 import org.opencms.ade.configuration.CmsResourceTypeConfig;
@@ -52,409 +84,413 @@ import org.opencms.util.CmsUUID;
 import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
 import org.opencms.workplace.explorer.CmsResourceUtil;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.logging.Log;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.vaadin.event.LayoutEvents.LayoutClickEvent;
-import com.vaadin.event.LayoutEvents.LayoutClickListener;
-import com.vaadin.server.Resource;
-import com.vaadin.server.VaadinService;
-import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.declarative.Design;
-import com.vaadin.v7.data.Property.ValueChangeEvent;
-import com.vaadin.v7.data.Property.ValueChangeListener;
-import com.vaadin.v7.shared.ui.label.ContentMode;
-import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.v7.ui.ComboBox;
-import com.vaadin.v7.ui.VerticalLayout;
-
 public abstract class A_CmsSelectResourceTypeDialog extends CmsBasicDialog {
 
-    /** Default value for the 'default location' check box. */
-    public static final Boolean DEFAULT_LOCATION_DEFAULT = Boolean.TRUE;
+  /** Default value for the 'default location' check box. */
+  public static final Boolean DEFAULT_LOCATION_DEFAULT = Boolean.TRUE;
 
-    /** Id for the 'All' pseudo-view. */
-    public static final CmsUUID ID_VIEW_ALL = CmsUUID.getConstantUUID("view-all");
+  /** Id for the 'All' pseudo-view. */
+  public static final CmsUUID ID_VIEW_ALL = CmsUUID.getConstantUUID("view-all");
 
-    /** Setting name for the standard view. */
-    public static final String SETTING_STANDARD_VIEW = "newDialogStandardView";
+  /** Setting name for the standard view. */
+  public static final String SETTING_STANDARD_VIEW = "newDialogStandardView";
 
-    /** The 'All' pseudo-view. */
-    public static final CmsElementView VIEW_ALL = new CmsElementView(ID_VIEW_ALL);
+  /** The 'All' pseudo-view. */
+  public static final CmsElementView VIEW_ALL = new CmsElementView(ID_VIEW_ALL);
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsNewDialog.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsNewDialog.class);
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    private Map<CmsResourceTypeBean, CmsResourceInfo> m_resourceInfoMap = new HashMap<CmsResourceTypeBean, CmsResourceInfo>();
+  private Map<CmsResourceTypeBean, CmsResourceInfo> m_resourceInfoMap =
+      new HashMap<CmsResourceTypeBean, CmsResourceInfo>();
 
-    /** The created resource. */
-    protected CmsResource m_createdResource;
+  /** The created resource. */
+  protected CmsResource m_createdResource;
 
-    /** The current view id. */
-    protected CmsElementView m_currentView;
+  /** The current view id. */
+  protected CmsElementView m_currentView;
 
-    /** The dialog context. */
-    protected I_CmsDialogContext m_dialogContext;
+  /** The dialog context. */
+  protected I_CmsDialogContext m_dialogContext;
 
-    /** The current folder. */
-    protected CmsResource m_folderResource;
+  /** The current folder. */
+  protected CmsResource m_folderResource;
 
-    /** The selected type. */
-    protected CmsResourceTypeBean m_selectedType;
+  /** The selected type. */
+  protected CmsResourceTypeBean m_selectedType;
 
-    /** The type helper. */
-    protected CmsAddDialogTypeHelper m_typeHelper;
+  /** The type helper. */
+  protected CmsAddDialogTypeHelper m_typeHelper;
 
-    private Runnable m_selectedRunnable;
+  private Runnable m_selectedRunnable;
 
-    /** List of all types. */
-    private List<CmsResourceTypeBean> m_allTypes;
+  /** List of all types. */
+  private List<CmsResourceTypeBean> m_allTypes;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param folderResource the folder resource
-     * @param context the context
-     */
-    public A_CmsSelectResourceTypeDialog(CmsResource folderResource, I_CmsDialogContext context) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param folderResource the folder resource
+   * @param context the context
+   */
+  public A_CmsSelectResourceTypeDialog(CmsResource folderResource, I_CmsDialogContext context) {
 
-        m_folderResource = folderResource;
-        m_dialogContext = context;
+    m_folderResource = folderResource;
+    m_dialogContext = context;
 
-        Design.read(this);
-        CmsVaadinUtils.visitDescendants(this, new Predicate<Component>() {
+    Design.read(this);
+    CmsVaadinUtils.visitDescendants(
+        this,
+        new Predicate<Component>() {
 
-            public boolean apply(Component component) {
+          public boolean apply(Component component) {
 
-                component.setCaption(CmsVaadinUtils.localizeString(component.getCaption()));
-                return true;
-            }
+            component.setCaption(CmsVaadinUtils.localizeString(component.getCaption()));
+            return true;
+          }
         });
-        CmsUUID initViewId = (CmsUUID)VaadinService.getCurrentRequest().getWrappedSession().getAttribute(
-            SETTING_STANDARD_VIEW);
-        if (initViewId == null) {
-            try {
-                CmsUserSettings settings = new CmsUserSettings(A_CmsUI.getCmsObject());
-                String viewSettingStr = settings.getAdditionalPreference(
-                    CmsElementViewPreference.EXPLORER_PREFERENCE_NAME,
-                    true);
-                if ((viewSettingStr != null) && CmsUUID.isValidUUID(viewSettingStr)) {
-                    initViewId = new CmsUUID(viewSettingStr);
-                }
-            } catch (Exception e) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
+    CmsUUID initViewId =
+        (CmsUUID)
+            VaadinService.getCurrentRequest()
+                .getWrappedSession()
+                .getAttribute(SETTING_STANDARD_VIEW);
+    if (initViewId == null) {
+      try {
+        CmsUserSettings settings = new CmsUserSettings(A_CmsUI.getCmsObject());
+        String viewSettingStr =
+            settings.getAdditionalPreference(
+                CmsElementViewPreference.EXPLORER_PREFERENCE_NAME, true);
+        if ((viewSettingStr != null) && CmsUUID.isValidUUID(viewSettingStr)) {
+          initViewId = new CmsUUID(viewSettingStr);
         }
-        if (initViewId == null) {
-            initViewId = CmsUUID.getNullUUID();
-        }
-        CmsElementView initView = initViews(initViewId);
+      } catch (Exception e) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
+    }
+    if (initViewId == null) {
+      initViewId = CmsUUID.getNullUUID();
+    }
+    CmsElementView initView = initViews(initViewId);
 
-        getCancelButton().addClickListener(new ClickListener() {
+    getCancelButton()
+        .addClickListener(
+            new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+              private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+              public void buttonClick(ClickEvent event) {
 
                 finish(new ArrayList<CmsUUID>());
-            }
-        });
+              }
+            });
 
-        getViewSelector().setNullSelectionAllowed(false);
-        getViewSelector().setTextInputAllowed(false);
-        getVerticalLayout().addLayoutClickListener(new LayoutClickListener() {
+    getViewSelector().setNullSelectionAllowed(false);
+    getViewSelector().setTextInputAllowed(false);
+    getVerticalLayout()
+        .addLayoutClickListener(
+            new LayoutClickListener() {
 
-            private static final long serialVersionUID = 1L;
+              private static final long serialVersionUID = 1L;
 
-            public void layoutClick(LayoutClickEvent event) {
+              public void layoutClick(LayoutClickEvent event) {
 
                 try {
-                    CmsResourceTypeBean clickedType = (CmsResourceTypeBean)(((AbstractComponent)(event.getChildComponent())).getData());
-                    if (clickedType != null) {
-                        handleSelection(clickedType);
-                    }
+                  CmsResourceTypeBean clickedType =
+                      (CmsResourceTypeBean)
+                          (((AbstractComponent) (event.getChildComponent())).getData());
+                  if (clickedType != null) {
+                    handleSelection(clickedType);
+                  }
                 } catch (ClassCastException e) {
-                    // ignore
+                  // ignore
                 }
-            }
+              }
+            });
+    setActionHandler(
+        new CmsOkCancelActionHandler() {
+
+          private static final long serialVersionUID = 1L;
+
+          @Override
+          protected void cancel() {
+
+            finish(new ArrayList<CmsUUID>());
+          }
+
+          @Override
+          protected void ok() {
+
+            // nothing to do
+          }
         });
-        setActionHandler(new CmsOkCancelActionHandler() {
+    init(initView, true);
+  }
 
-            private static final long serialVersionUID = 1L;
+  /**
+   * Notifies the context that the given ids have changed.
+   *
+   * <p>
+   *
+   * @param ids the ids
+   */
+  public void finish(List<CmsUUID> ids) {
 
-            @Override
-            protected void cancel() {
+    if (m_selectedRunnable == null) {
+      m_dialogContext.finish(ids);
+      if (ids.size() == 1) {
+        m_dialogContext.focus(ids.get(0));
+      }
+    } else {
+      m_selectedRunnable.run();
+    }
+  }
 
-                finish(new ArrayList<CmsUUID>());
-            }
+  public abstract Button getCancelButton();
 
-            @Override
-            protected void ok() {
+  public CmsResourceInfo getTypeInfoLayout() {
 
-                // nothing to do
-            }
+    return m_selectedType != null ? m_resourceInfoMap.get(m_selectedType) : null;
+  }
+
+  public abstract VerticalLayout getVerticalLayout();
+
+  public abstract ComboBox getViewSelector();
+
+  /**
+   * Handles selection of a type.
+   *
+   * <p>
+   *
+   * @param selectedType the selected type
+   */
+  public abstract void handleSelection(final CmsResourceTypeBean selectedType);
+
+  /**
+   * Initializes and displays the type list for the given view.
+   *
+   * <p>
+   *
+   * @param view the element view
+   * @param useDefault true if we should use the default location for resource creation
+   */
+  public void init(CmsElementView view, boolean useDefault) {
+
+    m_currentView = view;
+    if (!view.getId().equals(getViewSelector().getValue())) {
+      getViewSelector().setValue(view.getId());
+    }
+    getVerticalLayout().removeAllComponents();
+
+    List<CmsResourceTypeBean> typeBeans = m_typeHelper.getPrecomputedTypes(view);
+    if (view.getId().equals(ID_VIEW_ALL)) {
+      typeBeans = m_allTypes;
+    }
+
+    if (typeBeans == null) {
+
+      LOG.warn(
+          "precomputed type list is null: "
+              + view.getTitle(A_CmsUI.getCmsObject(), Locale.ENGLISH));
+      return;
+    }
+    if (typeBeans.size() == 0) {
+      Label label =
+          new Label(
+              CmsVaadinUtils.getMessageText(Messages.GUI_NEWRESOURCEDIALOG_NO_TYPES_AVAILABLE_0));
+      getVerticalLayout().addComponent(label);
+      return;
+    }
+    Set<String> nonstandardTypes = new HashSet<>();
+    for (CmsModule module : OpenCms.getModuleManager().getAllInstalledModules()) {
+      if (module.getName().equals(CmsADEManager.MODULE_NAME_ADE_CONFIG)) {
+        continue;
+      }
+      for (CmsExplorerTypeSettings expType : module.getExplorerTypes()) {
+        nonstandardTypes.add(expType.getName());
+      }
+    }
+
+    for (CmsResourceTypeBean type : typeBeans) {
+      final String typeName = type.getType();
+      String title = typeName;
+      String subtitle = getSubtitle(type, useDefault);
+      CmsExplorerTypeSettings explorerType =
+          OpenCms.getWorkplaceManager().getExplorerTypeSetting(typeName);
+
+      title = CmsVaadinUtils.getMessageText(explorerType.getKey());
+      CmsResourceInfo info = new CmsResourceInfo();
+      info.getTopLine().setContentMode(ContentMode.HTML);
+      String suffix = "";
+      if (nonstandardTypes.contains(type.getType())) {
+        suffix =
+            " <span class='o-internal-type-name'>"
+                + CmsEncoder.escapeHtml(type.getType())
+                + "</span>";
+      }
+      info.getTopLine().setValue(CmsEncoder.escapeHtml(title) + suffix);
+      info.getBottomLine().setValue(subtitle);
+      Resource iconResource = CmsResourceUtil.getBigIconResource(explorerType, null);
+      info.getResourceIcon().initContent(null, iconResource, null, false, true);
+      info.setData(type);
+      m_resourceInfoMap.put(type, info);
+      getVerticalLayout().addComponent(info);
+    }
+  }
+
+  public void setSelectedRunnable(Runnable run) {
+
+    m_selectedRunnable = run;
+  }
+
+  public abstract boolean useDefault();
+
+  /**
+   * Creates type helper which is responsible for generating the type list.
+   *
+   * <p>
+   *
+   * @return the type helper
+   */
+  protected CmsAddDialogTypeHelper createTypeHelper() {
+
+    return new CmsAddDialogTypeHelper(CmsResourceTypeConfig.AddMenuType.workplace) {
+
+      @Override
+      protected boolean exclude(CmsResourceTypeBean type) {
+
+        String typeName = type.getType();
+        CmsExplorerTypeSettings explorerType =
+            OpenCms.getWorkplaceManager().getExplorerTypeSetting(typeName);
+        boolean noCreate = !(type.isCreatableType() && !type.isDeactivated());
+        return noCreate || (explorerType == null) || !explorerType.isCreatable();
+      }
+    };
+  }
+
+  /**
+   * Gets the subtitle for the type info widget.
+   *
+   * <p>
+   *
+   * @param type the type
+   * @param useDefault true if we are in 'use default' mode
+   * @return the subtitle
+   */
+  protected String getSubtitle(CmsResourceTypeBean type, boolean useDefault) {
+
+    String subtitle = "";
+    CmsExplorerTypeSettings explorerType =
+        OpenCms.getWorkplaceManager().getExplorerTypeSetting(type.getType());
+    if ((explorerType != null) && (explorerType.getInfo() != null)) {
+      subtitle = CmsVaadinUtils.getMessageText(explorerType.getInfo());
+    }
+    if (useDefault && (type.getOrigin() == Origin.config) && (type.getCreatePath() != null)) {
+      String path = type.getCreatePath();
+      CmsObject cms = A_CmsUI.getCmsObject();
+      path = cms.getRequestContext().removeSiteRoot(path);
+      subtitle = CmsVaadinUtils.getMessageText(Messages.GUI_NEW_CREATE_IN_PATH_1, path);
+    }
+    return subtitle;
+  }
+
+  /**
+   * Initializes the view selector, using the given view id as an initial value.
+   *
+   * <p>
+   *
+   * @param startId the start view
+   * @return the start view
+   */
+  private CmsElementView initViews(CmsUUID startId) {
+
+    Map<CmsUUID, CmsElementView> viewMap =
+        OpenCms.getADEManager().getElementViews(A_CmsUI.getCmsObject());
+    List<CmsElementView> viewList = new ArrayList<CmsElementView>(viewMap.values());
+    Collections.sort(
+        viewList,
+        new Comparator<CmsElementView>() {
+
+          public int compare(CmsElementView arg0, CmsElementView arg1) {
+
+            return ComparisonChain.start().compare(arg0.getOrder(), arg1.getOrder()).result();
+          }
         });
-        init(initView, true);
-    }
+    getViewSelector().setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+    m_typeHelper = createTypeHelper();
+    m_typeHelper.precomputeTypeLists(
+        A_CmsUI.getCmsObject(),
+        m_folderResource.getRootPath(),
+        A_CmsUI.getCmsObject().getRequestContext().removeSiteRoot(m_folderResource.getRootPath()),
+        viewList,
+        null);
 
-    /**
-     * Notifies the context that the given ids have changed.<p>
-     *
-     * @param ids the ids
-     */
-    public void finish(List<CmsUUID> ids) {
+    // also collect types in LinkedHashMap to preserve order and ensure uniqueness
+    LinkedHashMap<String, CmsResourceTypeBean> allTypes = Maps.newLinkedHashMap();
 
-        if (m_selectedRunnable == null) {
-            m_dialogContext.finish(ids);
-            if (ids.size() == 1) {
-                m_dialogContext.focus(ids.get(0));
+    for (CmsElementView view : viewList) {
 
-            }
-        } else {
-            m_selectedRunnable.run();
-        }
-    }
-
-    public abstract Button getCancelButton();
-
-    public CmsResourceInfo getTypeInfoLayout() {
-
-        return m_selectedType != null ? m_resourceInfoMap.get(m_selectedType) : null;
-    }
-
-    public abstract VerticalLayout getVerticalLayout();
-
-    public abstract ComboBox getViewSelector();
-
-    /**
-     * Handles selection of a type.<p>
-     *
-     * @param selectedType the selected type
-     */
-    public abstract void handleSelection(final CmsResourceTypeBean selectedType);
-
-    /**
-     * Initializes and displays the type list for the given view.<p>
-     *
-     * @param view the element view
-     * @param useDefault true if we should use the default location for resource creation
-     */
-    public void init(CmsElementView view, boolean useDefault) {
-
-        m_currentView = view;
-        if (!view.getId().equals(getViewSelector().getValue())) {
-            getViewSelector().setValue(view.getId());
-        }
-        getVerticalLayout().removeAllComponents();
+      if (view.hasPermission(A_CmsUI.getCmsObject(), m_folderResource)) {
 
         List<CmsResourceTypeBean> typeBeans = m_typeHelper.getPrecomputedTypes(view);
-        if (view.getId().equals(ID_VIEW_ALL)) {
-            typeBeans = m_allTypes;
-        }
 
-        if (typeBeans == null) {
-
-            LOG.warn("precomputed type list is null: " + view.getTitle(A_CmsUI.getCmsObject(), Locale.ENGLISH));
-            return;
+        if (typeBeans.isEmpty()) {
+          continue;
         }
-        if (typeBeans.size() == 0) {
-            Label label = new Label(CmsVaadinUtils.getMessageText(Messages.GUI_NEWRESOURCEDIALOG_NO_TYPES_AVAILABLE_0));
-            getVerticalLayout().addComponent(label);
-            return;
+        for (CmsResourceTypeBean typeBean : typeBeans) {
+          allTypes.put(typeBean.getType(), typeBean);
         }
-        Set<String> nonstandardTypes = new HashSet<>();
-        for (CmsModule module : OpenCms.getModuleManager().getAllInstalledModules()) {
-            if (module.getName().equals(CmsADEManager.MODULE_NAME_ADE_CONFIG)) {
-                continue;
-            }
-            for (CmsExplorerTypeSettings expType : module.getExplorerTypes()) {
-                nonstandardTypes.add(expType.getName());
-            }
-        }
-
-        for (CmsResourceTypeBean type : typeBeans) {
-            final String typeName = type.getType();
-            String title = typeName;
-            String subtitle = getSubtitle(type, useDefault);
-            CmsExplorerTypeSettings explorerType = OpenCms.getWorkplaceManager().getExplorerTypeSetting(typeName);
-
-            title = CmsVaadinUtils.getMessageText(explorerType.getKey());
-            CmsResourceInfo info = new CmsResourceInfo();
-            info.getTopLine().setContentMode(ContentMode.HTML);
-            String suffix = "";
-            if (nonstandardTypes.contains(type.getType())) {
-                suffix = " <span class='o-internal-type-name'>" + CmsEncoder.escapeHtml(type.getType()) + "</span>";
-            }
-            info.getTopLine().setValue(CmsEncoder.escapeHtml(title) + suffix);
-            info.getBottomLine().setValue(subtitle);
-            Resource iconResource = CmsResourceUtil.getBigIconResource(explorerType, null);
-            info.getResourceIcon().initContent(null, iconResource, null, false, true);
-            info.setData(type);
-            m_resourceInfoMap.put(type, info);
-            getVerticalLayout().addComponent(info);
-        }
+        getViewSelector().addItem(view.getId());
+        getViewSelector()
+            .setItemCaption(
+                view.getId(), view.getTitle(A_CmsUI.getCmsObject(), A_CmsUI.get().getLocale()));
+      }
+    }
+    getViewSelector().addItem(VIEW_ALL.getId());
+    getViewSelector()
+        .setItemCaption(VIEW_ALL.getId(), CmsVaadinUtils.getMessageText(Messages.GUI_VIEW_ALL_0));
+    m_allTypes = Lists.newArrayList(allTypes.values());
+    if (allTypes.size() <= 8) {
+      startId = ID_VIEW_ALL;
+    }
+    if (getViewSelector().getItem(startId) == null) {
+      startId = (CmsUUID) (getViewSelector().getItemIds().iterator().next());
     }
 
-    public void setSelectedRunnable(Runnable run) {
+    getViewSelector()
+        .addValueChangeListener(
+            new ValueChangeListener() {
 
-        m_selectedRunnable = run;
-    }
+              private static final long serialVersionUID = 1L;
 
-    public abstract boolean useDefault();
+              public void valueChange(ValueChangeEvent event) {
 
-    /**
-     * Creates type helper which is responsible for generating the type list.<p>
-     *
-     * @return the type helper
-     */
-    protected CmsAddDialogTypeHelper createTypeHelper() {
-
-        return new CmsAddDialogTypeHelper(CmsResourceTypeConfig.AddMenuType.workplace) {
-
-            @Override
-            protected boolean exclude(CmsResourceTypeBean type) {
-
-                String typeName = type.getType();
-                CmsExplorerTypeSettings explorerType = OpenCms.getWorkplaceManager().getExplorerTypeSetting(typeName);
-                boolean noCreate = !(type.isCreatableType() && !type.isDeactivated());
-                return noCreate || (explorerType == null) || !explorerType.isCreatable();
-            }
-        };
-
-    }
-
-    /**
-     * Gets the subtitle for the type info widget.<p>
-     *
-     * @param type the type
-     * @param useDefault true if we are in 'use default' mode
-     *
-     * @return the subtitle
-     */
-    protected String getSubtitle(CmsResourceTypeBean type, boolean useDefault) {
-
-        String subtitle = "";
-        CmsExplorerTypeSettings explorerType = OpenCms.getWorkplaceManager().getExplorerTypeSetting(type.getType());
-        if ((explorerType != null) && (explorerType.getInfo() != null)) {
-            subtitle = CmsVaadinUtils.getMessageText(explorerType.getInfo());
-        }
-        if (useDefault && (type.getOrigin() == Origin.config) && (type.getCreatePath() != null)) {
-            String path = type.getCreatePath();
-            CmsObject cms = A_CmsUI.getCmsObject();
-            path = cms.getRequestContext().removeSiteRoot(path);
-            subtitle = CmsVaadinUtils.getMessageText(Messages.GUI_NEW_CREATE_IN_PATH_1, path);
-        }
-        return subtitle;
-    }
-
-    /**
-     * Initializes the view selector, using the given view id as an initial value.<p>
-     *
-     * @param startId the start view
-     *
-     * @return the start view
-     */
-    private CmsElementView initViews(CmsUUID startId) {
-
-        Map<CmsUUID, CmsElementView> viewMap = OpenCms.getADEManager().getElementViews(A_CmsUI.getCmsObject());
-        List<CmsElementView> viewList = new ArrayList<CmsElementView>(viewMap.values());
-        Collections.sort(viewList, new Comparator<CmsElementView>() {
-
-            public int compare(CmsElementView arg0, CmsElementView arg1) {
-
-                return ComparisonChain.start().compare(arg0.getOrder(), arg1.getOrder()).result();
-            }
-
-        });
-        getViewSelector().setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-        m_typeHelper = createTypeHelper();
-        m_typeHelper.precomputeTypeLists(
-            A_CmsUI.getCmsObject(),
-            m_folderResource.getRootPath(),
-            A_CmsUI.getCmsObject().getRequestContext().removeSiteRoot(m_folderResource.getRootPath()),
-            viewList,
-            null);
-
-        // also collect types in LinkedHashMap to preserve order and ensure uniqueness
-        LinkedHashMap<String, CmsResourceTypeBean> allTypes = Maps.newLinkedHashMap();
-
-        for (CmsElementView view : viewList) {
-
-            if (view.hasPermission(A_CmsUI.getCmsObject(), m_folderResource)) {
-
-                List<CmsResourceTypeBean> typeBeans = m_typeHelper.getPrecomputedTypes(view);
-
-                if (typeBeans.isEmpty()) {
-                    continue;
-                }
-                for (CmsResourceTypeBean typeBean : typeBeans) {
-                    allTypes.put(typeBean.getType(), typeBean);
-                }
-                getViewSelector().addItem(view.getId());
-                getViewSelector().setItemCaption(
-                    view.getId(),
-                    view.getTitle(A_CmsUI.getCmsObject(), A_CmsUI.get().getLocale()));
-            }
-        }
-        getViewSelector().addItem(VIEW_ALL.getId());
-        getViewSelector().setItemCaption(VIEW_ALL.getId(), CmsVaadinUtils.getMessageText(Messages.GUI_VIEW_ALL_0));
-        m_allTypes = Lists.newArrayList(allTypes.values());
-        if (allTypes.size() <= 8) {
-            startId = ID_VIEW_ALL;
-        }
-        if (getViewSelector().getItem(startId) == null) {
-            startId = (CmsUUID)(getViewSelector().getItemIds().iterator().next());
-        }
-
-        getViewSelector().addValueChangeListener(new ValueChangeListener() {
-
-            private static final long serialVersionUID = 1L;
-
-            public void valueChange(ValueChangeEvent event) {
-
-                CmsUUID viewId = (CmsUUID)(event.getProperty().getValue());
+                CmsUUID viewId = (CmsUUID) (event.getProperty().getValue());
                 CmsElementView selectedView;
                 if (viewId.equals(ID_VIEW_ALL)) {
-                    selectedView = VIEW_ALL;
+                  selectedView = VIEW_ALL;
                 } else {
-                    selectedView = OpenCms.getADEManager().getElementViews(A_CmsUI.getCmsObject()).get(
-                        event.getProperty().getValue());
+                  selectedView =
+                      OpenCms.getADEManager()
+                          .getElementViews(A_CmsUI.getCmsObject())
+                          .get(event.getProperty().getValue());
                 }
                 init(selectedView, useDefault());
                 if (selectedView != VIEW_ALL) {
-                    VaadinService.getCurrentRequest().getWrappedSession().setAttribute(
-                        SETTING_STANDARD_VIEW,
-                        (event.getProperty().getValue()));
+                  VaadinService.getCurrentRequest()
+                      .getWrappedSession()
+                      .setAttribute(SETTING_STANDARD_VIEW, (event.getProperty().getValue()));
                 }
-            }
-        });
-        if (startId.equals(ID_VIEW_ALL)) {
-            return VIEW_ALL;
-        } else {
-            return OpenCms.getADEManager().getElementViews(A_CmsUI.getCmsObject()).get(startId);
-        }
+              }
+            });
+    if (startId.equals(ID_VIEW_ALL)) {
+      return VIEW_ALL;
+    } else {
+      return OpenCms.getADEManager().getElementViews(A_CmsUI.getCmsObject()).get(startId);
     }
-
+  }
 }

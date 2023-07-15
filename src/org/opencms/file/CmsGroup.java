@@ -27,6 +27,7 @@
 
 package org.opencms.file;
 
+import java.util.Locale;
 import org.opencms.main.OpenCms;
 import org.opencms.security.CmsPrincipal;
 import org.opencms.security.I_CmsPrincipal;
@@ -34,205 +35,210 @@ import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.Locale;
-
 /**
- * A group principal in the OpenCms permission system.<p>
+ * A group principal in the OpenCms permission system.
+ *
+ * <p>
  *
  * @since 6.0.0
- *
  * @see CmsUser
  */
 public class CmsGroup extends CmsPrincipal {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 468957888179396857L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 468957888179396857L;
 
-    /** The parent id of the group. */
-    private CmsUUID m_parentId;
+  /** The parent id of the group. */
+  private CmsUUID m_parentId;
 
-    /**
-     * Creates a new, empty OpenCms group principal.
-     */
-    public CmsGroup() {
+  /** Creates a new, empty OpenCms group principal. */
+  public CmsGroup() {
 
-        // noop
+    // noop
+  }
+
+  /**
+   * Creates a new OpenCms group principal.
+   *
+   * @param id the unique id of the group
+   * @param parentId the is of the parent group
+   * @param name the fully qualified name of the name of the group
+   * @param description the description of the group
+   * @param flags the flags of the group
+   */
+  public CmsGroup(CmsUUID id, CmsUUID parentId, String name, String description, int flags) {
+
+    m_id = id;
+    m_name = name;
+    m_description = description;
+    m_flags = flags;
+    m_parentId = parentId;
+  }
+
+  /**
+   * Checks if the given String starts with {@link I_CmsPrincipal#PRINCIPAL_GROUP} followed by a
+   * dot.
+   *
+   * <p>
+   *
+   * <ul>
+   *   <li>Works if the given String is <code>null</code>.
+   *   <li>Removes white spaces around the String before the check.
+   *   <li>Also works with prefixes not being in upper case.
+   *   <li>Does not check if the group after the prefix actually exists.
+   * </ul>
+   *
+   * @param principalName the group name to check
+   * @return <code>true</code> in case the String starts with {@link I_CmsPrincipal#PRINCIPAL_GROUP}
+   */
+  public static boolean hasPrefix(String principalName) {
+
+    return CmsStringUtil.isNotEmptyOrWhitespaceOnly(principalName)
+        && (principalName.trim().toUpperCase().startsWith(I_CmsPrincipal.PRINCIPAL_GROUP + "."));
+  }
+
+  /**
+   * Removes the prefix if the given String starts with {@link I_CmsPrincipal#PRINCIPAL_GROUP}
+   * followed by a dot.
+   *
+   * <p>
+   *
+   * <ul>
+   *   <li>Works if the given String is <code>null</code>.
+   *   <li>If the given String does not start with {@link I_CmsPrincipal#PRINCIPAL_GROUP} followed
+   *       by a dot it is returned unchanged.
+   *   <li>Removes white spaces around the group name.
+   *   <li>Also works with prefixes not being in upper case.
+   *   <li>Does not check if the group after the prefix actually exists.
+   * </ul>
+   *
+   * @param principalName the group name to remove the prefix from
+   * @return the given String with the prefix {@link I_CmsPrincipal#PRINCIPAL_GROUP} with the
+   *     following dot removed
+   */
+  public static String removePrefix(String principalName) {
+
+    String result = principalName;
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(principalName)) {
+      if (hasPrefix(principalName)) {
+        result = principalName.trim().substring(I_CmsPrincipal.PRINCIPAL_GROUP.length() + 1);
+      }
     }
+    return result;
+  }
 
-    /**
-     * Creates a new OpenCms group principal.
-     *
-     * @param id the unique id of the group
-     * @param parentId the is of the parent group
-     * @param name the fully qualified name of the name of the group
-     * @param description the description of the group
-     * @param flags the flags of the group
-     */
-    public CmsGroup(CmsUUID id, CmsUUID parentId, String name, String description, int flags) {
+  /**
+   * Checks if the provided group name is valid and can be used as an argument value for {@link
+   * #setName(String)}.
+   *
+   * <p>A group name must not be empty or whitespace only.
+   *
+   * <p>
+   *
+   * @param name the group name to check
+   * @see org.opencms.security.I_CmsValidationHandler#checkGroupName(String)
+   */
+  public void checkName(String name) {
 
-        m_id = id;
-        m_name = name;
-        m_description = description;
-        m_flags = flags;
-        m_parentId = parentId;
-    }
+    OpenCms.getValidationHandler().checkGroupName(name);
+  }
 
-    /**
-     * Checks if the given String starts with {@link I_CmsPrincipal#PRINCIPAL_GROUP} followed by a dot.<p>
-     *
-     * <ul>
-     * <li>Works if the given String is <code>null</code>.
-     * <li>Removes white spaces around the String before the check.
-     * <li>Also works with prefixes not being in upper case.
-     * <li>Does not check if the group after the prefix actually exists.
-     * </ul>
-     *
-     * @param principalName the group name to check
-     *
-     * @return <code>true</code> in case the String starts with {@link I_CmsPrincipal#PRINCIPAL_GROUP}
-     */
-    public static boolean hasPrefix(String principalName) {
+  /** @see java.lang.Object#clone() */
+  @Override
+  public Object clone() {
 
-        return CmsStringUtil.isNotEmptyOrWhitespaceOnly(principalName)
-            && (principalName.trim().toUpperCase().startsWith(I_CmsPrincipal.PRINCIPAL_GROUP + "."));
-    }
+    return new CmsGroup(m_id, m_parentId, m_name, m_description, m_flags);
+  }
 
-    /**
-     * Removes the prefix if the given String starts with {@link I_CmsPrincipal#PRINCIPAL_GROUP} followed by a dot.<p>
-     *
-     * <ul>
-     * <li>Works if the given String is <code>null</code>.
-     * <li>If the given String does not start with {@link I_CmsPrincipal#PRINCIPAL_GROUP} followed by a dot it is returned unchanged.
-     * <li>Removes white spaces around the group name.
-     * <li>Also works with prefixes not being in upper case.
-     * <li>Does not check if the group after the prefix actually exists.
-     * </ul>
-     *
-     * @param principalName the group name to remove the prefix from
-     *
-     * @return the given String with the prefix {@link I_CmsPrincipal#PRINCIPAL_GROUP} with the following dot removed
-     */
-    public static String removePrefix(String principalName) {
+  /**
+   * Returns the description of this organizational unit.
+   *
+   * <p>
+   *
+   * @param locale the locale
+   * @return the description of this organizational unit
+   */
+  public String getDescription(Locale locale) {
 
-        String result = principalName;
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(principalName)) {
-            if (hasPrefix(principalName)) {
-                result = principalName.trim().substring(I_CmsPrincipal.PRINCIPAL_GROUP.length() + 1);
-            }
-        }
-        return result;
-    }
+    CmsMacroResolver macroResolver = new CmsMacroResolver();
+    macroResolver.setMessages(org.opencms.db.generic.Messages.get().getBundle(locale));
+    return macroResolver.resolveMacros(m_description);
+  }
 
-    /**
-     * Checks if the provided group name is valid and can be used as an argument value
-     * for {@link #setName(String)}.<p>
-     *
-     * A group name must not be empty or whitespace only.<p>
-     *
-     * @param name the group name to check
-     *
-     * @see org.opencms.security.I_CmsValidationHandler#checkGroupName(String)
-     */
-    public void checkName(String name) {
+  /**
+   * Returns the parent group id of this group.
+   *
+   * <p>
+   *
+   * @return the parent group id of this group
+   */
+  public CmsUUID getParentId() {
 
-        OpenCms.getValidationHandler().checkGroupName(name);
-    }
+    return m_parentId;
+  }
 
-    /**
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    public Object clone() {
+  /** @see org.opencms.security.I_CmsPrincipal#isGroup() */
+  @Override
+  public boolean isGroup() {
 
-        return new CmsGroup(m_id, m_parentId, m_name, m_description, m_flags);
-    }
+    return true;
+  }
 
-    /**
-     * Returns the description of this organizational unit.<p>
-     *
-     * @param locale the locale
-     *
-     * @return the description of this organizational unit
-     */
-    public String getDescription(Locale locale) {
+  /**
+   * Checks if this group is a role group.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this group is a role group
+   */
+  public boolean isRole() {
 
-        CmsMacroResolver macroResolver = new CmsMacroResolver();
-        macroResolver.setMessages(org.opencms.db.generic.Messages.get().getBundle(locale));
-        return macroResolver.resolveMacros(m_description);
-    }
+    return (getFlags() & I_CmsPrincipal.FLAG_GROUP_ROLE) == I_CmsPrincipal.FLAG_GROUP_ROLE;
+  }
 
-    /**
-     * Returns the parent group id of this group.<p>
-     *
-     * @return the parent group id of this group
-     */
-    public CmsUUID getParentId() {
+  /** @see org.opencms.security.I_CmsPrincipal#isUser() */
+  @Override
+  public boolean isUser() {
 
-        return m_parentId;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.security.I_CmsPrincipal#isGroup()
-     */
-    @Override
-    public boolean isGroup() {
+  /**
+   * Checks if this group is a virtual group, emulating a role.
+   *
+   * <p>
+   *
+   * @return if this group is a virtual group
+   */
+  public boolean isVirtual() {
 
-        return true;
-    }
+    return (getFlags() & I_CmsPrincipal.FLAG_GROUP_VIRTUAL) == I_CmsPrincipal.FLAG_GROUP_VIRTUAL;
+  }
 
-    /**
-     * Checks if this group is a role group.<p>
-     *
-     * @return <code>true</code> if this group is a role group
-     */
-    public boolean isRole() {
+  /**
+   * Sets the parent group id of this group.
+   *
+   * <p>
+   *
+   * @param parentId the parent group id to set
+   */
+  public void setParentId(CmsUUID parentId) {
 
-        return (getFlags() & I_CmsPrincipal.FLAG_GROUP_ROLE) == I_CmsPrincipal.FLAG_GROUP_ROLE;
-    }
+    m_parentId = parentId;
+  }
 
-    /**
-     * @see org.opencms.security.I_CmsPrincipal#isUser()
-     */
-    @Override
-    public boolean isUser() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return false;
-    }
-
-    /**
-     * Checks if this group is a virtual group, emulating a role.<p>
-     *
-     * @return if this group is a virtual group
-     */
-    public boolean isVirtual() {
-
-        return (getFlags() & I_CmsPrincipal.FLAG_GROUP_VIRTUAL) == I_CmsPrincipal.FLAG_GROUP_VIRTUAL;
-    }
-
-    /**
-     * Sets the parent group id of this group.<p>
-     *
-     * @param parentId the parent group id to set
-     */
-    public void setParentId(CmsUUID parentId) {
-
-        m_parentId = parentId;
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-
-        StringBuffer result = new StringBuffer();
-        result.append("[Group]");
-        result.append(" name:");
-        result.append(getName());
-        result.append(" id:");
-        result.append(m_id);
-        result.append(" description:");
-        result.append(m_description);
-        return result.toString();
-    }
+    StringBuffer result = new StringBuffer();
+    result.append("[Group]");
+    result.append(" name:");
+    result.append(getName());
+    result.append(" id:");
+    result.append(m_id);
+    result.append(" description:");
+    result.append(m_description);
+    return result.toString();
+  }
 }

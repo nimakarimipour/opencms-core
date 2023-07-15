@@ -30,9 +30,10 @@ package org.opencms.util;
 import java.io.Serializable;
 
 /**
- * Base class for all string mode enumeration classes.<p>
+ * Base class for all string mode enumeration classes.
  *
- * Like:<br>
+ * <p>Like:<br>
+ *
  * <ul>
  *   <li>{@link org.opencms.db.CmsUserSettings.CmsSearchResultStyle}
  * </ul>
@@ -41,65 +42,63 @@ import java.io.Serializable;
  */
 public abstract class A_CmsModeStringEnumeration implements Serializable {
 
-    /** Serialization id. */
-    private static final long serialVersionUID = 6884841215348447781L;
+  /** Serialization id. */
+  private static final long serialVersionUID = 6884841215348447781L;
 
-    /** The internal mode descriptor. */
-    private final String m_mode;
+  /** The internal mode descriptor. */
+  private final String m_mode;
 
-    /**
-     * Default constructor.<p>
-     *
-     * @param mode the internal mode descriptor
-     */
-    protected A_CmsModeStringEnumeration(String mode) {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   *
+   * @param mode the internal mode descriptor
+   */
+  protected A_CmsModeStringEnumeration(String mode) {
 
-        m_mode = mode;
+    m_mode = mode;
+  }
+
+  /** @see java.lang.Object#equals(java.lang.Object) */
+  @Override
+  public boolean equals(Object obj) {
+
+    if (obj == this) {
+      return true;
     }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-
-        if (obj == this) {
-            return true;
-        }
-        if (obj instanceof A_CmsModeStringEnumeration) {
-            if (obj.getClass().equals(this.getClass())) {
-                A_CmsModeStringEnumeration eObj = (A_CmsModeStringEnumeration)obj;
-                return eObj.getMode().equals(m_mode);
-            }
-        }
-        return false;
+    if (obj instanceof A_CmsModeStringEnumeration) {
+      if (obj.getClass().equals(this.getClass())) {
+        A_CmsModeStringEnumeration eObj = (A_CmsModeStringEnumeration) obj;
+        return eObj.getMode().equals(m_mode);
+      }
     }
+    return false;
+  }
 
-    /**
-     * Returns the mode.<p>
-     *
-     * @return the mode
-     */
-    public String getMode() {
+  /**
+   * Returns the mode.
+   *
+   * <p>
+   *
+   * @return the mode
+   */
+  public String getMode() {
 
-        return m_mode;
-    }
+    return m_mode;
+  }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
+  /** @see java.lang.Object#hashCode() */
+  @Override
+  public int hashCode() {
 
-        return m_mode.hashCode();
-    }
+    return m_mode.hashCode();
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_mode;
-    }
+    return m_mode;
+  }
 }

@@ -28,60 +28,75 @@
 package org.opencms.repository;
 
 /**
- * This class represents items in the repository interface. That can be
- * files or folders (collections). <p>
+ * This class represents items in the repository interface. That can be files or folders
+ * (collections).
+ *
+ * <p>
  *
  * @since 6.2.4
  */
 public interface I_CmsRepositoryItem {
 
-    /**
-     * Returns the content of this item as a byte array.<p>
-     *
-     * @return the content of this item as a byte array
-     */
-    byte[] getContent();
+  /**
+   * Returns the content of this item as a byte array.
+   *
+   * <p>
+   *
+   * @return the content of this item as a byte array
+   */
+  byte[] getContent();
 
-    /**
-     * Returns the length of the content of this item.<p>
-     *
-     * @return the content length of this item as long
-     */
-    long getContentLength();
+  /**
+   * Returns the length of the content of this item.
+   *
+   * <p>
+   *
+   * @return the content length of this item as long
+   */
+  long getContentLength();
 
-    /**
-     * Returns the date of the creation of this item.<p>
-     *
-     * @return the creation date if this item as long.
-     */
-    long getCreationDate();
+  /**
+   * Returns the date of the creation of this item.
+   *
+   * <p>
+   *
+   * @return the creation date if this item as long.
+   */
+  long getCreationDate();
 
-    /**
-     * Returns the date of the last modification of this item.<p>
-     *
-     * @return the last modification date of the item as long
-     */
-    long getLastModifiedDate();
+  /**
+   * Returns the date of the last modification of this item.
+   *
+   * <p>
+   *
+   * @return the last modification date of the item as long
+   */
+  long getLastModifiedDate();
 
-    /**
-     * Returns the mime type of this item.<p>
-     *
-     * @return the mime type of this item
-     */
-    String getMimeType();
+  /**
+   * Returns the mime type of this item.
+   *
+   * <p>
+   *
+   * @return the mime type of this item
+   */
+  String getMimeType();
 
-    /**
-     * Returns the name of this item.<p>
-     *
-     * @return the name of this item
-     */
-    String getName();
+  /**
+   * Returns the name of this item.
+   *
+   * <p>
+   *
+   * @return the name of this item
+   */
+  String getName();
 
-    /**
-     * Checks if this item is a collection.<p>
-     *
-     * @return true if this item is a collection otherwise false
-     */
-    boolean isCollection();
-
+  /**
+   * Checks if this item is a collection.
+   *
+   * <p>
+   *
+   * @return true if this item is a collection otherwise false
+   */
+  boolean isCollection();
 }

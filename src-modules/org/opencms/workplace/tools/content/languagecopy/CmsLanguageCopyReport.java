@@ -27,126 +27,134 @@
 
 package org.opencms.workplace.tools.content.languagecopy;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.report.I_CmsReportThread;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.list.A_CmsListReport;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
  * Provides a report for copying XML content language nodes from source language to target language.
+ *
  * <p>
  *
  * @since 7.5.1
  */
 public class CmsLanguageCopyReport extends A_CmsListReport {
 
-    /** The resources to copy. */
-    private String m_copyresources;
+  /** The resources to copy. */
+  private String m_copyresources;
 
-    /** Signals whether to delete the original language node or not. */
-    private String m_paramDelete;
+  /** Signals whether to delete the original language node or not. */
+  private String m_paramDelete;
 
-    /** The source language. */
-    private String m_sourcelanguage;
+  /** The source language. */
+  private String m_sourcelanguage;
 
-    /** The source language. */
-    private String m_targetlanguage;
+  /** The source language. */
+  private String m_targetlanguage;
 
-    /**
-     * Public constructor with JSP action element.
-     * <p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsLanguageCopyReport(final CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsLanguageCopyReport(final CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Public constructor with JSP variables.
-     * <p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsLanguageCopyReport(
-        final PageContext context,
-        final HttpServletRequest req,
-        final HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsLanguageCopyReport(
+      final PageContext context, final HttpServletRequest req, final HttpServletResponse res) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-    /**
-     * Returns the paramDelete.<p>
-     *
-     * @return the paramDelete
-     */
-    public String getParamDelete() {
+  /**
+   * Returns the paramDelete.
+   *
+   * <p>
+   *
+   * @return the paramDelete
+   */
+  public String getParamDelete() {
 
-        return m_paramDelete;
-    }
+    return m_paramDelete;
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListReport#initializeThread()
-     */
-    @Override
-    public I_CmsReportThread initializeThread() {
+  /** @see org.opencms.workplace.list.A_CmsListReport#initializeThread() */
+  @Override
+  public I_CmsReportThread initializeThread() {
 
-        I_CmsReportThread exportThread = new CmsLanguageCopyThread(
+    I_CmsReportThread exportThread =
+        new CmsLanguageCopyThread(
             getCms(),
             CmsStringUtil.splitAsArray(m_copyresources, ","),
             Boolean.valueOf(m_paramDelete).booleanValue(),
             m_sourcelanguage,
             m_targetlanguage);
 
-        return exportThread;
-    }
+    return exportThread;
+  }
 
-    /**
-     * Sets the resources to copy.<p>
-     *
-     * @param resources the resources to copy
-     */
-    public void setParamCopyresources(String resources) {
+  /**
+   * Sets the resources to copy.
+   *
+   * <p>
+   *
+   * @param resources the resources to copy
+   */
+  public void setParamCopyresources(String resources) {
 
-        m_copyresources = resources;
-    }
+    m_copyresources = resources;
+  }
 
-    /**
-     * Sets the paramDelete.<p>
-     *
-     * @param paramDelete the paramDelete to set
-     */
-    public void setParamDelete(String paramDelete) {
+  /**
+   * Sets the paramDelete.
+   *
+   * <p>
+   *
+   * @param paramDelete the paramDelete to set
+   */
+  public void setParamDelete(String paramDelete) {
 
-        m_paramDelete = paramDelete;
-    }
+    m_paramDelete = paramDelete;
+  }
 
-    /**
-     * Sets the source language.<p>
-     *
-     * @param language the source language
-     */
-    public void setParamSourcelanguage(String language) {
+  /**
+   * Sets the source language.
+   *
+   * <p>
+   *
+   * @param language the source language
+   */
+  public void setParamSourcelanguage(String language) {
 
-        m_sourcelanguage = language;
-    }
+    m_sourcelanguage = language;
+  }
 
-    /**
-     * Sets the target language.<p>
-     *
-     * @param language the target language
-     */
-    public void setParamTargetlanguage(String language) {
+  /**
+   * Sets the target language.
+   *
+   * <p>
+   *
+   * @param language the target language
+   */
+  public void setParamTargetlanguage(String language) {
 
-        m_targetlanguage = language;
-    }
-
+    m_targetlanguage = language;
+  }
 }

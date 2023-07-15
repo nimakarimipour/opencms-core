@@ -27,6 +27,16 @@
 
 package org.opencms.ui.dialogs;
 
+import com.google.web.bindery.autobean.shared.AutoBeanCodex;
+import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
+import com.vaadin.annotations.Theme;
+import com.vaadin.server.VaadinRequest;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResourceFilter;
@@ -51,198 +61,178 @@ import org.opencms.ui.shared.rpc.I_CmsEmbeddingServerRpc;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-
-import com.google.web.bindery.autobean.shared.AutoBeanCodex;
-import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
-import com.vaadin.annotations.Theme;
-import com.vaadin.server.VaadinRequest;
-
 /**
- * Separate UI for VAADIN based dialog embedded into a GWT module.<p>
+ * Separate UI for VAADIN based dialog embedded into a GWT module.
+ *
+ * <p>
  */
 @Theme("opencms")
 public class CmsEmbeddedDialogsUI extends A_CmsUI implements I_CmsEmbeddingServerRpc {
 
-    /** The dialogs path fragment. */
-    public static final String DIALOGS_PATH = "dialogs/";
+  /** The dialogs path fragment. */
+  public static final String DIALOGS_PATH = "dialogs/";
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsEmbeddedDialogsUI.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsEmbeddedDialogsUI.class);
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 1201184887611215370L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 1201184887611215370L;
 
-    /** The auto bean factory for the dialog configuration. */
-    private static I_CmsAutoBeanFactory m_beanFactory = AutoBeanFactorySource.create(I_CmsAutoBeanFactory.class);
+  /** The auto bean factory for the dialog configuration. */
+  private static I_CmsAutoBeanFactory m_beanFactory =
+      AutoBeanFactorySource.create(I_CmsAutoBeanFactory.class);
 
-    /**
-     * The dialog context of the currently opened dialog.<p>
-     */
-    CmsEmbeddedDialogContext m_currentContext;
+  /**
+   * The dialog context of the currently opened dialog.
+   *
+   * <p>
+   */
+  CmsEmbeddedDialogContext m_currentContext;
 
-    /** The extension used to communicate with the client. */
-    protected CmsEmbeddedDialogExtension m_extension;
+  /** The extension used to communicate with the client. */
+  protected CmsEmbeddedDialogExtension m_extension;
 
-    /**
-     * Returns the context path for embedded dialogs.<p>
-     *
-     * @return the context path for embedded dialogs
-     */
-    public static String getEmbeddedDialogsContextPath() {
+  /**
+   * Returns the context path for embedded dialogs.
+   *
+   * <p>
+   *
+   * @return the context path for embedded dialogs
+   */
+  public static String getEmbeddedDialogsContextPath() {
 
-        return CmsStringUtil.joinPaths(OpenCms.getSystemInfo().getWorkplaceContext(), DIALOGS_PATH);
-    }
+    return CmsStringUtil.joinPaths(OpenCms.getSystemInfo().getWorkplaceContext(), DIALOGS_PATH);
+  }
 
-    /**
-     * @see com.vaadin.ui.AbstractComponent#getLocale()
-     */
-    @Override
-    public Locale getLocale() {
+  /** @see com.vaadin.ui.AbstractComponent#getLocale() */
+  @Override
+  public Locale getLocale() {
 
-        CmsObject cms = getCmsObject();
-        return OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
-    }
+    CmsObject cms = getCmsObject();
+    return OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
+  }
 
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsEmbeddingServerRpc#loadDialog(java.lang.String)
-     */
-    public void loadDialog(String dialogInfo) {
+  /** @see org.opencms.ui.shared.rpc.I_CmsEmbeddingServerRpc#loadDialog(java.lang.String) */
+  public void loadDialog(String dialogInfo) {
 
-        Throwable t = null;
-        String errorMessage = null;
-        I_CmsEmbeddedDialogInfo info = AutoBeanCodex.decode(
-            m_beanFactory,
-            I_CmsEmbeddedDialogInfo.class,
-            dialogInfo).as();
+    Throwable t = null;
+    String errorMessage = null;
+    I_CmsEmbeddedDialogInfo info =
+        AutoBeanCodex.decode(m_beanFactory, I_CmsEmbeddedDialogInfo.class, dialogInfo).as();
 
+    try {
+      OpenCms.getRoleManager().checkRole(getCmsObject(), CmsRole.ELEMENT_AUTHOR);
+      if (CmsPrincipalSelectDialog.DIALOG_ID.equals(info.getDialogId())) {
+        m_currentContext =
+            new CmsEmbeddedDialogContext(
+                CmsPrincipalSelectDialog.DIALOG_ID, m_extension, null, null, info.getParameters());
+        CmsPrincipalSelectDialog.openEmbeddedDialogV2(m_currentContext, info.getParameters(), true);
+      } else {
         try {
-            OpenCms.getRoleManager().checkRole(getCmsObject(), CmsRole.ELEMENT_AUTHOR);
-            if (CmsPrincipalSelectDialog.DIALOG_ID.equals(info.getDialogId())) {
-                m_currentContext = new CmsEmbeddedDialogContext(
-                    CmsPrincipalSelectDialog.DIALOG_ID,
-                    m_extension,
-                    null,
-                    null,
-                    info.getParameters());
-                CmsPrincipalSelectDialog.openEmbeddedDialogV2(m_currentContext, info.getParameters(), true);
-            } else {
-                try {
-                    List<String> resources = info.getStructureIds();
-                    List<CmsResource> resourceList = new ArrayList<>();
-                    for (String uuid : resources) {
-                        if (CmsUUID.isValidUUID(uuid)) {
-                            resourceList.add(getCmsObject().readResource(new CmsUUID(uuid), CmsResourceFilter.ALL));
-                        }
-
-                    }
-                    String typeParam = info.getContextType();
-                    boolean isEditor = Boolean.parseBoolean(info.getParameters().get("editor"));
-                    ContextType type;
-                    String appId = "";
-                    try {
-                        type = ContextType.valueOf(typeParam);
-                        if (ContextType.containerpageToolbar.equals(type)) {
-                            appId = CmsPageEditorConfiguration.APP_ID;
-                        } else if (ContextType.sitemapToolbar.equals(type)) {
-                            appId = CmsSitemapEditorConfiguration.APP_ID;
-                        } else if (isEditor) {
-                            appId = CmsEditorConfiguration.APP_ID;
-                        }
-                    } catch (Exception e) {
-                        type = ContextType.appToolbar;
-                        LOG.error("Could not parse context type parameter " + typeParam);
-                    }
-
-                    m_currentContext = new CmsEmbeddedDialogContext(
-                        appId,
-                        m_extension,
-                        type,
-                        resourceList,
-                        info.getParameters());
-                    I_CmsWorkplaceAction action = getAction(info.getDialogId());
-                    if (action.isActive(m_currentContext)) {
-                        action.executeAction(m_currentContext);
-                    } else {
-                        errorMessage = CmsVaadinUtils.getMessageText(Messages.GUI_WORKPLACE_ACCESS_DENIED_TITLE_0);
-                    }
-                } catch (Throwable e) {
-                    t = e;
-                    errorMessage = CmsVaadinUtils.getMessageText(
-                        org.opencms.ui.dialogs.Messages.ERR_DAILOG_INSTANTIATION_FAILED_1,
-                        info.getDialogId());
-                }
+          List<String> resources = info.getStructureIds();
+          List<CmsResource> resourceList = new ArrayList<>();
+          for (String uuid : resources) {
+            if (CmsUUID.isValidUUID(uuid)) {
+              resourceList.add(
+                  getCmsObject().readResource(new CmsUUID(uuid), CmsResourceFilter.ALL));
             }
-        } catch (CmsRoleViolationException ex) {
-            t = ex;
-            errorMessage = CmsVaadinUtils.getMessageText(Messages.GUI_WORKPLACE_ACCESS_DENIED_TITLE_0);
+          }
+          String typeParam = info.getContextType();
+          boolean isEditor = Boolean.parseBoolean(info.getParameters().get("editor"));
+          ContextType type;
+          String appId = "";
+          try {
+            type = ContextType.valueOf(typeParam);
+            if (ContextType.containerpageToolbar.equals(type)) {
+              appId = CmsPageEditorConfiguration.APP_ID;
+            } else if (ContextType.sitemapToolbar.equals(type)) {
+              appId = CmsSitemapEditorConfiguration.APP_ID;
+            } else if (isEditor) {
+              appId = CmsEditorConfiguration.APP_ID;
+            }
+          } catch (Exception e) {
+            type = ContextType.appToolbar;
+            LOG.error("Could not parse context type parameter " + typeParam);
+          }
+
+          m_currentContext =
+              new CmsEmbeddedDialogContext(
+                  appId, m_extension, type, resourceList, info.getParameters());
+          I_CmsWorkplaceAction action = getAction(info.getDialogId());
+          if (action.isActive(m_currentContext)) {
+            action.executeAction(m_currentContext);
+          } else {
+            errorMessage =
+                CmsVaadinUtils.getMessageText(Messages.GUI_WORKPLACE_ACCESS_DENIED_TITLE_0);
+          }
+        } catch (Throwable e) {
+          t = e;
+          errorMessage =
+              CmsVaadinUtils.getMessageText(
+                  org.opencms.ui.dialogs.Messages.ERR_DAILOG_INSTANTIATION_FAILED_1,
+                  info.getDialogId());
         }
-        if (errorMessage != null) {
-            CmsErrorDialog.showErrorDialog(errorMessage, t, new Runnable() {
-
-                public void run() {
-
-                    m_currentContext = new CmsEmbeddedDialogContext(
-                        "",
-                        m_extension,
-                        null,
-                        Collections.<CmsResource> emptyList(),
-                        info.getParameters());
-                    m_currentContext.finish((Collection<CmsUUID>)null);
-                }
-            });
-        }
-
+      }
+    } catch (CmsRoleViolationException ex) {
+      t = ex;
+      errorMessage = CmsVaadinUtils.getMessageText(Messages.GUI_WORKPLACE_ACCESS_DENIED_TITLE_0);
     }
+    if (errorMessage != null) {
+      CmsErrorDialog.showErrorDialog(
+          errorMessage,
+          t,
+          new Runnable() {
 
-    /**
-     * @see org.opencms.ui.A_CmsUI#reload()
-     */
-    @Override
-    public void reload() {
+            public void run() {
 
-        if (m_currentContext != null) {
-            m_currentContext.reload();
-        }
+              m_currentContext =
+                  new CmsEmbeddedDialogContext(
+                      "",
+                      m_extension,
+                      null,
+                      Collections.<CmsResource>emptyList(),
+                      info.getParameters());
+              m_currentContext.finish((Collection<CmsUUID>) null);
+            }
+          });
     }
+  }
 
-    /**
-     * @see org.opencms.ui.A_CmsUI#init(com.vaadin.server.VaadinRequest)
-     */
-    @Override
-    protected void init(VaadinRequest request) {
+  /** @see org.opencms.ui.A_CmsUI#reload() */
+  @Override
+  public void reload() {
 
-        super.init(request);
-        try {
-            OpenCms.getRoleManager().checkRole(getCmsObject(), CmsRole.ELEMENT_AUTHOR);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        m_extension = new CmsEmbeddedDialogExtension(this);
-        m_extension.getClientRPC().initServerRpc();
+    if (m_currentContext != null) {
+      m_currentContext.reload();
     }
+  }
 
-    /**
-     * Returns the dialog action for a given dialog id.
-     *
-     * @param dialogId the dialog id
-     *
-     * @return the dialog action
-     *
-     * @throws Exception in case instantiating the action fails
-     */
-    private I_CmsWorkplaceAction getAction(String dialogId) throws Exception {
+  /** @see org.opencms.ui.A_CmsUI#init(com.vaadin.server.VaadinRequest) */
+  @Override
+  protected void init(VaadinRequest request) {
 
-        @SuppressWarnings("unchecked")
-        Class<I_CmsWorkplaceAction> actionClass = (Class<I_CmsWorkplaceAction>)getClass().getClassLoader().loadClass(
-            dialogId);
-        return actionClass.newInstance();
+    super.init(request);
+    try {
+      OpenCms.getRoleManager().checkRole(getCmsObject(), CmsRole.ELEMENT_AUTHOR);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
+    m_extension = new CmsEmbeddedDialogExtension(this);
+    m_extension.getClientRPC().initServerRpc();
+  }
 
+  /**
+   * Returns the dialog action for a given dialog id.
+   *
+   * @param dialogId the dialog id
+   * @return the dialog action
+   * @throws Exception in case instantiating the action fails
+   */
+  private I_CmsWorkplaceAction getAction(String dialogId) throws Exception {
+
+    @SuppressWarnings("unchecked")
+    Class<I_CmsWorkplaceAction> actionClass =
+        (Class<I_CmsWorkplaceAction>) getClass().getClassLoader().loadClass(dialogId);
+    return actionClass.newInstance();
+  }
 }

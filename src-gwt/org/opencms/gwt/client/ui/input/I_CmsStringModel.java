@@ -30,30 +30,39 @@ package org.opencms.gwt.client.ui.input;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 
 /**
- * The interface for a string model.<p>
+ * The interface for a string model.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsStringModel extends HasValueChangeHandlers<String> {
 
-    /**
-     * Returns the model id.<p>
-     * @return the model id
-     */
-    String getId();
+  /**
+   * Returns the model id.
+   *
+   * <p>
+   *
+   * @return the model id
+   */
+  String getId();
 
-    /**
-     * Returns the model value.<p>
-     *
-     * @return the model value
-     */
-    String getValue();
+  /**
+   * Returns the model value.
+   *
+   * <p>
+   *
+   * @return the model value
+   */
+  String getValue();
 
-    /**
-     * Sets the model value.<p>
-     *
-     * @param value the new model value
-     * @param notify if true, value change listeners will be notified of the new value
-     */
-    void setValue(String value, boolean notify);
+  /**
+   * Sets the model value.
+   *
+   * <p>
+   *
+   * @param value the new model value
+   * @param notify if true, value change listeners will be notified of the new value
+   */
+  void setValue(String value, boolean notify);
 }

@@ -27,48 +27,56 @@
 
 package org.opencms.ui.components;
 
+import com.vaadin.ui.JavaScript;
+import com.vaadin.v7.ui.RichTextArea;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import com.vaadin.ui.JavaScript;
-import com.vaadin.v7.ui.RichTextArea;
-
 /**
- * Helper class for using rich text area in OpenCms.<p>
+ * Helper class for using rich text area in OpenCms.
+ *
+ * <p>
  */
 public class CmsRichTextAreaV7 extends RichTextArea {
 
-    /**vaadin serial id. */
-    private static final long serialVersionUID = 1L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 1L;
 
-    /**CSS class name. */
-    private static final String CSS_CLASSNAME = "richopensans";
+  /** CSS class name. */
+  private static final String CSS_CLASSNAME = "richopensans";
 
-    /**Style name. */
-    private String m_styleName = "";
+  /** Style name. */
+  private String m_styleName = "";
 
-    /**
-     * Public constructor.<p>
-     */
-    public CmsRichTextAreaV7() {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   */
+  public CmsRichTextAreaV7() {
 
-        addStyleName("o-richtextarea-reduced");
-        setFontStyle();
+    addStyleName("o-richtextarea-reduced");
+    setFontStyle();
+  }
+
+  /**
+   * Sets the font stype to Open Sans.
+   *
+   * <p>Has to be called after every refresh of the UI. For example after switching tabs on
+   * tab-sheets..
+   *
+   * <p>
+   */
+  public void setFontStyle() {
+
+    if (!CmsStringUtil.isEmptyOrWhitespaceOnly(m_styleName)) {
+      removeStyleName(m_styleName);
     }
-
-    /**
-     * Sets the font stype to Open Sans.<p>
-     * Has to be called after every refresh of the UI. For example after switching tabs on tab-sheets..<p>
-     */
-    public void setFontStyle() {
-
-        if (!CmsStringUtil.isEmptyOrWhitespaceOnly(m_styleName)) {
-            removeStyleName(m_styleName);
-        }
-        String id = new CmsUUID().getStringValue();
-        m_styleName = CSS_CLASSNAME + "_" + id;
-        addStyleName(m_styleName);
-        String js = "var elements = document.getElementsByClassName('"
+    String id = new CmsUUID().getStringValue();
+    m_styleName = CSS_CLASSNAME + "_" + id;
+    addStyleName(m_styleName);
+    String js =
+        "var elements = document.getElementsByClassName('"
             + m_styleName
             + "');"
             + "var iframeContainer = elements[0];"
@@ -76,7 +84,6 @@ public class CmsRichTextAreaV7 extends RichTextArea {
             + "var iframeBody = iframe.contentDocument.getElementsByTagName('body')[0];"
             + "iframeBody.style.fontFamily='\"Open Sans\", sans-serif';";
 
-        JavaScript.getCurrent().execute(js);
-
-    }
+    JavaScript.getCurrent().execute(js);
+  }
 }

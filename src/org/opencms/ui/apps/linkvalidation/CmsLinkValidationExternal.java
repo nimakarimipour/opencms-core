@@ -27,6 +27,13 @@
 
 package org.opencms.ui.apps.linkvalidation;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.opencms.main.OpenCms;
 import org.opencms.relations.CmsExternalLinksValidationResult;
 import org.opencms.ui.A_CmsUI;
@@ -34,87 +41,95 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.report.CmsReportWidget;
 
-import com.vaadin.v7.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.v7.ui.Label;
-import com.vaadin.v7.ui.VerticalLayout;
-
 /**
- * Class for the external link validation.<p>
+ * Class for the external link validation.
+ *
+ * <p>
  */
 public class CmsLinkValidationExternal extends VerticalLayout {
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = 4901058101922988640L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 4901058101922988640L;
 
-    /**Button to start validation. */
-    private Button m_exec;
+  /** Button to start validation. */
+  private Button m_exec;
 
-    /**Label showing last report.*/
-    private Label m_oldReport;
+  /** Label showing last report. */
+  private Label m_oldReport;
 
-    /**Vaadin component. */
-    private FormLayout m_threadReport;
+  /** Vaadin component. */
+  private FormLayout m_threadReport;
 
-    /**
-     * constructor.<p>
-     */
-    protected CmsLinkValidationExternal() {
+  /**
+   * constructor.
+   *
+   * <p>
+   */
+  protected CmsLinkValidationExternal() {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
-        m_oldReport.setContentMode(ContentMode.HTML);
-        m_oldReport.setHeight("500px");
-        m_oldReport.addStyleName("v-scrollable");
-        m_oldReport.addStyleName("o-report");
+    m_oldReport.setContentMode(ContentMode.HTML);
+    m_oldReport.setHeight("500px");
+    m_oldReport.addStyleName("v-scrollable");
+    m_oldReport.addStyleName("o-report");
 
-        CmsExternalLinksValidationResult result = OpenCms.getLinkManager().getPointerLinkValidationResult();
-        if (result == null) {
-            m_oldReport.setValue(CmsVaadinUtils.getMessageText(Messages.GUI_LINKVALIDATION_NO_VALIDATION_YET_0));
-        } else {
-            m_oldReport.setValue(
-                result.toHtml(OpenCms.getWorkplaceManager().getWorkplaceLocale(A_CmsUI.getCmsObject())));
-        }
+    CmsExternalLinksValidationResult result =
+        OpenCms.getLinkManager().getPointerLinkValidationResult();
+    if (result == null) {
+      m_oldReport.setValue(
+          CmsVaadinUtils.getMessageText(Messages.GUI_LINKVALIDATION_NO_VALIDATION_YET_0));
+    } else {
+      m_oldReport.setValue(
+          result.toHtml(OpenCms.getWorkplaceManager().getWorkplaceLocale(A_CmsUI.getCmsObject())));
+    }
 
-        m_exec.addClickListener(new ClickListener() {
+    m_exec.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = -3281073871585942686L;
+          private static final long serialVersionUID = -3281073871585942686L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                startValidation();
-            }
+            startValidation();
+          }
         });
-    }
+  }
 
-    /**Enables the button to start the validation.<p> */
-    void enableButton() {
+  /**
+   * Enables the button to start the validation.
+   *
+   * <p>
+   */
+  void enableButton() {
 
-        m_exec.setEnabled(true);
-    }
+    m_exec.setEnabled(true);
+  }
 
-    /**Starts the validation.<p> */
-    void startValidation() {
+  /**
+   * Starts the validation.
+   *
+   * <p>
+   */
+  void startValidation() {
 
-        m_oldReport.setVisible(false);
-        m_threadReport.removeAllComponents();
-        CmsExternalLinksValidatorThread thread = new CmsExternalLinksValidatorThread(
+    m_oldReport.setVisible(false);
+    m_threadReport.removeAllComponents();
+    CmsExternalLinksValidatorThread thread =
+        new CmsExternalLinksValidatorThread(
             A_CmsUI.getCmsObject(),
             new Runnable() {
 
-                public void run() {
+              public void run() {
 
-                    enableButton();
-                }
-
+                enableButton();
+              }
             });
-        thread.start();
-        CmsReportWidget reportWidget = new CmsReportWidget(thread);
-        reportWidget.setHeight("500px");
-        m_threadReport.addComponent(reportWidget);
-        m_exec.setEnabled(false);
-    }
+    thread.start();
+    CmsReportWidget reportWidget = new CmsReportWidget(thread);
+    reportWidget.setHeight("500px");
+    m_threadReport.addComponent(reportWidget);
+    m_exec.setEnabled(false);
+  }
 }

@@ -27,84 +27,94 @@
 
 package org.opencms.ade.galleries;
 
-import org.opencms.util.CmsUUID;
-
 import java.io.Serializable;
 import java.util.Set;
+import org.opencms.util.CmsUUID;
 
 /**
- * The tree open state of a gallery tree tab.<p>
+ * The tree open state of a gallery tree tab.
+ *
+ * <p>
  */
 public class CmsTreeOpenState implements Serializable {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The set of structure ids belonging to opened tree items. */
-    private Set<CmsUUID> m_openItems;
+  /** The set of structure ids belonging to opened tree items. */
+  private Set<CmsUUID> m_openItems;
 
-    /** The site root. */
-    private String m_siteRoot;
+  /** The site root. */
+  private String m_siteRoot;
 
-    /** The time stamp. */
-    private long m_timestamp;
+  /** The time stamp. */
+  private long m_timestamp;
 
-    /** The tree name. */
-    private String m_treeName;
+  /** The tree name. */
+  private String m_treeName;
 
-    /**
-     * Creates a new tree open state instance.<p>
-     *
-     * @param treeName the tree name
-     * @param siteRoot the site root
-     * @param openItems the ids of the open tree entries
-     */
-    public CmsTreeOpenState(String treeName, String siteRoot, Set<CmsUUID> openItems) {
+  /**
+   * Creates a new tree open state instance.
+   *
+   * <p>
+   *
+   * @param treeName the tree name
+   * @param siteRoot the site root
+   * @param openItems the ids of the open tree entries
+   */
+  public CmsTreeOpenState(String treeName, String siteRoot, Set<CmsUUID> openItems) {
 
-        m_treeName = treeName;
-        m_siteRoot = siteRoot;
-        m_openItems = openItems;
-        m_timestamp = System.currentTimeMillis();
-    }
+    m_treeName = treeName;
+    m_siteRoot = siteRoot;
+    m_openItems = openItems;
+    m_timestamp = System.currentTimeMillis();
+  }
 
-    /**
-     * Gets the set of structure ids of resources corresponding to opened tree entries.<p>
-     *
-     * @return the set of structure ids of open tree entries
-     */
-    public Set<CmsUUID> getOpenItems() {
+  /**
+   * Gets the set of structure ids of resources corresponding to opened tree entries.
+   *
+   * <p>
+   *
+   * @return the set of structure ids of open tree entries
+   */
+  public Set<CmsUUID> getOpenItems() {
 
-        return m_openItems;
-    }
+    return m_openItems;
+  }
 
-    /**
-     * Gets the site root.<p>
-     *
-     * @return the site root
-     */
-    public String getSiteRoot() {
+  /**
+   * Gets the site root.
+   *
+   * <p>
+   *
+   * @return the site root
+   */
+  public String getSiteRoot() {
 
-        return m_siteRoot;
-    }
+    return m_siteRoot;
+  }
 
-    /**
-     * Gets the time stamp.<p>
-     *
-     * @return the time stamps
-     */
-    public long getTimestamp() {
+  /**
+   * Gets the time stamp.
+   *
+   * <p>
+   *
+   * @return the time stamps
+   */
+  public long getTimestamp() {
 
-        return m_timestamp;
-    }
+    return m_timestamp;
+  }
 
-    /**
-     * Gets the tree name.<p>
-     *
-     * @return the tree name
-     */
-    public String getTreeName() {
+  /**
+   * Gets the tree name.
+   *
+   * <p>
+   *
+   * @return the tree name
+   */
+  public String getTreeName() {
 
-        return m_treeName;
-    }
-
+    return m_treeName;
+  }
 }

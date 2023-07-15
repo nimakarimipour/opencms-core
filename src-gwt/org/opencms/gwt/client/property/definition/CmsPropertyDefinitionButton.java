@@ -27,6 +27,13 @@
 
 package org.opencms.gwt.client.property.definition;
 
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.ui.PopupPanel;
+import java.util.ArrayList;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.client.rpc.CmsRpcAction;
 import org.opencms.gwt.client.ui.CmsPushButton;
@@ -35,124 +42,131 @@ import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
 import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
 import org.opencms.gwt.client.ui.input.form.CmsFormDialog;
 
-import java.util.ArrayList;
-
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.PopupPanel;
-
 /**
- * Button for defining new properties from the property dialog.<p>
+ * Button for defining new properties from the property dialog.
+ *
+ * <p>
  */
 public class CmsPropertyDefinitionButton extends CmsPushButton {
 
-    /** The dialog instance. */
-    private CmsFormDialog m_dialog;
+  /** The dialog instance. */
+  private CmsFormDialog m_dialog;
 
-    /**
-     * Creates a new instance of the button.<p>
-     */
-    public CmsPropertyDefinitionButton() {
+  /**
+   * Creates a new instance of the button.
+   *
+   * <p>
+   */
+  public CmsPropertyDefinitionButton() {
 
-        super(I_CmsButton.SETTINGS_SMALL);
-        addStyleName(I_CmsLayoutBundle.INSTANCE.propertiesCss().propertyDefinitionButton());
-        setTitle(CmsPropertyDefinitionMessages.messageDialogCaption());
-        setButtonStyle(ButtonStyle.FONT_ICON, null);
-        getElement().getStyle().setMargin(4, Unit.PX);
-        addClickHandler(new ClickHandler() {
+    super(I_CmsButton.SETTINGS_SMALL);
+    addStyleName(I_CmsLayoutBundle.INSTANCE.propertiesCss().propertyDefinitionButton());
+    setTitle(CmsPropertyDefinitionMessages.messageDialogCaption());
+    setButtonStyle(ButtonStyle.FONT_ICON, null);
+    getElement().getStyle().setMargin(4, Unit.PX);
+    addClickHandler(
+        new ClickHandler() {
 
-            public void onClick(ClickEvent event) {
+          public void onClick(ClickEvent event) {
 
-                onBeforeEditPropertyDefinition();
-                editPropertyDefinition();
-            }
+            onBeforeEditPropertyDefinition();
+            editPropertyDefinition();
+          }
         });
+  }
+
+  /**
+   * Gets the dialog which this button is used for.
+   *
+   * <p>
+   *
+   * @return the dialog for this button
+   */
+  public CmsFormDialog getDialog() {
+
+    return m_dialog;
+  }
+
+  /**
+   * Installs the button on a dialog if the user has sufficient permissions.
+   *
+   * <p>
+   *
+   * @param dialog the dialog to which the button should be added
+   */
+  public void installOnDialog(CmsFormDialog dialog) {
+
+    if (CmsCoreProvider.get().getUserInfo().isDeveloper()) {
+      setDialog(dialog);
+      dialog.addButton(this);
     }
+  }
 
-    /**
-     * Gets the dialog which this button is used for.<p>
-     *
-     * @return the dialog for this button
-     */
-    public CmsFormDialog getDialog() {
+  /**
+   * Method which is called directly before the property definition dialog is opened.
+   *
+   * <p>
+   */
+  public void onBeforeEditPropertyDefinition() {
 
-        return m_dialog;
-    }
+    // do nothing in the default implementation
+  }
 
-    /**
-     * Installs the button on a dialog if the user has sufficient permissions.<p>
-     *
-     * @param dialog the dialog to which the button should be added
-     */
-    public void installOnDialog(CmsFormDialog dialog) {
+  /**
+   * Method which is called when the property definition dialog is closed.
+   *
+   * <p>
+   */
+  public void onClosePropertyDefinitionDialog() {
 
-        if (CmsCoreProvider.get().getUserInfo().isDeveloper()) {
-            setDialog(dialog);
-            dialog.addButton(this);
-        }
-    }
+    // do nothing in the default implementation
+  }
 
-    /**
-     * Method which is called directly before the property definition dialog is opened.<p>
-     */
-    public void onBeforeEditPropertyDefinition() {
+  /**
+   * Sets the dialog instance.
+   *
+   * <p>
+   *
+   * @param dialog the dialog instance
+   */
+  public void setDialog(CmsFormDialog dialog) {
 
-        // do nothing in the default implementation
-    }
+    m_dialog = dialog;
+  }
 
-    /**
-     * Method which is called when the property definition dialog is closed.<p>
-     */
-    public void onClosePropertyDefinitionDialog() {
+  /**
+   * Opens the dialog for creating new property definitions.
+   *
+   * <p>
+   */
+  protected void editPropertyDefinition() {
 
-        // do nothing in the default implementation
-    }
+    CmsRpcAction<ArrayList<String>> action =
+        new CmsRpcAction<ArrayList<String>>() {
 
-    /**
-     * Sets the dialog instance.<p>
-     *
-     * @param dialog the dialog instance
-     */
-    public void setDialog(CmsFormDialog dialog) {
+          @Override
+          public void execute() {
 
-        m_dialog = dialog;
-    }
+            start(200, true);
+            CmsCoreProvider.getVfsService().getDefinedProperties(this);
+          }
 
-    /**
-     * Opens the dialog for creating new property definitions.<p>
-     */
-    protected void editPropertyDefinition() {
+          @Override
+          protected void onResponse(ArrayList<String> result) {
 
-        CmsRpcAction<ArrayList<String>> action = new CmsRpcAction<ArrayList<String>>() {
+            stop(false);
+            CmsPropertyDefinitionDialog dialog = new CmsPropertyDefinitionDialog(result);
+            dialog.center();
+            dialog.addCloseHandler(
+                new CloseHandler<PopupPanel>() {
 
-            @Override
-            public void execute() {
+                  public void onClose(CloseEvent<PopupPanel> event) {
 
-                start(200, true);
-                CmsCoreProvider.getVfsService().getDefinedProperties(this);
-            }
-
-            @Override
-            protected void onResponse(ArrayList<String> result) {
-
-                stop(false);
-                CmsPropertyDefinitionDialog dialog = new CmsPropertyDefinitionDialog(result);
-                dialog.center();
-                dialog.addCloseHandler(new CloseHandler<PopupPanel>() {
-
-                    public void onClose(CloseEvent<PopupPanel> event) {
-
-                        onClosePropertyDefinitionDialog();
-                    }
-
+                    onClosePropertyDefinitionDialog();
+                  }
                 });
-            }
-
+          }
         };
-        action.execute();
-    }
-
+    action.execute();
+  }
 }

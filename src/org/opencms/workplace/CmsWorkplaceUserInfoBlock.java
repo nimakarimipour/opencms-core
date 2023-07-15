@@ -31,67 +31,79 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents an user additional information block.<p>
+ * Represents an user additional information block.
+ *
+ * <p>
  *
  * @since 6.5.6
  */
 public final class CmsWorkplaceUserInfoBlock {
 
-    /** The list of defined entries in the block. */
-    private final List<CmsWorkplaceUserInfoEntry> m_entries;
+  /** The list of defined entries in the block. */
+  private final List<CmsWorkplaceUserInfoEntry> m_entries;
 
-    /** The block's title. */
-    private String m_title;
+  /** The block's title. */
+  private String m_title;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsWorkplaceUserInfoBlock() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsWorkplaceUserInfoBlock() {
 
-        m_entries = new ArrayList<CmsWorkplaceUserInfoEntry>();
-    }
+    m_entries = new ArrayList<CmsWorkplaceUserInfoEntry>();
+  }
 
-    /**
-     * Creates a new entry.<p>
-     *
-     * @param key the additional information key
-     * @param type the class name of the stored data type
-     * @param widget the widget class name
-     * @param params the widget parameters
-     * @param optional if optional
-     */
-    public void addEntry(String key, String type, String widget, String params, String optional) {
+  /**
+   * Creates a new entry.
+   *
+   * <p>
+   *
+   * @param key the additional information key
+   * @param type the class name of the stored data type
+   * @param widget the widget class name
+   * @param params the widget parameters
+   * @param optional if optional
+   */
+  public void addEntry(String key, String type, String widget, String params, String optional) {
 
-        m_entries.add(new CmsWorkplaceUserInfoEntry(key, type, widget, params, optional));
-    }
+    m_entries.add(new CmsWorkplaceUserInfoEntry(key, type, widget, params, optional));
+  }
 
-    /**
-     * Returns a list of all configured additional information entries.<p>
-     *
-     * @return a list of {@link CmsWorkplaceUserInfoEntry} objects
-     */
-    public List<CmsWorkplaceUserInfoEntry> getEntries() {
+  /**
+   * Returns a list of all configured additional information entries.
+   *
+   * <p>
+   *
+   * @return a list of {@link CmsWorkplaceUserInfoEntry} objects
+   */
+  public List<CmsWorkplaceUserInfoEntry> getEntries() {
 
-        return m_entries;
-    }
+    return m_entries;
+  }
 
-    /**
-     * Returns the title.<p>
-     *
-     * @return the title
-     */
-    public String getTitle() {
+  /**
+   * Returns the title.
+   *
+   * <p>
+   *
+   * @return the title
+   */
+  public String getTitle() {
 
-        return m_title;
-    }
+    return m_title;
+  }
 
-    /**
-     * Sets the title.<p>
-     *
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
+  /**
+   * Sets the title.
+   *
+   * <p>
+   *
+   * @param title the title to set
+   */
+  public void setTitle(String title) {
 
-        m_title = title;
-    }
+    m_title = title;
+  }
 }

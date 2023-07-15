@@ -32,45 +32,51 @@ import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsUUID;
 
 /**
- * Context menu entry for displaying resource preview.<p>
+ * Context menu entry for displaying resource preview.
+ *
+ * <p>
  */
 public class CmsPreview implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand {
 
-    /**
-     * Gets the context menu command instance.<p>
-     *
-     * @return the context menu command instance
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Gets the context menu command instance.
+   *
+   * <p>
+   *
+   * @return the context menu command instance
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new CmsPreview();
-    }
+    return new CmsPreview();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public void execute(CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public void execute(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-        CmsPreviewDialog.showPreviewForResource(structureId);
-    }
+    CmsPreviewDialog.showPreviewForResource(structureId);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget()
-     */
-    public boolean hasItemWidget() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget() */
+  public boolean hasItemWidget() {
 
-        return false;
-    }
-
+    return false;
+  }
 }

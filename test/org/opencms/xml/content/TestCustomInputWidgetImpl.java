@@ -31,44 +31,42 @@ import org.opencms.widgets.CmsInputWidget;
 import org.opencms.widgets.I_CmsWidget;
 
 /**
- * Extension of the base select widget for testing the "custom widget class" function in the XML content
- * schema annotation.<p>
+ * Extension of the base select widget for testing the "custom widget class" function in the XML
+ * content schema annotation.
+ *
+ * <p>
  */
 public class TestCustomInputWidgetImpl extends CmsInputWidget {
 
-    /***
-     * Base constructor.<p>
-     */
-    public TestCustomInputWidgetImpl() {
+  /***
+   * Base constructor.<p>
+   */
+  public TestCustomInputWidgetImpl() {
 
-        super();
-    }
+    super();
+  }
 
-    /***
-     * Base constructor with configuration String.<p>
-     *
-     * @param configuration the configuration String to use
-     */
-    public TestCustomInputWidgetImpl(String configuration) {
+  /***
+   * Base constructor with configuration String.<p>
+   *
+   * @param configuration the configuration String to use
+   */
+  public TestCustomInputWidgetImpl(String configuration) {
 
-        super(configuration);
-    }
+    super(configuration);
+  }
 
-    /**
-     * @see org.opencms.widgets.CmsInputWidget#newInstance()
-     */
-    @Override
-    public I_CmsWidget newInstance() {
+  /** @see org.opencms.widgets.CmsInputWidget#newInstance() */
+  @Override
+  public I_CmsWidget newInstance() {
 
-        return new TestCustomInputWidgetImpl(getConfiguration());
-    }
+    return new TestCustomInputWidgetImpl(getConfiguration());
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsWidget#setConfiguration(java.lang.String)
-     */
-    @Override
-    public void setConfiguration(String configuration) {
+  /** @see org.opencms.widgets.I_CmsWidget#setConfiguration(java.lang.String) */
+  @Override
+  public void setConfiguration(String configuration) {
 
-        super.setConfiguration(configuration + "[some addition here]");
-    }
+    super.setConfiguration(configuration + "[some addition here]");
+  }
 }

@@ -30,61 +30,59 @@ package org.opencms.configuration;
 import java.util.List;
 
 /**
- * Bean containing additional log folders available for the log file viewer.<p>
+ * Bean containing additional log folders available for the log file viewer.
+ *
+ * <p>
  */
 public class CmsAdditionalLogFolderConfig implements I_CmsConfigurationParameterHandler {
 
-    /** XML element name for the folder list. */
-    public static final String N_ADDITIONAL_LOG_FOLDERS = "additional-log-folders";
+  /** XML element name for the folder list. */
+  public static final String N_ADDITIONAL_LOG_FOLDERS = "additional-log-folders";
 
-    /** XML element name for the individual log folder. */
-    public static final String N_LOG_FOLDER = "log-folder";
+  /** XML element name for the individual log folder. */
+  public static final String N_LOG_FOLDER = "log-folder";
 
-    /**
-     * The config helper instance.
-     **/
-    public static CmsElementWithSubElementsParamConfigHelper ADD_LOG_FOLDER_HELPER = new CmsElementWithSubElementsParamConfigHelper(
-        "*/" + CmsWorkplaceConfiguration.N_WORKPLACE,
-        N_ADDITIONAL_LOG_FOLDERS,
-        CmsAdditionalLogFolderConfig.class,
-        N_LOG_FOLDER);
+  /** The config helper instance. */
+  public static CmsElementWithSubElementsParamConfigHelper ADD_LOG_FOLDER_HELPER =
+      new CmsElementWithSubElementsParamConfigHelper(
+          "*/" + CmsWorkplaceConfiguration.N_WORKPLACE,
+          N_ADDITIONAL_LOG_FOLDERS,
+          CmsAdditionalLogFolderConfig.class,
+          N_LOG_FOLDER);
 
-    /** The parameter configuration used to store the config values. */
-    CmsParameterConfiguration m_params = new CmsParameterConfiguration();
+  /** The parameter configuration used to store the config values. */
+  CmsParameterConfiguration m_params = new CmsParameterConfiguration();
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
-     */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+  /**
+   * @see
+   *     org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String,
+   *     java.lang.String)
+   */
+  public void addConfigurationParameter(String paramName, String paramValue) {
 
-        m_params.add(paramName, paramValue.trim());
-    }
+    m_params.add(paramName, paramValue.trim());
+  }
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#getConfiguration()
-     */
-    public CmsParameterConfiguration getConfiguration() {
+  /** @see org.opencms.configuration.I_CmsConfigurationParameterHandler#getConfiguration() */
+  public CmsParameterConfiguration getConfiguration() {
 
-        return m_params;
+    return m_params;
+  }
 
-    }
+  /**
+   * Gets the log folders.
+   *
+   * <p>
+   *
+   * @return the log folders
+   */
+  public List<String> getLogFolders() {
 
-    /**
-     * Gets the log folders.<p>
-     *
-     * @return the log folders
-     */
-    public List<String> getLogFolders() {
+    return m_params.getList(N_LOG_FOLDER);
+  }
 
-        return m_params.getList(N_LOG_FOLDER);
-
-    }
-
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#initConfiguration()
-     */
-    public void initConfiguration() {
-        // do nothing
-    }
-
+  /** @see org.opencms.configuration.I_CmsConfigurationParameterHandler#initConfiguration() */
+  public void initConfiguration() {
+    // do nothing
+  }
 }

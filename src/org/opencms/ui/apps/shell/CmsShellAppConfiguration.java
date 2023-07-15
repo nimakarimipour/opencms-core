@@ -27,6 +27,8 @@
 
 package org.opencms.ui.apps.shell;
 
+import com.vaadin.server.Resource;
+import java.util.Locale;
 import org.opencms.security.CmsRole;
 import org.opencms.ui.CmsCssIcon;
 import org.opencms.ui.CmsVaadinUtils;
@@ -36,85 +38,66 @@ import org.opencms.ui.apps.I_CmsWorkplaceApp;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.OpenCmsTheme;
 
-import java.util.Locale;
-
-import com.vaadin.server.Resource;
-
 /**
- * Configuration for Shell scritp app.<p>
+ * Configuration for Shell scritp app.
+ *
+ * <p>
  */
 public class CmsShellAppConfiguration extends A_CmsWorkplaceAppConfiguration {
 
-    /**APP id. */
-    public static final String APP_ID = "shell";
+  /** APP id. */
+  public static final String APP_ID = "shell";
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppCategory()
-     */
-    @Override
-    public String getAppCategory() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppCategory() */
+  @Override
+  public String getAppCategory() {
 
-        return CmsWorkplaceAppManager.ADMINISTRATION_CATEGORY_ID;
-    }
+    return CmsWorkplaceAppManager.ADMINISTRATION_CATEGORY_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance()
-     */
-    public I_CmsWorkplaceApp getAppInstance() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance() */
+  public I_CmsWorkplaceApp getAppInstance() {
 
-        return new CmsShellApp();
-    }
+    return new CmsShellApp();
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
-     */
-    @Override
-    public String getHelpText(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale) */
+  @Override
+  public String getHelpText(Locale locale) {
 
-        return CmsVaadinUtils.getMessageText(Messages.GUI_SHELL_SCRIPT_APP_NAME_HELP_0);
-    }
+    return CmsVaadinUtils.getMessageText(Messages.GUI_SHELL_SCRIPT_APP_NAME_HELP_0);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon()
-     */
-    public Resource getIcon() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon() */
+  public Resource getIcon() {
 
-        return new CmsCssIcon(OpenCmsTheme.ICON_TERMINAL);
-    }
+    return new CmsCssIcon(OpenCmsTheme.ICON_TERMINAL);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId() */
+  public String getId() {
 
-        return APP_ID;
-    }
+    return APP_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
-     */
-    @Override
-    public String getName(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
+  @Override
+  public String getName(Locale locale) {
 
-        return CmsVaadinUtils.getMessageText(Messages.GUI_SHELL_SCRIPT_APP_NAME_0);
-    }
+    return CmsVaadinUtils.getMessageText(Messages.GUI_SHELL_SCRIPT_APP_NAME_0);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getOrder()
-     */
-    @Override
-    public int getOrder() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getOrder() */
+  @Override
+  public int getOrder() {
 
-        return 110;
-    }
+    return 110;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getRequiredRole()
-     */
-    @Override
-    public CmsRole getRequiredRole() {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getRequiredRole() */
+  @Override
+  public CmsRole getRequiredRole() {
 
-        return CmsRole.ROOT_ADMIN;
-    }
-
+    return CmsRole.ROOT_ADMIN;
+  }
 }

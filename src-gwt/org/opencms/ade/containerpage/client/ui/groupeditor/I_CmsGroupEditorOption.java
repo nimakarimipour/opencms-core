@@ -30,23 +30,29 @@ package org.opencms.ade.containerpage.client.ui.groupeditor;
 import com.google.gwt.event.dom.client.ClickEvent;
 
 /**
- * Common interface for option buttons within the inheritance container editor.<p>
+ * Common interface for option buttons within the inheritance container editor.
+ *
+ * <p>
  *
  * @since 8.5.0
  */
 public interface I_CmsGroupEditorOption {
 
-    /**
-     * Checks if this button should be visible according to the elements state.<p>
-     *
-     * @return <code>true</code> if the button should be visible
-     */
-    boolean checkVisibility();
+  /**
+   * Checks if this button should be visible according to the elements state.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the button should be visible
+   */
+  boolean checkVisibility();
 
-    /**
-     * Executed on button click.<p>
-     *
-     * @param event the click event
-     */
-    void onClick(ClickEvent event);
+  /**
+   * Executed on button click.
+   *
+   * <p>
+   *
+   * @param event the click event
+   */
+  void onClick(ClickEvent event);
 }

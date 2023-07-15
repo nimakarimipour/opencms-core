@@ -31,169 +31,179 @@ import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
 
 /**
- * Convenience class to access the localized messages of this OpenCms package.<p>
+ * Convenience class to access the localized messages of this OpenCms package.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public final class Messages extends A_CmsMessageBundle {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_CHARSET_ILLEGAL_NAME_1 = "ERR_CHARSET_ILLEGAL_NAME_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_CHARSET_ILLEGAL_NAME_1 = "ERR_CHARSET_ILLEGAL_NAME_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_CHARSET_UNSUPPORTED_1 = "ERR_CHARSET_UNSUPPORTED_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_CHARSET_UNSUPPORTED_1 = "ERR_CHARSET_UNSUPPORTED_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_CONTROL_STRING_LENGTH_0 = "ERR_CONTROL_STRING_LENGTH_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_CONTROL_STRING_LENGTH_0 = "ERR_CONTROL_STRING_LENGTH_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_CONTROL_STRING_START_0 = "ERR_CONTROL_STRING_START_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_CONTROL_STRING_START_0 = "ERR_CONTROL_STRING_START_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_CSV_XML_TRANSFORMATION_FAILED_0 = "ERR_CSV_XML_TRANSFORMATION_FAILED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_CSV_XML_TRANSFORMATION_FAILED_0 =
+      "ERR_CSV_XML_TRANSFORMATION_FAILED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_ARG_ACCESS_1 = "ERR_FILE_ARG_ACCESS_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_FILE_ARG_ACCESS_1 = "ERR_FILE_ARG_ACCESS_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_ARG_EMPTY_1 = "ERR_FILE_ARG_EMPTY_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_FILE_ARG_EMPTY_1 = "ERR_FILE_ARG_EMPTY_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_ARG_IS_FOLDER_1 = "ERR_FILE_ARG_IS_FOLDER_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_FILE_ARG_IS_FOLDER_1 = "ERR_FILE_ARG_IS_FOLDER_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_ARG_NOT_FOUND_1 = "ERR_FILE_ARG_NOT_FOUND_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_FILE_ARG_NOT_FOUND_1 = "ERR_FILE_ARG_NOT_FOUND_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_ARG_NOT_READ_1 = "ERR_FILE_ARG_NOT_READ_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_FILE_ARG_NOT_READ_1 = "ERR_FILE_ARG_NOT_READ_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_VIEW_SETTINGS_FROZEN_0 = "ERR_FILE_VIEW_SETTINGS_FROZEN_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_FILE_VIEW_SETTINGS_FROZEN_0 = "ERR_FILE_VIEW_SETTINGS_FROZEN_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_CONVERSION_SPEC_1 = "ERR_INVALID_CONVERSION_SPEC_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_INVALID_CONVERSION_SPEC_1 = "ERR_INVALID_CONVERSION_SPEC_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_DOUBLE_FMT_CHAR_2 = "ERR_INVALID_DOUBLE_FMT_CHAR_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_INVALID_DOUBLE_FMT_CHAR_2 = "ERR_INVALID_DOUBLE_FMT_CHAR_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_ETHERNET_ADDRESS_0 = "ERR_INVALID_ETHERNET_ADDRESS_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_INVALID_ETHERNET_ADDRESS_0 = "ERR_INVALID_ETHERNET_ADDRESS_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_ETHERNET_ADDRESS_1 = "ERR_INVALID_ETHERNET_ADDRESS_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_INVALID_ETHERNET_ADDRESS_1 = "ERR_INVALID_ETHERNET_ADDRESS_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_UUID_1 = "ERR_INVALID_UUID_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_INVALID_UUID_1 = "ERR_INVALID_UUID_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_IOERROR_0 = "ERR_IOERROR_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_IOERROR_0 = "ERR_IOERROR_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_MISSING_RESOURCES_1 = "ERR_MISSING_RESOURCES_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_MISSING_RESOURCES_1 = "ERR_MISSING_RESOURCES_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNABLE_TO_PARSE_COLOR_2 = "ERR_UNABLE_TO_PARSE_COLOR_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_UNABLE_TO_PARSE_COLOR_2 = "ERR_UNABLE_TO_PARSE_COLOR_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNABLE_TO_PARSE_INT_2 = "ERR_UNABLE_TO_PARSE_INT_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_UNABLE_TO_PARSE_INT_2 = "ERR_UNABLE_TO_PARSE_INT_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNBALANCED_CLOSING_TAG_1 = "ERR_UNBALANCED_CLOSING_TAG_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_UNBALANCED_CLOSING_TAG_1 = "ERR_UNBALANCED_CLOSING_TAG_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNBALANCED_OPENING_TAG_1 = "ERR_UNBALANCED_OPENING_TAG_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_UNBALANCED_OPENING_TAG_1 = "ERR_UNBALANCED_OPENING_TAG_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_FILE_VIEW_NO_PREVIEW_0 = "GUI_FILE_VIEW_NO_PREVIEW_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_FILE_VIEW_NO_PREVIEW_0 = "GUI_FILE_VIEW_NO_PREVIEW_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_FILEUTIL_FILESIZE_BYTES_1 = "GUI_FILEUTIL_FILESIZE_BYTES_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_FILEUTIL_FILESIZE_BYTES_1 = "GUI_FILEUTIL_FILESIZE_BYTES_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_FILEUTIL_FILESIZE_GBYTES_1 = "GUI_FILEUTIL_FILESIZE_GBYTES_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_FILEUTIL_FILESIZE_GBYTES_1 = "GUI_FILEUTIL_FILESIZE_GBYTES_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_FILEUTIL_FILESIZE_KBYTES_1 = "GUI_FILEUTIL_FILESIZE_KBYTES_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_FILEUTIL_FILESIZE_KBYTES_1 = "GUI_FILEUTIL_FILESIZE_KBYTES_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_FILEUTIL_FILESIZE_MBYTES_1 = "GUI_FILEUTIL_FILESIZE_MBYTES_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_FILEUTIL_FILESIZE_MBYTES_1 = "GUI_FILEUTIL_FILESIZE_MBYTES_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_CONVERSION_BYTE_FAILED_0 = "LOG_CONVERSION_BYTE_FAILED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_CONVERSION_BYTE_FAILED_0 = "LOG_CONVERSION_BYTE_FAILED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_ENC_MULTIPART_REQ_ERROR_0 = "LOG_ENC_MULTIPART_REQ_ERROR_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_ENC_MULTIPART_REQ_ERROR_0 = "LOG_ENC_MULTIPART_REQ_ERROR_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_ERR_READ_UUID_0 = "LOG_ERR_READ_UUID_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_ERR_READ_UUID_0 = "LOG_ERR_READ_UUID_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_FILEVIEW_INDEX_EXPIRE_OK_2 = "LOG_FILEVIEW_INDEX_EXPIRE_OK_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_FILEVIEW_INDEX_EXPIRE_OK_2 = "LOG_FILEVIEW_INDEX_EXPIRE_OK_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_MALFORMED_TRANSLATION_RULE_1 = "LOG_MALFORMED_TRANSLATION_RULE_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_MALFORMED_TRANSLATION_RULE_1 = "LOG_MALFORMED_TRANSLATION_RULE_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_NUM_TRANSLATION_RULES_INITIALIZED_1 = "LOG_NUM_TRANSLATION_RULES_INITIALIZED_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_NUM_TRANSLATION_RULES_INITIALIZED_1 =
+      "LOG_NUM_TRANSLATION_RULES_INITIALIZED_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_PARSE_MULIPART_REQ_FAILED_0 = "LOG_PARSE_MULIPART_REQ_FAILED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_PARSE_MULIPART_REQ_FAILED_0 = "LOG_PARSE_MULIPART_REQ_FAILED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_PARSING_RUNS_2 = "LOG_PARSING_RUNS_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_PARSING_RUNS_2 = "LOG_PARSING_RUNS_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_PROPERTY_READING_FAILED_2 = "LOG_PROPERTY_READING_FAILED_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_PROPERTY_READING_FAILED_2 = "LOG_PROPERTY_READING_FAILED_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_READ_UUID_1 = "LOG_READ_UUID_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_READ_UUID_1 = "LOG_READ_UUID_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_READ_UUID_OLD_1 = "LOG_READ_UUID_OLD_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_READ_UUID_OLD_1 = "LOG_READ_UUID_OLD_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_TRANSLATION_MATCH_2 = "LOG_TRANSLATION_MATCH_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_TRANSLATION_MATCH_2 = "LOG_TRANSLATION_MATCH_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_TRANSLATION_MATCH_3 = "LOG_TRANSLATION_MATCH_3";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_TRANSLATION_MATCH_3 = "LOG_TRANSLATION_MATCH_3";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_WARN_TIDY_FAILURE_0 = "LOG_WARN_TIDY_FAILURE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_WARN_TIDY_FAILURE_0 = "LOG_WARN_TIDY_FAILURE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_WRITE_UUID_1 = "LOG_WRITE_UUID_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_WRITE_UUID_1 = "LOG_WRITE_UUID_1";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.util.messages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME = "org.opencms.util.messages";
 
-    /** Static instance member. */
-    private static final I_CmsMessageBundle INSTANCE = new Messages();
+  /** Static instance member. */
+  private static final I_CmsMessageBundle INSTANCE = new Messages();
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
-    }
+    // hide the constructor
+  }
 
-    /**
-     * Returns an instance of this localized message accessor.<p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static I_CmsMessageBundle get() {
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static I_CmsMessageBundle get() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the bundle name for this OpenCms package.<p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
 
-        return BUNDLE_NAME;
-    }
+    return BUNDLE_NAME;
+  }
 }

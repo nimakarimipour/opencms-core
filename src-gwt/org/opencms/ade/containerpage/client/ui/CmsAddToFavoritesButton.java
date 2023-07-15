@@ -27,62 +27,68 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.opencms.ade.containerpage.client.CmsContainerpageHandler;
 import org.opencms.gwt.client.ui.I_CmsButton;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-
 /**
- * Add to favorites button.<p>
+ * Add to favorites button.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsAddToFavoritesButton extends A_CmsToolbarOptionButton {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param handler the container page handler
-     */
-    public CmsAddToFavoritesButton(CmsContainerpageHandler handler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param handler the container page handler
+   */
+  public CmsAddToFavoritesButton(CmsContainerpageHandler handler) {
 
-        super(I_CmsButton.ButtonData.ADD_TO_FAVORITES, handler);
+    super(I_CmsButton.ButtonData.ADD_TO_FAVORITES, handler);
+  }
+
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#createOptionForElement(org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
+   */
+  @Override
+  public CmsElementOptionButton createOptionForElement(CmsContainerPageElementPanel element) {
+
+    CmsElementOptionButton button = super.createOptionForElement(element);
+    if (element.isNew() && (button != null)) {
+      button.disable("Can not add empty element to favorites.");
     }
+    return button;
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#createOptionForElement(org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
-     */
-    @Override
-    public CmsElementOptionButton createOptionForElement(CmsContainerPageElementPanel element) {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#isOptionAvailable(org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
+   */
+  @Override
+  public boolean isOptionAvailable(CmsContainerPageElementPanel element) {
 
-        CmsElementOptionButton button = super.createOptionForElement(element);
-        if (element.isNew() && (button != null)) {
-            button.disable("Can not add empty element to favorites.");
-        }
-        return button;
+    try {
+      element.getStructureId();
+      return true;
+    } catch (Throwable t) {
+      return false;
     }
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#isOptionAvailable(org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
-     */
-    @Override
-    public boolean isOptionAvailable(CmsContainerPageElementPanel element) {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#onElementClick(com.google.gwt.event.dom.client.ClickEvent,
+   *     org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
+   */
+  @Override
+  public void onElementClick(ClickEvent event, CmsContainerPageElementPanel element) {
 
-        try {
-            element.getStructureId();
-            return true;
-        } catch (Throwable t) {
-            return false;
-        }
-    }
-
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#onElementClick(com.google.gwt.event.dom.client.ClickEvent, org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
-     */
-    @Override
-    public void onElementClick(ClickEvent event, CmsContainerPageElementPanel element) {
-
-        getHandler().addToFavorites(element.getId());
-    }
-
+    getHandler().addToFavorites(element.getId());
+  }
 }

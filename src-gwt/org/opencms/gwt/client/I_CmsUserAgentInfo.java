@@ -28,14 +28,18 @@
 package org.opencms.gwt.client;
 
 /**
- * Interface for accessing user agent info.<p>
+ * Interface for accessing user agent info.
+ *
+ * <p>
  */
 public interface I_CmsUserAgentInfo {
 
-    /**
-     * Checks whether we are in IE7.<p>
-     *
-     * @return true if we are in IE7
-     */
-    boolean isIE7();
+  /**
+   * Checks whether we are in IE7.
+   *
+   * <p>
+   *
+   * @return true if we are in IE7
+   */
+  boolean isIE7();
 }

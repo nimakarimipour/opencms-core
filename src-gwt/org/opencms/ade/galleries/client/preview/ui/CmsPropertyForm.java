@@ -27,11 +27,6 @@
 
 package org.opencms.ade.galleries.client.preview.ui;
 
-import org.opencms.ade.galleries.client.ui.css.I_CmsLayoutBundle;
-import org.opencms.gwt.client.ui.input.CmsLabel;
-import org.opencms.gwt.client.ui.input.CmsTextBox;
-import org.opencms.util.CmsStringUtil;
-
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -42,149 +37,171 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import org.opencms.ade.galleries.client.ui.css.I_CmsLayoutBundle;
+import org.opencms.gwt.client.ui.input.CmsLabel;
+import org.opencms.gwt.client.ui.input.CmsTextBox;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * The widget to display a simple form with a label and an text box.<p>
+ * The widget to display a simple form with a label and an text box.
+ *
+ * <p>
  *
  * @since 8.0.
  */
 public class CmsPropertyForm extends Composite implements HasValueChangeHandlers<String> {
 
-    /** The flag to indicate if the text box value is changed. */
-    protected boolean m_isChanged;
+  /** The flag to indicate if the text box value is changed. */
+  protected boolean m_isChanged;
 
-    /** The original value. */
-    protected String m_originalValue;
+  /** The original value. */
+  protected String m_originalValue;
 
-    /** The text box. */
-    protected CmsTextBox m_textBox;
+  /** The text box. */
+  protected CmsTextBox m_textBox;
 
-    /** The id of the property. */
-    private String m_id;
+  /** The id of the property. */
+  private String m_id;
 
-    /** The text box panel. */
-    private FlowPanel m_inputPanel;
+  /** The text box panel. */
+  private FlowPanel m_inputPanel;
 
-    /** The label. */
-    private CmsLabel m_label;
+  /** The label. */
+  private CmsLabel m_label;
 
-    /** The parent panel. */
-    private FlowPanel m_parent;
+  /** The parent panel. */
+  private FlowPanel m_parent;
 
-    /**
-     * The constructor.<p>
-     *
-     * @param id the id of the property from
-     * @param value the property value
-     * @param label the label text to display
-     * @param noEditReason the reason why the properties are not editable
-     */
-    public CmsPropertyForm(String id, String value, String label, String noEditReason) {
+  /**
+   * The constructor.
+   *
+   * <p>
+   *
+   * @param id the id of the property from
+   * @param value the property value
+   * @param label the label text to display
+   * @param noEditReason the reason why the properties are not editable
+   */
+  public CmsPropertyForm(String id, String value, String label, String noEditReason) {
 
-        m_id = id;
-        m_originalValue = value;
-        m_isChanged = false;
-        //m_parentWidth = width;
-        m_parent = new FlowPanel();
-        m_parent.addStyleName(I_CmsLayoutBundle.INSTANCE.previewDialogCss().propertyForm());
-        // set form label
-        m_label = new CmsLabel(label);
-        m_label.addStyleName(I_CmsLayoutBundle.INSTANCE.previewDialogCss().labelField());
-        m_parent.add(m_label);
+    m_id = id;
+    m_originalValue = value;
+    m_isChanged = false;
+    // m_parentWidth = width;
+    m_parent = new FlowPanel();
+    m_parent.addStyleName(I_CmsLayoutBundle.INSTANCE.previewDialogCss().propertyForm());
+    // set form label
+    m_label = new CmsLabel(label);
+    m_label.addStyleName(I_CmsLayoutBundle.INSTANCE.previewDialogCss().labelField());
+    m_parent.add(m_label);
 
-        // set form text box
-        m_inputPanel = new FlowPanel();
-        m_inputPanel.addStyleName(I_CmsLayoutBundle.INSTANCE.previewDialogCss().inputField());
-        m_textBox = new CmsTextBox();
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(noEditReason)) {
-            m_textBox.setTitle(noEditReason);
-            m_textBox.setReadOnly(true);
-        }
-        m_textBox.setFormValueAsString(m_originalValue);
-        m_textBox.addValueChangeHandler(new ValueChangeHandler<String>() {
+    // set form text box
+    m_inputPanel = new FlowPanel();
+    m_inputPanel.addStyleName(I_CmsLayoutBundle.INSTANCE.previewDialogCss().inputField());
+    m_textBox = new CmsTextBox();
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(noEditReason)) {
+      m_textBox.setTitle(noEditReason);
+      m_textBox.setReadOnly(true);
+    }
+    m_textBox.setFormValueAsString(m_originalValue);
+    m_textBox.addValueChangeHandler(
+        new ValueChangeHandler<String>() {
 
-            /**
-             * @see com.google.gwt.event.logical.shared.ValueChangeHandler#onValueChange(ValueChangeEvent event)
-             */
-            public void onValueChange(ValueChangeEvent<String> event) {
+          /**
+           * @see
+           *     com.google.gwt.event.logical.shared.ValueChangeHandler#onValueChange(ValueChangeEvent
+           *     event)
+           */
+          public void onValueChange(ValueChangeEvent<String> event) {
 
-                m_isChanged = true;
-                m_textBox.setChangedStyle();
-            }
+            m_isChanged = true;
+            m_textBox.setChangedStyle();
+          }
         });
-        m_textBox.addKeyPressHandler(new KeyPressHandler() {
+    m_textBox.addKeyPressHandler(
+        new KeyPressHandler() {
 
-            public void onKeyPress(KeyPressEvent event) {
+          public void onKeyPress(KeyPressEvent event) {
 
-                // make sure the value change event is fired on the first change inside the text box
-                if (!isChanged()) {
-                    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+            // make sure the value change event is fired on the first change inside the text box
+            if (!isChanged()) {
+              Scheduler.get()
+                  .scheduleDeferred(
+                      new ScheduledCommand() {
 
                         public void execute() {
 
-                            if (!isChanged()) {
+                          if (!isChanged()) {
 
-                                if (((getValue() == null) && (m_originalValue != null))
-                                    || (!getValue().equals(m_originalValue))) {
-                                    ValueChangeEvent.fire(m_textBox, getValue());
-                                }
+                            if (((getValue() == null) && (m_originalValue != null))
+                                || (!getValue().equals(m_originalValue))) {
+                              ValueChangeEvent.fire(m_textBox, getValue());
                             }
+                          }
                         }
-                    });
-                }
+                      });
             }
+          }
         });
-        m_inputPanel.add(m_textBox);
-        m_parent.add(m_inputPanel);
-        initWidget(m_parent);
-    }
+    m_inputPanel.add(m_textBox);
+    m_parent.add(m_inputPanel);
+    initWidget(m_parent);
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
 
-        return m_textBox.addValueChangeHandler(handler);
-    }
+    return m_textBox.addValueChangeHandler(handler);
+  }
 
-    /**
-     * Returns the id of the property.<p>
-     *
-     * @return the id
-     */
-    public String getId() {
+  /**
+   * Returns the id of the property.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  public String getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Returns the field value.<p>
-     *
-     * @return the field value
-     */
-    public String getValue() {
+  /**
+   * Returns the field value.
+   *
+   * <p>
+   *
+   * @return the field value
+   */
+  public String getValue() {
 
-        return m_textBox.getFormValueAsString();
-    }
+    return m_textBox.getFormValueAsString();
+  }
 
-    /**
-     * Returns the isChanged.<p>
-     *
-     * @return the isChanged
-     */
-    public boolean isChanged() {
+  /**
+   * Returns the isChanged.
+   *
+   * <p>
+   *
+   * @return the isChanged
+   */
+  public boolean isChanged() {
 
-        return m_isChanged;
-    }
+    return m_isChanged;
+  }
 
-    /**
-     * Sets the style of the parent panel.<p>
-     *
-     * @param style the css class
-     */
-    public void setFormStyle(String style) {
+  /**
+   * Sets the style of the parent panel.
+   *
+   * <p>
+   *
+   * @param style the css class
+   */
+  public void setFormStyle(String style) {
 
-        m_parent.addStyleName(style);
-    }
-
+    m_parent.addStyleName(style);
+  }
 }

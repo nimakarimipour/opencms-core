@@ -30,34 +30,34 @@ package org.opencms.gwt.shared.sort;
 import java.util.Comparator;
 
 /**
- * Comparator for objects with a title property.<p>
+ * Comparator for objects with a title property.
+ *
+ * <p>
  *
  * @see I_CmsHasTitle
- *
  * @since 8.0.0
  */
 public class CmsComparatorTitle implements Comparator<I_CmsHasTitle> {
 
-    /** Sort order flag. */
-    private boolean m_ascending;
+  /** Sort order flag. */
+  private boolean m_ascending;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param ascending if <code>true</code> order is ascending
-     */
-    public CmsComparatorTitle(boolean ascending) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param ascending if <code>true</code> order is ascending
+   */
+  public CmsComparatorTitle(boolean ascending) {
 
-        m_ascending = ascending;
-    }
+    m_ascending = ascending;
+  }
 
-    /**
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */
-    public int compare(I_CmsHasTitle o1, I_CmsHasTitle o2) {
+  /** @see java.util.Comparator#compare(java.lang.Object, java.lang.Object) */
+  public int compare(I_CmsHasTitle o1, I_CmsHasTitle o2) {
 
-        int result = o1.getTitle().compareTo(o2.getTitle());
-        return m_ascending ? result : -result;
-    }
-
+    int result = o1.getTitle().compareTo(o2.getTitle());
+    return m_ascending ? result : -result;
+  }
 }

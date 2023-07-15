@@ -31,37 +31,36 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Signals that a data source consistency problem has been detected.<p>
+ * Signals that a data source consistency problem has been detected.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDbConsistencyException extends CmsDbException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -3783277873180369592L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -3783277873180369592L;
 
-    /**
-     * @see org.opencms.main.CmsException#CmsException(CmsMessageContainer)
-     */
-    public CmsDbConsistencyException(CmsMessageContainer container) {
+  /** @see org.opencms.main.CmsException#CmsException(CmsMessageContainer) */
+  public CmsDbConsistencyException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#CmsException(CmsMessageContainer, Throwable)
-     */
-    public CmsDbConsistencyException(CmsMessageContainer container, Throwable cause) {
+  /** @see org.opencms.main.CmsException#CmsException(CmsMessageContainer, Throwable) */
+  public CmsDbConsistencyException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsDbConsistencyException(container, cause);
-    }
+    return new CmsDbConsistencyException(container, cause);
+  }
 }

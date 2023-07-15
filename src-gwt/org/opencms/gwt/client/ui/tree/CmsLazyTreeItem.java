@@ -27,132 +27,146 @@
 
 package org.opencms.gwt.client.ui.tree;
 
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import org.opencms.gwt.client.Messages;
 import org.opencms.gwt.client.ui.input.CmsCheckBox;
 
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * Tree item for lazily loaded list trees.<p>
+ * Tree item for lazily loaded list trees.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsLazyTreeItem extends CmsTreeItem {
 
-    /** Enum for indicating the load state of a tree item. */
-    public enum LoadState {
+  /** Enum for indicating the load state of a tree item. */
+  public enum LoadState {
 
-        /** children have been loaded. */
-        LOADED,
+    /** children have been loaded. */
+    LOADED,
 
-        /** loading children. */
-        LOADING,
+    /** loading children. */
+    LOADING,
 
-        /** children haven't been loaded. */
-        UNLOADED;
-    }
+    /** children haven't been loaded. */
+    UNLOADED;
+  }
 
-    /**
-     * Helper tree item which displays a "loading" message.<p>
-     */
-    protected class LoadingItem extends CmsTreeItem {
-
-        /**
-         * Constructs a new instance.<p>
-         */
-        public LoadingItem() {
-
-            super(true, new Label(Messages.get().key(Messages.GUI_LOADING_0)));
-        }
-    }
-
-    /** The loading item. */
-    private LoadingItem m_loadingItem = new LoadingItem();
-
-    /** The load state of this tree item. */
-    private LoadState m_loadState = LoadState.UNLOADED;
-
-    /** Flag to show a load item while children are being loaded. */
-    private boolean m_useLoadItem;
+  /**
+   * Helper tree item which displays a "loading" message.
+   *
+   * <p>
+   */
+  protected class LoadingItem extends CmsTreeItem {
 
     /**
-     * Constructs a new lazy tree item with a main widget and a check box.<p>
+     * Constructs a new instance.
      *
-     * @param checkbox the check box
-     * @param widget the main widget
-     * @param useLoadItem <code>true</code> to show a load item while children are being loaded
+     * <p>
      */
-    public CmsLazyTreeItem(CmsCheckBox checkbox, Widget widget, boolean useLoadItem) {
+    public LoadingItem() {
 
-        super(true, checkbox, widget);
-        m_useLoadItem = useLoadItem;
+      super(true, new Label(Messages.get().key(Messages.GUI_LOADING_0)));
     }
+  }
 
-    /**
-     * Constructs a new lazy tree item with a main widget.<p>
-     *
-     * @param widget the main widget
-     * @param useLoadItem <code>true</code> to show a load item while children are being loaded
-     */
-    public CmsLazyTreeItem(Widget widget, boolean useLoadItem) {
+  /** The loading item. */
+  private LoadingItem m_loadingItem = new LoadingItem();
 
-        super(true, widget);
-        m_useLoadItem = useLoadItem;
+  /** The load state of this tree item. */
+  private LoadState m_loadState = LoadState.UNLOADED;
+
+  /** Flag to show a load item while children are being loaded. */
+  private boolean m_useLoadItem;
+
+  /**
+   * Constructs a new lazy tree item with a main widget and a check box.
+   *
+   * <p>
+   *
+   * @param checkbox the check box
+   * @param widget the main widget
+   * @param useLoadItem <code>true</code> to show a load item while children are being loaded
+   */
+  public CmsLazyTreeItem(CmsCheckBox checkbox, Widget widget, boolean useLoadItem) {
+
+    super(true, checkbox, widget);
+    m_useLoadItem = useLoadItem;
+  }
+
+  /**
+   * Constructs a new lazy tree item with a main widget.
+   *
+   * <p>
+   *
+   * @param widget the main widget
+   * @param useLoadItem <code>true</code> to show a load item while children are being loaded
+   */
+  public CmsLazyTreeItem(Widget widget, boolean useLoadItem) {
+
+    super(true, widget);
+    m_useLoadItem = useLoadItem;
+  }
+
+  /**
+   * Gets the load state of the tree item.
+   *
+   * <p>
+   *
+   * @return a load state
+   */
+  public LoadState getLoadState() {
+
+    return m_loadState;
+  }
+
+  /**
+   * Returns if tree item children have been loaded.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if tree item children have been loaded
+   */
+  public boolean isLoaded() {
+
+    return LoadState.LOADED == m_loadState;
+  }
+
+  /**
+   * This method should be called when the item's children have finished loading.
+   *
+   * <p>
+   */
+  public void onFinishLoading() {
+
+    m_loadState = LoadState.LOADED;
+    if (m_useLoadItem) {
+      m_loadingItem.removeFromParent();
     }
+    onChangeChildren();
+  }
 
-    /**
-     * Gets the load state of the tree item.<p>
-     *
-     * @return a load state
-     */
-    public LoadState getLoadState() {
+  /**
+   * This method is called when the tree item's children start being loaded.
+   *
+   * <p>
+   */
+  public void onStartLoading() {
 
-        return m_loadState;
+    m_loadState = LoadState.LOADING;
+    if (m_useLoadItem) {
+      addChild(m_loadingItem);
     }
+  }
 
-    /**
-     * Returns if tree item children have been loaded.<p>
-     *
-     * @return <code>true</code> if tree item children have been loaded
-     */
-    public boolean isLoaded() {
+  /** @see org.opencms.gwt.client.ui.tree.CmsTreeItem#onChangeChildren() */
+  @Override
+  protected void onChangeChildren() {
 
-        return LoadState.LOADED == m_loadState;
+    if (m_loadState == LoadState.LOADED) {
+      super.onChangeChildren();
     }
-
-    /**
-     * This method should be called when the item's children have finished loading.<p>
-     */
-    public void onFinishLoading() {
-
-        m_loadState = LoadState.LOADED;
-        if (m_useLoadItem) {
-            m_loadingItem.removeFromParent();
-        }
-        onChangeChildren();
-    }
-
-    /**
-     * This method is called when the tree item's children start being loaded.<p>
-     */
-    public void onStartLoading() {
-
-        m_loadState = LoadState.LOADING;
-        if (m_useLoadItem) {
-            addChild(m_loadingItem);
-        }
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.tree.CmsTreeItem#onChangeChildren()
-     */
-    @Override
-    protected void onChangeChildren() {
-
-        if (m_loadState == LoadState.LOADED) {
-            super.onChangeChildren();
-        }
-    }
-
+  }
 }

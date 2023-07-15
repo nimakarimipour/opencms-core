@@ -27,107 +27,109 @@
 
 package org.opencms.acacia.client.widgets.serialdate;
 
+import com.google.gwt.user.client.Command;
 import org.opencms.acacia.client.widgets.serialdate.CmsSerialDateController.PatternDefaultValues;
 import org.opencms.acacia.shared.CmsSerialDateUtil;
-
-import com.google.gwt.user.client.Command;
 
 /** Abstract base class for pattern panel controllers. */
 public abstract class A_CmsPatternPanelController implements I_CmsSerialDatePatternController {
 
-    /** The change handler called on {@link #onValueChange()}. */
-    private final I_ChangeHandler m_changeHandler;
-    /** The model to read data from. */
-    protected final CmsSerialDateValue m_model;
+  /** The change handler called on {@link #onValueChange()}. */
+  private final I_ChangeHandler m_changeHandler;
+  /** The model to read data from. */
+  protected final CmsSerialDateValue m_model;
 
-    /**
-     * Constructor for the abstract pattern panel controller
-     * @param model the model to read data from.
-     * @param changeHandler the handler for value changes.
-     */
-    public A_CmsPatternPanelController(final CmsSerialDateValue model, final I_ChangeHandler changeHandler) {
-        m_model = model;
-        m_changeHandler = changeHandler;
+  /**
+   * Constructor for the abstract pattern panel controller
+   *
+   * @param model the model to read data from.
+   * @param changeHandler the handler for value changes.
+   */
+  public A_CmsPatternPanelController(
+      final CmsSerialDateValue model, final I_ChangeHandler changeHandler) {
+    m_model = model;
+    m_changeHandler = changeHandler;
+  }
 
+  /**
+   * @see org.opencms.acacia.client.widgets.serialdate.I_CmsSerialDatePatternController#getView()
+   */
+  public abstract I_CmsSerialDatePatternView getView();
+
+  /**
+   * @param cmd see change handler
+   * @param showDialog see change handler
+   * @see I_ChangeHandler#conditionallyRemoveExceptionsOnChange(Command, boolean)
+   */
+  protected void conditionallyRemoveExceptionsOnChange(Command cmd, boolean showDialog) {
+
+    m_changeHandler.conditionallyRemoveExceptionsOnChange(cmd, showDialog);
+  }
+
+  /** Call when the value has changed. */
+  protected void onValueChange() {
+
+    m_changeHandler.valueChanged();
+  }
+
+  /**
+   * @param cmd see change handler
+   * @see I_ChangeHandler#removeExceptionsOnChange(Command)
+   */
+  protected void removeExceptionsOnChange(Command cmd) {
+
+    m_changeHandler.removeExceptionsOnChange(cmd);
+  }
+
+  /**
+   * Returns the default values for patterns.
+   *
+   * @return the default values for patterns.
+   */
+  PatternDefaultValues getPatternDefaultValues() {
+
+    return m_changeHandler.getPatternDefaultValues();
+  }
+
+  /**
+   * Sets the day of the month.
+   *
+   * @param day the day to set.
+   */
+  void setDayOfMonth(String day) {
+
+    final int i = CmsSerialDateUtil.toIntWithDefault(day, -1);
+    if (m_model.getDayOfMonth() != i) {
+      removeExceptionsOnChange(
+          new Command() {
+
+            public void execute() {
+
+              m_model.setDayOfMonth(i);
+              onValueChange();
+            }
+          });
     }
+  }
 
-    /**
-     * @see org.opencms.acacia.client.widgets.serialdate.I_CmsSerialDatePatternController#getView()
-     */
-    abstract public I_CmsSerialDatePatternView getView();
+  /**
+   * Sets the interval.
+   *
+   * @param interval the interval to set.
+   */
+  void setInterval(String interval) {
 
-    /**
-     * @param cmd see change handler
-     * @param showDialog see change handler
-     * @see I_ChangeHandler#conditionallyRemoveExceptionsOnChange(Command, boolean)
-     */
-    protected void conditionallyRemoveExceptionsOnChange(Command cmd, boolean showDialog) {
+    final int i = CmsSerialDateUtil.toIntWithDefault(interval, -1);
+    if (m_model.getInterval() != i) {
+      removeExceptionsOnChange(
+          new Command() {
 
-        m_changeHandler.conditionallyRemoveExceptionsOnChange(cmd, showDialog);
+            public void execute() {
+
+              m_model.setInterval(i);
+              onValueChange();
+            }
+          });
     }
-
-    /**
-     * Call when the value has changed.
-     */
-    protected void onValueChange() {
-
-        m_changeHandler.valueChanged();
-    }
-
-    /**
-     * @param cmd see change handler
-     * @see I_ChangeHandler#removeExceptionsOnChange(Command)
-     */
-    protected void removeExceptionsOnChange(Command cmd) {
-
-        m_changeHandler.removeExceptionsOnChange(cmd);
-    }
-
-    /**
-     * Returns the default values for patterns.
-     * @return the default values for patterns.
-     */
-    PatternDefaultValues getPatternDefaultValues() {
-
-        return m_changeHandler.getPatternDefaultValues();
-    }
-
-    /**
-     * Sets the day of the month.
-     * @param day the day to set.
-     */
-    void setDayOfMonth(String day) {
-
-        final int i = CmsSerialDateUtil.toIntWithDefault(day, -1);
-        if (m_model.getDayOfMonth() != i) {
-            removeExceptionsOnChange(new Command() {
-
-                public void execute() {
-
-                    m_model.setDayOfMonth(i);
-                    onValueChange();
-                }
-            });
-        }
-    }
-
-    /**
-     * Sets the interval.
-     * @param interval the interval to set.
-     */
-    void setInterval(String interval) {
-
-        final int i = CmsSerialDateUtil.toIntWithDefault(interval, -1);
-        if (m_model.getInterval() != i) {
-            removeExceptionsOnChange(new Command() {
-
-                public void execute() {
-
-                    m_model.setInterval(i);
-                    onValueChange();
-                }
-            });
-        }
-
-    }
+  }
 }

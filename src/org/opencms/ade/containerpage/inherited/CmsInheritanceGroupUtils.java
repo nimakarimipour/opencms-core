@@ -27,6 +27,12 @@
 
 package org.opencms.ade.containerpage.inherited;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsPropertyDefinition;
 import org.opencms.file.CmsResource;
@@ -35,100 +41,95 @@ import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.xml.containerpage.CmsContainerElementBean;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
 /**
- * Utility methods for inheritance groups which don't fit anywhere else.<p>
+ * Utility methods for inheritance groups which don't fit anywhere else.
+ *
+ * <p>
  */
 public final class CmsInheritanceGroupUtils {
 
-    /**
-     * Private constructor to prevent instantiation.<p>
-     */
-    private CmsInheritanceGroupUtils() {
+  /**
+   * Private constructor to prevent instantiation.
+   *
+   * <p>
+   */
+  private CmsInheritanceGroupUtils() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Finds the inheritance group content with a given internal name.<p>
-     *
-     * Currently this is implemented as a property search, which may be potentially slow.<p>
-     *
-     * @param cms the current CMS context
-     * @param name the name to search
-     *
-     * @return the inheritance group resource
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public static CmsResource getInheritanceGroupContentByName(CmsObject cms, String name) throws CmsException {
+  /**
+   * Finds the inheritance group content with a given internal name.
+   *
+   * <p>Currently this is implemented as a property search, which may be potentially slow.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param name the name to search
+   * @return the inheritance group resource
+   * @throws CmsException if something goes wrong
+   */
+  public static CmsResource getInheritanceGroupContentByName(CmsObject cms, String name)
+      throws CmsException {
 
-        String oldSiteRoot = cms.getRequestContext().getSiteRoot();
-        try {
-            cms.getRequestContext().setSiteRoot("");
-            List<CmsResource> resources = cms.readResourcesWithProperty(
-                "/",
-                CmsPropertyDefinition.PROPERTY_KEYWORDS,
-                name);
-            Iterator<CmsResource> resourceIter = resources.iterator();
-            while (resourceIter.hasNext()) {
-                CmsResource currentRes = resourceIter.next();
-                if (!OpenCms.getResourceManager().getResourceType(currentRes).getTypeName().equals(
-                    "inheritance_group")) {
-                    resourceIter.remove();
-                }
-            }
-            if (resources.isEmpty()) {
-                throw new CmsVfsResourceNotFoundException(
-                    org.opencms.gwt.Messages.get().container(
-                        org.opencms.gwt.Messages.ERR_INHERITANCE_GROUP_NOT_FOUND_1,
-                        name));
-            }
-            return resources.get(0);
-        } finally {
-            cms.getRequestContext().setSiteRoot(oldSiteRoot);
+    String oldSiteRoot = cms.getRequestContext().getSiteRoot();
+    try {
+      cms.getRequestContext().setSiteRoot("");
+      List<CmsResource> resources =
+          cms.readResourcesWithProperty("/", CmsPropertyDefinition.PROPERTY_KEYWORDS, name);
+      Iterator<CmsResource> resourceIter = resources.iterator();
+      while (resourceIter.hasNext()) {
+        CmsResource currentRes = resourceIter.next();
+        if (!OpenCms.getResourceManager()
+            .getResourceType(currentRes)
+            .getTypeName()
+            .equals("inheritance_group")) {
+          resourceIter.remove();
         }
+      }
+      if (resources.isEmpty()) {
+        throw new CmsVfsResourceNotFoundException(
+            org.opencms.gwt.Messages.get()
+                .container(org.opencms.gwt.Messages.ERR_INHERITANCE_GROUP_NOT_FOUND_1, name));
+      }
+      return resources.get(0);
+    } finally {
+      cms.getRequestContext().setSiteRoot(oldSiteRoot);
     }
+  }
 
-    /**
-     * Parses an inheritance group configuration C and returns the names of inheritance groups in C in which a given resource
-     * is defined as a new element.<p>
-     *
-     * @param cms the current CMS context
-     * @param inheritanceConfig the inheritance configuration resource
-     * @param target the resource to search in the inheritance configuration
-     *
-     * @return the names of the inheritance groups in which the target resource is defined as  a new element
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public static Set<String> getNamesOfGroupsContainingResource(
-        CmsObject cms,
-        CmsResource inheritanceConfig,
-        CmsResource target) throws CmsException {
+  /**
+   * Parses an inheritance group configuration C and returns the names of inheritance groups in C in
+   * which a given resource is defined as a new element.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param inheritanceConfig the inheritance configuration resource
+   * @param target the resource to search in the inheritance configuration
+   * @return the names of the inheritance groups in which the target resource is defined as a new
+   *     element
+   * @throws CmsException if something goes wrong
+   */
+  public static Set<String> getNamesOfGroupsContainingResource(
+      CmsObject cms, CmsResource inheritanceConfig, CmsResource target) throws CmsException {
 
-        Set<String> names = new HashSet<String>();
-        CmsContainerConfigurationParser parser = new CmsContainerConfigurationParser(cms);
-        parser.parse(inheritanceConfig);
-        Map<Locale, Map<String, CmsContainerConfiguration>> contents = parser.getParsedResults();
-        for (Map<String, CmsContainerConfiguration> mapForLocale : contents.values()) {
-            for (Map.Entry<String, CmsContainerConfiguration> entry : mapForLocale.entrySet()) {
-                String key = entry.getKey();
-                CmsContainerConfiguration config = entry.getValue();
-                for (CmsContainerElementBean element : config.getNewElements().values()) {
-                    if (element.getId().equals(target.getStructureId())) {
-                        names.add(key);
-                    }
-                }
-            }
+    Set<String> names = new HashSet<String>();
+    CmsContainerConfigurationParser parser = new CmsContainerConfigurationParser(cms);
+    parser.parse(inheritanceConfig);
+    Map<Locale, Map<String, CmsContainerConfiguration>> contents = parser.getParsedResults();
+    for (Map<String, CmsContainerConfiguration> mapForLocale : contents.values()) {
+      for (Map.Entry<String, CmsContainerConfiguration> entry : mapForLocale.entrySet()) {
+        String key = entry.getKey();
+        CmsContainerConfiguration config = entry.getValue();
+        for (CmsContainerElementBean element : config.getNewElements().values()) {
+          if (element.getId().equals(target.getStructureId())) {
+            names.add(key);
+          }
         }
-        return names;
+      }
     }
-
+    return names;
+  }
 }

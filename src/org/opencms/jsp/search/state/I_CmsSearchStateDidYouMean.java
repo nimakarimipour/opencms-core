@@ -30,14 +30,17 @@ package org.opencms.jsp.search.state;
 /** Class for keeping the state of the spellcheck search options. */
 public interface I_CmsSearchStateDidYouMean {
 
-    /** Returns the spellcheck query string (as entered by the user).
-     * @return The spellcheck query string (as entered by the user).
-     */
-    String getQuery();
+  /**
+   * Returns the spellcheck query string (as entered by the user).
+   *
+   * @return The spellcheck query string (as entered by the user).
+   */
+  String getQuery();
 
-    /** Setter for the spellcheck query string (as entered by the user).
-     * @param query The spellchek query string (as entered by the user).
-     */
-    void setQuery(String query);
-
+  /**
+   * Setter for the spellcheck query string (as entered by the user).
+   *
+   * @param query The spellchek query string (as entered by the user).
+   */
+  void setQuery(String query);
 }

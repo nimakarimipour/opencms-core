@@ -27,6 +27,11 @@
 
 package org.opencms.ade.sitemap.client.toolbar;
 
+import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Widget;
+import java.util.Collection;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
 import org.opencms.ade.sitemap.shared.CmsGalleryType;
@@ -41,227 +46,244 @@ import org.opencms.gwt.client.ui.I_CmsToolbarButton;
 import org.opencms.gwt.shared.CmsGwtConstants.QuickLaunch;
 import org.opencms.gwt.shared.CmsQuickLaunchParams;
 
-import java.util.Collection;
-
-import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * Sitemap toolbar.<p>
+ * Sitemap toolbar.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsSitemapToolbar extends CmsToolbar {
 
-    /**
-     * Quick launch handler for the sitemap.<p>
-     */
-    public static class SitemapQuickLaunchHandler extends A_QuickLaunchHandler {
+  /**
+   * Quick launch handler for the sitemap.
+   *
+   * <p>
+   */
+  public static class SitemapQuickLaunchHandler extends A_QuickLaunchHandler {
 
-        /**
-         * @see org.opencms.gwt.client.ui.CmsQuickLauncher.I_QuickLaunchHandler#getParameters()
-         */
-        public CmsQuickLaunchParams getParameters() {
+    /** @see org.opencms.gwt.client.ui.CmsQuickLauncher.I_QuickLaunchHandler#getParameters() */
+    public CmsQuickLaunchParams getParameters() {
 
-            return new CmsQuickLaunchParams(
-                QuickLaunch.CONTEXT_SITEMAP,
-                null,
-                null,
-                CmsSitemapView.getInstance().getController().getData().getReturnCode(),
-                CmsCoreProvider.get().getUri(),
-                CmsCoreProvider.get().getLastPageId());
-        }
+      return new CmsQuickLaunchParams(
+          QuickLaunch.CONTEXT_SITEMAP,
+          null,
+          null,
+          CmsSitemapView.getInstance().getController().getData().getReturnCode(),
+          CmsCoreProvider.get().getUri(),
+          CmsCoreProvider.get().getLastPageId());
+    }
+  }
 
+  /** The sitemap clipboard button. */
+  private CmsToolbarClipboardButton m_clipboardButton;
+
+  /** The context menu button. */
+  private CmsToolbarContextButton m_contextMenuButton;
+
+  /** The new galleries menu button. */
+  private CmsToolbarNewGalleryButton m_newGalleryMenuButton;
+
+  /** The new menu button. */
+  private CmsToolbarNewButton m_newMenuButton;
+
+  /** The sitemap toolbar handler. */
+  private CmsSitemapToolbarHandler m_toolbarHandler;
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param controller the sitemap controller
+   */
+  public CmsSitemapToolbar(CmsSitemapController controller) {
+
+    m_toolbarHandler = new CmsSitemapToolbarHandler(controller.getData().getContextMenuEntries());
+    addLeft(new CmsToolbarPublishButton(this, controller));
+    m_newMenuButton = new CmsToolbarNewButton(this, controller);
+    if (controller.isEditable() && (controller.getData().getDefaultNewElementInfo() != null)) {
+      m_clipboardButton = new CmsToolbarClipboardButton(this, controller);
+      addLeft(m_clipboardButton);
+      addLeft(m_newMenuButton);
     }
 
-    /** The sitemap clipboard button. */
-    private CmsToolbarClipboardButton m_clipboardButton;
+    m_newGalleryMenuButton = new CmsToolbarNewGalleryButton(this, controller);
+    if (controller.isEditable()) {
+      addLeft(m_newGalleryMenuButton);
+    }
 
-    /** The context menu button. */
-    private CmsToolbarContextButton m_contextMenuButton;
+    addLeft(
+        new CmsToolbarChooseEditorModeButton(CmsCoreProvider.get().getUserInfo().isDeveloper()));
+    ClickHandler clickHandler =
+        new ClickHandler() {
 
-    /** The new galleries menu button. */
-    private CmsToolbarNewGalleryButton m_newGalleryMenuButton;
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          public void onClick(ClickEvent event) {
 
-    /** The new menu button. */
-    private CmsToolbarNewButton m_newMenuButton;
-
-    /** The sitemap toolbar handler. */
-    private CmsSitemapToolbarHandler m_toolbarHandler;
-
-    /**
-     * Constructor.<p>
-     *
-     * @param controller the sitemap controller
-     */
-    public CmsSitemapToolbar(CmsSitemapController controller) {
-
-        m_toolbarHandler = new CmsSitemapToolbarHandler(controller.getData().getContextMenuEntries());
-        addLeft(new CmsToolbarPublishButton(this, controller));
-        m_newMenuButton = new CmsToolbarNewButton(this, controller);
-        if (controller.isEditable() && (controller.getData().getDefaultNewElementInfo() != null)) {
-            m_clipboardButton = new CmsToolbarClipboardButton(this, controller);
-            addLeft(m_clipboardButton);
-            addLeft(m_newMenuButton);
-        }
-
-        m_newGalleryMenuButton = new CmsToolbarNewGalleryButton(this, controller);
-        if (controller.isEditable()) {
-            addLeft(m_newGalleryMenuButton);
-        }
-
-        addLeft(new CmsToolbarChooseEditorModeButton(CmsCoreProvider.get().getUserInfo().isDeveloper()));
-        ClickHandler clickHandler = new ClickHandler() {
-
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
-
-                I_CmsToolbarButton source = (I_CmsToolbarButton)event.getSource();
-                source.onToolbarClick();
-                if (source instanceof CmsPushButton) {
-                    ((CmsPushButton)source).clearHoverState();
-                }
+            I_CmsToolbarButton source = (I_CmsToolbarButton) event.getSource();
+            source.onToolbarClick();
+            if (source instanceof CmsPushButton) {
+              ((CmsPushButton) source).clearHoverState();
             }
+          }
         };
 
-        m_contextMenuButton = new CmsToolbarContextButton(m_toolbarHandler);
-        m_contextMenuButton.addClickHandler(clickHandler);
-        insertRight(m_contextMenuButton, 0);
-        setMode(EditorMode.navigation);
-        setQuickLaunchHandler(new SitemapQuickLaunchHandler());
+    m_contextMenuButton = new CmsToolbarContextButton(m_toolbarHandler);
+    m_contextMenuButton.addClickHandler(clickHandler);
+    insertRight(m_contextMenuButton, 0);
+    setMode(EditorMode.navigation);
+    setQuickLaunchHandler(new SitemapQuickLaunchHandler());
+  }
+
+  /**
+   * Deactivates all toolbar buttons.
+   *
+   * <p>
+   */
+  public void deactivateAll() {
+
+    for (Widget button : getAll()) {
+      if (button instanceof I_CmsToolbarActivatable) {
+        ((I_CmsToolbarActivatable) button).setEnabled(false);
+      } else if (button instanceof CmsToggleButton) {
+        ((CmsToggleButton) button).setEnabled(false);
+      }
     }
+  }
 
-    /**
-     * Deactivates all toolbar buttons.<p>
-     */
-    public void deactivateAll() {
+  /**
+   * Gets the context menu button.
+   *
+   * <p>
+   *
+   * @return the context menu button
+   */
+  public CmsToolbarContextButton getContextMenuButton() {
 
-        for (Widget button : getAll()) {
-            if (button instanceof I_CmsToolbarActivatable) {
-                ((I_CmsToolbarActivatable)button).setEnabled(false);
-            } else if (button instanceof CmsToggleButton) {
-                ((CmsToggleButton)button).setEnabled(false);
-            }
-        }
+    return m_contextMenuButton;
+  }
+
+  /**
+   * Returns the toolbar handler.
+   *
+   * <p>
+   *
+   * @return the toolbar handler
+   */
+  public CmsSitemapToolbarHandler getToolbarHandler() {
+
+    return m_toolbarHandler;
+  }
+
+  /**
+   * Should be executed by every widget when starting an action.
+   *
+   * <p>
+   *
+   * @param widget the widget that got activated
+   */
+  public void onButtonActivation(Widget widget) {
+
+    for (Widget w : getAll()) {
+      if (!(w instanceof I_CmsToolbarActivatable)) {
+        continue;
+      }
+      ((I_CmsToolbarActivatable) w).onActivation(widget);
     }
+  }
 
-    /**
-     * Gets the context menu button.<p>
-     *
-     * @return the context menu button
-     */
-    public CmsToolbarContextButton getContextMenuButton() {
+  /**
+   * Enables/disables the new clipboard button.
+   *
+   * <p>
+   *
+   * @param enabled <code>true</code> to enable the button
+   * @param disabledReason the reason, why the button is disabled
+   */
+  public void setClipboardEnabled(boolean enabled, String disabledReason) {
 
-        return m_contextMenuButton;
+    if (m_clipboardButton != null) {
+      if (enabled) {
+        m_clipboardButton.enable();
+      } else {
+        m_clipboardButton.disable(disabledReason);
+      }
     }
+  }
 
-    /**
-     * Returns the toolbar handler.<p>
-     *
-     * @return the toolbar handler
-     */
-    public CmsSitemapToolbarHandler getToolbarHandler() {
+  /**
+   * Sets the available gallery types.
+   *
+   * <p>
+   *
+   * @param galleryTypes the gallery types
+   */
+  public void setGalleryTypes(Collection<CmsGalleryType> galleryTypes) {
 
-        return m_toolbarHandler;
+    m_newGalleryMenuButton.setGalleryTypes(galleryTypes);
+  }
+
+  /**
+   * Sets the galleries mode.
+   *
+   * <p>
+   *
+   * @param mode the editor mode
+   */
+  public void setMode(EditorMode mode) {
+
+    switch (mode) {
+      case galleries:
+        m_newGalleryMenuButton.getElement().getStyle().clearDisplay();
+        m_newMenuButton.getElement().getStyle().setDisplay(Display.NONE);
+        break;
+      case modelpages:
+      case categories:
+        m_newGalleryMenuButton.getElement().getStyle().setDisplay(Display.NONE);
+        m_newMenuButton.getElement().getStyle().clearDisplay();
+        break;
+      default:
+        m_newMenuButton.getElement().getStyle().clearDisplay();
+        m_newGalleryMenuButton.getElement().getStyle().setDisplay(Display.NONE);
+        break;
     }
+  }
 
-    /**
-     * Should be executed by every widget when starting an action.<p>
-     *
-     * @param widget the widget that got activated
-     */
-    public void onButtonActivation(Widget widget) {
+  /**
+   * Enables/disables the new menu button.
+   *
+   * <p>
+   *
+   * @param enabled <code>true</code> to enable the button
+   * @param disabledReason the reason, why the button is disabled
+   */
+  public void setNewEnabled(boolean enabled, String disabledReason) {
 
-        for (Widget w : getAll()) {
-            if (!(w instanceof I_CmsToolbarActivatable)) {
-                continue;
-            }
-            ((I_CmsToolbarActivatable)w).onActivation(widget);
-        }
+    if (enabled) {
+      m_newMenuButton.enable();
+    } else {
+      m_newMenuButton.disable(disabledReason);
     }
+  }
 
-    /**
-     * Enables/disables the new clipboard button.<p>
-     *
-     * @param enabled <code>true</code> to enable the button
-     * @param disabledReason the reason, why the button is disabled
-     */
-    public void setClipboardEnabled(boolean enabled, String disabledReason) {
+  /**
+   * Enables/disables the new menu button.
+   *
+   * <p>
+   *
+   * @param enabled <code>true</code> to enable the button
+   * @param disabledReason the reason, why the button is disabled
+   */
+  public void setNewGalleryEnabled(boolean enabled, String disabledReason) {
 
-        if (m_clipboardButton != null) {
-            if (enabled) {
-                m_clipboardButton.enable();
-            } else {
-                m_clipboardButton.disable(disabledReason);
-            }
-        }
+    if (enabled) {
+      m_newGalleryMenuButton.enable();
+    } else {
+      m_newGalleryMenuButton.disable(disabledReason);
     }
-
-    /**
-     * Sets the available gallery types.<p>
-     *
-     * @param galleryTypes the gallery types
-     */
-    public void setGalleryTypes(Collection<CmsGalleryType> galleryTypes) {
-
-        m_newGalleryMenuButton.setGalleryTypes(galleryTypes);
-    }
-
-    /**
-     * Sets the galleries mode.<p>
-     *
-     * @param mode the editor mode
-     */
-    public void setMode(EditorMode mode) {
-
-        switch (mode) {
-            case galleries:
-                m_newGalleryMenuButton.getElement().getStyle().clearDisplay();
-                m_newMenuButton.getElement().getStyle().setDisplay(Display.NONE);
-                break;
-            case modelpages:
-            case categories:
-                m_newGalleryMenuButton.getElement().getStyle().setDisplay(Display.NONE);
-                m_newMenuButton.getElement().getStyle().clearDisplay();
-                break;
-            default:
-                m_newMenuButton.getElement().getStyle().clearDisplay();
-                m_newGalleryMenuButton.getElement().getStyle().setDisplay(Display.NONE);
-                break;
-        }
-    }
-
-    /**
-     * Enables/disables the new menu button.<p>
-     *
-     * @param enabled <code>true</code> to enable the button
-     * @param disabledReason the reason, why the button is disabled
-     */
-    public void setNewEnabled(boolean enabled, String disabledReason) {
-
-        if (enabled) {
-            m_newMenuButton.enable();
-        } else {
-            m_newMenuButton.disable(disabledReason);
-        }
-    }
-
-    /**
-     * Enables/disables the new menu button.<p>
-     *
-     * @param enabled <code>true</code> to enable the button
-     * @param disabledReason the reason, why the button is disabled
-     */
-    public void setNewGalleryEnabled(boolean enabled, String disabledReason) {
-
-        if (enabled) {
-            m_newGalleryMenuButton.enable();
-        } else {
-            m_newGalleryMenuButton.disable(disabledReason);
-        }
-    }
+  }
 }

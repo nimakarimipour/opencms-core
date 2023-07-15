@@ -35,36 +35,34 @@ import org.opencms.synchronize.CmsSynchronizeSettings;
 import org.opencms.workplace.tools.A_CmsToolHandler;
 
 /**
- * Workplace management tool handler that hides the tools if the current user
- * has not the needed privileges.<p>
+ * Workplace management tool handler that hides the tools if the current user has not the needed
+ * privileges.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsWorkplaceToolHandler extends A_CmsToolHandler {
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject)
-     */
-    public boolean isEnabled(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject) */
+  public boolean isEnabled(CmsObject cms) {
 
-        if (getPath().startsWith("/workplace/broadcast") || getPath().equals("/workplace")) {
-            if (OpenCms.getRoleManager().hasRole(cms, CmsRole.ACCOUNT_MANAGER)) {
-                return true;
-            }
-        }
-        if (getPath().startsWith("/workplace/synchronize_action")) {
-            CmsUserSettings settings = new CmsUserSettings(cms);
-            CmsSynchronizeSettings syncSettings = settings.getSynchronizeSettings();
-            return (syncSettings != null) && syncSettings.isSyncEnabled();
-        }
-        return OpenCms.getRoleManager().hasRole(cms, CmsRole.WORKPLACE_MANAGER);
+    if (getPath().startsWith("/workplace/broadcast") || getPath().equals("/workplace")) {
+      if (OpenCms.getRoleManager().hasRole(cms, CmsRole.ACCOUNT_MANAGER)) {
+        return true;
+      }
     }
-
-    /**
-     * @see org.opencms.workplace.tools.A_CmsToolHandler#isVisible(org.opencms.file.CmsObject)
-     */
-    public boolean isVisible(CmsObject cms) {
-
-        return isEnabled(cms);
+    if (getPath().startsWith("/workplace/synchronize_action")) {
+      CmsUserSettings settings = new CmsUserSettings(cms);
+      CmsSynchronizeSettings syncSettings = settings.getSynchronizeSettings();
+      return (syncSettings != null) && syncSettings.isSyncEnabled();
     }
+    return OpenCms.getRoleManager().hasRole(cms, CmsRole.WORKPLACE_MANAGER);
+  }
+
+  /** @see org.opencms.workplace.tools.A_CmsToolHandler#isVisible(org.opencms.file.CmsObject) */
+  public boolean isVisible(CmsObject cms) {
+
+    return isEnabled(cms);
+  }
 }

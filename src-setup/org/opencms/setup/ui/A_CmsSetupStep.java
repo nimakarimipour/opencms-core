@@ -27,105 +27,93 @@
 
 package org.opencms.setup.ui;
 
+import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.ui.Label;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import org.opencms.setup.CmsSetupBean;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-
-import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.ui.Label;
-
-/**
- * Abstract base class for setup dialog steps.
- */
+/** Abstract base class for setup dialog steps. */
 public class A_CmsSetupStep extends CmsBasicDialog {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * The setup context.
-     */
-    protected I_SetupUiContext m_context;
+  /** The setup context. */
+  protected I_SetupUiContext m_context;
 
-    /**
-     * Constructor.
-     *
-     * @param context the setup context
-     */
-    public A_CmsSetupStep(I_SetupUiContext context) {
+  /**
+   * Constructor.
+   *
+   * @param context the setup context
+   */
+  public A_CmsSetupStep(I_SetupUiContext context) {
 
-        super();
-        m_context = context;
+    super();
+    m_context = context;
+  }
+
+  /**
+   * Gets the title for the setup step.
+   *
+   * @return the title
+   */
+  public String getTitle() {
+
+    return "OpenCms setup";
+  }
+
+  /**
+   * Creates a new HTML-formatted label with the given content.
+   *
+   * @param html the label content
+   */
+  public Label htmlLabel(String html) {
+
+    Label label = new Label();
+    label.setContentMode(ContentMode.HTML);
+    label.setValue(html);
+    return label;
+  }
+
+  /**
+   * Reads an HTML snippet with the given name.
+   *
+   * @return the HTML data
+   */
+  public String readSnippet(String name) {
+
+    String path =
+        CmsStringUtil.joinPaths(
+            m_context.getSetupBean().getWebAppRfsPath(), CmsSetupBean.FOLDER_SETUP, "html", name);
+    try (InputStream stream = new FileInputStream(path)) {
+      byte[] data = CmsFileUtil.readFully(stream, false);
+      String result = new String(data, "UTF-8");
+      return result;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    /**
-     * Gets the title for the setup step.
-     *
-     * @return the title
-     */
-    public String getTitle() {
+  /** Makes max-height behavior easy to turn on/off in subclasses. */
+  @Override
+  protected void enableMaxHeight() {
 
-        return "OpenCms setup";
+    if (isEnableMaxHeight()) {
+      super.enableMaxHeight();
     }
+  }
 
-    /**
-     * Creates a new HTML-formatted label with the given content.
-     *
-     * @param html the label content
-     */
-    public Label htmlLabel(String html) {
+  /**
+   * If true, max-height resizing behavior is enabled.
+   *
+   * @return true if max-height resizing should be enabled
+   */
+  protected boolean isEnableMaxHeight() {
 
-        Label label = new Label();
-        label.setContentMode(ContentMode.HTML);
-        label.setValue(html);
-        return label;
-
-    }
-
-    /**
-     * Reads an HTML snippet with the given name.
-     *
-     * @return the HTML data
-     */
-    public String readSnippet(String name) {
-
-        String path = CmsStringUtil.joinPaths(
-            m_context.getSetupBean().getWebAppRfsPath(),
-            CmsSetupBean.FOLDER_SETUP,
-            "html",
-            name);
-        try (InputStream stream = new FileInputStream(path)) {
-            byte[] data = CmsFileUtil.readFully(stream, false);
-            String result = new String(data, "UTF-8");
-            return result;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Makes max-height behavior easy to turn on/off in subclasses.
-     */
-    @Override
-    protected void enableMaxHeight() {
-
-        if (isEnableMaxHeight()) {
-            super.enableMaxHeight();
-        }
-    }
-
-    /**
-     * If true, max-height resizing behavior is enabled.
-     *
-     * @return true if max-height resizing should be enabled
-     */
-    protected boolean isEnableMaxHeight() {
-
-        return true;
-    }
-
+    return true;
+  }
 }

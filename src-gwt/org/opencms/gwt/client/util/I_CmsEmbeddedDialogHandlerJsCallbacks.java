@@ -35,38 +35,48 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true)
 public interface I_CmsEmbeddedDialogHandlerJsCallbacks {
 
-    /**
-     * Called on dialog close.<p>
-     *
-     * @param resources the resource ids to update as a ';' separated string.<p>
-     */
-    public void finish(String resources);
+  /**
+   * Called on dialog close.
+   *
+   * <p>
+   *
+   * @param resources the resource ids to update as a ';' separated string.
+   *     <p>
+   */
+  public void finish(String resources);
 
-    /**
-     * Called when site and or project have been changed.<p>
-     *
-     * @param sitePath the site path to the resource to display
-     * @param serverLink the server link to the resource to display
-     */
-    public void finishForProjectOrSiteChange(String sitePath, String serverLink);
+  /**
+   * Called when site and or project have been changed.
+   *
+   * <p>
+   *
+   * @param sitePath the site path to the resource to display
+   * @param serverLink the server link to the resource to display
+   */
+  public void finishForProjectOrSiteChange(String sitePath, String serverLink);
 
-    /**
-     * Navigates to the given URI.<p>
-     *
-     * @param targetUri the target URI
-     */
-    public void leavePage(String targetUri);
+  /**
+   * Navigates to the given URI.
+   *
+   * <p>
+   *
+   * @param targetUri the target URI
+   */
+  public void leavePage(String targetUri);
 
-    /**
-     * Reloads the current page.<p>
-     */
-    public void reload();
+  /**
+   * Reloads the current page.
+   *
+   * <p>
+   */
+  public void reload();
 
-    /**
-     * Calls the principle select handler and closes the dialog frame.<p>
-     *
-     * @param principle the principle to select
-     */
-    public void selectString(String principle);
-
+  /**
+   * Calls the principle select handler and closes the dialog frame.
+   *
+   * <p>
+   *
+   * @param principle the principle to select
+   */
+  public void selectString(String principle);
 }

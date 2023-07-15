@@ -30,21 +30,24 @@ package org.opencms.ui.login;
 import com.vaadin.v7.ui.TextField;
 
 /**
- * Widget for the user name field of the login dialog.<p>
+ * Widget for the user name field of the login dialog.
+ *
+ * <p>
  */
 public class CmsLoginUserField extends TextField {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsLoginUserField() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsLoginUserField() {
 
-        super();
-        setImmediate(false);
-        setWidth("100%");
-    }
-
+    super();
+    setImmediate(false);
+    setWidth("100%");
+  }
 }

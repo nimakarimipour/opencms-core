@@ -30,30 +30,34 @@ package org.opencms.gwt.client.ui.input.upload;
 import java.util.List;
 
 /**
- * File uploader. Generates an asynchronous request to upload files and calls the dialog instance when done.<p>
+ * File uploader. Generates an asynchronous request to upload files and calls the dialog instance
+ * when done.
+ *
+ * <p>
  */
 public interface I_CmsUploader {
 
-    /**
-     * Uploads the given files to the given URI.<p>
-     *
-     * @param uploadUri the upload URI
-     * @param targetFolder the target folder
-     * @param isRootPath true if the target folder is given as a root path
-     * @param postCreateHandler the post-create handler class, with parameters
-     * @param filesToUpload the files to upload
-     * @param filesToUnzip the files to unzip
-     * @param keepFileNames don't perform filename translation on the server if this is true
-     * @param dialog the dialog instance
-     */
-    void uploadFiles(
-        String uploadUri,
-        String targetFolder,
-        boolean isRootPath,
-        String postCreateHandler,
-        List<CmsFileInfo> filesToUpload,
-        List<String> filesToUnzip,
-        boolean keepFileNames,
-        I_CmsUploadDialog dialog);
-
+  /**
+   * Uploads the given files to the given URI.
+   *
+   * <p>
+   *
+   * @param uploadUri the upload URI
+   * @param targetFolder the target folder
+   * @param isRootPath true if the target folder is given as a root path
+   * @param postCreateHandler the post-create handler class, with parameters
+   * @param filesToUpload the files to upload
+   * @param filesToUnzip the files to unzip
+   * @param keepFileNames don't perform filename translation on the server if this is true
+   * @param dialog the dialog instance
+   */
+  void uploadFiles(
+      String uploadUri,
+      String targetFolder,
+      boolean isRootPath,
+      String postCreateHandler,
+      List<CmsFileInfo> filesToUpload,
+      List<String> filesToUnzip,
+      boolean keepFileNames,
+      I_CmsUploadDialog dialog);
 }

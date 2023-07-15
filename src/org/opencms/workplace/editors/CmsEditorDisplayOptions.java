@@ -27,6 +27,13 @@
 
 package org.opencms.workplace.editors;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsFile;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResourceFilter;
@@ -38,226 +45,264 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsCollectionsGenericWrapper;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Provides methods to determine the display options of a workplace editor for the current user.<p>
+ * Provides methods to determine the display options of a workplace editor for the current user.
  *
- * On the editor JSP, do the following:
+ * <p>On the editor JSP, do the following:
+ *
  * <ul>
- * <li>get the object instance with <code>OpenCms.getWorkplaceManager().getEditorDisplayOptions()</code>.</li>
- * <li>get the Properties for the current user with <code>getDisplayOptions(CmsJspActionElement)</code>.</li>
- * <li>use <code>showElement(key, Properties)</code> to determine if an element is shown.</li>
+ *   <li>get the object instance with <code>OpenCms.getWorkplaceManager().getEditorDisplayOptions()
+ *       </code>.
+ *   <li>get the Properties for the current user with <code>getDisplayOptions(CmsJspActionElement)
+ *       </code>.
+ *   <li>use <code>showElement(key, Properties)</code> to determine if an element is shown.
  * </ul>
  *
- * Define your editor display options in property files located in the VFS folder
- * <code>/system/config/wysiwyg/</code>.<p>
+ * Define your editor display options in property files located in the VFS folder <code>
+ * /system/config/wysiwyg/</code>.
  *
- * Set navigation position property values on the configuration files
- * and use the permission system to determine which groups and users
- * should use which configuration file.<p>
+ * <p>Set navigation position property values on the configuration files and use the permission
+ * system to determine which groups and users should use which configuration file.
  *
- * The configuration with the most enabled options should be the first in navigation,
- * followed by configurations with less enabled options, because
- * the first file readable for the current user will be used for configuration.<p>
+ * <p>The configuration with the most enabled options should be the first in navigation, followed by
+ * configurations with less enabled options, because the first file readable for the current user
+ * will be used for configuration.
  *
- * If no configuration file can be found for the current user,
- * all display options will be disabled by default.<p>
+ * <p>If no configuration file can be found for the current user, all display options will be
+ * disabled by default.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsEditorDisplayOptions {
 
-    /** The name of the configuration folder.<p> */
-    public static final String FOLDER_EDITORCONFIGURATION = "wysiwyg/";
+  /**
+   * The name of the configuration folder.
+   *
+   * <p>
+   */
+  public static final String FOLDER_EDITORCONFIGURATION = "wysiwyg/";
 
-    /** Mapping entry name that is used if no mapping is available for the user.<p> */
-    public static final String NO_MAPPING_FOR_USER = "na";
+  /**
+   * Mapping entry name that is used if no mapping is available for the user.
+   *
+   * <p>
+   */
+  public static final String NO_MAPPING_FOR_USER = "na";
 
-    /** Maximum size of the stored editor configurations.<p> */
-    public static final int SIZE_CONFIGURATIONFILES = 12;
+  /**
+   * Maximum size of the stored editor configurations.
+   *
+   * <p>
+   */
+  public static final int SIZE_CONFIGURATIONFILES = 12;
 
-    /** Maximum size of the user editor configuration mappings.<p> */
-    public static final int SIZE_USERENTRIES = 100;
+  /**
+   * Maximum size of the user editor configuration mappings.
+   *
+   * <p>
+   */
+  public static final int SIZE_USERENTRIES = 100;
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsEditorDisplayOptions.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsEditorDisplayOptions.class);
 
-    /** Stores all loaded editor configuration options.<p> */
-    private Map<Object, Object> m_loadedConfigurations;
+  /**
+   * Stores all loaded editor configuration options.
+   *
+   * <p>
+   */
+  private Map<Object, Object> m_loadedConfigurations;
 
-    /** Stores the mappings of users to their configuration options to use.<p> */
-    private Map<Object, Object> m_userMappings;
+  /**
+   * Stores the mappings of users to their configuration options to use.
+   *
+   * <p>
+   */
+  private Map<Object, Object> m_userMappings;
 
-    /**
-     * Constructor that initializes the editor display options for the workplace.<p>
-     */
-    public CmsEditorDisplayOptions() {
+  /**
+   * Constructor that initializes the editor display options for the workplace.
+   *
+   * <p>
+   */
+  public CmsEditorDisplayOptions() {
 
-        // initialize members
-        m_userMappings = CmsCollectionsGenericWrapper.createLRUMap(SIZE_USERENTRIES);
-        m_loadedConfigurations = CmsCollectionsGenericWrapper.createLRUMap(SIZE_CONFIGURATIONFILES);
-    }
+    // initialize members
+    m_userMappings = CmsCollectionsGenericWrapper.createLRUMap(SIZE_USERENTRIES);
+    m_loadedConfigurations = CmsCollectionsGenericWrapper.createLRUMap(SIZE_CONFIGURATIONFILES);
+  }
 
-    /**
-     * Clears the cached user configuration data, casing a reload off all configurations.<p>
-     */
-    public synchronized void clearCache() {
+  /**
+   * Clears the cached user configuration data, casing a reload off all configurations.
+   *
+   * <p>
+   */
+  public synchronized void clearCache() {
 
-        m_userMappings.clear();
-        m_loadedConfigurations.clear();
-    }
+    m_userMappings.clear();
+    m_loadedConfigurations.clear();
+  }
 
-    /**
-     * Reads the editor configuration file valid for the current user and caches the result in a Map.<p>
-     *
-     * The configuration settings of the found file are stored in a Map holding the loaded configuration
-     * with the configuration file name as key.<p>
-     *
-     * The configuration file name to use for the current user is stored in another Map with the user name
-     * as key.<p>
-     *
-     * @param jsp the JSP action element to access the VFS and current user information
-     * @return the display options to use for the current user or null if no display options were found
-     */
-    public Properties getDisplayOptions(CmsJspActionElement jsp) {
+  /**
+   * Reads the editor configuration file valid for the current user and caches the result in a Map.
+   *
+   * <p>The configuration settings of the found file are stored in a Map holding the loaded
+   * configuration with the configuration file name as key.
+   *
+   * <p>The configuration file name to use for the current user is stored in another Map with the
+   * user name as key.
+   *
+   * <p>
+   *
+   * @param jsp the JSP action element to access the VFS and current user information
+   * @return the display options to use for the current user or null if no display options were
+   *     found
+   */
+  public Properties getDisplayOptions(CmsJspActionElement jsp) {
 
-        return getDisplayOptions(jsp.getCmsObject());
-    }
+    return getDisplayOptions(jsp.getCmsObject());
+  }
 
-    /**
-     * Reads the editor configuration file valid for the current user and caches the result in a Map.<p>
-     *
-     * The configuration settings of the found file are stored in a Map holding the loaded configuration
-     * with the configuration file name as key.<p>
-     *
-     * The configuration file name to use for the current user is stored in another Map with the user name
-     * as key.<p>
-     *
-     * @param cms the CmsObject to access the VFS and current user information
-     * @return the display options to use for the current user or null if no display options were found
-     */
-    public Properties getDisplayOptions(CmsObject cms) {
+  /**
+   * Reads the editor configuration file valid for the current user and caches the result in a Map.
+   *
+   * <p>The configuration settings of the found file are stored in a Map holding the loaded
+   * configuration with the configuration file name as key.
+   *
+   * <p>The configuration file name to use for the current user is stored in another Map with the
+   * user name as key.
+   *
+   * <p>
+   *
+   * @param cms the CmsObject to access the VFS and current user information
+   * @return the display options to use for the current user or null if no display options were
+   *     found
+   */
+  public Properties getDisplayOptions(CmsObject cms) {
 
-        // get the configuration file name for the current user
-        String mappedConfigFile = (String)m_userMappings.get(cms.getRequestContext().getCurrentUser().getName());
-        Properties displayOptions;
-        if (mappedConfigFile == null) {
-            // no configuration file name stored for user, get the navigation items of the configuration folder
-            String configFolder = OpenCms.getSystemInfo().getConfigFilePath(cms, FOLDER_EDITORCONFIGURATION);
-            List<CmsJspNavElement> items = new CmsJspNavBuilder(cms).getNavigationForFolder(configFolder);
-            if (items.size() > 0) {
-                // get first found configuration file
-                CmsJspNavElement nav = items.get(0);
-                mappedConfigFile = nav.getFileName();
-                synchronized (m_loadedConfigurations) {
-                    // must sync read/write access to shared map
-                    displayOptions = (Properties)m_loadedConfigurations.get(nav.getFileName());
-                    if (displayOptions == null) {
-                        // configuration file has not yet been loaded, load it
-                        try {
-                            // read configuration file
-                            CmsFile optionFile = cms.readFile(
-                                nav.getResourceName(),
-                                CmsResourceFilter.IGNORE_EXPIRATION);
-                            InputStream in = new ByteArrayInputStream(optionFile.getContents());
-                            displayOptions = new Properties();
-                            displayOptions.load(in);
-                            // store loaded options
-                            m_loadedConfigurations.put(nav.getFileName(), displayOptions);
-                        } catch (CmsException e) {
-                            // set configuration to not available
-                            if (LOG.isInfoEnabled()) {
-                                LOG.info(e.getLocalizedMessage(), e);
-                            }
-                            mappedConfigFile = NO_MAPPING_FOR_USER;
-                        } catch (IOException e) {
-                            // set configuration to not available
-                            if (LOG.isInfoEnabled()) {
-                                LOG.info(e.getLocalizedMessage(), e);
-                            }
-                            mappedConfigFile = NO_MAPPING_FOR_USER;
-                            displayOptions = null;
-                        }
-                    }
-                }
-            } else {
-                // no configuration available for current user, store this in mapping
-                mappedConfigFile = NO_MAPPING_FOR_USER;
-                displayOptions = null;
+    // get the configuration file name for the current user
+    String mappedConfigFile =
+        (String) m_userMappings.get(cms.getRequestContext().getCurrentUser().getName());
+    Properties displayOptions;
+    if (mappedConfigFile == null) {
+      // no configuration file name stored for user, get the navigation items of the configuration
+      // folder
+      String configFolder =
+          OpenCms.getSystemInfo().getConfigFilePath(cms, FOLDER_EDITORCONFIGURATION);
+      List<CmsJspNavElement> items = new CmsJspNavBuilder(cms).getNavigationForFolder(configFolder);
+      if (items.size() > 0) {
+        // get first found configuration file
+        CmsJspNavElement nav = items.get(0);
+        mappedConfigFile = nav.getFileName();
+        synchronized (m_loadedConfigurations) {
+          // must sync read/write access to shared map
+          displayOptions = (Properties) m_loadedConfigurations.get(nav.getFileName());
+          if (displayOptions == null) {
+            // configuration file has not yet been loaded, load it
+            try {
+              // read configuration file
+              CmsFile optionFile =
+                  cms.readFile(nav.getResourceName(), CmsResourceFilter.IGNORE_EXPIRATION);
+              InputStream in = new ByteArrayInputStream(optionFile.getContents());
+              displayOptions = new Properties();
+              displayOptions.load(in);
+              // store loaded options
+              m_loadedConfigurations.put(nav.getFileName(), displayOptions);
+            } catch (CmsException e) {
+              // set configuration to not available
+              if (LOG.isInfoEnabled()) {
+                LOG.info(e.getLocalizedMessage(), e);
+              }
+              mappedConfigFile = NO_MAPPING_FOR_USER;
+            } catch (IOException e) {
+              // set configuration to not available
+              if (LOG.isInfoEnabled()) {
+                LOG.info(e.getLocalizedMessage(), e);
+              }
+              mappedConfigFile = NO_MAPPING_FOR_USER;
+              displayOptions = null;
             }
-            if (LOG.isDebugEnabled()) {
-                // check which mapping has been stored
-                LOG.debug(
-                    Messages.get().getBundle().key(
-                        Messages.LOG_MAP_CONFIG_FILE_TO_USER_2,
-                        mappedConfigFile,
-                        cms.getRequestContext().getCurrentUser().getName()));
-            }
-            // store the file name of the configuration file for the current user
-            m_userMappings.put(cms.getRequestContext().getCurrentUser().getName(), mappedConfigFile);
-        } else {
-            // configuration file for current user is known, get options from loaded configurations
-            displayOptions = (Properties)m_loadedConfigurations.get(mappedConfigFile);
+          }
         }
-        // return the editor display options for this user
-        return displayOptions;
+      } else {
+        // no configuration available for current user, store this in mapping
+        mappedConfigFile = NO_MAPPING_FOR_USER;
+        displayOptions = null;
+      }
+      if (LOG.isDebugEnabled()) {
+        // check which mapping has been stored
+        LOG.debug(
+            Messages.get()
+                .getBundle()
+                .key(
+                    Messages.LOG_MAP_CONFIG_FILE_TO_USER_2,
+                    mappedConfigFile,
+                    cms.getRequestContext().getCurrentUser().getName()));
+      }
+      // store the file name of the configuration file for the current user
+      m_userMappings.put(cms.getRequestContext().getCurrentUser().getName(), mappedConfigFile);
+    } else {
+      // configuration file for current user is known, get options from loaded configurations
+      displayOptions = (Properties) m_loadedConfigurations.get(mappedConfigFile);
     }
+    // return the editor display options for this user
+    return displayOptions;
+  }
 
-    /**
-     * Returns the value for the given key from the display options.<p>
-     *
-     * @param key he element key name which should be read
-     * @param defaultValue the default value to use in case the property is not found
-     * @param displayOptions the display options for the current user
-     *
-     * @return the value for the given key from the display options
-     */
-    public String getOptionValue(String key, String defaultValue, Properties displayOptions) {
+  /**
+   * Returns the value for the given key from the display options.
+   *
+   * <p>
+   *
+   * @param key he element key name which should be read
+   * @param defaultValue the default value to use in case the property is not found
+   * @param displayOptions the display options for the current user
+   * @return the value for the given key from the display options
+   */
+  public String getOptionValue(String key, String defaultValue, Properties displayOptions) {
 
-        if (displayOptions == null) {
-            return defaultValue;
-        }
-        return displayOptions.getProperty(key, defaultValue);
+    if (displayOptions == null) {
+      return defaultValue;
     }
+    return displayOptions.getProperty(key, defaultValue);
+  }
 
-    /**
-     * Determines if the given element should be shown in the editor.<p>
-     *
-     * @param key the element key name which should be displayed
-     * @param displayOptions the display options for the current user
-     *
-     * @return true if the element should be shown, otherwise false
-     */
-    public boolean showElement(String key, Properties displayOptions) {
+  /**
+   * Determines if the given element should be shown in the editor.
+   *
+   * <p>
+   *
+   * @param key the element key name which should be displayed
+   * @param displayOptions the display options for the current user
+   * @return true if the element should be shown, otherwise false
+   */
+  public boolean showElement(String key, Properties displayOptions) {
 
-        return showElement(key, null, displayOptions);
+    return showElement(key, null, displayOptions);
+  }
+
+  /**
+   * Determines if the given element should be shown in the editor.
+   *
+   * <p>
+   *
+   * @param key the element key name which should be displayed
+   * @param defaultValue the default value to use in case the property is not found, should be a
+   *     boolean value as String
+   * @param displayOptions the display options for the current user
+   * @return true if the element should be shown, otherwise false
+   */
+  public boolean showElement(String key, String defaultValue, Properties displayOptions) {
+
+    if (defaultValue == null) {
+      return ((displayOptions != null)
+          && Boolean.valueOf(displayOptions.getProperty(key)).booleanValue());
     }
-
-    /**
-     * Determines if the given element should be shown in the editor.<p>
-     *
-     * @param key the element key name which should be displayed
-     * @param defaultValue the default value to use in case the property is not found, should be a boolean value as String
-     * @param displayOptions the display options for the current user
-     *
-     * @return true if the element should be shown, otherwise false
-     */
-    public boolean showElement(String key, String defaultValue, Properties displayOptions) {
-
-        if (defaultValue == null) {
-            return ((displayOptions != null) && Boolean.valueOf(displayOptions.getProperty(key)).booleanValue());
-        }
-        if (displayOptions == null) {
-            return Boolean.valueOf(defaultValue).booleanValue();
-        }
-        return Boolean.valueOf(displayOptions.getProperty(key, defaultValue)).booleanValue();
+    if (displayOptions == null) {
+      return Boolean.valueOf(defaultValue).booleanValue();
     }
+    return Boolean.valueOf(displayOptions.getProperty(key, defaultValue)).booleanValue();
+  }
 }

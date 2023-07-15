@@ -27,32 +27,33 @@
 
 package org.opencms.jsp.util;
 
+import org.apache.commons.collections.Transformer;
 import org.opencms.file.CmsObject;
 
-import org.apache.commons.collections.Transformer;
-
 /**
- * Provides a Map which provides access to function wrapped objects.<p>
+ * Provides a Map which provides access to function wrapped objects.
+ *
+ * <p>
  */
 public class CmsObjectFunctionTransformer implements Transformer {
 
-    /** The cms context. */
-    private CmsObject m_cms;
+  /** The cms context. */
+  private CmsObject m_cms;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param cms the cms context
-     */
-    public CmsObjectFunctionTransformer(CmsObject cms) {
-        m_cms = cms;
-    }
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param cms the cms context
+   */
+  public CmsObjectFunctionTransformer(CmsObject cms) {
+    m_cms = cms;
+  }
 
-    /**
-     * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
-     */
-    public Object transform(Object input) {
+  /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
+  public Object transform(Object input) {
 
-        return CmsJspObjectValueWrapper.createWrapper(m_cms, input);
-    }
+    return CmsJspObjectValueWrapper.createWrapper(m_cms, input);
+  }
 }

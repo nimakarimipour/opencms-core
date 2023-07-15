@@ -30,17 +30,12 @@ package org.opencms.ui.apps.user;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Default tree type provider implementation.
- */
+/** Default tree type provider implementation. */
 public class CmsDefaultTreeTypeProvider implements I_CmsTreeTypeProvider {
 
-    /**
-     * @see org.opencms.ui.apps.user.I_CmsTreeTypeProvider#getTreeTypes()
-     */
-    public List<I_CmsOuTreeType> getTreeTypes() {
+  /** @see org.opencms.ui.apps.user.I_CmsTreeTypeProvider#getTreeTypes() */
+  public List<I_CmsOuTreeType> getTreeTypes() {
 
-        return Arrays.asList(CmsOuTreeType.values());
-    }
-
+    return Arrays.asList(CmsOuTreeType.values());
+  }
 }

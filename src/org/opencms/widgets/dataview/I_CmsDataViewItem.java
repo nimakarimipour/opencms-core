@@ -28,59 +28,70 @@
 package org.opencms.widgets.dataview;
 
 /**
- * Interface describing a data item retrieved by an implementation of I_CmsDataView.<p>
+ * Interface describing a data item retrieved by an implementation of I_CmsDataView.
  *
- * This interface provides both the data to display the data item in the widget used to select data items,
- * as well as the data which should be stored by OpenCms when the data item is selected by the user (its ID, title,
- * description and an additional data string for other information)
+ * <p>This interface provides both the data to display the data item in the widget used to select
+ * data items, as well as the data which should be stored by OpenCms when the data item is selected
+ * by the user (its ID, title, description and an additional data string for other information)
  */
 public interface I_CmsDataViewItem {
 
-    /**
-     * Gets the data for the column with the given name.<p>
-     *
-     * The returned object should be of a type compatible with the type of the column returned by I_CmsDataView.getColumns() with the same name.<p>
-     *
-     * @param colName the column name
-     * @return the value of the column
-     */
-    Object getColumnData(String colName);
+  /**
+   * Gets the data for the column with the given name.
+   *
+   * <p>The returned object should be of a type compatible with the type of the column returned by
+   * I_CmsDataView.getColumns() with the same name.
+   *
+   * <p>
+   *
+   * @param colName the column name
+   * @return the value of the column
+   */
+  Object getColumnData(String colName);
 
-    /**
-     * Returns the additional data which should be stored by OpenCms.
-     *
-     * @return the additional data to be stored
-     */
-    String getData();
+  /**
+   * Returns the additional data which should be stored by OpenCms.
+   *
+   * @return the additional data to be stored
+   */
+  String getData();
 
-    /**
-     * Returns the description to be stored by OpenCms.<p>
-     *
-     * @return the description
-     */
-    String getDescription();
+  /**
+   * Returns the description to be stored by OpenCms.
+   *
+   * <p>
+   *
+   * @return the description
+   */
+  String getDescription();
 
-    /**
-     * Gets the ID of the data item.<p>
-     *
-     * The ID should be unique for the given I_CmsDataView implementation which returned this data item.<p>
-     *
-     * @return the ID of the data item
-     */
-    String getId();
+  /**
+   * Gets the ID of the data item.
+   *
+   * <p>The ID should be unique for the given I_CmsDataView implementation which returned this data
+   * item.
+   *
+   * <p>
+   *
+   * @return the ID of the data item
+   */
+  String getId();
 
-    /**
-     * Gets the URL of the image to be displayed for this data item.<p>
-     *
-     * @return an URL pointing to an image
-     */
-    String getImage();
+  /**
+   * Gets the URL of the image to be displayed for this data item.
+   *
+   * <p>
+   *
+   * @return an URL pointing to an image
+   */
+  String getImage();
 
-    /**
-     * Gets the title to be stored by OpenCms.<p>
-     *
-     * @return the title
-     */
-    String getTitle();
-
+  /**
+   * Gets the title to be stored by OpenCms.
+   *
+   * <p>
+   *
+   * @return the title
+   */
+  String getTitle();
 }

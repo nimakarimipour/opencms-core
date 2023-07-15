@@ -33,149 +33,164 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.OpenCmsTheme;
 
-/**Type of element.*/
+/** Type of element. */
 public enum CmsOuTreeType implements I_CmsOuTreeType {
 
-    /**Group. */
-    GROUP(Messages.GUI_USERMANAGEMENT_GROUPS_0, "g", true, new CmsCssIcon(OpenCmsTheme.ICON_GROUP),
-    Messages.GUI_USERMANAGEMENT_NO_GROUPS_0),
-    /**OU. */
-    OU(Messages.GUI_USERMANAGEMENT_USER_OU_0, "o", true, new CmsCssIcon(OpenCmsTheme.ICON_OU), ""),
-    /**Role. */
-    ROLE(Messages.GUI_USERMANAGEMENT_ROLES_0, "r", true, new CmsCssIcon(OpenCmsTheme.ICON_ROLE),
-    Messages.GUI_USERMANAGEMENT_NO_USER_0),
-    /**User.*/
-    USER(Messages.GUI_USERMANAGEMENT_USERS_0, "u", false, new CmsCssIcon(OpenCmsTheme.ICON_USER),
-    Messages.GUI_USERMANAGEMENT_NO_USER_0);
+  /** Group. */
+  GROUP(
+      Messages.GUI_USERMANAGEMENT_GROUPS_0,
+      "g",
+      true,
+      new CmsCssIcon(OpenCmsTheme.ICON_GROUP),
+      Messages.GUI_USERMANAGEMENT_NO_GROUPS_0),
+  /** OU. */
+  OU(Messages.GUI_USERMANAGEMENT_USER_OU_0, "o", true, new CmsCssIcon(OpenCmsTheme.ICON_OU), ""),
+  /** Role. */
+  ROLE(
+      Messages.GUI_USERMANAGEMENT_ROLES_0,
+      "r",
+      true,
+      new CmsCssIcon(OpenCmsTheme.ICON_ROLE),
+      Messages.GUI_USERMANAGEMENT_NO_USER_0),
+  /** User. */
+  USER(
+      Messages.GUI_USERMANAGEMENT_USERS_0,
+      "u",
+      false,
+      new CmsCssIcon(OpenCmsTheme.ICON_USER),
+      Messages.GUI_USERMANAGEMENT_NO_USER_0);
 
-    /**Bundle key for empty message.*/
-    private String m_emptyMessageKey;
+  /** Bundle key for empty message. */
+  private String m_emptyMessageKey;
 
-    /**Icon for type. */
-    private CmsCssIcon m_icon;
+  /** Icon for type. */
+  private CmsCssIcon m_icon;
 
-    /**ID for entry. */
-    private String m_id;
+  /** ID for entry. */
+  private String m_id;
 
-    /**Is expandable?*/
-    private boolean m_isExpandable;
+  /** Is expandable? */
+  private boolean m_isExpandable;
 
-    /**Name of entry. */
-    private String m_name;
+  /** Name of entry. */
+  private String m_name;
 
-    /**
-     * constructor.<p>
-     *
-     * @param name name
-     * @param id id
-     * @param isExpandable boolean
-     * @param icon icon
-     * @param empty empty string
-     */
-    CmsOuTreeType(String name, String id, boolean isExpandable, CmsCssIcon icon, String empty) {
+  /**
+   * constructor.
+   *
+   * <p>
+   *
+   * @param name name
+   * @param id id
+   * @param isExpandable boolean
+   * @param icon icon
+   * @param empty empty string
+   */
+  CmsOuTreeType(String name, String id, boolean isExpandable, CmsCssIcon icon, String empty) {
 
-        m_name = name;
-        m_id = id;
-        m_isExpandable = isExpandable;
-        m_icon = icon;
-        m_emptyMessageKey = empty;
-    }
+    m_name = name;
+    m_id = id;
+    m_isExpandable = isExpandable;
+    m_icon = icon;
+    m_emptyMessageKey = empty;
+  }
 
-    /**
-     * Returns the key for the empty-message.<p>
-     *
-     * @return key as string
-     */
-    public String getEmptyMessageKey() {
+  /**
+   * Returns the key for the empty-message.
+   *
+   * <p>
+   *
+   * @return key as string
+   */
+  public String getEmptyMessageKey() {
 
-        return m_emptyMessageKey;
-    }
+    return m_emptyMessageKey;
+  }
 
-    /**
-     * Get the icon.<p>
-     *
-     * @return CmsCssIcon
-     */
-    public CmsCssIcon getIcon() {
+  /**
+   * Get the icon.
+   *
+   * <p>
+   *
+   * @return CmsCssIcon
+   */
+  public CmsCssIcon getIcon() {
 
-        return m_icon;
-    }
+    return m_icon;
+  }
 
-    /**
-     * Gets the id of the type.<p>
-     *
-     * @return id string
-     */
-    public String getId() {
+  /**
+   * Gets the id of the type.
+   *
+   * <p>
+   *
+   * @return id string
+   */
+  public String getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Gets the name of the element.<p>
-     *
-     * @return name
-     */
-    public String getName() {
+  /**
+   * Gets the name of the element.
+   *
+   * <p>
+   *
+   * @return name
+   */
+  public String getName() {
 
-        return CmsVaadinUtils.getMessageText(m_name);
-    }
+    return CmsVaadinUtils.getMessageText(m_name);
+  }
 
-    /**
-     * Checks if type is expandable.<p>
-     *
-     * @return true if expandable
-     */
-    public boolean isExpandable() {
+  /**
+   * Checks if type is expandable.
+   *
+   * <p>
+   *
+   * @return true if expandable
+   */
+  public boolean isExpandable() {
 
-        return m_isExpandable;
-    }
+    return m_isExpandable;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.user.I_CmsOuTreeType#isGroup()
-     */
-    public boolean isGroup() {
+  /** @see org.opencms.ui.apps.user.I_CmsOuTreeType#isGroup() */
+  public boolean isGroup() {
 
-        return GROUP.equals(this);
-    }
+    return GROUP.equals(this);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.user.I_CmsOuTreeType#isOrgUnit()
-     */
-    public boolean isOrgUnit() {
+  /** @see org.opencms.ui.apps.user.I_CmsOuTreeType#isOrgUnit() */
+  public boolean isOrgUnit() {
 
-        return OU.equals(this);
-    }
+    return OU.equals(this);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.user.I_CmsOuTreeType#isRole()
-     */
-    public boolean isRole() {
+  /** @see org.opencms.ui.apps.user.I_CmsOuTreeType#isRole() */
+  public boolean isRole() {
 
-        return ROLE.equals(this);
-    }
+    return ROLE.equals(this);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.user.I_CmsOuTreeType#isUser()
-     */
-    public boolean isUser() {
+  /** @see org.opencms.ui.apps.user.I_CmsOuTreeType#isUser() */
+  public boolean isUser() {
 
-        return USER.equals(this);
-    }
+    return USER.equals(this);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.user.I_CmsOuTreeType#isValidForOu(org.opencms.file.CmsObject, java.lang.String)
-     */
-    public boolean isValidForOu(CmsObject cms, String ou) {
+  /**
+   * @see org.opencms.ui.apps.user.I_CmsOuTreeType#isValidForOu(org.opencms.file.CmsObject,
+   *     java.lang.String)
+   */
+  public boolean isValidForOu(CmsObject cms, String ou) {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.user.I_CmsOuTreeType#showInOuTable()
-     */
-    public boolean showInOuTable() {
+  /** @see org.opencms.ui.apps.user.I_CmsOuTreeType#showInOuTable() */
+  public boolean showInOuTable() {
 
-        return !(OU.equals(this));
-    }
+    return !(OU.equals(this));
+  }
 }

@@ -38,68 +38,68 @@ import org.opencms.gwt.client.ui.contenteditor.I_CmsContentEditorHandler;
 import org.opencms.util.CmsUUID;
 
 /**
- * Sitemap context menu new entry.<p>
+ * Sitemap context menu new entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsEditRedirectMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsEditRedirectMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsEditRedirectMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_EDIT_REDIRECT_0));
-        setActive(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_EDIT_REDIRECT_0));
+    setActive(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-        CmsEditableData editableData = new CmsEditableData();
-        editableData.setElementLanguage("");
-        editableData.setStructureId(getHoverbar().getEntry().getId());
-        editableData.setSitePath(getHoverbar().getEntry().getSitePath());
-        DialogOptions dlgOptions = new DialogOptions();
-        dlgOptions.setSuggestedHeight(Integer.valueOf(700));
-        dlgOptions.setSuggestedWidth(Integer.valueOf(1000));
-        CmsContentEditorDialog.get().openEditDialog(
+    CmsEditableData editableData = new CmsEditableData();
+    editableData.setElementLanguage("");
+    editableData.setStructureId(getHoverbar().getEntry().getId());
+    editableData.setSitePath(getHoverbar().getEntry().getSitePath());
+    DialogOptions dlgOptions = new DialogOptions();
+    dlgOptions.setSuggestedHeight(Integer.valueOf(700));
+    dlgOptions.setSuggestedWidth(Integer.valueOf(1000));
+    CmsContentEditorDialog.get()
+        .openEditDialog(
             editableData,
             false,
             null,
             dlgOptions,
             new I_CmsContentEditorHandler() {
 
-                public void onClose(
-                    String sitePath,
-                    CmsUUID structureId,
-                    boolean isNew,
-                    boolean hasChangedSettings,
-                    boolean usedPublishDialog) {
+              public void onClose(
+                  String sitePath,
+                  CmsUUID structureId,
+                  boolean isNew,
+                  boolean hasChangedSettings,
+                  boolean usedPublishDialog) {
 
-                    getHoverbar().getController().updateEntry(sitePath);
-
-                }
+                getHoverbar().getController().updateEntry(sitePath);
+              }
             });
-    }
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        boolean show = getHoverbar().getController().isEditable()
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    boolean show =
+        getHoverbar().getController().isEditable()
             && !CmsSitemapView.getInstance().isSpecialMode()
             && (entry != null)
             && (entry.getEntryType() == EntryType.redirect);
-        setVisible(show);
-
-    }
+    setVisible(show);
+  }
 }

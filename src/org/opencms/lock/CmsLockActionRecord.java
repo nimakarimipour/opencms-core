@@ -28,54 +28,63 @@
 package org.opencms.lock;
 
 /**
- * Bean class which keeps track of a locking action performed on a resource.<p>
+ * Bean class which keeps track of a locking action performed on a resource.
+ *
+ * <p>
  */
 public class CmsLockActionRecord {
 
-    /** A type for the different locking actions. */
-    public enum LockChange {
-        /** The lock was changed. */
-        changed, /** The resource was locked. */
-        locked, /** The lock state was not modified. */
-        unchanged;
-    }
+  /** A type for the different locking actions. */
+  public enum LockChange {
+    /** The lock was changed. */
+    changed,
+    /** The resource was locked. */
+    locked,
+    /** The lock state was not modified. */
+    unchanged;
+  }
 
-    /** The lock state after the action. */
-    private CmsLock m_lock;
+  /** The lock state after the action. */
+  private CmsLock m_lock;
 
-    /** The action type. */
-    private LockChange m_change;
+  /** The action type. */
+  private LockChange m_change;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param lock the lock state after the action
-     * @param change the action type
-     */
-    public CmsLockActionRecord(CmsLock lock, LockChange change) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param lock the lock state after the action
+   * @param change the action type
+   */
+  public CmsLockActionRecord(CmsLock lock, LockChange change) {
 
-        m_lock = lock;
-        m_change = change;
-    }
+    m_lock = lock;
+    m_change = change;
+  }
 
-    /**
-     * Gets the change type.<p>
-     *
-     * @return the change type
-     */
-    public LockChange getChange() {
+  /**
+   * Gets the change type.
+   *
+   * <p>
+   *
+   * @return the change type
+   */
+  public LockChange getChange() {
 
-        return m_change;
-    }
+    return m_change;
+  }
 
-    /**
-     * Gets the lock state after the action.<p>
-     *
-     * @return the lock state after the action
-     */
-    public CmsLock getLock() {
+  /**
+   * Gets the lock state after the action.
+   *
+   * <p>
+   *
+   * @return the lock state after the action
+   */
+  public CmsLock getLock() {
 
-        return m_lock;
-    }
-
+    return m_lock;
+  }
 }

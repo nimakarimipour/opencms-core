@@ -27,24 +27,26 @@
 
 package org.opencms.gwt.client.util;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.List;
 import org.opencms.gwt.client.ui.CmsListItemWidget.AdditionalInfoItem;
 
-import java.util.List;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * This interface defines an additional info loader for a {@link org.opencms.gwt.client.ui.CmsListItemWidget}.<p>
+ * This interface defines an additional info loader for a {@link
+ * org.opencms.gwt.client.ui.CmsListItemWidget}.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsAdditionalInfoLoader {
 
-    /**
-     * Triggers a load operation for additional info items.<p>
-     *
-     * @param callback the callback to which the result of the load operation will be passed
-     */
-    void load(AsyncCallback<List<AdditionalInfoItem>> callback);
-
+  /**
+   * Triggers a load operation for additional info items.
+   *
+   * <p>
+   *
+   * @param callback the callback to which the result of the load operation will be passed
+   */
+  void load(AsyncCallback<List<AdditionalInfoItem>> callback);
 }

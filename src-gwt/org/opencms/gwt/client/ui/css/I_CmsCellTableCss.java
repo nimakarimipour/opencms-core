@@ -30,35 +30,45 @@ package org.opencms.gwt.client.ui.css;
 import com.google.gwt.user.cellview.client.CellTable;
 
 /**
- * CSS bundle for GWT cell tables used from ADE.<p>
+ * CSS bundle for GWT cell tables used from ADE.
+ *
+ * <p>
  */
 public interface I_CmsCellTableCss extends CellTable.Style {
 
-    /**
-     * CSS class accessor.<p>
-     *
-     * @return a CSS class
-     */
-    String cmsCellError();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class
+   */
+  String cmsCellError();
 
-    /**
-     * CSS class accessor.<p>
-     *
-     * @return a CSS class
-     */
-    String cmsRowErrors();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class
+   */
+  String cmsRowErrors();
 
-    /**
-     * CSS class accessor.<p>
-     *
-     * @return a CSS class
-     */
-    String statusError();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class
+   */
+  String statusError();
 
-    /**
-     * CSS class accessor.<p>
-     *
-     * @return a CSS class
-     */
-    String statusOk();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class
+   */
+  String statusOk();
 }

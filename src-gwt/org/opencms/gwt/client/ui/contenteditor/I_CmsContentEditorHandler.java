@@ -30,25 +30,30 @@ package org.opencms.gwt.client.ui.contenteditor;
 import org.opencms.util.CmsUUID;
 
 /**
- * Handler for the XML content editor.<p>
+ * Handler for the XML content editor.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsContentEditorHandler {
 
-    /**
-     * Executed by the XML content editor dialog on close.<p>
-     *
-     * @param sitePath the sitepath of the edited resource
-     * @param structureId the structure id of the edited resource
-     * @param isNew <code>true</code> if the resource was newly created
-     * @param hasChangedSettings <code>true</code> in case container page element settings where changed during edit
-     * @param usedPublishDialog true if the editor was closed by using the publish button
-     */
-    void onClose(
-        String sitePath,
-        CmsUUID structureId,
-        boolean isNew,
-        boolean hasChangedSettings,
-        boolean usedPublishDialog);
+  /**
+   * Executed by the XML content editor dialog on close.
+   *
+   * <p>
+   *
+   * @param sitePath the sitepath of the edited resource
+   * @param structureId the structure id of the edited resource
+   * @param isNew <code>true</code> if the resource was newly created
+   * @param hasChangedSettings <code>true</code> in case container page element settings where
+   *     changed during edit
+   * @param usedPublishDialog true if the editor was closed by using the publish button
+   */
+  void onClose(
+      String sitePath,
+      CmsUUID structureId,
+      boolean isNew,
+      boolean hasChangedSettings,
+      boolean usedPublishDialog);
 }

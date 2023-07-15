@@ -27,76 +27,75 @@
 
 package org.opencms.workplace.threads;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.importexport.CmsImportParameters;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.report.A_CmsReportThread;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Imports an OpenCms export file into the VFS.<p>
+ * Imports an OpenCms export file into the VFS.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDatabaseImportThread extends A_CmsReportThread {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsDatabaseImportThread.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsDatabaseImportThread.class);
 
-    /** The import file name. */
-    private String m_importFile;
+  /** The import file name. */
+  private String m_importFile;
 
-    /** The keep permissions flag. */
-    private boolean m_keepPermissions;
+  /** The keep permissions flag. */
+  private boolean m_keepPermissions;
 
-    /**
-     * Imports an OpenCms export file into the VFS.<p>
-     *
-     * @param cms the current OpenCms context object
-     * @param importFile the file to import
-     * @param keepPermissions if set, the permissions set on existing resources will not be modified
-     */
-    public CmsDatabaseImportThread(CmsObject cms, String importFile, boolean keepPermissions) {
+  /**
+   * Imports an OpenCms export file into the VFS.
+   *
+   * <p>
+   *
+   * @param cms the current OpenCms context object
+   * @param importFile the file to import
+   * @param keepPermissions if set, the permissions set on existing resources will not be modified
+   */
+  public CmsDatabaseImportThread(CmsObject cms, String importFile, boolean keepPermissions) {
 
-        super(cms, Messages.get().getBundle().key(Messages.GUI_DB_IMPORT_THREAD_NAME_1, importFile));
-        m_importFile = importFile;
-        m_keepPermissions = keepPermissions;
-        initHtmlReport(cms.getRequestContext().getLocale());
+    super(cms, Messages.get().getBundle().key(Messages.GUI_DB_IMPORT_THREAD_NAME_1, importFile));
+    m_importFile = importFile;
+    m_keepPermissions = keepPermissions;
+    initHtmlReport(cms.getRequestContext().getLocale());
+  }
+
+  /** @see org.opencms.report.A_CmsReportThread#getReportUpdate() */
+  @Override
+  public String getReportUpdate() {
+
+    return getReport().getReportUpdate();
+  }
+
+  /** @see java.lang.Runnable#run() */
+  @Override
+  public void run() {
+
+    CmsImportParameters parameters = new CmsImportParameters(m_importFile, "/", m_keepPermissions);
+    boolean indexingAlreadyPaused = OpenCms.getSearchManager().isOfflineIndexingPaused();
+    try {
+      if (!indexingAlreadyPaused) {
+        OpenCms.getSearchManager().pauseOfflineIndexing();
+      }
+      OpenCms.getImportExportManager().importData(getCms(), getReport(), parameters);
+    } catch (Throwable e) {
+      getReport().println(e);
+      if (LOG.isErrorEnabled()) {
+        LOG.error(Messages.get().getBundle().key(Messages.ERR_DB_IMPORT_0), e);
+      }
+    } finally {
+      if (!indexingAlreadyPaused) {
+        OpenCms.getSearchManager().resumeOfflineIndexing();
+      }
     }
-
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
-
-        return getReport().getReportUpdate();
-    }
-
-    /**
-     * @see java.lang.Runnable#run()
-     */
-    @Override
-    public void run() {
-
-        CmsImportParameters parameters = new CmsImportParameters(m_importFile, "/", m_keepPermissions);
-        boolean indexingAlreadyPaused = OpenCms.getSearchManager().isOfflineIndexingPaused();
-        try {
-            if (!indexingAlreadyPaused) {
-                OpenCms.getSearchManager().pauseOfflineIndexing();
-            }
-            OpenCms.getImportExportManager().importData(getCms(), getReport(), parameters);
-        } catch (Throwable e) {
-            getReport().println(e);
-            if (LOG.isErrorEnabled()) {
-                LOG.error(Messages.get().getBundle().key(Messages.ERR_DB_IMPORT_0), e);
-            }
-        } finally {
-            if (!indexingAlreadyPaused) {
-                OpenCms.getSearchManager().resumeOfflineIndexing();
-            }
-        }
-    }
+  }
 }

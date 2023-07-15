@@ -31,49 +31,56 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
- * HTML converters can be used to clean up HTML code and/or pretty print the code.<p>
+ * HTML converters can be used to clean up HTML code and/or pretty print the code.
  *
- * They can be configured in the configuration file <code>opencms-vfs.xml</code> and triggered when saving
- * XML contents or XML pages. Their behavior is configurable by setting the <code>content-conversion</code> property
- * value on VFS resources.<p>
+ * <p>They can be configured in the configuration file <code>opencms-vfs.xml</code> and triggered
+ * when saving XML contents or XML pages. Their behavior is configurable by setting the <code>
+ * content-conversion</code> property value on VFS resources.
+ *
+ * <p>
  *
  * @since 7.5.1
- *
  */
 public interface I_CmsHtmlConverter {
 
-    /**
-     * Converts the given HTML code according to the settings of this converter.<p>
-     *
-     * @param htmlInput the HTML input stored in a string
-     * @return string containing the converted HTML
-     *
-     * @throws UnsupportedEncodingException if the encoding set for the conversion is not supported
-     */
-    String convertToString(String htmlInput) throws UnsupportedEncodingException;
+  /**
+   * Converts the given HTML code according to the settings of this converter.
+   *
+   * <p>
+   *
+   * @param htmlInput the HTML input stored in a string
+   * @return string containing the converted HTML
+   * @throws UnsupportedEncodingException if the encoding set for the conversion is not supported
+   */
+  String convertToString(String htmlInput) throws UnsupportedEncodingException;
 
-    /**
-     * Returns the encoding used for the HTML code conversion.<p>
-     *
-     * @return the encoding used for the HTML code conversion
-     */
-    String getEncoding();
+  /**
+   * Returns the encoding used for the HTML code conversion.
+   *
+   * <p>
+   *
+   * @return the encoding used for the HTML code conversion
+   */
+  String getEncoding();
 
-    /**
-     * Returns the conversion modes to use as List of String parameters.<p>
-     *
-     * @return the conversion modes to use as List of String parameters
-     */
-    List<String> getModes();
+  /**
+   * Returns the conversion modes to use as List of String parameters.
+   *
+   * <p>
+   *
+   * @return the conversion modes to use as List of String parameters
+   */
+  List<String> getModes();
 
-    /**
-     * Initializes the HTML converter instance.<p>
-     *
-     * Possible values for the conversion mode are dependent from the converter implementation.<p>
-     *
-     * @param encoding the encoding used for the HTML code conversion
-     * @param modes the conversion modes to use
-     */
-    void init(String encoding, List<String> modes);
-
+  /**
+   * Initializes the HTML converter instance.
+   *
+   * <p>Possible values for the conversion mode are dependent from the converter implementation.
+   *
+   * <p>
+   *
+   * @param encoding the encoding used for the HTML code conversion
+   * @param modes the conversion modes to use
+   */
+  void init(String encoding, List<String> modes);
 }

@@ -27,72 +27,82 @@
 
 package org.opencms.ade.containerpage.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+import java.util.List;
 import org.opencms.gwt.shared.CmsModelResourceInfo;
 
-import java.util.List;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Bean containing the needed data when creating a new resource.<p>
+ * Bean containing the needed data when creating a new resource.
+ *
+ * <p>
  *
  * @since 8.0.3
  */
 public class CmsCreateElementData implements IsSerializable {
 
-    /** The created element. */
-    private CmsContainerElement m_createdElement;
+  /** The created element. */
+  private CmsContainerElement m_createdElement;
 
-    /** The list of model resources. */
-    private List<CmsModelResourceInfo> m_modelResources;
+  /** The list of model resources. */
+  private List<CmsModelResourceInfo> m_modelResources;
 
-    /**
-     * Returns the created element.<p>
-     *
-     * @return the created element
-     */
-    public CmsContainerElement getCreatedElement() {
+  /**
+   * Returns the created element.
+   *
+   * <p>
+   *
+   * @return the created element
+   */
+  public CmsContainerElement getCreatedElement() {
 
-        return m_createdElement;
-    }
+    return m_createdElement;
+  }
 
-    /**
-     * Returns the model resources list.<p>
-     *
-     * @return the model resources list
-     */
-    public List<CmsModelResourceInfo> getModelResources() {
+  /**
+   * Returns the model resources list.
+   *
+   * <p>
+   *
+   * @return the model resources list
+   */
+  public List<CmsModelResourceInfo> getModelResources() {
 
-        return m_modelResources;
-    }
+    return m_modelResources;
+  }
 
-    /**
-     * Returns if model selection is needed.<p>
-     *
-     * @return <code>true</code> if model selection is needed
-     */
-    public boolean needsModelSelection() {
+  /**
+   * Returns if model selection is needed.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if model selection is needed
+   */
+  public boolean needsModelSelection() {
 
-        return (m_modelResources != null) && !m_modelResources.isEmpty();
-    }
+    return (m_modelResources != null) && !m_modelResources.isEmpty();
+  }
 
-    /**
-     * Sets the created element.<p>
-     *
-     * @param createdElement the created element to set
-     */
-    public void setCreatedElement(CmsContainerElement createdElement) {
+  /**
+   * Sets the created element.
+   *
+   * <p>
+   *
+   * @param createdElement the created element to set
+   */
+  public void setCreatedElement(CmsContainerElement createdElement) {
 
-        m_createdElement = createdElement;
-    }
+    m_createdElement = createdElement;
+  }
 
-    /**
-     * Sets the model resources list.<p>
-     *
-     * @param modelResources the model resources list to set
-     */
-    public void setModelResources(List<CmsModelResourceInfo> modelResources) {
+  /**
+   * Sets the model resources list.
+   *
+   * <p>
+   *
+   * @param modelResources the model resources list to set
+   */
+  public void setModelResources(List<CmsModelResourceInfo> modelResources) {
 
-        m_modelResources = modelResources;
-    }
+    m_modelResources = modelResources;
+  }
 }

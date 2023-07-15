@@ -27,60 +27,59 @@
 
 package org.opencms.report;
 
-import org.opencms.main.CmsLog;
-import org.opencms.util.CmsStringUtil;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
-import org.apache.commons.logging.Log;
-
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
+import org.apache.commons.logging.Log;
+import org.opencms.main.CmsLog;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * Report update formatter for the new Vaadin-based workplace.<p>
+ * Report update formatter for the new Vaadin-based workplace.
+ *
+ * <p>
  */
 public class CmsVaadinHtmlReportUpdateFormatter implements I_CmsReportUpdateFormatter {
 
-    /** The logger instance used for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsVaadinHtmlReportUpdateFormatter.class);
+  /** The logger instance used for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsVaadinHtmlReportUpdateFormatter.class);
 
-    /** The StringTemplate group used by this report. */
-    private StringTemplateGroup m_templateGroup;
+  /** The StringTemplate group used by this report. */
+  private StringTemplateGroup m_templateGroup;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsVaadinHtmlReportUpdateFormatter() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsVaadinHtmlReportUpdateFormatter() {
 
-        try (InputStream stream = CmsVaadinHtmlReportUpdateFormatter.class.getResourceAsStream("report.st")) {
-            m_templateGroup = CmsStringUtil.readStringTemplateGroup(stream);
-        } catch (IOException e) {
-            LOG.error(e.getLocalizedMessage(), e);
-        }
+    try (InputStream stream =
+        CmsVaadinHtmlReportUpdateFormatter.class.getResourceAsStream("report.st")) {
+      m_templateGroup = CmsStringUtil.readStringTemplateGroup(stream);
+    } catch (IOException e) {
+      LOG.error(e.getLocalizedMessage(), e);
     }
+  }
 
-    /**
-     * @see org.opencms.report.I_CmsReportUpdateFormatter#formatReportUpdate(java.util.List)
-     */
-    public String formatReportUpdate(List<CmsReportUpdateItem> updateItem) {
+  /** @see org.opencms.report.I_CmsReportUpdateFormatter#formatReportUpdate(java.util.List) */
+  public String formatReportUpdate(List<CmsReportUpdateItem> updateItem) {
 
-        StringBuffer buffer = new StringBuffer();
-        for (CmsReportUpdateItem entry : updateItem) {
-            try {
-                StringTemplate template = m_templateGroup.getInstanceOf(entry.getType().getFormatName());
-                boolean needsParam = template.getFormalArguments().get("message") != null;
-                if (needsParam) {
-                    template.setAttribute("message", entry.getMessage());
-                }
-                buffer.append(template.toString());
-            } catch (Exception e) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
+    StringBuffer buffer = new StringBuffer();
+    for (CmsReportUpdateItem entry : updateItem) {
+      try {
+        StringTemplate template = m_templateGroup.getInstanceOf(entry.getType().getFormatName());
+        boolean needsParam = template.getFormalArguments().get("message") != null;
+        if (needsParam) {
+          template.setAttribute("message", entry.getMessage());
         }
-        return buffer.toString();
+        buffer.append(template.toString());
+      } catch (Exception e) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
     }
-
+    return buffer.toString();
+  }
 }

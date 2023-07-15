@@ -32,35 +32,40 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 /**
- * Remote interface for executing shell commands.<p>
+ * Remote interface for executing shell commands.
+ *
+ * <p>
  */
 public interface I_CmsRemoteShell extends Remote {
 
-    /**
-     * Signals to the remote object that the client is done with it (i.e. it can be disposed).<p>
-     *
-     * @throws RemoteException if something goes wrong
-     */
-    void end() throws RemoteException;
+  /**
+   * Signals to the remote object that the client is done with it (i.e. it can be disposed).
+   *
+   * <p>
+   *
+   * @throws RemoteException if something goes wrong
+   */
+  void end() throws RemoteException;
 
-    /**
-     * Executes a shell command .<p>
-     * @param cmd the command
-     * @param params the parameters
-     *
-     * @return the shell command result
-     *
-     * @throws RemoteException if RMI stuff goes wrong
-     */
-    CmsShellCommandResult executeCommand(String cmd, List<String> params) throws RemoteException;
+  /**
+   * Executes a shell command .
+   *
+   * <p>
+   *
+   * @param cmd the command
+   * @param params the parameters
+   * @return the shell command result
+   * @throws RemoteException if RMI stuff goes wrong
+   */
+  CmsShellCommandResult executeCommand(String cmd, List<String> params) throws RemoteException;
 
-    /**
-     * Returns the initial prompt to use.<p>
-     *
-     * @return the prompt
-     *
-     * @throws RemoteException if RMI stuff goes wrong
-     */
-    String getPrompt() throws RemoteException;
-
+  /**
+   * Returns the initial prompt to use.
+   *
+   * <p>
+   *
+   * @return the prompt
+   * @throws RemoteException if RMI stuff goes wrong
+   */
+  String getPrompt() throws RemoteException;
 }

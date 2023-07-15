@@ -27,37 +27,42 @@
 
 package org.opencms.search.documents;
 
-import org.opencms.search.CmsSearchIndex;
-import org.opencms.search.CmsSearchParameters;
-
 import java.io.IOException;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
+import org.opencms.search.CmsSearchIndex;
+import org.opencms.search.CmsSearchParameters;
 
 /**
- * Highlights arbitrary terms, used for generation of search excerpts.<p>
+ * Highlights arbitrary terms, used for generation of search excerpts.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsTermHighlighter {
 
-    /**
-     * Returns an excerpt of the given document related based on the given index and query.<p>
-     *
-     * @param doc the content Lucene document to generate the excerpt for
-     * @param index the index that has been searched
-     * @param params the current search parameters
-     * @param query the search query
-     * @param analyzer the analyzer used
-     *
-     * @return an excerpt of the content
-     *
-     * @throws IOException if something goes wrong
-     * @throws InvalidTokenOffsetsException in case of problems with the Lucene tokenizer
-     */
-    String getExcerpt(Document doc, CmsSearchIndex index, CmsSearchParameters params, Query query, Analyzer analyzer)
-    throws IOException, InvalidTokenOffsetsException;
+  /**
+   * Returns an excerpt of the given document related based on the given index and query.
+   *
+   * <p>
+   *
+   * @param doc the content Lucene document to generate the excerpt for
+   * @param index the index that has been searched
+   * @param params the current search parameters
+   * @param query the search query
+   * @param analyzer the analyzer used
+   * @return an excerpt of the content
+   * @throws IOException if something goes wrong
+   * @throws InvalidTokenOffsetsException in case of problems with the Lucene tokenizer
+   */
+  String getExcerpt(
+      Document doc,
+      CmsSearchIndex index,
+      CmsSearchParameters params,
+      Query query,
+      Analyzer analyzer)
+      throws IOException, InvalidTokenOffsetsException;
 }

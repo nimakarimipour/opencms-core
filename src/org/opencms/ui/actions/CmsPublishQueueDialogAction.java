@@ -27,74 +27,64 @@
 
 package org.opencms.ui.actions;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.opencms.gwt.shared.CmsGwtConstants;
 import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.apps.publishqueue.CmsPublishQueueConfiguration;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * The publish queue dialog action.<p>
+ * The publish queue dialog action.
+ *
+ * <p>
  */
 public class CmsPublishQueueDialogAction extends A_CmsToolbarAction implements I_CmsADEAction {
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        context.navigateTo(CmsPublishQueueConfiguration.APP_ID);
-    }
+    context.navigateTo(CmsPublishQueueConfiguration.APP_ID);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName()
-     */
-    public String getCommandClassName() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName() */
+  public String getCommandClassName() {
 
-        return "org.opencms.gwt.client.ui.contextmenu.CmsEmbeddedAction";
-    }
+    return "org.opencms.gwt.client.ui.contextmenu.CmsEmbeddedAction";
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return CmsPublishQueueConfiguration.APP_ID;
-    }
+    return CmsPublishQueueConfiguration.APP_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
-     */
-    public String getJspPath() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getJspPath() */
+  public String getJspPath() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
-     */
-    public Map<String, String> getParams() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getParams() */
+  public Map<String, String> getParams() {
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(CmsGwtConstants.ACTION_PARAM_DIALOG_ID, this.getClass().getName());
-        return params;
-    }
+    Map<String, String> params = new HashMap<String, String>();
+    params.put(CmsGwtConstants.ACTION_PARAM_DIALOG_ID, this.getClass().getName());
+    return params;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported()
-     */
-    public boolean isAdeSupported() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported() */
+  public boolean isAdeSupported() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return org.opencms.ui.Messages.GUI_EXPLORER_CONTEXT_PUBLISH_QUEUE_0;
-    }
+    return org.opencms.ui.Messages.GUI_EXPLORER_CONTEXT_PUBLISH_QUEUE_0;
+  }
 }

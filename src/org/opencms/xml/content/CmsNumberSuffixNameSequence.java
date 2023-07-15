@@ -27,78 +27,76 @@
 
 package org.opencms.xml.content;
 
+import java.util.Iterator;
 import org.opencms.loader.I_CmsFileNameGenerator;
 
-import java.util.Iterator;
-
 /**
- * Name generator which appends a numeric suffix to a given base string.<p>
+ * Name generator which appends a numeric suffix to a given base string.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsNumberSuffixNameSequence implements Iterator<String> {
 
-    /** The base name from which the names should be generated. */
-    private String m_baseName;
+  /** The base name from which the names should be generated. */
+  private String m_baseName;
 
-    /** The counter which keeps track of how often the next() method has been called. */
-    private int m_counter;
+  /** The counter which keeps track of how often the next() method has been called. */
+  private int m_counter;
 
-    /** The name prefix. */
-    private String m_prefix;
+  /** The name prefix. */
+  private String m_prefix;
 
-    /** The name suffix. */
-    private String m_suffix;
+  /** The name suffix. */
+  private String m_suffix;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param str the base name which should be used for generating the names
-     * @param splitExtension if true, the number will be inserted before the 'extension', i.e. the sequence of characters starting with the last occurrence of a dot in str.
-     */
-    public CmsNumberSuffixNameSequence(String str, boolean splitExtension) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param str the base name which should be used for generating the names
+   * @param splitExtension if true, the number will be inserted before the 'extension', i.e. the
+   *     sequence of characters starting with the last occurrence of a dot in str.
+   */
+  public CmsNumberSuffixNameSequence(String str, boolean splitExtension) {
 
-        m_baseName = str;
-        if (splitExtension) {
-            int dot = m_baseName.lastIndexOf(".");
-            if (dot > 0) {
-                m_prefix = m_baseName.substring(0, dot);
-                m_suffix = m_baseName.substring(dot);
-            }
-        }
+    m_baseName = str;
+    if (splitExtension) {
+      int dot = m_baseName.lastIndexOf(".");
+      if (dot > 0) {
+        m_prefix = m_baseName.substring(0, dot);
+        m_suffix = m_baseName.substring(dot);
+      }
     }
+  }
 
-    /**
-     * @see java.util.Iterator#hasNext()
-     */
-    public boolean hasNext() {
+  /** @see java.util.Iterator#hasNext() */
+  public boolean hasNext() {
 
-        return true;
+    return true;
+  }
+
+  /** @see java.util.Iterator#next() */
+  public String next() {
+
+    String result = m_baseName;
+    if (m_counter > 0) {
+      String numberSuffix = "-" + I_CmsFileNameGenerator.NUMBER_FORMAT.sprintf(m_counter);
+      if (m_prefix == null) {
+        result = m_baseName + numberSuffix;
+      } else {
+        result = m_prefix + numberSuffix + m_suffix;
+      }
     }
+    m_counter += 1;
+    return result;
+  }
 
-    /**
-     * @see java.util.Iterator#next()
-     */
-    public String next() {
+  /** @see java.util.Iterator#remove() */
+  public void remove() {
 
-        String result = m_baseName;
-        if (m_counter > 0) {
-            String numberSuffix = "-" + I_CmsFileNameGenerator.NUMBER_FORMAT.sprintf(m_counter);
-            if (m_prefix == null) {
-                result = m_baseName + numberSuffix;
-            } else {
-                result = m_prefix + numberSuffix + m_suffix;
-            }
-        }
-        m_counter += 1;
-        return result;
-    }
-
-    /**
-     * @see java.util.Iterator#remove()
-     */
-    public void remove() {
-
-        throw new UnsupportedOperationException();
-    }
+    throw new UnsupportedOperationException();
+  }
 }

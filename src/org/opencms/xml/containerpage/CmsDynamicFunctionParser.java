@@ -27,6 +27,11 @@
 
 package org.opencms.xml.containerpage;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import org.opencms.cache.CmsVfsMemoryObjectCache;
 import org.opencms.file.CmsFile;
 import org.opencms.file.CmsObject;
@@ -45,311 +50,318 @@ import org.opencms.xml.content.CmsXmlContentRootLocation;
 import org.opencms.xml.content.I_CmsXmlContentLocation;
 import org.opencms.xml.content.I_CmsXmlContentValueLocation;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 /**
- * The parser class for creating dynamic function beans from XML contents.<p>
+ * The parser class for creating dynamic function beans from XML contents.
+ *
+ * <p>
  */
 public class CmsDynamicFunctionParser {
 
-    /** The node name for the formatter settings. */
-    public static final String N_CONTAINER_SETTINGS = "ContainerSettings";
+  /** The node name for the formatter settings. */
+  public static final String N_CONTAINER_SETTINGS = "ContainerSettings";
 
-    /**
-     * Parses a dynamic function bean given a resource.<p>
-     *
-     * @param cms the current CMS context
-     * @param res the resource from which to read the dynamic function
-     *
-     * @return the dynamic function bean created from the resource
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public CmsDynamicFunctionBean parseFunctionBean(CmsObject cms, CmsResource res) throws CmsException {
+  /**
+   * Parses a dynamic function bean given a resource.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param res the resource from which to read the dynamic function
+   * @return the dynamic function bean created from the resource
+   * @throws CmsException if something goes wrong
+   */
+  public CmsDynamicFunctionBean parseFunctionBean(CmsObject cms, CmsResource res)
+      throws CmsException {
 
-        CmsFile file = cms.readFile(res);
-        CmsXmlContent xmlContent = CmsXmlContentFactory.unmarshal(cms, file);
-        return parseFunctionBean(cms, xmlContent);
+    CmsFile file = cms.readFile(res);
+    CmsXmlContent xmlContent = CmsXmlContentFactory.unmarshal(cms, file);
+    return parseFunctionBean(cms, xmlContent);
+  }
+
+  /**
+   * Parses a dynamic function bean from an in-memory XML content object.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param content the XML content from which to read the dynamic function bean
+   * @return the dynamic function bean read from the XML content
+   * @throws CmsException if something goes wrong
+   */
+  public CmsDynamicFunctionBean parseFunctionBean(CmsObject cms, CmsXmlContent content)
+      throws CmsException {
+
+    Locale locale = getLocaleToUse(cms, content);
+    String oldSiteRoot = cms.getRequestContext().getSiteRoot();
+    try {
+      cms.getRequestContext().setSiteRoot("");
+      CmsResource functionFormatter = getFunctionFormatter(cms);
+      CmsXmlContentRootLocation root = new CmsXmlContentRootLocation(content, locale);
+      CmsDynamicFunctionBean functionBean =
+          parseFunctionBean(cms, root, content.getFile(), functionFormatter);
+      return functionBean;
+    } finally {
+      cms.getRequestContext().setSiteRoot(oldSiteRoot);
     }
+  }
 
-    /**
-     * Parses a dynamic function bean from an in-memory XML content object.<p>
-     *
-     * @param cms the current CMS context
-     * @param content the XML content from which to read the dynamic function bean
-     *
-     * @return the dynamic function bean read from the XML content
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public CmsDynamicFunctionBean parseFunctionBean(CmsObject cms, CmsXmlContent content) throws CmsException {
+  /**
+   * Parses all the additional formats from the XML content.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param location the location from which to parse the additional formats
+   * @param functionRes the dynamic function resource
+   * @return the list of parsed formats
+   */
+  protected List<Format> getAdditionalFormats(
+      CmsObject cms, I_CmsXmlContentLocation location, CmsResource functionRes) {
 
-        Locale locale = getLocaleToUse(cms, content);
-        String oldSiteRoot = cms.getRequestContext().getSiteRoot();
-        try {
-            cms.getRequestContext().setSiteRoot("");
-            CmsResource functionFormatter = getFunctionFormatter(cms);
-            CmsXmlContentRootLocation root = new CmsXmlContentRootLocation(content, locale);
-            CmsDynamicFunctionBean functionBean = parseFunctionBean(cms, root, content.getFile(), functionFormatter);
-            return functionBean;
-        } finally {
-            cms.getRequestContext().setSiteRoot(oldSiteRoot);
-        }
+    List<I_CmsXmlContentValueLocation> locations = location.getSubValues("AdditionalFormat");
+    List<Format> formats = new ArrayList<Format>();
+    for (I_CmsXmlContentValueLocation formatLocation : locations) {
+      Format format = parseAdditionalFormat(cms, formatLocation, functionRes);
+      formats.add(format);
     }
+    return formats;
+  }
 
-    /**
-     * Parses all the additional formats from the XML content.<p>
-     *
-     * @param cms the current CMS context
-     * @param location the location from which to parse the additional formats
-     * @param functionRes the dynamic function resource
-     *
-     * @return the list of parsed formats
-     */
-    protected List<Format> getAdditionalFormats(
-        CmsObject cms,
-        I_CmsXmlContentLocation location,
-        CmsResource functionRes) {
+  /**
+   * Gets the function formatter resource, possibly from the cache.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @return the function formatter resource
+   * @throws CmsException if something goes wrong
+   */
+  protected CmsResource getFunctionFormatter(CmsObject cms) throws CmsException {
 
-        List<I_CmsXmlContentValueLocation> locations = location.getSubValues("AdditionalFormat");
-        List<Format> formats = new ArrayList<Format>();
-        for (I_CmsXmlContentValueLocation formatLocation : locations) {
-            Format format = parseAdditionalFormat(cms, formatLocation, functionRes);
-            formats.add(format);
-        }
-        return formats;
-
+    CmsVfsMemoryObjectCache cache = CmsVfsMemoryObjectCache.getVfsMemoryObjectCache();
+    String path = CmsResourceTypeFunctionConfig.FORMATTER_PATH;
+    Object cacheValue = cache.getCachedObject(cms, path);
+    if (cacheValue == null) {
+      CmsResource functionRes = cms.readResource(path);
+      cache.putCachedObject(cms, path, functionRes);
+      return functionRes;
+    } else {
+      return (CmsResource) cacheValue;
     }
+  }
 
-    /**
-     * Gets the function formatter resource, possibly from the cache.<p>
-     *
-     * @param cms the current CMS context
-     * @return the function formatter resource
-     *
-     * @throws CmsException if something goes wrong
-     */
-    protected CmsResource getFunctionFormatter(CmsObject cms) throws CmsException {
+  /**
+   * Gets the locale to use for parsing the dynamic function.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param xmlContent the xml content from which the dynamic function should be read
+   * @return the locale from which the dynamic function should be read
+   */
+  protected Locale getLocaleToUse(CmsObject cms, CmsXmlContent xmlContent) {
 
-        CmsVfsMemoryObjectCache cache = CmsVfsMemoryObjectCache.getVfsMemoryObjectCache();
-        String path = CmsResourceTypeFunctionConfig.FORMATTER_PATH;
-        Object cacheValue = cache.getCachedObject(cms, path);
-        if (cacheValue == null) {
-            CmsResource functionRes = cms.readResource(path);
-            cache.putCachedObject(cms, path, functionRes);
-            return functionRes;
-        } else {
-            return (CmsResource)cacheValue;
-        }
+    Locale contextLocale = cms.getRequestContext().getLocale();
+    if (xmlContent.hasLocale(contextLocale)) {
+      return contextLocale;
     }
-
-    /**
-     * Gets the locale to use for parsing the dynamic function.<p>
-     *
-     * @param cms the current CMS context
-     * @param xmlContent the xml content from which the dynamic function should be read
-     *
-     * @return the locale from which the dynamic function should be read
-     */
-    protected Locale getLocaleToUse(CmsObject cms, CmsXmlContent xmlContent) {
-
-        Locale contextLocale = cms.getRequestContext().getLocale();
-        if (xmlContent.hasLocale(contextLocale)) {
-            return contextLocale;
-        }
-        Locale defaultLocale = CmsLocaleManager.getDefaultLocale();
-        if (xmlContent.hasLocale(defaultLocale)) {
-            return defaultLocale;
-        }
-        if (!xmlContent.getLocales().isEmpty()) {
-            return xmlContent.getLocales().get(0);
-        } else {
-            return defaultLocale;
-        }
+    Locale defaultLocale = CmsLocaleManager.getDefaultLocale();
+    if (xmlContent.hasLocale(defaultLocale)) {
+      return defaultLocale;
     }
-
-    /**
-     * Parses the main format from the XML content.<p>
-     * @param cms the current CMS context
-     * @param location the location from which to parse main format
-     * @param functionRes the dynamic function resource
-     *
-     * @return the parsed main format
-     */
-    protected Format getMainFormat(CmsObject cms, I_CmsXmlContentLocation location, CmsResource functionRes) {
-
-        I_CmsXmlContentValueLocation jspLoc = location.getSubValue("FunctionProvider");
-        CmsUUID structureId = jspLoc.asId(cms);
-        I_CmsXmlContentValueLocation containerSettings = location.getSubValue("ContainerSettings");
-        Map<String, String> parameters = parseParameters(cms, location, "Parameter");
-        if (containerSettings != null) {
-            String type = getStringValue(cms, containerSettings.getSubValue("Type"), "");
-            String minWidth = getStringValue(cms, containerSettings.getSubValue("MinWidth"), "");
-            String maxWidth = getStringValue(cms, containerSettings.getSubValue("MaxWidth"), "");
-            Format result = new Format(structureId, type, minWidth, maxWidth, parameters);
-            return result;
-        } else {
-            Format result = new Format(structureId, "", "", "", parameters);
-            result.setNoContainerSettings(true);
-            return result;
-        }
+    if (!xmlContent.getLocales().isEmpty()) {
+      return xmlContent.getLocales().get(0);
+    } else {
+      return defaultLocale;
     }
+  }
 
-    /**
-     * Gets the string value of an XML content location.<p>
-     *
-     * @param cms the current CMS context
-     * @param location an XML content location
-     *
-     * @return the string value of that XML content location
-     */
-    protected String getString(CmsObject cms, I_CmsXmlContentValueLocation location) {
+  /**
+   * Parses the main format from the XML content.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param location the location from which to parse main format
+   * @param functionRes the dynamic function resource
+   * @return the parsed main format
+   */
+  protected Format getMainFormat(
+      CmsObject cms, I_CmsXmlContentLocation location, CmsResource functionRes) {
 
-        if (location == null) {
-            return null;
-        }
-        return location.asString(cms);
+    I_CmsXmlContentValueLocation jspLoc = location.getSubValue("FunctionProvider");
+    CmsUUID structureId = jspLoc.asId(cms);
+    I_CmsXmlContentValueLocation containerSettings = location.getSubValue("ContainerSettings");
+    Map<String, String> parameters = parseParameters(cms, location, "Parameter");
+    if (containerSettings != null) {
+      String type = getStringValue(cms, containerSettings.getSubValue("Type"), "");
+      String minWidth = getStringValue(cms, containerSettings.getSubValue("MinWidth"), "");
+      String maxWidth = getStringValue(cms, containerSettings.getSubValue("MaxWidth"), "");
+      Format result = new Format(structureId, type, minWidth, maxWidth, parameters);
+      return result;
+    } else {
+      Format result = new Format(structureId, "", "", "", parameters);
+      result.setNoContainerSettings(true);
+      return result;
     }
+  }
 
-    /**
-     * Converts a (possibly null) content value location to a string.<p>
-     *
-     * @param cms the current CMS context
-     * @param location the content value location
-     * @param defaultValue the value to return if the location is null
-     *
-     * @return the string value of the content value location
-     */
-    protected String getStringValue(CmsObject cms, I_CmsXmlContentValueLocation location, String defaultValue) {
+  /**
+   * Gets the string value of an XML content location.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param location an XML content location
+   * @return the string value of that XML content location
+   */
+  protected String getString(CmsObject cms, I_CmsXmlContentValueLocation location) {
 
-        if (location == null) {
-            return defaultValue;
-        }
-        return location.asString(cms);
+    if (location == null) {
+      return null;
     }
+    return location.asString(cms);
+  }
 
-    /**
-     * Parses an additional format from the XML content.<p>
-     *
-     * @param cms the current CMS context
-     *
-     * @param location the location from which to parse the additional format
-     * @param functionRes the dynamic function resource
-     *
-     * @return the additional format
-     */
-    protected Format parseAdditionalFormat(
-        CmsObject cms,
-        I_CmsXmlContentValueLocation location,
-        CmsResource functionRes) {
+  /**
+   * Converts a (possibly null) content value location to a string.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param location the content value location
+   * @param defaultValue the value to return if the location is null
+   * @return the string value of the content value location
+   */
+  protected String getStringValue(
+      CmsObject cms, I_CmsXmlContentValueLocation location, String defaultValue) {
 
-        I_CmsXmlContentValueLocation jspLoc = location.getSubValue("FunctionProvider");
-        CmsUUID structureId = jspLoc.asId(cms);
-        I_CmsXmlContentValueLocation minWidthLoc = location.getSubValue("MinWidth");
-        String minWidth = getStringValue(cms, minWidthLoc, "");
-        I_CmsXmlContentValueLocation maxWidthLoc = location.getSubValue("MaxWidth");
-        String maxWidth = getStringValue(cms, maxWidthLoc, "");
-        I_CmsXmlContentValueLocation typeLoc = location.getSubValue("Type");
-        String type = getStringValue(cms, typeLoc, "");
-        Map<String, String> parameters = parseParameters(cms, location, "Parameter");
-        return new Format(structureId, type, minWidth, maxWidth, parameters);
+    if (location == null) {
+      return defaultValue;
     }
+    return location.asString(cms);
+  }
 
-    /**
-     * Parses a dynamic function bean.<p>
-     *
-     * @param cms the current CMS context
-     * @param location the location from which to parse the dynamic function bean
-     * @param functionRes the dynamic function resource
-     * @param functionFormatter the function formatter resource
-     *
-     * @return the parsed dynamic function bean
-     */
-    protected CmsDynamicFunctionBean parseFunctionBean(
-        CmsObject cms,
-        I_CmsXmlContentLocation location,
-        CmsResource functionRes,
-        CmsResource functionFormatter) {
+  /**
+   * Parses an additional format from the XML content.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param location the location from which to parse the additional format
+   * @param functionRes the dynamic function resource
+   * @return the additional format
+   */
+  protected Format parseAdditionalFormat(
+      CmsObject cms, I_CmsXmlContentValueLocation location, CmsResource functionRes) {
 
-        Format mainFormat = getMainFormat(cms, location, functionRes);
-        List<Format> otherFormats = getAdditionalFormats(cms, location, functionRes);
-        Map<String, CmsXmlContentProperty> definedSettings = parseSettings(cms, location, functionRes);
-        CmsDynamicFunctionBean result = new CmsDynamicFunctionBean(
-            mainFormat,
-            otherFormats,
-            definedSettings,
-            functionRes,
-            functionFormatter);
-        return result;
+    I_CmsXmlContentValueLocation jspLoc = location.getSubValue("FunctionProvider");
+    CmsUUID structureId = jspLoc.asId(cms);
+    I_CmsXmlContentValueLocation minWidthLoc = location.getSubValue("MinWidth");
+    String minWidth = getStringValue(cms, minWidthLoc, "");
+    I_CmsXmlContentValueLocation maxWidthLoc = location.getSubValue("MaxWidth");
+    String maxWidth = getStringValue(cms, maxWidthLoc, "");
+    I_CmsXmlContentValueLocation typeLoc = location.getSubValue("Type");
+    String type = getStringValue(cms, typeLoc, "");
+    Map<String, String> parameters = parseParameters(cms, location, "Parameter");
+    return new Format(structureId, type, minWidth, maxWidth, parameters);
+  }
+
+  /**
+   * Parses a dynamic function bean.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param location the location from which to parse the dynamic function bean
+   * @param functionRes the dynamic function resource
+   * @param functionFormatter the function formatter resource
+   * @return the parsed dynamic function bean
+   */
+  protected CmsDynamicFunctionBean parseFunctionBean(
+      CmsObject cms,
+      I_CmsXmlContentLocation location,
+      CmsResource functionRes,
+      CmsResource functionFormatter) {
+
+    Format mainFormat = getMainFormat(cms, location, functionRes);
+    List<Format> otherFormats = getAdditionalFormats(cms, location, functionRes);
+    Map<String, CmsXmlContentProperty> definedSettings = parseSettings(cms, location, functionRes);
+    CmsDynamicFunctionBean result =
+        new CmsDynamicFunctionBean(
+            mainFormat, otherFormats, definedSettings, functionRes, functionFormatter);
+    return result;
+  }
+
+  /**
+   * Parses a request parameter for the JSP from the XML content.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param valueLocation the location from which to parse the parameter
+   * @return the parsed parameter key/value pair
+   */
+  protected CmsPair<String, String> parseParameter(
+      CmsObject cms, I_CmsXmlContentValueLocation valueLocation) {
+
+    String key = valueLocation.getSubValue("Key").asString(cms);
+    String value = valueLocation.getSubValue("Value").asString(cms);
+    return CmsPair.create(key, value);
+  }
+
+  /**
+   * Parses all parameters for the JSP from the XML content.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param location the location from which to read the parameters
+   * @param name the name of the tag from which to read the parameters
+   * @return the parsed map of parameters
+   */
+  protected Map<String, String> parseParameters(
+      CmsObject cms, I_CmsXmlContentLocation location, String name) {
+
+    List<I_CmsXmlContentValueLocation> locations = location.getSubValues(name);
+    Map<String, String> result = new LinkedHashMap<String, String>();
+    for (I_CmsXmlContentValueLocation paramLocation : locations) {
+      CmsPair<String, String> param = parseParameter(cms, paramLocation);
+      result.put(param.getFirst(), param.getSecond());
     }
+    return result;
+  }
 
-    /**
-     * Parses a request parameter for the JSP from the XML content.<p>
-     *
-     * @param cms the current CMS context
-     * @param valueLocation the location from which to parse the parameter
-     *
-     * @return the parsed parameter key/value pair
-     */
-    protected CmsPair<String, String> parseParameter(CmsObject cms, I_CmsXmlContentValueLocation valueLocation) {
+  /**
+   * Helper method for parsing a settings definition.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param field the node from which to read the settings definition
+   * @return the parsed setting definition
+   */
+  protected CmsXmlContentProperty parseProperty(CmsObject cms, I_CmsXmlContentLocation field) {
 
-        String key = valueLocation.getSubValue("Key").asString(cms);
-        String value = valueLocation.getSubValue("Value").asString(cms);
-        return CmsPair.create(key, value);
+    String name = getString(cms, field.getSubValue("PropertyName"));
+    String widget = getString(cms, field.getSubValue("Widget"));
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(widget)) {
+      widget = "string";
     }
-
-    /**
-     * Parses all parameters for the JSP from the XML content.<p>
-     *
-     * @param cms the current CMS context
-     * @param location the location from which to read the parameters
-     * @param name the name of the tag from which to read the parameters
-     *
-     * @return the parsed map of parameters
-     */
-    protected Map<String, String> parseParameters(CmsObject cms, I_CmsXmlContentLocation location, String name) {
-
-        List<I_CmsXmlContentValueLocation> locations = location.getSubValues(name);
-        Map<String, String> result = new LinkedHashMap<String, String>();
-        for (I_CmsXmlContentValueLocation paramLocation : locations) {
-            CmsPair<String, String> param = parseParameter(cms, paramLocation);
-            result.put(param.getFirst(), param.getSecond());
-        }
-        return result;
+    String type = getString(cms, field.getSubValue("Type"));
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(type)) {
+      type = "string";
     }
+    String widgetConfig = getString(cms, field.getSubValue("WidgetConfig"));
+    String ruleRegex = getString(cms, field.getSubValue("RuleRegex"));
+    String ruleType = getString(cms, field.getSubValue("RuleType"));
+    String default1 = getString(cms, field.getSubValue("Default"));
+    String error = getString(cms, field.getSubValue("Error"));
+    String niceName = getString(cms, field.getSubValue("DisplayName"));
+    String description = getString(cms, field.getSubValue("Description"));
 
-    /**
-     * Helper method for parsing a settings definition.<p>
-     *
-     * @param cms the current CMS context
-     * @param field the node from which to read the settings definition
-     *
-     * @return the parsed setting definition
-     */
-    protected CmsXmlContentProperty parseProperty(CmsObject cms, I_CmsXmlContentLocation field) {
-
-        String name = getString(cms, field.getSubValue("PropertyName"));
-        String widget = getString(cms, field.getSubValue("Widget"));
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(widget)) {
-            widget = "string";
-        }
-        String type = getString(cms, field.getSubValue("Type"));
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(type)) {
-            type = "string";
-        }
-        String widgetConfig = getString(cms, field.getSubValue("WidgetConfig"));
-        String ruleRegex = getString(cms, field.getSubValue("RuleRegex"));
-        String ruleType = getString(cms, field.getSubValue("RuleType"));
-        String default1 = getString(cms, field.getSubValue("Default"));
-        String error = getString(cms, field.getSubValue("Error"));
-        String niceName = getString(cms, field.getSubValue("DisplayName"));
-        String description = getString(cms, field.getSubValue("Description"));
-
-        CmsXmlContentProperty prop = new CmsXmlContentProperty(
+    CmsXmlContentProperty prop =
+        new CmsXmlContentProperty(
             name,
             type,
             widget,
@@ -361,30 +373,29 @@ public class CmsDynamicFunctionParser {
             description,
             error,
             "true");
-        return prop;
+    return prop;
+  }
+
+  /**
+   * Parses the settings for the dynamic function from the XML content.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param location the location from which to read the dynamic function settings
+   * @param functionResource the dynamic function resource
+   * @return the parsed map of settings for the dynamic function
+   */
+  protected Map<String, CmsXmlContentProperty> parseSettings(
+      CmsObject cms, I_CmsXmlContentLocation location, CmsResource functionResource) {
+
+    LinkedHashMap<String, CmsXmlContentProperty> settingConfigs =
+        new LinkedHashMap<String, CmsXmlContentProperty>();
+    List<I_CmsXmlContentValueLocation> locations = location.getSubValues("SettingConfig");
+    for (I_CmsXmlContentValueLocation settingLoc : locations) {
+      CmsXmlContentProperty settingConfigBean = parseProperty(cms, settingLoc);
+      settingConfigs.put(settingConfigBean.getName(), settingConfigBean);
     }
-
-    /**
-     * Parses the settings for the dynamic function from the XML content.<p>
-     *
-     * @param cms the current CMS context
-     * @param location the location from which to read the dynamic function settings
-     * @param functionResource the dynamic function resource
-     *
-     * @return the parsed map of settings for the dynamic function
-     */
-    protected Map<String, CmsXmlContentProperty> parseSettings(
-        CmsObject cms,
-        I_CmsXmlContentLocation location,
-        CmsResource functionResource) {
-
-        LinkedHashMap<String, CmsXmlContentProperty> settingConfigs = new LinkedHashMap<String, CmsXmlContentProperty>();
-        List<I_CmsXmlContentValueLocation> locations = location.getSubValues("SettingConfig");
-        for (I_CmsXmlContentValueLocation settingLoc : locations) {
-            CmsXmlContentProperty settingConfigBean = parseProperty(cms, settingLoc);
-            settingConfigs.put(settingConfigBean.getName(), settingConfigBean);
-        }
-        return settingConfigs;
-    }
-
+    return settingConfigs;
+  }
 }

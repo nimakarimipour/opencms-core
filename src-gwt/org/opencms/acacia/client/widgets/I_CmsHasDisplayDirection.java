@@ -28,25 +28,29 @@
 package org.opencms.acacia.client.widgets;
 
 /**
- * Interface for widgets providing information whether they display overlays above or below their own position.<p>
+ * Interface for widgets providing information whether they display overlays above or below their
+ * own position.
+ *
+ * <p>
  */
 public interface I_CmsHasDisplayDirection {
 
-    /** The display directions. */
-    public enum Direction {
-        /** Displaying above. */
-        above,
-        /** Displaying below. */
-        below,
-        /** Not displaying above or below. */
-        none
-    }
+  /** The display directions. */
+  public enum Direction {
+    /** Displaying above. */
+    above,
+    /** Displaying below. */
+    below,
+    /** Not displaying above or below. */
+    none
+  }
 
-    /**
-     * Returns the display direction.<p>
-     *
-     * @return the display direction
-     */
-    public Direction getDisplayingDirection();
-
+  /**
+   * Returns the display direction.
+   *
+   * <p>
+   *
+   * @return the display direction
+   */
+  public Direction getDisplayingDirection();
 }

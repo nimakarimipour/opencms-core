@@ -29,34 +29,32 @@ package org.opencms.ui.shared.components;
 
 import com.vaadin.shared.AbstractComponentState;
 
-/**
- * Context menu button widget state.
- */
+/** Context menu button widget state. */
 public class CmsGwtContextMenuButtonState extends AbstractComponentState {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The structure id of the content for which the context menu should be opened. */
-    private String m_structureId;
+  /** The structure id of the content for which the context menu should be opened. */
+  private String m_structureId;
 
-    /**
-     * Gets the structure id.
-     *
-     * @return the structure id
-     */
-    public String getStructureId() {
+  /**
+   * Gets the structure id.
+   *
+   * @return the structure id
+   */
+  public String getStructureId() {
 
-        return m_structureId;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * Sets the structure id.
-     * @param structureId the new structure id
-     */
-    public void setStructureId(String structureId) {
+  /**
+   * Sets the structure id.
+   *
+   * @param structureId the new structure id
+   */
+  public void setStructureId(String structureId) {
 
-        m_structureId = structureId;
-    }
-
+    m_structureId = structureId;
+  }
 }

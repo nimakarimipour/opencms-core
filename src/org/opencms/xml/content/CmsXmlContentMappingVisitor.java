@@ -27,61 +27,69 @@
 
 package org.opencms.xml.content;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Visitor implementation that resolves the content mappings for all the visited values.<p>
+ * Visitor implementation that resolves the content mappings for all the visited values.
  *
- * This class is used when {@link org.opencms.xml.content.CmsXmlContent#validate(CmsObject)}
- * is called to resolve the mappings of a XML content object.<p>
+ * <p>This class is used when {@link org.opencms.xml.content.CmsXmlContent#validate(CmsObject)} is
+ * called to resolve the mappings of a XML content object.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 class CmsXmlContentMappingVisitor implements I_CmsXmlContentValueVisitor {
 
-    /** Static reference to the log. */
-    private static final Log LOG = CmsLog.getLog(CmsXmlContentMappingVisitor.class);
+  /** Static reference to the log. */
+  private static final Log LOG = CmsLog.getLog(CmsXmlContentMappingVisitor.class);
 
-    /** The initialized OpenCms user context (required for VFS access). */
-    CmsObject m_cms;
+  /** The initialized OpenCms user context (required for VFS access). */
+  CmsObject m_cms;
 
-    /** The XML content the mappings are resolved for. */
-    CmsXmlContent m_content;
+  /** The XML content the mappings are resolved for. */
+  CmsXmlContent m_content;
 
-    /** The "main" content definition, used for all mappings. */
-    I_CmsXmlContentHandler m_handler;
+  /** The "main" content definition, used for all mappings. */
+  I_CmsXmlContentHandler m_handler;
 
-    /**
-     * Creates a new error handler node visitor.<p>
-     *
-     * @param cms the initialized OpenCms user context (required for VFS access)
-     * @param content the XML content to resolve the mappings for
-     */
-    public CmsXmlContentMappingVisitor(CmsObject cms, CmsXmlContent content) {
+  /**
+   * Creates a new error handler node visitor.
+   *
+   * <p>
+   *
+   * @param cms the initialized OpenCms user context (required for VFS access)
+   * @param content the XML content to resolve the mappings for
+   */
+  public CmsXmlContentMappingVisitor(CmsObject cms, CmsXmlContent content) {
 
-        // store references
-        m_cms = cms;
-        m_content = content;
-        m_handler = content.getHandler();
+    // store references
+    m_cms = cms;
+    m_content = content;
+    m_handler = content.getHandler();
+  }
+
+  /**
+   * @see
+   *     org.opencms.xml.content.I_CmsXmlContentValueVisitor#visit(org.opencms.xml.types.I_CmsXmlContentValue)
+   */
+  public void visit(I_CmsXmlContentValue value) {
+
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(Messages.get().getBundle().key(Messages.LOG_XMLCONTENT_VISIT_1, value.getPath()));
     }
-
-    /**
-     * @see org.opencms.xml.content.I_CmsXmlContentValueVisitor#visit(org.opencms.xml.types.I_CmsXmlContentValue)
-     */
-    public void visit(I_CmsXmlContentValue value) {
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(Messages.get().getBundle().key(Messages.LOG_XMLCONTENT_VISIT_1, value.getPath()));
-        }
-        try {
-            m_handler.resolveMapping(m_cms, m_content, value);
-        } catch (CmsException e) {
-            LOG.error(Messages.get().getBundle().key(Messages.LOG_XMLCONTENT_RESOLVE_MAPPING_1, value.getPath()), e);
-        }
+    try {
+      m_handler.resolveMapping(m_cms, m_content, value);
+    } catch (CmsException e) {
+      LOG.error(
+          Messages.get()
+              .getBundle()
+              .key(Messages.LOG_XMLCONTENT_RESOLVE_MAPPING_1, value.getPath()),
+          e);
     }
+  }
 }

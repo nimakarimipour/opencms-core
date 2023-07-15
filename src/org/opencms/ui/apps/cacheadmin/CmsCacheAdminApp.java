@@ -27,123 +27,123 @@
 
 package org.opencms.ui.apps.cacheadmin;
 
-import org.opencms.ui.CmsVaadinUtils;
-import org.opencms.ui.apps.A_CmsWorkplaceApp;
-import org.opencms.ui.apps.Messages;
-import org.opencms.util.CmsStringUtil;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.VerticalLayout;
+import java.util.LinkedHashMap;
+import java.util.List;
+import org.opencms.ui.CmsVaadinUtils;
+import org.opencms.ui.apps.A_CmsWorkplaceApp;
+import org.opencms.ui.apps.Messages;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * Vaadin app for Cache Administration.<p>
- * Functions: view flex and image caches, flush cashes.<p>
+ * Vaadin app for Cache Administration.
+ *
+ * <p>Functions: view flex and image caches, flush cashes.
+ *
+ * <p>
  */
 public class CmsCacheAdminApp extends A_CmsWorkplaceApp {
 
-    /**Width of the progressbars to show current memory usage.*/
-    static final String PROGRESSBAR_WIDTH = "200px";
+  /** Width of the progressbars to show current memory usage. */
+  static final String PROGRESSBAR_WIDTH = "200px";
 
-    /**width of the statistic info boxes.*/
-    static final String STATISTIC_INFOBOX_WIDTH = "300px";
+  /** width of the statistic info boxes. */
+  static final String STATISTIC_INFOBOX_WIDTH = "300px";
 
-    /**
-     * Panel with java statistics.<p>
-     *
-     * @return vaadin component.
-     */
-    public static Panel getJavaCacheStatsPanel() {
+  /**
+   * Panel with java statistics.
+   *
+   * <p>
+   *
+   * @return vaadin component.
+   */
+  public static Panel getJavaCacheStatsPanel() {
 
-        Panel java = new Panel();
-        java.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_CACHE_JAVA_HEAP_0));
-        java.setContent(CmsCacheViewApp.getJavaStatisticButton().getInfoLayout());
-        return java;
+    Panel java = new Panel();
+    java.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_CACHE_JAVA_HEAP_0));
+    java.setContent(CmsCacheViewApp.getJavaStatisticButton().getInfoLayout());
+    return java;
+  }
+
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String) */
+  @Override
+  protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
+
+    LinkedHashMap<String, String> crumbs = new LinkedHashMap<String, String>();
+
+    // Check if state is empty -> start
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
+      crumbs.put("", CmsVaadinUtils.getMessageText(Messages.GUI_CACHE_ADMIN_TOOL_NAME_SHORT_0));
+      return crumbs;
     }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String)
-     */
-    @Override
-    protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
+    return new LinkedHashMap<
+        String, String>(); // size==1 & state was not empty -> state doesn't match to known path
+  }
 
-        LinkedHashMap<String, String> crumbs = new LinkedHashMap<String, String>();
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String) */
+  @Override
+  protected Component getComponentForState(String state) {
 
-        // Check if state is empty -> start
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
-            crumbs.put("", CmsVaadinUtils.getMessageText(Messages.GUI_CACHE_ADMIN_TOOL_NAME_SHORT_0));
-            return crumbs;
-        }
-
-        return new LinkedHashMap<String, String>(); //size==1 & state was not empty -> state doesn't match to known path
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
+      m_rootLayout.setMainHeightFull(false);
+      return getStartComponent();
     }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String)
-     */
-    @Override
-    protected Component getComponentForState(String state) {
+    return null;
+  }
 
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
-            m_rootLayout.setMainHeightFull(false);
-            return getStartComponent();
-        }
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String) */
+  @Override
+  protected List<NavEntry> getSubNavEntries(String state) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String)
-     */
-    @Override
-    protected List<NavEntry> getSubNavEntries(String state) {
+  /**
+   * Creates the component to be shown on accessing the app with some statistical information about
+   * the caches.
+   *
+   * <p>
+   *
+   * @return a vaadin vertical layout component
+   */
+  private Component getStartComponent() {
 
-        return null;
+    VerticalLayout outerouter = new VerticalLayout();
+    VerticalLayout outer = new VerticalLayout();
+    outer.setSizeUndefined();
+    HorizontalLayout layout = new HorizontalLayout();
 
-    }
+    layout.setMargin(true);
+    layout.setSpacing(true);
+    layout.addStyleName(ValoTheme.LAYOUT_HORIZONTAL_WRAPPING);
 
-    /**
-     * Creates the component to be shown on accessing the app with some statistical information about the caches.<p>
-     *
-     * @return a vaadin vertical layout component
-     */
-    private Component getStartComponent() {
+    // Statistic about heap space
 
-        VerticalLayout outerouter = new VerticalLayout();
-        VerticalLayout outer = new VerticalLayout();
-        outer.setSizeUndefined();
-        HorizontalLayout layout = new HorizontalLayout();
+    layout.addComponent(getJavaCacheStatsPanel());
 
-        layout.setMargin(true);
-        layout.setSpacing(true);
-        layout.addStyleName(ValoTheme.LAYOUT_HORIZONTAL_WRAPPING);
+    Panel flex = new Panel();
+    //        flex.setWidth("400px");
+    flex.setContent(CmsCacheViewApp.getFlexStatisticButton().getInfoLayout());
 
-        //Statistic about heap space
+    flex.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_CACHE_FLEX_0));
 
-        layout.addComponent(getJavaCacheStatsPanel());
+    HorizontalLayout flush = new HorizontalLayout();
 
-        Panel flex = new Panel();
-        //        flex.setWidth("400px");
-        flex.setContent(CmsCacheViewApp.getFlexStatisticButton().getInfoLayout());
+    flush.addComponent(new CmsFlushCache());
+    flush.setMargin(true);
 
-        flex.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_CACHE_FLEX_0));
+    layout.addComponent(flex);
 
-        HorizontalLayout flush = new HorizontalLayout();
-
-        flush.addComponent(new CmsFlushCache());
-        flush.setMargin(true);
-
-        layout.addComponent(flex);
-
-        outer.addComponent(flush);
-        outer.addComponent(layout);
-        outerouter.addStyleName("o-center");
-        outerouter.addComponent(outer);
-        return outerouter;
-    }
+    outer.addComponent(flush);
+    outer.addComponent(layout);
+    outerouter.addStyleName("o-center");
+    outerouter.addComponent(outer);
+    return outerouter;
+  }
 }

@@ -27,145 +27,162 @@
 
 package org.opencms.ade.configuration.formatters;
 
-import org.opencms.main.CmsLog;
-import org.opencms.util.CmsUUID;
-import org.opencms.xml.containerpage.I_CmsFormatterBean;
-
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.apache.commons.logging.Log;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multimaps;
+import org.opencms.main.CmsLog;
+import org.opencms.util.CmsUUID;
+import org.opencms.xml.containerpage.I_CmsFormatterBean;
 
 /**
- * Represents the currently cached collection of all formatter beans extracted from formatter configuration files.<p>
+ * Represents the currently cached collection of all formatter beans extracted from formatter
+ * configuration files.
  *
- * Objects of this class are immutable, but have a method to create an updated copy.<p>
+ * <p>Objects of this class are immutable, but have a method to create an updated copy.
+ *
+ * <p>
  */
 public class CmsFormatterConfigurationCacheState {
 
-    /** The log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsFormatterConfigurationCacheState.class);
+  /** The log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsFormatterConfigurationCacheState.class);
 
-    /** The automatically enabled formatters. */
-    private Map<CmsUUID, I_CmsFormatterBean> m_autoEnabledFormatters;
+  /** The automatically enabled formatters. */
+  private Map<CmsUUID, I_CmsFormatterBean> m_autoEnabledFormatters;
 
-    /** Map of formatter beans by structure id. */
-    private Map<CmsUUID, I_CmsFormatterBean> m_formatters = new HashMap<CmsUUID, I_CmsFormatterBean>();
+  /** Map of formatter beans by structure id. */
+  private Map<CmsUUID, I_CmsFormatterBean> m_formatters =
+      new HashMap<CmsUUID, I_CmsFormatterBean>();
 
-    /** The map of formatters by resource type. */
-    private Multimap<String, I_CmsFormatterBean> m_formattersByType;
+  /** The map of formatters by resource type. */
+  private Multimap<String, I_CmsFormatterBean> m_formattersByType;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param formatters the initial map of formatters
-     */
-    public CmsFormatterConfigurationCacheState(Map<CmsUUID, I_CmsFormatterBean> formatters) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param formatters the initial map of formatters
+   */
+  public CmsFormatterConfigurationCacheState(Map<CmsUUID, I_CmsFormatterBean> formatters) {
 
-        m_formatters = new HashMap<CmsUUID, I_CmsFormatterBean>(formatters);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Created new formatter configuration: ");
-            LOG.debug(m_formatters.toString());
+    m_formatters = new HashMap<CmsUUID, I_CmsFormatterBean>(formatters);
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Created new formatter configuration: ");
+      LOG.debug(m_formatters.toString());
+    }
+  }
+
+  /**
+   * Creates a new copy of this state in which some entries are removed or replaced.
+   *
+   * <p>This does not change the state object on which the method is called.
+   *
+   * @param updateFormatters a map of formatters to change, where the key is the structure id and
+   *     the value is either the replacement or null if the map entry should be removed
+   * @return the updated copy
+   */
+  public CmsFormatterConfigurationCacheState createUpdatedCopy(
+      Map<CmsUUID, I_CmsFormatterBean> updateFormatters) {
+
+    Map<CmsUUID, I_CmsFormatterBean> newFormatters = Maps.newHashMap(getFormatters());
+    for (Map.Entry<CmsUUID, I_CmsFormatterBean> entry : updateFormatters.entrySet()) {
+      CmsUUID key = entry.getKey();
+      I_CmsFormatterBean value = entry.getValue();
+      if (value != null) {
+        newFormatters.put(key, value);
+      } else {
+        newFormatters.remove(key);
+      }
+    }
+    return new CmsFormatterConfigurationCacheState(newFormatters);
+  }
+
+  /**
+   * Gets the map of formatters which are automatically enabled.
+   *
+   * <p>
+   *
+   * @return the map of automatically enabled formatters with structure ids as keys
+   */
+  public Map<CmsUUID, I_CmsFormatterBean> getAutoEnabledFormatters() {
+
+    if (m_autoEnabledFormatters == null) {
+      Map<CmsUUID, I_CmsFormatterBean> result = Maps.newHashMap();
+      for (Map.Entry<CmsUUID, I_CmsFormatterBean> entry : m_formatters.entrySet()) {
+        if (entry.getValue().isAutoEnabled()) {
+          result.put(entry.getKey(), entry.getValue());
         }
+      }
+      m_autoEnabledFormatters = result;
     }
+    return Collections.unmodifiableMap(m_autoEnabledFormatters);
+  }
 
-    /**
-     * Creates a new copy of this state in which some entries are removed or replaced.<p>
-     *
-     * This does not change the state object on which the method is called.
-     *
-     * @param updateFormatters a map of formatters to change, where the key is the structure id and the value is either the replacement or null if the map entry should be removed
-     *
-     * @return the updated copy
-     */
-    public CmsFormatterConfigurationCacheState createUpdatedCopy(Map<CmsUUID, I_CmsFormatterBean> updateFormatters) {
+  /**
+   * Gets the map of all formatters.
+   *
+   * <p>
+   *
+   * @return the map of all formatters
+   */
+  public Map<CmsUUID, I_CmsFormatterBean> getFormatters() {
 
-        Map<CmsUUID, I_CmsFormatterBean> newFormatters = Maps.newHashMap(getFormatters());
-        for (Map.Entry<CmsUUID, I_CmsFormatterBean> entry : updateFormatters.entrySet()) {
-            CmsUUID key = entry.getKey();
-            I_CmsFormatterBean value = entry.getValue();
-            if (value != null) {
-                newFormatters.put(key, value);
-            } else {
-                newFormatters.remove(key);
-            }
+    return Collections.unmodifiableMap(m_formatters);
+  }
+
+  /**
+   * Gets the formatters for a specific resource types, and optionally only returns those which are
+   * automatically enabled.
+   *
+   * <p>
+   *
+   * @param resourceType the resource type name
+   * @param filterAutoEnabled true if only the automatically enabled formatters should be returned
+   * @return the formatters for the type
+   */
+  public Collection<I_CmsFormatterBean> getFormattersForType(
+      String resourceType, boolean filterAutoEnabled) {
+
+    Collection<I_CmsFormatterBean> result = getFormattersByType().get(resourceType);
+
+    if (filterAutoEnabled) {
+      result =
+          result.stream()
+              .filter(formatter -> formatter.isAutoEnabled())
+              .collect(Collectors.toList());
+    }
+    return result;
+  }
+
+  /**
+   * Gets the formatters as a multimap with the resource types as keys and caches this multimap if
+   * necessary.
+   *
+   * <p>
+   *
+   * @return the multimap of formatters by resource type
+   */
+  private Multimap<String, I_CmsFormatterBean> getFormattersByType() {
+
+    if (m_formattersByType == null) {
+      ArrayListMultimap<String, I_CmsFormatterBean> formattersByType = ArrayListMultimap.create();
+      for (I_CmsFormatterBean formatter : m_formatters.values()) {
+        for (String typeName : formatter.getResourceTypeNames()) {
+          formattersByType.put(typeName, formatter);
         }
-        return new CmsFormatterConfigurationCacheState(newFormatters);
+      }
+      m_formattersByType = formattersByType;
     }
-
-    /**
-     * Gets the map of formatters which are automatically enabled.<p>
-     *
-     * @return the map of automatically enabled formatters with structure ids as keys
-     */
-    public Map<CmsUUID, I_CmsFormatterBean> getAutoEnabledFormatters() {
-
-        if (m_autoEnabledFormatters == null) {
-            Map<CmsUUID, I_CmsFormatterBean> result = Maps.newHashMap();
-            for (Map.Entry<CmsUUID, I_CmsFormatterBean> entry : m_formatters.entrySet()) {
-                if (entry.getValue().isAutoEnabled()) {
-                    result.put(entry.getKey(), entry.getValue());
-                }
-            }
-            m_autoEnabledFormatters = result;
-        }
-        return Collections.unmodifiableMap(m_autoEnabledFormatters);
-    }
-
-    /**
-     * Gets the map of all formatters.<p>
-     *
-     * @return the map of all formatters
-     */
-    public Map<CmsUUID, I_CmsFormatterBean> getFormatters() {
-
-        return Collections.unmodifiableMap(m_formatters);
-    }
-
-    /**
-     * Gets the formatters for a specific resource types, and optionally only returns those which are automatically enabled.<p>
-     *
-     * @param resourceType the resource type name
-     * @param filterAutoEnabled true if only the automatically enabled formatters should be returned
-     *
-     * @return the formatters for the type
-     */
-    public Collection<I_CmsFormatterBean> getFormattersForType(String resourceType, boolean filterAutoEnabled) {
-
-        Collection<I_CmsFormatterBean> result = getFormattersByType().get(resourceType);
-
-        if (filterAutoEnabled) {
-            result = result.stream().filter(formatter -> formatter.isAutoEnabled()).collect(Collectors.toList());
-        }
-        return result;
-    }
-
-    /**
-     * Gets the formatters as a multimap with the resource types as keys and caches this multimap if necessary.<p>
-     *
-     * @return the multimap of formatters by resource type
-     */
-    private Multimap<String, I_CmsFormatterBean> getFormattersByType() {
-
-        if (m_formattersByType == null) {
-            ArrayListMultimap<String, I_CmsFormatterBean> formattersByType = ArrayListMultimap.create();
-            for (I_CmsFormatterBean formatter : m_formatters.values()) {
-                for (String typeName : formatter.getResourceTypeNames()) {
-                    formattersByType.put(typeName, formatter);
-                }
-            }
-            m_formattersByType = formattersByType;
-        }
-        Multimap<String, I_CmsFormatterBean> result = Multimaps.unmodifiableMultimap(m_formattersByType);
-        return result;
-    }
-
+    Multimap<String, I_CmsFormatterBean> result =
+        Multimaps.unmodifiableMultimap(m_formattersByType);
+    return result;
+  }
 }

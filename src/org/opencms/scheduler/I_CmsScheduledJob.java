@@ -27,41 +27,39 @@
 
 package org.opencms.scheduler;
 
+import java.util.Map;
 import org.opencms.file.CmsObject;
 
-import java.util.Map;
-
 /**
- * Identifies a class that can be scheduled with the OpenCms scheduler.<p>
+ * Identifies a class that can be scheduled with the OpenCms scheduler.
  *
- * Please read the documentation for <code>{@link org.opencms.scheduler.CmsScheduledJobInfo}</code>
- * to learn how to schedule a job in OpenCms.<p>
+ * <p>Please read the documentation for <code>{@link org.opencms.scheduler.CmsScheduledJobInfo}
+ * </code> to learn how to schedule a job in OpenCms.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsScheduledJob {
 
-    /**
-     * This method will be called when this scheduled job is executed.<p>
-     *
-     * Depending on the configuration of this job, a new instance of
-     * the configured class will be instantiated every time the job is launched,
-     * or a new instance will be generated only the first time the
-     * job is launched, and re-used afterwards.<p>
-     *
-     * The result String will be written to the OpenCms logfile in the
-     * <code>org.opencms.scheduler.CmsScheduleManager</code> channel,
-     * on <code>INFO</code> log level.<p>
-     *
-     * @param cms will be initialized with the configured users cms context
-     * @param parameters the configured parameters
-     *
-     * @return a String that will be written to the OpenCms logfile
-     *
-     * @throws Exception if something goes wrong
-     *
-     * @see CmsScheduledJobInfo
-     * @see CmsScheduledJobInfo#setReuseInstance(boolean)
-     */
-    String launch(CmsObject cms, Map<String, String> parameters) throws Exception;
+  /**
+   * This method will be called when this scheduled job is executed.
+   *
+   * <p>Depending on the configuration of this job, a new instance of the configured class will be
+   * instantiated every time the job is launched, or a new instance will be generated only the first
+   * time the job is launched, and re-used afterwards.
+   *
+   * <p>The result String will be written to the OpenCms logfile in the <code>
+   * org.opencms.scheduler.CmsScheduleManager</code> channel, on <code>INFO</code> log level.
+   *
+   * <p>
+   *
+   * @param cms will be initialized with the configured users cms context
+   * @param parameters the configured parameters
+   * @return a String that will be written to the OpenCms logfile
+   * @throws Exception if something goes wrong
+   * @see CmsScheduledJobInfo
+   * @see CmsScheduledJobInfo#setReuseInstance(boolean)
+   */
+  String launch(CmsObject cms, Map<String, String> parameters) throws Exception;
 }

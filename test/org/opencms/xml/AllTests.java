@@ -27,42 +27,46 @@
 
 package org.opencms.xml;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.test.OpenCmsTestProperties;
 import org.opencms.xml2json.TestXml2Json;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Main test suite for the package <code>{@link org.opencms.xml}</code>.<p>
+ * Main test suite for the package <code>{@link org.opencms.xml}</code>.
  *
+ * <p>
  *
  * @since 6.0
  */
 public final class AllTests {
 
-    /**
-     * Hide constructor to prevent generation of class instances.<p>
-     */
-    private AllTests() {
+  /**
+   * Hide constructor to prevent generation of class instances.
+   *
+   * <p>
+   */
+  private AllTests() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * Returns the JUnit test suite for this package.<p>
-     *
-     * @return the JUnit test suite for this package
-     */
-    public static Test suite() {
+  /**
+   * Returns the JUnit test suite for this package.
+   *
+   * <p>
+   *
+   * @return the JUnit test suite for this package
+   */
+  public static Test suite() {
 
-        TestSuite suite = new TestSuite("Tests for package " + AllTests.class.getPackage().getName());
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
-        //$JUnit-BEGIN$
-        suite.addTest(TestCmsXmlEntityResolver.suite());
-        suite.addTest(new TestSuite(TestXmlUtils.class));
-        suite.addTest(TestXml2Json.suite());
-        //$JUnit-END$
-        return suite;
-    }
+    TestSuite suite = new TestSuite("Tests for package " + AllTests.class.getPackage().getName());
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    // $JUnit-BEGIN$
+    suite.addTest(TestCmsXmlEntityResolver.suite());
+    suite.addTest(new TestSuite(TestXmlUtils.class));
+    suite.addTest(TestXml2Json.suite());
+    // $JUnit-END$
+    return suite;
+  }
 }

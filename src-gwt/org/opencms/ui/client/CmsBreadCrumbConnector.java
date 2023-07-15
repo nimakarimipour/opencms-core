@@ -27,10 +27,6 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.gwt.client.util.CmsDomUtil;
-import org.opencms.ui.shared.components.CmsBreadCrumbState;
-import org.opencms.util.CmsStringUtil;
-
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -48,172 +44,190 @@ import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentConnector;
 import com.vaadin.shared.ui.Connect;
 import com.vaadin.shared.ui.Connect.LoadStyle;
+import org.opencms.gwt.client.util.CmsDomUtil;
+import org.opencms.ui.shared.components.CmsBreadCrumbState;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * Bread crumb component connector.<p>
+ * Bread crumb component connector.
+ *
+ * <p>
  */
 @Connect(value = org.opencms.ui.components.CmsBreadCrumb.class, loadStyle = LoadStyle.EAGER)
 public class CmsBreadCrumbConnector extends AbstractComponentConnector implements ResizeHandler {
 
-    /** The dynamic style element id. */
-    private static final String DYNAMIC_STYLE_ID = "breadcrumbstyle";
+  /** The dynamic style element id. */
+  private static final String DYNAMIC_STYLE_ID = "breadcrumbstyle";
 
-    /** The style rule. */
-    private static JavaScriptObject m_maxWidthRule;
+  /** The style rule. */
+  private static JavaScriptObject m_maxWidthRule;
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -8483069041782419156L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -8483069041782419156L;
 
-    /** The widget style name. */
-    private static final String STYLE_NAME = "o-tools-breadcrumb";
+  /** The widget style name. */
+  private static final String STYLE_NAME = "o-tools-breadcrumb";
 
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#getState()
-     */
-    @Override
-    public CmsBreadCrumbState getState() {
+  /** @see com.vaadin.client.ui.AbstractComponentConnector#getState() */
+  @Override
+  public CmsBreadCrumbState getState() {
 
-        return (CmsBreadCrumbState)super.getState();
+    return (CmsBreadCrumbState) super.getState();
+  }
+
+  /** @see com.vaadin.client.ui.AbstractComponentConnector#getWidget() */
+  @Override
+  public HTML getWidget() {
+
+    return (HTML) super.getWidget();
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.ResizeHandler#onResize(com.google.gwt.event.logical.shared.ResizeEvent)
+   */
+  public void onResize(ResizeEvent event) {
+
+    updateMaxWidth();
+  }
+
+  /**
+   * @see
+   *     com.vaadin.client.ui.AbstractComponentConnector#onStateChanged(com.vaadin.client.communication.StateChangeEvent)
+   */
+  @Override
+  public void onStateChanged(StateChangeEvent stateChangeEvent) {
+
+    super.onStateChanged(stateChangeEvent);
+
+    getWidget().setHTML(getBreadCrumbHtml(getState().getEntries()));
+    if (RootPanel.getBodyElement().isOrHasChild(getWidget().getElement())) {
+      // only if attached
+      updateMaxWidth();
     }
+  }
 
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#getWidget()
-     */
-    @Override
-    public HTML getWidget() {
+  /** @see com.vaadin.client.ui.AbstractComponentConnector#createWidget() */
+  @Override
+  protected Widget createWidget() {
 
-        return (HTML)super.getWidget();
-    }
+    HTML widget =
+        new HTML() {
 
-    /**
-     * @see com.google.gwt.event.logical.shared.ResizeHandler#onResize(com.google.gwt.event.logical.shared.ResizeEvent)
-     */
-    public void onResize(ResizeEvent event) {
+          private HandlerRegistration m_handlerReg;
 
-        updateMaxWidth();
-    }
+          @Override
+          protected void onAttach() {
 
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#onStateChanged(com.vaadin.client.communication.StateChangeEvent)
-     */
-    @Override
-    public void onStateChanged(StateChangeEvent stateChangeEvent) {
+            super.onAttach();
+            m_handlerReg = Window.addResizeHandler(CmsBreadCrumbConnector.this);
+            Scheduler.get()
+                .scheduleDeferred(
+                    new ScheduledCommand() {
 
-        super.onStateChanged(stateChangeEvent);
-
-        getWidget().setHTML(getBreadCrumbHtml(getState().getEntries()));
-        if (RootPanel.getBodyElement().isOrHasChild(getWidget().getElement())) {
-            // only if attached
-            updateMaxWidth();
-        }
-    }
-
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#createWidget()
-     */
-    @Override
-    protected Widget createWidget() {
-
-        HTML widget = new HTML() {
-
-            private HandlerRegistration m_handlerReg;
-
-            @Override
-            protected void onAttach() {
-
-                super.onAttach();
-                m_handlerReg = Window.addResizeHandler(CmsBreadCrumbConnector.this);
-                Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-                    public void execute() {
+                      public void execute() {
 
                         updateMaxWidth();
-                    }
-                });
-            }
+                      }
+                    });
+          }
 
-            @Override
-            protected void onDetach() {
+          @Override
+          protected void onDetach() {
 
-                super.onDetach();
-                m_handlerReg.removeHandler();
-            }
+            super.onDetach();
+            m_handlerReg.removeHandler();
+          }
         };
-        widget.setStyleName(STYLE_NAME);
-        return widget;
+    widget.setStyleName(STYLE_NAME);
+    return widget;
+  }
+
+  /**
+   * Generates the bread crumb HTML for the given entries.
+   *
+   * <p>
+   *
+   * @param breadCrumbEntries the bread crub entries
+   * @return the generated HTML
+   */
+  protected String getBreadCrumbHtml(String[][] breadCrumbEntries) {
+
+    StringBuffer buffer = new StringBuffer();
+    buffer.append("<div>");
+    if ((breadCrumbEntries != null)) {
+      for (String[] entry : breadCrumbEntries) {
+        appendBreadCrumbEntry(buffer, entry[0], entry[1]);
+      }
     }
+    buffer.append("</div>");
+    return buffer.toString();
+  }
 
-    /**
-     * Generates the bread crumb HTML for the given entries.<p>
-     *
-     * @param breadCrumbEntries the bread crub entries
-     *
-     * @return the generated HTML
-     */
-    protected String getBreadCrumbHtml(String[][] breadCrumbEntries) {
+  /**
+   * Updates the entry max-width according to the available space.
+   *
+   * <p>
+   */
+  void updateMaxWidth() {
 
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("<div>");
-        if ((breadCrumbEntries != null)) {
-            for (String[] entry : breadCrumbEntries) {
-                appendBreadCrumbEntry(buffer, entry[0], entry[1]);
-            }
-        }
-        buffer.append("</div>");
-        return buffer.toString();
+    Element base = getWidget().getElement();
+    int availableWidth = base.getOffsetWidth();
+    int requiredWidth = 0;
+    NodeList<Element> children = CmsDomUtil.querySelectorAll("div > a, div > span", base);
+    for (int i = 0; i < children.getLength(); i++) {
+      Element child = children.getItem(i);
+      Style style = child.getFirstChildElement().getStyle();
+      style.setProperty("maxWidth", "none");
+      requiredWidth += child.getOffsetWidth();
+      style.clearProperty("maxWidth");
     }
-
-    /**
-     * Updates the entry max-width according to the available space.<p>
-     */
-    void updateMaxWidth() {
-
-        Element base = getWidget().getElement();
-        int availableWidth = base.getOffsetWidth();
-        int requiredWidth = 0;
-        NodeList<Element> children = CmsDomUtil.querySelectorAll("div > a, div > span", base);
-        for (int i = 0; i < children.getLength(); i++) {
-            Element child = children.getItem(i);
-            Style style = child.getFirstChildElement().getStyle();
-            style.setProperty("maxWidth", "none");
-            requiredWidth += child.getOffsetWidth();
-            style.clearProperty("maxWidth");
-        }
-        if (requiredWidth > availableWidth) {
-            int padding = 30 + ((children.getLength() - 1) * 35);
-            int maxWidth = (availableWidth - padding) / children.getLength();
-            setMaxWidth(maxWidth + "px");
-        } else {
-            setMaxWidth("none");
-        }
+    if (requiredWidth > availableWidth) {
+      int padding = 30 + ((children.getLength() - 1) * 35);
+      int maxWidth = (availableWidth - padding) / children.getLength();
+      setMaxWidth(maxWidth + "px");
+    } else {
+      setMaxWidth("none");
     }
+  }
 
-    /**
-     * Appends a bread crumb entry.<p>
-     *
-     * @param buffer the string buffer to append to
-     * @param target the target state
-     * @param label the entry label
-     */
-    private void appendBreadCrumbEntry(StringBuffer buffer, String target, String label) {
+  /**
+   * Appends a bread crumb entry.
+   *
+   * <p>
+   *
+   * @param buffer the string buffer to append to
+   * @param target the target state
+   * @param label the entry label
+   */
+  private void appendBreadCrumbEntry(StringBuffer buffer, String target, String label) {
 
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(target)) {
-            buffer.append("<a href=\"#!").append(target).append(
-                "\" title=\"" + CmsDomUtil.escapeXml(label) + "\"><span>").append(label).append("</span></a>");
-        } else {
-            buffer.append(
-                "<span class=\"o-tools-breadcrumb-active\" title=\""
-                    + CmsDomUtil.escapeXml(label)
-                    + "\"><span>").append(label).append("</span></span>");
-        }
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(target)) {
+      buffer
+          .append("<a href=\"#!")
+          .append(target)
+          .append("\" title=\"" + CmsDomUtil.escapeXml(label) + "\"><span>")
+          .append(label)
+          .append("</span></a>");
+    } else {
+      buffer
+          .append(
+              "<span class=\"o-tools-breadcrumb-active\" title=\""
+                  + CmsDomUtil.escapeXml(label)
+                  + "\"><span>")
+          .append(label)
+          .append("</span></span>");
     }
+  }
 
-    /**
-     * Sets the max-width style property.<p>
-     *
-     * @param maxWidth the max-width value
-     */
-    private native void setMaxWidth(String maxWidth)/*-{
+  /**
+   * Sets the max-width style property.
+   *
+   * <p>
+   *
+   * @param maxWidth the max-width value
+   */
+  private native void setMaxWidth(String maxWidth) /*-{
         if (@org.opencms.ui.client.CmsBreadCrumbConnector::m_maxWidthRule == null) {
             var style = $wnd.document
                     .getElementById(@org.opencms.ui.client.CmsBreadCrumbConnector::DYNAMIC_STYLE_ID);

@@ -27,143 +27,164 @@
 
 package org.opencms.workplace.editors;
 
+import java.util.Locale;
 import org.opencms.file.CmsResource;
 import org.opencms.util.CmsUUID;
 
-import java.util.Locale;
-
 /**
- * Stores editor session data.<p>
+ * Stores editor session data.
+ *
+ * <p>
  *
  * @since 8.0.
  */
 public class CmsEditorSessionInfo {
 
-    /** The editor session info key prefix. */
-    public static final String PREFIX_EDITOR_SESSION_INFO = "editorSessionInfo";
+  /** The editor session info key prefix. */
+  public static final String PREFIX_EDITOR_SESSION_INFO = "editorSessionInfo";
 
-    /** The back link for closing the editor. */
-    private String m_backLink;
+  /** The back link for closing the editor. */
+  private String m_backLink;
 
-    /** Flag indicating if in direct edit mode. */
-    private boolean m_directEdit;
+  /** Flag indicating if in direct edit mode. */
+  private boolean m_directEdit;
 
-    /** The id of the edited resource. */
-    private CmsUUID m_editedStructureId;
+  /** The id of the edited resource. */
+  private CmsUUID m_editedStructureId;
 
-    /** The locale currently edited. */
-    private Locale m_elementLocale;
+  /** The locale currently edited. */
+  private Locale m_elementLocale;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param editedStructureId the id of the edited resource
-     */
-    public CmsEditorSessionInfo(CmsUUID editedStructureId) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param editedStructureId the id of the edited resource
+   */
+  public CmsEditorSessionInfo(CmsUUID editedStructureId) {
 
-        m_editedStructureId = editedStructureId;
-    }
+    m_editedStructureId = editedStructureId;
+  }
 
-    /**
-    * Returns the session info key for the bean.<p>
-    *
-    * @param editedResource the edited resource
-    *
-    * @return the session info key for the bean
-    */
-    protected static String getEditorSessionInfoKey(CmsResource editedResource) {
+  /**
+   * Returns the session info key for the bean.
+   *
+   * <p>
+   *
+   * @param editedResource the edited resource
+   * @return the session info key for the bean
+   */
+  protected static String getEditorSessionInfoKey(CmsResource editedResource) {
 
-        return PREFIX_EDITOR_SESSION_INFO + editedResource.getStructureId().getStringValue();
-    }
+    return PREFIX_EDITOR_SESSION_INFO + editedResource.getStructureId().getStringValue();
+  }
 
-    /**
-     * Returns the back link for closing the editor.<p>
-     *
-     * @return the back link for closing the editor
-     */
-    public String getBackLink() {
+  /**
+   * Returns the back link for closing the editor.
+   *
+   * <p>
+   *
+   * @return the back link for closing the editor
+   */
+  public String getBackLink() {
 
-        return m_backLink;
-    }
+    return m_backLink;
+  }
 
-    /**
-     * Returns the id of the edited resource.<p>
-     *
-     * @return the id of the edited resource
-     */
-    public CmsUUID getEditedStructureId() {
+  /**
+   * Returns the id of the edited resource.
+   *
+   * <p>
+   *
+   * @return the id of the edited resource
+   */
+  public CmsUUID getEditedStructureId() {
 
-        return m_editedStructureId;
-    }
+    return m_editedStructureId;
+  }
 
-    /**
-        * Returns the session info key for the bean.<p>
-        *
-        * @return the session info key for the bean
-        */
-    public String getEditorSessionInfoKey() {
+  /**
+   * Returns the session info key for the bean.
+   *
+   * <p>
+   *
+   * @return the session info key for the bean
+   */
+  public String getEditorSessionInfoKey() {
 
-        return PREFIX_EDITOR_SESSION_INFO + m_editedStructureId.getStringValue();
-    }
+    return PREFIX_EDITOR_SESSION_INFO + m_editedStructureId.getStringValue();
+  }
 
-    /**
-     * Returns the element locale currently edited.<p>
-     *
-     * @return the element locale
-     */
-    public Locale getElementLocale() {
+  /**
+   * Returns the element locale currently edited.
+   *
+   * <p>
+   *
+   * @return the element locale
+   */
+  public Locale getElementLocale() {
 
-        return m_elementLocale;
-    }
+    return m_elementLocale;
+  }
 
-    /**
-     * Returns if in direct edit mode.<p>
-     *
-     * @return <code>true</code> if in direct edit mode
-     */
-    public boolean isDirectEdit() {
+  /**
+   * Returns if in direct edit mode.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if in direct edit mode
+   */
+  public boolean isDirectEdit() {
 
-        return m_directEdit;
-    }
+    return m_directEdit;
+  }
 
-    /**
-     * Sets the back link for closing the editor.<p>
-     *
-     * @param backLink the back link for closing the editor to set
-     */
-    public void setBackLink(String backLink) {
+  /**
+   * Sets the back link for closing the editor.
+   *
+   * <p>
+   *
+   * @param backLink the back link for closing the editor to set
+   */
+  public void setBackLink(String backLink) {
 
-        m_backLink = backLink;
-    }
+    m_backLink = backLink;
+  }
 
-    /**
-     * Sets the flag indicating if in direct edit mode.<p>
-     *
-     * @param directEdit the flag indicating if in direct edit mode
-     */
-    public void setDirectEdit(boolean directEdit) {
+  /**
+   * Sets the flag indicating if in direct edit mode.
+   *
+   * <p>
+   *
+   * @param directEdit the flag indicating if in direct edit mode
+   */
+  public void setDirectEdit(boolean directEdit) {
 
-        m_directEdit = directEdit;
-    }
+    m_directEdit = directEdit;
+  }
 
-    /**
-     * Sets the id of the edited resource.<p>
-     *
-     * @param editedStructureId the id of the edited resource to set
-     */
-    public void setEditedStructureId(CmsUUID editedStructureId) {
+  /**
+   * Sets the id of the edited resource.
+   *
+   * <p>
+   *
+   * @param editedStructureId the id of the edited resource to set
+   */
+  public void setEditedStructureId(CmsUUID editedStructureId) {
 
-        m_editedStructureId = editedStructureId;
-    }
+    m_editedStructureId = editedStructureId;
+  }
 
-    /**
-     * Sets the element locale currently edited.<p>
-     *
-     * @param elementLocale the element locale to set
-     */
-    public void setElementLocale(Locale elementLocale) {
+  /**
+   * Sets the element locale currently edited.
+   *
+   * <p>
+   *
+   * @param elementLocale the element locale to set
+   */
+  public void setElementLocale(Locale elementLocale) {
 
-        m_elementLocale = elementLocale;
-    }
-
+    m_elementLocale = elementLocale;
+  }
 }

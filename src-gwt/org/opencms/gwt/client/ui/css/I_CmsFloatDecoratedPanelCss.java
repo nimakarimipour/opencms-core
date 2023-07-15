@@ -31,45 +31,57 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.CssResource.Shared;
 
 /**
- * CSS resource for the CmsFloatDecoratedPanel class.<p>
+ * CSS resource for the CmsFloatDecoratedPanel class.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 @Shared
 public interface I_CmsFloatDecoratedPanelCss extends CssResource {
 
-    /**
-     * CSS class accessor.<p>
-     *
-     * @return a CSS class
-     */
-    String decorationBox();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class
+   */
+  String decorationBox();
 
-    /**
-     * CSS class accessor.<P>
-     *
-     * @return a CSS class
-     */
-    String decorationBoxSmall();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class
+   */
+  String decorationBoxSmall();
 
-    /**
-     * CSS class accessor.<p>
-     *
-     * @return a CSS class
-     */
-    String floatBox();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class
+   */
+  String floatBox();
 
-    /**
-     * CSS class accessor.<p>
-     *
-     * @return a CSS class
-     */
-    String floatDecoratedPanel();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class
+   */
+  String floatDecoratedPanel();
 
-    /**
-     * CSS class accessor.<P>
-     *
-     * @return a CSS class
-     */
-    String primary();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class
+   */
+  String primary();
 }

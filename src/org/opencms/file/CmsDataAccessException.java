@@ -31,43 +31,49 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Signals data access related issues, i.e. database access.<p>
+ * Signals data access related issues, i.e. database access.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDataAccessException extends CmsException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 2531036451365546672L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 2531036451365546672L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsDataAccessException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsDataAccessException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsDataAccessException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsDataAccessException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsDataAccessException(container, cause);
-    }
-
+    return new CmsDataAccessException(container, cause);
+  }
 }

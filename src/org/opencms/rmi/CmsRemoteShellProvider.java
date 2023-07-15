@@ -27,45 +27,43 @@
 
 package org.opencms.rmi;
 
+import java.rmi.RemoteException;
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 
-import java.rmi.RemoteException;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Remote object responsible for creating new remote shell instances.<p>
+ * Remote object responsible for creating new remote shell instances.
+ *
+ * <p>
  */
 public class CmsRemoteShellProvider implements I_CmsRemoteShellProvider {
 
-    /** Log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsRemoteShellProvider.class);
+  /** Log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsRemoteShellProvider.class);
 
-    /** The port to use for created CmsRemoteShell instances. */
-    private int m_port;
+  /** The port to use for created CmsRemoteShell instances. */
+  private int m_port;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param port the port to use for created CmsRemoteShell instances
-     */
-    public CmsRemoteShellProvider(int port) {
-        m_port = port;
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param port the port to use for created CmsRemoteShell instances
+   */
+  public CmsRemoteShellProvider(int port) {
+    m_port = port;
+  }
+
+  /** @see org.opencms.rmi.I_CmsRemoteShellProvider#createShell(java.lang.String) */
+  public I_CmsRemoteShell createShell(String additionalCommandsName) throws RemoteException {
+
+    try {
+      CmsRemoteShell shell = new CmsRemoteShell(additionalCommandsName, m_port);
+      return shell;
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      throw new RemoteException("Remote error: " + e.getLocalizedMessage());
     }
-
-    /**
-     * @see org.opencms.rmi.I_CmsRemoteShellProvider#createShell(java.lang.String)
-     */
-    public I_CmsRemoteShell createShell(String additionalCommandsName) throws RemoteException {
-
-        try {
-            CmsRemoteShell shell = new CmsRemoteShell(additionalCommandsName, m_port);
-            return shell;
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            throw new RemoteException("Remote error: " + e.getLocalizedMessage());
-        }
-
-    }
-
+  }
 }

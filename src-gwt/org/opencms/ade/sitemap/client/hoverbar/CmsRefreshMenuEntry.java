@@ -31,39 +31,38 @@ import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.Messages;
 
 /**
- * Sitemap context menu update sitemap entry.<p>
+ * Sitemap context menu update sitemap entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsRefreshMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsRefreshMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsRefreshMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_REFRESH_0));
-        setActive(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_REFRESH_0));
+    setActive(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-        getHoverbar().getController().updateEntry(getHoverbar().getEntry().getId());
-    }
+    getHoverbar().getController().updateEntry(getHoverbar().getEntry().getId());
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        setVisible(!CmsSitemapView.getInstance().isSpecialMode());
-    }
-
+    setVisible(!CmsSitemapView.getInstance().isSpecialMode());
+  }
 }

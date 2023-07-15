@@ -34,62 +34,69 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.Timer;
 
 /**
- * On hover intent handler.<p>
+ * On hover intent handler.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public abstract class A_CmsHoverHandler implements MouseOutHandler, MouseOverHandler {
 
-    /** Timer to achieve the hover intent effect. */
-    protected Timer m_timer;
+  /** Timer to achieve the hover intent effect. */
+  protected Timer m_timer;
 
-    /**
-     * @see com.google.gwt.event.dom.client.MouseOutHandler#onMouseOut(com.google.gwt.event.dom.client.MouseOutEvent)
-     */
-    public final void onMouseOut(MouseOutEvent event) {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.MouseOutHandler#onMouseOut(com.google.gwt.event.dom.client.MouseOutEvent)
+   */
+  public final void onMouseOut(MouseOutEvent event) {
 
-        if (m_timer != null) {
-            m_timer.cancel();
+    if (m_timer != null) {
+      m_timer.cancel();
+      m_timer = null;
+    } else {
+      onHoverOut(event);
+    }
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.MouseOverHandler#onMouseOver(com.google.gwt.event.dom.client.MouseOverEvent)
+   */
+  public final void onMouseOver(final MouseOverEvent event) {
+
+    if (m_timer != null) {
+      return;
+    }
+    m_timer =
+        new Timer() {
+
+          /** @see com.google.gwt.user.client.Timer#run() */
+          @Override
+          public void run() {
+
             m_timer = null;
-        } else {
-            onHoverOut(event);
-        }
-    }
-
-    /**
-     * @see com.google.gwt.event.dom.client.MouseOverHandler#onMouseOver(com.google.gwt.event.dom.client.MouseOverEvent)
-     */
-    public final void onMouseOver(final MouseOverEvent event) {
-
-        if (m_timer != null) {
-            return;
-        }
-        m_timer = new Timer() {
-
-            /**
-             * @see com.google.gwt.user.client.Timer#run()
-             */
-            @Override
-            public void run() {
-
-                m_timer = null;
-                onHoverIn(event);
-            }
+            onHoverIn(event);
+          }
         };
-        m_timer.schedule(100);
-    }
+    m_timer.schedule(100);
+  }
 
-    /**
-     * Will be executed for starting the hover effect.<p>
-     *
-     * @param event the mouse event
-     */
-    protected abstract void onHoverIn(MouseOverEvent event);
+  /**
+   * Will be executed for starting the hover effect.
+   *
+   * <p>
+   *
+   * @param event the mouse event
+   */
+  protected abstract void onHoverIn(MouseOverEvent event);
 
-    /**
-     * Will be executed for finishing the hover effect.<p>
-     *
-     * @param event the mouse event
-     */
-    protected abstract void onHoverOut(MouseOutEvent event);
+  /**
+   * Will be executed for finishing the hover effect.
+   *
+   * <p>
+   *
+   * @param event the mouse event
+   */
+  protected abstract void onHoverOut(MouseOutEvent event);
 }

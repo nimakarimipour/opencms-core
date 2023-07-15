@@ -36,35 +36,38 @@ import org.opencms.gwt.shared.CmsListInfoBean.StateIcon;
 
 /**
  * A class which changes the status icon of a sitemap item when the "secure" or "export" properties
- * of the corresponding sitemap entry change.<p>
+ * of the corresponding sitemap entry change.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsStatusIconUpdateHandler implements I_CmsPropertyUpdateHandler {
 
-    /**
-     * @see org.opencms.ade.sitemap.client.control.I_CmsPropertyUpdateHandler#handlePropertyUpdate(org.opencms.ade.sitemap.shared.CmsClientSitemapEntry)
-     */
-    public void handlePropertyUpdate(CmsClientSitemapEntry entry) {
+  /**
+   * @see
+   *     org.opencms.ade.sitemap.client.control.I_CmsPropertyUpdateHandler#handlePropertyUpdate(org.opencms.ade.sitemap.shared.CmsClientSitemapEntry)
+   */
+  public void handlePropertyUpdate(CmsClientSitemapEntry entry) {
 
-        CmsSitemapTreeItem item = CmsSitemapView.getInstance().getTreeItem(entry.getSitePath());
-        if (item == null) {
-            return;
-        }
-        CmsSitemapController controller = CmsSitemapView.getInstance().getController();
-        String secureProp = controller.getEffectiveProperty(entry, "secure");
-        String exportProp = controller.getEffectiveProperty(entry, "export");
-        String exportName = controller.getEffectiveProperty(entry, "exportname");
-        entry.setExportName(exportName);
-
-        StateIcon icon = StateIcon.standard;
-        if (Boolean.parseBoolean(exportProp)) {
-            icon = StateIcon.export;
-        }
-        if (Boolean.parseBoolean(secureProp)) {
-            icon = StateIcon.secure;
-        }
-        item.setStateIcon(icon);
-        item.updateSitePath();
+    CmsSitemapTreeItem item = CmsSitemapView.getInstance().getTreeItem(entry.getSitePath());
+    if (item == null) {
+      return;
     }
+    CmsSitemapController controller = CmsSitemapView.getInstance().getController();
+    String secureProp = controller.getEffectiveProperty(entry, "secure");
+    String exportProp = controller.getEffectiveProperty(entry, "export");
+    String exportName = controller.getEffectiveProperty(entry, "exportname");
+    entry.setExportName(exportName);
+
+    StateIcon icon = StateIcon.standard;
+    if (Boolean.parseBoolean(exportProp)) {
+      icon = StateIcon.export;
+    }
+    if (Boolean.parseBoolean(secureProp)) {
+      icon = StateIcon.secure;
+    }
+    item.setStateIcon(icon);
+    item.updateSitePath();
+  }
 }

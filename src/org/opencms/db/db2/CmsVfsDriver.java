@@ -30,18 +30,18 @@ package org.opencms.db.db2;
 import org.opencms.db.generic.CmsSqlManager;
 
 /**
- * DB2 implementation of the VFS driver methods.<p>
+ * DB2 implementation of the VFS driver methods.
+ *
+ * <p>
  *
  * @since 7.0.3
  */
 public class CmsVfsDriver extends org.opencms.db.generic.CmsVfsDriver {
 
-    /**
-     * @see org.opencms.db.I_CmsVfsDriver#initSqlManager(String)
-     */
-    @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  /** @see org.opencms.db.I_CmsVfsDriver#initSqlManager(String) */
+  @Override
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
 
-        return CmsSqlManager.getInstance(classname);
-    }
+    return CmsSqlManager.getInstance(classname);
+  }
 }

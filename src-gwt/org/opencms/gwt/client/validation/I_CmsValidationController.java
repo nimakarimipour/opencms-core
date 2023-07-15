@@ -30,28 +30,34 @@ package org.opencms.gwt.client.validation;
 import org.opencms.gwt.shared.CmsValidationResult;
 
 /**
- * This is the interface which an {@link I_CmsValidator} object uses to either synchronously report the result of a validation
- * or to request an asynchronous validation from the server.<p>
+ * This is the interface which an {@link I_CmsValidator} object uses to either synchronously report
+ * the result of a validation or to request an asynchronous validation from the server.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsValidationController {
 
-    /**
-     * Reports the result of a synchronous validation.<p>
-     *
-     * @param field the field name
-     * @param result the validation result
-     */
-    void provideValidationResult(String field, CmsValidationResult result);
+  /**
+   * Reports the result of a synchronous validation.
+   *
+   * <p>
+   *
+   * @param field the field name
+   * @param result the validation result
+   */
+  void provideValidationResult(String field, CmsValidationResult result);
 
-    /**
-     * Requests an server-side validation to be performed later.<p>
-     *
-     * @param field the field name
-     * @param value the value of the field
-     * @param validator the server-side validator class name
-     * @param config the configuration string for the server-side validator
-     */
-    void validateAsync(String field, String value, String validator, String config);
+  /**
+   * Requests an server-side validation to be performed later.
+   *
+   * <p>
+   *
+   * @param field the field name
+   * @param value the value of the field
+   * @param validator the server-side validator class name
+   * @param config the configuration string for the server-side validator
+   */
+  void validateAsync(String field, String value, String validator, String config);
 }

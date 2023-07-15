@@ -28,110 +28,106 @@
 package org.opencms.gwt.client.ui;
 
 /**
- * Abstract button class implementing common methods of {@link org.opencms.gwt.client.ui.I_CmsToolbarButton}
- * for all container-page tool-bar menu buttons.<p>
+ * Abstract button class implementing common methods of {@link
+ * org.opencms.gwt.client.ui.I_CmsToolbarButton} for all container-page tool-bar menu buttons.
+ *
+ * <p>
  *
  * @param <HANDLER> the handler class for the menu button
- *
  * @since 8.0.0
  */
 public abstract class A_CmsToolbarMenu<HANDLER extends I_CmsToolbarHandler> extends CmsMenuButton
-implements I_CmsToolbarButton {
+    implements I_CmsToolbarButton {
 
-    /** The handler instance. */
-    private HANDLER m_handler;
+  /** The handler instance. */
+  private HANDLER m_handler;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param buttonData the tool-bar button data
-     * @param handler the container-page handler
-     */
-    public A_CmsToolbarMenu(I_CmsButton.ButtonData buttonData, HANDLER handler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param buttonData the tool-bar button data
+   * @param handler the container-page handler
+   */
+  public A_CmsToolbarMenu(I_CmsButton.ButtonData buttonData, HANDLER handler) {
 
-        super(null, buttonData.getIconClass());
-        setToolbarMode(true);
-        setOpenRight(true);
-        m_handler = handler;
-        setTitle(buttonData.getTitle());
+    super(null, buttonData.getIconClass());
+    setToolbarMode(true);
+    setOpenRight(true);
+    m_handler = handler;
+    setTitle(buttonData.getTitle());
+  }
+
+  /** @see org.opencms.gwt.client.ui.CmsMenuButton#hideMenu() */
+  @Override
+  public void hideMenu() {
+
+    super.hideMenu();
+  }
+
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#isActive() */
+  public boolean isActive() {
+
+    return isOpen();
+  }
+
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarClick() */
+  public void onToolbarClick() {
+
+    boolean active = isActive();
+
+    setActive(!active);
+  }
+
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#setActive(boolean) */
+  public void setActive(boolean active) {
+
+    if (active) {
+      m_handler.deactivateCurrentButton();
+      m_handler.setActiveButton(this);
+      m_popup.catchNotifications();
+      onToolbarActivate();
+      openMenu();
+    } else {
+      onToolbarDeactivate();
+      closeMenu();
+      m_handler.setActiveButton(null);
+      m_handler.activateSelection();
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.CmsMenuButton#hideMenu()
-     */
-    @Override
-    public void hideMenu() {
+  /** @see org.opencms.gwt.client.ui.CmsMenuButton#autoClose() */
+  @Override
+  protected void autoClose() {
 
-        super.hideMenu();
-    }
+    super.autoClose();
+    onToolbarDeactivate();
+    m_handler.setActiveButton(null);
+    m_handler.activateSelection();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#isActive()
-     */
-    public boolean isActive() {
+  /**
+   * Returns the container-page handler.
+   *
+   * <p>
+   *
+   * @return the container-page handler
+   */
+  protected HANDLER getHandler() {
 
-        return isOpen();
-    }
+    return m_handler;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarClick()
-     */
-    public void onToolbarClick() {
+  /**
+   * Sets the button handler.
+   *
+   * <p>
+   *
+   * @param handler the button handler
+   */
+  protected void setHandler(HANDLER handler) {
 
-        boolean active = isActive();
-
-        setActive(!active);
-
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#setActive(boolean)
-     */
-    public void setActive(boolean active) {
-
-        if (active) {
-            m_handler.deactivateCurrentButton();
-            m_handler.setActiveButton(this);
-            m_popup.catchNotifications();
-            onToolbarActivate();
-            openMenu();
-        } else {
-            onToolbarDeactivate();
-            closeMenu();
-            m_handler.setActiveButton(null);
-            m_handler.activateSelection();
-        }
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.CmsMenuButton#autoClose()
-     */
-    @Override
-    protected void autoClose() {
-
-        super.autoClose();
-        onToolbarDeactivate();
-        m_handler.setActiveButton(null);
-        m_handler.activateSelection();
-    }
-
-    /**
-     * Returns the container-page handler.<p>
-     *
-     * @return the container-page handler
-     */
-    protected HANDLER getHandler() {
-
-        return m_handler;
-    }
-
-    /**
-     * Sets the button handler.<p>
-     *
-     * @param handler the button handler
-     */
-    protected void setHandler(HANDLER handler) {
-
-        m_handler = handler;
-    }
+    m_handler = handler;
+  }
 }

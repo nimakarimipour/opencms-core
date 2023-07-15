@@ -32,22 +32,24 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Concrete OnDemandExportHandler.<p>
+ * Concrete OnDemandExportHandler.
  *
- * Just the published files and folders are purged.<p>
+ * <p>Just the published files and folders are purged.
+ *
+ * <p>
  *
  * @since 6.0.0
- *
  * @see I_CmsStaticExportHandler
  */
 public class CmsOnDemandStaticExportHandler extends A_CmsOnDemandStaticExportHandler {
 
-    /**
-     * @see org.opencms.staticexport.A_CmsStaticExportHandler#getRelatedFilesToPurge(java.lang.String, java.lang.String)
-     */
-    @Override
-    protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
+  /**
+   * @see org.opencms.staticexport.A_CmsStaticExportHandler#getRelatedFilesToPurge(java.lang.String,
+   *     java.lang.String)
+   */
+  @Override
+  protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
 
-        return Collections.emptyList();
-    }
+    return Collections.emptyList();
+  }
 }

@@ -27,63 +27,75 @@
 
 package org.opencms.ui.editors;
 
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.ui.apps.I_CmsAppUIContext;
 
-import java.util.Map;
-
 /**
- * Interface for resource editors.<p>
+ * Interface for resource editors.
+ *
+ * <p>
  */
 public interface I_CmsEditor {
 
-    /**
-     * Gets the priority.<p>
-     *
-     * If multiple editors for the same resource type are available, the one with the highest priority will be picked.<p>
-     *
-     * @return the priority
-     */
-    int getPriority();
+  /**
+   * Gets the priority.
+   *
+   * <p>If multiple editors for the same resource type are available, the one with the highest
+   * priority will be picked.
+   *
+   * <p>
+   *
+   * @return the priority
+   */
+  int getPriority();
 
-    /**
-     * Within this method the editor UI should be initialized.<p>
-     * Use the context to add the app's components to the UI.<p>
-     *
-     * @param context the UI context
-     * @param resource the resource to edit
-     * @param backLink the link to return to when closing the editor
-     * @param params optional parameters
-     */
-    void initUI(I_CmsAppUIContext context, CmsResource resource, String backLink, Map<String, String> params);
+  /**
+   * Within this method the editor UI should be initialized.
+   *
+   * <p>Use the context to add the app's components to the UI.
+   *
+   * <p>
+   *
+   * @param context the UI context
+   * @param resource the resource to edit
+   * @param backLink the link to return to when closing the editor
+   * @param params optional parameters
+   */
+  void initUI(
+      I_CmsAppUIContext context, CmsResource resource, String backLink, Map<String, String> params);
 
-    /**
-     * Checks whether the editor is available for the given resource.<p>
-     *
-     * @param cms the CMS context
-     * @param resource the resource to edit
-     * @param plainText if plain text editing is required
-     *
-     * @return <code>true</code> if the editor is available for the given resource
-     */
-    boolean matchesResource(CmsObject cms, CmsResource resource, boolean plainText);
+  /**
+   * Checks whether the editor is available for the given resource.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @param resource the resource to edit
+   * @param plainText if plain text editing is required
+   * @return <code>true</code> if the editor is available for the given resource
+   */
+  boolean matchesResource(CmsObject cms, CmsResource resource, boolean plainText);
 
-    /**
-     * Checks whether the editor is available for the given resource type.<p>
-     *
-     * @param type the resource type to edit
-     * @param plainText if plain text editing is required
-     *
-     * @return <code>true</code> if the editor is available for the given resource
-     */
-    boolean matchesType(I_CmsResourceType type, boolean plainText);
+  /**
+   * Checks whether the editor is available for the given resource type.
+   *
+   * <p>
+   *
+   * @param type the resource type to edit
+   * @param plainText if plain text editing is required
+   * @return <code>true</code> if the editor is available for the given resource
+   */
+  boolean matchesType(I_CmsResourceType type, boolean plainText);
 
-    /**
-     * Returns a new editor instance.<p>
-     *
-     * @return the editor instance
-     */
-    I_CmsEditor newInstance();
+  /**
+   * Returns a new editor instance.
+   *
+   * <p>
+   *
+   * @return the editor instance
+   */
+  I_CmsEditor newInstance();
 }

@@ -27,31 +27,33 @@
 
 package org.opencms.ade.upload.client;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
+import java.util.List;
 import org.opencms.ade.upload.client.ui.A_CmsUploadDialog;
 import org.opencms.ade.upload.client.ui.CmsUploadDialogImpl;
 import org.opencms.gwt.client.A_CmsEntryPoint;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.client.ui.CmsErrorDialog;
 
-import java.util.List;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-
 /**
- * Upload dialog entry class.<p>
+ * Upload dialog entry class.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsUpload extends A_CmsEntryPoint {
 
-    /** Name of exported dialog close function. */
-    private static final String FUNCTION_OPEN_UPLOAD_DIALOG = "cms_ade_openUploadDialog";
+  /** Name of exported dialog close function. */
+  private static final String FUNCTION_OPEN_UPLOAD_DIALOG = "cms_ade_openUploadDialog";
 
-    /**
-     * Exports the open dialog method.<p>
-     */
-    public static native void exportOpenUploadDialog() /*-{
+  /**
+   * Exports the open dialog method.
+   *
+   * <p>
+   */
+  public static native void exportOpenUploadDialog() /*-{
 
         $wnd[@org.opencms.ade.upload.client.CmsUpload::FUNCTION_OPEN_UPLOAD_DIALOG] = function(
                 uploadTarget) {
@@ -60,92 +62,100 @@ public class CmsUpload extends A_CmsEntryPoint {
 
     }-*/;
 
-    /**
-     * Opens an empty upload dialog.<p>
-     *
-     * @param uploadTarget the target folder
-     */
-    private static void openDialog(String uploadTarget) {
+  /**
+   * Opens an empty upload dialog.
+   *
+   * <p>
+   *
+   * @param uploadTarget the target folder
+   */
+  private static void openDialog(String uploadTarget) {
 
-        try {
-            A_CmsUploadDialog dialog = GWT.create(CmsUploadDialogImpl.class);
-            dialog.setContext(new I_CmsUploadContext() {
+    try {
+      A_CmsUploadDialog dialog = GWT.create(CmsUploadDialogImpl.class);
+      dialog.setContext(
+          new I_CmsUploadContext() {
 
-                public void onUploadFinished(List<String> uploadedFiles) {
+            public void onUploadFinished(List<String> uploadedFiles) {
 
-                    Window.Location.reload();
-                }
-            });
-            dialog.setTargetFolder(uploadTarget);
-            dialog.loadAndShow();
-        } catch (Exception e) {
-            CmsErrorDialog.handleException(
-                new Exception(
-                    "Deserialization of dialog data failed. This may be caused by expired java-script resources, please clear your browser cache and try again.",
-                    e));
-        }
-    }
-
-    /**
-     * @see org.opencms.gwt.client.A_CmsEntryPoint#onModuleLoad()
-     */
-    @Override
-    public void onModuleLoad() {
-
-        super.onModuleLoad();
-        if ((getDialogMode() != null) && getDialogMode().equals("button")) {
-            exportOpenUploadDialog();
-        } else {
-            try {
-                A_CmsUploadDialog dialog = GWT.create(CmsUploadDialogImpl.class);
-                I_CmsUploadContext context = new I_CmsUploadContext() {
-
-                    public void onUploadFinished(List<String> uploadedFiles) {
-
-                        String closeLink = getCloseLink() + "?resource=";
-                        Window.Location.assign(CmsCoreProvider.get().link(closeLink));
-                    }
-                };
-                dialog.setContext(context);
-                dialog.setTargetFolder(getTargetFolder());
-                dialog.loadAndShow();
-            } catch (Exception e) {
-                CmsErrorDialog.handleException(
-                    new Exception(
-                        "Deserialization of dialog data failed. This may be caused by expired java-script resources, please clear your browser cache and try again.",
-                        e));
+              Window.Location.reload();
             }
-        }
+          });
+      dialog.setTargetFolder(uploadTarget);
+      dialog.loadAndShow();
+    } catch (Exception e) {
+      CmsErrorDialog.handleException(
+          new Exception(
+              "Deserialization of dialog data failed. This may be caused by expired java-script resources, please clear your browser cache and try again.",
+              e));
     }
+  }
 
-    /**
-     * Retrieves the close link global variable as a string.<p>
-     *
-     * @return the close link
-     */
-    protected native String getCloseLink() /*-{
+  /** @see org.opencms.gwt.client.A_CmsEntryPoint#onModuleLoad() */
+  @Override
+  public void onModuleLoad() {
+
+    super.onModuleLoad();
+    if ((getDialogMode() != null) && getDialogMode().equals("button")) {
+      exportOpenUploadDialog();
+    } else {
+      try {
+        A_CmsUploadDialog dialog = GWT.create(CmsUploadDialogImpl.class);
+        I_CmsUploadContext context =
+            new I_CmsUploadContext() {
+
+              public void onUploadFinished(List<String> uploadedFiles) {
+
+                String closeLink = getCloseLink() + "?resource=";
+                Window.Location.assign(CmsCoreProvider.get().link(closeLink));
+              }
+            };
+        dialog.setContext(context);
+        dialog.setTargetFolder(getTargetFolder());
+        dialog.loadAndShow();
+      } catch (Exception e) {
+        CmsErrorDialog.handleException(
+            new Exception(
+                "Deserialization of dialog data failed. This may be caused by expired java-script resources, please clear your browser cache and try again.",
+                e));
+      }
+    }
+  }
+
+  /**
+   * Retrieves the close link global variable as a string.
+   *
+   * <p>
+   *
+   * @return the close link
+   */
+  protected native String getCloseLink() /*-{
 
         return $wnd[@org.opencms.gwt.shared.I_CmsUploadConstants::ATTR_CLOSE_LINK];
 
     }-*/;
 
-    /**
-     * Retrieves the dialog mode global variable as a string.<p>
-     *
-     * @return the dialog mode
-     */
-    protected native String getDialogMode() /*-{
+  /**
+   * Retrieves the dialog mode global variable as a string.
+   *
+   * <p>
+   *
+   * @return the dialog mode
+   */
+  protected native String getDialogMode() /*-{
 
         return $wnd[@org.opencms.gwt.shared.I_CmsUploadConstants::ATTR_DIALOG_MODE];
 
     }-*/;
 
-    /**
-     * Retrieves the target folder global variable as a string.<p>
-     *
-     * @return the target folder
-     */
-    private native String getTargetFolder() /*-{
+  /**
+   * Retrieves the target folder global variable as a string.
+   *
+   * <p>
+   *
+   * @return the target folder
+   */
+  private native String getTargetFolder() /*-{
 
         return $wnd[@org.opencms.gwt.shared.I_CmsUploadConstants::VAR_TARGET_FOLDER];
 

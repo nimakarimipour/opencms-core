@@ -27,19 +27,17 @@
 
 package org.opencms.webdav;
 
-import org.opencms.main.CmsException;
-import org.opencms.main.CmsLog;
-import org.opencms.repository.A_CmsRepository;
-import org.opencms.repository.I_CmsRepositorySession;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.jackrabbit.webdav.DavException;
 import org.apache.jackrabbit.webdav.DavSessionProvider;
 import org.apache.jackrabbit.webdav.WebdavRequest;
+import org.opencms.main.CmsException;
+import org.opencms.main.CmsLog;
+import org.opencms.repository.A_CmsRepository;
+import org.opencms.repository.I_CmsRepositorySession;
 
 /**
  * Session provider implementation.
@@ -48,67 +46,69 @@ import org.apache.jackrabbit.webdav.WebdavRequest;
  */
 public class CmsDavSessionProvider implements DavSessionProvider {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsDavSessionProvider.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsDavSessionProvider.class);
 
-    /** The repository implementation. */
-    private A_CmsRepository m_repository;
+  /** The repository implementation. */
+  private A_CmsRepository m_repository;
 
-    /**
-     * Authorizes the user using HTTP BASIC authentication, and if successful, attaches the created session to the request
-     *
-     * @see org.apache.jackrabbit.webdav.DavSessionProvider#attachSession(org.apache.jackrabbit.webdav.WebdavRequest)
-     */
-    public boolean attachSession(WebdavRequest request) throws DavException {
+  /**
+   * Authorizes the user using HTTP BASIC authentication, and if successful, attaches the created
+   * session to the request
+   *
+   * @see
+   *     org.apache.jackrabbit.webdav.DavSessionProvider#attachSession(org.apache.jackrabbit.webdav.WebdavRequest)
+   */
+  public boolean attachSession(WebdavRequest request) throws DavException {
 
-        if (m_repository == null) {
-            throw new IllegalStateException("Uninitialized repository");
-        }
-        String authHeader = request.getHeader("Authorization");
-        I_CmsRepositorySession repoSession = null;
-        String basic = HttpServletRequest.BASIC_AUTH;
-        if ((authHeader != null) && authHeader.toUpperCase().startsWith(basic)) {
-            String base64Token = authHeader.substring(basic.length() + 1);
-            String token = new String(Base64.decodeBase64(base64Token.getBytes()));
-            String password = null;
-            String username = null;
-            int pos = token.indexOf(":");
-            if (pos != -1) {
-                username = token.substring(0, pos);
-                password = token.substring(pos + 1);
-            }
-            try {
-                repoSession = m_repository.login(username, password);
-            } catch (CmsException e) {
-                LOG.info(e.getLocalizedMessage(), e);
-            }
-        }
-        if (repoSession == null) {
-            throw new DavException(HttpServletResponse.SC_UNAUTHORIZED);
-        }
-
-        request.setDavSession(new CmsDavSession(repoSession));
-
-        return true;
+    if (m_repository == null) {
+      throw new IllegalStateException("Uninitialized repository");
+    }
+    String authHeader = request.getHeader("Authorization");
+    I_CmsRepositorySession repoSession = null;
+    String basic = HttpServletRequest.BASIC_AUTH;
+    if ((authHeader != null) && authHeader.toUpperCase().startsWith(basic)) {
+      String base64Token = authHeader.substring(basic.length() + 1);
+      String token = new String(Base64.decodeBase64(base64Token.getBytes()));
+      String password = null;
+      String username = null;
+      int pos = token.indexOf(":");
+      if (pos != -1) {
+        username = token.substring(0, pos);
+        password = token.substring(pos + 1);
+      }
+      try {
+        repoSession = m_repository.login(username, password);
+      } catch (CmsException e) {
+        LOG.info(e.getLocalizedMessage(), e);
+      }
+    }
+    if (repoSession == null) {
+      throw new DavException(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
-    /**
-     * @see org.apache.jackrabbit.webdav.DavSessionProvider#releaseSession(org.apache.jackrabbit.webdav.WebdavRequest)
-     */
-    public void releaseSession(WebdavRequest request) {
+    request.setDavSession(new CmsDavSession(repoSession));
 
-        // TODO Auto-generated method stub
+    return true;
+  }
 
-    }
+  /**
+   * @see
+   *     org.apache.jackrabbit.webdav.DavSessionProvider#releaseSession(org.apache.jackrabbit.webdav.WebdavRequest)
+   */
+  public void releaseSession(WebdavRequest request) {
 
-    /**
-     * Sets the repository.
-     *
-     * @param repository the repository
-     */
-    public void setRepository(A_CmsRepository repository) {
+    // TODO Auto-generated method stub
 
-        m_repository = repository;
-    }
+  }
 
+  /**
+   * Sets the repository.
+   *
+   * @param repository the repository
+   */
+  public void setRepository(A_CmsRepository repository) {
+
+    m_repository = repository;
+  }
 }

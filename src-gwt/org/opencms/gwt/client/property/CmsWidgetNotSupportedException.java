@@ -28,23 +28,26 @@
 package org.opencms.gwt.client.property;
 
 /**
- * The exception which is thrown when a widget is not supported in the sitemap entry editor.<p>
+ * The exception which is thrown when a widget is not supported in the sitemap entry editor.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsWidgetNotSupportedException extends RuntimeException {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new exception instance.<p>
-     *
-     * @param widgetType the unsupported widget type
-     */
-    public CmsWidgetNotSupportedException(String widgetType) {
+  /**
+   * Creates a new exception instance.
+   *
+   * <p>
+   *
+   * @param widgetType the unsupported widget type
+   */
+  public CmsWidgetNotSupportedException(String widgetType) {
 
-        super("The widget type " + widgetType + "is not supported by the sitemap editor!");
-    }
-
+    super("The widget type " + widgetType + "is not supported by the sitemap editor!");
+  }
 }

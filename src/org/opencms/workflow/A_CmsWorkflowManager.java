@@ -27,84 +27,88 @@
 
 package org.opencms.workflow;
 
-import org.opencms.file.CmsObject;
-import org.opencms.main.OpenCms;
-
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
+import org.opencms.file.CmsObject;
+import org.opencms.main.OpenCms;
 
 /**
  * Abstract class which provides common functionality for workflow managers, like initialization of
- * the configuration parameters.<p>
+ * the configuration parameters.
  *
+ * <p>
  */
 public abstract class A_CmsWorkflowManager implements I_CmsWorkflowManager {
 
-    /** The CMS context with admin privileges. */
-    protected CmsObject m_adminCms;
+  /** The CMS context with admin privileges. */
+  protected CmsObject m_adminCms;
 
-    /** The map of configuration parameters. */
-    protected Map<String, String> m_parameters;
+  /** The map of configuration parameters. */
+  protected Map<String, String> m_parameters;
 
-    /**
-     * Gets the parameters of the workflow manager.<p>
-     *
-     * @return the configuration parameters of the workflow manager
-     */
-    public Map<String, String> getParameters() {
+  /**
+   * Gets the parameters of the workflow manager.
+   *
+   * <p>
+   *
+   * @return the configuration parameters of the workflow manager
+   */
+  public Map<String, String> getParameters() {
 
-        return Collections.unmodifiableMap(m_parameters);
+    return Collections.unmodifiableMap(m_parameters);
+  }
+
+  /** @see org.opencms.workflow.I_CmsWorkflowManager#initialize(org.opencms.file.CmsObject) */
+  public void initialize(CmsObject adminCms) {
+
+    m_adminCms = adminCms;
+  }
+
+  /**
+   * Sets the configuration parameters of the workflow manager.
+   *
+   * <p>
+   *
+   * @param parameters the map of configuration parameters
+   */
+  public void setParameters(Map<String, String> parameters) {
+
+    if (m_parameters != null) {
+      throw new IllegalStateException();
     }
+    m_parameters = parameters;
+  }
 
-    /**
-     * @see org.opencms.workflow.I_CmsWorkflowManager#initialize(org.opencms.file.CmsObject)
-     */
-    public void initialize(CmsObject adminCms) {
+  /**
+   * Gets the locale to use for a given CMS context.
+   *
+   * <p>
+   *
+   * @param userCms the CMS context
+   * @return the locale to use
+   */
+  protected Locale getLocale(CmsObject userCms) {
 
-        m_adminCms = adminCms;
+    return OpenCms.getWorkplaceManager().getWorkplaceLocale(userCms);
+  }
+
+  /**
+   * Gets the configuration parameter for a given key, and if it doesn't find one, returns a default
+   * value.
+   *
+   * <p>
+   *
+   * @param key the configuration key
+   * @param defaultValue the default value to use when the configuration entry isn't found
+   * @return the configuration value
+   */
+  protected String getParameter(String key, String defaultValue) {
+
+    String result = m_parameters.get(key);
+    if (result == null) {
+      result = defaultValue;
     }
-
-    /**
-     * Sets the configuration parameters of the workflow manager.<p>
-     *
-     * @param parameters the map of configuration parameters
-     */
-    public void setParameters(Map<String, String> parameters) {
-
-        if (m_parameters != null) {
-            throw new IllegalStateException();
-        }
-        m_parameters = parameters;
-    }
-
-    /**
-     * Gets the locale to use for a given CMS context.<p>
-     *
-     * @param userCms the CMS context
-     *
-     * @return the locale to use
-     */
-    protected Locale getLocale(CmsObject userCms) {
-
-        return OpenCms.getWorkplaceManager().getWorkplaceLocale(userCms);
-    }
-
-    /**
-     * Gets the configuration parameter for a given key, and if it doesn't find one, returns a default value.<p>
-     *
-     * @param key the configuration key
-     * @param defaultValue the default value to use when the configuration entry isn't found
-     *
-     * @return the configuration value
-     */
-    protected String getParameter(String key, String defaultValue) {
-
-        String result = m_parameters.get(key);
-        if (result == null) {
-            result = defaultValue;
-        }
-        return result;
-    }
-
+    return result;
+  }
 }

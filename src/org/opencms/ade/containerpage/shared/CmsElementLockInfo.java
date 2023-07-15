@@ -27,79 +27,71 @@
 
 package org.opencms.ade.containerpage.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
-/**
- * Contains lock information for a container page element.
- */
+/** Contains lock information for a container page element. */
 public class CmsElementLockInfo implements IsSerializable {
 
-    /** User id of the lock owner. */
-    private CmsUUID m_lockOwner;
+  /** User id of the lock owner. */
+  private CmsUUID m_lockOwner;
 
-    /** True if this is a publish lock. */
-    private boolean m_isPublishLock;
+  /** True if this is a publish lock. */
+  private boolean m_isPublishLock;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param lockOwner the lock owner
-     * @param isPublishLock the publish lock status
-     */
-    public CmsElementLockInfo(CmsUUID lockOwner, boolean isPublishLock) {
+  /**
+   * Creates a new instance.
+   *
+   * @param lockOwner the lock owner
+   * @param isPublishLock the publish lock status
+   */
+  public CmsElementLockInfo(CmsUUID lockOwner, boolean isPublishLock) {
 
-        super();
-        m_lockOwner = lockOwner;
-        m_isPublishLock = isPublishLock;
-    }
+    super();
+    m_lockOwner = lockOwner;
+    m_isPublishLock = isPublishLock;
+  }
 
-    /**
-     * Empty constructor for serialization.
-     */
-    protected CmsElementLockInfo() {
+  /** Empty constructor for serialization. */
+  protected CmsElementLockInfo() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * Gets the lock owner id.
-     *
-     * @return the lock owner id
-     */
-    public CmsUUID getLockOwner() {
+  /**
+   * Gets the lock owner id.
+   *
+   * @return the lock owner id
+   */
+  public CmsUUID getLockOwner() {
 
-        return m_lockOwner;
-    }
+    return m_lockOwner;
+  }
 
-    /**
-     * Returns true if the resource is locked.
-     *
-     * @return true if the resource is locked
-     */
-    public boolean isLocked() {
+  /**
+   * Returns true if the resource is locked.
+   *
+   * @return true if the resource is locked
+   */
+  public boolean isLocked() {
 
-        return (m_lockOwner != null) && !m_lockOwner.equals(CmsUUID.getNullUUID());
-    }
+    return (m_lockOwner != null) && !m_lockOwner.equals(CmsUUID.getNullUUID());
+  }
 
-    /**
-     * Returns true if the resource is a publish lock.
-     *
-     * @return true if the resource is a publish lock
-     */
-    public boolean isPublishLock() {
+  /**
+   * Returns true if the resource is a publish lock.
+   *
+   * @return true if the resource is a publish lock
+   */
+  public boolean isPublishLock() {
 
-        return m_isPublishLock;
-    }
+    return m_isPublishLock;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return "LockInfo(" + m_lockOwner + "," + m_isPublishLock + ")";
-    }
-
+    return "LockInfo(" + m_lockOwner + "," + m_isPublishLock + ")";
+  }
 }

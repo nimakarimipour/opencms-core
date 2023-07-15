@@ -27,6 +27,17 @@
 
 package org.opencms.ui.client;
 
+import com.google.common.collect.Lists;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.SerializationException;
+import com.google.gwt.user.client.rpc.SerializationStreamFactory;
+import com.google.gwt.user.client.rpc.SerializationStreamWriter;
+import com.vaadin.client.ServerConnector;
+import com.vaadin.client.extensions.AbstractExtensionConnector;
+import com.vaadin.shared.ui.Connect;
+import java.util.List;
+import java.util.Map;
 import org.opencms.gwt.client.property.I_CmsPropertySaver;
 import org.opencms.gwt.client.rpc.CmsRpcPrefetcher;
 import org.opencms.gwt.client.ui.contenteditor.I_CmsContentEditorHandler;
@@ -43,249 +54,254 @@ import org.opencms.ui.shared.rpc.I_CmsPropertyClientRpc;
 import org.opencms.ui.shared.rpc.I_CmsPropertyServerRpc;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-import java.util.Map;
-
-import com.google.common.collect.Lists;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.SerializationException;
-import com.google.gwt.user.client.rpc.SerializationStreamFactory;
-import com.google.gwt.user.client.rpc.SerializationStreamWriter;
-import com.vaadin.client.ServerConnector;
-import com.vaadin.client.extensions.AbstractExtensionConnector;
-import com.vaadin.shared.ui.Connect;
-
-/**
- * Connector for the  property dialog extension.
- */
+/** Connector for the property dialog extension. */
 @Connect(CmsPropertyDialogExtension.class)
 public class CmsPropertyDialogExtensionConnector extends AbstractExtensionConnector
-implements I_CmsPropertyClientRpc, CmsEditProperties.I_MultiFileNavigation {
+    implements I_CmsPropertyClientRpc, CmsEditProperties.I_MultiFileNavigation {
+
+  /**
+   * Context menu handler.
+   *
+   * <p>
+   */
+  public class ContextMenuHandler implements I_CmsContextMenuHandler {
 
     /**
-     * Context menu handler.<p>
+     * @see
+     *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#ensureLockOnResource(org.opencms.util.CmsUUID,
+     *     org.opencms.gwt.client.util.I_CmsSimpleCallback)
      */
-    public class ContextMenuHandler implements I_CmsContextMenuHandler {
+    public void ensureLockOnResource(CmsUUID structureId, I_CmsSimpleCallback<Boolean> callback) {
 
-        /**
-         * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#ensureLockOnResource(org.opencms.util.CmsUUID, org.opencms.gwt.client.util.I_CmsSimpleCallback)
-         */
-        public void ensureLockOnResource(CmsUUID structureId, I_CmsSimpleCallback<Boolean> callback) {
-
-            notImplemented();
-        }
-
-        /**
-         * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#getContextMenuCommands()
-         */
-        public Map<String, I_CmsContextMenuCommand> getContextMenuCommands() {
-
-            notImplemented();
-            return null;
-        }
-
-        /**
-         * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#getContextType()
-         */
-        public String getContextType() {
-
-            return CmsGwtConstants.CONTEXT_TYPE_FILE_TABLE;
-        }
-
-        /**
-         * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#getEditorHandler()
-         */
-        public I_CmsContentEditorHandler getEditorHandler() {
-
-            notImplemented();
-            return null;
-        }
-
-        /**
-         * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#leavePage(java.lang.String)
-         */
-        public void leavePage(String targetUri) {
-
-            notImplemented();
-        }
-
-        /**
-         * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#onSiteOrProjectChange(java.lang.String, java.lang.String)
-         */
-        public void onSiteOrProjectChange(String sitePath, String serverLink) {
-
-            notImplemented();
-        }
-
-        /**
-         * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#refreshResource(org.opencms.util.CmsUUID)
-         */
-        public void refreshResource(CmsUUID structureId) {
-
-            List<String> changed = Lists.newArrayList();
-            changed.add("" + structureId);
-            m_changed = changed;
-            close(100);
-        }
-
-        /**
-         * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#unlockResource(org.opencms.util.CmsUUID)
-         */
-        public void unlockResource(CmsUUID structureId) {
-
-            notImplemented();
-        }
-
-        /**
-         * Throws an illegal state exception for not implemented methods.<p>
-         */
-        private void notImplemented() {
-
-            throw new IllegalStateException("Not implemented");
-        }
+      notImplemented();
     }
 
     /**
-     * The property saver.<p>
+     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#getContextMenuCommands()
      */
-    public class PropertySaver implements I_CmsPropertySaver {
+    public Map<String, I_CmsContextMenuCommand> getContextMenuCommands() {
 
-        /**
-         * @see org.opencms.gwt.client.property.I_CmsPropertySaver#saveProperties(org.opencms.gwt.shared.property.CmsPropertyChangeSet, com.google.gwt.user.client.rpc.AsyncCallback)
-         */
-        @SuppressWarnings("synthetic-access")
-        public void saveProperties(CmsPropertyChangeSet changes, AsyncCallback<Void> callback) {
-
-            try {
-                m_propertySaveCallback = callback;
-                SerializationStreamFactory streamFactory = (SerializationStreamFactory)GWT.create(
-                    I_CmsVfsService.class);
-                SerializationStreamWriter streamWriter = streamFactory.createStreamWriter();
-                streamWriter.writeObject(changes);
-                String serializedData = streamWriter.toString();
-                getRpcProxy(I_CmsPropertyServerRpc.class).savePropertiesForNewResource(serializedData);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-
+      notImplemented();
+      return null;
     }
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+    /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#getContextType() */
+    public String getContextType() {
 
-    /** Changed ids. */
-    protected List<String> m_changed = Lists.newArrayList();
+      return CmsGwtConstants.CONTEXT_TYPE_FILE_TABLE;
+    }
 
-    /** Callback to be called after the properties have been saved. */
-    protected AsyncCallback<Void> m_propertySaveCallback;
+    /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#getEditorHandler() */
+    public I_CmsContentEditorHandler getEditorHandler() {
 
-    /** Stored callback. */
-    private AsyncCallback<CmsUUID> m_currentCallback;
-
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsPropertyClientRpc#confirmSaveForNew()
-     */
-    public void confirmSaveForNew() {
-
-        m_propertySaveCallback.onSuccess(null);
+      notImplemented();
+      return null;
     }
 
     /**
-     * @see org.opencms.ui.shared.rpc.I_CmsPropertyClientRpc#editProperties(java.lang.String, boolean, boolean)
+     * @see
+     *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#leavePage(java.lang.String)
      */
-    public void editProperties(String editStructureId, boolean editName, boolean disablePrevNext) {
+    public void leavePage(String targetUri) {
 
-        CmsEditProperties.PropertyEditingContext context = new CmsEditProperties.PropertyEditingContext();
-        if (!disablePrevNext) {
-            context.setMultiFileNavigation(this);
-        }
-        CmsEditProperties.editPropertiesWithFileNavigation(
-            new CmsUUID(editStructureId),
-            new ContextMenuHandler(),
-            editName,
-            new Runnable() {
-
-                public void run() {
-
-                    // nop
-                }
-            },
-            false,
-            context,
-            null);
-
+      notImplemented();
     }
 
     /**
-     * @see org.opencms.ui.shared.rpc.I_CmsPropertyClientRpc#editPropertiesForNewResource(java.lang.String)
+     * @see
+     *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#onSiteOrProjectChange(java.lang.String,
+     *     java.lang.String)
      */
-    public void editPropertiesForNewResource(String propertyDataString) {
+    public void onSiteOrProjectChange(String sitePath, String serverLink) {
 
-        try {
-            CmsVUI.clearStoredFocusForCurrentInstance(); // we need to control the focus for ourselves in the property dialog
-            CmsPropertiesBean propData = (CmsPropertiesBean)(CmsRpcPrefetcher.getSerializedObjectFromString(
-                GWT.create(I_CmsVfsService.class),
-                propertyDataString));
-            CmsEditProperties.PropertyEditingContext context = new CmsEditProperties.PropertyEditingContext();
-            context.setPropertySaver(new PropertySaver());
-            context.setAllowCreateProperties(false);
-            context.setFocusNameField(true);
-            CmsEditProperties.openPropertyDialog(propData, new ContextMenuHandler(), true, new Runnable() {
-
-                @SuppressWarnings("synthetic-access")
-                public void run() {
-
-                    getRpcProxy(I_CmsPropertyServerRpc.class).removeExtension();
-                }
-            }, false, context);
-
-        } catch (SerializationException e) {
-            throw new RuntimeException(e);
-        }
-
+      notImplemented();
     }
 
     /**
-     * @see org.opencms.gwt.client.ui.contextmenu.CmsEditProperties.I_MultiFileNavigation#requestNextFile(int, com.google.gwt.user.client.rpc.AsyncCallback)
+     * @see
+     *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#refreshResource(org.opencms.util.CmsUUID)
      */
-    public void requestNextFile(int offset, AsyncCallback<CmsUUID> callback) {
+    public void refreshResource(CmsUUID structureId) {
 
-        m_currentCallback = callback;
-        getRpcProxy(I_CmsPropertyServerRpc.class).requestNextFile(offset);
-
+      List<String> changed = Lists.newArrayList();
+      changed.add("" + structureId);
+      m_changed = changed;
+      close(100);
     }
 
     /**
-     * @see org.opencms.ui.shared.rpc.I_CmsPropertyClientRpc#sendNextId(java.lang.String)
+     * @see
+     *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#unlockResource(org.opencms.util.CmsUUID)
      */
-    public void sendNextId(String id) {
+    public void unlockResource(CmsUUID structureId) {
 
-        if (m_currentCallback != null) {
-            m_currentCallback.onSuccess(new CmsUUID(id));
-            m_currentCallback = null;
-        }
+      notImplemented();
     }
 
     /**
-     * Disposes of the extension on the server side and notifies the server of which resources have been changed.<p>
+     * Throws an illegal state exception for not implemented methods.
      *
-     * @param delayMillis the time to wait on the server before refreshing the view
+     * <p>
      */
-    protected void close(long delayMillis) {
+    private void notImplemented() {
 
-        getRpcProxy(I_CmsPropertyServerRpc.class).onClose(delayMillis);
+      throw new IllegalStateException("Not implemented");
     }
+  }
+
+  /**
+   * The property saver.
+   *
+   * <p>
+   */
+  public class PropertySaver implements I_CmsPropertySaver {
 
     /**
-     * @see com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
+     * @see
+     *     org.opencms.gwt.client.property.I_CmsPropertySaver#saveProperties(org.opencms.gwt.shared.property.CmsPropertyChangeSet,
+     *     com.google.gwt.user.client.rpc.AsyncCallback)
      */
-    @Override
-    protected void extend(ServerConnector target) {
+    @SuppressWarnings("synthetic-access")
+    public void saveProperties(CmsPropertyChangeSet changes, AsyncCallback<Void> callback) {
 
-        registerRpc(I_CmsPropertyClientRpc.class, this);
+      try {
+        m_propertySaveCallback = callback;
+        SerializationStreamFactory streamFactory =
+            (SerializationStreamFactory) GWT.create(I_CmsVfsService.class);
+        SerializationStreamWriter streamWriter = streamFactory.createStreamWriter();
+        streamWriter.writeObject(changes);
+        String serializedData = streamWriter.toString();
+        getRpcProxy(I_CmsPropertyServerRpc.class).savePropertiesForNewResource(serializedData);
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
     }
+  }
 
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
+
+  /** Changed ids. */
+  protected List<String> m_changed = Lists.newArrayList();
+
+  /** Callback to be called after the properties have been saved. */
+  protected AsyncCallback<Void> m_propertySaveCallback;
+
+  /** Stored callback. */
+  private AsyncCallback<CmsUUID> m_currentCallback;
+
+  /** @see org.opencms.ui.shared.rpc.I_CmsPropertyClientRpc#confirmSaveForNew() */
+  public void confirmSaveForNew() {
+
+    m_propertySaveCallback.onSuccess(null);
+  }
+
+  /**
+   * @see org.opencms.ui.shared.rpc.I_CmsPropertyClientRpc#editProperties(java.lang.String, boolean,
+   *     boolean)
+   */
+  public void editProperties(String editStructureId, boolean editName, boolean disablePrevNext) {
+
+    CmsEditProperties.PropertyEditingContext context =
+        new CmsEditProperties.PropertyEditingContext();
+    if (!disablePrevNext) {
+      context.setMultiFileNavigation(this);
+    }
+    CmsEditProperties.editPropertiesWithFileNavigation(
+        new CmsUUID(editStructureId),
+        new ContextMenuHandler(),
+        editName,
+        new Runnable() {
+
+          public void run() {
+
+            // nop
+          }
+        },
+        false,
+        context,
+        null);
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.shared.rpc.I_CmsPropertyClientRpc#editPropertiesForNewResource(java.lang.String)
+   */
+  public void editPropertiesForNewResource(String propertyDataString) {
+
+    try {
+      CmsVUI
+          .clearStoredFocusForCurrentInstance(); // we need to control the focus for ourselves in
+                                                 // the property dialog
+      CmsPropertiesBean propData =
+          (CmsPropertiesBean)
+              (CmsRpcPrefetcher.getSerializedObjectFromString(
+                  GWT.create(I_CmsVfsService.class), propertyDataString));
+      CmsEditProperties.PropertyEditingContext context =
+          new CmsEditProperties.PropertyEditingContext();
+      context.setPropertySaver(new PropertySaver());
+      context.setAllowCreateProperties(false);
+      context.setFocusNameField(true);
+      CmsEditProperties.openPropertyDialog(
+          propData,
+          new ContextMenuHandler(),
+          true,
+          new Runnable() {
+
+            @SuppressWarnings("synthetic-access")
+            public void run() {
+
+              getRpcProxy(I_CmsPropertyServerRpc.class).removeExtension();
+            }
+          },
+          false,
+          context);
+
+    } catch (SerializationException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.CmsEditProperties.I_MultiFileNavigation#requestNextFile(int,
+   *     com.google.gwt.user.client.rpc.AsyncCallback)
+   */
+  public void requestNextFile(int offset, AsyncCallback<CmsUUID> callback) {
+
+    m_currentCallback = callback;
+    getRpcProxy(I_CmsPropertyServerRpc.class).requestNextFile(offset);
+  }
+
+  /** @see org.opencms.ui.shared.rpc.I_CmsPropertyClientRpc#sendNextId(java.lang.String) */
+  public void sendNextId(String id) {
+
+    if (m_currentCallback != null) {
+      m_currentCallback.onSuccess(new CmsUUID(id));
+      m_currentCallback = null;
+    }
+  }
+
+  /**
+   * Disposes of the extension on the server side and notifies the server of which resources have
+   * been changed.
+   *
+   * <p>
+   *
+   * @param delayMillis the time to wait on the server before refreshing the view
+   */
+  protected void close(long delayMillis) {
+
+    getRpcProxy(I_CmsPropertyServerRpc.class).onClose(delayMillis);
+  }
+
+  /**
+   * @see
+   *     com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
+   */
+  @Override
+  protected void extend(ServerConnector target) {
+
+    registerRpc(I_CmsPropertyClientRpc.class, this);
+  }
 }

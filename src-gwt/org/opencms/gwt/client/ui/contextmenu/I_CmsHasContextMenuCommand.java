@@ -28,13 +28,15 @@
 package org.opencms.gwt.client.ui.contextmenu;
 
 /**
- * Interface for classes that provide context menu commands.<p>
+ * Interface for classes that provide context menu commands.
  *
- * Implementing classes need to implement the static method getContextMenuCommand() returning a
- * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand}.<p>
+ * <p>Implementing classes need to implement the static method getContextMenuCommand() returning a
+ * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand}.
+ *
+ * <p>
  *
  * @since version 8.0.1
  */
 public interface I_CmsHasContextMenuCommand {
-    //empty
+  // empty
 }

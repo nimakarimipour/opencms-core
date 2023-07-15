@@ -30,60 +30,71 @@ package org.opencms.ui.shared.components;
 import com.vaadin.shared.AbstractComponentState;
 
 /**
- * The history state.<p>
+ * The history state.
+ *
+ * <p>
  */
 public class CmsHistoryState extends AbstractComponentState {
 
-    /** The history back flag. */
-    public static final int HISTORY_BACK = 1;
+  /** The history back flag. */
+  public static final int HISTORY_BACK = 1;
 
-    /** The history forward flag. */
-    public static final int HISTORY_FORWARD = 2;
+  /** The history forward flag. */
+  public static final int HISTORY_FORWARD = 2;
 
-    /** the serial version id. */
-    private static final long serialVersionUID = -7299145857595566596L;
+  /** the serial version id. */
+  private static final long serialVersionUID = -7299145857595566596L;
 
-    /** The history direction. */
-    private int m_historyDirection;
+  /** The history direction. */
+  private int m_historyDirection;
 
-    /**
-     * Returns the history direction.<p>
-     *
-     * @return the history direction
-     */
-    public int getHistoryDirection() {
+  /**
+   * Returns the history direction.
+   *
+   * <p>
+   *
+   * @return the history direction
+   */
+  public int getHistoryDirection() {
 
-        return m_historyDirection;
-    }
+    return m_historyDirection;
+  }
 
-    /**
-     * Returns if the history direction is back.<p>
-     *
-     * @return <code>true</code> if the history direction is back
-     */
-    public boolean isHistoryBack() {
+  /**
+   * Returns if the history direction is back.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the history direction is back
+   */
+  public boolean isHistoryBack() {
 
-        return m_historyDirection == HISTORY_BACK;
-    }
+    return m_historyDirection == HISTORY_BACK;
+  }
 
-    /**
-     * Returns if the history direction is forward.<p>
-     *
-     * @return <code>true</code> if the history direction is forward
-     */
-    public boolean isHistoryForward() {
+  /**
+   * Returns if the history direction is forward.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the history direction is forward
+   */
+  public boolean isHistoryForward() {
 
-        return m_historyDirection == HISTORY_FORWARD;
-    }
+    return m_historyDirection == HISTORY_FORWARD;
+  }
 
-    /**
-     * Sets the history direction.<p>
-     * Use -1 for history back, and +1 for history forward.<p>
-     *
-     * @param direction the history direction
-     */
-    public void setHistoryDirection(int direction) {
+  /**
+   * Sets the history direction.
+   *
+   * <p>Use -1 for history back, and +1 for history forward.
+   *
+   * <p>
+   *
+   * @param direction the history direction
+   */
+  public void setHistoryDirection(int direction) {
 
-        m_historyDirection = direction;
-    }
+    m_historyDirection = direction;
+  }
 }

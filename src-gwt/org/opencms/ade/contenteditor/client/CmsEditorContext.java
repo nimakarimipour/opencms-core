@@ -32,107 +32,125 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class can be used by code which uses the Acacia editor to pass additional information to the editor on startup.<p>
+ * This class can be used by code which uses the Acacia editor to pass additional information to the
+ * editor on startup.
+ *
+ * <p>
  */
 public class CmsEditorContext {
 
-    /** The path of the style sheet to use for the WYSIWYG editor. */ 
-    private String m_editorStylesheet;
+  /** The path of the style sheet to use for the WYSIWYG editor. */
+  private String m_editorStylesheet;
 
-    /** The HTML context info. */
-    private String m_htmlContextInfo;
+  /** The HTML context info. */
+  private String m_htmlContextInfo;
 
-    /** The parameters for the publish function in the Acacia editor. */
-    private Map<String, String> m_publishParameters = new HashMap<String, String>();
+  /** The parameters for the publish function in the Acacia editor. */
+  private Map<String, String> m_publishParameters = new HashMap<String, String>();
 
-    /** The setting presets. */
-    private Map<String, String> m_settingPresets = Collections.emptyMap();
+  /** The setting presets. */
+  private Map<String, String> m_settingPresets = Collections.emptyMap();
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsEditorContext() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsEditorContext() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /** 
-     * Gets the path of the style sheet to use for the WYSIWYG editor.
-     * 
-     * @return the style sheet path 
-     */
-    public String getEditorStylesheet() {
+  /**
+   * Gets the path of the style sheet to use for the WYSIWYG editor.
+   *
+   * @return the style sheet path
+   */
+  public String getEditorStylesheet() {
 
-        return m_editorStylesheet;
-    }
+    return m_editorStylesheet;
+  }
 
-    /**
-     * Returns the HTML context info.<p>
-     *
-     * @return the HTML context info
-     */
-    public String getHtmlContextInfo() {
+  /**
+   * Returns the HTML context info.
+   *
+   * <p>
+   *
+   * @return the HTML context info
+   */
+  public String getHtmlContextInfo() {
 
-        return m_htmlContextInfo;
-    }
+    return m_htmlContextInfo;
+  }
 
-    /**
-     * Gets the additional publish parameters which should be used for the publish functionality in the Acacia editor.<p>
-     *
-     * @return the additional publish parameters
-     */
-    public Map<String, String> getPublishParameters() {
+  /**
+   * Gets the additional publish parameters which should be used for the publish functionality in
+   * the Acacia editor.
+   *
+   * <p>
+   *
+   * @return the additional publish parameters
+   */
+  public Map<String, String> getPublishParameters() {
 
-        return m_publishParameters;
-    }
+    return m_publishParameters;
+  }
 
-    /**
-     * Returns the setting presets.<p>
-     *
-     * @return the setting presets
-     */
-    public Map<String, String> getSettingPresets() {
+  /**
+   * Returns the setting presets.
+   *
+   * <p>
+   *
+   * @return the setting presets
+   */
+  public Map<String, String> getSettingPresets() {
 
-        return m_settingPresets;
-    }
+    return m_settingPresets;
+  }
 
-    /**
-     * Sets the path of the style sheet to use for the WYSIWYG editor.
-     * 
-     * @param stylesheetPath the style sheet path 
-     */
-    public void setEditorStylesheet(String stylesheetPath) {
+  /**
+   * Sets the path of the style sheet to use for the WYSIWYG editor.
+   *
+   * @param stylesheetPath the style sheet path
+   */
+  public void setEditorStylesheet(String stylesheetPath) {
 
-        m_editorStylesheet = stylesheetPath;
-    }
+    m_editorStylesheet = stylesheetPath;
+  }
 
-    /**
-     * Sets the HTML context info.<p>
-     *
-     * @param htmlContextInfo the HTML context info to set
-     */
-    public void setHtmlContextInfo(String htmlContextInfo) {
+  /**
+   * Sets the HTML context info.
+   *
+   * <p>
+   *
+   * @param htmlContextInfo the HTML context info to set
+   */
+  public void setHtmlContextInfo(String htmlContextInfo) {
 
-        m_htmlContextInfo = htmlContextInfo;
-    }
+    m_htmlContextInfo = htmlContextInfo;
+  }
 
-    /**
-     * Sets the additional publish parameters for the publish functionality in the Acacia editor.<p>
-     *
-     * @param publishParams the additional publish parameters
-     */
-    public void setPublishParameters(Map<String, String> publishParams) {
+  /**
+   * Sets the additional publish parameters for the publish functionality in the Acacia editor.
+   *
+   * <p>
+   *
+   * @param publishParams the additional publish parameters
+   */
+  public void setPublishParameters(Map<String, String> publishParams) {
 
-        m_publishParameters = publishParams;
-    }
+    m_publishParameters = publishParams;
+  }
 
-    /**
-     * Sets the setting presets.<p>
-     *
-     * @param settingPresets the setting presets to set
-     */
-    public void setSettingPresets(Map<String, String> settingPresets) {
+  /**
+   * Sets the setting presets.
+   *
+   * <p>
+   *
+   * @param settingPresets the setting presets to set
+   */
+  public void setSettingPresets(Map<String, String> settingPresets) {
 
-        m_settingPresets = settingPresets;
-    }
+    m_settingPresets = settingPresets;
+  }
 }

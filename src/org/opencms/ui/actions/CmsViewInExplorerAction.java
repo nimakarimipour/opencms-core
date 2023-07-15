@@ -27,6 +27,8 @@
 
 package org.opencms.ui.actions;
 
+import java.util.List;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.gwt.shared.CmsCoreData.AdeContext;
@@ -37,96 +39,87 @@ import org.opencms.ui.I_CmsDialogContextWithAdeContext;
 import org.opencms.ui.Messages;
 import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * Opens the file explorer for the selected resource switching to the appropriate site.<p>
+ * Opens the file explorer for the selected resource switching to the appropriate site.
+ *
+ * <p>
  */
 public class CmsViewInExplorerAction extends A_CmsWorkplaceAction implements I_CmsADEAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "viewinexplorer";
+  /** The action id. */
+  public static final String ACTION_ID = "viewinexplorer";
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        // not supported
+    // not supported
+  }
+
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName() */
+  public String getCommandClassName() {
+
+    return "org.opencms.gwt.client.ui.contextmenu.CmsShowWorkplace";
+  }
+
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
+
+    return ACTION_ID;
+  }
+
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getJspPath() */
+  public String getJspPath() {
+
+    return null;
+  }
+
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getParams() */
+  public Map<String, String> getParams() {
+
+    return null;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+
+    return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.actions.A_CmsWorkplaceAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
+   */
+  @Override
+  public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
+
+    CmsMenuItemVisibilityMode mode = CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
+    if ((context instanceof I_CmsDialogContextWithAdeContext)
+        && AdeContext.resourceinfo.equals(
+            ((I_CmsDialogContextWithAdeContext) context).getAdeContext())
+        && (context.getResources().size() == 1)
+        && OpenCms.getRoleManager().hasRole(context.getCms(), CmsRole.WORKPLACE_USER)) {
+      mode = CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
     }
+    return mode;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName()
-     */
-    public String getCommandClassName() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported() */
+  public boolean isAdeSupported() {
 
-        return "org.opencms.gwt.client.ui.contextmenu.CmsShowWorkplace";
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return ACTION_ID;
-    }
-
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
-     */
-    public String getJspPath() {
-
-        return null;
-    }
-
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
-     */
-    public Map<String, String> getParams() {
-
-        return null;
-    }
-
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
-
-        return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-    }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
-     */
-    @Override
-    public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
-
-        CmsMenuItemVisibilityMode mode = CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-        if ((context instanceof I_CmsDialogContextWithAdeContext)
-            && AdeContext.resourceinfo.equals(((I_CmsDialogContextWithAdeContext)context).getAdeContext())
-            && (context.getResources().size() == 1)
-            && OpenCms.getRoleManager().hasRole(context.getCms(), CmsRole.WORKPLACE_USER)) {
-            mode = CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
-        }
-        return mode;
-    }
-
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported()
-     */
-    public boolean isAdeSupported() {
-
-        return true;
-    }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
-
-        return Messages.GUI_ACTION_VIEW_IN_EXPLORER_0;
-    }
-
+    return Messages.GUI_ACTION_VIEW_IN_EXPLORER_0;
+  }
 }

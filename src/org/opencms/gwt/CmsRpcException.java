@@ -30,131 +30,153 @@ package org.opencms.gwt;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * GWT RPC Exception. Wrapper for exceptions thrown while processing a RPC request.<p>
+ * GWT RPC Exception. Wrapper for exceptions thrown while processing a RPC request.
  *
- * As of the current state of exception serialization within GWT,
- * details of the original throwable are kept to be available on the client.<p>
+ * <p>As of the current state of exception serialization within GWT, details of the original
+ * throwable are kept to be available on the client.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsRpcException extends Exception implements IsSerializable {
 
-    /** Serialization uid. */
-    private static final long serialVersionUID = 7582056307629544840L;
+  /** Serialization uid. */
+  private static final long serialVersionUID = 7582056307629544840L;
 
-    /** The original cause message. */
-    private String m_originalCauseMessage;
+  /** The original cause message. */
+  private String m_originalCauseMessage;
 
-    /** The original class name. */
-    private String m_originalClassName;
+  /** The original class name. */
+  private String m_originalClassName;
 
-    /** The original message. */
-    private String m_originalMessage;
+  /** The original message. */
+  private String m_originalMessage;
 
-    /** The original stack trace. */
-    private StackTraceElement[] m_originalStackTrace;
+  /** The original stack trace. */
+  private StackTraceElement[] m_originalStackTrace;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsRpcException() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsRpcException() {
 
-        // empty
+    // empty
+  }
+
+  /**
+   * Default constructor.
+   *
+   * <p>
+   *
+   * @param t the cause
+   */
+  public CmsRpcException(Throwable t) {
+
+    super(t);
+    setOriginalStackTrace(t.getStackTrace());
+    setOriginalMessage(t.getLocalizedMessage());
+    setOriginalClassName(t.getClass().getName());
+    if (t.getCause() != null) {
+      setOriginalCauseMessage(t.getCause().getLocalizedMessage());
     }
+  }
 
-    /**
-     * Default constructor.<p>
-     *
-     * @param t the cause
-     */
-    public CmsRpcException(Throwable t) {
+  /**
+   * Returns the cause message.
+   *
+   * <p>
+   *
+   * @return the cause message
+   */
+  public String getOriginalCauseMessage() {
 
-        super(t);
-        setOriginalStackTrace(t.getStackTrace());
-        setOriginalMessage(t.getLocalizedMessage());
-        setOriginalClassName(t.getClass().getName());
-        if (t.getCause() != null) {
-            setOriginalCauseMessage(t.getCause().getLocalizedMessage());
-        }
-    }
+    return m_originalCauseMessage;
+  }
 
-    /**
-     * Returns the cause message.<p>
-     *
-     * @return the cause message
-     */
-    public String getOriginalCauseMessage() {
+  /**
+   * Returns the original class name.
+   *
+   * <p>
+   *
+   * @return the original class name
+   */
+  public String getOriginalClassName() {
 
-        return m_originalCauseMessage;
-    }
+    return m_originalClassName;
+  }
 
-    /**
-     * Returns the original class name.<p>
-     *
-     * @return the original class name
-     */
-    public String getOriginalClassName() {
+  /**
+   * Returns the original message.
+   *
+   * <p>
+   *
+   * @return the original message
+   */
+  public String getOriginalMessage() {
 
-        return m_originalClassName;
-    }
+    return m_originalMessage;
+  }
 
-    /**
-     * Returns the original message.<p>
-     *
-     * @return the original message
-     */
-    public String getOriginalMessage() {
+  /**
+   * Returns the original stack trace.
+   *
+   * <p>
+   *
+   * @return the original stack trace
+   */
+  public StackTraceElement[] getOriginalStackTrace() {
 
-        return m_originalMessage;
-    }
+    return m_originalStackTrace;
+  }
 
-    /**
-     * Returns the original stack trace.<p>
-     *
-     * @return the original stack trace
-     */
-    public StackTraceElement[] getOriginalStackTrace() {
+  /**
+   * Sets the original class name.
+   *
+   * <p>
+   *
+   * @param originalClassName the original class name to set
+   */
+  public void setOriginalClassName(String originalClassName) {
 
-        return m_originalStackTrace;
-    }
+    m_originalClassName = originalClassName;
+  }
 
-    /**
-     * Sets the original class name.<p>
-     *
-     * @param originalClassName the original class name to set
-     */
-    public void setOriginalClassName(String originalClassName) {
+  /**
+   * Sets the original message.
+   *
+   * <p>
+   *
+   * @param originalMessage the original message to set
+   */
+  public void setOriginalMessage(String originalMessage) {
 
-        m_originalClassName = originalClassName;
-    }
+    m_originalMessage = originalMessage;
+  }
 
-    /**
-     * Sets the original message.<p>
-     *
-     * @param originalMessage the original message to set
-     */
-    public void setOriginalMessage(String originalMessage) {
+  /**
+   * Sets the original cause message.
+   *
+   * <p>
+   *
+   * @param originalCauseMessage the original cause message
+   */
+  protected void setOriginalCauseMessage(String originalCauseMessage) {
 
-        m_originalMessage = originalMessage;
-    }
+    m_originalCauseMessage = originalCauseMessage;
+  }
 
-    /**
-     * Sets the original cause message.<p>
-     *
-     * @param originalCauseMessage  the original cause message
-     */
-    protected void setOriginalCauseMessage(String originalCauseMessage) {
+  /**
+   * Sets the original stack trace.
+   *
+   * <p>
+   *
+   * @param trace the original stack trace
+   */
+  protected void setOriginalStackTrace(StackTraceElement[] trace) {
 
-        m_originalCauseMessage = originalCauseMessage;
-    }
-
-    /**
-     * Sets the original stack trace.<p>
-     *
-     * @param trace the original stack trace
-     */
-    protected void setOriginalStackTrace(StackTraceElement[] trace) {
-
-        m_originalStackTrace = trace;
-    }
+    m_originalStackTrace = trace;
+  }
 }

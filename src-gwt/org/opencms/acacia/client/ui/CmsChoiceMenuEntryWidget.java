@@ -27,11 +27,6 @@
 
 package org.opencms.acacia.client.ui;
 
-import org.opencms.acacia.client.CmsButtonBarHandler;
-import org.opencms.acacia.client.CmsChoiceMenuEntryBean;
-import org.opencms.acacia.client.css.I_CmsLayoutBundle;
-import org.opencms.gwt.client.util.CmsDomUtil;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -39,103 +34,119 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import org.opencms.acacia.client.CmsButtonBarHandler;
+import org.opencms.acacia.client.CmsChoiceMenuEntryBean;
+import org.opencms.acacia.client.css.I_CmsLayoutBundle;
+import org.opencms.gwt.client.util.CmsDomUtil;
 
 /**
- * A menu entry widget for selecting choices for complex choice values.<p>
+ * A menu entry widget for selecting choices for complex choice values.
+ *
+ * <p>
  */
 public class CmsChoiceMenuEntryWidget extends Composite {
 
-    /** The root attribute choice menu to which this entry belongs. */
-    private CmsAttributeChoiceWidget m_attributeChoiceWidget;
+  /** The root attribute choice menu to which this entry belongs. */
+  private CmsAttributeChoiceWidget m_attributeChoiceWidget;
 
-    /** The bean to which this entry belongs. */
-    private CmsChoiceMenuEntryBean m_entryBean;
+  /** The bean to which this entry belongs. */
+  private CmsChoiceMenuEntryBean m_entryBean;
 
-    /** The callback to invoke when a widget is selected. */
-    private AsyncCallback<CmsChoiceMenuEntryBean> m_selectCallback;
+  /** The callback to invoke when a widget is selected. */
+  private AsyncCallback<CmsChoiceMenuEntryBean> m_selectCallback;
 
-    /** The submenu to which this entry widget belongs. */
-    private CmsChoiceSubmenu m_submenu;
+  /** The submenu to which this entry widget belongs. */
+  private CmsChoiceSubmenu m_submenu;
 
-    /**
-      * Creates a new menu entry instance.<p>
-      *
-      * @param label the entry label
-      * @param help the entry help text
-      * @param menuEntry the menu entry bean
-      * @param selectHandler the select handler
-      * @param choiceWidget the root choice menu
-      * @param submenu the submenu for which this entry is being created
-      */
-    public CmsChoiceMenuEntryWidget(
-        String label,
-        String help,
-        final CmsChoiceMenuEntryBean menuEntry,
-        final AsyncCallback<CmsChoiceMenuEntryBean> selectHandler,
-        CmsAttributeChoiceWidget choiceWidget,
-        CmsChoiceSubmenu submenu) {
+  /**
+   * Creates a new menu entry instance.
+   *
+   * <p>
+   *
+   * @param label the entry label
+   * @param help the entry help text
+   * @param menuEntry the menu entry bean
+   * @param selectHandler the select handler
+   * @param choiceWidget the root choice menu
+   * @param submenu the submenu for which this entry is being created
+   */
+  public CmsChoiceMenuEntryWidget(
+      String label,
+      String help,
+      final CmsChoiceMenuEntryBean menuEntry,
+      final AsyncCallback<CmsChoiceMenuEntryBean> selectHandler,
+      CmsAttributeChoiceWidget choiceWidget,
+      CmsChoiceSubmenu submenu) {
 
-        HTML baseWidget = new HTML(label);
-        initWidget(baseWidget);
-        setStyleName(I_CmsLayoutBundle.INSTANCE.attributeChoice().choice());
-        addStyleName(CmsButtonBarHandler.HOVERABLE_MARKER);
-        m_entryBean = menuEntry;
-        m_selectCallback = selectHandler;
-        m_submenu = submenu;
-        m_attributeChoiceWidget = choiceWidget;
-        setTitle(CmsDomUtil.stripHtml(help));
-        if (menuEntry.isLeaf()) {
-            baseWidget.addClickHandler(new ClickHandler() {
+    HTML baseWidget = new HTML(label);
+    initWidget(baseWidget);
+    setStyleName(I_CmsLayoutBundle.INSTANCE.attributeChoice().choice());
+    addStyleName(CmsButtonBarHandler.HOVERABLE_MARKER);
+    m_entryBean = menuEntry;
+    m_selectCallback = selectHandler;
+    m_submenu = submenu;
+    m_attributeChoiceWidget = choiceWidget;
+    setTitle(CmsDomUtil.stripHtml(help));
+    if (menuEntry.isLeaf()) {
+      baseWidget.addClickHandler(
+          new ClickHandler() {
 
-                public void onClick(ClickEvent event) {
+            public void onClick(ClickEvent event) {
 
-                    selectHandler.onSuccess(menuEntry);
-                    CmsButtonBarHandler.INSTANCE.closeAll();
-
-                }
-            });
-        }
-        addDomHandler(CmsButtonBarHandler.INSTANCE, MouseOverEvent.getType());
-        addDomHandler(CmsButtonBarHandler.INSTANCE, MouseOutEvent.getType());
+              selectHandler.onSuccess(menuEntry);
+              CmsButtonBarHandler.INSTANCE.closeAll();
+            }
+          });
     }
+    addDomHandler(CmsButtonBarHandler.INSTANCE, MouseOverEvent.getType());
+    addDomHandler(CmsButtonBarHandler.INSTANCE, MouseOutEvent.getType());
+  }
 
-    /**
-     * Gets the root choice menu.<p>
-     *
-     * @return the root choice menu
-     */
-    public CmsAttributeChoiceWidget getAttributeChoiceWidget() {
+  /**
+   * Gets the root choice menu.
+   *
+   * <p>
+   *
+   * @return the root choice menu
+   */
+  public CmsAttributeChoiceWidget getAttributeChoiceWidget() {
 
-        return m_attributeChoiceWidget;
-    }
+    return m_attributeChoiceWidget;
+  }
 
-    /**
-     * Gets the menu entry bean.<p>
-     *
-     * @return the menu entry bean
-     */
-    public CmsChoiceMenuEntryBean getEntryBean() {
+  /**
+   * Gets the menu entry bean.
+   *
+   * <p>
+   *
+   * @return the menu entry bean
+   */
+  public CmsChoiceMenuEntryBean getEntryBean() {
 
-        return m_entryBean;
-    }
+    return m_entryBean;
+  }
 
-    /**
-     * Gets the select handler.<p>
-     *
-     * @return the select handler
-     */
-    public AsyncCallback<CmsChoiceMenuEntryBean> getSelectHandler() {
+  /**
+   * Gets the select handler.
+   *
+   * <p>
+   *
+   * @return the select handler
+   */
+  public AsyncCallback<CmsChoiceMenuEntryBean> getSelectHandler() {
 
-        return m_selectCallback;
-    }
+    return m_selectCallback;
+  }
 
-    /**
-     * Gets the submenu to which this entry belongs (or null if it belongs to a root menu).<p>
-     *
-     * @return the submenu of this entry
-     */
-    public CmsChoiceSubmenu getSubmenu() {
+  /**
+   * Gets the submenu to which this entry belongs (or null if it belongs to a root menu).
+   *
+   * <p>
+   *
+   * @return the submenu of this entry
+   */
+  public CmsChoiceSubmenu getSubmenu() {
 
-        return m_submenu;
-    }
+    return m_submenu;
+  }
 }

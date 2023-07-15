@@ -27,14 +27,8 @@
 
 package org.opencms.i18n;
 
-import org.opencms.file.CmsObject;
-import org.opencms.file.CmsResource;
-import org.opencms.file.CmsResourceFilter;
-import org.opencms.file.types.I_CmsResourceType;
-import org.opencms.main.CmsException;
-import org.opencms.main.CmsLog;
-import org.opencms.main.OpenCms;
-
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -44,102 +38,108 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.apache.commons.logging.Log;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import org.opencms.file.CmsObject;
+import org.opencms.file.CmsResource;
+import org.opencms.file.CmsResourceFilter;
+import org.opencms.file.types.I_CmsResourceType;
+import org.opencms.main.CmsException;
+import org.opencms.main.CmsLog;
+import org.opencms.main.OpenCms;
 
 /**
- * A lookup table used to find out which VFS based message bundles (XML/property bundles) contain a given key.
+ * A lookup table used to find out which VFS based message bundles (XML/property bundles) contain a
+ * given key.
  */
 public class CmsMessageToBundleIndex {
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsMessageToBundleIndex.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsMessageToBundleIndex.class);
 
-    /** The internal map used to store the bundle information for each key. */
-    private Multimap<String, CmsVfsBundleParameters> m_map = HashMultimap.create();
+  /** The internal map used to store the bundle information for each key. */
+  private Multimap<String, CmsVfsBundleParameters> m_map = HashMultimap.create();
 
-    /**
-     * Creates a new instance that will read its data from a given set of bundles.
-     *
-     * @param bundleNames the set of bundle names from which to read the information
-     * @param locale the locale to use
-     */
-    public CmsMessageToBundleIndex(Collection<String> bundleNames, Locale locale) {
+  /**
+   * Creates a new instance that will read its data from a given set of bundles.
+   *
+   * @param bundleNames the set of bundle names from which to read the information
+   * @param locale the locale to use
+   */
+  public CmsMessageToBundleIndex(Collection<String> bundleNames, Locale locale) {
 
-        for (String bundleName : bundleNames) {
-            try {
-                ResourceBundle bundle = CmsResourceBundleLoader.getBundle(bundleName, locale);
-                if (bundle instanceof CmsVfsResourceBundle) {
-                    CmsVfsResourceBundle vfsBundle = (CmsVfsResourceBundle)bundle;
-                    CmsVfsBundleParameters parameters = vfsBundle.getParameters();
-                    for (String key : bundle.keySet()) {
-                        m_map.put(key, parameters);
-                    }
-                }
-            } catch (MissingResourceException e) {
-                LOG.debug("missing resource for " + bundleName + ":" + e.getMessage(), e);
-            }
+    for (String bundleName : bundleNames) {
+      try {
+        ResourceBundle bundle = CmsResourceBundleLoader.getBundle(bundleName, locale);
+        if (bundle instanceof CmsVfsResourceBundle) {
+          CmsVfsResourceBundle vfsBundle = (CmsVfsResourceBundle) bundle;
+          CmsVfsBundleParameters parameters = vfsBundle.getParameters();
+          for (String key : bundle.keySet()) {
+            m_map.put(key, parameters);
+          }
         }
+      } catch (MissingResourceException e) {
+        LOG.debug("missing resource for " + bundleName + ":" + e.getMessage(), e);
+      }
     }
+  }
 
-    /**
-     * Reads the bundle information for the whole system.
-     *
-     * <p>This uses the request context locale of the CmsObject passed as an argument.
-     *
-     * @param cms the CMS context to use
-     * @return the bundle information
-     * @throws CmsException if something goes wrong
-     */
-    public static CmsMessageToBundleIndex read(CmsObject cms) throws CmsException {
+  /**
+   * Reads the bundle information for the whole system.
+   *
+   * <p>This uses the request context locale of the CmsObject passed as an argument.
+   *
+   * @param cms the CMS context to use
+   * @return the bundle information
+   * @throws CmsException if something goes wrong
+   */
+  public static CmsMessageToBundleIndex read(CmsObject cms) throws CmsException {
 
-        cms = OpenCms.initCmsObject(cms);
-        cms.getRequestContext().setSiteRoot("");
-        List<CmsResource> resources = new ArrayList<>();
-        for (String typeName : Arrays.asList(
-            CmsVfsBundleManager.TYPE_XML_BUNDLE,
-            CmsVfsBundleManager.TYPE_PROPERTIES_BUNDLE)) {
-            try {
-                I_CmsResourceType xmlType = OpenCms.getResourceManager().getResourceType(typeName);
-                resources.addAll(cms.readResources("/", CmsResourceFilter.ALL.addRequireType(xmlType), true));
-            } catch (Exception e) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-        }
-        Set<String> bundleNames = resources.stream().map(
-            res -> CmsVfsBundleManager.getNameAndLocale(res).getName()).collect(Collectors.toSet());
-        CmsMessageToBundleIndex result = new CmsMessageToBundleIndex(bundleNames, cms.getRequestContext().getLocale());
-        return result;
+    cms = OpenCms.initCmsObject(cms);
+    cms.getRequestContext().setSiteRoot("");
+    List<CmsResource> resources = new ArrayList<>();
+    for (String typeName :
+        Arrays.asList(
+            CmsVfsBundleManager.TYPE_XML_BUNDLE, CmsVfsBundleManager.TYPE_PROPERTIES_BUNDLE)) {
+      try {
+        I_CmsResourceType xmlType = OpenCms.getResourceManager().getResourceType(typeName);
+        resources.addAll(
+            cms.readResources("/", CmsResourceFilter.ALL.addRequireType(xmlType), true));
+      } catch (Exception e) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
     }
+    Set<String> bundleNames =
+        resources.stream()
+            .map(res -> CmsVfsBundleManager.getNameAndLocale(res).getName())
+            .collect(Collectors.toSet());
+    CmsMessageToBundleIndex result =
+        new CmsMessageToBundleIndex(bundleNames, cms.getRequestContext().getLocale());
+    return result;
+  }
 
-    /**
-     * Gets the root path of the bundle file for the given message key.
-     *
-     * <p>If no bundle is found, null is returned.
-     *
-     * @param key the message key
-     * @return the bundle root path
-     */
-    public String getBundlePathForKey(String key) {
+  /**
+   * Gets the root path of the bundle file for the given message key.
+   *
+   * <p>If no bundle is found, null is returned.
+   *
+   * @param key the message key
+   * @return the bundle root path
+   */
+  public String getBundlePathForKey(String key) {
 
-        Collection<CmsVfsBundleParameters> params = m_map.get(key);
-        if (params.size() == 0) {
-            return null;
-        } else {
-            if (params.size() > 1) {
-                LOG.warn(
-                    "Ambiguous message bundle for key "
-                        + key
-                        + ":"
-                        + params.stream().map(p -> p.getBasePath()).collect(Collectors.toList()));
-            }
-            CmsVfsBundleParameters param = params.iterator().next();
-            return param.getBasePath();
-        }
-
+    Collection<CmsVfsBundleParameters> params = m_map.get(key);
+    if (params.size() == 0) {
+      return null;
+    } else {
+      if (params.size() > 1) {
+        LOG.warn(
+            "Ambiguous message bundle for key "
+                + key
+                + ":"
+                + params.stream().map(p -> p.getBasePath()).collect(Collectors.toList()));
+      }
+      CmsVfsBundleParameters param = params.iterator().next();
+      return param.getBasePath();
     }
-
+  }
 }

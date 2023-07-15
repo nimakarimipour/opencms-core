@@ -32,85 +32,99 @@ import org.opencms.workplace.tools.A_CmsHtmlIconButton;
 import org.opencms.workplace.tools.CmsHtmlIconButtonStyleEnum;
 
 /**
- * Default implementation of a list item selection action.<p>
+ * Default implementation of a list item selection action.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListItemSelectionAction extends CmsListDirectAction {
 
-    /** The id of the related multi action. */
-    private final String m_multiActionId;
+  /** The id of the related multi action. */
+  private final String m_multiActionId;
 
-    /** The id of the selected item. */
-    private String m_selectedItemId;
+  /** The id of the selected item. */
+  private String m_selectedItemId;
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id the unique id
-     * @param multiActionId the id of the related multi Action
-     */
-    public CmsListItemSelectionAction(String id, String multiActionId) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id the unique id
+   * @param multiActionId the id of the related multi Action
+   */
+  public CmsListItemSelectionAction(String id, String multiActionId) {
 
-        super(id);
-        m_multiActionId = multiActionId;
+    super(id);
+    m_multiActionId = multiActionId;
+  }
+
+  /** @see org.opencms.workplace.tools.I_CmsHtmlIconButton#buttonHtml(CmsWorkplace) */
+  @Override
+  public String buttonHtml(CmsWorkplace wp) {
+
+    if (!isVisible()) {
+      return "";
     }
-
-    /**
-     * @see org.opencms.workplace.tools.I_CmsHtmlIconButton#buttonHtml(CmsWorkplace)
-     */
-    @Override
-    public String buttonHtml(CmsWorkplace wp) {
-
-        if (!isVisible()) {
-            return "";
-        }
-        String html = "<input type='radio' value='" + getItem().getId() + "' name='" + getListId() + getId() + "'";
-        if (!isEnabled()) {
-            html += " disabled";
-        }
-        if (getItem().getId().equals(getSelectedItemId())) {
-            html += " checked";
-        }
-        html += ">\n";
-        return A_CmsHtmlIconButton.defaultButtonHtml(
-            CmsHtmlIconButtonStyleEnum.SMALL_ICON_TEXT,
-            getId(),
-            html,
-            getHelpText().key(wp.getLocale()),
-            true,
-            null,
-            null,
-            null);
+    String html =
+        "<input type='radio' value='"
+            + getItem().getId()
+            + "' name='"
+            + getListId()
+            + getId()
+            + "'";
+    if (!isEnabled()) {
+      html += " disabled";
     }
-
-    /**
-     * Returns the id of the related multi Action.<p>
-     *
-     * @return the id of the related multi Action
-     */
-    public String getMultiActionId() {
-
-        return m_multiActionId;
+    if (getItem().getId().equals(getSelectedItemId())) {
+      html += " checked";
     }
+    html += ">\n";
+    return A_CmsHtmlIconButton.defaultButtonHtml(
+        CmsHtmlIconButtonStyleEnum.SMALL_ICON_TEXT,
+        getId(),
+        html,
+        getHelpText().key(wp.getLocale()),
+        true,
+        null,
+        null,
+        null);
+  }
 
-    /**
-     * Returns the selected item Id.<p>
-     *
-     * @return the selected item Id
-     */
-    public String getSelectedItemId() {
+  /**
+   * Returns the id of the related multi Action.
+   *
+   * <p>
+   *
+   * @return the id of the related multi Action
+   */
+  public String getMultiActionId() {
 
-        return m_selectedItemId;
-    }
+    return m_multiActionId;
+  }
 
-    /**
-     * Sets the selected item Id.<p>
-     *
-     * @param selectedItemId the selected item Id to set
-     */
-    public void setSelectedItemId(String selectedItemId) {
+  /**
+   * Returns the selected item Id.
+   *
+   * <p>
+   *
+   * @return the selected item Id
+   */
+  public String getSelectedItemId() {
 
-        m_selectedItemId = selectedItemId;
-    }
+    return m_selectedItemId;
+  }
+
+  /**
+   * Sets the selected item Id.
+   *
+   * <p>
+   *
+   * @param selectedItemId the selected item Id to set
+   */
+  public void setSelectedItemId(String selectedItemId) {
+
+    m_selectedItemId = selectedItemId;
+  }
 }

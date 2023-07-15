@@ -27,77 +27,85 @@
 
 package org.opencms.gwt.client.ui.contextmenu;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.opencms.gwt.client.ui.rename.CmsRenameDialog;
 import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * Context menu entry for the 'Rename' dialog.<p>
+ * Context menu entry for the 'Rename' dialog.
+ *
+ * <p>
  */
 public final class CmsRename implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand {
 
-    /**
-     * Hidden utility class constructor.<p>
-     */
-    private CmsRename() {
+  /**
+   * Hidden utility class constructor.
+   *
+   * <p>
+   */
+  private CmsRename() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Returns the context menu command according to
-     * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new CmsRename();
-    }
+    return new CmsRename();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public void execute(
-        final CmsUUID structureId,
-        final I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public void execute(
+      final CmsUUID structureId,
+      final I_CmsContextMenuHandler handler,
+      CmsContextMenuEntryBean bean) {
 
-        CmsRenameDialog dialog = new CmsRenameDialog(structureId, new AsyncCallback<String>() {
+    CmsRenameDialog dialog =
+        new CmsRenameDialog(
+            structureId,
+            new AsyncCallback<String>() {
 
-            public void onFailure(Throwable caught) {
+              public void onFailure(Throwable caught) {
 
                 // do nothing
-            }
+              }
 
-            public void onSuccess(String result) {
+              public void onSuccess(String result) {
 
                 handler.refreshResource(structureId);
-            }
+              }
+            });
+    dialog.loadAndShow();
+  }
 
-        });
-        dialog.loadAndShow();
-    }
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+    return null;
+  }
 
-        return null;
-    }
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget() */
+  public boolean hasItemWidget() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget()
-     */
-    public boolean hasItemWidget() {
-
-        return false;
-    }
-
+    return false;
+  }
 }

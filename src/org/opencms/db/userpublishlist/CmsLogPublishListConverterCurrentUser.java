@@ -31,37 +31,37 @@ import org.opencms.db.log.CmsLogEntry;
 import org.opencms.util.CmsUUID;
 
 /**
- * Implementation where resources get removed from the current user's publish list when they are published.
+ * Implementation where resources get removed from the current user's publish list when they are
+ * published.
  */
 public class CmsLogPublishListConverterCurrentUser extends A_CmsLogPublishListConverter {
 
-    /**
-     * @see org.opencms.db.userpublishlist.A_CmsLogPublishListConverter#add(org.opencms.db.log.CmsLogEntry)
-     */
-    @Override
-    public void add(CmsLogEntry entry) {
+  /**
+   * @see
+   *     org.opencms.db.userpublishlist.A_CmsLogPublishListConverter#add(org.opencms.db.log.CmsLogEntry)
+   */
+  @Override
+  public void add(CmsLogEntry entry) {
 
-        CmsUUID structureId = entry.getStructureId();
-        CmsUUID userId = entry.getUserId();
-        if ((structureId == null) || (userId == null)) {
-            return;
-        }
-        switch (entry.getType()) {
-
-            case RESOURCE_NEW_DELETED:
-            case RESOURCE_PUBLISHED_DELETED:
-                getEntry(structureId).setRemoveAll();
-                break;
-            case RESOURCE_HIDDEN:
-            case RESOURCE_PUBLISHED_MODIFIED:
-            case RESOURCE_PUBLISHED_NEW:
-            case RESOURCE_CHANGES_UNDONE:
-                getEntry(structureId).addRemove(userId);
-                break;
-            default:
-                getEntry(structureId).addUpdate(userId, entry.getDate());
-                break;
-        }
+    CmsUUID structureId = entry.getStructureId();
+    CmsUUID userId = entry.getUserId();
+    if ((structureId == null) || (userId == null)) {
+      return;
     }
-
+    switch (entry.getType()) {
+      case RESOURCE_NEW_DELETED:
+      case RESOURCE_PUBLISHED_DELETED:
+        getEntry(structureId).setRemoveAll();
+        break;
+      case RESOURCE_HIDDEN:
+      case RESOURCE_PUBLISHED_MODIFIED:
+      case RESOURCE_PUBLISHED_NEW:
+      case RESOURCE_CHANGES_UNDONE:
+        getEntry(structureId).addRemove(userId);
+        break;
+      default:
+        getEntry(structureId).addUpdate(userId, entry.getDate());
+        break;
+    }
+  }
 }

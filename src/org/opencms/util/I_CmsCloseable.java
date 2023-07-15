@@ -27,14 +27,9 @@
 
 package org.opencms.util;
 
-/**
- * Closeable interface that throws no exceptions.
- */
+/** Closeable interface that throws no exceptions. */
 public interface I_CmsCloseable extends AutoCloseable {
 
-    /**
-     * @see java.lang.AutoCloseable#close()
-     */
-    void close();
-
+  /** @see java.lang.AutoCloseable#close() */
+  void close();
 }

@@ -30,150 +30,175 @@ package org.opencms.rmi;
 import java.io.Serializable;
 
 /**
- * An object containing the output of a remote shell command and also the updated values for some of the
- * internal state fields of the client application.<p>
+ * An object containing the output of a remote shell command and also the updated values for some of
+ * the internal state fields of the client application.
+ *
+ * <p>
  */
 public class CmsShellCommandResult implements Serializable {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 8485596393085683802L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 8485596393085683802L;
 
-    /** The command output. */
-    private String m_output;
+  /** The command output. */
+  private String m_output;
 
-    /** The error code. */
-    private int m_errorCode;
+  /** The error code. */
+  private int m_errorCode;
 
-    /** The prompt. */
-    private String m_prompt;
+  /** The prompt. */
+  private String m_prompt;
 
-    /** The echo mode. */
-    private boolean m_echo;
+  /** The echo mode. */
+  private boolean m_echo;
 
-    /** True if exit was called. */
-    private boolean m_exitCalled;
+  /** True if exit was called. */
+  private boolean m_exitCalled;
 
-    /** True if an error occurred during command execution. */
-    private boolean m_hasError;
+  /** True if an error occurred during command execution. */
+  private boolean m_hasError;
 
-    /**
-     * Gets the error code.<p>
-     *
-     * @return the error code
-     */
-    public int getErrorCode() {
+  /**
+   * Gets the error code.
+   *
+   * <p>
+   *
+   * @return the error code
+   */
+  public int getErrorCode() {
 
-        return m_errorCode;
-    }
+    return m_errorCode;
+  }
 
-    /**
-     * Gets the command output.<p>
-     *
-     * @return the command output
-     */
-    public String getOutput() {
+  /**
+   * Gets the command output.
+   *
+   * <p>
+   *
+   * @return the command output
+   */
+  public String getOutput() {
 
-        return m_output;
-    }
+    return m_output;
+  }
 
-    /**
-     * Gets the prompt.<p>
-     *
-     * @return the prompt
-     */
-    public String getPrompt() {
+  /**
+   * Gets the prompt.
+   *
+   * <p>
+   *
+   * @return the prompt
+   */
+  public String getPrompt() {
 
-        return m_prompt;
-    }
+    return m_prompt;
+  }
 
-    /**
-     * Returns the echo mode.<p>
-     *
-     * @return the echo mode
-     */
-    public boolean hasEcho() {
+  /**
+   * Returns the echo mode.
+   *
+   * <p>
+   *
+   * @return the echo mode
+   */
+  public boolean hasEcho() {
 
-        return m_echo;
-    }
+    return m_echo;
+  }
 
-    /**
-     * Returns true if an error has occurred.<p>
-     *
-     * @return true if an error has occurred
-     */
-    public boolean hasError() {
+  /**
+   * Returns true if an error has occurred.
+   *
+   * <p>
+   *
+   * @return true if an error has occurred
+   */
+  public boolean hasError() {
 
-        return m_hasError;
-    }
+    return m_hasError;
+  }
 
-    /**
-     * Returns true if exit was called.<p>
-     *
-     * @return true if exit was called
-     */
-    public boolean isExitCalled() {
+  /**
+   * Returns true if exit was called.
+   *
+   * <p>
+   *
+   * @return true if exit was called
+   */
+  public boolean isExitCalled() {
 
-        return m_exitCalled;
-    }
+    return m_exitCalled;
+  }
 
-    /**
-     * Sets the echo mode.<p>
-     *
-     * @param echo the echo mode
-     */
-    public void setEcho(boolean echo) {
+  /**
+   * Sets the echo mode.
+   *
+   * <p>
+   *
+   * @param echo the echo mode
+   */
+  public void setEcho(boolean echo) {
 
-        m_echo = echo;
-    }
+    m_echo = echo;
+  }
 
-    /**
-     * Sets the error code.<p>
-     *
-     * @param errorCode the error code
-     */
-    public void setErrorCode(int errorCode) {
+  /**
+   * Sets the error code.
+   *
+   * <p>
+   *
+   * @param errorCode the error code
+   */
+  public void setErrorCode(int errorCode) {
 
-        m_errorCode = errorCode;
-    }
+    m_errorCode = errorCode;
+  }
 
-    /**
-     * Sets the 'exitCalled' flag.<p>
-     *
-     * @param exitCalled the new value
-     */
-    public void setExitCalled(boolean exitCalled) {
+  /**
+   * Sets the 'exitCalled' flag.
+   *
+   * <p>
+   *
+   * @param exitCalled the new value
+   */
+  public void setExitCalled(boolean exitCalled) {
 
-        m_exitCalled = exitCalled;
-    }
+    m_exitCalled = exitCalled;
+  }
 
-    /**
-     * Sets the error mode.<p>
-     *
-     * @param hasError the error mode
-     */
-    public void setHasError(boolean hasError) {
+  /**
+   * Sets the error mode.
+   *
+   * <p>
+   *
+   * @param hasError the error mode
+   */
+  public void setHasError(boolean hasError) {
 
-        m_hasError = hasError;
-    }
+    m_hasError = hasError;
+  }
 
-    /**
-     * Sets the command output.<p>
-     *
-     * @param outputString the command output
-     */
-    public void setOutput(String outputString) {
+  /**
+   * Sets the command output.
+   *
+   * <p>
+   *
+   * @param outputString the command output
+   */
+  public void setOutput(String outputString) {
 
-        m_output = outputString;
-    }
+    m_output = outputString;
+  }
 
-    /**
-     * Sets the prompt.<p>
-     *
-     * @param prompt the prompt
-     */
-    public void setPrompt(String prompt) {
+  /**
+   * Sets the prompt.
+   *
+   * <p>
+   *
+   * @param prompt the prompt
+   */
+  public void setPrompt(String prompt) {
 
-        m_prompt = prompt;
-    }
-
+    m_prompt = prompt;
+  }
 }

@@ -32,39 +32,38 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Signals that an attempt to create a resource was not successfull
- * since at the given location another online resource with a different
- * structure id has been found.<p>
+ * Signals that an attempt to create a resource was not successfull since at the given location
+ * another online resource with a different structure id has been found.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsVfsOnlineResourceAlreadyExistsException extends CmsVfsException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -3683047201439382951L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -3683047201439382951L;
 
-    /**
-     * @see org.opencms.main.CmsException#CmsException(CmsMessageContainer)
-     */
-    public CmsVfsOnlineResourceAlreadyExistsException(CmsMessageContainer container) {
+  /** @see org.opencms.main.CmsException#CmsException(CmsMessageContainer) */
+  public CmsVfsOnlineResourceAlreadyExistsException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#CmsException(CmsMessageContainer, Throwable)
-     */
-    public CmsVfsOnlineResourceAlreadyExistsException(CmsMessageContainer container, Throwable cause) {
+  /** @see org.opencms.main.CmsException#CmsException(CmsMessageContainer, Throwable) */
+  public CmsVfsOnlineResourceAlreadyExistsException(
+      CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsVfsOnlineResourceAlreadyExistsException(container, cause);
-    }
+    return new CmsVfsOnlineResourceAlreadyExistsException(container, cause);
+  }
 }

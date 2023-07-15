@@ -27,13 +27,11 @@
 
 package org.opencms.ade.configuration;
 
-/**
- * Enum describing how type configurations should be ordered in the sitemap configuration.
- */
+/** Enum describing how type configurations should be ordered in the sitemap configuration. */
 public enum CmsTypeOrderingMode {
-    /** The display order of the type configurations is used for sorting. */
-    byDisplayOrder,
+  /** The display order of the type configurations is used for sorting. */
+  byDisplayOrder,
 
-    /** Types added in a child sitemap configuration are moved to the front. */
-    latestOnTop;
+  /** Types added in a child sitemap configuration are moved to the front. */
+  latestOnTop;
 }

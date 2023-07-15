@@ -36,16 +36,14 @@ import javax.servlet.jsp.JspException;
  */
 public interface I_CmsJspJsonContext {
 
-    /**
-     * Adds a value to the JSON value being constructed.
-     *
-     * <p>For a JSON object, the key must be not null, and for a JSON array, it must always be null.
-     *
-     * @param key the key (or null)
-     * @param val the value to add
-     *
-     * @throws JspException in case the value could not be added
-     */
-    void addValue(String key, Object val) throws JspException;
-
+  /**
+   * Adds a value to the JSON value being constructed.
+   *
+   * <p>For a JSON object, the key must be not null, and for a JSON array, it must always be null.
+   *
+   * @param key the key (or null)
+   * @param val the value to add
+   * @throws JspException in case the value could not be added
+   */
+  void addValue(String key, Object val) throws JspException;
 }

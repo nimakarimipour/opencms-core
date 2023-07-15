@@ -30,18 +30,18 @@ package org.opencms.db.db2;
 import org.opencms.db.generic.CmsSqlManager;
 
 /**
- * DB2 implementation of the subscription driver.<p>
+ * DB2 implementation of the subscription driver.
  *
- *  @since 8.0.0
+ * <p>
+ *
+ * @since 8.0.0
  */
 public class CmsSubscriptionDriver extends org.opencms.db.generic.CmsSubscriptionDriver {
 
-    /**
-     * @see org.opencms.db.generic.CmsSubscriptionDriver#initSqlManager(java.lang.String)
-     */
-    @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  /** @see org.opencms.db.generic.CmsSubscriptionDriver#initSqlManager(java.lang.String) */
+  @Override
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
 
-        return CmsSqlManager.getInstance(classname);
-    }
+    return CmsSqlManager.getInstance(classname);
+  }
 }

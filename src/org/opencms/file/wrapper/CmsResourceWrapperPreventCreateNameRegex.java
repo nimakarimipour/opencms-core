@@ -27,6 +27,8 @@
 
 package org.opencms.file.wrapper;
 
+import java.util.List;
+import java.util.regex.Pattern;
 import org.opencms.db.Messages;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
@@ -35,71 +37,68 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.security.CmsPermissionViolationException;
 
-import java.util.List;
-import java.util.regex.Pattern;
-
 /**
- * Resource wrapper class which is used to prevent resources with names matching a given regex from being created.<p>
+ * Resource wrapper class which is used to prevent resources with names matching a given regex from
+ * being created.
+ *
+ * <p>
  */
 public class CmsResourceWrapperPreventCreateNameRegex extends A_CmsResourceWrapper {
 
-    /** The pattern for file names which should be prevented from being created. */
-    private Pattern m_pattern;
+  /** The pattern for file names which should be prevented from being created. */
+  private Pattern m_pattern;
 
-    /**
-     * @see org.opencms.file.wrapper.A_CmsResourceWrapper#configure(java.lang.String)
-     */
-    @Override
-    public void configure(String configString) {
+  /** @see org.opencms.file.wrapper.A_CmsResourceWrapper#configure(java.lang.String) */
+  @Override
+  public void configure(String configString) {
 
-        m_pattern = Pattern.compile(configString);
+    m_pattern = Pattern.compile(configString);
+  }
+
+  /**
+   * @see org.opencms.file.wrapper.A_CmsResourceWrapper#createResource(org.opencms.file.CmsObject,
+   *     java.lang.String, int, byte[], java.util.List)
+   */
+  @Override
+  public CmsResource createResource(
+      CmsObject cms, String resourcepath, int type, byte[] content, List<CmsProperty> properties)
+      throws CmsIllegalArgumentException {
+
+    String name = CmsResource.getName(resourcepath);
+    if (m_pattern.matcher(name).matches()) {
+      throw new CmsSilentWrapperException(
+          new CmsPermissionViolationException(
+              Messages.get().container(Messages.ERR_PERM_DENIED_2, resourcepath, "+c")));
+    } else {
+      return null;
     }
+  }
 
-    /**
-     * @see org.opencms.file.wrapper.A_CmsResourceWrapper#createResource(org.opencms.file.CmsObject, java.lang.String, int, byte[], java.util.List)
-     */
-    @Override
-    public CmsResource createResource(
-        CmsObject cms,
-        String resourcepath,
-        int type,
-        byte[] content,
-        List<CmsProperty> properties)
-    throws CmsIllegalArgumentException {
+  /**
+   * @see
+   *     org.opencms.file.wrapper.I_CmsResourceWrapper#isWrappedResource(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource)
+   */
+  public boolean isWrappedResource(CmsObject cms, CmsResource res) {
 
-        String name = CmsResource.getName(resourcepath);
-        if (m_pattern.matcher(name).matches()) {
-            throw new CmsSilentWrapperException(
-                new CmsPermissionViolationException(
-                    Messages.get().container(Messages.ERR_PERM_DENIED_2, resourcepath, "+c")));
-        } else {
-            return null;
-        }
+    return false;
+  }
+
+  /**
+   * @see org.opencms.file.wrapper.A_CmsResourceWrapper#moveResource(org.opencms.file.CmsObject,
+   *     java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean moveResource(CmsObject cms, String source, String destination)
+      throws CmsException, CmsIllegalArgumentException {
+
+    String name = CmsResource.getName(destination);
+
+    if (m_pattern.matcher(name).matches()) {
+      throw new CmsPermissionViolationException(
+          Messages.get().container(Messages.ERR_PERM_DENIED_2, destination, "+c"));
+    } else {
+      return false;
     }
-
-    /**
-     * @see org.opencms.file.wrapper.I_CmsResourceWrapper#isWrappedResource(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
-     */
-    public boolean isWrappedResource(CmsObject cms, CmsResource res) {
-
-        return false;
-    }
-
-    /**
-     * @see org.opencms.file.wrapper.A_CmsResourceWrapper#moveResource(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
-     */
-    @Override
-    public boolean moveResource(CmsObject cms, String source, String destination)
-    throws CmsException, CmsIllegalArgumentException {
-
-        String name = CmsResource.getName(destination);
-
-        if (m_pattern.matcher(name).matches()) {
-            throw new CmsPermissionViolationException(
-                Messages.get().container(Messages.ERR_PERM_DENIED_2, destination, "+c"));
-        } else {
-            return false;
-        }
-    }
-
+  }
 }

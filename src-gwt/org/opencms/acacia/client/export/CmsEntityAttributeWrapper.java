@@ -28,135 +28,158 @@
 package org.opencms.acacia.client.export;
 
 import org.opencms.acacia.shared.CmsEntityAttribute;
-
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.ExportPackage;
 import org.timepedia.exporter.client.Exportable;
 
 /**
- * Exportable wrapper class for an entity attribute.<p>
+ * Exportable wrapper class for an entity attribute.
+ *
+ * <p>
  */
 @Export
 @ExportPackage("acacia")
 public class CmsEntityAttributeWrapper implements Exportable {
 
-    /** The wrapped attribute. */
-    private CmsEntityAttribute m_attribute;
+  /** The wrapped attribute. */
+  private CmsEntityAttribute m_attribute;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsEntityAttributeWrapper() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsEntityAttributeWrapper() {}
 
-    }
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param attribute the attribute to wrap
+   */
+  public CmsEntityAttributeWrapper(CmsEntityAttribute attribute) {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param attribute the attribute to wrap
-     */
-    public CmsEntityAttributeWrapper(CmsEntityAttribute attribute) {
+    m_attribute = attribute;
+  }
 
-        m_attribute = attribute;
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public String getAttributeName() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public String getAttributeName() {
+    return m_attribute.getAttributeName();
+  }
 
-        return m_attribute.getAttributeName();
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public CmsEntityWrapper getComplexValue() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public CmsEntityWrapper getComplexValue() {
+    return new CmsEntityWrapper(m_attribute.getComplexValue());
+  }
 
-        return new CmsEntityWrapper(m_attribute.getComplexValue());
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public CmsEntityWrapper[] getComplexValues() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public CmsEntityWrapper[] getComplexValues() {
+    return CmsWrapperUtils.arrayFromEntityList(m_attribute.getComplexValues());
+  }
 
-        return CmsWrapperUtils.arrayFromEntityList(m_attribute.getComplexValues());
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public String getSimpleValue() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public String getSimpleValue() {
+    return m_attribute.getSimpleValue();
+  }
 
-        return m_attribute.getSimpleValue();
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public String[] getSimpleValues() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public String[] getSimpleValues() {
+    return CmsWrapperUtils.arrayFromStringList(m_attribute.getSimpleValues());
+  }
 
-        return CmsWrapperUtils.arrayFromStringList(m_attribute.getSimpleValues());
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public int getValueCount() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public int getValueCount() {
+    return m_attribute.getValueCount();
+  }
 
-        return m_attribute.getValueCount();
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public boolean isComplexValue() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public boolean isComplexValue() {
+    return m_attribute.isComplexValue();
+  }
 
-        return m_attribute.isComplexValue();
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public boolean isSimpleValue() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public boolean isSimpleValue() {
+    return m_attribute.isSimpleValue();
+  }
 
-        return m_attribute.isSimpleValue();
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public boolean isSingleValue() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public boolean isSingleValue() {
+    return m_attribute.isSingleValue();
+  }
 
-        return m_attribute.isSingleValue();
-    }
+  /**
+   * Sets the wrapped attribute.
+   *
+   * <p>
+   *
+   * @param attribute the attribute to wrap
+   */
+  public void setAttribute(CmsEntityAttribute attribute) {
 
-    /**
-     * Sets the wrapped attribute.<p>
-     *
-     * @param attribute the attribute to wrap
-     */
-    public void setAttribute(CmsEntityAttribute attribute) {
-
-        m_attribute = attribute;
-    }
+    m_attribute = attribute;
+  }
 }

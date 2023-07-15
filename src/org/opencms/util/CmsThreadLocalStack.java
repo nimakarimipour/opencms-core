@@ -37,63 +37,62 @@ import java.util.List;
  */
 public class CmsThreadLocalStack<T> {
 
-    /** The internal ThreadLocal storing the list. */
-    private ThreadLocal<List<T>> m_stackVar = ThreadLocal.withInitial(() -> new ArrayList<T>());
+  /** The internal ThreadLocal storing the list. */
+  private ThreadLocal<List<T>> m_stackVar = ThreadLocal.withInitial(() -> new ArrayList<T>());
 
-    /**
-     * Removes and returns the last element pushed onto the stack.
-     *
-     * @return the last element pushed onto the stack
-     */
-    public T pop() {
+  /**
+   * Removes and returns the last element pushed onto the stack.
+   *
+   * @return the last element pushed onto the stack
+   */
+  public T pop() {
 
-        return getStack().remove(getStack().size() - 1);
+    return getStack().remove(getStack().size() - 1);
+  }
+
+  /**
+   * Pushes a new element onto the stack.
+   *
+   * @param data the element to push on the stack
+   */
+  public void push(T data) {
+
+    getStack().add(data);
+  }
+
+  /**
+   * Returns the current stack size.
+   *
+   * @return the current stack size
+   */
+  public int size() {
+
+    return getStack().size();
+  }
+
+  /**
+   * Returns the current top of the stack, without removing it.
+   *
+   * <p>If the stack is empty, null is returned.
+   *
+   * @return the current top of the stack
+   */
+  public T top() {
+
+    if (getStack().size() == 0) {
+      return null;
+    } else {
+      return getStack().get(getStack().size() - 1);
     }
+  }
 
-    /**
-     * Pushes a new element onto the stack.
-     *
-     * @param data the element to push on the stack
-     */
-    public void push(T data) {
+  /**
+   * Gets the current list stored in the ThreadLocal.
+   *
+   * @return the current list stored in the ThreadLocal
+   */
+  private List<T> getStack() {
 
-        getStack().add(data);
-    }
-
-    /**
-     * Returns the current stack size.
-     *
-     * @return the current stack size
-     */
-    public int size() {
-
-        return getStack().size();
-    }
-
-    /**
-     * Returns the current top of the stack, without removing it.
-     * <p>
-     * If the stack is empty, null is returned.
-     *
-     * @return the current top of the stack
-     */
-    public T top() {
-
-        if (getStack().size() == 0) {
-            return null;
-        } else {
-            return getStack().get(getStack().size() - 1);
-        }
-    }
-
-    /**
-     * Gets the current list stored in the ThreadLocal.
-     *
-     * @return the current list stored in the ThreadLocal
-     */
-    private List<T> getStack() {
-
-        return m_stackVar.get();
-    }
-
+    return m_stackVar.get();
+  }
 }

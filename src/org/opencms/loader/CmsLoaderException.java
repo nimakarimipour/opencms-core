@@ -31,42 +31,49 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Signals exceptions occuring during the resource loading process.<p>
+ * Signals exceptions occuring during the resource loading process.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsLoaderException extends CmsException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -6554951600180737353L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -6554951600180737353L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsLoaderException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsLoaderException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsLoaderException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsLoaderException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsLoaderException(container, cause);
-    }
+    return new CmsLoaderException(container, cause);
+  }
 }

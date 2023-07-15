@@ -27,63 +27,65 @@
 
 package org.opencms.ade.galleries.client.preview.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.opencms.ade.galleries.shared.CmsPoint;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * A coordinate system transform represented as a composition of multiple other transforms.<p>
+ * A coordinate system transform represented as a composition of multiple other transforms.
+ *
+ * <p>
  */
 public class CmsCompositeTransform implements I_CmsTransform {
 
-    /** The transforms this transform is composed of. */
-    private List<I_CmsTransform> m_transforms;
+  /** The transforms this transform is composed of. */
+  private List<I_CmsTransform> m_transforms;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param transforms the list of transforms this transform should be composed of
-     */
-    public CmsCompositeTransform(List<I_CmsTransform> transforms) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param transforms the list of transforms this transform should be composed of
+   */
+  public CmsCompositeTransform(List<I_CmsTransform> transforms) {
 
-        m_transforms = transforms;
+    m_transforms = transforms;
+  }
+
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
+
+    List<String> comps = new ArrayList<>();
+    for (I_CmsTransform tf : m_transforms) {
+      comps.add(tf.toString());
     }
+    return CmsStringUtil.listAsString(comps, " ");
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.util.I_CmsTransform#transformBack(org.opencms.ade.galleries.shared.CmsPoint)
+   */
+  public CmsPoint transformBack(CmsPoint point) {
 
-        List<String> comps = new ArrayList<>();
-        for (I_CmsTransform tf : m_transforms) {
-            comps.add(tf.toString());
-        }
-        return CmsStringUtil.listAsString(comps, " ");
+    for (int i = m_transforms.size() - 1; i >= 0; i--) {
+      point = m_transforms.get(i).transformBack(point);
     }
+    return point;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.util.I_CmsTransform#transformBack(org.opencms.ade.galleries.shared.CmsPoint)
-     */
-    public CmsPoint transformBack(CmsPoint point) {
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.util.I_CmsTransform#transformForward(org.opencms.ade.galleries.shared.CmsPoint)
+   */
+  public CmsPoint transformForward(CmsPoint point) {
 
-        for (int i = m_transforms.size() - 1; i >= 0; i--) {
-            point = m_transforms.get(i).transformBack(point);
-        }
-        return point;
+    for (I_CmsTransform transform : m_transforms) {
+      point = transform.transformForward(point);
     }
-
-    /**
-     * @see org.opencms.ade.galleries.client.preview.util.I_CmsTransform#transformForward(org.opencms.ade.galleries.shared.CmsPoint)
-     */
-    public CmsPoint transformForward(CmsPoint point) {
-
-        for (I_CmsTransform transform : m_transforms) {
-            point = transform.transformForward(point);
-        }
-        return point;
-    }
-
+    return point;
+  }
 }

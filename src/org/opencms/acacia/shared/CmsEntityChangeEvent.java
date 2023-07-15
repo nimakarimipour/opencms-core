@@ -29,42 +29,38 @@ package org.opencms.acacia.shared;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 
-/** 
- * Value change event for entities with an additional field that indicates the type of change. 
- */
+/** Value change event for entities with an additional field that indicates the type of change. */
 public class CmsEntityChangeEvent extends ValueChangeEvent<CmsEntity> {
 
-    /** 
-     * Enum indicating the type of changes. 
-     */
-    public enum ChangeType {
-        add, remove, change;
-    }
+  /** Enum indicating the type of changes. */
+  public enum ChangeType {
+    add,
+    remove,
+    change;
+  }
 
-    private ChangeType m_changeType;
+  private ChangeType m_changeType;
 
-    /** 
-     * Creates a new event instance.
-     * 
-     * @param value the new entity value
-     * @param type the change type 
-     */
-    protected CmsEntityChangeEvent(CmsEntity value, ChangeType type) {
+  /**
+   * Creates a new event instance.
+   *
+   * @param value the new entity value
+   * @param type the change type
+   */
+  protected CmsEntityChangeEvent(CmsEntity value, ChangeType type) {
 
-        // TODO Auto-generated constructor stub
-        super(value);
-        m_changeType = type;
+    // TODO Auto-generated constructor stub
+    super(value);
+    m_changeType = type;
+  }
 
-    }
+  /**
+   * Gets the change type.
+   *
+   * @return the change type
+   */
+  public ChangeType getChangeType() {
 
-    /** 
-     * Gets the change type. 
-     * 
-     * @return the change type 
-     */
-    public ChangeType getChangeType() {
-
-        return m_changeType;
-    }
-
+    return m_changeType;
+  }
 }

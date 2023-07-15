@@ -28,22 +28,29 @@
 package org.opencms.gwt.client.ui.input.upload;
 
 /**
- * Common upload dialog interface to be used with the {@link org.opencms.gwt.client.ui.input.upload.I_CmsUploader}.<p>
+ * Common upload dialog interface to be used with the {@link
+ * org.opencms.gwt.client.ui.input.upload.I_CmsUploader}.
+ *
+ * <p>
  */
 public interface I_CmsUploadDialog {
 
-    /**
-     * Parses the upload response.<p>
-     *
-     * @param response the upload response
-     */
-    void parseResponse(String response);
+  /**
+   * Parses the upload response.
+   *
+   * <p>
+   *
+   * @param response the upload response
+   */
+  void parseResponse(String response);
 
-    /**
-     * Displays an error dialog.<p>
-     *
-     * @param message the error message
-     * @param stacktrace the error stack trace
-     */
-    void showErrorReport(String message, String stacktrace);
+  /**
+   * Displays an error dialog.
+   *
+   * <p>
+   *
+   * @param message the error message
+   * @param stacktrace the error stack trace
+   */
+  void showErrorReport(String message, String stacktrace);
 }

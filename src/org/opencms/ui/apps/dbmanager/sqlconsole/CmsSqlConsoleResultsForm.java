@@ -27,14 +27,6 @@
 
 package org.opencms.ui.apps.dbmanager.sqlconsole;
 
-import org.opencms.ui.CmsVaadinUtils;
-import org.opencms.ui.components.CmsBasicDialog;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
@@ -45,119 +37,122 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.Table;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+import org.opencms.ui.CmsVaadinUtils;
+import org.opencms.ui.components.CmsBasicDialog;
 
 /**
- * Displays results from an SQL query.<p>
+ * Displays results from an SQL query.
+ *
+ * <p>
  */
 public class CmsSqlConsoleResultsForm extends CmsBasicDialog {
 
-    /**
-     * CSV generator for the download button.
-     */
-    public class CsvSource implements StreamSource {
-
-        /** Serial version id. */
-        private static final long serialVersionUID = 1L;
-
-        /** The results. */
-        private CmsSqlConsoleResults m_results;
-
-        /**
-         * Creates a new instance.
-         *
-         * @param results the results
-         */
-        public CsvSource(CmsSqlConsoleResults results) {
-
-            m_results = results;
-
-        }
-
-        /**
-         * @see com.vaadin.server.StreamResource.StreamSource#getStream()
-         */
-        public InputStream getStream() {
-
-            try {
-                return new ByteArrayInputStream(m_results.getCsv().getBytes("UTF-8"));
-            } catch (UnsupportedEncodingException e) {
-                return null;
-            }
-        }
-
-    }
+  /** CSV generator for the download button. */
+  public class CsvSource implements StreamSource {
 
     /** Serial version id. */
     private static final long serialVersionUID = 1L;
 
-    /** The CSV download button. */
-    protected Button m_csv;
-
-    /** The OK button. */
-    protected Button m_ok;
-
-    /** The table container. */
-    protected VerticalLayout m_tableContainer;
-
-    /** The label for displaying the report output. */
-    private Label m_reportOutput;
+    /** The results. */
+    private CmsSqlConsoleResults m_results;
 
     /**
-     * Creates a new instance.<p>
+     * Creates a new instance.
      *
-     * @param results the database results
-     * @param reportOutput the report output
+     * @param results the results
      */
-    public CmsSqlConsoleResultsForm(CmsSqlConsoleResults results, String reportOutput) {
+    public CsvSource(CmsSqlConsoleResults results) {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        m_ok.addClickListener(evt -> CmsVaadinUtils.getWindow(CmsSqlConsoleResultsForm.this).close());
-        if (results != null) {
-            Table table = buildTable(results);
-            m_tableContainer.addComponent(table);
-            StreamResource res = new StreamResource(new CsvSource(results), "data.csv");
-            res.setMIMEType("text/plain; charset=utf-8");
-            FileDownloader downloader = new FileDownloader(res);
-            downloader.extend(m_csv);
-        } else {
-            m_csv.setVisible(false);
-        }
-        m_reportOutput.setContentMode(ContentMode.PREFORMATTED);
-        m_reportOutput.setValue(reportOutput);
-
+      m_results = results;
     }
 
-    /**
-     * Builds the table for the database results.
-     *
-     * @param results the database results
-     * @return the table
-     */
-    private Table buildTable(CmsSqlConsoleResults results) {
+    /** @see com.vaadin.server.StreamResource.StreamSource#getStream() */
+    public InputStream getStream() {
 
-        IndexedContainer container = new IndexedContainer();
-        int numCols = results.getColumns().size();
-        for (int c = 0; c < numCols; c++) {
-            container.addContainerProperty(Integer.valueOf(c), results.getColumnType(c), null);
-        }
-        int r = 0;
-        for (List<Object> row : results.getData()) {
-            Item item = container.addItem(Integer.valueOf(r));
-            for (int c = 0; c < numCols; c++) {
-                item.getItemProperty(Integer.valueOf(c)).setValue(row.get(c));
-            }
-            r += 1;
-        }
-        Table table = new Table();
-        table.setContainerDataSource(container);
-        for (int c = 0; c < numCols; c++) {
-            String col = (results.getColumns().get(c));
-            table.setColumnHeader(Integer.valueOf(c), col);
-        }
-        table.setWidth("100%");
-        table.setHeight("100%");
-        table.setColumnCollapsingAllowed(true);
-        return table;
+      try {
+        return new ByteArrayInputStream(m_results.getCsv().getBytes("UTF-8"));
+      } catch (UnsupportedEncodingException e) {
+        return null;
+      }
     }
+  }
 
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
+
+  /** The CSV download button. */
+  protected Button m_csv;
+
+  /** The OK button. */
+  protected Button m_ok;
+
+  /** The table container. */
+  protected VerticalLayout m_tableContainer;
+
+  /** The label for displaying the report output. */
+  private Label m_reportOutput;
+
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param results the database results
+   * @param reportOutput the report output
+   */
+  public CmsSqlConsoleResultsForm(CmsSqlConsoleResults results, String reportOutput) {
+
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    m_ok.addClickListener(evt -> CmsVaadinUtils.getWindow(CmsSqlConsoleResultsForm.this).close());
+    if (results != null) {
+      Table table = buildTable(results);
+      m_tableContainer.addComponent(table);
+      StreamResource res = new StreamResource(new CsvSource(results), "data.csv");
+      res.setMIMEType("text/plain; charset=utf-8");
+      FileDownloader downloader = new FileDownloader(res);
+      downloader.extend(m_csv);
+    } else {
+      m_csv.setVisible(false);
+    }
+    m_reportOutput.setContentMode(ContentMode.PREFORMATTED);
+    m_reportOutput.setValue(reportOutput);
+  }
+
+  /**
+   * Builds the table for the database results.
+   *
+   * @param results the database results
+   * @return the table
+   */
+  private Table buildTable(CmsSqlConsoleResults results) {
+
+    IndexedContainer container = new IndexedContainer();
+    int numCols = results.getColumns().size();
+    for (int c = 0; c < numCols; c++) {
+      container.addContainerProperty(Integer.valueOf(c), results.getColumnType(c), null);
+    }
+    int r = 0;
+    for (List<Object> row : results.getData()) {
+      Item item = container.addItem(Integer.valueOf(r));
+      for (int c = 0; c < numCols; c++) {
+        item.getItemProperty(Integer.valueOf(c)).setValue(row.get(c));
+      }
+      r += 1;
+    }
+    Table table = new Table();
+    table.setContainerDataSource(container);
+    for (int c = 0; c < numCols; c++) {
+      String col = (results.getColumns().get(c));
+      table.setColumnHeader(Integer.valueOf(c), col);
+    }
+    table.setWidth("100%");
+    table.setHeight("100%");
+    table.setColumnCollapsingAllowed(true);
+    return table;
+  }
 }

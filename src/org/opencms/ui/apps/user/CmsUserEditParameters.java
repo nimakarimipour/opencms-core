@@ -28,54 +28,59 @@
 package org.opencms.ui.apps.user;
 
 /**
- * Parameters for the user edit dialog.<p>
+ * Parameters for the user edit dialog.
+ *
+ * <p>
  */
 public class CmsUserEditParameters {
 
-    /** True if editing is enabled. */
-    private boolean m_editEnabled = true;
+  /** True if editing is enabled. */
+  private boolean m_editEnabled = true;
 
-    /** True if password change is enabled. */
-    private boolean m_passwordChangeEnabled = true;
+  /** True if password change is enabled. */
+  private boolean m_passwordChangeEnabled = true;
 
-    /**
-     * Checks if editing is enabled.<p>
-     *
-     * @return true if editing is enabled
-     */
-    public boolean isEditEnabled() {
+  /**
+   * Checks if editing is enabled.
+   *
+   * <p>
+   *
+   * @return true if editing is enabled
+   */
+  public boolean isEditEnabled() {
 
-        return m_editEnabled;
-    }
+    return m_editEnabled;
+  }
 
-    /**
-     * Checks if password change is enabled.<p>
-     *
-     * @return true if password change is enabled
-     */
-    public boolean isPasswordChangeEnabled() {
+  /**
+   * Checks if password change is enabled.
+   *
+   * <p>
+   *
+   * @return true if password change is enabled
+   */
+  public boolean isPasswordChangeEnabled() {
 
-        return m_passwordChangeEnabled;
-    }
+    return m_passwordChangeEnabled;
+  }
 
-    /**
-     * Enables/disables editing.
-     *
-     * @param editEnabled the new value
-     */
-    public void setEditEnabled(boolean editEnabled) {
+  /**
+   * Enables/disables editing.
+   *
+   * @param editEnabled the new value
+   */
+  public void setEditEnabled(boolean editEnabled) {
 
-        m_editEnabled = editEnabled;
-    }
+    m_editEnabled = editEnabled;
+  }
 
-    /**
-     * Enables/disables password change.
-     *
-     * @param passwordChangeEnabled the new value
-     */
-    public void setPasswordChangeEnabled(boolean passwordChangeEnabled) {
+  /**
+   * Enables/disables password change.
+   *
+   * @param passwordChangeEnabled the new value
+   */
+  public void setPasswordChangeEnabled(boolean passwordChangeEnabled) {
 
-        m_passwordChangeEnabled = passwordChangeEnabled;
-    }
-
+    m_passwordChangeEnabled = passwordChangeEnabled;
+  }
 }

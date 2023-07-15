@@ -84,124 +84,137 @@
 
 package org.opencms.jsp;
 
-import org.opencms.i18n.CmsEncoder;
-import org.opencms.main.OpenCms;
-import org.opencms.util.CmsStringUtil;
-
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.Tag;
+import org.opencms.i18n.CmsEncoder;
+import org.opencms.main.OpenCms;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * A handler for &lt;param&gt; that accepts attributes as Strings
- * and evaluates them as expressions at runtime.<p>
+ * A handler for &lt;param&gt; that accepts attributes as Strings and evaluates them as expressions
+ * at runtime.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsJspTagParam extends BodyTagSupport {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -1057768160264355211L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -1057768160264355211L;
 
-    /**
-     * There used to be an 'encode' attribute; I've left this as a
-     * vestige in case custom subclasses want to use our functionality
-     * but NOT encode parameters.
-     */
-    protected boolean m_encode;
+  /**
+   * There used to be an 'encode' attribute; I've left this as a vestige in case custom subclasses
+   * want to use our functionality but NOT encode parameters.
+   */
+  protected boolean m_encode;
 
-    /** The name of the parameter. */
-    protected String m_name;
+  /** The name of the parameter. */
+  protected String m_name;
 
-    /** The value of the parameter. */
-    protected String m_value;
+  /** The value of the parameter. */
+  protected String m_value;
 
-    /**
-     * Public constructor.<p>
-     */
-    public CmsJspTagParam() {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   */
+  public CmsJspTagParam() {
 
-        super();
-        init();
+    super();
+    init();
+  }
+
+  /**
+   * Simply send our name and value to our appropriate ancestor.
+   *
+   * <p>
+   *
+   * @throws JspException (never thrown, required by interface)
+   * @return EVAL_PAGE
+   */
+  @Override
+  public int doEndTag() throws JspException {
+
+    Tag t = findAncestorWithClass(this, I_CmsJspTagParamParent.class);
+    if (t == null) {
+      throw new JspTagException(
+          Messages.get()
+              .getBundle(pageContext.getRequest().getLocale())
+              .key(Messages.ERR_PARENTLESS_TAG_1, new Object[] {"param"}));
+    }
+    // take no action for null or empty names
+    if (CmsStringUtil.isEmpty(m_name)) {
+      return EVAL_PAGE;
     }
 
-    /**
-     * Simply send our name and value to our appropriate ancestor.<p>
-     *
-     * @throws JspException (never thrown, required by interface)
-     * @return EVAL_PAGE
-     */
-    @Override
-    public int doEndTag() throws JspException {
-
-        Tag t = findAncestorWithClass(this, I_CmsJspTagParamParent.class);
-        if (t == null) {
-            throw new JspTagException(Messages.get().getBundle(pageContext.getRequest().getLocale()).key(
-                Messages.ERR_PARENTLESS_TAG_1,
-                new Object[] {"param"}));
-        }
-        // take no action for null or empty names
-        if (CmsStringUtil.isEmpty(m_name)) {
-            return EVAL_PAGE;
-        }
-
-        // send the parameter to the appropriate ancestor
-        I_CmsJspTagParamParent parent = (I_CmsJspTagParamParent)t;
-        String value = m_value;
-        if (value == null) {
-            if ((bodyContent == null) || (bodyContent.getString() == null)) {
-                value = "";
-            } else {
-                value = bodyContent.getString().trim();
-            }
-        }
-        if (m_encode) {
-            parent.addParameter(
-                CmsEncoder.encode(m_name, OpenCms.getSystemInfo().getDefaultEncoding()),
-                CmsEncoder.encode(value, OpenCms.getSystemInfo().getDefaultEncoding()));
-        } else {
-            parent.addParameter(m_name, value);
-        }
-
-        return EVAL_PAGE;
+    // send the parameter to the appropriate ancestor
+    I_CmsJspTagParamParent parent = (I_CmsJspTagParamParent) t;
+    String value = m_value;
+    if (value == null) {
+      if ((bodyContent == null) || (bodyContent.getString() == null)) {
+        value = "";
+      } else {
+        value = bodyContent.getString().trim();
+      }
+    }
+    if (m_encode) {
+      parent.addParameter(
+          CmsEncoder.encode(m_name, OpenCms.getSystemInfo().getDefaultEncoding()),
+          CmsEncoder.encode(value, OpenCms.getSystemInfo().getDefaultEncoding()));
+    } else {
+      parent.addParameter(m_name, value);
     }
 
-    /**
-     * Releases any resources we may have (or inherit).<p>
-     */
-    @Override
-    public void release() {
+    return EVAL_PAGE;
+  }
 
-        init();
-    }
+  /**
+   * Releases any resources we may have (or inherit).
+   *
+   * <p>
+   */
+  @Override
+  public void release() {
 
-    /**
-     * Sets the attribute name.<p>
-     *
-     * @param name the name to set
-     */
-    public void setName(String name) {
+    init();
+  }
 
-        m_name = name;
-    }
+  /**
+   * Sets the attribute name.
+   *
+   * <p>
+   *
+   * @param name the name to set
+   */
+  public void setName(String name) {
 
-    /**
-     * Sets the attribute value.<p>
-     *
-     * @param value the name to set
-     */
-    public void setValue(String value) {
+    m_name = name;
+  }
 
-        m_value = value;
-    }
+  /**
+   * Sets the attribute value.
+   *
+   * <p>
+   *
+   * @param value the name to set
+   */
+  public void setValue(String value) {
 
-    /**
-     * Initializes the internal values.<p>
-     */
-    private void init() {
+    m_value = value;
+  }
 
-        m_name = null;
-        m_value = null;
-    }
+  /**
+   * Initializes the internal values.
+   *
+   * <p>
+   */
+  private void init() {
+
+    m_name = null;
+    m_value = null;
+  }
 }

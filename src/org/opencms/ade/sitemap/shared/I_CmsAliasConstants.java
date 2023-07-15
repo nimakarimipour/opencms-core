@@ -28,29 +28,31 @@
 package org.opencms.ade.sitemap.shared;
 
 /**
- * Constants for parameters, JSON keys, etc. which are used by both the client and server side code of the alias editor.<p>
+ * Constants for parameters, JSON keys, etc. which are used by both the client and server side code
+ * of the alias editor.
+ *
+ * <p>
  */
 public interface I_CmsAliasConstants {
 
-    /** JSON field key. */
-    String JSON_LINE = "line";
+  /** JSON field key. */
+  String JSON_LINE = "line";
 
-    /** JSON field key. */
-    String JSON_MESSAGE = "message";
+  /** JSON field key. */
+  String JSON_MESSAGE = "message";
 
-    /** JSON field key. */
-    String JSON_RESULT = "result";
+  /** JSON field key. */
+  String JSON_RESULT = "result";
 
-    /** JSON field key. */
-    String JSON_STATUS = "status";
+  /** JSON field key. */
+  String JSON_STATUS = "status";
 
-    /** Request parameter name. */
-    String PARAM_IMPORTFILE = "importfile";
+  /** Request parameter name. */
+  String PARAM_IMPORTFILE = "importfile";
 
-    /** Request parameter name. */
-    String PARAM_SEPARATOR = "separator";
+  /** Request parameter name. */
+  String PARAM_SEPARATOR = "separator";
 
-    /** Request parameter name. */
-    String PARAM_SITEROOT = "siteroot";
-
+  /** Request parameter name. */
+  String PARAM_SITEROOT = "siteroot";
 }

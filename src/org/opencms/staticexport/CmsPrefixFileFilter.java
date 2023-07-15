@@ -31,35 +31,41 @@ import java.io.File;
 import java.io.FileFilter;
 
 /**
- * Implements the file filter used to guess the right suffix of a deleted jsp file.<p>
+ * Implements the file filter used to guess the right suffix of a deleted jsp file.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsPrefixFileFilter implements FileFilter {
 
-    /** The base file. */
-    private String m_baseName;
+  /** The base file. */
+  private String m_baseName;
 
-    /**
-     * Creates a new instance of this filter.<p>
-     *
-     * @param fileName the base file to compare with.
-     */
-    public CmsPrefixFileFilter(String fileName) {
+  /**
+   * Creates a new instance of this filter.
+   *
+   * <p>
+   *
+   * @param fileName the base file to compare with.
+   */
+  public CmsPrefixFileFilter(String fileName) {
 
-        m_baseName = fileName + ".";
-    }
+    m_baseName = fileName + ".";
+  }
 
-    /**
-     * Accepts the given file if its name starts with the name of of the base file (without extension)
-     * and ends with the extension.<p>
-     *
-     * @see java.io.FileFilter#accept(java.io.File)
-     */
-    public boolean accept(File f) {
+  /**
+   * Accepts the given file if its name starts with the name of of the base file (without extension)
+   * and ends with the extension.
+   *
+   * <p>
+   *
+   * @see java.io.FileFilter#accept(java.io.File)
+   */
+  public boolean accept(File f) {
 
-        return f.getName().startsWith(m_baseName)
-            && (f.getName().length() > m_baseName.length())
-            && (f.getName().indexOf('.', m_baseName.length()) < 0);
-    }
+    return f.getName().startsWith(m_baseName)
+        && (f.getName().length() > m_baseName.length())
+        && (f.getName().indexOf('.', m_baseName.length()) < 0);
+  }
 }

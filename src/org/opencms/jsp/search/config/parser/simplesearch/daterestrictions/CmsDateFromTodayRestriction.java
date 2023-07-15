@@ -28,46 +28,51 @@
 package org.opencms.jsp.search.config.parser.simplesearch.daterestrictions;
 
 /**
- * Date restrictions for a fixed number of time units going backward or forward from the current time.<p>
+ * Date restrictions for a fixed number of time units going backward or forward from the current
+ * time.
+ *
+ * <p>
  */
 public class CmsDateFromTodayRestriction implements I_CmsDateRestriction {
 
-    /** The number of time units. */
-    private int m_count;
+  /** The number of time units. */
+  private int m_count;
 
-    /** The time unit to use. */
-    private TimeUnit m_unit;
+  /** The time unit to use. */
+  private TimeUnit m_unit;
 
-    /** The time direction. */
-    private TimeDirection m_direction;
+  /** The time direction. */
+  private TimeDirection m_direction;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param count the number of time units
-     * @param unit the time unit
-     * @param direction the time direction
-     */
-    public CmsDateFromTodayRestriction(int count, TimeUnit unit, TimeDirection direction) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param count the number of time units
+   * @param unit the time unit
+   * @param direction the time direction
+   */
+  public CmsDateFromTodayRestriction(int count, TimeUnit unit, TimeDirection direction) {
 
-        m_count = count;
-        m_unit = unit;
-        m_direction = direction;
+    m_count = count;
+    m_unit = unit;
+    m_direction = direction;
+  }
+
+  /**
+   * @see
+   *     org.opencms.jsp.search.config.parser.simplesearch.daterestrictions.I_CmsDateRestriction#getRange()
+   */
+  public String getRange() {
+
+    boolean isFuture = m_direction == TimeDirection.future;
+    String sign = isFuture ? "+" : "-";
+    String time = "NOW/DAY" + sign + m_unit.formatForRange(m_count);
+    if (isFuture) {
+      return "[NOW TO " + time + "+1DAYS}";
+    } else {
+      return "[" + time + " TO NOW}";
     }
-
-    /**
-     * @see org.opencms.jsp.search.config.parser.simplesearch.daterestrictions.I_CmsDateRestriction#getRange()
-     */
-    public String getRange() {
-
-        boolean isFuture = m_direction == TimeDirection.future;
-        String sign = isFuture ? "+" : "-";
-        String time = "NOW/DAY" + sign + m_unit.formatForRange(m_count);
-        if (isFuture) {
-            return "[NOW TO " + time + "+1DAYS}";
-        } else {
-            return "[" + time + " TO NOW}";
-        }
-    }
-
+  }
 }

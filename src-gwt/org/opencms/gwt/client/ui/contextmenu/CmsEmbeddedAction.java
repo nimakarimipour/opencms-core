@@ -27,68 +27,78 @@
 
 package org.opencms.gwt.client.ui.contextmenu;
 
+import java.util.Collections;
 import org.opencms.gwt.client.util.CmsEmbeddedDialogHandler;
 import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.gwt.shared.CmsGwtConstants;
 import org.opencms.util.CmsUUID;
 
-import java.util.Collections;
-
 /**
- * Context menu command to call workplace actions.<p>
+ * Context menu command to call workplace actions.
  *
- * When called the VAADIN UI will be embedded within an iFrame and the action dialog displayed within it.<p>
+ * <p>When called the VAADIN UI will be embedded within an iFrame and the action dialog displayed
+ * within it.
+ *
+ * <p>
  */
 public class CmsEmbeddedAction implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand {
 
-    /**
-     * Hidden utility class constructor.<p>
-     */
-    private CmsEmbeddedAction() {}
+  /**
+   * Hidden utility class constructor.
+   *
+   * <p>
+   */
+  private CmsEmbeddedAction() {}
 
-    /**
-     * Returns the context menu command according to
-     * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new CmsEmbeddedAction();
-    }
+    return new CmsEmbeddedAction();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public void execute(
-        final CmsUUID structureId,
-        final I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public void execute(
+      final CmsUUID structureId,
+      final I_CmsContextMenuHandler handler,
+      CmsContextMenuEntryBean bean) {
 
-        String dialogId = bean.getParams().get(CmsGwtConstants.ACTION_PARAM_DIALOG_ID);
-        CmsEmbeddedDialogHandler dialogHandler = new CmsEmbeddedDialogHandler(handler);
-        dialogHandler.openDialog(
-            dialogId,
-            handler.getContextType(),
-            structureId != null ? Collections.singletonList(structureId) : Collections.<CmsUUID> emptyList());
-    }
+    String dialogId = bean.getParams().get(CmsGwtConstants.ACTION_PARAM_DIALOG_ID);
+    CmsEmbeddedDialogHandler dialogHandler = new CmsEmbeddedDialogHandler(handler);
+    dialogHandler.openDialog(
+        dialogId,
+        handler.getContextType(),
+        structureId != null
+            ? Collections.singletonList(structureId)
+            : Collections.<CmsUUID>emptyList());
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget()
-     */
-    public boolean hasItemWidget() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget() */
+  public boolean hasItemWidget() {
 
-        return false;
-    }
+    return false;
+  }
 }

@@ -27,19 +27,22 @@
 
 package org.opencms.ui.apps;
 
+import com.vaadin.event.Action;
 import java.util.Map;
 
-import com.vaadin.event.Action;
-
 /**
- * To provide shortcut actions an app may implement this intreface.<p>
+ * To provide shortcut actions an app may implement this intreface.
+ *
+ * <p>
  */
 public interface I_CmsHasShortcutActions {
 
-    /**
-     * Returns the shortcut actions.<p>
-     *
-     * @return the shortcut actions
-     */
-    Map<Action, Runnable> getShortcutActions();
+  /**
+   * Returns the shortcut actions.
+   *
+   * <p>
+   *
+   * @return the shortcut actions
+   */
+  Map<Action, Runnable> getShortcutActions();
 }

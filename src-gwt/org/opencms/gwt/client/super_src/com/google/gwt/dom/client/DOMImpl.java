@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -21,16 +21,19 @@ import com.google.gwt.core.client.JsArray;
 abstract class DOMImpl {
 
   static final DOMImpl impl = GWT.create(DOMImpl.class);
-  
-  /** Fixing positioning issue due to API changes in Chrome. See https://github.com/gwtproject/gwt/commit/88a028f6b74ecc529a4b878301448d057d2c6e89 */
+
+  /**
+   * Fixing positioning issue due to API changes in Chrome. See
+   * https://github.com/gwtproject/gwt/commit/88a028f6b74ecc529a4b878301448d057d2c6e89
+   */
 
   /**
    * Fast helper method to convert small doubles to 32-bit int.
    *
-   * <p>Note: you should be aware that this uses JavaScript rounding and thus
-   * does NOT provide the same semantics as <code>int b = (int) someDouble;</code>.
-   * In particular, if x is outside the range [-2^31,2^31), then toInt32(x) would return a value
-   * equivalent to x modulo 2^32, whereas (int) x would evaluate to either MIN_INT or MAX_INT.
+   * <p>Note: you should be aware that this uses JavaScript rounding and thus does NOT provide the
+   * same semantics as <code>int b = (int) someDouble;</code>. In particular, if x is outside the
+   * range [-2^31,2^31), then toInt32(x) would return a value equivalent to x modulo 2^32, whereas
+   * (int) x would evaluate to either MIN_INT or MAX_INT.
    */
   protected static native int toInt32(double val) /*-{
     return val | 0;
@@ -57,8 +60,8 @@ abstract class DOMImpl {
     return doc.createElement(tag);
 }-*/;
 
-  public abstract NativeEvent createHtmlEvent(Document doc, String type,
-      boolean canBubble, boolean cancelable);
+  public abstract NativeEvent createHtmlEvent(
+      Document doc, String type, boolean canBubble, boolean cancelable);
 
   public native InputElement createInputElement(Document doc, String type) /*-{
     var e = doc.createElement("INPUT");
@@ -68,23 +71,52 @@ abstract class DOMImpl {
 
   public abstract InputElement createInputRadioElement(Document doc, String name);
 
-  public abstract NativeEvent createKeyCodeEvent(Document document,
-      String type, boolean ctrlKey, boolean altKey, boolean shiftKey,
-      boolean metaKey, int keyCode);
+  public abstract NativeEvent createKeyCodeEvent(
+      Document document,
+      String type,
+      boolean ctrlKey,
+      boolean altKey,
+      boolean shiftKey,
+      boolean metaKey,
+      int keyCode);
 
   @Deprecated
-  public abstract NativeEvent createKeyEvent(Document doc, String type,
-      boolean canBubble, boolean cancelable, boolean ctrlKey, boolean altKey,
-      boolean shiftKey, boolean metaKey, int keyCode, int charCode);
-
-  public abstract NativeEvent createKeyPressEvent(Document document,
-      boolean ctrlKey, boolean altKey, boolean shiftKey, boolean metaKey,
+  public abstract NativeEvent createKeyEvent(
+      Document doc,
+      String type,
+      boolean canBubble,
+      boolean cancelable,
+      boolean ctrlKey,
+      boolean altKey,
+      boolean shiftKey,
+      boolean metaKey,
+      int keyCode,
       int charCode);
 
-  public abstract NativeEvent createMouseEvent(Document doc, String type,
-      boolean canBubble, boolean cancelable, int detail, int screenX,
-      int screenY, int clientX, int clientY, boolean ctrlKey, boolean altKey,
-      boolean shiftKey, boolean metaKey, int button, Element relatedTarget);
+  public abstract NativeEvent createKeyPressEvent(
+      Document document,
+      boolean ctrlKey,
+      boolean altKey,
+      boolean shiftKey,
+      boolean metaKey,
+      int charCode);
+
+  public abstract NativeEvent createMouseEvent(
+      Document doc,
+      String type,
+      boolean canBubble,
+      boolean cancelable,
+      int detail,
+      int screenX,
+      int screenY,
+      int clientX,
+      int clientY,
+      boolean ctrlKey,
+      boolean altKey,
+      boolean shiftKey,
+      boolean metaKey,
+      int button,
+      Element relatedTarget);
 
   public ScriptElement createScriptElement(Document doc, String source) {
     ScriptElement elem = (ScriptElement) createElement(doc, "script");
@@ -244,10 +276,7 @@ abstract class DOMImpl {
     return node.nodeType;
 }-*/;
 
-  /**
-   * Returns a numeric style property (such as zIndex) that may need to be
-   * coerced to a string.
-   */
+  /** Returns a numeric style property (such as zIndex) that may need to be coerced to a string. */
   public String getNumericStyleProperty(Style style, String name) {
     return getStyleProperty(style, name);
   }
@@ -268,7 +297,7 @@ abstract class DOMImpl {
 }-*/;
 
   public int getScrollLeft(Document doc) {
-      return ensureDocumentScrollingElement(doc).getScrollLeft();
+    return ensureDocumentScrollingElement(doc).getScrollLeft();
   }
 
   public int getScrollLeft(Element elem) {
@@ -276,7 +305,7 @@ abstract class DOMImpl {
   }
 
   public int getScrollTop(Document doc) {
-      return ensureDocumentScrollingElement(doc).getScrollTop();
+    return ensureDocumentScrollingElement(doc).getScrollTop();
   }
 
   public native String getStyleProperty(Style style, String name) /*-{
@@ -341,8 +370,8 @@ abstract class DOMImpl {
     }
 }-*/;
 
-  public native void selectAdd(SelectElement select, OptionElement option,
-      OptionElement before) /*-{
+  public native void selectAdd(
+      SelectElement select, OptionElement option, OptionElement before) /*-{
     select.add(option, before);
 }-*/;
 
@@ -378,7 +407,7 @@ abstract class DOMImpl {
 }-*/;
 
   public void setScrollLeft(Document doc, int left) {
-      ensureDocumentScrollingElement(doc).setScrollLeft(left);
+    ensureDocumentScrollingElement(doc).setScrollLeft(left);
   }
 
   public native void setScrollLeft(Element elem, int left) /*-{
@@ -386,7 +415,7 @@ abstract class DOMImpl {
 }-*/;
 
   public void setScrollTop(Document doc, int top) {
-      ensureDocumentScrollingElement(doc).setScrollTop(top);
+    ensureDocumentScrollingElement(doc).setScrollTop(top);
   }
 
   public native String toString(Element elem) /*-{
@@ -498,15 +527,15 @@ abstract class DOMImpl {
   private native double eventGetSubPixelClientY(NativeEvent evt) /*-{
     return evt.clientY || 0;
 }-*/;
-  
+
   private Element ensureDocumentScrollingElement(Document document) {
-          // In some case (e.g SVG document and old Webkit browsers), getDocumentScrollingElement can
-          // return null. In this case, default to documentElement.
-          Element scrollingElement = getDocumentScrollingElement(document);
-          return scrollingElement != null ? scrollingElement : document.getDocumentElement();
-        }
-      
-        Element getDocumentScrollingElement(Document doc)  {
-          return doc.getViewportElement();
-        }
+    // In some case (e.g SVG document and old Webkit browsers), getDocumentScrollingElement can
+    // return null. In this case, default to documentElement.
+    Element scrollingElement = getDocumentScrollingElement(document);
+    return scrollingElement != null ? scrollingElement : document.getDocumentElement();
+  }
+
+  Element getDocumentScrollingElement(Document doc) {
+    return doc.getViewportElement();
+  }
 }

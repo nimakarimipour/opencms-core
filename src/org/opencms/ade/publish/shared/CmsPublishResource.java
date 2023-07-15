@@ -27,224 +27,253 @@
 
 package org.opencms.ade.publish.shared;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.opencms.db.CmsResourceState;
 import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.gwt.shared.CmsPermissionInfo;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * A publish resource.<p>
+ * A publish resource.
+ *
+ * <p>
  *
  * @since 7.6
  */
 public class CmsPublishResource extends CmsListInfoBean {
 
-    /** The last modification date. */
-    private long m_dateLastModified;
+  /** The last modification date. */
+  private long m_dateLastModified;
 
-    /** The last modification date as a formatted string. */
-    private String m_dateLastModifiedStr;
+  /** The last modification date as a formatted string. */
+  private String m_dateLastModifiedStr;
 
-    /** The resource id.*/
-    private CmsUUID m_id;
+  /** The resource id. */
+  private CmsUUID m_id;
 
-    /** The additional information, if any. */
-    private CmsPublishResourceInfo m_info;
+  /** The additional information, if any. */
+  private CmsPublishResourceInfo m_info;
 
-    /** The resource name.*/
-    private String m_name;
+  /** The resource name. */
+  private String m_name;
 
-    /** The permission info. */
-    private CmsPermissionInfo m_permissionInfo;
+  /** The permission info. */
+  private CmsPermissionInfo m_permissionInfo;
 
-    /** The related resources.*/
-    private List<CmsPublishResource> m_related;
+  /** The related resources. */
+  private List<CmsPublishResource> m_related;
 
-    /** Flag to indicate if the resource can be removed from the user's publish list.*/
-    private boolean m_removable;
+  /** Flag to indicate if the resource can be removed from the user's publish list. */
+  private boolean m_removable;
 
-    /** Name of the user who last modified the resource. */
-    private String m_userLastModified;
+  /** Name of the user who last modified the resource. */
+  private String m_userLastModified;
 
-    /**
-     * Creates a new publish group bean.<p>
-     *
-     * @param id the resource id
-     * @param name the resource name
-     * @param title the resource title
-     * @param resourceType the resource type name
-     * @param state the resource state
-     * @param permissionInfo the permission info
-     * @param dateLastModified the last modification date
-     * @param userLastModified name of the user who last modified the resource
-     * @param dateLastModifiedStr the last modification date as a formatted string
-     * @param removable to indicate if the resource can be removed from the user's publish list
-     * @param info the additional information, if any
-     * @param related the related resources
-     **/
-    public CmsPublishResource(
-        CmsUUID id,
-        String name,
-        String title,
-        String resourceType,
-        CmsResourceState state,
-        CmsPermissionInfo permissionInfo,
-        long dateLastModified,
-        String userLastModified,
-        String dateLastModifiedStr,
-        boolean removable,
-        CmsPublishResourceInfo info,
-        List<CmsPublishResource> related) {
-        super(CmsStringUtil.isEmptyOrWhitespaceOnly(title) ? name : title, name, null);
-        setResourceType(resourceType);
-        setResourceState(state);
-        setMarkChangedState(false);
-        m_id = id;
-        m_name = name;
-        m_related = ((related == null) ? new ArrayList<CmsPublishResource>() : related);
-        m_permissionInfo = permissionInfo;
-        m_removable = removable;
-        m_info = info;
-        m_dateLastModified = dateLastModified;
-        m_dateLastModifiedStr = dateLastModifiedStr;
-        m_userLastModified = userLastModified;
+  /**
+   * Creates a new publish group bean.
+   *
+   * <p>
+   *
+   * @param id the resource id
+   * @param name the resource name
+   * @param title the resource title
+   * @param resourceType the resource type name
+   * @param state the resource state
+   * @param permissionInfo the permission info
+   * @param dateLastModified the last modification date
+   * @param userLastModified name of the user who last modified the resource
+   * @param dateLastModifiedStr the last modification date as a formatted string
+   * @param removable to indicate if the resource can be removed from the user's publish list
+   * @param info the additional information, if any
+   * @param related the related resources
+   */
+  public CmsPublishResource(
+      CmsUUID id,
+      String name,
+      String title,
+      String resourceType,
+      CmsResourceState state,
+      CmsPermissionInfo permissionInfo,
+      long dateLastModified,
+      String userLastModified,
+      String dateLastModifiedStr,
+      boolean removable,
+      CmsPublishResourceInfo info,
+      List<CmsPublishResource> related) {
+    super(CmsStringUtil.isEmptyOrWhitespaceOnly(title) ? name : title, name, null);
+    setResourceType(resourceType);
+    setResourceState(state);
+    setMarkChangedState(false);
+    m_id = id;
+    m_name = name;
+    m_related = ((related == null) ? new ArrayList<CmsPublishResource>() : related);
+    m_permissionInfo = permissionInfo;
+    m_removable = removable;
+    m_info = info;
+    m_dateLastModified = dateLastModified;
+    m_dateLastModifiedStr = dateLastModifiedStr;
+    m_userLastModified = userLastModified;
+  }
+
+  /**
+   * For serialization.
+   *
+   * <p>
+   */
+  protected CmsPublishResource() {
+
+    // for serialization
+  }
+
+  /**
+   * Gets the last modification date.
+   *
+   * <p>
+   *
+   * @return the last modification date
+   */
+  public long getDateLastModified() {
+
+    return m_dateLastModified;
+  }
+
+  /**
+   * Gets the modification date formatted as a string.
+   *
+   * <p>
+   *
+   * @return the formatted modification date
+   */
+  public String getDateLastModifiedString() {
+
+    return m_dateLastModifiedStr;
+  }
+
+  /**
+   * Returns the id.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  public CmsUUID getId() {
+
+    return m_id;
+  }
+
+  /**
+   * Returns the additional info.
+   *
+   * <p>
+   *
+   * @return the additional info
+   */
+  public CmsPublishResourceInfo getInfo() {
+
+    return m_info;
+  }
+
+  /**
+   * Returns the name.
+   *
+   * <p>
+   *
+   * @return the name
+   */
+  public String getName() {
+
+    return m_name;
+  }
+
+  /**
+   * Returns the permission info.
+   *
+   * <p>
+   *
+   * @return the permission info
+   */
+  public CmsPermissionInfo getPermissionInfo() {
+
+    return m_permissionInfo;
+  }
+
+  /**
+   * Returns the related resources.
+   *
+   * <p>
+   *
+   * @return the related resources
+   */
+  public List<CmsPublishResource> getRelated() {
+
+    return m_related;
+  }
+
+  /**
+   * Gets the date to be used for sorting.
+   *
+   * <p>
+   *
+   * @return the date which should be used for sorting
+   */
+  public long getSortDate() {
+
+    long result = getDateLastModified();
+    if (m_related != null) {
+      for (CmsPublishResource rel : m_related) {
+        result = Math.max(result, rel.getSortDate());
+      }
     }
+    return result;
+  }
 
-    /**
-     * For serialization.<p>
-     */
-    protected CmsPublishResource() {
+  /**
+   * Gets the name of the user who last modified the resource.
+   *
+   * <p>
+   *
+   * @return the name of the user who last modified the resource
+   */
+  public String getUserLastModified() {
 
-        // for serialization
-    }
+    return m_userLastModified;
+  }
 
-    /**
-     * Gets the last modification date.<p>
-     *
-     * @return the last modification date
-     */
-    public long getDateLastModified() {
+  /**
+   * Returns the removable flag.
+   *
+   * <p>
+   *
+   * @return the removable flag
+   */
+  public boolean isRemovable() {
 
-        return m_dateLastModified;
-    }
+    return m_removable;
+  }
 
-    /**
-     * Gets the modification date formatted as a string.<p>
-     *
-     * @return the formatted modification date
-     */
-    public String getDateLastModifiedString() {
+  /**
+   * Sets the publish resource info.
+   *
+   * <p>
+   *
+   * @param info the publish resource info
+   */
+  public void setInfo(CmsPublishResourceInfo info) {
 
-        return m_dateLastModifiedStr;
-    }
+    m_info = info;
+  }
 
-    /**
-     * Returns the id.<p>
-     *
-     * @return the id
-     */
-    public CmsUUID getId() {
+  /**
+   * Enables/disables removability.
+   *
+   * <p>
+   *
+   * @param removable true if the item should be removable
+   */
+  public void setRemovable(boolean removable) {
 
-        return m_id;
-    }
-
-    /**
-     * Returns the additional info.<p>
-     *
-     * @return the additional info
-     */
-    public CmsPublishResourceInfo getInfo() {
-
-        return m_info;
-    }
-
-    /**
-     * Returns the name.<p>
-     *
-     * @return the name
-     */
-    public String getName() {
-
-        return m_name;
-    }
-
-    /**
-     * Returns the permission info.<p>
-     *
-     * @return the permission info
-     */
-    public CmsPermissionInfo getPermissionInfo() {
-
-        return m_permissionInfo;
-    }
-
-    /**
-     * Returns the related resources.<p>
-     *
-     * @return the related resources
-     */
-    public List<CmsPublishResource> getRelated() {
-
-        return m_related;
-    }
-
-    /**
-     * Gets the date to be used for sorting.<p>
-     *
-     * @return the date which should be used for sorting
-     */
-    public long getSortDate() {
-
-        long result = getDateLastModified();
-        if (m_related != null) {
-            for (CmsPublishResource rel : m_related) {
-                result = Math.max(result, rel.getSortDate());
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Gets the name of the user who last modified the resource.<p>
-     *
-     * @return the name of the user who last modified the resource
-     */
-    public String getUserLastModified() {
-
-        return m_userLastModified;
-    }
-
-    /**
-     * Returns the removable flag.<p>
-     *
-     * @return the removable flag
-     */
-    public boolean isRemovable() {
-
-        return m_removable;
-    }
-
-    /**
-     * Sets the publish resource info.<p>
-     *
-     * @param info the publish resource info
-     */
-    public void setInfo(CmsPublishResourceInfo info) {
-
-        m_info = info;
-    }
-
-    /**
-     * Enables/disables removability.<p>
-     *
-     * @param removable true if the item should be removable
-     */
-    public void setRemovable(boolean removable) {
-
-        m_removable = removable;
-    }
+    m_removable = removable;
+  }
 }

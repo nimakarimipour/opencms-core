@@ -31,16 +31,19 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
 
 /**
- * Interface for classes which can have date box event handlers added to them.<p>
+ * Interface for classes which can have date box event handlers added to them.
+ *
+ * <p>
  */
 public interface I_CmsHasDateBoxEventHandlers extends HasHandlers {
 
-    /**
-     * Adds a new event handler for date box events.<p>
-     *
-     * @param handler the event handler
-     * @return the handler registration
-     */
-    HandlerRegistration addCmsDateBoxEventHandler(I_CmsDateBoxEventHandler handler);
-
+  /**
+   * Adds a new event handler for date box events.
+   *
+   * <p>
+   *
+   * @param handler the event handler
+   * @return the handler registration
+   */
+  HandlerRegistration addCmsDateBoxEventHandler(I_CmsDateBoxEventHandler handler);
 }

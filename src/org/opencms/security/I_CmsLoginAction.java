@@ -30,15 +30,19 @@ package org.opencms.security;
 import org.opencms.file.CmsObject;
 
 /**
- * Interface used to provide a protected login method.<p>
+ * Interface used to provide a protected login method.
+ *
+ * <p>
  */
 public interface I_CmsLoginAction {
 
-    /**
-     * Returns a cms object initialized for the passed principal.<p>
-     *
-     * @param principal the principal (i.e. name of a user)
-     * @return a cms object or <code>null</code> if the cms object could not be initialized.
-     */
-    CmsObject doLogin(String principal);
+  /**
+   * Returns a cms object initialized for the passed principal.
+   *
+   * <p>
+   *
+   * @param principal the principal (i.e. name of a user)
+   * @return a cms object or <code>null</code> if the cms object could not be initialized.
+   */
+  CmsObject doLogin(String principal);
 }

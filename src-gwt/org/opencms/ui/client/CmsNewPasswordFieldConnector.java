@@ -30,22 +30,17 @@ package org.opencms.ui.client;
 import com.vaadin.client.ui.passwordfield.PasswordFieldConnector;
 import com.vaadin.shared.ui.Connect;
 
-/**
- * Vaadin widget connector for CmsNewPasswordField.
- */
+/** Vaadin widget connector for CmsNewPasswordField. */
 @Connect(org.opencms.ui.components.CmsNewPasswordField.class)
 public class CmsNewPasswordFieldConnector extends PasswordFieldConnector {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * @see com.vaadin.client.ui.passwordfield.PasswordFieldConnector#getWidget()
-     */
-    @Override
-    public CmsClientNewPasswordField getWidget() {
+  /** @see com.vaadin.client.ui.passwordfield.PasswordFieldConnector#getWidget() */
+  @Override
+  public CmsClientNewPasswordField getWidget() {
 
-        return (CmsClientNewPasswordField)super.getWidget();
-    }
-
+    return (CmsClientNewPasswordField) super.getWidget();
+  }
 }

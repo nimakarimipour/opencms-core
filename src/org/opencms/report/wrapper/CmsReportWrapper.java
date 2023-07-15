@@ -27,265 +27,282 @@
 
 package org.opencms.report.wrapper;
 
-import org.opencms.i18n.I_CmsMessageBundle;
-import org.opencms.report.I_CmsReport;
-
 import java.util.Arrays;
 import java.util.Collection;
+import org.opencms.i18n.I_CmsMessageBundle;
+import org.opencms.report.I_CmsReport;
 
 /**
  * Wrapper for writing reports.
  *
- * It allows to write the same messages to multiple reports and has high-level interface for writing.
+ * <p>It allows to write the same messages to multiple reports and has high-level interface for
+ * writing.
  *
  * @author Daniel Seidel
- *
  * @version $Revision: 1.0 $
- *
  * @since 12.0.0
  */
 public class CmsReportWrapper {
 
-    /** The reports to write to. */
-    private Collection<I_CmsReport> m_reports;
+  /** The reports to write to. */
+  private Collection<I_CmsReport> m_reports;
 
-    /** The message bundle to read the messages from. */
-    private I_CmsMessageBundle m_messages;
+  /** The message bundle to read the messages from. */
+  private I_CmsMessageBundle m_messages;
 
-    /**
-     * Constructor for the wrapper.
-     *
-     * @param messages the message bundle to read the printed messages from.
-     * @param reports the reports to write to.
-     */
-    public CmsReportWrapper(I_CmsMessageBundle messages, Collection<I_CmsReport> reports) {
+  /**
+   * Constructor for the wrapper.
+   *
+   * @param messages the message bundle to read the printed messages from.
+   * @param reports the reports to write to.
+   */
+  public CmsReportWrapper(I_CmsMessageBundle messages, Collection<I_CmsReport> reports) {
 
-        m_messages = messages;
-        m_reports = reports;
+    m_messages = messages;
+    m_reports = reports;
+  }
+
+  /**
+   * Constructor for the wrapper.
+   *
+   * @param messages the message bundle to read the printed messages from.
+   * @param report a sequence of reports to write the messages to.
+   */
+  public CmsReportWrapper(I_CmsMessageBundle messages, I_CmsReport... report) {
+
+    m_messages = messages;
+    m_reports = Arrays.asList(report);
+  }
+
+  /**
+   * Adds a warning to the report (invisible in the GUI).
+   *
+   * @param warning the warning to add.
+   */
+  public void reportAddWarning(Object warning) {
+
+    for (I_CmsReport r : m_reports) {
+      r.addWarning(warning);
     }
+  }
 
-    /**
-     * Constructor for the wrapper.
-     *
-     * @param messages the message bundle to read the printed messages from.
-     * @param report a sequence of reports to write the messages to.
-     */
-    public CmsReportWrapper(I_CmsMessageBundle messages, I_CmsReport... report) {
+  /**
+   * Print a message in default style.
+   *
+   * @param message the message
+   * @param params the parameters
+   */
+  public void reportDefault(String message, Object... params) {
 
-        m_messages = messages;
-        m_reports = Arrays.asList(report);
+    for (I_CmsReport r : m_reports) {
+      r.println(m_messages.container(message, params));
     }
+  }
 
-    /**
-     * Adds a warning to the report (invisible in the GUI).
-     * @param warning the warning to add.
-     */
-    public void reportAddWarning(Object warning) {
+  /**
+   * Print a message in default style without linebreak.
+   *
+   * @param message the message
+   * @param params the parameters
+   */
+  public void reportDefaultNoBreak(String message, Object... params) {
 
-        for (I_CmsReport r : m_reports) {
-            r.addWarning(warning);
-        }
+    for (I_CmsReport r : m_reports) {
+      r.print(m_messages.container(message, params));
     }
+  }
 
-    /**
-     * Print a message in default style.
-     * @param message the message
-     * @param params the parameters
-     */
-    public void reportDefault(String message, Object... params) {
+  /**
+   * Report failed.
+   *
+   * @param withDots with dots or only the word.
+   */
+  public void reportFailed(boolean withDots) {
 
-        for (I_CmsReport r : m_reports) {
-            r.println(m_messages.container(message, params));
-        }
-
+    for (I_CmsReport r : m_reports) {
+      r.println(
+          DefaultReportMessages.get()
+              .container(
+                  withDots
+                      ? DefaultReportMessages.REPORT_FAILED_0
+                      : DefaultReportMessages.REPORT_FAILED_NO_DOTS_0),
+          I_CmsReport.FORMAT_ERROR);
     }
+  }
 
-    /**
-     * Print a message in default style without linebreak.
-     * @param message the message
-     * @param params the parameters
-     */
-    public void reportDefaultNoBreak(String message, Object... params) {
+  /**
+   * Report failed.
+   *
+   * @param message the message to print
+   * @param params parameters of the message
+   */
+  public void reportFailed(String message, Object... params) {
 
-        for (I_CmsReport r : m_reports) {
-            r.print(m_messages.container(message, params));
-        }
-
+    for (I_CmsReport r : m_reports) {
+      if (null != message) {
+        r.print(m_messages.container(message, params), I_CmsReport.FORMAT_ERROR);
+      }
+      r.println(
+          DefaultReportMessages.get().container(DefaultReportMessages.REPORT_FAILED_0),
+          I_CmsReport.FORMAT_ERROR);
     }
+  }
 
-    /**
-     * Report failed.
-     * @param withDots with dots or only the word.
-     */
-    public void reportFailed(boolean withDots) {
+  /**
+   * Print a message as headline.
+   *
+   * @param message the message
+   * @param params the parameters
+   */
+  public void reportHeadline(String message, Object... params) {
 
-        for (I_CmsReport r : m_reports) {
-            r.println(
-                DefaultReportMessages.get().container(
-                    withDots ? DefaultReportMessages.REPORT_FAILED_0 : DefaultReportMessages.REPORT_FAILED_NO_DOTS_0),
-                I_CmsReport.FORMAT_ERROR);
-        }
+    for (I_CmsReport r : m_reports) {
+      r.println(m_messages.container(message, params), I_CmsReport.FORMAT_HEADLINE);
     }
+  }
 
-    /**
-     * Report failed.
-     * @param message the message to print
-     * @param params parameters of the message
-     */
-    public void reportFailed(String message, Object... params) {
+  /**
+   * Print a message as headline.
+   *
+   * @param message the message
+   * @param params the parameters
+   */
+  public void reportHeadlineNoBreak(String message, Object... params) {
 
-        for (I_CmsReport r : m_reports) {
-            if (null != message) {
-                r.print(m_messages.container(message, params), I_CmsReport.FORMAT_ERROR);
-            }
-            r.println(
-                DefaultReportMessages.get().container(DefaultReportMessages.REPORT_FAILED_0),
-                I_CmsReport.FORMAT_ERROR);
-        }
+    for (I_CmsReport r : m_reports) {
+      r.print(m_messages.container(message, params), I_CmsReport.FORMAT_HEADLINE);
     }
+  }
 
-    /**
-     * Print a message as headline.
-     * @param message the message
-     * @param params the parameters
-     */
-    public void reportHeadline(String message, Object... params) {
+  /** Prints an empty line. */
+  public void reportNewline() {
 
-        for (I_CmsReport r : m_reports) {
-            r.println(m_messages.container(message, params), I_CmsReport.FORMAT_HEADLINE);
-        }
+    for (I_CmsReport r : m_reports) {
+      r.println();
     }
+  }
 
-    /**
-     * Print a message as headline.
-     * @param message the message
-     * @param params the parameters
-     */
-    public void reportHeadlineNoBreak(String message, Object... params) {
+  /**
+   * Print a message as note.
+   *
+   * @param message the message
+   * @param params the parameters
+   */
+  public void reportNote(String message, Object... params) {
 
-        for (I_CmsReport r : m_reports) {
-            r.print(m_messages.container(message, params), I_CmsReport.FORMAT_HEADLINE);
-        }
+    for (I_CmsReport r : m_reports) {
+      r.println(m_messages.container(message, params), I_CmsReport.FORMAT_NOTE);
     }
+  }
 
-    /**
-     * Prints an empty line.
-     */
-    public void reportNewline() {
+  /**
+   * Print a message as note without linebreak.
+   *
+   * @param message the message
+   * @param params the parameters
+   */
+  public void reportNoteNoBreak(String message, Object... params) {
 
-        for (I_CmsReport r : m_reports) {
-            r.println();
-        }
+    for (I_CmsReport r : m_reports) {
+      r.print(m_messages.container(message, params), I_CmsReport.FORMAT_NOTE);
     }
+  }
 
-    /**
-     * Print a message as note.
-     * @param message the message
-     * @param params the parameters
-     */
-    public void reportNote(String message, Object... params) {
+  /**
+   * Report ok.
+   *
+   * @param withDots with dots or only the word.
+   */
+  public void reportOk(boolean withDots) {
 
-        for (I_CmsReport r : m_reports) {
-            r.println(m_messages.container(message, params), I_CmsReport.FORMAT_NOTE);
-        }
-
+    for (I_CmsReport r : m_reports) {
+      r.println(
+          DefaultReportMessages.get()
+              .container(
+                  withDots
+                      ? DefaultReportMessages.REPORT_OK_0
+                      : DefaultReportMessages.REPORT_OK_NO_DOTS_0),
+          I_CmsReport.FORMAT_OK);
     }
+  }
 
-    /**
-     * Print a message as note without linebreak.
-     * @param message the message
-     * @param params the parameters
-     */
-    public void reportNoteNoBreak(String message, Object... params) {
+  /**
+   * Report ok.
+   *
+   * @param message the message to print
+   * @param params parameters of the message
+   */
+  public void reportOk(String message, Object... params) {
 
-        for (I_CmsReport r : m_reports) {
-            r.print(m_messages.container(message, params), I_CmsReport.FORMAT_NOTE);
-        }
-
+    for (I_CmsReport r : m_reports) {
+      if (null != message) {
+        r.print(m_messages.container(message, params), I_CmsReport.FORMAT_OK);
+      }
+      r.println(
+          DefaultReportMessages.get().container(DefaultReportMessages.REPORT_OK_0),
+          I_CmsReport.FORMAT_OK);
     }
+  }
 
-    /**
-     * Report ok.
-     * @param withDots with dots or only the word.
-     */
-    public void reportOk(boolean withDots) {
+  /**
+   * Report ok.
+   *
+   * @param withDots with dots or only the word.
+   */
+  public void reportSkipped(boolean withDots) {
 
-        for (I_CmsReport r : m_reports) {
-            r.println(
-                DefaultReportMessages.get().container(
-                    withDots ? DefaultReportMessages.REPORT_OK_0 : DefaultReportMessages.REPORT_OK_NO_DOTS_0),
-                I_CmsReport.FORMAT_OK);
-        }
+    for (I_CmsReport r : m_reports) {
+      r.println(
+          DefaultReportMessages.get()
+              .container(
+                  withDots
+                      ? DefaultReportMessages.REPORT_SKIPPED_0
+                      : DefaultReportMessages.REPORT_SKIPPED_NO_DOTS_0),
+          I_CmsReport.FORMAT_WARNING);
     }
+  }
 
-    /**
-     * Report ok.
-     * @param message the message to print
-     * @param params parameters of the message
-     */
-    public void reportOk(String message, Object... params) {
+  /**
+   * Report skipped.
+   *
+   * @param message the message to print
+   * @param params parameters of the message
+   */
+  public void reportSkipped(String message, Object... params) {
 
-        for (I_CmsReport r : m_reports) {
-            if (null != message) {
-                r.print(m_messages.container(message, params), I_CmsReport.FORMAT_OK);
-            }
-            r.println(DefaultReportMessages.get().container(DefaultReportMessages.REPORT_OK_0), I_CmsReport.FORMAT_OK);
-        }
+    for (I_CmsReport r : m_reports) {
+      if (null != message) {
+        r.print(m_messages.container(message, params), I_CmsReport.FORMAT_WARNING);
+      }
+      r.println(
+          DefaultReportMessages.get().container(DefaultReportMessages.REPORT_SKIPPED_0),
+          I_CmsReport.FORMAT_WARNING);
     }
+  }
 
-    /**
-     * Report ok.
-     * @param withDots with dots or only the word.
-     */
-    public void reportSkipped(boolean withDots) {
+  /**
+   * Print a message in warning style.
+   *
+   * @param message the message
+   * @param params the parameters
+   */
+  public void reportWarning(String message, Object... params) {
 
-        for (I_CmsReport r : m_reports) {
-            r.println(
-                DefaultReportMessages.get().container(
-                    withDots ? DefaultReportMessages.REPORT_SKIPPED_0 : DefaultReportMessages.REPORT_SKIPPED_NO_DOTS_0),
-                I_CmsReport.FORMAT_WARNING);
-        }
+    for (I_CmsReport r : m_reports) {
+      r.println(m_messages.container(message, params), I_CmsReport.FORMAT_WARNING);
     }
+  }
 
-    /**
-     * Report skipped.
-     * @param message the message to print
-     * @param params parameters of the message
-     */
-    public void reportSkipped(String message, Object... params) {
+  /**
+   * Print a message in warning style.
+   *
+   * @param message the message
+   * @param params the parameters
+   */
+  public void reportWarningNoBreak(String message, Object... params) {
 
-        for (I_CmsReport r : m_reports) {
-            if (null != message) {
-                r.print(m_messages.container(message, params), I_CmsReport.FORMAT_WARNING);
-            }
-            r.println(
-                DefaultReportMessages.get().container(DefaultReportMessages.REPORT_SKIPPED_0),
-                I_CmsReport.FORMAT_WARNING);
-        }
-
+    for (I_CmsReport r : m_reports) {
+      r.println(m_messages.container(message, params), I_CmsReport.FORMAT_WARNING);
     }
-
-    /**
-     * Print a message in warning style.
-     * @param message the message
-     * @param params the parameters
-     */
-    public void reportWarning(String message, Object... params) {
-
-        for (I_CmsReport r : m_reports) {
-            r.println(m_messages.container(message, params), I_CmsReport.FORMAT_WARNING);
-        }
-    }
-
-    /**
-     * Print a message in warning style.
-     * @param message the message
-     * @param params the parameters
-     */
-    public void reportWarningNoBreak(String message, Object... params) {
-
-        for (I_CmsReport r : m_reports) {
-            r.println(m_messages.container(message, params), I_CmsReport.FORMAT_WARNING);
-        }
-    }
+  }
 }

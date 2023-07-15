@@ -27,6 +27,10 @@
 
 package org.opencms.ui.contextmenu;
 
+import com.google.common.collect.Lists;
+import java.util.Collections;
+import java.util.List;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
@@ -37,84 +41,81 @@ import org.opencms.ui.Messages;
 import org.opencms.ui.components.CmsLockedResourcesList;
 import org.opencms.util.CmsUUID;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
-import com.google.common.collect.Lists;
-
 /**
- * A wrapper context menu action which first checks whether the resources for which the action is executed have any children
- * locked by different users.<p>
+ * A wrapper context menu action which first checks whether the resources for which the action is
+ * executed have any children locked by different users.
  *
- * If so, a dialog showing these resources will be displayed; otherwise the wrapped context menu action
- * will be executed.<p>
+ * <p>If so, a dialog showing these resources will be displayed; otherwise the wrapped context menu
+ * action will be executed.
+ *
+ * <p>
  */
 public class CmsBlockingLockCheck implements I_CmsContextMenuAction {
 
-    /** Log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsBlockingLockCheck.class);
+  /** Log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsBlockingLockCheck.class);
 
-    /** Context menu to execute if we don't have blocking locked resources. */
-    private I_CmsContextMenuAction m_nextAction;
+  /** Context menu to execute if we don't have blocking locked resources. */
+  private I_CmsContextMenuAction m_nextAction;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param nextAction the action to execute if we don't have blocking locked resources
-     *
-     */
-    public CmsBlockingLockCheck(I_CmsContextMenuAction nextAction) {
-        m_nextAction = nextAction;
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param nextAction the action to execute if we don't have blocking locked resources
+   */
+  public CmsBlockingLockCheck(I_CmsContextMenuAction nextAction) {
+    m_nextAction = nextAction;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsContextMenuAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(final I_CmsDialogContext context) {
+
+    CmsObject cms = context.getCms();
+    List<CmsResource> resources = context.getResources();
+    List<CmsResource> blocked = Lists.newArrayList();
+    for (CmsResource resource : resources) {
+      try {
+        blocked.addAll(cms.getBlockingLockedResources(resource));
+      } catch (CmsException e) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
     }
+    if (blocked.isEmpty()) {
+      m_nextAction.executeAction(context);
+    } else {
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsContextMenuAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(final I_CmsDialogContext context) {
+      CmsLockedResourcesList dialog =
+          new CmsLockedResourcesList(
+              cms,
+              blocked,
+              CmsVaadinUtils.getMessageText(
+                  Messages.GUI_CANT_PERFORM_OPERATION_BECAUSE_OF_LOCKED_RESOURCES_0),
+              new Runnable() {
 
-        CmsObject cms = context.getCms();
-        List<CmsResource> resources = context.getResources();
-        List<CmsResource> blocked = Lists.newArrayList();
-        for (CmsResource resource : resources) {
-            try {
-                blocked.addAll(cms.getBlockingLockedResources(resource));
-            } catch (CmsException e) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-        }
-        if (blocked.isEmpty()) {
-            m_nextAction.executeAction(context);
-        } else {
+                public void run() {
 
-            CmsLockedResourcesList dialog = new CmsLockedResourcesList(
-                cms,
-                blocked,
-                CmsVaadinUtils.getMessageText(Messages.GUI_CANT_PERFORM_OPERATION_BECAUSE_OF_LOCKED_RESOURCES_0),
-                new Runnable() {
+                  List<CmsUUID> noStructureIds = Collections.emptyList();
+                  context.finish(noStructureIds);
+                }
+              },
+              null);
 
-                    public void run() {
-
-                        List<CmsUUID> noStructureIds = Collections.emptyList();
-                        context.finish(noStructureIds);
-                    }
-
-                },
-                null);
-
-            context.start(
-                CmsVaadinUtils.getMessageText(org.opencms.workplace.explorer.Messages.GUI_EXPLORER_CONTEXT_LOCKS_0),
-                dialog);
-        }
+      context.start(
+          CmsVaadinUtils.getMessageText(
+              org.opencms.workplace.explorer.Messages.GUI_EXPLORER_CONTEXT_LOCKS_0),
+          dialog);
     }
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return "CmsBlockingLockCheck[" + m_nextAction.toString() + "]";
-    }
+    return "CmsBlockingLockCheck[" + m_nextAction.toString() + "]";
+  }
 }

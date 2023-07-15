@@ -27,6 +27,9 @@
 
 package org.opencms.ui.contextmenu;
 
+import com.vaadin.ui.themes.ValoTheme;
+import java.util.ArrayList;
+import java.util.List;
 import org.opencms.main.OpenCms;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsVaadinUtils;
@@ -37,128 +40,133 @@ import org.opencms.ui.contextmenu.CmsContextMenu.ContextMenuItemClickListener;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsTreeNode;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.vaadin.ui.themes.ValoTheme;
-
 /**
- * Context menu builder for resource items.<p>
+ * Context menu builder for resource items.
+ *
+ * <p>
  */
 public class CmsResourceContextMenuBuilder implements I_CmsContextMenuBuilder {
 
-    /** The menu item providers. */
-    private List<I_CmsContextMenuItemProvider> m_itemProviders;
+  /** The menu item providers. */
+  private List<I_CmsContextMenuItemProvider> m_itemProviders;
 
-    /** Tree builder used to build the tree of menu items. */
-    private CmsContextMenuTreeBuilder m_treeBuilder;
+  /** Tree builder used to build the tree of menu items. */
+  private CmsContextMenuTreeBuilder m_treeBuilder;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsResourceContextMenuBuilder() {
-        m_itemProviders = new ArrayList<I_CmsContextMenuItemProvider>();
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsResourceContextMenuBuilder() {
+    m_itemProviders = new ArrayList<I_CmsContextMenuItemProvider>();
+  }
+
+  /**
+   * Adds a menu item provider.
+   *
+   * <p>
+   *
+   * @param provider the menu item provider to add
+   */
+  public void addMenuItemProvider(I_CmsContextMenuItemProvider provider) {
+
+    m_itemProviders.add(provider);
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsContextMenuBuilder#buildContextMenu(org.opencms.ui.I_CmsDialogContext,
+   *     org.opencms.ui.contextmenu.CmsContextMenu)
+   */
+  public void buildContextMenu(I_CmsDialogContext context, CmsContextMenu menu) {
+
+    CmsContextMenuTreeBuilder treeBuilder = new CmsContextMenuTreeBuilder(context);
+    m_treeBuilder = treeBuilder;
+    CmsTreeNode<I_CmsContextMenuItem> tree = treeBuilder.buildAll(getMenuItems());
+    I_CmsContextMenuItem defaultActionItem = treeBuilder.getDefaultActionItem();
+    for (CmsTreeNode<I_CmsContextMenuItem> node : tree.getChildren()) {
+      createItem(menu, node, context, defaultActionItem);
     }
+  }
 
-    /**
-     * Adds a menu item provider.<p>
-     *
-     * @param provider the menu item provider to add
-     */
-    public void addMenuItemProvider(I_CmsContextMenuItemProvider provider) {
+  /** @see org.opencms.ui.contextmenu.I_CmsContextMenuItemProvider#getMenuItems() */
+  public List<I_CmsContextMenuItem> getMenuItems() {
 
-        m_itemProviders.add(provider);
+    if (m_itemProviders.isEmpty()) {
+      return OpenCms.getWorkplaceAppManager().getMenuItemProvider().getMenuItems();
+    } else {
+      List<I_CmsContextMenuItem> items = new ArrayList<I_CmsContextMenuItem>();
+      for (I_CmsContextMenuItemProvider provider : m_itemProviders) {
+        items.addAll(provider.getMenuItems());
+      }
+      return items;
     }
+  }
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsContextMenuBuilder#buildContextMenu(org.opencms.ui.I_CmsDialogContext, org.opencms.ui.contextmenu.CmsContextMenu)
-     */
-    public void buildContextMenu(I_CmsDialogContext context, CmsContextMenu menu) {
+  /**
+   * Gets the localized title for the context menu item by resolving any message key macros in the
+   * raw title using the current locale.
+   *
+   * <p>
+   *
+   * @param item the unlocalized title
+   * @return the localized title
+   */
+  String getTitle(I_CmsContextMenuItem item) {
 
-        CmsContextMenuTreeBuilder treeBuilder = new CmsContextMenuTreeBuilder(context);
-        m_treeBuilder = treeBuilder;
-        CmsTreeNode<I_CmsContextMenuItem> tree = treeBuilder.buildAll(getMenuItems());
-        I_CmsContextMenuItem defaultActionItem = treeBuilder.getDefaultActionItem();
-        for (CmsTreeNode<I_CmsContextMenuItem> node : tree.getChildren()) {
-            createItem(menu, node, context, defaultActionItem);
-        }
+    return CmsVaadinUtils.localizeString(item.getTitle(A_CmsUI.get().getLocale()));
+  }
+
+  /**
+   * Creates a context menu item.
+   *
+   * <p>
+   *
+   * @param parent the parent (either the context menu itself, or a parent item)
+   * @param node the node which should be added as a context menu item
+   * @param context the dialog context
+   * @param defaultAction the default action item if available
+   * @return the created item
+   */
+  private ContextMenuItem createItem(
+      Object parent,
+      CmsTreeNode<I_CmsContextMenuItem> node,
+      final I_CmsDialogContext context,
+      I_CmsContextMenuItem defaultAction) {
+
+    final I_CmsContextMenuItem data = node.getData();
+    ContextMenuItem guiMenuItem = null;
+    if (parent instanceof CmsContextMenu) {
+      guiMenuItem = ((CmsContextMenu) parent).addItem(getTitle(data));
+    } else {
+      guiMenuItem = ((ContextMenuItem) parent).addItem(getTitle(data));
     }
+    if (m_treeBuilder.getVisibility(data).isInActive()) {
+      guiMenuItem.setEnabled(false);
+      String key = m_treeBuilder.getVisibility(data).getMessageKey();
+      if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(key)) {
+        guiMenuItem.setDescription(CmsVaadinUtils.getMessageText(key));
+      }
+    }
+    if (node.getChildren().size() > 0) {
+      for (CmsTreeNode<I_CmsContextMenuItem> childNode : node.getChildren()) {
+        createItem(guiMenuItem, childNode, context, defaultAction);
+      }
+    } else {
+      guiMenuItem.addItemClickListener(
+          new ContextMenuItemClickListener() {
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsContextMenuItemProvider#getMenuItems()
-     */
-    public List<I_CmsContextMenuItem> getMenuItems() {
+            public void contextMenuItemClicked(ContextMenuItemClickEvent event) {
 
-        if (m_itemProviders.isEmpty()) {
-            return OpenCms.getWorkplaceAppManager().getMenuItemProvider().getMenuItems();
-        } else {
-            List<I_CmsContextMenuItem> items = new ArrayList<I_CmsContextMenuItem>();
-            for (I_CmsContextMenuItemProvider provider : m_itemProviders) {
-                items.addAll(provider.getMenuItems());
+              data.executeAction(context);
             }
-            return items;
-        }
+          });
     }
-
-    /**
-     * Gets the localized title for the context menu item by resolving any message key macros in the raw title using the current locale.<p>
-     *
-     * @param item the unlocalized title
-     * @return the localized title
-     */
-    String getTitle(I_CmsContextMenuItem item) {
-
-        return CmsVaadinUtils.localizeString(item.getTitle(A_CmsUI.get().getLocale()));
+    // highlight the default action
+    if (data.equals(defaultAction)) {
+      guiMenuItem.addStyleName(ValoTheme.LABEL_BOLD);
     }
-
-    /**
-     * Creates a context menu item.<p>
-     *
-     * @param parent the parent (either the context menu itself, or a parent item)
-     * @param node the node which should be added as a context menu item
-     * @param context the dialog context
-     * @param defaultAction the default action item if available
-     *
-     * @return the created item
-     */
-    private ContextMenuItem createItem(
-        Object parent,
-        CmsTreeNode<I_CmsContextMenuItem> node,
-        final I_CmsDialogContext context,
-        I_CmsContextMenuItem defaultAction) {
-
-        final I_CmsContextMenuItem data = node.getData();
-        ContextMenuItem guiMenuItem = null;
-        if (parent instanceof CmsContextMenu) {
-            guiMenuItem = ((CmsContextMenu)parent).addItem(getTitle(data));
-        } else {
-            guiMenuItem = ((ContextMenuItem)parent).addItem(getTitle(data));
-        }
-        if (m_treeBuilder.getVisibility(data).isInActive()) {
-            guiMenuItem.setEnabled(false);
-            String key = m_treeBuilder.getVisibility(data).getMessageKey();
-            if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(key)) {
-                guiMenuItem.setDescription(CmsVaadinUtils.getMessageText(key));
-            }
-        }
-        if (node.getChildren().size() > 0) {
-            for (CmsTreeNode<I_CmsContextMenuItem> childNode : node.getChildren()) {
-                createItem(guiMenuItem, childNode, context, defaultAction);
-            }
-        } else {
-            guiMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
-
-                public void contextMenuItemClicked(ContextMenuItemClickEvent event) {
-
-                    data.executeAction(context);
-                }
-            });
-
-        }
-        // highlight the default action
-        if (data.equals(defaultAction)) {
-            guiMenuItem.addStyleName(ValoTheme.LABEL_BOLD);
-        }
-        return guiMenuItem;
-    }
+    return guiMenuItem;
+  }
 }

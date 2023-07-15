@@ -27,9 +27,6 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.ui.components.extensions.CmsScrollPositionCss;
-import org.opencms.ui.shared.components.CmsScrollPositionCssState;
-
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.user.client.ui.Widget;
@@ -37,64 +34,71 @@ import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
 import com.vaadin.shared.ui.Connect;
+import org.opencms.ui.components.extensions.CmsScrollPositionCss;
+import org.opencms.ui.shared.components.CmsScrollPositionCssState;
 
 /**
- * This connector will manipulate the CSS classes of the extended widget depending on the scroll position.<p>
+ * This connector will manipulate the CSS classes of the extended widget depending on the scroll
+ * position.
+ *
+ * <p>
  */
 @Connect(CmsScrollPositionCss.class)
 public class CmsScrollPositionCssConnector extends AbstractExtensionConnector {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -9079215265941920364L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -9079215265941920364L;
 
-    /** The widget to enhance. */
-    private Widget m_widget;
+  /** The widget to enhance. */
+  private Widget m_widget;
 
-    /**
-     * @see com.vaadin.client.ui.AbstractConnector#getState()
-     */
-    @Override
-    public CmsScrollPositionCssState getState() {
+  /** @see com.vaadin.client.ui.AbstractConnector#getState() */
+  @Override
+  public CmsScrollPositionCssState getState() {
 
-        return (CmsScrollPositionCssState)super.getState();
+    return (CmsScrollPositionCssState) super.getState();
+  }
+
+  /**
+   * @see
+   *     com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
+   */
+  @Override
+  protected void extend(ServerConnector target) {
+
+    // Get the extended widget
+    m_widget = ((ComponentConnector) target).getWidget();
+    m_widget.addDomHandler(
+        new ScrollHandler() {
+
+          public void onScroll(ScrollEvent event) {
+
+            handleScroll(event);
+          }
+        },
+        ScrollEvent.getType());
+  }
+
+  /**
+   * Handles the scroll event.
+   *
+   * <p>
+   *
+   * @param event the scroll event
+   */
+  protected void handleScroll(ScrollEvent event) {
+
+    String styleName = getState().getStyleName();
+    int scrollBarrier = getState().getScrollBarrier();
+    int barrierMargin = getState().getBarrierMargin();
+    if ((m_widget != null) && (scrollBarrier > 0) && (styleName != null)) {
+      if (m_widget.getElement().getScrollTop() > (scrollBarrier + barrierMargin)) {
+        m_widget.addStyleDependentName(styleName);
+        m_widget.addStyleName(styleName);
+      } else if (m_widget.getElement().getScrollTop() < (scrollBarrier - barrierMargin)) {
+        m_widget.removeStyleDependentName(styleName);
+        m_widget.removeStyleName(styleName);
+      }
     }
-
-    /**
-     * @see com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
-     */
-    @Override
-    protected void extend(ServerConnector target) {
-
-        // Get the extended widget
-        m_widget = ((ComponentConnector)target).getWidget();
-        m_widget.addDomHandler(new ScrollHandler() {
-
-            public void onScroll(ScrollEvent event) {
-
-                handleScroll(event);
-
-            }
-        }, ScrollEvent.getType());
-    }
-
-    /**
-     * Handles the scroll event.<p>
-     *
-     * @param event the scroll event
-     */
-    protected void handleScroll(ScrollEvent event) {
-
-        String styleName = getState().getStyleName();
-        int scrollBarrier = getState().getScrollBarrier();
-        int barrierMargin = getState().getBarrierMargin();
-        if ((m_widget != null) && (scrollBarrier > 0) && (styleName != null)) {
-            if (m_widget.getElement().getScrollTop() > (scrollBarrier + barrierMargin)) {
-                m_widget.addStyleDependentName(styleName);
-                m_widget.addStyleName(styleName);
-            } else if (m_widget.getElement().getScrollTop() < (scrollBarrier - barrierMargin)) {
-                m_widget.removeStyleDependentName(styleName);
-                m_widget.removeStyleName(styleName);
-            }
-        }
-    }
+  }
 }

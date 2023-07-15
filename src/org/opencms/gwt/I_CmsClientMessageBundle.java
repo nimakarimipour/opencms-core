@@ -28,68 +28,75 @@
 package org.opencms.gwt;
 
 import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Convenient client message bundle interface.<p>
+ * Convenient client message bundle interface.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.i18n.I_CmsMessageBundle
  */
 public interface I_CmsClientMessageBundle {
 
-    /**
-     * Returns the JSON code for this resource bundle and the default locale.<p>
-     *
-     * @param request the current request to get the default locale from
-     *
-     * @return the JSON code
-     */
-    String export(HttpServletRequest request);
+  /**
+   * Returns the JSON code for this resource bundle and the default locale.
+   *
+   * <p>
+   *
+   * @param request the current request to get the default locale from
+   * @return the JSON code
+   */
+  String export(HttpServletRequest request);
 
-    /**
-     * Returns the JSON code for this resource bundle and given locale.<p>
-     *
-     * @param locale the locale to export
-     *
-     * @return the JSON code
-     */
-    String export(Locale locale);
+  /**
+   * Returns the JSON code for this resource bundle and given locale.
+   *
+   * <p>
+   *
+   * @param locale the locale to export
+   * @return the JSON code
+   */
+  String export(Locale locale);
 
-    /**
-     * Returns the JSON code for this resource bundle and given locale.<p>
-     *
-     * @param locale the locale to export
-     * @param wrapScript <code>true</code> to wrap the data in a script tag
-     *
-     * @return the JSON code
-     */
-    String export(Locale locale, boolean wrapScript);
+  /**
+   * Returns the JSON code for this resource bundle and given locale.
+   *
+   * <p>
+   *
+   * @param locale the locale to export
+   * @param wrapScript <code>true</code> to wrap the data in a script tag
+   * @return the JSON code
+   */
+  String export(Locale locale, boolean wrapScript);
 
-    /**
-     * Returns the JSON code for this resource bundle and given locale.<p>
-     *
-     * @param localeName the name of the locale to export
-     *
-     * @return the JSON code
-     */
-    String export(String localeName);
+  /**
+   * Returns the JSON code for this resource bundle and given locale.
+   *
+   * <p>
+   *
+   * @param localeName the name of the locale to export
+   * @return the JSON code
+   */
+  String export(String localeName);
 
-    /**
-     * Returns the bundle name for this OpenCms package.<p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    String getBundleName();
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  String getBundleName();
 
-    /**
-     * Returns the class of the client implementation.<p>
-     *
-     * @return the class of the client implementation
-     *
-     * @throws Exception if something goes wrong
-     */
-    Class<?> getClientImpl() throws Exception;
+  /**
+   * Returns the class of the client implementation.
+   *
+   * <p>
+   *
+   * @return the class of the client implementation
+   * @throws Exception if something goes wrong
+   */
+  Class<?> getClientImpl() throws Exception;
 }

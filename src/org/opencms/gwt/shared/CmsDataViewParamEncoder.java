@@ -27,55 +27,61 @@
 
 package org.opencms.gwt.shared;
 
+import com.google.common.io.BaseEncoding;
 import java.io.UnsupportedEncodingException;
 
-import com.google.common.io.BaseEncoding;
-
 /**
- * Encodes/decodes the configuration passed to the data view popup as a request parameter.<p>
+ * Encodes/decodes the configuration passed to the data view popup as a request parameter.
+ *
+ * <p>
  */
 public final class CmsDataViewParamEncoder {
 
-    /** The encoding. */
-    public static final BaseEncoding CODEC = BaseEncoding.base64Url().withPadChar('.');
+  /** The encoding. */
+  public static final BaseEncoding CODEC = BaseEncoding.base64Url().withPadChar('.');
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    private CmsDataViewParamEncoder() {
-        // do nothing
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  private CmsDataViewParamEncoder() {
+    // do nothing
+  }
+
+  /**
+   * Decodes a string.
+   *
+   * <p>
+   *
+   * @param s the encoded string
+   * @return the decoded string
+   */
+  public static String decodeString(String s) {
+
+    try {
+      return new String(CODEC.decode(s), "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      // shouldn't happen
+      return null;
     }
+  }
 
-    /**
-     * Decodes a string.<p>
-     *
-     * @param s the encoded string
-     * @return the decoded string
-     */
-    public static String decodeString(String s) {
+  /**
+   * Encodes a string.
+   *
+   * <p>
+   *
+   * @param s the input string
+   * @return the encoded string
+   */
+  public static String encodeString(String s) {
 
-        try {
-            return new String(CODEC.decode(s), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            // shouldn't happen
-            return null;
-        }
+    try {
+      return CODEC.encode(s.getBytes("UTF-8"));
+    } catch (UnsupportedEncodingException e) {
+      // shouldn't happen
+      return null;
     }
-
-    /**
-     * Encodes a string.<p>
-     *
-     * @param s the input string
-     * @return the encoded string
-     */
-    public static String encodeString(String s) {
-
-        try {
-            return CODEC.encode(s.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            // shouldn't happen
-            return null;
-        }
-    }
-
+  }
 }

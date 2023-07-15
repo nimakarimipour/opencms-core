@@ -35,90 +35,91 @@ import org.opencms.main.OpenCms;
 import org.opencms.workplace.CmsDialog;
 
 /**
- * Defines an action to be performed before the workplace editor is opened for the first time.<p>
+ * Defines an action to be performed before the workplace editor is opened for the first time.
  *
- * Implements the basic methods to handle the resource type.<p>
+ * <p>Implements the basic methods to handle the resource type.
+ *
+ * <p>
  *
  * @since 6.5.4
  */
 public abstract class A_CmsPreEditorActionDefinition implements I_CmsPreEditorActionDefinition {
 
-    /** Configuration parameters. */
-    protected CmsParameterConfiguration m_configuration;
+  /** Configuration parameters. */
+  protected CmsParameterConfiguration m_configuration;
 
-    /** The resource type for which the action should be performed. */
-    private I_CmsResourceType m_resourceType;
+  /** The resource type for which the action should be performed. */
+  private I_CmsResourceType m_resourceType;
 
-    /** The resource type name for which the action should be performed. */
-    private String m_resourceTypeName;
+  /** The resource type name for which the action should be performed. */
+  private String m_resourceTypeName;
 
-    /**
-     * Constructor, without parameters.<p>
-     */
-    public A_CmsPreEditorActionDefinition() {
+  /**
+   * Constructor, without parameters.
+   *
+   * <p>
+   */
+  public A_CmsPreEditorActionDefinition() {
 
-        // empty constructor, needed for initialization
-        m_configuration = new CmsParameterConfiguration();
+    // empty constructor, needed for initialization
+    m_configuration = new CmsParameterConfiguration();
+  }
+
+  /**
+   * @see
+   *     org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String,
+   *     java.lang.String)
+   */
+  public void addConfigurationParameter(String paramName, String paramValue) {
+
+    m_configuration.add(paramName, paramValue);
+  }
+
+  /**
+   * @see
+   *     org.opencms.workplace.editors.I_CmsPreEditorActionDefinition#doPreAction(org.opencms.file.CmsResource,
+   *     org.opencms.workplace.CmsDialog, java.lang.String)
+   */
+  public abstract boolean doPreAction(CmsResource resource, CmsDialog dialog, String originalParams)
+      throws Exception;
+
+  /** @see org.opencms.configuration.I_CmsConfigurationParameterHandler#getConfiguration() */
+  public CmsParameterConfiguration getConfiguration() {
+
+    return m_configuration;
+  }
+
+  /** @see org.opencms.workplace.editors.I_CmsPreEditorActionDefinition#getResourceType() */
+  public I_CmsResourceType getResourceType() {
+
+    if (m_resourceType == null) {
+      try {
+        m_resourceType = OpenCms.getResourceManager().getResourceType(m_resourceTypeName);
+      } catch (CmsLoaderException e) {
+        // should not happen, ignore
+      }
     }
+    return m_resourceType;
+  }
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
-     */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+  /** @see org.opencms.workplace.editors.I_CmsPreEditorActionDefinition#getResourceTypeName() */
+  public String getResourceTypeName() {
 
-        m_configuration.add(paramName, paramValue);
-    }
+    return m_resourceTypeName;
+  }
 
-    /**
-     * @see org.opencms.workplace.editors.I_CmsPreEditorActionDefinition#doPreAction(org.opencms.file.CmsResource, org.opencms.workplace.CmsDialog, java.lang.String)
-     */
-    public abstract boolean doPreAction(CmsResource resource, CmsDialog dialog, String originalParams) throws Exception;
+  /** @see org.opencms.configuration.I_CmsConfigurationParameterHandler#initConfiguration() */
+  public final void initConfiguration() {
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#getConfiguration()
-     */
-    public CmsParameterConfiguration getConfiguration() {
+    // final since subclasses should NOT implement this
+  }
 
-        return m_configuration;
-    }
+  /**
+   * @see
+   *     org.opencms.workplace.editors.I_CmsPreEditorActionDefinition#setResourceTypeName(java.lang.String)
+   */
+  public void setResourceTypeName(String resourceTypeName) {
 
-    /**
-     * @see org.opencms.workplace.editors.I_CmsPreEditorActionDefinition#getResourceType()
-     */
-    public I_CmsResourceType getResourceType() {
-
-        if (m_resourceType == null) {
-            try {
-                m_resourceType = OpenCms.getResourceManager().getResourceType(m_resourceTypeName);
-            } catch (CmsLoaderException e) {
-                // should not happen, ignore
-            }
-        }
-        return m_resourceType;
-    }
-
-    /**
-     * @see org.opencms.workplace.editors.I_CmsPreEditorActionDefinition#getResourceTypeName()
-     */
-    public String getResourceTypeName() {
-
-        return m_resourceTypeName;
-    }
-
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#initConfiguration()
-     */
-    public final void initConfiguration() {
-
-        // final since subclasses should NOT implement this
-    }
-
-    /**
-     * @see org.opencms.workplace.editors.I_CmsPreEditorActionDefinition#setResourceTypeName(java.lang.String)
-     */
-    public void setResourceTypeName(String resourceTypeName) {
-
-        m_resourceTypeName = resourceTypeName;
-    }
-
+    m_resourceTypeName = resourceTypeName;
+  }
 }

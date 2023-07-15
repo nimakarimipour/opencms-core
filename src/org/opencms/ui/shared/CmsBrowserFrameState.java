@@ -30,33 +30,39 @@ package org.opencms.ui.shared;
 import com.vaadin.shared.ui.browserframe.BrowserFrameState;
 
 /**
- * The browser frame state.<p>
+ * The browser frame state.
+ *
+ * <p>
  */
 public class CmsBrowserFrameState extends BrowserFrameState {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -58862140745248184L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -58862140745248184L;
 
-    /** The iFrame name. */
-    private String m_name;
+  /** The iFrame name. */
+  private String m_name;
 
-    /**
-     * Returns the name.<p>
-     *
-     * @return the name
-     */
-    public String getName() {
+  /**
+   * Returns the name.
+   *
+   * <p>
+   *
+   * @return the name
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Sets the name.<p>
-     *
-     * @param name the name to set
-     */
-    public void setName(String name) {
+  /**
+   * Sets the name.
+   *
+   * <p>
+   *
+   * @param name the name to set
+   */
+  public void setName(String name) {
 
-        m_name = name;
-    }
+    m_name = name;
+  }
 }

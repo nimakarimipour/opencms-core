@@ -37,36 +37,36 @@ import org.opencms.security.CmsRole;
 import org.opencms.workplace.tools.A_CmsToolHandler;
 
 /**
- * Sites management tool handler that hides the tool if the current user
- * has not the needed privileges.<p>
+ * Sites management tool handler that hides the tool if the current user has not the needed
+ * privileges.
+ *
+ * <p>
  *
  * @since 9.0.0
  */
 public class CmsSitesToolHandlerWebserver extends A_CmsToolHandler {
 
-    /** Parameter name to enable or disable the configuration. */
-    private static final String PARAM_ENABLED = "enableconfig";
+  /** Parameter name to enable or disable the configuration. */
+  private static final String PARAM_ENABLED = "enableconfig";
 
-    /** The name of this module. */
-    private static final String MODULE_NAME = "org.opencms.workplace.tools.sites";
+  /** The name of this module. */
+  private static final String MODULE_NAME = "org.opencms.workplace.tools.sites";
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject)
-     */
-    public boolean isEnabled(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject) */
+  public boolean isEnabled(CmsObject cms) {
 
-        boolean isEnabled = Boolean.valueOf(
-            OpenCms.getModuleManager().getModule(MODULE_NAME).getParameter(
-                PARAM_ENABLED,
-                Boolean.TRUE.toString())).booleanValue();
-        return isEnabled && OpenCms.getRoleManager().hasRole(cms, CmsRole.ROOT_ADMIN);
-    }
+    boolean isEnabled =
+        Boolean.valueOf(
+                OpenCms.getModuleManager()
+                    .getModule(MODULE_NAME)
+                    .getParameter(PARAM_ENABLED, Boolean.TRUE.toString()))
+            .booleanValue();
+    return isEnabled && OpenCms.getRoleManager().hasRole(cms, CmsRole.ROOT_ADMIN);
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.A_CmsToolHandler#isVisible(org.opencms.file.CmsObject)
-     */
-    public boolean isVisible(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.A_CmsToolHandler#isVisible(org.opencms.file.CmsObject) */
+  public boolean isVisible(CmsObject cms) {
 
-        return isEnabled(cms);
-    }
+    return isEnabled(cms);
+  }
 }

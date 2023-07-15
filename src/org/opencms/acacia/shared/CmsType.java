@@ -35,178 +35,203 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * CmsEntity attribute type data.<p>
+ * CmsEntity attribute type data.
+ *
+ * <p>
  */
 public class CmsType implements Serializable {
 
-    /** The choice attribute name. */
-    public static final String CHOICE_ATTRIBUTE_NAME = "ATTRIBUTE_CHOICE";
+  /** The choice attribute name. */
+  public static final String CHOICE_ATTRIBUTE_NAME = "ATTRIBUTE_CHOICE";
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -7965094404314721990L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -7965094404314721990L;
 
-    /** Flag indicating if this is a choice type. */
-    private int m_choiceMaxOccurrence;
+  /** Flag indicating if this is a choice type. */
+  private int m_choiceMaxOccurrence;
 
-    /** The type id. */
-    private String m_id;
+  /** The type id. */
+  private String m_id;
 
-    /** The max occurrences of the type attributes. */
-    private Map<String, Integer> m_maxs;
+  /** The max occurrences of the type attributes. */
+  private Map<String, Integer> m_maxs;
 
-    /** The min occurrences of the type attributes. */
-    private Map<String, Integer> m_mins;
+  /** The min occurrences of the type attributes. */
+  private Map<String, Integer> m_mins;
 
-    /** The attribute names. */
-    private List<String> m_names;
+  /** The attribute names. */
+  private List<String> m_names;
 
-    /** The attribute types. */
-    private Map<String, CmsType> m_types;
+  /** The attribute types. */
+  private Map<String, CmsType> m_types;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param id the type id/name
-     */
-    public CmsType(String id) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param id the type id/name
+   */
+  public CmsType(String id) {
 
-        this();
-        m_id = id;
-    }
+    this();
+    m_id = id;
+  }
 
-    /**
-     * Constructor. For serialization only.<p>
-     */
-    protected CmsType() {
+  /**
+   * Constructor. For serialization only.
+   *
+   * <p>
+   */
+  protected CmsType() {
 
-        m_names = new ArrayList<String>();
-        m_types = new HashMap<String, CmsType>();
-        m_maxs = new HashMap<String, Integer>();
-        m_mins = new HashMap<String, Integer>();
-    }
+    m_names = new ArrayList<String>();
+    m_types = new HashMap<String, CmsType>();
+    m_maxs = new HashMap<String, Integer>();
+    m_mins = new HashMap<String, Integer>();
+  }
 
-    /**
-     * Adds an attribute to the type.<p>
-     *
-     * @param attributeName the attribute name
-     * @param attributeType the attribute type
-     * @param minOccurrence the minimum occurrence of this attribute
-     * @param maxOccurrence the axnimum occurrence of this attribute
-     */
-    public void addAttribute(String attributeName, CmsType attributeType, int minOccurrence, int maxOccurrence) {
+  /**
+   * Adds an attribute to the type.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @param attributeType the attribute type
+   * @param minOccurrence the minimum occurrence of this attribute
+   * @param maxOccurrence the axnimum occurrence of this attribute
+   */
+  public void addAttribute(
+      String attributeName, CmsType attributeType, int minOccurrence, int maxOccurrence) {
 
-        m_names.add(attributeName);
-        m_types.put(attributeName, attributeType);
-        m_mins.put(attributeName, new Integer(minOccurrence));
-        m_maxs.put(attributeName, new Integer(maxOccurrence));
-    }
+    m_names.add(attributeName);
+    m_types.put(attributeName, attributeType);
+    m_mins.put(attributeName, new Integer(minOccurrence));
+    m_maxs.put(attributeName, new Integer(maxOccurrence));
+  }
 
-    /**
-     * Returns the maximum occurrence of the given attribute.<p>
-     *
-     * @param attributeName the attribute name
-     *
-     * @return the maximum occurrence
-     */
-    public int getAttributeMaxOccurrence(String attributeName) {
+  /**
+   * Returns the maximum occurrence of the given attribute.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @return the maximum occurrence
+   */
+  public int getAttributeMaxOccurrence(String attributeName) {
 
-        return m_maxs.get(attributeName).intValue();
-    }
+    return m_maxs.get(attributeName).intValue();
+  }
 
-    /**
-     * Returns the minimum occurrence of the given attribute.<p>
-     *
-     * @param attributeName the attribute name
-     *
-     * @return the minimum occurrence
-     */
-    public int getAttributeMinOccurrence(String attributeName) {
+  /**
+   * Returns the minimum occurrence of the given attribute.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @return the minimum occurrence
+   */
+  public int getAttributeMinOccurrence(String attributeName) {
 
-        return m_mins.get(attributeName).intValue();
-    }
+    return m_mins.get(attributeName).intValue();
+  }
 
-    /**
-     * The names of the attributes of this type.<p>
-     *
-     * @return the attribute names
-     */
-    public List<String> getAttributeNames() {
+  /**
+   * The names of the attributes of this type.
+   *
+   * <p>
+   *
+   * @return the attribute names
+   */
+  public List<String> getAttributeNames() {
 
-        return Collections.unmodifiableList(m_names);
-    }
+    return Collections.unmodifiableList(m_names);
+  }
 
-    /**
-     * Returns the type of the given attribute.<p>
-     *
-     * @param attributeName the attribute name
-     *
-     * @return the type of the given attribute
-     */
-    public CmsType getAttributeType(String attributeName) {
+  /**
+   * Returns the type of the given attribute.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @return the type of the given attribute
+   */
+  public CmsType getAttributeType(String attributeName) {
 
-        return m_types.get(attributeName);
-    }
+    return m_types.get(attributeName);
+  }
 
-    /**
-     * Returns the type name of the given attribute.<p>
-     *
-     * @param attributeName the attribute name
-     *
-     * @return the type name of the given attribute
-     */
-    public String getAttributeTypeName(String attributeName) {
+  /**
+   * Returns the type name of the given attribute.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @return the type name of the given attribute
+   */
+  public String getAttributeTypeName(String attributeName) {
 
-        CmsType attrType = m_types.get(attributeName);
-        return attrType == null ? null : attrType.getId();
-    }
+    CmsType attrType = m_types.get(attributeName);
+    return attrType == null ? null : attrType.getId();
+  }
 
-    /**
-     * Returns the maximum choice occurrence.<p>
-     *
-     * @return the maximum choice occurrence
-     */
-    public int getChoiceMaxOccurrence() {
+  /**
+   * Returns the maximum choice occurrence.
+   *
+   * <p>
+   *
+   * @return the maximum choice occurrence
+   */
+  public int getChoiceMaxOccurrence() {
 
-        return m_choiceMaxOccurrence;
-    }
+    return m_choiceMaxOccurrence;
+  }
 
-    /**
-     * Returns the name of the type.<p>
-     *
-     * @return the name of the type
-     */
-    public String getId() {
+  /**
+   * Returns the name of the type.
+   *
+   * <p>
+   *
+   * @return the name of the type
+   */
+  public String getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Returns if this is a choice type.<p>
-     *
-     * @return <code>true</code> if this is a choice type
-     */
-    public boolean isChoice() {
+  /**
+   * Returns if this is a choice type.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this is a choice type
+   */
+  public boolean isChoice() {
 
-        return m_choiceMaxOccurrence > 0;
-    }
+    return m_choiceMaxOccurrence > 0;
+  }
 
-    /**
-     * Returns if this is a simple type. Simple types have no attributes.<p>
-     *
-     * @return <code>true</code> if this is a simple type
-     */
-    public boolean isSimpleType() {
+  /**
+   * Returns if this is a simple type. Simple types have no attributes.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this is a simple type
+   */
+  public boolean isSimpleType() {
 
-        return m_names.isEmpty();
-    }
+    return m_names.isEmpty();
+  }
 
-    /**
-     * Sets the maximum choice occurrence.<p>
-     *
-     * @param choiceMaxOccurrence the maximum choice occurrence
-     */
-    public void setChoiceMaxOccurrence(int choiceMaxOccurrence) {
+  /**
+   * Sets the maximum choice occurrence.
+   *
+   * <p>
+   *
+   * @param choiceMaxOccurrence the maximum choice occurrence
+   */
+  public void setChoiceMaxOccurrence(int choiceMaxOccurrence) {
 
-        m_choiceMaxOccurrence = choiceMaxOccurrence;
-    }
+    m_choiceMaxOccurrence = choiceMaxOccurrence;
+  }
 }

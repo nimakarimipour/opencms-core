@@ -27,78 +27,73 @@
 
 package org.opencms.xml.content;
 
-import org.opencms.xml.I_CmsXmlDocument;
-import org.opencms.xml.types.I_CmsXmlContentValue;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import org.opencms.xml.I_CmsXmlDocument;
+import org.opencms.xml.types.I_CmsXmlContentValue;
 
 /**
- * Represents the root of an XML content for a given locale.<p>
+ * Represents the root of an XML content for a given locale.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsXmlContentRootLocation implements I_CmsXmlContentLocation {
 
-    /** The XML document. */
-    private I_CmsXmlDocument m_document;
+  /** The XML document. */
+  private I_CmsXmlDocument m_document;
 
-    /** The locale. */
-    private Locale m_locale;
+  /** The locale. */
+  private Locale m_locale;
 
-    /**
-     * Creates a new root location for a given locale.<p>
-     *
-     * @param doc the XML document
-     * @param locale the locale
-     */
-    public CmsXmlContentRootLocation(I_CmsXmlDocument doc, Locale locale) {
+  /**
+   * Creates a new root location for a given locale.
+   *
+   * <p>
+   *
+   * @param doc the XML document
+   * @param locale the locale
+   */
+  public CmsXmlContentRootLocation(I_CmsXmlDocument doc, Locale locale) {
 
-        m_document = doc;
-        m_locale = locale;
+    m_document = doc;
+    m_locale = locale;
+  }
+
+  /** @see org.opencms.xml.content.I_CmsXmlContentLocation#getDocument() */
+  public I_CmsXmlDocument getDocument() {
+
+    return m_document;
+  }
+
+  /** @see org.opencms.xml.content.I_CmsXmlContentLocation#getLocale() */
+  public Locale getLocale() {
+
+    return m_locale;
+  }
+
+  /** @see org.opencms.xml.content.I_CmsXmlContentLocation#getSubValue(java.lang.String) */
+  public I_CmsXmlContentValueLocation getSubValue(String subPath) {
+
+    I_CmsXmlContentValue value = m_document.getValue(subPath, m_locale);
+    if (value == null) {
+      return null;
     }
+    return new CmsXmlContentValueLocation(value);
+  }
 
-    /**
-     * @see org.opencms.xml.content.I_CmsXmlContentLocation#getDocument()
-     */
-    public I_CmsXmlDocument getDocument() {
+  /** @see org.opencms.xml.content.I_CmsXmlContentLocation#getSubValues(java.lang.String) */
+  public List<I_CmsXmlContentValueLocation> getSubValues(String subPath) {
 
-        return m_document;
+    List<I_CmsXmlContentValue> values = m_document.getValues(subPath, m_locale);
+    List<I_CmsXmlContentValueLocation> result = new ArrayList<I_CmsXmlContentValueLocation>();
+    for (I_CmsXmlContentValue value : values) {
+      if (value != null) {
+        result.add(new CmsXmlContentValueLocation(value));
+      }
     }
-
-    /**
-     * @see org.opencms.xml.content.I_CmsXmlContentLocation#getLocale()
-     */
-    public Locale getLocale() {
-
-        return m_locale;
-    }
-
-    /**
-     * @see org.opencms.xml.content.I_CmsXmlContentLocation#getSubValue(java.lang.String)
-     */
-    public I_CmsXmlContentValueLocation getSubValue(String subPath) {
-
-        I_CmsXmlContentValue value = m_document.getValue(subPath, m_locale);
-        if (value == null) {
-            return null;
-        }
-        return new CmsXmlContentValueLocation(value);
-    }
-
-    /**
-     * @see org.opencms.xml.content.I_CmsXmlContentLocation#getSubValues(java.lang.String)
-     */
-    public List<I_CmsXmlContentValueLocation> getSubValues(String subPath) {
-
-        List<I_CmsXmlContentValue> values = m_document.getValues(subPath, m_locale);
-        List<I_CmsXmlContentValueLocation> result = new ArrayList<I_CmsXmlContentValueLocation>();
-        for (I_CmsXmlContentValue value : values) {
-            if (value != null) {
-                result.add(new CmsXmlContentValueLocation(value));
-            }
-        }
-        return result;
-    }
+    return result;
+  }
 }

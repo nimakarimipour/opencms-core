@@ -31,76 +31,79 @@
 
 package org.opencms.ui.apps.linkvalidation;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 import org.opencms.relations.CmsExternalLinksValidator;
 import org.opencms.report.A_CmsReportThread;
 import org.opencms.workplace.threads.Messages;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Thread for extern link validation. <p>
+ * Thread for extern link validation.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsExternalLinksValidatorThread extends A_CmsReportThread {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsExternalLinksValidatorThread.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsExternalLinksValidatorThread.class);
 
-    /** the CmsObject to use. */
-    private CmsObject m_cms;
+  /** the CmsObject to use. */
+  private CmsObject m_cms;
 
-    /** reference to the HtmlImport. */
-    private CmsExternalLinksValidator m_externLinkValidator;
+  /** reference to the HtmlImport. */
+  private CmsExternalLinksValidator m_externLinkValidator;
 
-    /**Runnable called when thread finished.*/
-    private Runnable m_fin;
+  /** Runnable called when thread finished. */
+  private Runnable m_fin;
 
-    /**
-     * Constructor, creates a new CmsExternLinkValidationThread.<p>
-     *
-     * @param cms the current CmsObject
-     * @param finRun runnable called after thread is finished
-     */
-    public CmsExternalLinksValidatorThread(CmsObject cms, Runnable finRun) {
+  /**
+   * Constructor, creates a new CmsExternLinkValidationThread.
+   *
+   * <p>
+   *
+   * @param cms the current CmsObject
+   * @param finRun runnable called after thread is finished
+   */
+  public CmsExternalLinksValidatorThread(CmsObject cms, Runnable finRun) {
 
-        super(cms, Messages.get().getBundle().key(Messages.GUI_POINTER_VALIDATION_THREAD_NAME_0));
-        initHtmlReport(cms.getRequestContext().getLocale());
-        m_cms = cms;
-        m_fin = finRun;
-        m_cms.getRequestContext().setUpdateSessionEnabled(false);
-        m_externLinkValidator = new CmsExternalLinksValidator();
-        m_externLinkValidator.setReport(getReport());
+    super(cms, Messages.get().getBundle().key(Messages.GUI_POINTER_VALIDATION_THREAD_NAME_0));
+    initHtmlReport(cms.getRequestContext().getLocale());
+    m_cms = cms;
+    m_fin = finRun;
+    m_cms.getRequestContext().setUpdateSessionEnabled(false);
+    m_externLinkValidator = new CmsExternalLinksValidator();
+    m_externLinkValidator.setReport(getReport());
+  }
+
+  /** @see org.opencms.report.A_CmsReportThread#getReportUpdate() */
+  @Override
+  public String getReportUpdate() {
+
+    return getReport().getReportUpdate();
+  }
+
+  /**
+   * The run method which starts the import process.
+   *
+   * <p>
+   */
+  @Override
+  public void run() {
+
+    try {
+      // do the validation
+      m_externLinkValidator.validateLinks(m_cms);
+    } catch (Throwable e) {
+      getReport().println(e);
+      if (LOG.isErrorEnabled()) {
+        LOG.error(e.getLocalizedMessage());
+      }
     }
-
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
-
-        return getReport().getReportUpdate();
+    if (m_fin != null) {
+      m_fin.run();
     }
-
-    /**
-     * The run method which starts the import process.<p>
-     */
-    @Override
-    public void run() {
-
-        try {
-            // do the validation
-            m_externLinkValidator.validateLinks(m_cms);
-        } catch (Throwable e) {
-            getReport().println(e);
-            if (LOG.isErrorEnabled()) {
-                LOG.error(e.getLocalizedMessage());
-            }
-        }
-        if (m_fin != null) {
-            m_fin.run();
-        }
-    }
+  }
 }

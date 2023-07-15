@@ -27,6 +27,11 @@
 
 package org.opencms.ui.favorites;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.TextField;
+import java.util.Collections;
+import java.util.function.Consumer;
+import org.apache.commons.logging.Log;
 import org.opencms.json.JSONException;
 import org.opencms.main.CmsLog;
 import org.opencms.ui.CmsVaadinUtils;
@@ -34,93 +39,83 @@ import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsErrorDialog;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.Collections;
-import java.util.function.Consumer;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.TextField;
-
-/**
- * Dialog for editing bookmark title.
- */
+/** Dialog for editing bookmark title. */
 public class CmsEditFavoriteDialog extends CmsBasicDialog {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsEditFavoriteDialog.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsEditFavoriteDialog.class);
 
-    /** The callback to call after the title is changed. */
-    private Consumer<CmsFavoriteEntry> m_callback;
+  /** The callback to call after the title is changed. */
+  private Consumer<CmsFavoriteEntry> m_callback;
 
-    /** The cancel button. */
-    private Button m_cancelButton;
+  /** The cancel button. */
+  private Button m_cancelButton;
 
-    /** Boolean flag indicating whether the text field has changed. */
-    private boolean m_changed;
+  /** Boolean flag indicating whether the text field has changed. */
+  private boolean m_changed;
 
-    /** The favorite entry. */
-    private CmsFavoriteEntry m_entry;
+  /** The favorite entry. */
+  private CmsFavoriteEntry m_entry;
 
-    /** The OK button. */
-    private Button m_okButton;
+  /** The OK button. */
+  private Button m_okButton;
 
-    /** The title field. */
-    private TextField m_title;
+  /** The title field. */
+  private TextField m_title;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param info the info widget
-     * @param callback the callback
-     */
-    public CmsEditFavoriteDialog(CmsFavInfo info, Consumer<CmsFavoriteEntry> callback) {
+  /**
+   * Creates a new instance.
+   *
+   * @param info the info widget
+   * @param callback the callback
+   */
+  public CmsEditFavoriteDialog(CmsFavInfo info, Consumer<CmsFavoriteEntry> callback) {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        CmsFavoriteEntry entry = info.getEntry();
-        m_callback = callback;
-        m_okButton.addClickListener(evt -> onClickOk());
-        String customTitle = entry.getCustomTitle();
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(customTitle)) {
-            customTitle = info.getTopLine().getValue();
-        }
-        m_entry = entry;
-        m_title.setValue(customTitle);
-        if (info.getResource() != null) {
-            displayResourceInfo(Collections.singletonList(info.getResource()));
-        }
-        m_cancelButton.addClickListener(evt -> {
-            CmsVaadinUtils.closeWindow(CmsEditFavoriteDialog.this);
-        });
-        m_title.addValueChangeListener(evt -> {
-            m_changed = true;
-        });
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    CmsFavoriteEntry entry = info.getEntry();
+    m_callback = callback;
+    m_okButton.addClickListener(evt -> onClickOk());
+    String customTitle = entry.getCustomTitle();
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(customTitle)) {
+      customTitle = info.getTopLine().getValue();
     }
-
-    /**
-     * Handler for the OK button.
-     */
-    protected void onClickOk() {
-
-        if (!m_changed) {
-            CmsVaadinUtils.closeWindow(CmsEditFavoriteDialog.this);
-            return;
-        }
-        String value = m_title.getValue();
-        CmsFavoriteEntry result;
-        try {
-            result = new CmsFavoriteEntry(m_entry.toJson());
-            result.setCustomTitle(value);
-            m_callback.accept(result);
-            CmsVaadinUtils.closeWindow(CmsEditFavoriteDialog.this);
-
-        } catch (JSONException e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            CmsErrorDialog.showErrorDialog(e);
-        }
+    m_entry = entry;
+    m_title.setValue(customTitle);
+    if (info.getResource() != null) {
+      displayResourceInfo(Collections.singletonList(info.getResource()));
     }
+    m_cancelButton.addClickListener(
+        evt -> {
+          CmsVaadinUtils.closeWindow(CmsEditFavoriteDialog.this);
+        });
+    m_title.addValueChangeListener(
+        evt -> {
+          m_changed = true;
+        });
+  }
 
+  /** Handler for the OK button. */
+  protected void onClickOk() {
+
+    if (!m_changed) {
+      CmsVaadinUtils.closeWindow(CmsEditFavoriteDialog.this);
+      return;
+    }
+    String value = m_title.getValue();
+    CmsFavoriteEntry result;
+    try {
+      result = new CmsFavoriteEntry(m_entry.toJson());
+      result.setCustomTitle(value);
+      m_callback.accept(result);
+      CmsVaadinUtils.closeWindow(CmsEditFavoriteDialog.this);
+
+    } catch (JSONException e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      CmsErrorDialog.showErrorDialog(e);
+    }
+  }
 }

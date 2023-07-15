@@ -27,47 +27,62 @@
 
 package org.opencms.jsp.search.controller;
 
-import org.opencms.file.CmsObject;
-import org.opencms.search.solr.CmsSolrQuery;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import org.opencms.file.CmsObject;
+import org.opencms.search.solr.CmsSolrQuery;
 
-/** Interface all search controllers must implement. It consists of methods for query generation and state updates. */
+/**
+ * Interface all search controllers must implement. It consists of methods for query generation and
+ * state updates.
+ */
 public interface I_CmsSearchController {
 
-    /** Solr query params that can have only one value. */
-    List<String> SET_VARIABLES = Arrays.asList(new String[] {"q", "rows", "start", "sort", "fl"});
+  /** Solr query params that can have only one value. */
+  List<String> SET_VARIABLES = Arrays.asList(new String[] {"q", "rows", "start", "sort", "fl"});
 
-    /** Add the request parameters that reflect the controllers current state (useful for link generation outside of a form).
-     * @param parameters The request parameters reflecting the controllers currents state.
-     */
-    void addParametersForCurrentState(Map<String, String[]> parameters);
+  /**
+   * Add the request parameters that reflect the controllers current state (useful for link
+   * generation outside of a form).
+   *
+   * @param parameters The request parameters reflecting the controllers currents state.
+   */
+  void addParametersForCurrentState(Map<String, String[]> parameters);
 
-    /** Generate the Solr query part specific for the controller, e.g., the part for a field facet.
-     *
-     * @param query A, possibly empty, query, where further query parts are added
-     *
-     * @deprecated use {@link #addQueryParts(CmsSolrQuery, CmsObject)} instead.
-     */
-    @Deprecated
-    default void addQueryParts(CmsSolrQuery query) {
+  /**
+   * Generate the Solr query part specific for the controller, e.g., the part for a field facet.
+   *
+   * @param query A, possibly empty, query, where further query parts are added
+   * @deprecated use {@link #addQueryParts(CmsSolrQuery, CmsObject)} instead.
+   */
+  @Deprecated
+  default void addQueryParts(CmsSolrQuery query) {
 
-        addQueryParts(query, null);
-    }
+    addQueryParts(query, null);
+  }
 
-    /** Generate the Solr query part specific for the controller, e.g., the part for a field facet.
-     * @param query A, possibly empty, query, where further query parts are added
-     * @param cms the current context to resolve context-specific macros.
-     */
-    void addQueryParts(CmsSolrQuery query, CmsObject cms);
+  /**
+   * Generate the Solr query part specific for the controller, e.g., the part for a field facet.
+   *
+   * @param query A, possibly empty, query, where further query parts are added
+   * @param cms the current context to resolve context-specific macros.
+   */
+  void addQueryParts(CmsSolrQuery query, CmsObject cms);
 
-    /** Update the controllers state in case the term that is search for (the query as given by the user) has changed. */
-    void updateForQueryChange();
+  /**
+   * Update the controllers state in case the term that is search for (the query as given by the
+   * user) has changed.
+   */
+  void updateForQueryChange();
 
-    /** Update the controllers state from the given request parameters.
-     * @param parameters The request parameters.
-     * @param isRepeated a flag, indicating, if the search is performed repeatedly, opposed to entering the search page for the first time. */
-    void updateFromRequestParameters(final Map<String, String[]> parameters, final boolean isRepeated);
+  /**
+   * Update the controllers state from the given request parameters.
+   *
+   * @param parameters The request parameters.
+   * @param isRepeated a flag, indicating, if the search is performed repeatedly, opposed to
+   *     entering the search page for the first time.
+   */
+  void updateFromRequestParameters(
+      final Map<String, String[]> parameters, final boolean isRepeated);
 }

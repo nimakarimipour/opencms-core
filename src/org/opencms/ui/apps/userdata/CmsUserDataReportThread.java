@@ -27,51 +27,42 @@
 
 package org.opencms.ui.apps.userdata;
 
+import java.util.function.Consumer;
 import org.opencms.file.CmsObject;
 import org.opencms.report.A_CmsReportThread;
 import org.opencms.report.I_CmsReport;
 
-import java.util.function.Consumer;
-
-/**
- * Report thread for searching user data.
- */
+/** Report thread for searching user data. */
 public class CmsUserDataReportThread extends A_CmsReportThread {
 
-    /** The action to execute. */
-    private Consumer<I_CmsReport> m_action;
+  /** The action to execute. */
+  private Consumer<I_CmsReport> m_action;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param cms the CMS context
-     * @param action the action to execute
-     */
-    public CmsUserDataReportThread(CmsObject cms, Consumer<I_CmsReport> action) {
+  /**
+   * Creates a new instance.
+   *
+   * @param cms the CMS context
+   * @param action the action to execute
+   */
+  public CmsUserDataReportThread(CmsObject cms, Consumer<I_CmsReport> action) {
 
-        super(cms, "userData");
-        m_action = action;
-        initHtmlReport(cms.getRequestContext().getLocale());
-    }
+    super(cms, "userData");
+    m_action = action;
+    initHtmlReport(cms.getRequestContext().getLocale());
+  }
 
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
+  /** @see org.opencms.report.A_CmsReportThread#getReportUpdate() */
+  @Override
+  public String getReportUpdate() {
 
-        return getReport().getReportUpdate();
-    }
+    return getReport().getReportUpdate();
+  }
 
-    /**
-     * @see java.lang.Thread#run()
-     */
-    @Override
-    public void run() {
+  /** @see java.lang.Thread#run() */
+  @Override
+  public void run() {
 
-        I_CmsReport report = getReport();
-        m_action.accept(report);
-
-    }
-
+    I_CmsReport report = getReport();
+    m_action.accept(report);
+  }
 }

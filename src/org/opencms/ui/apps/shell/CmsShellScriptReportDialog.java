@@ -27,6 +27,9 @@
 
 package org.opencms.ui.apps.shell;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Window;
 import org.opencms.report.A_CmsReportThread;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
@@ -35,56 +38,57 @@ import org.opencms.ui.components.CmsCopyToClipboardButton;
 import org.opencms.ui.report.CmsReportWidget;
 import org.opencms.util.CmsUUID;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Window;
-
 /**
- * Dialog to show shell script output.<p>
+ * Dialog to show shell script output.
+ *
+ * <p>
  */
 public class CmsShellScriptReportDialog extends CmsBasicDialog {
 
-    /**vaadin serial id. */
-    private static final long serialVersionUID = 4838977228996268018L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 4838977228996268018L;
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param thread Thread to be run
-     * @param window holding this dialog
-     */
-    public CmsShellScriptReportDialog(A_CmsReportThread thread, final Window window) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param thread Thread to be run
+   * @param window holding this dialog
+   */
+  public CmsShellScriptReportDialog(A_CmsReportThread thread, final Window window) {
 
-        window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_SHELL_SCRIPT_APP_OUTPUT_0));
-        window.setHeight("600px");
-        window.center();
-        setSizeFull();
-        CmsReportWidget reportWidget = new CmsReportWidget(thread);
-        reportWidget.addStyleName(" o-shell-terminal");
-        reportWidget.setHeight("100%");
-        String id = "label" + new CmsUUID().getStringValue();
-        reportWidget.setId(id);
-        reportWidget.setWidth("100%");
-        reportWidget.addStyleName("o-sroll-x");
-        setContent(reportWidget);
-        Button button = createButtonClose();
-        addButton(button, true);
-        button.addClickListener(new Button.ClickListener() {
+    window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_SHELL_SCRIPT_APP_OUTPUT_0));
+    window.setHeight("600px");
+    window.center();
+    setSizeFull();
+    CmsReportWidget reportWidget = new CmsReportWidget(thread);
+    reportWidget.addStyleName(" o-shell-terminal");
+    reportWidget.setHeight("100%");
+    String id = "label" + new CmsUUID().getStringValue();
+    reportWidget.setId(id);
+    reportWidget.setWidth("100%");
+    reportWidget.addStyleName("o-sroll-x");
+    setContent(reportWidget);
+    Button button = createButtonClose();
+    addButton(button, true);
+    button.addClickListener(
+        new Button.ClickListener() {
 
-            private static final long serialVersionUID = -5567381118325538754L;
+          private static final long serialVersionUID = -5567381118325538754L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                window.close();
-            }
+            window.close();
+          }
         });
 
-        Button copy = new CmsCopyToClipboardButton(
-            CmsVaadinUtils.getMessageText(org.opencms.ui.components.Messages.GUI_COPY_TO_CLIPBOARD_0),
+    Button copy =
+        new CmsCopyToClipboardButton(
+            CmsVaadinUtils.getMessageText(
+                org.opencms.ui.components.Messages.GUI_COPY_TO_CLIPBOARD_0),
             "#" + id);
 
-        addButton(copy, false);
-
-    }
-
+    addButton(copy, false);
+  }
 }

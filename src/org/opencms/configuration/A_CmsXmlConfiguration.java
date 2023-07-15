@@ -27,101 +27,103 @@
 
 package org.opencms.configuration;
 
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Abstract base implementation for xml configurations.<p>
+ * Abstract base implementation for xml configurations.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public abstract class A_CmsXmlConfiguration implements I_CmsXmlConfiguration {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(A_CmsXmlConfiguration.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(A_CmsXmlConfiguration.class);
 
-    /** The name of the XML file used for this configuration. */
-    private String m_xmlFileName;
+  /** The name of the XML file used for this configuration. */
+  private String m_xmlFileName;
 
-    /**
-     * Constructor.<p>
-     */
-    public A_CmsXmlConfiguration() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public A_CmsXmlConfiguration() {
 
-        initMembers();
+    initMembers();
+  }
+
+  /**
+   * @see
+   *     org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String,
+   *     java.lang.String)
+   */
+  public void addConfigurationParameter(String paramName, String paramValue) {
+
+    // simple default configuration does not support parameters
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
+          Messages.get()
+              .getBundle()
+              .key(Messages.LOG_ADD_CONFIG_PARAM_3, paramName, paramValue, this));
     }
+  }
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
-     */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+  /** @see org.opencms.configuration.I_CmsConfigurationParameterHandler#getConfiguration() */
+  public CmsParameterConfiguration getConfiguration() {
 
-        // simple default configuration does not support parameters
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(Messages.get().getBundle().key(Messages.LOG_ADD_CONFIG_PARAM_3, paramName, paramValue, this));
-        }
+    // simple default configuration does not support parameters
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(Messages.get().getBundle().key(Messages.LOG_GET_CONFIGURATION_1, this));
     }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#getConfiguration()
-     */
-    public CmsParameterConfiguration getConfiguration() {
+  /** @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdSystemLocation() */
+  public String getDtdSystemLocation() {
 
-        // simple default configuration does not support parameters
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(Messages.get().getBundle().key(Messages.LOG_GET_CONFIGURATION_1, this));
-        }
-        return null;
+    return CmsConfigurationManager.DEFAULT_DTD_LOCATION;
+  }
+
+  /** @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdUrlPrefix() */
+  public String getDtdUrlPrefix() {
+
+    return CmsConfigurationManager.DEFAULT_DTD_PREFIX;
+  }
+
+  /** @see org.opencms.configuration.I_CmsXmlConfiguration#getXmlFileName() */
+  public String getXmlFileName() {
+
+    return m_xmlFileName;
+  }
+
+  /** @see org.opencms.configuration.I_CmsConfigurationParameterHandler#initConfiguration() */
+  public void initConfiguration() {
+
+    // simple default configuration does not need to be initialized
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(Messages.get().getBundle().key(Messages.LOG_INIT_CONFIGURATION_1, this));
     }
+  }
 
-    /**
-     * @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdSystemLocation()
-     */
-    public String getDtdSystemLocation() {
+  /**
+   * Initializes member variables.
+   *
+   * <p>
+   */
+  protected abstract void initMembers();
 
-        return CmsConfigurationManager.DEFAULT_DTD_LOCATION;
-    }
+  /**
+   * Sets the file name of this XML configuration.
+   *
+   * <p>
+   *
+   * @param fileName the file name to set
+   */
+  protected void setXmlFileName(String fileName) {
 
-    /**
-     * @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdUrlPrefix()
-     */
-    public String getDtdUrlPrefix() {
-
-        return CmsConfigurationManager.DEFAULT_DTD_PREFIX;
-    }
-
-    /**
-     * @see org.opencms.configuration.I_CmsXmlConfiguration#getXmlFileName()
-     */
-    public String getXmlFileName() {
-
-        return m_xmlFileName;
-    }
-
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#initConfiguration()
-     */
-    public void initConfiguration() {
-
-        // simple default configuration does not need to be initialized
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(Messages.get().getBundle().key(Messages.LOG_INIT_CONFIGURATION_1, this));
-        }
-    }
-
-    /**
-     * Initializes member variables.<p>
-     */
-    protected abstract void initMembers();
-
-    /**
-     * Sets the file name of this XML configuration.<p>
-     *
-     * @param fileName the file name to set
-     */
-    protected void setXmlFileName(String fileName) {
-
-        m_xmlFileName = fileName;
-    }
+    m_xmlFileName = fileName;
+  }
 }

@@ -28,29 +28,37 @@
 package org.opencms.gwt.client.ui.input;
 
 /**
- * Interface for widgets which can contain a "ghost value".<p>
+ * Interface for widgets which can contain a "ghost value".
  *
- * A ghost value will be displayed, but not reported when asking the widget for its current value.<p>
+ * <p>A ghost value will be displayed, but not reported when asking the widget for its current
+ * value.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsHasGhostValue {
 
-    /**
-     * Enables or disables ghost mode, if possible.<p>
-     *
-     * @param enable if ghost mode should be enabled, else disabled
-     */
-    void setGhostMode(boolean enable);
+  /**
+   * Enables or disables ghost mode, if possible.
+   *
+   * <p>
+   *
+   * @param enable if ghost mode should be enabled, else disabled
+   */
+  void setGhostMode(boolean enable);
 
-    /**
-     * Sets the "ghost value" of the widget and optionally sets it to "ghost mode".<p>
-     *
-     * "Ghost mode" can be used to show the user the value (called "ghost value") which will be used if he
-     * either doesn't choose an option in the widget, or explicitly chooses an "empty" or "default" option.<p>
-     *
-     * @param value the ghost value
-     * @param isGhostMode if true, sets the widget to ghost mode
-     */
-    void setGhostValue(String value, boolean isGhostMode);
+  /**
+   * Sets the "ghost value" of the widget and optionally sets it to "ghost mode".
+   *
+   * <p>"Ghost mode" can be used to show the user the value (called "ghost value") which will be
+   * used if he either doesn't choose an option in the widget, or explicitly chooses an "empty" or
+   * "default" option.
+   *
+   * <p>
+   *
+   * @param value the ghost value
+   * @param isGhostMode if true, sets the widget to ghost mode
+   */
+  void setGhostValue(String value, boolean isGhostMode);
 }

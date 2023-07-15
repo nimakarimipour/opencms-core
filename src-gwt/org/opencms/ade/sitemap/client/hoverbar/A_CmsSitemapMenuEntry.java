@@ -27,192 +27,187 @@
 
 package org.opencms.ade.sitemap.client.hoverbar;
 
+import java.util.List;
 import org.opencms.gwt.client.ui.contextmenu.A_CmsContextMenuItem;
 import org.opencms.gwt.client.ui.contextmenu.CmsContextMenuItem;
 import org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry;
 
-import java.util.List;
-
 /**
- * Common super class for all sitemap context menu entries.<p>
+ * Common super class for all sitemap context menu entries.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public abstract class A_CmsSitemapMenuEntry implements I_CmsContextMenuEntry {
 
-    /** The reason if the entry is de-activated. */
-    private String m_disabledReason;
+  /** The reason if the entry is de-activated. */
+  private String m_disabledReason;
 
-    /** The hoverbar. */
-    private CmsSitemapHoverbar m_hoverbar;
+  /** The hoverbar. */
+  private CmsSitemapHoverbar m_hoverbar;
 
-    /** Flag to indicate if this menu entry is active. */
-    private boolean m_isActive;
+  /** Flag to indicate if this menu entry is active. */
+  private boolean m_isActive;
 
-    /** Flag to indicate if the menu entry is visible. */
-    private boolean m_isVisible;
+  /** Flag to indicate if the menu entry is visible. */
+  private boolean m_isVisible;
 
-    /** The label (text) for the menu entry. */
-    private String m_label;
+  /** The label (text) for the menu entry. */
+  private String m_label;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public A_CmsSitemapMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public A_CmsSitemapMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        m_hoverbar = hoverbar;
-    }
+    m_hoverbar = hoverbar;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#generateMenuItem()
-     */
-    public A_CmsContextMenuItem generateMenuItem() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#generateMenuItem() */
+  public A_CmsContextMenuItem generateMenuItem() {
 
-        return new CmsContextMenuItem(this);
-    }
+    return new CmsContextMenuItem(this);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getIconClass()
-     */
-    public String getIconClass() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getIconClass() */
+  public String getIconClass() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getJspPath()
-     */
-    public String getJspPath() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getJspPath() */
+  public String getJspPath() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getLabel()
-     */
-    public String getLabel() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getLabel() */
+  public String getLabel() {
 
-        return m_label;
-    }
+    return m_label;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getName()
-     */
-    public String getName() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getName() */
+  public String getName() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getReason()
-     */
-    public String getReason() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getReason() */
+  public String getReason() {
 
-        return m_disabledReason;
-    }
+    return m_disabledReason;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getSubMenu()
-     */
-    public List<I_CmsContextMenuEntry> getSubMenu() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getSubMenu() */
+  public List<I_CmsContextMenuEntry> getSubMenu() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#hasSubMenu()
-     */
-    public boolean hasSubMenu() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#hasSubMenu() */
+  public boolean hasSubMenu() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isActive()
-     */
-    public boolean isActive() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isActive() */
+  public boolean isActive() {
 
-        return m_isActive;
-    }
+    return m_isActive;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isSeparator()
-     */
-    public boolean isSeparator() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isSeparator() */
+  public boolean isSeparator() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isVisible()
-     */
-    public boolean isVisible() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isVisible() */
+  public boolean isVisible() {
 
-        return m_isVisible;
-    }
+    return m_isVisible;
+  }
 
-    /**
-     * Executed when the context-menu is opened.<p>
-     */
-    public abstract void onShow();
+  /**
+   * Executed when the context-menu is opened.
+   *
+   * <p>
+   */
+  public abstract void onShow();
 
-    /**
-     * Sets if this menu entry is active.<p>
-     *
-     * @param active <code>true</code> to set this menu entry active
-     */
-    public void setActive(boolean active) {
+  /**
+   * Sets if this menu entry is active.
+   *
+   * <p>
+   *
+   * @param active <code>true</code> to set this menu entry active
+   */
+  public void setActive(boolean active) {
 
-        m_isActive = active;
-    }
+    m_isActive = active;
+  }
 
-    /**
-     * Sets the reason if the entry is de-activated.<p>
-     *
-     * @param reason the reason if the entry is de-activated
-     */
-    public void setDisabledReason(String reason) {
+  /**
+   * Sets the reason if the entry is de-activated.
+   *
+   * <p>
+   *
+   * @param reason the reason if the entry is de-activated
+   */
+  public void setDisabledReason(String reason) {
 
-        m_disabledReason = reason;
-    }
+    m_disabledReason = reason;
+  }
 
-    /**
-     * Sets the label (text) for the menu entry.<p>
-     *
-     * @param label the label (text) for the menu entry
-     */
-    public void setLabel(String label) {
+  /**
+   * Sets the label (text) for the menu entry.
+   *
+   * <p>
+   *
+   * @param label the label (text) for the menu entry
+   */
+  public void setLabel(String label) {
 
-        m_label = label;
-    }
+    m_label = label;
+  }
 
-    /**
-     * Sets if the menu entry is visible.<p>
-     *
-     * @param visible <code>true</code> to set the entry visible
-     */
-    public void setVisible(boolean visible) {
+  /**
+   * Sets if the menu entry is visible.
+   *
+   * <p>
+   *
+   * @param visible <code>true</code> to set the entry visible
+   */
+  public void setVisible(boolean visible) {
 
-        m_isVisible = visible;
-    }
+    m_isVisible = visible;
+  }
 
-    /**
-     * De-attaches the hoverbar.<p>
-     */
-    protected void deattachHoverbar() {
+  /**
+   * De-attaches the hoverbar.
+   *
+   * <p>
+   */
+  protected void deattachHoverbar() {
 
-        m_hoverbar.hide();
-    }
+    m_hoverbar.hide();
+  }
 
-    /**
-     * Returns the hoverbar.<p>
-     *
-     * @return the hoverbar
-     */
-    protected CmsSitemapHoverbar getHoverbar() {
+  /**
+   * Returns the hoverbar.
+   *
+   * <p>
+   *
+   * @return the hoverbar
+   */
+  protected CmsSitemapHoverbar getHoverbar() {
 
-        return m_hoverbar;
-    }
+    return m_hoverbar;
+  }
 }

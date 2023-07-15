@@ -31,42 +31,49 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Signals that an IO exception occurred when reading from or writing to the OpenCms database.<p>
+ * Signals that an IO exception occurred when reading from or writing to the OpenCms database.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDbIoException extends CmsDbException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -2591688110837459803L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -2591688110837459803L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsDbIoException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsDbIoException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsDbIoException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsDbIoException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsDbIoException(container, cause);
-    }
+    return new CmsDbIoException(container, cause);
+  }
 }

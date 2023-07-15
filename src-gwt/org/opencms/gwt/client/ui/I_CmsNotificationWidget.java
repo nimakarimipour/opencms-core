@@ -28,30 +28,40 @@
 package org.opencms.gwt.client.ui;
 
 /**
- * Notification widget, most of the work is done on the container element.<p>
+ * Notification widget, most of the work is done on the container element.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsNotificationWidget {
 
-    /**
-     * Adds the given notification message.<p>
-     * Will also block the screen, if required.<p>
-     *
-     * @param message the message
-     */
-    void addMessage(CmsNotificationMessage message);
+  /**
+   * Adds the given notification message.
+   *
+   * <p>Will also block the screen, if required.
+   *
+   * <p>
+   *
+   * @param message the message
+   */
+  void addMessage(CmsNotificationMessage message);
 
-    /**
-     * Removes all messages.<p>
-     */
-    void clearMessages();
+  /**
+   * Removes all messages.
+   *
+   * <p>
+   */
+  void clearMessages();
 
-    /**
-     * Removes the given notification message.<p>
-     * Will also unblock the screen, if no longer required.<p>
-     *
-     * @param message the message
-     */
-    void removeMessage(CmsNotificationMessage message);
+  /**
+   * Removes the given notification message.
+   *
+   * <p>Will also unblock the screen, if no longer required.
+   *
+   * <p>
+   *
+   * @param message the message
+   */
+  void removeMessage(CmsNotificationMessage message);
 }

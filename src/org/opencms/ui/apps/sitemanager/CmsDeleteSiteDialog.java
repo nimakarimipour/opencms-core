@@ -27,6 +27,17 @@
 
 package org.opencms.ui.apps.sitemanager;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsResource;
 import org.opencms.lock.CmsLockException;
 import org.opencms.main.CmsException;
@@ -38,180 +49,185 @@ import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsResourceInfo;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.v7.shared.ui.label.ContentMode;
-import com.vaadin.v7.ui.CheckBox;
-import com.vaadin.v7.ui.Label;
-import com.vaadin.v7.ui.VerticalLayout;
-
 /**
- * Dialog for deleting Sites.<p>
+ * Dialog for deleting Sites.
+ *
+ * <p>
  */
 public class CmsDeleteSiteDialog extends CmsBasicDialog {
 
-    /** The logger for this class. */
-    static Log LOG = CmsLog.getLog(CmsDeleteSiteDialog.class.getName());
+  /** The logger for this class. */
+  static Log LOG = CmsLog.getLog(CmsDeleteSiteDialog.class.getName());
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = 4861877088383896218L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 4861877088383896218L;
 
-    /** The site manager instance.*/
-    protected CmsSiteManager m_manager;
+  /** The site manager instance. */
+  protected CmsSiteManager m_manager;
 
-    /**cancel button.*/
-    private Button m_cancelButton;
+  /** cancel button. */
+  private Button m_cancelButton;
 
-    /**check box: should resources be deleted?*/
-    private CheckBox m_deleteResources;
+  /** check box: should resources be deleted? */
+  private CheckBox m_deleteResources;
 
-    /**ok button.*/
-    private Button m_okButton;
+  /** ok button. */
+  private Button m_okButton;
 
-    /**sites to delete.*/
-    protected final List<CmsSite> m_sitesToDelete = new ArrayList<CmsSite>();
+  /** sites to delete. */
+  protected final List<CmsSite> m_sitesToDelete = new ArrayList<CmsSite>();
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param manager the site manager instance
-     * @param data with values for siteroots to delete.
-     */
-    public CmsDeleteSiteDialog(CmsSiteManager manager, Set<String> data) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param manager the site manager instance
+   * @param data with values for siteroots to delete.
+   */
+  public CmsDeleteSiteDialog(CmsSiteManager manager, Set<String> data) {
 
-        m_manager = manager;
+    m_manager = manager;
 
-        for (String site : data) {
-            m_sitesToDelete.add(manager.getElement(site));
-        }
+    for (String site : data) {
+      m_sitesToDelete.add(manager.getElement(site));
+    }
 
-        displayResourceInfoDirectly(getResourceInfos());
+    displayResourceInfoDirectly(getResourceInfos());
 
-        setContent(getContent());
-        m_okButton = new Button(CmsVaadinUtils.getMessageText(org.opencms.workplace.Messages.GUI_DIALOG_BUTTON_OK_0));
-        m_cancelButton = new Button(
-            CmsVaadinUtils.getMessageText(org.opencms.workplace.Messages.GUI_DIALOG_BUTTON_CANCEL_0));
-        addButton(m_okButton);
-        addButton(m_cancelButton);
-        //Set Clicklistener
-        m_cancelButton.addClickListener(new ClickListener() {
+    setContent(getContent());
+    m_okButton =
+        new Button(
+            CmsVaadinUtils.getMessageText(org.opencms.workplace.Messages.GUI_DIALOG_BUTTON_OK_0));
+    m_cancelButton =
+        new Button(
+            CmsVaadinUtils.getMessageText(
+                org.opencms.workplace.Messages.GUI_DIALOG_BUTTON_CANCEL_0));
+    addButton(m_okButton);
+    addButton(m_cancelButton);
+    // Set Clicklistener
+    m_cancelButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = -5769891739879269176L;
+          private static final long serialVersionUID = -5769891739879269176L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                m_manager.closeDialogWindow(false);
-            }
+            m_manager.closeDialogWindow(false);
+          }
         });
-        m_okButton.addClickListener(new ClickListener() {
+    m_okButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 6932464669055039855L;
+          private static final long serialVersionUID = 6932464669055039855L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                submit();
-                m_manager.closeDialogWindow(true);
-            }
+            submit();
+            m_manager.closeDialogWindow(true);
+          }
         });
+  }
+
+  /**
+   * Creates content of dialog containing CheckBox if resources should be deleted and a messages.
+   *
+   * <p>
+   *
+   * @return vertical layout component.
+   */
+  protected VerticalLayout getContent() {
+
+    String message;
+
+    if (m_sitesToDelete.size() == 1) {
+      message =
+          CmsVaadinUtils.getMessageText(
+              Messages.GUI_SITE_CONFIRM_DELETE_SITE_1, m_sitesToDelete.get(0).getTitle());
+    } else {
+      message = "";
+      for (CmsSite site : m_sitesToDelete) {
+        if (message.length() > 0) {
+          message += ", ";
+        }
+        message += site.getTitle();
+      }
+      message = CmsVaadinUtils.getMessageText(Messages.GUI_SITE_CONFIRM_DELETE_SITES_1, message);
     }
 
-    /**
-     * Creates content of dialog containing CheckBox if resources should be deleted and a messages.<p>
-     *
-     * @return vertical layout component.
-     */
-    protected VerticalLayout getContent() {
+    VerticalLayout layout = new VerticalLayout();
 
-        String message;
+    m_deleteResources = new CheckBox();
+    m_deleteResources.setCaption(
+        CmsVaadinUtils.getMessageText(Messages.GUI_SITE_DELETE_RESOURCES_0));
+    m_deleteResources.setDescription(
+        CmsVaadinUtils.getMessageText(Messages.GUI_SITE_DELETE_RESOURCES_HELP_0));
 
-        if (m_sitesToDelete.size() == 1) {
-            message = CmsVaadinUtils.getMessageText(
-                Messages.GUI_SITE_CONFIRM_DELETE_SITE_1,
-                m_sitesToDelete.get(0).getTitle());
-        } else {
-            message = "";
-            for (CmsSite site : m_sitesToDelete) {
-                if (message.length() > 0) {
-                    message += ", ";
-                }
-                message += site.getTitle();
-            }
-            message = CmsVaadinUtils.getMessageText(Messages.GUI_SITE_CONFIRM_DELETE_SITES_1, message);
-        }
+    layout.addComponent(m_deleteResources);
 
-        VerticalLayout layout = new VerticalLayout();
+    Label label = new Label();
+    label.setContentMode(ContentMode.HTML);
+    label.setValue(message);
 
-        m_deleteResources = new CheckBox();
-        m_deleteResources.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_SITE_DELETE_RESOURCES_0));
-        m_deleteResources.setDescription(CmsVaadinUtils.getMessageText(Messages.GUI_SITE_DELETE_RESOURCES_HELP_0));
+    layout.addComponent(label);
+    return layout;
+  }
 
-        layout.addComponent(m_deleteResources);
+  /**
+   * delete sites.
+   *
+   * <p>
+   */
+  protected void submit() {
 
-        Label label = new Label();
-        label.setContentMode(ContentMode.HTML);
-        label.setValue(message);
+    List<String> siteRootsToDelete = new ArrayList<String>();
+    for (CmsSite site : m_sitesToDelete) {
 
-        layout.addComponent(label);
-        return layout;
+      String currentSite = A_CmsUI.getCmsObject().getRequestContext().getSiteRoot();
+      if (currentSite.equals(site.getSiteRoot())) {
+        A_CmsUI.getCmsObject().getRequestContext().setSiteRoot("");
+      }
+      siteRootsToDelete.add(site.getSiteRoot());
     }
-
-    /**
-     * delete sites.<p>
-     */
-    protected void submit() {
-
-        List<String> siteRootsToDelete = new ArrayList<String>();
-        for (CmsSite site : m_sitesToDelete) {
-
-            String currentSite = A_CmsUI.getCmsObject().getRequestContext().getSiteRoot();
-            if (currentSite.equals(site.getSiteRoot())) {
-                A_CmsUI.getCmsObject().getRequestContext().setSiteRoot("");
-            }
-            siteRootsToDelete.add(site.getSiteRoot());
+    m_manager.deleteElements(siteRootsToDelete);
+    if (m_deleteResources.getValue().booleanValue()) {
+      for (CmsSite site : m_sitesToDelete) {
+        try {
+          m_manager.getRootCmsObject().lockResource(site.getSiteRoot());
+        } catch (CmsException e) {
+          LOG.error("unable to lock resource");
         }
-        m_manager.deleteElements(siteRootsToDelete);
-        if (m_deleteResources.getValue().booleanValue()) {
-            for (CmsSite site : m_sitesToDelete) {
-                try {
-                    m_manager.getRootCmsObject().lockResource(site.getSiteRoot());
-                } catch (CmsException e) {
-                    LOG.error("unable to lock resource");
-                }
-                try {
-                    m_manager.getRootCmsObject().deleteResource(
-                        site.getSiteRoot(),
-                        CmsResource.DELETE_PRESERVE_SIBLINGS);
-                    try {
-                        m_manager.getRootCmsObject().unlockResource(site.getSiteRoot());
-                    } catch (CmsLockException e) {
-                        LOG.info("Unlock failed.", e);
-                    }
-                } catch (CmsException e) {
-                    //ok, resource was not published and can not be unlocked anymore..
-                }
-            }
+        try {
+          m_manager
+              .getRootCmsObject()
+              .deleteResource(site.getSiteRoot(), CmsResource.DELETE_PRESERVE_SIBLINGS);
+          try {
+            m_manager.getRootCmsObject().unlockResource(site.getSiteRoot());
+          } catch (CmsLockException e) {
+            LOG.info("Unlock failed.", e);
+          }
+        } catch (CmsException e) {
+          // ok, resource was not published and can not be unlocked anymore..
         }
+      }
     }
+  }
 
-    /**
-     * Returns a list of CmsResourceInfo objects.<p>
-     *
-     * @return list of cmsresourceinfo.
-     */
-    private List<CmsResourceInfo> getResourceInfos() {
+  /**
+   * Returns a list of CmsResourceInfo objects.
+   *
+   * <p>
+   *
+   * @return list of cmsresourceinfo.
+   */
+  private List<CmsResourceInfo> getResourceInfos() {
 
-        List<CmsResourceInfo> infos = new ArrayList<CmsResourceInfo>();
-        for (CmsSite site : m_sitesToDelete) {
-            infos.add(
-                new CmsResourceInfo(site.getTitle(), site.getSiteRoot(), m_manager.getFavIcon(site.getSiteRoot())));
-        }
-        return infos;
+    List<CmsResourceInfo> infos = new ArrayList<CmsResourceInfo>();
+    for (CmsSite site : m_sitesToDelete) {
+      infos.add(
+          new CmsResourceInfo(
+              site.getTitle(), site.getSiteRoot(), m_manager.getFavIcon(site.getSiteRoot())));
     }
+    return infos;
+  }
 }

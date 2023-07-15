@@ -31,72 +31,61 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import javax.activation.DataSource;
 
 /**
- * A DataSource backed by a byte array. The byte array may be passed in directly, or may be initialized from an InputStream or a String.
+ * A DataSource backed by a byte array. The byte array may be passed in directly, or may be
+ * initialized from an InputStream or a String.
  *
  * @since 6.3.0
  */
 public class CmsByteArrayDataSource implements DataSource {
 
-    /** The MIME content type of the data. */
-    private String m_contentType;
+  /** The MIME content type of the data. */
+  private String m_contentType;
 
-    /** The data. */
-    private byte[] m_data;
+  /** The data. */
+  private byte[] m_data;
 
-    /** The name of the data. */
-    private String m_name;
+  /** The name of the data. */
+  private String m_name;
 
-    /**
-     * Creates a ByteArrayDataSource with data from the specified byte array and with the specified MIME type.
-     *
-     * @param name the name of the data
-     * @param data the data
-     * @param contentType the MIME content type of the data
-     */
-    public CmsByteArrayDataSource(String name, byte[] data, String contentType) {
+  /**
+   * Creates a ByteArrayDataSource with data from the specified byte array and with the specified
+   * MIME type.
+   *
+   * @param name the name of the data
+   * @param data the data
+   * @param contentType the MIME content type of the data
+   */
+  public CmsByteArrayDataSource(String name, byte[] data, String contentType) {
 
-        m_name = name;
-        m_data = data;
-        m_contentType = contentType;
-    }
+    m_name = name;
+    m_data = data;
+    m_contentType = contentType;
+  }
 
-    /**
-     *
-     * @see javax.activation.DataSource#getContentType()
-     */
-    public String getContentType() {
+  /** @see javax.activation.DataSource#getContentType() */
+  public String getContentType() {
 
-        return m_contentType;
-    }
+    return m_contentType;
+  }
 
-    /**
-     *
-     * @see javax.activation.DataSource#getInputStream()
-     */
-    public InputStream getInputStream() {
+  /** @see javax.activation.DataSource#getInputStream() */
+  public InputStream getInputStream() {
 
-        return new ByteArrayInputStream(m_data);
-    }
+    return new ByteArrayInputStream(m_data);
+  }
 
-    /**
-     *
-     * @see javax.activation.DataSource#getName()
-     */
-    public String getName() {
+  /** @see javax.activation.DataSource#getName() */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     *
-     * @see javax.activation.DataSource#getOutputStream()
-     */
-    public OutputStream getOutputStream() throws IOException {
+  /** @see javax.activation.DataSource#getOutputStream() */
+  public OutputStream getOutputStream() throws IOException {
 
-        throw new IOException("ByteArrayDataSource cannot support getOutputStream( )");
-    }
+    throw new IOException("ByteArrayDataSource cannot support getOutputStream( )");
+  }
 }

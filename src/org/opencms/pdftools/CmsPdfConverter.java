@@ -27,18 +27,15 @@
 
 package org.opencms.pdftools;
 
-import org.opencms.file.CmsObject;
-import org.opencms.pdftools.dtds.FailingEntityResolver;
-import org.opencms.pdftools.dtds.XhtmlEntityResolver;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
+import org.opencms.file.CmsObject;
+import org.opencms.pdftools.dtds.FailingEntityResolver;
+import org.opencms.pdftools.dtds.XhtmlEntityResolver;
 import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.util.XRLog;
@@ -46,72 +43,78 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.SAXException;
 
 /**
- * This class uses the flying-saucer library to convert an XHTML document to a PDF document.<p>
+ * This class uses the flying-saucer library to convert an XHTML document to a PDF document.
+ *
+ * <p>
  */
 public class CmsPdfConverter {
 
-    static {
-        // send logging from flyingsaucer to opencms log
-        System.getProperties().setProperty("xr.util-logging.loggingEnabled", "true");
-        XRLog.setLoggingEnabled(true);
-        XRLog.setLoggerImpl(new CmsXRLogAdapter());
-    }
+  static {
+    // send logging from flyingsaucer to opencms log
+    System.getProperties().setProperty("xr.util-logging.loggingEnabled", "true");
+    XRLog.setLoggingEnabled(true);
+    XRLog.setLoggerImpl(new CmsXRLogAdapter());
+  }
 
-    /** Entity resolver which loads cached DTDs instead of fetching DTDs from the web. */
-    private EntityResolver m_entityResolver = new XhtmlEntityResolver(new FailingEntityResolver());
+  /** Entity resolver which loads cached DTDs instead of fetching DTDs from the web. */
+  private EntityResolver m_entityResolver = new XhtmlEntityResolver(new FailingEntityResolver());
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsPdfConverter() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsPdfConverter() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Converts XHTML data to a PDF document.<p>
-     *
-     * @param cms the current CMS context
-     * @param xhtmlData the XHTML as a byte array
-     * @param uri the uri to use for error messages in the XML parser
-     *
-     * @return the PDF data as a byte array
-     *
-     * @throws Exception if something goes wrong
-     */
-    public byte[] convertXhtmlToPdf(CmsObject cms, byte[] xhtmlData, String uri) throws Exception {
+  /**
+   * Converts XHTML data to a PDF document.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param xhtmlData the XHTML as a byte array
+   * @param uri the uri to use for error messages in the XML parser
+   * @return the PDF data as a byte array
+   * @throws Exception if something goes wrong
+   */
+  public byte[] convertXhtmlToPdf(CmsObject cms, byte[] xhtmlData, String uri) throws Exception {
 
-        Document doc = readDocument(xhtmlData);
-        ITextRenderer renderer = new ITextRenderer();
-        CmsPdfUserAgent userAgent = new CmsPdfUserAgent(cms);
-        userAgent.setSharedContext(renderer.getSharedContext());
-        renderer.getSharedContext().setUserAgentCallback(userAgent);
-        renderer.setDocument(doc, uri);
-        renderer.layout();
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        renderer.createPDF(out);
-        return out.toByteArray();
-    }
+    Document doc = readDocument(xhtmlData);
+    ITextRenderer renderer = new ITextRenderer();
+    CmsPdfUserAgent userAgent = new CmsPdfUserAgent(cms);
+    userAgent.setSharedContext(renderer.getSharedContext());
+    renderer.getSharedContext().setUserAgentCallback(userAgent);
+    renderer.setDocument(doc, uri);
+    renderer.layout();
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    renderer.createPDF(out);
+    return out.toByteArray();
+  }
 
-    /**
-     * Reads an XHTML document from a byte array.<p>
-     *
-     * @param xhtmlData the XHTML data
-     * @return the document which was read from the data
-     *
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     */
-    private Document readDocument(byte[] xhtmlData) throws ParserConfigurationException, SAXException, IOException {
+  /**
+   * Reads an XHTML document from a byte array.
+   *
+   * <p>
+   *
+   * @param xhtmlData the XHTML data
+   * @return the document which was read from the data
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   * @throws IOException
+   */
+  private Document readDocument(byte[] xhtmlData)
+      throws ParserConfigurationException, SAXException, IOException {
 
-        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-        docBuilderFactory.setValidating(false);
-        docBuilderFactory.setNamespaceAware(true);
-        DocumentBuilder docbuilder = docBuilderFactory.newDocumentBuilder();
-        // use special entity resolver so we don't fetch the DTDs from w3.org, which would be slow
-        docbuilder.setEntityResolver(m_entityResolver);
-        Document doc = docbuilder.parse(new ByteArrayInputStream(xhtmlData));
-        return doc;
-    }
+    DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+    docBuilderFactory.setValidating(false);
+    docBuilderFactory.setNamespaceAware(true);
+    DocumentBuilder docbuilder = docBuilderFactory.newDocumentBuilder();
+    // use special entity resolver so we don't fetch the DTDs from w3.org, which would be slow
+    docbuilder.setEntityResolver(m_entityResolver);
+    Document doc = docbuilder.parse(new ByteArrayInputStream(xhtmlData));
+    return doc;
+  }
 }

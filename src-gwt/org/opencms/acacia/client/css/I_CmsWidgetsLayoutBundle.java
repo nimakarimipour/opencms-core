@@ -27,174 +27,216 @@
 
 package org.opencms.acacia.client.css;
 
-import org.opencms.acacia.client.css.I_CmsLayoutBundle.I_Widgets;
-import org.opencms.gwt.client.ui.css.I_CmsFloatDecoratedPanelCss;
-
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.CssResource.ImportedWithPrefix;
 import com.google.gwt.resources.client.CssResource.Shared;
+import org.opencms.acacia.client.css.I_CmsLayoutBundle.I_Widgets;
+import org.opencms.gwt.client.ui.css.I_CmsFloatDecoratedPanelCss;
 
 /**
- * CSS resource bundle for the acacia editor widgets.<p>
+ * CSS resource bundle for the acacia editor widgets.
+ *
+ * <p>
  */
 public interface I_CmsWidgetsLayoutBundle extends org.opencms.gwt.client.ui.css.I_CmsLayoutBundle {
 
-    /** The gallery widget CSS. */
-    @Shared
-    interface I_CmsGalleryWidgetsCss
-    extends I_Widgets, I_CmsLocationPickerBase,
-    org.opencms.ade.galleries.client.ui.css.I_CmsLayoutBundle.I_CmsGalleryFieldBaseCss {
-        // no additional CSS classes
-    }
+  /** The gallery widget CSS. */
+  @Shared
+  interface I_CmsGalleryWidgetsCss
+      extends I_Widgets,
+          I_CmsLocationPickerBase,
+          org.opencms.ade.galleries.client.ui.css.I_CmsLayoutBundle.I_CmsGalleryFieldBaseCss {
+    // no additional CSS classes
+  }
 
-    /** The XML content widget CSS. */
-    @Shared
-    @ImportedWithPrefix("acaciaWidgets")
-    interface I_CmsWidgetCss extends I_Widgets, I_CmsFloatDecoratedPanelCss, I_CmsGlobalWidgetCss {
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String calendarStyle();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String categoryPanel();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String checkboxlabel();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String checkBoxStyle();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String colorPicker();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String colorpickerpopup();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String colorPickerValue();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String comboBoxInput();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String displayTextBox();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String displayTextBoxPanel();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String attributeFilterLine();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String inputField();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String passwordTextBox();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String radioButtonlabel();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String radioButtonPanel();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String selectBoxPanel();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String textBox();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String vfsInputBox();
-    }
-
-    /** The bundle instance. */
-    I_CmsWidgetsLayoutBundle INSTANCE = GWT.create(I_CmsWidgetsLayoutBundle.class);
+  /** The XML content widget CSS. */
+  @Shared
+  @ImportedWithPrefix("acaciaWidgets")
+  interface I_CmsWidgetCss extends I_Widgets, I_CmsFloatDecoratedPanelCss, I_CmsGlobalWidgetCss {
 
     /**
-     * Access method.<p>
+     * Css class reader.
      *
-     * @return the gallery widgets CSS
+     * <p>
+     *
+     * @return the css class
      */
-    @Source("galleryWidgets.gss")
-    I_CmsGalleryWidgetsCss galleryWidgetsCss();
+    String calendarStyle();
 
     /**
-     * Access method.<p>
+     * Css class reader.
      *
-     * @return the XML content widget CSS
+     * <p>
+     *
+     * @return the css class
      */
-    @Source("widget.gss")
-    I_CmsWidgetCss widgetCss();
+    String categoryPanel();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String checkboxlabel();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String checkBoxStyle();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String colorPicker();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String colorpickerpopup();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String colorPickerValue();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String comboBoxInput();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String displayTextBox();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String displayTextBoxPanel();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String attributeFilterLine();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String inputField();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String passwordTextBox();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String radioButtonlabel();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String radioButtonPanel();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String selectBoxPanel();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String textBox();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String vfsInputBox();
+  }
+
+  /** The bundle instance. */
+  I_CmsWidgetsLayoutBundle INSTANCE = GWT.create(I_CmsWidgetsLayoutBundle.class);
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the gallery widgets CSS
+   */
+  @Source("galleryWidgets.gss")
+  I_CmsGalleryWidgetsCss galleryWidgetsCss();
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the XML content widget CSS
+   */
+  @Source("widget.gss")
+  I_CmsWidgetCss widgetCss();
 }

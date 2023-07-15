@@ -19,50 +19,51 @@
  *
  * For further information about OpenCms, please see the
  * project website: http://www.opencms.org
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
- 
+
 package org.opencms.jsp.search.config.parser.simplesearch;
-/**
- * Bean representing a Geo filter.
- */
+/** Bean representing a Geo filter. */
 public class CmsGeoFilterBean {
 
-    /** The center point coordinates. */
-    private String m_coordinates;
+  /** The center point coordinates. */
+  private String m_coordinates;
 
-    /** The search radius. */
-    private String m_radius;
+  /** The search radius. */
+  private String m_radius;
 
-    /**
-     * Creates a new Geo filter bean.
-     * @param coordinates the coordinates
-     * @param radius the radius
-     */
-    public CmsGeoFilterBean(String coordinates, String radius) {
+  /**
+   * Creates a new Geo filter bean.
+   *
+   * @param coordinates the coordinates
+   * @param radius the radius
+   */
+  public CmsGeoFilterBean(String coordinates, String radius) {
 
-        m_coordinates = coordinates;
-        m_radius = radius;
-    }
+    m_coordinates = coordinates;
+    m_radius = radius;
+  }
 
-    /**
-     * Returns the center point coordinates.
-     * @return the center point coordinates
-     */
-    public String getCoordinates() {
+  /**
+   * Returns the center point coordinates.
+   *
+   * @return the center point coordinates
+   */
+  public String getCoordinates() {
 
-        return m_coordinates;
-    }
+    return m_coordinates;
+  }
 
-    /**
-     * Returns the search radius.
-     * @return the search radius
-     */
-    public String getRadius() {
+  /**
+   * Returns the search radius.
+   *
+   * @return the search radius
+   */
+  public String getRadius() {
 
-        return m_radius;
-    }
+    return m_radius;
+  }
 }

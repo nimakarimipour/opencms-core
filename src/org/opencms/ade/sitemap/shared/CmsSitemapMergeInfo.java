@@ -30,56 +30,65 @@ package org.opencms.ade.sitemap.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * This class represents the result of a 'merge sub-sitemap' operation.<p>
+ * This class represents the result of a 'merge sub-sitemap' operation.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsSitemapMergeInfo implements IsSerializable {
 
-    /** The entries to be merged into the parent sitemap. */
-    private CmsClientSitemapEntry m_mergedEntry;
+  /** The entries to be merged into the parent sitemap. */
+  private CmsClientSitemapEntry m_mergedEntry;
 
-    /** The timestamp of the last modification to the parent sitemap. */
-    private long m_timestamp;
+  /** The timestamp of the last modification to the parent sitemap. */
+  private long m_timestamp;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param mergedEntry the entries which have been merged into the parent sitemap
-     * @param timestamp the modification time of the parent sitemap
-     */
-    public CmsSitemapMergeInfo(CmsClientSitemapEntry mergedEntry, long timestamp) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param mergedEntry the entries which have been merged into the parent sitemap
+   * @param timestamp the modification time of the parent sitemap
+   */
+  public CmsSitemapMergeInfo(CmsClientSitemapEntry mergedEntry, long timestamp) {
 
-        m_mergedEntry = mergedEntry;
-        m_timestamp = timestamp;
-    }
+    m_mergedEntry = mergedEntry;
+    m_timestamp = timestamp;
+  }
 
-    /**
-     * Default constructor.<p>
-     */
-    protected CmsSitemapMergeInfo() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  protected CmsSitemapMergeInfo() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Returns the entry to be merged back into the parent sitemap.<p>
-     *
-     * @return the entry to be merged
-     */
-    public CmsClientSitemapEntry getMergedEntry() {
+  /**
+   * Returns the entry to be merged back into the parent sitemap.
+   *
+   * <p>
+   *
+   * @return the entry to be merged
+   */
+  public CmsClientSitemapEntry getMergedEntry() {
 
-        return m_mergedEntry;
-    }
+    return m_mergedEntry;
+  }
 
-    /**
-     * The timestamp of the last modification of the parent sitemap.<p>
-     *
-     * @return the timestamp of the last modification of the parent sitemap
-     */
-    public long getTimestamp() {
+  /**
+   * The timestamp of the last modification of the parent sitemap.
+   *
+   * <p>
+   *
+   * @return the timestamp of the last modification of the parent sitemap
+   */
+  public long getTimestamp() {
 
-        return m_timestamp;
-    }
-
+    return m_timestamp;
+  }
 }

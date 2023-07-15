@@ -31,31 +31,31 @@ import org.opencms.json.JSONObject;
 import org.opencms.xml.xml2json.CmsJsonRequest;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerContext;
 
-/**
- * Abstract class representing a JSON document.
- */
+/** Abstract class representing a JSON document. */
 public abstract class A_CmsJsonDocument {
 
-    /** The related contents property */
-    protected static final String FIELD_LINKED_CONTENTS = "linkedContents";
+  /** The related contents property */
+  protected static final String FIELD_LINKED_CONTENTS = "linkedContents";
 
-    /** The handler context. */
-    protected CmsJsonHandlerContext m_context;
+  /** The handler context. */
+  protected CmsJsonHandlerContext m_context;
 
-    /** The JSON document. */
-    protected JSONObject m_json = new JSONObject(true);
+  /** The JSON document. */
+  protected JSONObject m_json = new JSONObject(true);
 
-    /** The JSON request. */
-    protected CmsJsonRequest m_jsonRequest;
+  /** The JSON request. */
+  protected CmsJsonRequest m_jsonRequest;
 
-    /**
-     * Creates a new JSON document.<p>
-     *
-     * @param jsonRequest the JSON request
-     */
-    protected A_CmsJsonDocument(CmsJsonRequest jsonRequest) {
+  /**
+   * Creates a new JSON document.
+   *
+   * <p>
+   *
+   * @param jsonRequest the JSON request
+   */
+  protected A_CmsJsonDocument(CmsJsonRequest jsonRequest) {
 
-        m_jsonRequest = jsonRequest;
-        m_context = jsonRequest.getContext();
-    }
+    m_jsonRequest = jsonRequest;
+    m_context = jsonRequest.getContext();
+  }
 }

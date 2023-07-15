@@ -29,26 +29,19 @@ package org.opencms.setup.ui;
 
 import org.opencms.setup.CmsSetupBean;
 
-/**
- * Interface used by setup steps to communicate with the rest of the setup UI.
- */
+/** Interface used by setup steps to communicate with the rest of the setup UI. */
 public interface I_SetupUiContext {
 
-    /**
-     * Gets the setup bean.
-     *
-     * @return the setup bean
-     */
-    CmsSetupBean getSetupBean();
+  /**
+   * Gets the setup bean.
+   *
+   * @return the setup bean
+   */
+  CmsSetupBean getSetupBean();
 
-    /**
-     * Moves to previous step.
-     */
-    void stepBack();
+  /** Moves to previous step. */
+  void stepBack();
 
-    /**
-     * Moves forward to the next step.
-     */
-    void stepForward();
-
+  /** Moves forward to the next step. */
+  void stepForward();
 }

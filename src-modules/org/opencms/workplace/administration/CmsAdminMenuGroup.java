@@ -27,170 +27,186 @@
 
 package org.opencms.workplace.administration;
 
+import java.util.Iterator;
+import java.util.List;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.tools.CmsIdentifiableObjectContainer;
 import org.opencms.workplace.tools.CmsToolMacroResolver;
 
-import java.util.Iterator;
-import java.util.List;
-
 /**
- * Container for menu items that generates the necesary html code for a group of items.<p>
+ * Container for menu items that generates the necesary html code for a group of items.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsAdminMenuGroup {
 
-    /** Item container. */
-    private final CmsIdentifiableObjectContainer<CmsAdminMenuItem> m_container = new CmsIdentifiableObjectContainer<CmsAdminMenuItem>(
-        true,
-        true);
+  /** Item container. */
+  private final CmsIdentifiableObjectContainer<CmsAdminMenuItem> m_container =
+      new CmsIdentifiableObjectContainer<CmsAdminMenuItem>(true, true);
 
-    /** Dhtml id, from name. */
-    private final String m_id;
+  /** Dhtml id, from name. */
+  private final String m_id;
 
-    /** Name of the group. */
-    private final String m_name;
+  /** Name of the group. */
+  private final String m_name;
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id a unique id
-     * @param name the name of the group
-     */
-    public CmsAdminMenuGroup(String id, String name) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id a unique id
+   * @param name the name of the group
+   */
+  public CmsAdminMenuGroup(String id, String name) {
 
-        m_id = id;
-        m_name = name;
+    m_id = id;
+    m_name = name;
+  }
+
+  /**
+   * Adds a menu item.
+   *
+   * <p>
+   *
+   * @param item the item
+   * @see org.opencms.workplace.tools.CmsIdentifiableObjectContainer#addIdentifiableObject(String,
+   *     Object)
+   */
+  public void addMenuItem(CmsAdminMenuItem item) {
+
+    m_container.addIdentifiableObject(item.getId(), item);
+  }
+
+  /**
+   * Adds a menu item at the given position.
+   *
+   * <p>
+   *
+   * @param item the item
+   * @param position the position
+   * @see org.opencms.workplace.tools.CmsIdentifiableObjectContainer#addIdentifiableObject(String,
+   *     Object, float)
+   */
+  public void addMenuItem(CmsAdminMenuItem item, float position) {
+
+    m_container.addIdentifiableObject(item.getId(), item, position);
+  }
+
+  /**
+   * Returns the dhtml unique id.
+   *
+   * <p>
+   *
+   * @return the dhtml unique id
+   */
+  public String getId() {
+
+    return m_id;
+  }
+
+  /**
+   * Returns a list of menu items.
+   *
+   * <p>
+   *
+   * @return a list of <code>{@link CmsAdminMenuItem}</code>s
+   */
+  public List<CmsAdminMenuItem> getMenuItems() {
+
+    return m_container.elementList();
+  }
+
+  /**
+   * Returns the group name.
+   *
+   * <p>
+   *
+   * @return the group name
+   */
+  public String getName() {
+
+    return m_name;
+  }
+
+  /**
+   * Returns the necessary html code.
+   *
+   * <p>
+   *
+   * @param wp the jsp page to write the code to
+   * @return html code
+   */
+  public String groupHtml(CmsWorkplace wp) {
+
+    StringBuffer html = new StringBuffer(512);
+    html.append(htmlStart(wp));
+    Iterator<CmsAdminMenuItem> itItem = m_container.elementList().iterator();
+    while (itItem.hasNext()) {
+      CmsAdminMenuItem item = itItem.next();
+      html.append(item.itemHtml(wp));
+      html.append("\n");
     }
+    html.append(htmlEnd());
+    return html.toString();
+  }
 
-    /**
-     * Adds a menu item.<p>
-     *
-     * @param item the item
-     *
-     * @see org.opencms.workplace.tools.CmsIdentifiableObjectContainer#addIdentifiableObject(String, Object)
-     */
-    public void addMenuItem(CmsAdminMenuItem item) {
+  /**
+   * Generates the last part of the html code.
+   *
+   * <p>
+   *
+   * @return html code
+   */
+  private String htmlEnd() {
 
-        m_container.addIdentifiableObject(item.getId(), item);
-    }
+    StringBuffer html = new StringBuffer(512);
+    html.append("\t\t\t\t\t\t</td>\n");
+    html.append("\t\t\t\t\t</tr>\n");
+    html.append("\t\t\t\t</table>\n");
+    html.append("\t\t\t</div>\n");
+    html.append("\t\t</td>\n");
+    html.append("\t</tr>\n");
+    html.append("</table>\n");
+    return html.toString();
+  }
 
-    /**
-     * Adds a menu item at the given position.<p>
-     *
-     * @param item the item
-     * @param position the position
-     *
-     * @see org.opencms.workplace.tools.CmsIdentifiableObjectContainer#addIdentifiableObject(String, Object, float)
-     */
-    public void addMenuItem(CmsAdminMenuItem item, float position) {
+  /**
+   * Generates the first part of the html code.
+   *
+   * <p>
+   *
+   * @param wp the workplace
+   * @return html code
+   */
+  private String htmlStart(CmsWorkplace wp) {
 
-        m_container.addIdentifiableObject(item.getId(), item, position);
-    }
-
-    /**
-     * Returns the dhtml unique id.<p>
-     *
-     * @return the dhtml unique id
-     */
-    public String getId() {
-
-        return m_id;
-    }
-
-    /**
-     * Returns a list of menu items.<p>
-     *
-     * @return a list of <code>{@link CmsAdminMenuItem}</code>s
-     */
-    public List<CmsAdminMenuItem> getMenuItems() {
-
-        return m_container.elementList();
-    }
-
-    /**
-     * Returns the group name.<p>
-     *
-     * @return the group name
-     */
-    public String getName() {
-
-        return m_name;
-    }
-
-    /**
-     * Returns the necessary html code.<p>
-     *
-     * @param wp the jsp page to write the code to
-     *
-     * @return html code
-     */
-    public String groupHtml(CmsWorkplace wp) {
-
-        StringBuffer html = new StringBuffer(512);
-        html.append(htmlStart(wp));
-        Iterator<CmsAdminMenuItem> itItem = m_container.elementList().iterator();
-        while (itItem.hasNext()) {
-            CmsAdminMenuItem item = itItem.next();
-            html.append(item.itemHtml(wp));
-            html.append("\n");
-        }
-        html.append(htmlEnd());
-        return html.toString();
-    }
-
-    /**
-     * Generates the last part of the html code.<p>
-     *
-     * @return html code
-     */
-    private String htmlEnd() {
-
-        StringBuffer html = new StringBuffer(512);
-        html.append("\t\t\t\t\t\t</td>\n");
-        html.append("\t\t\t\t\t</tr>\n");
-        html.append("\t\t\t\t</table>\n");
-        html.append("\t\t\t</div>\n");
-        html.append("\t\t</td>\n");
-        html.append("\t</tr>\n");
-        html.append("</table>\n");
-        return html.toString();
-    }
-
-    /**
-     * Generates the first part of the html code.<p>
-     *
-     * @param wp the workplace
-     *
-     * @return html code
-     */
-    private String htmlStart(CmsWorkplace wp) {
-
-        StringBuffer html = new StringBuffer(1024);
-        html.append("<table border='0' cellspacing='0' cellpadding='0' width='100%' class='navOpened' id='");
-        html.append(getId());
-        html.append("'>\n");
-        html.append("\t<tr>\n");
-        html.append("\t\t<td class='titleBorder'>\n");
-        html.append(
-            "\t\t\t<table border='0' cellspacing='0' cellpadding='0' width='100%' class='navTitle' onMouseOver='mouseGroupEvent(this, true);' onMouseOut='mouseGroupEvent(this, false);' onClick=\"return openGroup('");
-        html.append(getId());
-        html.append("');\" >\n");
-        html.append("\t\t\t\t<tr>\n");
-        html.append("\t\t\t\t\t<td class='titleText' width='100%'>");
-        html.append(CmsToolMacroResolver.resolveMacros(getName(), wp));
-        html.append("</td>\n");
-        html.append("\t\t\t\t</tr>\n");
-        html.append("\t\t\t</table>\n");
-        html.append("\t\t</td>\n");
-        html.append("\t</tr><tr>\n");
-        html.append("\t\t<td class='treeBorder'>\n");
-        html.append("\t\t\t<div class='tree'>\n");
-        html.append("\t\t\t\t<table border='0' cellspacing='0' cellpadding='0' width='100%'>\n");
-        html.append("\t\t\t\t\t<tr>\n");
-        html.append("\t\t\t\t\t\t<td>\n");
-        return html.toString();
-    }
-
+    StringBuffer html = new StringBuffer(1024);
+    html.append(
+        "<table border='0' cellspacing='0' cellpadding='0' width='100%' class='navOpened' id='");
+    html.append(getId());
+    html.append("'>\n");
+    html.append("\t<tr>\n");
+    html.append("\t\t<td class='titleBorder'>\n");
+    html.append(
+        "\t\t\t<table border='0' cellspacing='0' cellpadding='0' width='100%' class='navTitle' onMouseOver='mouseGroupEvent(this, true);' onMouseOut='mouseGroupEvent(this, false);' onClick=\"return openGroup('");
+    html.append(getId());
+    html.append("');\" >\n");
+    html.append("\t\t\t\t<tr>\n");
+    html.append("\t\t\t\t\t<td class='titleText' width='100%'>");
+    html.append(CmsToolMacroResolver.resolveMacros(getName(), wp));
+    html.append("</td>\n");
+    html.append("\t\t\t\t</tr>\n");
+    html.append("\t\t\t</table>\n");
+    html.append("\t\t</td>\n");
+    html.append("\t</tr><tr>\n");
+    html.append("\t\t<td class='treeBorder'>\n");
+    html.append("\t\t\t<div class='tree'>\n");
+    html.append("\t\t\t\t<table border='0' cellspacing='0' cellpadding='0' width='100%'>\n");
+    html.append("\t\t\t\t\t<tr>\n");
+    html.append("\t\t\t\t\t\t<td>\n");
+    return html.toString();
+  }
 }

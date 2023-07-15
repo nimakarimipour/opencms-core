@@ -33,46 +33,46 @@ import org.opencms.ade.sitemap.client.control.CmsSitemapController;
 import org.opencms.ade.sitemap.shared.CmsClientSitemapEntry;
 
 /**
- * Sitemap context menu goto sub sitemap entry.<p>
+ * Sitemap context menu goto sub sitemap entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsGotoSubSitemapMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsGotoSubSitemapMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsGotoSubSitemapMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_GOTO_SUB_0));
-        setActive(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_GOTO_SUB_0));
+    setActive(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-        String sitePath = getHoverbar().getEntry().getSitePath();
-        getHoverbar().getController().openSiteMap(sitePath);
-    }
+    String sitePath = getHoverbar().getEntry().getSitePath();
+    getHoverbar().getController().openSiteMap(sitePath);
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        CmsSitemapController controller = getHoverbar().getController();
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        boolean show = !CmsSitemapView.getInstance().isSpecialMode()
+    CmsSitemapController controller = getHoverbar().getController();
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    boolean show =
+        !CmsSitemapView.getInstance().isSpecialMode()
             && (entry != null)
             && entry.isSubSitemapType()
             && !controller.isRoot(entry.getSitePath());
-        setVisible(show);
-
-    }
+    setVisible(show);
+  }
 }

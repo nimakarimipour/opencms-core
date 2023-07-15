@@ -27,6 +27,10 @@
 
 package org.opencms.ui.actions;
 
+import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
@@ -40,161 +44,158 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
-import com.google.common.collect.Lists;
-
 /**
  * Action to lock a folder if it isn't already locked, with a dialog asking to confirm your choice
  * if the folder contains resources locked by other users.
  */
 public class CmsLockAction extends A_CmsWorkplaceAction {
 
-    /** Context data for an action. */
-    class Context {
+  /** Context data for an action. */
+  class Context {
 
-        /**
-         * Action for the cancel button.<p>
-         */
-        class ActionCancel implements Runnable {
+    /**
+     * Action for the cancel button.
+     *
+     * <p>
+     */
+    class ActionCancel implements Runnable {
 
-            /**
-             * @see java.lang.Runnable#run()
-             */
-            public void run() {
+      /** @see java.lang.Runnable#run() */
+      public void run() {
 
-                m_context.finish(new ArrayList<CmsUUID>());
-            }
+        m_context.finish(new ArrayList<CmsUUID>());
+      }
+    }
+
+    /**
+     * OK button action.
+     *
+     * <p>
+     */
+    class ActionOk implements Runnable {
+
+      /** @see java.lang.Runnable#run() */
+      public void run() {
+
+        doLock();
+      }
+    }
+
+    /** The dialog context. */
+    I_CmsDialogContext m_context;
+
+    /**
+     * Creates a new instance.
+     *
+     * <p>
+     *
+     * @param context the dialog context
+     */
+    public Context(I_CmsDialogContext context) {
+      m_context = context;
+    }
+
+    /**
+     * Actually locks the resources.
+     *
+     * <p>
+     */
+    protected void doLock() {
+
+      CmsObject cms = A_CmsUI.getCmsObject();
+      CmsException storedException = null;
+      List<CmsUUID> changedIds = Lists.newArrayList();
+      for (CmsResource res : m_context.getResources()) {
+        try {
+          cms.lockResource(res);
+          changedIds.add(res.getStructureId());
+        } catch (CmsException e) {
+          if (storedException == null) {
+            storedException = e;
+          }
+          LOG.warn(e.getLocalizedMessage(), e);
         }
+      }
+      if (storedException != null) {
+        m_context.finish(changedIds);
+        m_context.error(storedException);
+      } else {
+        m_context.finish(changedIds);
+      }
+    }
 
-        /**
-         * OK button action.<p>
-         */
-        class ActionOk implements Runnable {
+    /**
+     * Executes the action.
+     *
+     * <p>
+     */
+    void executeAction() {
 
-            /**
-             * @see java.lang.Runnable#run()
-             */
-            public void run() {
-
-                doLock();
-            }
-
+      CmsObject cms = A_CmsUI.getCmsObject();
+      List<CmsResource> blockingLocked = Lists.newArrayList();
+      for (CmsResource res : m_context.getResources()) {
+        try {
+          List<CmsResource> blockingLockedForCurrentResource = cms.getBlockingLockedResources(res);
+          blockingLocked.addAll(blockingLockedForCurrentResource);
+        } catch (CmsException e) {
+          LOG.warn(e.getLocalizedMessage(), e);
         }
-
-        /** The dialog context. */
-        I_CmsDialogContext m_context;
-
-        /**
-         * Creates a new instance.<p>
-         *
-         * @param context the dialog context
-         */
-        public Context(I_CmsDialogContext context) {
-            m_context = context;
-        }
-
-        /**
-         * Actually locks the resources.<p>
-         */
-        protected void doLock() {
-
-            CmsObject cms = A_CmsUI.getCmsObject();
-            CmsException storedException = null;
-            List<CmsUUID> changedIds = Lists.newArrayList();
-            for (CmsResource res : m_context.getResources()) {
-                try {
-                    cms.lockResource(res);
-                    changedIds.add(res.getStructureId());
-                } catch (CmsException e) {
-                    if (storedException == null) {
-                        storedException = e;
-                    }
-                    LOG.warn(e.getLocalizedMessage(), e);
-                }
-
-            }
-            if (storedException != null) {
-                m_context.finish(changedIds);
-                m_context.error(storedException);
-            } else {
-                m_context.finish(changedIds);
-            }
-        }
-
-        /**
-         * Executes the action.<p>
-         */
-        void executeAction() {
-
-            CmsObject cms = A_CmsUI.getCmsObject();
-            List<CmsResource> blockingLocked = Lists.newArrayList();
-            for (CmsResource res : m_context.getResources()) {
-                try {
-                    List<CmsResource> blockingLockedForCurrentResource = cms.getBlockingLockedResources(res);
-                    blockingLocked.addAll(blockingLockedForCurrentResource);
-                } catch (CmsException e) {
-                    LOG.warn(e.getLocalizedMessage(), e);
-                }
-            }
-            if (blockingLocked.isEmpty()) {
-                doLock();
-            } else {
-                String messageKey = m_context.getResources().size() > 1
+      }
+      if (blockingLocked.isEmpty()) {
+        doLock();
+      } else {
+        String messageKey =
+            m_context.getResources().size() > 1
                 ? org.opencms.workplace.commons.Messages.GUI_LOCK_MULTI_INFO_LOCKEDSUBRESOURCES_0
                 : org.opencms.workplace.commons.Messages.GUI_LOCK_INFO_LOCKEDSUBRESOURCES_0;
-                CmsLockedResourcesList widget = new CmsLockedResourcesList(
-                    cms,
-                    blockingLocked,
-                    CmsVaadinUtils.getMessageText(messageKey),
-                    new ActionOk(),
-                    new ActionCancel());
-                widget.displayResourceInfo(m_context.getResources());
-                m_context.start(CmsVaadinUtils.getMessageText(Messages.GUI_LOCK_DIALOG_TITLE_0), widget);
-            }
-        }
+        CmsLockedResourcesList widget =
+            new CmsLockedResourcesList(
+                cms,
+                blockingLocked,
+                CmsVaadinUtils.getMessageText(messageKey),
+                new ActionOk(),
+                new ActionCancel());
+        widget.displayResourceInfo(m_context.getResources());
+        m_context.start(CmsVaadinUtils.getMessageText(Messages.GUI_LOCK_DIALOG_TITLE_0), widget);
+      }
     }
+  }
 
-    /** The action id. */
-    public static final String ACTION_ID = "lock";
+  /** The action id. */
+  public static final String ACTION_ID = "lock";
 
-    /** The logger instance for this class. */
-    static final Log LOG = CmsLog.getLog(CmsLockAction.class);
+  /** The logger instance for this class. */
+  static final Log LOG = CmsLog.getLog(CmsLockAction.class);
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsContextMenuAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsContextMenuAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        new Context(context).executeAction();
-    }
+    new Context(context).executeAction();
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
-    }
+    return ACTION_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
 
-        return CmsStandardVisibilityCheck.LOCK.getVisibility(cms, resources);
-    }
+    return CmsStandardVisibilityCheck.LOCK.getVisibility(cms, resources);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return org.opencms.workplace.explorer.Messages.GUI_EXPLORER_CONTEXT_LOCK_0;
-    }
-
+    return org.opencms.workplace.explorer.Messages.GUI_EXPLORER_CONTEXT_LOCK_0;
+  }
 }

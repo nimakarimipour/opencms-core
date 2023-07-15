@@ -38,62 +38,67 @@ import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsUUID;
 
 /**
- * The alias dialog context menu command.<p>
+ * The alias dialog context menu command.
+ *
+ * <p>
  */
-public final class CmsAliasDialog implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand, I_CmsDisableable {
+public final class CmsAliasDialog
+    implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand, I_CmsDisableable {
 
-    /**
-     * Constructor.<p>
-     */
-    private CmsAliasDialog() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  private CmsAliasDialog() {}
 
-    }
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-    /**
-     * Returns the context menu command according to
-     * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+    return new CmsAliasDialog();
+  }
 
-        return new CmsAliasDialog();
-    }
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public void execute(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public void execute(CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
+    CmsAliasEditor editor = new CmsAliasEditor();
+    editor.show();
+  }
 
-        CmsAliasEditor editor = new CmsAliasEditor();
-        editor.show();
-    }
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+    return null;
+  }
 
-        return null;
-    }
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget() */
+  public boolean hasItemWidget() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget()
-     */
-    public boolean hasItemWidget() {
+    return false;
+  }
 
-        return false;
-    }
+  /** @see org.opencms.gwt.client.I_CmsDisableable#isDisabled() */
+  public boolean isDisabled() {
 
-    /**
-     * @see org.opencms.gwt.client.I_CmsDisableable#isDisabled()
-     */
-    public boolean isDisabled() {
-
-        return !CmsSitemapView.getInstance().getController().getData().canEditAliases();
-    }
-
+    return !CmsSitemapView.getInstance().getController().getData().canEditAliases();
+  }
 }

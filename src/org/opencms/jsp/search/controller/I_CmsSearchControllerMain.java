@@ -30,53 +30,66 @@ package org.opencms.jsp.search.controller;
 /** Interface for the main search controller. Allows access to the various sub-controllers. */
 public interface I_CmsSearchControllerMain extends I_CmsSearchController {
 
-    /** Returns the controller for common search (form) configurations.
-     *
-     * @return The controller for common search (form) configurations.
-     */
-    I_CmsSearchControllerCommon getCommon();
+  /**
+   * Returns the controller for common search (form) configurations.
+   *
+   * @return The controller for common search (form) configurations.
+   */
+  I_CmsSearchControllerCommon getCommon();
 
-    /** Returns the controller for "Did you mean ...?".
-     * @return The controller for "Did you mean ...?".
-     */
-    I_CmsSearchControllerDidYouMean getDidYouMean();
+  /**
+   * Returns the controller for "Did you mean ...?".
+   *
+   * @return The controller for "Did you mean ...?".
+   */
+  I_CmsSearchControllerDidYouMean getDidYouMean();
 
-    /** Returns the controller for field facets.
-     *
-     * @return The controller for field facets.
-     */
-    I_CmsSearchControllerFacetsField getFieldFacets();
+  /**
+   * Returns the controller for field facets.
+   *
+   * @return The controller for field facets.
+   */
+  I_CmsSearchControllerFacetsField getFieldFacets();
 
-    /**
-     * Returns the controller for the Geo filter.
-     * @return the controller for the Geo filter
-     */
-    I_CmsSearchControllerGeoFilter getGeoFilter();
+  /**
+   * Returns the controller for the Geo filter.
+   *
+   * @return the controller for the Geo filter
+   */
+  I_CmsSearchControllerGeoFilter getGeoFilter();
 
-    /** Returns the controller for highlighting.
-         * @return The controller for highlighting.
-         */
-    I_CmsSearchControllerHighlighting getHighlighting();
+  /**
+   * Returns the controller for highlighting.
+   *
+   * @return The controller for highlighting.
+   */
+  I_CmsSearchControllerHighlighting getHighlighting();
 
-    /** Returns the controller for pagination.
-    * @return The controller for highlighting.
-    */
-    I_CmsSearchControllerPagination getPagination();
+  /**
+   * Returns the controller for pagination.
+   *
+   * @return The controller for highlighting.
+   */
+  I_CmsSearchControllerPagination getPagination();
 
-    /** Returns the controller for the query facet.
-    *
-    * @return The controller for the query facet.
-    */
-    I_CmsSearchControllerFacetQuery getQueryFacet();
+  /**
+   * Returns the controller for the query facet.
+   *
+   * @return The controller for the query facet.
+   */
+  I_CmsSearchControllerFacetQuery getQueryFacet();
 
-    /** Returns the controller for range facets.
-    *
-    * @return The controller for range facets.
-    */
-    I_CmsSearchControllerFacetsRange getRangeFacets();
+  /**
+   * Returns the controller for range facets.
+   *
+   * @return The controller for range facets.
+   */
+  I_CmsSearchControllerFacetsRange getRangeFacets();
 
-    /** Returns the controller for sorting.
-     * @return The controller for sorting.
-     */
-    I_CmsSearchControllerSorting getSorting();
+  /**
+   * Returns the controller for sorting.
+   *
+   * @return The controller for sorting.
+   */
+  I_CmsSearchControllerSorting getSorting();
 }

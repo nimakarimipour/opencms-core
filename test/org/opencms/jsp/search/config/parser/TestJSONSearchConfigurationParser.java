@@ -27,6 +27,18 @@
 
 package org.opencms.jsp.search.config.parser;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.json.JSONException;
 import org.opencms.jsp.search.config.CmsSearchConfiguration;
 import org.opencms.jsp.search.config.CmsSearchConfigurationCommon;
@@ -60,138 +72,137 @@ import org.opencms.search.solr.CmsSolrIndex;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /** Tests the JSON configuration parser of cms:search. */
 public class TestJSONSearchConfigurationParser extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestJSONSearchConfigurationParser(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestJSONSearchConfigurationParser(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.addTest(new TestJSONSearchConfigurationParser("testParseCompleteConfiguration"));
-        suite.addTest(new TestJSONSearchConfigurationParser("testParseMultiplePageSizes"));
+    TestSuite suite = new TestSuite();
+    suite.addTest(new TestJSONSearchConfigurationParser("testParseCompleteConfiguration"));
+    suite.addTest(new TestJSONSearchConfigurationParser("testParseMultiplePageSizes"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/", "/../org/opencms/search/solr");
-                // disable all lucene indexes
-                for (String indexName : OpenCms.getSearchManager().getIndexNames()) {
-                    if (!indexName.equalsIgnoreCase(CmsSolrIndex.DEFAULT_INDEX_NAME_ONLINE)) {
-                        I_CmsSearchIndex index = OpenCms.getSearchManager().getIndex(indexName);
-                        if (index != null) {
-                            index.setEnabled(false);
-                        }
-                    }
+            setupOpenCms("simpletest", "/", "/../org/opencms/search/solr");
+            // disable all lucene indexes
+            for (String indexName : OpenCms.getSearchManager().getIndexNames()) {
+              if (!indexName.equalsIgnoreCase(CmsSolrIndex.DEFAULT_INDEX_NAME_ONLINE)) {
+                I_CmsSearchIndex index = OpenCms.getSearchManager().getIndex(indexName);
+                if (index != null) {
+                  index.setEnabled(false);
                 }
+              }
             }
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
-    }
+    return wrapper;
+  }
 
-    /**
-     * Reads a complete configuration (with all options used) and tests if it matches the expectation.
-     *
-     * @throws IOException thrown if reading the configuration file with the test configuration fails
-     * @throws URISyntaxException thrown if reading the configuration file with the test configuration fails
-     * @throws CmsException thrown if the CmsObject cannot be retrieved.
-     */
-    @org.junit.Test
-    public void testParseCompleteConfiguration() throws IOException, URISyntaxException, CmsException {
+  /**
+   * Reads a complete configuration (with all options used) and tests if it matches the expectation.
+   *
+   * @throws IOException thrown if reading the configuration file with the test configuration fails
+   * @throws URISyntaxException thrown if reading the configuration file with the test configuration
+   *     fails
+   * @throws CmsException thrown if the CmsObject cannot be retrieved.
+   */
+  @org.junit.Test
+  public void testParseCompleteConfiguration()
+      throws IOException, URISyntaxException, CmsException {
 
-        String configString = new String(
+    String configString =
+        new String(
             Files.readAllBytes(Paths.get(getClass().getResource("fullConfig.json").toURI())));
-        try {
-            CmsSearchConfiguration config = new CmsSearchConfiguration(
-                new CmsJSONSearchConfigurationParser(configString),
-                getCmsObject());
-            testParseCompleteConfigurationInternal(config);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
+    try {
+      CmsSearchConfiguration config =
+          new CmsSearchConfiguration(
+              new CmsJSONSearchConfigurationParser(configString), getCmsObject());
+      testParseCompleteConfigurationInternal(config);
+    } catch (JSONException e) {
+      e.printStackTrace();
+      assertTrue(false);
     }
+  }
 
-    /**
-     * Test if parsing multiple page sizes as hyphen separated string works.
-     * @throws IOException
-     * @throws URISyntaxException
-     * @throws CmsException
-     */
-    @org.junit.Test
-    public void testParseMultiplePageSizes() throws IOException, URISyntaxException, CmsException {
+  /**
+   * Test if parsing multiple page sizes as hyphen separated string works.
+   *
+   * @throws IOException
+   * @throws URISyntaxException
+   * @throws CmsException
+   */
+  @org.junit.Test
+  public void testParseMultiplePageSizes() throws IOException, URISyntaxException, CmsException {
 
-        String configString = new String(
-            Files.readAllBytes(Paths.get(getClass().getResource("multiplePageSizes.json").toURI())));
-        try {
-            CmsSearchConfiguration config = new CmsSearchConfiguration(
-                new CmsJSONSearchConfigurationParser(configString),
-                getCmsObject());
-            List<Integer> pageSizes = new ArrayList<>(2);
-            pageSizes.add(Integer.valueOf(5));
-            pageSizes.add(Integer.valueOf(8));
-            I_CmsSearchConfigurationPagination expected = new CmsSearchConfigurationPagination(
-                CmsSearchConfigurationPagination.DEFAULT_PAGE_PARAM,
-                pageSizes,
-                Integer.valueOf(CmsSearchConfigurationPagination.DEFAULT_PAGE_NAV_LENGTH));
-            ConfigurationTester.testPaginationConfiguration(expected, config.getPaginationConfig());
-        } catch (JSONException e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
+    String configString =
+        new String(
+            Files.readAllBytes(
+                Paths.get(getClass().getResource("multiplePageSizes.json").toURI())));
+    try {
+      CmsSearchConfiguration config =
+          new CmsSearchConfiguration(
+              new CmsJSONSearchConfigurationParser(configString), getCmsObject());
+      List<Integer> pageSizes = new ArrayList<>(2);
+      pageSizes.add(Integer.valueOf(5));
+      pageSizes.add(Integer.valueOf(8));
+      I_CmsSearchConfigurationPagination expected =
+          new CmsSearchConfigurationPagination(
+              CmsSearchConfigurationPagination.DEFAULT_PAGE_PARAM,
+              pageSizes,
+              Integer.valueOf(CmsSearchConfigurationPagination.DEFAULT_PAGE_NAV_LENGTH));
+      ConfigurationTester.testPaginationConfiguration(expected, config.getPaginationConfig());
+    } catch (JSONException e) {
+      e.printStackTrace();
+      assertTrue(false);
     }
+  }
 
-    /**
-     * Checks if the configuration matches the expectation.
-     *
-     * @param config the actual configuration.
-     */
-    private void testParseCompleteConfigurationInternal(CmsSearchConfiguration config) {
+  /**
+   * Checks if the configuration matches the expectation.
+   *
+   * @param config the actual configuration.
+   */
+  private void testParseCompleteConfigurationInternal(CmsSearchConfiguration config) {
 
-        // Test general/common configuration
-        Map<String, String> additionalParameters = new HashMap<String, String>(2);
-        additionalParameters.put("p1", "fq=lastmodified:[%(value) TO *]");
-        additionalParameters.put("p2", "fq=%(value)");
-        additionalParameters.put("p3", null);
-        I_CmsSearchConfigurationCommon commonConfig = new CmsSearchConfigurationCommon(
+    // Test general/common configuration
+    Map<String, String> additionalParameters = new HashMap<String, String>(2);
+    additionalParameters.put("p1", "fq=lastmodified:[%(value) TO *]");
+    additionalParameters.put("p2", "fq=%(value)");
+    additionalParameters.put("p3", null);
+    I_CmsSearchConfigurationCommon commonConfig =
+        new CmsSearchConfigurationCommon(
             "querytest",
             "lastquerytest",
             Boolean.TRUE,
@@ -206,41 +217,35 @@ public class TestJSONSearchConfigurationParser extends OpenCmsTestCase {
             Boolean.TRUE,
             Boolean.TRUE,
             345);
-        ConfigurationTester.testGeneralConfiguration(commonConfig, config.getGeneralConfig());
+    ConfigurationTester.testGeneralConfiguration(commonConfig, config.getGeneralConfig());
 
-        // Test pagination configuration
-        I_CmsSearchConfigurationPagination paginationConfig = new CmsSearchConfigurationPagination(
-            "pageparam",
-            Integer.valueOf(20),
-            Integer.valueOf(9));
-        ConfigurationTester.testPaginationConfiguration(paginationConfig, config.getPaginationConfig());
+    // Test pagination configuration
+    I_CmsSearchConfigurationPagination paginationConfig =
+        new CmsSearchConfigurationPagination("pageparam", Integer.valueOf(20), Integer.valueOf(9));
+    ConfigurationTester.testPaginationConfiguration(paginationConfig, config.getPaginationConfig());
 
-        // Test sorting configuration
-        I_CmsSearchConfigurationSortOption sortOption1 = new CmsSearchConfigurationSortOption(
-            null,
-            null,
-            "lastmodified desc");
-        I_CmsSearchConfigurationSortOption sortOption2 = new CmsSearchConfigurationSortOption(
-            "lastmodified ascending",
-            "sort2",
-            "lastmodified asc");
-        List<I_CmsSearchConfigurationSortOption> sortOptions = new ArrayList<I_CmsSearchConfigurationSortOption>(2);
-        sortOptions.add(sortOption1);
-        sortOptions.add(sortOption2);
-        I_CmsSearchConfigurationSorting sortingConfig = new CmsSearchConfigurationSorting(
-            "sortparam",
-            sortOptions,
-            sortOption2);
-        ConfigurationTester.testSortingConfiguration(sortingConfig, config.getSortConfig());
+    // Test sorting configuration
+    I_CmsSearchConfigurationSortOption sortOption1 =
+        new CmsSearchConfigurationSortOption(null, null, "lastmodified desc");
+    I_CmsSearchConfigurationSortOption sortOption2 =
+        new CmsSearchConfigurationSortOption("lastmodified ascending", "sort2", "lastmodified asc");
+    List<I_CmsSearchConfigurationSortOption> sortOptions =
+        new ArrayList<I_CmsSearchConfigurationSortOption>(2);
+    sortOptions.add(sortOption1);
+    sortOptions.add(sortOption2);
+    I_CmsSearchConfigurationSorting sortingConfig =
+        new CmsSearchConfigurationSorting("sortparam", sortOptions, sortOption2);
+    ConfigurationTester.testSortingConfiguration(sortingConfig, config.getSortConfig());
 
-        // Test field facet configuration
-        List<String> preselection = new ArrayList<String>(2);
-        preselection.add("location/europe/");
-        preselection.add("topic/");
-        List<String> excludeTags = new ArrayList<String>(2);
-        excludeTags.add("oneKey");
-        excludeTags.add("anotherKey");
-        I_CmsSearchConfigurationFacetField fieldFacet1 = new CmsSearchConfigurationFacetField(
+    // Test field facet configuration
+    List<String> preselection = new ArrayList<String>(2);
+    preselection.add("location/europe/");
+    preselection.add("topic/");
+    List<String> excludeTags = new ArrayList<String>(2);
+    excludeTags.add("oneKey");
+    excludeTags.add("anotherKey");
+    I_CmsSearchConfigurationFacetField fieldFacet1 =
+        new CmsSearchConfigurationFacetField(
             "category_exact",
             "category",
             Integer.valueOf(1),
@@ -253,45 +258,39 @@ public class TestJSONSearchConfigurationParser extends OpenCmsTestCase {
             preselection,
             Boolean.TRUE,
             excludeTags);
-        Collection<String> facetNames = new ArrayList<String>(5);
-        facetNames.add("category");
-        facetNames.add("Keywords");
-        facetNames.add("modification");
-        facetNames.add("size");
-        facetNames.add("query_query");
-        fieldFacet1.propagateAllFacetNames(facetNames);
-        I_CmsSearchConfigurationFacetField fieldFacet2 = new CmsSearchConfigurationFacetField(
-            "Keywords",
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
+    Collection<String> facetNames = new ArrayList<String>(5);
+    facetNames.add("category");
+    facetNames.add("Keywords");
+    facetNames.add("modification");
+    facetNames.add("size");
+    facetNames.add("query_query");
+    fieldFacet1.propagateAllFacetNames(facetNames);
+    I_CmsSearchConfigurationFacetField fieldFacet2 =
+        new CmsSearchConfigurationFacetField(
+            "Keywords", null, null, null, null, null, null, null, null, null, null, null);
 
-        Map<String, I_CmsSearchConfigurationFacetField> actualFieldFacetConfigs = config.getFieldFacetConfigs();
-        assertEquals(2, actualFieldFacetConfigs.size());
-        ConfigurationTester.testFieldFacetConfiguration(fieldFacet1, actualFieldFacetConfigs.get("category"));
-        ConfigurationTester.testFieldFacetConfiguration(fieldFacet2, actualFieldFacetConfigs.get("Keywords"));
+    Map<String, I_CmsSearchConfigurationFacetField> actualFieldFacetConfigs =
+        config.getFieldFacetConfigs();
+    assertEquals(2, actualFieldFacetConfigs.size());
+    ConfigurationTester.testFieldFacetConfiguration(
+        fieldFacet1, actualFieldFacetConfigs.get("category"));
+    ConfigurationTester.testFieldFacetConfiguration(
+        fieldFacet2, actualFieldFacetConfigs.get("Keywords"));
 
-        // Test range facet configuration
-        Collection<I_CmsSearchConfigurationFacetRange.Other> other = new ArrayList<I_CmsSearchConfigurationFacetRange.Other>(
-            5);
-        other.add(Other.before);
-        other.add(Other.after);
-        other.add(Other.between);
-        other.add(Other.all);
-        other.add(Other.none);
+    // Test range facet configuration
+    Collection<I_CmsSearchConfigurationFacetRange.Other> other =
+        new ArrayList<I_CmsSearchConfigurationFacetRange.Other>(5);
+    other.add(Other.before);
+    other.add(Other.after);
+    other.add(Other.between);
+    other.add(Other.all);
+    other.add(Other.none);
 
-        preselection.clear();
-        preselection.add("2015-01-01T00:00:00Z");
-        preselection.add("2016-01-01T00:00:00Z");
-        I_CmsSearchConfigurationFacetRange rangeFacet1 = new CmsSearchConfigurationFacetRange(
+    preselection.clear();
+    preselection.add("2015-01-01T00:00:00Z");
+    preselection.add("2016-01-01T00:00:00Z");
+    I_CmsSearchConfigurationFacetRange rangeFacet1 =
+        new CmsSearchConfigurationFacetRange(
             "lastmodified",
             "NOW/MONTH-20MONTHS",
             "NOW/MONTH",
@@ -305,47 +304,35 @@ public class TestJSONSearchConfigurationParser extends OpenCmsTestCase {
             preselection,
             Boolean.TRUE,
             excludeTags);
-        rangeFacet1.propagateAllFacetNames(facetNames);
-        I_CmsSearchConfigurationFacetRange rangeFacet2 = new CmsSearchConfigurationFacetRange(
-            "size",
-            "0",
-            "1000000",
-            "1000",
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
-        Map<String, I_CmsSearchConfigurationFacetRange> actualRangeFacets = config.getRangeFacetConfigs();
-        assertEquals(2, actualFieldFacetConfigs.size());
-        ConfigurationTester.testRangeFacetConfiguration(rangeFacet1, actualRangeFacets.get("modification"));
-        ConfigurationTester.testRangeFacetConfiguration(rangeFacet2, actualRangeFacets.get("size"));
+    rangeFacet1.propagateAllFacetNames(facetNames);
+    I_CmsSearchConfigurationFacetRange rangeFacet2 =
+        new CmsSearchConfigurationFacetRange(
+            "size", "0", "1000000", "1000", null, null, null, null, null, null, null, null, null);
+    Map<String, I_CmsSearchConfigurationFacetRange> actualRangeFacets =
+        config.getRangeFacetConfigs();
+    assertEquals(2, actualFieldFacetConfigs.size());
+    ConfigurationTester.testRangeFacetConfiguration(
+        rangeFacet1, actualRangeFacets.get("modification"));
+    ConfigurationTester.testRangeFacetConfiguration(rangeFacet2, actualRangeFacets.get("size"));
 
-        // Test query facet configuration
-        preselection.clear();
-        preselection.add("created:[NOW-1MONTH TO NOW]");
-        preselection.add("created:[* TO NOW-1MONTHS]");
-        List<I_CmsFacetQueryItem> queries = new ArrayList<I_CmsFacetQueryItem>(3);
-        queries.add(new CmsFacetQueryItem("created:[* TO NOW-1YEARS]", "older than one year"));
-        queries.add(new CmsFacetQueryItem("created:[* TO NOW-1MONTHS]", "older than one month"));
-        queries.add(new CmsFacetQueryItem("created:[NOW-1MONTH TO NOW]", null));
+    // Test query facet configuration
+    preselection.clear();
+    preselection.add("created:[NOW-1MONTH TO NOW]");
+    preselection.add("created:[* TO NOW-1MONTHS]");
+    List<I_CmsFacetQueryItem> queries = new ArrayList<I_CmsFacetQueryItem>(3);
+    queries.add(new CmsFacetQueryItem("created:[* TO NOW-1YEARS]", "older than one year"));
+    queries.add(new CmsFacetQueryItem("created:[* TO NOW-1MONTHS]", "older than one month"));
+    queries.add(new CmsFacetQueryItem("created:[NOW-1MONTH TO NOW]", null));
 
-        I_CmsSearchConfigurationFacetQuery queryFacet = new CmsSearchConfigurationFacetQuery(
-            queries,
-            "Creation date",
-            Boolean.TRUE,
-            preselection,
-            Boolean.TRUE,
-            excludeTags);
-        queryFacet.propagateAllFacetNames(facetNames);
-        ConfigurationTester.testQueryFacetConfiguration(queryFacet, config.getQueryFacetConfig());
+    I_CmsSearchConfigurationFacetQuery queryFacet =
+        new CmsSearchConfigurationFacetQuery(
+            queries, "Creation date", Boolean.TRUE, preselection, Boolean.TRUE, excludeTags);
+    queryFacet.propagateAllFacetNames(facetNames);
+    ConfigurationTester.testQueryFacetConfiguration(queryFacet, config.getQueryFacetConfig());
 
-        // Test Highlighter configuration
-        I_CmsSearchConfigurationHighlighting highlightingConfig = new CmsSearchConfigurationHighlighting(
+    // Test Highlighter configuration
+    I_CmsSearchConfigurationHighlighting highlightingConfig =
+        new CmsSearchConfigurationHighlighting(
             "content_en",
             Integer.valueOf(2),
             Integer.valueOf(123),
@@ -356,17 +343,17 @@ public class TestJSONSearchConfigurationParser extends OpenCmsTestCase {
             "simple",
             "gap",
             Boolean.TRUE);
-        ConfigurationTester.testHighlightingConfiguration(highlightingConfig, config.getHighlighterConfig());
+    ConfigurationTester.testHighlightingConfiguration(
+        highlightingConfig, config.getHighlighterConfig());
 
-        // Test DidYouMean configuration
-        I_CmsSearchConfigurationDidYouMean didYouMeanConfig = new CmsSearchConfigurationDidYouMean(
-            "dymparam",
-            Boolean.FALSE,
-            Integer.valueOf(7));
-        ConfigurationTester.testDidYouMeanConfiguration(didYouMeanConfig, config.getDidYouMeanConfig());
+    // Test DidYouMean configuration
+    I_CmsSearchConfigurationDidYouMean didYouMeanConfig =
+        new CmsSearchConfigurationDidYouMean("dymparam", Boolean.FALSE, Integer.valueOf(7));
+    ConfigurationTester.testDidYouMeanConfiguration(didYouMeanConfig, config.getDidYouMeanConfig());
 
-        // Test Geo filter configuration
-        I_CmsSearchConfigurationGeoFilter geoFilterConfig = new CmsSearchConfigurationGeoFilter(
+    // Test Geo filter configuration
+    I_CmsSearchConfigurationGeoFilter geoFilterConfig =
+        new CmsSearchConfigurationGeoFilter(
             "0.000000,0.000000",
             "coordinates",
             "geocoords_loc",
@@ -374,6 +361,6 @@ public class TestJSONSearchConfigurationParser extends OpenCmsTestCase {
             "radius",
             "km",
             "units");
-        ConfigurationTester.testGeoFilterConfiguration(geoFilterConfig, config.getGeoFilterConfig());
-    }
+    ConfigurationTester.testGeoFilterConfiguration(geoFilterConfig, config.getGeoFilterConfig());
+  }
 }

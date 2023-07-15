@@ -27,62 +27,52 @@
 
 package org.opencms.db.postgresql;
 
+import com.google.common.base.Joiner;
 import org.opencms.db.generic.CmsSqlManager;
 import org.opencms.db.generic.CmsUserQueryBuilder;
 
-import com.google.common.base.Joiner;
-
 /**
- * PostgreSql implementation of the user driver methods.<p>
+ * PostgreSql implementation of the user driver methods.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsUserDriver extends org.opencms.db.generic.CmsUserDriver {
 
-    /**
-     * @see org.opencms.db.generic.CmsUserDriver#createUserQueryBuilder()
-     */
-    @Override
-    public CmsUserQueryBuilder createUserQueryBuilder() {
+  /** @see org.opencms.db.generic.CmsUserDriver#createUserQueryBuilder() */
+  @Override
+  public CmsUserQueryBuilder createUserQueryBuilder() {
 
-        return new CmsUserQueryBuilder() {
+    return new CmsUserQueryBuilder() {
 
-            /**
-             * @see org.opencms.db.generic.CmsUserQueryBuilder#generateConcat(java.lang.String[])
-             */
-            @Override
-            protected String generateConcat(String... expressions) {
+      /** @see org.opencms.db.generic.CmsUserQueryBuilder#generateConcat(java.lang.String[]) */
+      @Override
+      protected String generateConcat(String... expressions) {
 
-                return Joiner.on(" || ").join(expressions);
-            }
+        return Joiner.on(" || ").join(expressions);
+      }
 
-            /**
-             * @see org.opencms.db.generic.CmsUserQueryBuilder#shouldNameSubqueries()
-             */
-            @Override
-            protected boolean shouldNameSubqueries() {
+      /** @see org.opencms.db.generic.CmsUserQueryBuilder#shouldNameSubqueries() */
+      @Override
+      protected boolean shouldNameSubqueries() {
 
-                return true;
-            }
+        return true;
+      }
 
-            /**
-             * @see org.opencms.db.generic.CmsUserQueryBuilder#useWindowFunctionsForPaging()
-             */
-            @Override
-            protected boolean useWindowFunctionsForPaging() {
+      /** @see org.opencms.db.generic.CmsUserQueryBuilder#useWindowFunctionsForPaging() */
+      @Override
+      protected boolean useWindowFunctionsForPaging() {
 
-                return false;
-            }
-        };
-    }
+        return false;
+      }
+    };
+  }
 
-    /**
-     * @see org.opencms.db.I_CmsUserDriver#initSqlManager(String)
-     */
-    @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  /** @see org.opencms.db.I_CmsUserDriver#initSqlManager(String) */
+  @Override
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
 
-        return CmsSqlManager.getInstance(classname);
-    }
-
+    return CmsSqlManager.getInstance(classname);
+  }
 }

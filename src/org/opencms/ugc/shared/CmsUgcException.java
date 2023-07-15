@@ -31,94 +31,108 @@ import org.opencms.gwt.CmsRpcException;
 import org.opencms.ugc.shared.CmsUgcConstants.ErrorCode;
 
 /**
- * Exception class for use in the org.opencms.editors.usergenerated module.<p>
+ * Exception class for use in the org.opencms.editors.usergenerated module.
  *
+ * <p>
  */
 public class CmsUgcException extends CmsRpcException {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = -8081364940852864867L;
+  /** Serial version id. */
+  private static final long serialVersionUID = -8081364940852864867L;
 
-    /** Contains the  error type. */
-    private CmsUgcConstants.ErrorCode m_errorCode;
+  /** Contains the error type. */
+  private CmsUgcConstants.ErrorCode m_errorCode;
 
-    /** The human-readable error message. */
-    private String m_message;
+  /** The human-readable error message. */
+  private String m_message;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param errorCode the error type
-     * @param message the error message
-     */
-    public CmsUgcException(CmsUgcConstants.ErrorCode errorCode, String message) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param errorCode the error type
+   * @param message the error message
+   */
+  public CmsUgcException(CmsUgcConstants.ErrorCode errorCode, String message) {
 
-        setErrorCode(errorCode);
-        m_message = message;
-    }
+    setErrorCode(errorCode);
+    m_message = message;
+  }
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param t the wrapped exception
-     */
-    public CmsUgcException(Throwable t) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param t the wrapped exception
+   */
+  public CmsUgcException(Throwable t) {
 
-        super(t);
-        setErrorCode(ErrorCode.errMisc);
-        m_message = t.getLocalizedMessage();
-    }
+    super(t);
+    setErrorCode(ErrorCode.errMisc);
+    m_message = t.getLocalizedMessage();
+  }
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param t the original exception
-     * @param errorCode the error type
-     * @param message the error message
-     */
-    public CmsUgcException(Throwable t, CmsUgcConstants.ErrorCode errorCode, String message) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param t the original exception
+   * @param errorCode the error type
+   * @param message the error message
+   */
+  public CmsUgcException(Throwable t, CmsUgcConstants.ErrorCode errorCode, String message) {
 
-        super(t);
-        setErrorCode(errorCode);
-        m_message = message;
-    }
+    super(t);
+    setErrorCode(errorCode);
+    m_message = message;
+  }
 
-    /**
-     * Default constructor for serialization.<p>
-     */
-    protected CmsUgcException() {
+  /**
+   * Default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsUgcException() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Returns the errorCode.<p>
-     *
-     * @return the errorCode
-     */
-    public CmsUgcConstants.ErrorCode getErrorCode() {
+  /**
+   * Returns the errorCode.
+   *
+   * <p>
+   *
+   * @return the errorCode
+   */
+  public CmsUgcConstants.ErrorCode getErrorCode() {
 
-        return m_errorCode;
-    }
+    return m_errorCode;
+  }
 
-    /**
-     * Gets the human-readable message.<p>
-     *
-     * @return the human-readable message
-     */
-    public String getUserMessage() {
+  /**
+   * Gets the human-readable message.
+   *
+   * <p>
+   *
+   * @return the human-readable message
+   */
+  public String getUserMessage() {
 
-        return m_message;
-    }
+    return m_message;
+  }
 
-    /**
-     * Sets the errorCode.<p>
-     *
-     * @param errorCode the errorCode to set
-     */
-    public void setErrorCode(CmsUgcConstants.ErrorCode errorCode) {
+  /**
+   * Sets the errorCode.
+   *
+   * <p>
+   *
+   * @param errorCode the errorCode to set
+   */
+  public void setErrorCode(CmsUgcConstants.ErrorCode errorCode) {
 
-        m_errorCode = errorCode;
-    }
-
+    m_errorCode = errorCode;
+  }
 }

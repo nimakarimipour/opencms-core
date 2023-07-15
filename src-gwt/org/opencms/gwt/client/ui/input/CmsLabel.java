@@ -27,169 +27,182 @@
 
 package org.opencms.gwt.client.ui.input;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.Label;
+import java.util.List;
 import org.opencms.gwt.client.ui.I_CmsTruncable;
 import org.opencms.gwt.client.ui.css.I_CmsInputCss;
 import org.opencms.gwt.client.ui.css.I_CmsInputLayoutBundle;
 import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
 import org.opencms.gwt.client.util.CmsDomUtil;
 
-import java.util.List;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.Label;
-
 /**
- * Single line label with text truncation and tool tip.<p>
+ * Single line label with text truncation and tool tip.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsLabel extends Label implements I_CmsTruncable {
 
-    /**
-     * Interface for generating HTML titles (tooltips) for a label.<p>
-     */
-    public interface I_TitleGenerator {
-
-        /**
-         * Should return the title, or null if no title should be displayed.<p>
-         *
-         * @param originalText the original untruncated text stored in the label
-         *
-         * @return the title to display, or null if no title should be displayed
-         */
-        String getTitle(String originalText);
-    }
-
-    /** The CSS bundle instance used for this widget.<p> */
-    protected static final I_CmsInputCss CSS = I_CmsInputLayoutBundle.INSTANCE.inputCss();
-
-    /** List of elements to measure. */
-    protected static List<Element> m_elements;
-
-    /** The original untruncated text stored in the label. */
-    protected String m_originalText;
-
-    /** The title generator. */
-    private I_TitleGenerator m_titleGenerator;
+  /**
+   * Interface for generating HTML titles (tooltips) for a label.
+   *
+   * <p>
+   */
+  public interface I_TitleGenerator {
 
     /**
-     * Creates an empty label.<p>
-     */
-    public CmsLabel() {
-
-        setStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().truncatingLabel());
-    }
-
-    /**
-     * Creates an empty label using the given element.<p>
+     * Should return the title, or null if no title should be displayed.
      *
-     * @param element the element to use
-     */
-    public CmsLabel(Element element) {
-
-        super(element);
-        setStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().truncatingLabel());
-    }
-
-    /**
-     * Creates a label with the specified text.<p>
+     * <p>
      *
-     * @param text the new label's text
+     * @param originalText the original untruncated text stored in the label
+     * @return the title to display, or null if no title should be displayed
      */
-    public CmsLabel(String text) {
+    String getTitle(String originalText);
+  }
 
-        super(text);
-        setStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().truncatingLabel());
+  /**
+   * The CSS bundle instance used for this widget.
+   *
+   * <p>
+   */
+  protected static final I_CmsInputCss CSS = I_CmsInputLayoutBundle.INSTANCE.inputCss();
+
+  /** List of elements to measure. */
+  protected static List<Element> m_elements;
+
+  /** The original untruncated text stored in the label. */
+  protected String m_originalText;
+
+  /** The title generator. */
+  private I_TitleGenerator m_titleGenerator;
+
+  /**
+   * Creates an empty label.
+   *
+   * <p>
+   */
+  public CmsLabel() {
+
+    setStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().truncatingLabel());
+  }
+
+  /**
+   * Creates an empty label using the given element.
+   *
+   * <p>
+   *
+   * @param element the element to use
+   */
+  public CmsLabel(Element element) {
+
+    super(element);
+    setStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().truncatingLabel());
+  }
+
+  /**
+   * Creates a label with the specified text.
+   *
+   * <p>
+   *
+   * @param text the new label's text
+   */
+  public CmsLabel(String text) {
+
+    super(text);
+    setStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().truncatingLabel());
+  }
+
+  /** @see com.google.gwt.user.client.ui.Widget#onAttach() */
+  @Override
+  public void onAttach() {
+
+    // just for visibility
+    super.onAttach();
+  }
+
+  /**
+   * Sets the inner HTML of the label.
+   *
+   * <p>Avoid using this, better use {@link #setText(String)}
+   *
+   * <p>
+   *
+   * @param html the HTML to set
+   */
+  public void setHTML(String html) {
+
+    getElement().setInnerHTML(html);
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasText#setText(java.lang.String) */
+  @Override
+  public void setText(String text) {
+
+    super.setText(text);
+    m_originalText = text;
+    setTitle(getTitle(true));
+  }
+
+  /**
+   * Sets the title generator.
+   *
+   * <p>
+   *
+   * @param titleGen the new title generator
+   */
+  public void setTitleGenerator(I_TitleGenerator titleGen) {
+
+    m_titleGenerator = titleGen;
+  }
+
+  /** @see org.opencms.gwt.client.ui.I_CmsTruncable#truncate(java.lang.String, int) */
+  public void truncate(String textMetricsKey, int labelWidth) {
+
+    if (labelWidth > 0) {
+      getElement().getStyle().setWidth(labelWidth, Unit.PX);
     }
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.Widget#onAttach()
-     */
-    @Override
-    public void onAttach() {
+  /**
+   * Updates the title.
+   *
+   * <p>
+   *
+   * @param truncating true if the label is being truncated
+   */
+  public void updateTitle(boolean truncating) {
 
-        // just for visibility
-        super.onAttach();
+    String title = getTitle(truncating);
+    Element element = getElement();
+    if (title == null) {
+      element.removeAttribute(CmsDomUtil.Attribute.title.name());
+    } else {
+      element.setAttribute(CmsDomUtil.Attribute.title.name(), title);
     }
+  }
 
-    /**
-     * Sets the inner HTML of the label.<p>
-     *
-     * Avoid using this, better use {@link #setText(String)}<p>
-     *
-     * @param html the HTML to set
-     */
-    public void setHTML(String html) {
+  /**
+   * Returns the title to be displayed, which is either produced by a title generator, or is equal
+   * to the original text if no title generator is set and the label is being truncated.
+   *
+   * <p>
+   *
+   * @param truncating true if the label is being truncated
+   * @return the title to display
+   */
+  protected String getTitle(boolean truncating) {
 
-        getElement().setInnerHTML(html);
+    if (m_titleGenerator != null) {
+      return m_titleGenerator.getTitle(m_originalText);
     }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasText#setText(java.lang.String)
-     */
-    @Override
-    public void setText(String text) {
-
-        super.setText(text);
-        m_originalText = text;
-        setTitle(getTitle(true));
+    if (truncating) {
+      return getText();
+    } else {
+      return super.getTitle();
     }
-
-    /**
-     * Sets the title generator.<p>
-     *
-     * @param titleGen the new title generator
-     */
-    public void setTitleGenerator(I_TitleGenerator titleGen) {
-
-        m_titleGenerator = titleGen;
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsTruncable#truncate(java.lang.String, int)
-     */
-    public void truncate(String textMetricsKey, int labelWidth) {
-
-        if (labelWidth > 0) {
-            getElement().getStyle().setWidth(labelWidth, Unit.PX);
-        }
-    }
-
-    /**
-     * Updates the title.<p>
-     *
-     * @param truncating true if the label is being truncated
-     */
-    public void updateTitle(boolean truncating) {
-
-        String title = getTitle(truncating);
-        Element element = getElement();
-        if (title == null) {
-            element.removeAttribute(CmsDomUtil.Attribute.title.name());
-        } else {
-            element.setAttribute(CmsDomUtil.Attribute.title.name(), title);
-        }
-    }
-
-    /**
-     * Returns the title to be displayed, which is either produced by a title generator,
-     * or is equal to the original text if no title generator is set and the label is being
-     * truncated.<p>
-     *
-     * @param truncating true if the label is being truncated
-     *
-     * @return the title to display
-     */
-    protected String getTitle(boolean truncating) {
-
-        if (m_titleGenerator != null) {
-            return m_titleGenerator.getTitle(m_originalText);
-        }
-        if (truncating) {
-            return getText();
-        } else {
-            return super.getTitle();
-        }
-    }
+  }
 }

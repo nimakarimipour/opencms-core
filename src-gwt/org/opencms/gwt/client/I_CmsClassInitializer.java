@@ -28,17 +28,20 @@
 package org.opencms.gwt.client;
 
 /**
- * The interface for initializing all classes which implement the {@link I_CmsHasInit} interface.<p>
+ * The interface for initializing all classes which implement the {@link I_CmsHasInit} interface.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.gwt.rebind.CmsClassInitGenerator
  */
 public interface I_CmsClassInitializer {
 
-    /**
-     * The method which, when called, should initialize all classes implementing the {@link I_CmsHasInit} interface.<p>
-     */
-    void initClasses();
-
+  /**
+   * The method which, when called, should initialize all classes implementing the {@link
+   * I_CmsHasInit} interface.
+   *
+   * <p>
+   */
+  void initClasses();
 }

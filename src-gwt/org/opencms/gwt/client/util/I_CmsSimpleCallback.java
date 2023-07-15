@@ -28,18 +28,21 @@
 package org.opencms.gwt.client.util;
 
 /**
- * A simple call-back interface.<p>
+ * A simple call-back interface.
+ *
+ * <p>
  *
  * @param <T> the argument type of the execute method
- *
  * @since 8.0.0
  */
 public interface I_CmsSimpleCallback<T> {
 
-    /**
-     * Method executed on call-back.<p>
-     *
-     * @param arg the argument
-     */
-    void execute(T arg);
+  /**
+   * Method executed on call-back.
+   *
+   * <p>
+   *
+   * @param arg the argument
+   */
+  void execute(T arg);
 }

@@ -27,6 +27,7 @@
 
 package org.opencms.ui.actions;
 
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
@@ -37,55 +38,55 @@ import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 import org.opencms.ui.dialogs.CmsRestoreDeletedDialog;
 import org.opencms.workplace.explorer.Messages;
 
-import java.util.List;
-
 /**
- * The availability dialog action.<p>
+ * The availability dialog action.
+ *
+ * <p>
  */
 public class CmsRestoreDeletedAction extends A_CmsWorkplaceAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "restoredeleted";
+  /** The action id. */
+  public static final String ACTION_ID = "restoredeleted";
 
-    /** The action visibility. */
-    public static final I_CmsHasMenuItemVisibility VISIBILITY = CmsStandardVisibilityCheck.DEFAULT_FOLDERS;
+  /** The action visibility. */
+  public static final I_CmsHasMenuItemVisibility VISIBILITY =
+      CmsStandardVisibilityCheck.DEFAULT_FOLDERS;
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        if (!hasBlockingLocks(context)) {
-            try {
-                openDialog(new CmsRestoreDeletedDialog(context), context);
-            } catch (CmsException e) {
-                context.error(e);
-            }
-        }
+    if (!hasBlockingLocks(context)) {
+      try {
+        openDialog(new CmsRestoreDeletedDialog(context), context);
+      } catch (CmsException e) {
+        context.error(e);
+      }
     }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
-    }
+    return ACTION_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
 
-        return VISIBILITY.getVisibility(cms, resources);
-    }
+    return VISIBILITY.getVisibility(cms, resources);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return Messages.GUI_EXPLORER_CONTEXT_SHOW_DELETED_0;
-    }
+    return Messages.GUI_EXPLORER_CONTEXT_SHOW_DELETED_0;
+  }
 }

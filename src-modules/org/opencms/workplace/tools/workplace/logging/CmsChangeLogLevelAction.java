@@ -27,94 +27,102 @@
 
 package org.opencms.workplace.tools.workplace.logging;
 
-import org.opencms.i18n.CmsMessageContainer;
-import org.opencms.workplace.list.CmsListDirectAction;
-
 import java.util.Locale;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.opencms.i18n.CmsMessageContainer;
+import org.opencms.workplace.list.CmsListDirectAction;
 
 /**
- * Action handler for single actions from logging view.<p>
+ * Action handler for single actions from logging view.
  *
- * */
+ * <p>
+ */
 public class CmsChangeLogLevelAction extends CmsListDirectAction {
 
-    /** The actual log level of this row. */
-    protected Level m_logLevel;
+  /** The actual log level of this row. */
+  protected Level m_logLevel;
 
-    /** Constructor so generate an instance.<p>
-     *
-     * @param id The id of the Log-channel
-     * @param level The level of the Log-channel
-     */
-    public CmsChangeLogLevelAction(String id, Level level) {
+  /**
+   * Constructor so generate an instance.
+   *
+   * <p>
+   *
+   * @param id The id of the Log-channel
+   * @param level The level of the Log-channel
+   */
+  public CmsChangeLogLevelAction(String id, Level level) {
 
-        super(id);
-        m_logLevel = level;
+    super(id);
+    m_logLevel = level;
+  }
+
+  /**
+   * Constructor so generate an instance.
+   *
+   * <p>
+   *
+   * @param id Id of the Log-channel
+   * @param level Level of the Log-channel
+   * @param helpText Helptext of the Log-Channel
+   */
+  public CmsChangeLogLevelAction(String id, Level level, CmsMessageContainer helpText) {
+
+    super(id);
+    m_logLevel = level;
+    setName(null);
+    setHelpText(helpText);
+  }
+
+  /**
+   * Constructor so generate an instance.
+   *
+   * <p>
+   *
+   * @param id Id of the Log-channel
+   * @param level Level of the Log-channel
+   * @param name Name of the Log-channel
+   * @param helpText Helptext of the Log-Channel
+   */
+  public CmsChangeLogLevelAction(
+      String id, Level level, CmsMessageContainer name, CmsMessageContainer helpText) {
+
+    super(id);
+    m_logLevel = level;
+    setName(name);
+    setHelpText(helpText);
+  }
+
+  /**
+   * Help method to resolve the name to use.
+   *
+   * <p>
+   *
+   * @param locale the used locale
+   * @return the name
+   */
+  @Override
+  protected String resolveName(Locale locale) {
+
+    return getName().key(locale);
+  }
+
+  /** @see org.opencms.workplace.tools.A_CmsHtmlIconButton#isEnabled() */
+  @Override
+  public boolean isEnabled() {
+
+    boolean isVisible = false;
+    Logger logger = null;
+    if (getItem() != null) {
+      String loggerName = getItem().getId();
+      if (loggerName != null) {
+        logger = LogManager.getLogger(loggerName);
+      }
     }
-
-    /** Constructor so generate an instance.<p>
-     *
-     * @param id Id of the Log-channel
-     * @param level Level of the Log-channel
-     * @param helpText Helptext of the Log-Channel
-     */
-    public CmsChangeLogLevelAction(String id, Level level, CmsMessageContainer helpText) {
-
-        super(id);
-        m_logLevel = level;
-        setName(null);
-        setHelpText(helpText);
+    if (logger != null) {
+      isVisible = !logger.getLevel().equals(m_logLevel);
     }
-
-    /** Constructor so generate an instance.<p>
-     *
-     * @param id Id of the Log-channel
-     * @param level Level of the Log-channel
-     * @param name Name of the Log-channel
-     * @param helpText Helptext of the Log-Channel
-     */
-    public CmsChangeLogLevelAction(String id, Level level, CmsMessageContainer name, CmsMessageContainer helpText) {
-
-        super(id);
-        m_logLevel = level;
-        setName(name);
-        setHelpText(helpText);
-    }
-
-    /**
-     * Help method to resolve the name to use.<p>
-     *
-     * @param locale the used locale
-     *
-     * @return the name
-     */
-    @Override
-    protected String resolveName(Locale locale) {
-
-        return getName().key(locale);
-    }
-
-    /**
-     * @see org.opencms.workplace.tools.A_CmsHtmlIconButton#isEnabled()
-     */
-    @Override
-    public boolean isEnabled() {
-
-        boolean isVisible = false;
-        Logger logger = null;
-        if (getItem() != null) {
-            String loggerName = getItem().getId();
-            if (loggerName != null) {
-                logger = LogManager.getLogger(loggerName);
-            }
-        }
-        if (logger != null) {
-            isVisible = !logger.getLevel().equals(m_logLevel);
-        }
-        return isVisible;
-    }
+    return isVisible;
+  }
 }

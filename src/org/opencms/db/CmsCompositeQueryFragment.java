@@ -27,99 +27,110 @@
 
 package org.opencms.db;
 
+import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 /**
- * A query fragment which aggregates the results from a list of other query fragments.<p>
+ * A query fragment which aggregates the results from a list of other query fragments.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsCompositeQueryFragment implements I_CmsQueryFragment {
 
-    /** The list of query fragments which should be aggregated. */
-    private List<I_CmsQueryFragment> m_fragments = Lists.newArrayList();
+  /** The list of query fragments which should be aggregated. */
+  private List<I_CmsQueryFragment> m_fragments = Lists.newArrayList();
 
-    /** The prefix string. */
-    private String m_prefix;
+  /** The prefix string. */
+  private String m_prefix;
 
-    /** The separator string which should be inserted between the SQL of each constituent query fragment. */
-    private String m_separator;
+  /**
+   * The separator string which should be inserted between the SQL of each constituent query
+   * fragment.
+   */
+  private String m_separator;
 
-    /** The suffix string. */
-    private String m_suffix;
+  /** The suffix string. */
+  private String m_suffix;
 
-    /**
-     * Adds a new query fragment.<p>
-     *
-     * @param node the query fragment
-     */
-    public void add(I_CmsQueryFragment node) {
+  /**
+   * Adds a new query fragment.
+   *
+   * <p>
+   *
+   * @param node the query fragment
+   */
+  public void add(I_CmsQueryFragment node) {
 
-        m_fragments.add(node);
+    m_fragments.add(node);
+  }
+
+  /**
+   * Returns the wrapped query fragments.
+   *
+   * <p>
+   *
+   * @return a list of query fragments
+   */
+  public List<I_CmsQueryFragment> getNodes() {
+
+    return m_fragments;
+  }
+
+  /**
+   * Sets the prefix string (will be inserted before the other fragments).
+   *
+   * <p>
+   *
+   * @param prefix the prefix string
+   */
+  public void setPrefix(String prefix) {
+
+    m_prefix = prefix;
+  }
+
+  /**
+   * Sets the separator which should be inserted between the constituent query fragments.
+   *
+   * <p>
+   *
+   * @param separator the separator string
+   */
+  public void setSeparator(String separator) {
+
+    m_separator = separator;
+  }
+
+  /**
+   * Sets the suffix string (will be inserted after the other fragments).
+   *
+   * <p>
+   *
+   * @param suffix the suffix string
+   */
+  public void setSuffix(String suffix) {
+
+    m_suffix = suffix;
+  }
+
+  /** @see org.opencms.db.I_CmsQueryFragment#visit(org.opencms.db.CmsStatementBuilder) */
+  public void visit(CmsStatementBuilder builder) {
+
+    boolean first = true;
+    if (m_prefix != null) {
+      builder.add(m_prefix);
     }
-
-    /**
-     * Returns the wrapped query fragments.<p>
-     *
-     * @return a list of query fragments
-     */
-    public List<I_CmsQueryFragment> getNodes() {
-
-        return m_fragments;
+    for (I_CmsQueryFragment node : m_fragments) {
+      if (!first && (m_separator != null)) {
+        builder.add(m_separator, Collections.<Object>emptyList());
+      }
+      node.visit(builder);
+      first = false;
     }
-
-    /**
-     * Sets the prefix string (will be inserted before the other fragments).<p>
-     *
-     * @param prefix the prefix string
-     */
-    public void setPrefix(String prefix) {
-
-        m_prefix = prefix;
+    if (m_prefix != null) {
+      builder.add(m_suffix);
     }
-
-    /**
-     * Sets the separator which should be inserted between the constituent query fragments.<p>
-     *
-     * @param separator the separator string
-     */
-    public void setSeparator(String separator) {
-
-        m_separator = separator;
-    }
-
-    /**
-     * Sets the suffix string (will be inserted after the other fragments).<p>
-     *
-     * @param suffix the suffix string
-     */
-    public void setSuffix(String suffix) {
-
-        m_suffix = suffix;
-    }
-
-    /**
-     * @see org.opencms.db.I_CmsQueryFragment#visit(org.opencms.db.CmsStatementBuilder)
-     */
-    public void visit(CmsStatementBuilder builder) {
-
-        boolean first = true;
-        if (m_prefix != null) {
-            builder.add(m_prefix);
-        }
-        for (I_CmsQueryFragment node : m_fragments) {
-            if (!first && (m_separator != null)) {
-                builder.add(m_separator, Collections.<Object> emptyList());
-            }
-            node.visit(builder);
-            first = false;
-
-        }
-        if (m_prefix != null) {
-            builder.add(m_suffix);
-        }
-    }
+  }
 }

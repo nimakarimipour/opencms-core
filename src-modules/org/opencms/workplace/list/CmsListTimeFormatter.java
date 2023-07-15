@@ -32,46 +32,51 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Simple formatter for time.<p>
+ * Simple formatter for time.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListTimeFormatter implements I_CmsListFormatter {
 
-    /** Time style. */
-    private int m_timeStyle;
+  /** Time style. */
+  private int m_timeStyle;
 
-    /**
-     * Default constructor.<p>
-     *
-     * Use medium style.<p>
-     */
-    public CmsListTimeFormatter() {
+  /**
+   * Default constructor.
+   *
+   * <p>Use medium style.
+   *
+   * <p>
+   */
+  public CmsListTimeFormatter() {
 
-        m_timeStyle = DateFormat.MEDIUM;
+    m_timeStyle = DateFormat.MEDIUM;
+  }
+
+  /**
+   * Customizable constructor.
+   *
+   * <p>
+   *
+   * @param timeStyle the style for the time part
+   * @see DateFormat
+   */
+  public CmsListTimeFormatter(int timeStyle) {
+
+    m_timeStyle = timeStyle;
+  }
+
+  /**
+   * @see org.opencms.workplace.list.I_CmsListFormatter#format(java.lang.Object, java.util.Locale)
+   */
+  public String format(Object data, Locale locale) {
+
+    if ((data == null) || !(data instanceof Date)) {
+      return "";
     }
-
-    /**
-     * Customizable constructor.<p>
-     *
-     * @param timeStyle the style for the time part
-     *
-     * @see DateFormat
-     */
-    public CmsListTimeFormatter(int timeStyle) {
-
-        m_timeStyle = timeStyle;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.I_CmsListFormatter#format(java.lang.Object, java.util.Locale)
-     */
-    public String format(Object data, Locale locale) {
-
-        if ((data == null) || !(data instanceof Date)) {
-            return "";
-        }
-        DateFormat timeFormat = DateFormat.getTimeInstance(m_timeStyle);
-        return timeFormat.format(data);
-    }
+    DateFormat timeFormat = DateFormat.getTimeInstance(m_timeStyle);
+    return timeFormat.format(data);
+  }
 }

@@ -32,19 +32,21 @@ import org.opencms.file.CmsObject;
 import org.opencms.file.types.I_CmsResourceType;
 
 /**
- * Checks whether types are enabled for Add/New dialogs.<p>
+ * Checks whether types are enabled for Add/New dialogs.
+ *
+ * <p>
  */
 public interface I_CmsResourceTypeEnabledCheck {
 
-    /**
-     * Check whether the given type is enabled for a dialog.<p>
-     *
-     * @param cms the cms context
-     * @param config the current sitemap config
-     * @param resType the resource type
-     *
-     * @return true if the type is enabled
-     */
-    public boolean checkEnabled(CmsObject cms, CmsADEConfigData config, I_CmsResourceType resType);
-
+  /**
+   * Check whether the given type is enabled for a dialog.
+   *
+   * <p>
+   *
+   * @param cms the cms context
+   * @param config the current sitemap config
+   * @param resType the resource type
+   * @return true if the type is enabled
+   */
+  public boolean checkEnabled(CmsObject cms, CmsADEConfigData config, I_CmsResourceType resType);
 }

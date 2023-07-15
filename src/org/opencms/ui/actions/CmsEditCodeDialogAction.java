@@ -27,6 +27,9 @@
 
 package org.opencms.ui.actions;
 
+import com.vaadin.navigator.View;
+import com.vaadin.ui.UI;
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.OpenCms;
@@ -41,62 +44,59 @@ import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 import org.opencms.workplace.explorer.Messages;
 
-import java.util.List;
-
-import com.vaadin.navigator.View;
-import com.vaadin.ui.UI;
-
 /**
- * The edit control code dialog action.<p>
+ * The edit control code dialog action.
+ *
+ * <p>
  */
 public class CmsEditCodeDialogAction extends A_CmsWorkplaceAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "editcode";
+  /** The action id. */
+  public static final String ACTION_ID = "editcode";
 
-    /** The action visibility. */
-    public static final I_CmsHasMenuItemVisibility VISIBILITY = new CmsMenuItemVisibilitySingleOnly(
-        CmsStandardVisibilityCheck.EDIT_CODE);
+  /** The action visibility. */
+  public static final I_CmsHasMenuItemVisibility VISIBILITY =
+      new CmsMenuItemVisibilitySingleOnly(CmsStandardVisibilityCheck.EDIT_CODE);
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        View view = CmsAppWorkplaceUi.get().getCurrentView();
-        if (view instanceof CmsAppView) {
-            ((CmsAppView)view).setCacheStatus(CacheStatus.cacheOnce);
-        }
-        CmsAppWorkplaceUi.get().showApp(
+    View view = CmsAppWorkplaceUi.get().getCurrentView();
+    if (view instanceof CmsAppView) {
+      ((CmsAppView) view).setCacheStatus(CacheStatus.cacheOnce);
+    }
+    CmsAppWorkplaceUi.get()
+        .showApp(
             OpenCms.getWorkplaceAppManager().getAppConfiguration("editor"),
             CmsEditor.getEditState(
                 context.getResources().get(0).getStructureId(),
                 true,
                 UI.getCurrent().getPage().getLocation().toString()));
-    }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
-    }
+    return ACTION_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
 
-        return VISIBILITY.getVisibility(cms, resources);
-    }
+    return VISIBILITY.getVisibility(cms, resources);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return Messages.GUI_EXPLORER_CONTEXT_EDITCONTROLFILE_0;
-    }
+    return Messages.GUI_EXPLORER_CONTEXT_EDITCONTROLFILE_0;
+  }
 }

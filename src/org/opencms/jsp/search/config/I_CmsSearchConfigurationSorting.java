@@ -32,18 +32,24 @@ import java.util.List;
 /** The interface a sort configuration must implement. */
 public interface I_CmsSearchConfigurationSorting {
 
-    /** Returns the sort configuration that is used as default.
-     * @return The sort configuration that is used as default.
-     */
-    I_CmsSearchConfigurationSortOption getDefaultSortOption();
+  /**
+   * Returns the sort configuration that is used as default.
+   *
+   * @return The sort configuration that is used as default.
+   */
+  I_CmsSearchConfigurationSortOption getDefaultSortOption();
 
-    /** Returns the configurations of all available sort options.
-     * @return The configurations of all available sort options.
-     */
-    List<I_CmsSearchConfigurationSortOption> getSortOptions();
+  /**
+   * Returns the configurations of all available sort options.
+   *
+   * @return The configurations of all available sort options.
+   */
+  List<I_CmsSearchConfigurationSortOption> getSortOptions();
 
-    /** Returns the request parameter that should be used to send the currently chosen sort option.
-     * @return The request parameter that should be used to send the currently chosen sort option.
-     */
-    String getSortParam();
+  /**
+   * Returns the request parameter that should be used to send the currently chosen sort option.
+   *
+   * @return The request parameter that should be used to send the currently chosen sort option.
+   */
+  String getSortParam();
 }

@@ -32,60 +32,76 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource.Shared;
 
 /**
- * Resource bundle to access CSS and image resources for tool-bar buttons.<p>
+ * Resource bundle to access CSS and image resources for tool-bar buttons.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsToolbarButtonLayoutBundle extends ClientBundle {
 
-    /** The button CSS. */
-    @Shared
-    public interface I_CmsToolbarButtonCss extends I_CmsLayoutBundle.I_CmsStateCss {
-
-        /**
-         *  Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        @ClassName("oc-edit-buttons-invisible")
-        String editButtonsInvisible();
-
-        /**
-         *  Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        @ClassName("oc-edit-buttons-visible")
-        String editButtonsVisible();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String elementInfoChanged();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String elementInfoUnchanged();
-    }
-
-    /** The bundle instance. */
-    I_CmsToolbarButtonLayoutBundle INSTANCE = GWT.create(I_CmsToolbarButtonLayoutBundle.class);
+  /** The button CSS. */
+  @Shared
+  public interface I_CmsToolbarButtonCss extends I_CmsLayoutBundle.I_CmsStateCss {
 
     /**
-     * The CSS constants bundle.<p>
+     * Access method.
      *
-     * @return a bundle of CSS constants
+     * <p>
+     *
+     * @return the CSS class name
      */
-    I_CmsConstantsBundle constants();
+    @ClassName("oc-edit-buttons-invisible")
+    String editButtonsInvisible();
 
     /**
-     * Access method.<p>
+     * Access method.
      *
-     * @return the button CSS
+     * <p>
+     *
+     * @return the CSS class name
      */
-    @Source("toolbarButton.gss")
-    I_CmsToolbarButtonCss toolbarButtonCss();
+    @ClassName("oc-edit-buttons-visible")
+    String editButtonsVisible();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String elementInfoChanged();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String elementInfoUnchanged();
+  }
+
+  /** The bundle instance. */
+  I_CmsToolbarButtonLayoutBundle INSTANCE = GWT.create(I_CmsToolbarButtonLayoutBundle.class);
+
+  /**
+   * The CSS constants bundle.
+   *
+   * <p>
+   *
+   * @return a bundle of CSS constants
+   */
+  I_CmsConstantsBundle constants();
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the button CSS
+   */
+  @Source("toolbarButton.gss")
+  I_CmsToolbarButtonCss toolbarButtonCss();
 }

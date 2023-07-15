@@ -27,85 +27,91 @@
 
 package org.opencms.ade.sitemap.client.control;
 
+import com.google.gwt.event.shared.GwtEvent;
 import org.opencms.ade.sitemap.shared.CmsClientSitemapEntry;
 
-import com.google.gwt.event.shared.GwtEvent;
-
 /**
- * Sitemap load event.<p>
+ * Sitemap load event.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.ade.sitemap.client.control.CmsSitemapController
  */
 public class CmsSitemapLoadEvent extends GwtEvent<I_CmsSitemapLoadHandler> {
 
-    /** Event type for sitemap change events. */
-    private static final Type<I_CmsSitemapLoadHandler> TYPE = new Type<I_CmsSitemapLoadHandler>();
+  /** Event type for sitemap change events. */
+  private static final Type<I_CmsSitemapLoadHandler> TYPE = new Type<I_CmsSitemapLoadHandler>();
 
-    /** The loaded sitemap entry. */
-    private CmsClientSitemapEntry m_entry;
+  /** The loaded sitemap entry. */
+  private CmsClientSitemapEntry m_entry;
 
-    /** Flag to indicate if the entry should be opened. */
-    private boolean m_setOpen;
+  /** Flag to indicate if the entry should be opened. */
+  private boolean m_setOpen;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param entry the entry that loaded its children
-     * @param setOpen if the entry should be opened
-     */
-    public CmsSitemapLoadEvent(CmsClientSitemapEntry entry, boolean setOpen) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param entry the entry that loaded its children
+   * @param setOpen if the entry should be opened
+   */
+  public CmsSitemapLoadEvent(CmsClientSitemapEntry entry, boolean setOpen) {
 
-        m_entry = entry;
-        m_setOpen = setOpen;
-    }
+    m_entry = entry;
+    m_setOpen = setOpen;
+  }
 
-    /**
-     * Gets the event type associated with change events.<p>
-     *
-     * @return the handler type
-     */
-    public static Type<I_CmsSitemapLoadHandler> getType() {
+  /**
+   * Gets the event type associated with change events.
+   *
+   * <p>
+   *
+   * @return the handler type
+   */
+  public static Type<I_CmsSitemapLoadHandler> getType() {
 
-        return TYPE;
-    }
+    return TYPE;
+  }
 
-    /**
-     * @see com.google.gwt.event.shared.GwtEvent#getAssociatedType()
-     */
-    @Override
-    public final Type<I_CmsSitemapLoadHandler> getAssociatedType() {
+  /** @see com.google.gwt.event.shared.GwtEvent#getAssociatedType() */
+  @Override
+  public final Type<I_CmsSitemapLoadHandler> getAssociatedType() {
 
-        return TYPE;
-    }
+    return TYPE;
+  }
 
-    /**
-     * Returns the entry.<p>
-     *
-     * @return the entry
-     */
-    public CmsClientSitemapEntry getEntry() {
+  /**
+   * Returns the entry.
+   *
+   * <p>
+   *
+   * @return the entry
+   */
+  public CmsClientSitemapEntry getEntry() {
 
-        return m_entry;
-    }
+    return m_entry;
+  }
 
-    /**
-     * Returns if the entry should be opened.<p>
-     *
-     * @return <code>true</code> if the entry should be opened
-     */
-    public boolean isSetOpen() {
+  /**
+   * Returns if the entry should be opened.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the entry should be opened
+   */
+  public boolean isSetOpen() {
 
-        return m_setOpen;
-    }
+    return m_setOpen;
+  }
 
-    /**
-     * @see com.google.gwt.event.shared.GwtEvent#dispatch(com.google.gwt.event.shared.EventHandler)
-     */
-    @Override
-    protected void dispatch(I_CmsSitemapLoadHandler handler) {
+  /**
+   * @see com.google.gwt.event.shared.GwtEvent#dispatch(com.google.gwt.event.shared.EventHandler)
+   */
+  @Override
+  protected void dispatch(I_CmsSitemapLoadHandler handler) {
 
-        handler.onLoad(this);
-    }
+    handler.onLoad(this);
+  }
 }

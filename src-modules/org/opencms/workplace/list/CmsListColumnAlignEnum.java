@@ -27,99 +27,105 @@
 
 package org.opencms.workplace.list;
 
-import org.opencms.main.CmsIllegalArgumentException;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import org.opencms.main.CmsIllegalArgumentException;
 
 /**
- * Wrapper class for
- * the different types of table cell horizontal alignments.<p>
+ * Wrapper class for the different types of table cell horizontal alignments.
  *
- * The possibles values are:<br>
+ * <p>The possibles values are:<br>
+ *
  * <ul>
- *   <li>LeftAlign</li>
- *   <li>CenterAlign</li>
- *   <li>RightAlign</li>
+ *   <li>LeftAlign
+ *   <li>CenterAlign
+ *   <li>RightAlign
  * </ul>
+ *
  * <p>
  *
  * @since 6.0.0
  */
 public final class CmsListColumnAlignEnum {
 
-    /** Constant for center alignment . */
-    public static final CmsListColumnAlignEnum ALIGN_CENTER = new CmsListColumnAlignEnum("center");
+  /** Constant for center alignment . */
+  public static final CmsListColumnAlignEnum ALIGN_CENTER = new CmsListColumnAlignEnum("center");
 
-    /** Constant for left alignment.  */
-    public static final CmsListColumnAlignEnum ALIGN_LEFT = new CmsListColumnAlignEnum("left");
+  /** Constant for left alignment. */
+  public static final CmsListColumnAlignEnum ALIGN_LEFT = new CmsListColumnAlignEnum("left");
 
-    /** Constant for right alignment.     */
-    public static final CmsListColumnAlignEnum ALIGN_RIGHT = new CmsListColumnAlignEnum("right");
+  /** Constant for right alignment. */
+  public static final CmsListColumnAlignEnum ALIGN_RIGHT = new CmsListColumnAlignEnum("right");
 
-    /** Array constant for all available align types. */
-    private static final CmsListColumnAlignEnum[] VALUE_ARRAY = {ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT};
+  /** Array constant for all available align types. */
+  private static final CmsListColumnAlignEnum[] VALUE_ARRAY = {
+    ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT
+  };
 
-    /** List of mode constants. */
-    public static final List<CmsListColumnAlignEnum> VALUES = Collections.unmodifiableList(Arrays.asList(VALUE_ARRAY));
+  /** List of mode constants. */
+  public static final List<CmsListColumnAlignEnum> VALUES =
+      Collections.unmodifiableList(Arrays.asList(VALUE_ARRAY));
 
-    /** Internal representation. */
-    private final String m_align;
+  /** Internal representation. */
+  private final String m_align;
 
-    /**
-     * Private constructor.<p>
-     *
-     * @param align html align value
-     */
-    private CmsListColumnAlignEnum(String align) {
+  /**
+   * Private constructor.
+   *
+   * <p>
+   *
+   * @param align html align value
+   */
+  private CmsListColumnAlignEnum(String align) {
 
-        m_align = align;
+    m_align = align;
+  }
+
+  /**
+   * Parses an string into an element of this enumeration.
+   *
+   * <p>
+   *
+   * @param value the align to parse
+   * @return the enumeration element
+   * @throws CmsIllegalArgumentException if the given value could not be matched against a <code>
+   *     CmsListColumnAlignEnum</code> type.
+   */
+  public static CmsListColumnAlignEnum valueOf(String value) throws CmsIllegalArgumentException {
+
+    Iterator<CmsListColumnAlignEnum> iter = VALUES.iterator();
+    while (iter.hasNext()) {
+      CmsListColumnAlignEnum target = iter.next();
+      if (value.equals(target.getAlign())) {
+        return target;
+      }
     }
-
-    /**
-     * Parses an string into an element of this enumeration.<p>
-     *
-     * @param value the align to parse
-     *
-     * @return the enumeration element
-     *
-     * @throws CmsIllegalArgumentException if the given value could not be matched against a
-     *         <code>CmsListColumnAlignEnum</code> type.
-     */
-    public static CmsListColumnAlignEnum valueOf(String value) throws CmsIllegalArgumentException {
-
-        Iterator<CmsListColumnAlignEnum> iter = VALUES.iterator();
-        while (iter.hasNext()) {
-            CmsListColumnAlignEnum target = iter.next();
-            if (value.equals(target.getAlign())) {
-                return target;
-            }
-        }
-        throw new CmsIllegalArgumentException(
-            Messages.get().container(
+    throw new CmsIllegalArgumentException(
+        Messages.get()
+            .container(
                 Messages.ERR_LIST_ENUM_PARSE_2,
                 new Integer(value),
                 CmsListColumnAlignEnum.class.getName()));
-    }
+  }
 
-    /**
-     * Returns the align string.<p>
-     *
-     * @return the align string
-     */
-    public String getAlign() {
+  /**
+   * Returns the align string.
+   *
+   * <p>
+   *
+   * @return the align string
+   */
+  public String getAlign() {
 
-        return m_align;
-    }
+    return m_align;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_align;
-    }
+    return m_align;
+  }
 }

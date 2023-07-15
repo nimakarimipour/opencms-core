@@ -30,31 +30,44 @@ package org.opencms.jsp.search.config;
 /** The interface a field facet configuration must implement. */
 public interface I_CmsSearchConfigurationFacetField extends I_CmsSearchConfigurationFacet {
 
-    /** Returns the index field that is used for the facet.
-     * @return The index field that is used for the facet.
-     */
-    String getField();
+  /**
+   * Returns the index field that is used for the facet.
+   *
+   * @return The index field that is used for the facet.
+   */
+  String getField();
 
-    /** Returns the maximal number of entries that should be shown in the facet.
-     * @return The maximal number of entries that should be shown in the facet. (Solr: facet.limit)
-     */
-    Integer getLimit();
+  /**
+   * Returns the maximal number of entries that should be shown in the facet.
+   *
+   * @return The maximal number of entries that should be shown in the facet. (Solr: facet.limit)
+   */
+  Integer getLimit();
 
-    /** Returns the prefix all entries of a facet must match.
-     * @return The prefix all entries of a facet must match. (Solr: facet.prefix)
-     */
-    String getPrefix();
+  /**
+   * Returns the prefix all entries of a facet must match.
+   *
+   * @return The prefix all entries of a facet must match. (Solr: facet.prefix)
+   */
+  String getPrefix();
 
-    /** Returns the sort order that should be used for the facet entries (either "count" or "index").
-     * @return The sort order that should be used for the facet entries (either "count" or "index"). (Solr: facet.sort)
-     */
-    SortOrder getSortOrder();
+  /**
+   * Returns the sort order that should be used for the facet entries (either "count" or "index").
+   *
+   * @return The sort order that should be used for the facet entries (either "count" or "index").
+   *     (Solr: facet.sort)
+   */
+  SortOrder getSortOrder();
 
-    /** Returns the (modified) filter query that should be send as filter query when a facet entry is checked.
-     * @param facetValue The modifier that should be applied the each filter query appended when checking a facet entry.
-     * The modifier can contain the macro "%(value)" that is substituted by the facet entry's value.
-     * If the modifier is <code>null</code>, the unmodified filter query is returned.
-     * @return The filter query's value.
-     */
-    String modifyFilterQuery(String facetValue);
+  /**
+   * Returns the (modified) filter query that should be send as filter query when a facet entry is
+   * checked.
+   *
+   * @param facetValue The modifier that should be applied the each filter query appended when
+   *     checking a facet entry. The modifier can contain the macro "%(value)" that is substituted
+   *     by the facet entry's value. If the modifier is <code>null</code>, the unmodified filter
+   *     query is returned.
+   * @return The filter query's value.
+   */
+  String modifyFilterQuery(String facetValue);
 }

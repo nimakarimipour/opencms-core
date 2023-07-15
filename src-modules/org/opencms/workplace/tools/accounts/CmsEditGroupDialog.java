@@ -27,66 +27,68 @@
 
 package org.opencms.workplace.tools.accounts;
 
-import org.opencms.file.CmsGroup;
-import org.opencms.jsp.CmsJspActionElement;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import org.opencms.file.CmsGroup;
+import org.opencms.jsp.CmsJspActionElement;
 
 /**
- * Dialog to create a new group or edit an existing group in the administration view.<p>
+ * Dialog to create a new group or edit an existing group in the administration view.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsEditGroupDialog extends A_CmsEditGroupDialog {
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsEditGroupDialog(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsEditGroupDialog(CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsEditGroupDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsEditGroupDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsEditGroupDialog#getListClass()
-     */
-    @Override
-    protected String getListClass() {
+  /** @see org.opencms.workplace.tools.accounts.A_CmsEditGroupDialog#getListClass() */
+  @Override
+  protected String getListClass() {
 
-        return CmsGroupsList.class.getName();
-    }
+    return CmsGroupsList.class.getName();
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsEditGroupDialog#getListRootPath()
-     */
-    @Override
-    protected String getListRootPath() {
+  /** @see org.opencms.workplace.tools.accounts.A_CmsEditGroupDialog#getListRootPath() */
+  @Override
+  protected String getListRootPath() {
 
-        return "/accounts/orgunit/groups";
-    }
+    return "/accounts/orgunit/groups";
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsEditGroupDialog#isEditable(org.opencms.file.CmsGroup)
-     */
-    @Override
-    protected boolean isEditable(CmsGroup group) {
+  /**
+   * @see
+   *     org.opencms.workplace.tools.accounts.A_CmsEditGroupDialog#isEditable(org.opencms.file.CmsGroup)
+   */
+  @Override
+  protected boolean isEditable(CmsGroup group) {
 
-        return true;
-    }
+    return true;
+  }
 }

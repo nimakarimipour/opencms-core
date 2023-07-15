@@ -28,16 +28,20 @@
 package org.opencms.monitor;
 
 /**
- * Describes an object that can be memory monitored.<p>
+ * Describes an object that can be memory monitored.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsMemoryMonitorable {
 
-    /**
-     * Returns the memory size of the object.<p>
-     *
-     * @return the memory size of the object
-     */
-    int getMemorySize();
+  /**
+   * Returns the memory size of the object.
+   *
+   * <p>
+   *
+   * @return the memory size of the object
+   */
+  int getMemorySize();
 }

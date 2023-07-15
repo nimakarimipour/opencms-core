@@ -27,6 +27,14 @@
 
 package org.opencms.ade.configuration.plugins;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 import org.opencms.relations.CmsLink;
@@ -35,212 +43,198 @@ import org.opencms.xml.content.I_CmsXmlContentLocation;
 import org.opencms.xml.content.I_CmsXmlContentValueLocation;
 import org.opencms.xml.types.CmsXmlVarLinkValue;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.commons.logging.Log;
-
 /**
  * Bean representing a template plugin.
  *
- * <p>Template plugins are links to external resources which are categorized into named groups and provided either by
- * formatters of elements in the current page, or by the current sitemap configuration. They can be programmatically
- * accessed by group name from the template. They also have an order attribute to control the order in which they wil be returned
- * (plugins will be sorted by descending order).
+ * <p>Template plugins are links to external resources which are categorized into named groups and
+ * provided either by formatters of elements in the current page, or by the current sitemap
+ * configuration. They can be programmatically accessed by group name from the template. They also
+ * have an order attribute to control the order in which they wil be returned (plugins will be
+ * sorted by descending order).
  */
 public class CmsTemplatePlugin {
 
-    /** Attribute node name. */
-    public static final String N_ATTRIBUTE = "Attribute";
+  /** Attribute node name. */
+  public static final String N_ATTRIBUTE = "Attribute";
 
-    /** Content value node name. */
-    public static final String N_GROUP = "Group";
+  /** Content value node name. */
+  public static final String N_GROUP = "Group";
 
-    /** Key node name. */
-    public static final String N_KEY = "Key";
+  /** Key node name. */
+  public static final String N_KEY = "Key";
 
-    /** Content value node name. */
-    public static final String N_ORDER = "Order";
+  /** Content value node name. */
+  public static final String N_ORDER = "Order";
 
-    /** XML node name. */
-    public static final String N_TARGET = "Target";
+  /** XML node name. */
+  public static final String N_TARGET = "Target";
 
-    /** Value node name. */
-    public static final String N_VALUE = "Value";
+  /** Value node name. */
+  public static final String N_VALUE = "Value";
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsTemplatePlugin.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsTemplatePlugin.class);
 
-    /** The map of attributes. */
-    private Map<String, String> m_attributes;
+  /** The map of attributes. */
+  private Map<String, String> m_attributes;
 
-    /** The plugin group. */
-    private String m_group;
+  /** The plugin group. */
+  private String m_group;
 
-    /** The order of the plugin. */
-    private int m_order;
+  /** The order of the plugin. */
+  private int m_order;
 
-    /** The origin of the plugin, for debugging purposes. */
-    private String m_origin;
+  /** The origin of the plugin, for debugging purposes. */
+  private String m_origin;
 
-    /** The plugin target. */
-    private CmsLinkInfo m_target;
+  /** The plugin target. */
+  private CmsLinkInfo m_target;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param target the plugin target
-     * @param group the plugin group
-     * @param order the plugin order
-     * @param origin the origin from which the plugin was read (for debugging)
-     * @param attributes the attribute map
-     */
-    public CmsTemplatePlugin(
-        CmsLinkInfo target,
-        String group,
-        int order,
-        String origin,
-        Map<String, String> attributes) {
+  /**
+   * Creates a new instance.
+   *
+   * @param target the plugin target
+   * @param group the plugin group
+   * @param order the plugin order
+   * @param origin the origin from which the plugin was read (for debugging)
+   * @param attributes the attribute map
+   */
+  public CmsTemplatePlugin(
+      CmsLinkInfo target, String group, int order, String origin, Map<String, String> attributes) {
 
-        m_target = target;
-        m_group = group;
-        m_order = order;
-        m_origin = origin;
-        m_attributes = Collections.unmodifiableMap(attributes);
+    m_target = target;
+    m_group = group;
+    m_order = order;
+    m_origin = origin;
+    m_attributes = Collections.unmodifiableMap(attributes);
+  }
+
+  /**
+   * Parses the template plugins.
+   *
+   * @param cms the CMS context
+   * @param parent the parent location under which the template plugins are located
+   * @param subName the node name for the template plugins
+   * @return the list of parsed template plugins
+   */
+  public static List<CmsTemplatePlugin> parsePlugins(
+      CmsObject cms, I_CmsXmlContentLocation parent, String subName) {
+
+    List<CmsTemplatePlugin> result = new ArrayList<>();
+    for (I_CmsXmlContentValueLocation pluginLoc : parent.getSubValues(subName)) {
+      try {
+        CmsTemplatePlugin plugin = parsePlugin(cms, pluginLoc);
+        if (plugin != null) {
+          result.add(plugin);
+        }
+      } catch (Exception e) {
+        LOG.error(
+            "Error reading plugin in "
+                + parent.getDocument().getFile().getRootPath()
+                + ": "
+                + e.getLocalizedMessage(),
+            e);
+      }
     }
+    return result;
+  }
 
-    /**
-     * Parses the template plugins.
-     *
-     * @param cms the CMS context
-     * @param parent the parent location under which the template plugins are located
-     * @param subName the node name for the template plugins
-     *
-     * @return the list of parsed template plugins
-     */
-    public static List<CmsTemplatePlugin> parsePlugins(CmsObject cms, I_CmsXmlContentLocation parent, String subName) {
+  /**
+   * Parses a template plugin from the XML content.
+   *
+   * @param cms the CMS context
+   * @param pluginLocation the location representing the template plugin
+   * @return the parsed template plugin
+   */
+  private static CmsTemplatePlugin parsePlugin(
+      CmsObject cms, I_CmsXmlContentValueLocation pluginLocation) {
 
-        List<CmsTemplatePlugin> result = new ArrayList<>();
-        for (I_CmsXmlContentValueLocation pluginLoc : parent.getSubValues(subName)) {
-            try {
-                CmsTemplatePlugin plugin = parsePlugin(cms, pluginLoc);
-                if (plugin != null) {
-                    result.add(plugin);
-                }
-            } catch (Exception e) {
-                LOG.error(
-                    "Error reading plugin in "
-                        + parent.getDocument().getFile().getRootPath()
-                        + ": "
-                        + e.getLocalizedMessage(),
-                    e);
-            }
-        }
-        return result;
+    String groupStr = pluginLocation.getSubValue(N_GROUP).getValue().getStringValue(cms).trim();
+    String origin = pluginLocation.getValue().getDocument().getFile().getRootPath();
+    I_CmsXmlContentValueLocation orderLoc = pluginLocation.getSubValue(N_ORDER);
+    int order = 0;
+    if (orderLoc != null) {
+      order = Integer.parseInt(orderLoc.getValue().getStringValue(cms).trim());
     }
+    CmsXmlVarLinkValue target =
+        (CmsXmlVarLinkValue) (pluginLocation.getSubValue(N_TARGET).getValue());
+    CmsLink link = target.getLink(cms);
 
-    /**
-     * Parses a template plugin from the XML content.
-     *
-     * @param cms the CMS context
-     * @param pluginLocation the location representing the template plugin
-     *
-     * @return the parsed template plugin
-     */
-    private static CmsTemplatePlugin parsePlugin(CmsObject cms, I_CmsXmlContentValueLocation pluginLocation) {
-
-        String groupStr = pluginLocation.getSubValue(N_GROUP).getValue().getStringValue(cms).trim();
-        String origin = pluginLocation.getValue().getDocument().getFile().getRootPath();
-        I_CmsXmlContentValueLocation orderLoc = pluginLocation.getSubValue(N_ORDER);
-        int order = 0;
-        if (orderLoc != null) {
-            order = Integer.parseInt(orderLoc.getValue().getStringValue(cms).trim());
-        }
-        CmsXmlVarLinkValue target = (CmsXmlVarLinkValue)(pluginLocation.getSubValue(N_TARGET).getValue());
-        CmsLink link = target.getLink(cms);
-
-        Map<String, String> attributes = new HashMap<>();
-        for (I_CmsXmlContentValueLocation attrLoc : pluginLocation.getSubValues(N_ATTRIBUTE)) {
-            String key = attrLoc.getSubValue(N_KEY).getValue().getStringValue(cms);
-            String value = attrLoc.getSubValue(N_VALUE).getValue().getStringValue(cms);
-            attributes.put(key, value);
-        }
-        CmsTemplatePlugin plugin = new CmsTemplatePlugin(
+    Map<String, String> attributes = new HashMap<>();
+    for (I_CmsXmlContentValueLocation attrLoc : pluginLocation.getSubValues(N_ATTRIBUTE)) {
+      String key = attrLoc.getSubValue(N_KEY).getValue().getStringValue(cms);
+      String value = attrLoc.getSubValue(N_VALUE).getValue().getStringValue(cms);
+      attributes.put(key, value);
+    }
+    CmsTemplatePlugin plugin =
+        new CmsTemplatePlugin(
             link != null ? link.toLinkInfo() : CmsLinkInfo.EMPTY,
             groupStr,
             order,
             origin,
             Collections.unmodifiableMap(attributes));
-        return plugin;
-    }
+    return plugin;
+  }
 
-    /**
-     * Gets the configured attributes of the plugin.
-     *
-     * @return the plugin attributes
-     */
-    public Map<String, String> getAttributes() {
+  /**
+   * Gets the configured attributes of the plugin.
+   *
+   * @return the plugin attributes
+   */
+  public Map<String, String> getAttributes() {
 
-        return Collections.unmodifiableMap(m_attributes);
-    }
+    return Collections.unmodifiableMap(m_attributes);
+  }
 
-    /**
-     * Gets the plugin group.
-     *
-     * @return the plugin group
-     */
-    public String getGroup() {
+  /**
+   * Gets the plugin group.
+   *
+   * @return the plugin group
+   */
+  public String getGroup() {
 
-        return m_group;
-    }
+    return m_group;
+  }
 
-    /**
-     * Returns the plugin order.
-     *
-     * <p>Plugins are sorted by descending order when retrieved in the template.
-     *
-     * @return the plugin order
-     */
-    public int getOrder() {
+  /**
+   * Returns the plugin order.
+   *
+   * <p>Plugins are sorted by descending order when retrieved in the template.
+   *
+   * @return the plugin order
+   */
+  public int getOrder() {
 
-        return m_order;
-    }
+    return m_order;
+  }
 
-    /**
-     * The plugin origin, for debugging purposes.
-     *
-     * @return the plugin origin
-     */
-    public String getOrigin() {
+  /**
+   * The plugin origin, for debugging purposes.
+   *
+   * @return the plugin origin
+   */
+  public String getOrigin() {
 
-        return m_origin;
-    }
+    return m_origin;
+  }
 
-    /**
-     * Gets the plugin target.
-     *
-     * <p>When the plugins for a given group are retrieved, duplicate targets will be removed, and the position
-     * of each target in the resulting list is decided by the highest order for that target.
-     *
-     * @return the target
-     */
-    public CmsLinkInfo getTarget() {
+  /**
+   * Gets the plugin target.
+   *
+   * <p>When the plugins for a given group are retrieved, duplicate targets will be removed, and the
+   * position of each target in the resulting list is decided by the highest order for that target.
+   *
+   * @return the target
+   */
+  public CmsLinkInfo getTarget() {
 
-        return m_target;
-    }
+    return m_target;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-
-    }
+    return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+  }
 }

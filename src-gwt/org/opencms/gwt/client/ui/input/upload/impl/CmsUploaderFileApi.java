@@ -27,30 +27,34 @@
 
 package org.opencms.gwt.client.ui.input.upload.impl;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import org.opencms.gwt.client.ui.input.upload.CmsFileInfo;
 import org.opencms.gwt.client.ui.input.upload.I_CmsUploadDialog;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArray;
-
 /**
- * File API implementation of the file uploader.<p>
+ * File API implementation of the file uploader.
+ *
+ * <p>
  */
 public class CmsUploaderFileApi extends CmsUploaderFormData {
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.upload.impl.CmsUploaderFormData#upload(java.lang.String, java.lang.String, boolean, java.lang.String, com.google.gwt.core.client.JsArray, com.google.gwt.core.client.JavaScriptObject, boolean, org.opencms.gwt.client.ui.input.upload.I_CmsUploadDialog)
-     */
-    @Override
-    protected native void upload(
-        String uploadUri,
-        String targetFolder,
-        boolean isRootPath,
-        String postCreateHandler,
-        JsArray<CmsFileInfo> filesToUpload,
-        JavaScriptObject filesToUnzip,
-        boolean keepFileNames,
-        I_CmsUploadDialog dialog) /*-{
+  /**
+   * @see org.opencms.gwt.client.ui.input.upload.impl.CmsUploaderFormData#upload(java.lang.String,
+   *     java.lang.String, boolean, java.lang.String, com.google.gwt.core.client.JsArray,
+   *     com.google.gwt.core.client.JavaScriptObject, boolean,
+   *     org.opencms.gwt.client.ui.input.upload.I_CmsUploadDialog)
+   */
+  @Override
+  protected native void upload(
+      String uploadUri,
+      String targetFolder,
+      boolean isRootPath,
+      String postCreateHandler,
+      JsArray<CmsFileInfo> filesToUpload,
+      JavaScriptObject filesToUnzip,
+      boolean keepFileNames,
+      I_CmsUploadDialog dialog) /*-{
         var self = this;
 
         function addPlainField(requestBody, fieldName, fieldValue) {
@@ -162,45 +166,53 @@ public class CmsUploaderFileApi extends CmsUploaderFormData {
         }
     }-*/;
 
-    /**
-     * Switches the error message depending on the given error code.<p>
-     *
-     * The error codes are defined in the W3C file API.<p>
-     *
-     * <a href="http://www.w3.org/TR/FileAPI/#dfn-fileerror">http://www.w3.org/TR/FileAPI/#dfn-fileerror</a>
-     *
-     * @param dialog the upload dialog
-     * @param errorCode the error code as String
-     */
-    private void onBrowserError(I_CmsUploadDialog dialog, String errorCode) {
+  /**
+   * Switches the error message depending on the given error code.
+   *
+   * <p>The error codes are defined in the W3C file API.
+   *
+   * <p><a
+   * href="http://www.w3.org/TR/FileAPI/#dfn-fileerror">http://www.w3.org/TR/FileAPI/#dfn-fileerror</a>
+   *
+   * @param dialog the upload dialog
+   * @param errorCode the error code as String
+   */
+  private void onBrowserError(I_CmsUploadDialog dialog, String errorCode) {
 
-        int code = new Integer(errorCode).intValue();
-        String errMsg = org.opencms.gwt.client.Messages.get().key(org.opencms.gwt.client.Messages.ERR_UPLOAD_BROWSER_0);
+    int code = new Integer(errorCode).intValue();
+    String errMsg =
+        org.opencms.gwt.client.Messages.get()
+            .key(org.opencms.gwt.client.Messages.ERR_UPLOAD_BROWSER_0);
 
-        switch (code) {
-            case 1: // NOT_FOUND_ERR
-                errMsg = org.opencms.gwt.client.Messages.get().key(
-                    org.opencms.gwt.client.Messages.ERR_UPLOAD_BROWSER_NOT_FOUND_0);
-                break;
-            case 2: // SECURITY_ERR
-                errMsg = org.opencms.gwt.client.Messages.get().key(
-                    org.opencms.gwt.client.Messages.ERR_UPLOAD_BROWSER_SECURITY_0);
-                break;
-            case 3: // ABORT_ERR
-                errMsg = org.opencms.gwt.client.Messages.get().key(
-                    org.opencms.gwt.client.Messages.ERR_UPLOAD_BROWSER_ABORT_ERR_0);
-                break;
-            case 4: // NOT_READABLE_ERR
-                errMsg = org.opencms.gwt.client.Messages.get().key(
-                    org.opencms.gwt.client.Messages.ERR_UPLOAD_BROWSER_NOT_READABLE_0);
-                break;
-            case 5: // ENCODING_ERR
-                errMsg = org.opencms.gwt.client.Messages.get().key(
-                    org.opencms.gwt.client.Messages.ERR_UPLOAD_BROWSER_ENCODING_0);
-                break;
-            default:
-                break;
-        }
-        dialog.showErrorReport(errMsg, null);
+    switch (code) {
+      case 1: // NOT_FOUND_ERR
+        errMsg =
+            org.opencms.gwt.client.Messages.get()
+                .key(org.opencms.gwt.client.Messages.ERR_UPLOAD_BROWSER_NOT_FOUND_0);
+        break;
+      case 2: // SECURITY_ERR
+        errMsg =
+            org.opencms.gwt.client.Messages.get()
+                .key(org.opencms.gwt.client.Messages.ERR_UPLOAD_BROWSER_SECURITY_0);
+        break;
+      case 3: // ABORT_ERR
+        errMsg =
+            org.opencms.gwt.client.Messages.get()
+                .key(org.opencms.gwt.client.Messages.ERR_UPLOAD_BROWSER_ABORT_ERR_0);
+        break;
+      case 4: // NOT_READABLE_ERR
+        errMsg =
+            org.opencms.gwt.client.Messages.get()
+                .key(org.opencms.gwt.client.Messages.ERR_UPLOAD_BROWSER_NOT_READABLE_0);
+        break;
+      case 5: // ENCODING_ERR
+        errMsg =
+            org.opencms.gwt.client.Messages.get()
+                .key(org.opencms.gwt.client.Messages.ERR_UPLOAD_BROWSER_ENCODING_0);
+        break;
+      default:
+        break;
     }
+    dialog.showErrorReport(errMsg, null);
+  }
 }

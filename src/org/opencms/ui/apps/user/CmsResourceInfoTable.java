@@ -27,6 +27,13 @@
 
 package org.opencms.ui.apps.user;
 
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.ui.Table;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsUser;
@@ -36,120 +43,120 @@ import org.opencms.ui.components.CmsResourceInfo;
 import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import com.vaadin.v7.data.Item;
-import com.vaadin.v7.data.util.IndexedContainer;
-import com.vaadin.v7.ui.Table;
-
 /**
- * Table to show resources with CmsResourceInfo elements.<p>
+ * Table to show resources with CmsResourceInfo elements.
+ *
+ * <p>
  */
 public class CmsResourceInfoTable extends Table {
 
-    /**vaadin serial id. */
-    private static final long serialVersionUID = 5999721724863889097L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 5999721724863889097L;
 
-    /**Table column. */
-    private static String PROP_ELEMENT = "element";
+  /** Table column. */
+  private static String PROP_ELEMENT = "element";
 
-    /**Indexed container. */
-    IndexedContainer m_container;
+  /** Indexed container. */
+  IndexedContainer m_container;
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param cms CmsObject
-     * @param userIDs user id
-     * @param groupIDs group id
-     */
-    public CmsResourceInfoTable(CmsObject cms, Set<CmsUUID> userIDs, Set<CmsUUID> groupIDs) {
-        List<CmsUser> user = new ArrayList<CmsUser>();
-        try {
-            for (CmsUUID group : groupIDs) {
-                user.addAll(cms.getUsersOfGroup(cms.readGroup(group).getName()));
-            }
-            Set<CmsUUID> principalIDs = new HashSet<CmsUUID>();
-            principalIDs.addAll(userIDs);
-            principalIDs.addAll(groupIDs);
-            Set<CmsResource> resources = new HashSet<CmsResource>();
-            for (CmsUUID id : principalIDs) {
-                resources.addAll(cms.getResourcesForPrincipal(id, null, false));
-            }
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param cms CmsObject
+   * @param userIDs user id
+   * @param groupIDs group id
+   */
+  public CmsResourceInfoTable(CmsObject cms, Set<CmsUUID> userIDs, Set<CmsUUID> groupIDs) {
+    List<CmsUser> user = new ArrayList<CmsUser>();
+    try {
+      for (CmsUUID group : groupIDs) {
+        user.addAll(cms.getUsersOfGroup(cms.readGroup(group).getName()));
+      }
+      Set<CmsUUID> principalIDs = new HashSet<CmsUUID>();
+      principalIDs.addAll(userIDs);
+      principalIDs.addAll(groupIDs);
+      Set<CmsResource> resources = new HashSet<CmsResource>();
+      for (CmsUUID id : principalIDs) {
+        resources.addAll(cms.getResourcesForPrincipal(id, null, false));
+      }
 
-            init(resources, user);
-        } catch (CmsException e) {
-            //
-        }
+      init(resources, user);
+    } catch (CmsException e) {
+      //
     }
+  }
 
-    /**
-     * public constructor.<p>
-     *
-     * @param resources to be shown
-     * @param user list of user
-     */
-    public CmsResourceInfoTable(Set<CmsResource> resources, List<CmsUser> user) {
-        addStyleName("o-no-padding");
-        m_container = new IndexedContainer();
-        m_container.addContainerProperty(PROP_ELEMENT, CmsResourceInfo.class, null);
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param resources to be shown
+   * @param user list of user
+   */
+  public CmsResourceInfoTable(Set<CmsResource> resources, List<CmsUser> user) {
+    addStyleName("o-no-padding");
+    m_container = new IndexedContainer();
+    m_container.addContainerProperty(PROP_ELEMENT, CmsResourceInfo.class, null);
 
-        for (CmsResource res : resources) {
-            Item item = m_container.addItem(res);
-            item.getItemProperty(PROP_ELEMENT).setValue(new CmsResourceInfo(res));
-        }
-        if (user != null) {
-            for (CmsUser us : user) {
-                Item item = m_container.addItem(us);
-                item.getItemProperty(PROP_ELEMENT).setValue(
-                    new CmsResourceInfo(
-                        us.getSimpleName(),
-                        us.getDescription(),
-                        new CmsCssIcon(OpenCmsTheme.ICON_USER)));
-            }
-        }
-        setColumnHeaderMode(ColumnHeaderMode.HIDDEN);
-        setContainerDataSource(m_container);
-        setVisibleColumns(PROP_ELEMENT);
-
+    for (CmsResource res : resources) {
+      Item item = m_container.addItem(res);
+      item.getItemProperty(PROP_ELEMENT).setValue(new CmsResourceInfo(res));
     }
-
-    /**
-     * Initializes the table.<p>
-     *
-     * @param resources List of resources
-     * @param user List user
-     */
-    private void init(Set<CmsResource> resources, List<CmsUser> user) {
-
-        addStyleName("o-no-padding");
-        m_container = new IndexedContainer();
-        m_container.addContainerProperty(PROP_ELEMENT, CmsResourceInfo.class, null);
-
-        for (CmsResource res : resources) {
-            Item item = m_container.addItem(res);
-            if (item != null) { //Item is null if resource is dependency of multiple groups/user to delete
-                item.getItemProperty(PROP_ELEMENT).setValue(new CmsResourceInfo(res));
-            }
-        }
-        if (user != null) {
-            for (CmsUser us : user) {
-                Item item = m_container.addItem(us);
-                if (item != null) { //Item is null if User is dependency of multiple groups to delete
-                    item.getItemProperty(PROP_ELEMENT).setValue(
-                        new CmsResourceInfo(
-                            us.getSimpleName(),
-                            us.getDescription(),
-                            new CmsCssIcon(OpenCmsTheme.ICON_USER)));
-                }
-            }
-        }
-        setColumnHeaderMode(ColumnHeaderMode.HIDDEN);
-        setContainerDataSource(m_container);
-        setVisibleColumns(PROP_ELEMENT);
-
+    if (user != null) {
+      for (CmsUser us : user) {
+        Item item = m_container.addItem(us);
+        item.getItemProperty(PROP_ELEMENT)
+            .setValue(
+                new CmsResourceInfo(
+                    us.getSimpleName(),
+                    us.getDescription(),
+                    new CmsCssIcon(OpenCmsTheme.ICON_USER)));
+      }
     }
+    setColumnHeaderMode(ColumnHeaderMode.HIDDEN);
+    setContainerDataSource(m_container);
+    setVisibleColumns(PROP_ELEMENT);
+  }
+
+  /**
+   * Initializes the table.
+   *
+   * <p>
+   *
+   * @param resources List of resources
+   * @param user List user
+   */
+  private void init(Set<CmsResource> resources, List<CmsUser> user) {
+
+    addStyleName("o-no-padding");
+    m_container = new IndexedContainer();
+    m_container.addContainerProperty(PROP_ELEMENT, CmsResourceInfo.class, null);
+
+    for (CmsResource res : resources) {
+      Item item = m_container.addItem(res);
+      if (item
+          != null) { // Item is null if resource is dependency of multiple groups/user to delete
+        item.getItemProperty(PROP_ELEMENT).setValue(new CmsResourceInfo(res));
+      }
+    }
+    if (user != null) {
+      for (CmsUser us : user) {
+        Item item = m_container.addItem(us);
+        if (item != null) { // Item is null if User is dependency of multiple groups to delete
+          item.getItemProperty(PROP_ELEMENT)
+              .setValue(
+                  new CmsResourceInfo(
+                      us.getSimpleName(),
+                      us.getDescription(),
+                      new CmsCssIcon(OpenCmsTheme.ICON_USER)));
+        }
+      }
+    }
+    setColumnHeaderMode(ColumnHeaderMode.HIDDEN);
+    setContainerDataSource(m_container);
+    setVisibleColumns(PROP_ELEMENT);
+  }
 }

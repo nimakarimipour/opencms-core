@@ -30,127 +30,148 @@ package org.opencms.monitor;
 import java.io.Serializable;
 
 /**
- * Data structure for dealing with memory status information.<p>
+ * Data structure for dealing with memory status information.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsMemoryStatus implements Serializable {
 
-    /**Default serial id. */
-    private static final long serialVersionUID = 1L;
+  /** Default serial id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The count used to calculate the average. */
-    private int m_count;
+  /** The count used to calculate the average. */
+  private int m_count;
 
-    /** The current free memory, in megabytes. */
-    private long m_freeMemory;
+  /** The current free memory, in megabytes. */
+  private long m_freeMemory;
 
-    /** The maximum available memory, in megabytes. */
-    private long m_maxMemory;
+  /** The maximum available memory, in megabytes. */
+  private long m_maxMemory;
 
-    /** The amount of memory currently availble to the JVM, in megabytes. */
-    private long m_totalMemory;
+  /** The amount of memory currently availble to the JVM, in megabytes. */
+  private long m_totalMemory;
 
-    /** The current memory usage, in percent. */
-    private long m_usage;
+  /** The current memory usage, in percent. */
+  private long m_usage;
 
-    /** The amount of memory currently used, in megabytes. */
-    private long m_usedMemory;
+  /** The amount of memory currently used, in megabytes. */
+  private long m_usedMemory;
 
-    /**
-     * Initializes a new instance of the memory status with the current memory values.<p>
-     */
-    public CmsMemoryStatus() {
+  /**
+   * Initializes a new instance of the memory status with the current memory values.
+   *
+   * <p>
+   */
+  public CmsMemoryStatus() {
 
-        update();
-    }
+    update();
+  }
 
-    /**
-     * Calculates the average memory consumption by updating the stored information with
-     * the provided current information.<p>
-     *
-     * @param currentStatus the memory status to update the average with
-     */
-    public void calculateAverage(CmsMemoryStatus currentStatus) {
+  /**
+   * Calculates the average memory consumption by updating the stored information with the provided
+   * current information.
+   *
+   * <p>
+   *
+   * @param currentStatus the memory status to update the average with
+   */
+  public void calculateAverage(CmsMemoryStatus currentStatus) {
 
-        int newCount = m_count + 1;
-        m_maxMemory = ((m_count * m_maxMemory) + currentStatus.getMaxMemory()) / newCount;
-        m_totalMemory = ((m_count * m_totalMemory) + currentStatus.getTotalMemory()) / newCount;
-        m_usedMemory = ((m_count * m_usedMemory) + currentStatus.getUsedMemory()) / newCount;
-        m_freeMemory = ((m_count * m_freeMemory) + currentStatus.getFreeMemory()) / newCount;
-        m_usage = (m_usedMemory * 100) / m_maxMemory;
-        m_count = newCount;
-    }
+    int newCount = m_count + 1;
+    m_maxMemory = ((m_count * m_maxMemory) + currentStatus.getMaxMemory()) / newCount;
+    m_totalMemory = ((m_count * m_totalMemory) + currentStatus.getTotalMemory()) / newCount;
+    m_usedMemory = ((m_count * m_usedMemory) + currentStatus.getUsedMemory()) / newCount;
+    m_freeMemory = ((m_count * m_freeMemory) + currentStatus.getFreeMemory()) / newCount;
+    m_usage = (m_usedMemory * 100) / m_maxMemory;
+    m_count = newCount;
+  }
 
-    /**
-     * Returns the count used to calculate the average.<p>
-     *
-     * @return the count used to calculate the average
-     */
-    public int getCount() {
+  /**
+   * Returns the count used to calculate the average.
+   *
+   * <p>
+   *
+   * @return the count used to calculate the average
+   */
+  public int getCount() {
 
-        return m_count;
-    }
+    return m_count;
+  }
 
-    /**
-     * Returns the current free memory, in megabytes.<p>
-     *
-     * @return the current free memory, in megabytes
-     */
-    public long getFreeMemory() {
+  /**
+   * Returns the current free memory, in megabytes.
+   *
+   * <p>
+   *
+   * @return the current free memory, in megabytes
+   */
+  public long getFreeMemory() {
 
-        return m_freeMemory;
-    }
+    return m_freeMemory;
+  }
 
-    /**
-     * Returns the maximum available memory, in megabytes.<p>
-     *
-     * @return the maximum available memory, in megabytes
-     */
-    public long getMaxMemory() {
+  /**
+   * Returns the maximum available memory, in megabytes.
+   *
+   * <p>
+   *
+   * @return the maximum available memory, in megabytes
+   */
+  public long getMaxMemory() {
 
-        return m_maxMemory;
-    }
+    return m_maxMemory;
+  }
 
-    /**
-     * Returns the amount of memory currently availble to the JVM, in megabytes.<p>
-     *
-     * @return the amount of memory currently availble to the JVM, in megabytes
-     */
-    public long getTotalMemory() {
+  /**
+   * Returns the amount of memory currently availble to the JVM, in megabytes.
+   *
+   * <p>
+   *
+   * @return the amount of memory currently availble to the JVM, in megabytes
+   */
+  public long getTotalMemory() {
 
-        return m_totalMemory;
-    }
+    return m_totalMemory;
+  }
 
-    /**
-     * Returns the current memory usage, in percent.<p>
-     *
-     * @return the current memory usage, in percent
-     */
-    public long getUsage() {
+  /**
+   * Returns the current memory usage, in percent.
+   *
+   * <p>
+   *
+   * @return the current memory usage, in percent
+   */
+  public long getUsage() {
 
-        return m_usage;
-    }
+    return m_usage;
+  }
 
-    /**
-     * Returns the amount of memory currently used, in megabytes.<p>
-     *
-     * @return the amount of memory currently used, in megabytes
-     */
-    public long getUsedMemory() {
+  /**
+   * Returns the amount of memory currently used, in megabytes.
+   *
+   * <p>
+   *
+   * @return the amount of memory currently used, in megabytes
+   */
+  public long getUsedMemory() {
 
-        return m_usedMemory;
-    }
+    return m_usedMemory;
+  }
 
-    /**
-     * Updates this memory status with the current memory information.<p>
-     */
-    public void update() {
+  /**
+   * Updates this memory status with the current memory information.
+   *
+   * <p>
+   */
+  public void update() {
 
-        m_maxMemory = Runtime.getRuntime().maxMemory() / 1048576;
-        m_totalMemory = Runtime.getRuntime().totalMemory() / 1048576;
-        m_usedMemory = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576;
-        m_freeMemory = m_maxMemory - m_usedMemory;
-        m_usage = (m_usedMemory * 100) / m_maxMemory;
-    }
+    m_maxMemory = Runtime.getRuntime().maxMemory() / 1048576;
+    m_totalMemory = Runtime.getRuntime().totalMemory() / 1048576;
+    m_usedMemory =
+        (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576;
+    m_freeMemory = m_maxMemory - m_usedMemory;
+    m_usage = (m_usedMemory * 100) / m_maxMemory;
+  }
 }

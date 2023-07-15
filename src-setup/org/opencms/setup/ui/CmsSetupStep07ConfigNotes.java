@@ -27,67 +27,64 @@
 
 package org.opencms.setup.ui;
 
-import org.opencms.setup.CmsSetupBean;
-import org.opencms.ui.A_CmsUI;
-import org.opencms.ui.CmsVaadinUtils;
-
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServletRequest;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.opencms.setup.CmsSetupBean;
+import org.opencms.ui.A_CmsUI;
+import org.opencms.ui.CmsVaadinUtils;
 
-/**
- * Setup step: Configuration notes.
- */
+/** Setup step: Configuration notes. */
 public class CmsSetupStep07ConfigNotes extends A_CmsSetupStep {
 
-    /** The forward button. */
-    private Button m_forwardButton;
+  /** The forward button. */
+  private Button m_forwardButton;
 
-    /** The main layout. */
-    private VerticalLayout m_mainLayout;
+  /** The main layout. */
+  private VerticalLayout m_mainLayout;
 
-    private VerticalLayout m_notesContainer;
+  private VerticalLayout m_notesContainer;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param context the setup context
-     */
-    public CmsSetupStep07ConfigNotes(I_SetupUiContext context) {
+  /**
+   * Creates a new instance.
+   *
+   * @param context the setup context
+   */
+  public CmsSetupStep07ConfigNotes(I_SetupUiContext context) {
 
-        super(context);
+    super(context);
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
-        String name = "browser_config.html";
-        Label label = htmlLabel(readSnippet(name));
-        label.setWidth("100%");
-        m_notesContainer.addComponent(label);
-        m_forwardButton.addClickListener(evt -> forward());
+    CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
+    String name = "browser_config.html";
+    Label label = htmlLabel(readSnippet(name));
+    label.setWidth("100%");
+    m_notesContainer.addComponent(label);
+    m_forwardButton.addClickListener(evt -> forward());
+  }
+
+  /** Proceed to next step. */
+  public void forward() {
+
+    m_context.getSetupBean().prepareStep10();
+    CmsSetupBean bean = m_context.getSetupBean();
+    VaadinServletRequest request = (VaadinServletRequest) (VaadinRequest.getCurrent());
+    String servletMapping = bean.getServletMapping();
+    String openLink = null;
+
+    if (!servletMapping.startsWith("/")) {
+      servletMapping = "/" + servletMapping;
     }
-
-    /**
-     * Proceed to next step.
-     */
-    public void forward() {
-
-        m_context.getSetupBean().prepareStep10();
-        CmsSetupBean bean = m_context.getSetupBean();
-        VaadinServletRequest request = (VaadinServletRequest)(VaadinRequest.getCurrent());
-        String servletMapping = bean.getServletMapping();
-        String openLink = null;
-
-        if (!servletMapping.startsWith("/")) {
-            servletMapping = "/" + servletMapping;
-        }
-        if (servletMapping.endsWith("/*")) {
-            // usually a mapping must be in the form "/opencms/*", cut off all slashes
-            servletMapping = servletMapping.substring(0, servletMapping.length() - 2);
-        }
-        openLink = request.getContextPath() + servletMapping + (bean.hasIndexHtml() ? "/index.html" : "/system/login");
-
-        A_CmsUI.get().getPage().setLocation(openLink);
+    if (servletMapping.endsWith("/*")) {
+      // usually a mapping must be in the form "/opencms/*", cut off all slashes
+      servletMapping = servletMapping.substring(0, servletMapping.length() - 2);
     }
+    openLink =
+        request.getContextPath()
+            + servletMapping
+            + (bean.hasIndexHtml() ? "/index.html" : "/system/login");
 
+    A_CmsUI.get().getPage().setLocation(openLink);
+  }
 }

@@ -27,6 +27,9 @@
 
 package org.opencms.ade.sitemap.client.toolbar;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
 import org.opencms.ade.sitemap.shared.CmsClientSitemapEntry;
@@ -41,87 +44,94 @@ import org.opencms.gwt.client.util.CmsMessages;
 import org.opencms.gwt.shared.CmsReturnLinkInfo;
 import org.opencms.util.CmsStringUtil;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-
 /**
- * The toolbar button for jumping to the last visited container page.<p>
+ * The toolbar button for jumping to the last visited container page.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsToolbarGoBackButton extends CmsPushButton {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param toolbar the toolbar instance
-     * @param controller the sitemap controller
-     */
-    public CmsToolbarGoBackButton(final CmsSitemapToolbar toolbar, final CmsSitemapController controller) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param toolbar the toolbar instance
+   * @param controller the sitemap controller
+   */
+  public CmsToolbarGoBackButton(
+      final CmsSitemapToolbar toolbar, final CmsSitemapController controller) {
 
-        setImageClass(I_CmsButton.ButtonData.BACK.getIconClass());
-        setTitle(I_CmsButton.ButtonData.BACK.getTitle());
-        setButtonStyle(ButtonStyle.FONT_ICON, null);
-        setSize(Size.big);
-        addClickHandler(new ClickHandler() {
+    setImageClass(I_CmsButton.ButtonData.BACK.getIconClass());
+    setTitle(I_CmsButton.ButtonData.BACK.getTitle());
+    setButtonStyle(ButtonStyle.FONT_ICON, null);
+    setSize(Size.big);
+    addClickHandler(
+        new ClickHandler() {
 
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          public void onClick(ClickEvent event) {
 
-                toolbar.onButtonActivation(CmsToolbarGoBackButton.this);
-                CmsToolbarGoBackButton.this.clearHoverState();
-                setDown(false);
-                setEnabled(false);
-                goBack(controller.getData().getReturnCode());
-            }
+            toolbar.onButtonActivation(CmsToolbarGoBackButton.this);
+            CmsToolbarGoBackButton.this.clearHoverState();
+            setDown(false);
+            setEnabled(false);
+            goBack(controller.getData().getReturnCode());
+          }
         });
+  }
+
+  /**
+   * Opens the publish dialog without changes check.
+   *
+   * <p>
+   *
+   * @param returnCode the return code previously passed to the sitemap editor
+   */
+  public static void goBack(final String returnCode) {
+
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(returnCode)) {
+      CmsRpcAction<CmsReturnLinkInfo> goBackAction =
+          new CmsRpcAction<CmsReturnLinkInfo>() {
+
+            @Override
+            public void execute() {
+
+              start(300, false);
+              CmsCoreProvider.getService().getLinkForReturnCode(returnCode, this);
+            }
+
+            @Override
+            protected void onResponse(CmsReturnLinkInfo result) {
+
+              stop(false);
+              if (result.getStatus() == CmsReturnLinkInfo.Status.ok) {
+                Window.Location.assign(result.getLink());
+              } else if (result.getStatus() == CmsReturnLinkInfo.Status.notfound) {
+                CmsMessages msg = org.opencms.ade.sitemap.client.Messages.get();
+                String title =
+                    msg.key(
+                        org.opencms.ade.sitemap.client.Messages.GUI_RETURN_PAGE_NOT_FOUND_TITLE_0);
+                String content =
+                    msg.key(
+                        org.opencms.ade.sitemap.client.Messages.GUI_RETURN_PAGE_NOT_FOUND_TEXT_0);
+                CmsAlertDialog alert = new CmsAlertDialog(title, content);
+                alert.center();
+              }
+            }
+          };
+
+      goBackAction.execute();
+    } else {
+      CmsSitemapController controller = CmsSitemapView.getInstance().getController();
+      CmsClientSitemapEntry root = controller.getData().getRoot();
+      String newPath = root.getSitePath();
+      controller.leaveEditor(newPath);
     }
-
-    /**
-     * Opens the publish dialog without changes check.<p>
-     *
-     * @param returnCode the return code previously passed to the sitemap editor
-     */
-    public static void goBack(final String returnCode) {
-
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(returnCode)) {
-            CmsRpcAction<CmsReturnLinkInfo> goBackAction = new CmsRpcAction<CmsReturnLinkInfo>() {
-
-                @Override
-                public void execute() {
-
-                    start(300, false);
-                    CmsCoreProvider.getService().getLinkForReturnCode(returnCode, this);
-                }
-
-                @Override
-                protected void onResponse(CmsReturnLinkInfo result) {
-
-                    stop(false);
-                    if (result.getStatus() == CmsReturnLinkInfo.Status.ok) {
-                        Window.Location.assign(result.getLink());
-                    } else if (result.getStatus() == CmsReturnLinkInfo.Status.notfound) {
-                        CmsMessages msg = org.opencms.ade.sitemap.client.Messages.get();
-                        String title = msg.key(
-                            org.opencms.ade.sitemap.client.Messages.GUI_RETURN_PAGE_NOT_FOUND_TITLE_0);
-                        String content = msg.key(
-                            org.opencms.ade.sitemap.client.Messages.GUI_RETURN_PAGE_NOT_FOUND_TEXT_0);
-                        CmsAlertDialog alert = new CmsAlertDialog(title, content);
-                        alert.center();
-                    }
-                }
-            };
-
-            goBackAction.execute();
-        } else {
-            CmsSitemapController controller = CmsSitemapView.getInstance().getController();
-            CmsClientSitemapEntry root = controller.getData().getRoot();
-            String newPath = root.getSitePath();
-            controller.leaveEditor(newPath);
-        }
-    }
-
+  }
 }

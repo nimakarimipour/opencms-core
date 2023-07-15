@@ -28,50 +28,50 @@
 package org.opencms.gwt.shared;
 
 /**
- * AutoBean interface that represents the configuration for the client-side CodeMirror editor widget.
+ * AutoBean interface that represents the configuration for the client-side CodeMirror editor
+ * widget.
  */
 public interface I_CmsCodeMirrorClientConfiguration {
 
-    /**
-     * Gets the height, in pixels.
-     *
-     *  @return the height (or null if no height was set)
-     */
-    public Integer getHeight();
+  /**
+   * Gets the height, in pixels.
+   *
+   * @return the height (or null if no height was set)
+   */
+  public Integer getHeight();
 
-    /**
-     * Gets the CodeMirror I18N phrases, as a JSON string.
-     *
-     * @return a JSON string containing the CodeMirror I18N phrases
-     */
-    public String getPhrasesJSON();
+  /**
+   * Gets the CodeMirror I18N phrases, as a JSON string.
+   *
+   * @return a JSON string containing the CodeMirror I18N phrases
+   */
+  public String getPhrasesJSON();
 
-    /**
-     * Gets the start mode.
-     *
-     * @return the start mode
-     */
-    public String getStartMode();
+  /**
+   * Gets the start mode.
+   *
+   * @return the start mode
+   */
+  public String getStartMode();
 
-    /**
-     * Sets the height in pixels.
-     *
-     * @param height the height in pixesls
-     */
-    public void setHeight(Integer height);
+  /**
+   * Sets the height in pixels.
+   *
+   * @param height the height in pixesls
+   */
+  public void setHeight(Integer height);
 
-    /**
-     * Sets the CodeMirror I18N phrases as a JSON string
-     *
-     * @param json a JSON string with the CodeMirror I18N phrases
-     */
-    public void setPhrasesJSON(String json);
+  /**
+   * Sets the CodeMirror I18N phrases as a JSON string
+   *
+   * @param json a JSON string with the CodeMirror I18N phrases
+   */
+  public void setPhrasesJSON(String json);
 
-    /**
-     * Sets the start mode.
-     *
-     * @param startMode the start mode
-     */
-    public void setStartMode(String startMode);
-
+  /**
+   * Sets the start mode.
+   *
+   * @param startMode the start mode
+   */
+  public void setStartMode(String startMode);
 }

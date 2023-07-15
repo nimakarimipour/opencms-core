@@ -27,90 +27,105 @@
 
 package org.opencms.ui.contextmenu;
 
+import java.util.List;
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.ui.I_CmsDialogContext;
 
-import java.util.List;
-import java.util.Locale;
-
 /**
- * Interface for workplace context menu items.<p>
+ * Interface for workplace context menu items.
  *
+ * <p>
  */
 public interface I_CmsContextMenuItem extends I_CmsHasMenuItemVisibility, I_CmsContextMenuAction {
 
-    /**
-     * Executes the context menu action given a dialog context.<p>
-     *
-     * @param context the dialog context
-     */
-    void executeAction(I_CmsDialogContext context);
+  /**
+   * Executes the context menu action given a dialog context.
+   *
+   * <p>
+   *
+   * @param context the dialog context
+   */
+  void executeAction(I_CmsDialogContext context);
 
-    /**
-     * Gets the id.<p>
-     *
-     * The id does not need to be unique among all context menu items which are in use in the system, but
-     * when multiple menu items with the same id are available for a given context menu, only one of them
-     * will be picked, based on the priority (a higher priority context menu item will be preferred to one with
-     * a lower priority.<p>
-     *
-     * @return the id
-     */
-    String getId();
+  /**
+   * Gets the id.
+   *
+   * <p>The id does not need to be unique among all context menu items which are in use in the
+   * system, but when multiple menu items with the same id are available for a given context menu,
+   * only one of them will be picked, based on the priority (a higher priority context menu item
+   * will be preferred to one with a lower priority.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  String getId();
 
-    /**
-     * Integer attribute which is used to order menu items.<p>
-     *
-     * Items with a higher 'order' value will appear after items with a lower order at the same tree level.<p>
-     *
-     * @return the order
-     */
-    float getOrder();
+  /**
+   * Integer attribute which is used to order menu items.
+   *
+   * <p>Items with a higher 'order' value will appear after items with a lower order at the same
+   * tree level.
+   *
+   * <p>
+   *
+   * @return the order
+   */
+  float getOrder();
 
-    /**
-     * Gets the id of the parent entry.<p>
-     *
-     * If this returns null, the context menu item will be inserted at the root level of the context menu,
-     * otherwise, it will be added I_CmsContextMenuActionas a sub-entry of the context menu entry with the given id (if such an
-     * entry exists; otherwise, the child entry will be ignored).
-     *
-     * @return the parent id
-     */
-    String getParentId();
+  /**
+   * Gets the id of the parent entry.
+   *
+   * <p>If this returns null, the context menu item will be inserted at the root level of the
+   * context menu, otherwise, it will be added I_CmsContextMenuActionas a sub-entry of the context
+   * menu entry with the given id (if such an entry exists; otherwise, the child entry will be
+   * ignored).
+   *
+   * @return the parent id
+   */
+  String getParentId();
 
-    /**
-     * Gets the priority.<p>
-     *
-     * If multiple context menu items with the same id are available for a menu, the one with the highest priority will be picked.<p>
-     *
-     * @return the priority
-     */
-    int getPriority();
+  /**
+   * Gets the priority.
+   *
+   * <p>If multiple context menu items with the same id are available for a menu, the one with the
+   * highest priority will be picked.
+   *
+   * <p>
+   *
+   * @return the priority
+   */
+  int getPriority();
 
-    /**
-     * Gets the title.<p>
-     *
-     * @param locale the locale
-     *
-     * @return the title
-     */
-    String getTitle(Locale locale);
+  /**
+   * Gets the title.
+   *
+   * <p>
+   *
+   * @param locale the locale
+   * @return the title
+   */
+  String getTitle(Locale locale);
 
-    /**
-     * Computes the visibility for this context menu items with the given CMS context and resources.<p>
-     *
-     * @param cms the current CMS context
-     * @param resources the resources for which the context menu is being opened
-     *
-     * @return the visibility of the context menu item
-     */
-    CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources);
+  /**
+   * Computes the visibility for this context menu items with the given CMS context and resources.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param resources the resources for which the context menu is being opened
+   * @return the visibility of the context menu item
+   */
+  CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources);
 
-    /**
-     * Returns true if this is a leaf item, i.e. an item which has no child items.<p>
-     *
-     * @return true if this is a leaf item
-     */
-    boolean isLeafItem();
+  /**
+   * Returns true if this is a leaf item, i.e. an item which has no child items.
+   *
+   * <p>
+   *
+   * @return true if this is a leaf item
+   */
+  boolean isLeafItem();
 }

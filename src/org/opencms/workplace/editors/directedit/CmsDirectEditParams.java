@@ -30,298 +30,344 @@ package org.opencms.workplace.editors.directedit;
 import org.opencms.xml.containerpage.CmsContainerElementBean;
 
 /**
- * A parameter set to start a direct edit element, for internal use only.<p>
+ * A parameter set to start a direct edit element, for internal use only.
+ *
+ * <p>
  *
  * @since 6.2.3
  */
 public class CmsDirectEditParams {
 
-    /** The collector name. */
-    protected String m_collectorName;
+  /** The collector name. */
+  protected String m_collectorName;
 
-    /** The collector params. */
-    protected String m_collectorParams;
+  /** The collector params. */
+  protected String m_collectorParams;
 
-    /** The selected element in the target content.*/
-    protected String m_element;
+  /** The selected element in the target content. */
+  protected String m_element;
 
-    /** The link to the current page useed when closing an editor or dialog. */
-    protected String m_linkForClose;
+  /** The link to the current page useed when closing an editor or dialog. */
+  protected String m_linkForClose;
 
-    /** The link to create a new VFS resource of the edited type. */
-    protected String m_linkForNew;
+  /** The link to create a new VFS resource of the edited type. */
+  protected String m_linkForNew;
 
-    /** The direct edit mode to use. */
-    protected CmsDirectEditMode m_mode;
+  /** The direct edit mode to use. */
+  protected CmsDirectEditMode m_mode;
 
-    /** The direct edit options to display buttons for. */
-    protected CmsDirectEditButtonSelection m_options;
+  /** The direct edit options to display buttons for. */
+  protected CmsDirectEditButtonSelection m_options;
 
-    /** The edit target VFS resource name. */
-    protected String m_resourceName;
+  /** The edit target VFS resource name. */
+  protected String m_resourceName;
 
-    /** The upload folder. */
-    protected String m_uploadFolder;
+  /** The upload folder. */
+  protected String m_uploadFolder;
 
-    /** The 'container' element (when using display tag). */
-    private CmsContainerElementBean m_containerElement;
+  /** The 'container' element (when using display tag). */
+  private CmsContainerElementBean m_containerElement;
 
-    /** ID to identify the contentload instance. */
-    private String m_id;
+  /** ID to identify the contentload instance. */
+  private String m_id;
 
-    /** The post-create handler class name. */
-    private String m_postCreateHandler;
+  /** The post-create handler class name. */
+  private String m_postCreateHandler;
 
-    /**
-     * Creates a new direct edit parameter set usually used for including the head HTML.<p>
-     *
-     * @param linkForClose the link to the current page useed when closing an editor or dialog
-     */
-    public CmsDirectEditParams(String linkForClose) {
+  /**
+   * Creates a new direct edit parameter set usually used for including the head HTML.
+   *
+   * <p>
+   *
+   * @param linkForClose the link to the current page useed when closing an editor or dialog
+   */
+  public CmsDirectEditParams(String linkForClose) {
 
-        m_resourceName = null;
-        m_options = null;
-        m_element = null;
-        m_linkForNew = null;
-        m_linkForClose = linkForClose;
-        m_mode = CmsDirectEditMode.TRUE;
-    }
+    m_resourceName = null;
+    m_options = null;
+    m_element = null;
+    m_linkForNew = null;
+    m_linkForClose = linkForClose;
+    m_mode = CmsDirectEditMode.TRUE;
+  }
 
-    /**
-     * Creates a new direct edit parameter set usually used within a XML content load loop for a <code>xmlcontent</code>.<p>
-     *
-     * @param resourceName the edit target VFS resource name
-     * @param options the direct edit options to display buttons for
-     * @param linkForNew the link to create a new VFS resource of the edited type
-     * @param mode the direct edit mode to use
-     */
-    public CmsDirectEditParams(
-        String resourceName,
-        CmsDirectEditButtonSelection options,
-        CmsDirectEditMode mode,
-        String linkForNew) {
+  /**
+   * Creates a new direct edit parameter set usually used within a XML content load loop for a
+   * <code>xmlcontent</code>.
+   *
+   * <p>
+   *
+   * @param resourceName the edit target VFS resource name
+   * @param options the direct edit options to display buttons for
+   * @param linkForNew the link to create a new VFS resource of the edited type
+   * @param mode the direct edit mode to use
+   */
+  public CmsDirectEditParams(
+      String resourceName,
+      CmsDirectEditButtonSelection options,
+      CmsDirectEditMode mode,
+      String linkForNew) {
 
-        m_resourceName = resourceName;
-        m_options = options;
-        m_element = null;
-        m_linkForNew = linkForNew;
-        m_linkForClose = null;
-        m_mode = mode != null ? mode : CmsDirectEditMode.TRUE;
-    }
+    m_resourceName = resourceName;
+    m_options = options;
+    m_element = null;
+    m_linkForNew = linkForNew;
+    m_linkForClose = null;
+    m_mode = mode != null ? mode : CmsDirectEditMode.TRUE;
+  }
 
-    /**
-     * Creates a new direct edit parameter set usually used within a <code>cms:include</code> call for a <code>xmlpage</code>.<p>
-     *
-     * @param resourceName the edit target VFS resource name
-     * @param element the selected element in the target content
-     */
-    public CmsDirectEditParams(String resourceName, String element) {
+  /**
+   * Creates a new direct edit parameter set usually used within a <code>cms:include</code> call for
+   * a <code>xmlpage</code>.
+   *
+   * <p>
+   *
+   * @param resourceName the edit target VFS resource name
+   * @param element the selected element in the target content
+   */
+  public CmsDirectEditParams(String resourceName, String element) {
 
-        m_resourceName = resourceName;
-        m_options = CmsDirectEditButtonSelection.EDIT;
-        m_element = element;
-        m_linkForNew = null;
-        m_linkForClose = null;
-        m_mode = CmsDirectEditMode.TRUE;
-    }
+    m_resourceName = resourceName;
+    m_options = CmsDirectEditButtonSelection.EDIT;
+    m_element = element;
+    m_linkForNew = null;
+    m_linkForClose = null;
+    m_mode = CmsDirectEditMode.TRUE;
+  }
 
-    /**
-     * Returns the direct edit buttons selection to display.<p>
-     *
-     * @return the direct edit buttons selection to display
-     */
-    public CmsDirectEditButtonSelection getButtonSelection() {
+  /**
+   * Returns the direct edit buttons selection to display.
+   *
+   * <p>
+   *
+   * @return the direct edit buttons selection to display
+   */
+  public CmsDirectEditButtonSelection getButtonSelection() {
 
-        return m_options;
-    }
+    return m_options;
+  }
 
-    /**
-     * Returns the collectorName.<p>
-     *
-     * @return the collectorName
-     */
-    public String getCollectorName() {
+  /**
+   * Returns the collectorName.
+   *
+   * <p>
+   *
+   * @return the collectorName
+   */
+  public String getCollectorName() {
 
-        return m_collectorName;
-    }
+    return m_collectorName;
+  }
 
-    /**
-     * Returns the collectorParams.<p>
-     *
-     * @return the collectorParams
-     */
-    public String getCollectorParams() {
+  /**
+   * Returns the collectorParams.
+   *
+   * <p>
+   *
+   * @return the collectorParams
+   */
+  public String getCollectorParams() {
 
-        return m_collectorParams;
-    }
+    return m_collectorParams;
+  }
 
-    /**
-     * Gets the container element (used for display formatters).<p>
-     *
-     * @return the container element
-     */
-    public CmsContainerElementBean getContainerElement() {
+  /**
+   * Gets the container element (used for display formatters).
+   *
+   * <p>
+   *
+   * @return the container element
+   */
+  public CmsContainerElementBean getContainerElement() {
 
-        return m_containerElement;
-    }
+    return m_containerElement;
+  }
 
-    /**
-     * Returns the selected element in the target content.<p>
-     *
-     * @return the selected element in the target content
-     */
-    public String getElement() {
+  /**
+   * Returns the selected element in the target content.
+   *
+   * <p>
+   *
+   * @return the selected element in the target content
+   */
+  public String getElement() {
 
-        return m_element;
-    }
+    return m_element;
+  }
 
-    /**
-     * Gets the ID for the contentload tag instance.<p>
-     *
-     * @return the id
-     */
-    public String getId() {
+  /**
+   * Gets the ID for the contentload tag instance.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  public String getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Returns the link to the current page useed when closing an editor or dialog.<p>
-     *
-     * @return the link to the current page useed when closing an editor or dialog
-     */
-    public String getLinkForClose() {
+  /**
+   * Returns the link to the current page useed when closing an editor or dialog.
+   *
+   * <p>
+   *
+   * @return the link to the current page useed when closing an editor or dialog
+   */
+  public String getLinkForClose() {
 
-        return m_linkForClose;
-    }
+    return m_linkForClose;
+  }
 
-    /**
-     * Returns the link to delete the selected VFS resource.<p>
-     *
-     * @return the link to delete the selected VFS resource
-     */
-    public String getLinkForDelete() {
+  /**
+   * Returns the link to delete the selected VFS resource.
+   *
+   * <p>
+   *
+   * @return the link to delete the selected VFS resource
+   */
+  public String getLinkForDelete() {
 
-        return "/system/workplace/commons/delete.jsp";
-    }
+    return "/system/workplace/commons/delete.jsp";
+  }
 
-    /**
-     * Returns the link to edit the selected VFS resource (element).<p>
-     *
-     * @return the link to edit the selected VFS resource (element)
-     */
-    public String getLinkForEdit() {
+  /**
+   * Returns the link to edit the selected VFS resource (element).
+   *
+   * <p>
+   *
+   * @return the link to edit the selected VFS resource (element)
+   */
+  public String getLinkForEdit() {
 
-        return "/system/workplace/editors/editor.jsp";
-    }
+    return "/system/workplace/editors/editor.jsp";
+  }
 
-    /**
-     * Returns the link to create a new VFS resource of the edited type.<p>
-     *
-     * @return the link to create a new VFS resource of the edited type
-     */
-    public String getLinkForNew() {
+  /**
+   * Returns the link to create a new VFS resource of the edited type.
+   *
+   * <p>
+   *
+   * @return the link to create a new VFS resource of the edited type
+   */
+  public String getLinkForNew() {
 
-        return m_linkForNew;
-    }
+    return m_linkForNew;
+  }
 
-    /**
-     * Returns the direct edit mode.<p>
-     *
-     * @return the direct edit mode
-     */
-    public CmsDirectEditMode getMode() {
+  /**
+   * Returns the direct edit mode.
+   *
+   * <p>
+   *
+   * @return the direct edit mode
+   */
+  public CmsDirectEditMode getMode() {
 
-        return m_mode;
-    }
+    return m_mode;
+  }
 
-    /**
-     * Gets the post-create handler class name.<p>
-     *
-     * @return the post-create handler class name
-     */
-    public String getPostCreateHandler() {
+  /**
+   * Gets the post-create handler class name.
+   *
+   * <p>
+   *
+   * @return the post-create handler class name
+   */
+  public String getPostCreateHandler() {
 
-        return m_postCreateHandler;
-    }
+    return m_postCreateHandler;
+  }
 
-    /**
-     * Returns the edit target VFS resource name.<p>
-     *
-     * @return the edit target VFS resource name
-     */
-    public String getResourceName() {
+  /**
+   * Returns the edit target VFS resource name.
+   *
+   * <p>
+   *
+   * @return the edit target VFS resource name
+   */
+  public String getResourceName() {
 
-        return m_resourceName;
-    }
+    return m_resourceName;
+  }
 
-    /**
-     * Gets the upload folder.
-     *
-     * @return the upload folder
-     */
-    public String getUploadFolder() {
+  /**
+   * Gets the upload folder.
+   *
+   * @return the upload folder
+   */
+  public String getUploadFolder() {
 
-        return m_uploadFolder;
-    }
+    return m_uploadFolder;
+  }
 
-    /**
-     * Sets the collectorName.<p>
-     *
-     * @param collectorName the collectorName to set
-     */
-    public void setCollectorName(String collectorName) {
+  /**
+   * Sets the collectorName.
+   *
+   * <p>
+   *
+   * @param collectorName the collectorName to set
+   */
+  public void setCollectorName(String collectorName) {
 
-        m_collectorName = collectorName;
-    }
+    m_collectorName = collectorName;
+  }
 
-    /**
-     * Sets the collectorParams.<p>
-     *
-     * @param collectorParams the collectorParams to set
-     */
-    public void setCollectorParams(String collectorParams) {
+  /**
+   * Sets the collectorParams.
+   *
+   * <p>
+   *
+   * @param collectorParams the collectorParams to set
+   */
+  public void setCollectorParams(String collectorParams) {
 
-        m_collectorParams = collectorParams;
-    }
+    m_collectorParams = collectorParams;
+  }
 
-    /**
-     * Sets the container element bean.<p>
-     *
-     * @param element the container element
-     */
-    public void setContainerElement(CmsContainerElementBean element) {
+  /**
+   * Sets the container element bean.
+   *
+   * <p>
+   *
+   * @param element the container element
+   */
+  public void setContainerElement(CmsContainerElementBean element) {
 
-        m_containerElement = element;
-    }
+    m_containerElement = element;
+  }
 
-    /**
-     * Sets the ID for the contentload tag instance.<p>
-     *
-     * @param id the id to set
-     */
-    public void setId(String id) {
+  /**
+   * Sets the ID for the contentload tag instance.
+   *
+   * <p>
+   *
+   * @param id the id to set
+   */
+  public void setId(String id) {
 
-        m_id = id;
-    }
+    m_id = id;
+  }
 
-    /**
-     * Sets the post-create handler class name.<p>
-     *
-     * @param postCreateHandler the post-create handler class name
-     */
-    public void setPostCreateHandler(String postCreateHandler) {
+  /**
+   * Sets the post-create handler class name.
+   *
+   * <p>
+   *
+   * @param postCreateHandler the post-create handler class name
+   */
+  public void setPostCreateHandler(String postCreateHandler) {
 
-        m_postCreateHandler = postCreateHandler;
-    }
+    m_postCreateHandler = postCreateHandler;
+  }
 
-    /**
-     * Sets the upload folder.
-     *
-     * @param uploadFolder the upload folder
-     */
-    public void setUploadFolder(String uploadFolder) {
+  /**
+   * Sets the upload folder.
+   *
+   * @param uploadFolder the upload folder
+   */
+  public void setUploadFolder(String uploadFolder) {
 
-        m_uploadFolder = uploadFolder;
-    }
+    m_uploadFolder = uploadFolder;
+  }
 }

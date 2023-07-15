@@ -27,90 +27,101 @@
 
 package org.opencms.gwt.client.ui.contextmenu;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import org.opencms.gwt.client.ui.CmsLockReportDialog;
 import org.opencms.gwt.client.ui.I_CmsToolbarHandler;
 import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
-
 /**
- * The lock report context menu command.<p>
+ * The lock report context menu command.
+ *
+ * <p>
  */
 public class CmsLockReport implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand {
 
-    /** The context menu handler for this command instance. */
-    protected I_CmsContextMenuHandler m_menuHandler;
+  /** The context menu handler for this command instance. */
+  protected I_CmsContextMenuHandler m_menuHandler;
 
-    /**
-     * Returns the context menu command according to
-     * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new CmsLockReport();
+    return new CmsLockReport();
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public void execute(
+      final CmsUUID structureId,
+      final I_CmsContextMenuHandler handler,
+      CmsContextMenuEntryBean bean) {
+
+    m_menuHandler = handler;
+    if (m_menuHandler instanceof I_CmsToolbarHandler) {
+      ((I_CmsToolbarHandler) m_menuHandler).deactivateCurrentButton();
     }
+    CmsLockReportDialog.openDialogForResource(
+        null,
+        structureId,
+        new Command() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public void execute(
-        final CmsUUID structureId,
-        final I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+          public void execute() {
 
-        m_menuHandler = handler;
-        if (m_menuHandler instanceof I_CmsToolbarHandler) {
-            ((I_CmsToolbarHandler)m_menuHandler).deactivateCurrentButton();
-        }
-        CmsLockReportDialog.openDialogForResource(null, structureId, new Command() {
+            onUnlock();
+            handler.refreshResource(structureId);
+          }
+        },
+        null);
+  }
 
-            public void execute() {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-                onUnlock();
-                handler.refreshResource(structureId);
+    return null;
+  }
 
-            }
-        }, null);
-    }
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget() */
+  public boolean hasItemWidget() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+    return false;
+  }
 
-        return null;
-    }
+  /**
+   * Executed on unlock of the current resource to reload the page.
+   *
+   * <p>
+   */
+  protected void onUnlock() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget()
-     */
-    public boolean hasItemWidget() {
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
 
-        return false;
-    }
-
-    /**
-     * Executed on unlock of the current resource to reload the page.<p>
-     */
-    protected void onUnlock() {
-
-        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-            public void execute() {
+              public void execute() {
 
                 String url = Window.Location.getHref();
                 m_menuHandler.leavePage(url);
-            }
-        });
-    }
-
+              }
+            });
+  }
 }

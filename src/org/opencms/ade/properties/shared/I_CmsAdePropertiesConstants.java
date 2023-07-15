@@ -28,16 +28,18 @@
 package org.opencms.ade.properties.shared;
 
 /**
- * Interface with constants for the ADE properties module.<p>
+ * Interface with constants for the ADE properties module.
+ *
+ * <p>
  */
 public interface I_CmsAdePropertiesConstants {
 
-    /** Parameter name for the resource path. */
-    String PARAM_RESOURCE = "resource";
+  /** Parameter name for the resource path. */
+  String PARAM_RESOURCE = "resource";
 
-    /** Meta name for the structure id. */
-    String META_RESOURCE = "org.opencms.ade.properties.resource";
+  /** Meta name for the structure id. */
+  String META_RESOURCE = "org.opencms.ade.properties.resource";
 
-    /** Meta name for the backlink. */
-    String META_BACKLINK = "org.opencms.ade.properties.backlink";
+  /** Meta name for the backlink. */
+  String META_BACKLINK = "org.opencms.ade.properties.backlink";
 }

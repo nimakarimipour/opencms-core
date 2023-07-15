@@ -27,35 +27,38 @@
 
 package org.opencms.ade.publish.client;
 
-import org.opencms.gwt.client.ui.css.I_CmsConstantsBundle;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import org.opencms.gwt.client.ui.css.I_CmsConstantsBundle;
 
 /**
+ * The layout bundle used for the publish module.
  *
- * The layout bundle used for the publish module.<p>
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsPublishLayoutBundle extends ClientBundle {
 
-    /** The instance of the layout bundle. */
-    I_CmsPublishLayoutBundle INSTANCE = GWT.create(I_CmsPublishLayoutBundle.class);
+  /** The instance of the layout bundle. */
+  I_CmsPublishLayoutBundle INSTANCE = GWT.create(I_CmsPublishLayoutBundle.class);
 
-    /**
-     * The accessor for the CSS constants bundle.<p>
-     *
-     * @return the constants bundle
-     */
-    I_CmsConstantsBundle constants();
+  /**
+   * The accessor for the CSS constants bundle.
+   *
+   * <p>
+   *
+   * @return the constants bundle
+   */
+  I_CmsConstantsBundle constants();
 
-    /**
-     * The accessor for the CSS bundle.<p>
-     *
-     * @return a css bundle
-     */
-    @Source("publish.gss")
-    I_CmsPublishCss publishCss();
-
+  /**
+   * The accessor for the CSS bundle.
+   *
+   * <p>
+   *
+   * @return a css bundle
+   */
+  @Source("publish.gss")
+  I_CmsPublishCss publishCss();
 }

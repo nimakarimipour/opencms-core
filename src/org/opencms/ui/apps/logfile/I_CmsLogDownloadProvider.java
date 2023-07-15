@@ -30,45 +30,44 @@ package org.opencms.ui.apps.logfile;
 import java.io.InputStream;
 import java.util.Set;
 
-/**
- * Provides log file download functionality.
- */
+/** Provides log file download functionality. */
 public interface I_CmsLogDownloadProvider {
 
-    /**
-     * Checks if the user can download a zip with all logs.
-     *
-     * @return true if the user can download a zip with all logs
-     */
-    boolean canDownloadAllLogs();
+  /**
+   * Checks if the user can download a zip with all logs.
+   *
+   * @return true if the user can download a zip with all logs
+   */
+  boolean canDownloadAllLogs();
 
-    /**
-     * Gets the prefix to use for the download file name.
-     *
-     * @return the prefix for the download
-     */
-    String getDownloadPrefix();
+  /**
+   * Gets the prefix to use for the download file name.
+   *
+   * @return the prefix for the download
+   */
+  String getDownloadPrefix();
 
-    /**
-     * Gets the set of log file paths.
-     *
-     * @return the set of log file paths
-     */
-    Set<String> getLogFiles();
+  /**
+   * Gets the set of log file paths.
+   *
+   * @return the set of log file paths
+   */
+  Set<String> getLogFiles();
 
-    /**
-     * Gets the input stream for the download with all logs (only works if canDownloadAllLogs() returned true)
-     *
-     * @return the input stream for the collected logs zip file
-     */
-    InputStream readAllLogs();
+  /**
+   * Gets the input stream for the download with all logs (only works if canDownloadAllLogs()
+   * returned true)
+   *
+   * @return the input stream for the collected logs zip file
+   */
+  InputStream readAllLogs();
 
-    /**
-     * Gets the input stream for the download of a single log file
-     *
-     * @param path the full path of the log file (must be a value in the set returned by getLogFiles())
-     *
-     * @return the input stream for the download
-     */
-    InputStream readLog(String path);
+  /**
+   * Gets the input stream for the download of a single log file
+   *
+   * @param path the full path of the log file (must be a value in the set returned by
+   *     getLogFiles())
+   * @return the input stream for the download
+   */
+  InputStream readLog(String path);
 }

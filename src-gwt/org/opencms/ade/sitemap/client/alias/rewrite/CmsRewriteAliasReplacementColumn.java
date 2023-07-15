@@ -27,87 +27,89 @@
 
 package org.opencms.ade.sitemap.client.alias.rewrite;
 
-import org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn;
-import org.opencms.ade.sitemap.client.alias.CmsAliasMessages;
-import org.opencms.gwt.shared.alias.CmsRewriteAliasTableRow;
-
-import java.util.Comparator;
-
 import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
 import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import java.util.Comparator;
+import org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn;
+import org.opencms.ade.sitemap.client.alias.CmsAliasMessages;
+import org.opencms.gwt.shared.alias.CmsRewriteAliasTableRow;
 
 /**
- * Column class for entering a new rewrite alias replacement string.<p>
+ * Column class for entering a new rewrite alias replacement string.
+ *
+ * <p>
  */
 public class CmsRewriteAliasReplacementColumn
-extends A_CmsAliasTableColumn<CmsRewriteAliasTableRow, String, CmsRewriteAliasTable>
-implements FieldUpdater<CmsRewriteAliasTableRow, String> {
+    extends A_CmsAliasTableColumn<CmsRewriteAliasTableRow, String, CmsRewriteAliasTable>
+    implements FieldUpdater<CmsRewriteAliasTableRow, String> {
 
-    /** Comparator used for sorting this column. */
-    private static Comparator<CmsRewriteAliasTableRow> comparator = Ordering.natural().onResultOf(
-        new Function<CmsRewriteAliasTableRow, String>() {
+  /** Comparator used for sorting this column. */
+  private static Comparator<CmsRewriteAliasTableRow> comparator =
+      Ordering.natural()
+          .onResultOf(
+              new Function<CmsRewriteAliasTableRow, String>() {
 
-            public String apply(CmsRewriteAliasTableRow row) {
+                public String apply(CmsRewriteAliasTableRow row) {
 
-                return row.getReplacementString();
-            }
-        });
+                  return row.getReplacementString();
+                }
+              });
 
-    /** The table which this column belongs to. */
-    private CmsRewriteAliasTable m_table;
+  /** The table which this column belongs to. */
+  private CmsRewriteAliasTable m_table;
 
-    /**
-     * Creates a new column instance.<p>
-     *
-     * @param table the table to which this column belongs to
-     */
-    public CmsRewriteAliasReplacementColumn(CmsRewriteAliasTable table) {
+  /**
+   * Creates a new column instance.
+   *
+   * <p>
+   *
+   * @param table the table to which this column belongs to
+   */
+  public CmsRewriteAliasReplacementColumn(CmsRewriteAliasTable table) {
 
-        super(new EditTextCell());
-        m_table = table;
-        setFieldUpdater(this);
-        setSortable(true);
+    super(new EditTextCell());
+    m_table = table;
+    setFieldUpdater(this);
+    setSortable(true);
+  }
 
-    }
+  /**
+   * @see
+   *     org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn#addToTable(com.google.gwt.user.cellview.client.CellTable)
+   */
+  @Override
+  public void addToTable(CmsRewriteAliasTable table) {
 
-    /**
-     * @see org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn#addToTable(com.google.gwt.user.cellview.client.CellTable)
-     */
-    @Override
-    public void addToTable(CmsRewriteAliasTable table) {
+    table.addColumn(this, CmsAliasMessages.messageColumnReplacement());
+    table.setColumnWidth(this, "300px");
+  }
 
-        table.addColumn(this, CmsAliasMessages.messageColumnReplacement());
-        table.setColumnWidth(this, "300px");
-    }
+  /** @see com.google.gwt.user.cellview.client.Column#getValue(java.lang.Object) */
+  @Override
+  public String getValue(CmsRewriteAliasTableRow row) {
 
-    /**
-     * @see com.google.gwt.user.cellview.client.Column#getValue(java.lang.Object)
-     */
-    @Override
-    public String getValue(CmsRewriteAliasTableRow row) {
+    return row.getReplacementString();
+  }
 
-        return row.getReplacementString();
-    }
+  /**
+   * @see
+   *     org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn#initSortHandler(com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler)
+   */
+  @Override
+  public void initSortHandler(ListHandler<CmsRewriteAliasTableRow> sortHandler) {
 
-    /**
-     * @see org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn#initSortHandler(com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler)
-     */
-    @Override
-    public void initSortHandler(ListHandler<CmsRewriteAliasTableRow> sortHandler) {
+    sortHandler.setComparator(this, comparator);
+  }
 
-        sortHandler.setComparator(this, comparator);
-    }
+  /**
+   * @see com.google.gwt.cell.client.FieldUpdater#update(int, java.lang.Object, java.lang.Object)
+   */
+  public void update(int index, CmsRewriteAliasTableRow object, String value) {
 
-    /**
-     * @see com.google.gwt.cell.client.FieldUpdater#update(int, java.lang.Object, java.lang.Object)
-     */
-    public void update(int index, CmsRewriteAliasTableRow object, String value) {
-
-        object.setReplacementString(value);
-        m_table.getController().editRewriteAlias(object);
-    }
-
+    object.setReplacementString(value);
+    m_table.getController().editRewriteAlias(object);
+  }
 }

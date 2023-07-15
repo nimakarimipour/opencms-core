@@ -27,6 +27,15 @@
 
 package org.opencms.ui.apps.sitemanager;
 
+import com.google.common.collect.Maps;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Panel;
+import com.vaadin.v7.ui.TextField;
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.site.CmsSiteManagerImpl;
@@ -35,145 +44,147 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.report.CmsReportWidget;
 
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
-import com.google.common.collect.Maps;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Panel;
-import com.vaadin.v7.ui.TextField;
-
-/**
- * Class for the Web server configuration form and execution of script.
- */
+/** Class for the Web server configuration form and execution of script. */
 public class CmsWebServerConfigForm extends CmsBasicDialog {
 
-    /**vaadin serial id. */
-    private static final long serialVersionUID = 6872090597762705805L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 6872090597762705805L;
 
-    /** The logger for this class. */
-    static Log LOG = CmsLog.getLog(CmsWebServerConfigForm.class.getName());
+  /** The logger for this class. */
+  static Log LOG = CmsLog.getLog(CmsWebServerConfigForm.class.getName());
 
-    /**Vaadin component. */
-    private Button m_cancel;
+  /** Vaadin component. */
+  private Button m_cancel;
 
-    /**Vaadin component. */
-    private Button m_ok;
+  /** Vaadin component. */
+  private Button m_ok;
 
-    /**Vaadin component. */
-    private TextField m_fieldConfigTemplate;
+  /** Vaadin component. */
+  private TextField m_fieldConfigTemplate;
 
-    /**Vaadin component. */
-    private TextField m_fieldLogging;
+  /** Vaadin component. */
+  private TextField m_fieldLogging;
 
-    /**Vaadin component. */
-    private TextField m_fieldPrefix;
+  /** Vaadin component. */
+  private TextField m_fieldPrefix;
 
-    /**Vaadin component. */
-    private TextField m_fieldScript;
+  /** Vaadin component. */
+  private TextField m_fieldScript;
 
-    /**Vaadin component. */
-    private TextField m_fieldSecureTemplate;
+  /** Vaadin component. */
+  private TextField m_fieldSecureTemplate;
 
-    /**Vaadin component. */
-    private TextField m_fieldTargetPath;
+  /** Vaadin component. */
+  private TextField m_fieldTargetPath;
 
-    /**Vaadin component. */
-    private Panel m_form;
+  /** Vaadin component. */
+  private Panel m_form;
 
-    /**Site Manager instance. */
-    private CmsSiteManager m_manager;
+  /** Site Manager instance. */
+  private CmsSiteManager m_manager;
 
-    /**Vaadin component. */
-    private Panel m_report;
+  /** Vaadin component. */
+  private Panel m_report;
 
-    /**Vaadin component. */
-    private FormLayout m_threadReport;
+  /** Vaadin component. */
+  private FormLayout m_threadReport;
 
-    /**
-     * Public Constructor.<p>
-     *
-     * @param manager sitemanager instance
-     */
-    public CmsWebServerConfigForm(CmsSiteManager manager) {
-        m_manager = manager;
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        m_report.setVisible(false);
-        m_cancel.addClickListener(new ClickListener() {
+  /**
+   * Public Constructor.
+   *
+   * <p>
+   *
+   * @param manager sitemanager instance
+   */
+  public CmsWebServerConfigForm(CmsSiteManager manager) {
+    m_manager = manager;
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    m_report.setVisible(false);
+    m_cancel.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 5105904639509364528L;
+          private static final long serialVersionUID = 5105904639509364528L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                cancel();
-            }
+            cancel();
+          }
         });
 
-        m_ok.addClickListener(new ClickListener() {
+    m_ok.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 7862341970072428829L;
+          private static final long serialVersionUID = 7862341970072428829L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                runScript();
-            }
+            runScript();
+          }
         });
 
-        Map<String, String> webconfig = OpenCms.getSiteManager().getWebServerConfig();
-        if (webconfig == null) {
-            webconfig = Maps.newHashMap();
-
-        }
-        m_fieldConfigTemplate.setValue(nullToEmpty(webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_CONFIGTEMPLATE)));
-        m_fieldSecureTemplate.setValue(nullToEmpty(webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_SECURETEMPLATE)));
-        m_fieldTargetPath.setValue(nullToEmpty(webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_TARGETPATH)));
-        m_fieldScript.setValue(nullToEmpty(webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_WEBSERVERSCRIPT)));
-        m_fieldLogging.setValue(nullToEmpty(webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_LOGGINGDIR)));
-        m_fieldPrefix.setValue(nullToEmpty(webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_FILENAMEPREFIX)));
+    Map<String, String> webconfig = OpenCms.getSiteManager().getWebServerConfig();
+    if (webconfig == null) {
+      webconfig = Maps.newHashMap();
     }
+    m_fieldConfigTemplate.setValue(
+        nullToEmpty(webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_CONFIGTEMPLATE)));
+    m_fieldSecureTemplate.setValue(
+        nullToEmpty(webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_SECURETEMPLATE)));
+    m_fieldTargetPath.setValue(
+        nullToEmpty(webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_TARGETPATH)));
+    m_fieldScript.setValue(
+        nullToEmpty(webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_WEBSERVERSCRIPT)));
+    m_fieldLogging.setValue(
+        nullToEmpty(webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_LOGGINGDIR)));
+    m_fieldPrefix.setValue(
+        nullToEmpty(webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_FILENAMEPREFIX)));
+  }
 
-    /**
-     * Cancels site edit.<p>
-     */
-    void cancel() {
+  /**
+   * Cancels site edit.
+   *
+   * <p>
+   */
+  void cancel() {
 
-        m_manager.closeDialogWindow(false);
+    m_manager.closeDialogWindow(false);
+  }
+
+  /**
+   * Converts null to an empty string and returns all other strings unchanged.
+   *
+   * <p>
+   *
+   * @param s the input string
+   * @return the output string
+   */
+  String nullToEmpty(String s) {
+
+    if (s == null) {
+      return "";
     }
+    return s;
+  }
 
-    /**
-     * Converts null to an empty string and returns all other strings unchanged.<p>
-     *
-     * @param s the input string
-     * @return the output string
-     */
-    String nullToEmpty(String s) {
+  /**
+   * Executes script.
+   *
+   * <p>
+   */
+  void runScript() {
 
-        if (s == null) {
-            return "";
-        }
-        return s;
+    // Show report field and hide form fields
+    m_report.setVisible(true);
+    m_form.setVisible(false);
+    m_ok.setEnabled(false);
 
+    Map<String, String> webconfig = OpenCms.getSiteManager().getWebServerConfig();
+    if (webconfig == null) {
+      webconfig = Maps.newHashMap();
     }
-
-    /**
-     * Executes script.<p>
-     */
-    void runScript() {
-
-        //Show report field and hide form fields
-        m_report.setVisible(true);
-        m_form.setVisible(false);
-        m_ok.setEnabled(false);
-
-        Map<String, String> webconfig = OpenCms.getSiteManager().getWebServerConfig();
-        if (webconfig == null) {
-            webconfig = Maps.newHashMap();
-        }
-        CmsSitesWebserverThread thread = new CmsSitesWebserverThread(
+    CmsSitesWebserverThread thread =
+        new CmsSitesWebserverThread(
             A_CmsUI.getCmsObject(),
             webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_TARGETPATH),
             webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_CONFIGTEMPLATE),
@@ -181,9 +192,9 @@ public class CmsWebServerConfigForm extends CmsBasicDialog {
             webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_FILENAMEPREFIX),
             webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_LOGGINGDIR),
             webconfig.get(CmsSiteManagerImpl.WEB_SERVER_CONFIG_SECURETEMPLATE));
-        thread.start();
+    thread.start();
 
-        CmsReportWidget report = new CmsReportWidget(thread);
-        m_threadReport.addComponent(report);
-    }
+    CmsReportWidget report = new CmsReportWidget(thread);
+    m_threadReport.addComponent(report);
+  }
 }

@@ -27,58 +27,64 @@
 
 package org.opencms.gwt.client.ui.history;
 
+import java.util.Map;
 import org.opencms.gwt.client.Messages;
 import org.opencms.gwt.client.ui.input.CmsComboBox;
 import org.opencms.gwt.client.ui.input.CmsLabelSelectCell;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.Map;
-
 /**
- * A combo box class for the property dialog.<p>
+ * A combo box class for the property dialog.
+ *
+ * <p>
  */
 public class CmsPropertyComboBox extends CmsComboBox {
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param options the widget options
-     */
-    public CmsPropertyComboBox(Map<String, String> options) {
-        super(options);
-    }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param options the widget options
+   */
+  public CmsPropertyComboBox(Map<String, String> options) {
+    super(options);
+  }
 
-    /**
-     * Initializes this class.<p>
-     */
-    public static void initClass() {
+  /**
+   * Initializes this class.
+   *
+   * <p>
+   */
+  public static void initClass() {
 
-        // do nothing, we just have to implement this method because the superclass inherits the I_CmsHasInit interface
-    }
+    // do nothing, we just have to implement this method because the superclass inherits the
+    // I_CmsHasInit interface
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.CmsSelectBox#updateCell(org.opencms.gwt.client.ui.input.CmsLabelSelectCell)
-     */
-    @Override
-    public void updateCell(CmsLabelSelectCell cell) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.CmsSelectBox#updateCell(org.opencms.gwt.client.ui.input.CmsLabelSelectCell)
+   */
+  @Override
+  public void updateCell(CmsLabelSelectCell cell) {
 
-        String value = cell.getValue();
-        if ("".equals(value)) {
-            if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_ghostValue)) {
-                String unselected = Messages.get().key(Messages.GUI_SELECTBOX_UNSELECTED_0);
-                cell.setText(unselected);
-                cell.setOpenerText(unselected);
-            } else {
-                CmsLabelSelectCell ghostCell = m_selectCells.get(m_ghostValue);
-                String ghostValueMessage = m_ghostValue;
-                if (ghostCell != null) {
-                    ghostValueMessage = ghostCell.getText();
-                }
-                String inheritMsg = Messages.get().key(Messages.GUI_SELECTBOX_INHERIT_1, ghostValueMessage);
-                cell.setText(inheritMsg);
-                cell.setOpenerText(ghostValueMessage);
-            }
+    String value = cell.getValue();
+    if ("".equals(value)) {
+      if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_ghostValue)) {
+        String unselected = Messages.get().key(Messages.GUI_SELECTBOX_UNSELECTED_0);
+        cell.setText(unselected);
+        cell.setOpenerText(unselected);
+      } else {
+        CmsLabelSelectCell ghostCell = m_selectCells.get(m_ghostValue);
+        String ghostValueMessage = m_ghostValue;
+        if (ghostCell != null) {
+          ghostValueMessage = ghostCell.getText();
         }
+        String inheritMsg = Messages.get().key(Messages.GUI_SELECTBOX_INHERIT_1, ghostValueMessage);
+        cell.setText(inheritMsg);
+        cell.setOpenerText(ghostValueMessage);
+      }
     }
-
+  }
 }

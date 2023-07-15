@@ -31,32 +31,37 @@ import org.opencms.gwt.A_CmsClientMessageBundle;
 import org.opencms.gwt.I_CmsClientMessageBundle;
 
 /**
- * Client message class for the org.opencms.ade.postupload module.<p>
+ * Client message class for the org.opencms.ade.postupload module.
+ *
+ * <p>
  */
 public final class ClientMessages extends A_CmsClientMessageBundle {
 
-    /** Internal instance. */
-    private static ClientMessages INSTANCE;
+  /** Internal instance. */
+  private static ClientMessages INSTANCE;
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private ClientMessages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private ClientMessages() {
 
-        // empty
+    // empty
+  }
+
+  /**
+   * Returns the client message instance.
+   *
+   * <p>
+   *
+   * @return the client message instance
+   */
+  public static I_CmsClientMessageBundle get() {
+
+    if (INSTANCE == null) {
+      INSTANCE = new ClientMessages();
     }
-
-    /**
-     * Returns the client message instance.<p>
-     *
-     * @return the client message instance
-     */
-    public static I_CmsClientMessageBundle get() {
-
-        if (INSTANCE == null) {
-            INSTANCE = new ClientMessages();
-        }
-        return INSTANCE;
-    }
-
+    return INSTANCE;
+  }
 }

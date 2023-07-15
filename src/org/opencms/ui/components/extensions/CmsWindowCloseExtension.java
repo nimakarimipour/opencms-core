@@ -27,64 +27,69 @@
 
 package org.opencms.ui.components.extensions;
 
+import com.vaadin.server.AbstractExtension;
+import com.vaadin.ui.UI;
+import java.util.ArrayList;
+import java.util.List;
 import org.opencms.ui.components.I_CmsWindowCloseListener;
 import org.opencms.ui.shared.rpc.I_CmsWindowCloseServerRpc;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.vaadin.server.AbstractExtension;
-import com.vaadin.ui.UI;
-
 /**
- * Makes window close events available on the server side.<p>
+ * Makes window close events available on the server side.
+ *
+ * <p>
  */
-public class CmsWindowCloseExtension extends AbstractExtension implements I_CmsWindowCloseServerRpc {
+public class CmsWindowCloseExtension extends AbstractExtension
+    implements I_CmsWindowCloseServerRpc {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 3978957151754705873L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 3978957151754705873L;
 
-    /** The registered window close listeners. */
-    private List<I_CmsWindowCloseListener> m_listeners;
+  /** The registered window close listeners. */
+  private List<I_CmsWindowCloseListener> m_listeners;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param ui the UI to extend
-     */
-    public CmsWindowCloseExtension(UI ui) {
-        extend(ui);
-        registerRpc(this);
-        m_listeners = new ArrayList<I_CmsWindowCloseListener>();
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param ui the UI to extend
+   */
+  public CmsWindowCloseExtension(UI ui) {
+    extend(ui);
+    registerRpc(this);
+    m_listeners = new ArrayList<I_CmsWindowCloseListener>();
+  }
+
+  /**
+   * Adds a window close listener.
+   *
+   * <p>
+   *
+   * @param listener the listener to add
+   */
+  public void addWindowCloseListener(I_CmsWindowCloseListener listener) {
+
+    m_listeners.add(listener);
+  }
+
+  /**
+   * Removes the given window close listener.
+   *
+   * <p>
+   *
+   * @param listener the listener to remove
+   */
+  public void removeWindowCloseListener(I_CmsWindowCloseListener listener) {
+
+    m_listeners.remove(listener);
+  }
+
+  /** @see org.opencms.ui.shared.rpc.I_CmsWindowCloseServerRpc#windowClosed(java.lang.String) */
+  public void windowClosed(String syncToken) {
+
+    for (I_CmsWindowCloseListener listener : m_listeners) {
+      listener.onWindowClose();
     }
-
-    /**
-     * Adds a window close listener.<p>
-     *
-     * @param listener the listener to add
-     */
-    public void addWindowCloseListener(I_CmsWindowCloseListener listener) {
-
-        m_listeners.add(listener);
-    }
-
-    /**
-     * Removes the given window close listener.<p>
-     *
-     * @param listener the listener to remove
-     */
-    public void removeWindowCloseListener(I_CmsWindowCloseListener listener) {
-
-        m_listeners.remove(listener);
-    }
-
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsWindowCloseServerRpc#windowClosed(java.lang.String)
-     */
-    public void windowClosed(String syncToken) {
-
-        for (I_CmsWindowCloseListener listener : m_listeners) {
-            listener.onWindowClose();
-        }
-    }
+  }
 }

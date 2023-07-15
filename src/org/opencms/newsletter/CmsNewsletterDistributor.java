@@ -27,51 +27,49 @@
 
 package org.opencms.newsletter;
 
+import java.util.Iterator;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.mail.Email;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.mail.Email;
-
 /**
- *
  * A content distributor that sends the extracted xmlcontent data to the recepient via email.
- * <p>
  *
- * Class to send a newsletter to a number of CmsNewsletterRecipients
+ * <p>Class to send a newsletter to a number of CmsNewsletterRecipients
+ *
  * <p>
  *
  * @since 6.0.2
- *
  */
 public class CmsNewsletterDistributor {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsNewsletterDistributor.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsNewsletterDistributor.class);
 
-    /**
-     * Sends a {@link I_CmsNewsletter} to a list of {@link I_CmsNewsletterRecipient} objects.<p>
-     *
-     * @param recipients a list of CmsNewsletterRecipient objects
-     * @param newsletter the newsletter to be distributed
-     * @param cms the CmsObject
-     */
-    public void distribute(CmsObject cms, List<I_CmsNewsletterRecipient> recipients, I_CmsNewsletter newsletter) {
+  /**
+   * Sends a {@link I_CmsNewsletter} to a list of {@link I_CmsNewsletterRecipient} objects.
+   *
+   * <p>
+   *
+   * @param recipients a list of CmsNewsletterRecipient objects
+   * @param newsletter the newsletter to be distributed
+   * @param cms the CmsObject
+   */
+  public void distribute(
+      CmsObject cms, List<I_CmsNewsletterRecipient> recipients, I_CmsNewsletter newsletter) {
 
-        Iterator<I_CmsNewsletterRecipient> recipientsIterator = recipients.iterator();
-        while (recipientsIterator.hasNext()) {
-            I_CmsNewsletterRecipient recipient = recipientsIterator.next();
-            try {
-                Email mail = newsletter.getEmail(cms, recipient);
-                mail.addTo(recipient.getEmail(), recipient.getFullName());
-                mail.send();
-            } catch (Exception e) {
-                LOG.error(e.getMessage(), e);
-            }
-        }
+    Iterator<I_CmsNewsletterRecipient> recipientsIterator = recipients.iterator();
+    while (recipientsIterator.hasNext()) {
+      I_CmsNewsletterRecipient recipient = recipientsIterator.next();
+      try {
+        Email mail = newsletter.getEmail(cms, recipient);
+        mail.addTo(recipient.getEmail(), recipient.getFullName());
+        mail.send();
+      } catch (Exception e) {
+        LOG.error(e.getMessage(), e);
+      }
     }
-
+  }
 }

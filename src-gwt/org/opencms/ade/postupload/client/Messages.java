@@ -30,68 +30,75 @@ package org.opencms.ade.postupload.client;
 import org.opencms.gwt.client.util.CmsMessages;
 
 /**
- * Convenience class to access the localized messages of this OpenCms package.<p>
+ * Convenience class to access the localized messages of this OpenCms package.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public final class Messages {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_DIALOG_BUTTON_ADVANCED_0 = "GUI_DIALOG_BUTTON_ADVANCED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_DIALOG_BUTTON_ADVANCED_0 = "GUI_DIALOG_BUTTON_ADVANCED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_DIALOG_BUTTON_BACK_0 = "GUI_DIALOG_BUTTON_BACK_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_DIALOG_BUTTON_BACK_0 = "GUI_DIALOG_BUTTON_BACK_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_DIALOG_BUTTON_CLOSE_0 = "GUI_DIALOG_BUTTON_CLOSE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_DIALOG_BUTTON_CLOSE_0 = "GUI_DIALOG_BUTTON_CLOSE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_DIALOG_BUTTON_NEXT_0 = "GUI_DIALOG_BUTTON_NEXT_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_DIALOG_BUTTON_NEXT_0 = "GUI_DIALOG_BUTTON_NEXT_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_DIALOG_INFO_FIRST_RESOURCE_0 = "GUI_DIALOG_INFO_FIRST_RESOURCE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_DIALOG_INFO_FIRST_RESOURCE_0 = "GUI_DIALOG_INFO_FIRST_RESOURCE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_DIALOG_INFO_LAST_RESOURCE_0 = "GUI_DIALOG_INFO_LAST_RESOURCE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_DIALOG_INFO_LAST_RESOURCE_0 = "GUI_DIALOG_INFO_LAST_RESOURCE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_DIALOG_TITLE_0 = "GUI_DIALOG_TITLE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_DIALOG_TITLE_0 = "GUI_DIALOG_TITLE_0";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.ade.postupload.clientmessages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME = "org.opencms.ade.postupload.clientmessages";
 
-    /** Static instance member. */
-    private static CmsMessages INSTANCE;
+  /** Static instance member. */
+  private static CmsMessages INSTANCE;
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
+    // hide the constructor
+  }
+
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static CmsMessages get() {
+
+    if (INSTANCE == null) {
+      INSTANCE = new CmsMessages(BUNDLE_NAME);
     }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns an instance of this localized message accessor.<p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static CmsMessages get() {
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
 
-        if (INSTANCE == null) {
-            INSTANCE = new CmsMessages(BUNDLE_NAME);
-        }
-        return INSTANCE;
-    }
-
-    /**
-     * Returns the bundle name for this OpenCms package.<p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
-
-        return BUNDLE_NAME;
-    }
-
+    return BUNDLE_NAME;
+  }
 }

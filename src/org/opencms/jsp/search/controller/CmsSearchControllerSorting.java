@@ -27,6 +27,7 @@
 
 package org.opencms.jsp.search.controller;
 
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.jsp.search.config.I_CmsSearchConfigurationSortOption;
 import org.opencms.jsp.search.config.I_CmsSearchConfigurationSorting;
@@ -34,94 +35,93 @@ import org.opencms.jsp.search.state.CmsSearchStateSorting;
 import org.opencms.jsp.search.state.I_CmsSearchStateSorting;
 import org.opencms.search.solr.CmsSolrQuery;
 
-import java.util.Map;
-
 /** Controller for sorting options. */
 public class CmsSearchControllerSorting implements I_CmsSearchControllerSorting {
 
-    /** The sorting configuration. */
-    private final I_CmsSearchConfigurationSorting m_config;
-    /** The state for sorting (chosen option). */
-    private final I_CmsSearchStateSorting m_state;
+  /** The sorting configuration. */
+  private final I_CmsSearchConfigurationSorting m_config;
+  /** The state for sorting (chosen option). */
+  private final I_CmsSearchStateSorting m_state;
 
-    /** Constructor taking a sorting configuration.
-     * @param config The sorting configuration.
-     */
-    public CmsSearchControllerSorting(final I_CmsSearchConfigurationSorting config) {
+  /**
+   * Constructor taking a sorting configuration.
+   *
+   * @param config The sorting configuration.
+   */
+  public CmsSearchControllerSorting(final I_CmsSearchConfigurationSorting config) {
 
-        m_config = config;
-        m_state = new CmsSearchStateSorting();
-        m_state.setSelectedOption(m_config.getDefaultSortOption());
+    m_config = config;
+    m_state = new CmsSearchStateSorting();
+    m_state.setSelectedOption(m_config.getDefaultSortOption());
+  }
+
+  /**
+   * @see
+   *     org.opencms.jsp.search.controller.I_CmsSearchController#addParametersForCurrentState(java.util.Map)
+   */
+  @Override
+  public void addParametersForCurrentState(final Map<String, String[]> parameters) {
+
+    if ((null != m_state.getSelected())
+        && (m_config.getDefaultSortOption() != m_state.getCheckSelected())) {
+      parameters.put(m_config.getSortParam(), new String[] {m_state.getSelected().getParamValue()});
     }
+  }
 
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#addParametersForCurrentState(java.util.Map)
-     */
-    @Override
-    public void addParametersForCurrentState(final Map<String, String[]> parameters) {
+  /**
+   * @see org.opencms.jsp.search.controller.I_CmsSearchController#addQueryParts(CmsSolrQuery,
+   *     CmsObject)
+   */
+  @Override
+  public void addQueryParts(CmsSolrQuery query, CmsObject cms) {
 
-        if ((null != m_state.getSelected()) && (m_config.getDefaultSortOption() != m_state.getCheckSelected())) {
-            parameters.put(m_config.getSortParam(), new String[] {m_state.getSelected().getParamValue()});
+    if (m_state.getSelected() != null) {
+      query.set("sort", m_state.getSelected().getSolrValue());
+    }
+  }
+
+  /** @see org.opencms.jsp.search.controller.I_CmsSearchControllerSorting#getConfig() */
+  @Override
+  public I_CmsSearchConfigurationSorting getConfig() {
+
+    return m_config;
+  }
+
+  /** @see org.opencms.jsp.search.controller.I_CmsSearchControllerSorting#getState() */
+  @Override
+  public I_CmsSearchStateSorting getState() {
+
+    return m_state;
+  }
+
+  /** @see org.opencms.jsp.search.controller.I_CmsSearchController#updateForQueryChange() */
+  @Override
+  public void updateForQueryChange() {
+
+    // do nothing
+
+  }
+
+  /**
+   * @see
+   *     org.opencms.jsp.search.controller.I_CmsSearchController#updateFromRequestParameters(java.util.Map,
+   *     boolean)
+   */
+  @Override
+  public void updateFromRequestParameters(
+      final Map<String, String[]> parameters, boolean isReloaded) {
+
+    if (parameters.containsKey(m_config.getSortParam())) {
+      final String[] sortValues = parameters.get(m_config.getSortParam());
+      if (sortValues.length > 0) {
+        final String sortValue = sortValues[0];
+        for (final I_CmsSearchConfigurationSortOption sortOption : m_config.getSortOptions()) {
+          if (sortOption.getParamValue().equals(sortValue)) {
+            m_state.setSelectedOption(sortOption);
+            return;
+          }
         }
+      }
     }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#addQueryParts(CmsSolrQuery, CmsObject)
-     */
-    @Override
-    public void addQueryParts(CmsSolrQuery query, CmsObject cms) {
-
-        if (m_state.getSelected() != null) {
-            query.set("sort", m_state.getSelected().getSolrValue());
-        }
-    }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchControllerSorting#getConfig()
-     */
-    @Override
-    public I_CmsSearchConfigurationSorting getConfig() {
-
-        return m_config;
-    }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchControllerSorting#getState()
-     */
-    @Override
-    public I_CmsSearchStateSorting getState() {
-
-        return m_state;
-    }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#updateForQueryChange()
-     */
-    @Override
-    public void updateForQueryChange() {
-
-        // do nothing
-
-    }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#updateFromRequestParameters(java.util.Map, boolean)
-     */
-    @Override
-    public void updateFromRequestParameters(final Map<String, String[]> parameters, boolean isReloaded) {
-
-        if (parameters.containsKey(m_config.getSortParam())) {
-            final String[] sortValues = parameters.get(m_config.getSortParam());
-            if (sortValues.length > 0) {
-                final String sortValue = sortValues[0];
-                for (final I_CmsSearchConfigurationSortOption sortOption : m_config.getSortOptions()) {
-                    if (sortOption.getParamValue().equals(sortValue)) {
-                        m_state.setSelectedOption(sortOption);
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
+  }
 }

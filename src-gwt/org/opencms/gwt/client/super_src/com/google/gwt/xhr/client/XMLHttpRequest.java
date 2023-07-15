@@ -18,12 +18,11 @@ package com.google.gwt.xhr.client;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * The native XMLHttpRequest object. Most applications should use the higher-
- * level {@link com.google.gwt.http.client.RequestBuilder} class unless they
- * need specific functionality provided by the XMLHttpRequest object.
+ * The native XMLHttpRequest object. Most applications should use the higher- level {@link
+ * com.google.gwt.http.client.RequestBuilder} class unless they need specific functionality provided
+ * by the XMLHttpRequest object.
  *
- * See <a href="http://www.w3.org/TR/XMLHttpRequest/"
- * >http://www.w3.org/TR/XMLHttpRequest/</a>/
+ * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/" >http://www.w3.org/TR/XMLHttpRequest/</a>/
  */
 public class XMLHttpRequest extends JavaScriptObject {
 
@@ -45,34 +44,30 @@ public class XMLHttpRequest extends JavaScriptObject {
    * in a setTimeout()).
    */
 
-  /**
-   * When constructed, the XMLHttpRequest object must be in the UNSENT state.
-   */
+  /** When constructed, the XMLHttpRequest object must be in the UNSENT state. */
   public static final int UNSENT = 0;
 
   /**
-   * The OPENED state is the state of the object when the open() method has been
-   * successfully invoked. During this state request headers can be set using
-   * setRequestHeader() and the request can be made using send().
+   * The OPENED state is the state of the object when the open() method has been successfully
+   * invoked. During this state request headers can be set using setRequestHeader() and the request
+   * can be made using send().
    */
   public static final int OPENED = 1;
 
   /**
-   * The HEADERS_RECEIVED state is the state of the object when all response
-   * headers have been received.
+   * The HEADERS_RECEIVED state is the state of the object when all response headers have been
+   * received.
    */
   public static final int HEADERS_RECEIVED = 2;
 
   /**
-   * The LOADING state is the state of the object when the response entity body
-   * is being received.
+   * The LOADING state is the state of the object when the response entity body is being received.
    */
   public static final int LOADING = 3;
 
   /**
-   * The DONE state is the state of the object when either the data transfer has
-   * been completed or something went wrong during the transfer (infinite
-   * redirects for instance).
+   * The DONE state is the state of the object when either the data transfer has been completed or
+   * something went wrong during the transfer (infinite redirects for instance).
    */
   public static final int DONE = 4;
 
@@ -96,13 +91,12 @@ public class XMLHttpRequest extends JavaScriptObject {
     }
   }-*/;
 
-  protected XMLHttpRequest() {
-  }
+  protected XMLHttpRequest() {}
 
   /**
    * Aborts the current request.
-   * <p>
-   * See <a href="http://www.w3.org/TR/XMLHttpRequest/#abort"
+   *
+   * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#abort"
    * >http://www.w3.org/TR/XMLHttpRequest/#abort</a>.
    */
   public final native void abort() /*-{
@@ -111,8 +105,8 @@ public class XMLHttpRequest extends JavaScriptObject {
 
   /**
    * Clears the {@link ReadyStateChangeHandler}.
-   * <p>
-   * See <a href="http://www.w3.org/TR/XMLHttpRequest/#onreadystatechange"
+   *
+   * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#onreadystatechange"
    * >http://www.w3.org/TR/XMLHttpRequest/#onreadystatechange</a>.
    *
    * @see #clearOnReadyStateChange()
@@ -128,8 +122,8 @@ public class XMLHttpRequest extends JavaScriptObject {
 
   /**
    * Gets all the HTTP response headers, as a single string.
-   * <p>
-   * See <a href="http://www.w3.org/TR/XMLHttpRequest/#getallresponseheaders"
+   *
+   * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#getallresponseheaders"
    * >http://www.w3.org/TR/XMLHttpRequest/#getallresponseheaders</a>.
    *
    * @return the response headers.
@@ -140,8 +134,8 @@ public class XMLHttpRequest extends JavaScriptObject {
 
   /**
    * Get's the current ready-state.
-   * <p>
-   * See <a href="http://www.w3.org/TR/XMLHttpRequest/#readystate"
+   *
+   * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#readystate"
    * >http://www.w3.org/TR/XMLHttpRequest/#readystate</a>.
    *
    * @return the ready-state constant
@@ -152,8 +146,8 @@ public class XMLHttpRequest extends JavaScriptObject {
 
   /**
    * Gets an HTTP response header.
-   * <p>
-   * See <a href="http://www.w3.org/TR/XMLHttpRequest/#getresponseheader"
+   *
+   * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#getresponseheader"
    * >http://www.w3.org/TR/XMLHttpRequest/#getresponseheader</a>.
    *
    * @param header the response header to be retrieved
@@ -165,8 +159,8 @@ public class XMLHttpRequest extends JavaScriptObject {
 
   /**
    * Gets the response text.
-   * <p>
-   * See <a href="http://www.w3.org/TR/XMLHttpRequest/#responsetext"
+   *
+   * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#responsetext"
    * >http://www.w3.org/TR/XMLHttpRequest/#responsetext</a>.
    *
    * @return the response text
@@ -177,8 +171,8 @@ public class XMLHttpRequest extends JavaScriptObject {
 
   /**
    * Gets the status code.
-   * <p>
-   * See <a href="http://www.w3.org/TR/XMLHttpRequest/#status"
+   *
+   * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#status"
    * >http://www.w3.org/TR/XMLHttpRequest/#status</a>.
    *
    * @return the status code
@@ -189,8 +183,8 @@ public class XMLHttpRequest extends JavaScriptObject {
 
   /**
    * Gets the status text.
-   * <p>
-   * See <a href="http://www.w3.org/TR/XMLHttpRequest/#statustext"
+   *
+   * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#statustext"
    * >http://www.w3.org/TR/XMLHttpRequest/#statustext</a>.
    *
    * @return the status text
@@ -201,8 +195,8 @@ public class XMLHttpRequest extends JavaScriptObject {
 
   /**
    * Opens an asynchronous connection.
-   * <p>
-   * See <a href="http://www.w3.org/TR/XMLHttpRequest/#open"
+   *
+   * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#open"
    * >http://www.w3.org/TR/XMLHttpRequest/#open</a>.
    *
    * @param httpMethod the HTTP method to use
@@ -214,8 +208,8 @@ public class XMLHttpRequest extends JavaScriptObject {
 
   /**
    * Opens an asynchronous connection.
-   * <p>
-   * See <a href="http://www.w3.org/TR/XMLHttpRequest/#open"
+   *
+   * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#open"
    * >http://www.w3.org/TR/XMLHttpRequest/#open</a>.
    *
    * @param httpMethod the HTTP method to use
@@ -228,8 +222,8 @@ public class XMLHttpRequest extends JavaScriptObject {
 
   /**
    * Opens an asynchronous connection.
-   * <p>
-   * See <a href="http://www.w3.org/TR/XMLHttpRequest/#open"
+   *
+   * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#open"
    * >http://www.w3.org/TR/XMLHttpRequest/#open</a>.
    *
    * @param httpMethod the HTTP method to use
@@ -237,24 +231,23 @@ public class XMLHttpRequest extends JavaScriptObject {
    * @param user user to use in the URL
    * @param password password to use in the URL
    */
-  public final native void open(String httpMethod, String url, String user,
-      String password) /*-{
+  public final native void open(String httpMethod, String url, String user, String password) /*-{
     this.open(httpMethod, url, true, user, password);
   }-*/;
 
   /**
-   * Initiates a request with no request data. This simply calls
-   * {@link #send(String)} with <code>null</code> as an argument, because the
-   * no-argument <code>send()</code> method is unavailable on Firefox.
+   * Initiates a request with no request data. This simply calls {@link #send(String)} with <code>
+   * null</code> as an argument, because the no-argument <code>send()</code> method is unavailable
+   * on Firefox.
    */
   public final void send() {
     send(null);
   }
 
   /**
-   * Initiates a request with data.  If there is no data, specify null.
-   * <p>
-   * See <a href="http://www.w3.org/TR/XMLHttpRequest/#send"
+   * Initiates a request with data. If there is no data, specify null.
+   *
+   * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#send"
    * >http://www.w3.org/TR/XMLHttpRequest/#send</a>.
    *
    * @param requestData the data to be sent with the request
@@ -264,17 +257,14 @@ public class XMLHttpRequest extends JavaScriptObject {
   }-*/;
 
   /**
-   * Sets the {@link ReadyStateChangeHandler} to be notified when the object's
-   * ready-state changes.
-   * <p>
-   * See <a href="http://www.w3.org/TR/XMLHttpRequest/#onreadystatechange"
+   * Sets the {@link ReadyStateChangeHandler} to be notified when the object's ready-state changes.
+   *
+   * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#onreadystatechange"
    * >http://www.w3.org/TR/XMLHttpRequest/#onreadystatechange</a>.
    *
-   * <p>
-   * Note: Applications <em>must</em> call {@link #clearOnReadyStateChange()}
-   * when they no longer need this object, to ensure that it is cleaned up
-   * properly. Failure to do so will result in memory leaks on some browsers.
-   * </p>
+   * <p>Note: Applications <em>must</em> call {@link #clearOnReadyStateChange()} when they no longer
+   * need this object, to ensure that it is cleaned up properly. Failure to do so will result in
+   * memory leaks on some browsers.
    *
    * @param handler the handler to be called when the ready state changes
    * @see #clearOnReadyStateChange()
@@ -290,8 +280,8 @@ public class XMLHttpRequest extends JavaScriptObject {
 
   /**
    * Sets a request header.
-   * <p>
-   * See <a href="http://www.w3.org/TR/XMLHttpRequest/#setrequestheader"
+   *
+   * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#setrequestheader"
    * >http://www.w3.org/TR/XMLHttpRequest/#setrequestheader</a>.
    *
    * @param header the header to be set
@@ -300,44 +290,41 @@ public class XMLHttpRequest extends JavaScriptObject {
   public final native void setRequestHeader(String header, String value) /*-{
     this.setRequestHeader(header, value);
   }-*/;
-  
-  
-  
-    /**
-     * Opens an asynchronous connection.
-     * 
-     * @param httpMethod the HTTP method to use
-     * @param url the URL to be opened
-     * @see http://www.w3.org/TR/XMLHttpRequest/#open
-     */
-    public final native void openSync(String httpMethod, String url) /*-{
+
+  /**
+   * Opens an asynchronous connection.
+   *
+   * @param httpMethod the HTTP method to use
+   * @param url the URL to be opened
+   * @see http://www.w3.org/TR/XMLHttpRequest/#open
+   */
+  public final native void openSync(String httpMethod, String url) /*-{
         this.open(httpMethod, url, false);
     }-*/;
 
-    /**
-     * Opens an asynchronous connection.
-     * 
-     * @param httpMethod the HTTP method to use
-     * @param url the URL to be opened
-     * @param user user to use in the URL
-     * @see http://www.w3.org/TR/XMLHttpRequest/#open
-     */
-    public final native void openSync(String httpMethod, String url, String user) /*-{
+  /**
+   * Opens an asynchronous connection.
+   *
+   * @param httpMethod the HTTP method to use
+   * @param url the URL to be opened
+   * @param user user to use in the URL
+   * @see http://www.w3.org/TR/XMLHttpRequest/#open
+   */
+  public final native void openSync(String httpMethod, String url, String user) /*-{
         this.open(httpMethod, url, false, user);
     }-*/;
 
-    /**
-     * Opens an asynchronous connection.
-     * 
-     * @param httpMethod the HTTP method to use
-     * @param url the URL to be opened
-     * @param user user to use in the URL
-     * @param password password to use in the URL
-     * @see http://www.w3.org/TR/XMLHttpRequest/#open
-     */
-    public final native void openSync(String httpMethod, String url, String user, String password) /*-{
+  /**
+   * Opens an asynchronous connection.
+   *
+   * @param httpMethod the HTTP method to use
+   * @param url the URL to be opened
+   * @param user user to use in the URL
+   * @param password password to use in the URL
+   * @see http://www.w3.org/TR/XMLHttpRequest/#open
+   */
+  public final native void openSync(
+      String httpMethod, String url, String user, String password) /*-{
         this.open(httpMethod, url, false, user, password);
     }-*/;
-  
-  
 }

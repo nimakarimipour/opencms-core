@@ -30,88 +30,92 @@ package org.opencms.workplace.comparison;
 import java.util.Locale;
 
 /**
- * Comparison of two xml page elements.<p>
+ * Comparison of two xml page elements.
+ *
+ * <p>
  */
-public class CmsElementComparison extends CmsAttributeComparison implements Comparable<CmsElementComparison> {
+public class CmsElementComparison extends CmsAttributeComparison
+    implements Comparable<CmsElementComparison> {
 
-    /** The element locale.<p> */
-    private Locale m_locale;
+  /**
+   * The element locale.
+   *
+   * <p>
+   */
+  private Locale m_locale;
 
-    /**
-     * Creates a new element comparison.<p>
-     *
-     * @param locale the locale of the comparison
-     * @param name the name of the element
-     */
-    public CmsElementComparison(Locale locale, String name) {
+  /**
+   * Creates a new element comparison.
+   *
+   * <p>
+   *
+   * @param locale the locale of the comparison
+   * @param name the name of the element
+   */
+  public CmsElementComparison(Locale locale, String name) {
 
-        m_locale = locale;
-        setName(name);
+    m_locale = locale;
+    setName(name);
+  }
+
+  /** @see java.lang.Comparable#compareTo(java.lang.Object) */
+  @Override
+  public int compareTo(CmsElementComparison diffItem) {
+
+    if (this == diffItem) {
+      return 0;
     }
 
-    /**
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    @Override
-    public int compareTo(CmsElementComparison diffItem) {
-
-        if (this == diffItem) {
-            return 0;
-        }
-
-        // first compare by name
-        if (getName().compareTo(diffItem.getName()) != 0) {
-            return getName().compareTo(diffItem.getName());
-        }
-        // then by locale
-        return m_locale.toString().compareTo(diffItem.getLocale().toString());
+    // first compare by name
+    if (getName().compareTo(diffItem.getName()) != 0) {
+      return getName().compareTo(diffItem.getName());
     }
+    // then by locale
+    return m_locale.toString().compareTo(diffItem.getLocale().toString());
+  }
 
-    /**
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object o) {
+  /** @see java.lang.Object#equals(java.lang.Object) */
+  @Override
+  public boolean equals(Object o) {
 
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof CmsElementComparison)) {
-            return false;
-        }
-        CmsElementComparison diffItem = (CmsElementComparison)o;
-        return getName().equals(diffItem.getName()) && m_locale.equals(diffItem.getLocale());
+    if (this == o) {
+      return true;
     }
-
-    /**
-     * Returns the locale.<p>
-     *
-     * @return the locale
-     */
-    public Locale getLocale() {
-
-        return m_locale;
+    if (!(o instanceof CmsElementComparison)) {
+      return false;
     }
+    CmsElementComparison diffItem = (CmsElementComparison) o;
+    return getName().equals(diffItem.getName()) && m_locale.equals(diffItem.getLocale());
+  }
 
-    /**
-     *
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
+  /**
+   * Returns the locale.
+   *
+   * <p>
+   *
+   * @return the locale
+   */
+  public Locale getLocale() {
 
-        return m_locale.hashCode() + getName().hashCode();
-    }
+    return m_locale;
+  }
 
-    /**
-     * Sets the locale.<p>
-     *
-     * @param locale the locale to set
-     */
-    public void setLocale(Locale locale) {
+  /** @see java.lang.Object#hashCode() */
+  @Override
+  public int hashCode() {
 
-        m_locale = locale;
-    }
+    return m_locale.hashCode() + getName().hashCode();
+  }
 
+  /**
+   * Sets the locale.
+   *
+   * <p>
+   *
+   * @param locale the locale to set
+   */
+  public void setLocale(Locale locale) {
+
+    m_locale = locale;
+  }
 }

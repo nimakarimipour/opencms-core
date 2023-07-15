@@ -31,45 +31,52 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Used to signal security related issues, for example example during file access and login.<p>
+ * Used to signal security related issues, for example example during file access and login.
  *
- * A security released issue impies that the operation attempted can be executed in general,
- * but that the current user who attemted it does not have the required permissions at the current time.<p>
+ * <p>A security released issue impies that the operation attempted can be executed in general, but
+ * that the current user who attemted it does not have the required permissions at the current time.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsSecurityException extends CmsException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 1403034004917689082L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 1403034004917689082L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsSecurityException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsSecurityException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsSecurityException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsSecurityException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsSecurityException(container, cause);
-    }
+    return new CmsSecurityException(container, cause);
+  }
 }

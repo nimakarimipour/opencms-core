@@ -30,19 +30,22 @@ package org.opencms.gwt.client.util.impl;
 import com.google.gwt.dom.client.Element;
 
 /**
- * Helper class to retrieve the computed style of an element.<p>
+ * Helper class to retrieve the computed style of an element.
  *
- * This implementation is used for MSIE 7 and 8 browsers.<p>
+ * <p>This implementation is used for MSIE 7 and 8 browsers.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class DocumentStyleImplIE6 extends DocumentStyleImplIE9 {
 
-    /**
-     * @see org.opencms.gwt.client.util.impl.DocumentStyleImpl#clearOpacity(com.google.gwt.dom.client.Element)
-     */
-    @Override
-    public native void clearOpacity(Element element) /*-{
+  /**
+   * @see
+   *     org.opencms.gwt.client.util.impl.DocumentStyleImpl#clearOpacity(com.google.gwt.dom.client.Element)
+   */
+  @Override
+  public native void clearOpacity(Element element) /*-{
                                                      element.style.removeAttribute("filter");
                                                      }-*/;
 }

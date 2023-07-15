@@ -30,101 +30,117 @@ package org.opencms.gwt.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * A bean which represents a resource in the VFS.<p>
+ * A bean which represents a resource in the VFS.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsVfsEntryBean implements IsSerializable {
 
-    /** True if the resource has children. */
-    private boolean m_hasChildren;
+  /** True if the resource has children. */
+  private boolean m_hasChildren;
 
-    /** True if the resource is a folder. */
-    private boolean m_isFolder;
+  /** True if the resource is a folder. */
+  private boolean m_isFolder;
 
-    /** The name of the resource. */
-    private String m_name;
+  /** The name of the resource. */
+  private String m_name;
 
-    /** The path of the resource. */
-    private String m_path;
+  /** The path of the resource. */
+  private String m_path;
 
-    /** The resource type of the resource. */
-    private String m_resourceType;
+  /** The resource type of the resource. */
+  private String m_resourceType;
 
-    /**
-     * Constructs a new bean.<p>
-     *
-     * @param path the path of the resource
-     * @param name the name of the resource
-     * @param resourceType the resource type of the resource
-     * @param isFolder true if the resource is a folder
-     * @param hasChildren true if the resource is a folder which isn't empty
-     */
-    public CmsVfsEntryBean(String path, String name, String resourceType, boolean isFolder, boolean hasChildren) {
+  /**
+   * Constructs a new bean.
+   *
+   * <p>
+   *
+   * @param path the path of the resource
+   * @param name the name of the resource
+   * @param resourceType the resource type of the resource
+   * @param isFolder true if the resource is a folder
+   * @param hasChildren true if the resource is a folder which isn't empty
+   */
+  public CmsVfsEntryBean(
+      String path, String name, String resourceType, boolean isFolder, boolean hasChildren) {
 
-        m_isFolder = isFolder;
-        m_path = path;
-        m_name = name;
-        m_resourceType = resourceType;
-        m_hasChildren = hasChildren;
-    }
+    m_isFolder = isFolder;
+    m_path = path;
+    m_name = name;
+    m_resourceType = resourceType;
+    m_hasChildren = hasChildren;
+  }
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    protected CmsVfsEntryBean() {
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  protected CmsVfsEntryBean() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Returns the name of the resource.<p>
-     *
-     * @return the name of the resource
-     */
-    public String getName() {
+  /**
+   * Returns the name of the resource.
+   *
+   * <p>
+   *
+   * @return the name of the resource
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the path of the resource.<p>
-     *
-     * @return the path of the resource
-     */
-    public String getPath() {
+  /**
+   * Returns the path of the resource.
+   *
+   * <p>
+   *
+   * @return the path of the resource
+   */
+  public String getPath() {
 
-        return m_path;
-    }
+    return m_path;
+  }
 
-    /**
-     * Returns the resource type.<p>
-     *
-     * @return the resource type
-     */
-    public String getResourceType() {
+  /**
+   * Returns the resource type.
+   *
+   * <p>
+   *
+   * @return the resource type
+   */
+  public String getResourceType() {
 
-        return m_resourceType;
-    }
+    return m_resourceType;
+  }
 
-    /**
-     * Returns true if the resource has children, i.e. is a non-empty folder.<p>
-     *
-     * @return true if the resource has children
-     */
-    public boolean hasChildren() {
+  /**
+   * Returns true if the resource has children, i.e. is a non-empty folder.
+   *
+   * <p>
+   *
+   * @return true if the resource has children
+   */
+  public boolean hasChildren() {
 
-        return m_hasChildren;
-    }
+    return m_hasChildren;
+  }
 
-    /**
-     * Returns true if the resource is a folder.<p>
-     *
-     * @return true if the resource is a folder
-     */
-    public boolean isFolder() {
+  /**
+   * Returns true if the resource is a folder.
+   *
+   * <p>
+   *
+   * @return true if the resource is a folder
+   */
+  public boolean isFolder() {
 
-        return m_isFolder;
-    }
-
+    return m_isFolder;
+  }
 }

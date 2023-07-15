@@ -30,56 +30,65 @@ package org.opencms.ade.publish.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * A bean which can be used to reconstruct a publish list.<p>
+ * A bean which can be used to reconstruct a publish list.
  *
- * This is used instead of sending the whole resource list to the client when it becomes too big.<p>
+ * <p>This is used instead of sending the whole resource list to the client when it becomes too big.
+ *
+ * <p>
  */
 public class CmsPublishListToken implements IsSerializable {
 
-    /** The publish options. */
-    private CmsPublishOptions m_options;
+  /** The publish options. */
+  private CmsPublishOptions m_options;
 
-    /** The selected workflow. */
-    private CmsWorkflow m_workflow;
+  /** The selected workflow. */
+  private CmsWorkflow m_workflow;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param workflow the selected workflow
-     * @param options the publish options
-     */
-    public CmsPublishListToken(CmsWorkflow workflow, CmsPublishOptions options) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param workflow the selected workflow
+   * @param options the publish options
+   */
+  public CmsPublishListToken(CmsWorkflow workflow, CmsPublishOptions options) {
 
-        m_workflow = workflow;
-        m_options = options;
-    }
+    m_workflow = workflow;
+    m_options = options;
+  }
 
-    /**
-     * Default constructor used for serialization.<p>
-     */
-    protected CmsPublishListToken() {
+  /**
+   * Default constructor used for serialization.
+   *
+   * <p>
+   */
+  protected CmsPublishListToken() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Gets the publish options.<p>
-     *
-     * @return the publish options
-     */
-    public CmsPublishOptions getOptions() {
+  /**
+   * Gets the publish options.
+   *
+   * <p>
+   *
+   * @return the publish options
+   */
+  public CmsPublishOptions getOptions() {
 
-        return m_options;
-    }
+    return m_options;
+  }
 
-    /**
-     * Gets the selected workflow.<p>
-     *
-     * @return the selected workflow
-     */
-    public CmsWorkflow getWorkflow() {
+  /**
+   * Gets the selected workflow.
+   *
+   * <p>
+   *
+   * @return the selected workflow
+   */
+  public CmsWorkflow getWorkflow() {
 
-        return m_workflow;
-    }
-
+    return m_workflow;
+  }
 }

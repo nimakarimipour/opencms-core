@@ -27,91 +27,90 @@
 
 package org.opencms.main;
 
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsUser;
 import org.opencms.security.I_CmsAuthorizationHandler;
 import org.opencms.util.CmsUUID;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Abstract class to grant the needed access to the session manager.<p>
+ * Abstract class to grant the needed access to the session manager.
+ *
+ * <p>
  *
  * @since 6.5.4
  */
 public abstract class A_CmsAuthorizationHandler implements I_CmsAuthorizationHandler {
 
-    /** The static log object for this class. */
-    protected static final Log LOG = CmsLog.getLog(A_CmsAuthorizationHandler.class);
+  /** The static log object for this class. */
+  protected static final Log LOG = CmsLog.getLog(A_CmsAuthorizationHandler.class);
 
-    /** Additional parameters. */
-    protected Map<String, String> m_parameters;
+  /** Additional parameters. */
+  protected Map<String, String> m_parameters;
 
-    /**
-     * @see org.opencms.security.I_CmsAuthorizationHandler#setParameters(java.util.Map)
-     */
-    public void setParameters(Map<String, String> parameters) {
+  /** @see org.opencms.security.I_CmsAuthorizationHandler#setParameters(java.util.Map) */
+  public void setParameters(Map<String, String> parameters) {
 
-        m_parameters = parameters;
+    m_parameters = parameters;
+  }
+
+  /**
+   * Initializes a new cms object from the session data of the request.
+   *
+   * <p>If no session data is found, <code>null</code> is returned.
+   *
+   * <p>
+   *
+   * @param request the request
+   * @return the new initialized cms object
+   * @throws CmsException if something goes wrong
+   */
+  protected CmsObject initCmsObjectFromSession(HttpServletRequest request) throws CmsException {
+
+    // try to get an OpenCms user session info object for this request
+    return OpenCmsCore.getInstance().initCmsObjectFromSession(request);
+  }
+
+  /**
+   * Registers the current session with OpenCms.
+   *
+   * <p>
+   *
+   * @param request the current request
+   * @param cms the cms object to register
+   * @return the updated cms context
+   * @throws CmsException if something goes wrong
+   */
+  protected CmsObject registerSession(HttpServletRequest request, CmsObject cms)
+      throws CmsException {
+
+    if (!cms.getRequestContext().getCurrentUser().isGuestUser()) {
+      // make sure we have a new session after login for security reasons
+      HttpSession session = request.getSession(false);
+      if (session != null) {
+        session.invalidate();
+      }
+      session = request.getSession(true);
     }
 
-    /**
-     * Initializes a new cms object from the session data of the request.<p>
-     *
-     * If no session data is found, <code>null</code> is returned.<p>
-     *
-     * @param request the request
-     *
-     * @return the new initialized cms object
-     *
-     * @throws CmsException if something goes wrong
-     */
-    protected CmsObject initCmsObjectFromSession(HttpServletRequest request) throws CmsException {
+    // update the request context
+    cms = OpenCmsCore.getInstance().updateContext(request, cms);
 
-        // try to get an OpenCms user session info object for this request
-        return OpenCmsCore.getInstance().initCmsObjectFromSession(request);
+    CmsUser user = cms.getRequestContext().getCurrentUser();
+    if (!user.isGuestUser() && !OpenCms.getDefaultUsers().isUserExport(user.getName())) {
+      // create the session info object, only for 'real' users
+      CmsSessionInfo sessionInfo =
+          new CmsSessionInfo(
+              cms.getRequestContext(),
+              new CmsUUID(),
+              request.getSession().getMaxInactiveInterval());
+      // register the updated cms object in the session manager
+      OpenCmsCore.getInstance().getSessionManager().addSessionInfo(sessionInfo);
     }
-
-    /**
-     * Registers the current session with OpenCms.<p>
-     *
-     * @param request the current request
-     * @param cms the cms object to register
-     *
-     * @return the updated cms context
-     *
-     * @throws CmsException if something goes wrong
-     */
-    protected CmsObject registerSession(HttpServletRequest request, CmsObject cms) throws CmsException {
-
-        if (!cms.getRequestContext().getCurrentUser().isGuestUser()) {
-            // make sure we have a new session after login for security reasons
-            HttpSession session = request.getSession(false);
-            if (session != null) {
-                session.invalidate();
-            }
-            session = request.getSession(true);
-        }
-
-        // update the request context
-        cms = OpenCmsCore.getInstance().updateContext(request, cms);
-
-        CmsUser user = cms.getRequestContext().getCurrentUser();
-        if (!user.isGuestUser() && !OpenCms.getDefaultUsers().isUserExport(user.getName())) {
-            // create the session info object, only for 'real' users
-            CmsSessionInfo sessionInfo = new CmsSessionInfo(
-                cms.getRequestContext(),
-                new CmsUUID(),
-                request.getSession().getMaxInactiveInterval());
-            // register the updated cms object in the session manager
-            OpenCmsCore.getInstance().getSessionManager().addSessionInfo(sessionInfo);
-        }
-        // return the updated cms object
-        return cms;
-    }
+    // return the updated cms object
+    return cms;
+  }
 }

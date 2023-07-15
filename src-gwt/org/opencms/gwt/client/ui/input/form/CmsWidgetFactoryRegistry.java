@@ -27,84 +27,86 @@
 
 package org.opencms.gwt.client.ui.input.form;
 
+import com.google.common.base.Optional;
+import java.util.HashMap;
+import java.util.Map;
 import org.opencms.gwt.client.ui.input.CmsTextBox;
 import org.opencms.gwt.client.ui.input.I_CmsFormWidget;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.google.common.base.Optional;
-
 /**
- * This singleton class is used for registering all widget factories.<p>
+ * This singleton class is used for registering all widget factories.
  *
- *  @since 8.0.0
+ * <p>
  *
+ * @since 8.0.0
  */
 public final class CmsWidgetFactoryRegistry implements I_CmsFormWidgetMultiFactory {
 
-    /** The singleton instance. */
-    private static CmsWidgetFactoryRegistry instance;
+  /** The singleton instance. */
+  private static CmsWidgetFactoryRegistry instance;
 
-    /** The widget factories for each widget type string. */
-    private Map<String, I_CmsFormWidgetFactory> m_widgetFactories = new HashMap<String, I_CmsFormWidgetFactory>();
+  /** The widget factories for each widget type string. */
+  private Map<String, I_CmsFormWidgetFactory> m_widgetFactories =
+      new HashMap<String, I_CmsFormWidgetFactory>();
 
-    /**
-     * The hidden default constructor.<p>
-     */
-    private CmsWidgetFactoryRegistry() {
+  /**
+   * The hidden default constructor.
+   *
+   * <p>
+   */
+  private CmsWidgetFactoryRegistry() {
 
-        // do nothing
+    // do nothing
+  }
+
+  /**
+   * Returns the singleton instance of this class.
+   *
+   * <p>
+   *
+   * @return the singleton instance of this class
+   */
+  public static CmsWidgetFactoryRegistry instance() {
+
+    if (instance == null) {
+      instance = new CmsWidgetFactoryRegistry();
     }
+    return instance;
+  }
 
-    /**
-     * Returns the singleton instance of this class.<p>
-     *
-     * @return the singleton instance of this class
-     */
-    public static CmsWidgetFactoryRegistry instance() {
+  /**
+   * Creates a new widget based on a type string and widget parameters.
+   *
+   * <p>
+   *
+   * @param key the type string
+   * @param widgetParams the widget configuration parameters
+   * @return the newly created widget
+   */
+  public I_CmsFormWidget createFormWidget(
+      String key, Map<String, String> widgetParams, Optional<String> defaultValue) {
 
-        if (instance == null) {
-            instance = new CmsWidgetFactoryRegistry();
-        }
-        return instance;
+    if (key == null) {
+      key = "";
     }
-
-    /**
-     * Creates a new widget based on a type string and widget parameters.<p>
-     *
-     * @param key the type string
-     * @param widgetParams the widget configuration parameters
-     *
-     * @return the newly created widget
-     */
-    public I_CmsFormWidget createFormWidget(
-        String key,
-        Map<String, String> widgetParams,
-        Optional<String> defaultValue) {
-
-        if (key == null) {
-            key = "";
-        }
-        I_CmsFormWidgetFactory factory = m_widgetFactories.get(key);
-        if (factory == null) {
-            // if the given widget type is not found, fall back to text box widget
-            factory = m_widgetFactories.get(CmsTextBox.WIDGET_TYPE);
-        }
-        return factory.createWidget(widgetParams, defaultValue);
-
+    I_CmsFormWidgetFactory factory = m_widgetFactories.get(key);
+    if (factory == null) {
+      // if the given widget type is not found, fall back to text box widget
+      factory = m_widgetFactories.get(CmsTextBox.WIDGET_TYPE);
     }
+    return factory.createWidget(widgetParams, defaultValue);
+  }
 
-    /**
-     * Registers a new widget factory for a given widget type key.<p>
-     *
-     * @param key the widget type key
-     *
-     * @param factory the new factory for the key
-     */
-    public void registerFactory(String key, I_CmsFormWidgetFactory factory) {
+  /**
+   * Registers a new widget factory for a given widget type key.
+   *
+   * <p>
+   *
+   * @param key the widget type key
+   * @param factory the new factory for the key
+   */
+  public void registerFactory(String key, I_CmsFormWidgetFactory factory) {
 
-        m_widgetFactories.put(key, factory);
-    }
-
+    m_widgetFactories.put(key, factory);
+  }
 }

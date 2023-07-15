@@ -27,91 +27,97 @@
 
 package org.opencms.workplace.list;
 
+import java.util.Locale;
 import org.opencms.workplace.tools.CmsHtmlIconButtonStyleEnum;
 
-import java.util.Locale;
-
 /**
- * Implementation of a default action in a html list column.<p>
+ * Implementation of a default action in a html list column.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListDefaultAction extends CmsListDirectAction {
 
-    /** The id of column to use for the link. */
-    private String m_columnForLink;
+  /** The id of column to use for the link. */
+  private String m_columnForLink;
 
-    /** The formatter to use for the link. */
-    private I_CmsListFormatter m_columnFormatter;
+  /** The formatter to use for the link. */
+  private I_CmsListFormatter m_columnFormatter;
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id unique id
-     */
-    public CmsListDefaultAction(String id) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id unique id
+   */
+  public CmsListDefaultAction(String id) {
 
-        super(id);
+    super(id);
+  }
+
+  /**
+   * Resturns the id of column to use for the link.
+   *
+   * <p>
+   *
+   * @return the id of column to use for the link
+   */
+  public String getColumnForLink() {
+
+    return m_columnForLink;
+  }
+
+  /**
+   * Resturns the formatter to use for the link.
+   *
+   * <p>
+   *
+   * @return the formatter to use for the link
+   */
+  public I_CmsListFormatter getColumnFormatter() {
+
+    return m_columnFormatter;
+  }
+
+  /**
+   * Sets the id of column to use for the link.
+   *
+   * <p>
+   *
+   * @param columnForLink the column to use for the link to set
+   */
+  public void setColumnForLink(CmsListColumnDefinition columnForLink) {
+
+    m_columnForLink = columnForLink.getId();
+    m_columnFormatter = columnForLink.getFormatter();
+  }
+
+  /** @see org.opencms.workplace.list.CmsListDirectAction#resolveButtonStyle() */
+  @Override
+  protected CmsHtmlIconButtonStyleEnum resolveButtonStyle() {
+
+    if (getColumnForLink() == null) {
+      return super.resolveButtonStyle();
     }
+    return CmsHtmlIconButtonStyleEnum.SMALL_ICON_TEXT;
+  }
 
-    /**
-     * Resturns the id of column to use for the link.<p>
-     *
-     * @return the id of column to use for the link
-     */
-    public String getColumnForLink() {
+  /** @see org.opencms.workplace.list.CmsListDirectAction#resolveName(java.util.Locale) */
+  @Override
+  protected String resolveName(Locale locale) {
 
-        return m_columnForLink;
+    if (getColumnForLink() == null) {
+      return super.resolveName(locale);
     }
-
-    /**
-     * Resturns the formatter to use for the link.<p>
-     *
-     * @return the formatter to use for the link
-     */
-    public I_CmsListFormatter getColumnFormatter() {
-
-        return m_columnFormatter;
+    Object content =
+        (getItem().get(getColumnForLink()) != null)
+            ? getItem().get(getColumnForLink())
+            : getName().key(locale);
+    if (getColumnFormatter() != null) {
+      return getColumnFormatter().format(content, locale);
     }
-
-    /**
-     * Sets the id of column to use for the link.<p>
-     *
-     * @param columnForLink the column to use for the link to set
-     */
-    public void setColumnForLink(CmsListColumnDefinition columnForLink) {
-
-        m_columnForLink = columnForLink.getId();
-        m_columnFormatter = columnForLink.getFormatter();
-    }
-
-    /**
-     * @see org.opencms.workplace.list.CmsListDirectAction#resolveButtonStyle()
-     */
-    @Override
-    protected CmsHtmlIconButtonStyleEnum resolveButtonStyle() {
-
-        if (getColumnForLink() == null) {
-            return super.resolveButtonStyle();
-        }
-        return CmsHtmlIconButtonStyleEnum.SMALL_ICON_TEXT;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.CmsListDirectAction#resolveName(java.util.Locale)
-     */
-    @Override
-    protected String resolveName(Locale locale) {
-
-        if (getColumnForLink() == null) {
-            return super.resolveName(locale);
-        }
-        Object content = (getItem().get(getColumnForLink()) != null)
-        ? getItem().get(getColumnForLink())
-        : getName().key(locale);
-        if (getColumnFormatter() != null) {
-            return getColumnFormatter().format(content, locale);
-        }
-        return content.toString();
-    }
+    return content.toString();
+  }
 }

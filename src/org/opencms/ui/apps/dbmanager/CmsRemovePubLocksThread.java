@@ -42,6 +42,9 @@
 
 package org.opencms.ui.apps.dbmanager;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResourceFilter;
@@ -50,109 +53,125 @@ import org.opencms.lock.CmsLockType;
 import org.opencms.main.OpenCms;
 import org.opencms.report.A_CmsReportThread;
 import org.opencms.report.I_CmsReport;
-import org.opencms.ui.apps.Messages; //TODO move messages
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import org.opencms.ui.apps.Messages; // TODO move messages
 
 /**
- * Remove the publish locks.<p>
+ * Remove the publish locks.
+ *
+ * <p>
  *
  * @since 7.0.2
  */
 public class CmsRemovePubLocksThread extends A_CmsReportThread {
 
-    /** The last error occurred. */
-    private Throwable m_error;
+  /** The last error occurred. */
+  private Throwable m_error;
 
-    /** The list of resource names. */
-    private List<String> m_resources;
+  /** The list of resource names. */
+  private List<String> m_resources;
 
-    /**
-     * Creates an Thread to remove the publish locks.<p>
-     *
-     * @param cms the current OpenCms context object
-     * @param resources a list of resource names
-     */
-    public CmsRemovePubLocksThread(CmsObject cms, List<String> resources) {
+  /**
+   * Creates an Thread to remove the publish locks.
+   *
+   * <p>
+   *
+   * @param cms the current OpenCms context object
+   * @param resources a list of resource names
+   */
+  public CmsRemovePubLocksThread(CmsObject cms, List<String> resources) {
 
-        super(cms, Messages.get().getBundle().key(Messages.GUI_DB_PUBLOCKS_THREAD_NAME_0));
-        m_resources = new ArrayList<String>(resources);
-        initHtmlReport(cms.getRequestContext().getLocale());
-    }
+    super(cms, Messages.get().getBundle().key(Messages.GUI_DB_PUBLOCKS_THREAD_NAME_0));
+    m_resources = new ArrayList<String>(resources);
+    initHtmlReport(cms.getRequestContext().getLocale());
+  }
 
-    /**
-     * Returns the last error.<p>
-     *
-     * @see org.opencms.report.A_CmsReportThread#getError()
-     */
-    @Override
-    public Throwable getError() {
+  /**
+   * Returns the last error.
+   *
+   * <p>
+   *
+   * @see org.opencms.report.A_CmsReportThread#getError()
+   */
+  @Override
+  public Throwable getError() {
 
-        return m_error;
-    }
+    return m_error;
+  }
 
-    /**
-     * Updates the report.<p>
-     *
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
+  /**
+   * Updates the report.
+   *
+   * <p>
+   *
+   * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
+   */
+  @Override
+  public String getReportUpdate() {
 
-        return getReport().getReportUpdate();
-    }
+    return getReport().getReportUpdate();
+  }
 
-    /**
-     * Starts the report thread.<p>
-     *
-     * @see java.lang.Runnable#run()
-     */
-    @Override
-    public void run() {
+  /**
+   * Starts the report thread.
+   *
+   * <p>
+   *
+   * @see java.lang.Runnable#run()
+   */
+  @Override
+  public void run() {
 
-        try {
-            getReport().println(
-                Messages.get().container(Messages.RPT_DB_PUBLOCKS_BEGIN_0),
-                I_CmsReport.FORMAT_HEADLINE);
-            CmsObject cms = getCms();
-            CmsLockFilter filter = CmsLockFilter.FILTER_ALL;
-            filter = filter.filterType(CmsLockType.PUBLISH);
+    try {
+      getReport()
+          .println(
+              Messages.get().container(Messages.RPT_DB_PUBLOCKS_BEGIN_0),
+              I_CmsReport.FORMAT_HEADLINE);
+      CmsObject cms = getCms();
+      CmsLockFilter filter = CmsLockFilter.FILTER_ALL;
+      filter = filter.filterType(CmsLockType.PUBLISH);
 
-            Iterator<String> it = m_resources.iterator();
-            while (it.hasNext()) {
-                String paramResName = it.next();
-                getReport().println(
-                    Messages.get().container(Messages.RPT_DB_PUBLOCKS_READLOCKS_1, paramResName),
-                    I_CmsReport.FORMAT_NOTE);
-                Iterator<String> itResources = cms.getLockedResources(paramResName, filter).iterator();
-                while (itResources.hasNext()) {
-                    String resName = itResources.next();
-                    if (!cms.existsResource(resName, CmsResourceFilter.ALL)) {
-                        getReport().println(
-                            Messages.get().container(Messages.RPT_DB_PUBLOCKS_UNLOCKING_1, resName),
-                            I_CmsReport.FORMAT_DEFAULT);
-                        OpenCms.getMemoryMonitor().uncacheLock(cms.getRequestContext().addSiteRoot(resName));
-                        continue;
-                    }
-                    Iterator<CmsResource> itSiblings = cms.readSiblings(resName, CmsResourceFilter.ALL).iterator();
-                    while (itSiblings.hasNext()) {
-                        CmsResource res = itSiblings.next();
-                        getReport().println(
-                            Messages.get().container(Messages.RPT_DB_PUBLOCKS_UNLOCKING_1, cms.getSitePath(res)),
-                            I_CmsReport.FORMAT_DEFAULT);
-                        OpenCms.getMemoryMonitor().uncacheLock(res.getRootPath());
-                    }
-                }
-            }
-            getReport().println(Messages.get().container(Messages.RPT_DB_PUBLOCKS_END_0), I_CmsReport.FORMAT_HEADLINE);
-        } catch (Throwable exc) {
-            getReport().println(
-                Messages.get().container(Messages.RPT_DB_PUBLOCKS_FAILED_0),
-                I_CmsReport.FORMAT_WARNING);
-            getReport().println(exc);
-            m_error = exc;
+      Iterator<String> it = m_resources.iterator();
+      while (it.hasNext()) {
+        String paramResName = it.next();
+        getReport()
+            .println(
+                Messages.get().container(Messages.RPT_DB_PUBLOCKS_READLOCKS_1, paramResName),
+                I_CmsReport.FORMAT_NOTE);
+        Iterator<String> itResources = cms.getLockedResources(paramResName, filter).iterator();
+        while (itResources.hasNext()) {
+          String resName = itResources.next();
+          if (!cms.existsResource(resName, CmsResourceFilter.ALL)) {
+            getReport()
+                .println(
+                    Messages.get().container(Messages.RPT_DB_PUBLOCKS_UNLOCKING_1, resName),
+                    I_CmsReport.FORMAT_DEFAULT);
+            OpenCms.getMemoryMonitor().uncacheLock(cms.getRequestContext().addSiteRoot(resName));
+            continue;
+          }
+          Iterator<CmsResource> itSiblings =
+              cms.readSiblings(resName, CmsResourceFilter.ALL).iterator();
+          while (itSiblings.hasNext()) {
+            CmsResource res = itSiblings.next();
+            getReport()
+                .println(
+                    Messages.get()
+                        .container(Messages.RPT_DB_PUBLOCKS_UNLOCKING_1, cms.getSitePath(res)),
+                    I_CmsReport.FORMAT_DEFAULT);
+            OpenCms.getMemoryMonitor().uncacheLock(res.getRootPath());
+          }
         }
+      }
+      getReport()
+          .println(
+              Messages.get().container(Messages.RPT_DB_PUBLOCKS_END_0),
+              I_CmsReport.FORMAT_HEADLINE);
+    } catch (Throwable exc) {
+      getReport()
+          .println(
+              Messages.get().container(Messages.RPT_DB_PUBLOCKS_FAILED_0),
+              I_CmsReport.FORMAT_WARNING);
+      getReport().println(exc);
+      m_error = exc;
     }
+  }
 }

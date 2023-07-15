@@ -29,12 +29,9 @@ package org.opencms.gwt.client.ui.css;
 
 import com.google.gwt.resources.client.CssResource;
 
-/**
- * CSS for the attribute editor dialog.
- */
+/** CSS for the attribute editor dialog. */
 public interface I_CmsAttributeEditorCss extends CssResource {
 
-    /** CSS class accessor. */
-    String attributeEditor();
-
+  /** CSS class accessor. */
+  String attributeEditor();
 }

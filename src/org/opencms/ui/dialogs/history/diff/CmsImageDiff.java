@@ -27,6 +27,12 @@
 
 package org.opencms.ui.dialogs.history.diff;
 
+import com.google.common.base.Optional;
+import com.vaadin.server.ExternalResource;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Panel;
+import com.vaadin.v7.ui.HorizontalLayout;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.history.CmsHistoryResourceHandler;
@@ -37,63 +43,68 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.workplace.comparison.CmsHistoryListUtil;
 
-import com.google.common.base.Optional;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.ui.Component;
-import com.vaadin.v7.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Panel;
-
 /**
- * Displays two image versions side by side, scaled.<p>
+ * Displays two image versions side by side, scaled.
+ *
+ * <p>
  */
 public class CmsImageDiff implements I_CmsDiffProvider {
 
-    /**
-     * @see org.opencms.ui.dialogs.history.diff.I_CmsDiffProvider#diff(org.opencms.file.CmsObject, org.opencms.gwt.shared.CmsHistoryResourceBean, org.opencms.gwt.shared.CmsHistoryResourceBean)
-     */
-    public Optional<Component> diff(CmsObject cms, CmsHistoryResourceBean v1, CmsHistoryResourceBean v2)
-    throws CmsException {
+  /**
+   * @see org.opencms.ui.dialogs.history.diff.I_CmsDiffProvider#diff(org.opencms.file.CmsObject,
+   *     org.opencms.gwt.shared.CmsHistoryResourceBean,
+   *     org.opencms.gwt.shared.CmsHistoryResourceBean)
+   */
+  public Optional<Component> diff(
+      CmsObject cms, CmsHistoryResourceBean v1, CmsHistoryResourceBean v2) throws CmsException {
 
-        CmsResource r1 = A_CmsAttributeDiff.readResource(cms, v1);
-        if (OpenCms.getResourceManager().matchResourceType(CmsResourceTypeImage.getStaticTypeName(), r1.getTypeId())) {
-            HorizontalLayout hl = new HorizontalLayout();
-            hl.setSpacing(true);
-            String v1Param = v1.getVersion().getVersionNumber() != null
-            ? "" + v1.getVersion().getVersionNumber()
-            : "" + CmsHistoryResourceHandler.PROJECT_OFFLINE_VERSION;
-            String v2Param = v2.getVersion().getVersionNumber() != null
-            ? "" + v2.getVersion().getVersionNumber()
-            : "" + CmsHistoryResourceHandler.PROJECT_OFFLINE_VERSION;
+    CmsResource r1 = A_CmsAttributeDiff.readResource(cms, v1);
+    if (OpenCms.getResourceManager()
+        .matchResourceType(CmsResourceTypeImage.getStaticTypeName(), r1.getTypeId())) {
+      HorizontalLayout hl = new HorizontalLayout();
+      hl.setSpacing(true);
+      String v1Param =
+          v1.getVersion().getVersionNumber() != null
+              ? "" + v1.getVersion().getVersionNumber()
+              : "" + CmsHistoryResourceHandler.PROJECT_OFFLINE_VERSION;
+      String v2Param =
+          v2.getVersion().getVersionNumber() != null
+              ? "" + v2.getVersion().getVersionNumber()
+              : "" + CmsHistoryResourceHandler.PROJECT_OFFLINE_VERSION;
 
-            String link1 = OpenCms.getLinkManager().substituteLinkForUnknownTarget(
-                cms,
-                CmsHistoryListUtil.getHistoryLink(cms, v1.getStructureId(), v1Param));
-            String link2 = OpenCms.getLinkManager().substituteLinkForUnknownTarget(
-                cms,
-                CmsHistoryListUtil.getHistoryLink(cms, v2.getStructureId(), v2Param));
-            int scaleWidth = 400;
-            int scaleHeight = (2 * scaleWidth) / 3;
-            final String scaleParams = "w:" + scaleWidth + ",h:" + scaleHeight + ",t:1"; // scale type 1 for thumbnails (no enlargement)
-            link1 = CmsRequestUtil.appendParameter(link1, "__scale", scaleParams);
-            link2 = CmsRequestUtil.appendParameter(link2, "__scale", scaleParams);
-            Image img1 = new Image("", new ExternalResource(link1));
-            Image img2 = new Image("", new ExternalResource(link2));
-            for (Image img : new Image[] {img1, img2}) {
-                img.setWidth("" + scaleWidth + "px");
-            }
-            img1.setCaption("V1");
-            img2.setCaption("V2");
-            hl.addComponent(img1);
-            hl.addComponent(img2);
-            Panel result = new Panel("Image comparison");
-            hl.setMargin(true);
-            result.setContent(hl);
-            return Optional.fromNullable((Component)result);
-        } else {
-            return Optional.absent();
-        }
-
+      String link1 =
+          OpenCms.getLinkManager()
+              .substituteLinkForUnknownTarget(
+                  cms, CmsHistoryListUtil.getHistoryLink(cms, v1.getStructureId(), v1Param));
+      String link2 =
+          OpenCms.getLinkManager()
+              .substituteLinkForUnknownTarget(
+                  cms, CmsHistoryListUtil.getHistoryLink(cms, v2.getStructureId(), v2Param));
+      int scaleWidth = 400;
+      int scaleHeight = (2 * scaleWidth) / 3;
+      final String scaleParams =
+          "w:"
+              + scaleWidth
+              + ",h:"
+              + scaleHeight
+              + ",t:1"; // scale type 1 for thumbnails (no enlargement)
+      link1 = CmsRequestUtil.appendParameter(link1, "__scale", scaleParams);
+      link2 = CmsRequestUtil.appendParameter(link2, "__scale", scaleParams);
+      Image img1 = new Image("", new ExternalResource(link1));
+      Image img2 = new Image("", new ExternalResource(link2));
+      for (Image img : new Image[] {img1, img2}) {
+        img.setWidth("" + scaleWidth + "px");
+      }
+      img1.setCaption("V1");
+      img2.setCaption("V2");
+      hl.addComponent(img1);
+      hl.addComponent(img2);
+      Panel result = new Panel("Image comparison");
+      hl.setMargin(true);
+      result.setContent(hl);
+      return Optional.fromNullable((Component) result);
+    } else {
+      return Optional.absent();
     }
-
+  }
 }

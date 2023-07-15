@@ -27,26 +27,25 @@
 
 package org.opencms.ui.client.login;
 
+import com.vaadin.shared.ui.Connect;
+import com.vaadin.v7.client.ui.textfield.TextFieldConnector;
 import org.opencms.ui.login.CmsLoginUserField;
 
-import com.vaadin.v7.client.ui.textfield.TextFieldConnector;
-import com.vaadin.shared.ui.Connect;
-
 /**
- * Connector for the user field.<p>
+ * Connector for the user field.
+ *
+ * <p>
  */
 @Connect(CmsLoginUserField.class)
 public class CmsUserFieldConnector extends TextFieldConnector {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * @see com.vaadin.client.ui.textfield.TextFieldConnector#getWidget()
-     */
-    @Override
-    public CmsUserField getWidget() {
+  /** @see com.vaadin.client.ui.textfield.TextFieldConnector#getWidget() */
+  @Override
+  public CmsUserField getWidget() {
 
-        return (CmsUserField)(super.getWidget());
-    }
+    return (CmsUserField) (super.getWidget());
+  }
 }

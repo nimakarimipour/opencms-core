@@ -31,129 +31,137 @@ import org.opencms.file.CmsObject;
 import org.opencms.util.CmsStringUtil;
 
 /**
- * Element setting access wrapper.<p>
+ * Element setting access wrapper.
+ *
+ * <p>
  */
 public class CmsJspElementSettingValueWrapper extends A_CmsJspValueWrapper {
 
-    /** The instance of the enclosing context bean. */
-    private final CmsJspStandardContextBean m_contextBean;
+  /** The instance of the enclosing context bean. */
+  private final CmsJspStandardContextBean m_contextBean;
 
-    /** Flag indicating the setting has been configured. */
-    private boolean m_exists;
+  /** Flag indicating the setting has been configured. */
+  private boolean m_exists;
 
-    /** Calculated hash code. */
-    private int m_hashCode;
+  /** Calculated hash code. */
+  private int m_hashCode;
 
-    /** The wrapped setting value, which always is a String. */
-    private String m_value;
+  /** The wrapped setting value, which always is a String. */
+  private String m_value;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param contextBean the standard context bean this setting was wrapped from
-     * @param value the wrapped value
-     * @param exists flag indicating the setting has been configured
-     */
-    CmsJspElementSettingValueWrapper(CmsJspStandardContextBean contextBean, String value, boolean exists) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param contextBean the standard context bean this setting was wrapped from
+   * @param value the wrapped value
+   * @param exists flag indicating the setting has been configured
+   */
+  CmsJspElementSettingValueWrapper(
+      CmsJspStandardContextBean contextBean, String value, boolean exists) {
 
-        m_contextBean = contextBean;
-        m_value = value;
-        m_exists = exists;
+    m_contextBean = contextBean;
+    m_value = value;
+    m_exists = exists;
+  }
+
+  /** @see org.opencms.jsp.util.A_CmsJspValueWrapper#getCmsObject() */
+  @Override
+  public CmsObject getCmsObject() {
+
+    return m_contextBean.m_cms;
+  }
+
+  /**
+   * Returns if the setting has been configured.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the setting has been configured
+   */
+  @Override
+  public boolean getExists() {
+
+    return m_exists;
+  }
+
+  /**
+   * Returns if the setting value is null or empty.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the setting value is null or empty
+   */
+  @Override
+  public boolean getIsEmpty() {
+
+    return !m_exists || CmsStringUtil.isEmpty(m_value);
+  }
+
+  /**
+   * Returns if the setting value is null or white space only.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the setting value is null or white space only
+   */
+  @Override
+  public boolean getIsEmptyOrWhitespaceOnly() {
+
+    return !m_exists || CmsStringUtil.isEmptyOrWhitespaceOnly(m_value);
+  }
+
+  /** @see org.opencms.jsp.util.A_CmsJspValueWrapper#getObjectValue() */
+  @Override
+  public Object getObjectValue() {
+
+    return m_value;
+  }
+
+  /**
+   * Returns the raw value.
+   *
+   * <p>This may return <code>null</code>.
+   *
+   * @return the value
+   * @deprecated use {@link #getObjectValue()} instead
+   */
+  @Deprecated
+  public String getValue() {
+
+    return m_value;
+  }
+
+  /**
+   * The hash code is based in the String value of the element setting.
+   *
+   * <p>
+   *
+   * @see org.opencms.jsp.util.A_CmsJspValueWrapper#hashCode()
+   */
+  @Override
+  public int hashCode() {
+
+    if (m_value == null) {
+      return 0;
     }
-
-    /**
-     * @see org.opencms.jsp.util.A_CmsJspValueWrapper#getCmsObject()
-     */
-    @Override
-    public CmsObject getCmsObject() {
-
-        return m_contextBean.m_cms;
+    if (m_hashCode == 0) {
+      m_hashCode = m_value.hashCode();
     }
+    return m_hashCode;
+  }
 
-    /**
-     * Returns if the setting has been configured.<p>
-     *
-     * @return <code>true</code> if the setting has been configured
-     */
-    @Override
-    public boolean getExists() {
+  /**
+   * Returns the string value.
+   *
+   * <p>This will always be at least an empty String <code>""</code>, never <code>null</code>.
+   *
+   * @return the string value
+   */
+  @Override
+  public String toString() {
 
-        return m_exists;
-    }
-
-    /**
-     * Returns if the setting value is null or empty.<p>
-     *
-     * @return <code>true</code> if the setting value is null or empty
-     */
-    @Override
-    public boolean getIsEmpty() {
-
-        return !m_exists || CmsStringUtil.isEmpty(m_value);
-    }
-
-    /**
-     * Returns if the setting value is null or white space only.<p>
-     *
-     * @return <code>true</code> if the setting value is null or white space only
-     */
-    @Override
-    public boolean getIsEmptyOrWhitespaceOnly() {
-
-        return !m_exists || CmsStringUtil.isEmptyOrWhitespaceOnly(m_value);
-    }
-
-    /**
-     * @see org.opencms.jsp.util.A_CmsJspValueWrapper#getObjectValue()
-     */
-    @Override
-    public Object getObjectValue() {
-
-        return m_value;
-    }
-
-    /**
-     * Returns the raw value.<p>
-     *
-     * This may return <code>null</code>.
-     *
-     * @return the value
-     *
-     * @deprecated use {@link #getObjectValue()} instead
-     */
-    @Deprecated
-    public String getValue() {
-
-        return m_value;
-    }
-
-    /**
-     * The hash code is based in the String value of the element setting.<p>
-     *
-     * @see org.opencms.jsp.util.A_CmsJspValueWrapper#hashCode()
-     */
-    @Override
-    public int hashCode() {
-
-        if (m_value == null) {
-            return 0;
-        }
-        if (m_hashCode == 0) {
-            m_hashCode = m_value.hashCode();
-        }
-        return m_hashCode;
-    }
-
-    /**
-     * Returns the string value.<p>
-     *
-     * This will always be at least an empty String <code>""</code>, never <code>null</code>.
-     *
-     * @return the string value
-     */
-    @Override
-    public String toString() {
-
-        return m_value != null ? m_value : "";
-    }
+    return m_value != null ? m_value : "";
+  }
 }

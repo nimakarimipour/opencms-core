@@ -27,29 +27,28 @@
 
 package org.opencms.xml2json;
 
+import java.util.AbstractMap.SimpleEntry;
 import org.opencms.json.JSONException;
 import org.opencms.xml.xml2json.CmsXmlContentTree.Field;
 import org.opencms.xml.xml2json.renderer.CmsJsonRendererXmlContent;
 
-import java.util.AbstractMap.SimpleEntry;
-
 /**
  * Dummy XML content renderer.
  *
- * Throws out everything except 'Text' field.
+ * <p>Throws out everything except 'Text' field.
  */
 public class CmsDummyContentRenderer extends CmsJsonRendererXmlContent {
 
-    /**
-     * @see org.opencms.xml.xml2json.renderer.CmsJsonRendererXmlContent#renderField(org.opencms.xml.xml2json.CmsXmlContentTree.Field)
-     */
-    @Override
-    protected SimpleEntry<String, Object> renderField(Field field) throws JSONException {
+  /**
+   * @see
+   *     org.opencms.xml.xml2json.renderer.CmsJsonRendererXmlContent#renderField(org.opencms.xml.xml2json.CmsXmlContentTree.Field)
+   */
+  @Override
+  protected SimpleEntry<String, Object> renderField(Field field) throws JSONException {
 
-        if (!field.getName().equals("Text")) {
-            return null;
-        }
-        return super.renderField(field);
+    if (!field.getName().equals("Text")) {
+      return null;
     }
-
+    return super.renderField(field);
+  }
 }

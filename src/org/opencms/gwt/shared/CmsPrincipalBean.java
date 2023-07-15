@@ -30,100 +30,118 @@ package org.opencms.gwt.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * A bean that holds the informations of a principal to show the availability dialog.<p>
+ * A bean that holds the informations of a principal to show the availability dialog.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsPrincipalBean implements IsSerializable {
 
-    /** The description. */
-    private String m_description;
+  /** The description. */
+  private String m_description;
 
-    /** The group flag. */
-    private boolean m_isGroup;
+  /** The group flag. */
+  private boolean m_isGroup;
 
-    /** The name of the principal. */
-    private String m_name;
+  /** The name of the principal. */
+  private String m_name;
 
-    /**
-     * The default constructor.<p>
-     */
-    public CmsPrincipalBean() {
+  /**
+   * The default constructor.
+   *
+   * <p>
+   */
+  public CmsPrincipalBean() {
 
-        // noop
-    }
+    // noop
+  }
 
-    /**
-     * The public constructor.<p>
-     *
-     * @param name the name of the principal
-     * @param description the description
-     * @param isGruop the group flag
-     */
-    public CmsPrincipalBean(String name, String description, boolean isGruop) {
+  /**
+   * The public constructor.
+   *
+   * <p>
+   *
+   * @param name the name of the principal
+   * @param description the description
+   * @param isGruop the group flag
+   */
+  public CmsPrincipalBean(String name, String description, boolean isGruop) {
 
-        m_name = name;
-        m_description = description;
-        m_isGroup = isGruop;
-    }
+    m_name = name;
+    m_description = description;
+    m_isGroup = isGruop;
+  }
 
-    /**
-     * Returns the description.<p>
-     *
-     * @return the description
-     */
-    public String getDescription() {
+  /**
+   * Returns the description.
+   *
+   * <p>
+   *
+   * @return the description
+   */
+  public String getDescription() {
 
-        return m_description;
-    }
+    return m_description;
+  }
 
-    /**
-     * Returns the name.<p>
-     *
-     * @return the name
-     */
-    public String getName() {
+  /**
+   * Returns the name.
+   *
+   * <p>
+   *
+   * @return the name
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the isGroup.<p>
-     *
-     * @return the isGroup
-     */
-    public boolean isGroup() {
+  /**
+   * Returns the isGroup.
+   *
+   * <p>
+   *
+   * @return the isGroup
+   */
+  public boolean isGroup() {
 
-        return m_isGroup;
-    }
+    return m_isGroup;
+  }
 
-    /**
-     * Sets the description.<p>
-     *
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
+  /**
+   * Sets the description.
+   *
+   * <p>
+   *
+   * @param description the description to set
+   */
+  public void setDescription(String description) {
 
-        m_description = description;
-    }
+    m_description = description;
+  }
 
-    /**
-     * Sets the isGroup.<p>
-     *
-     * @param isGroup the isGroup to set
-     */
-    public void setGroup(boolean isGroup) {
+  /**
+   * Sets the isGroup.
+   *
+   * <p>
+   *
+   * @param isGroup the isGroup to set
+   */
+  public void setGroup(boolean isGroup) {
 
-        m_isGroup = isGroup;
-    }
+    m_isGroup = isGroup;
+  }
 
-    /**
-     * Sets the name.<p>
-     *
-     * @param name the name to set
-     */
-    public void setName(String name) {
+  /**
+   * Sets the name.
+   *
+   * <p>
+   *
+   * @param name the name to set
+   */
+  public void setName(String name) {
 
-        m_name = name;
-    }
+    m_name = name;
+  }
 }

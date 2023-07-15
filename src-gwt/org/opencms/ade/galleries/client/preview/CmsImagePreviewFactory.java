@@ -27,50 +27,55 @@
 
 package org.opencms.ade.galleries.client.preview;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.opencms.ade.galleries.client.CmsGalleryController;
 import org.opencms.ade.galleries.client.ui.CmsGalleryDialog;
 import org.opencms.ade.galleries.shared.I_CmsImagePreviewProvider;
 import org.opencms.gwt.client.I_CmsHasInit;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * The image resource preview factory.<p>
+ * The image resource preview factory.
+ *
+ * <p>
  *
  * @since 8.0.3
  */
 public final class CmsImagePreviewFactory implements I_CmsPreviewFactory, I_CmsHasInit {
 
-    /** The preview registry. */
-    private Map<String, CmsImageResourcePreview> m_previewRegistry;
+  /** The preview registry. */
+  private Map<String, CmsImageResourcePreview> m_previewRegistry;
 
-    /**
-     * Constructor.<p>
-     */
-    private CmsImagePreviewFactory() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  private CmsImagePreviewFactory() {
 
-        m_previewRegistry = new HashMap<String, CmsImageResourcePreview>();
+    m_previewRegistry = new HashMap<String, CmsImageResourcePreview>();
+  }
+
+  /**
+   * Initializes this class.
+   *
+   * <p>
+   */
+  public static void initClass() {
+
+    CmsImagePreviewFactory factory = new CmsImagePreviewFactory();
+    CmsGalleryController.registerPreviewFactory(I_CmsImagePreviewProvider.PREVIEW_NAME, factory);
+  }
+
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.I_CmsPreviewFactory#getPreview(org.opencms.ade.galleries.client.ui.CmsGalleryDialog)
+   */
+  public I_CmsResourcePreview<?> getPreview(CmsGalleryDialog dialog) {
+
+    if (!m_previewRegistry.containsKey(dialog.getDialogId())) {
+      m_previewRegistry.put(dialog.getDialogId(), new CmsImageResourcePreview(dialog));
     }
-
-    /**
-     * Initializes this class.<p>
-     */
-    public static void initClass() {
-
-        CmsImagePreviewFactory factory = new CmsImagePreviewFactory();
-        CmsGalleryController.registerPreviewFactory(I_CmsImagePreviewProvider.PREVIEW_NAME, factory);
-    }
-
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsPreviewFactory#getPreview(org.opencms.ade.galleries.client.ui.CmsGalleryDialog)
-     */
-    public I_CmsResourcePreview<?> getPreview(CmsGalleryDialog dialog) {
-
-        if (!m_previewRegistry.containsKey(dialog.getDialogId())) {
-            m_previewRegistry.put(dialog.getDialogId(), new CmsImageResourcePreview(dialog));
-        }
-        return m_previewRegistry.get(dialog.getDialogId());
-    }
-
+    return m_previewRegistry.get(dialog.getDialogId());
+  }
 }

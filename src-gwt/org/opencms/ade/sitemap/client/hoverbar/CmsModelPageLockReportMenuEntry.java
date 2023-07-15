@@ -30,28 +30,29 @@ package org.opencms.ade.sitemap.client.hoverbar;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 
 /**
- * Special lock report menu entry for the model page mode.<p>
+ * Special lock report menu entry for the model page mode.
+ *
+ * <p>
  */
 public class CmsModelPageLockReportMenuEntry extends CmsLockReportMenuEntry {
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsModelPageLockReportMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsModelPageLockReportMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-    }
+    super(hoverbar);
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.CmsLockReportMenuEntry#checkVisible()
-     */
-    @Override
-    protected boolean checkVisible() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.CmsLockReportMenuEntry#checkVisible() */
+  @Override
+  protected boolean checkVisible() {
 
-        return getHoverbar().getController().isEditable() && CmsSitemapView.getInstance().isModelPageMode();
-
-    }
-
+    return getHoverbar().getController().isEditable()
+        && CmsSitemapView.getInstance().isModelPageMode();
+  }
 }

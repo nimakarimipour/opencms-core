@@ -30,13 +30,17 @@ package org.opencms.gwt.shared.alias;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * The status for the result of an alias import operation.<p>
+ * The status for the result of an alias import operation.
+ *
+ * <p>
  */
 public enum CmsAliasImportStatus implements IsSerializable {
-    /** The alias target or mode has changed. */
-    aliasChanged, /** The alias could not be imported. */
-    aliasImportError, /** The alias was newly created. */
-    aliasNew, /** The alias line could not be parsed. */
-    aliasParseError;
-
+  /** The alias target or mode has changed. */
+  aliasChanged,
+  /** The alias could not be imported. */
+  aliasImportError,
+  /** The alias was newly created. */
+  aliasNew,
+  /** The alias line could not be parsed. */
+  aliasParseError;
 }

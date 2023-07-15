@@ -28,14 +28,18 @@
 package org.opencms.ui.apps;
 
 /**
- * Sortable configuration item interface.<p>
+ * Sortable configuration item interface.
+ *
+ * <p>
  */
 public interface I_CmsHasOrder {
 
-    /**
-     * Gets an integer used to sort items.<p>
-     *
-     * @return the integer used as a sort key
-     */
-    int getOrder();
+  /**
+   * Gets an integer used to sort items.
+   *
+   * <p>
+   *
+   * @return the integer used as a sort key
+   */
+  int getOrder();
 }

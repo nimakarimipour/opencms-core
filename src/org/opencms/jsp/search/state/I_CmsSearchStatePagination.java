@@ -30,24 +30,32 @@ package org.opencms.jsp.search.state;
 /** Interface for pagination states. */
 public interface I_CmsSearchStatePagination {
 
-    /** Returns the current page.
-     * @return The current page.
-     */
-    int getCurrentPage();
+  /**
+   * Returns the current page.
+   *
+   * @return The current page.
+   */
+  int getCurrentPage();
 
-    /** Returns a flag, indicating if the state of the current page should be ignored.
-     * This is for example the case if the user's query has changed.
-     * @return A flag, indicating if the state of the current page should be ignored.
-     */
-    boolean getIgnorePage();
+  /**
+   * Returns a flag, indicating if the state of the current page should be ignored. This is for
+   * example the case if the user's query has changed.
+   *
+   * @return A flag, indicating if the state of the current page should be ignored.
+   */
+  boolean getIgnorePage();
 
-    /** Setter for the current page.
-     * @param page The current page to set.
-     */
-    void setCurrentPage(int page);
+  /**
+   * Setter for the current page.
+   *
+   * @param page The current page to set.
+   */
+  void setCurrentPage(int page);
 
-    /** Setter for a flag, indicating if the state of the current page should be ignored.
-     * @param ignore A flag, indicating if the state of the current page should be ignored.
-     */
-    void setIgnorePage(boolean ignore);
+  /**
+   * Setter for a flag, indicating if the state of the current page should be ignored.
+   *
+   * @param ignore A flag, indicating if the state of the current page should be ignored.
+   */
+  void setIgnorePage(boolean ignore);
 }

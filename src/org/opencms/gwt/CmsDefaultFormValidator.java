@@ -27,39 +27,43 @@
 
 package org.opencms.gwt;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.gwt.shared.CmsValidationQuery;
 import org.opencms.gwt.shared.CmsValidationResult;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * A form validator which does nothing special and just validates form field values independently of each other.<p>
+ * A form validator which does nothing special and just validates form field values independently of
+ * each other.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsDefaultFormValidator implements I_CmsFormValidator {
 
-    /**
-     * @see org.opencms.gwt.I_CmsFormValidator#validate(org.opencms.file.CmsObject, java.util.Map, java.util.Map, java.lang.String)
-     */
-    public Map<String, CmsValidationResult> validate(
-        CmsObject cms,
-        Map<String, CmsValidationQuery> queries,
-        Map<String, String> values,
-        String config) throws Exception {
+  /**
+   * @see org.opencms.gwt.I_CmsFormValidator#validate(org.opencms.file.CmsObject, java.util.Map,
+   *     java.util.Map, java.lang.String)
+   */
+  public Map<String, CmsValidationResult> validate(
+      CmsObject cms,
+      Map<String, CmsValidationQuery> queries,
+      Map<String, String> values,
+      String config)
+      throws Exception {
 
-        Map<String, CmsValidationResult> result = new HashMap<String, CmsValidationResult>();
-        for (Map.Entry<String, CmsValidationQuery> queryEntry : queries.entrySet()) {
-            String fieldName = queryEntry.getKey();
-            CmsValidationQuery query = queryEntry.getValue();
-            I_CmsValidationService fieldValidator = CmsCoreService.instantiate(
-                I_CmsValidationService.class,
-                query.getValidatorId());
-            CmsValidationResult fieldResult = fieldValidator.validate(cms, query.getValue(), query.getConfig());
-            result.put(fieldName, fieldResult);
-        }
-        return result;
+    Map<String, CmsValidationResult> result = new HashMap<String, CmsValidationResult>();
+    for (Map.Entry<String, CmsValidationQuery> queryEntry : queries.entrySet()) {
+      String fieldName = queryEntry.getKey();
+      CmsValidationQuery query = queryEntry.getValue();
+      I_CmsValidationService fieldValidator =
+          CmsCoreService.instantiate(I_CmsValidationService.class, query.getValidatorId());
+      CmsValidationResult fieldResult =
+          fieldValidator.validate(cms, query.getValue(), query.getConfig());
+      result.put(fieldName, fieldResult);
     }
+    return result;
+  }
 }

@@ -27,6 +27,9 @@
 
 package org.opencms.ade.sitemap.client.hoverbar;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.List;
+import java.util.Map;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
 import org.opencms.ade.sitemap.client.edit.CmsEditEntryHandler;
@@ -40,101 +43,95 @@ import org.opencms.gwt.shared.alias.CmsAliasBean;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
-import java.util.List;
-import java.util.Map;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * The context menu entry used for opening the "alias editor" dialog.<p>
+ * The context menu entry used for opening the "alias editor" dialog.
+ *
+ * <p>
  */
 public class CmsSeoMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsSeoMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsSeoMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(org.opencms.gwt.client.seo.Messages.get().key(Messages.GUI_SEO_OPTIONS_0));
-        setActive(true);
-        setVisible(true);
+    super(hoverbar);
+    setLabel(org.opencms.gwt.client.seo.Messages.get().key(Messages.GUI_SEO_OPTIONS_0));
+    setActive(true);
+    setVisible(true);
+  }
+
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
+
+    CmsSitemapView view = CmsSitemapView.getInstance();
+    final CmsSitemapController controller = view.getController();
+    String sitePath = getHoverbar().getEntry().getSitePath();
+    CmsClientSitemapEntry entry = controller.getEntry(sitePath);
+    CmsUUID structureId = entry.getDefaultFileId();
+    if (structureId == null) {
+      structureId = entry.getId();
     }
+    // use another final variable so that we can use it in the callback
+    final CmsUUID constStructureId = structureId;
+    CmsRpcAction<CmsListInfoBean> infoAction =
+        new CmsRpcAction<CmsListInfoBean>() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+          @Override
+          public void execute() {
 
-        CmsSitemapView view = CmsSitemapView.getInstance();
-        final CmsSitemapController controller = view.getController();
-        String sitePath = getHoverbar().getEntry().getSitePath();
-        CmsClientSitemapEntry entry = controller.getEntry(sitePath);
-        CmsUUID structureId = entry.getDefaultFileId();
-        if (structureId == null) {
-            structureId = entry.getId();
-        }
-        // use another final variable so that we can use it in the callback
-        final CmsUUID constStructureId = structureId;
-        CmsRpcAction<CmsListInfoBean> infoAction = new CmsRpcAction<CmsListInfoBean>() {
+            start(200, true);
+            CmsCoreProvider.getVfsService().getPageInfo(constStructureId, this);
+          }
 
-            @Override
-            public void execute() {
+          @Override
+          protected void onResponse(final CmsListInfoBean listInfoBean) {
 
-                start(200, true);
-                CmsCoreProvider.getVfsService().getPageInfo(constStructureId, this);
-            }
+            stop(false);
+            CmsSeoOptionsDialog.loadAliases(
+                constStructureId,
+                new AsyncCallback<List<CmsAliasBean>>() {
 
-            @Override
-            protected void onResponse(final CmsListInfoBean listInfoBean) {
+                  public void onFailure(Throwable caught) {
 
-                stop(false);
-                CmsSeoOptionsDialog.loadAliases(constStructureId, new AsyncCallback<List<CmsAliasBean>>() {
+                    // do nothing
+                  }
 
-                    public void onFailure(Throwable caught) {
+                  public void onSuccess(List<CmsAliasBean> result) {
 
-                        // do nothing
-                    }
-
-                    public void onSuccess(List<CmsAliasBean> result) {
-
-                        CmsEditEntryHandler handler = new CmsEditEntryHandler(
+                    CmsEditEntryHandler handler =
+                        new CmsEditEntryHandler(
                             controller,
                             getHoverbar().getEntry(),
                             CmsSitemapView.getInstance().isNavigationMode());
-                        handler.setPageInfo(listInfoBean);
-                        Map<String, CmsXmlContentProperty> propConfig = CmsSitemapView.getInstance().getController().getData().getProperties();
-                        CmsSeoOptionsDialog dialog = new CmsSeoOptionsDialog(
-                            constStructureId,
-                            listInfoBean,
-                            result,
-                            propConfig,
-                            handler);
-                        dialog.center();
-                    }
-
+                    handler.setPageInfo(listInfoBean);
+                    Map<String, CmsXmlContentProperty> propConfig =
+                        CmsSitemapView.getInstance().getController().getData().getProperties();
+                    CmsSeoOptionsDialog dialog =
+                        new CmsSeoOptionsDialog(
+                            constStructureId, listInfoBean, result, propConfig, handler);
+                    dialog.center();
+                  }
                 });
-
-            }
-
+          }
         };
-        infoAction.execute();
+    infoAction.execute();
+  }
 
-    }
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
-
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        boolean show = getHoverbar().getController().isEditable()
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    boolean show =
+        getHoverbar().getController().isEditable()
             && !CmsSitemapView.getInstance().isSpecialMode()
             && (entry != null)
             && entry.isEditable();
-        setVisible(show);
-    }
+    setVisible(show);
+  }
 }

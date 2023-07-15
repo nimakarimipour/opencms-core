@@ -30,153 +30,193 @@ package org.opencms.workplace.comparison;
 import org.opencms.util.CmsStringUtil;
 
 /**
- * Comparison of resource attributes.<p>
+ * Comparison of resource attributes.
+ *
+ * <p>
  */
 public class CmsAttributeComparison {
 
-    /** The name of the property.<p> */
-    private String m_name;
+  /**
+   * The name of the property.
+   *
+   * <p>
+   */
+  private String m_name;
 
-    /** The type of the attribute comparison.<p> */
-    private String m_status;
+  /**
+   * The type of the attribute comparison.
+   *
+   * <p>
+   */
+  private String m_status;
 
-    /** The first value of the attribute.<p> */
-    private String m_version1;
+  /**
+   * The first value of the attribute.
+   *
+   * <p>
+   */
+  private String m_version1;
 
-    /** The second value of the attribute.<p> */
-    private String m_version2;
+  /**
+   * The second value of the attribute.
+   *
+   * <p>
+   */
+  private String m_version2;
 
-    /**
-     * Constructs a new attribute object.<p>
-     */
-    public CmsAttributeComparison() {
+  /**
+   * Constructs a new attribute object.
+   *
+   * <p>
+   */
+  public CmsAttributeComparison() {
 
-        // empty
+    // empty
+  }
+
+  /**
+   * Creates a new attribute comparison.
+   *
+   * <p>
+   *
+   * @param name the name to set
+   * @param version1 the first value of the property
+   * @param version2 the second value of the property
+   */
+  public CmsAttributeComparison(String name, String version1, String version2) {
+
+    m_name = name;
+    m_version1 = version1;
+    m_version2 = version2;
+    boolean v1Empty = CmsStringUtil.isEmptyOrWhitespaceOnly(version1);
+    boolean v2Empty = CmsStringUtil.isEmptyOrWhitespaceOnly(version2);
+    if (v1Empty && !v2Empty) {
+      m_status = CmsResourceComparison.TYPE_ADDED;
+    } else if (!v1Empty && v2Empty) {
+      m_status = CmsResourceComparison.TYPE_REMOVED;
+    } else if ((v1Empty && v2Empty) || version1.equals(version2)) {
+      m_status = CmsResourceComparison.TYPE_UNCHANGED;
+    } else {
+      m_status = CmsResourceComparison.TYPE_CHANGED;
     }
+  }
 
-    /**
-     * Creates a new attribute comparison.<p>
-     *
-     * @param name the name to set
-     * @param version1 the first value of the property
-     * @param version2 the second value of the property
-     */
-    public CmsAttributeComparison(String name, String version1, String version2) {
+  /**
+   * Creates a new attribute comparison.
+   *
+   * <p>
+   *
+   * @param name the name to set
+   * @param version1 the first value of the property
+   * @param version2 the second value of the property
+   * @param type the type indicating if the element value has been added, removed, modified or is
+   *     unchanged
+   * @see CmsResourceComparison#TYPE_ADDED
+   * @see CmsResourceComparison#TYPE_CHANGED
+   * @see CmsResourceComparison#TYPE_REMOVED
+   * @see CmsResourceComparison#TYPE_UNCHANGED
+   */
+  public CmsAttributeComparison(String name, String version1, String version2, String type) {
 
-        m_name = name;
-        m_version1 = version1;
-        m_version2 = version2;
-        boolean v1Empty = CmsStringUtil.isEmptyOrWhitespaceOnly(version1);
-        boolean v2Empty = CmsStringUtil.isEmptyOrWhitespaceOnly(version2);
-        if (v1Empty && !v2Empty) {
-            m_status = CmsResourceComparison.TYPE_ADDED;
-        } else if (!v1Empty && v2Empty) {
-            m_status = CmsResourceComparison.TYPE_REMOVED;
-        } else if ((v1Empty && v2Empty) || version1.equals(version2)) {
-            m_status = CmsResourceComparison.TYPE_UNCHANGED;
-        } else {
-            m_status = CmsResourceComparison.TYPE_CHANGED;
-        }
-    }
+    m_name = name;
+    m_version1 = version1;
+    m_version2 = version2;
+    m_status = type;
+  }
 
-    /**
-     * Creates a new attribute comparison.<p>
-     *
-     * @param name the name to set
-     * @param version1 the first value of the property
-     * @param version2 the second value of the property
-     * @param type the type indicating if the element value has been added, removed, modified or is unchanged
-     *
-     * @see CmsResourceComparison#TYPE_ADDED
-     * @see CmsResourceComparison#TYPE_CHANGED
-     * @see CmsResourceComparison#TYPE_REMOVED
-     * @see CmsResourceComparison#TYPE_UNCHANGED
-     */
-    public CmsAttributeComparison(String name, String version1, String version2, String type) {
+  /**
+   * Returns the locale.
+   *
+   * <p>
+   *
+   * @return the locale
+   */
+  public String getName() {
 
-        m_name = name;
-        m_version1 = version1;
-        m_version2 = version2;
-        m_status = type;
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the locale.<p>
-     *
-     * @return the locale
-     */
-    public String getName() {
+  /**
+   * Returns the type.
+   *
+   * <p>
+   *
+   * @return the type
+   */
+  public String getStatus() {
 
-        return m_name;
-    }
+    return m_status;
+  }
 
-    /**
-     * Returns the type.<p>
-     *
-     * @return the type
-     */
-    public String getStatus() {
+  /**
+   * Returns the attribute.
+   *
+   * <p>
+   *
+   * @return the attribute
+   */
+  public String getVersion1() {
 
-        return m_status;
-    }
+    return m_version1;
+  }
 
-    /**
-     * Returns the attribute.<p>
-     *
-     * @return the attribute
-     */
-    public String getVersion1() {
+  /**
+   * Returns the type.
+   *
+   * <p>
+   *
+   * @return the type
+   */
+  public String getVersion2() {
 
-        return m_version1;
-    }
+    return m_version2;
+  }
 
-    /**
-     * Returns the type.<p>
-     *
-     * @return the type
-     */
-    public String getVersion2() {
+  /**
+   * Sets the name.
+   *
+   * <p>
+   *
+   * @param name the name to set
+   */
+  public void setName(String name) {
 
-        return m_version2;
-    }
+    m_name = name;
+  }
 
-    /**
-     * Sets the name.<p>
-     *
-     * @param name the name to set
-     */
-    public void setName(String name) {
+  /**
+   * Sets the type.
+   *
+   * <p>
+   *
+   * @param type the type to set
+   */
+  public void setStatus(String type) {
 
-        m_name = name;
-    }
+    m_status = type;
+  }
 
-    /**
-     * Sets the type.<p>
-     *
-     * @param type the type to set
-     */
-    public void setStatus(String type) {
+  /**
+   * Sets the version1.
+   *
+   * <p>
+   *
+   * @param version1 the version1 to set
+   */
+  public void setVersion1(String version1) {
 
-        m_status = type;
-    }
+    m_version1 = version1;
+  }
 
-    /**
-     * Sets the version1.<p>
-     *
-     * @param version1 the version1 to set
-     */
-    public void setVersion1(String version1) {
+  /**
+   * Sets the type.
+   *
+   * <p>
+   *
+   * @param type the type to set
+   */
+  public void setVersion2(String type) {
 
-        m_version1 = version1;
-    }
-
-    /**
-     * Sets the type.<p>
-     *
-     * @param type the type to set
-     */
-    public void setVersion2(String type) {
-
-        m_version2 = type;
-    }
+    m_version2 = type;
+  }
 }

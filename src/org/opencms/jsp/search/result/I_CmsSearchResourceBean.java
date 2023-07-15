@@ -27,49 +27,58 @@
 
 package org.opencms.jsp.search.result;
 
-import org.opencms.jsp.util.CmsJspContentAccessBean;
-import org.opencms.search.CmsSearchResource;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.opencms.jsp.util.CmsJspContentAccessBean;
+import org.opencms.search.CmsSearchResource;
 
-/**
-* @return
-*/
+/** @return */
 
 /** Interface for a single search result, as wrapped JSP EL friendly. */
 public interface I_CmsSearchResourceBean {
 
-    /** Returns the map from field names to field values for date fields.
-     * @return The map from field names to field values for date fields.
-     */
-    Map<String, Date> getDateFields();
+  /**
+   * Returns the map from field names to field values for date fields.
+   *
+   * @return The map from field names to field values for date fields.
+   */
+  Map<String, Date> getDateFields();
 
-    /** Returns the map from field names to field values for string fields.
-     * @return The map from field names to field values for string fields.
-     */
-    Map<String, String> getFields();
+  /**
+   * Returns the map from field names to field values for string fields.
+   *
+   * @return The map from field names to field values for string fields.
+   */
+  Map<String, String> getFields();
 
-    /** Returns the map from field names to field values for multi-valued (string) fields.
-     * @return The map from field names to field values for multi-valued (string) fields.
-     */
-    Map<String, List<String>> getMultiValuedFields();
+  /**
+   * Returns the map from field names to field values for multi-valued (string) fields.
+   *
+   * @return The map from field names to field values for multi-valued (string) fields.
+   */
+  Map<String, List<String>> getMultiValuedFields();
 
-    /** Returns the wrapped CmsSearchResource (to access the CmsResource).
-     * @return The wrapped CmsSearchResource.
-     */
-    CmsSearchResource getSearchResource();
+  /**
+   * Returns the wrapped CmsSearchResource (to access the CmsResource).
+   *
+   * @return The wrapped CmsSearchResource.
+   */
+  CmsSearchResource getSearchResource();
 
-    /** Reads the resource and allows content access in the current request language - in case of an XML content.
-     * If the resource is not an XML content, it returns null.
-     * @return The XML content or null.
-     */
-    CmsJspContentAccessBean getXmlContent();
+  /**
+   * Reads the resource and allows content access in the current request language - in case of an
+   * XML content. If the resource is not an XML content, it returns null.
+   *
+   * @return The XML content or null.
+   */
+  CmsJspContentAccessBean getXmlContent();
 
-    /** Reads the resource and allows content access in the specified language - in case of an XML content.
-     * If the resource is not an XML content, it returns null.
-     * @return The XML content or null.
-     */
-    Map<String, CmsJspContentAccessBean> getXmlContentInLocale();
+  /**
+   * Reads the resource and allows content access in the specified language - in case of an XML
+   * content. If the resource is not an XML content, it returns null.
+   *
+   * @return The XML content or null.
+   */
+  Map<String, CmsJspContentAccessBean> getXmlContentInLocale();
 }

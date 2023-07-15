@@ -27,6 +27,20 @@
 
 package org.opencms.ui.apps.user;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.Window;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsGroup;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
@@ -44,203 +58,195 @@ import org.opencms.ui.dialogs.permissions.CmsPrincipalSelect.WidgetType;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.Window;
-import com.vaadin.v7.shared.ui.label.ContentMode;
-import com.vaadin.v7.ui.HorizontalLayout;
-import com.vaadin.v7.ui.Label;
-import com.vaadin.v7.ui.VerticalLayout;
-
 /**
- * Dialog for delete multiple principal.<p>
+ * Dialog for delete multiple principal.
+ *
+ * <p>
  */
 public class CmsDeleteMultiplePrincipalDialog extends CmsBasicDialog {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsDeleteMultiplePrincipalDialog.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsDeleteMultiplePrincipalDialog.class);
 
-    /**vaadin serial id. */
-    private static final long serialVersionUID = -1191281655158071555L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -1191281655158071555L;
 
-    /**The icon. */
-    private Label m_icon;
+  /** The icon. */
+  private Label m_icon;
 
-    /**The icon. */
-    private Label m_icon2;
+  /** The icon. */
+  private Label m_icon2;
 
-    /**Vaadin component. */
-    Button m_okButton;
+  /** Vaadin component. */
+  Button m_okButton;
 
-    /**Vaadin component. */
-    CmsObject m_cms;
+  /** Vaadin component. */
+  CmsObject m_cms;
 
-    /**Vaadin component. */
-    private Label m_label;
+  /** Vaadin component. */
+  private Label m_label;
 
-    /**Vaadin component. */
-    Button m_cancelButton;
+  /** Vaadin component. */
+  Button m_cancelButton;
 
-    /**The ids to delete. */
-    private Set<String> m_ids;
+  /** The ids to delete. */
+  private Set<String> m_ids;
 
-    /**Ids of the user to delete. */
-    private Set<CmsUUID> m_userIDs;
+  /** Ids of the user to delete. */
+  private Set<CmsUUID> m_userIDs;
 
-    /**Ids of the group to delete.*/
-    private Set<CmsUUID> m_groupIDs;
+  /** Ids of the group to delete. */
+  private Set<CmsUUID> m_groupIDs;
 
-    /**vaadin component. */
-    private Panel m_dependencyPanel;
+  /** vaadin component. */
+  private Panel m_dependencyPanel;
 
-    /**The label shown in case of trying to delete a default user or group.*/
-    private HorizontalLayout m_label_deleteDefault;
+  /** The label shown in case of trying to delete a default user or group. */
+  private HorizontalLayout m_label_deleteDefault;
 
-    /**Confirmation layout. */
-    private HorizontalLayout m_deleteConfirm;
+  /** Confirmation layout. */
+  private HorizontalLayout m_deleteConfirm;
 
-    /**vaadin component. */
-    private CmsPrincipalSelect m_principalSelect;
+  /** vaadin component. */
+  private CmsPrincipalSelect m_principalSelect;
 
-    /**vaadin component. */
-    private VerticalLayout m_principalSelectLayout;
+  /** vaadin component. */
+  private VerticalLayout m_principalSelectLayout;
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param cms CmsObeject
-     * @param context ids of principal to delete
-     * @param window window
-     * @param app
-     */
-    public CmsDeleteMultiplePrincipalDialog(CmsObject cms, Set<String> context, Window window, CmsAccountsApp app) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param cms CmsObeject
+   * @param context ids of principal to delete
+   * @param window window
+   * @param app
+   */
+  public CmsDeleteMultiplePrincipalDialog(
+      CmsObject cms, Set<String> context, Window window, CmsAccountsApp app) {
 
-        init(cms, window, app);
-        boolean defaultUser = false;
-        m_ids = context;
-        m_groupIDs = new HashSet<CmsUUID>();
-        m_userIDs = new HashSet<CmsUUID>();
-        List<CmsResourceInfo> infos = new ArrayList<CmsResourceInfo>();
-        for (String id : m_ids) {
-            try {
-                CmsPrincipal principal = (CmsPrincipal)CmsPrincipal.readPrincipal(cms, new CmsUUID(id));
-                if (OpenCms.getDefaultUsers().isDefaultUser(principal.getName())
-                    || OpenCms.getDefaultUsers().isDefaultGroup(principal.getName())) {
-                    defaultUser = true;
-                    continue;
-                }
-                infos.add(CmsAccountsApp.getPrincipalInfo(CmsPrincipal.readPrincipal(cms, new CmsUUID(id))));
-                if (principal instanceof CmsGroup) {
-                    m_groupIDs.add(new CmsUUID(id));
-                } else {
-                    m_userIDs.add(new CmsUUID(id));
-                }
-            } catch (CmsException e) {
-                LOG.error("Unable to read Principal.", e);
-            }
+    init(cms, window, app);
+    boolean defaultUser = false;
+    m_ids = context;
+    m_groupIDs = new HashSet<CmsUUID>();
+    m_userIDs = new HashSet<CmsUUID>();
+    List<CmsResourceInfo> infos = new ArrayList<CmsResourceInfo>();
+    for (String id : m_ids) {
+      try {
+        CmsPrincipal principal = (CmsPrincipal) CmsPrincipal.readPrincipal(cms, new CmsUUID(id));
+        if (OpenCms.getDefaultUsers().isDefaultUser(principal.getName())
+            || OpenCms.getDefaultUsers().isDefaultGroup(principal.getName())) {
+          defaultUser = true;
+          continue;
         }
-
-        displayResourceInfoDirectly(infos);
-        String labelMessage = m_userIDs.isEmpty()
-        ? Messages.GUI_USERMANAGEMENT_GROUP_DELETE_MULTIPLE_0
-        : Messages.GUI_USERMANAGEMENT_USER_DELETE_MULTIPLE_0;
-        m_label_deleteDefault.setVisible(defaultUser && m_userIDs.isEmpty() && m_groupIDs.isEmpty());
-        m_label.setValue(CmsVaadinUtils.getMessageText(labelMessage));
-        CmsResourceInfoTable table = new CmsResourceInfoTable(m_cms, m_userIDs, m_groupIDs);
-        table.setHeight("300px");
-        table.setWidth("100%");
-        m_dependencyPanel.setVisible(table.size() > 0);
-        m_principalSelectLayout.setVisible(table.size() > 0);
-        m_okButton.setVisible(!m_userIDs.isEmpty() || !m_groupIDs.isEmpty());
-        m_deleteConfirm.setVisible(!m_userIDs.isEmpty() || !m_groupIDs.isEmpty());
-        if (m_dependencyPanel.isVisible()) {
-            m_dependencyPanel.setContent(table);
-            m_principalSelect.setRealPrincipalsOnly(true);
-
-            if ((m_userIDs.size() == 0) | (m_groupIDs.size() == 0)) {
-                m_principalSelect.setWidgetType(m_userIDs.size() > 0 ? WidgetType.userwidget : WidgetType.groupwidget);
-                m_principalSelect.setPrincipalType(
-                    m_userIDs.size() > 0 ? I_CmsPrincipal.PRINCIPAL_USER : I_CmsPrincipal.PRINCIPAL_GROUP);
-            } else {
-                m_principalSelect.setWidgetType(WidgetType.principalwidget);
-            }
-
+        infos.add(
+            CmsAccountsApp.getPrincipalInfo(CmsPrincipal.readPrincipal(cms, new CmsUUID(id))));
+        if (principal instanceof CmsGroup) {
+          m_groupIDs.add(new CmsUUID(id));
+        } else {
+          m_userIDs.add(new CmsUUID(id));
         }
+      } catch (CmsException e) {
+        LOG.error("Unable to read Principal.", e);
+      }
     }
 
-    /**
-     * Deletes the given user.<p>
-     */
-    protected void deletePrincipal() {
+    displayResourceInfoDirectly(infos);
+    String labelMessage =
+        m_userIDs.isEmpty()
+            ? Messages.GUI_USERMANAGEMENT_GROUP_DELETE_MULTIPLE_0
+            : Messages.GUI_USERMANAGEMENT_USER_DELETE_MULTIPLE_0;
+    m_label_deleteDefault.setVisible(defaultUser && m_userIDs.isEmpty() && m_groupIDs.isEmpty());
+    m_label.setValue(CmsVaadinUtils.getMessageText(labelMessage));
+    CmsResourceInfoTable table = new CmsResourceInfoTable(m_cms, m_userIDs, m_groupIDs);
+    table.setHeight("300px");
+    table.setWidth("100%");
+    m_dependencyPanel.setVisible(table.size() > 0);
+    m_principalSelectLayout.setVisible(table.size() > 0);
+    m_okButton.setVisible(!m_userIDs.isEmpty() || !m_groupIDs.isEmpty());
+    m_deleteConfirm.setVisible(!m_userIDs.isEmpty() || !m_groupIDs.isEmpty());
+    if (m_dependencyPanel.isVisible()) {
+      m_dependencyPanel.setContent(table);
+      m_principalSelect.setRealPrincipalsOnly(true);
 
-        try {
-            String principalNameToCopyTo = m_principalSelect.getValue();
-            I_CmsPrincipal principalTarget = null;
-            if (!CmsStringUtil.isEmptyOrWhitespaceOnly(principalNameToCopyTo)) {
-                principalTarget = CmsPrincipal.readPrincipal(m_cms, principalNameToCopyTo);
-            }
-
-            for (CmsUUID id : m_groupIDs) {
-                m_cms.deleteGroup(id, principalTarget != null ? principalTarget.getId() : null);
-            }
-            for (CmsUUID id : m_userIDs) {
-                m_cms.deleteUser(id, principalTarget != null ? principalTarget.getId() : null);
-            }
-        } catch (CmsException e) {
-            LOG.error("Unable to delete principal", e);
-        }
+      if ((m_userIDs.size() == 0) | (m_groupIDs.size() == 0)) {
+        m_principalSelect.setWidgetType(
+            m_userIDs.size() > 0 ? WidgetType.userwidget : WidgetType.groupwidget);
+        m_principalSelect.setPrincipalType(
+            m_userIDs.size() > 0 ? I_CmsPrincipal.PRINCIPAL_USER : I_CmsPrincipal.PRINCIPAL_GROUP);
+      } else {
+        m_principalSelect.setWidgetType(WidgetType.principalwidget);
+      }
     }
+  }
 
-    /**
-     * Initialized the dialog.<p>
-     *
-     * @param cms CmsObject
-     * @param window window
-     * @param app
-     */
-    private void init(CmsObject cms, final Window window, final CmsAccountsApp app) {
+  /**
+   * Deletes the given user.
+   *
+   * <p>
+   */
+  protected void deletePrincipal() {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        m_icon.setContentMode(ContentMode.HTML);
-        m_icon.setValue(FontOpenCms.WARNING.getHtml());
-        m_icon2.setContentMode(ContentMode.HTML);
-        m_icon2.setValue(FontOpenCms.WARNING.getHtml());
-        m_label_deleteDefault.setVisible(false);
-        m_cms = cms;
-        m_okButton.addClickListener(new ClickListener() {
+    try {
+      String principalNameToCopyTo = m_principalSelect.getValue();
+      I_CmsPrincipal principalTarget = null;
+      if (!CmsStringUtil.isEmptyOrWhitespaceOnly(principalNameToCopyTo)) {
+        principalTarget = CmsPrincipal.readPrincipal(m_cms, principalNameToCopyTo);
+      }
 
-            private static final long serialVersionUID = -7845894751587879028L;
+      for (CmsUUID id : m_groupIDs) {
+        m_cms.deleteGroup(id, principalTarget != null ? principalTarget.getId() : null);
+      }
+      for (CmsUUID id : m_userIDs) {
+        m_cms.deleteUser(id, principalTarget != null ? principalTarget.getId() : null);
+      }
+    } catch (CmsException e) {
+      LOG.error("Unable to delete principal", e);
+    }
+  }
 
-            public void buttonClick(ClickEvent event) {
+  /**
+   * Initialized the dialog.
+   *
+   * <p>
+   *
+   * @param cms CmsObject
+   * @param window window
+   * @param app
+   */
+  private void init(CmsObject cms, final Window window, final CmsAccountsApp app) {
 
-                deletePrincipal();
-                window.close();
-                app.reload();
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    m_icon.setContentMode(ContentMode.HTML);
+    m_icon.setValue(FontOpenCms.WARNING.getHtml());
+    m_icon2.setContentMode(ContentMode.HTML);
+    m_icon2.setValue(FontOpenCms.WARNING.getHtml());
+    m_label_deleteDefault.setVisible(false);
+    m_cms = cms;
+    m_okButton.addClickListener(
+        new ClickListener() {
 
-            }
+          private static final long serialVersionUID = -7845894751587879028L;
 
+          public void buttonClick(ClickEvent event) {
+
+            deletePrincipal();
+            window.close();
+            app.reload();
+          }
         });
 
-        m_cancelButton.addClickListener(new ClickListener() {
+    m_cancelButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 6649262870116199591L;
+          private static final long serialVersionUID = 6649262870116199591L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                window.close();
-
-            }
-
+            window.close();
+          }
         });
-    }
-
+  }
 }

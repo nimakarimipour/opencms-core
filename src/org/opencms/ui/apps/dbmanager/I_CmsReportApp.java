@@ -30,21 +30,27 @@ package org.opencms.ui.apps.dbmanager;
 import org.opencms.report.A_CmsReportThread;
 
 /**
- * Interface for Apps, which run an import thread for files.<p>
+ * Interface for Apps, which run an import thread for files.
+ *
+ * <p>
  */
 public interface I_CmsReportApp {
 
-    /**
-     * Method to open main view.<p>
-     */
-    void goToMainView();
+  /**
+   * Method to open main view.
+   *
+   * <p>
+   */
+  void goToMainView();
 
-    /**
-     * Method to open the report view for the import thread.<p>
-     *
-     * @param path (state) in the app
-     * @param thread which gets started and for which the report gets displayed
-     * @param title to be shown for the report (title is caption of panel)
-     */
-    void openReport(String path, A_CmsReportThread thread, String title);
+  /**
+   * Method to open the report view for the import thread.
+   *
+   * <p>
+   *
+   * @param path (state) in the app
+   * @param thread which gets started and for which the report gets displayed
+   * @param title to be shown for the report (title is caption of panel)
+   */
+  void openReport(String path, A_CmsReportThread thread, String title);
 }

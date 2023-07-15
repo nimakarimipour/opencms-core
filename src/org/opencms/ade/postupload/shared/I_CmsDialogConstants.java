@@ -28,16 +28,18 @@
 package org.opencms.ade.postupload.shared;
 
 /**
- * Constants used for the upload property dialog.<p>
+ * Constants used for the upload property dialog.
+ *
+ * <p>
  */
 public interface I_CmsDialogConstants {
 
-    /** The request attribute name for the close link. */
-    String ATTR_CLOSE_LINK = "closeLink";
+  /** The request attribute name for the close link. */
+  String ATTR_CLOSE_LINK = "closeLink";
 
-    /** Dialog JSP URI. */
-    String DIALOG_JSP_URI = "/system/workplace/commons/postupload.jsp";
+  /** Dialog JSP URI. */
+  String DIALOG_JSP_URI = "/system/workplace/commons/postupload.jsp";
 
-    /** Key for the resources. */
-    String PARAM_RESOURCES = "resources";
+  /** Key for the resources. */
+  String PARAM_RESOURCES = "resources";
 }

@@ -38,662 +38,848 @@ import com.google.gwt.resources.client.CssResource;
  */
 public interface I_CmsConstantsBundle extends ClientBundle {
 
-    /** Constants CSS. */
-    public interface I_CmsConstantsCss extends CssResource {
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorDialog();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorDialogBorder();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorDisabled();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorEmptyContainer();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorHighlight();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorInfo();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorInputError();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorListItem();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorMenu();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorOverlay();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorPopupShadow();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorSitemap();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorSitemapExpired();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorSitemapHighlight();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorSoft();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorStateActive();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorStateChanged();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorStateDisabled();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorStateHover();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorStateNew();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorStateStandard();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String backgroundColorStateSubSitemap();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String borderColor();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String borderColorDialog();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String borderColorEditor();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String borderColorHighlight();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String borderColorListItem();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String borderColorTopDialog();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String borderRadius();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String borderRadiusButton();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String boxShadow();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String buttonColorBlue();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String buttonColorCyan();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String buttonColorGray();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String buttonColorOrange();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String buttonColorRed();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String colorError();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String colorWarning();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String dateboxAnotherMonthBg();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String dateboxDayFontSize();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String dateboxHoveredDayBg();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String dateboxSelectedDayBg();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String dateboxTodayColor();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String dateboxWeekendBg();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String defaultSpace();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String fontFamily();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String fontFamilyMono();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String fontSize();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String fontSizeBig();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String fontSizeSmall();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String gradientDialogHeader();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String gradientFormDialog();
-
-        /**
-        * Access method.<p>
-        *
-        * @return the CSS constant value
-        */
-        String gradientFormDialogColor();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String gradientFormDialogFocus();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String gradientFormDialogFocusColor();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String gradientInvalid();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String gradientListItem();
-
-        /**
-            * Access method.<p>
-            *
-            * @return the CSS constant value
-            */
-        String gradientPlaceholder();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String inputHeight();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String inputInnerHeight();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String lineHeight();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String lineHeightBig();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String lineHeightSmall();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String notificationErrorBg();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String notificationErrorBorder();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String notificationErrorColor();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String notificationNormalBg();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String notificationNormalBorder();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String notificationNormalColor();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String notificationWarningBg();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String notificationWarningBorder();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String notificationWarningColor();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String overlayOpacity();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String textColor();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String textColorCaption();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String textColorChanged();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String textColorDarkButton();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String textColorDisabled();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String textColorDisabledButton();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String textColorEditorLabel();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String textColorHighlight();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String textColorImportant();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String textColorLightButton();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String textColorNew();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        String toolbarWidth();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        int zIndexDND();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        int zIndexFramePopup();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        int zIndexGroupContainer();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        int zIndexHighlighting();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        int zIndexInline();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        int zIndexMenu();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS constant value
-         */
-        int zIndexPopup();
-    }
-
-    /** The bundle instance. */
-    I_CmsConstantsBundle INSTANCE = GWT.create(I_CmsConstantsBundle.class);
+  /** Constants CSS. */
+  public interface I_CmsConstantsCss extends CssResource {
 
     /**
-     * Access method.<p>
+     * Access method.
      *
-     * @return the constants CSS
+     * <p>
+     *
+     * @return the CSS constant value
      */
-    @Source("constants.gss")
-    I_CmsConstantsCss css();
+    String backgroundColorDialog();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorDialogBorder();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorDisabled();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorEmptyContainer();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorHighlight();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorInfo();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorInputError();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorListItem();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorMenu();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorOverlay();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorPopupShadow();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorSitemap();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorSitemapExpired();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorSitemapHighlight();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorSoft();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorStateActive();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorStateChanged();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorStateDisabled();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorStateHover();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorStateNew();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorStateStandard();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String backgroundColorStateSubSitemap();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String borderColor();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String borderColorDialog();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String borderColorEditor();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String borderColorHighlight();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String borderColorListItem();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String borderColorTopDialog();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String borderRadius();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String borderRadiusButton();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String boxShadow();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String buttonColorBlue();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String buttonColorCyan();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String buttonColorGray();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String buttonColorOrange();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String buttonColorRed();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String colorError();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String colorWarning();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String dateboxAnotherMonthBg();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String dateboxDayFontSize();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String dateboxHoveredDayBg();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String dateboxSelectedDayBg();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String dateboxTodayColor();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String dateboxWeekendBg();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String defaultSpace();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String fontFamily();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String fontFamilyMono();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String fontSize();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String fontSizeBig();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String fontSizeSmall();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String gradientDialogHeader();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String gradientFormDialog();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String gradientFormDialogColor();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String gradientFormDialogFocus();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String gradientFormDialogFocusColor();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String gradientInvalid();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String gradientListItem();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String gradientPlaceholder();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String inputHeight();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String inputInnerHeight();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String lineHeight();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String lineHeightBig();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String lineHeightSmall();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String notificationErrorBg();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String notificationErrorBorder();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String notificationErrorColor();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String notificationNormalBg();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String notificationNormalBorder();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String notificationNormalColor();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String notificationWarningBg();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String notificationWarningBorder();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String notificationWarningColor();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String overlayOpacity();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String textColor();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String textColorCaption();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String textColorChanged();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String textColorDarkButton();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String textColorDisabled();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String textColorDisabledButton();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String textColorEditorLabel();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String textColorHighlight();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String textColorImportant();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String textColorLightButton();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String textColorNew();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    String toolbarWidth();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    int zIndexDND();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    int zIndexFramePopup();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    int zIndexGroupContainer();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    int zIndexHighlighting();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    int zIndexInline();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    int zIndexMenu();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS constant value
+     */
+    int zIndexPopup();
+  }
+
+  /** The bundle instance. */
+  I_CmsConstantsBundle INSTANCE = GWT.create(I_CmsConstantsBundle.class);
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the constants CSS
+   */
+  @Source("constants.gss")
+  I_CmsConstantsCss css();
 }

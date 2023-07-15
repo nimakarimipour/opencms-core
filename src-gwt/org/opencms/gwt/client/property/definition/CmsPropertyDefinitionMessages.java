@@ -30,98 +30,114 @@ package org.opencms.gwt.client.property.definition;
 import org.opencms.gwt.client.Messages;
 
 /**
- * Messages for the property definition dialog.<p>
+ * Messages for the property definition dialog.
+ *
+ * <p>
  */
 public class CmsPropertyDefinitionMessages {
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    protected CmsPropertyDefinitionMessages() {
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  protected CmsPropertyDefinitionMessages() {}
 
-    }
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message
+   */
+  public static String alreadyExists() {
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message
-     */
-    public static String alreadyExists() {
+    return Messages.get().key(Messages.ERR_PROPERTY_EXISTS_0);
+  }
 
-        return Messages.get().key(Messages.ERR_PROPERTY_EXISTS_0);
-    }
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message
+   */
+  public static String cancel() {
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message
-     */
-    public static String cancel() {
+    return Messages.get().key(Messages.GUI_CANCEL_0);
+  }
 
-        return Messages.get().key(Messages.GUI_CANCEL_0);
-    }
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message
+   */
+  public static String labelExistingProperties() {
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message
-     */
-    public static String labelExistingProperties() {
+    return Messages.get().key(Messages.GUI_LABEL_EXISTING_PROPERTIES_0);
+  }
 
-        return Messages.get().key(Messages.GUI_LABEL_EXISTING_PROPERTIES_0);
-    }
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message
+   */
+  public static String labelNewProperty() {
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message
-     */
-    public static String labelNewProperty() {
+    return Messages.get().key(Messages.GUI_LABEL_NEW_PROPERTY_0);
+  }
 
-        return Messages.get().key(Messages.GUI_LABEL_NEW_PROPERTY_0);
-    }
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message
+   */
+  public static String messageDialogCaption() {
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message
-     */
-    public static String messageDialogCaption() {
+    return Messages.get().key(Messages.GUI_CAPTION_DEFINE_PROPERTY_0);
+  }
 
-        return Messages.get().key(Messages.GUI_CAPTION_DEFINE_PROPERTY_0);
-    }
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message
+   */
+  public static final String messageEmpty() {
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message
-     */
-    public static final String messageEmpty() {
+    return Messages.get().key(Messages.ERR_EMPTY_PROPERTY_NAME_0);
+  }
 
-        return Messages.get().key(Messages.ERR_EMPTY_PROPERTY_NAME_0);
-    }
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message
+   */
+  public static String messageInvalidName() {
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message
-     */
-    public static String messageInvalidName() {
+    return Messages.get().key(Messages.ERR_INVALID_PROPERTY_NAME_0);
 
-        return Messages.get().key(Messages.ERR_INVALID_PROPERTY_NAME_0);
+    // return "Valid characters are only letters, digits and \"-._~$\".";
+  }
 
-        // return "Valid characters are only letters, digits and \"-._~$\".";
-    }
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message
+   */
+  public static String ok() {
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message
-     */
-    public static String ok() {
-
-        return Messages.get().key(Messages.GUI_OK_0);
-
-    }
-
+    return Messages.get().key(Messages.GUI_OK_0);
+  }
 }

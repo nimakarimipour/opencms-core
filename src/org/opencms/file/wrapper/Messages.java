@@ -31,58 +31,63 @@ import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
 
 /**
- * Convenience class to access the localized messages of this OpenCms package.<p>
+ * Convenience class to access the localized messages of this OpenCms package.
+ *
+ * <p>
  *
  * @since 6.5.6
  */
 public final class Messages extends A_CmsMessageBundle {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_BAD_RESOURCE_EXTENSION_1 = "ERR_BAD_RESOURCE_EXTENSION_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_BAD_RESOURCE_EXTENSION_1 = "ERR_BAD_RESOURCE_EXTENSION_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_ADD_UTF8_MARKER_1 = "LOG_ADD_UTF8_MARKER_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_ADD_UTF8_MARKER_1 = "LOG_ADD_UTF8_MARKER_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_CHANGED_FILE_EXTENSION_2 = "LOG_CHANGED_FILE_EXTENSION_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_CHANGED_FILE_EXTENSION_2 = "LOG_CHANGED_FILE_EXTENSION_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_WRAPPER_FOUND_2 = "LOG_WRAPPER_FOUND_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_WRAPPER_FOUND_2 = "LOG_WRAPPER_FOUND_2";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.file.wrapper.messages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME = "org.opencms.file.wrapper.messages";
 
-    /** Static instance member. */
-    private static final I_CmsMessageBundle INSTANCE = new Messages();
+  /** Static instance member. */
+  private static final I_CmsMessageBundle INSTANCE = new Messages();
 
-    /**
-     * Hides the public constructor for this utility class.
-     * <p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
-    }
+    // hide the constructor
+  }
 
-    /**
-     * Returns an instance of this localized message accessor.
-     * <p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static I_CmsMessageBundle get() {
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static I_CmsMessageBundle get() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the bundle name for this OpenCms package.
-     * <p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
 
-        return BUNDLE_NAME;
-    }
+    return BUNDLE_NAME;
+  }
 }

@@ -34,58 +34,59 @@ import org.opencms.ade.sitemap.shared.CmsClientSitemapEntry;
 import org.opencms.file.CmsResource;
 
 /**
- * Sitemap context menu add entry to navigation.<p>
+ * Sitemap context menu add entry to navigation.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsAddToNavMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsAddToNavMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsAddToNavMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_SHOW_IN_NAV_0));
-        setActive(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_SHOW_IN_NAV_0));
+    setActive(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-        getHoverbar().getController().addToNavigation(getHoverbar().getEntry());
-    }
+    getHoverbar().getController().addToNavigation(getHoverbar().getEntry());
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        CmsSitemapController controller = getHoverbar().getController();
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        boolean show = controller.isEditable()
+    CmsSitemapController controller = getHoverbar().getController();
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    boolean show =
+        controller.isEditable()
             && !CmsSitemapView.getInstance().isSpecialMode()
             && !controller.isRoot(entry.getSitePath())
             && !entry.isInNavigation();
-        if (show && entry.isFolderDefaultPage()) {
-            // hide this option for all default pages that are not in the first level of the root sitemap
-            if ((controller.getData().getParentSitemap() != null)
-                || !controller.isRoot(CmsResource.getParentFolder(entry.getSitePath()))) {
-                show = false;
-            }
-        }
-        setVisible(show);
-        if (show && !entry.isEditable()) {
-            setActive(false);
-            setDisabledReason(controller.getNoEditReason(entry));
-        } else {
-            setActive(true);
-            setDisabledReason(null);
-        }
+    if (show && entry.isFolderDefaultPage()) {
+      // hide this option for all default pages that are not in the first level of the root sitemap
+      if ((controller.getData().getParentSitemap() != null)
+          || !controller.isRoot(CmsResource.getParentFolder(entry.getSitePath()))) {
+        show = false;
+      }
     }
+    setVisible(show);
+    if (show && !entry.isEditable()) {
+      setActive(false);
+      setDisabledReason(controller.getNoEditReason(entry));
+    } else {
+      setActive(true);
+      setDisabledReason(null);
+    }
+  }
 }

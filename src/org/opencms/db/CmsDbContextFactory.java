@@ -30,33 +30,29 @@ package org.opencms.db;
 import org.opencms.file.CmsRequestContext;
 
 /**
- * A default implementation of {@link I_CmsDbContextFactory}.<p>
+ * A default implementation of {@link I_CmsDbContextFactory}.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDbContextFactory implements I_CmsDbContextFactory {
 
-    /**
-     * @see org.opencms.db.I_CmsDbContextFactory#getDbContext()
-     */
-    public CmsDbContext getDbContext() {
+  /** @see org.opencms.db.I_CmsDbContextFactory#getDbContext() */
+  public CmsDbContext getDbContext() {
 
-        return new CmsDbContext();
-    }
+    return new CmsDbContext();
+  }
 
-    /**
-     * @see org.opencms.db.I_CmsDbContextFactory#getDbContext(org.opencms.file.CmsRequestContext)
-     */
-    public CmsDbContext getDbContext(CmsRequestContext context) {
+  /** @see org.opencms.db.I_CmsDbContextFactory#getDbContext(org.opencms.file.CmsRequestContext) */
+  public CmsDbContext getDbContext(CmsRequestContext context) {
 
-        return new CmsDbContext(context);
-    }
+    return new CmsDbContext(context);
+  }
 
-    /**
-     * @see org.opencms.db.I_CmsDbContextFactory#initialize(org.opencms.db.CmsDriverManager)
-     */
-    public void initialize(CmsDriverManager driverManager) {
+  /** @see org.opencms.db.I_CmsDbContextFactory#initialize(org.opencms.db.CmsDriverManager) */
+  public void initialize(CmsDriverManager driverManager) {
 
-        // noop
-    }
+    // noop
+  }
 }

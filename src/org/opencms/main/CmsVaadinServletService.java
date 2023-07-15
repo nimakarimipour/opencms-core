@@ -27,51 +27,54 @@
 
 package org.opencms.main;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import com.vaadin.server.Constants;
 import com.vaadin.server.DeploymentConfiguration;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinServletService;
 import com.vaadin.ui.UI;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
- * A custom servlet service implementation.<p>
+ * A custom servlet service implementation.
+ *
+ * <p>
  */
 public class CmsVaadinServletService extends VaadinServletService {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param servlet the servlet instance
-     * @param deploymentConfiguration the deployment configuration
-     *
-     * @throws ServiceException if something goes wrong
-     */
-    public CmsVaadinServletService(VaadinServlet servlet, DeploymentConfiguration deploymentConfiguration)
-    throws ServiceException {
-        super(servlet, deploymentConfiguration);
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param servlet the servlet instance
+   * @param deploymentConfiguration the deployment configuration
+   * @throws ServiceException if something goes wrong
+   */
+  public CmsVaadinServletService(
+      VaadinServlet servlet, DeploymentConfiguration deploymentConfiguration)
+      throws ServiceException {
+    super(servlet, deploymentConfiguration);
+  }
 
+  /**
+   * @see com.vaadin.server.VaadinServletService#getThemeResourceAsStream(com.vaadin.ui.UI,
+   *     java.lang.String, java.lang.String)
+   */
+  @Override
+  public InputStream getThemeResourceAsStream(UI uI, String themeName, String resource)
+      throws IOException {
+
+    String resourcePath = Constants.THEME_DIR_PATH + '/' + themeName + "/" + resource;
+    InputStream result = getClass().getClassLoader().getResourceAsStream(resourcePath);
+    if (result != null) {
+      return result;
+    } else {
+      return super.getThemeResourceAsStream(uI, themeName, resource);
     }
-
-    /**
-     * @see com.vaadin.server.VaadinServletService#getThemeResourceAsStream(com.vaadin.ui.UI, java.lang.String, java.lang.String)
-     */
-    @Override
-    public InputStream getThemeResourceAsStream(UI uI, String themeName, String resource) throws IOException {
-
-        String resourcePath = Constants.THEME_DIR_PATH + '/' + themeName + "/" + resource;
-        InputStream result = getClass().getClassLoader().getResourceAsStream(resourcePath);
-        if (result != null) {
-            return result;
-        } else {
-            return super.getThemeResourceAsStream(uI, themeName, resource);
-        }
-    }
-
+  }
 }

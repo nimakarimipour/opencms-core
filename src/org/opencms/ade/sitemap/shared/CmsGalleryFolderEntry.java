@@ -27,174 +27,201 @@
 
 package org.opencms.ade.sitemap.shared;
 
-import org.opencms.gwt.shared.property.CmsClientProperty;
-import org.opencms.util.CmsUUID;
-
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
+import org.opencms.gwt.shared.property.CmsClientProperty;
+import org.opencms.util.CmsUUID;
 
 /**
- * Gallery folder entry bean.<p>
+ * Gallery folder entry bean.
+ *
+ * <p>
  */
 public class CmsGalleryFolderEntry implements IsSerializable {
 
-    /** The resource icon style classes. */
-    private String m_iconClasses;
+  /** The resource icon style classes. */
+  private String m_iconClasses;
 
-    /** The resource properties. */
-    private Map<String, CmsClientProperty> m_ownProperties;
+  /** The resource properties. */
+  private Map<String, CmsClientProperty> m_ownProperties;
 
-    /** The resource type name. */
-    private String m_resourceType;
+  /** The resource type name. */
+  private String m_resourceType;
 
-    /** The site path. */
-    private String m_sitePath;
+  /** The site path. */
+  private String m_sitePath;
 
-    /** The structure id. */
-    private CmsUUID m_structureId;
+  /** The structure id. */
+  private CmsUUID m_structureId;
 
-    /** The sub galleries. */
-    private List<CmsGalleryFolderEntry> m_subGalleries;
+  /** The sub galleries. */
+  private List<CmsGalleryFolderEntry> m_subGalleries;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsGalleryFolderEntry() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsGalleryFolderEntry() {
 
-        m_subGalleries = new ArrayList<CmsGalleryFolderEntry>();
-    }
+    m_subGalleries = new ArrayList<CmsGalleryFolderEntry>();
+  }
 
-    /**
-     * Adds a sub gallery.<p>
-     *
-     * @param gallery the gallery to add
-     */
-    public void addSubGallery(CmsGalleryFolderEntry gallery) {
+  /**
+   * Adds a sub gallery.
+   *
+   * <p>
+   *
+   * @param gallery the gallery to add
+   */
+  public void addSubGallery(CmsGalleryFolderEntry gallery) {
 
-        m_subGalleries.add(gallery);
-    }
+    m_subGalleries.add(gallery);
+  }
 
-    /**
-     * Returns the resource icon style classes.<p>
-     *
-     * @return the resource icon style classes
-     **/
-    public String getIconClasses() {
+  /**
+   * Returns the resource icon style classes.
+   *
+   * <p>
+   *
+   * @return the resource icon style classes
+   */
+  public String getIconClasses() {
 
-        return m_iconClasses;
-    }
+    return m_iconClasses;
+  }
 
-    /**
-     * Returns the own properties.<p>
-     *
-     * @return the own properties
-     */
-    public Map<String, CmsClientProperty> getOwnProperties() {
+  /**
+   * Returns the own properties.
+   *
+   * <p>
+   *
+   * @return the own properties
+   */
+  public Map<String, CmsClientProperty> getOwnProperties() {
 
-        return m_ownProperties;
-    }
+    return m_ownProperties;
+  }
 
-    /**
-     * Returns the resource type.<p>
-     *
-     * @return the resource type
-     */
-    public String getResourceType() {
+  /**
+   * Returns the resource type.
+   *
+   * <p>
+   *
+   * @return the resource type
+   */
+  public String getResourceType() {
 
-        return m_resourceType;
-    }
+    return m_resourceType;
+  }
 
-    /**
-     * Returns the site path.<p>
-     *
-     * @return the site path
-     */
-    public String getSitePath() {
+  /**
+   * Returns the site path.
+   *
+   * <p>
+   *
+   * @return the site path
+   */
+  public String getSitePath() {
 
-        return m_sitePath;
-    }
+    return m_sitePath;
+  }
 
-    /**
-     * Returns the structure id.<p>
-     *
-     * @return the structure id
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Returns the structure id.
+   *
+   * <p>
+   *
+   * @return the structure id
+   */
+  public CmsUUID getStructureId() {
 
-        return m_structureId;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * Returns the sub galleries.<p>
-     *
-     * @return the sub galleries
-     */
-    public List<CmsGalleryFolderEntry> getSubGalleries() {
+  /**
+   * Returns the sub galleries.
+   *
+   * <p>
+   *
+   * @return the sub galleries
+   */
+  public List<CmsGalleryFolderEntry> getSubGalleries() {
 
-        return m_subGalleries;
-    }
+    return m_subGalleries;
+  }
 
-    /**
-     * Sets the resource icon style classes.<p>
-     *
-     * @param iconClasses the resource icon style classes
-     **/
-    public void setIconClasses(String iconClasses) {
+  /**
+   * Sets the resource icon style classes.
+   *
+   * <p>
+   *
+   * @param iconClasses the resource icon style classes
+   */
+  public void setIconClasses(String iconClasses) {
 
-        m_iconClasses = iconClasses;
-    }
+    m_iconClasses = iconClasses;
+  }
 
-    /**
-     * Sets the own properties.<p>
-     *
-     * @param ownProperties the own properties to set
-     */
-    public void setOwnProperties(Map<String, CmsClientProperty> ownProperties) {
+  /**
+   * Sets the own properties.
+   *
+   * <p>
+   *
+   * @param ownProperties the own properties to set
+   */
+  public void setOwnProperties(Map<String, CmsClientProperty> ownProperties) {
 
-        m_ownProperties = ownProperties;
-    }
+    m_ownProperties = ownProperties;
+  }
 
-    /**
-     * Sets the resource type.<p>
-     *
-     * @param resourceType the resource type to set
-     */
-    public void setResourceType(String resourceType) {
+  /**
+   * Sets the resource type.
+   *
+   * <p>
+   *
+   * @param resourceType the resource type to set
+   */
+  public void setResourceType(String resourceType) {
 
-        m_resourceType = resourceType;
-    }
+    m_resourceType = resourceType;
+  }
 
-    /**
-     * Sets the site path.<p>
-     *
-     * @param sitePath the site path to set
-     */
-    public void setSitePath(String sitePath) {
+  /**
+   * Sets the site path.
+   *
+   * <p>
+   *
+   * @param sitePath the site path to set
+   */
+  public void setSitePath(String sitePath) {
 
-        m_sitePath = sitePath;
-    }
+    m_sitePath = sitePath;
+  }
 
-    /**
-     * Sets the structure id.<p>
-     *
-     * @param structureId the structure id to set
-     */
-    public void setStructureId(CmsUUID structureId) {
+  /**
+   * Sets the structure id.
+   *
+   * <p>
+   *
+   * @param structureId the structure id to set
+   */
+  public void setStructureId(CmsUUID structureId) {
 
-        m_structureId = structureId;
-    }
+    m_structureId = structureId;
+  }
 
-    /**
-     * Sets the sub galleries.<p>
-     *
-     * @param subGalleries the subGalleries to set
-     */
-    public void setSubGalleries(List<CmsGalleryFolderEntry> subGalleries) {
+  /**
+   * Sets the sub galleries.
+   *
+   * <p>
+   *
+   * @param subGalleries the subGalleries to set
+   */
+  public void setSubGalleries(List<CmsGalleryFolderEntry> subGalleries) {
 
-        m_subGalleries = subGalleries;
-    }
-
+    m_subGalleries = subGalleries;
+  }
 }

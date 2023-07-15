@@ -30,241 +30,249 @@ package org.opencms.ade.galleries.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * Shared constants interface.<p>
+ * Shared constants interface.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsGalleryProviderConstants {
 
-    /** Gallery mode constants. */
-    enum GalleryMode implements IsSerializable {
+  /** Gallery mode constants. */
+  enum GalleryMode implements IsSerializable {
 
-        /** The advanced direct edit mode. */
-        ade(CmsGalleryTabConfiguration.resolve(CmsGalleryTabConfiguration.TC_ADE_ADD)),
+    /** The advanced direct edit mode. */
+    ade(CmsGalleryTabConfiguration.resolve(CmsGalleryTabConfiguration.TC_ADE_ADD)),
 
-        /** The mode for showing all galleries in ADE. */
-        adeView(CmsGalleryTabConfiguration.resolve(CmsGalleryTabConfiguration.TC_SELECT_DOC)),
+    /** The mode for showing all galleries in ADE. */
+    adeView(CmsGalleryTabConfiguration.resolve(CmsGalleryTabConfiguration.TC_SELECT_DOC)),
 
-        /** The wysiwyg editor mode. */
-        editor(CmsGalleryTabConfiguration.resolve(
+    /** The wysiwyg editor mode. */
+    editor(
+        CmsGalleryTabConfiguration.resolve(
             CmsGalleryTabConfiguration.TC_SELECT_DOC) /* may be overwritten by configuration */),
 
-        /** The explorer mode. */
-        view(CmsGalleryTabConfiguration.resolve(CmsGalleryTabConfiguration.TC_SELECT_DOC)),
+    /** The explorer mode. */
+    view(CmsGalleryTabConfiguration.resolve(CmsGalleryTabConfiguration.TC_SELECT_DOC)),
 
-        /** The widget mode. */
-        widget(CmsGalleryTabConfiguration.resolve(CmsGalleryTabConfiguration.TC_SELECT_DOC));
+    /** The widget mode. */
+    widget(CmsGalleryTabConfiguration.resolve(CmsGalleryTabConfiguration.TC_SELECT_DOC));
 
-        /** The configuration. */
-        private CmsGalleryTabConfiguration m_tabConfig;
+    /** The configuration. */
+    private CmsGalleryTabConfiguration m_tabConfig;
 
-        /** Constructor.<p>
-         *
-         * @param tabConfig the tab configuration
-         */
-        private GalleryMode(CmsGalleryTabConfiguration tabConfig) {
+    /**
+     * Constructor.
+     *
+     * <p>
+     *
+     * @param tabConfig the tab configuration
+     */
+    private GalleryMode(CmsGalleryTabConfiguration tabConfig) {
 
-            m_tabConfig = tabConfig;
-        }
-
-        /**
-         * Returns the configured tabs.<p>
-         *
-         * @return the configured tabs
-         */
-        public GalleryTabId[] getTabs() {
-
-            GalleryTabId[] tabs = new GalleryTabId[m_tabConfig.getTabs().size()];
-            for (int i = 0; i < tabs.length; i++) {
-                tabs[i] = m_tabConfig.getTabs().get(i);
-            }
-            return tabs;
-        }
-
+      m_tabConfig = tabConfig;
     }
 
-    /** Tab ids used for tab configuration. */
-    public enum GalleryTabId implements IsSerializable {
+    /**
+     * Returns the configured tabs.
+     *
+     * <p>
+     *
+     * @return the configured tabs
+     */
+    public GalleryTabId[] getTabs() {
 
-        /** The id for categories tab. */
-        cms_tab_categories,
-
-        /** The id for containerpage tab. */
-        cms_tab_containerpage,
-
-        /** The id for galleries tab. */
-        cms_tab_galleries,
-
-        /** The id for types tab. */
-        cms_tab_results,
-
-        /** The id for search tab. */
-        cms_tab_search,
-
-        /** The id for sitemap tab. */
-        cms_tab_sitemap,
-
-        /** The id for types tab. */
-        cms_tab_types,
-
-        /** The id for vfs-tree tab. */
-        cms_tab_vfstree;
+      GalleryTabId[] tabs = new GalleryTabId[m_tabConfig.getTabs().size()];
+      for (int i = 0; i < tabs.length; i++) {
+        tabs[i] = m_tabConfig.getTabs().get(i);
+      }
+      return tabs;
     }
+  }
 
-    /** Image parameteres. */
-    public enum ImageParams implements IsSerializable {
+  /** Tab ids used for tab configuration. */
+  public enum GalleryTabId implements IsSerializable {
 
-        /** The last modified date. */
-        dateLastModified,
+    /** The id for categories tab. */
+    cms_tab_categories,
 
-        /** The image file name. */
-        file_name,
+    /** The id for containerpage tab. */
+    cms_tab_containerpage,
 
-        /** The file size. */
-        file_size,
+    /** The id for galleries tab. */
+    cms_tab_galleries,
 
-        /** Image type. */
-        file_type,
+    /** The id for types tab. */
+    cms_tab_results,
 
-        /** The image height. */
-        height,
+    /** The id for search tab. */
+    cms_tab_search,
 
-        /** The image path. */
-        path,
+    /** The id for sitemap tab. */
+    cms_tab_sitemap,
 
-        /** Property title. */
-        title,
+    /** The id for types tab. */
+    cms_tab_types,
 
-        /** The image width. */
-        width;
+    /** The id for vfs-tree tab. */
+    cms_tab_vfstree;
+  }
 
-    }
+  /** Image parameteres. */
+  public enum ImageParams implements IsSerializable {
 
-    /** Sorting parameters. */
-    public enum SortParams implements IsSerializable {
+    /** The last modified date. */
+    dateLastModified,
 
-        /** Date last modified ascending. */
-        dateLastModified_asc,
+    /** The image file name. */
+    file_name,
 
-        /** Date last modified descending. */
-        dateLastModified_desc,
+    /** The file size. */
+    file_size,
 
-        /** Resource path ascending sorting. */
-        path_asc,
+    /** Image type. */
+    file_type,
 
-        /** Resource path descending sorting.*/
-        path_desc,
+    /** The image height. */
+    height,
 
-        /** Title ascending sorting. */
-        title_asc,
+    /** The image path. */
+    path,
 
-        /** Title descending sorting. */
-        title_desc,
+    /** Property title. */
+    title,
 
-        /** Tree.*/
-        tree,
+    /** The image width. */
+    width;
+  }
 
-        /** Resource type ascending sorting. */
-        type_asc,
+  /** Sorting parameters. */
+  public enum SortParams implements IsSerializable {
 
-        /** Resource type descending sorting. */
-        type_desc,
+    /** Date last modified ascending. */
+    dateLastModified_asc,
 
-        /** Score sorting. */
-        score;
-    }
+    /** Date last modified descending. */
+    dateLastModified_desc,
 
-    /** The request attribute name for the close link. */
-    String ATTR_CLOSE_LINK = "closeLink";
+    /** Resource path ascending sorting. */
+    path_asc,
 
-    /** Configuration key. */
-    String CONFIG_CURRENT_ELEMENT = "currentelement";
+    /** Resource path descending sorting. */
+    path_desc,
 
-    /** Configuration key. */
-    String CONFIG_GALLERY_MODE = "gallerymode";
+    /** Title ascending sorting. */
+    title_asc,
 
-    /** Configuration key. */
-    String CONFIG_GALLERY_NAME = "galleryname";
+    /** Title descending sorting. */
+    title_desc,
 
-    /** Configuration key. */
-    String CONFIG_GALLERY_PATH = "gallerypath";
+    /** Tree. */
+    tree,
 
-    /** Configuration key. */
-    String CONFIG_GALLERY_STORAGE_PREFIX = "galleryprefix";
+    /** Resource type ascending sorting. */
+    type_asc,
 
-    /** Configuration key. */
-    String CONFIG_GALLERY_TYPES = "gallerytypes";
+    /** Resource type descending sorting. */
+    type_desc,
 
-    /** Configuration key. */
-    String CONFIG_IMAGE_FORMAT_NAMES = "imageformatnames";
+    /** Score sorting. */
+    score;
+  }
 
-    /** Configuration key. */
-    String CONFIG_IMAGE_FORMATS = "imageformats";
+  /** The request attribute name for the close link. */
+  String ATTR_CLOSE_LINK = "closeLink";
 
-    /** Configuration key. */
-    String CONFIG_LOCALE = "locale";
+  /** Configuration key. */
+  String CONFIG_CURRENT_ELEMENT = "currentelement";
 
-    /** Configuration key. */
-    String CONFIG_REFERENCE_PATH = "resource";
+  /** Configuration key. */
+  String CONFIG_GALLERY_MODE = "gallerymode";
 
-    /** Configuration key. */
-    String CONFIG_RESOURCE_TYPES = "resourcetypes";
+  /** Configuration key. */
+  String CONFIG_GALLERY_NAME = "galleryname";
 
-    /** Configuration key. */
-    String CONFIG_SEARCH_TYPES = "searchtypes";
+  /** Configuration key. */
+  String CONFIG_GALLERY_PATH = "gallerypath";
 
-    /** Configuration key. */
-    String CONFIG_SHOW_SITE_SELECTOR = "showsiteselector";
+  /** Configuration key. */
+  String CONFIG_GALLERY_STORAGE_PREFIX = "galleryprefix";
 
-    /** Configuration key. */
-    String CONFIG_START_FOLDER = "startfolder";
+  /** Configuration key. */
+  String CONFIG_GALLERY_TYPES = "gallerytypes";
 
-    /** Configuration key. */
-    String CONFIG_START_SITE = "startsite";
+  /** Configuration key. */
+  String CONFIG_IMAGE_FORMAT_NAMES = "imageformatnames";
 
-    /** Configuration key. */
-    String CONFIG_TAB_CONFIG = "tabconfig";
+  /** Configuration key. */
+  String CONFIG_IMAGE_FORMATS = "imageformats";
 
-    /** The key for the tree token. */
-    String CONFIG_TREE_TOKEN = "treeToken";
+  /** Configuration key. */
+  String CONFIG_LOCALE = "locale";
 
-    /** Configuration key. */
-    String CONFIG_UPLOAD_FOLDER = "uploadfolder";
+  /** Configuration key. */
+  String CONFIG_REFERENCE_PATH = "resource";
 
-    /** Configuration key. */
-    String CONFIG_USE_FORMATS = "useformats";
+  /** Configuration key. */
+  String CONFIG_RESOURCE_TYPES = "resourcetypes";
 
-    /** The id for the HTML div containing the gallery dialog. */
-    String GALLERY_DIALOG_ID = "galleryDialog";
+  /** Configuration key. */
+  String CONFIG_SEARCH_TYPES = "searchtypes";
 
-    /** The widget field id. */
-    String KEY_FIELD_ID = "fieldId";
+  /** Configuration key. */
+  String CONFIG_SHOW_SITE_SELECTOR = "showsiteselector";
 
-    /** The widget field id hash. */
-    String KEY_HASH_ID = "hashId";
+  /** Configuration key. */
+  String CONFIG_START_FOLDER = "startfolder";
 
-    /** The key for the flag which controls whether the select button should be shown. */
-    String KEY_SHOW_SELECT = "showSelect";
+  /** Configuration key. */
+  String CONFIG_START_SITE = "startsite";
 
-    /** The parameter used to tell the gallery dialog to use the standard set of resource types from the VfsFileWidget. */
-    String PARAM_USE_LINK_DEFAULT_TYPES = "useLinkDefaultTypes";
+  /** Configuration key. */
+  String CONFIG_TAB_CONFIG = "tabconfig";
 
-    /** The folder resource type name. */
-    String RESOURCE_TYPE_FOLDER = "folder";
+  /** The key for the tree token. */
+  String CONFIG_TREE_TOKEN = "treeToken";
 
-    /** Sitemap tree state session attribute name prefix. */
-    String TREE_SITEMAP = "sitemap";
+  /** Configuration key. */
+  String CONFIG_UPLOAD_FOLDER = "uploadfolder";
 
-    /** VFS tree state session attribute name prefix. */
-    String TREE_VFS = "vfs";
+  /** Configuration key. */
+  String CONFIG_USE_FORMATS = "useformats";
 
-    /** Path to the host page. */
-    String VFS_OPEN_GALLERY_PATH = "/system/workplace/commons/gallery.jsp";
+  /** The id for the HTML div containing the gallery dialog. */
+  String GALLERY_DIALOG_ID = "galleryDialog";
 
-    /** Option to enable/disable gallery selection. */
-    String CONFIG_GALLERIES_SELECTABLE = "galleriesSelectable";
+  /** The widget field id. */
+  String KEY_FIELD_ID = "fieldId";
 
-    /** Option to disable result selection if set to false. */
-    String CONFIG_RESULTS_SELECTABLE = "resultsSelectable";
+  /** The widget field id hash. */
+  String KEY_HASH_ID = "hashId";
 
+  /** The key for the flag which controls whether the select button should be shown. */
+  String KEY_SHOW_SELECT = "showSelect";
+
+  /**
+   * The parameter used to tell the gallery dialog to use the standard set of resource types from
+   * the VfsFileWidget.
+   */
+  String PARAM_USE_LINK_DEFAULT_TYPES = "useLinkDefaultTypes";
+
+  /** The folder resource type name. */
+  String RESOURCE_TYPE_FOLDER = "folder";
+
+  /** Sitemap tree state session attribute name prefix. */
+  String TREE_SITEMAP = "sitemap";
+
+  /** VFS tree state session attribute name prefix. */
+  String TREE_VFS = "vfs";
+
+  /** Path to the host page. */
+  String VFS_OPEN_GALLERY_PATH = "/system/workplace/commons/gallery.jsp";
+
+  /** Option to enable/disable gallery selection. */
+  String CONFIG_GALLERIES_SELECTABLE = "galleriesSelectable";
+
+  /** Option to disable result selection if set to false. */
+  String CONFIG_RESULTS_SELECTABLE = "resultsSelectable";
 }

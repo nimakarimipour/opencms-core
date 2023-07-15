@@ -28,47 +28,54 @@
 package org.opencms.module;
 
 /**
- * Status after updating a module.<p>
+ * Status after updating a module.
+ *
+ * <p>
  */
 public class CmsReplaceModuleInfo {
 
-    /** The module. */
-    private CmsModule m_module;
+  /** The module. */
+  private CmsModule m_module;
 
-    /** Indicates whether module updater or old delete/import process was used. */
-    private boolean m_usedUpdater;
+  /** Indicates whether module updater or old delete/import process was used. */
+  private boolean m_usedUpdater;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param module the module
-     * @param usedUpdater true if the module updater was used
-     */
-    public CmsReplaceModuleInfo(CmsModule module, boolean usedUpdater) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param module the module
+   * @param usedUpdater true if the module updater was used
+   */
+  public CmsReplaceModuleInfo(CmsModule module, boolean usedUpdater) {
 
-        super();
-        m_module = module;
-        m_usedUpdater = usedUpdater;
-    }
+    super();
+    m_module = module;
+    m_usedUpdater = usedUpdater;
+  }
 
-    /**
-     * Gets the module.<p>
-     *
-     * @return the module
-     */
-    public CmsModule getModule() {
+  /**
+   * Gets the module.
+   *
+   * <p>
+   *
+   * @return the module
+   */
+  public CmsModule getModule() {
 
-        return m_module;
-    }
+    return m_module;
+  }
 
-    /**
-     * Returns true if the module updater was used.<p>
-     *
-     * @return true if the module updater was used
-     */
-    public boolean usedUpdater() {
+  /**
+   * Returns true if the module updater was used.
+   *
+   * <p>
+   *
+   * @return true if the module updater was used
+   */
+  public boolean usedUpdater() {
 
-        return m_usedUpdater;
-    }
-
+    return m_usedUpdater;
+  }
 }

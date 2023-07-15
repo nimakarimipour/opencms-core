@@ -31,43 +31,49 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Signals that an attempt to read a resource in the VFS denoted by a specified
- * pathname has failed.<p>
+ * Signals that an attempt to read a resource in the VFS denoted by a specified pathname has failed.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsVfsResourceNotFoundException extends CmsVfsException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -1452653602127533185L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -1452653602127533185L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsVfsResourceNotFoundException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsVfsResourceNotFoundException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * Creates a new localized Exception that also contains a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsVfsResourceNotFoundException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also contains a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsVfsResourceNotFoundException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsVfsResourceNotFoundException(container, cause);
-    }
+    return new CmsVfsResourceNotFoundException(container, cause);
+  }
 }

@@ -27,75 +27,70 @@
 
 package org.opencms.security;
 
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.workplace.I_CmsGroupNameTranslation;
 
-import java.util.Locale;
-
-/**
- * Wrapper around CmsRole objects so they can be used as principals.
- */
+/** Wrapper around CmsRole objects so they can be used as principals. */
 public class CmsRoleAsPrincipal extends CmsPrincipal {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The wrapped role. */
-    private CmsRole m_role;
+  /** The wrapped role. */
+  private CmsRole m_role;
 
-    /**
-     * Creates a new instane.
-     *
-     * @param role the wrapped role
-     */
-    public CmsRoleAsPrincipal(CmsRole role) {
+  /**
+   * Creates a new instane.
+   *
+   * @param role the wrapped role
+   */
+  public CmsRoleAsPrincipal(CmsRole role) {
 
-        m_role = role;
-        m_name = role.getRoleName();
-    }
+    m_role = role;
+    m_name = role.getRoleName();
+  }
 
-    /**
-     * @see org.opencms.security.I_CmsPrincipal#checkName(java.lang.String)
-     */
-    public void checkName(String name) {
+  /** @see org.opencms.security.I_CmsPrincipal#checkName(java.lang.String) */
+  public void checkName(String name) {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * @see org.opencms.security.I_CmsPrincipal#getDescription(java.util.Locale)
-     */
-    public String getDescription(Locale locale) {
+  /** @see org.opencms.security.I_CmsPrincipal#getDescription(java.util.Locale) */
+  public String getDescription(Locale locale) {
 
-        return m_role.getDescription(locale);
-    }
+    return m_role.getDescription(locale);
+  }
 
-    /**
-     * @see org.opencms.security.CmsPrincipal#getDisplayName(org.opencms.file.CmsObject, java.util.Locale)
-     */
-    @Override
-    public String getDisplayName(CmsObject cms, Locale locale) {
+  /**
+   * @see org.opencms.security.CmsPrincipal#getDisplayName(org.opencms.file.CmsObject,
+   *     java.util.Locale)
+   */
+  @Override
+  public String getDisplayName(CmsObject cms, Locale locale) {
 
-        return m_role.getName(locale);
-    }
+    return m_role.getName(locale);
+  }
 
-    /**
-     * @see org.opencms.security.CmsPrincipal#getDisplayName(org.opencms.file.CmsObject, java.util.Locale, org.opencms.workplace.I_CmsGroupNameTranslation)
-     */
-    @Override
-    public String getDisplayName(CmsObject cms, Locale locale, I_CmsGroupNameTranslation translation) {
+  /**
+   * @see org.opencms.security.CmsPrincipal#getDisplayName(org.opencms.file.CmsObject,
+   *     java.util.Locale, org.opencms.workplace.I_CmsGroupNameTranslation)
+   */
+  @Override
+  public String getDisplayName(
+      CmsObject cms, Locale locale, I_CmsGroupNameTranslation translation) {
 
-        return getDisplayName(cms, locale);
-    }
+    return getDisplayName(cms, locale);
+  }
 
-    /**
-     * Gets the wrapped role.
-     *
-     * @return the wrapped role
-     */
-    public CmsRole getRole() {
+  /**
+   * Gets the wrapped role.
+   *
+   * @return the wrapped role
+   */
+  public CmsRole getRole() {
 
-        return m_role;
-    }
-
+    return m_role;
+  }
 }

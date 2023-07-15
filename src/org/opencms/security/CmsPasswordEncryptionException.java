@@ -31,37 +31,36 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Signals that an attempt to encrypt a password was not successful.<p>
+ * Signals that an attempt to encrypt a password was not successful.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsPasswordEncryptionException extends CmsException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 2263277458908499751L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 2263277458908499751L;
 
-    /**
-     * @see org.opencms.main.CmsException#CmsException(CmsMessageContainer)
-     */
-    public CmsPasswordEncryptionException(CmsMessageContainer container) {
+  /** @see org.opencms.main.CmsException#CmsException(CmsMessageContainer) */
+  public CmsPasswordEncryptionException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#CmsException(CmsMessageContainer, Throwable)
-     */
-    public CmsPasswordEncryptionException(CmsMessageContainer container, Throwable cause) {
+  /** @see org.opencms.main.CmsException#CmsException(CmsMessageContainer, Throwable) */
+  public CmsPasswordEncryptionException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsPasswordEncryptionException(container, cause);
-    }
+    return new CmsPasswordEncryptionException(container, cause);
+  }
 }

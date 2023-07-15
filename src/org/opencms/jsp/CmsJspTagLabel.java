@@ -27,80 +27,78 @@
 
 package org.opencms.jsp;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.BodyContent;
+import javax.servlet.jsp.tagext.BodyTagSupport;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.flex.CmsFlexController;
 import org.opencms.i18n.CmsMessages;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.BodyContent;
-import javax.servlet.jsp.tagext.BodyTagSupport;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Provides access to the labels stored in the
- * language files of the OpenCms workplace.<p>
+ * Provides access to the labels stored in the language files of the OpenCms workplace.
  *
- * Instead of using the XML based workplace tags one should
- * consider using standard Java resource bundles to provide language independent
- * implementations.<p>
+ * <p>Instead of using the XML based workplace tags one should consider using standard Java resource
+ * bundles to provide language independent implementations.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsJspTagLabel extends BodyTagSupport {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsJspTagLabel.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsJspTagLabel.class);
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 5720473164730803034L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 5720473164730803034L;
 
-    /**
-     * Internal action method.<p>
-     *
-     * @param label the label to look up
-     * @param req the current request
-     * @return String the value of the selected label
-     */
-    public static String wpLabelTagAction(String label, ServletRequest req) {
+  /**
+   * Internal action method.
+   *
+   * <p>
+   *
+   * @param label the label to look up
+   * @param req the current request
+   * @return String the value of the selected label
+   */
+  public static String wpLabelTagAction(String label, ServletRequest req) {
 
-        CmsObject cms = CmsFlexController.getCmsObject(req);
-        CmsMessages messages = OpenCms.getWorkplaceManager().getMessages(cms.getRequestContext().getLocale());
-        return messages.key(label);
-    }
+    CmsObject cms = CmsFlexController.getCmsObject(req);
+    CmsMessages messages =
+        OpenCms.getWorkplaceManager().getMessages(cms.getRequestContext().getLocale());
+    return messages.key(label);
+  }
 
-    /**
-     * @see javax.servlet.jsp.tagext.IterationTag#doAfterBody()
-     */
-    @Override
-    public int doAfterBody() throws JspException {
+  /** @see javax.servlet.jsp.tagext.IterationTag#doAfterBody() */
+  @Override
+  public int doAfterBody() throws JspException {
 
-        ServletRequest req = pageContext.getRequest();
+    ServletRequest req = pageContext.getRequest();
 
-        // This will always be true if the page is called through OpenCms
-        if (CmsFlexController.isCmsRequest(req)) {
-            try {
+    // This will always be true if the page is called through OpenCms
+    if (CmsFlexController.isCmsRequest(req)) {
+      try {
 
-                // Get label string from the body and reset body
-                BodyContent body = getBodyContent();
-                String label = body.getString();
-                body.clearBody();
+        // Get label string from the body and reset body
+        BodyContent body = getBodyContent();
+        String label = body.getString();
+        body.clearBody();
 
-                // Get the result...
-                String result = wpLabelTagAction(label, req);
-                getPreviousOut().print(result);
+        // Get the result...
+        String result = wpLabelTagAction(label, req);
+        getPreviousOut().print(result);
 
-            } catch (Exception ex) {
-                if (LOG.isErrorEnabled()) {
-                    LOG.error(Messages.get().getBundle().key(Messages.ERR_PROCESS_TAG_1, "label"), ex);
-                }
-                throw new javax.servlet.jsp.JspException(ex);
-            }
+      } catch (Exception ex) {
+        if (LOG.isErrorEnabled()) {
+          LOG.error(Messages.get().getBundle().key(Messages.ERR_PROCESS_TAG_1, "label"), ex);
         }
-        return SKIP_BODY;
+        throw new javax.servlet.jsp.JspException(ex);
+      }
     }
-
+    return SKIP_BODY;
+  }
 }

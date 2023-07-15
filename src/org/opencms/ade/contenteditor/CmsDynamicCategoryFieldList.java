@@ -27,75 +27,68 @@
 
 package org.opencms.ade.contenteditor;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 import org.opencms.xml.content.CmsXmlContent;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-
-/**
- * Class used to keep track of optional dynamic category fields for a content.
- */
+/** Class used to keep track of optional dynamic category fields for a content. */
 public class CmsDynamicCategoryFieldList {
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsDynamicCategoryFieldList.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsDynamicCategoryFieldList.class);
 
-    /** The list of field paths. */
-    private List<String> m_paths = new ArrayList<>();
+  /** The list of field paths. */
+  private List<String> m_paths = new ArrayList<>();
 
-    /**
-     * Creates a new instance.
-     */
-    public CmsDynamicCategoryFieldList() {
+  /** Creates a new instance. */
+  public CmsDynamicCategoryFieldList() {
 
-        // do nothing
+    // do nothing
+  }
+
+  /**
+   * Adds a path.
+   *
+   * @param path the path to add
+   */
+  public void add(String path) {
+
+    m_paths.add(path);
+  }
+
+  /**
+   * Tries to add the collected fields to all locales of the given content.
+   *
+   * @param cms the CMS context
+   * @param content the content which the fields should be added to
+   */
+  public void ensureFields(CmsObject cms, CmsXmlContent content) {
+    for (Locale locale : content.getLocales()) {
+      ensureFields(cms, content, locale);
     }
+  }
 
-    /**
-     * Adds a path.
-     *
-     * @param path the path to add
-     */
-    public void add(String path) {
+  /**
+   * Tries to add the collected fields to one locale of the given content.
+   *
+   * @param cms the CMS context
+   * @param content the content to add the fields to
+   * @param locale the locale
+   */
+  public void ensureFields(CmsObject cms, CmsXmlContent content, Locale locale) {
 
-        m_paths.add(path);
-    }
-
-    /**
-     * Tries to add the collected fields to all locales of the given content.
-     *
-     * @param cms the CMS context
-     * @param content the content which the fields should be added to
-     */
-    public void ensureFields(CmsObject cms, CmsXmlContent content) {
-        for (Locale locale: content.getLocales()) {
-            ensureFields(cms, content, locale);
+    for (String path : m_paths) {
+      if (!content.hasValue(path, locale)) {
+        try {
+          content.addValue(cms, path, locale, 0);
+        } catch (Exception e) {
+          LOG.error(e.getLocalizedMessage(), e);
         }
+      }
     }
-
-    /**
-     * Tries to add the collected fields to one locale of the given content.
-     *
-     * @param cms the CMS context
-     * @param content the content to add the fields to
-     * @param locale the locale
-     */
-    public void ensureFields(CmsObject cms, CmsXmlContent content, Locale locale) {
-
-        for (String path : m_paths) {
-            if (!content.hasValue(path, locale)) {
-                try {
-                    content.addValue(cms, path, locale, 0);
-                } catch (Exception e) {
-                    LOG.error(e.getLocalizedMessage(), e);
-                }
-            }
-        }
-    }
-
+  }
 }

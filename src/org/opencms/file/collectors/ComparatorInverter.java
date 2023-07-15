@@ -27,16 +27,17 @@
 
 package org.opencms.file.collectors;
 
+import java.util.Comparator;
 import org.opencms.file.I_CmsResource;
 
-import java.util.Comparator;
-
 /**
- * Wrapper around a comparator that inverts comparison results which may e.g. be
- * used to invert sort orders. <p>
+ * Wrapper around a comparator that inverts comparison results which may e.g. be used to invert sort
+ * orders.
  *
- * This is used to create <code>{@link java.util.SortedSet}</code> instances that may
- * sort in different order (ascending vs. descending).<p>
+ * <p>This is used to create <code>{@link java.util.SortedSet}</code> instances that may sort in
+ * different order (ascending vs. descending).
+ *
+ * <p>
  *
  * <table border="1">
  * <tr>
@@ -56,33 +57,32 @@ import java.util.Comparator;
  * <td>-1</td>
  * </tr>
  * </table>
+ *
  * <p>
  *
  * @since 7.0.3
- *
  */
 public final class ComparatorInverter implements Comparator<I_CmsResource> {
 
-    /** The comparator to invert. */
-    private Comparator<I_CmsResource> m_delegate;
+  /** The comparator to invert. */
+  private Comparator<I_CmsResource> m_delegate;
 
-    /**
-     * Creates a comparator that will invert the result of the given comparator.
-     * <p>
-     *
-     * @param toInvert the comparator to invert results of
-     */
-    public ComparatorInverter(Comparator<I_CmsResource> toInvert) {
+  /**
+   * Creates a comparator that will invert the result of the given comparator.
+   *
+   * <p>
+   *
+   * @param toInvert the comparator to invert results of
+   */
+  public ComparatorInverter(Comparator<I_CmsResource> toInvert) {
 
-        m_delegate = toInvert;
-    }
+    m_delegate = toInvert;
+  }
 
-    /**
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */
-    public int compare(I_CmsResource o1, I_CmsResource o2) {
+  /** @see java.util.Comparator#compare(java.lang.Object, java.lang.Object) */
+  public int compare(I_CmsResource o1, I_CmsResource o2) {
 
-        int result = m_delegate.compare(o1, o2);
-        return -result;
-    }
+    int result = m_delegate.compare(o1, o2);
+    return -result;
+  }
 }

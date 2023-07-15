@@ -27,83 +27,78 @@
 
 package org.opencms.acacia.client.widgets.code;
 
-import org.opencms.gwt.client.ui.FontOpenCms;
-import org.opencms.gwt.client.util.CmsStyleVariable;
-
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import org.opencms.gwt.client.ui.FontOpenCms;
+import org.opencms.gwt.client.util.CmsStyleVariable;
 
-/**
- * Simple toggle button for the CodeMirror toolbar.
- */
-public class CmsCodeMirrorToggleButton extends CmsCodeMirrorToolbarButton implements HasValueChangeHandlers<Boolean> {
+/** Simple toggle button for the CodeMirror toolbar. */
+public class CmsCodeMirrorToggleButton extends CmsCodeMirrorToolbarButton
+    implements HasValueChangeHandlers<Boolean> {
 
-    /** The value. */
-    private boolean m_value;
+  /** The value. */
+  private boolean m_value;
 
-    /** Style variable for the toggle status. */
-    private CmsStyleVariable m_style;
+  /** Style variable for the toggle status. */
+  private CmsStyleVariable m_style;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param icon the icon
-     */
-    public CmsCodeMirrorToggleButton(FontOpenCms icon) {
+  /**
+   * Creates a new instance.
+   *
+   * @param icon the icon
+   */
+  public CmsCodeMirrorToggleButton(FontOpenCms icon) {
 
-        super(icon);
-        m_style = new CmsStyleVariable(this);
-        updateStyle();
-        addClickHandler(event -> {
-            m_value = !m_value;
-            updateStyle();
-            ValueChangeEvent.fire(CmsCodeMirrorToggleButton.this, Boolean.valueOf(m_value));
+    super(icon);
+    m_style = new CmsStyleVariable(this);
+    updateStyle();
+    addClickHandler(
+        event -> {
+          m_value = !m_value;
+          updateStyle();
+          ValueChangeEvent.fire(CmsCodeMirrorToggleButton.this, Boolean.valueOf(m_value));
         });
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Boolean> handler) {
+
+    return addHandler(handler, ValueChangeEvent.getType());
+  }
+
+  /**
+   * Returns the toggle state.
+   *
+   * @return the toggle state
+   */
+  public boolean getValue() {
+
+    return m_value;
+  }
+
+  /**
+   * Sets the value.
+   *
+   * @param value the new value
+   * @param fireEvents true if a change event should be fired
+   */
+  public void setValue(boolean value, boolean fireEvents) {
+
+    m_value = value;
+    updateStyle();
+    if (fireEvents) {
+      ValueChangeEvent.fire(this, Boolean.valueOf(m_value));
     }
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Boolean> handler) {
+  /** Updates the style based on the current toggle state. */
+  private void updateStyle() {
 
-        return addHandler(handler, ValueChangeEvent.getType());
-
-    }
-
-    /**
-     * Returns the toggle state.
-     *
-     * @return the toggle state
-     */
-    public boolean getValue() {
-
-        return m_value;
-    }
-
-    /**
-     *
-     * Sets the value.
-     *
-     * @param value the new value
-     * @param fireEvents true if a change event should be fired
-     */
-    public void setValue(boolean value, boolean fireEvents) {
-
-        m_value = value;
-        updateStyle();
-        if (fireEvents) {
-            ValueChangeEvent.fire(this, Boolean.valueOf(m_value));
-        }
-    }
-
-    /**
-     * Updates the style based on the current toggle state.
-     */
-    private void updateStyle() {
-
-        m_style.setValue(m_value ? "cmsState-down" : "cmsState-up");
-    }
-
+    m_style.setValue(m_value ? "cmsState-down" : "cmsState-up");
+  }
 }

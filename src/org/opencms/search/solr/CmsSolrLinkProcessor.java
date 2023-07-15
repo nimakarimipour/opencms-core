@@ -31,35 +31,34 @@
 
 package org.opencms.search.solr;
 
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrInputDocument;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.OpenCms;
-
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrInputDocument;
 import org.opencms.search.CmsSearchUtil;
 
 /**
- * This Solr post processor generates for each found document the corresponding link and
- * adds this link into the resulting document as field.<p>
+ * This Solr post processor generates for each found document the corresponding link and adds this
+ * link into the resulting document as field.
+ *
+ * <p>
  */
 public class CmsSolrLinkProcessor implements I_CmsSolrPostSearchProcessor {
 
-    /**
-     * @see org.opencms.search.solr.I_CmsSolrPostSearchProcessor#process(org.opencms.file.CmsObject, org.opencms.file.CmsResource, org.apache.solr.common.SolrInputDocument)
-     */
-    public SolrDocument process(CmsObject cms, CmsResource resource, SolrInputDocument document) {
+  /**
+   * @see org.opencms.search.solr.I_CmsSolrPostSearchProcessor#process(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, org.apache.solr.common.SolrInputDocument)
+   */
+  public SolrDocument process(CmsObject cms, CmsResource resource, SolrInputDocument document) {
 
-        document.addField("link", OpenCms.getLinkManager().substituteLink(cms, resource));
-        return CmsSearchUtil.toSolrDocument(document);
-    }
+    document.addField("link", OpenCms.getLinkManager().substituteLink(cms, resource));
+    return CmsSearchUtil.toSolrDocument(document);
+  }
 
-    /**
-     *
-     * @see org.opencms.search.solr.I_CmsSolrPostSearchProcessor#init()
-     */
-    public void init() {
+  /** @see org.opencms.search.solr.I_CmsSolrPostSearchProcessor#init() */
+  public void init() {
 
-        // No actions necessary
-    }
+    // No actions necessary
+  }
 }

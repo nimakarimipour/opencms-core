@@ -27,6 +27,11 @@
 
 package org.opencms.workplace.commons;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResourceFilter;
@@ -36,104 +41,105 @@ import org.opencms.workplace.list.A_CmsListExplorerDialog;
 import org.opencms.workplace.list.A_CmsListResourceCollector;
 import org.opencms.workplace.list.CmsListItem;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Collector for locked resources.<p>
+ * Collector for locked resources.
+ *
+ * <p>
  *
  * @since 6.5.4
  */
 public class CmsLockedResourcesCollector extends A_CmsListResourceCollector {
 
-    /** Parameter of the default collector name. */
-    public static final String COLLECTOR_NAME = "lockedResources";
+  /** Parameter of the default collector name. */
+  public static final String COLLECTOR_NAME = "lockedResources";
 
-    /** This constant is just a hack to mark related resources in the list. */
-    private static final int FLAG_RELATED_RESOURCE = 8192;
+  /** This constant is just a hack to mark related resources in the list. */
+  private static final int FLAG_RELATED_RESOURCE = 8192;
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsLockedResourcesCollector.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsLockedResourcesCollector.class);
 
-    /**
-     * Constructor, creates a new instance.<p>
-     *
-     * @param wp the workplace object
-     * @param resources list of locked resources
-     */
-    public CmsLockedResourcesCollector(A_CmsListExplorerDialog wp, List<String> resources) {
+  /**
+   * Constructor, creates a new instance.
+   *
+   * <p>
+   *
+   * @param wp the workplace object
+   * @param resources list of locked resources
+   */
+  public CmsLockedResourcesCollector(A_CmsListExplorerDialog wp, List<String> resources) {
 
-        super(wp);
-        setResourcesParam(resources);
-    }
+    super(wp);
+    setResourcesParam(resources);
+  }
 
-    /**
-     * @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames()
-     */
-    public List<String> getCollectorNames() {
+  /** @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames() */
+  public List<String> getCollectorNames() {
 
-        List<String> names = new ArrayList<String>();
-        names.add(COLLECTOR_NAME);
-        return names;
-    }
+    List<String> names = new ArrayList<String>();
+    names.add(COLLECTOR_NAME);
+    return names;
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListResourceCollector#getResources(org.opencms.file.CmsObject, java.util.Map)
-     */
-    @Override
-    public List<CmsResource> getResources(CmsObject cms, Map<String, String> params) {
+  /**
+   * @see
+   *     org.opencms.workplace.list.A_CmsListResourceCollector#getResources(org.opencms.file.CmsObject,
+   *     java.util.Map)
+   */
+  @Override
+  public List<CmsResource> getResources(CmsObject cms, Map<String, String> params) {
 
-        List<CmsResource> resources = new ArrayList<CmsResource>();
-        Iterator<String> itResourceNames = getResourceNamesFromParam(params).iterator();
-        while (itResourceNames.hasNext()) {
-            String resName = itResourceNames.next();
-            boolean relatedResource = resName.endsWith("*");
-            if (relatedResource) {
-                resName = resName.substring(0, resName.length() - 1);
-            }
-            try {
-                CmsResource resource = cms.readResource(resName, CmsResourceFilter.ALL);
-                if (relatedResource) {
-                    resource = new CmsResource(
-                        resource.getStructureId(),
-                        resource.getResourceId(),
-                        resource.getRootPath(),
-                        resource.getTypeId(),
-                        resource.isFolder(),
-                        resource.getFlags() | FLAG_RELATED_RESOURCE,
-                        resource.getProjectLastModified(),
-                        resource.getState(),
-                        resource.getDateCreated(),
-                        resource.getUserCreated(),
-                        resource.getDateLastModified(),
-                        resource.getUserLastModified(),
-                        resource.getDateReleased(),
-                        resource.getDateExpired(),
-                        resource.getSiblingCount(),
-                        resource.getLength(),
-                        resource.getDateContent(),
-                        resource.getVersion());
-                }
-                resources.add(resource);
-            } catch (Exception e) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
+    List<CmsResource> resources = new ArrayList<CmsResource>();
+    Iterator<String> itResourceNames = getResourceNamesFromParam(params).iterator();
+    while (itResourceNames.hasNext()) {
+      String resName = itResourceNames.next();
+      boolean relatedResource = resName.endsWith("*");
+      if (relatedResource) {
+        resName = resName.substring(0, resName.length() - 1);
+      }
+      try {
+        CmsResource resource = cms.readResource(resName, CmsResourceFilter.ALL);
+        if (relatedResource) {
+          resource =
+              new CmsResource(
+                  resource.getStructureId(),
+                  resource.getResourceId(),
+                  resource.getRootPath(),
+                  resource.getTypeId(),
+                  resource.isFolder(),
+                  resource.getFlags() | FLAG_RELATED_RESOURCE,
+                  resource.getProjectLastModified(),
+                  resource.getState(),
+                  resource.getDateCreated(),
+                  resource.getUserCreated(),
+                  resource.getDateLastModified(),
+                  resource.getUserLastModified(),
+                  resource.getDateReleased(),
+                  resource.getDateExpired(),
+                  resource.getSiblingCount(),
+                  resource.getLength(),
+                  resource.getDateContent(),
+                  resource.getVersion());
         }
-        return resources;
+        resources.add(resource);
+      } catch (Exception e) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
     }
+    return resources;
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListResourceCollector#setAdditionalColumns(org.opencms.workplace.list.CmsListItem, org.opencms.workplace.explorer.CmsResourceUtil)
-     */
-    @Override
-    protected void setAdditionalColumns(CmsListItem item, CmsResourceUtil resUtil) {
+  /**
+   * @see
+   *     org.opencms.workplace.list.A_CmsListResourceCollector#setAdditionalColumns(org.opencms.workplace.list.CmsListItem,
+   *     org.opencms.workplace.explorer.CmsResourceUtil)
+   */
+  @Override
+  protected void setAdditionalColumns(CmsListItem item, CmsResourceUtil resUtil) {
 
-        item.set(
-            CmsLockedResourcesList.LIST_COLUMN_IS_RELATED,
-            Boolean.valueOf((resUtil.getResource().getFlags() & FLAG_RELATED_RESOURCE) == FLAG_RELATED_RESOURCE));
-    }
+    item.set(
+        CmsLockedResourcesList.LIST_COLUMN_IS_RELATED,
+        Boolean.valueOf(
+            (resUtil.getResource().getFlags() & FLAG_RELATED_RESOURCE) == FLAG_RELATED_RESOURCE));
+  }
 }

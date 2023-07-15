@@ -30,18 +30,21 @@ package org.opencms.ade.sitemap.client.hoverbar;
 import com.google.gwt.event.shared.EventHandler;
 
 /**
- * Hoverbar detach event handler.<p>
+ * Hoverbar detach event handler.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.ade.sitemap.client.control.CmsSitemapController
  */
 public interface I_CmsHoverbarHideHandler extends EventHandler {
 
-    /**
-     * Will be triggered on detach.<p>
-     *
-     * @param event the event
-     */
-    void onHide(CmsHoverbarHideEvent event);
+  /**
+   * Will be triggered on detach.
+   *
+   * <p>
+   *
+   * @param event the event
+   */
+  void onHide(CmsHoverbarHideEvent event);
 }

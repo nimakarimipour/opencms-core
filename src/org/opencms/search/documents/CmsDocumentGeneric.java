@@ -35,56 +35,62 @@ import org.opencms.search.extractors.CmsExtractionResult;
 import org.opencms.search.extractors.I_CmsExtractionResult;
 
 /**
- * Lucene document factory class for indexing data from a generic <code>{@link CmsResource}</code>.<p>
+ * Lucene document factory class for indexing data from a generic <code>{@link CmsResource}</code>.
  *
- * Since the document type is generic, no content extraction is performed for the resource.
- * However, meta data from the properties and attributes of the resource are indexed.<p>
+ * <p>Since the document type is generic, no content extraction is performed for the resource.
+ * However, meta data from the properties and attributes of the resource are indexed.
  *
- * The class is useful for example to have images appear in the search result if the title of the image
- * matched the search query. It's also used if no specific extraction method is available for a binary document type.<p>
+ * <p>The class is useful for example to have images appear in the search result if the title of the
+ * image matched the search query. It's also used if no specific extraction method is available for
+ * a binary document type.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDocumentGeneric extends A_CmsVfsDocument {
 
-    /**
-     * Creates a new instance of this lucene document factory.<p>
-     *
-     * @param name name of the documenttype
-     */
-    public CmsDocumentGeneric(String name) {
+  /**
+   * Creates a new instance of this lucene document factory.
+   *
+   * <p>
+   *
+   * @param name name of the documenttype
+   */
+  public CmsDocumentGeneric(String name) {
 
-        super(name);
+    super(name);
+  }
+
+  /**
+   * Just returns an empty extraction result since the content can't be extracted form a generic
+   * resource.
+   *
+   * <p>
+   *
+   * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource,
+   *     I_CmsSearchIndex)
+   */
+  public I_CmsExtractionResult extractContent(
+      CmsObject cms, CmsResource resource, I_CmsSearchIndex index) throws CmsIndexException {
+
+    if (resource == null) {
+      throw new CmsIndexException(
+          Messages.get().container(Messages.ERR_NO_RAW_CONTENT_1, index.getLocale()));
     }
+    // just return an empty result set
+    return new CmsExtractionResult("");
+  }
 
-    /**
-     * Just returns an empty extraction result since the content can't be extracted form a generic resource.<p>
-     *
-     * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
-     */
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
-    throws CmsIndexException {
+  /** @see org.opencms.search.documents.I_CmsDocumentFactory#isLocaleDependend() */
+  public boolean isLocaleDependend() {
 
-        if (resource == null) {
-            throw new CmsIndexException(Messages.get().container(Messages.ERR_NO_RAW_CONTENT_1, index.getLocale()));
-        }
-        // just return an empty result set
-        return new CmsExtractionResult("");
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.search.documents.I_CmsDocumentFactory#isLocaleDependend()
-     */
-    public boolean isLocaleDependend() {
+  /** @see org.opencms.search.documents.I_CmsDocumentFactory#isUsingCache() */
+  public boolean isUsingCache() {
 
-        return false;
-    }
-
-    /**
-     * @see org.opencms.search.documents.I_CmsDocumentFactory#isUsingCache()
-     */
-    public boolean isUsingCache() {
-
-        return false;
-    }
+    return false;
+  }
 }

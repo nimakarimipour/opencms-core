@@ -27,69 +27,67 @@
 
 package org.opencms.jsp.util;
 
-import org.opencms.util.CmsRequestUtil;
-
 import java.util.Arrays;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
+import org.opencms.util.CmsRequestUtil;
 
 /**
- * Provides the detection for different devices, so that the
- * <code>&lt;cms:device type="..."&gt;</code>-Tag can detect
- * which kind of device type sends the HTTP request.<p>
+ * Provides the detection for different devices, so that the <code>&lt;cms:device type="..."&gt;
+ * </code>-Tag can detect which kind of device type sends the HTTP request.
  *
- * This implementation <b>detects smart phones and tablets</b>
- * as mobile devices.<p>
+ * <p>This implementation <b>detects smart phones and tablets</b> as mobile devices.
  *
- * @see CmsJspDeviceSelector CmsJspDeviceSelector <b>detects only
- * smart phones</b> as mobile devices
+ * <p>
  *
+ * @see CmsJspDeviceSelector CmsJspDeviceSelector <b>detects only smart phones</b> as mobile devices
  * @since 8.5.0.4
  */
 public class CmsJspDeviceSelectorTablet implements I_CmsJspDeviceSelector {
 
-    /** Constant for desktop detection. */
-    public static final String C_DESKTOP = "desktop";
+  /** Constant for desktop detection. */
+  public static final String C_DESKTOP = "desktop";
 
-    /** Constant for mobile detection. */
-    public static final String C_MOBILE = "mobile";
+  /** Constant for mobile detection. */
+  public static final String C_MOBILE = "mobile";
 
-    /** The list of types supported by this device selector implementation. */
-    public static final List<String> TYPES = Arrays.asList(new String[] {C_MOBILE, C_DESKTOP});
+  /** The list of types supported by this device selector implementation. */
+  public static final List<String> TYPES = Arrays.asList(new String[] {C_MOBILE, C_DESKTOP});
 
-    /** The user agent info. */
-    private UAgentInfo m_userAgentInfo;
+  /** The user agent info. */
+  private UAgentInfo m_userAgentInfo;
 
-    /**
-     * @see org.opencms.jsp.util.I_CmsJspDeviceSelector#getDeviceType(javax.servlet.http.HttpServletRequest)
-     */
-    public String getDeviceType(HttpServletRequest req) {
+  /**
+   * @see
+   *     org.opencms.jsp.util.I_CmsJspDeviceSelector#getDeviceType(javax.servlet.http.HttpServletRequest)
+   */
+  public String getDeviceType(HttpServletRequest req) {
 
-        m_userAgentInfo = new UAgentInfo(
+    m_userAgentInfo =
+        new UAgentInfo(
             req.getHeader(CmsRequestUtil.HEADER_USER_AGENT),
             req.getHeader(CmsRequestUtil.HEADER_ACCEPT));
-        if (m_userAgentInfo.detectMobileQuick() || m_userAgentInfo.getIsTierTablet()) {
-            return C_MOBILE;
-        }
-        return C_DESKTOP;
+    if (m_userAgentInfo.detectMobileQuick() || m_userAgentInfo.getIsTierTablet()) {
+      return C_MOBILE;
     }
+    return C_DESKTOP;
+  }
 
-    /**
-     * @see org.opencms.jsp.util.I_CmsJspDeviceSelector#getDeviceTypes()
-     */
-    public List<String> getDeviceTypes() {
+  /** @see org.opencms.jsp.util.I_CmsJspDeviceSelector#getDeviceTypes() */
+  public List<String> getDeviceTypes() {
 
-        return TYPES;
-    }
+    return TYPES;
+  }
 
-    /**
-     * Returns the User Agent info.<p>
-     *
-     * @return the information about the user agent
-     */
-    public UAgentInfo getUserAgentInfo() {
+  /**
+   * Returns the User Agent info.
+   *
+   * <p>
+   *
+   * @return the information about the user agent
+   */
+  public UAgentInfo getUserAgentInfo() {
 
-        return m_userAgentInfo;
-    }
+    return m_userAgentInfo;
+  }
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,16 +15,17 @@
  */
 package com.google.gwt.dom.client;
 
-/** Fixing positioning issue due to API changes in Chrome. See https://github.com/gwtproject/gwt/commit/88a028f6b74ecc529a4b878301448d057d2c6e89 */
-
 /**
- * WebKit based implementation of {@link com.google.gwt.dom.client.DOMImplStandardBase}.
+ * Fixing positioning issue due to API changes in Chrome. See
+ * https://github.com/gwtproject/gwt/commit/88a028f6b74ecc529a4b878301448d057d2c6e89
  */
+
+/** WebKit based implementation of {@link com.google.gwt.dom.client.DOMImplStandardBase}. */
 class DOMImplWebkit extends DOMImplStandardBase {
 
   /**
    * Return true if using Webkit 525.x (Safari 3) or earlier.
-   * 
+   *
    * @return true if using Webkit 525.x (Safari 3) or earlier.
    */
   private static native boolean isWebkit525OrBefore() /*-{
@@ -39,8 +40,8 @@ class DOMImplWebkit extends DOMImplStandardBase {
 }-*/;
 
   /**
-   * Webkit events sometimes target the text node inside of the element instead
-   * of the element itself, so we need to get the parent of the text node.
+   * Webkit events sometimes target the text node inside of the element instead of the element
+   * itself, so we need to get the parent of the text node.
    */
   @Override
   public native EventTarget eventGetTarget(NativeEvent evt) /*-{
@@ -52,8 +53,8 @@ class DOMImplWebkit extends DOMImplStandardBase {
 }-*/;
 
   /**
-   * Webkit based browsers require that we set the webkit-user-drag style
-   * attribute to make an element draggable.
+   * Webkit based browsers require that we set the webkit-user-drag style attribute to make an
+   * element draggable.
    */
   @Override
   public void setDraggable(Element elem, String draggable) {
@@ -64,11 +65,10 @@ class DOMImplWebkit extends DOMImplStandardBase {
       elem.getStyle().clearProperty("webkitUserDrag");
     }
   }
-  
-  @Override
-    Element getLegacyDocumentScrollingElement(Document doc) {
-      // Old WebKit needs body.scrollLeft in both quirks mode and strict mode.
-      return doc.getBody();
-    }
-}
 
+  @Override
+  Element getLegacyDocumentScrollingElement(Document doc) {
+    // Old WebKit needs body.scrollLeft in both quirks mode and strict mode.
+    return doc.getBody();
+  }
+}

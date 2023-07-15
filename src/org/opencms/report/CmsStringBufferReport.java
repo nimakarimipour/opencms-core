@@ -30,93 +30,86 @@ package org.opencms.report;
 import java.util.Locale;
 
 /**
- * Report class used to write the output of a report to a StringBuffer.<p>
+ * Report class used to write the output of a report to a StringBuffer.
  *
- * It stores everything and generates no output.
- * After the report is finished, you can access to result of the
- * report using the {@link #toString()} method.<p>
+ * <p>It stores everything and generates no output. After the report is finished, you can access to
+ * result of the report using the {@link #toString()} method.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsStringBufferReport extends A_CmsReport {
 
-    /** The StringBuffer to write to. */
-    private StringBuffer m_strBuf;
+  /** The StringBuffer to write to. */
+  private StringBuffer m_strBuf;
 
-    /**
-     * Constructs a new report using the provided locale for the output language.<p>
-     *
-     * @param locale the locale to use for the output language
-     */
-    public CmsStringBufferReport(Locale locale) {
+  /**
+   * Constructs a new report using the provided locale for the output language.
+   *
+   * <p>
+   *
+   * @param locale the locale to use for the output language
+   */
+  public CmsStringBufferReport(Locale locale) {
 
-        init(locale, null);
+    init(locale, null);
 
-        m_strBuf = new StringBuffer();
+    m_strBuf = new StringBuffer();
+  }
+
+  /** @see org.opencms.report.I_CmsReport#getReportUpdate() */
+  public String getReportUpdate() {
+
+    return "";
+  }
+
+  /** @see org.opencms.report.A_CmsReport#print(java.lang.String, int) */
+  @Override
+  public void print(String value, int format) {
+
+    switch (format) {
+      case FORMAT_HEADLINE:
+      case FORMAT_WARNING:
+        addWarning(value);
+        m_strBuf.append(value);
+        break;
+      case FORMAT_ERROR:
+        addError(value);
+        m_strBuf.append(value);
+        break;
+      case FORMAT_NOTE:
+      case FORMAT_OK:
+      case FORMAT_DEFAULT:
+      default:
+        m_strBuf.append(value);
     }
+    setLastEntryTime(System.currentTimeMillis());
+  }
 
-    /**
-     * @see org.opencms.report.I_CmsReport#getReportUpdate()
-     */
-    public String getReportUpdate() {
+  /** @see org.opencms.report.I_CmsReport#println() */
+  public void println() {
 
-        return "";
+    m_strBuf.append("\n");
+  }
+
+  /** @see org.opencms.report.I_CmsReport#println(java.lang.Throwable) */
+  public void println(Throwable t) {
+
+    print(getMessages().key(Messages.RPT_EXCEPTION_0), FORMAT_WARNING);
+    println(t.getMessage(), FORMAT_ERROR);
+
+    StackTraceElement[] stackTrace = t.getStackTrace();
+    for (int i = 0; i < stackTrace.length; i++) {
+      StackTraceElement element = stackTrace[i];
+      println(element.toString());
     }
+  }
 
-    /**
-     * @see org.opencms.report.A_CmsReport#print(java.lang.String, int)
-     */
-    @Override
-    public void print(String value, int format) {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        switch (format) {
-            case FORMAT_HEADLINE:
-            case FORMAT_WARNING:
-                addWarning(value);
-                m_strBuf.append(value);
-                break;
-            case FORMAT_ERROR:
-                addError(value);
-                m_strBuf.append(value);
-                break;
-            case FORMAT_NOTE:
-            case FORMAT_OK:
-            case FORMAT_DEFAULT:
-            default:
-                m_strBuf.append(value);
-        }
-        setLastEntryTime(System.currentTimeMillis());
-    }
-
-    /**
-     * @see org.opencms.report.I_CmsReport#println()
-     */
-    public void println() {
-
-        m_strBuf.append("\n");
-    }
-
-    /**
-     * @see org.opencms.report.I_CmsReport#println(java.lang.Throwable)
-     */
-    public void println(Throwable t) {
-
-        print(getMessages().key(Messages.RPT_EXCEPTION_0), FORMAT_WARNING);
-        println(t.getMessage(), FORMAT_ERROR);
-
-        StackTraceElement[] stackTrace = t.getStackTrace();
-        for (int i = 0; i < stackTrace.length; i++) {
-            StackTraceElement element = stackTrace[i];
-            println(element.toString());
-        }
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-
-        return m_strBuf.toString();
-    }
+    return m_strBuf.toString();
+  }
 }

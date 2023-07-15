@@ -31,17 +31,16 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
 /**
- * Entity resolver that will always fail.<p>
+ * Entity resolver that will always fail.
+ *
+ * <p>
  */
 public class FailingEntityResolver implements EntityResolver {
 
-    /**
-     * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String, java.lang.String)
-     */
-    @Override
-    public InputSource resolveEntity(String publicId, String systemId) {
+  /** @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String, java.lang.String) */
+  @Override
+  public InputSource resolveEntity(String publicId, String systemId) {
 
-        throw new IllegalStateException("Entity should have been resolved from the cache: " + systemId);
-    }
-
+    throw new IllegalStateException("Entity should have been resolved from the cache: " + systemId);
+  }
 }

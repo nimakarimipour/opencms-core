@@ -27,197 +27,229 @@
 
 package org.opencms.ade.containerpage.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * The inheritance container data.<p>
+ * The inheritance container data.
+ *
+ * <p>
  */
 public class CmsInheritanceContainer implements IsSerializable {
 
-    /** The container reference client id. */
-    private String m_clientId;
+  /** The container reference client id. */
+  private String m_clientId;
 
-    /** The description. */
-    private String m_description;
+  /** The description. */
+  private String m_description;
 
-    /** The elements of the container. */
-    private List<CmsContainerElement> m_elements;
+  /** The elements of the container. */
+  private List<CmsContainerElement> m_elements;
 
-    /** Indicates whether a change has occurred. */
-    private boolean m_elementsChanged;
+  /** Indicates whether a change has occurred. */
+  private boolean m_elementsChanged;
 
-    /** Indicates whether elements have been moved. */
-    private boolean m_elementsMoved;
+  /** Indicates whether elements have been moved. */
+  private boolean m_elementsMoved;
 
-    /** The name of the inheritance line. */
-    private String m_name;
+  /** The name of the inheritance line. */
+  private String m_name;
 
-    /** Flag indicating if this is a new inheritance reference. */
-    private boolean m_new;
+  /** Flag indicating if this is a new inheritance reference. */
+  private boolean m_new;
 
-    /** The title. */
-    private String m_title;
+  /** The title. */
+  private String m_title;
 
-    /**
-     * Returns the clientId.<p>
-     *
-     * @return the clientId
-     */
-    public String getClientId() {
+  /**
+   * Returns the clientId.
+   *
+   * <p>
+   *
+   * @return the clientId
+   */
+  public String getClientId() {
 
-        return m_clientId;
-    }
+    return m_clientId;
+  }
 
-    /**
-     * Returns the description.<p>
-     *
-     * @return the description
-     */
-    public String getDescription() {
+  /**
+   * Returns the description.
+   *
+   * <p>
+   *
+   * @return the description
+   */
+  public String getDescription() {
 
-        return m_description;
-    }
+    return m_description;
+  }
 
-    /**
-     * Returns the container elements.<p>
-     *
-     * @return the elements
-     */
-    public List<CmsContainerElement> getElements() {
+  /**
+   * Returns the container elements.
+   *
+   * <p>
+   *
+   * @return the elements
+   */
+  public List<CmsContainerElement> getElements() {
 
-        return m_elements;
-    }
+    return m_elements;
+  }
 
-    /**
-     * Returns true whether the inheritance information has been changed.<p>
-     *
-     * @return true if the inheritance information has been changed
-     */
-    public boolean getElementsChanged() {
+  /**
+   * Returns true whether the inheritance information has been changed.
+   *
+   * <p>
+   *
+   * @return true if the inheritance information has been changed
+   */
+  public boolean getElementsChanged() {
 
-        return m_elementsChanged;
-    }
+    return m_elementsChanged;
+  }
 
-    /**
-     * Returns true when the elements have been moved.<p>
-     *
-     * @return true if the elements have been moved
-     */
-    public boolean getElementsMoved() {
+  /**
+   * Returns true when the elements have been moved.
+   *
+   * <p>
+   *
+   * @return true if the elements have been moved
+   */
+  public boolean getElementsMoved() {
 
-        return m_elementsMoved;
-    }
+    return m_elementsMoved;
+  }
 
-    /**
-     * Returns the name of the inheritance line.<p>
-     *
-     * @return the name
-     */
-    public String getName() {
+  /**
+   * Returns the name of the inheritance line.
+   *
+   * <p>
+   *
+   * @return the name
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the title.<p>
-     *
-     * @return the title
-     */
-    public String getTitle() {
+  /**
+   * Returns the title.
+   *
+   * <p>
+   *
+   * @return the title
+   */
+  public String getTitle() {
 
-        return m_title;
-    }
+    return m_title;
+  }
 
-    /**
-     * Returns if this is a new inheritance reference.<p>
-     *
-     * @return <code>true</code> if this is a new inheritance reference
-     */
-    public boolean isNew() {
+  /**
+   * Returns if this is a new inheritance reference.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this is a new inheritance reference
+   */
+  public boolean isNew() {
 
-        return m_new;
-    }
+    return m_new;
+  }
 
-    /**
-     * Sets the container reference client id.<p>
-     *
-     * @param clientId the container reference client id to set
-     */
-    public void setClientId(String clientId) {
+  /**
+   * Sets the container reference client id.
+   *
+   * <p>
+   *
+   * @param clientId the container reference client id to set
+   */
+  public void setClientId(String clientId) {
 
-        m_clientId = clientId;
-    }
+    m_clientId = clientId;
+  }
 
-    /**
-     * Sets the description.<p>
-     *
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
+  /**
+   * Sets the description.
+   *
+   * <p>
+   *
+   * @param description the description to set
+   */
+  public void setDescription(String description) {
 
-        m_description = description;
-    }
+    m_description = description;
+  }
 
-    /**
-     * Sets the container elements.<p>
-     *
-     * @param elements the elements to set
-     */
-    public void setElements(List<CmsContainerElement> elements) {
+  /**
+   * Sets the container elements.
+   *
+   * <p>
+   *
+   * @param elements the elements to set
+   */
+  public void setElements(List<CmsContainerElement> elements) {
 
-        m_elements = elements;
-    }
+    m_elements = elements;
+  }
 
-    /**
-     * Sets the 'elements changed' flag.<p>
-     *
-     * @param elementsChanged the 'element changed' flag's new value
-     */
-    public void setElementsChanged(boolean elementsChanged) {
+  /**
+   * Sets the 'elements changed' flag.
+   *
+   * <p>
+   *
+   * @param elementsChanged the 'element changed' flag's new value
+   */
+  public void setElementsChanged(boolean elementsChanged) {
 
-        m_elementsChanged = elementsChanged;
-    }
+    m_elementsChanged = elementsChanged;
+  }
 
-    /**
-     * Sets the 'elements moved' flag.<p>
-     *
-     * @param moved the 'element moved' flag's new value
-     */
-    public void setElementsMoved(boolean moved) {
+  /**
+   * Sets the 'elements moved' flag.
+   *
+   * <p>
+   *
+   * @param moved the 'element moved' flag's new value
+   */
+  public void setElementsMoved(boolean moved) {
 
-        m_elementsMoved = moved;
-    }
+    m_elementsMoved = moved;
+  }
 
-    /**
-     * Sets the name of the inheritance line.<p>
-     *
-     * @param name the name to set
-     */
-    public void setName(String name) {
+  /**
+   * Sets the name of the inheritance line.
+   *
+   * <p>
+   *
+   * @param name the name to set
+   */
+  public void setName(String name) {
 
-        m_name = name;
-    }
+    m_name = name;
+  }
 
-    /**
-     * Sets the if this is a new inheritance reference.<p>
-     *
-     * @param new1  <code>true</code> if this is a new inheritance reference
-     */
-    public void setNew(boolean new1) {
+  /**
+   * Sets the if this is a new inheritance reference.
+   *
+   * <p>
+   *
+   * @param new1 <code>true</code> if this is a new inheritance reference
+   */
+  public void setNew(boolean new1) {
 
-        m_new = new1;
-    }
+    m_new = new1;
+  }
 
-    /**
-     * Sets the title.<p>
-     *
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
+  /**
+   * Sets the title.
+   *
+   * <p>
+   *
+   * @param title the title to set
+   */
+  public void setTitle(String title) {
 
-        m_title = title;
-    }
-
+    m_title = title;
+  }
 }

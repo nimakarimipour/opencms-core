@@ -27,74 +27,85 @@
 
 package org.opencms.gwt.client.ui.contextmenu;
 
+import com.google.gwt.user.client.Command;
 import org.opencms.gwt.client.ui.input.category.CmsCategoryDialog;
 import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.Command;
-
 /**
- * Context menu entry for the 'Assign Categories' dialog.<p>
+ * Context menu entry for the 'Assign Categories' dialog.
+ *
+ * <p>
  */
 public final class CmsCategories implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand {
 
-    /** Parameter specifying if the category tree should be collapsed when shown first. */
-    private static final String PARAM_COLLAPSED = "displayCollapsed";
+  /** Parameter specifying if the category tree should be collapsed when shown first. */
+  private static final String PARAM_COLLAPSED = "displayCollapsed";
 
-    /**
-     * Hidden utility class constructor.<p>
-     */
-    private CmsCategories() {
+  /**
+   * Hidden utility class constructor.
+   *
+   * <p>
+   */
+  private CmsCategories() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Returns the context menu command according to
-     * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new CmsCategories();
-    }
+    return new CmsCategories();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public void execute(
-        final CmsUUID structureId,
-        final I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public void execute(
+      final CmsUUID structureId,
+      final I_CmsContextMenuHandler handler,
+      CmsContextMenuEntryBean bean) {
 
-        CmsCategoryDialog dialog = new CmsCategoryDialog(structureId, new Command() {
+    CmsCategoryDialog dialog =
+        new CmsCategoryDialog(
+            structureId,
+            new Command() {
 
-            public void execute() {
+              public void execute() {
 
                 handler.refreshResource(structureId);
-            }
-        }, (bean.getParams() != null) && Boolean.parseBoolean(bean.getParams().get(PARAM_COLLAPSED)));
-        dialog.center();
-    }
+              }
+            },
+            (bean.getParams() != null)
+                && Boolean.parseBoolean(bean.getParams().get(PARAM_COLLAPSED)));
+    dialog.center();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget()
-     */
-    public boolean hasItemWidget() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget() */
+  public boolean hasItemWidget() {
 
-        return false;
-    }
-
+    return false;
+  }
 }

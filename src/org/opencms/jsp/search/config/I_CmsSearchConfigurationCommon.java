@@ -32,90 +32,127 @@ import java.util.Map;
 /** Interface the common search configuration must implement. */
 public interface I_CmsSearchConfigurationCommon {
 
-    /** Returns a map from request parameter names to Solr query parts (where the parameter's values are typically inserted).
-     * @return A map from request parameter names to Solr query parts (where the parameter's values are typically inserted).
-     */
-    Map<String, String> getAdditionalParameters();
+  /**
+   * Returns a map from request parameter names to Solr query parts (where the parameter's values
+   * are typically inserted).
+   *
+   * @return A map from request parameter names to Solr query parts (where the parameter's values
+   *     are typically inserted).
+   */
+  Map<String, String> getAdditionalParameters();
 
-    /** Returns a flag, indicating if special query characters (e.g., ":", "(", "[" ...) should be escaped in the query string.
-     * @return A flag, indicating if special query characters (e.g., ":", "(", "[" ...) should be escaped in the query string.
-     */
-    boolean getEscapeQueryChars();
+  /**
+   * Returns a flag, indicating if special query characters (e.g., ":", "(", "[" ...) should be
+   * escaped in the query string.
+   *
+   * @return A flag, indicating if special query characters (e.g., ":", "(", "[" ...) should be
+   *     escaped in the query string.
+   */
+  boolean getEscapeQueryChars();
 
-    /** Returns the extra params given to Solr.
-     * @return The extra params given to Solr - in format "p1=v1&p2=v2".
-     */
-    String getExtraSolrParams();
+  /**
+   * Returns the extra params given to Solr.
+   *
+   * @return The extra params given to Solr - in format "p1=v1&p2=v2".
+   */
+  String getExtraSolrParams();
 
-    /**Flag, indicating if also resources that are expired.<p>
-     * NOTE: if you are not in the edit mode, the flag is ignored and expired resources are never returned.
-     *
-     * @return Flag, indicating if also resources that are expired should be returned.
-     */
-    boolean getIgnoreExpirationDate();
+  /**
+   * Flag, indicating if also resources that are expired.
+   *
+   * <p>NOTE: if you are not in the edit mode, the flag is ignored and expired resources are never
+   * returned.
+   *
+   * @return Flag, indicating if also resources that are expired should be returned.
+   */
+  boolean getIgnoreExpirationDate();
 
-    /** Returns a flag, indicating if the query and lastquery params should be ignored when
-     *  generating the query. This is useful, if you have a fixed query in the extra Solr params
-     *  configured.
-     * @return A flag, indicating if the query and lastquery params should be ignored.
-     */
-    boolean getIgnoreQueryParam();
+  /**
+   * Returns a flag, indicating if the query and lastquery params should be ignored when generating
+   * the query. This is useful, if you have a fixed query in the extra Solr params configured.
+   *
+   * @return A flag, indicating if the query and lastquery params should be ignored.
+   */
+  boolean getIgnoreQueryParam();
 
-    /**Flag, indicating if also resources that are not yet released.<p>
-     * NOTE: if you are not in the edit mode, the flag is ignored and unreleased resources are never returned.
-     *
-     * @return Flag, indicating if also resources that are not yet released should be returned.
-     */
-    boolean getIgnoreReleaseDate();
+  /**
+   * Flag, indicating if also resources that are not yet released.
+   *
+   * <p>NOTE: if you are not in the edit mode, the flag is ignored and unreleased resources are
+   * never returned.
+   *
+   * @return Flag, indicating if also resources that are not yet released should be returned.
+   */
+  boolean getIgnoreReleaseDate();
 
-    /** Returns the parameter name of the request parameter used to send the last query string.
-     * @return The request parameter name used to send the last query string.
-     */
-    String getLastQueryParam();
+  /**
+   * Returns the parameter name of the request parameter used to send the last query string.
+   *
+   * @return The request parameter name used to send the last query string.
+   */
+  String getLastQueryParam();
 
-    /** Returns the number of maximally returned results.
-     *
-     * NOTE: If not explicitly specified, this value is read from the (index specific) system wide configuration.
-     *
-     * @return number of maximally returned results,.
-     */
-    int getMaxReturnedResults();
+  /**
+   * Returns the number of maximally returned results.
+   *
+   * <p>NOTE: If not explicitly specified, this value is read from the (index specific) system wide
+   * configuration.
+   *
+   * @return number of maximally returned results,.
+   */
+  int getMaxReturnedResults();
 
-    /** Modifies the query string according to the specified query modifier.
-     * @param queryString the query to modify.
-     * @return the modified query.
-     */
+  /**
+   * Modifies the query string according to the specified query modifier.
+   *
+   * @param queryString the query to modify.
+   * @return the modified query.
+   */
+  String getModifiedQuery(String queryString);
 
-    String getModifiedQuery(String queryString);
+  /**
+   * Returns the modifier for queries.
+   *
+   * @return the query modifier.
+   */
+  String getQueryModifier();
 
-    /** Returns the modifier for queries.
-     * @return the query modifier.
-     */
-    String getQueryModifier();
+  /**
+   * Returns the parameter name of the request parameter used to send the current query string.
+   *
+   * @return The request parameter name used to send the current query string.
+   */
+  String getQueryParam();
 
-    /** Returns the parameter name of the request parameter used to send the current query string.
-     * @return The request parameter name used to send the current query string.
-     */
-    String getQueryParam();
+  /**
+   * Returns the parameter name of the request parameter used to indicate if the search form is
+   * loaded the first time or repeatedly.
+   *
+   * @return The request parameter name used to indicate if the search form is loaded the first time
+   *     or repeatedly.
+   */
+  String getReloadedParam();
 
-    /** Returns the parameter name of the request parameter used to indicate if the search form is loaded the first time or repeatedly.
-     * @return The request parameter name used to indicate if the search form is loaded the first time or repeatedly.
-     */
-    String getReloadedParam();
+  /**
+   * Returns a flag, indicating if for an empty search query, search should be performed using a
+   * wildcard.
+   *
+   * @return A flag, indicating if for an empty search query, search should be performed using a
+   *     wildcard.
+   */
+  boolean getSearchForEmptyQueryParam();
 
-    /** Returns a flag, indicating if for an empty search query, search should be performed using a wildcard.
-     * @return A flag, indicating if for an empty search query, search should be performed using a wildcard.
-     */
-    boolean getSearchForEmptyQueryParam();
+  /**
+   * Returns the Solr core that should be used. Can also be <code>null</code>.
+   *
+   * @return The Solr core to use, or <code>null</code> if none is configured.
+   */
+  String getSolrCore();
 
-    /** Returns the Solr core that should be used. Can also be <code>null</code>.
-     * @return The Solr core to use, or <code>null</code> if none is configured.
-     */
-    String getSolrCore();
-
-    /** Returns the Solr index that should be used.
-     * @return The Solr index to use.
-     */
-    String getSolrIndex();
-
+  /**
+   * Returns the Solr index that should be used.
+   *
+   * @return The Solr index to use.
+   */
+  String getSolrIndex();
 }

@@ -27,74 +27,79 @@
 
 package org.opencms.util;
 
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Low-level utility class used for waiting for an action performed by another thread.<p>
+ * Low-level utility class used for waiting for an action performed by another thread.
  *
- * This is really a thin wrapper around the wait() and notifyAll() methods.
+ * <p>This is really a thin wrapper around the wait() and notifyAll() methods.
  */
 public class CmsWaitHandle {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsWaitHandle.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsWaitHandle.class);
 
-    /** Flag which indicates whether release has already been called. */
-    private boolean m_released;
+  /** Flag which indicates whether release has already been called. */
+  private boolean m_released;
 
-    /** Flag indicating whether the wait handle is single-use. */
-    private boolean m_singleUse;
+  /** Flag indicating whether the wait handle is single-use. */
+  private boolean m_singleUse;
 
-    /**
-     * Creates a reusable wait handle.<p>
-     */
-    public CmsWaitHandle() {
+  /**
+   * Creates a reusable wait handle.
+   *
+   * <p>
+   */
+  public CmsWaitHandle() {
 
-        m_singleUse = false;
+    m_singleUse = false;
+  }
+
+  /**
+   * Creates a wait handle.
+   *
+   * <p>The argument controls whether the wait handle will be single-use or reusable. The difference
+   * is that, for a single-use wait handle, all calls to enter() will return immediately after the
+   * first call to release(), while calling enter() on a reusable wait handle will always wait for
+   * the <em>next</em> release call.
+   *
+   * @param singleUse true if a single-use wait handle should be created
+   */
+  public CmsWaitHandle(boolean singleUse) {
+
+    m_singleUse = singleUse;
+  }
+
+  /**
+   * Waits for a maximum of waitTime, but returns if another thread calls release().
+   *
+   * <p>
+   *
+   * @param waitTime the maximum wait time
+   */
+  public synchronized void enter(long waitTime) {
+
+    if (m_singleUse && m_released) {
+      return;
     }
 
-    /**
-     * Creates a wait handle.<p>
-     *
-     * The argument controls whether the wait handle will be single-use or reusable. The difference is that, for a single-use
-     * wait handle, all calls to enter() will return immediately after the first call to release(), while calling enter() on
-     * a reusable wait handle will always wait for the <em>next</em> release call.
-     *
-     * @param singleUse true if a single-use wait handle should be created
-     */
-    public CmsWaitHandle(boolean singleUse) {
-
-        m_singleUse = singleUse;
+    try {
+      wait(waitTime);
+    } catch (InterruptedException e) {
+      // should never happen, but log it just in case...
+      LOG.error(e.getLocalizedMessage(), e);
     }
+  }
 
-    /**
-     * Waits for a maximum of waitTime, but returns if another thread calls release().<p>
-     *
-     * @param waitTime the maximum wait time
-     */
-    public synchronized void enter(long waitTime) {
+  /**
+   * Releases all currently waiting threads.
+   *
+   * <p>
+   */
+  public synchronized void release() {
 
-        if (m_singleUse && m_released) {
-            return;
-        }
-
-        try {
-            wait(waitTime);
-        } catch (InterruptedException e) {
-            // should never happen, but log it just in case...
-            LOG.error(e.getLocalizedMessage(), e);
-        }
-    }
-
-    /**
-     * Releases all currently waiting threads.<p>
-     */
-    public synchronized void release() {
-
-        notifyAll();
-        m_released = true;
-    }
-
+    notifyAll();
+    m_released = true;
+  }
 }

@@ -27,88 +27,80 @@
 
 package org.opencms.staticexport;
 
-import org.opencms.util.CmsRequestUtil;
-
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import org.opencms.util.CmsRequestUtil;
 
 /**
- * Wrapper for static export requests, required for parameter based requests.<p>
+ * Wrapper for static export requests, required for parameter based requests.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsStaticExportRequest extends HttpServletRequestWrapper {
 
-    /** Map of parameters from the original request. */
-    private Map<String, String[]> m_parameters;
+  /** Map of parameters from the original request. */
+  private Map<String, String[]> m_parameters;
 
-    /**
-     * Creates a new static export request wrapper.<p>
-     *
-     * @param req the request to wrap
-     * @param data the data for the static export
-     */
-    public CmsStaticExportRequest(HttpServletRequest req, CmsStaticExportData data) {
+  /**
+   * Creates a new static export request wrapper.
+   *
+   * <p>
+   *
+   * @param req the request to wrap
+   * @param data the data for the static export
+   */
+  public CmsStaticExportRequest(HttpServletRequest req, CmsStaticExportData data) {
 
-        super(req);
-        m_parameters = CmsRequestUtil.createParameterMap(data.getParameters());
+    super(req);
+    m_parameters = CmsRequestUtil.createParameterMap(data.getParameters());
+  }
+
+  /** @see javax.servlet.http.HttpServletRequest#getDateHeader(java.lang.String) */
+  @Override
+  public long getDateHeader(String name) {
+
+    // make sue "last modified since" optimization is NOT used for export requests
+    if (CmsRequestUtil.HEADER_IF_MODIFIED_SINCE.equals(name)) {
+      // return -1, this means "no header has been set" in servlet standard
+      return -1;
     }
+    return super.getDateHeader(name);
+  }
 
-    /**
-     * @see javax.servlet.http.HttpServletRequest#getDateHeader(java.lang.String)
-     */
-    @Override
-    public long getDateHeader(String name) {
+  /** @see javax.servlet.ServletRequest#getParameter(java.lang.String) */
+  @Override
+  public String getParameter(String name) {
 
-        // make sue "last modified since" optimization is NOT used for export requests
-        if (CmsRequestUtil.HEADER_IF_MODIFIED_SINCE.equals(name)) {
-            // return -1, this means "no header has been set" in servlet standard
-            return -1;
-        }
-        return super.getDateHeader(name);
+    String[] values = m_parameters.get(name);
+    if (values != null) {
+      return (values[0]);
     }
+    return null;
+  }
 
-    /**
-     * @see javax.servlet.ServletRequest#getParameter(java.lang.String)
-     */
-    @Override
-    public String getParameter(String name) {
+  /** @see javax.servlet.ServletRequest#getParameterMap() */
+  @Override
+  public Map<String, String[]> getParameterMap() {
 
-        String[] values = m_parameters.get(name);
-        if (values != null) {
-            return (values[0]);
-        }
-        return null;
-    }
+    return m_parameters;
+  }
 
-    /**
-     * @see javax.servlet.ServletRequest#getParameterMap()
-     */
-    @Override
-    public Map<String, String[]> getParameterMap() {
+  /** @see javax.servlet.ServletRequest#getParameterNames() */
+  @Override
+  public Enumeration<String> getParameterNames() {
 
-        return m_parameters;
-    }
+    return Collections.enumeration(m_parameters.keySet());
+  }
 
-    /**
-     * @see javax.servlet.ServletRequest#getParameterNames()
-     */
-    @Override
-    public Enumeration<String> getParameterNames() {
+  /** @see javax.servlet.ServletRequest#getParameterValues(java.lang.String) */
+  @Override
+  public String[] getParameterValues(String name) {
 
-        return Collections.enumeration(m_parameters.keySet());
-    }
-
-    /**
-     * @see javax.servlet.ServletRequest#getParameterValues(java.lang.String)
-     */
-    @Override
-    public String[] getParameterValues(String name) {
-
-        return m_parameters.get(name);
-    }
+    return m_parameters.get(name);
+  }
 }

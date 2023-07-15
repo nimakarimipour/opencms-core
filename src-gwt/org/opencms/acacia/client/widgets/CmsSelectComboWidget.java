@@ -27,10 +27,6 @@
 
 package org.opencms.acacia.client.widgets;
 
-import org.opencms.acacia.client.css.I_CmsWidgetsLayoutBundle;
-import org.opencms.ade.contenteditor.client.css.I_CmsLayoutBundle;
-import org.opencms.gwt.client.ui.input.CmsSelectComboBox;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -38,193 +34,197 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
+import org.opencms.acacia.client.css.I_CmsWidgetsLayoutBundle;
+import org.opencms.ade.contenteditor.client.css.I_CmsLayoutBundle;
+import org.opencms.gwt.client.ui.input.CmsSelectComboBox;
 
 /**
- * A combo box widget.<p>
+ * A combo box widget.
  *
- * Regarding widget configuration, see <code>{@link org.opencms.acacia.client.widgets.CmsSelectConfigurationParser}</code>.<p>
+ * <p>Regarding widget configuration, see <code>
+ * {@link org.opencms.acacia.client.widgets.CmsSelectConfigurationParser}</code>.
+ *
+ * <p>
  */
-public class CmsSelectComboWidget extends Composite implements I_CmsEditWidget, I_CmsHasDisplayDirection {
+public class CmsSelectComboWidget extends Composite
+    implements I_CmsEditWidget, I_CmsHasDisplayDirection {
 
-    /** Value of the activation. */
-    private boolean m_active = true;
+  /** Value of the activation. */
+  private boolean m_active = true;
 
-    /** The combo box. */
-    private CmsSelectComboBox m_comboBox;
+  /** The combo box. */
+  private CmsSelectComboBox m_comboBox;
 
-    /**
-     * Constructs an CmsComboWidget with the in XSD schema declared configuration.<p>
-     *
-     * @param config The configuration string given from OpenCms XSD.
-     */
-    public CmsSelectComboWidget(String config) {
+  /**
+   * Constructs an CmsComboWidget with the in XSD schema declared configuration.
+   *
+   * <p>
+   *
+   * @param config The configuration string given from OpenCms XSD.
+   */
+  public CmsSelectComboWidget(String config) {
 
-        parseConfiguration(config);
+    parseConfiguration(config);
 
-        m_comboBox.getComboBox().addStyleName(I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().selectBoxPanel());
-        // add some styles to parts of the combobox.
-        m_comboBox.getComboBox().getOpener().addStyleName(
-            I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().selectBoxSelected());
-        m_comboBox.getComboBox().getSelectorPopup().addStyleName(
-            I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().selectBoxPopup());
-        m_comboBox.getComboBox().getTextBox().addStyleName(
-            I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().comboBoxInput());
+    m_comboBox
+        .getComboBox()
+        .addStyleName(I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().selectBoxPanel());
+    // add some styles to parts of the combobox.
+    m_comboBox
+        .getComboBox()
+        .getOpener()
+        .addStyleName(I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().selectBoxSelected());
+    m_comboBox
+        .getComboBox()
+        .getSelectorPopup()
+        .addStyleName(I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().selectBoxPopup());
+    m_comboBox
+        .getComboBox()
+        .getTextBox()
+        .addStyleName(I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().comboBoxInput());
 
-        m_comboBox.getSelectBox().addStyleName(I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().selectBoxPanel());
-        m_comboBox.getSelectBox().setPopupResize(false);
-        m_comboBox.getSelectBox().getOpener().addStyleName(
-            I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().selectBoxSelected());
-        m_comboBox.getSelectBox().getSelectorPopup().addStyleName(
-            I_CmsLayoutBundle.INSTANCE.globalWidgetCss().selectBoxPopup());
+    m_comboBox
+        .getSelectBox()
+        .addStyleName(I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().selectBoxPanel());
+    m_comboBox.getSelectBox().setPopupResize(false);
+    m_comboBox
+        .getSelectBox()
+        .getOpener()
+        .addStyleName(I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().selectBoxSelected());
+    m_comboBox
+        .getSelectBox()
+        .getSelectorPopup()
+        .addStyleName(I_CmsLayoutBundle.INSTANCE.globalWidgetCss().selectBoxPopup());
 
-        m_comboBox.addValueChangeHandler(new ValueChangeHandler<String>() {
+    m_comboBox.addValueChangeHandler(
+        new ValueChangeHandler<String>() {
 
-            public void onValueChange(ValueChangeEvent<String> event) {
+          public void onValueChange(ValueChangeEvent<String> event) {
 
-                fireChangeEvent();
-
-            }
-
+            fireChangeEvent();
+          }
         });
-        initWidget(m_comboBox);
+    initWidget(m_comboBox);
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
+   */
+  public HandlerRegistration addFocusHandler(FocusHandler handler) {
+
+    return addDomHandler(handler, FocusEvent.getType());
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+
+    return addHandler(handler, ValueChangeEvent.getType());
+  }
+
+  /**
+   * Represents a value change event.
+   *
+   * <p>
+   */
+  public void fireChangeEvent() {
+
+    ValueChangeEvent.fire(this, m_comboBox.getFormValueAsString());
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsHasDisplayDirection#getDisplayingDirection() */
+  public Direction getDisplayingDirection() {
+
+    return m_comboBox.displayingAbove() ? Direction.above : Direction.below;
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#getValue() */
+  public String getValue() {
+
+    return m_comboBox.getFormValueAsString();
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive() */
+  public boolean isActive() {
+
+    return m_active;
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget() */
+  public void onAttachWidget() {
+
+    super.onAttach();
+  }
+
+  /**
+   * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
+   */
+  public boolean owns(Element element) {
+
+    // TODO implement this in case we want the delete behavior for optional fields
+    return false;
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean) */
+  public void setActive(boolean active) {
+
+    if (active == m_active) {
+      return;
     }
-
-    /**
-     * @see com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
-     */
-    public HandlerRegistration addFocusHandler(FocusHandler handler) {
-
-        return addDomHandler(handler, FocusEvent.getType());
+    m_active = active;
+    m_comboBox.setEnabled(active);
+    if (active) {
+      fireChangeEvent();
     }
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String) */
+  public void setName(String name) {
 
-        return addHandler(handler, ValueChangeEvent.getType());
+    // no input field so nothing to do
+
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object) */
+  public void setValue(String value) {
+
+    setValue(value, false);
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean) */
+  public void setValue(String value, boolean fireEvents) {
+
+    // m_selectBox.selectValue(value);
+    m_comboBox.setFormValueAsString(value);
+    if (fireEvents) {
+      fireChangeEvent();
     }
+  }
 
-    /**
-     * Represents a value change event.<p>
-     *
-     */
-    public void fireChangeEvent() {
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#shouldSetDefaultWhenDisabled() */
+  public boolean shouldSetDefaultWhenDisabled() {
 
-        ValueChangeEvent.fire(this, m_comboBox.getFormValueAsString());
+    return true;
+  }
 
+  /**
+   * Helper function for parsing the configuration of the combo-box.
+   *
+   * <p>
+   *
+   * @param config the configuration string.
+   */
+  private void parseConfiguration(String config) {
+
+    CmsSelectConfigurationParser parser = new CmsSelectConfigurationParser(config);
+    m_comboBox = new CmsSelectComboBox(parser.getOptions(), false, false);
+    if (parser.getDefaultValue() != null) {
+      // set the declared value selected.
+      m_comboBox.setFormValueAsString(parser.getDefaultValue());
     }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsHasDisplayDirection#getDisplayingDirection()
-     */
-    public Direction getDisplayingDirection() {
-
-        return m_comboBox.displayingAbove() ? Direction.above : Direction.below;
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#getValue()
-     */
-    public String getValue() {
-
-        return m_comboBox.getFormValueAsString();
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive()
-     */
-    public boolean isActive() {
-
-        return m_active;
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget()
-     */
-    public void onAttachWidget() {
-
-        super.onAttach();
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
-     */
-    public boolean owns(Element element) {
-
-        // TODO implement this in case we want the delete behavior for optional fields
-        return false;
-
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean)
-     */
-    public void setActive(boolean active) {
-
-        if (active == m_active) {
-            return;
-        }
-        m_active = active;
-        m_comboBox.setEnabled(active);
-        if (active) {
-            fireChangeEvent();
-        }
-
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String)
-     */
-    public void setName(String name) {
-
-        // no input field so nothing to do
-
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
-     */
-    public void setValue(String value) {
-
-        setValue(value, false);
-
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
-     */
-    public void setValue(String value, boolean fireEvents) {
-
-        //m_selectBox.selectValue(value);
-        m_comboBox.setFormValueAsString(value);
-        if (fireEvents) {
-            fireChangeEvent();
-        }
-
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#shouldSetDefaultWhenDisabled()
-     */
-    public boolean shouldSetDefaultWhenDisabled() {
-
-        return true;
-    }
-
-    /**
-     * Helper function for parsing the configuration of the combo-box.<p>
-     *
-     * @param config the configuration string.
-     * */
-    private void parseConfiguration(String config) {
-
-        CmsSelectConfigurationParser parser = new CmsSelectConfigurationParser(config);
-        m_comboBox = new CmsSelectComboBox(parser.getOptions(), false, false);
-        if (parser.getDefaultValue() != null) {
-            //set the declared value selected.
-            m_comboBox.setFormValueAsString(parser.getDefaultValue());
-        }
-        fireChangeEvent();
-    }
+    fireChangeEvent();
+  }
 }

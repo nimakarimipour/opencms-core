@@ -32,36 +32,35 @@ import org.opencms.gwt.client.ui.A_CmsToolbarButton;
 import org.opencms.gwt.client.ui.I_CmsButton;
 
 /**
- * The reset button holding all related methods.<p>
+ * The reset button holding all related methods.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsToolbarResetButton extends A_CmsToolbarButton<CmsContainerpageHandler> {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param handler the container-page handler
-     */
-    public CmsToolbarResetButton(CmsContainerpageHandler handler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param handler the container-page handler
+   */
+  public CmsToolbarResetButton(CmsContainerpageHandler handler) {
 
-        super(I_CmsButton.ButtonData.RESET_BUTTON, handler);
-    }
+    super(I_CmsButton.ButtonData.RESET_BUTTON, handler);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate()
-     */
-    public void onToolbarActivate() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate() */
+  public void onToolbarActivate() {
 
-        getHandler().resetPage();
-    }
+    getHandler().resetPage();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate()
-     */
-    public void onToolbarDeactivate() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate() */
+  public void onToolbarDeactivate() {
 
-        // nothing to do here
-    }
-
+    // nothing to do here
+  }
 }

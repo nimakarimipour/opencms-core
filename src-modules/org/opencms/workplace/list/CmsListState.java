@@ -28,131 +28,153 @@
 package org.opencms.workplace.list;
 
 /**
- * Class for storing the state of a list.<p>
+ * Class for storing the state of a list.
  *
- * A list state includes:<br>
+ * <p>A list state includes:<br>
+ *
  * <ul>
- * <li>The current sorted Column</li>
- * <li>The sorted column Order</li>
- * <li>The current displayed Page</li>
- * <li>The current search Filter</li>
+ *   <li>The current sorted Column
+ *   <li>The sorted column Order
+ *   <li>The current displayed Page
+ *   <li>The current search Filter
  * </ul>
+ *
  * <p>
  *
  * @since 6.0.0
  */
 public class CmsListState {
 
-    /** Current sorted column. */
-    private String m_column;
-    /** Current search filter. */
-    private String m_filter;
-    /** Current sort order. */
-    private CmsListOrderEnum m_order;
-    /** Current visible page. */
-    private int m_page;
+  /** Current sorted column. */
+  private String m_column;
+  /** Current search filter. */
+  private String m_filter;
+  /** Current sort order. */
+  private CmsListOrderEnum m_order;
+  /** Current visible page. */
+  private int m_page;
 
-    /**
-     * Empty constructor, with default values.<p>
-     */
-    public CmsListState() {
+  /**
+   * Empty constructor, with default values.
+   *
+   * <p>
+   */
+  public CmsListState() {
 
-        m_page = 1;
-        m_order = CmsListOrderEnum.ORDER_ASCENDING;
-        m_filter = "";
-        m_column = "";
-    }
+    m_page = 1;
+    m_order = CmsListOrderEnum.ORDER_ASCENDING;
+    m_filter = "";
+    m_column = "";
+  }
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param list the list to read the state from
-     */
-    public CmsListState(CmsHtmlList list) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param list the list to read the state from
+   */
+  public CmsListState(CmsHtmlList list) {
 
-        m_column = list.getSortedColumn();
-        m_filter = list.getSearchFilter();
-        m_page = list.getCurrentPage();
-        m_order = list.getCurrentSortOrder();
-    }
+    m_column = list.getSortedColumn();
+    m_filter = list.getSearchFilter();
+    m_page = list.getCurrentPage();
+    m_order = list.getCurrentSortOrder();
+  }
 
-    /**
-     * Returns the column.<p>
-     *
-     * @return the column
-     */
-    public String getColumn() {
+  /**
+   * Returns the column.
+   *
+   * <p>
+   *
+   * @return the column
+   */
+  public String getColumn() {
 
-        return m_column;
-    }
+    return m_column;
+  }
 
-    /**
-     * Returns the filter.<p>
-     *
-     * @return the filter
-     */
-    public String getFilter() {
+  /**
+   * Returns the filter.
+   *
+   * <p>
+   *
+   * @return the filter
+   */
+  public String getFilter() {
 
-        return m_filter;
-    }
+    return m_filter;
+  }
 
-    /**
-     * Returns the order.<p>
-     *
-     * @return the order
-     */
-    public CmsListOrderEnum getOrder() {
+  /**
+   * Returns the order.
+   *
+   * <p>
+   *
+   * @return the order
+   */
+  public CmsListOrderEnum getOrder() {
 
-        return m_order;
-    }
+    return m_order;
+  }
 
-    /**
-     * Returns the page.<p>
-     *
-     * @return the page
-     */
-    public int getPage() {
+  /**
+   * Returns the page.
+   *
+   * <p>
+   *
+   * @return the page
+   */
+  public int getPage() {
 
-        return m_page;
-    }
+    return m_page;
+  }
 
-    /**
-     * Sets the column.<p>
-     *
-     * @param column the column to set
-     */
-    public void setColumn(String column) {
+  /**
+   * Sets the column.
+   *
+   * <p>
+   *
+   * @param column the column to set
+   */
+  public void setColumn(String column) {
 
-        m_column = column;
-    }
+    m_column = column;
+  }
 
-    /**
-     * Sets the filter.<p>
-     *
-     * @param filter the filter to set
-     */
-    public void setFilter(String filter) {
+  /**
+   * Sets the filter.
+   *
+   * <p>
+   *
+   * @param filter the filter to set
+   */
+  public void setFilter(String filter) {
 
-        m_filter = filter;
-    }
+    m_filter = filter;
+  }
 
-    /**
-     * Sets the order.<p>
-     *
-     * @param order the order to set
-     */
-    public void setOrder(CmsListOrderEnum order) {
+  /**
+   * Sets the order.
+   *
+   * <p>
+   *
+   * @param order the order to set
+   */
+  public void setOrder(CmsListOrderEnum order) {
 
-        m_order = order;
-    }
+    m_order = order;
+  }
 
-    /**
-     * Sets the page.<p>
-     *
-     * @param page the page to set
-     */
-    public void setPage(int page) {
+  /**
+   * Sets the page.
+   *
+   * <p>
+   *
+   * @param page the page to set
+   */
+  public void setPage(int page) {
 
-        m_page = page;
-    }
+    m_page = page;
+  }
 }

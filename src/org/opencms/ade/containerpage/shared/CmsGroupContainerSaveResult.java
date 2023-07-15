@@ -27,62 +27,70 @@
 
 package org.opencms.ade.containerpage.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Bean which holds the results of saving a group container.<p>
+ * Bean which holds the results of saving a group container.
+ *
+ * <p>
  */
 public class CmsGroupContainerSaveResult implements IsSerializable {
 
-    /** The group container element data. */
-    private Map<String, CmsContainerElementData> m_elementData;
+  /** The group container element data. */
+  private Map<String, CmsContainerElementData> m_elementData;
 
-    /** The elements which were removed from the group container. */
-    private List<CmsRemovedElementStatus> m_removedElements;
+  /** The elements which were removed from the group container. */
+  private List<CmsRemovedElementStatus> m_removedElements;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param elementData the group container elements
-     * @param removedElements the removed group container elements
-     */
-    public CmsGroupContainerSaveResult(
-        Map<String, CmsContainerElementData> elementData,
-        List<CmsRemovedElementStatus> removedElements) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param elementData the group container elements
+   * @param removedElements the removed group container elements
+   */
+  public CmsGroupContainerSaveResult(
+      Map<String, CmsContainerElementData> elementData,
+      List<CmsRemovedElementStatus> removedElements) {
 
-        m_elementData = elementData;
-        m_removedElements = removedElements;
-    }
+    m_elementData = elementData;
+    m_removedElements = removedElements;
+  }
 
-    /**
-     * Default constructor for serialization.<p>
-     */
-    protected CmsGroupContainerSaveResult() {
+  /**
+   * Default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsGroupContainerSaveResult() {
 
-        // hidden default constructor for serialization
-    }
+    // hidden default constructor for serialization
+  }
 
-    /**
-     * Gets the group container elements.<p>
-     *
-     * @return the group container elements
-     */
-    public Map<String, CmsContainerElementData> getElementData() {
+  /**
+   * Gets the group container elements.
+   *
+   * <p>
+   *
+   * @return the group container elements
+   */
+  public Map<String, CmsContainerElementData> getElementData() {
 
-        return m_elementData;
-    }
+    return m_elementData;
+  }
 
-    /**
-     * Gets the list of removed elements.<p>
-     *
-     * @return the list of removed elements
-     */
-    public List<CmsRemovedElementStatus> getRemovedElements() {
+  /**
+   * Gets the list of removed elements.
+   *
+   * <p>
+   *
+   * @return the list of removed elements
+   */
+  public List<CmsRemovedElementStatus> getRemovedElements() {
 
-        return m_removedElements;
-    }
-
+    return m_removedElements;
+  }
 }

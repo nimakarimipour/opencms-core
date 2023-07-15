@@ -31,68 +31,72 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class encapsulates the filter logic for CMIS rendition filters.<p>
+ * This class encapsulates the filter logic for CMIS rendition filters.
+ *
+ * <p>
  */
 public class CmsCmisRenditionFilter {
 
-    /** Flag which indicates that all renditions should be returned. */
-    private boolean m_includeAll;
+  /** Flag which indicates that all renditions should be returned. */
+  private boolean m_includeAll;
 
-    /** The kinds which will be accepted. */
-    private Set<String> m_kinds = new HashSet<String>();
+  /** The kinds which will be accepted. */
+  private Set<String> m_kinds = new HashSet<String>();
 
-    /** The MIME supertypes which will be accepted. */
-    private Set<String> m_supertypes = new HashSet<String>();
+  /** The MIME supertypes which will be accepted. */
+  private Set<String> m_supertypes = new HashSet<String>();
 
-    /** The MIME types which will be accepted. */
-    private Set<String> m_types = new HashSet<String>();
+  /** The MIME types which will be accepted. */
+  private Set<String> m_types = new HashSet<String>();
 
-    /**
-     * Creates a new filter from the given filter string.<p>
-     *
-     * @param filterStr the CMIS rendition filter string
-     */
-    public CmsCmisRenditionFilter(String filterStr) {
+  /**
+   * Creates a new filter from the given filter string.
+   *
+   * <p>
+   *
+   * @param filterStr the CMIS rendition filter string
+   */
+  public CmsCmisRenditionFilter(String filterStr) {
 
-        if ((filterStr == null) || filterStr.equals("cmis:none")) {
-            return;
-        } else if ("*".equals(filterStr)) {
-            m_includeAll = true;
+    if ((filterStr == null) || filterStr.equals("cmis:none")) {
+      return;
+    } else if ("*".equals(filterStr)) {
+      m_includeAll = true;
+    } else {
+      String[] tokens = filterStr.split(",");
+      for (String token : tokens) {
+        int slashPos = token.indexOf("/");
+        if (slashPos > -1) {
+          String supertype = token.substring(0, slashPos);
+          String subtype = token.substring(slashPos + 1);
+          if ("*".equals(subtype)) {
+            m_supertypes.add(supertype);
+          } else {
+            m_types.add(token);
+          }
         } else {
-            String[] tokens = filterStr.split(",");
-            for (String token : tokens) {
-                int slashPos = token.indexOf("/");
-                if (slashPos > -1) {
-                    String supertype = token.substring(0, slashPos);
-                    String subtype = token.substring(slashPos + 1);
-                    if ("*".equals(subtype)) {
-                        m_supertypes.add(supertype);
-                    } else {
-                        m_types.add(token);
-                    }
-                } else {
-                    m_kinds.add(token);
-                }
-            }
+          m_kinds.add(token);
         }
+      }
     }
+  }
 
-    /**
-     * Checks whether this filter accepts a given kind/mimetype combination.<p>
-     *
-     * @param kind the kind
-     * @param mimetype the mime type
-     *
-     * @return true if the filter accepts the combination
-     */
-    public boolean accept(String kind, String mimetype) {
+  /**
+   * Checks whether this filter accepts a given kind/mimetype combination.
+   *
+   * <p>
+   *
+   * @param kind the kind
+   * @param mimetype the mime type
+   * @return true if the filter accepts the combination
+   */
+  public boolean accept(String kind, String mimetype) {
 
-        if (m_includeAll) {
-            return true;
-        }
-        int slashpos = mimetype.indexOf("/");
-        String supertype = mimetype.substring(0, slashpos);
-        return m_kinds.contains(kind) || m_types.contains(mimetype) || m_supertypes.contains(supertype);
+    if (m_includeAll) {
+      return true;
     }
-
+    int slashpos = mimetype.indexOf("/");
+    String supertype = mimetype.substring(0, slashpos);
+    return m_kinds.contains(kind) || m_types.contains(mimetype) || m_supertypes.contains(supertype);
+  }
 }

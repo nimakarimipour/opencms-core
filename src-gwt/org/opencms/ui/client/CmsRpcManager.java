@@ -27,27 +27,30 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.gwt.client.util.CmsDebugLog;
-
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.communication.RpcManager;
 import com.vaadin.shared.communication.MethodInvocation;
+import org.opencms.gwt.client.util.CmsDebugLog;
 
 /**
- * RPC manager subclass.<p>
+ * RPC manager subclass.
+ *
+ * <p>
  */
 public class CmsRpcManager extends RpcManager {
 
-    /**
-     * @see com.vaadin.client.communication.RpcManager#applyInvocation(com.vaadin.shared.communication.MethodInvocation, com.vaadin.client.ServerConnector)
-     */
-    @Override
-    public void applyInvocation(MethodInvocation invocation, ServerConnector connector) {
+  /**
+   * @see
+   *     com.vaadin.client.communication.RpcManager#applyInvocation(com.vaadin.shared.communication.MethodInvocation,
+   *     com.vaadin.client.ServerConnector)
+   */
+  @Override
+  public void applyInvocation(MethodInvocation invocation, ServerConnector connector) {
 
-        if (connector.getRpcImplementations(invocation.getInterfaceName()).isEmpty()) {
-            CmsDebugLog.consoleLog("Warning: no registered RPC implementation for " + invocation.getInterfaceName());
-        }
-        super.applyInvocation(invocation, connector);
+    if (connector.getRpcImplementations(invocation.getInterfaceName()).isEmpty()) {
+      CmsDebugLog.consoleLog(
+          "Warning: no registered RPC implementation for " + invocation.getInterfaceName());
     }
-
+    super.applyInvocation(invocation, connector);
+  }
 }

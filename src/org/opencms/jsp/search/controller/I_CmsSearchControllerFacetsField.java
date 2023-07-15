@@ -30,16 +30,24 @@ package org.opencms.jsp.search.controller;
 import java.util.Collection;
 import java.util.Map;
 
-/** Interface the controller for all field facets must implement - just allow access to the single controllers. */
+/**
+ * Interface the controller for all field facets must implement - just allow access to the single
+ * controllers.
+ */
 public interface I_CmsSearchControllerFacetsField extends I_CmsSearchController {
 
-    /** Get access to the controllers by the field facet's names.
-     * @return The map with all field facet controllers, where the facet's names are the keys and the facet's controllers are the values.
-     */
-    Map<String, I_CmsSearchControllerFacetField> getFieldFacetController();
+  /**
+   * Get access to the controllers by the field facet's names.
+   *
+   * @return The map with all field facet controllers, where the facet's names are the keys and the
+   *     facet's controllers are the values.
+   */
+  Map<String, I_CmsSearchControllerFacetField> getFieldFacetController();
 
-    /** Get the collection of all field facet controllers.
-     * @return The collection of all field facet controllers.
-     */
-    Collection<I_CmsSearchControllerFacetField> getFieldFacetControllers();
+  /**
+   * Get the collection of all field facet controllers.
+   *
+   * @return The collection of all field facet controllers.
+   */
+  Collection<I_CmsSearchControllerFacetField> getFieldFacetControllers();
 }

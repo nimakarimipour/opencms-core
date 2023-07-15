@@ -28,13 +28,16 @@
 package org.opencms.gwt.client.util;
 
 /**
- * Item which can be stored in {@link org.opencms.gwt.client.util.CmsUniqueActiveItemContainer}.<p>
+ * Item which can be stored in {@link org.opencms.gwt.client.util.CmsUniqueActiveItemContainer}.
+ *
+ * <p>
  */
 public interface I_CmsUniqueActiveItem {
 
-    /**
-     * This method is called when the item is removed from a container.<p>
-     */
-    void onDeactivate();
-
+  /**
+   * This method is called when the item is removed from a container.
+   *
+   * <p>
+   */
+  void onDeactivate();
 }

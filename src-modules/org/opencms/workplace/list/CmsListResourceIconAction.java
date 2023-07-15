@@ -34,197 +34,207 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
 
 /**
- * Displays an icon action for dependency lists.<p>
+ * Displays an icon action for dependency lists.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListResourceIconAction extends CmsListDirectAction {
 
-    /** the cms object. */
-    private final CmsObject m_cms;
+  /** the cms object. */
+  private final CmsObject m_cms;
 
-    /** the id of the column with the resource type. */
-    private final String m_resColumnTypeId;
+  /** the id of the column with the resource type. */
+  private final String m_resColumnTypeId;
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id the unique id
-     * @param resColumnTypeId the id of the column with the resource type
-     * @param cms the cms context
-     */
-    public CmsListResourceIconAction(String id, String resColumnTypeId, CmsObject cms) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id the unique id
+   * @param resColumnTypeId the id of the column with the resource type
+   * @param cms the cms context
+   */
+  public CmsListResourceIconAction(String id, String resColumnTypeId, CmsObject cms) {
 
-        super(id);
-        m_cms = cms;
-        m_resColumnTypeId = resColumnTypeId;
+    super(id);
+    m_cms = cms;
+    m_resColumnTypeId = resColumnTypeId;
+  }
+
+  /**
+   * @see
+   *     org.opencms.workplace.list.CmsListDirectAction#buttonHtml(org.opencms.workplace.CmsWorkplace)
+   */
+  @Override
+  public String buttonHtml(CmsWorkplace wp) {
+
+    if (!isVisible()) {
+      return "";
     }
+    return defButtonHtml(
+        wp.getCms(),
+        getId() + getItem().getId(),
+        getId(),
+        resolveName(wp.getLocale()),
+        resolveHelpText(wp.getLocale()),
+        isEnabled(),
+        getIconPath(),
+        null,
+        resolveOnClic(wp.getLocale()),
+        getColumnForTexts() == null);
+  }
 
-    /**
-     * @see org.opencms.workplace.list.CmsListDirectAction#buttonHtml(org.opencms.workplace.CmsWorkplace)
-     */
-    @Override
-    public String buttonHtml(CmsWorkplace wp) {
+  /**
+   * Returns the cms context.
+   *
+   * <p>
+   *
+   * @return the cms context
+   */
+  public CmsObject getCms() {
 
-        if (!isVisible()) {
-            return "";
-        }
-        return defButtonHtml(
-            wp.getCms(),
-            getId() + getItem().getId(),
-            getId(),
-            resolveName(wp.getLocale()),
-            resolveHelpText(wp.getLocale()),
-            isEnabled(),
-            getIconPath(),
-            null,
-            resolveOnClic(wp.getLocale()),
-            getColumnForTexts() == null);
+    return m_cms;
+  }
+
+  /** @see org.opencms.workplace.tools.A_CmsHtmlIconButton#getIconPath() */
+  @Override
+  public String getIconPath() {
+
+    try {
+      int resourceType = Integer.parseInt(getItem().get(m_resColumnTypeId).toString());
+      String typeName = OpenCms.getResourceManager().getResourceType(resourceType).getTypeName();
+      return CmsWorkplace.RES_PATH_FILETYPES
+          + OpenCms.getWorkplaceManager().getExplorerTypeSetting(typeName).getIcon();
+    } catch (CmsException e) {
+      return super.getIconPath();
     }
+  }
 
-    /**
-     * Returns the cms context.<p>
-     *
-     * @return the cms context
-     */
-    public CmsObject getCms() {
+  /**
+   * Generates a default html code where several buttons can have the same help text.
+   *
+   * <p>the only diff to <code>
+   * {@link org.opencms.workplace.tools.A_CmsHtmlIconButton#defaultButtonHtml(org.opencms.workplace.tools.CmsHtmlIconButtonStyleEnum, String, String, String, boolean, String, String, String)}
+   * </code> is that the icons are 16x16.
+   *
+   * <p>
+   *
+   * @param cms the cms context, can be null
+   * @param id the id
+   * @param helpId the id of the helptext div tag
+   * @param name the name, if empty only the icon is displayed
+   * @param helpText the help text, if empty no mouse events are generated
+   * @param enabled if enabled or not, if not set be sure to take an according helptext
+   * @param iconPath the path to the icon, if empty only the name is displayed
+   * @param onClick the js code to execute, if empty no link is generated
+   * @param confirmationMessage the confirmation message
+   * @param singleHelp if set, no helptext is written, you have to use the defaultHelpHtml() method
+   *     later
+   * @return html code
+   * @see
+   *     org.opencms.workplace.tools.A_CmsHtmlIconButton#defaultButtonHtml(org.opencms.workplace.tools.CmsHtmlIconButtonStyleEnum,
+   *     String, String, String, boolean, String, String, String)
+   */
+  protected String defButtonHtml(
+      CmsObject cms,
+      String id,
+      String helpId,
+      String name,
+      String helpText,
+      boolean enabled,
+      String iconPath,
+      String confirmationMessage,
+      String onClick,
+      boolean singleHelp) {
 
-        return m_cms;
+    StringBuffer html = new StringBuffer(1024);
+    html.append("\t<span class=\"link");
+    if (enabled) {
+      html.append("\"");
+    } else {
+      html.append(" linkdisabled\"");
     }
-
-    /**
-     * @see org.opencms.workplace.tools.A_CmsHtmlIconButton#getIconPath()
-     */
-    @Override
-    public String getIconPath() {
-
-        try {
-            int resourceType = Integer.parseInt(getItem().get(m_resColumnTypeId).toString());
-            String typeName = OpenCms.getResourceManager().getResourceType(resourceType).getTypeName();
-            return CmsWorkplace.RES_PATH_FILETYPES
-                + OpenCms.getWorkplaceManager().getExplorerTypeSetting(typeName).getIcon();
-        } catch (CmsException e) {
-            return super.getIconPath();
-        }
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(helpText)) {
+      if (!singleHelp) {
+        html.append(" onMouseOver=\"sMH('");
+        html.append(id);
+        html.append("');\" onMouseOut=\"hMH('");
+        html.append(id);
+        html.append("');\"");
+      } else {
+        html.append(" onMouseOver=\"sMHS('");
+        html.append(id);
+        html.append("', '");
+        html.append(helpId);
+        html.append("');\" onMouseOut=\"hMH('");
+        html.append(id);
+        html.append("', '");
+        html.append(helpId);
+        html.append("');\"");
+      }
     }
-
-    /**
-     * Generates a default html code where several buttons can have the same help text.<p>
-     *
-     * the only diff to <code>{@link org.opencms.workplace.tools.A_CmsHtmlIconButton#defaultButtonHtml(org.opencms.workplace.tools.CmsHtmlIconButtonStyleEnum, String, String, String, boolean, String, String, String)}</code>
-     * is that the icons are 16x16.<p>
-     *
-     * @param cms the cms context, can be null
-     * @param id the id
-     * @param helpId the id of the helptext div tag
-     * @param name the name, if empty only the icon is displayed
-     * @param helpText the help text, if empty no mouse events are generated
-     * @param enabled if enabled or not, if not set be sure to take an according helptext
-     * @param iconPath the path to the icon, if empty only the name is displayed
-     * @param onClick the js code to execute, if empty no link is generated
-     * @param confirmationMessage the confirmation message
-     * @param singleHelp if set, no helptext is written, you have to use the defaultHelpHtml() method later
-     *
-     * @return html code
-     *
-     * @see org.opencms.workplace.tools.A_CmsHtmlIconButton#defaultButtonHtml(org.opencms.workplace.tools.CmsHtmlIconButtonStyleEnum, String, String, String, boolean, String, String, String)
-     */
-    protected String defButtonHtml(
-        CmsObject cms,
-        String id,
-        String helpId,
-        String name,
-        String helpText,
-        boolean enabled,
-        String iconPath,
-        String confirmationMessage,
-        String onClick,
-        boolean singleHelp) {
-
-        StringBuffer html = new StringBuffer(1024);
-        html.append("\t<span class=\"link");
-        if (enabled) {
-            html.append("\"");
+    if (enabled && CmsStringUtil.isNotEmptyOrWhitespaceOnly(onClick)) {
+      html.append(" onClick=\"");
+      if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(confirmationMessage)) {
+        html.append(
+            "if (confirm('" + CmsStringUtil.escapeJavaScript(confirmationMessage) + "')) {");
+      }
+      html.append(onClick);
+      if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(confirmationMessage)) {
+        html.append(" }");
+      }
+      html.append("\"");
+    }
+    html.append(" title='");
+    html.append(name);
+    html.append("'");
+    html.append(" style='display: block; width: 20px; height: 20px;'>");
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(iconPath)) {
+      html.append("<img src='");
+      html.append(CmsWorkplace.getSkinUri());
+      if (!enabled) {
+        StringBuffer icon = new StringBuffer(128);
+        icon.append(iconPath.substring(0, iconPath.lastIndexOf('.')));
+        icon.append("_disabled");
+        icon.append(iconPath.substring(iconPath.lastIndexOf('.')));
+        if (cms != null) {
+          if (cms.existsResource(CmsWorkplace.VFS_PATH_RESOURCES + icon.toString())) {
+            html.append(icon);
+          } else {
+            html.append(iconPath);
+          }
         } else {
-            html.append(" linkdisabled\"");
+          html.append(iconPath);
         }
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(helpText)) {
-            if (!singleHelp) {
-                html.append(" onMouseOver=\"sMH('");
-                html.append(id);
-                html.append("');\" onMouseOut=\"hMH('");
-                html.append(id);
-                html.append("');\"");
-            } else {
-                html.append(" onMouseOver=\"sMHS('");
-                html.append(id);
-                html.append("', '");
-                html.append(helpId);
-                html.append("');\" onMouseOut=\"hMH('");
-                html.append(id);
-                html.append("', '");
-                html.append(helpId);
-                html.append("');\"");
-            }
-        }
-        if (enabled && CmsStringUtil.isNotEmptyOrWhitespaceOnly(onClick)) {
-            html.append(" onClick=\"");
-            if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(confirmationMessage)) {
-                html.append("if (confirm('" + CmsStringUtil.escapeJavaScript(confirmationMessage) + "')) {");
-            }
-            html.append(onClick);
-            if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(confirmationMessage)) {
-                html.append(" }");
-            }
-            html.append("\"");
-        }
+      } else {
+        html.append(iconPath);
+      }
+      html.append("'");
+      if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(name)) {
+        html.append(" alt='");
+        html.append(name);
+        html.append("'");
         html.append(" title='");
         html.append(name);
         html.append("'");
-        html.append(" style='display: block; width: 20px; height: 20px;'>");
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(iconPath)) {
-            html.append("<img src='");
-            html.append(CmsWorkplace.getSkinUri());
-            if (!enabled) {
-                StringBuffer icon = new StringBuffer(128);
-                icon.append(iconPath.substring(0, iconPath.lastIndexOf('.')));
-                icon.append("_disabled");
-                icon.append(iconPath.substring(iconPath.lastIndexOf('.')));
-                if (cms != null) {
-                    if (cms.existsResource(CmsWorkplace.VFS_PATH_RESOURCES + icon.toString())) {
-                        html.append(icon);
-                    } else {
-                        html.append(iconPath);
-                    }
-                } else {
-                    html.append(iconPath);
-                }
-            } else {
-                html.append(iconPath);
-            }
-            html.append("'");
-            if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(name)) {
-                html.append(" alt='");
-                html.append(name);
-                html.append("'");
-                html.append(" title='");
-                html.append(name);
-                html.append("'");
-            }
-            html.append("style='width: 16px; height: 16px;' >");
-        }
-        html.append("</span>\n");
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(helpText) && !singleHelp) {
-            html.append("<div class='help' id='help");
-            html.append(helpId);
-            html.append("' onMouseOver=\"sMH('");
-            html.append(id);
-            html.append("');\" onMouseOut=\"hMH('");
-            html.append(id);
-            html.append("');\">");
-            html.append(helpText);
-            html.append("</div>\n");
-        }
-        return html.toString();
+      }
+      html.append("style='width: 16px; height: 16px;' >");
     }
+    html.append("</span>\n");
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(helpText) && !singleHelp) {
+      html.append("<div class='help' id='help");
+      html.append(helpId);
+      html.append("' onMouseOver=\"sMH('");
+      html.append(id);
+      html.append("');\" onMouseOut=\"hMH('");
+      html.append(id);
+      html.append("');\">");
+      html.append(helpText);
+      html.append("</div>\n");
+    }
+    return html.toString();
+  }
 }

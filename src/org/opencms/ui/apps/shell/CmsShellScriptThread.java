@@ -27,70 +27,67 @@
 
 package org.opencms.ui.apps.shell;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsShell;
 import org.opencms.module.Messages;
 import org.opencms.report.A_CmsReportThread;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-/**
- * Thread for run shell script
- */
+/** Thread for run shell script */
 public class CmsShellScriptThread extends A_CmsReportThread {
 
-    /** Object used as lock to prevent multiple shell script threads from running at the same time. */
-    private static final Object LOCK = new Object();
+  /** Object used as lock to prevent multiple shell script threads from running at the same time. */
+  private static final Object LOCK = new Object();
 
-    /**Script to run.*/
-    private String m_script;
+  /** Script to run. */
+  private String m_script;
 
-    /**
-     * public constructor.<p>
-     *
-     * @param cms CmsObject
-     * @param script Script to run
-     */
-    public CmsShellScriptThread(CmsObject cms, String script) {
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param cms CmsObject
+   * @param script Script to run
+   */
+  public CmsShellScriptThread(CmsObject cms, String script) {
 
-        super(cms, "shellscript");
-        initHtmlReport(cms.getRequestContext().getLocale());
-        m_script = script;
+    super(cms, "shellscript");
+    initHtmlReport(cms.getRequestContext().getLocale());
+    m_script = script;
+  }
+
+  /** @see org.opencms.report.A_CmsReportThread#getReportUpdate() */
+  @Override
+  public String getReportUpdate() {
+
+    return getReport().getReportUpdate();
+  }
+
+  /** @see java.lang.Thread#run() */
+  @Override
+  public void run() {
+
+    synchronized (LOCK) {
+      String script = "echo on\n" + m_script;
+      ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+      PrintStream out = new PrintStream(buffer);
+      final CmsShell shell =
+          new CmsShell(getCms(), "${user}@${project}:${siteroot}|${uri}>", null, out, out);
+
+      String[] subscripts = script.split("\n");
+      int stringPos = 0;
+      for (String subscript : subscripts) {
+        shell.execute(subscript);
+        out.flush();
+        String res = buffer.toString();
+        getReport()
+            .println(
+                Messages.get()
+                    .container(Messages.RPT_IMPORT_SCRIPT_OUTPUT_1, res.substring(stringPos)));
+        stringPos = res.length();
+      }
     }
-
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
-
-        return getReport().getReportUpdate();
-    }
-
-    /**
-     * @see java.lang.Thread#run()
-     */
-    @Override
-    public void run() {
-
-        synchronized (LOCK) {
-            String script = "echo on\n" + m_script;
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            PrintStream out = new PrintStream(buffer);
-            final CmsShell shell = new CmsShell(getCms(), "${user}@${project}:${siteroot}|${uri}>", null, out, out);
-
-            String[] subscripts = script.split("\n");
-            int stringPos = 0;
-            for (String subscript : subscripts) {
-                shell.execute(subscript);
-                out.flush();
-                String res = buffer.toString();
-                getReport().println(
-                    Messages.get().container(Messages.RPT_IMPORT_SCRIPT_OUTPUT_1, res.substring(stringPos)));
-                stringPos = res.length();
-            }
-        }
-    }
-
+  }
 }

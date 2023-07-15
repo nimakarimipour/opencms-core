@@ -27,66 +27,73 @@
 
 package org.opencms.xml.content;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Visitor implementation that provides validation for all visited values.<p>
+ * Visitor implementation that provides validation for all visited values.
  *
- * This class is used when {@link org.opencms.xml.content.CmsXmlContent#validate(CmsObject)}
- * is called validate a XML content object.<p>
+ * <p>This class is used when {@link org.opencms.xml.content.CmsXmlContent#validate(CmsObject)} is
+ * called validate a XML content object.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 class CmsXmlContentValidationVisitor implements I_CmsXmlContentValueVisitor {
 
-    /** Static reference to the log. */
-    private static final Log LOG = CmsLog.getLog(CmsXmlContentValidationVisitor.class);
+  /** Static reference to the log. */
+  private static final Log LOG = CmsLog.getLog(CmsXmlContentValidationVisitor.class);
 
-    /** The initialized OpenCms user context (required for VFS access). */
-    CmsObject m_cms;
+  /** The initialized OpenCms user context (required for VFS access). */
+  CmsObject m_cms;
 
-    /** The error handler instance that stores the errors and warnings found. */
-    CmsXmlContentErrorHandler m_errorHandler;
+  /** The error handler instance that stores the errors and warnings found. */
+  CmsXmlContentErrorHandler m_errorHandler;
 
-    /**
-     * Creates a new validation node visitor.<p>
-     *
-     * @param cms the initialized OpenCms user context (required for VFS access)
-     */
-    public CmsXmlContentValidationVisitor(CmsObject cms) {
+  /**
+   * Creates a new validation node visitor.
+   *
+   * <p>
+   *
+   * @param cms the initialized OpenCms user context (required for VFS access)
+   */
+  public CmsXmlContentValidationVisitor(CmsObject cms) {
 
-        // start with a new instance of the error handler
-        m_errorHandler = new CmsXmlContentErrorHandler();
-        // store reference to the provided CmsObject
-        m_cms = cms;
+    // start with a new instance of the error handler
+    m_errorHandler = new CmsXmlContentErrorHandler();
+    // store reference to the provided CmsObject
+    m_cms = cms;
+  }
+
+  /**
+   * Returns the error handler instance that stores the errors and warnings found.
+   *
+   * <p>
+   *
+   * @return the error handler instance that stores the errors and warnings found
+   */
+  public CmsXmlContentErrorHandler getErrorHandler() {
+
+    return m_errorHandler;
+  }
+
+  /**
+   * @see
+   *     org.opencms.xml.content.I_CmsXmlContentValueVisitor#visit(org.opencms.xml.types.I_CmsXmlContentValue)
+   */
+  public void visit(I_CmsXmlContentValue value) {
+
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(Messages.get().getBundle().key(Messages.LOG_XMLCONTENT_VISIT_1, value.getPath()));
     }
 
-    /**
-     * Returns the error handler instance that stores the errors and warnings found.<p>
-     *
-     * @return the error handler instance that stores the errors and warnings found
-     */
-    public CmsXmlContentErrorHandler getErrorHandler() {
-
-        return m_errorHandler;
-    }
-
-    /**
-     * @see org.opencms.xml.content.I_CmsXmlContentValueVisitor#visit(org.opencms.xml.types.I_CmsXmlContentValue)
-     */
-    public void visit(I_CmsXmlContentValue value) {
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(Messages.get().getBundle().key(Messages.LOG_XMLCONTENT_VISIT_1, value.getPath()));
-        }
-
-        m_errorHandler = value.getContentDefinition().getContentHandler().resolveValidation(
-            m_cms,
-            value,
-            m_errorHandler);
-    }
+    m_errorHandler =
+        value
+            .getContentDefinition()
+            .getContentHandler()
+            .resolveValidation(m_cms, value, m_errorHandler);
+  }
 }

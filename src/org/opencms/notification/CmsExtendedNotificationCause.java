@@ -27,146 +27,153 @@
 
 package org.opencms.notification;
 
+import java.util.Date;
 import org.opencms.file.CmsResource;
 
-import java.util.Date;
-
 /**
- * Class to encapsulate a resource and the cause of its notification.<p>
+ * Class to encapsulate a resource and the cause of its notification.
  *
+ * <p>
  */
 public class CmsExtendedNotificationCause implements Comparable<CmsExtendedNotificationCause> {
 
-    /** The notification is sent because the resource will expire soon. */
-    public static final int RESOURCE_EXPIRES = 0;
+  /** The notification is sent because the resource will expire soon. */
+  public static final int RESOURCE_EXPIRES = 0;
 
-    /** The notification is sent because the resource will get outdated. */
-    public static final int RESOURCE_OUTDATED = 1;
+  /** The notification is sent because the resource will get outdated. */
+  public static final int RESOURCE_OUTDATED = 1;
 
-    /** constant indicating the cause of the notification for a resource. */
-    public static final int RESOURCE_UPDATE_REQUIRED = 2;
+  /** constant indicating the cause of the notification for a resource. */
+  public static final int RESOURCE_UPDATE_REQUIRED = 2;
 
-    /** The notification is sent because the resource will be released soon. */
-    public static final int RESOURCE_RELEASE = 3;
+  /** The notification is sent because the resource will be released soon. */
+  public static final int RESOURCE_RELEASE = 3;
 
-    /** The reason that the resource occures in the notification. */
-    private int m_cause;
+  /** The reason that the resource occures in the notification. */
+  private int m_cause;
 
-    /** The date when the event (e.g. release or expiration) will happen. */
-    private Date m_date;
+  /** The date when the event (e.g. release or expiration) will happen. */
+  private Date m_date;
 
-    /** The resource. */
-    private CmsResource m_resource;
+  /** The resource. */
+  private CmsResource m_resource;
 
-    /**
-     * Creates a new CmsNotificationResourceInfo.<p>
-     *
-     * @param resource the specific resource
-     * @param cause that the resource occures in the notification
-     * @param date when the event will happen
-     */
-    public CmsExtendedNotificationCause(CmsResource resource, int cause, Date date) {
+  /**
+   * Creates a new CmsNotificationResourceInfo.
+   *
+   * <p>
+   *
+   * @param resource the specific resource
+   * @param cause that the resource occures in the notification
+   * @param date when the event will happen
+   */
+  public CmsExtendedNotificationCause(CmsResource resource, int cause, Date date) {
 
-        m_resource = resource;
-        m_cause = cause;
-        m_date = date;
+    m_resource = resource;
+    m_cause = cause;
+    m_date = date;
+  }
+
+  /** @see java.lang.Comparable#compareTo(java.lang.Object) */
+  public int compareTo(CmsExtendedNotificationCause o) {
+
+    return getDate().compareTo(o.getDate());
+  }
+
+  /**
+   * Returns true if the Object equals to the corresponding CmsResourceInfo, that means a resource
+   * info with the same resource and cause.
+   *
+   * @return true if the resource info is equal to a notification cause or resource info with the
+   *     same resource and cause
+   * @param o the object to check for equality
+   * @see org.opencms.notification.CmsNotificationCause#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object o) {
+
+    if (!(o instanceof CmsExtendedNotificationCause) && !(o instanceof CmsNotificationCause)) {
+      return false;
     }
+    return hashCode() == o.hashCode();
+  }
 
-    /**
-     *
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    public int compareTo(CmsExtendedNotificationCause o) {
+  /** @see java.lang.Object#hashCode() */
+  @Override
+  public int hashCode() {
 
-        return getDate().compareTo(o.getDate());
-    }
+    return m_cause + m_resource.getStructureId().hashCode();
+  }
 
-    /**
-     * Returns true if the Object equals to the corresponding CmsResourceInfo, that means a resource info
-     * with the same resource and cause.
-     *
-     * @return true if the resource info is equal to a notification cause or resource info with the same resource and cause
-     *
-     * @param o the object to check for equality
-     *
-     * @see org.opencms.notification.CmsNotificationCause#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object o) {
+  /**
+   * Returns the cause.
+   *
+   * <p>
+   *
+   * @return the cause
+   */
+  public int getCause() {
 
-        if (!(o instanceof CmsExtendedNotificationCause) && !(o instanceof CmsNotificationCause)) {
-            return false;
-        }
-        return hashCode() == o.hashCode();
-    }
+    return m_cause;
+  }
 
-    /**
-     *
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
+  /**
+   * Returns the date.
+   *
+   * <p>
+   *
+   * @return the date
+   */
+  public Date getDate() {
 
-        return m_cause + m_resource.getStructureId().hashCode();
-    }
+    return m_date;
+  }
 
-    /**
-     * Returns the cause.<p>
-     *
-     * @return the cause
-     */
-    public int getCause() {
+  /**
+   * Returns the resource.
+   *
+   * <p>
+   *
+   * @return the resource
+   */
+  public CmsResource getResource() {
 
-        return m_cause;
-    }
+    return m_resource;
+  }
 
-    /**
-     * Returns the date.<p>
-     *
-     * @return the date
-     */
-    public Date getDate() {
+  /**
+   * Sets the cause.
+   *
+   * <p>
+   *
+   * @param cause the cause to set
+   */
+  public void setCause(int cause) {
 
-        return m_date;
-    }
+    m_cause = cause;
+  }
 
-    /**
-     * Returns the resource.<p>
-     *
-     * @return the resource
-     */
-    public CmsResource getResource() {
+  /**
+   * Sets the date.
+   *
+   * <p>
+   *
+   * @param date the date to set
+   */
+  public void setDate(Date date) {
 
-        return m_resource;
-    }
+    m_date = date;
+  }
 
-    /**
-     * Sets the cause.<p>
-     *
-     * @param cause the cause to set
-     */
-    public void setCause(int cause) {
+  /**
+   * Sets the resource.
+   *
+   * <p>
+   *
+   * @param resource the resource to set
+   */
+  public void setResource(CmsResource resource) {
 
-        m_cause = cause;
-    }
-
-    /**
-     * Sets the date.<p>
-     *
-     * @param date the date to set
-     */
-    public void setDate(Date date) {
-
-        m_date = date;
-    }
-
-    /**
-     * Sets the resource.<p>
-     *
-     * @param resource the resource to set
-     */
-    public void setResource(CmsResource resource) {
-
-        m_resource = resource;
-    }
+    m_resource = resource;
+  }
 }

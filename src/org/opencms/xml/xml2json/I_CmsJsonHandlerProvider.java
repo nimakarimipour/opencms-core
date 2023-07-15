@@ -27,20 +27,16 @@
 
 package org.opencms.xml.xml2json;
 
+import java.util.List;
 import org.opencms.xml.xml2json.handler.I_CmsJsonHandler;
 
-import java.util.List;
-
-/**
- * Plugin interface used to add JSON handlers from a custom library.
- */
+/** Plugin interface used to add JSON handlers from a custom library. */
 public interface I_CmsJsonHandlerProvider {
 
-    /**
-     * Gets the list of provided JSON handlers.
-     *
-     * @return the list of provided JSON handlers
-     */
-    public List<I_CmsJsonHandler> getJsonHandlers();
-
+  /**
+   * Gets the list of provided JSON handlers.
+   *
+   * @return the list of provided JSON handlers
+   */
+  public List<I_CmsJsonHandler> getJsonHandlers();
 }

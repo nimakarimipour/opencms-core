@@ -27,67 +27,62 @@
 
 package org.opencms.ui.components;
 
-import org.opencms.ui.shared.components.CmsBreadCrumbState;
-
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.vaadin.shared.communication.SharedState;
 import com.vaadin.ui.AbstractComponent;
+import java.util.Map;
+import java.util.Map.Entry;
+import org.opencms.ui.shared.components.CmsBreadCrumbState;
 
 /**
- * The bread crumb component.<p>
+ * The bread crumb component.
+ *
+ * <p>
  */
 public class CmsBreadCrumb extends AbstractComponent {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 5348912019194395575L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 5348912019194395575L;
 
-    /**
-     * @see com.vaadin.server.AbstractClientConnector#getStateType()
-     */
-    @Override
-    public Class<? extends SharedState> getStateType() {
+  /** @see com.vaadin.server.AbstractClientConnector#getStateType() */
+  @Override
+  public Class<? extends SharedState> getStateType() {
 
-        return CmsBreadCrumbState.class;
+    return CmsBreadCrumbState.class;
+  }
+
+  /**
+   * Sets the bread crumb entries.
+   *
+   * <p>
+   *
+   * @param entries the bread crumb entries
+   */
+  public void setEntries(Map<String, String> entries) {
+
+    String[][] entriesArray = null;
+    if ((entries != null) && !entries.isEmpty()) {
+      entriesArray = new String[entries.size()][];
+      int i = 0;
+      for (Entry<String, String> entry : entries.entrySet()) {
+        entriesArray[i] = new String[] {entry.getKey(), entry.getValue()};
+        i++;
+      }
     }
 
-    /**
-     * Sets the bread crumb entries.<p>
-     *
-     * @param entries the bread crumb entries
-     */
-    public void setEntries(Map<String, String> entries) {
+    getState().setEntries(entriesArray);
+  }
 
-        String[][] entriesArray = null;
-        if ((entries != null) && !entries.isEmpty()) {
-            entriesArray = new String[entries.size()][];
-            int i = 0;
-            for (Entry<String, String> entry : entries.entrySet()) {
-                entriesArray[i] = new String[] {entry.getKey(), entry.getValue()};
-                i++;
-            }
-        }
+  /** @see com.vaadin.ui.AbstractComponent#getState() */
+  @Override
+  protected CmsBreadCrumbState getState() {
 
-        getState().setEntries(entriesArray);
-    }
+    return (CmsBreadCrumbState) super.getState();
+  }
 
-    /**
-     * @see com.vaadin.ui.AbstractComponent#getState()
-     */
-    @Override
-    protected CmsBreadCrumbState getState() {
+  /** @see com.vaadin.ui.AbstractComponent#getState(boolean) */
+  @Override
+  protected CmsBreadCrumbState getState(boolean markAsDirty) {
 
-        return (CmsBreadCrumbState)super.getState();
-    }
-
-    /**
-     * @see com.vaadin.ui.AbstractComponent#getState(boolean)
-     */
-    @Override
-    protected CmsBreadCrumbState getState(boolean markAsDirty) {
-
-        return (CmsBreadCrumbState)super.getState(markAsDirty);
-    }
-
+    return (CmsBreadCrumbState) super.getState(markAsDirty);
+  }
 }

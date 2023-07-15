@@ -28,22 +28,26 @@
 package org.opencms.gwt.client.ui.tree;
 
 /**
- * Lazy tree imeplementation.<p>
+ * Lazy tree imeplementation.
+ *
+ * <p>
  *
  * @param <I> the specific lazy tree item implementation
- *
  * @since 8.0.0
  */
 public class CmsLazyTree<I extends CmsLazyTreeItem> extends CmsTree<I> {
 
-    /**
-     * Initializes the lazy tree.<p>
-     *
-     * @param openHandler the open handler which should be called when the user clicks on an opener in the tree.
-     */
-    public CmsLazyTree(I_CmsLazyOpenHandler<I> openHandler) {
+  /**
+   * Initializes the lazy tree.
+   *
+   * <p>
+   *
+   * @param openHandler the open handler which should be called when the user clicks on an opener in
+   *     the tree.
+   */
+  public CmsLazyTree(I_CmsLazyOpenHandler<I> openHandler) {
 
-        super();
-        addOpenHandler(openHandler);
-    }
+    super();
+    addOpenHandler(openHandler);
+  }
 }

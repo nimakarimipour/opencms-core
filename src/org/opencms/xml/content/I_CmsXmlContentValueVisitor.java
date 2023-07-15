@@ -30,20 +30,24 @@ package org.opencms.xml.content;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 
 /**
- * Visitor interface that allows looping through all the values in a XML content document.<p>
+ * Visitor interface that allows looping through all the values in a XML content document.
  *
- * An implementation of this interface can be passed to
- * {@link org.opencms.xml.content.CmsXmlContent#visitAllValuesWith(I_CmsXmlContentValueVisitor)} in
- * order to call the {@link #visit(I_CmsXmlContentValue)} method on all values of that document.<p>
+ * <p>An implementation of this interface can be passed to {@link
+ * org.opencms.xml.content.CmsXmlContent#visitAllValuesWith(I_CmsXmlContentValueVisitor)} in order
+ * to call the {@link #visit(I_CmsXmlContentValue)} method on all values of that document.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsXmlContentValueVisitor {
 
-    /**
-     * Visits the given value.<p>
-     *
-     * @param value the value to visit
-     */
-    void visit(I_CmsXmlContentValue value);
+  /**
+   * Visits the given value.
+   *
+   * <p>
+   *
+   * @param value the value to visit
+   */
+  void visit(I_CmsXmlContentValue value);
 }

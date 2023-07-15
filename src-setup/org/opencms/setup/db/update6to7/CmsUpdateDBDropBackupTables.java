@@ -27,9 +27,6 @@
 
 package org.opencms.setup.db.update6to7;
 
-import org.opencms.setup.CmsSetupDb;
-import org.opencms.setup.db.A_CmsUpdateDBPart;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -38,74 +35,99 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.opencms.setup.CmsSetupDb;
+import org.opencms.setup.db.A_CmsUpdateDBPart;
 
 /**
- * This class drops the CMS_BACKUP tables that are no longer used after all the transfers are finished.<p>
+ * This class drops the CMS_BACKUP tables that are no longer used after all the transfers are
+ * finished.
  *
- * The tables to drop are
+ * <p>The tables to drop are
+ *
  * <ul>
- * <li>CMS_BACKUP_PROJECTRESOURCES</li>
- * <li>CMS_BACKUP_PROJECTS</li>
- * <li>CMS_BACKUP_PROPERTIES</li>
- * <li>CMS_BACKUP_PROPERTYDEF</li>
- * <li>CMS_BACKUP_RESOURCES</li>
- * <li>CMS_BACKUP_STRUCTURE</li>
+ *   <li>CMS_BACKUP_PROJECTRESOURCES
+ *   <li>CMS_BACKUP_PROJECTS
+ *   <li>CMS_BACKUP_PROPERTIES
+ *   <li>CMS_BACKUP_PROPERTYDEF
+ *   <li>CMS_BACKUP_RESOURCES
+ *   <li>CMS_BACKUP_STRUCTURE
  * </ul>
  *
  * @since 7.0.0
  */
 public class CmsUpdateDBDropBackupTables extends A_CmsUpdateDBPart {
 
-    /** Array of the BACKUP tables that are to be dropped.<p> */
-    protected static final String[] BACKUP_TABLES = {
-        "CMS_BACKUP_PROJECTRESOURCES",
-        "CMS_BACKUP_PROJECTS",
-        "CMS_BACKUP_PROPERTIES",
-        "CMS_BACKUP_PROPERTYDEF",
-        "CMS_BACKUP_RESOURCES",
-        "CMS_BACKUP_STRUCTURE"};
+  /**
+   * Array of the BACKUP tables that are to be dropped.
+   *
+   * <p>
+   */
+  protected static final String[] BACKUP_TABLES = {
+    "CMS_BACKUP_PROJECTRESOURCES",
+    "CMS_BACKUP_PROJECTS",
+    "CMS_BACKUP_PROPERTIES",
+    "CMS_BACKUP_PROPERTYDEF",
+    "CMS_BACKUP_RESOURCES",
+    "CMS_BACKUP_STRUCTURE"
+  };
 
-    /** Constant ArrayList of the BACKUP_TABLES that are to be dropped.<p> */
-    protected static final List<String> BACKUP_TABLES_LIST = Collections.unmodifiableList(Arrays.asList(BACKUP_TABLES));
+  /**
+   * Constant ArrayList of the BACKUP_TABLES that are to be dropped.
+   *
+   * <p>
+   */
+  protected static final List<String> BACKUP_TABLES_LIST =
+      Collections.unmodifiableList(Arrays.asList(BACKUP_TABLES));
 
-    /** Constant for the replacement of the tablename in the sql query.<p> */
-    protected static final String REPLACEMENT_TABLENAME = "${tablename}";
+  /**
+   * Constant for the replacement of the tablename in the sql query.
+   *
+   * <p>
+   */
+  protected static final String REPLACEMENT_TABLENAME = "${tablename}";
 
-    /** Constant for the sql query to drop a table.<p> */
-    private static final String QUERY_DROP_TABLE = "Q_DROP_TABLE";
+  /**
+   * Constant for the sql query to drop a table.
+   *
+   * <p>
+   */
+  private static final String QUERY_DROP_TABLE = "Q_DROP_TABLE";
 
-    /** Constant for the SQL query properties.<p> */
-    private static final String QUERY_PROPERTY_FILE = "cms_drop_backup_tables_queries.properties";
+  /**
+   * Constant for the SQL query properties.
+   *
+   * <p>
+   */
+  private static final String QUERY_PROPERTY_FILE = "cms_drop_backup_tables_queries.properties";
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the query properties cannot be read
-     */
-    public CmsUpdateDBDropBackupTables()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the query properties cannot be read
+   */
+  public CmsUpdateDBDropBackupTables() throws IOException {
 
-        super();
-        loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+    super();
+    loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+  }
+
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#internalExecute(org.opencms.setup.CmsSetupDb) */
+  @Override
+  protected void internalExecute(CmsSetupDb dbCon) {
+
+    System.out.println(new Exception().getStackTrace()[0].toString());
+    String dropQuery = readQuery(QUERY_DROP_TABLE);
+    for (Iterator<String> it = BACKUP_TABLES_LIST.iterator(); it.hasNext(); ) {
+      String table = it.next();
+      Map<String, String> replacer = new HashMap<String, String>();
+      replacer.put(REPLACEMENT_TABLENAME, table);
+      try {
+        dbCon.updateSqlStatement(dropQuery, replacer, null);
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
     }
-
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#internalExecute(org.opencms.setup.CmsSetupDb)
-     */
-    @Override
-    protected void internalExecute(CmsSetupDb dbCon) {
-
-        System.out.println(new Exception().getStackTrace()[0].toString());
-        String dropQuery = readQuery(QUERY_DROP_TABLE);
-        for (Iterator<String> it = BACKUP_TABLES_LIST.iterator(); it.hasNext();) {
-            String table = it.next();
-            Map<String, String> replacer = new HashMap<String, String>();
-            replacer.put(REPLACEMENT_TABLENAME, table);
-            try {
-                dbCon.updateSqlStatement(dropQuery, replacer, null);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+  }
 }

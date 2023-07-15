@@ -27,74 +27,67 @@
 
 package org.opencms.jsp;
 
-import org.opencms.json.JSONException;
-import org.opencms.json.JSONObject;
-
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
+import org.opencms.json.JSONException;
+import org.opencms.json.JSONObject;
 
 /**
  * Tag for defining a JSON object.
  *
- * Key-value pairs created by nested JSON tags will be added to the object.
+ * <p>Key-value pairs created by nested JSON tags will be added to the object.
  */
 public class CmsJspTagJsonObject extends A_CmsJspJsonTag implements I_CmsJspJsonContext {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = -3054667197099417049L;
+  /** Serial version id. */
+  private static final long serialVersionUID = -3054667197099417049L;
 
-    /** The JSON object being constructed. */
-    private JSONObject m_jsonObject;
+  /** The JSON object being constructed. */
+  private JSONObject m_jsonObject;
 
-    /**
-     * Default constructor explicitly resetting all variables.
-     */
-    public CmsJspTagJsonObject() {
+  /** Default constructor explicitly resetting all variables. */
+  public CmsJspTagJsonObject() {
 
-        init();
+    init();
+  }
+
+  /** @see org.opencms.jsp.I_CmsJspJsonContext#addValue(java.lang.String, java.lang.Object) */
+  public void addValue(String key, Object val) throws JspException {
+
+    if (key == null) {
+      throw new JspTagException("Can not add value to JSONObject with no key (val:" + val + ")");
     }
-
-    /**
-     * @see org.opencms.jsp.I_CmsJspJsonContext#addValue(java.lang.String, java.lang.Object)
-     */
-    public void addValue(String key, Object val) throws JspException {
-
-        if (key == null) {
-            throw new JspTagException("Can not add value to JSONObject with no key (val:" + val + ")");
-        }
-        try {
-            m_jsonObject.put(key, val);
-        } catch (JSONException e) {
-            throw new JspTagException("Could not add value to JSONObject", e);
-        }
+    try {
+      m_jsonObject.put(key, val);
+    } catch (JSONException e) {
+      throw new JspTagException("Could not add value to JSONObject", e);
     }
+  }
 
-    /**
-     * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
-     */
-    @Override
-    public int doStartTag() {
+  /** @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag() */
+  @Override
+  public int doStartTag() {
 
-        m_jsonObject = new JSONObject();
-        return EVAL_BODY_INCLUDE;
-    }
+    m_jsonObject = new JSONObject();
+    return EVAL_BODY_INCLUDE;
+  }
 
-    /**
-     * @see org.opencms.jsp.A_CmsJspJsonTag#getJsonValue()
-     */
-    @Override
-    public Object getJsonValue() {
+  /** @see org.opencms.jsp.A_CmsJspJsonTag#getJsonValue() */
+  @Override
+  public Object getJsonValue() {
 
-        return m_jsonObject;
-    }
+    return m_jsonObject;
+  }
 
-    /**
-     * Initializes / resets the internal values.<p>
-     */
-    @Override
-    protected void init() {
+  /**
+   * Initializes / resets the internal values.
+   *
+   * <p>
+   */
+  @Override
+  protected void init() {
 
-        super.init();
-        m_jsonObject = null;
-    }
+    super.init();
+    m_jsonObject = null;
+  }
 }

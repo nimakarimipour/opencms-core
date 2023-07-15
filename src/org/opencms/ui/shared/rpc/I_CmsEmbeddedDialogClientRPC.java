@@ -30,46 +30,56 @@ package org.opencms.ui.shared.rpc;
 import com.vaadin.shared.communication.ClientRpc;
 
 /**
- * Client RPC to handle embedded dialogs.<p>
+ * Client RPC to handle embedded dialogs.
+ *
+ * <p>
  */
 public interface I_CmsEmbeddedDialogClientRPC extends ClientRpc {
 
-    /**
-     * Removes the dialog iFrame and refreshes the given resources.<p>
-     *
-     * @param resourceIds the resources to refresh
-     */
-    void finish(String resourceIds);
+  /**
+   * Removes the dialog iFrame and refreshes the given resources.
+   *
+   * <p>
+   *
+   * @param resourceIds the resources to refresh
+   */
+  void finish(String resourceIds);
 
-    /**
-     * Removes the dialog iFrame and reloads the app for the given site path and server link.<p>
-     *
-     * @param sitePath the site path
-     * @param serverLink the server link
-     */
-    void finishForProjectOrSiteChange(String sitePath, String serverLink);
+  /**
+   * Removes the dialog iFrame and reloads the app for the given site path and server link.
+   *
+   * <p>
+   *
+   * @param sitePath the site path
+   * @param serverLink the server link
+   */
+  void finishForProjectOrSiteChange(String sitePath, String serverLink);
 
-    /**
-     * Tells the client to initialize the client-to-server RPC.
-     **/
-    void initServerRpc();
+  /** Tells the client to initialize the client-to-server RPC. */
+  void initServerRpc();
 
-    /**
-     * Leaves the current page calling the given URI.<p>
-     *
-     * @param targetUri the target URI
-     */
-    void leavePage(String targetUri);
+  /**
+   * Leaves the current page calling the given URI.
+   *
+   * <p>
+   *
+   * @param targetUri the target URI
+   */
+  void leavePage(String targetUri);
 
-    /**
-     * Reloads the parent window.<p>
-     */
-    void reloadParent();
+  /**
+   * Reloads the parent window.
+   *
+   * <p>
+   */
+  void reloadParent();
 
-    /**
-     * Sets the selected string.<p>
-     *
-     * @param str the string
-     */
-    void selectString(String str);
+  /**
+   * Sets the selected string.
+   *
+   * <p>
+   *
+   * @param str the string
+   */
+  void selectString(String str);
 }

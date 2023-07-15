@@ -28,228 +28,262 @@
 package org.opencms.acacia.client.export;
 
 import org.opencms.acacia.shared.CmsEntity;
-
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.ExportPackage;
 import org.timepedia.exporter.client.Exportable;
 
 /**
- * Exportable wrapper for entity instances.<p>
+ * Exportable wrapper for entity instances.
+ *
+ * <p>
  */
 @Export
 @ExportPackage(value = "acacia")
 public class CmsEntityWrapper implements Exportable {
 
-    /** The entity wrapped by this wrapper. */
-    private CmsEntity m_entity;
+  /** The entity wrapped by this wrapper. */
+  private CmsEntity m_entity;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsEntityWrapper() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsEntityWrapper() {}
 
-    }
+  /**
+   * Wrapper constructor.
+   *
+   * <p>
+   *
+   * @param entity the entity to be wrapped
+   */
+  public CmsEntityWrapper(CmsEntity entity) {
 
-    /**
-     * Wrapper constructor.<p>
-     *
-     * @param entity the entity to be wrapped
-     */
-    public CmsEntityWrapper(CmsEntity entity) {
+    m_entity = entity;
+  }
 
-        m_entity = entity;
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName argument for the wrapped method
+   * @param value argument for the wrapped method
+   */
+  public void addAttributeValueEntity(String attributeName, CmsEntityWrapper value) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName argument for the wrapped method
-     * @param value argument for the wrapped method
-     */
-    public void addAttributeValueEntity(String attributeName, CmsEntityWrapper value) {
+    m_entity.addAttributeValue(attributeName, value.getEntity());
+  }
 
-        m_entity.addAttributeValue(attributeName, value.getEntity());
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName argument for the wrapped method
+   * @param value argument for the wrapped method
+   */
+  public void addAttributeValueString(String attributeName, String value) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName argument for the wrapped method
-     * @param value argument for the wrapped method
-     */
-    public void addAttributeValueString(String attributeName, String value) {
+    m_entity.addAttributeValue(attributeName, value);
+  }
 
-        m_entity.addAttributeValue(attributeName, value);
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName parameter for the wrapped method
+   * @return the result of the wrapped method
+   */
+  public CmsEntityAttributeWrapper getAttribute(String attributeName) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName parameter for the wrapped method
-     * @return the result of the wrapped method
-     */
-    public CmsEntityAttributeWrapper getAttribute(String attributeName) {
+    return new CmsEntityAttributeWrapper(m_entity.getAttribute(attributeName));
+  }
 
-        return new CmsEntityAttributeWrapper(m_entity.getAttribute(attributeName));
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public CmsEntityAttributeWrapper[] getAttributes() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public CmsEntityAttributeWrapper[] getAttributes() {
+    return CmsWrapperUtils.arrayFromEntityAttributeList(m_entity.getAttributes());
+  }
 
-        return CmsWrapperUtils.arrayFromEntityAttributeList(m_entity.getAttributes());
-    }
+  /**
+   * Gets the wrapped entity.
+   *
+   * <p>
+   *
+   * @return the wrapped entity
+   */
+  public CmsEntity getEntity() {
 
-    /**
-     * Gets the wrapped entity.<p>
-     *
-     * @return the wrapped entity
-     */
-    public CmsEntity getEntity() {
+    return m_entity;
+  }
 
-        return m_entity;
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public String getId() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public String getId() {
+    return m_entity.getId();
+  }
 
-        return m_entity.getId();
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public String getTypeName() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public String getTypeName() {
+    return m_entity.getTypeName();
+  }
 
-        return m_entity.getTypeName();
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName parameter for the wrapped method
+   * @return the result of the wrapped method
+   */
+  public boolean hasAttribute(String attributeName) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName parameter for the wrapped method
-     * @return the result of the wrapped method
-     */
-    public boolean hasAttribute(String attributeName) {
+    return m_entity.hasAttribute(attributeName);
+  }
 
-        return m_entity.hasAttribute(attributeName);
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName parameter for the wrapped method
+   * @param value parameter for the wrapped method
+   * @param index parameter for the wrapped method
+   */
+  public void insertAttributeValueEntity(String attributeName, CmsEntityWrapper value, int index) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName parameter for the wrapped method
-     * @param value parameter for the wrapped method
-     * @param index parameter for the wrapped method
-     */
-    public void insertAttributeValueEntity(String attributeName, CmsEntityWrapper value, int index) {
+    m_entity.insertAttributeValue(attributeName, value.getEntity(), index);
+  }
 
-        m_entity.insertAttributeValue(attributeName, value.getEntity(), index);
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName parameter for the wrapped method
+   * @param value parameter for the wrapped method
+   * @param index parameter for the wrapped method
+   */
+  public void insertAttributeValueString(String attributeName, String value, int index) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName parameter for the wrapped method
-     * @param value parameter for the wrapped method
-     * @param index parameter for the wrapped method
-     */
-    public void insertAttributeValueString(String attributeName, String value, int index) {
+    m_entity.insertAttributeValue(attributeName, value, index);
+  }
 
-        m_entity.insertAttributeValue(attributeName, value, index);
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName parameter for the wrapped method
+   */
+  public void removeAttribute(String attributeName) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName parameter for the wrapped method
-     */
-    public void removeAttribute(String attributeName) {
+    m_entity.removeAttribute(attributeName);
+  }
 
-        m_entity.removeAttribute(attributeName);
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName parameter for the wrapped method
+   */
+  public void removeAttributeSilent(String attributeName) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName parameter for the wrapped method
-     */
-    public void removeAttributeSilent(String attributeName) {
+    m_entity.removeAttributeSilent(attributeName);
+  }
 
-        m_entity.removeAttributeSilent(attributeName);
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName parameter for the wrapped method
+   * @param index parameter for the wrapped method
+   */
+  public void removeAttributeValue(String attributeName, int index) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName parameter for the wrapped method
-     * @param index parameter for the wrapped method
-     */
-    public void removeAttributeValue(String attributeName, int index) {
+    m_entity.removeAttributeValue(attributeName, index);
+  }
 
-        m_entity.removeAttributeValue(attributeName, index);
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName parameter for the wrapped method
+   * @param value parameter for the wrapped method
+   */
+  public void setAttributeValueEntity(String attributeName, CmsEntityWrapper value) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName parameter for the wrapped method
-     * @param value parameter for the wrapped method
-     */
-    public void setAttributeValueEntity(String attributeName, CmsEntityWrapper value) {
+    m_entity.setAttributeValue(attributeName, value.getEntity());
+  }
 
-        m_entity.setAttributeValue(attributeName, value.getEntity());
-    }
+  /**
+   * public void setAttributeValueEntity(String attributeName, CmsEntityWrapper value, int index) {
+   *
+   * <p>m_entity.setAttributeValue(attributeName, value.getEntity(), index); }
+   *
+   * <p>public void setAttributeValueString(String attributeName, String value) {
+   *
+   * <p>m_entity.setAttributeValue(attributeName, value); }
+   *
+   * <p>/** Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName parameter for the wrapped method
+   * @param value parameter for the wrapped method
+   * @param index parameter for the wrapped method
+   */
+  public void setAttributeValueString(String attributeName, String value, int index) {
 
-    /**
-    public void setAttributeValueEntity(String attributeName, CmsEntityWrapper value, int index) {
-    
-        m_entity.setAttributeValue(attributeName, value.getEntity(), index);
-    }
-    
-    public void setAttributeValueString(String attributeName, String value) {
-    
-        m_entity.setAttributeValue(attributeName, value);
-    }
-    
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName parameter for the wrapped method
-     * @param value parameter for the wrapped method
-     * @param index parameter for the wrapped method
-     */
-    public void setAttributeValueString(String attributeName, String value, int index) {
+    m_entity.setAttributeValue(attributeName, value, index);
+  }
 
-        m_entity.setAttributeValue(attributeName, value, index);
-    }
+  /**
+   * Sets the wrapped entity.
+   *
+   * <p>
+   *
+   * @param entity the entity to wrap
+   */
+  public void setEntity(CmsEntity entity) {
 
-    /**
-     * Sets the wrapped entity.<p>
-     *
-     * @param entity the entity to wrap
-     */
-    public void setEntity(CmsEntity entity) {
+    m_entity = entity;
+  }
 
-        m_entity = entity;
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public String toJSON() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public String toJSON() {
-
-        return m_entity.toJSON();
-    }
+    return m_entity.toJSON();
+  }
 }

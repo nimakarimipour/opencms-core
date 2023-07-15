@@ -27,102 +27,97 @@
 
 package org.opencms.ui.apps.dbmanager;
 
+import com.vaadin.ui.Component;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import org.opencms.main.OpenCms;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.A_CmsAttributeAwareApp;
 import org.opencms.ui.apps.Messages;
 import org.opencms.util.CmsStringUtil;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import com.vaadin.ui.Component;
-
 /**
- * Class for database manager app.<p>A_CmsAttributeAwareApp
+ * Class for database manager app.
+ *
+ * <p>A_CmsAttributeAwareApp
  */
 public class CmsDbManager extends A_CmsAttributeAwareApp {
 
-    /** Name of the manifest file used in upload files. */
-    private static final String FILE_MANIFEST = "manifest.xml";
+  /** Name of the manifest file used in upload files. */
+  private static final String FILE_MANIFEST = "manifest.xml";
 
-    /** Name of the sub-folder containing the OpenCms module packages. */
-    private static final String FOLDER_MODULES = "modules";
+  /** Name of the sub-folder containing the OpenCms module packages. */
+  private static final String FOLDER_MODULES = "modules";
 
-    /**
-     * Returns the list of all uploadable zip files and uploadable folders available on the server.<p>
-     *
-     * @param includeFolders if true, the uploadable folders are included in the list
-     * @return the list of all uploadable zip files and uploadable folders available on the server
-     */
-    protected static List<String> getFileListFromServer(boolean includeFolders) {
+  /**
+   * Returns the list of all uploadable zip files and uploadable folders available on the server.
+   *
+   * <p>
+   *
+   * @param includeFolders if true, the uploadable folders are included in the list
+   * @return the list of all uploadable zip files and uploadable folders available on the server
+   */
+  protected static List<String> getFileListFromServer(boolean includeFolders) {
 
-        List<String> result = new ArrayList<String>();
+    List<String> result = new ArrayList<String>();
 
-        // get the RFS package export path
-        String exportpath = OpenCms.getSystemInfo().getPackagesRfsPath();
-        File folder = new File(exportpath);
+    // get the RFS package export path
+    String exportpath = OpenCms.getSystemInfo().getPackagesRfsPath();
+    File folder = new File(exportpath);
 
-        // get a list of all files of the packages folder
-        String[] files = folder.list();
-        if (files != null) {
-            for (int i = 0; i < files.length; i++) {
-                File diskFile = new File(exportpath, files[i]);
-                // check this is a file and ends with zip -> this is a database upload file
-                if (diskFile.isFile() && diskFile.getName().endsWith(".zip")) {
-                    result.add(diskFile.getName());
-                } else if (diskFile.isDirectory()
-                    && includeFolders
-                    && (!diskFile.getName().equalsIgnoreCase(FOLDER_MODULES))
-                    && ((new File(diskFile + File.separator + FILE_MANIFEST)).exists())) {
-                    // this is an unpacked package, add it to uploadable files
-                    result.add(diskFile.getName());
-                }
-            }
+    // get a list of all files of the packages folder
+    String[] files = folder.list();
+    if (files != null) {
+      for (int i = 0; i < files.length; i++) {
+        File diskFile = new File(exportpath, files[i]);
+        // check this is a file and ends with zip -> this is a database upload file
+        if (diskFile.isFile() && diskFile.getName().endsWith(".zip")) {
+          result.add(diskFile.getName());
+        } else if (diskFile.isDirectory()
+            && includeFolders
+            && (!diskFile.getName().equalsIgnoreCase(FOLDER_MODULES))
+            && ((new File(diskFile + File.separator + FILE_MANIFEST)).exists())) {
+          // this is an unpacked package, add it to uploadable files
+          result.add(diskFile.getName());
         }
-        return result;
+      }
+    }
+    return result;
+  }
+
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String) */
+  @Override
+  protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
+
+    LinkedHashMap<String, String> crumbs = new LinkedHashMap<String, String>();
+
+    // Deeper path
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
+      crumbs.put("", CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_STATS_TITLE_0));
+      return crumbs;
     }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String)
-     */
-    @Override
-    protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
+    return new LinkedHashMap<
+        String, String>(); // size==1 & state was not empty -> state doesn't match to known path
+  }
 
-        LinkedHashMap<String, String> crumbs = new LinkedHashMap<String, String>();
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String) */
+  @Override
+  protected Component getComponentForState(String state) {
 
-        //Deeper path
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
-            crumbs.put("", CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_STATS_TITLE_0));
-            return crumbs;
-        }
-
-        return new LinkedHashMap<String, String>(); //size==1 & state was not empty -> state doesn't match to known path
-
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
+      return new CmsResourceTypeStatsView();
     }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String)
-     */
-    @Override
-    protected Component getComponentForState(String state) {
+    return null;
+  }
 
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
-            return new CmsResourceTypeStatsView();
-        }
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String) */
+  @Override
+  protected List<NavEntry> getSubNavEntries(String state) {
 
-        return null;
-    }
-
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String)
-     */
-    @Override
-    protected List<NavEntry> getSubNavEntries(String state) {
-
-        return null;
-    }
-
+    return null;
+  }
 }

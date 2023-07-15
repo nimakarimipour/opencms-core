@@ -27,6 +27,8 @@
 
 package org.opencms.xml.xml2json.handler;
 
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
 import org.opencms.json.JSONException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
@@ -34,61 +36,56 @@ import org.opencms.xml.xml2json.CmsJsonRequest;
 import org.opencms.xml.xml2json.CmsJsonResult;
 import org.opencms.xml.xml2json.document.CmsJsonDocumentList;
 
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-
-/**
- * JSON handler for rendering a list.
- */
+/** JSON handler for rendering a list. */
 public class CmsJsonHandlerList extends CmsJsonHandlerXmlContent {
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsJsonHandlerList.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsJsonHandlerList.class);
 
-    /** The list configuration type name. */
-    private final static String TYPE_LIST_CONFIG = "listconfig";
+  /** The list configuration type name. */
+  private static final String TYPE_LIST_CONFIG = "listconfig";
 
-    /**
-     * @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#getOrder()
-     */
-    @Override
-    public double getOrder() {
+  /** @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#getOrder() */
+  @Override
+  public double getOrder() {
 
-        return 50;
+    return 50;
+  }
+
+  /**
+   * @see
+   *     org.opencms.xml.xml2json.handler.I_CmsJsonHandler#matches(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
+   */
+  @Override
+  public boolean matches(CmsJsonHandlerContext context) {
+
+    String typeName =
+        OpenCms.getResourceManager().getResourceType(context.getResource()).getTypeName();
+    return typeName.equals(TYPE_LIST_CONFIG);
+  }
+
+  /**
+   * @see
+   *     org.opencms.xml.xml2json.handler.I_CmsJsonHandler#renderJson(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
+   */
+  @Override
+  public CmsJsonResult renderJson(CmsJsonHandlerContext context) {
+
+    try {
+      CmsJsonRequest jsonRequest = new CmsJsonRequest(context, this);
+      jsonRequest.validate();
+      if (jsonRequest.hasErrors()) {
+        return new CmsJsonResult(jsonRequest.getErrorsAsJson(), HttpServletResponse.SC_BAD_REQUEST);
+      }
+      CmsJsonDocumentList jsonDocument = new CmsJsonDocumentList(jsonRequest, context.getContent());
+      return new CmsJsonResult(jsonDocument.getJson(), HttpServletResponse.SC_OK);
+    } catch (JSONException e) {
+      LOG.info(e.getLocalizedMessage(), e);
+      return new CmsJsonResult(e.getLocalizedMessage(), HttpServletResponse.SC_NOT_FOUND);
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      return new CmsJsonResult(
+          e.getLocalizedMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
-
-    /**
-     * @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#matches(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
-     */
-    @Override
-    public boolean matches(CmsJsonHandlerContext context) {
-
-        String typeName = OpenCms.getResourceManager().getResourceType(context.getResource()).getTypeName();
-        return typeName.equals(TYPE_LIST_CONFIG);
-    }
-
-    /**
-     * @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#renderJson(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
-     */
-    @Override
-    public CmsJsonResult renderJson(CmsJsonHandlerContext context) {
-
-        try {
-            CmsJsonRequest jsonRequest = new CmsJsonRequest(context, this);
-            jsonRequest.validate();
-            if (jsonRequest.hasErrors()) {
-                return new CmsJsonResult(jsonRequest.getErrorsAsJson(), HttpServletResponse.SC_BAD_REQUEST);
-            }
-            CmsJsonDocumentList jsonDocument = new CmsJsonDocumentList(jsonRequest, context.getContent());
-            return new CmsJsonResult(jsonDocument.getJson(), HttpServletResponse.SC_OK);
-        } catch (JSONException e) {
-            LOG.info(e.getLocalizedMessage(), e);
-            return new CmsJsonResult(e.getLocalizedMessage(), HttpServletResponse.SC_NOT_FOUND);
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            return new CmsJsonResult(e.getLocalizedMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
-    }
-
+  }
 }

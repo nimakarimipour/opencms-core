@@ -27,63 +27,63 @@
 
 package org.opencms.ade.postupload.client;
 
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import org.opencms.ade.postupload.client.ui.CmsUploadPropertyDialog;
 import org.opencms.ade.postupload.client.ui.css.I_CmsLayoutBundle;
 import org.opencms.gwt.client.A_CmsEntryPoint;
 import org.opencms.gwt.client.CmsCoreProvider;
 
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
-
 /**
- * Dialog entry class.<p>
+ * Dialog entry class.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsPostUploadDialogEntryPoint extends A_CmsEntryPoint {
 
-    /** The name of the close function. */
-    public static final String CLOSE_FUNCTION = "cmsCloseUploadHookDialog";
+  /** The name of the close function. */
+  public static final String CLOSE_FUNCTION = "cmsCloseUploadHookDialog";
 
-    /** Name of exported dialog close function. */
-    private static final String FUNCTION_OPEN_DIALOG = "cms_ade_openDialog";
+  /** Name of exported dialog close function. */
+  private static final String FUNCTION_OPEN_DIALOG = "cms_ade_openDialog";
 
-    /**
-     * @see org.opencms.gwt.client.A_CmsEntryPoint#onModuleLoad()
-     */
-    @Override
-    public void onModuleLoad() {
+  /** @see org.opencms.gwt.client.A_CmsEntryPoint#onModuleLoad() */
+  @Override
+  public void onModuleLoad() {
 
-        super.onModuleLoad();
-        I_CmsLayoutBundle.INSTANCE.dialogCss().ensureInjected();
+    super.onModuleLoad();
+    I_CmsLayoutBundle.INSTANCE.dialogCss().ensureInjected();
 
-        // load and show the dialog
-        final CmsUploadPropertyDialog dialog = new CmsUploadPropertyDialog();
-        Command onFinish = new Command() {
+    // load and show the dialog
+    final CmsUploadPropertyDialog dialog = new CmsUploadPropertyDialog();
+    Command onFinish =
+        new Command() {
 
-            /**
-             * @see com.google.gwt.user.client.Command#execute()
-             */
-            public void execute() {
+          /** @see com.google.gwt.user.client.Command#execute() */
+          public void execute() {
 
-                if (!dialog.isIFrameMode()) {
-                    String closeLink = getCloseLink() + "?resource=";
-                    Window.Location.assign(CmsCoreProvider.get().link(closeLink));
-                }
+            if (!dialog.isIFrameMode()) {
+              String closeLink = getCloseLink() + "?resource=";
+              Window.Location.assign(CmsCoreProvider.get().link(closeLink));
             }
+          }
         };
-        dialog.setCloseCmd(onFinish);
-        dialog.setTitle(Messages.get().key(Messages.GUI_DIALOG_TITLE_0));
-        dialog.setWidth(950); //545
-        dialog.loadAndShow();
-    }
+    dialog.setCloseCmd(onFinish);
+    dialog.setTitle(Messages.get().key(Messages.GUI_DIALOG_TITLE_0));
+    dialog.setWidth(950); // 545
+    dialog.loadAndShow();
+  }
 
-    /**
-     * Retrieves the close link global variable as a string.<p>
-     *
-     * @return the close link
-     */
-    protected native String getCloseLink() /*-{
+  /**
+   * Retrieves the close link global variable as a string.
+   *
+   * <p>
+   *
+   * @return the close link
+   */
+  protected native String getCloseLink() /*-{
 
         return $wnd[@org.opencms.ade.postupload.shared.I_CmsDialogConstants::ATTR_CLOSE_LINK];
     }-*/;

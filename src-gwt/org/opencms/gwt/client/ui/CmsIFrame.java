@@ -27,39 +27,45 @@
 
 package org.opencms.gwt.client.ui;
 
+import com.google.gwt.user.client.ui.Frame;
 import org.opencms.gwt.client.util.CmsDomUtil;
 
-import com.google.gwt.user.client.ui.Frame;
-
 /**
- * IFrame widget, extends the GWT core {@link com.google.gwt.user.client.ui.Frame} widget.<p>
+ * IFrame widget, extends the GWT core {@link com.google.gwt.user.client.ui.Frame} widget.
  *
- * This is necessary, as {@link com.google.gwt.user.client.ui.Frame} won't assign a name attribute on element creation.
- * This is needed, ass setting or changing this attribute later won't have any effect in IE.<p>
+ * <p>This is necessary, as {@link com.google.gwt.user.client.ui.Frame} won't assign a name
+ * attribute on element creation. This is needed, ass setting or changing this attribute later won't
+ * have any effect in IE.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsIFrame extends Frame {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param name the iFrame name attribute value
-     */
-    public CmsIFrame(String name) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param name the iFrame name attribute value
+   */
+  public CmsIFrame(String name) {
 
-        super(CmsDomUtil.createIFrameElement(name));
-    }
+    super(CmsDomUtil.createIFrameElement(name));
+  }
 
-    /**
-     * Constructor.<p>
-     *
-     * @param name the iFrame name attribute value
-     * @param url the iFrame src attribute value
-     */
-    public CmsIFrame(String name, String url) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param name the iFrame name attribute value
+   * @param url the iFrame src attribute value
+   */
+  public CmsIFrame(String name, String url) {
 
-        this(name);
-        setUrl(url);
-    }
+    this(name);
+    setUrl(url);
+  }
 }

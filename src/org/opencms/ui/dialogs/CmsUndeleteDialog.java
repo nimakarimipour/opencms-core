@@ -27,6 +27,12 @@
 
 package org.opencms.ui.dialogs;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.lock.CmsLockActionRecord;
@@ -43,135 +49,132 @@ import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsOkCancelActionHandler;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-
 /**
- * Dialog used to change resource modification times.<p>
+ * Dialog used to change resource modification times.
+ *
+ * <p>
  */
 public class CmsUndeleteDialog extends CmsBasicDialog {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsUndeleteDialog.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsUndeleteDialog.class);
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The dialog context. */
-    protected I_CmsDialogContext m_context;
+  /** The dialog context. */
+  protected I_CmsDialogContext m_context;
 
-    /** The Cancel button. */
-    private Button m_cancelButton;
+  /** The Cancel button. */
+  private Button m_cancelButton;
 
-    /** The OK  button. */
-    private Button m_okButton;
+  /** The OK button. */
+  private Button m_okButton;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param context the dialog context
-     */
-    public CmsUndeleteDialog(I_CmsDialogContext context) {
-        m_context = context;
-        CmsVaadinUtils.readAndLocalizeDesign(
-            this,
-            OpenCms.getWorkplaceManager().getMessages(A_CmsUI.get().getLocale()),
-            null);
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param context the dialog context
+   */
+  public CmsUndeleteDialog(I_CmsDialogContext context) {
+    m_context = context;
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, OpenCms.getWorkplaceManager().getMessages(A_CmsUI.get().getLocale()), null);
 
-        m_cancelButton.addClickListener(new ClickListener() {
+    m_cancelButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                cancel();
-            }
-
+            cancel();
+          }
         });
 
-        m_okButton.addClickListener(new ClickListener() {
+    m_okButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                submit();
-            }
+            submit();
+          }
         });
-        setActionHandler(new CmsOkCancelActionHandler() {
+    setActionHandler(
+        new CmsOkCancelActionHandler() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            @Override
-            protected void cancel() {
+          @Override
+          protected void cancel() {
 
-                CmsUndeleteDialog.this.cancel();
-            }
+            CmsUndeleteDialog.this.cancel();
+          }
 
-            @Override
-            protected void ok() {
+          @Override
+          protected void ok() {
 
-                submit();
-            }
+            submit();
+          }
         });
-    }
+  }
 
-    /**
-     * Undeletes the selected files
-     *
-     * @return the ids of the modified resources
-     *
-     * @throws CmsException if something goes wrong
-     */
-    protected List<CmsUUID> undelete() throws CmsException {
+  /**
+   * Undeletes the selected files
+   *
+   * @return the ids of the modified resources
+   * @throws CmsException if something goes wrong
+   */
+  protected List<CmsUUID> undelete() throws CmsException {
 
-        List<CmsUUID> modifiedResources = new ArrayList<CmsUUID>();
-        CmsObject cms = m_context.getCms();
-        for (CmsResource resource : m_context.getResources()) {
-            CmsLockActionRecord actionRecord = null;
-            try {
-                actionRecord = CmsLockUtil.ensureLock(m_context.getCms(), resource);
-                cms.undeleteResource(cms.getSitePath(resource), true);
-                modifiedResources.add(resource.getStructureId());
-            } finally {
-                if ((actionRecord != null) && (actionRecord.getChange() == LockChange.locked)) {
+    List<CmsUUID> modifiedResources = new ArrayList<CmsUUID>();
+    CmsObject cms = m_context.getCms();
+    for (CmsResource resource : m_context.getResources()) {
+      CmsLockActionRecord actionRecord = null;
+      try {
+        actionRecord = CmsLockUtil.ensureLock(m_context.getCms(), resource);
+        cms.undeleteResource(cms.getSitePath(resource), true);
+        modifiedResources.add(resource.getStructureId());
+      } finally {
+        if ((actionRecord != null) && (actionRecord.getChange() == LockChange.locked)) {
 
-                    try {
-                        cms.unlockResource(resource);
-                    } catch (CmsLockException e) {
-                        LOG.warn(e.getLocalizedMessage(), e);
-                    }
-                }
-            }
+          try {
+            cms.unlockResource(resource);
+          } catch (CmsLockException e) {
+            LOG.warn(e.getLocalizedMessage(), e);
+          }
         }
-        return modifiedResources;
+      }
     }
+    return modifiedResources;
+  }
 
-    /**
-     * Cancels the dialog.<p>
-     */
-    void cancel() {
+  /**
+   * Cancels the dialog.
+   *
+   * <p>
+   */
+  void cancel() {
 
-        m_context.finish(new ArrayList<CmsUUID>());
+    m_context.finish(new ArrayList<CmsUUID>());
+  }
+
+  /**
+   * Submits the dialog.
+   *
+   * <p>
+   */
+  void submit() {
+
+    try {
+      List<CmsUUID> modifiedResources = undelete();
+      m_context.finish(modifiedResources);
+    } catch (Exception e) {
+      m_context.error(e);
     }
-
-    /**
-     * Submits the dialog.<p>
-     */
-    void submit() {
-
-        try {
-            List<CmsUUID> modifiedResources = undelete();
-            m_context.finish(modifiedResources);
-        } catch (Exception e) {
-            m_context.error(e);
-        }
-    }
-
+  }
 }

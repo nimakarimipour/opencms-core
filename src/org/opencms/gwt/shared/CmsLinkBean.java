@@ -28,47 +28,55 @@
 package org.opencms.gwt.shared;
 
 /**
- * A bean for representing a link, which can be external or internal.<p>
+ * A bean for representing a link, which can be external or internal.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsLinkBean {
 
-    /** The link target.*/
-    private String m_link;
+  /** The link target. */
+  private String m_link;
 
-    /** True if this is an internal link. */
-    private boolean m_internal;
+  /** True if this is an internal link. */
+  private boolean m_internal;
 
-    /**
-     * Creates a new link bean.<p>
-     *
-     * @param link the link target
-     * @param internal true if this is an internal link
-     */
-    public CmsLinkBean(String link, boolean internal) {
+  /**
+   * Creates a new link bean.
+   *
+   * <p>
+   *
+   * @param link the link target
+   * @param internal true if this is an internal link
+   */
+  public CmsLinkBean(String link, boolean internal) {
 
-        m_link = link;
-        m_internal = internal;
-    }
+    m_link = link;
+    m_internal = internal;
+  }
 
-    /**
-     * Returns the link target.<p>
-     *
-     * @return the link target
-     */
-    public String getLink() {
+  /**
+   * Returns the link target.
+   *
+   * <p>
+   *
+   * @return the link target
+   */
+  public String getLink() {
 
-        return m_link;
-    }
+    return m_link;
+  }
 
-    /**
-     * Returns true if this is an internal link.<p>
-     *
-     * @return true if this is an internal link
-     */
-    public boolean isInternal() {
+  /**
+   * Returns true if this is an internal link.
+   *
+   * <p>
+   *
+   * @return true if this is an internal link
+   */
+  public boolean isInternal() {
 
-        return m_internal;
-    }
+    return m_internal;
+  }
 }

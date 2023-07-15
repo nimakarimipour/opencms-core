@@ -28,14 +28,18 @@
 package org.opencms.gwt.client.ui.contextmenu;
 
 /**
- * String select handler interface.<p>
+ * String select handler interface.
+ *
+ * <p>
  */
 public interface I_CmsStringSelectHandler {
 
-    /**
-     * Sets the string value.<p>
-     *
-     * @param value the selected string
-     */
-    void selectString(String value);
+  /**
+   * Sets the string value.
+   *
+   * <p>
+   *
+   * @param value the selected string
+   */
+  void selectString(String value);
 }

@@ -27,10 +27,7 @@
 
 package org.opencms.main;
 
-import org.opencms.file.CmsObject;
-
 import java.io.IOException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -39,88 +36,91 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.logging.Log;
+import org.opencms.file.CmsObject;
 
 /**
- * Filter access to statically exported resources while checking permissions.<p>
+ * Filter access to statically exported resources while checking permissions.
+ *
+ * <p>
  */
 public class OpenCmsProtectedExportFilter implements Filter {
 
-    /** The static log object for this class. */
-    private static final Log LOG = CmsLog.getLog(OpenCmsProtectedExportFilter.class);
+  /** The static log object for this class. */
+  private static final Log LOG = CmsLog.getLog(OpenCmsProtectedExportFilter.class);
 
-    /** The protected export path prefix. */
-    private String m_prefix;
+  /** The protected export path prefix. */
+  private String m_prefix;
 
-    /**
-     * @see javax.servlet.Filter#destroy()
-     */
-    public void destroy() {
+  /** @see javax.servlet.Filter#destroy() */
+  public void destroy() {
 
-        m_prefix = null;
-    }
+    m_prefix = null;
+  }
 
-    /**
-    * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
-    */
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
-    throws IOException, ServletException {
+  /**
+   * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse,
+   *     javax.servlet.FilterChain)
+   */
+  public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+      throws IOException, ServletException {
 
-        if ((OpenCms.getStaticExportManager().getProtectedExportPath() != null)
-            && (req instanceof HttpServletRequest)) {
-            HttpServletRequest request = (HttpServletRequest)req;
-            String uri = request.getRequestURI();
-            if (uri.startsWith(getPrefix())) {
-                // direct access to the protected export folder is forbidden
-                ((HttpServletResponse)res).sendError(HttpServletResponse.SC_FORBIDDEN);
+    if ((OpenCms.getStaticExportManager().getProtectedExportPath() != null)
+        && (req instanceof HttpServletRequest)) {
+      HttpServletRequest request = (HttpServletRequest) req;
+      String uri = request.getRequestURI();
+      if (uri.startsWith(getPrefix())) {
+        // direct access to the protected export folder is forbidden
+        ((HttpServletResponse) res).sendError(HttpServletResponse.SC_FORBIDDEN);
+        return;
+      }
+      try {
+        CmsObject cms =
+            OpenCmsCore.getInstance().initCmsObject(request, (HttpServletResponse) res, false);
+        if (cms.getRequestContext().getCurrentProject().isOnlineProject()) {
+
+          String rootPath = OpenCms.getLinkManager().getRootPath(cms, uri);
+          if (rootPath != null) {
+            String rfsName = OpenCms.getStaticExportManager().getProtectedExportName(rootPath);
+            if (rfsName != null) {
+              cms = OpenCms.initCmsObject(cms);
+              cms.getRequestContext().setSiteRoot("");
+              if (cms.existsResource(rootPath)) {
+                req.getRequestDispatcher(rfsName).forward(request, res);
                 return;
+              }
             }
-            try {
-                CmsObject cms = OpenCmsCore.getInstance().initCmsObject(request, (HttpServletResponse)res, false);
-                if (cms.getRequestContext().getCurrentProject().isOnlineProject()) {
-
-                    String rootPath = OpenCms.getLinkManager().getRootPath(cms, uri);
-                    if (rootPath != null) {
-                        String rfsName = OpenCms.getStaticExportManager().getProtectedExportName(rootPath);
-                        if (rfsName != null) {
-                            cms = OpenCms.initCmsObject(cms);
-                            cms.getRequestContext().setSiteRoot("");
-                            if (cms.existsResource(rootPath)) {
-                                req.getRequestDispatcher(rfsName).forward(request, res);
-                                return;
-                            }
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
+          }
         }
-        chain.doFilter(req, res);
+      } catch (Exception e) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
     }
+    chain.doFilter(req, res);
+  }
 
-    /**
-     * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
-     */
-    public void init(FilterConfig arg0) {
+  /** @see javax.servlet.Filter#init(javax.servlet.FilterConfig) */
+  public void init(FilterConfig arg0) {
 
-        // nothing to do
+    // nothing to do
+  }
+
+  /**
+   * Returns the protected export path prefix.
+   *
+   * <p>
+   *
+   * @return the path prefix
+   */
+  private String getPrefix() {
+
+    if (m_prefix == null) {
+      m_prefix =
+          OpenCms.getSystemInfo().getContextPath()
+              + "/"
+              + OpenCms.getStaticExportManager().getProtectedExportPath()
+              + "/";
     }
-
-    /**
-     * Returns the protected export path prefix.<p>
-     *
-     * @return the path prefix
-     */
-    private String getPrefix() {
-
-        if (m_prefix == null) {
-            m_prefix = OpenCms.getSystemInfo().getContextPath()
-                + "/"
-                + OpenCms.getStaticExportManager().getProtectedExportPath()
-                + "/";
-        }
-        return m_prefix;
-    }
+    return m_prefix;
+  }
 }

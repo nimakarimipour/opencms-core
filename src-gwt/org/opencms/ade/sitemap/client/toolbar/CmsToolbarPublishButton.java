@@ -27,6 +27,12 @@
 
 package org.opencms.ade.sitemap.client.toolbar;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.ui.PopupPanel;
+import java.util.HashMap;
 import org.opencms.ade.publish.client.CmsPublishDialog;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
 import org.opencms.gwt.client.ui.CmsPushButton;
@@ -35,73 +41,75 @@ import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
 import org.opencms.gwt.client.ui.I_CmsButton.Size;
 import org.opencms.gwt.client.ui.contenteditor.I_CmsContentEditorHandler;
 
-import java.util.HashMap;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.PopupPanel;
-
 /**
- * Sitemap toolbar publish button.<p>
+ * Sitemap toolbar publish button.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsToolbarPublishButton extends CmsPushButton {
 
-    /** The content editor handler. */
-    private I_CmsContentEditorHandler m_editorHandler;
+  /** The content editor handler. */
+  private I_CmsContentEditorHandler m_editorHandler;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param toolbar the toolbar instance
-     * @param controller the sitemap controller
-     */
-    public CmsToolbarPublishButton(final CmsSitemapToolbar toolbar, final CmsSitemapController controller) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param toolbar the toolbar instance
+   * @param controller the sitemap controller
+   */
+  public CmsToolbarPublishButton(
+      final CmsSitemapToolbar toolbar, final CmsSitemapController controller) {
 
-        m_editorHandler = toolbar.getToolbarHandler().getEditorHandler();
-        setImageClass(I_CmsButton.ButtonData.PUBLISH_BUTTON.getIconClass());
-        setTitle(I_CmsButton.ButtonData.PUBLISH_BUTTON.getTitle());
-        setButtonStyle(ButtonStyle.FONT_ICON, null);
-        setSize(Size.big);
+    m_editorHandler = toolbar.getToolbarHandler().getEditorHandler();
+    setImageClass(I_CmsButton.ButtonData.PUBLISH_BUTTON.getIconClass());
+    setTitle(I_CmsButton.ButtonData.PUBLISH_BUTTON.getTitle());
+    setButtonStyle(ButtonStyle.FONT_ICON, null);
+    setSize(Size.big);
 
-        addClickHandler(new ClickHandler() {
+    addClickHandler(
+        new ClickHandler() {
 
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          public void onClick(ClickEvent event) {
 
-                toolbar.onButtonActivation(CmsToolbarPublishButton.this);
-                setEnabled(false);
-                openPublish();
-            }
+            toolbar.onButtonActivation(CmsToolbarPublishButton.this);
+            setEnabled(false);
+            openPublish();
+          }
         });
-    }
+  }
 
-    /**
-     * Opens the publish dialog without changes check.<p>
-     */
-    protected void openPublish() {
+  /**
+   * Opens the publish dialog without changes check.
+   *
+   * <p>
+   */
+  protected void openPublish() {
 
-        CmsPublishDialog.showPublishDialog(new HashMap<String, String>(), new CloseHandler<PopupPanel>() {
+    CmsPublishDialog.showPublishDialog(
+        new HashMap<String, String>(),
+        new CloseHandler<PopupPanel>() {
 
-            /**
-             * @see com.google.gwt.event.logical.shared.CloseHandler#onClose(CloseEvent)
-             */
-            public void onClose(CloseEvent<PopupPanel> closeEvent) {
+          /** @see com.google.gwt.event.logical.shared.CloseHandler#onClose(CloseEvent) */
+          public void onClose(CloseEvent<PopupPanel> closeEvent) {
 
-                setEnabled(true);
-            }
-        }, new Runnable() {
+            setEnabled(true);
+          }
+        },
+        new Runnable() {
 
-            public void run() {
+          public void run() {
 
-                openPublish();
-            }
-
-        }, m_editorHandler);
-    }
+            openPublish();
+          }
+        },
+        m_editorHandler);
+  }
 }

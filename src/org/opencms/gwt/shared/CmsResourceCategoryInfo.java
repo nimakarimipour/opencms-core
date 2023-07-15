@@ -27,94 +27,106 @@
 
 package org.opencms.gwt.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+import java.util.List;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Category information for a specific resource.<p>
+ * Category information for a specific resource.
+ *
+ * <p>
  */
 public class CmsResourceCategoryInfo implements IsSerializable {
 
-    /** The category tree. */
-    private List<CmsCategoryTreeEntry> m_categoryTree;
+  /** The category tree. */
+  private List<CmsCategoryTreeEntry> m_categoryTree;
 
-    /** The current resource categories. */
-    private List<String> m_currentCategories;
+  /** The current resource categories. */
+  private List<String> m_currentCategories;
 
-    /** The resource info bean. */
-    private CmsListInfoBean m_resourceInfo;
+  /** The resource info bean. */
+  private CmsListInfoBean m_resourceInfo;
 
-    /** The resource structure id. */
-    private CmsUUID m_structureId;
+  /** The resource structure id. */
+  private CmsUUID m_structureId;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param structureId the resource structure id
-     * @param resourceInfo the resource info bean
-     * @param currentCategories the current resource categories
-     * @param categoryTree the category tree
-     */
-    public CmsResourceCategoryInfo(
-        CmsUUID structureId,
-        CmsListInfoBean resourceInfo,
-        List<String> currentCategories,
-        List<CmsCategoryTreeEntry> categoryTree) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param structureId the resource structure id
+   * @param resourceInfo the resource info bean
+   * @param currentCategories the current resource categories
+   * @param categoryTree the category tree
+   */
+  public CmsResourceCategoryInfo(
+      CmsUUID structureId,
+      CmsListInfoBean resourceInfo,
+      List<String> currentCategories,
+      List<CmsCategoryTreeEntry> categoryTree) {
 
-        m_structureId = structureId;
-        m_resourceInfo = resourceInfo;
-        m_currentCategories = currentCategories;
-        m_categoryTree = categoryTree;
-    }
+    m_structureId = structureId;
+    m_resourceInfo = resourceInfo;
+    m_currentCategories = currentCategories;
+    m_categoryTree = categoryTree;
+  }
 
-    /**
-     * Constructor, for serialization only.<p>
-     */
-    protected CmsResourceCategoryInfo() {
+  /**
+   * Constructor, for serialization only.
+   *
+   * <p>
+   */
+  protected CmsResourceCategoryInfo() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Returns the category tree.<p>
-     *
-     * @return the category tree
-     */
-    public List<CmsCategoryTreeEntry> getCategoryTree() {
+  /**
+   * Returns the category tree.
+   *
+   * <p>
+   *
+   * @return the category tree
+   */
+  public List<CmsCategoryTreeEntry> getCategoryTree() {
 
-        return m_categoryTree;
-    }
+    return m_categoryTree;
+  }
 
-    /**
-     * Returns the current resource categories.<p>
-     *
-     * @return the current resource categories
-     */
-    public List<String> getCurrentCategories() {
+  /**
+   * Returns the current resource categories.
+   *
+   * <p>
+   *
+   * @return the current resource categories
+   */
+  public List<String> getCurrentCategories() {
 
-        return m_currentCategories;
-    }
+    return m_currentCategories;
+  }
 
-    /**
-     * Returns the resource info bean.<p>
-     *
-     * @return the resource info bean
-     */
-    public CmsListInfoBean getResourceInfo() {
+  /**
+   * Returns the resource info bean.
+   *
+   * <p>
+   *
+   * @return the resource info bean
+   */
+  public CmsListInfoBean getResourceInfo() {
 
-        return m_resourceInfo;
-    }
+    return m_resourceInfo;
+  }
 
-    /**
-     * Returns the resource structure id.<p>
-     *
-     * @return the resource structure id
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Returns the resource structure id.
+   *
+   * <p>
+   *
+   * @return the resource structure id
+   */
+  public CmsUUID getStructureId() {
 
-        return m_structureId;
-    }
+    return m_structureId;
+  }
 }

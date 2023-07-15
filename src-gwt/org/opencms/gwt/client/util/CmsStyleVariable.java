@@ -30,58 +30,63 @@ package org.opencms.gwt.client.util;
 import com.google.gwt.user.client.ui.UIObject;
 
 /**
- * This is a helper class for changing GWT UIObjects' styles between a set of given values.<p>
+ * This is a helper class for changing GWT UIObjects' styles between a set of given values.
  *
- * Every time a new value is set, the previous value of the style variable will be removed
- * from all associated UI objects, and the new style name will be added.
+ * <p>Every time a new value is set, the previous value of the style variable will be removed from
+ * all associated UI objects, and the new style name will be added.
  *
  * @since 8.0.0
- *
  */
 public class CmsStyleVariable {
 
-    /** The ui objects associated with this style variable. */
-    private final UIObject[] m_uis;
+  /** The ui objects associated with this style variable. */
+  private final UIObject[] m_uis;
 
-    /** The current style value. */
-    private String m_style;
+  /** The current style value. */
+  private String m_style;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param uis the list of UI objects to associate with this style variable
-     */
-    public CmsStyleVariable(UIObject... uis) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param uis the list of UI objects to associate with this style variable
+   */
+  public CmsStyleVariable(UIObject... uis) {
 
-        m_uis = uis;
+    m_uis = uis;
+  }
+
+  /**
+   * Returns the current style value.
+   *
+   * <p>
+   *
+   * @return the current style value, or <code>null</code> if non is set
+   */
+  public String getValue() {
+
+    return m_style;
+  }
+
+  /**
+   * Removes the previous value of the style variable from all associated ui objects and adds the
+   * new value as a style name to all of them.
+   *
+   * <p>
+   *
+   * @param newStyle the new style name
+   */
+  public void setValue(String newStyle) {
+
+    for (UIObject ui : m_uis) {
+      if (m_style != null) {
+        ui.removeStyleName(m_style);
+      }
+      if (newStyle != null) {
+        ui.addStyleName(newStyle);
+      }
     }
-
-    /**
-     * Returns the current style value.<p>
-     *
-     * @return the current style value, or <code>null</code> if non is set
-     */
-    public String getValue() {
-
-        return m_style;
-    }
-
-    /**
-     * Removes the previous value of the style variable from all associated ui objects
-     * and adds the new value as a style name to all of them.<p>
-     *
-     * @param newStyle the new style name
-     */
-    public void setValue(String newStyle) {
-
-        for (UIObject ui : m_uis) {
-            if (m_style != null) {
-                ui.removeStyleName(m_style);
-            }
-            if (newStyle != null) {
-                ui.addStyleName(newStyle);
-            }
-        }
-        m_style = newStyle;
-    }
+    m_style = newStyle;
+  }
 }

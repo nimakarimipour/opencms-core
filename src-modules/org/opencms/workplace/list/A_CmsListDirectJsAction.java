@@ -27,56 +27,61 @@
 
 package org.opencms.workplace.list;
 
-import org.opencms.util.CmsStringUtil;
-
 import java.text.MessageFormat;
 import java.util.Locale;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * Default implementation of a direct action for a html list column that can execute java script code.<p>
+ * Default implementation of a direct action for a html list column that can execute java script
+ * code.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public abstract class A_CmsListDirectJsAction extends CmsListDirectAction {
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id unique id
-     */
-    public A_CmsListDirectJsAction(String id) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id unique id
+   */
+  public A_CmsListDirectJsAction(String id) {
 
-        super(id);
+    super(id);
+  }
+
+  /** @see org.opencms.workplace.list.CmsListDirectAction#resolveOnClic(java.util.Locale) */
+  @Override
+  protected String resolveOnClic(Locale locale) {
+
+    String confirmationMessage = getConfirmationMessage().key(locale);
+    if ((getColumnForTexts() != null) && (getItem().get(getColumnForTexts()) != null)) {
+      confirmationMessage =
+          new MessageFormat(confirmationMessage, locale)
+              .format(new Object[] {getItem().get(getColumnForTexts())});
     }
-
-    /**
-     * @see org.opencms.workplace.list.CmsListDirectAction#resolveOnClic(java.util.Locale)
-     */
-    @Override
-    protected String resolveOnClic(Locale locale) {
-
-        String confirmationMessage = getConfirmationMessage().key(locale);
-        if ((getColumnForTexts() != null) && (getItem().get(getColumnForTexts()) != null)) {
-            confirmationMessage = new MessageFormat(confirmationMessage, locale).format(
-                new Object[] {getItem().get(getColumnForTexts())});
-        }
-        StringBuffer onClic = new StringBuffer(128);
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(confirmationMessage)) {
-            onClic.append("if (confirm('");
-            onClic.append(confirmationMessage);
-            onClic.append("')) { ");
-        }
-        onClic.append(jsCode());
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(confirmationMessage)) {
-            onClic.append(" } ");
-        }
-        return onClic.toString();
+    StringBuffer onClic = new StringBuffer(128);
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(confirmationMessage)) {
+      onClic.append("if (confirm('");
+      onClic.append(confirmationMessage);
+      onClic.append("')) { ");
     }
+    onClic.append(jsCode());
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(confirmationMessage)) {
+      onClic.append(" } ");
+    }
+    return onClic.toString();
+  }
 
-    /**
-     * The js code to execute.<p>
-     *
-     * @return js code to execute
-     */
-    public abstract String jsCode();
+  /**
+   * The js code to execute.
+   *
+   * <p>
+   *
+   * @return js code to execute
+   */
+  public abstract String jsCode();
 }

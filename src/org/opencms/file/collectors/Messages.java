@@ -31,79 +31,91 @@ import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
 
 /**
- * Convenience class to access the localized messages of this OpenCms package.<p>
+ * Convenience class to access the localized messages of this OpenCms package.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public final class Messages extends A_CmsMessageBundle {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_DEFAULTS_INVALID_2 = "ERR_COLLECTOR_DEFAULTS_INVALID_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_COLLECTOR_DEFAULTS_INVALID_2 = "ERR_COLLECTOR_DEFAULTS_INVALID_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_NAME_INVALID_1 = "ERR_COLLECTOR_NAME_INVALID_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_COLLECTOR_NAME_INVALID_1 = "ERR_COLLECTOR_NAME_INVALID_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_PARAM_DATE_FORMAT_SYNTAX_0 = "ERR_COLLECTOR_PARAM_DATE_FORMAT_SYNTAX_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_COLLECTOR_PARAM_DATE_FORMAT_SYNTAX_0 =
+      "ERR_COLLECTOR_PARAM_DATE_FORMAT_SYNTAX_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_PARAM_EMPTY_0 = "ERR_COLLECTOR_PARAM_EMPTY_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_COLLECTOR_PARAM_EMPTY_0 = "ERR_COLLECTOR_PARAM_EMPTY_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_PARAM_INVALID_1 = "ERR_COLLECTOR_PARAM_INVALID_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_COLLECTOR_PARAM_INVALID_1 = "ERR_COLLECTOR_PARAM_INVALID_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_PARAM_KEY_VALUE_SYNTAX_1 = "ERR_COLLECTOR_PARAM_KEY_VALUE_SYNTAX_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_COLLECTOR_PARAM_KEY_VALUE_SYNTAX_1 =
+      "ERR_COLLECTOR_PARAM_KEY_VALUE_SYNTAX_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_PARAM_PROPERTY_NOT_FOUND_1 = "ERR_COLLECTOR_PARAM_PROPERTY_NOT_FOUND_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_COLLECTOR_PARAM_PROPERTY_NOT_FOUND_1 =
+      "ERR_COLLECTOR_PARAM_PROPERTY_NOT_FOUND_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_PARAM_SINGLE_FILE_0 = "ERR_COLLECTOR_PARAM_SINGLE_FILE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_COLLECTOR_PARAM_SINGLE_FILE_0 =
+      "ERR_COLLECTOR_PARAM_SINGLE_FILE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_PARAM_USER_1 = "ERR_COLLECTOR_PARAM_USER_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_COLLECTOR_PARAM_USER_1 = "ERR_COLLECTOR_PARAM_USER_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNKNOWN_RESTYPE_1 = "ERR_UNKNOWN_RESTYPE_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_UNKNOWN_RESTYPE_1 = "ERR_UNKNOWN_RESTYPE_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_RESOURCE_WITHOUT_NAVPROP_1 = "LOG_RESOURCE_WITHOUT_NAVPROP_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_RESOURCE_WITHOUT_NAVPROP_1 = "LOG_RESOURCE_WITHOUT_NAVPROP_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_RESTYPE_INTID_2 = "LOG_RESTYPE_INTID_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_RESTYPE_INTID_2 = "LOG_RESTYPE_INTID_2";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.file.collectors.messages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME = "org.opencms.file.collectors.messages";
 
-    /** Static instance member. */
-    private static final I_CmsMessageBundle INSTANCE = new Messages();
+  /** Static instance member. */
+  private static final I_CmsMessageBundle INSTANCE = new Messages();
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
-    }
+    // hide the constructor
+  }
 
-    /**
-     * Returns an instance of this localized message accessor.<p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static I_CmsMessageBundle get() {
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static I_CmsMessageBundle get() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the bundle name for this OpenCms package.<p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
 
-        return BUNDLE_NAME;
-    }
+    return BUNDLE_NAME;
+  }
 }

@@ -27,77 +27,84 @@
 
 package org.opencms.db;
 
+import java.sql.Statement;
+import org.apache.commons.logging.Log;
 import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 
-import java.sql.Statement;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Used to signal sql related issues.<p>
+ * Used to signal sql related issues.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDbSqlException extends CmsDbException {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsDriverManager.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsDriverManager.class);
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -286617872967617367L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -286617872967617367L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsDbSqlException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsDbSqlException(CmsMessageContainer container) {
 
-        super(container);
-        // log all sql exceptions
-        if (LOG.isErrorEnabled()) {
-            LOG.error(container.key(), this);
-        }
+    super(container);
+    // log all sql exceptions
+    if (LOG.isErrorEnabled()) {
+      LOG.error(container.key(), this);
     }
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsDbSqlException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsDbSqlException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-        // log all sql exceptions
-        if (LOG.isWarnEnabled()) {
-            LOG.warn(container.key(), this);
-        }
+    super(container, cause);
+    // log all sql exceptions
+    if (LOG.isWarnEnabled()) {
+      LOG.warn(container.key(), this);
     }
+  }
 
-    /**
-     * Returns the query that let the statement crash.<p>
-     *
-     * @param stmt the Statement to get the crashed query from
-     * @return the crashed query
-     */
-    public static String getErrorQuery(Statement stmt) {
+  /**
+   * Returns the query that let the statement crash.
+   *
+   * <p>
+   *
+   * @param stmt the Statement to get the crashed query from
+   * @return the crashed query
+   */
+  public static String getErrorQuery(Statement stmt) {
 
-        if (stmt != null) {
-            // the query that crashed
-            return stmt.toString();
-        }
-        return "";
+    if (stmt != null) {
+      // the query that crashed
+      return stmt.toString();
     }
+    return "";
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsDbSqlException(container, cause);
-    }
+    return new CmsDbSqlException(container, cause);
+  }
 }

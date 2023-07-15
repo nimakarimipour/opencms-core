@@ -27,119 +27,130 @@
 
 package org.opencms.file;
 
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.main.OpenCms;
 import org.opencms.security.I_CmsPrincipal;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Unit tests for resource availability operations.<p>
+ * Unit tests for resource availability operations.
+ *
+ * <p>
  */
 public class TestExists extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestExists(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestExists(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestExists.class.getName());
+    TestSuite suite = new TestSuite();
+    suite.setName(TestExists.class.getName());
 
-        suite.addTest(new TestExists("testExistsForExistingFile"));
-        suite.addTest(new TestExists("testExistsForUnexistingFile"));
-        suite.addTest(new TestExists("testExistsForUnauthorizedFile"));
+    suite.addTest(new TestExists("testExistsForExistingFile"));
+    suite.addTest(new TestExists("testExistsForUnexistingFile"));
+    suite.addTest(new TestExists("testExistsForUnauthorizedFile"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
-    }
+    return wrapper;
+  }
 
-    /**
-     * Tests the availability of a file that exists and with proper permissions.<p>
-     *
-     * @throws Throwable if something goes wrong
-     */
-    public void testExistsForExistingFile() throws Throwable {
+  /**
+   * Tests the availability of a file that exists and with proper permissions.
+   *
+   * <p>
+   *
+   * @throws Throwable if something goes wrong
+   */
+  public void testExistsForExistingFile() throws Throwable {
 
-        CmsObject cms = getCmsObject();
-        echo("Testing the availability of a file that exists and with proper permissions");
-        String filename = "index.html";
+    CmsObject cms = getCmsObject();
+    echo("Testing the availability of a file that exists and with proper permissions");
+    String filename = "index.html";
 
-        assertEquals(true, cms.existsResource(filename));
-    }
+    assertEquals(true, cms.existsResource(filename));
+  }
 
-    /**
-     * Tests the availability of a file that does not exist.<p>
-     *
-     * @throws Throwable if something goes wrong
-     */
-    public void testExistsForUnexistingFile() throws Throwable {
+  /**
+   * Tests the availability of a file that does not exist.
+   *
+   * <p>
+   *
+   * @throws Throwable if something goes wrong
+   */
+  public void testExistsForUnexistingFile() throws Throwable {
 
-        CmsObject cms = getCmsObject();
-        echo("Testing the availability of a file that does not exist");
-        String filename = "xxx.yyy";
+    CmsObject cms = getCmsObject();
+    echo("Testing the availability of a file that does not exist");
+    String filename = "xxx.yyy";
 
-        assertEquals(false, cms.existsResource(filename));
-    }
+    assertEquals(false, cms.existsResource(filename));
+  }
 
-    /**
-     * Tests the availability of a file that exists but with not enough permissions.<p>
-     *
-     * @throws Throwable if something goes wrong
-     */
-    public void testExistsForUnauthorizedFile() throws Throwable {
+  /**
+   * Tests the availability of a file that exists but with not enough permissions.
+   *
+   * <p>
+   *
+   * @throws Throwable if something goes wrong
+   */
+  public void testExistsForUnauthorizedFile() throws Throwable {
 
-        CmsObject cms = getCmsObject();
+    CmsObject cms = getCmsObject();
 
-        echo("Testing the availability of a file that exists but with not enough permissions");
+    echo("Testing the availability of a file that exists but with not enough permissions");
 
-        cms.createGroup("Testgroup", "A test group", 0, null);
-        CmsGroup testGroup = cms.readGroup("Testgroup");
-        cms.createUser("testuser", "test", "A test user", null);
-        CmsUser testUser = cms.readUser("testuser");
+    cms.createGroup("Testgroup", "A test group", 0, null);
+    CmsGroup testGroup = cms.readGroup("Testgroup");
+    cms.createUser("testuser", "test", "A test user", null);
+    CmsUser testUser = cms.readUser("testuser");
 
-        String resName = "index.html";
+    String resName = "index.html";
 
-        cms.lockResource(resName);
-        cms.chacc(resName, I_CmsPrincipal.PRINCIPAL_GROUP, testGroup.getName(), "-r-w-v-c-i");
-        cms.chacc(resName, I_CmsPrincipal.PRINCIPAL_USER, testUser.getName(), "-r-w-v-c-i");
-        cms.unlockResource(resName);
-        OpenCms.getPublishManager().publishProject(cms);
-        OpenCms.getPublishManager().waitWhileRunning();
+    cms.lockResource(resName);
+    cms.chacc(resName, I_CmsPrincipal.PRINCIPAL_GROUP, testGroup.getName(), "-r-w-v-c-i");
+    cms.chacc(resName, I_CmsPrincipal.PRINCIPAL_USER, testUser.getName(), "-r-w-v-c-i");
+    cms.unlockResource(resName);
+    OpenCms.getPublishManager().publishProject(cms);
+    OpenCms.getPublishManager().waitWhileRunning();
 
-        cms.loginUser("testuser", "test");
-        assertEquals(false, cms.existsResource(resName));
-    }
-
+    cms.loginUser("testuser", "test");
+    assertEquals(false, cms.existsResource(resName));
+  }
 }

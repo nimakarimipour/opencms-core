@@ -27,6 +27,8 @@
 
 package org.opencms.ui.apps.projects;
 
+import com.vaadin.server.Resource;
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.main.OpenCms;
 import org.opencms.security.CmsRole;
@@ -37,88 +39,75 @@ import org.opencms.ui.apps.CmsWorkplaceAppManager;
 import org.opencms.ui.apps.I_CmsWorkplaceApp;
 import org.opencms.ui.apps.Messages;
 
-import java.util.Locale;
-
-import com.vaadin.server.Resource;
-
 /**
- * The project overview app configuration. Available for workplace users that do not have the project manager role.<p>
+ * The project overview app configuration. Available for workplace users that do not have the
+ * project manager role.
+ *
+ * <p>
  */
 public class CmsProjectOverviewConfiguration extends A_CmsWorkplaceAppConfiguration {
 
-    /** The app id. */
-    public static final String APP_ID = "project-overview";
+  /** The app id. */
+  public static final String APP_ID = "project-overview";
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppCategory()
-     */
-    @Override
-    public String getAppCategory() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppCategory() */
+  @Override
+  public String getAppCategory() {
 
-        return CmsWorkplaceAppManager.ADMINISTRATION_CATEGORY_ID;
-    }
+    return CmsWorkplaceAppManager.ADMINISTRATION_CATEGORY_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance()
-     */
-    public I_CmsWorkplaceApp getAppInstance() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance() */
+  public I_CmsWorkplaceApp getAppInstance() {
 
-        return new CmsProjectManager();
-    }
+    return new CmsProjectManager();
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
-     */
-    @Override
-    public String getHelpText(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale) */
+  @Override
+  public String getHelpText(Locale locale) {
 
-        return Messages.get().getBundle(locale).key(Messages.GUI_PROJECTS_OVERVIEW_HELP_0);
-    }
+    return Messages.get().getBundle(locale).key(Messages.GUI_PROJECTS_OVERVIEW_HELP_0);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon()
-     */
-    public Resource getIcon() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon() */
+  public Resource getIcon() {
 
-        return FontOpenCms.PROJECT;
-    }
+    return FontOpenCms.PROJECT;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId() */
+  public String getId() {
 
-        return APP_ID;
-    }
+    return APP_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
-     */
-    @Override
-    public String getName(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
+  @Override
+  public String getName(Locale locale) {
 
-        return Messages.get().getBundle(locale).key(Messages.GUI_PROJECTS_OVERVIEW_TITLE_0);
-    }
+    return Messages.get().getBundle(locale).key(Messages.GUI_PROJECTS_OVERVIEW_TITLE_0);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getOrder()
-     */
-    @Override
-    public int getOrder() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getOrder() */
+  @Override
+  public int getOrder() {
 
-        return 5;
-    }
+    return 5;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getVisibility(org.opencms.file.CmsObject)
-     */
-    @Override
-    public CmsAppVisibilityStatus getVisibility(CmsObject cms) {
+  /**
+   * @see
+   *     org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getVisibility(org.opencms.file.CmsObject)
+   */
+  @Override
+  public CmsAppVisibilityStatus getVisibility(CmsObject cms) {
 
-        CmsAppVisibilityStatus status = !OpenCms.getRoleManager().hasRole(cms, CmsRole.PROJECT_MANAGER)
-            && OpenCms.getRoleManager().hasRole(cms, CmsRole.WORKPLACE_USER)
+    CmsAppVisibilityStatus status =
+        !OpenCms.getRoleManager().hasRole(cms, CmsRole.PROJECT_MANAGER)
+                && OpenCms.getRoleManager().hasRole(cms, CmsRole.WORKPLACE_USER)
             ? CmsAppVisibilityStatus.ACTIVE
             : CmsAppVisibilityStatus.INVISIBLE;
-        return status;
-    }
+    return status;
+  }
 }

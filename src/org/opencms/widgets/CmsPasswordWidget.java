@@ -27,6 +27,8 @@
 
 package org.opencms.widgets;
 
+import java.util.List;
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.i18n.CmsEncoder;
@@ -34,126 +36,121 @@ import org.opencms.i18n.CmsMessages;
 import org.opencms.xml.content.I_CmsXmlContentHandler.DisplayType;
 import org.opencms.xml.types.A_CmsXmlContentValue;
 
-import java.util.List;
-import java.util.Locale;
-
 /**
- * Provides a standard HTML form password widget, for use on a widget dialog.<p>
+ * Provides a standard HTML form password widget, for use on a widget dialog.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsPasswordWidget extends A_CmsWidget implements I_CmsADEWidget {
 
-    /**
-     * Creates a new password widget.<p>
-     */
-    public CmsPasswordWidget() {
+  /**
+   * Creates a new password widget.
+   *
+   * <p>
+   */
+  public CmsPasswordWidget() {
 
-        // empty constructor is required for class registration
-        this("");
+    // empty constructor is required for class registration
+    this("");
+  }
+
+  /**
+   * Creates a new password widget with the given configuration.
+   *
+   * <p>
+   *
+   * @param configuration the configuration to use
+   */
+  public CmsPasswordWidget(String configuration) {
+
+    super(configuration);
+  }
+
+  /**
+   * @see org.opencms.widgets.I_CmsADEWidget#getConfiguration(org.opencms.file.CmsObject,
+   *     org.opencms.xml.types.A_CmsXmlContentValue, org.opencms.i18n.CmsMessages,
+   *     org.opencms.file.CmsResource, java.util.Locale)
+   */
+  public String getConfiguration(
+      CmsObject cms,
+      A_CmsXmlContentValue schemaType,
+      CmsMessages messages,
+      CmsResource resource,
+      Locale contentLocale) {
+
+    return getConfiguration();
+  }
+
+  /** @see org.opencms.widgets.I_CmsADEWidget#getDefaultDisplayType() */
+  public DisplayType getDefaultDisplayType() {
+
+    return DisplayType.singleline;
+  }
+
+  /** @see org.opencms.widgets.I_CmsADEWidget#getCssResourceLinks(org.opencms.file.CmsObject) */
+  public List<String> getCssResourceLinks(CmsObject cms) {
+
+    return null;
+  }
+
+  /**
+   * @see org.opencms.widgets.I_CmsWidget#getDialogWidget(org.opencms.file.CmsObject,
+   *     org.opencms.widgets.I_CmsWidgetDialog, org.opencms.widgets.I_CmsWidgetParameter)
+   */
+  public String getDialogWidget(
+      CmsObject cms, I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
+
+    String id = param.getId();
+
+    StringBuffer result = new StringBuffer(16);
+
+    result.append("<td class=\"xmlTd\"><input type=\"password\" class=\"xmlInput textInput");
+    if (param.hasError()) {
+      result.append(" xmlInputError");
     }
+    result.append("\" name=\"");
+    result.append(id);
+    result.append("\" id=\"");
+    result.append(id);
+    result.append("\" value=\"");
+    result.append(CmsEncoder.escapeXml(param.getStringValue(cms)));
+    result.append("\">");
+    result.append("</td>");
 
-    /**
-     * Creates a new password widget with the given configuration.<p>
-     *
-     * @param configuration the configuration to use
-     */
-    public CmsPasswordWidget(String configuration) {
+    return result.toString();
+  }
 
-        super(configuration);
-    }
+  /** @see org.opencms.widgets.I_CmsADEWidget#getInitCall() */
+  public String getInitCall() {
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getConfiguration(org.opencms.file.CmsObject, org.opencms.xml.types.A_CmsXmlContentValue, org.opencms.i18n.CmsMessages, org.opencms.file.CmsResource, java.util.Locale)
-     */
-    public String getConfiguration(
-        CmsObject cms,
-        A_CmsXmlContentValue schemaType,
-        CmsMessages messages,
-        CmsResource resource,
-        Locale contentLocale) {
+    return null;
+  }
 
-        return getConfiguration();
-    }
+  /**
+   * @see org.opencms.widgets.I_CmsADEWidget#getJavaScriptResourceLinks(org.opencms.file.CmsObject)
+   */
+  public List<String> getJavaScriptResourceLinks(CmsObject cms) {
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getDefaultDisplayType()
-     */
-    public DisplayType getDefaultDisplayType() {
+    return null;
+  }
 
-        return DisplayType.singleline;
-    }
+  /** @see org.opencms.widgets.I_CmsADEWidget#getWidgetName() */
+  public String getWidgetName() {
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getCssResourceLinks(org.opencms.file.CmsObject)
-     */
-    public List<String> getCssResourceLinks(CmsObject cms) {
+    return CmsPasswordWidget.class.getName();
+  }
 
-        return null;
-    }
+  /** @see org.opencms.widgets.I_CmsADEWidget#isInternal() */
+  public boolean isInternal() {
 
-    /**
-     * @see org.opencms.widgets.I_CmsWidget#getDialogWidget(org.opencms.file.CmsObject, org.opencms.widgets.I_CmsWidgetDialog, org.opencms.widgets.I_CmsWidgetParameter)
-     */
-    public String getDialogWidget(CmsObject cms, I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
+    return true;
+  }
 
-        String id = param.getId();
+  /** @see org.opencms.widgets.I_CmsWidget#newInstance() */
+  public I_CmsWidget newInstance() {
 
-        StringBuffer result = new StringBuffer(16);
-
-        result.append("<td class=\"xmlTd\"><input type=\"password\" class=\"xmlInput textInput");
-        if (param.hasError()) {
-            result.append(" xmlInputError");
-        }
-        result.append("\" name=\"");
-        result.append(id);
-        result.append("\" id=\"");
-        result.append(id);
-        result.append("\" value=\"");
-        result.append(CmsEncoder.escapeXml(param.getStringValue(cms)));
-        result.append("\">");
-        result.append("</td>");
-
-        return result.toString();
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getInitCall()
-     */
-    public String getInitCall() {
-
-        return null;
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getJavaScriptResourceLinks(org.opencms.file.CmsObject)
-     */
-    public List<String> getJavaScriptResourceLinks(CmsObject cms) {
-
-        return null;
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
-     */
-    public String getWidgetName() {
-
-        return CmsPasswordWidget.class.getName();
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#isInternal()
-     */
-    public boolean isInternal() {
-
-        return true;
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsWidget#newInstance()
-     */
-    public I_CmsWidget newInstance() {
-
-        return new CmsPasswordWidget(getConfiguration());
-    }
+    return new CmsPasswordWidget(getConfiguration());
+  }
 }

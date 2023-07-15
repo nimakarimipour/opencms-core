@@ -27,50 +27,55 @@
 
 package org.opencms.ui.components.extensions;
 
-import org.opencms.ui.shared.components.CmsHistoryState;
-
 import com.vaadin.server.AbstractExtension;
 import com.vaadin.ui.UI;
+import org.opencms.ui.shared.components.CmsHistoryState;
 
 /**
- * Extension to allow clientside history back and forward.<p>
+ * Extension to allow clientside history back and forward.
+ *
+ * <p>
  */
 public class CmsHistoryExtension extends AbstractExtension {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -1461819527273730247L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -1461819527273730247L;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param ui the UI to extend
-     */
-    public CmsHistoryExtension(UI ui) {
-        extend(ui);
-    }
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param ui the UI to extend
+   */
+  public CmsHistoryExtension(UI ui) {
+    extend(ui);
+  }
 
-    /**
-     * Triggers a history back.<p>
-     */
-    public void historyBack() {
+  /**
+   * Triggers a history back.
+   *
+   * <p>
+   */
+  public void historyBack() {
 
-        getState().setHistoryDirection(CmsHistoryState.HISTORY_BACK);
-    }
+    getState().setHistoryDirection(CmsHistoryState.HISTORY_BACK);
+  }
 
-    /**
-     * Triggers a history forward.<p>
-     */
-    public void historyForward() {
+  /**
+   * Triggers a history forward.
+   *
+   * <p>
+   */
+  public void historyForward() {
 
-        getState().setHistoryDirection(CmsHistoryState.HISTORY_FORWARD);
-    }
+    getState().setHistoryDirection(CmsHistoryState.HISTORY_FORWARD);
+  }
 
-    /**
-     * @see com.vaadin.server.AbstractClientConnector#getState()
-     */
-    @Override
-    protected CmsHistoryState getState() {
+  /** @see com.vaadin.server.AbstractClientConnector#getState() */
+  @Override
+  protected CmsHistoryState getState() {
 
-        return (CmsHistoryState)super.getState();
-    }
+    return (CmsHistoryState) super.getState();
+  }
 }

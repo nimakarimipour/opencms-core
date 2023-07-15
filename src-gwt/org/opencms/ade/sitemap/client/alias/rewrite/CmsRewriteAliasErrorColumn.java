@@ -27,83 +27,89 @@
 
 package org.opencms.ade.sitemap.client.alias.rewrite;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Ordering;
+import com.google.gwt.cell.client.SafeHtmlCell;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import java.util.Comparator;
 import org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn;
 import org.opencms.ade.sitemap.client.alias.CmsAliasMessages;
 import org.opencms.ade.sitemap.client.alias.CmsCellTableUtil;
 import org.opencms.gwt.client.ui.css.I_CmsCellTableResources;
 import org.opencms.gwt.shared.alias.CmsRewriteAliasTableRow;
 
-import java.util.Comparator;
-
-import com.google.common.base.Function;
-import com.google.common.collect.Ordering;
-import com.google.gwt.cell.client.SafeHtmlCell;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
-
 /**
- * Column for displaying errors in the rewrite table.<p>
+ * Column for displaying errors in the rewrite table.
+ *
+ * <p>
  */
 public class CmsRewriteAliasErrorColumn
-extends A_CmsAliasTableColumn<CmsRewriteAliasTableRow, SafeHtml, CmsRewriteAliasTable> {
+    extends A_CmsAliasTableColumn<CmsRewriteAliasTableRow, SafeHtml, CmsRewriteAliasTable> {
 
-    /** Comparator used for sorting this column. */
-    private static Comparator<CmsRewriteAliasTableRow> comparator = Ordering.natural().onResultOf(
-        new Function<CmsRewriteAliasTableRow, String>() {
+  /** Comparator used for sorting this column. */
+  private static Comparator<CmsRewriteAliasTableRow> comparator =
+      Ordering.natural()
+          .onResultOf(
+              new Function<CmsRewriteAliasTableRow, String>() {
 
-            public String apply(CmsRewriteAliasTableRow row) {
+                public String apply(CmsRewriteAliasTableRow row) {
 
-                return row.getError() == null ? "" : row.getError();
-            }
-        });
+                  return row.getError() == null ? "" : row.getError();
+                }
+              });
 
-    /**
-     * Creates a new column instance.<p>
-     */
-    public CmsRewriteAliasErrorColumn() {
+  /**
+   * Creates a new column instance.
+   *
+   * <p>
+   */
+  public CmsRewriteAliasErrorColumn() {
 
-        super(new SafeHtmlCell());
-        setSortable(true);
+    super(new SafeHtmlCell());
+    setSortable(true);
+  }
+
+  /**
+   * @see
+   *     org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn#addToTable(com.google.gwt.user.cellview.client.CellTable)
+   */
+  @Override
+  public void addToTable(CmsRewriteAliasTable table) {
+
+    table.addColumn(this, CmsAliasMessages.messageColumnError());
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.user.cellview.client.Column#getCellStyleNames(com.google.gwt.cell.client.Cell.Context,
+   *     java.lang.Object)
+   */
+  @Override
+  public String getCellStyleNames(
+      com.google.gwt.cell.client.Cell.Context context, CmsRewriteAliasTableRow object) {
+
+    String result = super.getCellStyleNames(context, object);
+    if (object.getError() != null) {
+      result += " " + I_CmsCellTableResources.INSTANCE.cellTableStyle().cmsCellError();
     }
+    return result;
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn#addToTable(com.google.gwt.user.cellview.client.CellTable)
-     */
-    @Override
-    public void addToTable(CmsRewriteAliasTable table) {
+  /** @see com.google.gwt.user.cellview.client.Column#getValue(java.lang.Object) */
+  @Override
+  public SafeHtml getValue(CmsRewriteAliasTableRow object) {
 
-        table.addColumn(this, CmsAliasMessages.messageColumnError());
-    }
+    return CmsCellTableUtil.formatErrorHtml(object.getError());
+  }
 
-    /**
-     * @see com.google.gwt.user.cellview.client.Column#getCellStyleNames(com.google.gwt.cell.client.Cell.Context, java.lang.Object)
-     */
-    @Override
-    public String getCellStyleNames(com.google.gwt.cell.client.Cell.Context context, CmsRewriteAliasTableRow object) {
+  /**
+   * @see
+   *     org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn#initSortHandler(com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler)
+   */
+  @Override
+  public void initSortHandler(ListHandler<CmsRewriteAliasTableRow> sortHandler) {
 
-        String result = super.getCellStyleNames(context, object);
-        if (object.getError() != null) {
-            result += " " + I_CmsCellTableResources.INSTANCE.cellTableStyle().cmsCellError();
-        }
-        return result;
-    }
-
-    /**
-     * @see com.google.gwt.user.cellview.client.Column#getValue(java.lang.Object)
-     */
-    @Override
-    public SafeHtml getValue(CmsRewriteAliasTableRow object) {
-
-        return CmsCellTableUtil.formatErrorHtml(object.getError());
-    }
-
-    /**
-     * @see org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn#initSortHandler(com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler)
-     */
-    @Override
-    public void initSortHandler(ListHandler<CmsRewriteAliasTableRow> sortHandler) {
-
-        sortHandler.setComparator(this, comparator);
-    }
-
+    sortHandler.setComparator(this, comparator);
+  }
 }

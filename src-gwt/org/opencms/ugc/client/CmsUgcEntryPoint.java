@@ -27,44 +27,45 @@
 
 package org.opencms.ugc.client;
 
+import com.google.gwt.core.client.EntryPoint;
 import org.opencms.ugc.client.export.CmsXmlContentUgcApi;
-
 import org.timepedia.exporter.client.ExporterUtil;
 
-import com.google.gwt.core.client.EntryPoint;
-
 /**
- * Entry point for client-side form handling code for user-generated content module.<p>
+ * Entry point for client-side form handling code for user-generated content module.
+ *
+ * <p>
  */
 public class CmsUgcEntryPoint implements EntryPoint {
 
-    /**
-     * Exports the API objects as native Javascript objects.<p>
-     *
-     * @param api the API to expose as Javascript object
-     */
-    public native void installJavascriptApi(CmsXmlContentUgcApi api) /*-{
+  /**
+   * Exports the API objects as native Javascript objects.
+   *
+   * <p>
+   *
+   * @param api the API to expose as Javascript object
+   */
+  public native void installJavascriptApi(CmsXmlContentUgcApi api) /*-{
                                                                      $wnd.OpenCmsUgc = new $wnd.opencmsugc.CmsXmlContentUgcApi(api);
                                                                      }-*/;
 
-    /**
-     * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
-     */
-    public void onModuleLoad() {
+  /** @see com.google.gwt.core.client.EntryPoint#onModuleLoad() */
+  public void onModuleLoad() {
 
-        ExporterUtil.exportAll();
-        CmsXmlContentUgcApi api = new CmsXmlContentUgcApi();
-        installJavascriptApi(api);
-        callInitFunction();
-    }
+    ExporterUtil.exportAll();
+    CmsXmlContentUgcApi api = new CmsXmlContentUgcApi();
+    installJavascriptApi(api);
+    callInitFunction();
+  }
 
-    /**
-     * Calls the init form method after the API has been exported.<p>
-     */
-    private native void callInitFunction() /*-{
+  /**
+   * Calls the init form method after the API has been exported.
+   *
+   * <p>
+   */
+  private native void callInitFunction() /*-{
                                            if ($wnd.initUgc != undefined && typeof $wnd.initUgc == 'function') {
                                            $wnd.initUgc();
                                            }
                                            }-*/;
-
 }

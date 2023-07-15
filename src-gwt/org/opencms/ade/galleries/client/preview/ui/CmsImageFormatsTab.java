@@ -27,6 +27,8 @@
 
 package org.opencms.ade.galleries.client.preview.ui;
 
+import com.google.gwt.user.client.ui.FlowPanel;
+import java.util.Map;
 import org.opencms.ade.galleries.client.preview.CmsImageFormatHandler;
 import org.opencms.ade.galleries.client.preview.CmsImagePreviewHandler;
 import org.opencms.ade.galleries.client.preview.I_CmsPreviewHandler;
@@ -35,79 +37,80 @@ import org.opencms.ade.galleries.shared.CmsImageInfoBean;
 import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryMode;
 import org.opencms.gwt.client.CmsCoreProvider;
 
-import java.util.Map;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-
 /**
- * The widget to display the format information of the selected image.<p>
+ * The widget to display the format information of the selected image.
+ *
+ * <p>
  *
  * @since 8.0.
  */
 public class CmsImageFormatsTab extends A_CmsPreviewDetailTab {
 
-    /** The content panel. */
-    private FlowPanel m_content;
+  /** The content panel. */
+  private FlowPanel m_content;
 
-    /** The preview handler. */
-    private CmsImagePreviewHandler m_handler;
+  /** The preview handler. */
+  private CmsImagePreviewHandler m_handler;
 
-    /**
-     * The constructor.<p>
-     *
-     * @param dialogMode the mode of the gallery
-     * @param height the height of the tab
-     * @param width the width of the height
-     * @param handler the preview handler
-     * @param formats the map with format values for the select box
-     */
-    public CmsImageFormatsTab(
-        GalleryMode dialogMode,
-        int height,
-        int width,
-        CmsImagePreviewHandler handler,
-        Map<String, String> formats) {
+  /**
+   * The constructor.
+   *
+   * <p>
+   *
+   * @param dialogMode the mode of the gallery
+   * @param height the height of the tab
+   * @param width the width of the height
+   * @param handler the preview handler
+   * @param formats the map with format values for the select box
+   */
+  public CmsImageFormatsTab(
+      GalleryMode dialogMode,
+      int height,
+      int width,
+      CmsImagePreviewHandler handler,
+      Map<String, String> formats) {
 
-        super(dialogMode, height, width);
-        m_content = new FlowPanel();
-        m_content.addStyleName(I_CmsLayoutBundle.INSTANCE.previewDialogCss().propertiesList());
-        m_content.addStyleName(I_CmsLayoutBundle.INSTANCE.previewDialogCss().formatsPanel());
-        m_main.insert(m_content, 0);
-        m_handler = handler;
+    super(dialogMode, height, width);
+    m_content = new FlowPanel();
+    m_content.addStyleName(I_CmsLayoutBundle.INSTANCE.previewDialogCss().propertiesList());
+    m_content.addStyleName(I_CmsLayoutBundle.INSTANCE.previewDialogCss().formatsPanel());
+    m_main.insert(m_content, 0);
+    m_handler = handler;
+  }
 
-    }
+  /**
+   * Displays the provided image information.
+   *
+   * <p>
+   *
+   * @param imageInfo the image information
+   */
+  public void fillContent(CmsImageInfoBean imageInfo) {
 
-    /**
-     * Displays the provided image information.<p>
-     *
-     * @param imageInfo the image information
-     */
-    public void fillContent(CmsImageInfoBean imageInfo) {
-
-        String viewLink = imageInfo.getViewLink() != null
-        ? imageInfo.getViewLink()
-        : CmsCoreProvider.get().link(imageInfo.getResourcePath());
-        CmsCroppingDialog croppingDialog = new CmsCroppingDialog(viewLink);
-        m_handler.getGalleryDialog().getParentPanel().add(croppingDialog);
-        CmsImageFormatHandler formatHandler = new CmsImageFormatHandler(
+    String viewLink =
+        imageInfo.getViewLink() != null
+            ? imageInfo.getViewLink()
+            : CmsCoreProvider.get().link(imageInfo.getResourcePath());
+    CmsCroppingDialog croppingDialog = new CmsCroppingDialog(viewLink);
+    m_handler.getGalleryDialog().getParentPanel().add(croppingDialog);
+    CmsImageFormatHandler formatHandler =
+        new CmsImageFormatHandler(
             getDialogMode(),
             m_handler.getGalleryDialog(),
             imageInfo.getSelectedPath(),
             imageInfo.getHeight(),
             imageInfo.getWidth());
-        CmsImageFormatsForm formatsForm = new CmsImageFormatsForm(formatHandler);
-        formatHandler.init(formatsForm, croppingDialog);
-        m_handler.setFormatHandler(formatHandler);
-        m_content.clear();
-        m_content.add(formatsForm);
-    }
+    CmsImageFormatsForm formatsForm = new CmsImageFormatsForm(formatHandler);
+    formatHandler.init(formatsForm, croppingDialog);
+    m_handler.setFormatHandler(formatHandler);
+    m_content.clear();
+    m_content.add(formatsForm);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.ui.A_CmsPreviewDetailTab#getHandler()
-     */
-    @Override
-    protected I_CmsPreviewHandler<?> getHandler() {
+  /** @see org.opencms.ade.galleries.client.preview.ui.A_CmsPreviewDetailTab#getHandler() */
+  @Override
+  protected I_CmsPreviewHandler<?> getHandler() {
 
-        return m_handler;
-    }
+    return m_handler;
+  }
 }

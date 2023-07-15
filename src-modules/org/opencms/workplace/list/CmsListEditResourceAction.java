@@ -36,150 +36,153 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.explorer.CmsResourceUtil;
 
 /**
- * Opens the selected resource in a new window.<p>
+ * Opens the selected resource in a new window.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListEditResourceAction extends CmsListDirectAction {
 
-    /** Id of the column with the resource root path. */
-    private final String m_resColumnPathId;
+  /** Id of the column with the resource root path. */
+  private final String m_resColumnPathId;
 
-    /** The current resource util object. */
-    private CmsResourceUtil m_resourceUtil;
+  /** The current resource util object. */
+  private CmsResourceUtil m_resourceUtil;
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id the unique id
-     * @param resColumnPathId the id of the column with the resource root path
-     */
-    public CmsListEditResourceAction(String id, String resColumnPathId) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id the unique id
+   * @param resColumnPathId the id of the column with the resource root path
+   */
+  public CmsListEditResourceAction(String id, String resColumnPathId) {
 
-        super(id);
-        m_resColumnPathId = resColumnPathId;
+    super(id);
+    m_resColumnPathId = resColumnPathId;
+  }
+
+  /** @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getHelpText() */
+  @Override
+  public CmsMessageContainer getHelpText() {
+
+    CmsMessageContainer helptext = super.getHelpText();
+    if (helptext == null) {
+      if (isEnabled()) {
+        helptext = Messages.get().container(Messages.GUI_EDITRESOURCE_ACTION_HELP_0);
+      } else {
+        helptext = Messages.get().container(Messages.GUI_EDITRESOURCE_DISABLED_ACTION_HELP_0);
+      }
     }
+    return helptext;
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getHelpText()
-     */
-    @Override
-    public CmsMessageContainer getHelpText() {
+  /** @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getIconPath() */
+  @Override
+  public String getIconPath() {
 
-        CmsMessageContainer helptext = super.getHelpText();
-        if (helptext == null) {
-            if (isEnabled()) {
-                helptext = Messages.get().container(Messages.GUI_EDITRESOURCE_ACTION_HELP_0);
-            } else {
-                helptext = Messages.get().container(Messages.GUI_EDITRESOURCE_DISABLED_ACTION_HELP_0);
-            }
+    String iconpath = super.getIconPath();
+    if (iconpath == null) {
+      if (isEnabled()) {
+        iconpath = "list/resource_edit.png";
+      } else {
+        iconpath = "list/resource_edit_disabled.png";
+      }
+    }
+    return iconpath;
+  }
+
+  /** @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getName() */
+  @Override
+  public CmsMessageContainer getName() {
+
+    CmsMessageContainer name = super.getName();
+    if (name == null) {
+      if (isEnabled()) {
+        name = Messages.get().container(Messages.GUI_EDITRESOURCE_ACTION_NAME_0);
+      } else {
+        name = Messages.get().container(Messages.GUI_EDITRESOURCE_DISABLED_ACTION_NAME_0);
+      }
+    }
+    return name;
+  }
+
+  /** @see org.opencms.workplace.tools.I_CmsHtmlIconButton#isVisible() */
+  @Override
+  public boolean isVisible() {
+
+    if (getResourceName() != null) {
+      try {
+        // if resource type if editable
+        if (OpenCms.getWorkplaceManager()
+                .getEditorHandler()
+                .getEditorUri(getResourceName(), getWp().getJsp())
+            != null) {
+          // check lock state
+          CmsLock lock = getResourceUtil().getLock();
+          if (lock.isNullLock()
+              || lock.isOwnedBy((getWp().getCms().getRequestContext().getCurrentUser()))) {
+            return isEnabled();
+          }
         }
-        return helptext;
+      } catch (Throwable e) {
+        // ignore
+      }
     }
+    return !isEnabled();
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getIconPath()
-     */
-    @Override
-    public String getIconPath() {
+  /**
+   * @see
+   *     org.opencms.workplace.list.I_CmsListDirectAction#setItem(org.opencms.workplace.list.CmsListItem)
+   */
+  @Override
+  public void setItem(CmsListItem item) {
 
-        String iconpath = super.getIconPath();
-        if (iconpath == null) {
-            if (isEnabled()) {
-                iconpath = "list/resource_edit.png";
-            } else {
-                iconpath = "list/resource_edit_disabled.png";
-            }
+    m_resourceUtil = ((A_CmsListExplorerDialog) getWp()).getResourceUtil(item);
+    super.setItem(item);
+  }
+
+  /**
+   * Returns the current result Util.
+   *
+   * <p>
+   *
+   * @return the current result Util
+   */
+  protected CmsResourceUtil getResourceUtil() {
+
+    return m_resourceUtil;
+  }
+
+  /**
+   * Returns the most possible right resource name.
+   *
+   * <p>
+   *
+   * @return the most possible right resource name
+   */
+  private String getResourceName() {
+
+    CmsResourceUtil resUtil = getResourceUtil();
+    if (resUtil != null) {
+      CmsObject cms = resUtil.getCms();
+      String resource = cms.getSitePath(resUtil.getResource());
+      return resource;
+    } else {
+      String resource = getItem().get(m_resColumnPathId).toString();
+      if (!getWp().getCms().existsResource(resource, CmsResourceFilter.DEFAULT)) {
+        String siteRoot = OpenCms.getSiteManager().getSiteRoot(resource);
+        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(siteRoot)) {
+          resource = resource.substring(siteRoot.length());
         }
-        return iconpath;
-    }
-
-    /**
-     * @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getName()
-     */
-    @Override
-    public CmsMessageContainer getName() {
-
-        CmsMessageContainer name = super.getName();
-        if (name == null) {
-            if (isEnabled()) {
-                name = Messages.get().container(Messages.GUI_EDITRESOURCE_ACTION_NAME_0);
-            } else {
-                name = Messages.get().container(Messages.GUI_EDITRESOURCE_DISABLED_ACTION_NAME_0);
-            }
+        if (!getWp().getCms().existsResource(resource, CmsResourceFilter.DEFAULT)) {
+          resource = null;
         }
-        return name;
+      }
+      return resource;
     }
-
-    /**
-     * @see org.opencms.workplace.tools.I_CmsHtmlIconButton#isVisible()
-     */
-    @Override
-    public boolean isVisible() {
-
-        if (getResourceName() != null) {
-            try {
-                // if resource type if editable
-                if (OpenCms.getWorkplaceManager().getEditorHandler().getEditorUri(
-                    getResourceName(),
-                    getWp().getJsp()) != null) {
-                    // check lock state
-                    CmsLock lock = getResourceUtil().getLock();
-                    if (lock.isNullLock() || lock.isOwnedBy((getWp().getCms().getRequestContext().getCurrentUser()))) {
-                        return isEnabled();
-                    }
-                }
-            } catch (Throwable e) {
-                // ignore
-            }
-        }
-        return !isEnabled();
-    }
-
-    /**
-     * @see org.opencms.workplace.list.I_CmsListDirectAction#setItem(org.opencms.workplace.list.CmsListItem)
-     */
-    @Override
-    public void setItem(CmsListItem item) {
-
-        m_resourceUtil = ((A_CmsListExplorerDialog)getWp()).getResourceUtil(item);
-        super.setItem(item);
-    }
-
-    /**
-     * Returns the current result Util.<p>
-     *
-     * @return the current result Util
-     */
-    protected CmsResourceUtil getResourceUtil() {
-
-        return m_resourceUtil;
-    }
-
-    /**
-     * Returns the most possible right resource name.<p>
-     *
-     * @return the most possible right resource name
-     */
-    private String getResourceName() {
-
-        CmsResourceUtil resUtil = getResourceUtil();
-        if (resUtil != null) {
-            CmsObject cms = resUtil.getCms();
-            String resource = cms.getSitePath(resUtil.getResource());
-            return resource;
-        } else {
-            String resource = getItem().get(m_resColumnPathId).toString();
-            if (!getWp().getCms().existsResource(resource, CmsResourceFilter.DEFAULT)) {
-                String siteRoot = OpenCms.getSiteManager().getSiteRoot(resource);
-                if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(siteRoot)) {
-                    resource = resource.substring(siteRoot.length());
-                }
-                if (!getWp().getCms().existsResource(resource, CmsResourceFilter.DEFAULT)) {
-                    resource = null;
-                }
-            }
-            return resource;
-        }
-    }
+  }
 }

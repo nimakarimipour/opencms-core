@@ -27,135 +27,146 @@
 
 package org.opencms.db;
 
+import com.google.common.base.Objects;
+import java.util.regex.Pattern;
 import org.opencms.gwt.shared.alias.CmsAliasMode;
 import org.opencms.util.CmsUUID;
 
-import java.util.regex.Pattern;
-
-import com.google.common.base.Objects;
-
 /**
- * This class represents an alias from a virtual path to a resource in the VFS.<p>
+ * This class represents an alias from a virtual path to a resource in the VFS.
+ *
+ * <p>
  */
 public class CmsAlias {
 
-    /** The regular expression which describes valid alias paths:
-     * one or more segments, each consisting of a slash at the front followed
-     * by one or more 'unreserved characters' for URIs (see RFC 2396).
-     */
-    public static final Pattern ALIAS_PATTERN = Pattern.compile("(?:/[a-zA-Z0-9-_\\.!~\\*\\'\\(\\)]+)+"); //$NON-NLS-1$
+  /**
+   * The regular expression which describes valid alias paths: one or more segments, each consisting
+   * of a slash at the front followed by one or more 'unreserved characters' for URIs (see RFC
+   * 2396).
+   */
+  public static final Pattern ALIAS_PATTERN =
+      Pattern.compile("(?:/[a-zA-Z0-9-_\\.!~\\*\\'\\(\\)]+)+"); // $NON-NLS-1$
 
-    /** The alias path. */
-    protected String m_aliasPath;
+  /** The alias path. */
+  protected String m_aliasPath;
 
-    /** The alias mode. */
-    protected CmsAliasMode m_mode;
+  /** The alias mode. */
+  protected CmsAliasMode m_mode;
 
-    /** The site root for the alias. */
-    protected String m_siteRoot;
+  /** The site root for the alias. */
+  protected String m_siteRoot;
 
-    /** The structure id of the aliased page. */
-    protected CmsUUID m_structureId;
+  /** The structure id of the aliased page. */
+  protected CmsUUID m_structureId;
 
-    /**
-     * Creates a new alias.<p>
-     *
-     * @param structureId the structure id of the aliased page
-     * @param siteRoot the site root of the alias
-     * @param aliasPath the alias path
-     * @param mode the alias mode
-     */
-    public CmsAlias(CmsUUID structureId, String siteRoot, String aliasPath, CmsAliasMode mode) {
+  /**
+   * Creates a new alias.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the aliased page
+   * @param siteRoot the site root of the alias
+   * @param aliasPath the alias path
+   * @param mode the alias mode
+   */
+  public CmsAlias(CmsUUID structureId, String siteRoot, String aliasPath, CmsAliasMode mode) {
 
-        m_aliasPath = aliasPath;
-        m_structureId = structureId;
-        m_siteRoot = siteRoot;
-        m_mode = mode;
+    m_aliasPath = aliasPath;
+    m_structureId = structureId;
+    m_siteRoot = siteRoot;
+    m_mode = mode;
+  }
+
+  /** @see java.lang.Object#equals(java.lang.Object) */
+  @Override
+  public boolean equals(Object other) {
+
+    if (!(other instanceof CmsAlias)) {
+      return false;
     }
+    CmsAlias otherAlias = (CmsAlias) other;
+    return Objects.equal(m_aliasPath, otherAlias.m_aliasPath)
+        && Objects.equal(m_siteRoot, otherAlias.m_siteRoot)
+        && Objects.equal(m_structureId, otherAlias.m_structureId)
+        && Objects.equal(m_mode, otherAlias.m_mode);
+  }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object other) {
+  /**
+   * Gets the alias path.
+   *
+   * <p>
+   *
+   * @return the alias path
+   */
+  public String getAliasPath() {
 
-        if (!(other instanceof CmsAlias)) {
-            return false;
-        }
-        CmsAlias otherAlias = (CmsAlias)other;
-        return Objects.equal(m_aliasPath, otherAlias.m_aliasPath)
-            && Objects.equal(m_siteRoot, otherAlias.m_siteRoot)
-            && Objects.equal(m_structureId, otherAlias.m_structureId)
-            && Objects.equal(m_mode, otherAlias.m_mode);
-    }
+    return m_aliasPath;
+  }
 
-    /**
-     * Gets the alias path.<p>
-     *
-     * @return the alias path
-     */
-    public String getAliasPath() {
+  /**
+   * Gets the alias mode.
+   *
+   * <p>
+   *
+   * @return the alias mode
+   */
+  public CmsAliasMode getMode() {
 
-        return m_aliasPath;
-    }
+    return m_mode;
+  }
 
-    /**
-     * Gets the alias mode.<p>
-     *
-     * @return the alias mode
-     */
-    public CmsAliasMode getMode() {
+  /**
+   * Gets the alias site root.
+   *
+   * <p>
+   *
+   * @return the alias site root
+   */
+  public String getSiteRoot() {
 
-        return m_mode;
-    }
+    return m_siteRoot;
+  }
 
-    /**
-     * Gets the alias site root.<p>
-     *
-     * @return the alias site root
-     */
-    public String getSiteRoot() {
+  /**
+   * Gets the structure id of the aliased resource.
+   *
+   * <p>
+   *
+   * @return the structure id of the aliased resource
+   */
+  public CmsUUID getStructureId() {
 
-        return m_siteRoot;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * Gets the structure id of the aliased resource.<p>
-     *
-     * @return the structure id of the aliased resource
-     */
-    public CmsUUID getStructureId() {
+  /** @see java.lang.Object#hashCode() */
+  @Override
+  public int hashCode() {
 
-        return m_structureId;
-    }
+    return Objects.hashCode(m_aliasPath, m_siteRoot, m_mode, m_structureId);
+  }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
+  /**
+   * Checks whether the mode of the alias is 'permanent redirect'.
+   *
+   * <p>
+   *
+   * @return true if the mode of the alias is 'permanent redirect'
+   */
+  public boolean isPermanentRedirect() {
 
-        return Objects.hashCode(m_aliasPath, m_siteRoot, m_mode, m_structureId);
-    }
+    return m_mode.equals(CmsAliasMode.permanentRedirect);
+  }
 
-    /**
-     * Checks whether the mode of the alias is 'permanent redirect'.<p>
-     *
-     * @return true if the mode of the alias is 'permanent redirect'
-     */
-    public boolean isPermanentRedirect() {
+  /**
+   * Checks whether the mode of the alias is a redirect type (permanent or temporary).
+   *
+   * <p>
+   *
+   * @return true if the mode of the alias is a redirect type
+   */
+  public boolean isRedirect() {
 
-        return m_mode.equals(CmsAliasMode.permanentRedirect);
-    }
-
-    /**
-     * Checks whether the mode of the alias is a redirect type (permanent or temporary).<p>
-     *
-     * @return true if the mode of the alias is a redirect type
-     */
-    public boolean isRedirect() {
-
-        return m_mode.equals(CmsAliasMode.permanentRedirect) || m_mode.equals(CmsAliasMode.redirect);
-    }
-
+    return m_mode.equals(CmsAliasMode.permanentRedirect) || m_mode.equals(CmsAliasMode.redirect);
+  }
 }

@@ -27,52 +27,49 @@
 
 package org.opencms.setup.comptest;
 
+import java.io.File;
 import org.opencms.main.CmsSystemInfo;
 import org.opencms.setup.CmsSetupBean;
 
-import java.io.File;
-
 /**
- * Tests if the OpenCms WAR file is unpacked.<p>
+ * Tests if the OpenCms WAR file is unpacked.
+ *
+ * <p>
  *
  * @since 6.1.8
  */
 public class CmsSetupTestWarFileUnpacked implements I_CmsSetupTest {
 
-    /** The test name. */
-    public static final String TEST_NAME = "Unpacked WAR File";
+  /** The test name. */
+  public static final String TEST_NAME = "Unpacked WAR File";
 
-    /**
-     * @see org.opencms.setup.comptest.I_CmsSetupTest#getName()
-     */
-    public String getName() {
+  /** @see org.opencms.setup.comptest.I_CmsSetupTest#getName() */
+  public String getName() {
 
-        return TEST_NAME;
+    return TEST_NAME;
+  }
+
+  /** @see org.opencms.setup.comptest.I_CmsSetupTest#execute(org.opencms.setup.CmsSetupBean) */
+  public CmsSetupTestResult execute(CmsSetupBean setupBean) {
+
+    CmsSetupTestResult testResult = new CmsSetupTestResult(this);
+
+    String basePath = setupBean.getWebAppRfsPath();
+    if (!basePath.endsWith(File.separator)) {
+      basePath += File.separator;
     }
-
-    /**
-     * @see org.opencms.setup.comptest.I_CmsSetupTest#execute(org.opencms.setup.CmsSetupBean)
-     */
-    public CmsSetupTestResult execute(CmsSetupBean setupBean) {
-
-        CmsSetupTestResult testResult = new CmsSetupTestResult(this);
-
-        String basePath = setupBean.getWebAppRfsPath();
-        if (!basePath.endsWith(File.separator)) {
-            basePath += File.separator;
-        }
-        File file = new File(basePath + CmsSystemInfo.FOLDER_WEBINF + CmsSystemInfo.FILE_TLD);
-        if (file.exists() && file.canRead() && file.canWrite()) {
-            testResult.setGreen();
-            testResult.setResult(RESULT_PASSED);
-        } else {
-            testResult.setRed();
-            testResult.setInfo(
-                "OpenCms cannot be installed unless the OpenCms WAR file is unpacked! "
-                    + "Please check the settings of your servlet container or unpack the WAR file manually.");
-            testResult.setHelp("WAR file NOT unpacked");
-            testResult.setResult(RESULT_FAILED);
-        }
-        return testResult;
+    File file = new File(basePath + CmsSystemInfo.FOLDER_WEBINF + CmsSystemInfo.FILE_TLD);
+    if (file.exists() && file.canRead() && file.canWrite()) {
+      testResult.setGreen();
+      testResult.setResult(RESULT_PASSED);
+    } else {
+      testResult.setRed();
+      testResult.setInfo(
+          "OpenCms cannot be installed unless the OpenCms WAR file is unpacked! "
+              + "Please check the settings of your servlet container or unpack the WAR file manually.");
+      testResult.setHelp("WAR file NOT unpacked");
+      testResult.setResult(RESULT_FAILED);
     }
+    return testResult;
+  }
 }

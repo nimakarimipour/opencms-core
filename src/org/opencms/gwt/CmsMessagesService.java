@@ -27,26 +27,27 @@
 
 package org.opencms.gwt;
 
+import java.io.IOException;
+import java.util.Locale;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 
-import java.io.IOException;
-import java.util.Locale;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
 /**
- * Exports the register client messages into a single JavaScript resource.<p>
+ * Exports the register client messages into a single JavaScript resource.
+ *
+ * <p>
  */
 public class CmsMessagesService extends CmsGwtService {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 3072608993796119377L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 3072608993796119377L;
 
-    /** The client messages to export. */
-    private static final I_CmsClientMessageBundle[] CLIENT_MESSGAE_BUNDLES = new I_CmsClientMessageBundle[] {
+  /** The client messages to export. */
+  private static final I_CmsClientMessageBundle[] CLIENT_MESSGAE_BUNDLES =
+      new I_CmsClientMessageBundle[] {
         ClientMessages.get(),
         org.opencms.ade.containerpage.ClientMessages.get(),
         org.opencms.ade.contenteditor.ClientMessages.get(),
@@ -55,42 +56,44 @@ public class CmsMessagesService extends CmsGwtService {
         org.opencms.ade.publish.ClientMessages.get(),
         org.opencms.ade.sitemap.ClientMessages.get(),
         org.opencms.ade.upload.ClientMessages.get(),
-        org.opencms.gwt.seo.ClientMessages.get()};
+        org.opencms.gwt.seo.ClientMessages.get()
+      };
 
-    /**
-     * @see org.opencms.gwt.CmsGwtService#service(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
-     */
-    @Override
-    public void service(ServletRequest request, ServletResponse response) throws IOException {
+  /**
+   * @see org.opencms.gwt.CmsGwtService#service(javax.servlet.ServletRequest,
+   *     javax.servlet.ServletResponse)
+   */
+  @Override
+  public void service(ServletRequest request, ServletResponse response) throws IOException {
 
-        try {
-            // Set response's character encoding to the default(*) to avoid ambiguous
-            // interpretations of the Servlet spec from different servlet containers.
-            // This complies with the Servlet spec.
-            // See for example the "Java Servlet Specification Version 3.0":
-            // "Servlets should set the locale and the character encoding of a response.
-            // [...]
-            // If the servlet does not specify a character encoding before the getWriter
-            // method of the ServletResponse interface is called or the response is committed,
-            // the default ISO-8859-1 is used."
-            // (*): the OpenCms configured encoding (defaulting to UTF-8) is favoured over
-            // ISO-8859-1 to allow for a wider charset support.
-            String characterEncoding = OpenCms.getSystemInfo().getDefaultEncoding();
-            response.setCharacterEncoding(characterEncoding);
-            response.setContentType("text/javascript");
-            Locale locale;
-            String localeString = request.getParameter(CmsLocaleManager.PARAMETER_LOCALE);
-            if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(localeString)) {
-                locale = CmsLocaleManager.getLocale(localeString);
-            } else {
-                locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(getCmsObject());
-            }
-            for (int i = 0; i < CLIENT_MESSGAE_BUNDLES.length; i++) {
-                response.getWriter().append(CLIENT_MESSGAE_BUNDLES[i].export(locale, false)).append("\n");
-            }
-            response.getWriter().flush();
-        } finally {
-            clearThreadStorage();
-        }
+    try {
+      // Set response's character encoding to the default(*) to avoid ambiguous
+      // interpretations of the Servlet spec from different servlet containers.
+      // This complies with the Servlet spec.
+      // See for example the "Java Servlet Specification Version 3.0":
+      // "Servlets should set the locale and the character encoding of a response.
+      // [...]
+      // If the servlet does not specify a character encoding before the getWriter
+      // method of the ServletResponse interface is called or the response is committed,
+      // the default ISO-8859-1 is used."
+      // (*): the OpenCms configured encoding (defaulting to UTF-8) is favoured over
+      // ISO-8859-1 to allow for a wider charset support.
+      String characterEncoding = OpenCms.getSystemInfo().getDefaultEncoding();
+      response.setCharacterEncoding(characterEncoding);
+      response.setContentType("text/javascript");
+      Locale locale;
+      String localeString = request.getParameter(CmsLocaleManager.PARAMETER_LOCALE);
+      if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(localeString)) {
+        locale = CmsLocaleManager.getLocale(localeString);
+      } else {
+        locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(getCmsObject());
+      }
+      for (int i = 0; i < CLIENT_MESSGAE_BUNDLES.length; i++) {
+        response.getWriter().append(CLIENT_MESSGAE_BUNDLES[i].export(locale, false)).append("\n");
+      }
+      response.getWriter().flush();
+    } finally {
+      clearThreadStorage();
     }
+  }
 }

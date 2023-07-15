@@ -27,92 +27,104 @@
 
 package org.opencms.ade.contenteditor.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * External widget configuration settings.<p>
+ * External widget configuration settings.
+ *
+ * <p>
  */
 public class CmsExternalWidgetConfiguration implements IsSerializable {
 
-    /** The links to required CSS resources. */
-    private List<String> m_cssResourceLinks;
+  /** The links to required CSS resources. */
+  private List<String> m_cssResourceLinks;
 
-    /** The java script initialization call. */
-    private String m_initCall;
+  /** The java script initialization call. */
+  private String m_initCall;
 
-    /** The links to the required java script resources. */
-    private List<String> m_javaScriptResourceLinks;
+  /** The links to the required java script resources. */
+  private List<String> m_javaScriptResourceLinks;
 
-    /** The widget name. */
-    private String m_widgetName;
+  /** The widget name. */
+  private String m_widgetName;
 
-    /**
-     * @param widgetName the widget name
-     * @param initCall the java script initialization call
-     * @param javaScriptResourceLinks the java script resource links
-     * @param cssResourceLinks the CSS resource links
-     */
-    public CmsExternalWidgetConfiguration(
-        String widgetName,
-        String initCall,
-        List<String> javaScriptResourceLinks,
-        List<String> cssResourceLinks) {
+  /**
+   * @param widgetName the widget name
+   * @param initCall the java script initialization call
+   * @param javaScriptResourceLinks the java script resource links
+   * @param cssResourceLinks the CSS resource links
+   */
+  public CmsExternalWidgetConfiguration(
+      String widgetName,
+      String initCall,
+      List<String> javaScriptResourceLinks,
+      List<String> cssResourceLinks) {
 
-        m_widgetName = widgetName;
-        m_initCall = initCall;
-        m_javaScriptResourceLinks = javaScriptResourceLinks;
-        m_cssResourceLinks = cssResourceLinks;
-    }
+    m_widgetName = widgetName;
+    m_initCall = initCall;
+    m_javaScriptResourceLinks = javaScriptResourceLinks;
+    m_cssResourceLinks = cssResourceLinks;
+  }
 
-    /**
-     * Constructor, for serialization only.<p>
-     */
-    protected CmsExternalWidgetConfiguration() {
+  /**
+   * Constructor, for serialization only.
+   *
+   * <p>
+   */
+  protected CmsExternalWidgetConfiguration() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Returns the CSS resource links.<p>
-     *
-     * @return the CSS resource links
-     */
-    public List<String> getCssResourceLinks() {
+  /**
+   * Returns the CSS resource links.
+   *
+   * <p>
+   *
+   * @return the CSS resource links
+   */
+  public List<String> getCssResourceLinks() {
 
-        return m_cssResourceLinks != null ? m_cssResourceLinks : Collections.<String> emptyList();
-    }
+    return m_cssResourceLinks != null ? m_cssResourceLinks : Collections.<String>emptyList();
+  }
 
-    /**
-     * Returns the java script initialization call.<p>
-     *
-     * @return the java script initialization call
-     */
-    public String getInitCall() {
+  /**
+   * Returns the java script initialization call.
+   *
+   * <p>
+   *
+   * @return the java script initialization call
+   */
+  public String getInitCall() {
 
-        return m_initCall;
-    }
+    return m_initCall;
+  }
 
-    /**
-     * Returns the java script resource links.<p>
-     *
-     * @return the java script resource links
-     */
-    public List<String> getJavaScriptResourceLinks() {
+  /**
+   * Returns the java script resource links.
+   *
+   * <p>
+   *
+   * @return the java script resource links
+   */
+  public List<String> getJavaScriptResourceLinks() {
 
-        return m_javaScriptResourceLinks != null ? m_javaScriptResourceLinks : Collections.<String> emptyList();
-    }
+    return m_javaScriptResourceLinks != null
+        ? m_javaScriptResourceLinks
+        : Collections.<String>emptyList();
+  }
 
-    /**
-     * Returns the widget name.<p>
-     *
-     * @return the widget name
-     */
-    public String getWidgetName() {
+  /**
+   * Returns the widget name.
+   *
+   * <p>
+   *
+   * @return the widget name
+   */
+  public String getWidgetName() {
 
-        return m_widgetName;
-    }
-
+    return m_widgetName;
+  }
 }

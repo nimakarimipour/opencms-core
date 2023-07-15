@@ -27,57 +27,63 @@
 
 package org.opencms.ade.containerpage.client.ui.groupeditor;
 
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel;
 import org.opencms.gwt.client.ui.CmsPushButton;
 import org.opencms.gwt.client.ui.I_CmsButton;
 import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-
 /**
- * The selection option.<p>
+ * The selection option.
+ *
+ * <p>
  *
  * @since 8.5.0
  */
 public class CmsAddOptionButton extends CmsPushButton implements I_CmsGroupEditorOption {
 
-    /** The element widget. */
-    private CmsContainerPageElementPanel m_elementWidget;
+  /** The element widget. */
+  private CmsContainerPageElementPanel m_elementWidget;
 
-    /** The editor instance. */
-    private CmsInheritanceContainerEditor m_editor;
+  /** The editor instance. */
+  private CmsInheritanceContainerEditor m_editor;
 
-    /**
-     * The constructor.<p>
-     *
-     * @param elementWidget the associated element widget
-     * @param editor the editor instance
-     */
-    public CmsAddOptionButton(CmsContainerPageElementPanel elementWidget, CmsInheritanceContainerEditor editor) {
+  /**
+   * The constructor.
+   *
+   * <p>
+   *
+   * @param elementWidget the associated element widget
+   * @param editor the editor instance
+   */
+  public CmsAddOptionButton(
+      CmsContainerPageElementPanel elementWidget, CmsInheritanceContainerEditor editor) {
 
-        super();
-        setImageClass(I_CmsButton.ButtonData.ADD.getSmallIconClass());
-        setButtonStyle(ButtonStyle.FONT_ICON, null);
-        setTitle(I_CmsButton.ButtonData.ADD.getTitle());
-        m_elementWidget = elementWidget;
-        m_editor = editor;
-    }
+    super();
+    setImageClass(I_CmsButton.ButtonData.ADD.getSmallIconClass());
+    setButtonStyle(ButtonStyle.FONT_ICON, null);
+    setTitle(I_CmsButton.ButtonData.ADD.getTitle());
+    m_elementWidget = elementWidget;
+    m_editor = editor;
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.groupeditor.I_CmsGroupEditorOption#checkVisibility()
-     */
-    public boolean checkVisibility() {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.groupeditor.I_CmsGroupEditorOption#checkVisibility()
+   */
+  public boolean checkVisibility() {
 
-        return !m_elementWidget.getInheritanceInfo().isVisible();
-    }
+    return !m_elementWidget.getInheritanceInfo().isVisible();
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.groupeditor.I_CmsGroupEditorOption#onClick(com.google.gwt.event.dom.client.ClickEvent)
-     */
-    public void onClick(ClickEvent event) {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.groupeditor.I_CmsGroupEditorOption#onClick(com.google.gwt.event.dom.client.ClickEvent)
+   */
+  public void onClick(ClickEvent event) {
 
-        clearHoverState();
-        m_elementWidget.getElementOptionBar().removeHighlighting();
-        m_editor.showElement(m_elementWidget);
-    }
+    clearHoverState();
+    m_elementWidget.getElementOptionBar().removeHighlighting();
+    m_editor.showElement(m_elementWidget);
+  }
 }

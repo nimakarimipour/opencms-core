@@ -27,90 +27,94 @@
 
 package org.opencms.gwt.client.ui.input.datebox;
 
+import com.google.gwt.event.shared.GwtEvent;
 import java.util.Date;
 
-import com.google.gwt.event.shared.GwtEvent;
-
 /**
- * Custom event type for CmsDateBox changes.<p>
+ * Custom event type for CmsDateBox changes.
  *
- * The difference between this and a ValueChangeEvent is that this event is also fired after user actions
- * which may or may not have changed the value. The event carries information about that user action.
+ * <p>The difference between this and a ValueChangeEvent is that this event is also fired after user
+ * actions which may or may not have changed the value. The event carries information about that
+ * user action.
  */
 public class CmsDateBoxEvent extends GwtEvent<I_CmsDateBoxEventHandler> {
 
-    /** The event type. */
-    public static Type<I_CmsDateBoxEventHandler> TYPE = new Type<I_CmsDateBoxEventHandler>();
+  /** The event type. */
+  public static Type<I_CmsDateBoxEventHandler> TYPE = new Type<I_CmsDateBoxEventHandler>();
 
-    /** The currently selected date. */
-    private Date m_date;
+  /** The currently selected date. */
+  private Date m_date;
 
-    /** True if the event was caused by a user key press that may have changed the value. */
-    private boolean m_isUserTyping;
+  /** True if the event was caused by a user key press that may have changed the value. */
+  private boolean m_isUserTyping;
 
-    /**
-     * Creates a new event.<p>
-     *
-     * @param date the date
-     * @param isUserTyping true if the event was caused by a user key press that may have changed the value.<p>
-     */
-    public CmsDateBoxEvent(Date date, boolean isUserTyping) {
-        m_date = date;
-        m_isUserTyping = isUserTyping;
+  /**
+   * Creates a new event.
+   *
+   * <p>
+   *
+   * @param date the date
+   * @param isUserTyping true if the event was caused by a user key press that may have changed the
+   *     value.
+   *     <p>
+   */
+  public CmsDateBoxEvent(Date date, boolean isUserTyping) {
+    m_date = date;
+    m_isUserTyping = isUserTyping;
+  }
+
+  /**
+   * Fires the event.
+   *
+   * @param source the event source
+   * @param date the date
+   * @param isTyping true if event was caused by user pressing key that may have changed the value
+   */
+  public static void fire(I_CmsHasDateBoxEventHandlers source, Date date, boolean isTyping) {
+
+    if (TYPE != null) {
+      CmsDateBoxEvent event = new CmsDateBoxEvent(date, isTyping);
+      source.fireEvent(event);
     }
+  }
 
-    /**
-     * Fires the event.
-     *
-     * @param source the event source
-     * @param date the date
-     * @param isTyping true if event was caused by user pressing key that may have changed the value
-     */
-    public static void fire(I_CmsHasDateBoxEventHandlers source, Date date, boolean isTyping) {
+  /** @see com.google.gwt.event.shared.GwtEvent#getAssociatedType() */
+  @Override
+  public com.google.gwt.event.shared.GwtEvent.Type<I_CmsDateBoxEventHandler> getAssociatedType() {
 
-        if (TYPE != null) {
-            CmsDateBoxEvent event = new CmsDateBoxEvent(date, isTyping);
-            source.fireEvent(event);
-        }
-    }
+    return TYPE;
+  }
 
-    /**
-     * @see com.google.gwt.event.shared.GwtEvent#getAssociatedType()
-     */
-    @Override
-    public com.google.gwt.event.shared.GwtEvent.Type<I_CmsDateBoxEventHandler> getAssociatedType() {
+  /**
+   * Gets the date.
+   *
+   * <p>
+   *
+   * @return the date
+   */
+  public Date getDate() {
 
-        return TYPE;
-    }
+    return m_date;
+  }
 
-    /**
-     * Gets the date.<p>
-     *
-     * @return the date
-     */
-    public Date getDate() {
+  /**
+   * Returns true if the event was caused by a user key press which may have changed the value.
+   *
+   * <p>
+   *
+   * @return true if caused by a keypress which may have changed the value
+   */
+  public boolean isUserTyping() {
 
-        return m_date;
+    return m_isUserTyping;
+  }
 
-    }
+  /**
+   * @see com.google.gwt.event.shared.GwtEvent#dispatch(com.google.gwt.event.shared.EventHandler)
+   */
+  @Override
+  protected void dispatch(I_CmsDateBoxEventHandler handler) {
 
-    /**
-     * Returns true if the event was caused by a user key press which may have changed the value.<p>
-     *
-     * @return true if caused by a keypress which may have changed the value
-     */
-    public boolean isUserTyping() {
-
-        return m_isUserTyping;
-    }
-
-    /**
-     * @see com.google.gwt.event.shared.GwtEvent#dispatch(com.google.gwt.event.shared.EventHandler)
-     */
-    @Override
-    protected void dispatch(I_CmsDateBoxEventHandler handler) {
-
-        handler.onDateBoxEvent(this);
-    }
-
+    handler.onDateBoxEvent(this);
+  }
 }

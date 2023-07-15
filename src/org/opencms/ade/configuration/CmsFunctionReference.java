@@ -30,99 +30,113 @@ package org.opencms.ade.configuration;
 import org.opencms.util.CmsUUID;
 
 /**
- * Bean for representing a named dynamic function reference from the configuration.<p>
+ * Bean for representing a named dynamic function reference from the configuration.
+ *
+ * <p>
  */
 public class CmsFunctionReference implements I_CmsConfigurationObject<CmsFunctionReference> {
 
-    /** The function default page id. */
-    private CmsUUID m_functionDefaultPageId;
+  /** The function default page id. */
+  private CmsUUID m_functionDefaultPageId;
 
-    /** The function reference name. */
-    private String m_name;
+  /** The function reference name. */
+  private String m_name;
 
-    /** A number used for sorting the function references.<p>*/
-    private int m_order;
+  /**
+   * A number used for sorting the function references.
+   *
+   * <p>
+   */
+  private int m_order;
 
-    /** The function resource structure id. */
-    private CmsUUID m_structureId;
+  /** The function resource structure id. */
+  private CmsUUID m_structureId;
 
-    /**
-     * Creates a new function reference.<p>
-     *
-     * @param name the name of the function reference
-     * @param structureId the structure id of the function
-     * @param functionDefaultPageId the function default page id
-     * @param order the number used for sorting the function references
-     */
-    public CmsFunctionReference(String name, CmsUUID structureId, CmsUUID functionDefaultPageId, int order) {
+  /**
+   * Creates a new function reference.
+   *
+   * <p>
+   *
+   * @param name the name of the function reference
+   * @param structureId the structure id of the function
+   * @param functionDefaultPageId the function default page id
+   * @param order the number used for sorting the function references
+   */
+  public CmsFunctionReference(
+      String name, CmsUUID structureId, CmsUUID functionDefaultPageId, int order) {
 
-        m_name = name;
-        m_structureId = structureId;
-        m_functionDefaultPageId = functionDefaultPageId;
-        m_order = order;
-    }
+    m_name = name;
+    m_structureId = structureId;
+    m_functionDefaultPageId = functionDefaultPageId;
+    m_order = order;
+  }
 
-    /**
-     * Returns the function default page id.<p>
-     *
-     * @return the function default page id
-     */
-    public CmsUUID getFunctionDefaultPageId() {
+  /**
+   * Returns the function default page id.
+   *
+   * <p>
+   *
+   * @return the function default page id
+   */
+  public CmsUUID getFunctionDefaultPageId() {
 
-        return m_functionDefaultPageId;
-    }
+    return m_functionDefaultPageId;
+  }
 
-    /**
-     * @see org.opencms.ade.configuration.I_CmsConfigurationObject#getKey()
-     */
-    public String getKey() {
+  /** @see org.opencms.ade.configuration.I_CmsConfigurationObject#getKey() */
+  public String getKey() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the name of the function reference.<p>
-     *
-     * @return the name of the function reference
-     */
-    public String getName() {
+  /**
+   * Returns the name of the function reference.
+   *
+   * <p>
+   *
+   * @return the name of the function reference
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * The order information for sorting the function references.<p>
-     *
-     * @return the order information
-     */
-    public int getOrder() {
+  /**
+   * The order information for sorting the function references.
+   *
+   * <p>
+   *
+   * @return the order information
+   */
+  public int getOrder() {
 
-        return m_order;
-    }
+    return m_order;
+  }
 
-    /**
-     * Returns the structure id of the dynamic function resource.<p>
-     *
-     * @return the structure id of the function
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Returns the structure id of the dynamic function resource.
+   *
+   * <p>
+   *
+   * @return the structure id of the function
+   */
+  public CmsUUID getStructureId() {
 
-        return m_structureId;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * @see org.opencms.ade.configuration.I_CmsConfigurationObject#isDisabled()
-     */
-    public boolean isDisabled() {
+  /** @see org.opencms.ade.configuration.I_CmsConfigurationObject#isDisabled() */
+  public boolean isDisabled() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.ade.configuration.I_CmsConfigurationObject#merge(org.opencms.ade.configuration.I_CmsConfigurationObject)
-     */
-    public CmsFunctionReference merge(CmsFunctionReference child) {
+  /**
+   * @see
+   *     org.opencms.ade.configuration.I_CmsConfigurationObject#merge(org.opencms.ade.configuration.I_CmsConfigurationObject)
+   */
+  public CmsFunctionReference merge(CmsFunctionReference child) {
 
-        return child;
-    }
+    return child;
+  }
 }

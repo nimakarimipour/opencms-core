@@ -31,88 +31,103 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Gallery tree entry class. To organize gallery folders as a tree.<p>
+ * Gallery tree entry class. To organize gallery folders as a tree.
+ *
+ * <p>
  *
  * @since 8.0.1
  */
 public class CmsGalleryTreeEntry extends CmsGalleryFolderBean {
 
-    /** List of child entries. */
-    private List<CmsGalleryTreeEntry> m_children;
+  /** List of child entries. */
+  private List<CmsGalleryTreeEntry> m_children;
 
-    /** The parent entry. */
-    private CmsGalleryTreeEntry m_parent;
+  /** The parent entry. */
+  private CmsGalleryTreeEntry m_parent;
 
-    /**
-     * Constructor.<p>
-     * Copy the fields of the given master.<p>
-     *
-     * @param master master to copy
-     */
-    public CmsGalleryTreeEntry(CmsGalleryFolderBean master) {
+  /**
+   * Constructor.
+   *
+   * <p>Copy the fields of the given master.
+   *
+   * <p>
+   *
+   * @param master master to copy
+   */
+  public CmsGalleryTreeEntry(CmsGalleryFolderBean master) {
 
-        setContentTypes(master.getContentTypes());
-        setEditable(master.isEditable());
-        setPath(master.getPath());
-        setTitle(master.getTitle());
-        setResourceType(master.getType());
-        setBigIconClasses(master.getBigIconClasses());
+    setContentTypes(master.getContentTypes());
+    setEditable(master.isEditable());
+    setPath(master.getPath());
+    setTitle(master.getTitle());
+    setResourceType(master.getType());
+    setBigIconClasses(master.getBigIconClasses());
+  }
+
+  /**
+   * Adds a new child entry.
+   *
+   * <p>
+   *
+   * @param child the child entry to add
+   */
+  public void addChild(CmsGalleryTreeEntry child) {
+
+    if (m_children == null) {
+      m_children = new ArrayList<CmsGalleryTreeEntry>();
     }
+    m_children.add(child);
+    child.setParent(this);
+  }
 
-    /**
-     * Adds a new child entry.<p>
-     *
-     * @param child the child entry to add
-     */
-    public void addChild(CmsGalleryTreeEntry child) {
+  /**
+   * Returns the list of child entries.
+   *
+   * <p>
+   *
+   * @return the list of child entries
+   */
+  public List<CmsGalleryTreeEntry> getChildren() {
 
-        if (m_children == null) {
-            m_children = new ArrayList<CmsGalleryTreeEntry>();
-        }
-        m_children.add(child);
-        child.setParent(this);
+    return m_children;
+  }
+
+  /**
+   * Returns the parent entry or <code>null</code> if there is none.
+   *
+   * <p>
+   *
+   * @return the parent entry
+   */
+  public CmsGalleryTreeEntry getParent() {
+
+    return m_parent;
+  }
+
+  /**
+   * Sets the child entry list.
+   *
+   * <p>
+   *
+   * @param children the list of child entries
+   */
+  public void setChildren(List<CmsGalleryTreeEntry> children) {
+
+    m_children = children;
+    for (CmsGalleryTreeEntry child : m_children) {
+      child.setParent(this);
     }
+  }
 
-    /**
-     * Returns the list of child entries.<p>
-     *
-     * @return the list of child entries
-     */
-    public List<CmsGalleryTreeEntry> getChildren() {
+  /**
+   * Sets the parent entry.
+   *
+   * <p>
+   *
+   * @param parent the parent entry
+   */
+  protected void setParent(CmsGalleryTreeEntry parent) {
 
-        return m_children;
-    }
-
-    /**
-     * Returns the parent entry or <code>null</code> if there is none.<p>
-     *
-     * @return the parent entry
-     */
-    public CmsGalleryTreeEntry getParent() {
-
-        return m_parent;
-    }
-
-    /**
-     * Sets the child entry list.<p>
-     *
-     * @param children the list of child entries
-     */
-    public void setChildren(List<CmsGalleryTreeEntry> children) {
-
-        m_children = children;
-        for (CmsGalleryTreeEntry child : m_children) {
-            child.setParent(this);
-        }
-    }
-
-    /**
-     * Sets the parent entry.<p>
-     *
-     * @param parent the parent entry
-     */
-    protected void setParent(CmsGalleryTreeEntry parent) {
-
-        m_parent = parent;
-    }
+    m_parent = parent;
+  }
 }

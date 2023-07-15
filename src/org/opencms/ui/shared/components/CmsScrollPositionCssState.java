@@ -30,79 +30,93 @@ package org.opencms.ui.shared.components;
 import com.vaadin.shared.AbstractComponentState;
 
 /**
- * The scroll position CSS shared state.<p>
+ * The scroll position CSS shared state.
+ *
+ * <p>
  */
 public class CmsScrollPositionCssState extends AbstractComponentState {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -4224905041008648688L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -4224905041008648688L;
 
-    /** The scroll position barrier. */
-    private int m_scrollBarrier;
+  /** The scroll position barrier. */
+  private int m_scrollBarrier;
 
-    /** The barrier margin. */
-    private int m_barrierMargin;
+  /** The barrier margin. */
+  private int m_barrierMargin;
 
-    /** The style name. */
-    private String m_styleName;
+  /** The style name. */
+  private String m_styleName;
 
-    /**
-     * Returns the barrier margin.<p>
-     *
-     * @return the barrier margin
-     */
-    public int getBarrierMargin() {
+  /**
+   * Returns the barrier margin.
+   *
+   * <p>
+   *
+   * @return the barrier margin
+   */
+  public int getBarrierMargin() {
 
-        return m_barrierMargin;
-    }
+    return m_barrierMargin;
+  }
 
-    /**
-     * Returns the scroll barrier.<p>
-     *
-     * @return the scroll barrier
-     */
-    public int getScrollBarrier() {
+  /**
+   * Returns the scroll barrier.
+   *
+   * <p>
+   *
+   * @return the scroll barrier
+   */
+  public int getScrollBarrier() {
 
-        return m_scrollBarrier;
-    }
+    return m_scrollBarrier;
+  }
 
-    /**
-     * Sets the style name.<p>
-     *
-     * @return the style name
-     */
-    public String getStyleName() {
+  /**
+   * Sets the style name.
+   *
+   * <p>
+   *
+   * @return the style name
+   */
+  public String getStyleName() {
 
-        return m_styleName;
-    }
+    return m_styleName;
+  }
 
-    /**
-     * Sets the barrier margin.<p>
-     *
-     * @param barrierMargin the barrier margin
-     */
-    public void setBarrierMargin(int barrierMargin) {
+  /**
+   * Sets the barrier margin.
+   *
+   * <p>
+   *
+   * @param barrierMargin the barrier margin
+   */
+  public void setBarrierMargin(int barrierMargin) {
 
-        m_barrierMargin = barrierMargin;
-    }
+    m_barrierMargin = barrierMargin;
+  }
 
-    /**
-     * Sets the scroll barrier.<p>
-     *
-     * @param scrollBarrier the scroll barrier
-     */
-    public void setScrollBarrier(int scrollBarrier) {
+  /**
+   * Sets the scroll barrier.
+   *
+   * <p>
+   *
+   * @param scrollBarrier the scroll barrier
+   */
+  public void setScrollBarrier(int scrollBarrier) {
 
-        m_scrollBarrier = scrollBarrier;
-    }
+    m_scrollBarrier = scrollBarrier;
+  }
 
-    /**
-     * Sets the style name.<p>
-     *
-     * @param styleName the style name
-     */
-    public void setStyleName(String styleName) {
+  /**
+   * Sets the style name.
+   *
+   * <p>
+   *
+   * @param styleName the style name
+   */
+  public void setStyleName(String styleName) {
 
-        m_styleName = styleName;
-    }
+    m_styleName = styleName;
+  }
 }

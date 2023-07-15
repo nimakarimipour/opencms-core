@@ -33,84 +33,68 @@ import java.util.Map;
 /** Class for handling the state of the common search options. */
 public class CmsSearchStateCommon implements I_CmsSearchStateCommon {
 
-    /** The current query string (as given by the user). */
-    private String m_query = "";
-    /** The last query string (as given by the user). */
-    private String m_lastquery = "";
-    /** The flag, indicating if the search is performed for the first time or not. */
-    private boolean m_isReloaded;
-    /** Map from the additional request parameters to their values. */
-    private Map<String, String> m_additionalParameters;
+  /** The current query string (as given by the user). */
+  private String m_query = "";
+  /** The last query string (as given by the user). */
+  private String m_lastquery = "";
+  /** The flag, indicating if the search is performed for the first time or not. */
+  private boolean m_isReloaded;
+  /** Map from the additional request parameters to their values. */
+  private Map<String, String> m_additionalParameters;
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#getAdditionalParameters()
-     */
-    @Override
-    public Map<String, String> getAdditionalParameters() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#getAdditionalParameters() */
+  @Override
+  public Map<String, String> getAdditionalParameters() {
 
-        return m_additionalParameters == null ? new HashMap<String, String>() : m_additionalParameters;
-    }
+    return m_additionalParameters == null ? new HashMap<String, String>() : m_additionalParameters;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#getIsReloaded()
-     */
-    public boolean getIsReloaded() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#getIsReloaded() */
+  public boolean getIsReloaded() {
 
-        return m_isReloaded;
-    }
+    return m_isReloaded;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#getLastQuery()
-     */
-    @Override
-    public String getLastQuery() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#getLastQuery() */
+  @Override
+  public String getLastQuery() {
 
-        return m_lastquery;
-    }
+    return m_lastquery;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#getQuery()
-     */
-    @Override
-    public String getQuery() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#getQuery() */
+  @Override
+  public String getQuery() {
 
-        return m_query;
-    }
+    return m_query;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#setAdditionalParameters(java.util.Map)
-     */
-    @Override
-    public void setAdditionalParameters(Map<String, String> parameters) {
+  /**
+   * @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#setAdditionalParameters(java.util.Map)
+   */
+  @Override
+  public void setAdditionalParameters(Map<String, String> parameters) {
 
-        m_additionalParameters = parameters;
-    }
+    m_additionalParameters = parameters;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#setIsReloaded(boolean)
-     */
-    public void setIsReloaded(boolean isReloaded) {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#setIsReloaded(boolean) */
+  public void setIsReloaded(boolean isReloaded) {
 
-        m_isReloaded = isReloaded;
+    m_isReloaded = isReloaded;
+  }
 
-    }
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#setLastQuery(java.lang.String) */
+  @Override
+  public void setLastQuery(final String lastquery) {
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#setLastQuery(java.lang.String)
-     */
-    @Override
-    public void setLastQuery(final String lastquery) {
+    m_lastquery = lastquery;
+  }
 
-        m_lastquery = lastquery;
-    }
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#setQuery(java.lang.String) */
+  @Override
+  public void setQuery(final String query) {
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateCommon#setQuery(java.lang.String)
-     */
-    @Override
-    public void setQuery(final String query) {
-
-        m_query = query;
-
-    }
+    m_query = query;
+  }
 }

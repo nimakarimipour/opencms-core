@@ -27,74 +27,71 @@
 
 package org.opencms.util;
 
+import java.util.function.Function;
 import org.opencms.json.JSONArray;
 import org.opencms.json.JSONException;
 import org.opencms.json.JSONObject;
 
-import java.util.function.Function;
-
-/**
- * Utility class for JSON-related functions.
- */
+/** Utility class for JSON-related functions. */
 public class CmsJsonUtil {
 
-    /**
-     * Recursively walks through a JSON structure and returns a copy of it, but transforms primitive
-     * values using the given function for the copy.
-     *
-     * @param obj a JSONObject or JSONArray
-     * @param func the function to apply to primitive values
-     * @return the copy with the replaced values
-     * @throws JSONException if JSON operations fail
-     */
-    public static Object mapJson(Object obj, Function<Object, Object> func) throws JSONException {
+  /**
+   * Recursively walks through a JSON structure and returns a copy of it, but transforms primitive
+   * values using the given function for the copy.
+   *
+   * @param obj a JSONObject or JSONArray
+   * @param func the function to apply to primitive values
+   * @return the copy with the replaced values
+   * @throws JSONException if JSON operations fail
+   */
+  public static Object mapJson(Object obj, Function<Object, Object> func) throws JSONException {
 
-        if (obj instanceof JSONObject) {
-            return mapJsonObject((JSONObject)obj, func);
-        } else if (obj instanceof JSONArray) {
-            return mapJsonArray((JSONArray)obj, func);
-        } else {
-            return func.apply(obj);
-        }
+    if (obj instanceof JSONObject) {
+      return mapJsonObject((JSONObject) obj, func);
+    } else if (obj instanceof JSONArray) {
+      return mapJsonArray((JSONArray) obj, func);
+    } else {
+      return func.apply(obj);
     }
+  }
 
-    /**
-     * Recursively walks through a JSON object and returns a copy of it, but transforms primitive
-     * values using the given function for the copy.
-     *
-     * @param obj a JSONObject
-     * @param func the function to apply to primitive values
-     * @return the copy with the replaced values
-     * @throws JSONException if JSON operations fail
-     */
-    public static JSONObject mapJsonObject(JSONObject obj, Function<Object, Object> func) throws JSONException {
+  /**
+   * Recursively walks through a JSON object and returns a copy of it, but transforms primitive
+   * values using the given function for the copy.
+   *
+   * @param obj a JSONObject
+   * @param func the function to apply to primitive values
+   * @return the copy with the replaced values
+   * @throws JSONException if JSON operations fail
+   */
+  public static JSONObject mapJsonObject(JSONObject obj, Function<Object, Object> func)
+      throws JSONException {
 
-        JSONObject result = new JSONObject();
-        for (String key : obj.keySet()) {
-            Object val = obj.opt(key);
-            Object val2 = mapJson(val, func);
-            result.put(key, val2);
-        }
-        return result;
+    JSONObject result = new JSONObject();
+    for (String key : obj.keySet()) {
+      Object val = obj.opt(key);
+      Object val2 = mapJson(val, func);
+      result.put(key, val2);
     }
+    return result;
+  }
 
-    /**
-     * Recursively walks through a JSON array and returns a copy of it, but transforms primitive
-     * values using the given function for the copy.
-     *
-     * @param array a JSON array
-     * @param func the function to apply to primitive values
-     * @return the copy with the replaced values
-     * @throws JSONException if JSON operations fail
-     */
+  /**
+   * Recursively walks through a JSON array and returns a copy of it, but transforms primitive
+   * values using the given function for the copy.
+   *
+   * @param array a JSON array
+   * @param func the function to apply to primitive values
+   * @return the copy with the replaced values
+   * @throws JSONException if JSON operations fail
+   */
+  private static JSONArray mapJsonArray(JSONArray array, Function<Object, Object> func)
+      throws JSONException {
 
-    private static JSONArray mapJsonArray(JSONArray array, Function<Object, Object> func) throws JSONException {
-
-        JSONArray result = new JSONArray();
-        for (int i = 0; i < array.length(); i++) {
-            result.put(mapJson(array.get(i), func));
-        }
-        return result;
+    JSONArray result = new JSONArray();
+    for (int i = 0; i < array.length(); i++) {
+      result.put(mapJson(array.get(i), func));
     }
-
+    return result;
+  }
 }

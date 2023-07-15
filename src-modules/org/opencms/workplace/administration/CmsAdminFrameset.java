@@ -27,84 +27,95 @@
 
 package org.opencms.workplace.administration;
 
+import javax.servlet.http.HttpServletRequest;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.workplace.CmsWorkplaceSettings;
 import org.opencms.workplace.tools.CmsToolDialog;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
- * Helper class to create the administration frameset.<p>
+ * Helper class to create the administration frameset.
  *
- * It allows to specify if you want or not an left side menu.<p>
+ * <p>It allows to specify if you want or not an left side menu.
  *
- * The following files use this class:<br>
+ * <p>The following files use this class:<br>
+ *
  * <ul>
- * <li>/views/admin/external-fs.jsp</li>
- * <li>/views/admin/admin-fs.jsp</li>
+ *   <li>/views/admin/external-fs.jsp
+ *   <li>/views/admin/admin-fs.jsp
  * </ul>
+ *
  * <p>
  *
  * @since 6.0.0
  */
 public class CmsAdminFrameset extends CmsToolDialog {
 
-    /** Request parameter name for the "with menu" flag. */
-    public static final String PARAM_MENU = "menu";
+  /** Request parameter name for the "with menu" flag. */
+  public static final String PARAM_MENU = "menu";
 
-    /** Request parameter value. */
-    private String m_paramMenu;
+  /** Request parameter value. */
+  private String m_paramMenu;
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsAdminFrameset(CmsJspActionElement jsp) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsAdminFrameset(CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Returns the menu parameter value.<p>
-     *
-     * @return the menu parameter value
-     */
-    public String getParamMenu() {
+  /**
+   * Returns the menu parameter value.
+   *
+   * <p>
+   *
+   * @return the menu parameter value
+   */
+  public String getParamMenu() {
 
-        return m_paramMenu;
-    }
+    return m_paramMenu;
+  }
 
-    /**
-     * Sets the menu parameter value.<p>
-     *
-     * @param paramMenu the menu parameter value to set
-     */
-    public void setParamMenu(String paramMenu) {
+  /**
+   * Sets the menu parameter value.
+   *
+   * <p>
+   *
+   * @param paramMenu the menu parameter value to set
+   */
+  public void setParamMenu(String paramMenu) {
 
-        m_paramMenu = paramMenu;
-    }
+    m_paramMenu = paramMenu;
+  }
 
-    /**
-     * Tests if the current dialog should be displayed with or without menu.<p>
-     *
-     * The default is with menu, use <code>menu=no</code> for avoiding it.<p>
-     *
-     * @return <code>true</code> if the dialog should be displayed with menu
-     */
-    public boolean withMenu() {
+  /**
+   * Tests if the current dialog should be displayed with or without menu.
+   *
+   * <p>The default is with menu, use <code>menu=no</code> for avoiding it.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the dialog should be displayed with menu
+   */
+  public boolean withMenu() {
 
-        return (getParamMenu() == null) || !getParamMenu().equals("no");
-    }
+    return (getParamMenu() == null) || !getParamMenu().equals("no");
+  }
 
-    /**
-     * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+  /**
+   * @see
+   *     org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings,
+   *     javax.servlet.http.HttpServletRequest)
+   */
+  @Override
+  protected void initWorkplaceRequestValues(
+      CmsWorkplaceSettings settings, HttpServletRequest request) {
 
-        // fill the parameter values in the get/set methods
-        fillParamValues(request);
-    }
-
+    // fill the parameter values in the get/set methods
+    fillParamValues(request);
+  }
 }

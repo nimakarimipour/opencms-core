@@ -27,75 +27,88 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import com.google.gwt.user.client.ui.Composite;
 import org.opencms.gwt.client.ui.CmsList;
 import org.opencms.gwt.client.ui.CmsListItem;
 import org.opencms.gwt.client.ui.CmsScrollPanel;
 
-import com.google.gwt.user.client.ui.Composite;
-
 /**
- * Base class for clipboard tabs.<p>
+ * Base class for clipboard tabs.
+ *
+ * <p>
  */
 public abstract class A_CmsClipboardTab extends Composite {
 
-    /**
-     * Adds an item to the list.<p>
-     *
-     * @param item the item to add
-     */
-    public void addListItem(CmsListItem item) {
+  /**
+   * Adds an item to the list.
+   *
+   * <p>
+   *
+   * @param item the item to add
+   */
+  public void addListItem(CmsListItem item) {
 
-        getList().add(item);
+    getList().add(item);
+  }
+
+  /**
+   * Clears the list.
+   *
+   * <p>
+   */
+  public void clearList() {
+
+    getList().clear();
+  }
+
+  /**
+   * Returns the item list.
+   *
+   * <p>
+   *
+   * @return the item list
+   */
+  public abstract CmsList<CmsListItem> getList();
+
+  /**
+   * Returns the height required by the tab content.
+   *
+   * <p>
+   *
+   * @return the tab content height
+   */
+  public int getRequiredHeight() {
+
+    return getList().getElement().getClientHeight() + 17;
+  }
+
+  /**
+   * Returns the scroll panel.
+   *
+   * <p>
+   *
+   * @return the scroll panel
+   */
+  public abstract CmsScrollPanel getScrollPanel();
+
+  /**
+   * Replaces the item with the same id if present.
+   *
+   * <p>
+   *
+   * @param item the new item
+   */
+  public void replaceItem(CmsListItem item) {
+
+    CmsListItem oldItem = getList().getItem(item.getId());
+    if (oldItem != null) {
+      int index = getList().getWidgetIndex(oldItem);
+      getList().removeItem(oldItem);
+      if (index >= getList().getWidgetCount()) {
+        getList().addItem(item);
+      } else {
+        getList().insertItem(item, index);
+      }
     }
-
-    /**
-     * Clears the list.<p>
-     */
-    public void clearList() {
-
-        getList().clear();
-    }
-
-    /**
-     * Returns the item list.<p>
-     *
-     * @return the item list
-     */
-    public abstract CmsList<CmsListItem> getList();
-
-    /**
-     * Returns the height required by the tab content.<p>
-     *
-     * @return the tab content height
-     */
-    public int getRequiredHeight() {
-
-        return getList().getElement().getClientHeight() + 17;
-    }
-
-    /**
-     * Returns the scroll panel.<p>
-     *
-     * @return the scroll panel
-     */
-    public abstract CmsScrollPanel getScrollPanel();
-
-    /**
-     * Replaces the item with the same id if present.<p>
-     *
-     * @param item the new item
-     */
-    public void replaceItem(CmsListItem item) {
-
-        CmsListItem oldItem = getList().getItem(item.getId());
-        if (oldItem != null) {
-            int index = getList().getWidgetIndex(oldItem);
-            getList().removeItem(oldItem);
-            if (index >= getList().getWidgetCount()) {
-                getList().addItem(item);
-            } else {
-                getList().insertItem(item, index);
-            }
-        }
-    }
+  }
 }

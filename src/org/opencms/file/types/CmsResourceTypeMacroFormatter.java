@@ -30,29 +30,27 @@ package org.opencms.file.types;
 import org.opencms.loader.CmsMacroFormatterLoader;
 
 /**
- * The macro formatter resource type.<p>
+ * The macro formatter resource type.
+ *
+ * <p>
  */
 public class CmsResourceTypeMacroFormatter extends CmsResourceTypeXmlAdeConfiguration {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 1059327929431712085L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 1059327929431712085L;
 
-    /**
-     * @see org.opencms.file.types.CmsResourceTypeXmlContent#getCachePropertyDefault()
-     */
-    @Override
-    public String getCachePropertyDefault() {
+  /** @see org.opencms.file.types.CmsResourceTypeXmlContent#getCachePropertyDefault() */
+  @Override
+  public String getCachePropertyDefault() {
 
-        // return null to disable caching if cache property not set
-        return null;
-    }
+    // return null to disable caching if cache property not set
+    return null;
+  }
 
-    /**
-     * @see org.opencms.file.types.CmsResourceTypeXmlContent#getLoaderId()
-     */
-    @Override
-    public int getLoaderId() {
+  /** @see org.opencms.file.types.CmsResourceTypeXmlContent#getLoaderId() */
+  @Override
+  public int getLoaderId() {
 
-        return CmsMacroFormatterLoader.LOADER_ID;
-    }
+    return CmsMacroFormatterLoader.LOADER_ID;
+  }
 }

@@ -27,134 +27,140 @@
 
 package org.opencms.main;
 
+import java.io.IOException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.search.solr.spellchecking.CmsSolrSpellchecker;
 import org.opencms.site.CmsSite;
 import org.opencms.util.CmsStringUtil;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Handles spell check requests.<p>
+ * Handles spell check requests.
+ *
+ * <p>
  */
 public class OpenCmsSpellcheckHandler extends HttpServlet implements I_CmsRequestHandler {
 
-    /** A constant for the optional 'baseUri' parameter. */
-    public static final String PARAM_BASE_URI = "baseUri";
+  /** A constant for the optional 'baseUri' parameter. */
+  public static final String PARAM_BASE_URI = "baseUri";
 
-    /** A constant for the HTTP 'referer'. */
-    protected static final String HEADER_REFERER_KEY = "referer";
+  /** A constant for the HTTP 'referer'. */
+  protected static final String HEADER_REFERER_KEY = "referer";
 
-    /** The spell check handler name. */
-    private static final String HANDLER_NAME = "SpellcheckDictionary";
+  /** The spell check handler name. */
+  private static final String HANDLER_NAME = "SpellcheckDictionary";
 
-    /** The handler names used by this request handler. */
-    private static final String[] HANDLER_NAMES = new String[] {HANDLER_NAME};
+  /** The handler names used by this request handler. */
+  private static final String[] HANDLER_NAMES = new String[] {HANDLER_NAME};
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(OpenCmsSpellcheckHandler.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(OpenCmsSpellcheckHandler.class);
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -6028091947126209813L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -6028091947126209813L;
 
-    /**
-     * Returns the path to the spell check handler.<p>
-     *
-     * @return the path to the spell check handler
-     */
-    public static String getSpellcheckHandlerPath() {
+  /**
+   * Returns the path to the spell check handler.
+   *
+   * <p>
+   *
+   * @return the path to the spell check handler
+   */
+  public static String getSpellcheckHandlerPath() {
 
-        return OpenCmsServlet.HANDLE_PATH + HANDLER_NAME;
+    return OpenCmsServlet.HANDLE_PATH + HANDLER_NAME;
+  }
+
+  /**
+   * Checks if the spell check request handler is configured.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the spell check request handler is configured
+   */
+  public static boolean isSpellcheckingEnabled() {
+
+    return OpenCmsCore.getInstance().getRequestHandler(HANDLER_NAME) != null;
+  }
+
+  /** @see org.opencms.main.I_CmsRequestHandler#getHandlerNames() */
+  public String[] getHandlerNames() {
+
+    return HANDLER_NAMES;
+  }
+
+  /**
+   * @see org.opencms.main.I_CmsRequestHandler#handle(javax.servlet.http.HttpServletRequest,
+   *     javax.servlet.http.HttpServletResponse, java.lang.String)
+   */
+  public void handle(HttpServletRequest req, HttpServletResponse res, String name)
+      throws IOException {
+
+    CmsObject cms;
+    try {
+      cms = getCmsObject(req);
+
+      CmsSolrSpellchecker dict = OpenCms.getSearchManager().getSolrDictionary();
+      if (dict != null) {
+        dict.getSpellcheckingResult(res, req, cms);
+      }
+    } catch (CmsException e) {
+      LOG.error(e.getLocalizedMessage(), e);
     }
+  }
 
-    /**
-     * Checks if the spell check request handler is configured.<p>
-     *
-     * @return <code>true</code> if the spell check request handler is configured
-     */
-    public static boolean isSpellcheckingEnabled() {
+  /**
+   * Returns the CMS object.
+   *
+   * <p>
+   *
+   * @param req the request
+   * @return the CMS object
+   * @throws CmsException if something goes wrong
+   */
+  protected CmsObject getCmsObject(HttpServletRequest req) throws CmsException {
 
-        return OpenCmsCore.getInstance().getRequestHandler(HANDLER_NAME) != null;
+    CmsObject cms = OpenCmsCore.getInstance().initCmsObjectFromSession(req);
+    // use the guest user as fall back
+    if (cms == null) {
+      cms = OpenCmsCore.getInstance().initCmsObject(OpenCms.getDefaultUsers().getUserGuest());
+      String siteRoot = OpenCmsCore.getInstance().getSiteManager().matchRequest(req).getSiteRoot();
+      cms.getRequestContext().setSiteRoot(siteRoot);
     }
-
-    /**
-     * @see org.opencms.main.I_CmsRequestHandler#getHandlerNames()
-     */
-    public String[] getHandlerNames() {
-
-        return HANDLER_NAMES;
+    String baseUri = getBaseUri(req, cms);
+    if (baseUri != null) {
+      cms.getRequestContext().setUri(baseUri);
     }
+    return cms;
+  }
 
-    /**
-     * @see org.opencms.main.I_CmsRequestHandler#handle(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String)
-     */
-    public void handle(HttpServletRequest req, HttpServletResponse res, String name) throws IOException {
+  /**
+   * Returns the base URI.
+   *
+   * <p>
+   *
+   * @param req the servlet request
+   * @param cms the CmsObject
+   * @return the base URI
+   */
+  private String getBaseUri(HttpServletRequest req, CmsObject cms) {
 
-        CmsObject cms;
-        try {
-            cms = getCmsObject(req);
-
-            CmsSolrSpellchecker dict = OpenCms.getSearchManager().getSolrDictionary();
-            if (dict != null) {
-                dict.getSpellcheckingResult(res, req, cms);
-            }
-        } catch (CmsException e) {
-            LOG.error(e.getLocalizedMessage(), e);
+    String baseUri = req.getParameter(PARAM_BASE_URI);
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(baseUri)) {
+      String referer = req.getHeader(HEADER_REFERER_KEY);
+      CmsSite site =
+          OpenCms.getSiteManager().getSiteForSiteRoot(cms.getRequestContext().getSiteRoot());
+      if (site != null) {
+        String prefix =
+            site.getServerPrefix(cms, "/") + OpenCms.getStaticExportManager().getVfsPrefix();
+        if ((referer != null) && referer.startsWith(prefix)) {
+          baseUri = referer.substring(prefix.length());
         }
+      }
     }
-
-    /**
-     * Returns the CMS object.<p>
-     *
-     * @param req the request
-     *
-     * @return the CMS object
-     *
-     * @throws CmsException if something goes wrong
-     */
-    protected CmsObject getCmsObject(HttpServletRequest req) throws CmsException {
-
-        CmsObject cms = OpenCmsCore.getInstance().initCmsObjectFromSession(req);
-        // use the guest user as fall back
-        if (cms == null) {
-            cms = OpenCmsCore.getInstance().initCmsObject(OpenCms.getDefaultUsers().getUserGuest());
-            String siteRoot = OpenCmsCore.getInstance().getSiteManager().matchRequest(req).getSiteRoot();
-            cms.getRequestContext().setSiteRoot(siteRoot);
-        }
-        String baseUri = getBaseUri(req, cms);
-        if (baseUri != null) {
-            cms.getRequestContext().setUri(baseUri);
-        }
-        return cms;
-    }
-
-    /**
-     * Returns the base URI.<p>
-     *
-     * @param req the servlet request
-     * @param cms the CmsObject
-     *
-     * @return the base URI
-     */
-    private String getBaseUri(HttpServletRequest req, CmsObject cms) {
-
-        String baseUri = req.getParameter(PARAM_BASE_URI);
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(baseUri)) {
-            String referer = req.getHeader(HEADER_REFERER_KEY);
-            CmsSite site = OpenCms.getSiteManager().getSiteForSiteRoot(cms.getRequestContext().getSiteRoot());
-            if (site != null) {
-                String prefix = site.getServerPrefix(cms, "/") + OpenCms.getStaticExportManager().getVfsPrefix();
-                if ((referer != null) && referer.startsWith(prefix)) {
-                    baseUri = referer.substring(prefix.length());
-                }
-            }
-        }
-        return baseUri;
-    }
+    return baseUri;
+  }
 }

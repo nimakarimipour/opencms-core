@@ -31,56 +31,64 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Helper class used to perform an action when multiple asynchronous tasks have finished.<p>
+ * Helper class used to perform an action when multiple asynchronous tasks have finished.
  *
- * To use this, first, for every action, add a token which uniquely identifies the action. Remove the corresponding
- * token when the action is finished. When all tokens are removed, the final action will be executed.<p>
+ * <p>To use this, first, for every action, add a token which uniquely identifies the action. Remove
+ * the corresponding token when the action is finished. When all tokens are removed, the final
+ * action will be executed.
+ *
+ * <p>
  */
 public class CmsAsyncJoinHandler {
 
-    /** The action to perform when all tokens have been removed. */
-    private Runnable m_joinAction;
+  /** The action to perform when all tokens have been removed. */
+  private Runnable m_joinAction;
 
-    /** The set of tokens. */
-    protected Set<Object> m_tokens = new HashSet<Object>();
+  /** The set of tokens. */
+  protected Set<Object> m_tokens = new HashSet<Object>();
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param joinAction the final action to execute
-     */
-    public CmsAsyncJoinHandler(Runnable joinAction) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param joinAction the final action to execute
+   */
+  public CmsAsyncJoinHandler(Runnable joinAction) {
 
-        m_joinAction = joinAction;
+    m_joinAction = joinAction;
+  }
+
+  /**
+   * Adds tokens.
+   *
+   * <p>
+   *
+   * @param tokens the tokens to add
+   */
+  public void addTokens(Object... tokens) {
+
+    for (Object token : tokens) {
+      m_tokens.add(token);
     }
+  }
 
-    /**
-     * Adds tokens.<p>
-     *
-     * @param tokens the tokens to add
-     */
-    public void addTokens(Object... tokens) {
+  /**
+   * Removes a token.
+   *
+   * <p>When all tokens have been removed, the final action is executed.
+   *
+   * <p>
+   *
+   * @param token the token to remove
+   */
+  public void removeToken(Object token) {
 
-        for (Object token : tokens) {
-            m_tokens.add(token);
-        }
+    m_tokens.remove(token);
+    if (m_tokens.isEmpty()) {
+      if (m_joinAction != null) {
+        m_joinAction.run();
+      }
     }
-
-    /**
-     * Removes a token.<p>
-     *
-     * When all tokens have been removed, the final action is executed.<p>
-     *
-     * @param token the token to remove
-     */
-    public void removeToken(Object token) {
-
-        m_tokens.remove(token);
-        if (m_tokens.isEmpty()) {
-            if (m_joinAction != null) {
-                m_joinAction.run();
-            }
-        }
-    }
-
+  }
 }

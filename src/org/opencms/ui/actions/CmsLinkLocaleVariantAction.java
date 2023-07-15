@@ -27,6 +27,9 @@
 
 package org.opencms.ui.actions;
 
+import java.util.List;
+import java.util.Locale;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.i18n.CmsLocaleGroup;
@@ -43,102 +46,99 @@ import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 import org.opencms.ui.sitemap.CmsLocaleLinkTargetSelectionDialog;
 import org.opencms.ui.sitemap.I_CmsLocaleCompareContext;
 
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Workplace action for the 'Link locale variant' dialog.<p>
+ * Workplace action for the 'Link locale variant' dialog.
+ *
+ * <p>
  */
 public class CmsLinkLocaleVariantAction extends A_CmsWorkplaceAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "linklocale";
+  /** The action id. */
+  public static final String ACTION_ID = "linklocale";
 
-    /** The action visibility. */
-    public static final I_CmsHasMenuItemVisibility VISIBILITY = new CmsMenuItemVisibilitySingleOnly(
-        CmsStandardVisibilityCheck.DEFAULT_DEFAULTFILE);
+  /** The action visibility. */
+  public static final I_CmsHasMenuItemVisibility VISIBILITY =
+      new CmsMenuItemVisibilitySingleOnly(CmsStandardVisibilityCheck.DEFAULT_DEFAULTFILE);
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsLinkLocaleVariantAction.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsLinkLocaleVariantAction.class);
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(final I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(final I_CmsDialogContext context) {
 
-        try {
-            final CmsResource resource = context.getResources().get(0);
-            final CmsLocaleGroupService groupService = context.getCms().getLocaleGroupService();
-            final CmsResource localizationRoot = groupService.findLocalizationRoot(resource);
-            final CmsLocaleGroup localeGroup = groupService.readLocaleGroup(localizationRoot);
-            CmsLocaleLinkTargetSelectionDialog dlg = new CmsLocaleLinkTargetSelectionDialog(
-                context,
-                new I_CmsLocaleCompareContext() {
+    try {
+      final CmsResource resource = context.getResources().get(0);
+      final CmsLocaleGroupService groupService = context.getCms().getLocaleGroupService();
+      final CmsResource localizationRoot = groupService.findLocalizationRoot(resource);
+      final CmsLocaleGroup localeGroup = groupService.readLocaleGroup(localizationRoot);
+      CmsLocaleLinkTargetSelectionDialog dlg =
+          new CmsLocaleLinkTargetSelectionDialog(
+              context,
+              new I_CmsLocaleCompareContext() {
 
-                    public Locale getComparisonLocale() {
+                public Locale getComparisonLocale() {
 
-                        return OpenCms.getLocaleManager().getDefaultLocale(context.getCms(), getRoot());
-                    }
+                  return OpenCms.getLocaleManager().getDefaultLocale(context.getCms(), getRoot());
+                }
 
-                    public CmsLocaleGroup getLocaleGroup() {
+                public CmsLocaleGroup getLocaleGroup() {
 
-                        return localeGroup;
-                    }
+                  return localeGroup;
+                }
 
-                    public CmsResource getRoot() {
+                public CmsResource getRoot() {
 
-                        return localizationRoot;
-                    }
+                  return localizationRoot;
+                }
 
-                    public Locale getRootLocale() {
+                public Locale getRootLocale() {
 
-                        return OpenCms.getLocaleManager().getDefaultLocale(context.getCms(), getRoot());
-                    }
+                  return OpenCms.getLocaleManager().getDefaultLocale(context.getCms(), getRoot());
+                }
 
-                    public void refreshAll() {
+                public void refreshAll() {
 
-                        // ignore
-                    }
-                });
-            String title = CmsVaadinUtils.getMessageText(Messages.GUI_LOCALECOMPARE_LINK_LOCALE_VARIANT_0);
-            context.start(title, dlg);
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            context.error(e);
-        }
+                  // ignore
+                }
+              });
+      String title =
+          CmsVaadinUtils.getMessageText(Messages.GUI_LOCALECOMPARE_LINK_LOCALE_VARIANT_0);
+      context.start(title, dlg);
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      context.error(e);
     }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
+    return ACTION_ID;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+
+    if (resources.size() > 0) {
+      CmsResource resource = resources.get(0);
+      if (cms.getLocaleGroupService().getMainLocale(resource.getRootPath()) == null) {
+        return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
+      }
     }
+    return VISIBILITY.getVisibility(cms, resources);
+  }
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        if (resources.size() > 0) {
-            CmsResource resource = resources.get(0);
-            if (cms.getLocaleGroupService().getMainLocale(resource.getRootPath()) == null) {
-                return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-            }
-        }
-        return VISIBILITY.getVisibility(cms, resources);
-    }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
-
-        return Messages.GUI_LOCALECOMPARE_LINK_LOCALE_VARIANT_0;
-    }
-
+    return Messages.GUI_LOCALECOMPARE_LINK_LOCALE_VARIANT_0;
+  }
 }

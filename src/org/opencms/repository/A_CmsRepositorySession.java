@@ -30,55 +30,61 @@ package org.opencms.repository;
 import org.opencms.file.CmsResource;
 
 /**
- * Abstract implementation of the interface {@link I_CmsRepositorySession} to provide
- * the functionality of filtering items.<p>
+ * Abstract implementation of the interface {@link I_CmsRepositorySession} to provide the
+ * functionality of filtering items.
+ *
+ * <p>
  *
  * @since 6.5.6
  */
 public abstract class A_CmsRepositorySession implements I_CmsRepositorySession {
 
-    /** The filter to use for this session. */
-    private CmsRepositoryFilter m_filter;
+  /** The filter to use for this session. */
+  private CmsRepositoryFilter m_filter;
 
-    /**
-     * Returns the filter.<p>
-     *
-     * @return the filter
-     */
-    public CmsRepositoryFilter getFilter() {
+  /**
+   * Returns the filter.
+   *
+   * <p>
+   *
+   * @return the filter
+   */
+  public CmsRepositoryFilter getFilter() {
 
-        return m_filter;
+    return m_filter;
+  }
+
+  /**
+   * Sets the filter.
+   *
+   * <p>
+   *
+   * @param filter the filter to set
+   */
+  public void setFilter(CmsRepositoryFilter filter) {
+
+    m_filter = filter;
+  }
+
+  /**
+   * Checks if a path is filtered out of the filter or not.
+   *
+   * <p>
+   *
+   * @param path the path of a resource to check
+   * @return true if the name matches one of the given filter patterns
+   */
+  protected boolean isFiltered(String path) {
+
+    // filter all temporary files
+    if (CmsResource.isTemporaryFileName(path)) {
+      return true;
     }
 
-    /**
-     * Sets the filter.<p>
-     *
-     * @param filter the filter to set
-     */
-    public void setFilter(CmsRepositoryFilter filter) {
-
-        m_filter = filter;
+    if (m_filter == null) {
+      return false;
     }
 
-    /**
-     * Checks if a path is filtered out of the filter or not.<p>
-     *
-     * @param path the path of a resource to check
-     * @return true if the name matches one of the given filter patterns
-     */
-
-    protected boolean isFiltered(String path) {
-
-        // filter all temporary files
-        if (CmsResource.isTemporaryFileName(path)) {
-            return true;
-        }
-
-        if (m_filter == null) {
-            return false;
-        }
-
-        return m_filter.isFiltered(path);
-    }
-
+    return m_filter.isFiltered(path);
+  }
 }

@@ -31,86 +31,88 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Command;
 
 /**
- * Fade animation. Fading the element into view or fading it out.<p>
+ * Fade animation. Fading the element into view or fading it out.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsFadeAnimation extends A_CmsAnimation {
 
-    /** The element to animate. */
-    private Element m_element;
+  /** The element to animate. */
+  private Element m_element;
 
-    /** Show or hide flag. */
-    private boolean m_show;
+  /** Show or hide flag. */
+  private boolean m_show;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param element the element to animate
-     * @param show <code>true</code> to show the element, <code>false</code> to hide it away
-     * @param callback the callback executed after the animation is completed
-     */
-    public CmsFadeAnimation(Element element, boolean show, Command callback) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param element the element to animate
+   * @param show <code>true</code> to show the element, <code>false</code> to hide it away
+   * @param callback the callback executed after the animation is completed
+   */
+  public CmsFadeAnimation(Element element, boolean show, Command callback) {
 
-        super(callback);
-        m_show = show;
-        m_element = element;
+    super(callback);
+    m_show = show;
+    m_element = element;
+  }
+
+  /**
+   * Fades the given element into view executing the callback afterwards.
+   *
+   * <p>
+   *
+   * @param element the element to fade in
+   * @param callback the callback
+   * @param duration the animation duration
+   * @return the running animation object
+   */
+  public static CmsFadeAnimation fadeIn(Element element, Command callback, int duration) {
+
+    CmsFadeAnimation animation = new CmsFadeAnimation(element, true, callback);
+    animation.run(duration);
+    return animation;
+  }
+
+  /**
+   * Fades the given element out of view executing the callback afterwards.
+   *
+   * <p>
+   *
+   * @param element the element to fade out
+   * @param callback the callback
+   * @param duration the animation duration
+   * @return the running animation object
+   */
+  public static CmsFadeAnimation fadeOut(Element element, Command callback, int duration) {
+
+    CmsFadeAnimation animation = new CmsFadeAnimation(element, false, callback);
+    animation.run(duration);
+    return animation;
+  }
+
+  /** @see com.google.gwt.animation.client.Animation#onComplete() */
+  @Override
+  protected void onComplete() {
+
+    super.onComplete();
+
+    // using own implementation as GWT won't do it properly on IE7-8
+    CmsDomUtil.clearOpacity(m_element);
+  }
+
+  /** @see com.google.gwt.animation.client.Animation#onUpdate(double) */
+  @Override
+  protected void onUpdate(double progress) {
+
+    if (m_show) {
+      m_element.getStyle().setOpacity(progress);
+    } else {
+      m_element.getStyle().setOpacity(1 - progress);
     }
-
-    /**
-     * Fades the given element into view executing the callback afterwards.<p>
-     *
-     * @param element the element to fade in
-     * @param callback the callback
-     * @param duration the animation duration
-     *
-     * @return the running animation object
-     */
-    public static CmsFadeAnimation fadeIn(Element element, Command callback, int duration) {
-
-        CmsFadeAnimation animation = new CmsFadeAnimation(element, true, callback);
-        animation.run(duration);
-        return animation;
-    }
-
-    /**
-     * Fades the given element out of view executing the callback afterwards.<p>
-     *
-     * @param element the element to fade out
-     * @param callback the callback
-     * @param duration the animation duration
-     *
-     * @return the running animation object
-     */
-    public static CmsFadeAnimation fadeOut(Element element, Command callback, int duration) {
-
-        CmsFadeAnimation animation = new CmsFadeAnimation(element, false, callback);
-        animation.run(duration);
-        return animation;
-    }
-
-    /**
-     * @see com.google.gwt.animation.client.Animation#onComplete()
-     */
-    @Override
-    protected void onComplete() {
-
-        super.onComplete();
-
-        // using own implementation as GWT won't do it properly on IE7-8
-        CmsDomUtil.clearOpacity(m_element);
-    }
-
-    /**
-     * @see com.google.gwt.animation.client.Animation#onUpdate(double)
-     */
-    @Override
-    protected void onUpdate(double progress) {
-
-        if (m_show) {
-            m_element.getStyle().setOpacity(progress);
-        } else {
-            m_element.getStyle().setOpacity(1 - progress);
-        }
-    }
+  }
 }

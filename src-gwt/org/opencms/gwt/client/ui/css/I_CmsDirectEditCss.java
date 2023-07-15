@@ -27,58 +27,71 @@
 
 package org.opencms.gwt.client.ui.css;
 
+import com.google.gwt.resources.client.CssResource.Shared;
 import org.opencms.gwt.client.ui.css.I_CmsToolbarButtonLayoutBundle.I_CmsToolbarButtonCss;
 
-import com.google.gwt.resources.client.CssResource.Shared;
-
 /**
- * CSS resource interface for the classic Direct Edit Buttons.<p>
+ * CSS resource interface for the classic Direct Edit Buttons.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 @Shared
 public interface I_CmsDirectEditCss extends I_CmsToolbarButtonCss {
 
-    /**
-     * CSS class accessor.<p>
-     *
-     * @return a CSS class name
-     */
-    String directEditButtons();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class name
+   */
+  String directEditButtons();
 
-    /**
-     * CSS class accessor.<p>
-     *
-     * @return a CSS class name
-     */
-    String editableElement();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class name
+   */
+  String editableElement();
 
-    /**
-     * CSS class accessor.<p>
-     *
-     * @return a CSS class name
-     */
-    String expiredListElementOverlay();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class name
+   */
+  String expiredListElementOverlay();
 
-    /**
-     * CSS class accessor.<p>
-     *
-     * @return a CSS class name
-     */
-    String hideButtons();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class name
+   */
+  String hideButtons();
 
-    /**
-     * CSS class accessor.<p>
-     *
-     * @return a CSS class name
-     */
-    @ClassName("oc-option-bar")
-    String optionBar();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class name
+   */
+  @ClassName("oc-option-bar")
+  String optionBar();
 
-    /**
-     * CSS class accessor.<p>
-     *
-     * @return a CSS class name
-     */
-    String showButtons();
+  /**
+   * CSS class accessor.
+   *
+   * <p>
+   *
+   * @return a CSS class name
+   */
+  String showButtons();
 }

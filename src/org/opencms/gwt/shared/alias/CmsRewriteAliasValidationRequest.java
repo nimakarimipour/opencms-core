@@ -27,44 +27,50 @@
 
 package org.opencms.gwt.shared.alias;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * This method represents a query to validate a set of rewrite aliases on the  server.<p>
+ * This method represents a query to validate a set of rewrite aliases on the server.
+ *
+ * <p>
  */
 public class CmsRewriteAliasValidationRequest implements IsSerializable {
 
-    /** The rewrite aliases to validate. */
-    private List<CmsRewriteAliasTableRow> m_editedRewrites;
+  /** The rewrite aliases to validate. */
+  private List<CmsRewriteAliasTableRow> m_editedRewrites;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param editedRewrites the list of rewrite aliases to validate
-     */
-    public CmsRewriteAliasValidationRequest(List<CmsRewriteAliasTableRow> editedRewrites) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param editedRewrites the list of rewrite aliases to validate
+   */
+  public CmsRewriteAliasValidationRequest(List<CmsRewriteAliasTableRow> editedRewrites) {
 
-        m_editedRewrites = editedRewrites;
-    }
+    m_editedRewrites = editedRewrites;
+  }
 
-    /**
-     * Default constructor for serialization.<p>
-     */
-    protected CmsRewriteAliasValidationRequest() {
+  /**
+   * Default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsRewriteAliasValidationRequest() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * Gets the rewrite aliases which should be validated.<p>
-     *
-     * @return the list of rewrite aliases to validate
-     */
-    public List<CmsRewriteAliasTableRow> getEditedRewriteAliases() {
+  /**
+   * Gets the rewrite aliases which should be validated.
+   *
+   * <p>
+   *
+   * @return the list of rewrite aliases to validate
+   */
+  public List<CmsRewriteAliasTableRow> getEditedRewriteAliases() {
 
-        return m_editedRewrites;
-    }
-
+    return m_editedRewrites;
+  }
 }

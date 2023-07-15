@@ -36,11 +36,10 @@ import org.opencms.file.CmsObject;
  */
 public interface I_CmsNeedsAdminCmsObject {
 
-    /**
-     * Sets the admin CmsObject.
-     *
-     * @param adminCms a CmsObject with admin privileges
-     */
-    void setAdminCmsObject(CmsObject adminCms);
-
+  /**
+   * Sets the admin CmsObject.
+   *
+   * @param adminCms a CmsObject with admin privileges
+   */
+  void setAdminCmsObject(CmsObject adminCms);
 }

@@ -27,57 +27,59 @@
 
 package org.opencms.mail;
 
-import org.opencms.main.CmsLog;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
+import org.opencms.main.CmsLog;
 
 /**
- * Sends an email using a Thread, so that the application can
- * continue without waiting for the mail to be send.<p>
+ * Sends an email using a Thread, so that the application can continue without waiting for the mail
+ * to be send.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsMailTransport extends Thread {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsMailTransport.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsMailTransport.class);
 
-    /** The email to be send. */
-    private Email m_email;
+  /** The email to be send. */
+  private Email m_email;
 
-    /**
-     * Creates a new CmsMailTransport.<p>
-     *
-     * @param email the email to be send with this transport
-     */
-    public CmsMailTransport(Email email) {
+  /**
+   * Creates a new CmsMailTransport.
+   *
+   * <p>
+   *
+   * @param email the email to be send with this transport
+   */
+  public CmsMailTransport(Email email) {
 
-        m_email = email;
+    m_email = email;
+  }
+
+  /** @see java.lang.Thread#run() */
+  @Override
+  public void run() {
+
+    try {
+      m_email.send();
+    } catch (EmailException e) {
+      if (LOG.isErrorEnabled()) {
+        LOG.error(Messages.get().getBundle().key(Messages.LOG_SEND_MAIL_ERR_0), e);
+      }
     }
+  }
 
-    /**
-     * @see java.lang.Thread#run()
-     */
-    @Override
-    public void run() {
+  /**
+   * Sends the email in this transport object, same as calling <code>start()</code>.
+   *
+   * <p>
+   */
+  public void send() {
 
-        try {
-            m_email.send();
-        } catch (EmailException e) {
-            if (LOG.isErrorEnabled()) {
-                LOG.error(Messages.get().getBundle().key(Messages.LOG_SEND_MAIL_ERR_0), e);
-            }
-        }
-    }
-
-    /**
-     * Sends the email in this transport object,
-     * same as calling <code>start()</code>.<p>
-     */
-    public void send() {
-
-        start();
-    }
+    start();
+  }
 }

@@ -33,22 +33,27 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 
 /**
- * The loading animation.<p>
+ * The loading animation.
+ *
+ * <p>
  */
 public class CmsLoadingAnimation extends Composite {
 
-    /** The UI binder. */
-    interface CmsLoadingAnimationUiBinder extends UiBinder<HTML, CmsLoadingAnimation> {
-        // nothing to do
-    }
+  /** The UI binder. */
+  interface CmsLoadingAnimationUiBinder extends UiBinder<HTML, CmsLoadingAnimation> {
+    // nothing to do
+  }
 
-    /** The UI binder instance. */
-    private static CmsLoadingAnimationUiBinder uiBinder = GWT.create(CmsLoadingAnimationUiBinder.class);
+  /** The UI binder instance. */
+  private static CmsLoadingAnimationUiBinder uiBinder =
+      GWT.create(CmsLoadingAnimationUiBinder.class);
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsLoadingAnimation() {
-        initWidget(uiBinder.createAndBindUi(this));
-    }
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsLoadingAnimation() {
+    initWidget(uiBinder.createAndBindUi(this));
+  }
 }

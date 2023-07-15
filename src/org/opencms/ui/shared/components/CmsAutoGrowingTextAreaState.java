@@ -30,57 +30,66 @@ package org.opencms.ui.shared.components;
 import com.vaadin.shared.AbstractComponentState;
 
 /**
- * The scroll position CSS shared state.<p>
+ * The scroll position CSS shared state.
+ *
+ * <p>
  */
 public class CmsAutoGrowingTextAreaState extends AbstractComponentState {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -4224905041008648688L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -4224905041008648688L;
 
-    /** The maximal number of rows. */
-    private int m_maxRows;
+  /** The maximal number of rows. */
+  private int m_maxRows;
 
-    /** The minimal number of rows. */
-    private int m_minRows;
+  /** The minimal number of rows. */
+  private int m_minRows;
 
-    /**
-     * Returns the maximal number of rows.<p>
-     *
-     * @return the maximal number of rows
-     */
-    public int getMaxRows() {
+  /**
+   * Returns the maximal number of rows.
+   *
+   * <p>
+   *
+   * @return the maximal number of rows
+   */
+  public int getMaxRows() {
 
-        return m_maxRows;
-    }
+    return m_maxRows;
+  }
 
-    /**
-     * Returns the minimal number of rows.<p>
-     *
-     * @return the minimal number of rows
-     */
-    public int getMinRows() {
+  /**
+   * Returns the minimal number of rows.
+   *
+   * <p>
+   *
+   * @return the minimal number of rows
+   */
+  public int getMinRows() {
 
-        return m_minRows;
-    }
+    return m_minRows;
+  }
 
-    /**
-     * Sets the maximal number of rows.<p>
-     *
-     * @param maxRows the maximal number of rows
-     */
-    public void setMaxRows(int maxRows) {
+  /**
+   * Sets the maximal number of rows.
+   *
+   * <p>
+   *
+   * @param maxRows the maximal number of rows
+   */
+  public void setMaxRows(int maxRows) {
 
-        m_maxRows = maxRows;
-    }
+    m_maxRows = maxRows;
+  }
 
-    /**
-     * Sets the minimal number of rows.<p>
-     *
-     * @param minRows the minimal number of rows
-     */
-    public void setMinRows(int minRows) {
+  /**
+   * Sets the minimal number of rows.
+   *
+   * <p>
+   *
+   * @param minRows the minimal number of rows
+   */
+  public void setMinRows(int minRows) {
 
-        m_minRows = minRows;
-    }
-
+    m_minRows = minRows;
+  }
 }

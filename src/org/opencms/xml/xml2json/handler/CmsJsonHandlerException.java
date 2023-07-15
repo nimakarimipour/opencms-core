@@ -29,41 +29,47 @@ package org.opencms.xml.xml2json.handler;
 
 public class CmsJsonHandlerException extends Exception {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 5155325235329055833L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 5155325235329055833L;
 
-    /** The cause. */
-    private Throwable m_cause;
+  /** The cause. */
+  private Throwable m_cause;
 
-    /**
-     * Constructs a JSONException with an explanatory message.<p>
-     *
-     * @param message details about the reason for the exception
-     */
-    public CmsJsonHandlerException(String message) {
+  /**
+   * Constructs a JSONException with an explanatory message.
+   *
+   * <p>
+   *
+   * @param message details about the reason for the exception
+   */
+  public CmsJsonHandlerException(String message) {
 
-        super(message);
-    }
+    super(message);
+  }
 
-    /**
-     * Constructs a JSONException with an explanatory message.<p>
-     *
-     * @param t the throwable that was thrown
-     */
-    public CmsJsonHandlerException(Throwable t) {
+  /**
+   * Constructs a JSONException with an explanatory message.
+   *
+   * <p>
+   *
+   * @param t the throwable that was thrown
+   */
+  public CmsJsonHandlerException(Throwable t) {
 
-        super(t.getMessage());
-        m_cause = t;
-    }
+    super(t.getMessage());
+    m_cause = t;
+  }
 
-    /**
-     * Returns the cause of the exception.<p>
-     *
-     *  @return the cause
-     */
-    @Override
-    public Throwable getCause() {
+  /**
+   * Returns the cause of the exception.
+   *
+   * <p>
+   *
+   * @return the cause
+   */
+  @Override
+  public Throwable getCause() {
 
-        return m_cause;
-    }
+    return m_cause;
+  }
 }

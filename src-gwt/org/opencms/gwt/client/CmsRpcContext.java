@@ -27,40 +27,38 @@
 
 package org.opencms.gwt.client;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import org.opencms.gwt.client.util.CmsJSONMap;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 /**
- * Accessor for a global singleton JSON object used to pass additional context information to RPC calls.
+ * Accessor for a global singleton JSON object used to pass additional context information to RPC
+ * calls.
  */
 public class CmsRpcContext {
 
-    /** The JSON map. */
-    private static CmsJSONMap m_map;
+  /** The JSON map. */
+  private static CmsJSONMap m_map;
 
-    /**
-     * Gets the JSON map.
-     *
-     * @return the JSON map
-     */
-    public static CmsJSONMap get() {
+  /**
+   * Gets the JSON map.
+   *
+   * @return the JSON map
+   */
+  public static CmsJSONMap get() {
 
-        if (m_map == null) {
-            m_map = CmsJSONMap.createJSONMap();
-            installContext(m_map);
-        }
-        return m_map;
-
+    if (m_map == null) {
+      m_map = CmsJSONMap.createJSONMap();
+      installContext(m_map);
     }
+    return m_map;
+  }
 
-    /**
-     * Installs the JSON object as a variable in the main window.
-     *
-     * @param context the context to set
-     */
-    private static native void installContext(JavaScriptObject context) /*-{
+  /**
+   * Installs the JSON object as a variable in the main window.
+   *
+   * @param context the context to set
+   */
+  private static native void installContext(JavaScriptObject context) /*-{
 		$wnd.ocmsRpcContext = context;
     }-*/;
-
 }

@@ -28,14 +28,14 @@
 package org.opencms.ade.configuration;
 
 /**
- * Mode that determines how to handle types in the gallery dialog that are disabled, usually because there is no matching container in the current page.
+ * Mode that determines how to handle types in the gallery dialog that are disabled, usually because
+ * there is no matching container in the current page.
  */
 public enum CmsGalleryDisabledTypesMode {
 
-    /** Hide disabled gallery types. */
-    hide,
+  /** Hide disabled gallery types. */
+  hide,
 
-    /** Show disabled gallery types as disabled. */
-    mark
-
+  /** Show disabled gallery types as disabled. */
+  mark
 }

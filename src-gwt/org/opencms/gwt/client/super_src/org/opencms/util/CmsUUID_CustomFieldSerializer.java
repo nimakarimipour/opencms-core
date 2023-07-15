@@ -1,4 +1,4 @@
-/* 
+/*
  * This library is part of OpenCms -
  * the Open Source Content Management System
  *
@@ -19,7 +19,7 @@
  *
  * For further information about OpenCms, please see the
  * project website: http://www.opencms.org
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -32,57 +32,64 @@ import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
 /**
- * GWT serializer for {@link CmsUUID}.<p> 
- * 
- * @since 8.0.0 
+ * GWT serializer for {@link CmsUUID}.
+ *
+ * <p>
+ *
+ * @since 8.0.0
  */
 public final class CmsUUID_CustomFieldSerializer {
 
-    /**
-     * Hide constructor.<p>
-     */
-    private CmsUUID_CustomFieldSerializer() {
+  /**
+   * Hide constructor.
+   *
+   * <p>
+   */
+  private CmsUUID_CustomFieldSerializer() {
 
-        // prevent instantiation 
-    }
+    // prevent instantiation
+  }
 
-    /**
-     * Deserializes additional fields.<p> 
-     * 
-     * @param streamReader the reader
-     * @param instance the instance
-     */
-    public static void deserialize(SerializationStreamReader streamReader, CmsUUID instance) {
+  /**
+   * Deserializes additional fields.
+   *
+   * <p>
+   *
+   * @param streamReader the reader
+   * @param instance the instance
+   */
+  public static void deserialize(SerializationStreamReader streamReader, CmsUUID instance) {
 
-        // No fields
-    }
+    // No fields
+  }
 
-    /**
-     * Creates a new instance.<p>
-     * 
-     * @param streamReader the reader
-     * 
-     * @return a new instance
-     * 
-     * @throws SerializationException if something goes wrong
-     */
-    public static CmsUUID instantiate(SerializationStreamReader streamReader) throws SerializationException {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param streamReader the reader
+   * @return a new instance
+   * @throws SerializationException if something goes wrong
+   */
+  public static CmsUUID instantiate(SerializationStreamReader streamReader)
+      throws SerializationException {
 
-        return CmsUUID.valueOf(streamReader.readString());
-    }
+    return CmsUUID.valueOf(streamReader.readString());
+  }
 
-    /**
-     * Serializes the given instance.<p>
-     * 
-     * @param streamWriter the writer
-     * @param instance the instance to serialize
-     * 
-     * @throws SerializationException if something goes wrong
-     */
-    public static void serialize(SerializationStreamWriter streamWriter, CmsUUID instance)
-    throws SerializationException {
+  /**
+   * Serializes the given instance.
+   *
+   * <p>
+   *
+   * @param streamWriter the writer
+   * @param instance the instance to serialize
+   * @throws SerializationException if something goes wrong
+   */
+  public static void serialize(SerializationStreamWriter streamWriter, CmsUUID instance)
+      throws SerializationException {
 
-        streamWriter.writeString(instance.toString());
-    }
-
+    streamWriter.writeString(instance.toString());
+  }
 }

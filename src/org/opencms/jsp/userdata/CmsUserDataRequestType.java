@@ -34,9 +34,12 @@ package org.opencms.jsp.userdata;
  * In the latter case , more than one user can potentially be found.
  */
 public enum CmsUserDataRequestType {
-    /** Single-user data request - user entered their user name and password. */
-    singleUser,
+  /** Single-user data request - user entered their user name and password. */
+  singleUser,
 
-    /** Email user data request - user entered their email address, potentially many matching OpenCms users. */
-    email
+  /**
+   * Email user data request - user entered their email address, potentially many matching OpenCms
+   * users.
+   */
+  email
 }

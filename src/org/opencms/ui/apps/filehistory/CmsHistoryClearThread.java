@@ -27,6 +27,7 @@
 
 package org.opencms.ui.apps.filehistory;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
@@ -35,92 +36,96 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Clears the file history of the OpenCms database.<p>
+ * Clears the file history of the OpenCms database.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsHistoryClearThread extends A_CmsReportThread {
 
-    /** The logger for this class. */
-    static Log LOG = CmsLog.getLog(CmsHistoryClearThread.class.getName());
+  /** The logger for this class. */
+  static Log LOG = CmsLog.getLog(CmsHistoryClearThread.class.getName());
 
-    /**Clear all deleted versions older than this date.*/
-    private long m_dateClearDeletedOlder;
+  /** Clear all deleted versions older than this date. */
+  private long m_dateClearDeletedOlder;
 
-    /**amount of versions to keep for deleted resources. */
-    private int m_keepDeletedVersions;
+  /** amount of versions to keep for deleted resources. */
+  private int m_keepDeletedVersions;
 
-    /**amount of versions to keep.*/
-    private int m_keepVersions;
+  /** amount of versions to keep. */
+  private int m_keepVersions;
 
-    /**
-     * Creates the history clear Thread.<p>
-     *
-     * @param cms the current OpenCms context object
-     * @param keepV count of Versions to keep
-     * @param keepD count of Versions to keep for deleted resources
-     * @param date Clear all deleted versions older than this date
-     */
-    public CmsHistoryClearThread(CmsObject cms, int keepV, int keepD, long date) {
+  /**
+   * Creates the history clear Thread.
+   *
+   * <p>
+   *
+   * @param cms the current OpenCms context object
+   * @param keepV count of Versions to keep
+   * @param keepD count of Versions to keep for deleted resources
+   * @param date Clear all deleted versions older than this date
+   */
+  public CmsHistoryClearThread(CmsObject cms, int keepV, int keepD, long date) {
 
-        super(
-            cms,
-            CmsVaadinUtils.getMessageText(
-                Messages.GUI_FILEHISTORY_DELETE_THREAD_NAME_1,
-                cms.getRequestContext().getCurrentProject().getName()));
+    super(
+        cms,
+        CmsVaadinUtils.getMessageText(
+            Messages.GUI_FILEHISTORY_DELETE_THREAD_NAME_1,
+            cms.getRequestContext().getCurrentProject().getName()));
 
-        m_keepVersions = keepV;
-        m_keepDeletedVersions = keepD;
-        m_dateClearDeletedOlder = date;
-        initHtmlReport(cms.getRequestContext().getLocale());
-    }
+    m_keepVersions = keepV;
+    m_keepDeletedVersions = keepD;
+    m_dateClearDeletedOlder = date;
+    initHtmlReport(cms.getRequestContext().getLocale());
+  }
 
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
+  /** @see org.opencms.report.A_CmsReportThread#getReportUpdate() */
+  @Override
+  public String getReportUpdate() {
 
-        return getReport().getReportUpdate();
-    }
+    return getReport().getReportUpdate();
+  }
 
-    /**
-     * @see java.lang.Runnable#run()
-     */
-    @Override
-    public void run() {
+  /** @see java.lang.Runnable#run() */
+  @Override
+  public void run() {
 
-        LOG.info("Start delete history thread from user " + getCms().getRequestContext().getCurrentUser().getName());
-        LOG.info(
-            "Parameter: m_keepVersions="
-                + m_keepVersions
-                + ", m_keepDeletedVersions="
-                + m_keepDeletedVersions
-                + ", m_dateClearDeletedOlder="
-                + m_dateClearDeletedOlder);
+    LOG.info(
+        "Start delete history thread from user "
+            + getCms().getRequestContext().getCurrentUser().getName());
+    LOG.info(
+        "Parameter: m_keepVersions="
+            + m_keepVersions
+            + ", m_keepDeletedVersions="
+            + m_keepDeletedVersions
+            + ", m_dateClearDeletedOlder="
+            + m_dateClearDeletedOlder);
 
-        getReport().println(
+    getReport()
+        .println(
             Messages.get().container(Messages.RPT_DELETE_FILEHISTORY_BEGIN_0),
             I_CmsReport.FORMAT_HEADLINE);
 
-        if (m_dateClearDeletedOlder == 0) {
-            m_dateClearDeletedOlder = -1;
-        }
+    if (m_dateClearDeletedOlder == 0) {
+      m_dateClearDeletedOlder = -1;
+    }
 
-        // delete the historical files
-        try {
-            getCms().deleteHistoricalVersions(m_keepVersions, m_keepDeletedVersions, m_dateClearDeletedOlder, getReport());
-            LOG.info("Delete history thread successfully finished.");
-        } catch (CmsException e) {
-            getReport().println(e);
-            LOG.error("Delete history thread stoped because of exceptions", e);
-        }
-        LOG.info("Delete history thread closed.");
-        getReport().println(
+    // delete the historical files
+    try {
+      getCms()
+          .deleteHistoricalVersions(
+              m_keepVersions, m_keepDeletedVersions, m_dateClearDeletedOlder, getReport());
+      LOG.info("Delete history thread successfully finished.");
+    } catch (CmsException e) {
+      getReport().println(e);
+      LOG.error("Delete history thread stoped because of exceptions", e);
+    }
+    LOG.info("Delete history thread closed.");
+    getReport()
+        .println(
             Messages.get().container(Messages.RPT_DELETE_FILEHISTORY_END_0),
             I_CmsReport.FORMAT_HEADLINE);
-    }
+  }
 }

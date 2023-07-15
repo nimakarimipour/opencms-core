@@ -28,17 +28,17 @@
 package org.opencms.setup.db.update7to8.oracle;
 
 /**
- * Oracle version of CmsUpdatePasswordColumn.<p>
+ * Oracle version of CmsUpdatePasswordColumn.
+ *
+ * <p>
  */
-public class CmsUpdatePasswordColumn extends org.opencms.setup.db.update7to8.CmsUpdatePasswordColumn {
+public class CmsUpdatePasswordColumn
+    extends org.opencms.setup.db.update7to8.CmsUpdatePasswordColumn {
 
-    /**
-     * @see org.opencms.setup.db.update7to8.CmsUpdatePasswordColumn#getUpdateSql()
-     */
-    @Override
-    public String getUpdateSql() {
+  /** @see org.opencms.setup.db.update7to8.CmsUpdatePasswordColumn#getUpdateSql() */
+  @Override
+  public String getUpdateSql() {
 
-        return "ALTER TABLE CMS_USERS MODIFY USER_PASSWORD VARCHAR2(" + getNewColumnLength() + ")";
-    }
-
+    return "ALTER TABLE CMS_USERS MODIFY USER_PASSWORD VARCHAR2(" + getNewColumnLength() + ")";
+  }
 }

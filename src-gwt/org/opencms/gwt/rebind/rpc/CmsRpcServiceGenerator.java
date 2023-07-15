@@ -21,17 +21,20 @@ import com.google.gwt.user.rebind.rpc.ProxyCreator;
 import com.google.gwt.user.rebind.rpc.ServiceInterfaceProxyGenerator;
 
 /**
- * Creates proxies supporting optionally synchronized RPC methods using the
- * {@link com.google.gwt.user.client.rpc.SynchronizedRpcRequest} annotation.<p>
+ * Creates proxies supporting optionally synchronized RPC methods using the {@link
+ * com.google.gwt.user.client.rpc.SynchronizedRpcRequest} annotation.
+ *
+ * <p>
  */
 public class CmsRpcServiceGenerator extends ServiceInterfaceProxyGenerator {
 
-    /**
-     * @see com.google.gwt.user.rebind.rpc.ServiceInterfaceProxyGenerator#createProxyCreator(com.google.gwt.core.ext.typeinfo.JClassType)
-     */
-    @Override
-    protected ProxyCreator createProxyCreator(JClassType remoteService) {
+  /**
+   * @see
+   *     com.google.gwt.user.rebind.rpc.ServiceInterfaceProxyGenerator#createProxyCreator(com.google.gwt.core.ext.typeinfo.JClassType)
+   */
+  @Override
+  protected ProxyCreator createProxyCreator(JClassType remoteService) {
 
-        return new CmsRpcProxyCreator(remoteService);
-    }
+    return new CmsRpcProxyCreator(remoteService);
+  }
 }

@@ -30,25 +30,30 @@ package org.opencms.gwt.client.validation;
 import org.opencms.gwt.shared.CmsValidationResult;
 
 /**
- * This interface is used to receive notifications about the status of the validation.<p>
+ * This interface is used to receive notifications about the status of the validation.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsValidationHandler {
 
-    /**
-     * This method is called when the validation has been completed.<p>
-     *
-     * @param ok true if all fields have been successfully validated
-     */
-    void onValidationFinished(boolean ok);
+  /**
+   * This method is called when the validation has been completed.
+   *
+   * <p>
+   *
+   * @param ok true if all fields have been successfully validated
+   */
+  void onValidationFinished(boolean ok);
 
-    /**
-     * This method is called when a single field has been validated.<p>
-     *
-     * @param fieldId the field which has been validated
-     * @param result the result of the validation
-     */
-    void onValidationResult(String fieldId, CmsValidationResult result);
-
+  /**
+   * This method is called when a single field has been validated.
+   *
+   * <p>
+   *
+   * @param fieldId the field which has been validated
+   * @param result the result of the validation
+   */
+  void onValidationResult(String fieldId, CmsValidationResult result);
 }

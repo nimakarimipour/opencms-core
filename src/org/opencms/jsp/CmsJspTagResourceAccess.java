@@ -27,24 +27,25 @@
 
 package org.opencms.jsp;
 
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspTagException;
+import javax.servlet.jsp.tagext.Tag;
 import org.opencms.file.CmsObject;
 import org.opencms.flex.CmsFlexController;
 import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.jsp.util.CmsJspResourceAccessBean;
 import org.opencms.main.OpenCms;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.tagext.Tag;
-
 /**
  * Used to access resource information from the current open <code>&lt;cms:resourceload&gt;</code>
- * tag using JSP page context and the JSP EL.<p>
+ * tag using JSP page context and the JSP EL.
  *
- * The tag will create an instance of a {@link CmsJspResourceAccessBean} that is stored in the selected context.
- * Use the options provided by the bean to access the resource directly.<p>
+ * <p>The tag will create an instance of a {@link CmsJspResourceAccessBean} that is stored in the
+ * selected context. Use the options provided by the bean to access the resource directly.
  *
- * For example together with the JSTL, use this tag inside an open tag like this:<pre>
+ * <p>For example together with the JSTL, use this tag inside an open tag like this:
+ *
+ * <pre>
  * &lt;cms:resourceload ... &gt;
  *     &lt;cms:resourceaccess var="myVarName" scope="page" /&gt;
  *     ... other code ...
@@ -54,49 +55,46 @@ import javax.servlet.jsp.tagext.Tag;
  */
 public class CmsJspTagResourceAccess extends CmsJspScopedVarBodyTagSuport {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 2588220869205763894L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 2588220869205763894L;
 
-    /**
-     * @see javax.servlet.jsp.tagext.Tag#doEndTag()
-     */
-    @Override
-    public int doEndTag() {
+  /** @see javax.servlet.jsp.tagext.Tag#doEndTag() */
+  @Override
+  public int doEndTag() {
 
-        if (OpenCms.getSystemInfo().getServletContainerSettings().isReleaseTagsAfterEnd()) {
-            // need to release manually, JSP container may not call release as required (happens with Tomcat)
-            release();
-        }
-        return EVAL_PAGE;
+    if (OpenCms.getSystemInfo().getServletContainerSettings().isReleaseTagsAfterEnd()) {
+      // need to release manually, JSP container may not call release as required (happens with
+      // Tomcat)
+      release();
     }
+    return EVAL_PAGE;
+  }
 
-    /**
-     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-     */
-    @Override
-    public int doStartTag() throws JspException {
+  /** @see javax.servlet.jsp.tagext.Tag#doStartTag() */
+  @Override
+  public int doStartTag() throws JspException {
 
-        // get the current users OpenCms context
-        CmsObject cms = CmsFlexController.getCmsObject(pageContext.getRequest());
+    // get the current users OpenCms context
+    CmsObject cms = CmsFlexController.getCmsObject(pageContext.getRequest());
 
-        // get a reference to the parent "content container" class
-        Tag ancestor = findAncestorWithClass(this, I_CmsResourceContainer.class);
-        if (ancestor == null) {
-            CmsMessageContainer errMsgContainer = Messages.get().container(
-                Messages.ERR_PARENTLESS_TAG_1,
-                "resourceaccess");
-            String msg = Messages.getLocalizedMessage(errMsgContainer, pageContext);
-            throw new JspTagException(msg);
-        }
-        // get the currently open resource container
-        I_CmsResourceContainer resourceContainer = (I_CmsResourceContainer)ancestor;
-
-        // initialize a new instance of a resource access bean
-        CmsJspResourceAccessBean bean = new CmsJspResourceAccessBean(cms, resourceContainer.getResource());
-
-        // store the resource in the selected page context scope
-        storeAttribute(bean);
-
-        return SKIP_BODY;
+    // get a reference to the parent "content container" class
+    Tag ancestor = findAncestorWithClass(this, I_CmsResourceContainer.class);
+    if (ancestor == null) {
+      CmsMessageContainer errMsgContainer =
+          Messages.get().container(Messages.ERR_PARENTLESS_TAG_1, "resourceaccess");
+      String msg = Messages.getLocalizedMessage(errMsgContainer, pageContext);
+      throw new JspTagException(msg);
     }
+    // get the currently open resource container
+    I_CmsResourceContainer resourceContainer = (I_CmsResourceContainer) ancestor;
+
+    // initialize a new instance of a resource access bean
+    CmsJspResourceAccessBean bean =
+        new CmsJspResourceAccessBean(cms, resourceContainer.getResource());
+
+    // store the resource in the selected page context scope
+    storeAttribute(bean);
+
+    return SKIP_BODY;
+  }
 }

@@ -37,11 +37,13 @@ import com.google.gwt.resources.client.ImageResource;
  */
 public interface I_CmsImageBundle extends ClientBundle {
 
-    /**
-     * Image resource accessor.<p>
-     *
-     * @return an image resource
-     */
-    @Source("images/broken_image.png")
-    ImageResource brokenImage();
+  /**
+   * Image resource accessor.
+   *
+   * <p>
+   *
+   * @return an image resource
+   */
+  @Source("images/broken_image.png")
+  ImageResource brokenImage();
 }

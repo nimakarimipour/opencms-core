@@ -30,15 +30,18 @@ package org.opencms.ui.dialogs.permissions;
 import org.opencms.security.I_CmsPrincipal;
 
 /**
- * Interface for use of CmsPrincipleSelectDialog.<p>
+ * Interface for use of CmsPrincipleSelectDialog.
+ *
+ * <p>
  */
 public interface I_CmsPrincipalSelect {
 
-    /**
-     * Handles a selected principal.<p>
-     *
-     * @param principal which were selected
-     */
-    void handlePrincipal(I_CmsPrincipal principal);
-
+  /**
+   * Handles a selected principal.
+   *
+   * <p>
+   *
+   * @param principal which were selected
+   */
+  void handlePrincipal(I_CmsPrincipal principal);
 }

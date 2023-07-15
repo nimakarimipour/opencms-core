@@ -32,80 +32,84 @@ import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.ComboBox;
 
 /**
- * A combo box which automatically creates a new option if setValue is called with an item id not already contained
- * in the data source.
+ * A combo box which automatically creates a new option if setValue is called with an item id not
+ * already contained in the data source.
  *
- * This class only supports IndexedContainer as a data source.
+ * <p>This class only supports IndexedContainer as a data source.
  *
- * TODO: Fix this so it works for the value automatically set by setPropertyDataSource()
+ * <p>TODO: Fix this so it works for the value automatically set by setPropertyDataSource()
  */
 public class CmsAutoItemCreatingComboBox extends ComboBox {
 
-    /**
-     * Handles automatic creation of new values.<p>
-     */
-    public interface I_NewValueHandler {
-
-        /**
-         * Ensure that an item with the given id or a suitable replacement id exists.<p>
-         *
-         * @param cnt the container
-         * @param id the id
-         * @return the id actually used for the item
-         */
-        Object ensureItem(Container cnt, Object id);
-    }
-
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
-
-    /** The caption id. */
-    public static final String CAPTION_ID = "name";
-
-    /** The handler for new values. */
-    private I_NewValueHandler m_newValueHandler;
+  /**
+   * Handles automatic creation of new values.
+   *
+   * <p>
+   */
+  public interface I_NewValueHandler {
 
     /**
-     * Creates a new instance.<p>
-     */
-    public CmsAutoItemCreatingComboBox() {
-
-        super();
-    }
-
-    /**
-     * @see com.vaadin.v7.ui.AbstractSelect#setContainerDataSource(com.vaadin.v7.data.Container)
-     */
-    @Override
-    public void setContainerDataSource(Container newDataSource) {
-
-        if (newDataSource instanceof IndexedContainer) {
-            super.setContainerDataSource(newDataSource);
-        } else {
-            throw new IllegalArgumentException("only IndexedContainer supported as data source.");
-        }
-    }
-
-    /**
-     * Sets the new value handler.<p>
+     * Ensure that an item with the given id or a suitable replacement id exists.
      *
-     * @param handler the handler instance
+     * <p>
+     *
+     * @param cnt the container
+     * @param id the id
+     * @return the id actually used for the item
      */
-    public void setNewValueHandler(I_NewValueHandler handler) {
+    Object ensureItem(Container cnt, Object id);
+  }
 
-        m_newValueHandler = handler;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
+
+  /** The caption id. */
+  public static final String CAPTION_ID = "name";
+
+  /** The handler for new values. */
+  private I_NewValueHandler m_newValueHandler;
+
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsAutoItemCreatingComboBox() {
+
+    super();
+  }
+
+  /** @see com.vaadin.v7.ui.AbstractSelect#setContainerDataSource(com.vaadin.v7.data.Container) */
+  @Override
+  public void setContainerDataSource(Container newDataSource) {
+
+    if (newDataSource instanceof IndexedContainer) {
+      super.setContainerDataSource(newDataSource);
+    } else {
+      throw new IllegalArgumentException("only IndexedContainer supported as data source.");
     }
+  }
 
-    /**
-     * @see com.vaadin.v7.ui.AbstractSelect#setValue(java.lang.Object)
-     */
-    @Override
-    public void setValue(Object newValue) throws com.vaadin.v7.data.Property.ReadOnlyException {
+  /**
+   * Sets the new value handler.
+   *
+   * <p>
+   *
+   * @param handler the handler instance
+   */
+  public void setNewValueHandler(I_NewValueHandler handler) {
 
-        IndexedContainer container = (IndexedContainer)getContainerDataSource();
-        if ((m_newValueHandler != null) && (newValue != null)) {
-            newValue = m_newValueHandler.ensureItem(container, newValue);
-        }
-        super.setValue(newValue);
+    m_newValueHandler = handler;
+  }
+
+  /** @see com.vaadin.v7.ui.AbstractSelect#setValue(java.lang.Object) */
+  @Override
+  public void setValue(Object newValue) throws com.vaadin.v7.data.Property.ReadOnlyException {
+
+    IndexedContainer container = (IndexedContainer) getContainerDataSource();
+    if ((m_newValueHandler != null) && (newValue != null)) {
+      newValue = m_newValueHandler.ensureItem(container, newValue);
     }
+    super.setValue(newValue);
+  }
 }

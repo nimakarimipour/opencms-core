@@ -28,54 +28,59 @@
 package org.opencms.util;
 
 import com.google.common.collect.Sets;
-
 import junit.framework.TestCase;
 
 /**
- * Test case for CmsPathMap.<p>
+ * Test case for CmsPathMap.
+ *
+ * <p>
  */
 public class TestCmsPathMap extends TestCase {
 
-    /**
-     * Tests paths with common prefixes.<p>
-     */
-    public void testCommonPrefix() {
+  /**
+   * Tests paths with common prefixes.
+   *
+   * <p>
+   */
+  public void testCommonPrefix() {
 
-        CmsPathMap<String> pm = new CmsPathMap<String>();
-        pm.add("foo/bar", "1");
-        pm.add("foo/baz", "2");
-        pm.add("foobar", "3");
-        assertEquals(Sets.newHashSet("1", "2"), Sets.newHashSet(pm.getDescendantValues("foo")));
-    }
+    CmsPathMap<String> pm = new CmsPathMap<String>();
+    pm.add("foo/bar", "1");
+    pm.add("foo/baz", "2");
+    pm.add("foobar", "3");
+    assertEquals(Sets.newHashSet("1", "2"), Sets.newHashSet(pm.getDescendantValues("foo")));
+  }
 
-    /**
-     * Tests the empty path.<p>
-     */
-    public void testEmptyPath() {
+  /**
+   * Tests the empty path.
+   *
+   * <p>
+   */
+  public void testEmptyPath() {
 
-        CmsPathMap<String> pm = new CmsPathMap<String>();
-        pm.add("/", "1");
-        assertEquals(Sets.newHashSet("1"), Sets.newHashSet(pm.getDescendantValues("")));
-        pm.add("", "2");
-        assertEquals(Sets.newHashSet("2"), Sets.newHashSet(pm.getDescendantValues("")));
+    CmsPathMap<String> pm = new CmsPathMap<String>();
+    pm.add("/", "1");
+    assertEquals(Sets.newHashSet("1"), Sets.newHashSet(pm.getDescendantValues("")));
+    pm.add("", "2");
+    assertEquals(Sets.newHashSet("2"), Sets.newHashSet(pm.getDescendantValues("")));
+  }
 
-    }
+  /**
+   * Basic tests.
+   *
+   * <p>
+   */
+  public void testPathMap() {
 
-    /**
-     * Basic tests.<p>
-     */
-    public void testPathMap() {
-
-        CmsPathMap<String> pm = new CmsPathMap<String>();
-        pm.add("a", "1");
-        pm.add("a/b", "2");
-        pm.add("/a/c/", "3");
-        pm.add("d", "4");
-        pm.add("", "5");
-        pm.add("d/a", "6");
-        assertEquals(Sets.newHashSet("1", "2", "3"), Sets.newHashSet(pm.getDescendantValues("a")));
-        assertEquals(Sets.newHashSet("1", "2", "3"), Sets.newHashSet(pm.getDescendantValues("/a/")));
-        assertEquals(Sets.newHashSet(), Sets.newHashSet(pm.getDescendantValues("a/b/x")));
-    }
-
+    CmsPathMap<String> pm = new CmsPathMap<String>();
+    pm.add("a", "1");
+    pm.add("a/b", "2");
+    pm.add("/a/c/", "3");
+    pm.add("d", "4");
+    pm.add("", "5");
+    pm.add("d/a", "6");
+    assertEquals(Sets.newHashSet("1", "2", "3"), Sets.newHashSet(pm.getDescendantValues("a")));
+    assertEquals(Sets.newHashSet("1", "2", "3"), Sets.newHashSet(pm.getDescendantValues("/a/")));
+    assertEquals(Sets.newHashSet(), Sets.newHashSet(pm.getDescendantValues("a/b/x")));
+  }
 }

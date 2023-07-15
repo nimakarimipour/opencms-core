@@ -28,14 +28,18 @@
 package org.opencms.gwt.client;
 
 /**
- * Interface for widgets which should react to size changes of their descendants.<p>
+ * Interface for widgets which should react to size changes of their descendants.
+ *
+ * <p>
  *
  * @since 9.5.0
  */
 public interface I_CmsDescendantResizeHandler {
 
-    /**
-     * This method should be called when a descendant widget changes its size.<p>
-     */
-    void onResizeDescendant();
+  /**
+   * This method should be called when a descendant widget changes its size.
+   *
+   * <p>
+   */
+  void onResizeDescendant();
 }

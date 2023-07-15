@@ -27,84 +27,70 @@
 
 package org.opencms.webdav;
 
-import org.opencms.repository.I_CmsRepositorySession;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.jackrabbit.webdav.DavSession;
+import org.opencms.repository.I_CmsRepositorySession;
 
 /**
- * DavSession implementation for Jackrabbit WebDAV, mostly just a wrapper for I_CmsRepositorySession.
+ * DavSession implementation for Jackrabbit WebDAV, mostly just a wrapper for
+ * I_CmsRepositorySession.
  */
 public class CmsDavSession implements DavSession {
 
-    /** The underlying repository session. */
-    private I_CmsRepositorySession m_repoSession;
+  /** The underlying repository session. */
+  private I_CmsRepositorySession m_repoSession;
 
-    /** Lock tokens. */
-    private List<String> m_lockTokens = new ArrayList<>();
+  /** Lock tokens. */
+  private List<String> m_lockTokens = new ArrayList<>();
 
-    /**
-     * Creates a new DAV session.
-     *
-     * @param session the underlying repository session
-     */
-    public CmsDavSession(I_CmsRepositorySession session) {
+  /**
+   * Creates a new DAV session.
+   *
+   * @param session the underlying repository session
+   */
+  public CmsDavSession(I_CmsRepositorySession session) {
 
-        m_repoSession = session;
+    m_repoSession = session;
+  }
 
-    }
+  /** @see org.apache.jackrabbit.webdav.DavSession#addLockToken(java.lang.String) */
+  public void addLockToken(String token) {
 
-    /**
-     * @see org.apache.jackrabbit.webdav.DavSession#addLockToken(java.lang.String)
-     */
-    public void addLockToken(String token) {
+    m_lockTokens.add(token);
+  }
 
-        m_lockTokens.add(token);
-    }
+  /** @see org.apache.jackrabbit.webdav.DavSession#addReference(java.lang.Object) */
+  public void addReference(Object reference) {
 
-    /**
-     * @see org.apache.jackrabbit.webdav.DavSession#addReference(java.lang.Object)
-     */
-    public void addReference(Object reference) {
+    throw new UnsupportedOperationException();
+  }
 
-        throw new UnsupportedOperationException();
-    }
+  /** @see org.apache.jackrabbit.webdav.DavSession#getLockTokens() */
+  public String[] getLockTokens() {
 
-    /**
-     * @see org.apache.jackrabbit.webdav.DavSession#getLockTokens()
-     */
-    public String[] getLockTokens() {
+    return m_lockTokens.toArray(new String[] {});
+  }
 
-        return m_lockTokens.toArray(new String[] {});
-    }
+  /**
+   * Gets the OpenCms repository session.
+   *
+   * @return the OpenCms repository session
+   */
+  public I_CmsRepositorySession getRepositorySession() {
 
-    /**
-     * Gets the OpenCms repository session.
-     *
-     * @return the OpenCms repository session
-     */
-    public I_CmsRepositorySession getRepositorySession() {
+    return m_repoSession;
+  }
 
-        return m_repoSession;
+  /** @see org.apache.jackrabbit.webdav.DavSession#removeLockToken(java.lang.String) */
+  public void removeLockToken(String token) {
 
-    }
+    m_lockTokens.remove(token);
+  }
 
-    /**
-     * @see org.apache.jackrabbit.webdav.DavSession#removeLockToken(java.lang.String)
-     */
-    public void removeLockToken(String token) {
+  /** @see org.apache.jackrabbit.webdav.DavSession#removeReference(java.lang.Object) */
+  public void removeReference(Object reference) {
 
-        m_lockTokens.remove(token);
-    }
-
-    /**
-     * @see org.apache.jackrabbit.webdav.DavSession#removeReference(java.lang.Object)
-     */
-    public void removeReference(Object reference) {
-
-        throw new UnsupportedOperationException();
-    }
-
+    throw new UnsupportedOperationException();
+  }
 }

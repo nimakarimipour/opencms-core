@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,17 +17,17 @@ package com.google.gwt.dom.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-/** Fixing positioning issue due to API changes in Chrome. See https://github.com/gwtproject/gwt/commit/88a028f6b74ecc529a4b878301448d057d2c6e89 */
-
 /**
- * StandardBase implementation of {@link com.google.gwt.user.client.impl.DOMImpl}.
+ * Fixing positioning issue due to API changes in Chrome. See
+ * https://github.com/gwtproject/gwt/commit/88a028f6b74ecc529a4b878301448d057d2c6e89
  */
+
+/** StandardBase implementation of {@link com.google.gwt.user.client.impl.DOMImpl}. */
 class DOMImplStandardBase extends DOMImplStandard {
 
   private static class ClientRect extends JavaScriptObject {
-    
-    protected ClientRect() {
-    }
+
+    protected ClientRect() {}
 
     public final int getLeft() {
       return toInt32(getSubPixelLeft());
@@ -147,8 +147,8 @@ class DOMImplStandardBase extends DOMImplStandard {
 }-*/;
 
   /**
-   * The type property on a button element is read-only in safari, so we need to
-   * set it using setAttribute.
+   * The type property on a button element is read-only in safari, so we need to set it using
+   * setAttribute.
    */
   @Override
   public native ButtonElement createButtonElement(Document doc, String type) /*-{
@@ -158,8 +158,13 @@ class DOMImplStandardBase extends DOMImplStandard {
 }-*/;
 
   @Override
-  public native NativeEvent createKeyCodeEvent(Document doc, String type,
-      boolean ctrlKey, boolean altKey, boolean shiftKey, boolean metaKey,
+  public native NativeEvent createKeyCodeEvent(
+      Document doc,
+      String type,
+      boolean ctrlKey,
+      boolean altKey,
+      boolean shiftKey,
+      boolean metaKey,
       int keyCode) /*-{
     var evt = this.@com.google.gwt.dom.client.DOMImplStandardBase::createKeyEvent(Lcom/google/gwt/dom/client/Document;Ljava/lang/String;ZZZZZZ)(doc, type, true, true, ctrlKey, altKey, shiftKey, metaKey)
     evt.keyCode = keyCode;
@@ -168,9 +173,17 @@ class DOMImplStandardBase extends DOMImplStandard {
 
   @Override
   @Deprecated
-  public native NativeEvent createKeyEvent(Document doc, String type,
-      boolean canBubble, boolean cancelable, boolean ctrlKey, boolean altKey,
-      boolean shiftKey, boolean metaKey, int keyCode, int charCode) /*-{
+  public native NativeEvent createKeyEvent(
+      Document doc,
+      String type,
+      boolean canBubble,
+      boolean cancelable,
+      boolean ctrlKey,
+      boolean altKey,
+      boolean shiftKey,
+      boolean metaKey,
+      int keyCode,
+      int charCode) /*-{
     var evt = this.@com.google.gwt.dom.client.DOMImplStandardBase::createKeyEvent(Lcom/google/gwt/dom/client/Document;Ljava/lang/String;ZZZZZZ)(doc, type, canBubble, cancelable, ctrlKey, altKey, shiftKey, metaKey)
     evt.keyCode = keyCode;
     evt.charCode = charCode;
@@ -178,17 +191,19 @@ class DOMImplStandardBase extends DOMImplStandard {
 }-*/;
 
   @Override
-  public native NativeEvent createKeyPressEvent(Document doc,
-      boolean ctrlKey, boolean altKey, boolean shiftKey, boolean metaKey,
+  public native NativeEvent createKeyPressEvent(
+      Document doc,
+      boolean ctrlKey,
+      boolean altKey,
+      boolean shiftKey,
+      boolean metaKey,
       int charCode) /*-{
     var evt = this.@com.google.gwt.dom.client.DOMImplStandardBase::createKeyEvent(Lcom/google/gwt/dom/client/Document;Ljava/lang/String;ZZZZZZ)(doc, 'keypress', true, true, ctrlKey, altKey, shiftKey, metaKey)
     evt.charCode = charCode;
     return evt;
 }-*/;
 
-  /**
-   * Safari 2 does not support {@link ScriptElement#setText(String)}.
-   */
+  /** Safari 2 does not support {@link ScriptElement#setText(String)}. */
   @Override
   public ScriptElement createScriptElement(Document doc, String source) {
     ScriptElement elem = (ScriptElement) createElement(doc, "script");
@@ -209,26 +224,27 @@ class DOMImplStandardBase extends DOMImplStandard {
   @Override
   public int getAbsoluteLeft(Element elem) {
     ClientRect rect = getBoundingClientRect(elem);
-    double left = rect != null ? rect.getSubPixelLeft()
-    + getScrollLeft(elem.getOwnerDocument())
-        : getAbsoluteLeftUsingOffsets(elem);
+    double left =
+        rect != null
+            ? rect.getSubPixelLeft() + getScrollLeft(elem.getOwnerDocument())
+            : getAbsoluteLeftUsingOffsets(elem);
     return toInt32(left);
   }
 
   @Override
   public int getAbsoluteTop(Element elem) {
     ClientRect rect = getBoundingClientRect(elem);
-    double top = rect != null ? rect.getSubPixelTop()
-    + getScrollTop(elem.getOwnerDocument())
-        : getAbsoluteTopUsingOffsets(elem);
+    double top =
+        rect != null
+            ? rect.getSubPixelTop() + getScrollTop(elem.getOwnerDocument())
+            : getAbsoluteTopUsingOffsets(elem);
     return toInt32(top);
   }
 
   @Override
   public int getScrollLeft(Element elem) {
     if (!elem.hasTagName(BodyElement.TAG) && isRTL(elem)) {
-      return super.getScrollLeft(elem)
-          - (elem.getScrollWidth() - elem.getClientWidth());
+      return super.getScrollLeft(elem) - (elem.getScrollWidth() - elem.getClientWidth());
     }
     return super.getScrollLeft(elem);
   }
@@ -252,9 +268,15 @@ class DOMImplStandardBase extends DOMImplStandard {
     return elem.ownerDocument.defaultView.getComputedStyle(elem, '').direction == 'rtl';
 }-*/;
 
-  private native NativeEvent createKeyEvent(Document doc, String type,
-      boolean canBubble, boolean cancelable, boolean ctrlKey, boolean altKey,
-      boolean shiftKey, boolean metaKey) /*-{
+  private native NativeEvent createKeyEvent(
+      Document doc,
+      String type,
+      boolean canBubble,
+      boolean cancelable,
+      boolean ctrlKey,
+      boolean altKey,
+      boolean shiftKey,
+      boolean metaKey) /*-{
     // WebKit's KeyboardEvent cannot set or even initialize charCode, keyCode, etc.
     // And UIEvent's charCode and keyCode are read-only.
     // So we "fake" an event using a raw Event and expandos
@@ -267,4 +289,3 @@ class DOMImplStandardBase extends DOMImplStandard {
     return evt;
 }-*/;
 }
-

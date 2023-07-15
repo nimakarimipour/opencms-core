@@ -27,22 +27,6 @@
 
 package org.opencms.gwt.client.ui.resourceinfo;
 
-import org.opencms.db.CmsResourceState;
-import org.opencms.gwt.client.CmsCoreProvider;
-import org.opencms.gwt.client.I_CmsDescendantResizeHandler;
-import org.opencms.gwt.client.ui.CmsListItemWidget;
-import org.opencms.gwt.client.ui.CmsScrollPanel;
-import org.opencms.gwt.client.ui.contextmenu.CmsContextMenuButton;
-import org.opencms.gwt.client.ui.contextmenu.CmsContextMenuHandler;
-import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
-import org.opencms.gwt.client.util.CmsDomUtil;
-import org.opencms.gwt.client.util.CmsResourceStateUtil;
-import org.opencms.gwt.shared.CmsCoreData.AdeContext;
-import org.opencms.gwt.shared.CmsResourceStatusBean;
-
-import java.util.List;
-import java.util.Map.Entry;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -56,261 +40,301 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import java.util.List;
+import java.util.Map.Entry;
+import org.opencms.db.CmsResourceState;
+import org.opencms.gwt.client.CmsCoreProvider;
+import org.opencms.gwt.client.I_CmsDescendantResizeHandler;
+import org.opencms.gwt.client.ui.CmsListItemWidget;
+import org.opencms.gwt.client.ui.CmsScrollPanel;
+import org.opencms.gwt.client.ui.contextmenu.CmsContextMenuButton;
+import org.opencms.gwt.client.ui.contextmenu.CmsContextMenuHandler;
+import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
+import org.opencms.gwt.client.util.CmsDomUtil;
+import org.opencms.gwt.client.util.CmsResourceStateUtil;
+import org.opencms.gwt.shared.CmsCoreData.AdeContext;
+import org.opencms.gwt.shared.CmsResourceStatusBean;
 
 /**
- * A widget used to display various resource information to a user.<p>
+ * A widget used to display various resource information to a user.
+ *
+ * <p>
  */
 public class CmsResourceInfoView extends Composite implements I_CmsDescendantResizeHandler {
 
-    /**
-     * The uiBinder interface for this widget.<p>
-     */
-    interface I_CmsResourceInfoViewUiBinder extends UiBinder<Widget, CmsResourceInfoView> {
-        // empty
-    }
+  /**
+   * The uiBinder interface for this widget.
+   *
+   * <p>
+   */
+  interface I_CmsResourceInfoViewUiBinder extends UiBinder<Widget, CmsResourceInfoView> {
+    // empty
+  }
 
-    /** The uiBinder instance for this widget. */
-    private static I_CmsResourceInfoViewUiBinder uiBinder = GWT.create(I_CmsResourceInfoViewUiBinder.class);
+  /** The uiBinder instance for this widget. */
+  private static I_CmsResourceInfoViewUiBinder uiBinder =
+      GWT.create(I_CmsResourceInfoViewUiBinder.class);
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_dateCreated;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_dateCreated;
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_dateExpired;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_dateExpired;
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_dateLastModified;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_dateLastModified;
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_dateReleased;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_dateReleased;
 
-    /**
-     * The container for the file info box.<p>
-     */
-    @UiField
-    protected SimplePanel m_infoBoxContainer;
+  /**
+   * The container for the file info box.
+   *
+   * <p>
+   */
+  @UiField protected SimplePanel m_infoBoxContainer;
 
-    /**
-     * The info panel.<p>
-     */
-    @UiField
-    protected FlowPanel m_infoPanel;
+  /**
+   * The info panel.
+   *
+   * <p>
+   */
+  @UiField protected FlowPanel m_infoPanel;
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_lastProject;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_lastProject;
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_locales;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_locales;
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_lockState;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_lockState;
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_navText;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_navText;
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_permissions;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_permissions;
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_resourceType;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_resourceType;
 
-    /**
-     * Scroll panel for resource information.<p>
-     */
-    @UiField
-    protected CmsScrollPanel m_scrollPanel;
+  /**
+   * Scroll panel for resource information.
+   *
+   * <p>
+   */
+  @UiField protected CmsScrollPanel m_scrollPanel;
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_size;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_size;
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_state;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_state;
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_title;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_title;
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_userCreated;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_userCreated;
 
-    /**
-     * Text field for resource information.<p>
-     */
-    @UiField
-    protected HasText m_userLastModified;
+  /**
+   * Text field for resource information.
+   *
+   * <p>
+   */
+  @UiField protected HasText m_userLastModified;
 
-    /**
-     * Contains the additional information lines.<p>
-     */
-    @UiField
-    protected FlowPanel m_additionalParams;
+  /**
+   * Contains the additional information lines.
+   *
+   * <p>
+   */
+  @UiField protected FlowPanel m_additionalParams;
 
-    /** The context menu handler. */
-    private CmsContextMenuHandler m_menuHandler;
+  /** The context menu handler. */
+  private CmsContextMenuHandler m_menuHandler;
 
-    /**
-     * Creates a new widget instance.<p>
-     *
-     * @param status the resource information to display
-     * @param menuHandler the context menu handler
-     */
-    public CmsResourceInfoView(CmsResourceStatusBean status, CmsContextMenuHandler menuHandler) {
+  /**
+   * Creates a new widget instance.
+   *
+   * <p>
+   *
+   * @param status the resource information to display
+   * @param menuHandler the context menu handler
+   */
+  public CmsResourceInfoView(CmsResourceStatusBean status, CmsContextMenuHandler menuHandler) {
 
-        initWidget(uiBinder.createAndBindUi(this));
-        m_menuHandler = menuHandler;
-        m_scrollPanel.setHeight(CmsResourceInfoDialog.SCROLLPANEL_HEIGHT + "px");
-        initContent(status);
-    }
+    initWidget(uiBinder.createAndBindUi(this));
+    m_menuHandler = menuHandler;
+    m_scrollPanel.setHeight(CmsResourceInfoDialog.SCROLLPANEL_HEIGHT + "px");
+    initContent(status);
+  }
 
-    /**
-     * Initializes the content.<p>
-     *
-     * @param status the status data
-     */
-    public void initContent(CmsResourceStatusBean status) {
+  /**
+   * Initializes the content.
+   *
+   * <p>
+   *
+   * @param status the status data
+   */
+  public void initContent(CmsResourceStatusBean status) {
 
-        m_infoBoxContainer.clear();
-        CmsListItemWidget infoBox = new CmsListItemWidget(status.getListInfo());
-        infoBox.addOpenHandler(new OpenHandler<CmsListItemWidget>() {
+    m_infoBoxContainer.clear();
+    CmsListItemWidget infoBox = new CmsListItemWidget(status.getListInfo());
+    infoBox.addOpenHandler(
+        new OpenHandler<CmsListItemWidget>() {
 
-            public void onOpen(OpenEvent<CmsListItemWidget> event) {
+          public void onOpen(OpenEvent<CmsListItemWidget> event) {
 
-                CmsDomUtil.resizeAncestor(getParent());
-            }
+            CmsDomUtil.resizeAncestor(getParent());
+          }
         });
-        infoBox.addCloseHandler(new CloseHandler<CmsListItemWidget>() {
+    infoBox.addCloseHandler(
+        new CloseHandler<CmsListItemWidget>() {
 
-            public void onClose(CloseEvent<CmsListItemWidget> event) {
+          public void onClose(CloseEvent<CmsListItemWidget> event) {
 
-                CmsDomUtil.resizeAncestor(getParent());
-            }
+            CmsDomUtil.resizeAncestor(getParent());
+          }
         });
-        CmsContextMenuButton menuButton = new CmsContextMenuButton(
-            status.getStructureId(),
-            m_menuHandler,
-            AdeContext.resourceinfo);
-        menuButton.addStyleName(I_CmsLayoutBundle.INSTANCE.listItemWidgetCss().permaVisible());
-        infoBox.addButton(menuButton);
-        m_infoBoxContainer.add(infoBox);
-        m_dateCreated.setText(status.getDateCreated());
-        m_dateExpired.setText(status.getDateExpired());
-        m_dateLastModified.setText(status.getDateLastModified());
-        m_dateReleased.setText(status.getDateReleased());
-        m_lastProject.setText(status.getLastProject());
-        m_lockState.setText(status.getLockState());
-        CmsResourceState state = status.getStateBean();
-        String stateStyle = CmsResourceStateUtil.getStateStyle(state);
-        String stateText = CmsResourceStateUtil.getStateName(state);
-        m_state.setText(makeSpan(stateStyle, stateText));
-        m_title.setText(status.getTitle());
-        m_navText.setText(status.getNavText());
-        m_permissions.setText(status.getPermissions());
-        m_resourceType.setText(status.getResourceType());
-        m_size.setText("" + status.getSize() + " Bytes");
-        m_userCreated.setText(status.getUserCreated());
-        m_userLastModified.setText(status.getUserLastModified());
+    CmsContextMenuButton menuButton =
+        new CmsContextMenuButton(status.getStructureId(), m_menuHandler, AdeContext.resourceinfo);
+    menuButton.addStyleName(I_CmsLayoutBundle.INSTANCE.listItemWidgetCss().permaVisible());
+    infoBox.addButton(menuButton);
+    m_infoBoxContainer.add(infoBox);
+    m_dateCreated.setText(status.getDateCreated());
+    m_dateExpired.setText(status.getDateExpired());
+    m_dateLastModified.setText(status.getDateLastModified());
+    m_dateReleased.setText(status.getDateReleased());
+    m_lastProject.setText(status.getLastProject());
+    m_lockState.setText(status.getLockState());
+    CmsResourceState state = status.getStateBean();
+    String stateStyle = CmsResourceStateUtil.getStateStyle(state);
+    String stateText = CmsResourceStateUtil.getStateName(state);
+    m_state.setText(makeSpan(stateStyle, stateText));
+    m_title.setText(status.getTitle());
+    m_navText.setText(status.getNavText());
+    m_permissions.setText(status.getPermissions());
+    m_resourceType.setText(status.getResourceType());
+    m_size.setText("" + status.getSize() + " Bytes");
+    m_userCreated.setText(status.getUserCreated());
+    m_userLastModified.setText(status.getUserLastModified());
 
-        List<String> locales = status.getLocales();
-        if (locales != null) {
-            StringBuffer buffer = new StringBuffer();
-            int index = 0;
-            for (String locale : locales) {
-                if (locale.equals(CmsCoreProvider.get().getLocale())) {
-                    buffer.append("<b>");
-                    buffer.append(locale);
-                    buffer.append("</b>");
-                } else {
-                    buffer.append(locale);
-                }
-                if (index != (locales.size() - 1)) {
-                    buffer.append(", ");
-                }
-                index += 1;
-            }
-            m_locales.setText(buffer.toString());
+    List<String> locales = status.getLocales();
+    if (locales != null) {
+      StringBuffer buffer = new StringBuffer();
+      int index = 0;
+      for (String locale : locales) {
+        if (locale.equals(CmsCoreProvider.get().getLocale())) {
+          buffer.append("<b>");
+          buffer.append(locale);
+          buffer.append("</b>");
         } else {
-            m_locales.setText("");
+          buffer.append(locale);
         }
-        m_additionalParams.clear();
-        if (status.getAdditionalAttributes() != null) {
-            for (Entry<String, String> entry : status.getAdditionalAttributes().entrySet()) {
-                CmsResourceInfoLine line = new CmsResourceInfoLine();
-                line.setLabel(entry.getKey());
-                line.setText(entry.getValue());
-                m_additionalParams.add(line);
-            }
+        if (index != (locales.size() - 1)) {
+          buffer.append(", ");
         }
-
+        index += 1;
+      }
+      m_locales.setText(buffer.toString());
+    } else {
+      m_locales.setText("");
     }
+    m_additionalParams.clear();
+    if (status.getAdditionalAttributes() != null) {
+      for (Entry<String, String> entry : status.getAdditionalAttributes().entrySet()) {
+        CmsResourceInfoLine line = new CmsResourceInfoLine();
+        line.setLabel(entry.getKey());
+        line.setText(entry.getValue());
+        m_additionalParams.add(line);
+      }
+    }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.I_CmsDescendantResizeHandler#onResizeDescendant()
-     */
-    public void onResizeDescendant() {
+  /** @see org.opencms.gwt.client.I_CmsDescendantResizeHandler#onResizeDescendant() */
+  public void onResizeDescendant() {
 
-        Timer timer = new Timer() {
+    Timer timer =
+        new Timer() {
 
-            @Override
-            public void run() {
+          @Override
+          public void run() {
 
-                m_scrollPanel.onResizeDescendant();
-
-            }
+            m_scrollPanel.onResizeDescendant();
+          }
         };
-        timer.schedule(100);
-    }
+    timer.schedule(100);
+  }
 
-    /**
-     * Helper method to generate the HTML for a span with a CSS class and some text.<p>
-     *
-     * @param className the CSS class
-     * @param text the text
-     *
-     * @return the HTML for the span
-     */
-    private String makeSpan(String className, String text) {
+  /**
+   * Helper method to generate the HTML for a span with a CSS class and some text.
+   *
+   * <p>
+   *
+   * @param className the CSS class
+   * @param text the text
+   * @return the HTML for the span
+   */
+  private String makeSpan(String className, String text) {
 
-        return "<span class='" + className + "'>" + text + "</span>";
-    }
+    return "<span class='" + className + "'>" + text + "</span>";
+  }
 }

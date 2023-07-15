@@ -28,15 +28,18 @@
 package org.opencms.gwt.client.ui.input;
 
 /**
- * This is an interface for widgets which have a blur() method.<p>
+ * This is an interface for widgets which have a blur() method.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsHasBlur {
 
-    /**
-     * Makes the widget lose focus.<p>
-     */
-    void blur();
-
+  /**
+   * Makes the widget lose focus.
+   *
+   * <p>
+   */
+  void blur();
 }

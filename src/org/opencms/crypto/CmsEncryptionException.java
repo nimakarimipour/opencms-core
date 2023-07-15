@@ -27,33 +27,30 @@
 
 package org.opencms.crypto;
 
-/**
- * Class for errors during encryption / decryption.
- */
+/** Class for errors during encryption / decryption. */
 public class CmsEncryptionException extends Exception {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param message the error message
-     */
-    public CmsEncryptionException(String message) {
+  /**
+   * Creates a new instance.
+   *
+   * @param message the error message
+   */
+  public CmsEncryptionException(String message) {
 
-        super(message);
-    }
+    super(message);
+  }
 
-    /**
-     * Creates a new instance.
-     *
-     * @param message the error message
-     * @param cause the cause of this exception
-     */
-    public CmsEncryptionException(String message, Throwable cause) {
+  /**
+   * Creates a new instance.
+   *
+   * @param message the error message
+   * @param cause the cause of this exception
+   */
+  public CmsEncryptionException(String message, Throwable cause) {
 
-        super(message, cause);
-    }
-
+    super(message, cause);
+  }
 }

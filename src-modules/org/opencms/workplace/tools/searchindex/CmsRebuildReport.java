@@ -27,6 +27,15 @@
 
 package org.opencms.workplace.tools.searchindex;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
+import org.apache.commons.logging.Log;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.CmsLog;
@@ -38,149 +47,154 @@ import org.opencms.workplace.CmsWorkplaceSettings;
 import org.opencms.workplace.list.A_CmsListReport;
 import org.opencms.workplace.tools.CmsToolManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
-import org.apache.commons.logging.Log;
-
 /**
- * A report for displaying the rebuild process of the corresponding
- * <code>{@link org.opencms.ui.apps.searchindex.CmsIndexingReportThread}</code>.<p>
+ * A report for displaying the rebuild process of the corresponding <code>
+ * {@link org.opencms.ui.apps.searchindex.CmsIndexingReportThread}</code>.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsRebuildReport extends A_CmsListReport {
 
-    /** Indexes parameter: Value is a list of comma separated search index name. */
-    public static final String PARAM_INDEXES = "indexes";
+  /** Indexes parameter: Value is a list of comma separated search index name. */
+  public static final String PARAM_INDEXES = "indexes";
 
-    /** The request parameter value for search indexes: comma-separated names. **/
-    private String m_paramIndexes;
+  /** The request parameter value for search indexes: comma-separated names. * */
+  private String m_paramIndexes;
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsRebuildReport.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsRebuildReport.class);
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsRebuildReport(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsRebuildReport(CmsJspActionElement jsp) {
 
-        super(jsp);
+    super(jsp);
+  }
 
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsRebuildReport(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+
+    super(context, req, res);
+  }
+
+  /**
+   * Returns the comma-separated String of index names of the indexes that have to be rebuilt.
+   *
+   * <p>
+   *
+   * @return the comma-separated String of index names of the indexes that have to be rebuilt
+   */
+  public String getParamIndexes() {
+
+    return m_paramIndexes;
+  }
+
+  /**
+   * Returns the <b>unstarted</b> <code>Thread</code> that will do the work of rebuilding the
+   * indexes provided by the request parameter "indexes" value (comma-separated List).
+   *
+   * <p>
+   *
+   * @throws CmsRuntimeException if the request parameter "indexes" is missing.
+   * @return the <b>unstarted</b> <code>Thread</code> that will do the work of rebuilding the
+   *     indexes provided by the request parameter "indexes" value (comma-separated List)
+   * @see org.opencms.workplace.list.A_CmsListReport#initializeThread()
+   */
+  @Override
+  public I_CmsReportThread initializeThread() throws CmsRuntimeException {
+
+    if (getParamIndexes() == null) {
+      CmsIllegalArgumentException ex =
+          new CmsIllegalArgumentException(
+              Messages.get()
+                  .container(Messages.ERR_SEARCHINDEX_EDIT_MISSING_PARAM_1, PARAM_INDEXES));
+      LOG.warn(ex);
+
+      try {
+        getToolManager().jspForwardTool(this, "/searchindex", null);
+      } catch (Exception e) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
+
+      throw ex;
     }
+    List<String> indexes = extractIndexNames();
+    CmsIndexingReportThread thread = new CmsIndexingReportThread(getCms(), indexes);
+    return thread;
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsRebuildReport(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Sets the comma-separated String of index names of the indexes that that have to be rebuilt.
+   *
+   * <p>
+   *
+   * @param paramIndexes the comma-separated String of index names of the indexes that have to be
+   *     rebuilt
+   */
+  public void setParamIndexes(String paramIndexes) {
 
-        super(context, req, res);
+    m_paramIndexes = paramIndexes;
+  }
 
+  /**
+   * @see
+   *     org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings,
+   *     javax.servlet.http.HttpServletRequest)
+   */
+  @Override
+  protected void initWorkplaceRequestValues(
+      CmsWorkplaceSettings settings, HttpServletRequest request) {
+
+    super.initWorkplaceRequestValues(settings, request);
+    // closelink is a bit complicated: If a forward from a single searchindex overview page
+    // was made, go back to that searchindex-overview. If more indexes are in the given
+    // parameter "indexes" go back to the search management entry page...
+    List<String> indexes = extractIndexNames();
+    if (indexes.size() == 1) {
+      // back to index overview
+      Map<String, String[]> params = new HashMap<String, String[]>();
+      params.put(A_CmsEditSearchIndexDialog.PARAM_INDEXNAME, new String[] {indexes.get(0)});
+      setParamCloseLink(
+          CmsToolManager.linkForToolPath(getJsp(), "/searchindex/singleindex", params));
+    } else {
+      // back to search entry page
+      setParamCloseLink(CmsToolManager.linkForToolPath(getJsp(), "/searchindex"));
     }
+  }
 
-    /**
-     * Returns the comma-separated String of index names of the indexes that have to be rebuilt.<p>
-     *
-     * @return the comma-separated String of index names of the indexes that have to be rebuilt
-     */
-    public String getParamIndexes() {
+  /**
+   * Extracts all modules to delete form the module parameter.
+   *
+   * <p>
+   *
+   * @return list of module names
+   */
+  private List<String> extractIndexNames() {
 
-        return m_paramIndexes;
+    List<String> modules = new ArrayList<String>();
+
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(getParamIndexes())) {
+      StringTokenizer tok = new StringTokenizer(getParamIndexes(), ",");
+      while (tok.hasMoreTokens()) {
+        String module = tok.nextToken();
+        modules.add(module);
+      }
     }
-
-    /**
-     * Returns the <b>unstarted</b> <code>Thread</code> that will do the work of rebuilding the indexes
-     * provided by the request parameter "indexes" value (comma-separated List).<p>
-     *
-     * @throws CmsRuntimeException if the request parameter "indexes" is missing.
-     *
-     * @return the <b>unstarted</b> <code>Thread</code> that will do the work of rebuilding the indexes
-     *         provided by the request parameter "indexes" value (comma-separated List)
-     *
-     * @see org.opencms.workplace.list.A_CmsListReport#initializeThread()
-     */
-    @Override
-    public I_CmsReportThread initializeThread() throws CmsRuntimeException {
-
-        if (getParamIndexes() == null) {
-            CmsIllegalArgumentException ex = new CmsIllegalArgumentException(
-                Messages.get().container(Messages.ERR_SEARCHINDEX_EDIT_MISSING_PARAM_1, PARAM_INDEXES));
-            LOG.warn(ex);
-
-            try {
-                getToolManager().jspForwardTool(this, "/searchindex", null);
-            } catch (Exception e) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-
-            throw ex;
-        }
-        List<String> indexes = extractIndexNames();
-        CmsIndexingReportThread thread = new CmsIndexingReportThread(getCms(), indexes);
-        return thread;
-    }
-
-    /**
-     * Sets the comma-separated String of index names of the indexes that that have to be rebuilt.<p>
-     *
-     * @param paramIndexes the comma-separated String of index names of the indexes that have to be rebuilt
-     */
-    public void setParamIndexes(String paramIndexes) {
-
-        m_paramIndexes = paramIndexes;
-    }
-
-    /**
-     *
-     * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
-
-        super.initWorkplaceRequestValues(settings, request);
-        // closelink is a bit complicated: If a forward from a single searchindex overview page
-        // was made, go back to that searchindex-overview. If more indexes are in the given
-        // parameter "indexes" go back to the search management entry page...
-        List<String> indexes = extractIndexNames();
-        if (indexes.size() == 1) {
-            // back to index overview
-            Map<String, String[]> params = new HashMap<String, String[]>();
-            params.put(A_CmsEditSearchIndexDialog.PARAM_INDEXNAME, new String[] {indexes.get(0)});
-            setParamCloseLink(CmsToolManager.linkForToolPath(getJsp(), "/searchindex/singleindex", params));
-        } else {
-            // back to search entry page
-            setParamCloseLink(CmsToolManager.linkForToolPath(getJsp(), "/searchindex"));
-        }
-    }
-
-    /**
-     * Extracts all modules to delete form the module parameter.<p>
-     * @return list of module names
-     */
-    private List<String> extractIndexNames() {
-
-        List<String> modules = new ArrayList<String>();
-
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(getParamIndexes())) {
-            StringTokenizer tok = new StringTokenizer(getParamIndexes(), ",");
-            while (tok.hasMoreTokens()) {
-                String module = tok.nextToken();
-                modules.add(module);
-            }
-        }
-        return modules;
-    }
+    return modules;
+  }
 }

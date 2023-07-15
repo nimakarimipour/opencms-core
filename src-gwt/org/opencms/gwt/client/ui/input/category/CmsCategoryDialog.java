@@ -27,6 +27,13 @@
 
 package org.opencms.gwt.client.ui.input.category;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.FlowPanel;
+import java.util.List;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.client.Messages;
 import org.opencms.gwt.client.rpc.CmsRpcAction;
@@ -39,203 +46,211 @@ import org.opencms.gwt.shared.CmsListInfoBean.LockIcon;
 import org.opencms.gwt.shared.CmsResourceCategoryInfo;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.FlowPanel;
-
 /**
- * Dialog to display and change resource categories.<p>
+ * Dialog to display and change resource categories.
+ *
+ * <p>
  */
 public class CmsCategoryDialog extends CmsPopup {
 
-    /** The category tree widget. */
-    CmsCategoryTree m_categoryTree;
+  /** The category tree widget. */
+  CmsCategoryTree m_categoryTree;
 
-    /** The on save command. Called when categories have been changed. */
-    Command m_onSave;
+  /** The on save command. Called when categories have been changed. */
+  Command m_onSave;
 
-    /** The resource structure id. */
-    CmsUUID m_structureId;
+  /** The resource structure id. */
+  CmsUUID m_structureId;
 
-    /** The cancel button. */
-    private CmsPushButton m_cancelButton;
+  /** The cancel button. */
+  private CmsPushButton m_cancelButton;
 
-    /** Flag, indicating if the category tree should be collapsed when the dialog opens. */
-    private boolean m_collapsed;
+  /** Flag, indicating if the category tree should be collapsed when the dialog opens. */
+  private boolean m_collapsed;
 
-    /** The is initialized flag. */
-    private boolean m_initialized;
+  /** The is initialized flag. */
+  private boolean m_initialized;
 
-    /** The is initializing flag. */
-    private boolean m_initializing;
+  /** The is initializing flag. */
+  private boolean m_initializing;
 
-    /** The main content panel. */
-    private FlowPanel m_main;
+  /** The main content panel. */
+  private FlowPanel m_main;
 
-    /** The save button. */
-    private CmsPushButton m_saveButton;
+  /** The save button. */
+  private CmsPushButton m_saveButton;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param structureId the resource structure id
-     * @param onSave the on save command, called when categories have been changed
-     * @param collapsed flag, indicating if the categories tree should be displayed collapsed when the dialog is opened
-     */
-    public CmsCategoryDialog(CmsUUID structureId, Command onSave, boolean collapsed) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param structureId the resource structure id
+   * @param onSave the on save command, called when categories have been changed
+   * @param collapsed flag, indicating if the categories tree should be displayed collapsed when the
+   *     dialog is opened
+   */
+  public CmsCategoryDialog(CmsUUID structureId, Command onSave, boolean collapsed) {
 
-        super(Messages.get().key(Messages.GUI_DIALOG_CATEGORIES_TITLE_0), WIDE_WIDTH);
-        m_collapsed = collapsed;
-        m_structureId = structureId;
-        m_onSave = onSave;
-        setGlassEnabled(true);
-        catchNotifications();
-        addDialogClose(null);
-        m_main = new FlowPanel();
-        setMainContent(m_main);
-        m_cancelButton = new CmsPushButton();
-        m_cancelButton.setText(Messages.get().key(Messages.GUI_CANCEL_0));
-        m_cancelButton.setUseMinWidth(true);
-        m_cancelButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.BLUE);
-        m_cancelButton.addClickHandler(new ClickHandler() {
+    super(Messages.get().key(Messages.GUI_DIALOG_CATEGORIES_TITLE_0), WIDE_WIDTH);
+    m_collapsed = collapsed;
+    m_structureId = structureId;
+    m_onSave = onSave;
+    setGlassEnabled(true);
+    catchNotifications();
+    addDialogClose(null);
+    m_main = new FlowPanel();
+    setMainContent(m_main);
+    m_cancelButton = new CmsPushButton();
+    m_cancelButton.setText(Messages.get().key(Messages.GUI_CANCEL_0));
+    m_cancelButton.setUseMinWidth(true);
+    m_cancelButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.BLUE);
+    m_cancelButton.addClickHandler(
+        new ClickHandler() {
 
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          public void onClick(ClickEvent event) {
 
-                hide();
-            }
+            hide();
+          }
         });
-        addButton(m_cancelButton);
-        m_saveButton = new CmsPushButton();
-        m_saveButton.setText(Messages.get().key(Messages.GUI_SAVE_0));
-        m_saveButton.setUseMinWidth(true);
-        m_saveButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.RED);
-        m_saveButton.addClickHandler(new ClickHandler() {
+    addButton(m_cancelButton);
+    m_saveButton = new CmsPushButton();
+    m_saveButton.setText(Messages.get().key(Messages.GUI_SAVE_0));
+    m_saveButton.setUseMinWidth(true);
+    m_saveButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.RED);
+    m_saveButton.addClickHandler(
+        new ClickHandler() {
 
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          public void onClick(ClickEvent event) {
 
-                saveCategories();
-            }
+            saveCategories();
+          }
         });
-        addButton(m_saveButton);
-        m_saveButton.disable(Messages.get().key(Messages.GUI_LOADING_0));
-    }
+    addButton(m_saveButton);
+    m_saveButton.disable(Messages.get().key(Messages.GUI_LOADING_0));
+  }
 
-    /**
-     * Initializes the dialog content.<p>
-     *
-     * @param categoryInfo the resource category info
-     */
-    public void initialize(CmsResourceCategoryInfo categoryInfo) {
+  /**
+   * Initializes the dialog content.
+   *
+   * <p>
+   *
+   * @param categoryInfo the resource category info
+   */
+  public void initialize(CmsResourceCategoryInfo categoryInfo) {
 
-        m_initializing = false;
-        m_initialized = true;
-        m_main.add(new CmsListItemWidget(categoryInfo.getResourceInfo()));
-        m_categoryTree = new CmsCategoryTree(
+    m_initializing = false;
+    m_initialized = true;
+    m_main.add(new CmsListItemWidget(categoryInfo.getResourceInfo()));
+    m_categoryTree =
+        new CmsCategoryTree(
             categoryInfo.getCurrentCategories(),
             300,
             false,
             categoryInfo.getCategoryTree(),
             m_collapsed);
-        m_categoryTree.addValueChangeHandler(new ValueChangeHandler<List<String>>() {
+    m_categoryTree.addValueChangeHandler(
+        new ValueChangeHandler<List<String>>() {
 
-            public void onValueChange(ValueChangeEvent<List<String>> event) {
+          public void onValueChange(ValueChangeEvent<List<String>> event) {
 
-                setChanged();
-            }
+            setChanged();
+          }
         });
-        m_main.add(m_categoryTree);
-        m_categoryTree.truncate("CATEGORIES", WIDE_WIDTH - 20);
-        LockIcon lock = categoryInfo.getResourceInfo().getLockIcon();
-        if ((lock == null)
-            || lock.equals(LockIcon.NONE)
-            || lock.equals(LockIcon.OPEN)
-            || lock.equals(LockIcon.SHARED_OPEN)) {
-            m_saveButton.disable(Messages.get().key(Messages.GUI_NOTHING_CHANGED_0));
-        } else {
-            m_categoryTree.disable(Messages.get().key(Messages.GUI_RESOURCE_LOCKED_0));
-            m_saveButton.disable(Messages.get().key(Messages.GUI_RESOURCE_LOCKED_0));
-        }
-        setWidth(WIDE_WIDTH);
-        if (isShowing()) {
-            center();
-        }
+    m_main.add(m_categoryTree);
+    m_categoryTree.truncate("CATEGORIES", WIDE_WIDTH - 20);
+    LockIcon lock = categoryInfo.getResourceInfo().getLockIcon();
+    if ((lock == null)
+        || lock.equals(LockIcon.NONE)
+        || lock.equals(LockIcon.OPEN)
+        || lock.equals(LockIcon.SHARED_OPEN)) {
+      m_saveButton.disable(Messages.get().key(Messages.GUI_NOTHING_CHANGED_0));
+    } else {
+      m_categoryTree.disable(Messages.get().key(Messages.GUI_RESOURCE_LOCKED_0));
+      m_saveButton.disable(Messages.get().key(Messages.GUI_RESOURCE_LOCKED_0));
     }
-
-    /**
-     * @see org.opencms.gwt.client.ui.CmsPopup#show()
-     */
-    @Override
-    public void show() {
-
-        super.show();
-        if (!m_initialized && !m_initializing) {
-            m_initializing = true;
-            CmsRpcAction<CmsResourceCategoryInfo> action = new CmsRpcAction<CmsResourceCategoryInfo>() {
-
-                @Override
-                public void execute() {
-
-                    setHeight(450);
-                    start(0, true);
-                    CmsCoreProvider.getService().getCategoryInfo(m_structureId, this);
-                }
-
-                @Override
-                protected void onResponse(CmsResourceCategoryInfo result) {
-
-                    stop(false);
-                    setHeight(-1);
-                    initialize(result);
-                }
-            };
-            action.execute();
-        }
+    setWidth(WIDE_WIDTH);
+    if (isShowing()) {
+      center();
     }
+  }
 
-    /**
-     * Saves the selected categories and hides the dialog.<p>
-     */
-    protected void saveCategories() {
+  /** @see org.opencms.gwt.client.ui.CmsPopup#show() */
+  @Override
+  public void show() {
 
-        final List<String> categories = m_categoryTree.getAllSelected();
-        CmsRpcAction<Void> action = new CmsRpcAction<Void>() {
+    super.show();
+    if (!m_initialized && !m_initializing) {
+      m_initializing = true;
+      CmsRpcAction<CmsResourceCategoryInfo> action =
+          new CmsRpcAction<CmsResourceCategoryInfo>() {
 
             @Override
             public void execute() {
 
-                start(0, true);
-                CmsCoreProvider.getService().setResourceCategories(m_structureId, categories, this);
+              setHeight(450);
+              start(0, true);
+              CmsCoreProvider.getService().getCategoryInfo(m_structureId, this);
             }
 
             @Override
-            protected void onResponse(Void result) {
+            protected void onResponse(CmsResourceCategoryInfo result) {
 
-                stop(false);
-                hide();
-                if (m_onSave != null) {
-                    m_onSave.execute();
-                }
+              stop(false);
+              setHeight(-1);
+              initialize(result);
             }
+          };
+      action.execute();
+    }
+  }
+
+  /**
+   * Saves the selected categories and hides the dialog.
+   *
+   * <p>
+   */
+  protected void saveCategories() {
+
+    final List<String> categories = m_categoryTree.getAllSelected();
+    CmsRpcAction<Void> action =
+        new CmsRpcAction<Void>() {
+
+          @Override
+          public void execute() {
+
+            start(0, true);
+            CmsCoreProvider.getService().setResourceCategories(m_structureId, categories, this);
+          }
+
+          @Override
+          protected void onResponse(Void result) {
+
+            stop(false);
+            hide();
+            if (m_onSave != null) {
+              m_onSave.execute();
+            }
+          }
         };
-        action.execute();
-    }
+    action.execute();
+  }
 
-    /**
-     * Sets the dialog state to changed, enabling the save button.<p>
-     */
-    void setChanged() {
+  /**
+   * Sets the dialog state to changed, enabling the save button.
+   *
+   * <p>
+   */
+  void setChanged() {
 
-        m_saveButton.enable();
-    }
+    m_saveButton.enable();
+  }
 }

@@ -33,22 +33,22 @@ import com.google.gwt.user.client.Event;
 import com.vaadin.client.ui.VNotification;
 
 /**
- * Notification widget which also hides itself when the Enter key is pressed.<p>
+ * Notification widget which also hides itself when the Enter key is pressed.
+ *
+ * <p>
  */
 public class CmsVNotification extends VNotification {
 
-    /**
-     * @see com.vaadin.client.ui.VNotification#onEventPreview(com.google.gwt.user.client.Event)
-     */
-    @Override
-    public boolean onEventPreview(Event event) {
+  /** @see com.vaadin.client.ui.VNotification#onEventPreview(com.google.gwt.user.client.Event) */
+  @Override
+  public boolean onEventPreview(Event event) {
 
-        if ((DOM.eventGetType(event) == Event.ONKEYDOWN) && (event.getKeyCode() == KeyCodes.KEY_ENTER)) {
-            hide();
-            return false;
-        } else {
-            return super.onEventPreview(event);
-        }
+    if ((DOM.eventGetType(event) == Event.ONKEYDOWN)
+        && (event.getKeyCode() == KeyCodes.KEY_ENTER)) {
+      hide();
+      return false;
+    } else {
+      return super.onEventPreview(event);
     }
-
+  }
 }

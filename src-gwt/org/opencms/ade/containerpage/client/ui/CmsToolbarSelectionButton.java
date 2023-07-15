@@ -27,58 +27,58 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.opencms.ade.containerpage.client.CmsContainerpageHandler;
 import org.opencms.gwt.client.ui.I_CmsButton;
 import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-
 /**
- * The button holding all selection related methods.<p>
+ * The button holding all selection related methods.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsToolbarSelectionButton extends A_CmsToolbarOptionButton {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param handler the container-page handler
-     */
-    public CmsToolbarSelectionButton(CmsContainerpageHandler handler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param handler the container-page handler
+   */
+  public CmsToolbarSelectionButton(CmsContainerpageHandler handler) {
 
-        super(I_CmsButton.ButtonData.SELECTION, handler);
-        addStyleName(I_CmsLayoutBundle.INSTANCE.toolbarCss().toolbarShow());
-    }
+    super(I_CmsButton.ButtonData.SELECTION, handler);
+    addStyleName(I_CmsLayoutBundle.INSTANCE.toolbarCss().toolbarShow());
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.CmsToggleButton#getTitle()
-     */
-    @Override
-    public String getTitle() {
+  /** @see org.opencms.gwt.client.ui.CmsToggleButton#getTitle() */
+  @Override
+  public String getTitle() {
 
-        return "";
-    }
+    return "";
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#onElementClick(com.google.gwt.event.dom.client.ClickEvent, org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
-     */
-    @Override
-    public void onElementClick(ClickEvent event, CmsContainerPageElementPanel element) {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#onElementClick(com.google.gwt.event.dom.client.ClickEvent,
+   *     org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
+   */
+  @Override
+  public void onElementClick(ClickEvent event, CmsContainerPageElementPanel element) {
 
-        // do nothing really
-        event.stopPropagation();
-        event.preventDefault();
+    // do nothing really
+    event.stopPropagation();
+    event.preventDefault();
+  }
 
-    }
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarClick() */
+  @Override
+  public void onToolbarClick() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarClick()
-     */
-    @Override
-    public void onToolbarClick() {
-
-        getHandler().deactivateCurrentButton();
-        getHandler().showPreview(getElement().getAbsoluteLeft());
-    }
+    getHandler().deactivateCurrentButton();
+    getHandler().showPreview(getElement().getAbsoluteLeft());
+  }
 }

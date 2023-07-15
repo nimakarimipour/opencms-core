@@ -30,18 +30,22 @@ package org.opencms.workplace.editors;
 import java.util.List;
 
 /**
- * Provides a method for assigning additional resource types to editors.<p>
+ * Provides a method for assigning additional resource types to editors.
  *
- * The implementations of this class must be configurated in the editor configuration.<p>
+ * <p>The implementations of this class must be configurated in the editor configuration.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsEditorTypeMatcher {
 
-    /**
-     * Returns a list of resource type names which are assigned to an editor.<p>
-     * @return  list of resource type names
-     */
-    List<String> getAdditionalResourceTypes();
-
+  /**
+   * Returns a list of resource type names which are assigned to an editor.
+   *
+   * <p>
+   *
+   * @return list of resource type names
+   */
+  List<String> getAdditionalResourceTypes();
 }

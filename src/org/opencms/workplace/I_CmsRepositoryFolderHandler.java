@@ -30,18 +30,21 @@ package org.opencms.workplace;
 import org.opencms.file.CmsObject;
 
 /**
- * Evaluates the repository folder.<p>
+ * Evaluates the repository folder.
+ *
+ * <p>
  */
 public interface I_CmsRepositoryFolderHandler {
 
-    /**
-     * Returns the repository folder to store new contents in.<p>
-     *
-     * @param cms the user cms context
-     * @param reference the reference resource - the resource being edited
-     * @param type the resource or gallery type - like 'image' or 'imagegallery'
-     *
-     * @return the site path of the repository folder
-     */
-    String getRepositoryFolder(CmsObject cms, String reference, String type);
+  /**
+   * Returns the repository folder to store new contents in.
+   *
+   * <p>
+   *
+   * @param cms the user cms context
+   * @param reference the reference resource - the resource being edited
+   * @param type the resource or gallery type - like 'image' or 'imagegallery'
+   * @return the site path of the repository folder
+   */
+  String getRepositoryFolder(CmsObject cms, String reference, String type);
 }

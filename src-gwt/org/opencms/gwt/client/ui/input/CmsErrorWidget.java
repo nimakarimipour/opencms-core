@@ -27,116 +27,132 @@
 
 package org.opencms.gwt.client.ui.input;
 
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Label;
 import org.opencms.gwt.client.ui.css.I_CmsInputLayoutBundle;
 import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
 import org.opencms.gwt.client.util.CmsFadeAnimation;
 import org.opencms.util.CmsStringUtil;
 
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
-
 /**
- * Helper class for displaying errors.<p>
+ * Helper class for displaying errors.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsErrorWidget extends Composite {
 
-    /** The internal label that displays the error message. */
-    private Label m_label;
+  /** The internal label that displays the error message. */
+  private Label m_label;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsErrorWidget() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsErrorWidget() {
 
-        m_label = createErrorLabel();
-        initWidget(m_label);
-        setText(null);
+    m_label = createErrorLabel();
+    initWidget(m_label);
+    setText(null);
+  }
+
+  /**
+   * Creates the a new error label.
+   *
+   * <p>
+   *
+   * @return a label with the appropriate style for an error label
+   */
+  private static Label createErrorLabel() {
+
+    Label label = new Label();
+    label.addStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().cornerAll());
+    label.addStyleName(I_CmsInputLayoutBundle.INSTANCE.inputCss().error());
+    return label;
+  }
+
+  /**
+   * Returns <code>true</code> if a error message is set.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if a error message is set
+   */
+  public boolean hasError() {
+
+    return CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_label.getText());
+  }
+
+  /**
+   * Sets the text for the error message.
+   *
+   * <p>If the text parameter is null, the error message will be hidden.
+   *
+   * @param text
+   */
+  public void setText(final String text) {
+
+    setErrorVisible(false);
+    m_label.setText(text);
+  }
+
+  /**
+   * Hides the error.
+   *
+   * <p>
+   */
+  protected void hideError() {
+
+    if (hasError()) {
+      CmsFadeAnimation.fadeOut(
+          m_label.getElement(),
+          new Command() {
+
+            /** @see com.google.gwt.user.client.Command#execute() */
+            public void execute() {
+
+              setErrorVisible(false);
+            }
+          },
+          300);
     }
+  }
 
-    /**
-     * Creates the a new error label.<p>
-     *
-     * @return a label with the appropriate style for  an error label
-     */
-    private static Label createErrorLabel() {
+  /**
+   * Sets the visibility of the error label.
+   *
+   * <p>
+   *
+   * @param visible <code>true</code> if the error should be visible
+   */
+  protected void setErrorVisible(boolean visible) {
 
-        Label label = new Label();
-        label.addStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().cornerAll());
-        label.addStyleName(I_CmsInputLayoutBundle.INSTANCE.inputCss().error());
-        return label;
+    m_label.setVisible(visible);
+  }
+
+  /**
+   * Shows the error.
+   *
+   * <p>
+   */
+  protected void showError() {
+
+    if (hasError()) {
+      m_label.getElement().getStyle().clearDisplay();
+      CmsFadeAnimation.fadeIn(
+          m_label.getElement(),
+          new Command() {
+
+            /** @see com.google.gwt.user.client.Command#execute() */
+            public void execute() {
+
+              // noop
+            }
+          },
+          300);
     }
-
-    /**
-     * Returns <code>true</code> if a error message is set.<p>
-     *
-     * @return <code>true</code> if a error message is set
-     */
-    public boolean hasError() {
-
-        return CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_label.getText());
-    }
-
-    /**
-     * Sets the text for the error message.<p>
-     *
-     * If the text parameter is null, the error message will be hidden.
-     * @param text
-     */
-    public void setText(final String text) {
-
-        setErrorVisible(false);
-        m_label.setText(text);
-    }
-
-    /**
-     * Hides the error.<p>
-     */
-    protected void hideError() {
-
-        if (hasError()) {
-            CmsFadeAnimation.fadeOut(m_label.getElement(), new Command() {
-
-                /**
-                 * @see com.google.gwt.user.client.Command#execute()
-                 */
-                public void execute() {
-
-                    setErrorVisible(false);
-                }
-            }, 300);
-        }
-    }
-
-    /**
-     * Sets the visibility of the error label.<p>
-     *
-     * @param visible <code>true</code> if the error should be visible
-     */
-    protected void setErrorVisible(boolean visible) {
-
-        m_label.setVisible(visible);
-    }
-
-    /**
-     * Shows the error.<p>
-     */
-    protected void showError() {
-
-        if (hasError()) {
-            m_label.getElement().getStyle().clearDisplay();
-            CmsFadeAnimation.fadeIn(m_label.getElement(), new Command() {
-
-                /**
-                 * @see com.google.gwt.user.client.Command#execute()
-                 */
-                public void execute() {
-
-                    // noop
-                }
-            }, 300);
-        }
-    }
+  }
 }

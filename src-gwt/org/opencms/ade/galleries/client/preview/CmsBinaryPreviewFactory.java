@@ -27,50 +27,55 @@
 
 package org.opencms.ade.galleries.client.preview;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.opencms.ade.galleries.client.CmsGalleryController;
 import org.opencms.ade.galleries.client.ui.CmsGalleryDialog;
 import org.opencms.ade.galleries.shared.I_CmsBinaryPreviewProvider;
 import org.opencms.gwt.client.I_CmsHasInit;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * The binary resource preview factory.<p>
+ * The binary resource preview factory.
+ *
+ * <p>
  *
  * @since 8.0.3
  */
 public final class CmsBinaryPreviewFactory implements I_CmsPreviewFactory, I_CmsHasInit {
 
-    /** The preview registry. */
-    private Map<String, CmsBinaryResourcePreview> m_previewRegistry;
+  /** The preview registry. */
+  private Map<String, CmsBinaryResourcePreview> m_previewRegistry;
 
-    /**
-     * Constructor.<p>
-     */
-    private CmsBinaryPreviewFactory() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  private CmsBinaryPreviewFactory() {
 
-        m_previewRegistry = new HashMap<String, CmsBinaryResourcePreview>();
+    m_previewRegistry = new HashMap<String, CmsBinaryResourcePreview>();
+  }
+
+  /**
+   * Initializes this class.
+   *
+   * <p>
+   */
+  public static void initClass() {
+
+    CmsBinaryPreviewFactory factory = new CmsBinaryPreviewFactory();
+    CmsGalleryController.registerPreviewFactory(I_CmsBinaryPreviewProvider.PREVIEW_NAME, factory);
+  }
+
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.I_CmsPreviewFactory#getPreview(org.opencms.ade.galleries.client.ui.CmsGalleryDialog)
+   */
+  public I_CmsResourcePreview<?> getPreview(CmsGalleryDialog dialog) {
+
+    if (!m_previewRegistry.containsKey(dialog.getDialogId())) {
+      m_previewRegistry.put(dialog.getDialogId(), new CmsBinaryResourcePreview(dialog));
     }
-
-    /**
-     * Initializes this class.<p>
-     */
-    public static void initClass() {
-
-        CmsBinaryPreviewFactory factory = new CmsBinaryPreviewFactory();
-        CmsGalleryController.registerPreviewFactory(I_CmsBinaryPreviewProvider.PREVIEW_NAME, factory);
-    }
-
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsPreviewFactory#getPreview(org.opencms.ade.galleries.client.ui.CmsGalleryDialog)
-     */
-    public I_CmsResourcePreview<?> getPreview(CmsGalleryDialog dialog) {
-
-        if (!m_previewRegistry.containsKey(dialog.getDialogId())) {
-            m_previewRegistry.put(dialog.getDialogId(), new CmsBinaryResourcePreview(dialog));
-        }
-        return m_previewRegistry.get(dialog.getDialogId());
-    }
-
+    return m_previewRegistry.get(dialog.getDialogId());
+  }
 }

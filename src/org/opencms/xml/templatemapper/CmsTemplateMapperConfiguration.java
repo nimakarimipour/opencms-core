@@ -27,6 +27,14 @@
 
 package org.opencms.xml.templatemapper;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.compress.utils.Lists;
+import org.apache.commons.logging.Log;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.Node;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResourceFilter;
@@ -36,177 +44,177 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.compress.utils.Lists;
-import org.apache.commons.logging.Log;
-
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.Node;
-
 /**
- * Configuration for the template mapper.<p>
+ * Configuration for the template mapper.
+ *
+ * <p>
  */
 public class CmsTemplateMapperConfiguration {
 
-    /** XML attribute name. */
-    public static final String A_ENABLED = "enabled";
+  /** XML attribute name. */
+  public static final String A_ENABLED = "enabled";
 
-    /** XML attribute name. */
-    public static final String A_NEW = "new";
+  /** XML attribute name. */
+  public static final String A_NEW = "new";
 
-    /** XML attribute name. */
-    public static final String A_OLD = "old";
+  /** XML attribute name. */
+  public static final String A_OLD = "old";
 
-    /** Empty configuratin. */
-    public static final CmsTemplateMapperConfiguration EMPTY_CONFIG = new CmsTemplateMapperConfiguration();
+  /** Empty configuratin. */
+  public static final CmsTemplateMapperConfiguration EMPTY_CONFIG =
+      new CmsTemplateMapperConfiguration();
 
-    /** XML element name. */
-    public static final String N_FORMATTER_CONFIG = "formatter-config";
-    /** XML element name. */
-    public static final String N_FORMATTER_JSP = "formatter-jsp";
+  /** XML element name. */
+  public static final String N_FORMATTER_CONFIG = "formatter-config";
+  /** XML element name. */
+  public static final String N_FORMATTER_JSP = "formatter-jsp";
 
-    /** XML element name. */
-    public static final String N_ELEMENT_GROUP_TYPE = "element-group-type";
+  /** XML element name. */
+  public static final String N_ELEMENT_GROUP_TYPE = "element-group-type";
 
-    /** XML element name. */
-    public static final String N_PATH = "path";
+  /** XML element name. */
+  public static final String N_PATH = "path";
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsTemplateMapperConfiguration.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsTemplateMapperConfiguration.class);
 
-    /** The formatter configuration mapping (structure id to structure id). */
-    private Map<CmsUUID, CmsUUID> m_formatterConfigMap = new HashMap<>();
+  /** The formatter configuration mapping (structure id to structure id). */
+  private Map<CmsUUID, CmsUUID> m_formatterConfigMap = new HashMap<>();
 
-    /** The formatter JSP mapping (structure id to structure id). */
-    private Map<CmsUUID, CmsUUID> m_formatterJspMap = new HashMap<>();
+  /** The formatter JSP mapping (structure id to structure id). */
+  private Map<CmsUUID, CmsUUID> m_formatterJspMap = new HashMap<>();
 
-    /** Mapping for element group types. */
-    private Map<String, String> m_groupTypeMap = new HashMap<>();
+  /** Mapping for element group types. */
+  private Map<String, String> m_groupTypeMap = new HashMap<>();
 
-    /** List of root paths for which the configuration is valid. */
-    private List<String> m_paths = Lists.newArrayList();
+  /** List of root paths for which the configuration is valid. */
+  private List<String> m_paths = Lists.newArrayList();
 
-    /**
-     * Creates an empty mapper configuration which is not active for any path.<p>
-     */
-    public CmsTemplateMapperConfiguration() {
-        // do nothing
-    }
+  /**
+   * Creates an empty mapper configuration which is not active for any path.
+   *
+   * <p>
+   */
+  public CmsTemplateMapperConfiguration() {
+    // do nothing
+  }
 
-    /**
-     * Parses a template mapper configuration from an XML document.<p>
-     *
-     * @param cms the current CMS context
-     * @param doc the XML document containing the configuration
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public CmsTemplateMapperConfiguration(CmsObject cms, Document doc)
-    throws CmsException {
+  /**
+   * Parses a template mapper configuration from an XML document.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param doc the XML document containing the configuration
+   * @throws CmsException if something goes wrong
+   */
+  public CmsTemplateMapperConfiguration(CmsObject cms, Document doc) throws CmsException {
 
-        cms = OpenCms.initCmsObject(cms);
-        cms.getRequestContext().setSiteRoot("");
-        Element root = doc.getRootElement();
-        String enabledStr = root.attributeValue(A_ENABLED);
-        boolean enabled = Boolean.parseBoolean(enabledStr);
+    cms = OpenCms.initCmsObject(cms);
+    cms.getRequestContext().setSiteRoot("");
+    Element root = doc.getRootElement();
+    String enabledStr = root.attributeValue(A_ENABLED);
+    boolean enabled = Boolean.parseBoolean(enabledStr);
 
-        if (enabled) {
-            for (Node node : root.selectNodes("//" + N_FORMATTER_CONFIG)) {
-                Element formatterElem = (Element)node;
-                String oldPath = formatterElem.attributeValue(A_OLD);
-                String newPath = formatterElem.attributeValue(A_NEW);
-                try {
-                    CmsResource oldFormatter = cms.readResource(oldPath, CmsResourceFilter.IGNORE_EXPIRATION);
-                    CmsResource newFormatter = cms.readResource(newPath, CmsResourceFilter.IGNORE_EXPIRATION);
-                    m_formatterConfigMap.put(oldFormatter.getStructureId(), newFormatter.getStructureId());
-                } catch (CmsException e) {
-                    LOG.error(e.getLocalizedMessage(), e);
-                }
-            }
-            for (Node node : root.selectNodes("//" + N_FORMATTER_JSP)) {
-                Element formatterElem = (Element)node;
-                String oldPath = formatterElem.attributeValue(A_OLD);
-                String newPath = formatterElem.attributeValue(A_NEW);
-                try {
-                    CmsResource oldFormatter = cms.readResource(oldPath, CmsResourceFilter.IGNORE_EXPIRATION);
-                    CmsResource newFormatter = cms.readResource(newPath, CmsResourceFilter.IGNORE_EXPIRATION);
-                    m_formatterJspMap.put(oldFormatter.getStructureId(), newFormatter.getStructureId());
-                } catch (CmsException e) {
-                    LOG.error(e.getLocalizedMessage(), e);
-                }
-            }
-
-            for (Node node : root.selectNodes("//" + N_ELEMENT_GROUP_TYPE)) {
-                Element groupElem = (Element)node;
-                String oldType = groupElem.attributeValue(A_OLD);
-                String newType = groupElem.attributeValue(A_NEW);
-                m_groupTypeMap.put(oldType, newType);
-            }
-
-            for (Node node : root.selectNodes("//" + N_PATH)) {
-                Element pathElem = (Element)node;
-                m_paths.add(pathElem.getText());
-            }
+    if (enabled) {
+      for (Node node : root.selectNodes("//" + N_FORMATTER_CONFIG)) {
+        Element formatterElem = (Element) node;
+        String oldPath = formatterElem.attributeValue(A_OLD);
+        String newPath = formatterElem.attributeValue(A_NEW);
+        try {
+          CmsResource oldFormatter = cms.readResource(oldPath, CmsResourceFilter.IGNORE_EXPIRATION);
+          CmsResource newFormatter = cms.readResource(newPath, CmsResourceFilter.IGNORE_EXPIRATION);
+          m_formatterConfigMap.put(oldFormatter.getStructureId(), newFormatter.getStructureId());
+        } catch (CmsException e) {
+          LOG.error(e.getLocalizedMessage(), e);
         }
-    }
-
-    /**
-     * Gets the mapped type for a given element group type, or null if there is no mapped type.<p>
-     *
-     * @param type the original element group type
-     *
-     * @return the mapped element group type
-     */
-    public String getMappedElementGroupType(String type) {
-
-        return m_groupTypeMap.get(type);
-
-    }
-
-    /**
-     * Gets the mapped formatter configuration structure id string for another formatter configuration structure id string.<p>
-     *
-     * @param id the structure id of a formatter configuration as a string
-     * @return the mapped formatter configuration structure id of a string
-     */
-    public String getMappedFormatterConfiguration(String id) {
-
-        CmsUUID resultId = m_formatterConfigMap.get(new CmsUUID(id));
-        if (resultId == null) {
-            return null;
+      }
+      for (Node node : root.selectNodes("//" + N_FORMATTER_JSP)) {
+        Element formatterElem = (Element) node;
+        String oldPath = formatterElem.attributeValue(A_OLD);
+        String newPath = formatterElem.attributeValue(A_NEW);
+        try {
+          CmsResource oldFormatter = cms.readResource(oldPath, CmsResourceFilter.IGNORE_EXPIRATION);
+          CmsResource newFormatter = cms.readResource(newPath, CmsResourceFilter.IGNORE_EXPIRATION);
+          m_formatterJspMap.put(oldFormatter.getStructureId(), newFormatter.getStructureId());
+        } catch (CmsException e) {
+          LOG.error(e.getLocalizedMessage(), e);
         }
-        return resultId.toString();
+      }
+
+      for (Node node : root.selectNodes("//" + N_ELEMENT_GROUP_TYPE)) {
+        Element groupElem = (Element) node;
+        String oldType = groupElem.attributeValue(A_OLD);
+        String newType = groupElem.attributeValue(A_NEW);
+        m_groupTypeMap.put(oldType, newType);
+      }
+
+      for (Node node : root.selectNodes("//" + N_PATH)) {
+        Element pathElem = (Element) node;
+        m_paths.add(pathElem.getText());
+      }
     }
+  }
 
-    /**
-     * Gets the mapped formatter JSP structure id for another formatter JSP structure id.<p>
-     *
-     * @param formatterId the input formatter JSP structure id
-     * @return the mapped formatter JSP structure id
-     */
-    public CmsUUID getMappedFormatterJspId(CmsUUID formatterId) {
+  /**
+   * Gets the mapped type for a given element group type, or null if there is no mapped type.
+   *
+   * <p>
+   *
+   * @param type the original element group type
+   * @return the mapped element group type
+   */
+  public String getMappedElementGroupType(String type) {
 
-        return m_formatterJspMap.get(formatterId);
+    return m_groupTypeMap.get(type);
+  }
+
+  /**
+   * Gets the mapped formatter configuration structure id string for another formatter configuration
+   * structure id string.
+   *
+   * <p>
+   *
+   * @param id the structure id of a formatter configuration as a string
+   * @return the mapped formatter configuration structure id of a string
+   */
+  public String getMappedFormatterConfiguration(String id) {
+
+    CmsUUID resultId = m_formatterConfigMap.get(new CmsUUID(id));
+    if (resultId == null) {
+      return null;
     }
+    return resultId.toString();
+  }
 
-    /**
-     * Checks if the mapping is enabled for the given root path.<p>
-     *
-     * @param rootPath a VFS root path
-     * @return true if the configuration is enabled for the given root path
-     */
-    public boolean isEnabledForPath(String rootPath) {
+  /**
+   * Gets the mapped formatter JSP structure id for another formatter JSP structure id.
+   *
+   * <p>
+   *
+   * @param formatterId the input formatter JSP structure id
+   * @return the mapped formatter JSP structure id
+   */
+  public CmsUUID getMappedFormatterJspId(CmsUUID formatterId) {
 
-        for (String path : m_paths) {
-            if (CmsStringUtil.isPrefixPath(path, rootPath)) {
-                return true;
-            }
-        }
-        return false;
+    return m_formatterJspMap.get(formatterId);
+  }
+
+  /**
+   * Checks if the mapping is enabled for the given root path.
+   *
+   * <p>
+   *
+   * @param rootPath a VFS root path
+   * @return true if the configuration is enabled for the given root path
+   */
+  public boolean isEnabledForPath(String rootPath) {
+
+    for (String path : m_paths) {
+      if (CmsStringUtil.isPrefixPath(path, rootPath)) {
+        return true;
+      }
     }
-
+    return false;
+  }
 }

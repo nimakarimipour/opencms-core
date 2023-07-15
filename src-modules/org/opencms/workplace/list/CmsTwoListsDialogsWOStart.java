@@ -28,29 +28,33 @@
 package org.opencms.workplace.list;
 
 /**
- * A <code>{@link org.opencms.workplace.list.CmsTwoListsDialog}</code> with no starting html for previous widget dialog display.<p>
+ * A <code>{@link org.opencms.workplace.list.CmsTwoListsDialog}</code> with no starting html for
+ * previous widget dialog display.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsTwoListsDialogsWOStart extends CmsTwoListsDialog {
 
-    /**
-     * Default constructor.<p>
-     *
-     * @param wp1 the workplace instance for the first list
-     * @param wp2 the workplace instance for the second list
-     */
-    public CmsTwoListsDialogsWOStart(A_CmsListDialog wp1, A_CmsListDialog wp2) {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   *
+   * @param wp1 the workplace instance for the first list
+   * @param wp2 the workplace instance for the second list
+   */
+  public CmsTwoListsDialogsWOStart(A_CmsListDialog wp1, A_CmsListDialog wp2) {
 
-        super(wp1, wp2);
-    }
+    super(wp1, wp2);
+  }
 
-    /**
-     * @see org.opencms.workplace.list.CmsTwoListsDialog#defaultActionHtmlStart()
-     */
-    @Override
-    protected String defaultActionHtmlStart() {
+  /** @see org.opencms.workplace.list.CmsTwoListsDialog#defaultActionHtmlStart() */
+  @Override
+  protected String defaultActionHtmlStart() {
 
-        return getActiveWp().getList().listJs() + getActiveWp().dialogContentStart(getActiveWp().getParamTitle());
-    }
+    return getActiveWp().getList().listJs()
+        + getActiveWp().dialogContentStart(getActiveWp().getParamTitle());
+  }
 }

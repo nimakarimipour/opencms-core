@@ -31,6 +31,12 @@
 
 package org.opencms.ade.postupload.client.ui;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
+import java.util.Map;
 import org.opencms.ade.postupload.shared.CmsPostUploadDialogBean;
 import org.opencms.ade.postupload.shared.CmsPostUploadDialogPanelBean;
 import org.opencms.gwt.client.property.CmsPropertySubmitHandler;
@@ -41,157 +47,165 @@ import org.opencms.gwt.client.ui.input.form.CmsForm;
 import org.opencms.gwt.client.ui.input.form.I_CmsFormHandler;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
-import java.util.Map;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-
 /**
- * Panel for the property dialog.<p>
+ * Panel for the property dialog.
+ *
+ * <p>
  */
 public class CmsUploadPropertyPanel extends FlowPanel implements I_CmsFormHandler {
 
-    /** The upload property dialog containing this panel. */
-    CmsUploadPropertyDialog m_dialog;
+  /** The upload property dialog containing this panel. */
+  CmsUploadPropertyDialog m_dialog;
 
-    /** The property editor handler instance. */
-    I_CmsPropertyEditorHandler m_propertyEditorHandler;
+  /** The property editor handler instance. */
+  I_CmsPropertyEditorHandler m_propertyEditorHandler;
 
-    /** The property editor instance. */
-    private CmsSimplePropertyEditor m_propertyEditor;
+  /** The property editor instance. */
+  private CmsSimplePropertyEditor m_propertyEditor;
 
-    /** The path relative resource path. */
-    private String m_resourcePath;
+  /** The path relative resource path. */
+  private String m_resourcePath;
 
-    /** The values. */
-    private CmsPostUploadDialogPanelBean m_values;
+  /** The values. */
+  private CmsPostUploadDialogPanelBean m_values;
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param dialog the dialog which this panel is added to
-     * @param options the data to fill UI component options
-     * @param values the bean with the current values
-     */
-    public CmsUploadPropertyPanel(
-        CmsUploadPropertyDialog dialog,
-        CmsPostUploadDialogBean options,
-        CmsPostUploadDialogPanelBean values) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param dialog the dialog which this panel is added to
+   * @param options the data to fill UI component options
+   * @param values the bean with the current values
+   */
+  public CmsUploadPropertyPanel(
+      CmsUploadPropertyDialog dialog,
+      CmsPostUploadDialogBean options,
+      CmsPostUploadDialogPanelBean values) {
 
-        m_values = values;
-        m_dialog = dialog;
-        m_resourcePath = values.getInfoBean().getSubTitle();
-        initializePropertyEditor();
-        // height may change on click
-        addDomHandler(new ClickHandler() {
+    m_values = values;
+    m_dialog = dialog;
+    m_resourcePath = values.getInfoBean().getSubTitle();
+    initializePropertyEditor();
+    // height may change on click
+    addDomHandler(
+        new ClickHandler() {
 
-            public void onClick(ClickEvent event) {
+          public void onClick(ClickEvent event) {
 
-                m_dialog.updateHeight();
-            }
-        }, ClickEvent.getType());
+            m_dialog.updateHeight();
+          }
+        },
+        ClickEvent.getType());
+  }
+
+  /**
+   * Gets the property editor instance.
+   *
+   * <p>
+   *
+   * @return the property editor instance
+   */
+  public CmsSimplePropertyEditor getPropertyEditor() {
+
+    return m_propertyEditor;
+  }
+
+  /**
+   * Returns the resourcePath.
+   *
+   * <p>
+   *
+   * @return the resourcePath
+   */
+  public String getResourcePath() {
+
+    return m_resourcePath;
+  }
+
+  /**
+   * Returns the content bean (values) of the current dialog.
+   *
+   * <p>
+   *
+   * @return the content bean (values) of the current dialog
+   */
+  public CmsPostUploadDialogPanelBean getUpdatedValues() {
+
+    CmsPostUploadDialogPanelBean bean =
+        new CmsPostUploadDialogPanelBean(m_values.getStructureId(), m_values.getInfoBean());
+
+    if (!m_values.equals(bean)) {
+      m_values = bean;
     }
+    return m_values;
+  }
 
-    /**
-     * Gets the property editor instance.<p>
-     *
-     * @return the property editor instance
-     */
-    public CmsSimplePropertyEditor getPropertyEditor() {
+  /** @see org.opencms.gwt.client.ui.input.form.I_CmsFormHandler#isSubmitting() */
+  public boolean isSubmitting() {
 
-        return m_propertyEditor;
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.form.I_CmsFormHandler#onSubmitValidationResult(org.opencms.gwt.client.ui.input.form.CmsForm,
+   *     boolean)
+   */
+  public void onSubmitValidationResult(CmsForm form, boolean ok) {
+
+    if (ok) {
+      form.handleSubmit(new CmsPropertySubmitHandler(m_propertyEditorHandler));
     }
+  }
 
-    /**
-     * Returns the resourcePath.<p>
-     *
-     * @return the resourcePath
-     */
-    public String getResourcePath() {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.form.I_CmsFormHandler#onValidationResult(org.opencms.gwt.client.ui.input.form.CmsForm,
+   *     boolean)
+   */
+  public void onValidationResult(CmsForm form, boolean ok) {
 
-        return m_resourcePath;
-    }
+    // do nothing for now
+  }
 
-    /**
-     * Returns the content bean (values) of the current dialog.<p>
-     *
-     * @return the content bean (values) of the current dialog
-     */
-    public CmsPostUploadDialogPanelBean getUpdatedValues() {
+  /**
+   * Sets up the property editor.
+   *
+   * <p>
+   */
+  protected void initializePropertyEditor() {
 
-        CmsPostUploadDialogPanelBean bean = new CmsPostUploadDialogPanelBean(
-            m_values.getStructureId(),
-            m_values.getInfoBean());
+    Map<String, CmsXmlContentProperty> propertyConfig = m_values.getPropertyDefinitions();
+    m_propertyEditorHandler = new CmsUploadPropertyEditorHandler(m_dialog, m_values);
+    CmsSimplePropertyEditor propertyEditor =
+        new CmsUploadPropertyEditor(propertyConfig, m_propertyEditorHandler);
+    propertyEditor.getForm().setFormHandler(this);
+    m_propertyEditor = propertyEditor;
+    m_propertyEditor.initializeWidgets(null);
+    A_CmsFormFieldPanel propertiesPanel = m_propertyEditor.getForm().getWidget();
+    add(propertiesPanel);
+    FlowPanel spacer = new FlowPanel();
+    spacer.getElement().setAttribute("style", "height: 24px");
+    add(spacer);
+  }
 
-        if (!m_values.equals(bean)) {
-            m_values = bean;
-        }
-        return m_values;
-    }
+  /** @see com.google.gwt.user.client.ui.Widget#onLoad() */
+  @Override
+  protected void onLoad() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.form.I_CmsFormHandler#isSubmitting()
-     */
-    public boolean isSubmitting() {
+    super.onLoad();
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
 
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.form.I_CmsFormHandler#onSubmitValidationResult(org.opencms.gwt.client.ui.input.form.CmsForm, boolean)
-     */
-    public void onSubmitValidationResult(CmsForm form, boolean ok) {
-
-        if (ok) {
-            form.handleSubmit(new CmsPropertySubmitHandler(m_propertyEditorHandler));
-        }
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.form.I_CmsFormHandler#onValidationResult(org.opencms.gwt.client.ui.input.form.CmsForm, boolean)
-     */
-    public void onValidationResult(CmsForm form, boolean ok) {
-
-        // do nothing for now
-    }
-
-    /**
-     * Sets up the property editor.<p>
-     */
-    protected void initializePropertyEditor() {
-
-        Map<String, CmsXmlContentProperty> propertyConfig = m_values.getPropertyDefinitions();
-        m_propertyEditorHandler = new CmsUploadPropertyEditorHandler(m_dialog, m_values);
-        CmsSimplePropertyEditor propertyEditor = new CmsUploadPropertyEditor(propertyConfig, m_propertyEditorHandler);
-        propertyEditor.getForm().setFormHandler(this);
-        m_propertyEditor = propertyEditor;
-        m_propertyEditor.initializeWidgets(null);
-        A_CmsFormFieldPanel propertiesPanel = m_propertyEditor.getForm().getWidget();
-        add(propertiesPanel);
-        FlowPanel spacer = new FlowPanel();
-        spacer.getElement().setAttribute("style", "height: 24px");
-        add(spacer);
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.Widget#onLoad()
-     */
-    @Override
-    protected void onLoad() {
-
-        super.onLoad();
-        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-            public void execute() {
+              public void execute() {
 
                 if (m_dialog != null) {
-                    m_dialog.updateHeight();
+                  m_dialog.updateHeight();
                 }
-            }
-        });
-    }
+              }
+            });
+  }
 }

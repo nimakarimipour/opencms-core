@@ -27,6 +27,13 @@
 
 package org.opencms.ui.apps.publishqueue;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
+import com.vaadin.v7.ui.TextField;
+import java.util.LinkedHashMap;
+import java.util.List;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.FontOpenCms;
@@ -35,85 +42,70 @@ import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.CmsToolBar;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.v7.ui.TextField;
-
 /**
- *Class for the Publish queue app.<p>
+ * Class for the Publish queue app.
+ *
+ * <p>
  */
 public class CmsPublishQueue extends A_CmsWorkplaceApp {
 
-    /** The file table filter input. */
-    private TextField m_siteTableFilter;
+  /** The file table filter input. */
+  private TextField m_siteTableFilter;
 
-    /** Reload button. */
-    private Button m_refreshButton;
+  /** Reload button. */
+  private Button m_refreshButton;
 
-    /**
-     * Creates a new instance.
-     */
-    public CmsPublishQueue() {
+  /** Creates a new instance. */
+  public CmsPublishQueue() {
 
-        super();
-        m_refreshButton = CmsToolBar.createButton(
-            FontOpenCms.RESET,
-            CmsVaadinUtils.getMessageText(Messages.GUI_APP_RELOAD_0));
-        m_refreshButton.addClickListener(new ClickListener() {
+    super();
+    m_refreshButton =
+        CmsToolBar.createButton(
+            FontOpenCms.RESET, CmsVaadinUtils.getMessageText(Messages.GUI_APP_RELOAD_0));
+    m_refreshButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                A_CmsUI.get().getPage().reload();
-
-            }
+            A_CmsUI.get().getPage().reload();
+          }
         });
+  }
+
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String) */
+  @Override
+  protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
+
+    LinkedHashMap<String, String> crumbs = new LinkedHashMap<String, String>();
+
+    // Check if state is empty -> start
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
+      crumbs.put("", CmsVaadinUtils.getMessageText(Messages.GUI_PQUEUE_TITLE_0));
+      return crumbs;
     }
+    return new LinkedHashMap<
+        String, String>(); // size==1 & state was not empty -> state doesn't match to known path
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String)
-     */
-    @Override
-    protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String) */
+  @Override
+  protected Component getComponentForState(String state) {
 
-        LinkedHashMap<String, String> crumbs = new LinkedHashMap<String, String>();
-
-        // Check if state is empty -> start
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
-            crumbs.put("", CmsVaadinUtils.getMessageText(Messages.GUI_PQUEUE_TITLE_0));
-            return crumbs;
-        }
-        return new LinkedHashMap<String, String>(); //size==1 & state was not empty -> state doesn't match to known path
+    m_uiContext.addToolbarButton(m_refreshButton);
+    // default ->
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
+      m_rootLayout.setMainHeightFull(true);
+      return new CmsQueuedTable(this);
     }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String)
-     */
-    @Override
-    protected Component getComponentForState(String state) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String) */
+  @Override
+  protected List<NavEntry> getSubNavEntries(String state) {
 
-        m_uiContext.addToolbarButton(m_refreshButton);
-        //default ->
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
-            m_rootLayout.setMainHeightFull(true);
-            return new CmsQueuedTable(this);
-        }
-        return null;
-    }
-
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String)
-     */
-    @Override
-    protected List<NavEntry> getSubNavEntries(String state) {
-
-        return null;
-
-    }
+    return null;
+  }
 }

@@ -31,107 +31,107 @@ import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
 import org.opencms.gwt.client.ui.I_CmsButton.Size;
 
 /**
- * Abstract button class implementing common methods
- * of {@link org.opencms.gwt.client.ui.I_CmsToolbarButton}
- * for container-page tool-bar buttons.<p>
+ * Abstract button class implementing common methods of {@link
+ * org.opencms.gwt.client.ui.I_CmsToolbarButton} for container-page tool-bar buttons.
+ *
+ * <p>
  *
  * @param <HANDLER> the handler class to use for the button type
- *
  * @since 8.0.0
  */
-public abstract class A_CmsToolbarButton<HANDLER extends I_CmsToolbarHandler> extends CmsToggleButton
-implements I_CmsToolbarButton {
+public abstract class A_CmsToolbarButton<HANDLER extends I_CmsToolbarHandler>
+    extends CmsToggleButton implements I_CmsToolbarButton {
 
-    /** The handler instance. */
-    protected HANDLER m_handler;
+  /** The handler instance. */
+  protected HANDLER m_handler;
 
-    /** The button data. */
-    private I_CmsButton.ButtonData m_buttonData;
+  /** The button data. */
+  private I_CmsButton.ButtonData m_buttonData;
 
-    /** True if this button is active. */
-    private boolean m_isActive;
+  /** True if this button is active. */
+  private boolean m_isActive;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param buttonData the button data to use
-     * @param handler the container-page handler
-     */
-    protected A_CmsToolbarButton(I_CmsButton.ButtonData buttonData, HANDLER handler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param buttonData the button data to use
+   * @param handler the container-page handler
+   */
+  protected A_CmsToolbarButton(I_CmsButton.ButtonData buttonData, HANDLER handler) {
 
-        super();
-        if (buttonData != null) {
-            m_buttonData = buttonData;
-            setImageClass(buttonData.getIconClass());
-            setTitle(buttonData.getTitle());
-        }
-        setButtonStyle(ButtonStyle.FONT_ICON, null);
-        setSize(Size.big);
-        m_handler = handler;
+    super();
+    if (buttonData != null) {
+      m_buttonData = buttonData;
+      setImageClass(buttonData.getIconClass());
+      setTitle(buttonData.getTitle());
     }
+    setButtonStyle(ButtonStyle.FONT_ICON, null);
+    setSize(Size.big);
+    m_handler = handler;
+  }
 
-    /**
-     * Returns the button data.<p>
-     *
-     * @return the button data
-     */
-    public I_CmsButton.ButtonData getButtonData() {
+  /**
+   * Returns the button data.
+   *
+   * <p>
+   *
+   * @return the button data
+   */
+  public I_CmsButton.ButtonData getButtonData() {
 
-        return m_buttonData;
+    return m_buttonData;
+  }
+
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#isActive() */
+  public boolean isActive() {
+
+    return isDown();
+  }
+
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarClick() */
+  public void onToolbarClick() {
+
+    boolean active = isDown();
+
+    if (active) {
+      m_handler.deactivateCurrentButton();
+      m_handler.setActiveButton(this);
+      onToolbarActivate();
+    } else {
+      m_handler.deactivateCurrentButton();
+      m_handler.activateSelection();
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#isActive()
-     */
-    public boolean isActive() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#setActive(boolean) */
+  public void setActive(boolean active) {
 
-        return isDown();
+    m_isActive = active;
+    setDown(m_isActive);
+
+    if (active) {
+      if (m_handler.getActiveButton() != this) {
+        m_handler.deactivateCurrentButton();
+      }
+      m_handler.setActiveButton(this);
+      onToolbarActivate();
+    } else {
+      onToolbarDeactivate();
+      m_handler.setActiveButton(null);
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarClick()
-     */
-    public void onToolbarClick() {
+  /**
+   * Returns the container-page handler.
+   *
+   * <p>
+   *
+   * @return the container-page handler
+   */
+  protected HANDLER getHandler() {
 
-        boolean active = isDown();
-
-        if (active) {
-            m_handler.deactivateCurrentButton();
-            m_handler.setActiveButton(this);
-            onToolbarActivate();
-        } else {
-            m_handler.deactivateCurrentButton();
-            m_handler.activateSelection();
-        }
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#setActive(boolean)
-     */
-    public void setActive(boolean active) {
-
-        m_isActive = active;
-        setDown(m_isActive);
-
-        if (active) {
-            if (m_handler.getActiveButton() != this) {
-                m_handler.deactivateCurrentButton();
-            }
-            m_handler.setActiveButton(this);
-            onToolbarActivate();
-        } else {
-            onToolbarDeactivate();
-            m_handler.setActiveButton(null);
-        }
-    }
-
-    /**
-     * Returns the container-page handler.<p>
-     *
-     * @return the container-page handler
-     */
-    protected HANDLER getHandler() {
-
-        return m_handler;
-    }
+    return m_handler;
+  }
 }

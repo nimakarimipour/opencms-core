@@ -28,29 +28,34 @@
 package org.opencms.ugc;
 
 /**
- * Interface representing the data from a field of a submitted form.<p>
+ * Interface representing the data from a field of a submitted form.
+ *
+ * <p>
  */
 public interface I_CmsFormDataItem {
 
-    /**
-     * Gets the data from the field as a byte array.
-     *
-     * @return the field data
-     **/
-    public byte[] getData();
+  /**
+   * Gets the data from the field as a byte array.
+   *
+   * @return the field data
+   */
+  public byte[] getData();
 
-    /**
-     * Gets the field name.<p>
-     *
-     * @return the field name
-     */
-    public String getFieldName();
+  /**
+   * Gets the field name.
+   *
+   * <p>
+   *
+   * @return the field name
+   */
+  public String getFieldName();
 
-    /**
-     * Gets the file name, if this is a file upload field.<p>
-     *
-     * @return the file name
-     */
-    public String getFileName();
-
+  /**
+   * Gets the file name, if this is a file upload field.
+   *
+   * <p>
+   *
+   * @return the file name
+   */
+  public String getFileName();
 }

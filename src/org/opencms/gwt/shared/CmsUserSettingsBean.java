@@ -27,89 +27,94 @@
 
 package org.opencms.gwt.shared;
 
-import org.opencms.xml.content.CmsXmlContentProperty;
-
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
+import org.opencms.xml.content.CmsXmlContentProperty;
 
 /**
- * Bean for transferring user preference information between the client and the server.<p>
+ * Bean for transferring user preference information between the client and the server.
+ *
+ * <p>
  */
 public class CmsUserSettingsBean implements IsSerializable {
 
-    /** Map of property definitions corresponding to the user settings. */
-    private LinkedHashMap<String, CmsXmlContentProperty> m_settingConfiguration = new LinkedHashMap<String, CmsXmlContentProperty>();
+  /** Map of property definitions corresponding to the user settings. */
+  private LinkedHashMap<String, CmsXmlContentProperty> m_settingConfiguration =
+      new LinkedHashMap<String, CmsXmlContentProperty>();
 
-    /** Map of the current values of the user settings. */
-    private Map<String, String> m_values = new HashMap<String, String>();
+  /** Map of the current values of the user settings. */
+  private Map<String, String> m_values = new HashMap<String, String>();
 
-    /** Set of keys of the "basic" (as opposed to "extended") options. */
-    private Set<String> m_basicOptions = new HashSet<String>();
+  /** Set of keys of the "basic" (as opposed to "extended") options. */
+  private Set<String> m_basicOptions = new HashSet<String>();
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsUserSettingsBean() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsUserSettingsBean() {
 
-        // do nothing
+    // do nothing
 
+  }
+
+  /**
+   * Adds a user setting.
+   *
+   * <p>
+   *
+   * @param value the current value of the user setting
+   * @param config the configuration for the user setting
+   * @param basic true if this is a basic user setting
+   */
+  public void addSetting(String value, CmsXmlContentProperty config, boolean basic) {
+
+    m_values.put(config.getName(), value);
+    m_settingConfiguration.put(config.getName(), config);
+    if (basic) {
+      m_basicOptions.add(config.getName());
     }
+  }
 
-    /**
-     * Adds a user setting.<p>
-     *
-     * @param value the current value of the user setting
-     * @param config the configuration for the user setting
-     *
-     * @param basic true if this is a basic user setting
-     */
-    public void addSetting(String value, CmsXmlContentProperty config, boolean basic) {
+  /**
+   * Gets the map with the configurations for the individual user settings.
+   *
+   * <p>
+   *
+   * @return the user setting configurations, indexed by user setting name
+   */
+  public Map<String, CmsXmlContentProperty> getConfiguration() {
 
-        m_values.put(config.getName(), value);
-        m_settingConfiguration.put(config.getName(), config);
-        if (basic) {
-            m_basicOptions.add(config.getName());
-        }
-    }
+    return Collections.unmodifiableMap(m_settingConfiguration);
+  }
 
-    /**
-     * Gets the map  with the configurations for the individual user settings.<p>
-     *
-     * @return the user setting configurations, indexed by user setting name
-     */
-    public Map<String, CmsXmlContentProperty> getConfiguration() {
+  /**
+   * Gets the value for a given user setting.
+   *
+   * <p>
+   *
+   * @param key the user setting key
+   * @return the current value of the user setting
+   */
+  public String getValue(String key) {
 
-        return Collections.unmodifiableMap(m_settingConfiguration);
-    }
+    return m_values.get(key);
+  }
 
-    /**
-     * Gets the value for a given user setting.<p>
-     *
-     * @param key the user setting key
-     *
-     * @return the current value of the user setting
-     */
-    public String getValue(String key) {
+  /**
+   * Returns true if the user setting with the given name is a basic setting
+   *
+   * @param name the user setting name
+   * @return true if this is a basic setting
+   */
+  public boolean isBasic(String name) {
 
-        return m_values.get(key);
-    }
-
-    /**
-     * Returns true if the user setting with the given name is a basic setting
-     *
-     * @param name the user setting name
-     *
-     * @return true if this is a basic setting
-     */
-    public boolean isBasic(String name) {
-
-        return m_basicOptions.contains(name);
-    }
-
+    return m_basicOptions.contains(name);
+  }
 }

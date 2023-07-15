@@ -27,6 +27,16 @@
 
 package org.opencms.ade.containerpage.client;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
+import java.util.Map;
 import org.opencms.ade.containerpage.client.ui.CmsAddToFavoritesButton;
 import org.opencms.ade.containerpage.client.ui.CmsToolbarAllGalleriesMenu;
 import org.opencms.ade.containerpage.client.ui.CmsToolbarClipboardMenu;
@@ -66,340 +76,356 @@ import org.opencms.gwt.shared.CmsGwtConstants.QuickLaunch;
 import org.opencms.gwt.shared.CmsQuickLaunchParams;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.Map;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * The container page editor.<p>
+ * The container page editor.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsContainerpageEditor extends A_CmsEntryPoint {
 
-    /** Margin-top added to the document body element when the tool-bar is shown. */
-    //    private int m_bodyMarginTop;
+  /** Margin-top added to the document body element when the tool-bar is shown. */
+  //    private int m_bodyMarginTop;
 
-    /**
-     * Quick launch handler for the page editor.
-     */
-    public static class PageEditorQuickLaunchHandler extends A_QuickLaunchHandler {
+  /** Quick launch handler for the page editor. */
+  public static class PageEditorQuickLaunchHandler extends A_QuickLaunchHandler {
 
-        /**
-         * @see org.opencms.gwt.client.ui.CmsQuickLauncher.I_QuickLaunchHandler#getParameters()
-         */
-        public CmsQuickLaunchParams getParameters() {
+    /** @see org.opencms.gwt.client.ui.CmsQuickLauncher.I_QuickLaunchHandler#getParameters() */
+    public CmsQuickLaunchParams getParameters() {
 
-            return new CmsQuickLaunchParams(
-                QuickLaunch.CONTEXT_PAGE,
-                CmsCoreProvider.get().getStructureId(),
-                CmsContainerpageController.get().getData().getDetailId(),
-                null,
-                CmsCoreProvider.get().getUri(),
-                CmsCoreProvider.get().getLastPageId());
-        }
+      return new CmsQuickLaunchParams(
+          QuickLaunch.CONTEXT_PAGE,
+          CmsCoreProvider.get().getStructureId(),
+          CmsContainerpageController.get().getData().getDetailId(),
+          null,
+          CmsCoreProvider.get().getUri(),
+          CmsCoreProvider.get().getLastPageId());
+    }
+  }
 
+  /** Add menu. */
+  private CmsToolbarGalleryMenu m_add;
+
+  /** Add to favorites button. */
+  private CmsAddToFavoritesButton m_addToFavorites;
+
+  /** The button for the 'complete galleries' dialog. */
+  private CmsToolbarAllGalleriesMenu m_allGalleries;
+
+  /** Clip-board menu. */
+  private CmsToolbarClipboardMenu m_clipboard;
+
+  /** The Button for the context menu. */
+  private CmsToolbarContextButton m_context;
+
+  /** The available context menu commands. */
+  private Map<String, I_CmsContextMenuCommand> m_contextMenuCommands;
+
+  /** Edit button. */
+  private CmsToolbarEditButton m_edit;
+
+  /** Button for the elements information. */
+  private CmsToolbarElementInfoButton m_elementsInfo;
+
+  /** Info button. */
+  private CmsToolbarInfoButton m_info;
+
+  /** Move button. */
+  private CmsToolbarMoveButton m_move;
+
+  /** Properties button. */
+  private CmsToolbarSettingsButton m_properties;
+
+  /** Publish button. */
+  private CmsToolbarPublishButton m_publish;
+
+  /** Remove button. */
+  private CmsToolbarRemoveButton m_remove;
+
+  /** Selection button. */
+  private CmsToolbarSelectionButton m_selection;
+
+  /** The style variable for the display mode for small elements. */
+  private CmsStyleVariable m_smallElementsStyle;
+
+  /** The tool-bar. */
+  private CmsToolbar m_toolbar;
+
+  /**
+   * Opens a message dialog with the given content.
+   *
+   * <p>
+   *
+   * @param title the dialog title
+   * @param displayHtmlContent the dialog content
+   */
+  private static void openMessageDialog(String title, String displayHtmlContent) {
+
+    new CmsErrorDialog(title, displayHtmlContent).center();
+  }
+
+  /**
+   * Disables the edit functionality.
+   *
+   * <p>
+   *
+   * @param reason the text stating the reason why the edit functionality was disabled
+   */
+  public void disableEditing(String reason) {
+
+    CmsContainerpageController.get().reinitializeButtons();
+    m_add.disable(reason);
+    m_clipboard.disable(reason);
+  }
+
+  /**
+   * Deactivates all toolbar buttons.
+   *
+   * <p>
+   */
+  public void disableToolbarButtons() {
+
+    for (Widget button : m_toolbar.getAll()) {
+      if (button instanceof I_CmsToolbarButton) {
+        ((I_CmsToolbarButton) button).setEnabled(false);
+      }
+    }
+    m_toolbar.setVisible(false);
+  }
+
+  /**
+   * Enables the toolbar buttons.
+   *
+   * <p>
+   *
+   * @param hasChanges if the page has changes
+   * @param noEditReason the no edit reason
+   */
+  public void enableToolbarButtons(boolean hasChanges, String noEditReason) {
+
+    for (Widget button : m_toolbar.getAll()) {
+      // enable all buttons that are not equal save or reset or the page has changes
+      if (button instanceof I_CmsToolbarButton) {
+        ((I_CmsToolbarButton) button).setEnabled(true);
+      }
+    }
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(noEditReason)) {
+      m_add.disable(noEditReason);
+      m_clipboard.disable(noEditReason);
     }
 
-    /** Add menu. */
-    private CmsToolbarGalleryMenu m_add;
+    m_toolbar.setVisible(true);
+  }
 
-    /** Add to favorites button. */
-    private CmsAddToFavoritesButton m_addToFavorites;
+  /**
+   * Returns the add gallery menu.
+   *
+   * <p>
+   *
+   * @return the add gallery menu
+   */
+  public CmsToolbarGalleryMenu getAdd() {
 
-    /** The button for the 'complete galleries' dialog. */
-    private CmsToolbarAllGalleriesMenu m_allGalleries;
+    return m_add;
+  }
 
-    /** Clip-board menu. */
-    private CmsToolbarClipboardMenu m_clipboard;
+  /**
+   * Returns the clip-board menu.
+   *
+   * <p>
+   *
+   * @return the clip-board menu
+   */
+  public CmsToolbarClipboardMenu getClipboard() {
 
-    /** The Button for the context menu. */
-    private CmsToolbarContextButton m_context;
+    return m_clipboard;
+  }
 
-    /** The available context menu commands. */
-    private Map<String, I_CmsContextMenuCommand> m_contextMenuCommands;
+  /**
+   * Returns the context menu.
+   *
+   * <p>
+   *
+   * @return the context menu
+   */
+  public CmsToolbarContextButton getContext() {
 
-    /** Edit button. */
-    private CmsToolbarEditButton m_edit;
+    return m_context;
+  }
 
-    /** Button for the elements information. */
-    private CmsToolbarElementInfoButton m_elementsInfo;
+  /**
+   * Returns the available context menu commands as a map by class name.
+   *
+   * <p>
+   *
+   * @return the available context menu commands as a map by class name
+   */
+  public Map<String, I_CmsContextMenuCommand> getContextMenuCommands() {
 
-    /** Info button. */
-    private CmsToolbarInfoButton m_info;
-
-    /** Move button. */
-    private CmsToolbarMoveButton m_move;
-
-    /** Properties button. */
-    private CmsToolbarSettingsButton m_properties;
-
-    /** Publish button. */
-    private CmsToolbarPublishButton m_publish;
-
-    /** Remove button. */
-    private CmsToolbarRemoveButton m_remove;
-
-    /** Selection button. */
-    private CmsToolbarSelectionButton m_selection;
-
-    /** The style variable for the display mode for small elements. */
-    private CmsStyleVariable m_smallElementsStyle;
-
-    /** The tool-bar. */
-    private CmsToolbar m_toolbar;
-
-    /**
-     * Opens a message dialog with the given content.<p>
-     *
-     * @param title the dialog title
-     * @param displayHtmlContent the dialog content
-     */
-    private static void openMessageDialog(String title, String displayHtmlContent) {
-
-        new CmsErrorDialog(title, displayHtmlContent).center();
+    if (m_contextMenuCommands == null) {
+      I_CmsContextMenuCommandInitializer initializer =
+          GWT.create(I_CmsContextMenuCommandInitializer.class);
+      m_contextMenuCommands = initializer.initCommands();
     }
+    return m_contextMenuCommands;
+  }
 
-    /**
-     * Disables the edit functionality.<p>
-     *
-     * @param reason the text stating the reason why the edit functionality was disabled
-     */
-    public void disableEditing(String reason) {
+  /**
+   * Returns the publish.
+   *
+   * <p>
+   *
+   * @return the publish
+   */
+  public CmsToolbarPublishButton getPublish() {
 
-        CmsContainerpageController.get().reinitializeButtons();
-        m_add.disable(reason);
-        m_clipboard.disable(reason);
-    }
+    return m_publish;
+  }
 
-    /**
-     * Deactivates all toolbar buttons.<p>
-     */
-    public void disableToolbarButtons() {
+  /**
+   * Returns the selection button.
+   *
+   * <p>
+   *
+   * @return the selection button
+   */
+  public CmsToolbarSelectionButton getSelection() {
 
-        for (Widget button : m_toolbar.getAll()) {
-            if (button instanceof I_CmsToolbarButton) {
-                ((I_CmsToolbarButton)button).setEnabled(false);
+    return m_selection;
+  }
+
+  /**
+   * Returns the tool-bar widget.
+   *
+   * <p>
+   *
+   * @return the tool-bar widget
+   */
+  public CmsToolbar getToolbar() {
+
+    return m_toolbar;
+  }
+
+  /** @see com.google.gwt.core.client.EntryPoint#onModuleLoad() */
+  @Override
+  public void onModuleLoad() {
+
+    super.onModuleLoad();
+    CmsRpcContext.get()
+        .put(CmsGwtConstants.RpcContext.PAGE_ID, "" + CmsCoreProvider.get().getStructureId());
+    CmsBroadcastTimer.start();
+    JavaScriptObject window = CmsDomUtil.getWindow();
+    CmsDomUtil.setAttribute(window, "__hideEditorCloseButton", "true");
+
+    I_CmsLayoutBundle.INSTANCE.containerpageCss().ensureInjected();
+    I_CmsLayoutBundle.INSTANCE.dragdropCss().ensureInjected();
+
+    I_CmsLayoutBundle.INSTANCE.groupcontainerCss().ensureInjected();
+    org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE
+        .elementSettingsDialogCss()
+        .ensureInjected();
+    org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.listAddCss().ensureInjected();
+
+    final CmsContainerpageController controller = new CmsContainerpageController();
+    final CmsContainerpageHandler containerpageHandler =
+        new CmsContainerpageHandler(controller, this);
+    CmsContentEditorHandler contentEditorHandler =
+        new CmsContentEditorHandler(containerpageHandler);
+    CmsCompositeDNDController dndController = new CmsCompositeDNDController();
+    dndController.addController(new CmsContainerpageDNDController(controller));
+    // dndController.addController(new CmsImageDndController(controller));
+    controller.setDndController(dndController);
+    CmsDNDHandler dndHandler = new CmsDNDHandler(dndController);
+    dndHandler.setAnimationType(AnimationType.SPECIAL);
+    ClickHandler clickHandler =
+        new ClickHandler() {
+
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          public void onClick(ClickEvent event) {
+
+            I_CmsToolbarButton source = (I_CmsToolbarButton) event.getSource();
+            source.onToolbarClick();
+            if (source instanceof CmsPushButton) {
+              ((CmsPushButton) source).clearHoverState();
             }
-        }
-        m_toolbar.setVisible(false);
-    }
-
-    /**
-     * Enables the toolbar buttons.<p>
-     *
-     * @param hasChanges if the page has changes
-     * @param noEditReason the no edit reason
-     */
-    public void enableToolbarButtons(boolean hasChanges, String noEditReason) {
-
-        for (Widget button : m_toolbar.getAll()) {
-            // enable all buttons that are not equal save or reset or the page has changes
-            if (button instanceof I_CmsToolbarButton) {
-                ((I_CmsToolbarButton)button).setEnabled(true);
-            }
-        }
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(noEditReason)) {
-            m_add.disable(noEditReason);
-            m_clipboard.disable(noEditReason);
-        }
-
-        m_toolbar.setVisible(true);
-    }
-
-    /**
-     * Returns the add gallery menu.<p>
-     *
-     * @return the add gallery menu
-     */
-    public CmsToolbarGalleryMenu getAdd() {
-
-        return m_add;
-    }
-
-    /**
-     * Returns the clip-board menu.<p>
-     *
-     * @return the clip-board menu
-     */
-    public CmsToolbarClipboardMenu getClipboard() {
-
-        return m_clipboard;
-    }
-
-    /**
-     * Returns the context menu.<p>
-     *
-     * @return the context menu
-     */
-    public CmsToolbarContextButton getContext() {
-
-        return m_context;
-    }
-
-    /**
-     * Returns the available context menu commands as a map by class name.<p>
-     *
-     * @return the available context menu commands as a map by class name
-     */
-    public Map<String, I_CmsContextMenuCommand> getContextMenuCommands() {
-
-        if (m_contextMenuCommands == null) {
-            I_CmsContextMenuCommandInitializer initializer = GWT.create(I_CmsContextMenuCommandInitializer.class);
-            m_contextMenuCommands = initializer.initCommands();
-        }
-        return m_contextMenuCommands;
-    }
-
-    /**
-     * Returns the publish.<p>
-     *
-     * @return the publish
-     */
-    public CmsToolbarPublishButton getPublish() {
-
-        return m_publish;
-    }
-
-    /**
-     * Returns the selection button.<p>
-     *
-     * @return the selection button
-     */
-    public CmsToolbarSelectionButton getSelection() {
-
-        return m_selection;
-    }
-
-    /**
-     * Returns the tool-bar widget.<p>
-     *
-     * @return the tool-bar widget
-     */
-    public CmsToolbar getToolbar() {
-
-        return m_toolbar;
-    }
-
-    /**
-     * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
-     */
-    @Override
-    public void onModuleLoad() {
-
-        super.onModuleLoad();
-        CmsRpcContext.get().put(CmsGwtConstants.RpcContext.PAGE_ID, "" + CmsCoreProvider.get().getStructureId());
-        CmsBroadcastTimer.start();
-        JavaScriptObject window = CmsDomUtil.getWindow();
-        CmsDomUtil.setAttribute(window, "__hideEditorCloseButton", "true");
-
-        I_CmsLayoutBundle.INSTANCE.containerpageCss().ensureInjected();
-        I_CmsLayoutBundle.INSTANCE.dragdropCss().ensureInjected();
-
-        I_CmsLayoutBundle.INSTANCE.groupcontainerCss().ensureInjected();
-        org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.elementSettingsDialogCss().ensureInjected();
-        org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.listAddCss().ensureInjected();
-
-        final CmsContainerpageController controller = new CmsContainerpageController();
-        final CmsContainerpageHandler containerpageHandler = new CmsContainerpageHandler(controller, this);
-        CmsContentEditorHandler contentEditorHandler = new CmsContentEditorHandler(containerpageHandler);
-        CmsCompositeDNDController dndController = new CmsCompositeDNDController();
-        dndController.addController(new CmsContainerpageDNDController(controller));
-        //dndController.addController(new CmsImageDndController(controller));
-        controller.setDndController(dndController);
-        CmsDNDHandler dndHandler = new CmsDNDHandler(dndController);
-        dndHandler.setAnimationType(AnimationType.SPECIAL);
-        ClickHandler clickHandler = new ClickHandler() {
-
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
-
-                I_CmsToolbarButton source = (I_CmsToolbarButton)event.getSource();
-                source.onToolbarClick();
-                if (source instanceof CmsPushButton) {
-                    ((CmsPushButton)source).clearHoverState();
-                }
-            }
+          }
         };
 
-        //        m_bodyMarginTop = CmsDomUtil.getCurrentStyleInt(Document.get().getBody(), Style.marginTop);
-        m_toolbar = new CmsToolbar();
-        m_toolbar.setQuickLaunchHandler(new PageEditorQuickLaunchHandler());
-        m_toolbar.getUserInfo().setHandler(containerpageHandler);
-        m_toolbar.getQuickLauncher().setHandler(containerpageHandler);
-        String title = controller.getData().getAppTitle();
-        if (title == null) {
-            title = Messages.get().key(Messages.GUI_PAGE_EDITOR_TITLE_0);
-        }
-        m_toolbar.setAppTitle(title);
+    //        m_bodyMarginTop = CmsDomUtil.getCurrentStyleInt(Document.get().getBody(),
+    // Style.marginTop);
+    m_toolbar = new CmsToolbar();
+    m_toolbar.setQuickLaunchHandler(new PageEditorQuickLaunchHandler());
+    m_toolbar.getUserInfo().setHandler(containerpageHandler);
+    m_toolbar.getQuickLauncher().setHandler(containerpageHandler);
+    String title = controller.getData().getAppTitle();
+    if (title == null) {
+      title = Messages.get().key(Messages.GUI_PAGE_EDITOR_TITLE_0);
+    }
+    m_toolbar.setAppTitle(title);
 
-        m_publish = new CmsToolbarPublishButton(containerpageHandler);
-        m_publish.addClickHandler(clickHandler);
-        m_toolbar.addLeft(m_publish);
+    m_publish = new CmsToolbarPublishButton(containerpageHandler);
+    m_publish.addClickHandler(clickHandler);
+    m_toolbar.addLeft(m_publish);
 
-        m_move = new CmsToolbarMoveButton(containerpageHandler, dndHandler);
+    m_move = new CmsToolbarMoveButton(containerpageHandler, dndHandler);
 
-        m_edit = new CmsToolbarEditButton(containerpageHandler);
+    m_edit = new CmsToolbarEditButton(containerpageHandler);
 
-        m_addToFavorites = new CmsAddToFavoritesButton(containerpageHandler);
+    m_addToFavorites = new CmsAddToFavoritesButton(containerpageHandler);
 
-        m_remove = new CmsToolbarRemoveButton(containerpageHandler);
+    m_remove = new CmsToolbarRemoveButton(containerpageHandler);
 
-        m_properties = new CmsToolbarSettingsButton(containerpageHandler);
-        m_info = new CmsToolbarInfoButton(containerpageHandler);
+    m_properties = new CmsToolbarSettingsButton(containerpageHandler);
+    m_info = new CmsToolbarInfoButton(containerpageHandler);
 
-        m_clipboard = new CmsToolbarClipboardMenu(containerpageHandler);
-        m_clipboard.addClickHandler(clickHandler);
-        m_toolbar.addLeft(m_clipboard);
+    m_clipboard = new CmsToolbarClipboardMenu(containerpageHandler);
+    m_clipboard.addClickHandler(clickHandler);
+    m_toolbar.addLeft(m_clipboard);
 
-        m_add = new CmsToolbarGalleryMenu(containerpageHandler, dndHandler);
-        m_add.addClickHandler(clickHandler);
-        m_toolbar.addLeft(m_add);
+    m_add = new CmsToolbarGalleryMenu(containerpageHandler, dndHandler);
+    m_add.addClickHandler(clickHandler);
+    m_toolbar.addLeft(m_add);
 
-        m_allGalleries = new CmsToolbarAllGalleriesMenu(containerpageHandler, dndHandler);
-        m_allGalleries.addClickHandler(clickHandler);
-        m_toolbar.addLeft(m_allGalleries);
+    m_allGalleries = new CmsToolbarAllGalleriesMenu(containerpageHandler, dndHandler);
+    m_allGalleries.addClickHandler(clickHandler);
+    m_toolbar.addLeft(m_allGalleries);
 
-        m_elementsInfo = new CmsToolbarElementInfoButton(containerpageHandler, controller);
-        m_elementsInfo.addClickHandler(clickHandler);
-        m_toolbar.addLeft(m_elementsInfo);
+    m_elementsInfo = new CmsToolbarElementInfoButton(containerpageHandler, controller);
+    m_elementsInfo.addClickHandler(clickHandler);
+    m_toolbar.addLeft(m_elementsInfo);
 
-        m_selection = new CmsToolbarSelectionButton(containerpageHandler);
-        m_selection.addClickHandler(clickHandler);
-        m_toolbar.addLeft(m_selection);
+    m_selection = new CmsToolbarSelectionButton(containerpageHandler);
+    m_selection.addClickHandler(clickHandler);
+    m_toolbar.addLeft(m_selection);
 
-        m_context = new CmsToolbarContextButton(containerpageHandler);
-        m_context.addClickHandler(clickHandler);
-        m_toolbar.insertRight(m_context, 0);
+    m_context = new CmsToolbarContextButton(containerpageHandler);
+    m_context.addClickHandler(clickHandler);
+    m_toolbar.insertRight(m_context, 0);
 
-        CmsToolbarFavLocationButton favLocButton = new CmsToolbarFavLocationButton(containerpageHandler);
-        favLocButton.addClickHandler(clickHandler);
-        m_toolbar.insertRight(favLocButton, 1);
+    CmsToolbarFavLocationButton favLocButton =
+        new CmsToolbarFavLocationButton(containerpageHandler);
+    favLocButton.addClickHandler(clickHandler);
+    m_toolbar.insertRight(favLocButton, 1);
 
-        Window.addCloseHandler(new CloseHandler<Window>() {
+    Window.addCloseHandler(
+        new CloseHandler<Window>() {
 
-            public void onClose(CloseEvent<Window> event) {
+          public void onClose(CloseEvent<Window> event) {
 
-                controller.onWindowClose();
-            }
-
+            controller.onWindowClose();
+          }
         });
 
-        containerpageHandler.activateSelection();
+    containerpageHandler.activateSelection();
 
-        RootPanel root = RootPanel.get();
-        root.add(m_toolbar);
-        CmsContainerpageUtil containerpageUtil = new CmsContainerpageUtil(
+    RootPanel root = RootPanel.get();
+    root.add(m_toolbar);
+    CmsContainerpageUtil containerpageUtil =
+        new CmsContainerpageUtil(
             controller,
             m_edit,
             m_move,
@@ -409,19 +435,21 @@ public class CmsContainerpageEditor extends A_CmsEntryPoint {
             m_properties,
             m_addToFavorites,
             m_remove);
-        CmsEmbeddedDialogFrame.get().preload();
-        controller.init(containerpageHandler, dndHandler, contentEditorHandler, containerpageUtil);
+    CmsEmbeddedDialogFrame.get().preload();
+    controller.init(containerpageHandler, dndHandler, contentEditorHandler, containerpageUtil);
 
-        // export open stack trace dialog function
-        exportMethods(controller);
-    }
+    // export open stack trace dialog function
+    exportMethods(controller);
+  }
 
-    /**
-     * Exports the __openMessageDialog and the __reinitializeEditButtons method to the page context.<p>
-     *
-     * @param controller the controller
-     */
-    private native void exportMethods(CmsContainerpageController controller) /*-{
+  /**
+   * Exports the __openMessageDialog and the __reinitializeEditButtons method to the page context.
+   *
+   * <p>
+   *
+   * @param controller the controller
+   */
+  private native void exportMethods(CmsContainerpageController controller) /*-{
 		var contr = controller;
 		$wnd.opencms = {
 			openStacktraceDialog : function(event) {

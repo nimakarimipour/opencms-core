@@ -27,180 +27,175 @@
 
 package org.opencms.flex;
 
+import java.util.Locale;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.loader.I_CmsFlexCacheEnabledLoader;
 import org.opencms.loader.I_CmsResourceLoader;
 
-import java.util.Locale;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * A resource loader which does nothing, except provide access to the last flex cache instance set
- * with {@link #setFlexCache}.<p>
+ * with {@link #setFlexCache}.
  *
- * The instance can be accessed via the package static variable {@link #m_flexCache}.
- * This allows unit tests in this package to do some white-box testing on the flex cache system.
+ * <p>The instance can be accessed via the package static variable {@link #m_flexCache}. This allows
+ * unit tests in this package to do some white-box testing on the flex cache system.
  *
  * @since 6.0.1
  */
 public class CmsFlexDummyLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledLoader {
 
-    /** The dummy id of this dummy loader. */
-    public static final int LOADER_ID = 100;
+  /** The dummy id of this dummy loader. */
+  public static final int LOADER_ID = 100;
 
-    /** Loader info. */
-    public static final String LOADER_INFO = "Dummy Loader, which provides test classes access to the CmsFlexCache instance";
+  /** Loader info. */
+  public static final String LOADER_INFO =
+      "Dummy Loader, which provides test classes access to the CmsFlexCache instance";
 
-    /** Provides access to the Flex cache. */
-    protected static CmsFlexCache m_flexCache;
+  /** Provides access to the Flex cache. */
+  protected static CmsFlexCache m_flexCache;
 
-    /** Holds the loder configuration. */
-    private CmsParameterConfiguration m_config = new CmsParameterConfiguration();
+  /** Holds the loder configuration. */
+  private CmsParameterConfiguration m_config = new CmsParameterConfiguration();
 
-    /**
-     * Allows static access to the internal {@link CmsFlexCache}.<p>
-     *
-     * @return the {@link CmsFlexCache} used by this OpenCms instance
-     */
-    public static CmsFlexCache getFlexCache() {
+  /**
+   * Allows static access to the internal {@link CmsFlexCache}.
+   *
+   * <p>
+   *
+   * @return the {@link CmsFlexCache} used by this OpenCms instance
+   */
+  public static CmsFlexCache getFlexCache() {
 
-        return m_flexCache;
-    }
+    return m_flexCache;
+  }
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
-     */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+  /**
+   * @see
+   *     org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String,
+   *     java.lang.String)
+   */
+  public void addConfigurationParameter(String paramName, String paramValue) {
 
-        m_config.put(paramName, paramValue);
-    }
+    m_config.put(paramName, paramValue);
+  }
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#destroy()
-     */
-    public void destroy() {
+  /** @see org.opencms.loader.I_CmsResourceLoader#destroy() */
+  public void destroy() {
 
-        m_flexCache = null;
-        m_config = null;
-    }
+    m_flexCache = null;
+    m_config = null;
+  }
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#dump(org.opencms.file.CmsObject, org.opencms.file.CmsResource, java.lang.String, java.util.Locale, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    public byte[] dump(
-        CmsObject cms,
-        CmsResource resource,
-        String element,
-        Locale locale,
-        HttpServletRequest req,
-        HttpServletResponse res) throws ServletException {
+  /**
+   * @see org.opencms.loader.I_CmsResourceLoader#dump(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, java.lang.String, java.util.Locale,
+   *     javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+   */
+  public byte[] dump(
+      CmsObject cms,
+      CmsResource resource,
+      String element,
+      Locale locale,
+      HttpServletRequest req,
+      HttpServletResponse res)
+      throws ServletException {
 
-        throw new ServletException("Not implemented");
-    }
+    throw new ServletException("Not implemented");
+  }
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#export(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    public byte[] export(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
-    throws ServletException {
+  /**
+   * @see org.opencms.loader.I_CmsResourceLoader#export(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest,
+   *     javax.servlet.http.HttpServletResponse)
+   */
+  public byte[] export(
+      CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+      throws ServletException {
 
-        throw new ServletException("Not implemented");
-    }
+    throw new ServletException("Not implemented");
+  }
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#getConfiguration()
-     */
-    public CmsParameterConfiguration getConfiguration() {
+  /** @see org.opencms.configuration.I_CmsConfigurationParameterHandler#getConfiguration() */
+  public CmsParameterConfiguration getConfiguration() {
 
-        return m_config;
-    }
+    return m_config;
+  }
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#getLoaderId()
-     */
-    public int getLoaderId() {
+  /** @see org.opencms.loader.I_CmsResourceLoader#getLoaderId() */
+  public int getLoaderId() {
 
-        return LOADER_ID;
-    }
+    return LOADER_ID;
+  }
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#getResourceLoaderInfo()
-     */
-    public String getResourceLoaderInfo() {
+  /** @see org.opencms.loader.I_CmsResourceLoader#getResourceLoaderInfo() */
+  public String getResourceLoaderInfo() {
 
-        return LOADER_INFO;
-    }
+    return LOADER_INFO;
+  }
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#initConfiguration()
-     */
-    public void initConfiguration() {
+  /** @see org.opencms.configuration.I_CmsConfigurationParameterHandler#initConfiguration() */
+  public void initConfiguration() {
 
-        // not implemented
-    }
+    // not implemented
+  }
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#isStaticExportEnabled()
-     */
-    public boolean isStaticExportEnabled() {
+  /** @see org.opencms.loader.I_CmsResourceLoader#isStaticExportEnabled() */
+  public boolean isStaticExportEnabled() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#isStaticExportProcessable()
-     */
-    public boolean isStaticExportProcessable() {
+  /** @see org.opencms.loader.I_CmsResourceLoader#isStaticExportProcessable() */
+  public boolean isStaticExportProcessable() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#isUsableForTemplates()
-     */
-    public boolean isUsableForTemplates() {
+  /** @see org.opencms.loader.I_CmsResourceLoader#isUsableForTemplates() */
+  public boolean isUsableForTemplates() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#isUsingUriWhenLoadingTemplate()
-     */
-    public boolean isUsingUriWhenLoadingTemplate() {
+  /** @see org.opencms.loader.I_CmsResourceLoader#isUsingUriWhenLoadingTemplate() */
+  public boolean isUsingUriWhenLoadingTemplate() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#load(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    public void load(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
-    throws ServletException {
+  /**
+   * @see org.opencms.loader.I_CmsResourceLoader#load(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest,
+   *     javax.servlet.http.HttpServletResponse)
+   */
+  public void load(
+      CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+      throws ServletException {
 
-        throw new ServletException("Not implemented");
-    }
+    throw new ServletException("Not implemented");
+  }
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#service(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.ServletRequest, javax.servlet.ServletResponse)
-     */
-    public void service(CmsObject cms, CmsResource resource, ServletRequest req, ServletResponse res)
-    throws ServletException {
+  /**
+   * @see org.opencms.loader.I_CmsResourceLoader#service(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, javax.servlet.ServletRequest, javax.servlet.ServletResponse)
+   */
+  public void service(CmsObject cms, CmsResource resource, ServletRequest req, ServletResponse res)
+      throws ServletException {
 
-        throw new ServletException("Not implemented");
-    }
+    throw new ServletException("Not implemented");
+  }
 
-    /**
-     * @see org.opencms.loader.I_CmsFlexCacheEnabledLoader#setFlexCache(org.opencms.flex.CmsFlexCache)
-     */
-    public void setFlexCache(CmsFlexCache cache) {
+  /**
+   * @see org.opencms.loader.I_CmsFlexCacheEnabledLoader#setFlexCache(org.opencms.flex.CmsFlexCache)
+   */
+  public void setFlexCache(CmsFlexCache cache) {
 
-        m_flexCache = cache;
-    }
+    m_flexCache = cache;
+  }
 }

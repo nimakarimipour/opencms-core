@@ -30,46 +30,53 @@ package org.opencms.main;
 import org.opencms.i18n.CmsMessageContainer;
 
 /**
- * A replacement for <code>{@link java.lang.IllegalStateException}</code> to obtain fully
- * localized exception messages for OpenCms.<p>
+ * A replacement for <code>{@link java.lang.IllegalStateException}</code> to obtain fully localized
+ * exception messages for OpenCms.
  *
- * Please note that this class does not extend <code>{@link java.lang.IllegalStateException}</code> due to
- * the lack of multiple inheritance for Java.<p>
+ * <p>Please note that this class does not extend <code>{@link java.lang.IllegalStateException}
+ * </code> due to the lack of multiple inheritance for Java.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsIllegalStateException extends CmsRuntimeException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 1714975399892060445L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 1714975399892060445L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsIllegalStateException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsIllegalStateException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsIllegalStateException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsIllegalStateException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsRuntimeException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsRuntimeException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsRuntimeException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsRuntimeException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsIllegalStateException(container, cause);
-    }
+    return new CmsIllegalStateException(container, cause);
+  }
 }

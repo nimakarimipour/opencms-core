@@ -27,95 +27,103 @@
 
 package org.opencms.db;
 
+import java.util.Date;
 import org.opencms.util.CmsUUID;
 
-import java.util.Date;
-
 /**
- * A bean which represents a user having visited a page.<p>
+ * A bean which represents a user having visited a page.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsVisitEntry {
 
-    /** The entry's date in milliseconds. */
-    private final long m_date;
+  /** The entry's date in milliseconds. */
+  private final long m_date;
 
-    /** The structure id. */
-    private final CmsUUID m_structureId;
+  /** The structure id. */
+  private final CmsUUID m_structureId;
 
-    /** The user id. */
-    private final CmsUUID m_userId;
+  /** The user id. */
+  private final CmsUUID m_userId;
 
-    /**
-     * Public constructor, will use the current time for time stamp.<p>
-     *
-     * @param dbc the current database context with the current user
-     * @param structureId the structure id
-     */
-    public CmsVisitEntry(CmsDbContext dbc, CmsUUID structureId) {
+  /**
+   * Public constructor, will use the current time for time stamp.
+   *
+   * <p>
+   *
+   * @param dbc the current database context with the current user
+   * @param structureId the structure id
+   */
+  public CmsVisitEntry(CmsDbContext dbc, CmsUUID structureId) {
 
-        m_userId = dbc.currentUser().getId();
-        m_date = System.currentTimeMillis();
-        m_structureId = structureId;
-    }
+    m_userId = dbc.currentUser().getId();
+    m_date = System.currentTimeMillis();
+    m_structureId = structureId;
+  }
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param userId the user id
-     * @param date the date in milliseconds
-     * @param structureId the structure id
-     */
-    public CmsVisitEntry(CmsUUID userId, long date, CmsUUID structureId) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param userId the user id
+   * @param date the date in milliseconds
+   * @param structureId the structure id
+   */
+  public CmsVisitEntry(CmsUUID userId, long date, CmsUUID structureId) {
 
-        m_userId = userId;
-        m_date = date;
-        m_structureId = structureId;
-    }
+    m_userId = userId;
+    m_date = date;
+    m_structureId = structureId;
+  }
 
-    /**
-     * Returns the date.<p>
-     *
-     * @return the date
-     */
-    public long getDate() {
+  /**
+   * Returns the date.
+   *
+   * <p>
+   *
+   * @return the date
+   */
+  public long getDate() {
 
-        return m_date;
-    }
+    return m_date;
+  }
 
-    /**
-     * Returns the structure id.<p>
-     *
-     * @return the structure id
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Returns the structure id.
+   *
+   * <p>
+   *
+   * @return the structure id
+   */
+  public CmsUUID getStructureId() {
 
-        return m_structureId;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * Returns the user id.<p>
-     *
-     * @return the user id
-     */
-    public CmsUUID getUserId() {
+  /**
+   * Returns the user id.
+   *
+   * <p>
+   *
+   * @return the user id
+   */
+  public CmsUUID getUserId() {
 
-        return m_userId;
-    }
+    return m_userId;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        StringBuffer sb = new StringBuffer();
-        sb.append("[").append(getClass().getName()).append(":");
-        sb.append("user=").append(m_userId).append(",");
-        sb.append("date=").append(new Date(m_date)).append(",");
-        sb.append("structure=").append(m_structureId);
-        return sb.append("]").toString();
-    }
-
+    StringBuffer sb = new StringBuffer();
+    sb.append("[").append(getClass().getName()).append(":");
+    sb.append("user=").append(m_userId).append(",");
+    sb.append("date=").append(new Date(m_date)).append(",");
+    sb.append("structure=").append(m_structureId);
+    return sb.append("]").toString();
+  }
 }

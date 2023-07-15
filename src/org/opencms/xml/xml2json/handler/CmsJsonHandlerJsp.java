@@ -30,33 +30,30 @@ package org.opencms.xml.xml2json.handler;
 import org.opencms.file.types.CmsResourceTypeJsp;
 import org.opencms.xml.xml2json.CmsJsonResult;
 
-/**
- * JSON handler used to load JSPs referenced directly by path.
- */
+/** JSON handler used to load JSPs referenced directly by path. */
 public class CmsJsonHandlerJsp implements I_CmsJsonHandler {
 
-    /**
-     * @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#getOrder()
-     */
-    public double getOrder() {
+  /** @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#getOrder() */
+  public double getOrder() {
 
-        return 300;
-    }
+    return 300;
+  }
 
-    /**
-     * @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#matches(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
-     */
-    public boolean matches(CmsJsonHandlerContext context) {
+  /**
+   * @see
+   *     org.opencms.xml.xml2json.handler.I_CmsJsonHandler#matches(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
+   */
+  public boolean matches(CmsJsonHandlerContext context) {
 
-        return CmsResourceTypeJsp.isJsp(context.getResource());
-    }
+    return CmsResourceTypeJsp.isJsp(context.getResource());
+  }
 
-    /**
-     * @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#renderJson(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
-     */
-    public CmsJsonResult renderJson(CmsJsonHandlerContext context) {
+  /**
+   * @see
+   *     org.opencms.xml.xml2json.handler.I_CmsJsonHandler#renderJson(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
+   */
+  public CmsJsonResult renderJson(CmsJsonHandlerContext context) {
 
-        return new CmsJsonResult(context.getResource());
-    }
-
+    return new CmsJsonResult(context.getResource());
+  }
 }

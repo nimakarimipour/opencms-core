@@ -29,146 +29,129 @@ package org.opencms.cmis;
 
 import java.io.File;
 import java.math.BigInteger;
-
 import org.apache.chemistry.opencmis.commons.enums.CmisVersion;
 import org.apache.chemistry.opencmis.commons.server.CallContext;
 import org.apache.chemistry.opencmis.commons.server.ObjectInfoHandler;
 
 /**
- * Call context implementation which delegates most methods to a wrapped call context, but also provides additional functionality.<p>
+ * Call context implementation which delegates most methods to a wrapped call context, but also
+ * provides additional functionality.
+ *
+ * <p>
  */
 public class CmsCmisCallContext implements CallContext {
 
-    /** The wrapped call context. */
-    private CallContext m_context;
+  /** The wrapped call context. */
+  private CallContext m_context;
 
-    /** The object info handler. */
-    private ObjectInfoHandler m_objectInfo;
+  /** The object info handler. */
+  private ObjectInfoHandler m_objectInfo;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param originalContext the context to wrap
-     * @param objectInfo the object info handler to use
-     */
-    public CmsCmisCallContext(CallContext originalContext, ObjectInfoHandler objectInfo) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param originalContext the context to wrap
+   * @param objectInfo the object info handler to use
+   */
+  public CmsCmisCallContext(CallContext originalContext, ObjectInfoHandler objectInfo) {
 
-        m_context = originalContext;
-        m_objectInfo = objectInfo;
-    }
+    m_context = originalContext;
+    m_objectInfo = objectInfo;
+  }
 
-    public boolean encryptTempFiles() {
+  public boolean encryptTempFiles() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.apache.chemistry.opencmis.commons.server.CallContext#get(java.lang.String)
-     */
-    public Object get(String attr) {
+  /** @see org.apache.chemistry.opencmis.commons.server.CallContext#get(java.lang.String) */
+  public Object get(String attr) {
 
-        return m_context.get(attr);
-    }
+    return m_context.get(attr);
+  }
 
-    /**
-     * @see org.apache.chemistry.opencmis.commons.server.CallContext#getBinding()
-     */
-    public String getBinding() {
+  /** @see org.apache.chemistry.opencmis.commons.server.CallContext#getBinding() */
+  public String getBinding() {
 
-        return m_context.getBinding();
-    }
+    return m_context.getBinding();
+  }
 
-    public CmisVersion getCmisVersion() {
+  public CmisVersion getCmisVersion() {
 
-        // TODO Auto-generated method stub
-        return null;
-    }
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-    /**
-     * @see org.apache.chemistry.opencmis.commons.server.CallContext#getLength()
-     */
-    public BigInteger getLength() {
+  /** @see org.apache.chemistry.opencmis.commons.server.CallContext#getLength() */
+  public BigInteger getLength() {
 
-        return m_context.getLength();
-    }
+    return m_context.getLength();
+  }
 
-    /**
-     * @see org.apache.chemistry.opencmis.commons.server.CallContext#getLocale()
-     */
-    public String getLocale() {
+  /** @see org.apache.chemistry.opencmis.commons.server.CallContext#getLocale() */
+  public String getLocale() {
 
-        return m_context.getLocale();
-    }
+    return m_context.getLocale();
+  }
 
-    public long getMaxContentSize() {
+  public long getMaxContentSize() {
 
-        return Integer.MAX_VALUE;
-    }
+    return Integer.MAX_VALUE;
+  }
 
-    /**
-     * @see org.apache.chemistry.opencmis.commons.server.CallContext#getMemoryThreshold()
-     */
-    public int getMemoryThreshold() {
+  /** @see org.apache.chemistry.opencmis.commons.server.CallContext#getMemoryThreshold() */
+  public int getMemoryThreshold() {
 
-        return m_context.getMemoryThreshold();
-    }
+    return m_context.getMemoryThreshold();
+  }
 
-    /**
-     * The object info handler to use.<p>
-     *
-     * @return the object info handler
-     */
-    public ObjectInfoHandler getObjectInfoHandler() {
+  /**
+   * The object info handler to use.
+   *
+   * <p>
+   *
+   * @return the object info handler
+   */
+  public ObjectInfoHandler getObjectInfoHandler() {
 
-        return m_objectInfo;
-    }
+    return m_objectInfo;
+  }
 
-    /**
-     * @see org.apache.chemistry.opencmis.commons.server.CallContext#getOffset()
-     */
-    public BigInteger getOffset() {
+  /** @see org.apache.chemistry.opencmis.commons.server.CallContext#getOffset() */
+  public BigInteger getOffset() {
 
-        return m_context.getOffset();
-    }
+    return m_context.getOffset();
+  }
 
-    /**
-     * @see org.apache.chemistry.opencmis.commons.server.CallContext#getPassword()
-     */
-    public String getPassword() {
+  /** @see org.apache.chemistry.opencmis.commons.server.CallContext#getPassword() */
+  public String getPassword() {
 
-        return m_context.getPassword();
-    }
+    return m_context.getPassword();
+  }
 
-    /**
-     * @see org.apache.chemistry.opencmis.commons.server.CallContext#getRepositoryId()
-     */
-    public String getRepositoryId() {
+  /** @see org.apache.chemistry.opencmis.commons.server.CallContext#getRepositoryId() */
+  public String getRepositoryId() {
 
-        return m_context.getRepositoryId();
-    }
+    return m_context.getRepositoryId();
+  }
 
-    /**
-     * @see org.apache.chemistry.opencmis.commons.server.CallContext#getTempDirectory()
-     */
-    public File getTempDirectory() {
+  /** @see org.apache.chemistry.opencmis.commons.server.CallContext#getTempDirectory() */
+  public File getTempDirectory() {
 
-        return m_context.getTempDirectory();
-    }
+    return m_context.getTempDirectory();
+  }
 
-    /**
-     * @see org.apache.chemistry.opencmis.commons.server.CallContext#getUsername()
-     */
-    public String getUsername() {
+  /** @see org.apache.chemistry.opencmis.commons.server.CallContext#getUsername() */
+  public String getUsername() {
 
-        return m_context.getUsername();
-    }
+    return m_context.getUsername();
+  }
 
-    /**
-     * @see org.apache.chemistry.opencmis.commons.server.CallContext#isObjectInfoRequired()
-     */
-    public boolean isObjectInfoRequired() {
+  /** @see org.apache.chemistry.opencmis.commons.server.CallContext#isObjectInfoRequired() */
+  public boolean isObjectInfoRequired() {
 
-        return m_context.isObjectInfoRequired();
-    }
-
+    return m_context.isObjectInfoRequired();
+  }
 }

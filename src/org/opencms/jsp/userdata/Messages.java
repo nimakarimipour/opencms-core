@@ -31,62 +31,71 @@ import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
 
 /**
- * Convenience class to access the localized messages of this OpenCms package.<p>
+ * Convenience class to access the localized messages of this OpenCms package.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public final class Messages extends A_CmsMessageBundle {
 
-    /** Message bundle key. */
-    public static final String ERR_CONFIG_NOT_SET_0 = "ERR_CONFIG_NOT_SET_0";
+  /** Message bundle key. */
+  public static final String ERR_CONFIG_NOT_SET_0 = "ERR_CONFIG_NOT_SET_0";
 
-    /** Message bundle key. */
-    public static final String ERR_FUNCTION_DETAIL_PAGE_NOT_SET_0 = "ERR_FUNCTION_DETAIL_PAGE_NOT_SET_0";
+  /** Message bundle key. */
+  public static final String ERR_FUNCTION_DETAIL_PAGE_NOT_SET_0 =
+      "ERR_FUNCTION_DETAIL_PAGE_NOT_SET_0";
 
-    /** Message bundle key. */
-    public static final String ERR_RESOURCE_INIT_HANDLER_NOT_CONFIGURED_0 = "ERR_RESOURCE_INIT_HANDLER_NOT_CONFIGURED_0";
+  /** Message bundle key. */
+  public static final String ERR_RESOURCE_INIT_HANDLER_NOT_CONFIGURED_0 =
+      "ERR_RESOURCE_INIT_HANDLER_NOT_CONFIGURED_0";
 
-    /** Message bundle key. */
-    public static final String GUI_DEFAULT_USERDATA_SECTION_0 = "GUI_DEFAULT_USERDATA_SECTION_0";
+  /** Message bundle key. */
+  public static final String GUI_DEFAULT_USERDATA_SECTION_0 = "GUI_DEFAULT_USERDATA_SECTION_0";
 
-    /** Message bundle key. */
-    public static final String GUI_USER_INFORMATION_FOR_1 = "GUI_USER_INFORMATION_FOR_1";
+  /** Message bundle key. */
+  public static final String GUI_USER_INFORMATION_FOR_1 = "GUI_USER_INFORMATION_FOR_1";
 
-    /** Message bundle key. */
-    public static final String RPT_USERDATADOMAIN_COUNT_2 = "RPT_USERDATADOMAIN_COUNT_2";
+  /** Message bundle key. */
+  public static final String RPT_USERDATADOMAIN_COUNT_2 = "RPT_USERDATADOMAIN_COUNT_2";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.jsp.userdata.messages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME = "org.opencms.jsp.userdata.messages";
 
-    /** Static instance member. */
-    private static final I_CmsMessageBundle INSTANCE = new Messages();
+  /** Static instance member. */
+  private static final I_CmsMessageBundle INSTANCE = new Messages();
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
-    }
+    // hide the constructor
+  }
 
-    /**
-     * Returns an instance of this localized message accessor.<p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static I_CmsMessageBundle get() {
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static I_CmsMessageBundle get() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the bundle name for this OpenCms package.<p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
 
-        return BUNDLE_NAME;
-    }
-
+    return BUNDLE_NAME;
+  }
 }

@@ -27,47 +27,43 @@
 
 package org.opencms.configuration;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsResourceInitException;
 import org.opencms.main.I_CmsResourceInit;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-/**
- * Just a dummy implementation of the I_CmsResourceInit  interface.
- */
+/** Just a dummy implementation of the I_CmsResourceInit interface. */
 public class CmsTestDummyResourceInit implements I_CmsResourceInit {
 
-    private CmsParameterConfiguration m_config;
+  private CmsParameterConfiguration m_config;
 
-    public CmsParameterConfiguration getConfiguration() {
+  public CmsParameterConfiguration getConfiguration() {
 
-        return m_config;
+    return m_config;
+  }
+
+  public void initParameters(CmsParameterConfiguration params) {
+
+    m_config = CmsParameterConfiguration.unmodifiableVersion(params);
+  }
+
+  /**
+   * @see org.opencms.main.I_CmsResourceInit#initResource(org.opencms.file.CmsResource,
+   *     org.opencms.file.CmsObject, javax.servlet.http.HttpServletRequest,
+   *     javax.servlet.http.HttpServletResponse)
+   */
+  public CmsResource initResource(
+      CmsResource resource, CmsObject cms, HttpServletRequest req, HttpServletResponse res)
+      throws CmsResourceInitException {
+
+    // just a dummy implementation
+
+    if (System.currentTimeMillis() == 0) {
+      throw new CmsResourceInitException(
+          Messages.get().container(Messages.ERR_CONFIG_WITH_UNKNOWN_CLASS_1, ""));
     }
-
-    public void initParameters(CmsParameterConfiguration params) {
-
-        m_config = CmsParameterConfiguration.unmodifiableVersion(params);
-    }
-
-    /**
-     * @see org.opencms.main.I_CmsResourceInit#initResource(org.opencms.file.CmsResource, org.opencms.file.CmsObject, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    public CmsResource initResource(
-        CmsResource resource,
-        CmsObject cms,
-        HttpServletRequest req,
-        HttpServletResponse res)
-    throws CmsResourceInitException {
-
-        // just a dummy implementation
-
-        if (System.currentTimeMillis() == 0) {
-            throw new CmsResourceInitException(Messages.get().container(Messages.ERR_CONFIG_WITH_UNKNOWN_CLASS_1, ""));
-        }
-        return null;
-    }
-
+    return null;
+  }
 }

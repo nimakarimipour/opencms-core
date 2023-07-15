@@ -29,76 +29,78 @@ package org.opencms.jsp;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 /**
- * Builds a <i>java.util.Map</i> isntance with string keys and values from nested param tags, then stores it in a page context variable whose name is supplied by the user.
+ * Builds a <i>java.util.Map</i> isntance with string keys and values from nested param tags, then
+ * stores it in a page context variable whose name is supplied by the user.
  */
 public class CmsJspTagMap extends BodyTagSupport implements I_CmsJspTagParamParent {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 3547998166985921533L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 3547998166985921533L;
 
-    /** Map to save parameters to the include in. */
-    private Map<String, String> m_content;
+  /** Map to save parameters to the include in. */
+  private Map<String, String> m_content;
 
-    /** The variable name used to store the map. */
-    private String m_var;
+  /** The variable name used to store the map. */
+  private String m_var;
 
-    /**
-     * Empty constructor, required for attribute value initialization.<p>
-     */
-    public CmsJspTagMap() {
+  /**
+   * Empty constructor, required for attribute value initialization.
+   *
+   * <p>
+   */
+  public CmsJspTagMap() {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * @see org.opencms.jsp.I_CmsJspTagParamParent#addParameter(java.lang.String, java.lang.String)
-     */
-    public void addParameter(String name, String value) {
+  /**
+   * @see org.opencms.jsp.I_CmsJspTagParamParent#addParameter(java.lang.String, java.lang.String)
+   */
+  public void addParameter(String name, String value) {
 
-        m_content.put(name, value);
-    }
+    m_content.put(name, value);
+  }
 
-    /**
-     * @return <code>EVAL_PAGE</code>
-     *
-     * @see javax.servlet.jsp.tagext.Tag#doEndTag()
-     *
-     * @throws JspException by interface default
-     */
-    @Override
-    public int doEndTag() throws JspException {
+  /**
+   * @return <code>EVAL_PAGE</code>
+   * @see javax.servlet.jsp.tagext.Tag#doEndTag()
+   * @throws JspException by interface default
+   */
+  @Override
+  public int doEndTag() throws JspException {
 
-        pageContext.setAttribute(m_var, m_content);
-        return EVAL_PAGE;
-    }
+    pageContext.setAttribute(m_var, m_content);
+    return EVAL_PAGE;
+  }
 
-    /**
-     * Returns <code>{@link #EVAL_BODY_BUFFERED}</code>.<p>
-     *
-     * @return <code>{@link #EVAL_BODY_BUFFERED}</code>
-     *
-     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-     */
-    @Override
-    public int doStartTag() {
+  /**
+   * Returns <code>{@link #EVAL_BODY_BUFFERED}</code>.
+   *
+   * <p>
+   *
+   * @return <code>{@link #EVAL_BODY_BUFFERED}</code>
+   * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+   */
+  @Override
+  public int doStartTag() {
 
-        m_content = new HashMap<String, String>();
-        return EVAL_BODY_BUFFERED;
-    }
+    m_content = new HashMap<String, String>();
+    return EVAL_BODY_BUFFERED;
+  }
 
-    /**
-     * Sets the variable name in which the map should be stored.<p>
-     *
-     * @param var the name of the variable
-     */
-    public void setVar(String var) {
+  /**
+   * Sets the variable name in which the map should be stored.
+   *
+   * <p>
+   *
+   * @param var the name of the variable
+   */
+  public void setVar(String var) {
 
-        m_var = var;
-    }
-
+    m_var = var;
+  }
 }

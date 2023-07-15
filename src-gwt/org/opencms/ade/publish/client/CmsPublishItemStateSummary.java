@@ -28,70 +28,78 @@
 package org.opencms.ade.publish.client;
 
 /**
- * A bean containing statistics about the states of publish items in the publish dialog.<p>
+ * A bean containing statistics about the states of publish items in the publish dialog.
  *
- * This is used for updating the check box states in the publish dialog.<p>
+ * <p>This is used for updating the check box states in the publish dialog.
  *
+ * <p>
  */
 public class CmsPublishItemStateSummary {
 
-    /** The counts for the normal state. */
-    private int m_normalCount;
-    /** The count for the publish state. */
-    private int m_publishCount;
+  /** The counts for the normal state. */
+  private int m_normalCount;
+  /** The count for the publish state. */
+  private int m_publishCount;
 
-    /** The count for the remove state. */
-    private int m_removeCount;
+  /** The count for the remove state. */
+  private int m_removeCount;
 
-    /**
-     * Adds a new state value to the statistics.<p>
-     *
-     * @param state the state  to add
-     */
-    public void addState(CmsPublishItemStatus.State state) {
+  /**
+   * Adds a new state value to the statistics.
+   *
+   * <p>
+   *
+   * @param state the state to add
+   */
+  public void addState(CmsPublishItemStatus.State state) {
 
-        switch (state) {
-            case normal:
-                m_normalCount += 1;
-                break;
-            case publish:
-                m_publishCount += 1;
-                break;
-            case remove:
-            default:
-                m_removeCount += 1;
-                break;
-        }
+    switch (state) {
+      case normal:
+        m_normalCount += 1;
+        break;
+      case publish:
+        m_publishCount += 1;
+        break;
+      case remove:
+      default:
+        m_removeCount += 1;
+        break;
     }
+  }
 
-    /**
-     * Gets the count of 'normal' states.<p>
-     *
-     * @return the count
-     */
-    public int getNormalCount() {
+  /**
+   * Gets the count of 'normal' states.
+   *
+   * <p>
+   *
+   * @return the count
+   */
+  public int getNormalCount() {
 
-        return m_normalCount;
-    }
+    return m_normalCount;
+  }
 
-    /**
-     * Gets the count of 'publish' states.<p>
-     *
-     * @return the count
-     */
-    public int getPublishCount() {
+  /**
+   * Gets the count of 'publish' states.
+   *
+   * <p>
+   *
+   * @return the count
+   */
+  public int getPublishCount() {
 
-        return m_publishCount;
-    }
+    return m_publishCount;
+  }
 
-    /**
-     * Gets the count of 'remove' states.<p>
-     *
-     * @return the count
-     */
-    public int getRemoveCount() {
+  /**
+   * Gets the count of 'remove' states.
+   *
+   * <p>
+   *
+   * @return the count
+   */
+  public int getRemoveCount() {
 
-        return m_removeCount;
-    }
-
+    return m_removeCount;
+  }
 }

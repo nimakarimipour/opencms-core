@@ -27,42 +27,48 @@
 
 package org.opencms.ade.contenteditor.client;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import org.opencms.acacia.shared.CmsEntity;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 /**
- * Native change handler wrapper.<p>
+ * Native change handler wrapper.
+ *
+ * <p>
  */
 public final class CmsEntityChangeListenerWrapper implements I_CmsEntityChangeListener {
 
-    /** The wrapped native listener. */
-    private JavaScriptObject m_wrappedListener;
+  /** The wrapped native listener. */
+  private JavaScriptObject m_wrappedListener;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param listener the native listener to wrap
-     */
-    protected CmsEntityChangeListenerWrapper(JavaScriptObject listener) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param listener the native listener to wrap
+   */
+  protected CmsEntityChangeListenerWrapper(JavaScriptObject listener) {
 
-        m_wrappedListener = listener;
-    }
+    m_wrappedListener = listener;
+  }
 
-    /**
-     * @see org.opencms.ade.contenteditor.client.I_CmsEntityChangeListener#onEntityChange(org.opencms.acacia.shared.CmsEntity)
-     */
-    public void onEntityChange(CmsEntity entity) {
+  /**
+   * @see
+   *     org.opencms.ade.contenteditor.client.I_CmsEntityChangeListener#onEntityChange(org.opencms.acacia.shared.CmsEntity)
+   */
+  public void onEntityChange(CmsEntity entity) {
 
-        onChange(entity);
-    }
+    onChange(entity);
+  }
 
-    /**
-     * Handles the on change call.<p>
-     *
-     * @param entity the changed entiy
-     */
-    private native void onChange(CmsEntity entity) /*-{
+  /**
+   * Handles the on change call.
+   *
+   * <p>
+   *
+   * @param entity the changed entiy
+   */
+  private native void onChange(CmsEntity entity) /*-{
         var listener = this.@org.opencms.ade.contenteditor.client.CmsEntityChangeListenerWrapper::m_wrappedListener;
         var wrappedEntity = new $wnd.acacia.CmsEntityWrapper(entity);
         listener.onChange(wrappedEntity);

@@ -27,58 +27,56 @@
 
 package org.opencms.ade.editprovider;
 
-import org.opencms.gwt.CmsGwtActionElement;
-import org.opencms.gwt.shared.CmsCoreData;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import org.opencms.gwt.CmsGwtActionElement;
+import org.opencms.gwt.shared.CmsCoreData;
 
 /**
- * Action element for edit provider includes.<p>
+ * Action element for edit provider includes.
+ *
+ * <p>
  *
  * @since 8.0.3
  */
 public class CmsEditProviderActionElement extends CmsGwtActionElement {
 
-    /** The OpenCms module name. */
-    public static final String CMS_MODULE_NAME = "org.opencms.ade.editprovider";
+  /** The OpenCms module name. */
+  public static final String CMS_MODULE_NAME = "org.opencms.ade.editprovider";
 
-    /** The GWT module name. */
-    public static final String GWT_MODULE_NAME = CmsCoreData.ModuleKey.editprovider.name();
+  /** The GWT module name. */
+  public static final String GWT_MODULE_NAME = CmsCoreData.ModuleKey.editprovider.name();
 
-    /**
-     * Constructor.<p>
-     *
-     * @param context the JSP page context object
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsEditProviderActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param context the JSP page context object
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsEditProviderActionElement(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        super(context, req, res);
+    super(context, req, res);
+  }
 
-    }
+  /** @see org.opencms.gwt.CmsGwtActionElement#export() */
+  @Override
+  public String export() throws Exception {
 
-    /**
-     * @see org.opencms.gwt.CmsGwtActionElement#export()
-     */
-    @Override
-    public String export() throws Exception {
+    return "";
+  }
 
-        return "";
-    }
+  /** @see org.opencms.gwt.CmsGwtActionElement#exportAll() */
+  @Override
+  public String exportAll() throws Exception {
 
-    /**
-     * @see org.opencms.gwt.CmsGwtActionElement#exportAll()
-     */
-    @Override
-    public String exportAll() throws Exception {
-
-        StringBuffer sb = new StringBuffer();
-        sb.append(super.export());
-        sb.append(exportModuleScriptTag(GWT_MODULE_NAME));
-        return sb.toString();
-    }
-
+    StringBuffer sb = new StringBuffer();
+    sb.append(super.export());
+    sb.append(exportModuleScriptTag(GWT_MODULE_NAME));
+    return sb.toString();
+  }
 }

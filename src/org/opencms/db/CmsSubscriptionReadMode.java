@@ -30,139 +30,145 @@ package org.opencms.db;
 import org.opencms.util.A_CmsModeIntEnumeration;
 
 /**
- * The read modes to get subscribed resources of a user or group.<p>
+ * The read modes to get subscribed resources of a user or group.
+ *
+ * <p>
  *
  * @since 8.0
  */
 public final class CmsSubscriptionReadMode extends A_CmsModeIntEnumeration {
 
-    /** String representation of the read mode: all. */
-    public static final String MODE_NAME_ALL = "all";
+  /** String representation of the read mode: all. */
+  public static final String MODE_NAME_ALL = "all";
 
-    /** String representation of the read mode: unvisited. */
-    public static final String MODE_NAME_UNVISITED = "unvisited";
+  /** String representation of the read mode: unvisited. */
+  public static final String MODE_NAME_UNVISITED = "unvisited";
 
-    /** String representation of the read mode: visited. */
-    public static final String MODE_NAME_VISITED = "visited";
+  /** String representation of the read mode: visited. */
+  public static final String MODE_NAME_VISITED = "visited";
 
-    /** Subscription read mode: all.  */
-    public static final CmsSubscriptionReadMode ALL = new CmsSubscriptionReadMode(1);
+  /** Subscription read mode: all. */
+  public static final CmsSubscriptionReadMode ALL = new CmsSubscriptionReadMode(1);
 
-    /** Subscription read mode: unvisited.  */
-    public static final CmsSubscriptionReadMode UNVISITED = new CmsSubscriptionReadMode(2);
+  /** Subscription read mode: unvisited. */
+  public static final CmsSubscriptionReadMode UNVISITED = new CmsSubscriptionReadMode(2);
 
-    /** Subscription read mode: visited.  */
-    public static final CmsSubscriptionReadMode VISITED = new CmsSubscriptionReadMode(3);
+  /** Subscription read mode: visited. */
+  public static final CmsSubscriptionReadMode VISITED = new CmsSubscriptionReadMode(3);
 
-    /** Serializable version id. */
-    private static final long serialVersionUID = 7547476104782346902L;
+  /** Serializable version id. */
+  private static final long serialVersionUID = 7547476104782346902L;
 
-    /**
-     * Private constructor.<p>
-     *
-     * @param mode the subscription read mode integer representation
-     */
-    private CmsSubscriptionReadMode(int mode) {
+  /**
+   * Private constructor.
+   *
+   * <p>
+   *
+   * @param mode the subscription read mode integer representation
+   */
+  private CmsSubscriptionReadMode(int mode) {
 
-        super(mode);
+    super(mode);
+  }
+
+  /**
+   * Returns the subscription read mode for the given mode name.
+   *
+   * <p>
+   *
+   * @param modeName the subscription read mode name to get the read mode for
+   * @return the subscription read mode for the given mode name
+   */
+  public static CmsSubscriptionReadMode modeForName(String modeName) {
+
+    if (MODE_NAME_ALL.equals(modeName)) {
+      return ALL;
+    } else if (MODE_NAME_VISITED.equals(modeName)) {
+      return VISITED;
     }
+    return UNVISITED;
+  }
 
-    /**
-     * Returns the subscription read mode for the given mode name.<p>
-     *
-     * @param modeName the subscription read mode name to get the read mode for
-     *
-     * @return the subscription read mode for the given mode name
-     */
-    public static CmsSubscriptionReadMode modeForName(String modeName) {
+  /**
+   * Returns the subscription read mode for the given mode value.
+   *
+   * <p>This is used only for serialization and should not be accessed for other purposes.
+   *
+   * <p>
+   *
+   * @param type the subscription read mode value to get the read mode for
+   * @return the subscription read mode for the given mode value
+   */
+  public static CmsSubscriptionReadMode valueOf(int type) {
 
-        if (MODE_NAME_ALL.equals(modeName)) {
-            return ALL;
-        } else if (MODE_NAME_VISITED.equals(modeName)) {
-            return VISITED;
-        }
+    switch (type) {
+      case 1:
+        return ALL;
+      case 2:
+        return UNVISITED;
+      case 3:
+        return VISITED;
+      default:
         return UNVISITED;
     }
+  }
 
-    /**
-     * Returns the subscription read mode for the given mode value.<p>
-     *
-     * This is used only for serialization and should not be accessed for other purposes.<p>
-     *
-     * @param type the subscription read mode value to get the read mode for
-     *
-     * @return the subscription read mode for the given mode value
-     */
-    public static CmsSubscriptionReadMode valueOf(int type) {
+  /**
+   * Returns if the mode is set to {@link #ALL}.
+   *
+   * <p>
+   *
+   * @return true if the mode is set to {@link #ALL}, otherwise false
+   */
+  public boolean isAll() {
 
-        switch (type) {
-            case 1:
-                return ALL;
-            case 2:
-                return UNVISITED;
-            case 3:
-                return VISITED;
-            default:
-                return UNVISITED;
-        }
+    return getMode() == ALL.getMode();
+  }
+
+  /**
+   * Returns if the mode is set to {@link #UNVISITED}.
+   *
+   * <p>
+   *
+   * @return true if the mode is set to {@link #UNVISITED}, otherwise false
+   */
+  public boolean isUnVisited() {
+
+    return getMode() == UNVISITED.getMode();
+  }
+
+  /**
+   * Returns if the mode is set to {@link #VISITED}.
+   *
+   * <p>
+   *
+   * @return true if the mode is set to {@link #VISITED}, otherwise false
+   */
+  public boolean isVisited() {
+
+    return getMode() == VISITED.getMode();
+  }
+
+  /** @see org.opencms.util.A_CmsModeIntEnumeration#toString() */
+  @Override
+  public String toString() {
+
+    switch (getMode()) {
+      case 1:
+        return MODE_NAME_ALL;
+      case 2:
+        return MODE_NAME_UNVISITED;
+      case 3:
+        return MODE_NAME_VISITED;
+      default:
+        return MODE_NAME_UNVISITED;
     }
+  }
 
-    /**
-     * Returns if the mode is set to {@link #ALL}.<p>
-     *
-     * @return true if the mode is set to {@link #ALL}, otherwise false
-     */
-    public boolean isAll() {
+  /** @see java.lang.Object#clone() */
+  @Override
+  protected Object clone() {
 
-        return getMode() == ALL.getMode();
-    }
-
-    /**
-     * Returns if the mode is set to {@link #UNVISITED}.<p>
-     *
-     * @return true if the mode is set to {@link #UNVISITED}, otherwise false
-     */
-    public boolean isUnVisited() {
-
-        return getMode() == UNVISITED.getMode();
-    }
-
-    /**
-     * Returns if the mode is set to {@link #VISITED}.<p>
-     *
-     * @return true if the mode is set to {@link #VISITED}, otherwise false
-     */
-    public boolean isVisited() {
-
-        return getMode() == VISITED.getMode();
-    }
-
-    /**
-     *
-     * @see org.opencms.util.A_CmsModeIntEnumeration#toString()
-     */
-    @Override
-    public String toString() {
-
-        switch (getMode()) {
-            case 1:
-                return MODE_NAME_ALL;
-            case 2:
-                return MODE_NAME_UNVISITED;
-            case 3:
-                return MODE_NAME_VISITED;
-            default:
-                return MODE_NAME_UNVISITED;
-        }
-    }
-
-    /**
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    protected Object clone() {
-
-        return new CmsSubscriptionReadMode(getMode());
-    }
-
+    return new CmsSubscriptionReadMode(getMode());
+  }
 }

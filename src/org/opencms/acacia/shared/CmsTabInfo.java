@@ -30,98 +30,115 @@ package org.opencms.acacia.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * Form tab information bean.<p>
+ * Form tab information bean.
+ *
+ * <p>
  */
 public class CmsTabInfo implements IsSerializable {
 
-    /** Indicates if the first level of left labels should be shown in the editor. */
-    private boolean m_collapsed;
+  /** Indicates if the first level of left labels should be shown in the editor. */
+  private boolean m_collapsed;
 
-    /** The XML element name where this tab starts. */
-    private String m_startName;
+  /** The XML element name where this tab starts. */
+  private String m_startName;
 
-    /** The name for the tab ID, generated from the start name. */
-    private String m_tabId;
+  /** The name for the tab ID, generated from the start name. */
+  private String m_tabId;
 
-    /** The name to display on the tab. */
-    private String m_tabName;
+  /** The name to display on the tab. */
+  private String m_tabName;
 
-    /** The tab description HTML. */
-    private String m_description;
+  /** The tab description HTML. */
+  private String m_description;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param tabName the tab name
-     * @param tabId the tab id
-     * @param startName the start element name
-     * @param collapsed if the labels should be collapsed
-     * @param description the description HTML
-     */
-    public CmsTabInfo(String tabName, String tabId, String startName, boolean collapsed, String description) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param tabName the tab name
+   * @param tabId the tab id
+   * @param startName the start element name
+   * @param collapsed if the labels should be collapsed
+   * @param description the description HTML
+   */
+  public CmsTabInfo(
+      String tabName, String tabId, String startName, boolean collapsed, String description) {
 
-        m_tabName = tabName;
-        m_tabId = tabId;
-        m_startName = startName;
-        m_collapsed = collapsed;
-        m_description = description;
-    }
+    m_tabName = tabName;
+    m_tabId = tabId;
+    m_startName = startName;
+    m_collapsed = collapsed;
+    m_description = description;
+  }
 
-    /**
-     * Constructor for serialization only.<p>
-     */
-    protected CmsTabInfo() {
+  /**
+   * Constructor for serialization only.
+   *
+   * <p>
+   */
+  protected CmsTabInfo() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Gets the description HTML.<p>
-     *
-     * @return the description HTML
-     */
-    public String getDescription() {
+  /**
+   * Gets the description HTML.
+   *
+   * <p>
+   *
+   * @return the description HTML
+   */
+  public String getDescription() {
 
-        return m_description;
-    }
+    return m_description;
+  }
 
-    /**
-     * Returns the startName.<p>
-     *
-     * @return the startName
-     */
-    public String getStartName() {
+  /**
+   * Returns the startName.
+   *
+   * <p>
+   *
+   * @return the startName
+   */
+  public String getStartName() {
 
-        return m_startName;
-    }
+    return m_startName;
+  }
 
-    /**
-     * Returns the tabId.<p>
-     *
-     * @return the tabId
-     */
-    public String getTabId() {
+  /**
+   * Returns the tabId.
+   *
+   * <p>
+   *
+   * @return the tabId
+   */
+  public String getTabId() {
 
-        return m_tabId;
-    }
+    return m_tabId;
+  }
 
-    /**
-     * Returns the tabName.<p>
-     *
-     * @return the tabName
-     */
-    public String getTabName() {
+  /**
+   * Returns the tabName.
+   *
+   * <p>
+   *
+   * @return the tabName
+   */
+  public String getTabName() {
 
-        return m_tabName;
-    }
+    return m_tabName;
+  }
 
-    /**
-     * Returns the collapsed.<p>
-     *
-     * @return the collapsed
-     */
-    public boolean isCollapsed() {
+  /**
+   * Returns the collapsed.
+   *
+   * <p>
+   *
+   * @return the collapsed
+   */
+  public boolean isCollapsed() {
 
-        return m_collapsed;
-    }
+    return m_collapsed;
+  }
 }

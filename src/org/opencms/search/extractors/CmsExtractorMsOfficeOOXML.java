@@ -28,48 +28,54 @@
 package org.opencms.search.extractors;
 
 import java.io.InputStream;
-
 import org.apache.tika.parser.microsoft.ooxml.OOXMLParser;
 
 /**
- * Extracts text data from a VFS resource that is an OOXML MS Office document.<p>
+ * Extracts text data from a VFS resource that is an OOXML MS Office document.
  *
- * Supported formats are MS Word (.docx), MS PowerPoint (.pptx) and MS Excel (.xlsx).<p>
+ * <p>Supported formats are MS Word (.docx), MS PowerPoint (.pptx) and MS Excel (.xlsx).
  *
- * The OLE 2 format was introduced in Microsoft Office version 97 and was the default format until Office version 2007
- * and the new XML-based OOXML format.<p>
+ * <p>The OLE 2 format was introduced in Microsoft Office version 97 and was the default format
+ * until Office version 2007 and the new XML-based OOXML format.
+ *
+ * <p>
  *
  * @since 8.0.1
  */
 public final class CmsExtractorMsOfficeOOXML extends A_CmsTextExtractor {
 
-    /** Static member instance of the extractor. */
-    private static final CmsExtractorMsOfficeOOXML INSTANCE = new CmsExtractorMsOfficeOOXML();
+  /** Static member instance of the extractor. */
+  private static final CmsExtractorMsOfficeOOXML INSTANCE = new CmsExtractorMsOfficeOOXML();
 
-    /**
-     * Hide the public constructor.<p>
-     */
-    private CmsExtractorMsOfficeOOXML() {
+  /**
+   * Hide the public constructor.
+   *
+   * <p>
+   */
+  private CmsExtractorMsOfficeOOXML() {
 
-        // noop
-    }
+    // noop
+  }
 
-    /**
-     * Returns an instance of this text extractor.<p>
-     *
-     * @return an instance of this text extractor
-     */
-    public static I_CmsTextExtractor getExtractor() {
+  /**
+   * Returns an instance of this text extractor.
+   *
+   * <p>
+   *
+   * @return an instance of this text extractor
+   */
+  public static I_CmsTextExtractor getExtractor() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * @see org.opencms.search.extractors.I_CmsTextExtractor#extractText(java.io.InputStream, java.lang.String)
-     */
-    @Override
-    public I_CmsExtractionResult extractText(InputStream in) throws Exception {
+  /**
+   * @see org.opencms.search.extractors.I_CmsTextExtractor#extractText(java.io.InputStream,
+   *     java.lang.String)
+   */
+  @Override
+  public I_CmsExtractionResult extractText(InputStream in) throws Exception {
 
-        return extractText(in, new OOXMLParser());
-    }
+    return extractText(in, new OOXMLParser());
+  }
 }

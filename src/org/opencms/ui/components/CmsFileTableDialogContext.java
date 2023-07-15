@@ -27,6 +27,9 @@
 
 package org.opencms.ui.components;
 
+import com.google.common.collect.Lists;
+import java.util.Collection;
+import java.util.List;
 import org.opencms.file.CmsProject;
 import org.opencms.file.CmsResource;
 import org.opencms.ui.A_CmsDialogContext;
@@ -34,117 +37,105 @@ import org.opencms.ui.I_CmsEditPropertyContext;
 import org.opencms.ui.contextmenu.CmsContextMenuEditHandler;
 import org.opencms.util.CmsUUID;
 
-import java.util.Collection;
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 /**
- * The file table dialog context.<p>
+ * The file table dialog context.
+ *
+ * <p>
  */
-public class CmsFileTableDialogContext extends A_CmsDialogContext implements I_CmsEditPropertyContext {
+public class CmsFileTableDialogContext extends A_CmsDialogContext
+    implements I_CmsEditPropertyContext {
 
-    /** The file table instance. */
-    private CmsFileTable m_fileTable;
+  /** The file table instance. */
+  private CmsFileTable m_fileTable;
 
-    /** The in line editable properties. */
-    private Collection<CmsResourceTableProperty> m_editableProperties;
+  /** The in line editable properties. */
+  private Collection<CmsResourceTableProperty> m_editableProperties;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param appId the app id
-     * @param contextType the context type
-     * @param fileTable the file table instance
-     * @param resources the list of selected resources
-     */
-    public CmsFileTableDialogContext(
-        String appId,
-        ContextType contextType,
-        CmsFileTable fileTable,
-        List<CmsResource> resources) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param appId the app id
+   * @param contextType the context type
+   * @param fileTable the file table instance
+   * @param resources the list of selected resources
+   */
+  public CmsFileTableDialogContext(
+      String appId, ContextType contextType, CmsFileTable fileTable, List<CmsResource> resources) {
 
-        super(appId, contextType, resources);
-        m_fileTable = fileTable;
-    }
+    super(appId, contextType, resources);
+    m_fileTable = fileTable;
+  }
 
-    /**
-     * @see org.opencms.ui.I_CmsEditPropertyContext#editProperty(java.lang.Object)
-     */
-    public void editProperty(Object propertyId) {
+  /** @see org.opencms.ui.I_CmsEditPropertyContext#editProperty(java.lang.Object) */
+  public void editProperty(Object propertyId) {
 
-        new CmsContextMenuEditHandler(
+    new CmsContextMenuEditHandler(
             getResources().get(0).getStructureId(),
-            (CmsResourceTableProperty)propertyId,
+            (CmsResourceTableProperty) propertyId,
             m_fileTable,
-            this).start();
+            this)
+        .start();
+  }
+
+  /**
+   * @see org.opencms.ui.A_CmsDialogContext#finish(org.opencms.file.CmsProject, java.lang.String)
+   */
+  @Override
+  public void finish(CmsProject project, String siteRoot) {
+
+    super.finish(null);
+    super.reload();
+  }
+
+  /** @see org.opencms.ui.I_CmsDialogContext#finish(java.util.Collection) */
+  @Override
+  public void finish(Collection<CmsUUID> ids) {
+
+    super.finish(ids);
+    m_fileTable.clearSelection();
+    if (ids != null) {
+      m_fileTable.update(ids, false);
     }
+  }
 
-    /**
-     * @see org.opencms.ui.A_CmsDialogContext#finish(org.opencms.file.CmsProject, java.lang.String)
-     */
-    @Override
-    public void finish(CmsProject project, String siteRoot) {
+  /** @see org.opencms.ui.I_CmsDialogContext#focus(org.opencms.util.CmsUUID) */
+  public void focus(CmsUUID cmsUUID) {
 
-        super.finish(null);
-        super.reload();
-    }
+    // nothing to do
+  }
 
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#finish(java.util.Collection)
-     */
-    @Override
-    public void finish(Collection<CmsUUID> ids) {
+  /** @see org.opencms.ui.I_CmsDialogContext#getAllStructureIdsInView() */
+  public List<CmsUUID> getAllStructureIdsInView() {
 
-        super.finish(ids);
-        m_fileTable.clearSelection();
-        if (ids != null) {
-            m_fileTable.update(ids, false);
-        }
-    }
+    return Lists.newArrayList(m_fileTable.getAllIds());
+  }
 
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#focus(org.opencms.util.CmsUUID)
-     */
-    public void focus(CmsUUID cmsUUID) {
+  /** @see org.opencms.ui.I_CmsEditPropertyContext#isPropertyEditable(java.lang.Object) */
+  public boolean isPropertyEditable(Object propertyId) {
 
-        // nothing to do
-    }
+    return (getResources().size() == 1)
+        && (m_editableProperties != null)
+        && m_editableProperties.contains(propertyId)
+        && m_fileTable.isColumnVisible((CmsResourceTableProperty) propertyId);
+  }
 
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#getAllStructureIdsInView()
-     */
-    public List<CmsUUID> getAllStructureIdsInView() {
+  /**
+   * Sets the in line editable properties.
+   *
+   * <p>
+   *
+   * @param editableProperties the in line editable properties
+   */
+  public void setEditableProperties(Collection<CmsResourceTableProperty> editableProperties) {
 
-        return Lists.newArrayList(m_fileTable.getAllIds());
-    }
+    m_editableProperties = editableProperties;
+  }
 
-    /**
-     * @see org.opencms.ui.I_CmsEditPropertyContext#isPropertyEditable(java.lang.Object)
-     */
-    public boolean isPropertyEditable(Object propertyId) {
+  /** @see org.opencms.ui.I_CmsDialogContext#updateUserInfo() */
+  public void updateUserInfo() {
 
-        return (getResources().size() == 1)
-            && (m_editableProperties != null)
-            && m_editableProperties.contains(propertyId)
-            && m_fileTable.isColumnVisible((CmsResourceTableProperty)propertyId);
-    }
-
-    /**
-     * Sets the in line editable properties.<p>
-     *
-     * @param editableProperties the in line editable properties
-     */
-    public void setEditableProperties(Collection<CmsResourceTableProperty> editableProperties) {
-
-        m_editableProperties = editableProperties;
-    }
-
-    /**
-     * @see org.opencms.ui.I_CmsDialogContext#updateUserInfo()
-     */
-    public void updateUserInfo() {
-
-        // not supported
-    }
+    // not supported
+  }
 }

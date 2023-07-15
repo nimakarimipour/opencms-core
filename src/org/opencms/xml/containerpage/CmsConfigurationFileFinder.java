@@ -27,6 +27,7 @@
 
 package org.opencms.xml.containerpage;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsPropertyDefinition;
 import org.opencms.file.CmsResource;
@@ -36,94 +37,97 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Helper class for locating configuration files by looking up their location in properties of another resource.<p>
+ * Helper class for locating configuration files by looking up their location in properties of
+ * another resource.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsConfigurationFileFinder {
 
-    /** The logger for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsConfigurationFileFinder.class);
+  /** The logger for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsConfigurationFileFinder.class);
 
-    /** The name of the property which should contain the configuration file path. */
-    private String m_propertyName;
+  /** The name of the property which should contain the configuration file path. */
+  private String m_propertyName;
 
-    /**
-     * Creates a new configuration file finder which expects the location of configuration files to be stored in the
-     * property with the given name.<p>
-     *
-     * @param propertyName the name of the property which should contain the configuration file path
-     */
-    public CmsConfigurationFileFinder(String propertyName) {
+  /**
+   * Creates a new configuration file finder which expects the location of configuration files to be
+   * stored in the property with the given name.
+   *
+   * <p>
+   *
+   * @param propertyName the name of the property which should contain the configuration file path
+   */
+  public CmsConfigurationFileFinder(String propertyName) {
 
-        m_propertyName = propertyName;
+    m_propertyName = propertyName;
+  }
+
+  /**
+   * Returns the configuration file to use.
+   *
+   * <p>
+   *
+   * @param cms the current cms context
+   * @param containerPageUri the container page uri
+   * @return the configuration file to use, or <code>null</code> if not found
+   */
+  public CmsResource getConfigurationFile(CmsObject cms, String containerPageUri) {
+
+    String cfgPath = null;
+    try {
+      // get the resource type configuration file from the vfs tree
+      cfgPath = cms.readPropertyObject(containerPageUri, m_propertyName, true).getValue();
+    } catch (CmsException e) {
+      // should never happen
+      LOG.error(e.getLocalizedMessage(), e);
     }
 
-    /**
-     * Returns the configuration file to use.<p>
-     *
-     * @param cms the current cms context
-     * @param containerPageUri the container page uri
-     *
-     * @return the configuration file to use, or <code>null</code> if not found
-     */
-    public CmsResource getConfigurationFile(CmsObject cms, String containerPageUri) {
-
-        String cfgPath = null;
-        try {
-            // get the resource type configuration file from the vfs tree
-            cfgPath = cms.readPropertyObject(containerPageUri, m_propertyName, true).getValue();
-        } catch (CmsException e) {
-            // should never happen
-            LOG.error(e.getLocalizedMessage(), e);
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(cfgPath)) {
+      // if not found try at the template
+      try {
+        // retrieve the template uri
+        String templateUri =
+            cms.readPropertyObject(containerPageUri, CmsPropertyDefinition.PROPERTY_TEMPLATE, true)
+                .getValue();
+        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(templateUri)) {
+          // get the resource type configuration file from the template itself
+          cfgPath = cms.readPropertyObject(templateUri, m_propertyName, true).getValue();
         }
-
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(cfgPath)) {
-            // if not found try at the template
-            try {
-                // retrieve the template uri
-                String templateUri = cms.readPropertyObject(
-                    containerPageUri,
-                    CmsPropertyDefinition.PROPERTY_TEMPLATE,
-                    true).getValue();
-                if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(templateUri)) {
-                    // get the resource type configuration file from the template itself
-                    cfgPath = cms.readPropertyObject(templateUri, m_propertyName, true).getValue();
-                }
-            } catch (CmsException e) {
-                // should never happen
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-        }
-
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(cfgPath)) {
-            // configuration could not be found
-            LOG.warn(Messages.get().getBundle().key(Messages.ERR_CONFIG_NOT_SET_2, containerPageUri, m_propertyName));
-            return null;
-        }
-
-        try {
-            // read configuration file
-            return cms.readResource(cfgPath);
-        } catch (Exception e1) {
-            try {
-                CmsResource baseResource = cms.readResource(containerPageUri);
-                String baseRootPath = baseResource.getRootPath();
-                String siteRoot = OpenCms.getSiteManager().getSiteRoot(baseRootPath);
-                String rootCfgPath = CmsStringUtil.joinPaths(siteRoot, cfgPath);
-                return cms.readResource(rootCfgPath);
-            } catch (Exception e2) {
-                throw new CmsIllegalStateException(
-                    Messages.get().container(
-                        Messages.ERR_CONFIG_NOT_FOUND_3,
-                        containerPageUri,
-                        m_propertyName,
-                        cfgPath));
-            }
-        }
+      } catch (CmsException e) {
+        // should never happen
+        LOG.error(e.getLocalizedMessage(), e);
+      }
     }
 
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(cfgPath)) {
+      // configuration could not be found
+      LOG.warn(
+          Messages.get()
+              .getBundle()
+              .key(Messages.ERR_CONFIG_NOT_SET_2, containerPageUri, m_propertyName));
+      return null;
+    }
+
+    try {
+      // read configuration file
+      return cms.readResource(cfgPath);
+    } catch (Exception e1) {
+      try {
+        CmsResource baseResource = cms.readResource(containerPageUri);
+        String baseRootPath = baseResource.getRootPath();
+        String siteRoot = OpenCms.getSiteManager().getSiteRoot(baseRootPath);
+        String rootCfgPath = CmsStringUtil.joinPaths(siteRoot, cfgPath);
+        return cms.readResource(rootCfgPath);
+      } catch (Exception e2) {
+        throw new CmsIllegalStateException(
+            Messages.get()
+                .container(
+                    Messages.ERR_CONFIG_NOT_FOUND_3, containerPageUri, m_propertyName, cfgPath));
+      }
+    }
+  }
 }

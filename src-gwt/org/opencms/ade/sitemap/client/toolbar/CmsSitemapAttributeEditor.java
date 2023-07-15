@@ -40,85 +40,88 @@ import org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand;
 import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsUUID;
 
-/**
- * Context menu entry for the sitemap attribute editor.
- */
+/** Context menu entry for the sitemap attribute editor. */
 public class CmsSitemapAttributeEditor
-implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand, I_CmsDisableable {
+    implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand, I_CmsDisableable {
 
-    /**
-     * Returns the context menu command according to
-     * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new CmsSitemapAttributeEditor();
-    }
+    return new CmsSitemapAttributeEditor();
+  }
 
-    /**
-     * Gets the service to use for validating/saving aliases.<p>
-     *
-     * @return the service used for validating/saving aliases
-     */
-    protected static I_CmsSitemapServiceAsync getService() {
+  /**
+   * Gets the service to use for validating/saving aliases.
+   *
+   * <p>
+   *
+   * @return the service used for validating/saving aliases
+   */
+  protected static I_CmsSitemapServiceAsync getService() {
 
-        return CmsSitemapView.getInstance().getController().getService();
-    }
+    return CmsSitemapView.getInstance().getController().getService();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public void execute(CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public void execute(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-        CmsRpcAction<CmsSitemapAttributeData> action = new CmsRpcAction<CmsSitemapAttributeData>() {
+    CmsRpcAction<CmsSitemapAttributeData> action =
+        new CmsRpcAction<CmsSitemapAttributeData>() {
 
-            @Override
-            public void execute() {
+          @Override
+          public void execute() {
 
-                start(0, true);
-                CmsUUID rootId = CmsSitemapView.getInstance().getController().getData().getRoot().getId();
-                getService().editAttributeData(rootId, this);
-            }
+            start(0, true);
+            CmsUUID rootId =
+                CmsSitemapView.getInstance().getController().getData().getRoot().getId();
+            getService().editAttributeData(rootId, this);
+          }
 
-            @Override
-            protected void onResponse(CmsSitemapAttributeData result) {
+          @Override
+          protected void onResponse(CmsSitemapAttributeData result) {
 
-                stop(false);
-                CmsAttributesDialog dialog = new CmsAttributesDialog(result);
-                dialog.centerHorizontally(50);
-
-            }
+            stop(false);
+            CmsAttributesDialog dialog = new CmsAttributesDialog(result);
+            dialog.centerHorizontally(50);
+          }
         };
-        action.execute();
-    }
+    action.execute();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget()
-     */
-    public boolean hasItemWidget() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget() */
+  public boolean hasItemWidget() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.I_CmsDisableable#isDisabled()
-     */
-    public boolean isDisabled() {
+  /** @see org.opencms.gwt.client.I_CmsDisableable#isDisabled() */
+  public boolean isDisabled() {
 
-        return false;
-    }
-
+    return false;
+  }
 }

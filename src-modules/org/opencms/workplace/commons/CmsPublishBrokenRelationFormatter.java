@@ -27,53 +27,58 @@
 
 package org.opencms.workplace.commons;
 
+import java.util.Locale;
 import org.opencms.workplace.list.I_CmsListFormatter;
 
-import java.util.Locale;
-
 /**
- * This list item detail formatter for broken links.<p>
+ * This list item detail formatter for broken links.
+ *
+ * <p>
  *
  * @since 6.5.5
  */
 public class CmsPublishBrokenRelationFormatter implements I_CmsListFormatter {
 
-    /** Resource name prefix for broken link sources. */
-    public static final String PREFIX_SOURCES = "%";
+  /** Resource name prefix for broken link sources. */
+  public static final String PREFIX_SOURCES = "%";
 
-    /** Resource name prefix for broken link targets. */
-    public static final String PREFIX_TARGETS = "$";
+  /** Resource name prefix for broken link targets. */
+  public static final String PREFIX_TARGETS = "$";
 
-    /**
-     * @see org.opencms.workplace.list.I_CmsListFormatter#format(java.lang.Object, java.util.Locale)
-     */
-    public String format(Object data, Locale locale) {
+  /**
+   * @see org.opencms.workplace.list.I_CmsListFormatter#format(java.lang.Object, java.util.Locale)
+   */
+  public String format(Object data, Locale locale) {
 
-        String message = Messages.get().getBundle(locale).key(
-            Messages.GUI_PUBLISH_BROKENRELATIONS_DETAIL_RELATION_SOURCES_0);
-        String content = "";
-        if ((data != null) && (data.toString().length() > 0)) {
-            content = data.toString().substring(1);
-            if (data.toString().startsWith(PREFIX_TARGETS)) {
-                message = Messages.get().getBundle(locale).key(
-                    Messages.GUI_PUBLISH_BROKENRELATIONS_DETAIL_RELATION_TARGETS_0);
-            }
-        }
-        StringBuffer html = new StringBuffer(512);
-        html.append("<table border='0' cellspacing='0' cellpadding='0'>\n");
-        html.append("\t<tr>\n");
-        html.append("\t\t<td width='150' align='right' class='listdetailhead'>\n");
-        html.append("\t\t\t");
-        html.append(message);
-        html.append("&nbsp;:&nbsp;\n");
-        html.append("\t\t</td>\n");
-        html.append("\t\t<td class='listdetailitem' style='white-space:normal;'>\n");
-        html.append("\t\t\t");
-        html.append(content);
-        html.append("\n");
-        html.append("\t\t</td>\n");
-        html.append("\t</tr>\n");
-        html.append("</table>\n");
-        return html.toString();
+    String message =
+        Messages.get()
+            .getBundle(locale)
+            .key(Messages.GUI_PUBLISH_BROKENRELATIONS_DETAIL_RELATION_SOURCES_0);
+    String content = "";
+    if ((data != null) && (data.toString().length() > 0)) {
+      content = data.toString().substring(1);
+      if (data.toString().startsWith(PREFIX_TARGETS)) {
+        message =
+            Messages.get()
+                .getBundle(locale)
+                .key(Messages.GUI_PUBLISH_BROKENRELATIONS_DETAIL_RELATION_TARGETS_0);
+      }
     }
+    StringBuffer html = new StringBuffer(512);
+    html.append("<table border='0' cellspacing='0' cellpadding='0'>\n");
+    html.append("\t<tr>\n");
+    html.append("\t\t<td width='150' align='right' class='listdetailhead'>\n");
+    html.append("\t\t\t");
+    html.append(message);
+    html.append("&nbsp;:&nbsp;\n");
+    html.append("\t\t</td>\n");
+    html.append("\t\t<td class='listdetailitem' style='white-space:normal;'>\n");
+    html.append("\t\t\t");
+    html.append(content);
+    html.append("\n");
+    html.append("\t\t</td>\n");
+    html.append("\t</tr>\n");
+    html.append("</table>\n");
+    return html.toString();
+  }
 }

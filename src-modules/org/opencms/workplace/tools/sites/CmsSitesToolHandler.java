@@ -37,26 +37,24 @@ import org.opencms.security.CmsRole;
 import org.opencms.workplace.tools.A_CmsToolHandler;
 
 /**
- * Sites management tool handler that hides the tool if the current user
- * has not the needed privileges.<p>
+ * Sites management tool handler that hides the tool if the current user has not the needed
+ * privileges.
+ *
+ * <p>
  *
  * @since 9.0.0
  */
 public class CmsSitesToolHandler extends A_CmsToolHandler {
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject)
-     */
-    public boolean isEnabled(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject) */
+  public boolean isEnabled(CmsObject cms) {
 
-        return OpenCms.getRoleManager().hasRole(cms, CmsRole.ROOT_ADMIN);
-    }
+    return OpenCms.getRoleManager().hasRole(cms, CmsRole.ROOT_ADMIN);
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.A_CmsToolHandler#isVisible(org.opencms.file.CmsObject)
-     */
-    public boolean isVisible(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.A_CmsToolHandler#isVisible(org.opencms.file.CmsObject) */
+  public boolean isVisible(CmsObject cms) {
 
-        return OpenCms.getRoleManager().hasRole(cms, CmsRole.ROOT_ADMIN);
-    }
+    return OpenCms.getRoleManager().hasRole(cms, CmsRole.ROOT_ADMIN);
+  }
 }

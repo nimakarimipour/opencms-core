@@ -27,41 +27,44 @@
 
 package org.opencms.widgets;
 
-import org.opencms.test.OpenCmsTestProperties;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.opencms.test.OpenCmsTestProperties;
 
 /**
- * Main test suite for the package <code>{@link org.opencms.widgets}</code>.<p>
+ * Main test suite for the package <code>{@link org.opencms.widgets}</code>.
  *
+ * <p>
  *
  * @since 6.0
  */
 public final class AllTests {
 
-    /**
-     * Hide constructor to prevent generation of class instances.<p>
-     */
-    private AllTests() {
+  /**
+   * Hide constructor to prevent generation of class instances.
+   *
+   * <p>
+   */
+  private AllTests() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * Returns the JUnit test suite for this package.<p>
-     *
-     * @return the JUnit test suite for this package
-     */
-    public static Test suite() {
+  /**
+   * Returns the JUnit test suite for this package.
+   *
+   * <p>
+   *
+   * @return the JUnit test suite for this package
+   */
+  public static Test suite() {
 
-        TestSuite suite = new TestSuite("Tests for package " + AllTests.class.getPackage().getName());
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
-        //$JUnit-BEGIN$
-        suite.addTest(new TestSuite(TestSelectWidgetOption.class));
-        suite.addTest(new TestSuite(TestHtmlWidgetOption.class));
-        //$JUnit-END$
-        return suite;
-    }
-
+    TestSuite suite = new TestSuite("Tests for package " + AllTests.class.getPackage().getName());
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    // $JUnit-BEGIN$
+    suite.addTest(new TestSuite(TestSelectWidgetOption.class));
+    suite.addTest(new TestSuite(TestHtmlWidgetOption.class));
+    // $JUnit-END$
+    return suite;
+  }
 }

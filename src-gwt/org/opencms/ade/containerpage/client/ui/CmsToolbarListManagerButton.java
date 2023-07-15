@@ -27,55 +27,62 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.opencms.ade.containerpage.client.CmsContainerpageController;
 import org.opencms.ade.containerpage.client.CmsContainerpageHandler;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.client.ui.I_CmsButton;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-
 /**
- * Button to open the list manager for list configuration contents.<p>
+ * Button to open the list manager for list configuration contents.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsToolbarListManagerButton extends A_CmsToolbarOptionButton {
 
-    /** The list configuration resource type name. */
-    private static final String LIST_CONFIG_TYPE = "listconfig";
+  /** The list configuration resource type name. */
+  private static final String LIST_CONFIG_TYPE = "listconfig";
 
-    /**
-     * Constructor.<p>
-     *
-     * @param handler the container-page handler
-     */
-    public CmsToolbarListManagerButton(CmsContainerpageHandler handler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param handler the container-page handler
+   */
+  public CmsToolbarListManagerButton(CmsContainerpageHandler handler) {
 
-        super(I_CmsButton.ButtonData.LIST, handler);
-    }
+    super(I_CmsButton.ButtonData.LIST, handler);
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#isOptionAvailable(org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
-     */
-    @Override
-    public boolean isOptionAvailable(CmsContainerPageElementPanel element) {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#isOptionAvailable(org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
+   */
+  @Override
+  public boolean isOptionAvailable(CmsContainerPageElementPanel element) {
 
-        return LIST_CONFIG_TYPE.equals(element.getResourceType())
-            && element.hasWritePermission()
-            && !CmsContainerpageController.get().isEditingDisabled();
-    }
+    return LIST_CONFIG_TYPE.equals(element.getResourceType())
+        && element.hasWritePermission()
+        && !CmsContainerpageController.get().isEditingDisabled();
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#onElementClick(com.google.gwt.event.dom.client.ClickEvent, org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
-     */
-    @Override
-    public void onElementClick(ClickEvent event, CmsContainerPageElementPanel element) {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#onElementClick(com.google.gwt.event.dom.client.ClickEvent,
+   *     org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
+   */
+  @Override
+  public void onElementClick(ClickEvent event, CmsContainerPageElementPanel element) {
 
-        String target = CmsCoreProvider.get().getDefaultWorkplaceLink();
-        target += "#!list-management/!!resourceId::"
+    String target = CmsCoreProvider.get().getDefaultWorkplaceLink();
+    target +=
+        "#!list-management/!!resourceId::"
             + CmsContainerpageController.getServerId(element.getId())
             + "!!locale::"
             + CmsContainerpageController.get().getData().getLocale();
-        CmsContainerpageController.get().leaveUnsaved(target);
-    }
+    CmsContainerpageController.get().leaveUnsaved(target);
+  }
 }

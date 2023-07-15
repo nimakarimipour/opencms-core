@@ -27,50 +27,50 @@
 
 package org.opencms.ui.components.extensions;
 
-import org.opencms.ui.shared.components.CmsAutoGrowingTextAreaState;
-
 import com.vaadin.server.AbstractExtension;
 import com.vaadin.v7.ui.TextArea;
+import org.opencms.ui.shared.components.CmsAutoGrowingTextAreaState;
 
 /**
- * Extension to add a CSS class to any component depending on it's scroll position.<p>
+ * Extension to add a CSS class to any component depending on it's scroll position.
+ *
+ * <p>
  */
 public class CmsAutoGrowingTextArea extends AbstractExtension {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 8321661587169935234L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 8321661587169935234L;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param textArea the text area to extend
-     * @param maxRows the maximal number of rows (<1 for unlimited)
-     */
-    public CmsAutoGrowingTextArea(TextArea textArea, int maxRows) {
-        super.extend(textArea);
-        getState().setMaxRows(maxRows);
-        getState().setMinRows(textArea.getRows());
-    }
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param textArea the text area to extend
+   * @param maxRows the maximal number of rows (<1 for unlimited)
+   */
+  public CmsAutoGrowingTextArea(TextArea textArea, int maxRows) {
+    super.extend(textArea);
+    getState().setMaxRows(maxRows);
+    getState().setMinRows(textArea.getRows());
+  }
 
-    /**
-     * Adds the text area auto grow extension to the given component.
-     *
-     * @param textArea the text area to extend
-     * @param maxRows the maximal number of rows (<1 for unlimited)
-     */
-    @SuppressWarnings("unused")
-    public static void addTo(TextArea textArea, int maxRows) {
+  /**
+   * Adds the text area auto grow extension to the given component.
+   *
+   * @param textArea the text area to extend
+   * @param maxRows the maximal number of rows (<1 for unlimited)
+   */
+  @SuppressWarnings("unused")
+  public static void addTo(TextArea textArea, int maxRows) {
 
-        new CmsAutoGrowingTextArea(textArea, maxRows);
-    }
+    new CmsAutoGrowingTextArea(textArea, maxRows);
+  }
 
-    /**
-     * @see com.vaadin.server.AbstractClientConnector#getState()
-     */
-    @Override
-    protected CmsAutoGrowingTextAreaState getState() {
+  /** @see com.vaadin.server.AbstractClientConnector#getState() */
+  @Override
+  protected CmsAutoGrowingTextAreaState getState() {
 
-        return (CmsAutoGrowingTextAreaState)super.getState();
-    }
-
+    return (CmsAutoGrowingTextAreaState) super.getState();
+  }
 }

@@ -27,25 +27,26 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import com.google.common.base.Predicate;
 import org.opencms.ade.containerpage.client.CmsContainerpageController;
 import org.opencms.ade.galleries.shared.CmsResultItemBean;
 import org.opencms.gwt.shared.CmsTemplateContextInfo;
 import org.opencms.util.CmsDefaultSet;
 
-import com.google.common.base.Predicate;
-
 /**
- * Search result DND filter which excludes elements of types which should not be shown in the current template context.<p>
+ * Search result DND filter which excludes elements of types which should not be shown in the
+ * current template context.
+ *
+ * <p>
  */
 public class CmsTemplateContextResultDndFilter implements Predicate<CmsResultItemBean> {
 
-    /**
-     * @see com.google.common.base.Predicate#apply(java.lang.Object)
-     */
-    public boolean apply(CmsResultItemBean result) {
+  /** @see com.google.common.base.Predicate#apply(java.lang.Object) */
+  public boolean apply(CmsResultItemBean result) {
 
-        CmsTemplateContextInfo info = CmsContainerpageController.get().getData().getTemplateContextInfo();
-        CmsDefaultSet<String> allowed = info.getAllowedContexts().get(result.getType());
-        return (allowed == null) || allowed.contains(info.getCurrentContext());
-    }
+    CmsTemplateContextInfo info =
+        CmsContainerpageController.get().getData().getTemplateContextInfo();
+    CmsDefaultSet<String> allowed = info.getAllowedContexts().get(result.getType());
+    return (allowed == null) || allowed.contains(info.getCurrentContext());
+  }
 }

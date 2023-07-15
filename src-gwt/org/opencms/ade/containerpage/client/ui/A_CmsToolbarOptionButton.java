@@ -27,101 +27,111 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import org.opencms.ade.containerpage.client.CmsContainerpageHandler;
 import org.opencms.gwt.client.CmsPageEditorTouchHandler;
 import org.opencms.gwt.client.ui.A_CmsToolbarButton;
 import org.opencms.gwt.client.ui.I_CmsButton;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-
 /**
- * Abstract button class implementing common methods of {@link org.opencms.gwt.client.ui.I_CmsToolbarButton}
- * for container-page tool-bar buttons with element functions.<p>
+ * Abstract button class implementing common methods of {@link
+ * org.opencms.gwt.client.ui.I_CmsToolbarButton} for container-page tool-bar buttons with element
+ * functions.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public abstract class A_CmsToolbarOptionButton extends A_CmsToolbarButton<CmsContainerpageHandler> {
 
-    /** The click handler for all tool-bar buttons. */
-    private static ClickHandler m_elementClickHandler = new ClickHandler() {
+  /** The click handler for all tool-bar buttons. */
+  private static ClickHandler m_elementClickHandler =
+      new ClickHandler() {
 
         /**
-         * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+         * @see
+         *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
          */
         public void onClick(ClickEvent event) {
 
-            CmsElementOptionButton source = (CmsElementOptionButton)event.getSource();
-            if (!(source.getToolbarButton() instanceof CmsToolbarEditButton)
-                || !CmsPageEditorTouchHandler.get().eatClick(source.getContainerElement().getElementOptionBar())) {
-                source.getToolbarButton().onElementClick(event, source.getContainerElement());
-                source.getContainerElement().getElementOptionBar().removeHighlighting();
-                source.clearHoverState();
-            }
+          CmsElementOptionButton source = (CmsElementOptionButton) event.getSource();
+          if (!(source.getToolbarButton() instanceof CmsToolbarEditButton)
+              || !CmsPageEditorTouchHandler.get()
+                  .eatClick(source.getContainerElement().getElementOptionBar())) {
+            source.getToolbarButton().onElementClick(event, source.getContainerElement());
+            source.getContainerElement().getElementOptionBar().removeHighlighting();
+            source.clearHoverState();
+          }
         }
-    };
+      };
 
-    /**
-     * Constructor.<p>
-     *
-     * @param buttonData the button data
-     * @param handler the container-page handler
-     */
-    protected A_CmsToolbarOptionButton(I_CmsButton.ButtonData buttonData, CmsContainerpageHandler handler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param buttonData the button data
+   * @param handler the container-page handler
+   */
+  protected A_CmsToolbarOptionButton(
+      I_CmsButton.ButtonData buttonData, CmsContainerpageHandler handler) {
 
-        super(buttonData, handler);
+    super(buttonData, handler);
+  }
+
+  /**
+   * Creates an element options button associated with this button and assigns the click-handler.
+   *
+   * <p>If this method returns null, no option button should be shown.
+   *
+   * <p>
+   *
+   * @param element the element to create the button for
+   * @return the created button
+   */
+  public CmsElementOptionButton createOptionForElement(CmsContainerPageElementPanel element) {
+
+    if (!isOptionAvailable(element)) {
+      return null;
     }
+    CmsElementOptionButton button = new CmsElementOptionButton(this, element);
+    button.addClickHandler(m_elementClickHandler);
+    return button;
+  }
 
-    /**
-     * Creates an element options button associated with this button and assigns the click-handler.<p>
-     * If this method returns null, no option button should be shown.<p>
-     *
-     * @param element the element to create the button for
-     *
-     * @return the created button
-     */
-    public CmsElementOptionButton createOptionForElement(CmsContainerPageElementPanel element) {
+  /**
+   * Checks whether an option button should be shown for a container page element.
+   *
+   * <p>
+   *
+   * @param element a container page element
+   * @return true if the option should be shown for the given element
+   */
+  public boolean isOptionAvailable(CmsContainerPageElementPanel element) {
 
-        if (!isOptionAvailable(element)) {
-            return null;
-        }
-        CmsElementOptionButton button = new CmsElementOptionButton(this, element);
-        button.addClickHandler(m_elementClickHandler);
-        return button;
-    }
+    return true;
+  }
 
-    /**
-     * Checks whether an option button should be shown for a container page element.<p>
-     *
-     * @param element a container page element
-     * @return true if the option should be shown for the given element
-     */
-    public boolean isOptionAvailable(CmsContainerPageElementPanel element) {
+  /**
+   * Method is executed when the element option button is clicked.
+   *
+   * <p>
+   *
+   * @param event the mouse event (stop propagation if appropriate)
+   * @param element the element the option button is associated to
+   */
+  public abstract void onElementClick(ClickEvent event, CmsContainerPageElementPanel element);
 
-        return true;
-    }
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate() */
+  public void onToolbarActivate() {
 
-    /**
-     * Method is executed when the element option button is clicked.<p>
-     *
-     * @param event the mouse event (stop propagation if appropriate)
-     * @param element the element the option button is associated to
-     */
-    public abstract void onElementClick(ClickEvent event, CmsContainerPageElementPanel element);
+    // nothing to do
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate()
-     */
-    public void onToolbarActivate() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate() */
+  public void onToolbarDeactivate() {
 
-        // nothing to do
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate()
-     */
-    public void onToolbarDeactivate() {
-
-        // nothing to do
-    }
+    // nothing to do
+  }
 }

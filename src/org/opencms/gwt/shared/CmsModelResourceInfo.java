@@ -27,58 +27,67 @@
 
 package org.opencms.gwt.shared;
 
+import java.util.List;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-
 /**
- * Bean holding model resource information to be displayed in the model select dialog.<p>
+ * Bean holding model resource information to be displayed in the model select dialog.
+ *
+ * <p>
  *
  * @since 8.0.3
  */
 public class CmsModelResourceInfo extends CmsListInfoBean {
 
-    /** The model resource structure id. */
-    private CmsUUID m_structureId;
+  /** The model resource structure id. */
+  private CmsUUID m_structureId;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsModelResourceInfo() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsModelResourceInfo() {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * Constructor.<p>
-     *
-     * @param title the title
-     * @param subtitle the subtitle
-     * @param additionalInfo the additional info
-     */
-    public CmsModelResourceInfo(String title, String subtitle, List<CmsAdditionalInfoBean> additionalInfo) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param title the title
+   * @param subtitle the subtitle
+   * @param additionalInfo the additional info
+   */
+  public CmsModelResourceInfo(
+      String title, String subtitle, List<CmsAdditionalInfoBean> additionalInfo) {
 
-        super(title, subtitle, additionalInfo);
-    }
+    super(title, subtitle, additionalInfo);
+  }
 
-    /**
-     * Returns the model resource structure id.<p>
-     *
-     * @return the model resource structure id
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Returns the model resource structure id.
+   *
+   * <p>
+   *
+   * @return the model resource structure id
+   */
+  public CmsUUID getStructureId() {
 
-        return m_structureId;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * Sets the model resource structure id.<p>
-     *
-     * @param structureId the model resource structure id to set
-     */
-    public void setStructureId(CmsUUID structureId) {
+  /**
+   * Sets the model resource structure id.
+   *
+   * <p>
+   *
+   * @param structureId the model resource structure id to set
+   */
+  public void setStructureId(CmsUUID structureId) {
 
-        m_structureId = structureId;
-    }
-
+    m_structureId = structureId;
+  }
 }

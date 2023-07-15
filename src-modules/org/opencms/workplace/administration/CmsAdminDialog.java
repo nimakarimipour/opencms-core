@@ -27,86 +27,93 @@
 
 package org.opencms.workplace.administration;
 
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.workplace.CmsDialog;
 import org.opencms.workplace.tools.CmsExplorerDialog;
 import org.opencms.workplace.tools.CmsToolManager;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Workplace class for /system/workplace/views/admin/admin-main.jsp .<p>
+ * Workplace class for /system/workplace/views/admin/admin-main.jsp .
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsAdminDialog extends CmsDialog {
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsAdminDialog(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsAdminDialog(CmsJspActionElement jsp) {
 
-        super(jsp);
+    super(jsp);
+  }
+
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsAdminDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+
+    this(new CmsJspActionElement(context, req, res));
+  }
+
+  /**
+   * Performs the dialog actions depending on the initialized action and displays the dialog form.
+   *
+   * <p>
+   *
+   * @throws Exception if writing to the JSP out fails
+   */
+  public void displayDialog() throws Exception {
+
+    Map<String, String[]> params = initAdminTool();
+
+    // explorer view dialogs
+    if (CmsExplorerDialog.EXPLORER_TOOLS.contains(getCurrentToolPath())) {
+      if (getAction() == CmsDialog.ACTION_CANCEL) {
+        actionCloseDialog();
+        return;
+      }
+      getToolManager()
+          .jspForwardPage(this, CmsToolManager.ADMINVIEW_ROOT_LOCATION + "/tool-fs.jsp", params);
+      return;
     }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsAdminDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
-
-        this(new CmsJspActionElement(context, req, res));
+    // real tool
+    if (!getAdminTool().getHandler().getLink().equals(getCms().getRequestContext().getUri())) {
+      getToolManager().jspForwardPage(this, getAdminTool().getHandler().getLink(), params);
+      return;
     }
 
-    /**
-     * Performs the dialog actions depending on the initialized action and displays the dialog form.<p>
-     *
-     * @throws Exception if writing to the JSP out fails
-     */
-    public void displayDialog() throws Exception {
-
-        Map<String, String[]> params = initAdminTool();
-
-        // explorer view dialogs
-        if (CmsExplorerDialog.EXPLORER_TOOLS.contains(getCurrentToolPath())) {
-            if (getAction() == CmsDialog.ACTION_CANCEL) {
-                actionCloseDialog();
-                return;
-            }
-            getToolManager().jspForwardPage(this, CmsToolManager.ADMINVIEW_ROOT_LOCATION + "/tool-fs.jsp", params);
-            return;
-        }
-
-        // real tool
-        if (!getAdminTool().getHandler().getLink().equals(getCms().getRequestContext().getUri())) {
-            getToolManager().jspForwardPage(this, getAdminTool().getHandler().getLink(), params);
-            return;
-        }
-
-        // just grouping
-        if (getAction() == CmsDialog.ACTION_CANCEL) {
-            actionCloseDialog();
-            return;
-        }
-
-        JspWriter out = getJsp().getJspContext().getOut();
-        out.print(htmlStart());
-        out.print(bodyStart(null));
-        out.print(dialogStart());
-        out.print(dialogContentStart(getParamTitle()));
-        out.print(dialogContentEnd());
-        out.print(dialogEnd());
-        out.print(bodyEnd());
-        out.print(htmlEnd());
+    // just grouping
+    if (getAction() == CmsDialog.ACTION_CANCEL) {
+      actionCloseDialog();
+      return;
     }
+
+    JspWriter out = getJsp().getJspContext().getOut();
+    out.print(htmlStart());
+    out.print(bodyStart(null));
+    out.print(dialogStart());
+    out.print(dialogContentStart(getParamTitle()));
+    out.print(dialogContentEnd());
+    out.print(dialogEnd());
+    out.print(bodyEnd());
+    out.print(htmlEnd());
+  }
 }

@@ -27,6 +27,7 @@
 
 package org.opencms.gwt.client.ui.restore;
 
+import java.util.List;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.client.rpc.CmsRpcAction;
 import org.opencms.gwt.client.ui.CmsPopup;
@@ -34,66 +35,71 @@ import org.opencms.gwt.client.ui.CmsPushButton;
 import org.opencms.gwt.shared.CmsRestoreInfoBean;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-
 /**
- * A dialog used for undoing changes to a resource and restoring it to its last published state.<p>
+ * A dialog used for undoing changes to a resource and restoring it to its last published state.
+ *
+ * <p>
  */
 public class CmsRestoreDialog extends CmsPopup {
 
-    /** The content widget for this dialog. */
-    protected CmsRestoreView m_restoreView;
+  /** The content widget for this dialog. */
+  protected CmsRestoreView m_restoreView;
 
-    /** The structure id of the resource to undo changes for. */
-    protected CmsUUID m_structureId;
+  /** The structure id of the resource to undo changes for. */
+  protected CmsUUID m_structureId;
 
-    /** The action executed after the changes have been undone. */
-    Runnable m_afterRestoreAction;
+  /** The action executed after the changes have been undone. */
+  Runnable m_afterRestoreAction;
 
-    /**
-     * Creates a new instance of this dialog.<p>
-     *
-     * @param structureId the structure id of the resource which should be restored
-     * @param afterRestoreAction the action which will be executed after the resource has been restored
-     */
-    public CmsRestoreDialog(CmsUUID structureId, Runnable afterRestoreAction) {
+  /**
+   * Creates a new instance of this dialog.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource which should be restored
+   * @param afterRestoreAction the action which will be executed after the resource has been
+   *     restored
+   */
+  public CmsRestoreDialog(CmsUUID structureId, Runnable afterRestoreAction) {
 
-        super(CmsRestoreMessages.messageRestoreDialogTitle());
-        setModal(true);
-        setGlassEnabled(true);
-        m_structureId = structureId;
-        m_afterRestoreAction = afterRestoreAction;
-    }
+    super(CmsRestoreMessages.messageRestoreDialogTitle());
+    setModal(true);
+    setGlassEnabled(true);
+    m_structureId = structureId;
+    m_afterRestoreAction = afterRestoreAction;
+  }
 
-    /**
-     * Loads the necessary data for the dialog from the server and shows the dialog.<p>
-     */
-    public void loadAndShow() {
+  /**
+   * Loads the necessary data for the dialog from the server and shows the dialog.
+   *
+   * <p>
+   */
+  public void loadAndShow() {
 
-        CmsRpcAction<CmsRestoreInfoBean> action = new CmsRpcAction<CmsRestoreInfoBean>() {
+    CmsRpcAction<CmsRestoreInfoBean> action =
+        new CmsRpcAction<CmsRestoreInfoBean>() {
 
-            @Override
-            public void execute() {
+          @Override
+          public void execute() {
 
-                start(0, true);
-                CmsCoreProvider.getVfsService().getRestoreInfo(m_structureId, this);
+            start(0, true);
+            CmsCoreProvider.getVfsService().getRestoreInfo(m_structureId, this);
+          }
+
+          @Override
+          protected void onResponse(CmsRestoreInfoBean result) {
+
+            stop(false);
+            m_restoreView = new CmsRestoreView(result, m_afterRestoreAction);
+            m_restoreView.setPopup(CmsRestoreDialog.this);
+            setMainContent(m_restoreView);
+            List<CmsPushButton> buttons = m_restoreView.getDialogButtons();
+            for (CmsPushButton button : buttons) {
+              addButton(button);
             }
-
-            @Override
-            protected void onResponse(CmsRestoreInfoBean result) {
-
-                stop(false);
-                m_restoreView = new CmsRestoreView(result, m_afterRestoreAction);
-                m_restoreView.setPopup(CmsRestoreDialog.this);
-                setMainContent(m_restoreView);
-                List<CmsPushButton> buttons = m_restoreView.getDialogButtons();
-                for (CmsPushButton button : buttons) {
-                    addButton(button);
-                }
-                center();
-            }
+            center();
+          }
         };
-        action.execute();
-    }
-
+    action.execute();
+  }
 }

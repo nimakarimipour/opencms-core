@@ -30,33 +30,39 @@ package org.opencms.ui.shared.components;
 import com.vaadin.shared.AbstractComponentState;
 
 /**
- * The max height shared state.<p>
+ * The max height shared state.
+ *
+ * <p>
  */
 public class CmsMaxHeightState extends AbstractComponentState {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 2763461561746931699L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 2763461561746931699L;
 
-    /** The max height. */
-    private int m_maxHeight;
+  /** The max height. */
+  private int m_maxHeight;
 
-    /**
-     * Returns the max height.<p>
-     *
-     * @return the max height
-     */
-    public int getMaxHeight() {
+  /**
+   * Returns the max height.
+   *
+   * <p>
+   *
+   * @return the max height
+   */
+  public int getMaxHeight() {
 
-        return m_maxHeight;
-    }
+    return m_maxHeight;
+  }
 
-    /**
-     * Sets the max height.<p>
-     *
-     * @param maxHeight the max height
-     */
-    public void setMaxHeight(int maxHeight) {
+  /**
+   * Sets the max height.
+   *
+   * <p>
+   *
+   * @param maxHeight the max height
+   */
+  public void setMaxHeight(int maxHeight) {
 
-        m_maxHeight = maxHeight;
-    }
+    m_maxHeight = maxHeight;
+  }
 }

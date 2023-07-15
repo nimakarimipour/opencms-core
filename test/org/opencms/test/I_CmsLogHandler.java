@@ -30,15 +30,18 @@ package org.opencms.test;
 import org.apache.logging.log4j.core.LogEvent;
 
 /**
-* An interface for classes which should handle log events.<p>
-*/
+ * An interface for classes which should handle log events.
+ *
+ * <p>
+ */
 public interface I_CmsLogHandler {
 
-    /**
-     * This method should be called when log events are triggered.<p>
-     *
-     * @param event the log event
-     */
-    void handleLogEvent(LogEvent event);
-
+  /**
+   * This method should be called when log events are triggered.
+   *
+   * <p>
+   *
+   * @param event the log event
+   */
+  void handleLogEvent(LogEvent event);
 }

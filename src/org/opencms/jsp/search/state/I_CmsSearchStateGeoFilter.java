@@ -29,54 +29,59 @@ package org.opencms.jsp.search.state;
 
 import org.opencms.util.CmsStringUtil;
 
-/**
- * Interface for the Geo filter state.
- */
+/** Interface for the Geo filter state. */
 public interface I_CmsSearchStateGeoFilter {
 
-    /**
-     * Returns the coordinates.
-     * @return the coordinates
-     */
-    String getCoordinates();
+  /**
+   * Returns the coordinates.
+   *
+   * @return the coordinates
+   */
+  String getCoordinates();
 
-    /**
-     * Returns the radius.
-     * @return the radius
-     */
-    String getRadius();
+  /**
+   * Returns the radius.
+   *
+   * @return the radius
+   */
+  String getRadius();
 
-    /**
-     * Returns the units.
-     * @return the units
-     */
-    String getUnits();
+  /**
+   * Returns the units.
+   *
+   * @return the units
+   */
+  String getUnits();
 
-    /**
-     * Returns whether we are in a Geo filter state or not.
-     * @return whether we are in a Geo filter state or not
-     */
-    default boolean hasGeoFilter() {
+  /**
+   * Returns whether we are in a Geo filter state or not.
+   *
+   * @return whether we are in a Geo filter state or not
+   */
+  default boolean hasGeoFilter() {
 
-        return !CmsStringUtil.isEmptyOrWhitespaceOnly(getCoordinates())
-            && !CmsStringUtil.isEmptyOrWhitespaceOnly(getRadius());
-    }
+    return !CmsStringUtil.isEmptyOrWhitespaceOnly(getCoordinates())
+        && !CmsStringUtil.isEmptyOrWhitespaceOnly(getRadius());
+  }
 
-    /**
-     * Sets the coordinates.
-     * @param coordinates the coordinates
-     */
-    void setCoordinates(String coordinates);
+  /**
+   * Sets the coordinates.
+   *
+   * @param coordinates the coordinates
+   */
+  void setCoordinates(String coordinates);
 
-    /**
-     * Sets the radius.
-     * @param radius the radius
-     */
-    void setRadius(String radius);
+  /**
+   * Sets the radius.
+   *
+   * @param radius the radius
+   */
+  void setRadius(String radius);
 
-    /**
-     * Sets the units.
-     * @param the units
-     */
-    void setUnits(String units);
+  /**
+   * Sets the units.
+   *
+   * @param the units
+   */
+  void setUnits(String units);
 }

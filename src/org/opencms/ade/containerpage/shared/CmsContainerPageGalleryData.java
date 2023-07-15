@@ -27,67 +27,77 @@
 
 package org.opencms.ade.containerpage.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import org.opencms.ade.galleries.shared.CmsGalleryDataBean;
 import org.opencms.ade.galleries.shared.CmsGallerySearchBean;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Gallery data loaded initially for the 'Add' menu in the page editor.<p>
+ * Gallery data loaded initially for the 'Add' menu in the page editor.
+ *
+ * <p>
  */
 public class CmsContainerPageGalleryData implements IsSerializable {
 
-    /** The gallery configuration. */
-    private CmsGalleryDataBean m_galleryData;
+  /** The gallery configuration. */
+  private CmsGalleryDataBean m_galleryData;
 
-    /** The last gallery search (may be null). */
-    private CmsGallerySearchBean m_gallerySearch;
+  /** The last gallery search (may be null). */
+  private CmsGallerySearchBean m_gallerySearch;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsContainerPageGalleryData() {
-        // do nothing
-    }
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsContainerPageGalleryData() {
+    // do nothing
+  }
 
-    /**
-     * Returns the galleryData.<p>
-     *
-     * @return the galleryData
-     */
-    public CmsGalleryDataBean getGalleryData() {
+  /**
+   * Returns the galleryData.
+   *
+   * <p>
+   *
+   * @return the galleryData
+   */
+  public CmsGalleryDataBean getGalleryData() {
 
-        return m_galleryData;
-    }
+    return m_galleryData;
+  }
 
-    /**
-     * Returns the gallerySearch.<p>
-     *
-     * @return the gallerySearch
-     */
-    public CmsGallerySearchBean getGallerySearch() {
+  /**
+   * Returns the gallerySearch.
+   *
+   * <p>
+   *
+   * @return the gallerySearch
+   */
+  public CmsGallerySearchBean getGallerySearch() {
 
-        return m_gallerySearch;
-    }
+    return m_gallerySearch;
+  }
 
-    /**
-     * Sets the galleryData.<p>
-     *
-     * @param galleryData the galleryData to set
-     */
-    public void setGalleryData(CmsGalleryDataBean galleryData) {
+  /**
+   * Sets the galleryData.
+   *
+   * <p>
+   *
+   * @param galleryData the galleryData to set
+   */
+  public void setGalleryData(CmsGalleryDataBean galleryData) {
 
-        m_galleryData = galleryData;
-    }
+    m_galleryData = galleryData;
+  }
 
-    /**
-     * Sets the gallerySearch.<p>
-     *
-     * @param gallerySearch the gallerySearch to set
-     */
-    public void setGallerySearch(CmsGallerySearchBean gallerySearch) {
+  /**
+   * Sets the gallerySearch.
+   *
+   * <p>
+   *
+   * @param gallerySearch the gallerySearch to set
+   */
+  public void setGallerySearch(CmsGallerySearchBean gallerySearch) {
 
-        m_gallerySearch = gallerySearch;
-    }
-
+    m_gallerySearch = gallerySearch;
+  }
 }

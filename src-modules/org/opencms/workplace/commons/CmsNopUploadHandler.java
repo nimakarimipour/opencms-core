@@ -31,16 +31,20 @@ import org.opencms.file.CmsObject;
 import org.opencms.workplace.I_CmsPostUploadDialogHandler;
 
 /**
- * Dummy upload handler which always returns null, which means no special actions are performed after an upload.<p>
+ * Dummy upload handler which always returns null, which means no special actions are performed
+ * after an upload.
+ *
+ * <p>
  */
 public class CmsNopUploadHandler implements I_CmsPostUploadDialogHandler {
 
-    /**
-     * @see org.opencms.workplace.I_CmsPostUploadDialogHandler#getUploadHook(org.opencms.file.CmsObject, java.lang.String)
-     */
-    public String getUploadHook(CmsObject cms, String uploadFolderSitePath) {
+  /**
+   * @see
+   *     org.opencms.workplace.I_CmsPostUploadDialogHandler#getUploadHook(org.opencms.file.CmsObject,
+   *     java.lang.String)
+   */
+  public String getUploadHook(CmsObject cms, String uploadFolderSitePath) {
 
-        return null;
-    }
-
+    return null;
+  }
 }

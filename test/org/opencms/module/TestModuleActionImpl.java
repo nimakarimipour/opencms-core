@@ -36,101 +36,100 @@ import org.opencms.main.OpenCms;
 import org.opencms.report.I_CmsReport;
 
 /**
- * Simple test implementation of the module action interface.<p>
+ * Simple test implementation of the module action interface.
+ *
+ * <p>
  */
 public class TestModuleActionImpl extends A_CmsModuleAction {
 
-    /** Indicates the last event type caught. */
-    public static int m_cmsEvent = -1;
+  /** Indicates the last event type caught. */
+  public static int m_cmsEvent = -1;
 
-    /** Indicates if the initialize() method was called. */
-    public static boolean m_initialize;
+  /** Indicates if the initialize() method was called. */
+  public static boolean m_initialize;
 
-    /** Indicates if the moduleUninstall() method was called. */
-    public static boolean m_moduleUninstall;
+  /** Indicates if the moduleUninstall() method was called. */
+  public static boolean m_moduleUninstall;
 
-    /** Indicates if the moduleUpdate() method was called. */
-    public static boolean m_moduleUpdate;
+  /** Indicates if the moduleUpdate() method was called. */
+  public static boolean m_moduleUpdate;
 
-    /** Indicates if the publishProject() method was called. */
-    public static boolean m_publishProject;
+  /** Indicates if the publishProject() method was called. */
+  public static boolean m_publishProject;
 
-    /** Indicates if the shutDown() method was called. */
-    public static boolean m_shutDown;
+  /** Indicates if the shutDown() method was called. */
+  public static boolean m_shutDown;
 
-    /**
-     * Default constructor.<p>
-     */
-    public TestModuleActionImpl() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public TestModuleActionImpl() {
 
-        // noop
-    }
+    // noop
+  }
 
-    /**
-     * @see org.opencms.main.I_CmsEventListener#cmsEvent(org.opencms.main.CmsEvent)
-     */
-    @Override
-    public void cmsEvent(CmsEvent event) {
+  /** @see org.opencms.main.I_CmsEventListener#cmsEvent(org.opencms.main.CmsEvent) */
+  @Override
+  public void cmsEvent(CmsEvent event) {
 
-        super.cmsEvent(event);
-        m_cmsEvent = event.getType();
-    }
+    super.cmsEvent(event);
+    m_cmsEvent = event.getType();
+  }
 
-    /**
-     * @see org.opencms.module.I_CmsModuleAction#initialize(org.opencms.file.CmsObject, CmsConfigurationManager, CmsModule)
-     */
-    @Override
-    public void initialize(CmsObject adminCms, CmsConfigurationManager configurationManager, CmsModule module) {
+  /**
+   * @see org.opencms.module.I_CmsModuleAction#initialize(org.opencms.file.CmsObject,
+   *     CmsConfigurationManager, CmsModule)
+   */
+  @Override
+  public void initialize(
+      CmsObject adminCms, CmsConfigurationManager configurationManager, CmsModule module) {
 
-        super.initialize(adminCms, configurationManager, module);
-        m_initialize = true;
-        m_shutDown = false;
+    super.initialize(adminCms, configurationManager, module);
+    m_initialize = true;
+    m_shutDown = false;
 
-        // register as event listener for publish events
-        OpenCms.addCmsEventListener(this, new int[] {I_CmsEventListener.EVENT_PUBLISH_PROJECT});
-    }
+    // register as event listener for publish events
+    OpenCms.addCmsEventListener(this, new int[] {I_CmsEventListener.EVENT_PUBLISH_PROJECT});
+  }
 
-    /**
-     * @see org.opencms.module.I_CmsModuleAction#moduleUninstall(CmsModule)
-     */
-    @Override
-    public void moduleUninstall(CmsModule module) {
+  /** @see org.opencms.module.I_CmsModuleAction#moduleUninstall(CmsModule) */
+  @Override
+  public void moduleUninstall(CmsModule module) {
 
-        super.moduleUninstall(module);
-        m_moduleUninstall = true;
+    super.moduleUninstall(module);
+    m_moduleUninstall = true;
 
-        // remove event listener
-        OpenCms.removeCmsEventListener(this);
-    }
+    // remove event listener
+    OpenCms.removeCmsEventListener(this);
+  }
 
-    /**
-     * @see org.opencms.module.I_CmsModuleAction#moduleUpdate(org.opencms.module.CmsModule)
-     */
-    @Override
-    public void moduleUpdate(CmsModule module) {
+  /** @see org.opencms.module.I_CmsModuleAction#moduleUpdate(org.opencms.module.CmsModule) */
+  @Override
+  public void moduleUpdate(CmsModule module) {
 
-        super.moduleUpdate(module);
-        m_moduleUpdate = true;
-    }
+    super.moduleUpdate(module);
+    m_moduleUpdate = true;
+  }
 
-    /**
-     * @see org.opencms.module.I_CmsModuleAction#publishProject(org.opencms.file.CmsObject, org.opencms.db.CmsPublishList, int, org.opencms.report.I_CmsReport)
-     */
-    @Override
-    public void publishProject(CmsObject cms, CmsPublishList publishList, int publishTag, I_CmsReport report) {
+  /**
+   * @see org.opencms.module.I_CmsModuleAction#publishProject(org.opencms.file.CmsObject,
+   *     org.opencms.db.CmsPublishList, int, org.opencms.report.I_CmsReport)
+   */
+  @Override
+  public void publishProject(
+      CmsObject cms, CmsPublishList publishList, int publishTag, I_CmsReport report) {
 
-        super.publishProject(cms, publishList, publishTag, report);
-        m_publishProject = true;
-    }
+    super.publishProject(cms, publishList, publishTag, report);
+    m_publishProject = true;
+  }
 
-    /**
-     * @see org.opencms.module.I_CmsModuleAction#shutDown(CmsModule)
-     */
-    @Override
-    public void shutDown(CmsModule module) {
+  /** @see org.opencms.module.I_CmsModuleAction#shutDown(CmsModule) */
+  @Override
+  public void shutDown(CmsModule module) {
 
-        super.shutDown(module);
-        m_shutDown = true;
-    }
-
+    super.shutDown(module);
+    m_shutDown = true;
+  }
 }

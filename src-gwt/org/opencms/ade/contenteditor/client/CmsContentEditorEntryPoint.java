@@ -30,17 +30,17 @@ package org.opencms.ade.contenteditor.client;
 import org.opencms.gwt.client.A_CmsEntryPoint;
 
 /**
- * Content editor entry point.<p>
+ * Content editor entry point.
+ *
+ * <p>
  */
 public class CmsContentEditorEntryPoint extends A_CmsEntryPoint {
 
-    /**
-     * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
-     */
-    @Override
-    public void onModuleLoad() {
+  /** @see com.google.gwt.core.client.EntryPoint#onModuleLoad() */
+  @Override
+  public void onModuleLoad() {
 
-        super.onModuleLoad();
-        CmsContentEditor.getInstance().openStandAloneFormEditor(new CmsEditorContext());
-    }
+    super.onModuleLoad();
+    CmsContentEditor.getInstance().openStandAloneFormEditor(new CmsEditorContext());
+  }
 }

@@ -27,91 +27,89 @@
 
 package org.opencms.main;
 
+import java.util.Locale;
 import org.opencms.i18n.CmsMessageContainer;
 
-import java.util.Locale;
-
 /**
- * A replacement for <code>{@link java.lang.RuntimeException}</code> to obtain fully
- * localized exception messages for OpenCms.<p>
+ * A replacement for <code>{@link java.lang.RuntimeException}</code> to obtain fully localized
+ * exception messages for OpenCms.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsRuntimeException extends RuntimeException implements I_CmsThrowable {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -7855345575622173787L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -7855345575622173787L;
 
-    /** The container for the localized message.  */
-    protected CmsMessageContainer m_message;
+  /** The container for the localized message. */
+  protected CmsMessageContainer m_message;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param message the localized message container to use
-     */
-    public CmsRuntimeException(CmsMessageContainer message) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param message the localized message container to use
+   */
+  public CmsRuntimeException(CmsMessageContainer message) {
 
-        super(message.getKey());
-        m_message = message;
-    }
+    super(message.getKey());
+    m_message = message;
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param message the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsRuntimeException(CmsMessageContainer message, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param message the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsRuntimeException(CmsMessageContainer message, Throwable cause) {
 
-        super(message.getKey(), cause);
-        m_message = message;
-    }
+    super(message.getKey(), cause);
+    m_message = message;
+  }
 
-    /**
-     * Creates a copied instance of this localized exception.<p>
-     *
-     * @param container the message container
-     * @param cause the root cause
-     *
-     * @return a copied instance of this localized exception
-     */
-    public CmsRuntimeException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a copied instance of this localized exception.
+   *
+   * <p>
+   *
+   * @param container the message container
+   * @param cause the root cause
+   * @return a copied instance of this localized exception
+   */
+  public CmsRuntimeException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsRuntimeException(container, cause);
-    }
+    return new CmsRuntimeException(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.I_CmsThrowable#getLocalizedMessage()
-     */
-    @Override
-    public String getLocalizedMessage() {
+  /** @see org.opencms.main.I_CmsThrowable#getLocalizedMessage() */
+  @Override
+  public String getLocalizedMessage() {
 
-        return m_message.key();
-    }
+    return m_message.key();
+  }
 
-    /**
-     * @see org.opencms.main.I_CmsThrowable#getLocalizedMessage(Locale)
-     */
-    public String getLocalizedMessage(Locale locale) {
+  /** @see org.opencms.main.I_CmsThrowable#getLocalizedMessage(Locale) */
+  public String getLocalizedMessage(Locale locale) {
 
-        return m_message.key(locale);
-    }
+    return m_message.key(locale);
+  }
 
-    /**
-     * @see java.lang.Throwable#getMessage()
-     */
-    @Override
-    public String getMessage() {
+  /** @see java.lang.Throwable#getMessage() */
+  @Override
+  public String getMessage() {
 
-        return getLocalizedMessage();
-    }
+    return getLocalizedMessage();
+  }
 
-    /**
-     * @see org.opencms.main.I_CmsThrowable#getMessageContainer()
-     */
-    public CmsMessageContainer getMessageContainer() {
+  /** @see org.opencms.main.I_CmsThrowable#getMessageContainer() */
+  public CmsMessageContainer getMessageContainer() {
 
-        return m_message;
-    }
+    return m_message;
+  }
 }

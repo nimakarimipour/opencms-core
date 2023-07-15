@@ -31,51 +31,56 @@ import org.opencms.main.OpenCms;
 import org.opencms.workplace.CmsWorkplace;
 
 /**
- * Generates a CSV file for a list.<p>
+ * Generates a CSV file for a list.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListCsvExportIAction extends A_CmsListIndependentJsAction {
 
-    /** List independent action id constant. */
-    public static final String LIST_ACTION_ID = "iac";
+  /** List independent action id constant. */
+  public static final String LIST_ACTION_ID = "iac";
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsListCsvExportIAction() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsListCsvExportIAction() {
 
-        super(LIST_ACTION_ID);
-        setName(Messages.get().container(Messages.GUI_LIST_ACTION_CSV_NAME_0));
-        setHelpText(Messages.get().container(Messages.GUI_LIST_ACTION_CSV_HELP_0));
-        setConfirmationMessage(Messages.get().container(Messages.GUI_LIST_ACTION_CSV_CONF_0));
-        setIconPath("list/csv.png");
-        setEnabled(true);
-        setVisible(true);
-    }
+    super(LIST_ACTION_ID);
+    setName(Messages.get().container(Messages.GUI_LIST_ACTION_CSV_NAME_0));
+    setHelpText(Messages.get().container(Messages.GUI_LIST_ACTION_CSV_HELP_0));
+    setConfirmationMessage(Messages.get().container(Messages.GUI_LIST_ACTION_CSV_CONF_0));
+    setIconPath("list/csv.png");
+    setEnabled(true);
+    setVisible(true);
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListIndependentJsAction#jsCode(CmsWorkplace)
-     */
-    @Override
-    public String jsCode(CmsWorkplace wp) {
+  /** @see org.opencms.workplace.list.A_CmsListIndependentJsAction#jsCode(CmsWorkplace) */
+  @Override
+  public String jsCode(CmsWorkplace wp) {
 
-        String url = OpenCms.getLinkManager().substituteLink(
-            wp.getCms(),
-            "/system/workplace/commons/list-csv.jsp?"
-                + CmsListCsvExportDialog.PARAM_LISTCLASS
-                + "="
-                + wp.getClass().getName());
-        String title = "CSV - " + ((A_CmsListDialog)wp).getList().getName().key(wp.getLocale());
-        String opts = "toolbar=no,location=no,directories=no,status=yes,menubar=0,scrollbars=yes,resizable=yes,top=150,left=660,width=450,height=450";
-        StringBuffer js = new StringBuffer(512);
-        js.append("window.open('");
-        js.append(url);
-        js.append("', '");
-        js.append(title);
-        js.append("', '");
-        js.append(opts);
-        js.append("');");
-        return js.toString();
-    }
+    String url =
+        OpenCms.getLinkManager()
+            .substituteLink(
+                wp.getCms(),
+                "/system/workplace/commons/list-csv.jsp?"
+                    + CmsListCsvExportDialog.PARAM_LISTCLASS
+                    + "="
+                    + wp.getClass().getName());
+    String title = "CSV - " + ((A_CmsListDialog) wp).getList().getName().key(wp.getLocale());
+    String opts =
+        "toolbar=no,location=no,directories=no,status=yes,menubar=0,scrollbars=yes,resizable=yes,top=150,left=660,width=450,height=450";
+    StringBuffer js = new StringBuffer(512);
+    js.append("window.open('");
+    js.append(url);
+    js.append("', '");
+    js.append(title);
+    js.append("', '");
+    js.append(opts);
+    js.append("');");
+    return js.toString();
+  }
 }

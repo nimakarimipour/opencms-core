@@ -27,88 +27,92 @@
 
 package org.opencms.mail;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import javax.activation.DataSource;
 import org.opencms.file.CmsFile;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import javax.activation.DataSource;
-
 /**
- * DataSource wrapper for VFS resources, allows easy sending of VFS resources as email attachments.<p>
+ * DataSource wrapper for VFS resources, allows easy sending of VFS resources as email attachments.
+ *
+ * <p>
  *
  * @since 6.2.0
  */
 public class CmsVfsDataSource implements DataSource {
 
-    /** The content type to use for the data source. */
-    private String m_contentType;
+  /** The content type to use for the data source. */
+  private String m_contentType;
 
-    /** The file that accessed by this data source. */
-    private CmsFile m_file;
+  /** The file that accessed by this data source. */
+  private CmsFile m_file;
 
-    /**
-     * Creates a new data source for the given VFS resource.<p>
-     *
-     * @param cms the current users OpenCms context
-     * @param resource the resource to use
-     *
-     * @throws CmsException in case of errors accessing the resource in the VFS
-     */
-    public CmsVfsDataSource(CmsObject cms, CmsResource resource)
-    throws CmsException {
+  /**
+   * Creates a new data source for the given VFS resource.
+   *
+   * <p>
+   *
+   * @param cms the current users OpenCms context
+   * @param resource the resource to use
+   * @throws CmsException in case of errors accessing the resource in the VFS
+   */
+  public CmsVfsDataSource(CmsObject cms, CmsResource resource) throws CmsException {
 
-        m_file = cms.readFile(resource);
-        // identify the mime-type for the data source
-        m_contentType = OpenCms.getResourceManager().getMimeType(
-            m_file.getName(),
-            cms.getRequestContext().getEncoding());
-    }
+    m_file = cms.readFile(resource);
+    // identify the mime-type for the data source
+    m_contentType =
+        OpenCms.getResourceManager()
+            .getMimeType(m_file.getName(), cms.getRequestContext().getEncoding());
+  }
 
-    /**
-     * @see javax.activation.DataSource#getContentType()
-     */
-    public String getContentType() {
+  /** @see javax.activation.DataSource#getContentType() */
+  public String getContentType() {
 
-        return m_contentType;
-    }
+    return m_contentType;
+  }
 
-    /**
-     * Returns an input stream baded on the file contents.<p>
-     *
-     * @see javax.activation.DataSource#getInputStream()
-     */
-    public InputStream getInputStream() {
+  /**
+   * Returns an input stream baded on the file contents.
+   *
+   * <p>
+   *
+   * @see javax.activation.DataSource#getInputStream()
+   */
+  public InputStream getInputStream() {
 
-        return new ByteArrayInputStream(m_file.getContents());
-    }
+    return new ByteArrayInputStream(m_file.getContents());
+  }
 
-    /**
-     * Returns the root path of the given resource.<p>
-     *
-     * @see javax.activation.DataSource#getName()
-     */
-    public String getName() {
+  /**
+   * Returns the root path of the given resource.
+   *
+   * <p>
+   *
+   * @see javax.activation.DataSource#getName()
+   */
+  public String getName() {
 
-        return m_file.getRootPath();
-    }
+    return m_file.getRootPath();
+  }
 
-    /**
-     * Don't use this method, VFS resources can't be written using this datasource class.<p>
-     *
-     * This method will just return a new <code>{@link ByteArrayOutputStream}</code>.<p>
-     *
-     * @see javax.activation.DataSource#getOutputStream()
-     */
-    public OutputStream getOutputStream() {
+  /**
+   * Don't use this method, VFS resources can't be written using this datasource class.
+   *
+   * <p>This method will just return a new <code>{@link ByteArrayOutputStream}</code>.
+   *
+   * <p>
+   *
+   * @see javax.activation.DataSource#getOutputStream()
+   */
+  public OutputStream getOutputStream() {
 
-        // maybe throw an Exception here to avoid errors
-        return new ByteArrayOutputStream();
-    }
+    // maybe throw an Exception here to avoid errors
+    return new ByteArrayOutputStream();
+  }
 }

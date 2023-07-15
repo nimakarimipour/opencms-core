@@ -27,85 +27,83 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.ui.report.CmsReportWidget;
-import org.opencms.ui.shared.rpc.I_CmsReportClientRpc;
-import org.opencms.ui.shared.rpc.I_CmsReportServerRpc;
-
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.ui.AbstractComponentConnector;
 import com.vaadin.shared.ui.Connect;
+import org.opencms.ui.report.CmsReportWidget;
+import org.opencms.ui.shared.rpc.I_CmsReportClientRpc;
+import org.opencms.ui.shared.rpc.I_CmsReportServerRpc;
 
 /**
- * Connector for the report widget.<p>
+ * Connector for the report widget.
+ *
+ * <p>
  */
 @Connect(CmsReportWidget.class)
-public class CmsReportWidgetConnector extends AbstractComponentConnector implements I_CmsReportClientRpc {
+public class CmsReportWidgetConnector extends AbstractComponentConnector
+    implements I_CmsReportClientRpc {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** True if we know the report is finished (i.e. the last report update (null) has been received. */
-    private boolean m_reportFinished;
+  /**
+   * True if we know the report is finished (i.e. the last report update (null) has been received.
+   */
+  private boolean m_reportFinished;
 
-    /** True if the connector has been unregistered. */
-    private boolean m_unregistered;
+  /** True if the connector has been unregistered. */
+  private boolean m_unregistered;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsReportWidgetConnector() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsReportWidgetConnector() {
 
-        registerRpc(I_CmsReportClientRpc.class, this);
-        RepeatingCommand command = new RepeatingCommand() {
+    registerRpc(I_CmsReportClientRpc.class, this);
+    RepeatingCommand command =
+        new RepeatingCommand() {
 
-            @SuppressWarnings("synthetic-access")
-            public boolean execute() {
+          @SuppressWarnings("synthetic-access")
+          public boolean execute() {
 
-                if (m_unregistered || m_reportFinished) {
-                    return false;
-                }
-
-                getRpcProxy(I_CmsReportServerRpc.class).requestReportUpdate();
-                return true;
+            if (m_unregistered || m_reportFinished) {
+              return false;
             }
 
+            getRpcProxy(I_CmsReportServerRpc.class).requestReportUpdate();
+            return true;
+          }
         };
-        Scheduler.get().scheduleFixedDelay(command, 750);
+    Scheduler.get().scheduleFixedDelay(command, 750);
+  }
 
+  /** @see org.opencms.ui.shared.rpc.I_CmsReportClientRpc#handleReportUpdate(java.lang.String) */
+  public void handleReportUpdate(String reportUpdate) {
+
+    if (reportUpdate == null) {
+      m_reportFinished = true;
+    } else {
+      CmsClientReportWidget widget = (CmsClientReportWidget) getWidget();
+      widget.append(reportUpdate);
     }
+  }
 
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsReportClientRpc#handleReportUpdate(java.lang.String)
-     */
-    public void handleReportUpdate(String reportUpdate) {
+  /** @see com.vaadin.client.ui.AbstractComponentConnector#onUnregister() */
+  @Override
+  public void onUnregister() {
 
-        if (reportUpdate == null) {
-            m_reportFinished = true;
-        } else {
-            CmsClientReportWidget widget = (CmsClientReportWidget)getWidget();
-            widget.append(reportUpdate);
-        }
-    }
+    m_unregistered = true;
+    super.onUnregister();
+  }
 
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#onUnregister()
-     */
-    @Override
-    public void onUnregister() {
+  /** @see com.vaadin.client.ui.AbstractComponentConnector#createWidget() */
+  @Override
+  protected Widget createWidget() {
 
-        m_unregistered = true;
-        super.onUnregister();
-    }
-
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#createWidget()
-     */
-    @Override
-    protected Widget createWidget() {
-
-        return new CmsClientReportWidget();
-    }
-
+    return new CmsClientReportWidget();
+  }
 }

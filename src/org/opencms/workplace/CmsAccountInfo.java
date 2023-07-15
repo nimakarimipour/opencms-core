@@ -27,147 +27,160 @@
 
 package org.opencms.workplace;
 
+import java.lang.reflect.InvocationTargetException;
+import org.apache.commons.beanutils.PropertyUtilsBean;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsUser;
 import org.opencms.main.CmsLog;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.apache.commons.beanutils.PropertyUtilsBean;
-import org.apache.commons.logging.Log;
-
 /**
- * Account info bean.<p>
+ * Account info bean.
+ *
+ * <p>
  */
 public class CmsAccountInfo {
 
-    /** Account info fields. */
-    public enum Field {
-        /** An additional info field. */
-        addinfo,
+  /** Account info fields. */
+  public enum Field {
+    /** An additional info field. */
+    addinfo,
 
-        /** The address field. */
-        address,
+    /** The address field. */
+    address,
 
-        /** The city field. */
-        city,
+    /** The city field. */
+    city,
 
-        /** The country field. */
-        country,
+    /** The country field. */
+    country,
 
-        /** The email field. */
-        email,
+    /** The email field. */
+    email,
 
-        /** The first name field. */
-        firstname,
+    /** The first name field. */
+    firstname,
 
-        /** The institution field. */
-        institution,
+    /** The institution field. */
+    institution,
 
-        /** The last name field. */
-        lastname,
+    /** The last name field. */
+    lastname,
 
-        /** The zip code field. */
-        zipcode
+    /** The zip code field. */
+    zipcode
+  }
+
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsAccountInfo.class);
+
+  /** The additional info key. */
+  private String m_addInfoKey;
+
+  /** The editable flag. */
+  private boolean m_editable;
+
+  /** The field. */
+  private Field m_field;
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param field the field
+   * @param addInfoKey the additional info key
+   * @param editable the editable flag
+   */
+  public CmsAccountInfo(Field field, String addInfoKey, boolean editable) {
+    m_field = field;
+    m_addInfoKey = addInfoKey;
+    m_editable = editable;
+  }
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param field the field
+   * @param addInfoKey the additional info key
+   * @param editable the editable flag
+   */
+  public CmsAccountInfo(String field, String addInfoKey, String editable) {
+    m_field = Field.valueOf(field);
+    m_addInfoKey = addInfoKey;
+    m_editable = Boolean.parseBoolean(editable);
+  }
+
+  /**
+   * Returns the additional info key.
+   *
+   * <p>
+   *
+   * @return the additional info key
+   */
+  public String getAddInfoKey() {
+
+    return m_addInfoKey;
+  }
+
+  /**
+   * Returns the field.
+   *
+   * <p>
+   *
+   * @return the field
+   */
+  public Field getField() {
+
+    return m_field;
+  }
+
+  /**
+   * Returns the account info value for the given user.
+   *
+   * <p>
+   *
+   * @param user the user
+   * @return the value
+   */
+  public String getValue(CmsUser user) {
+
+    String value = null;
+    if (isAdditionalInfo()) {
+      value = (String) user.getAdditionalInfo(getAddInfoKey());
+    } else {
+      try {
+        PropertyUtilsBean propUtils = new PropertyUtilsBean();
+        value = (String) propUtils.getProperty(user, getField().name());
+      } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        LOG.error("Error reading account info field.", e);
+      }
     }
+    return value;
+  }
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsAccountInfo.class);
+  /**
+   * Returns whether this is an additional info field.
+   *
+   * <p>
+   *
+   * @return <code>true</code> in case of an additional info field
+   */
+  public boolean isAdditionalInfo() {
 
-    /** The additional info key. */
-    private String m_addInfoKey;
+    return Field.addinfo.equals(m_field);
+  }
 
-    /** The editable flag. */
-    private boolean m_editable;
+  /**
+   * Returns if the field is editable.
+   *
+   * <p>
+   *
+   * @return if the field is editable
+   */
+  public boolean isEditable() {
 
-    /** The field. */
-    private Field m_field;
-
-    /**
-     * Constructor.<p>
-     *
-     * @param field the field
-     * @param addInfoKey the additional info key
-     * @param editable the editable flag
-     */
-    public CmsAccountInfo(Field field, String addInfoKey, boolean editable) {
-        m_field = field;
-        m_addInfoKey = addInfoKey;
-        m_editable = editable;
-    }
-
-    /**
-     * Constructor.<p>
-     *
-     * @param field the field
-     * @param addInfoKey the additional info key
-     * @param editable the editable flag
-     */
-    public CmsAccountInfo(String field, String addInfoKey, String editable) {
-        m_field = Field.valueOf(field);
-        m_addInfoKey = addInfoKey;
-        m_editable = Boolean.parseBoolean(editable);
-    }
-
-    /**
-     * Returns the additional info key.<p>
-     *
-     * @return the additional info key
-     */
-    public String getAddInfoKey() {
-
-        return m_addInfoKey;
-    }
-
-    /**
-     * Returns the field.<p>
-     *
-     * @return the field
-     */
-    public Field getField() {
-
-        return m_field;
-    }
-
-    /**
-     * Returns the account info value for the given user.<p>
-     *
-     * @param user the user
-     *
-     * @return the value
-     */
-    public String getValue(CmsUser user) {
-
-        String value = null;
-        if (isAdditionalInfo()) {
-            value = (String)user.getAdditionalInfo(getAddInfoKey());
-        } else {
-            try {
-                PropertyUtilsBean propUtils = new PropertyUtilsBean();
-                value = (String)propUtils.getProperty(user, getField().name());
-            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                LOG.error("Error reading account info field.", e);
-            }
-        }
-        return value;
-    }
-
-    /**
-     * Returns whether this is an additional info field.<p>
-     * @return <code>true</code> in case of an additional info field
-     */
-    public boolean isAdditionalInfo() {
-
-        return Field.addinfo.equals(m_field);
-    }
-
-    /**
-     * Returns if the field is editable.<p>
-     *
-     * @return if the field is editable
-     */
-    public boolean isEditable() {
-
-        return m_editable;
-    }
-
+    return m_editable;
+  }
 }

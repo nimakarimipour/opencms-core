@@ -32,65 +32,72 @@ import org.opencms.gwt.client.ui.input.upload.CmsFileInfo;
 import org.opencms.gwt.client.ui.input.upload.CmsUploadButton;
 
 /**
- * Provides the upload dialog for file API support.<p>
+ * Provides the upload dialog for file API support.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsUploadDialogFileApiImpl extends CmsUploadDialogFormDataImpl {
 
-    /** The maximum upload size in bytes. (50 MB) */
-    private static final long MAX_UPLOAD_SIZE = 51200000;
+  /** The maximum upload size in bytes. (50 MB) */
+  private static final long MAX_UPLOAD_SIZE = 51200000;
 
-    /**
-     * @see org.opencms.ade.upload.client.ui.CmsUploadDialogFormDataImpl#getFileSizeTooLargeMessage(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
-     */
-    @Override
-    public String getFileSizeTooLargeMessage(CmsFileInfo file) {
+  /**
+   * @see
+   *     org.opencms.ade.upload.client.ui.CmsUploadDialogFormDataImpl#getFileSizeTooLargeMessage(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
+   */
+  @Override
+  public String getFileSizeTooLargeMessage(CmsFileInfo file) {
 
-        if ((file.getFileSize() > MAX_UPLOAD_SIZE)) {
-            return Messages.get().key(
-                Messages.GUI_UPLOAD_FILE_MAX_SIZE_REACHED_2,
-                CmsUploadButton.formatBytes(file.getFileSize()),
-                CmsUploadButton.formatBytes(new Long(MAX_UPLOAD_SIZE).intValue()));
-        }
-        return super.getFileSizeTooLargeMessage(file);
+    if ((file.getFileSize() > MAX_UPLOAD_SIZE)) {
+      return Messages.get()
+          .key(
+              Messages.GUI_UPLOAD_FILE_MAX_SIZE_REACHED_2,
+              CmsUploadButton.formatBytes(file.getFileSize()),
+              CmsUploadButton.formatBytes(new Long(MAX_UPLOAD_SIZE).intValue()));
     }
+    return super.getFileSizeTooLargeMessage(file);
+  }
 
-    /**
-     * @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#isTooLarge(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
-     */
-    @Override
-    public boolean isTooLarge(CmsFileInfo cmsFileInfo) {
+  /**
+   * @see
+   *     org.opencms.ade.upload.client.ui.A_CmsUploadDialog#isTooLarge(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
+   */
+  @Override
+  public boolean isTooLarge(CmsFileInfo cmsFileInfo) {
 
-        if (super.isTooLarge(cmsFileInfo) || (cmsFileInfo.getFileSize() > MAX_UPLOAD_SIZE)) {
-            return true;
-        }
-        return false;
+    if (super.isTooLarge(cmsFileInfo) || (cmsFileInfo.getFileSize() > MAX_UPLOAD_SIZE)) {
+      return true;
     }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#updateSummary()
-     */
-    @Override
-    public void updateSummary() {
+  /** @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#updateSummary() */
+  @Override
+  public void updateSummary() {
 
-        super.updateSummary();
-        if (!getFilesToUpload().isEmpty() && (getContentLength() > MAX_UPLOAD_SIZE)) {
-            String message = Messages.get().key(
-                Messages.GUI_UPLOAD_MAX_SIZE_REACHED_2,
-                CmsUploadButton.formatBytes(new Long(getContentLength()).intValue()),
-                CmsUploadButton.formatBytes(new Long(MAX_UPLOAD_SIZE).intValue()));
-            disableOKButton(message);
-            StringBuffer buffer = new StringBuffer(64);
-            buffer.append("<p class=\"");
-            buffer.append(
-                org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.uploadButton().dialogMessageImportant());
-            buffer.append("\">");
-            buffer.append(message);
-            buffer.append("</p>");
-            setSummaryHTML(buffer.toString());
-        } else if (!getFilesToUpload().isEmpty()) {
-            enableOKButton();
-        }
+    super.updateSummary();
+    if (!getFilesToUpload().isEmpty() && (getContentLength() > MAX_UPLOAD_SIZE)) {
+      String message =
+          Messages.get()
+              .key(
+                  Messages.GUI_UPLOAD_MAX_SIZE_REACHED_2,
+                  CmsUploadButton.formatBytes(new Long(getContentLength()).intValue()),
+                  CmsUploadButton.formatBytes(new Long(MAX_UPLOAD_SIZE).intValue()));
+      disableOKButton(message);
+      StringBuffer buffer = new StringBuffer(64);
+      buffer.append("<p class=\"");
+      buffer.append(
+          org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE
+              .uploadButton()
+              .dialogMessageImportant());
+      buffer.append("\">");
+      buffer.append(message);
+      buffer.append("</p>");
+      setSummaryHTML(buffer.toString());
+    } else if (!getFilesToUpload().isEmpty()) {
+      enableOKButton();
     }
+  }
 }

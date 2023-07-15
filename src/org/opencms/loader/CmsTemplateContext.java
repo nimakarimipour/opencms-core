@@ -27,171 +27,188 @@
 
 package org.opencms.loader;
 
-import org.opencms.i18n.CmsMessageContainer;
-import org.opencms.i18n.I_CmsMessageContainer;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import org.opencms.i18n.CmsMessageContainer;
+import org.opencms.i18n.I_CmsMessageContainer;
 
 /**
- * A template context is basically a named path to a template JSP, which
- * has both an internal name used as a key, and a user-readable, localizable name. It
- * also has a reference to the template context provider which produced it.<p>
+ * A template context is basically a named path to a template JSP, which has both an internal name
+ * used as a key, and a user-readable, localizable name. It also has a reference to the template
+ * context provider which produced it.
+ *
+ * <p>
  */
 public class CmsTemplateContext {
 
-    /** Map of client variants, with the variant names used as keys. */
-    private Map<String, CmsClientVariant> m_clientVariants;
+  /** Map of client variants, with the variant names used as keys. */
+  private Map<String, CmsClientVariant> m_clientVariants;
 
-    /** A flag which indicates whether this template context has been manually selected rather than automatically determined. */
-    private boolean m_forced;
+  /**
+   * A flag which indicates whether this template context has been manually selected rather than
+   * automatically determined.
+   */
+  private boolean m_forced;
 
-    /** The key used for identifying the template context. */
-    private String m_key;
+  /** The key used for identifying the template context. */
+  private String m_key;
 
-    /** The message container for the user-readable name. */
-    private I_CmsMessageContainer m_messageContainer;
+  /** The message container for the user-readable name. */
+  private I_CmsMessageContainer m_messageContainer;
 
-    /** The template context provider which created this context. */
-    private I_CmsTemplateContextProvider m_provider;
+  /** The template context provider which created this context. */
+  private I_CmsTemplateContextProvider m_provider;
 
-    /** The path to the template. */
-    private String m_templatePath;
+  /** The path to the template. */
+  private String m_templatePath;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param key the internal name
-     * @param path the template path
-     * @param container the message container for the name
-     * @param provider the template context provider
-     */
-    public CmsTemplateContext(
-        String key,
-        String path,
-        CmsMessageContainer container,
-        I_CmsTemplateContextProvider provider) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param key the internal name
+   * @param path the template path
+   * @param container the message container for the name
+   * @param provider the template context provider
+   */
+  public CmsTemplateContext(
+      String key,
+      String path,
+      CmsMessageContainer container,
+      I_CmsTemplateContextProvider provider) {
 
-        this(key, path, container, provider, new ArrayList<CmsClientVariant>(), false);
+    this(key, path, container, provider, new ArrayList<CmsClientVariant>(), false);
+  }
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param key the internal name
+   * @param path the template path
+   * @param container the message container for the name
+   * @param provider the template context provider
+   * @param clientVariants the client variants
+   * @param forced true if the template context is forced to a specific value instead of
+   *     automatically determined
+   */
+  public CmsTemplateContext(
+      String key,
+      String path,
+      I_CmsMessageContainer container,
+      I_CmsTemplateContextProvider provider,
+      Collection<CmsClientVariant> clientVariants,
+      boolean forced) {
+
+    m_key = key;
+    m_templatePath = path;
+    m_messageContainer = container;
+    m_provider = provider;
+    m_forced = forced;
+    m_clientVariants = new LinkedHashMap<String, CmsClientVariant>();
+    for (CmsClientVariant variant : clientVariants) {
+      m_clientVariants.put(variant.getName(), variant);
     }
+  }
 
-    /**
-     * Constructor.<p>
-     *
-     * @param key the internal name
-     * @param path the template path
-     * @param container the message container for the name
-     * @param provider the template context provider
-     * @param clientVariants the client variants
-     * @param forced true if the template context is forced to a specific value instead of automatically determined
-     *
-     */
-    public CmsTemplateContext(
-        String key,
-        String path,
-        I_CmsMessageContainer container,
-        I_CmsTemplateContextProvider provider,
-        Collection<CmsClientVariant> clientVariants,
-        boolean forced) {
+  /**
+   * Gets the map of client variants.
+   *
+   * <p>Client variants are specialized variants of a template context which are only used by the
+   * container page editor for preview purposes.
+   *
+   * @return the client variants
+   */
+  public Map<String, CmsClientVariant> getClientVariants() {
 
-        m_key = key;
-        m_templatePath = path;
-        m_messageContainer = container;
-        m_provider = provider;
-        m_forced = forced;
-        m_clientVariants = new LinkedHashMap<String, CmsClientVariant>();
-        for (CmsClientVariant variant : clientVariants) {
-            m_clientVariants.put(variant.getName(), variant);
-        }
+    return m_clientVariants;
+  }
+
+  /**
+   * Gets the internal name used as a key.
+   *
+   * <p>
+   *
+   * @return the internal name
+   */
+  public String getKey() {
+
+    return m_key;
+  }
+
+  /**
+   * Gets the localized name for a given locale.
+   *
+   * <p>
+   *
+   * @param locale the locale for which we want the name
+   * @return the localized name
+   */
+  public String getLocalizedName(Locale locale) {
+
+    if (m_messageContainer != null) {
+      return m_messageContainer.key(locale);
     }
+    return m_key;
+  }
 
-    /**
-     * Gets the map of client variants.<p>
-     *
-     * Client variants are specialized variants of a template context which are only used by the container page editor
-     * for preview purposes.
-     *
-     * @return the client variants
-     */
-    public Map<String, CmsClientVariant> getClientVariants() {
+  /**
+   * Gets the message container for the user-readable name.
+   *
+   * <p>
+   *
+   * @return the message container
+   */
+  public I_CmsMessageContainer getMessageContainer() {
 
-        return m_clientVariants;
-    }
+    return m_messageContainer;
+  }
 
-    /**
-     * Gets the internal name used as a key.<p>
-     *
-     * @return the internal name
-     */
-    public String getKey() {
+  /**
+   * Gets the template context provider which produced this template context.
+   *
+   * <p>
+   *
+   * @return the template context provider
+   */
+  public I_CmsTemplateContextProvider getProvider() {
 
-        return m_key;
-    }
+    return m_provider;
+  }
 
-    /**
-     * Gets the localized name for a given locale.<p>
-     *
-     * @param locale the locale for which we want the name
-     *
-     * @return the localized name
-     */
-    public String getLocalizedName(Locale locale) {
+  /**
+   * Gets the path to the template.
+   *
+   * <p>
+   *
+   * @return the path to the template
+   */
+  public String getTemplatePath() {
 
-        if (m_messageContainer != null) {
-            return m_messageContainer.key(locale);
-        }
-        return m_key;
-    }
+    return m_templatePath;
+  }
 
-    /**
-     * Gets the message container for the user-readable name.<p>
-     *
-     * @return the message container
-     */
-    public I_CmsMessageContainer getMessageContainer() {
+  /**
+   * Return true if the template context was not automatically determined.
+   *
+   * <p>
+   *
+   * @return true if the template context was not automatically determined
+   */
+  public boolean isForced() {
 
-        return m_messageContainer;
-    }
+    return m_forced;
+  }
 
-    /**
-     * Gets the template context provider which produced this template context.<p>
-     *
-     * @return the template context provider
-     */
-    public I_CmsTemplateContextProvider getProvider() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_provider;
-    }
-
-    /**
-     * Gets the path to the template.<p>
-     *
-     * @return the path to the template
-     */
-    public String getTemplatePath() {
-
-        return m_templatePath;
-    }
-
-    /**
-     * Return true if the template context was not automatically determined.<p>
-     *
-     * @return true if the template context was not automatically determined
-     */
-    public boolean isForced() {
-
-        return m_forced;
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-
-        return getKey();
-    }
+    return getKey();
+  }
 }

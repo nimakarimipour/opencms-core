@@ -30,45 +30,52 @@ package org.opencms.ui.apps;
 import java.util.Locale;
 
 /**
- * App category interface.<p>
+ * App category interface.
+ *
+ * <p>
  */
 public interface I_CmsAppCategory extends I_CmsHasOrder {
 
-    /**
-     * Returns the id.<p>
-     *
-     * @return the id
-     */
-    String getId();
+  /**
+   * Returns the id.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  String getId();
 
-    /**
-     * Gets the user readable name for the category for a given locale.<p>
-     *
-     * @param locale the locale for which to get the name
-     *
-     * @return the localized name
-     */
-    String getName(Locale locale);
+  /**
+   * Gets the user readable name for the category for a given locale.
+   *
+   * <p>
+   *
+   * @param locale the locale for which to get the name
+   * @return the localized name
+   */
+  String getName(Locale locale);
 
-    /**
-     * Returns the parentId.<p>
-     *
-     * App categories can be nested. The method must return the id of the parent category
-     * if the category is nested. If it is on top level, <code>null</code> should be
-     * returned.<p>
-     *
-     * @return the parentId
-     */
-    String getParentId();
+  /**
+   * Returns the parentId.
+   *
+   * <p>App categories can be nested. The method must return the id of the parent category if the
+   * category is nested. If it is on top level, <code>null</code> should be returned.
+   *
+   * <p>
+   *
+   * @return the parentId
+   */
+  String getParentId();
 
-    /**
-     * Returns the priority.<p>
-     *
-     * If more than one category with the same id is present, the one with higher priority
-     * is shown. The other categories with this id are discarded.<p>
-     *
-     * @return the priority
-     */
-    int getPriority();
-
+  /**
+   * Returns the priority.
+   *
+   * <p>If more than one category with the same id is present, the one with higher priority is
+   * shown. The other categories with this id are discarded.
+   *
+   * <p>
+   *
+   * @return the priority
+   */
+  int getPriority();
 }

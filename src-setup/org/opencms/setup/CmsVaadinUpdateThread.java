@@ -27,117 +27,138 @@
 
 package org.opencms.setup;
 
-import org.opencms.main.CmsLog;
-import org.opencms.main.CmsShell;
-import org.opencms.ui.report.CmsStreamReportWidget;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PipedOutputStream;
 import java.io.PrintStream;
+import org.opencms.main.CmsLog;
+import org.opencms.main.CmsShell;
+import org.opencms.ui.report.CmsStreamReportWidget;
 
 public class CmsVaadinUpdateThread extends Thread {
 
-    /** System.out and System.err are redirected to this stream. */
-    private PipedOutputStream m_pipedOut;
+  /** System.out and System.err are redirected to this stream. */
+  private PipedOutputStream m_pipedOut;
 
-    /** The cms shell to import the workplace with. */
-    private CmsShell m_shell;
+  /** The cms shell to import the workplace with. */
+  private CmsShell m_shell;
 
-    /** The report widget. */
-    private CmsStreamReportWidget m_reportWidget;
+  /** The report widget. */
+  private CmsStreamReportWidget m_reportWidget;
 
-    /** The output stream for the CmsShell. */
-    private PrintStream m_out;
+  /** The output stream for the CmsShell. */
+  private PrintStream m_out;
 
-    /** The additional shell commands, i.e. the setup bean. */
-    private CmsUpdateBean m_updateBean;
+  /** The additional shell commands, i.e. the setup bean. */
+  private CmsUpdateBean m_updateBean;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param updateBean the initialized update bean
-     */
-    public CmsVaadinUpdateThread(CmsUpdateBean updateBean, CmsStreamReportWidget reportWidget) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param updateBean the initialized update bean
+   */
+  public CmsVaadinUpdateThread(CmsUpdateBean updateBean, CmsStreamReportWidget reportWidget) {
 
-        super("OpenCms: Workplace update");
+    super("OpenCms: Workplace update");
 
-        // store setup bean
-        m_updateBean = updateBean;
-        m_out = reportWidget.getStream();
-        m_reportWidget = reportWidget;
-    }
+    // store setup bean
+    m_updateBean = updateBean;
+    m_out = reportWidget.getStream();
+    m_reportWidget = reportWidget;
+  }
 
-    /**
-     * @see java.lang.Runnable#run()
-     */
-    @Override
-    public void run() {
+  /** @see java.lang.Runnable#run() */
+  @Override
+  public void run() {
 
+    try {
+
+      // create a shell that will start importing the workplace
+      m_shell =
+          new CmsShell(
+              m_updateBean.getWebAppRfsPath() + "WEB-INF" + File.separator,
+              m_updateBean.getServletMapping(),
+              m_updateBean.getDefaultWebApplication(),
+              "${user}@${project}>",
+              m_updateBean,
+              m_out,
+              m_out,
+              false);
+
+      try {
         try {
-
-            // create a shell that will start importing the workplace
-            m_shell = new CmsShell(
-                m_updateBean.getWebAppRfsPath() + "WEB-INF" + File.separator,
-                m_updateBean.getServletMapping(),
-                m_updateBean.getDefaultWebApplication(),
-                "${user}@${project}>",
-                m_updateBean,
-                m_out,
-                m_out,
-                false);
-
-            try {
-                try {
-                    if (CmsLog.INIT.isInfoEnabled()) {
-                        // log welcome message, the full package name is required because
-                        // two different Message classes are used
-                        CmsLog.INIT.info(
-                            org.opencms.main.Messages.get().getBundle().key(org.opencms.main.Messages.INIT_DOT_0));
-                        CmsLog.INIT.info(
-                            org.opencms.main.Messages.get().getBundle().key(org.opencms.main.Messages.INIT_DOT_0));
-                        CmsLog.INIT.info(
-                            org.opencms.main.Messages.get().getBundle().key(org.opencms.main.Messages.INIT_DOT_0));
-                        CmsLog.INIT.info(
-                            org.opencms.setup.Messages.get().getBundle().key(
-                                org.opencms.setup.Messages.INIT_WELCOME_UPDATE_0));
-                        CmsLog.INIT.info(
-                            org.opencms.setup.Messages.get().getBundle().key(
-                                org.opencms.setup.Messages.INIT_UPDATE_WORKPLACE_START_0));
-                        CmsLog.INIT.info(
-                            org.opencms.main.Messages.get().getBundle().key(org.opencms.main.Messages.INIT_DOT_0));
-                        CmsLog.INIT.info(
-                            org.opencms.main.Messages.get().getBundle().key(org.opencms.main.Messages.INIT_DOT_0));
-                        for (int i = 0; i < org.opencms.main.Messages.COPYRIGHT_BY_ALKACON.length; i++) {
-                            CmsLog.INIT.info(". " + org.opencms.main.Messages.COPYRIGHT_BY_ALKACON[i]);
-                        }
-                        CmsLog.INIT.info(
-                            org.opencms.main.Messages.get().getBundle().key(org.opencms.main.Messages.INIT_DOT_0));
-                        CmsLog.INIT.info(
-                            org.opencms.main.Messages.get().getBundle().key(org.opencms.main.Messages.INIT_DOT_0));
-                        CmsLog.INIT.info(
-                            org.opencms.main.Messages.get().getBundle().key(org.opencms.main.Messages.INIT_LINE_0));
-
-                    }
-                    m_shell.execute(
-                        new FileInputStream(
-                            new File(m_updateBean.getWebAppRfsPath() + CmsUpdateBean.FOLDER_UPDATE + "cmsupdate.txt")));
-                    if (CmsLog.INIT.isInfoEnabled()) {
-                        CmsLog.INIT.info(
-                            org.opencms.setup.Messages.get().getBundle().key(
-                                org.opencms.setup.Messages.INIT_UPDATE_WORKPLACE_FINISHED_0));
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-                m_pipedOut.close();
-            } catch (Throwable t) {
-                // ignore
+          if (CmsLog.INIT.isInfoEnabled()) {
+            // log welcome message, the full package name is required because
+            // two different Message classes are used
+            CmsLog.INIT.info(
+                org.opencms.main.Messages.get()
+                    .getBundle()
+                    .key(org.opencms.main.Messages.INIT_DOT_0));
+            CmsLog.INIT.info(
+                org.opencms.main.Messages.get()
+                    .getBundle()
+                    .key(org.opencms.main.Messages.INIT_DOT_0));
+            CmsLog.INIT.info(
+                org.opencms.main.Messages.get()
+                    .getBundle()
+                    .key(org.opencms.main.Messages.INIT_DOT_0));
+            CmsLog.INIT.info(
+                org.opencms.setup.Messages.get()
+                    .getBundle()
+                    .key(org.opencms.setup.Messages.INIT_WELCOME_UPDATE_0));
+            CmsLog.INIT.info(
+                org.opencms.setup.Messages.get()
+                    .getBundle()
+                    .key(org.opencms.setup.Messages.INIT_UPDATE_WORKPLACE_START_0));
+            CmsLog.INIT.info(
+                org.opencms.main.Messages.get()
+                    .getBundle()
+                    .key(org.opencms.main.Messages.INIT_DOT_0));
+            CmsLog.INIT.info(
+                org.opencms.main.Messages.get()
+                    .getBundle()
+                    .key(org.opencms.main.Messages.INIT_DOT_0));
+            for (int i = 0; i < org.opencms.main.Messages.COPYRIGHT_BY_ALKACON.length; i++) {
+              CmsLog.INIT.info(". " + org.opencms.main.Messages.COPYRIGHT_BY_ALKACON[i]);
             }
-        } finally {
-            m_reportWidget.finish();
+            CmsLog.INIT.info(
+                org.opencms.main.Messages.get()
+                    .getBundle()
+                    .key(org.opencms.main.Messages.INIT_DOT_0));
+            CmsLog.INIT.info(
+                org.opencms.main.Messages.get()
+                    .getBundle()
+                    .key(org.opencms.main.Messages.INIT_DOT_0));
+            CmsLog.INIT.info(
+                org.opencms.main.Messages.get()
+                    .getBundle()
+                    .key(org.opencms.main.Messages.INIT_LINE_0));
+          }
+          m_shell.execute(
+              new FileInputStream(
+                  new File(
+                      m_updateBean.getWebAppRfsPath()
+                          + CmsUpdateBean.FOLDER_UPDATE
+                          + "cmsupdate.txt")));
+          if (CmsLog.INIT.isInfoEnabled()) {
+            CmsLog.INIT.info(
+                org.opencms.setup.Messages.get()
+                    .getBundle()
+                    .key(org.opencms.setup.Messages.INIT_UPDATE_WORKPLACE_FINISHED_0));
+          }
+        } catch (FileNotFoundException e) {
+          e.printStackTrace();
         }
+
+        m_pipedOut.close();
+      } catch (Throwable t) {
+        // ignore
+      }
+    } finally {
+      m_reportWidget.finish();
     }
+  }
 }

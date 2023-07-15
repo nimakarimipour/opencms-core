@@ -27,71 +27,76 @@
 
 package org.opencms.ade.containerpage;
 
-import org.opencms.file.CmsResource;
-import org.opencms.util.CmsUUID;
-
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
+import org.opencms.file.CmsResource;
+import org.opencms.util.CmsUUID;
 
 /**
- * Helper bean used to collect a list of resources (usually relation targets) and keep track of whether any of them
- * have the "changed" state.<p>
+ * Helper bean used to collect a list of resources (usually relation targets) and keep track of
+ * whether any of them have the "changed" state.
+ *
+ * <p>
  */
 public class CmsRelationTargetListBean implements IsSerializable {
 
-    /** True if any of the resources have been changed. */
-    private boolean m_changed;
+  /** True if any of the resources have been changed. */
+  private boolean m_changed;
 
-    /** The already processed structure IDs, used to eliminate duplicates. */
-    private transient Set<CmsUUID> m_processedIds = new HashSet<CmsUUID>();
+  /** The already processed structure IDs, used to eliminate duplicates. */
+  private transient Set<CmsUUID> m_processedIds = new HashSet<CmsUUID>();
 
-    /** The collected resources. */
-    private List<CmsResource> m_resources = new ArrayList<CmsResource>();
+  /** The collected resources. */
+  private List<CmsResource> m_resources = new ArrayList<CmsResource>();
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsRelationTargetListBean() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsRelationTargetListBean() {}
 
+  /**
+   * Adds a new resource.
+   *
+   * <p>
+   *
+   * @param resource the resource to add
+   */
+  public void add(CmsResource resource) {
+
+    if (!m_processedIds.contains(resource.getStructureId())) {
+      m_resources.add(resource);
+      m_processedIds.add(resource.getStructureId());
+      m_changed |= !(resource.getState().isUnchanged());
     }
+  }
 
-    /**
-     * Adds a new resource.<p>
-     *
-     * @param resource the resource to add
-     */
-    public void add(CmsResource resource) {
+  /**
+   * Gets the list of resources which have been added.
+   *
+   * <p>
+   *
+   * @return the list of added resource
+   */
+  public List<CmsResource> getResources() {
 
-        if (!m_processedIds.contains(resource.getStructureId())) {
-            m_resources.add(resource);
-            m_processedIds.add(resource.getStructureId());
-            m_changed |= !(resource.getState().isUnchanged());
-        }
-    }
+    return Collections.unmodifiableList(m_resources);
+  }
 
-    /**
-     * Gets the list of resources which have been added.<p>
-     *
-     * @return the list of added resource
-     */
-    public List<CmsResource> getResources() {
+  /**
+   * Returns true if any of the added resources have been changed.
+   *
+   * <p>
+   *
+   * @return true if any of the resources have been changed
+   */
+  public boolean isChanged() {
 
-        return Collections.unmodifiableList(m_resources);
-    }
-
-    /**
-     * Returns true if any of the added resources have been changed.<p>
-     *
-     * @return true if any of the resources have been changed
-     */
-    public boolean isChanged() {
-
-        return m_changed;
-    }
-
+    return m_changed;
+  }
 }

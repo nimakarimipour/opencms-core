@@ -27,87 +27,92 @@
 
 package org.opencms.gwt;
 
-import java.util.Set;
-
 import com.google.gwt.user.server.rpc.SerializationPolicy;
 import com.google.gwt.user.server.rpc.impl.LegacySerializationPolicy;
+import java.util.Set;
 
 /**
- * A GWT serialization policy for pre-fetching.<p>
+ * A GWT serialization policy for pre-fetching.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public final class CmsPrefetchSerializationPolicy extends SerializationPolicy {
 
-    /** The singleton instance of this serialization policy. */
-    private static CmsPrefetchSerializationPolicy m_instance;
+  /** The singleton instance of this serialization policy. */
+  private static CmsPrefetchSerializationPolicy m_instance;
 
-    /** An instance of the legacy serialization policy. */
-    private LegacySerializationPolicy m_legacyPolicy = LegacySerializationPolicy.getInstance();
+  /** An instance of the legacy serialization policy. */
+  private LegacySerializationPolicy m_legacyPolicy = LegacySerializationPolicy.getInstance();
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    private CmsPrefetchSerializationPolicy() {
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  private CmsPrefetchSerializationPolicy() {
 
-        // do nothing
+    // do nothing
+  }
+
+  /**
+   * Returns the singleton instance of this class.
+   *
+   * <p>
+   *
+   * @return the singleton instance of this class
+   */
+  public static CmsPrefetchSerializationPolicy instance() {
+
+    if (m_instance == null) {
+      m_instance = new CmsPrefetchSerializationPolicy();
     }
+    return m_instance;
+  }
 
-    /**
-     * Returns the singleton instance of this class.<p>
-     *
-     * @return the singleton instance of this class
-     */
-    public static CmsPrefetchSerializationPolicy instance() {
+  /**
+   * @see
+   *     com.google.gwt.user.server.rpc.SerializationPolicy#getClientFieldNamesForEnhancedClass(java.lang.Class)
+   */
+  @Override
+  public Set<String> getClientFieldNamesForEnhancedClass(Class<?> clazz) {
 
-        if (m_instance == null) {
-            m_instance = new CmsPrefetchSerializationPolicy();
-        }
-        return m_instance;
-    }
+    return null;
+  }
 
-    /**
-     * @see com.google.gwt.user.server.rpc.SerializationPolicy#getClientFieldNamesForEnhancedClass(java.lang.Class)
-     */
-    @Override
-    public Set<String> getClientFieldNamesForEnhancedClass(Class<?> clazz) {
+  /**
+   * @see
+   *     com.google.gwt.user.server.rpc.SerializationPolicy#shouldDeserializeFields(java.lang.Class)
+   */
+  @Override
+  public boolean shouldDeserializeFields(Class<?> clazz) {
 
-        return null;
-    }
+    return m_legacyPolicy.shouldDeserializeFields(clazz);
+  }
 
-    /**
-     * @see com.google.gwt.user.server.rpc.SerializationPolicy#shouldDeserializeFields(java.lang.Class)
-     */
-    @Override
-    public boolean shouldDeserializeFields(Class<?> clazz) {
+  /**
+   * @see com.google.gwt.user.server.rpc.SerializationPolicy#shouldSerializeFields(java.lang.Class)
+   */
+  @Override
+  public boolean shouldSerializeFields(Class<?> clazz) {
 
-        return m_legacyPolicy.shouldDeserializeFields(clazz);
-    }
+    return m_legacyPolicy.shouldDeserializeFields(clazz);
+  }
 
-    /**
-     * @see com.google.gwt.user.server.rpc.SerializationPolicy#shouldSerializeFields(java.lang.Class)
-     */
-    @Override
-    public boolean shouldSerializeFields(Class<?> clazz) {
+  /**
+   * @see com.google.gwt.user.server.rpc.SerializationPolicy#validateDeserialize(java.lang.Class)
+   */
+  @Override
+  public void validateDeserialize(Class<?> clazz) {
 
-        return m_legacyPolicy.shouldDeserializeFields(clazz);
-    }
+    // all are valid
+  }
 
-    /**
-     * @see com.google.gwt.user.server.rpc.SerializationPolicy#validateDeserialize(java.lang.Class)
-     */
-    @Override
-    public void validateDeserialize(Class<?> clazz) {
+  /** @see com.google.gwt.user.server.rpc.SerializationPolicy#validateSerialize(java.lang.Class) */
+  @Override
+  public void validateSerialize(Class<?> clazz) {
 
-        // all are valid
-    }
-
-    /**
-     * @see com.google.gwt.user.server.rpc.SerializationPolicy#validateSerialize(java.lang.Class)
-     */
-    @Override
-    public void validateSerialize(Class<?> clazz) {
-
-        // all are valid
-    }
+    // all are valid
+  }
 }

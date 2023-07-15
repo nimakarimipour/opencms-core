@@ -27,6 +27,11 @@
 
 package org.opencms.loader;
 
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsPropertyDefinition;
 import org.opencms.file.CmsResource;
@@ -35,95 +40,91 @@ import org.opencms.main.OpenCms;
 import org.opencms.xml.containerpage.CmsXmlContainerPage;
 import org.opencms.xml.containerpage.CmsXmlContainerPageFactory;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /**
- * OpenCms loader for resources of type <code>{@link org.opencms.file.types.CmsResourceTypeXmlContainerPage}</code>.<p>
+ * OpenCms loader for resources of type <code>
+ * {@link org.opencms.file.types.CmsResourceTypeXmlContainerPage}</code>.
  *
- * It is just a xml-content loader with template capabilities.<p>
+ * <p>It is just a xml-content loader with template capabilities.
+ *
+ * <p>
  *
  * @since 7.6
  */
 public class CmsXmlContainerPageLoader extends CmsXmlContentLoader {
 
-    /** The id of this loader. */
-    public static final int CONTAINER_PAGE_RESOURCE_LOADER_ID = 11;
+  /** The id of this loader. */
+  public static final int CONTAINER_PAGE_RESOURCE_LOADER_ID = 11;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsXmlContainerPageLoader() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsXmlContainerPageLoader() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#getLoaderId()
-     */
-    @Override
-    public int getLoaderId() {
+  /** @see org.opencms.loader.I_CmsResourceLoader#getLoaderId() */
+  @Override
+  public int getLoaderId() {
 
-        return CONTAINER_PAGE_RESOURCE_LOADER_ID;
-    }
+    return CONTAINER_PAGE_RESOURCE_LOADER_ID;
+  }
 
-    /**
-     * Returns a String describing this resource loader, which is (localized to the system default locale)
-     * <code>"The OpenCms default resource loader for container page"</code>.<p>
-     *
-     * @return a describing String for the ResourceLoader
-     */
-    @Override
-    public String getResourceLoaderInfo() {
+  /**
+   * Returns a String describing this resource loader, which is (localized to the system default
+   * locale) <code>"The OpenCms default resource loader for container page"</code>.
+   *
+   * <p>
+   *
+   * @return a describing String for the ResourceLoader
+   */
+  @Override
+  public String getResourceLoaderInfo() {
 
-        return Messages.get().getBundle().key(Messages.GUI_LOADER_CONTAINERPAGE_DEFAULT_DESC_0);
-    }
+    return Messages.get().getBundle().key(Messages.GUI_LOADER_CONTAINERPAGE_DEFAULT_DESC_0);
+  }
 
-    /**
-     * @see org.opencms.loader.A_CmsXmlDocumentLoader#isUsableForTemplates()
-     */
-    @Override
-    public boolean isUsableForTemplates() {
+  /** @see org.opencms.loader.A_CmsXmlDocumentLoader#isUsableForTemplates() */
+  @Override
+  public boolean isUsableForTemplates() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.loader.A_CmsXmlDocumentLoader#load(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public void load(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
-    throws ServletException, IOException, CmsException {
+  /**
+   * @see org.opencms.loader.A_CmsXmlDocumentLoader#load(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest,
+   *     javax.servlet.http.HttpServletResponse)
+   */
+  @Override
+  public void load(
+      CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+      throws ServletException, IOException, CmsException {
 
-        CmsTemplateLoaderFacade loaderFacade = OpenCms.getResourceManager().getTemplateLoaderFacade(
-            cms,
-            req,
-            resource,
-            getTemplatePropertyDefinition());
-        setTemplateRequestAttributes(loaderFacade, req);
-        loaderFacade.getLoader().load(cms, loaderFacade.getLoaderStartResource(), req, res);
-    }
+    CmsTemplateLoaderFacade loaderFacade =
+        OpenCms.getResourceManager()
+            .getTemplateLoaderFacade(cms, req, resource, getTemplatePropertyDefinition());
+    setTemplateRequestAttributes(loaderFacade, req);
+    loaderFacade.getLoader().load(cms, loaderFacade.getLoaderStartResource(), req, res);
+  }
 
-    /**
-     * @see org.opencms.loader.A_CmsXmlDocumentLoader#getTemplatePropertyDefinition()
-     */
-    @Override
-    protected String getTemplatePropertyDefinition() {
+  /** @see org.opencms.loader.A_CmsXmlDocumentLoader#getTemplatePropertyDefinition() */
+  @Override
+  protected String getTemplatePropertyDefinition() {
 
-        return CmsPropertyDefinition.PROPERTY_TEMPLATE;
-    }
+    return CmsPropertyDefinition.PROPERTY_TEMPLATE;
+  }
 
-    /**
-     * @see org.opencms.loader.A_CmsXmlDocumentLoader#unmarshalXmlDocument(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.ServletRequest)
-     */
-    @Override
-    protected CmsXmlContainerPage unmarshalXmlDocument(CmsObject cms, CmsResource resource, ServletRequest req)
-    throws CmsException {
+  /**
+   * @see org.opencms.loader.A_CmsXmlDocumentLoader#unmarshalXmlDocument(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, javax.servlet.ServletRequest)
+   */
+  @Override
+  protected CmsXmlContainerPage unmarshalXmlDocument(
+      CmsObject cms, CmsResource resource, ServletRequest req) throws CmsException {
 
-        return CmsXmlContainerPageFactory.unmarshal(cms, resource, req);
-    }
+    return CmsXmlContainerPageFactory.unmarshal(cms, resource, req);
+  }
 }

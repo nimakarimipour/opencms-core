@@ -27,52 +27,50 @@
 
 package org.opencms.ui.util;
 
+import com.vaadin.v7.data.util.converter.Converter;
 import java.util.Locale;
-
 import org.restlet.engine.util.StringUtils;
 
-import com.vaadin.v7.data.util.converter.Converter;
-
 /**
- * Converts null values to an empty string for the input widgets.<p>
+ * Converts null values to an empty string for the input widgets.
+ *
+ * <p>
  */
 public class CmsNullToEmptyConverter implements Converter<String, String> {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * @see com.vaadin.data.util.converter.Converter#convertToModel(java.lang.Object, java.lang.Class, java.util.Locale)
-     */
-    public String convertToModel(String value, Class<? extends String> targetType, Locale locale)
-    throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
+  /**
+   * @see com.vaadin.data.util.converter.Converter#convertToModel(java.lang.Object, java.lang.Class,
+   *     java.util.Locale)
+   */
+  public String convertToModel(String value, Class<? extends String> targetType, Locale locale)
+      throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
 
-        return value;
-    }
+    return value;
+  }
 
-    /**
-     * @see com.vaadin.data.util.converter.Converter#convertToPresentation(java.lang.Object, java.lang.Class, java.util.Locale)
-     */
-    public String convertToPresentation(String value, Class<? extends String> targetType, Locale locale)
-    throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
+  /**
+   * @see com.vaadin.data.util.converter.Converter#convertToPresentation(java.lang.Object,
+   *     java.lang.Class, java.util.Locale)
+   */
+  public String convertToPresentation(
+      String value, Class<? extends String> targetType, Locale locale)
+      throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
 
-        return StringUtils.nullToEmpty(value);
-    }
+    return StringUtils.nullToEmpty(value);
+  }
 
-    /**
-     * @see com.vaadin.data.util.converter.Converter#getModelType()
-     */
-    public Class<String> getModelType() {
+  /** @see com.vaadin.data.util.converter.Converter#getModelType() */
+  public Class<String> getModelType() {
 
-        return String.class;
-    }
+    return String.class;
+  }
 
-    /**
-     * @see com.vaadin.data.util.converter.Converter#getPresentationType()
-     */
-    public Class<String> getPresentationType() {
+  /** @see com.vaadin.data.util.converter.Converter#getPresentationType() */
+  public Class<String> getPresentationType() {
 
-        return String.class;
-    }
-
+    return String.class;
+  }
 }

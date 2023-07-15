@@ -27,53 +27,64 @@
 
 package org.opencms.gwt.client.ui.contextmenu;
 
+import java.util.Map;
 import org.opencms.gwt.client.ui.contenteditor.I_CmsContentEditorHandler;
 import org.opencms.gwt.client.util.I_CmsSimpleCallback;
 import org.opencms.util.CmsUUID;
 
-import java.util.Map;
-
 /**
- * Interface for context menu commands.<p>
+ * Interface for context menu commands.
+ *
+ * <p>
  *
  * @since version 8.0.1
  */
 public interface I_CmsContextMenuHandler extends I_CmsActionHandler {
 
-    /**
-     * Tries to lock the given resource and returns <code>true</code> on success.
-     * If not successful a warning should be displayed.<p>
-     *
-     * @param structureId the structure id of the resource to lock
-     * @param callback the callback to execute
-     */
-    void ensureLockOnResource(CmsUUID structureId, I_CmsSimpleCallback<Boolean> callback);
+  /**
+   * Tries to lock the given resource and returns <code>true</code> on success. If not successful a
+   * warning should be displayed.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource to lock
+   * @param callback the callback to execute
+   */
+  void ensureLockOnResource(CmsUUID structureId, I_CmsSimpleCallback<Boolean> callback);
 
-    /**
-     * Returns the available context menu commands as a map by class name.<p>
-     *
-     * @return the available context menu commands as a map by class name
-     */
-    Map<String, I_CmsContextMenuCommand> getContextMenuCommands();
+  /**
+   * Returns the available context menu commands as a map by class name.
+   *
+   * <p>
+   *
+   * @return the available context menu commands as a map by class name
+   */
+  Map<String, I_CmsContextMenuCommand> getContextMenuCommands();
 
-    /**
-     * Returns the context type.<p>
-     *
-     * @return the context type
-     */
-    String getContextType();
+  /**
+   * Returns the context type.
+   *
+   * <p>
+   *
+   * @return the context type
+   */
+  String getContextType();
 
-    /**
-     * Returns the editor handler.<p>
-     *
-     * @return the editor handler
-     */
-    I_CmsContentEditorHandler getEditorHandler();
+  /**
+   * Returns the editor handler.
+   *
+   * <p>
+   *
+   * @return the editor handler
+   */
+  I_CmsContentEditorHandler getEditorHandler();
 
-    /**
-     * Unlocks the resource if appropriate.<p>
-     *
-     * @param structureId the structure id of the resource to lock
-     */
-    void unlockResource(CmsUUID structureId);
+  /**
+   * Unlocks the resource if appropriate.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource to lock
+   */
+  void unlockResource(CmsUUID structureId);
 }

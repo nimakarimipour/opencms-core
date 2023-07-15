@@ -29,102 +29,119 @@ package org.opencms.configuration;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.digester3.Rule;
-
 import org.dom4j.Element;
 import org.xml.sax.Attributes;
 
 /**
-* Helper class for parsing an element with no content but several attributes into a subclass of I_CmsConfigurationParameterHandler.<p>
-*/
+ * Helper class for parsing an element with no content but several attributes into a subclass of
+ * I_CmsConfigurationParameterHandler.
+ *
+ * <p>
+ */
 public class CmsElementWithAttrsParamConfigHelper {
 
-    /** The attributes to read / write. */
-    private String[] m_attrs;
+  /** The attributes to read / write. */
+  private String[] m_attrs;
 
-    /** The xpath of the element. */
-    private String m_basePath;
+  /** The xpath of the element. */
+  private String m_basePath;
 
-    /** The class of the configuration object to create (must be subclass of I_CmsConfigurationParameterHandler). */
-    private Class<?> m_class;
+  /**
+   * The class of the configuration object to create (must be subclass of
+   * I_CmsConfigurationParameterHandler).
+   */
+  private Class<?> m_class;
 
-    /** The name of the XML element. */
-    private String m_name;
+  /** The name of the XML element. */
+  private String m_name;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param parentPath the parent XPath
-     * @param name the XML element name
-     * @param cls the class to use for the configuration (must be subclass of I_CmsConfigurationParameterHandler)
-     * @param attrs the attributes to read / write
-     */
-    public CmsElementWithAttrsParamConfigHelper(String parentPath, String name, Class<?> cls, String... attrs) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param parentPath the parent XPath
+   * @param name the XML element name
+   * @param cls the class to use for the configuration (must be subclass of
+   *     I_CmsConfigurationParameterHandler)
+   * @param attrs the attributes to read / write
+   */
+  public CmsElementWithAttrsParamConfigHelper(
+      String parentPath, String name, Class<?> cls, String... attrs) {
 
-        m_basePath = parentPath + "/" + name;
-        m_name = name;
-        m_class = cls;
-        m_attrs = attrs;
-    }
+    m_basePath = parentPath + "/" + name;
+    m_name = name;
+    m_class = cls;
+    m_attrs = attrs;
+  }
 
-    /**
-     * Adds the configuration parsing rules to the digester.<p>
-     *
-     * @param digester the digester to which the rules should be added
-     */
-    public void addRules(Digester digester) {
+  /**
+   * Adds the configuration parsing rules to the digester.
+   *
+   * <p>
+   *
+   * @param digester the digester to which the rules should be added
+   */
+  public void addRules(Digester digester) {
 
-        digester.addRule(m_basePath, new Rule() {
+    digester.addRule(
+        m_basePath,
+        new Rule() {
 
-            @SuppressWarnings("synthetic-access")
-            @Override
-            public void begin(String namespace, String name, Attributes attributes) throws Exception {
+          @SuppressWarnings("synthetic-access")
+          @Override
+          public void begin(String namespace, String name, Attributes attributes) throws Exception {
 
-                I_CmsConfigurationParameterHandler config = (I_CmsConfigurationParameterHandler)(m_class.newInstance());
-                for (String attr : m_attrs) {
-                    String attrValue = attributes.getValue(attr);
-                    if (attrValue != null) {
-                        config.addConfigurationParameter(attr, attrValue);
-                    }
-                }
-                config.initConfiguration();
-                getDigester().push(config);
+            I_CmsConfigurationParameterHandler config =
+                (I_CmsConfigurationParameterHandler) (m_class.newInstance());
+            for (String attr : m_attrs) {
+              String attrValue = attributes.getValue(attr);
+              if (attrValue != null) {
+                config.addConfigurationParameter(attr, attrValue);
+              }
             }
+            config.initConfiguration();
+            getDigester().push(config);
+          }
 
-            @Override
-            public void end(String namespace, String name) throws Exception {
+          @Override
+          public void end(String namespace, String name) throws Exception {
 
-                getDigester().pop();
-            }
-
+            getDigester().pop();
+          }
         });
-    }
+  }
 
-    /**
-     * Generates the XML configuration from the given configuration object.<p>
-     *
-     * @param parent the parent element
-     * @param config the configuration
-     */
-    public void generateXml(Element parent, I_CmsConfigurationParameterHandler config) {
+  /**
+   * Generates the XML configuration from the given configuration object.
+   *
+   * <p>
+   *
+   * @param parent the parent element
+   * @param config the configuration
+   */
+  public void generateXml(Element parent, I_CmsConfigurationParameterHandler config) {
 
-        if (config != null) {
-            Element elem = parent.addElement(m_name);
-            for (String attrName : m_attrs) {
-                String value = config.getConfiguration().get(attrName);
-                if (value != null) {
-                    elem.addAttribute(attrName, value);
-                }
-            }
+    if (config != null) {
+      Element elem = parent.addElement(m_name);
+      for (String attrName : m_attrs) {
+        String value = config.getConfiguration().get(attrName);
+        if (value != null) {
+          elem.addAttribute(attrName, value);
         }
+      }
     }
+  }
 
-    /**
-     * Gets the xPath of the configuration element.<p>
-     *
-     * @return the xPath of the configuration element
-     */
-    public String getBasePath() {
+  /**
+   * Gets the xPath of the configuration element.
+   *
+   * <p>
+   *
+   * @return the xPath of the configuration element
+   */
+  public String getBasePath() {
 
-        return m_basePath;
-    }
+    return m_basePath;
+  }
 }

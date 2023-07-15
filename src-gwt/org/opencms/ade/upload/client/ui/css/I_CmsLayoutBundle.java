@@ -27,11 +27,10 @@
 
 package org.opencms.ade.upload.client.ui.css;
 
-import org.opencms.gwt.client.ui.css.I_CmsConstantsBundle;
-import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsPopupCss;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import org.opencms.gwt.client.ui.css.I_CmsConstantsBundle;
+import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsPopupCss;
 
 /**
  * Resource bundle to access CSS and image resources.
@@ -40,89 +39,110 @@ import com.google.gwt.resources.client.ClientBundle;
  */
 public interface I_CmsLayoutBundle extends ClientBundle {
 
-    /** The upload dialog CSS classes. */
-    public interface I_CmsUploadCss extends I_CmsPopupCss {
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String dialogInfo();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String dragAndDropMessage();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String fileInputPanel();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String mainContentWidget();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String summary();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String unzipButton();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String unzipButtonDownFace();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String unzipButtonUpFace();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String uploadDialogButton();
-    }
-
-    /** The bundle instance. */
-    I_CmsLayoutBundle INSTANCE = GWT.create(I_CmsLayoutBundle.class);
+  /** The upload dialog CSS classes. */
+  public interface I_CmsUploadCss extends I_CmsPopupCss {
 
     /**
-     * The CSS constants bundle.<p>
+     * Access method.
      *
-     * @return a bundle of CSS constants
+     * <p>
+     *
+     * @return the CSS class name
      */
-    I_CmsConstantsBundle constants();
+    String dialogInfo();
 
     /**
-     * Access method.<p>
+     * Access method.
      *
-     * @return the constants CSS
+     * <p>
+     *
+     * @return the CSS class name
      */
-    @Source("upload.gss")
-    I_CmsUploadCss uploadCss();
+    String dragAndDropMessage();
 
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String fileInputPanel();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String mainContentWidget();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String summary();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String unzipButton();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String unzipButtonDownFace();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String unzipButtonUpFace();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String uploadDialogButton();
+  }
+
+  /** The bundle instance. */
+  I_CmsLayoutBundle INSTANCE = GWT.create(I_CmsLayoutBundle.class);
+
+  /**
+   * The CSS constants bundle.
+   *
+   * <p>
+   *
+   * @return a bundle of CSS constants
+   */
+  I_CmsConstantsBundle constants();
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the constants CSS
+   */
+  @Source("upload.gss")
+  I_CmsUploadCss uploadCss();
 }

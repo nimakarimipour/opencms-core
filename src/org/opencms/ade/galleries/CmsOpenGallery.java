@@ -27,6 +27,12 @@
 
 package org.opencms.ade.galleries;
 
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants;
 import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryMode;
 import org.opencms.file.CmsResource;
@@ -35,59 +41,59 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsDialog;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Provides methods to open gwt-based gallery dialog.<p>
+ * Provides methods to open gwt-based gallery dialog.
+ *
+ * <p>
  *
  * @since 8.0
  */
 public class CmsOpenGallery extends CmsDialog {
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsOpenGallery(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsOpenGallery(PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        super(context, req, res);
+    super(context, req, res);
+  }
+
+  /**
+   * Opens the gallery.
+   *
+   * <p>
+   *
+   * @throws Exception if something goes wrong
+   */
+  public void openGallery() throws Exception {
+
+    String galleryPath = getParamResource();
+    if ((galleryPath != null) && !galleryPath.endsWith("/")) {
+      galleryPath += "/";
     }
-
-    /**
-     * Opens the gallery.<p>
-     *
-     * @throws Exception if something goes wrong
-     */
-    public void openGallery() throws Exception {
-
-        String galleryPath = getParamResource();
-        if ((galleryPath != null) && !galleryPath.endsWith("/")) {
-            galleryPath += "/";
-        }
-        Map<String, String[]> params = new HashMap<String, String[]>();
-        Locale locale = OpenCms.getLocaleManager().getDefaultLocale(getCms(), galleryPath);
-        params.put("__locale", new String[] {locale.toString()});
-        params.put(I_CmsGalleryProviderConstants.CONFIG_GALLERY_MODE, new String[] {GalleryMode.view.name()});
-        try {
-            if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(galleryPath)) {
-                // ensure to have a proper site path to the gallery folder, this is needed within the shared site
-                CmsResource galleryFolder = getCms().readResource(galleryPath);
-                galleryPath = getCms().getSitePath(galleryFolder);
-            }
-        } catch (CmsException e) {
-            // nothing to do
-        }
-        params.put(I_CmsGalleryProviderConstants.CONFIG_GALLERY_PATH, new String[] {galleryPath});
-        params.put(I_CmsGalleryProviderConstants.CONFIG_RESOURCE_TYPES, new String[] {""});
-        sendForward(I_CmsGalleryProviderConstants.VFS_OPEN_GALLERY_PATH, params);
+    Map<String, String[]> params = new HashMap<String, String[]>();
+    Locale locale = OpenCms.getLocaleManager().getDefaultLocale(getCms(), galleryPath);
+    params.put("__locale", new String[] {locale.toString()});
+    params.put(
+        I_CmsGalleryProviderConstants.CONFIG_GALLERY_MODE, new String[] {GalleryMode.view.name()});
+    try {
+      if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(galleryPath)) {
+        // ensure to have a proper site path to the gallery folder, this is needed within the shared
+        // site
+        CmsResource galleryFolder = getCms().readResource(galleryPath);
+        galleryPath = getCms().getSitePath(galleryFolder);
+      }
+    } catch (CmsException e) {
+      // nothing to do
     }
+    params.put(I_CmsGalleryProviderConstants.CONFIG_GALLERY_PATH, new String[] {galleryPath});
+    params.put(I_CmsGalleryProviderConstants.CONFIG_RESOURCE_TYPES, new String[] {""});
+    sendForward(I_CmsGalleryProviderConstants.VFS_OPEN_GALLERY_PATH, params);
+  }
 }

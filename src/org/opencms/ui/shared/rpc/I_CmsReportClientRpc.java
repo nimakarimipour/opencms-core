@@ -30,16 +30,18 @@ package org.opencms.ui.shared.rpc;
 import com.vaadin.shared.communication.ClientRpc;
 
 /**
- * Client RPC interface for the report widget.<p>
+ * Client RPC interface for the report widget.
  *
+ * <p>
  */
 public interface I_CmsReportClientRpc extends ClientRpc {
 
-    /**
-     * Sends the report update content to the client widget.<p>
-     *
-     * @param reportUpdate the report update HTML
-     */
-    void handleReportUpdate(String reportUpdate);
-
+  /**
+   * Sends the report update content to the client widget.
+   *
+   * <p>
+   *
+   * @param reportUpdate the report update HTML
+   */
+  void handleReportUpdate(String reportUpdate);
 }

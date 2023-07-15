@@ -35,49 +35,58 @@ import org.opencms.db.CmsPublishedResource;
 import org.opencms.file.CmsResource;
 
 /**
- * This is interface is intended to be used in combination with the {@link CmsGlobalConfigurationCacheEventHandler} class.<p>
+ * This is interface is intended to be used in combination with the {@link
+ * CmsGlobalConfigurationCacheEventHandler} class.
  *
- * It provides several method which allow the mentioned event handler class to update the cache object implementing this
- * interface.
+ * <p>It provides several method which allow the mentioned event handler class to update the cache
+ * object implementing this interface.
  */
 public interface I_CmsGlobalConfigurationCache {
 
-    /**
-     * Clears the cache.<p>
-     */
-    void clear();
+  /**
+   * Clears the cache.
+   *
+   * <p>
+   */
+  void clear();
 
-    /**
-     * Removes a published resource from the cache.<p>
-     *
-     * @param pubRes the published resource
-     */
-    void remove(CmsPublishedResource pubRes);
+  /**
+   * Removes a published resource from the cache.
+   *
+   * <p>
+   *
+   * @param pubRes the published resource
+   */
+  void remove(CmsPublishedResource pubRes);
 
-    /**
-     * Removes a resource from the cache.<p>
-     *
-     * @param resource the resource to remove
-     */
-    void remove(CmsResource resource);
+  /**
+   * Removes a resource from the cache.
+   *
+   * <p>
+   *
+   * @param resource the resource to remove
+   */
+  void remove(CmsResource resource);
 
-    /**
-     * Updates the cache entry for the given published resource.<p>
-     *
-     * NOTE: Cache implementations should not directly read the updated resource in this method because it might interfere with other
-     * caches. Instead, the resource should be marked as updated and read the next time the cache is queried.
-     *
-     * @param pubRes a published resource
-     */
-    void update(CmsPublishedResource pubRes);
+  /**
+   * Updates the cache entry for the given published resource.
+   *
+   * <p>NOTE: Cache implementations should not directly read the updated resource in this method
+   * because it might interfere with other caches. Instead, the resource should be marked as updated
+   * and read the next time the cache is queried.
+   *
+   * @param pubRes a published resource
+   */
+  void update(CmsPublishedResource pubRes);
 
-    /**
-     * Updates the cache entry for the given resource.<p>
-     *
-     * NOTE: Cache implementations should not directly read the updated resource in this method because it might interfere with other
-     * caches. Instead, the resource should be marked as updated and read the next time the cache is queried.
-     *
-     * @param resource the resource for which the cache entry should be updated
-     */
-    void update(CmsResource resource);
+  /**
+   * Updates the cache entry for the given resource.
+   *
+   * <p>NOTE: Cache implementations should not directly read the updated resource in this method
+   * because it might interfere with other caches. Instead, the resource should be marked as updated
+   * and read the next time the cache is queried.
+   *
+   * @param resource the resource for which the cache entry should be updated
+   */
+  void update(CmsResource resource);
 }

@@ -27,16 +27,6 @@
 
 package org.opencms.gwt.client.ui.input.tinymce;
 
-import org.opencms.gwt.client.I_CmsHasInit;
-import org.opencms.gwt.client.ui.I_CmsAutoHider;
-import org.opencms.gwt.client.ui.input.CmsTextBox;
-import org.opencms.gwt.client.ui.input.I_CmsFormWidget;
-import org.opencms.gwt.client.ui.input.form.CmsWidgetFactoryRegistry;
-import org.opencms.gwt.client.ui.input.form.I_CmsFormWidgetFactory;
-import org.opencms.util.CmsStringUtil;
-
-import java.util.Map;
-
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -60,466 +50,491 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
+import java.util.Map;
+import org.opencms.gwt.client.I_CmsHasInit;
+import org.opencms.gwt.client.ui.I_CmsAutoHider;
+import org.opencms.gwt.client.ui.input.CmsTextBox;
+import org.opencms.gwt.client.ui.input.I_CmsFormWidget;
+import org.opencms.gwt.client.ui.input.form.CmsWidgetFactoryRegistry;
+import org.opencms.gwt.client.ui.input.form.I_CmsFormWidgetFactory;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * This class is used to start TinyMCE for editing the content of an element.<p>
+ * This class is used to start TinyMCE for editing the content of an element.
  *
- * After constructing the instance, the actual editor is opened using the init() method, and destroyed with the close()
- * method. While the editor is opened, the edited contents can be accessed using the methods of the HasValue interface.
+ * <p>After constructing the instance, the actual editor is opened using the init() method, and
+ * destroyed with the close() method. While the editor is opened, the edited contents can be
+ * accessed using the methods of the HasValue interface.
  */
 public final class CmsTinyMCEWidget extends FlowPanel
-implements I_CmsFormWidget, HasResizeHandlers, I_CmsHasInit, HasValueChangeHandlers<String> {
+    implements I_CmsFormWidget, HasResizeHandlers, I_CmsHasInit, HasValueChangeHandlers<String> {
 
-    /** Use as option to disallow any HTML or formatting the content. */
-    public static final String NO_HTML_EDIT = "no_html_edit";
+  /** Use as option to disallow any HTML or formatting the content. */
+  public static final String NO_HTML_EDIT = "no_html_edit";
 
-    /** The widget type id.*/
-    public static final String WIDGET_TYPE = "wysiwyg";
+  /** The widget type id. */
+  public static final String WIDGET_TYPE = "wysiwyg";
 
-    /** Counts currently attached widget instances, for use in registering / deregistering preview event listeners. */
-    static int attachCount;
+  /**
+   * Counts currently attached widget instances, for use in registering / deregistering preview
+   * event listeners.
+   */
+  static int attachCount;
 
-    /** The minimum editor height. */
-    private static final int MIN_EDITOR_HEIGHT = 70;
+  /** The minimum editor height. */
+  private static final int MIN_EDITOR_HEIGHT = 70;
 
-    /** The preview handler registration. */
-    private static HandlerRegistration previewRegistration;
+  /** The preview handler registration. */
+  private static HandlerRegistration previewRegistration;
 
-    /** The current content. */
-    protected String m_currentContent;
+  /** The current content. */
+  protected String m_currentContent;
 
-    /** The TinyMCE editor instance. */
-    protected JavaScriptObject m_editor;
+  /** The TinyMCE editor instance. */
+  protected JavaScriptObject m_editor;
 
-    /** The DOM ID of the editable element. */
-    protected String m_id;
+  /** The DOM ID of the editable element. */
+  protected String m_id;
 
-    /** The original HTML content of the editable element. */
-    protected String m_originalContent;
+  /** The original HTML content of the editable element. */
+  protected String m_originalContent;
 
-    /** The maximal width of the widget. */
-    protected int m_width;
+  /** The maximal width of the widget. */
+  protected int m_width;
 
-    /** The editor height to set. */
-    int m_editorHeight;
+  /** The editor height to set. */
+  int m_editorHeight;
 
-    /** The element to store the widget content in. */
-    private Element m_contentElement;
+  /** The element to store the widget content in. */
+  private Element m_contentElement;
 
-    /** Flag controlling whether the widget is enabled. */
-    private boolean m_enabled = true;
+  /** Flag controlling whether the widget is enabled. */
+  private boolean m_enabled = true;
 
-    /** Indicates the value has been set from external, not from within the widget. */
-    private boolean m_externalValueChange;
+  /** Indicates the value has been set from external, not from within the widget. */
+  private boolean m_externalValueChange;
 
-    /** Indicating if the widget has been attached yet. */
-    private boolean m_hasBeenAttached;
+  /** Indicating if the widget has been attached yet. */
+  private boolean m_hasBeenAttached;
 
-    /** Flag indicating the editor has been initialized. */
-    private boolean m_initialized;
+  /** Flag indicating the editor has been initialized. */
+  private boolean m_initialized;
 
-    /** The editor options. */
-    private Object m_options;
+  /** The editor options. */
+  private Object m_options;
 
-    /** The previous value. */
-    private String m_previousValue;
+  /** The previous value. */
+  private String m_previousValue;
 
-    /**
-     * Creates a new instance with the given TinyMCE options. Use this constructor for form based editing.<p>
-     *
-     * @param options the tinyMCE editor options to extend the default settings
-     */
-    public CmsTinyMCEWidget(Object options) {
+  /**
+   * Creates a new instance with the given TinyMCE options. Use this constructor for form based
+   * editing.
+   *
+   * <p>
+   *
+   * @param options the tinyMCE editor options to extend the default settings
+   */
+  public CmsTinyMCEWidget(Object options) {
 
-        // super(element);
-        m_originalContent = "";
-        m_options = options;
-        // using a child DIV as content element
-        m_contentElement = getElement().appendChild(DOM.createDiv());
-    }
+    // super(element);
+    m_originalContent = "";
+    m_options = options;
+    // using a child DIV as content element
+    m_contentElement = getElement().appendChild(DOM.createDiv());
+  }
 
-    /**
-     * Creates a new instance based on configuration data from the server.<p>
-     *
-     * @param config the configuration data
-     */
-    public CmsTinyMCEWidget(String config) {
+  /**
+   * Creates a new instance based on configuration data from the server.
+   *
+   * <p>
+   *
+   * @param config the configuration data
+   */
+  public CmsTinyMCEWidget(String config) {
 
-        this(CmsTinyMCEHelper.generateOptionsForTiny(config));
-    }
+    this(CmsTinyMCEHelper.generateOptionsForTiny(config));
+  }
 
-    /**
-     * Initializes this class.<p>
-     */
-    public static void initClass() {
+  /**
+   * Initializes this class.
+   *
+   * <p>
+   */
+  public static void initClass() {
 
-        // registers a factory for creating new instances of this widget
-        CmsWidgetFactoryRegistry.instance().registerFactory(WIDGET_TYPE, new I_CmsFormWidgetFactory() {
+    // registers a factory for creating new instances of this widget
+    CmsWidgetFactoryRegistry.instance()
+        .registerFactory(
+            WIDGET_TYPE,
+            new I_CmsFormWidgetFactory() {
 
-            /**
-             * @see org.opencms.gwt.client.ui.input.form.I_CmsFormWidgetFactory#createWidget(java.util.Map, com.google.common.base.Optional)
-             */
-            public I_CmsFormWidget createWidget(Map<String, String> widgetParams, Optional<String> defaultValue) {
+              /**
+               * @see
+               *     org.opencms.gwt.client.ui.input.form.I_CmsFormWidgetFactory#createWidget(java.util.Map,
+               *     com.google.common.base.Optional)
+               */
+              public I_CmsFormWidget createWidget(
+                  Map<String, String> widgetParams, Optional<String> defaultValue) {
 
                 String cfg = widgetParams.get("v");
                 if (CmsStringUtil.isEmptyOrWhitespaceOnly(cfg)) {
-                    // something went wrong, fall back to text box
-                    return new CmsTextBox();
+                  // something went wrong, fall back to text box
+                  return new CmsTextBox();
                 } else {
-                    return new CmsTinyMCEWidget(decode(cfg));
+                  return new CmsTinyMCEWidget(decode(cfg));
                 }
-            }
+              }
 
-            private String decode(String string) {
+              private String decode(String string) {
 
                 StringBuffer result = new StringBuffer();
                 for (String num : string.split(",")) {
-                    result.append((char)(Integer.parseInt(num)));
+                  result.append((char) (Integer.parseInt(num)));
                 }
                 return result.toString();
-            }
-        });
+              }
+            });
+  }
+
+  /**
+   * Decrements the attach count, removes preview event handler when we go from 1 to 0.
+   *
+   * <p>
+   */
+  private static void decrementAttached() {
+
+    attachCount -= 1;
+    if ((attachCount < 1) && (previewRegistration != null)) {
+      previewRegistration.removeHandler();
+      previewRegistration = null;
     }
+  }
 
-    /**
-     * Decrements the attach count, removes preview event handler when we go from 1 to 0.<p>
-     */
-    private static void decrementAttached() {
+  /**
+   * Increments the attach count, installs preview event handler when we go from 0 to 1.
+   *
+   * <p>
+   */
+  private static void incrementAttached() {
 
-        attachCount -= 1;
-        if ((attachCount < 1) && (previewRegistration != null)) {
-            previewRegistration.removeHandler();
-            previewRegistration = null;
-        }
+    attachCount += 1;
+    if (attachCount == 1) {
+      // Prevent events on TinyMCE popups from being cancelled by the PopupPanel containing the
+      // property dialog
 
-    }
-
-    /**
-     * Increments the attach count, installs preview event handler when we go from 0 to 1.<p>
-     */
-    private static void incrementAttached() {
-
-        attachCount += 1;
-        if (attachCount == 1) {
-            // Prevent events on TinyMCE popups from being cancelled by the PopupPanel containing the property dialog
-
-            previewRegistration = Event.addNativePreviewHandler(new NativePreviewHandler() {
+      previewRegistration =
+          Event.addNativePreviewHandler(
+              new NativePreviewHandler() {
 
                 public void onPreviewNativeEvent(NativePreviewEvent pEvent) {
 
-                    Event event = Event.as(pEvent.getNativeEvent());
-                    EventTarget target = event.getEventTarget();
-                    if (Element.is(target)) {
-                        Element elem = Element.as(target);
-                        while (elem != null) {
-                            if (elem.getClassName().contains("mce-floatpanel")) {
-                                pEvent.consume();
-                                return;
-                            }
-                            elem = elem.getParentElement();
-                        }
-
+                  Event event = Event.as(pEvent.getNativeEvent());
+                  EventTarget target = event.getEventTarget();
+                  if (Element.is(target)) {
+                    Element elem = Element.as(target);
+                    while (elem != null) {
+                      if (elem.getClassName().contains("mce-floatpanel")) {
+                        pEvent.consume();
+                        return;
+                      }
+                      elem = elem.getParentElement();
                     }
-
+                  }
                 }
-            });
-
-        }
+              });
     }
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasResizeHandlers#addResizeHandler(com.google.gwt.event.logical.shared.ResizeHandler)
-     */
-    public HandlerRegistration addResizeHandler(ResizeHandler handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasResizeHandlers#addResizeHandler(com.google.gwt.event.logical.shared.ResizeHandler)
+   */
+  public HandlerRegistration addResizeHandler(ResizeHandler handler) {
 
-        return addHandler(handler, ResizeEvent.getType());
+    return addHandler(handler, ResizeEvent.getType());
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  @Override
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+
+    return addHandler(handler, ValueChangeEvent.getType());
+  }
+
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getApparentValue() */
+  public String getApparentValue() {
+
+    return getFormValueAsString();
+  }
+
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getFieldType() */
+  public FieldType getFieldType() {
+
+    return FieldType.STRING;
+  }
+
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getFormValue() */
+  public Object getFormValue() {
+
+    return getFormValueAsString();
+  }
+
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getFormValueAsString() */
+  public String getFormValueAsString() {
+
+    return getValue();
+  }
+
+  /**
+   * Gets the main editable element.
+   *
+   * <p>
+   *
+   * @return the editable element
+   */
+  public Element getMainElement() {
+
+    return m_contentElement;
+  }
+
+  /**
+   * Gets the value.
+   *
+   * <p>
+   *
+   * @return the value
+   */
+  public String getValue() {
+
+    if (m_editor != null) {
+      return getContent().trim();
     }
+    return m_originalContent.trim();
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    @Override
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#isEnabled() */
+  public boolean isEnabled() {
 
-        return addHandler(handler, ValueChangeEvent.getType());
+    return m_enabled;
+  }
+
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#reset() */
+  public void reset() {
+
+    setFormValueAsString("");
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.I_CmsFormWidget#setAutoHideParent(org.opencms.gwt.client.ui.I_CmsAutoHider)
+   */
+  public void setAutoHideParent(I_CmsAutoHider autoHideParent) {
+
+    // not supported
+  }
+
+  /**
+   * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#setEnabled(boolean)
+   *     <p>Partial support: This only works before the actual TinyMCE instance is loaded.
+   */
+  public void setEnabled(boolean enabled) {
+
+    m_enabled = enabled;
+  }
+
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#setErrorMessage(java.lang.String) */
+  public void setErrorMessage(String errorMessage) {
+
+    // not supported
+  }
+
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#setFormValueAsString(java.lang.String) */
+  public void setFormValueAsString(String value) {
+
+    setValue(value, false);
+  }
+
+  /**
+   * Sets the value.
+   *
+   * <p>
+   *
+   * @param value the value
+   * @param fireEvents true if value change event should be fired
+   */
+  public void setValue(String value, boolean fireEvents) {
+
+    if (value != null) {
+      value = value.trim();
     }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getApparentValue()
-     */
-    public String getApparentValue() {
-
-        return getFormValueAsString();
+    if (!Objects.equal(value, getValue())) {
+      setPreviousValue(value);
+      if (m_editor == null) {
+        // editor has not been initialized yet
+        m_originalContent = value;
+      } else {
+        m_externalValueChange = true;
+        setContent(value);
+      }
+      if (fireEvents) {
+        fireValueChange(true);
+      }
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getFieldType()
-     */
-    public FieldType getFieldType() {
-
-        return FieldType.STRING;
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getFormValue()
-     */
-    public Object getFormValue() {
-
-        return getFormValueAsString();
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getFormValueAsString()
-     */
-    public String getFormValueAsString() {
-
-        return getValue();
-
-    }
-
-    /**
-     * Gets the main editable element.<p>
-     *
-     * @return the editable element
-     */
-    public Element getMainElement() {
-
-        return m_contentElement;
-    }
-
-    /**
-     * Gets the value.<p>
-     *
-     * @return the value
-     */
-    public String getValue() {
-
-        if (m_editor != null) {
-            return getContent().trim();
-        }
-        return m_originalContent.trim();
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#isEnabled()
-     */
-    public boolean isEnabled() {
-
-        return m_enabled;
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#reset()
-     */
-    public void reset() {
-
-        setFormValueAsString("");
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#setAutoHideParent(org.opencms.gwt.client.ui.I_CmsAutoHider)
-     */
-    public void setAutoHideParent(I_CmsAutoHider autoHideParent) {
-
-        // not supported
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#setEnabled(boolean)
-     *
-     * Partial support: This only works before the actual TinyMCE instance is loaded.
-     */
-    public void setEnabled(boolean enabled) {
-
-        m_enabled = enabled;
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#setErrorMessage(java.lang.String)
-     */
-    public void setErrorMessage(String errorMessage) {
-
-        // not supported
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#setFormValueAsString(java.lang.String)
-     */
-    public void setFormValueAsString(String value) {
-
-        setValue(value, false);
-    }
-
-    /**
-     * Sets the value.<p>
-     *
-     * @param value the value
-     * @param fireEvents true if value change event should be fired
-     */
-    public void setValue(String value, boolean fireEvents) {
-
-        if (value != null) {
-            value = value.trim();
-        }
-        if (!Objects.equal(value, getValue())) {
-            setPreviousValue(value);
-            if (m_editor == null) {
-                // editor has not been initialized yet
-                m_originalContent = value;
-            } else {
-                m_externalValueChange = true;
-                setContent(value);
-            }
-            if (fireEvents) {
-                fireValueChange(true);
-            }
-        }
-
-    }
-
-    /**
-     * Checks whether the necessary Javascript libraries are available by accessing them.
-     */
-    protected native void checkLibraries() /*-{
+  /** Checks whether the necessary Javascript libraries are available by accessing them. */
+  protected native void checkLibraries() /*-{
 		// fail early if tinymce is not available
 		var w = $wnd;
 		var init = w.tinyMCE.init;
     }-*/;
 
-    /**
-     * Gives an element an id if it doesn't already have an id, and then returns the element's id.<p>
-     *
-     * @param element the element for which we want to add the id
-     *
-     * @return the id
-     */
-    protected String ensureId(Element element) {
+  /**
+   * Gives an element an id if it doesn't already have an id, and then returns the element's id.
+   *
+   * <p>
+   *
+   * @param element the element for which we want to add the id
+   * @return the id
+   */
+  protected String ensureId(Element element) {
 
-        String id = element.getId();
-        if ((id == null) || "".equals(id)) {
-            id = Document.get().createUniqueId();
-            element.setId(id);
-        }
-        return id;
+    String id = element.getId();
+    if ((id == null) || "".equals(id)) {
+      id = Document.get().createUniqueId();
+      element.setId(id);
     }
+    return id;
+  }
 
-    /**
-     * Fires a change event.<p>
-     *
-     * @param force true if the event should be fired even if the value does not differ from the previous one
-     */
-    protected void fireValueChange(boolean force) {
+  /**
+   * Fires a change event.
+   *
+   * <p>
+   *
+   * @param force true if the event should be fired even if the value does not differ from the
+   *     previous one
+   */
+  protected void fireValueChange(boolean force) {
 
-        String currentValue = getValue();
-        if (force || !currentValue.equals(m_previousValue)) {
-            m_previousValue = currentValue;
-            ValueChangeEvent.fire(this, currentValue);
-        }
-
+    String currentValue = getValue();
+    if (force || !currentValue.equals(m_previousValue)) {
+      m_previousValue = currentValue;
+      ValueChangeEvent.fire(this, currentValue);
     }
+  }
 
-    /**
-     * Returns the editor parent element.<p>
-     *
-     * @return the editor parent element
-     */
-    protected Element getEditorParentElement() {
+  /**
+   * Returns the editor parent element.
+   *
+   * <p>
+   *
+   * @return the editor parent element
+   */
+  protected Element getEditorParentElement() {
 
-        String parentId = m_id + "_parent";
-        Element result = getElementById(parentId);
-        return result;
-    }
+    String parentId = m_id + "_parent";
+    Element result = getElementById(parentId);
+    return result;
+  }
 
-    /**
-     * Gets an element by its id.<p>
-     *
-     * @param id the id
-     * @return the element with the given id
-     */
-    protected native Element getElementById(String id) /*-{
+  /**
+   * Gets an element by its id.
+   *
+   * <p>
+   *
+   * @param id the id
+   * @return the element with the given id
+   */
+  protected native Element getElementById(String id) /*-{
 		return $doc.getElementById(id);
     }-*/;
 
-    /**
-     * Gets the toolbar element.<p>
-     *
-     * @return the toolbar element
-     */
-    protected Element getToolbarElement() {
+  /**
+   * Gets the toolbar element.
+   *
+   * <p>
+   *
+   * @return the toolbar element
+   */
+  protected Element getToolbarElement() {
 
-        String toolbarId = m_id + "_external";
-        Element result = getElementById(toolbarId);
-        return result;
+    String toolbarId = m_id + "_external";
+    Element result = getElementById(toolbarId);
+    return result;
+  }
+
+  /** @see com.google.gwt.user.client.ui.Widget#onDetach() */
+  @Override
+  protected void onDetach() {
+
+    try {
+      detachEditor();
+    } catch (Throwable t) {
+      // may happen in rare cases, can be ignored
     }
+    super.onDetach();
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.Widget#onDetach()
-     */
-    @Override
-    protected void onDetach() {
+  /** @see com.google.gwt.user.client.ui.Widget#onLoad() */
+  @Override
+  protected void onLoad() {
 
-        try {
-            detachEditor();
-        } catch (Throwable t) {
-            // may happen in rare cases, can be ignored
-        }
-        super.onDetach();
-    }
+    incrementAttached();
 
-    /**
-     * @see com.google.gwt.user.client.ui.Widget#onLoad()
-     */
-    @Override
-    protected void onLoad() {
-
-        incrementAttached();
-
-        if (!m_hasBeenAttached) {
-            m_hasBeenAttached = true;
-            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+    if (!m_hasBeenAttached) {
+      m_hasBeenAttached = true;
+      Scheduler.get()
+          .scheduleDeferred(
+              new ScheduledCommand() {
 
                 @SuppressWarnings("synthetic-access")
                 public void execute() {
 
-                    if (isAttached()) {
-                        m_editorHeight = calculateEditorHeight();
-                        m_id = ensureId(getMainElement());
-                        m_width = calculateWidth();
-                        checkLibraries();
-                        initNative(!m_enabled);
-                    } else {
-                        resetAtachedFlag();
-                    }
+                  if (isAttached()) {
+                    m_editorHeight = calculateEditorHeight();
+                    m_id = ensureId(getMainElement());
+                    m_width = calculateWidth();
+                    checkLibraries();
+                    initNative(!m_enabled);
+                  } else {
+                    resetAtachedFlag();
+                  }
                 }
-            });
-        }
+              });
     }
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.Widget#onUnload()
-     */
-    @Override
-    protected void onUnload() {
+  /** @see com.google.gwt.user.client.ui.Widget#onUnload() */
+  @Override
+  protected void onUnload() {
 
-        decrementAttached();
-    }
+    decrementAttached();
+  }
 
-    /**
-     * Propagates the a focus event.<p>
-     */
-    protected void propagateFocusEvent() {
+  /**
+   * Propagates the a focus event.
+   *
+   * <p>
+   */
+  protected void propagateFocusEvent() {
 
-        NativeEvent nativeEvent = Document.get().createFocusEvent();
-        DomEvent.fireNativeEvent(nativeEvent, this, getElement());
-    }
+    NativeEvent nativeEvent = Document.get().createFocusEvent();
+    DomEvent.fireNativeEvent(nativeEvent, this, getElement());
+  }
 
-    /**
-     * Propagates a native mouse event.<p>
-     *
-     * @param eventType the mouse event type
-     * @param eventSource the event source
-     */
-    protected native void propagateMouseEvent(String eventType, Element eventSource) /*-{
+  /**
+   * Propagates a native mouse event.
+   *
+   * <p>
+   *
+   * @param eventType the mouse event type
+   * @param eventSource the event source
+   */
+  protected native void propagateMouseEvent(String eventType, Element eventSource) /*-{
 		var doc = $wnd.document;
 		var event;
 		if (doc.createEvent) {
@@ -531,90 +546,105 @@ implements I_CmsFormWidget, HasResizeHandlers, I_CmsHasInit, HasValueChangeHandl
 		}
     }-*/;
 
-    /**
-     * Sets focus to the editor. Use only when in line editing.<p>
-     */
-    protected native void refocusInlineEditor() /*-{
+  /**
+   * Sets focus to the editor. Use only when in line editing.
+   *
+   * <p>
+   */
+  protected native void refocusInlineEditor() /*-{
 		var elem = $wnd.document
 				.getElementById(this.@org.opencms.gwt.client.ui.input.tinymce.CmsTinyMCEWidget::m_id);
 		elem.blur();
 		elem.focus();
     }-*/;
 
-    /**
-     * Removes the editor instance.<p>
-     */
-    protected native void removeEditor() /*-{
+  /**
+   * Removes the editor instance.
+   *
+   * <p>
+   */
+  protected native void removeEditor() /*-{
 		var editor = this.@org.opencms.gwt.client.ui.input.tinymce.CmsTinyMCEWidget::m_editor;
 		editor.remove();
     }-*/;
 
-    /**
-     * Schedules to reset the focus to the main element.<p>
-     */
-    protected void scheduleRefocus() {
+  /**
+   * Schedules to reset the focus to the main element.
+   *
+   * <p>
+   */
+  protected void scheduleRefocus() {
 
-        // this needs to be delayed a bit, otherwise the toolbar is not rendered properly
-        Timer focusTimer = new Timer() {
+    // this needs to be delayed a bit, otherwise the toolbar is not rendered properly
+    Timer focusTimer =
+        new Timer() {
 
-            @Override
-            public void run() {
+          @Override
+          public void run() {
 
-                refocusInlineEditor();
-            }
+            refocusInlineEditor();
+          }
         };
-        focusTimer.schedule(150);
-    }
+    focusTimer.schedule(150);
+  }
 
-    /**
-     * Sets the main content of the element which is inline editable.<p>
-     *
-     * @param html the new content html
-     */
-    protected native void setMainElementContent(String html) /*-{
+  /**
+   * Sets the main content of the element which is inline editable.
+   *
+   * <p>
+   *
+   * @param html the new content html
+   */
+  protected native void setMainElementContent(String html) /*-{
 		var instance = this;
 		var elementId = instance.@org.opencms.gwt.client.ui.input.tinymce.CmsTinyMCEWidget::m_id;
 		var mainElement = $wnd.document.getElementById(elementId);
 		mainElement.innerHTML = html;
     }-*/;
 
-    /**
-     * Sets the previous value.<p>
-     *
-     * @param previousValue the previous value to set
-     */
-    protected void setPreviousValue(String previousValue) {
+  /**
+   * Sets the previous value.
+   *
+   * <p>
+   *
+   * @param previousValue the previous value to set
+   */
+  protected void setPreviousValue(String previousValue) {
 
-        m_previousValue = previousValue;
-    }
+    m_previousValue = previousValue;
+  }
 
-    /**
-     * Calculates the needed editor height.<p>
-     *
-     * @return the calculated editor height
-     */
-    int calculateEditorHeight() {
+  /**
+   * Calculates the needed editor height.
+   *
+   * <p>
+   *
+   * @return the calculated editor height
+   */
+  int calculateEditorHeight() {
 
-        int result = getElement().getOffsetHeight() + 30;
-        return result > MIN_EDITOR_HEIGHT ? result : MIN_EDITOR_HEIGHT;
-    }
+    int result = getElement().getOffsetHeight() + 30;
+    return result > MIN_EDITOR_HEIGHT ? result : MIN_EDITOR_HEIGHT;
+  }
 
-    /**
-     * Calculates the widget width.<p>
-     *
-     * @return the widget width
-     */
-    int calculateWidth() {
+  /**
+   * Calculates the widget width.
+   *
+   * <p>
+   *
+   * @return the widget width
+   */
+  int calculateWidth() {
 
-        return getElement().getOffsetWidth() - 2;
-    }
+    return getElement().getOffsetWidth() - 2;
+  }
 
-    /**
-     * Initializes the TinyMCE instance.
-     *
-     * @param readonly if true, initialize TinyMCE in readonly mode
-     */
-    native void initNative(boolean readonly) /*-{
+  /**
+   * Initializes the TinyMCE instance.
+   *
+   * @param readonly if true, initialize TinyMCE in readonly mode
+   */
+  native void initNative(boolean readonly) /*-{
 
 		function merge() {
 			var result = {}, length = arguments.length;
@@ -701,18 +731,22 @@ implements I_CmsFormWidget, HasResizeHandlers, I_CmsHasInit, HasValueChangeHandl
 		$wnd.tinymce.init(defaults);
     }-*/;
 
-    /**
-     * Resets the attached flag.<p>
-     */
-    void resetAtachedFlag() {
+  /**
+   * Resets the attached flag.
+   *
+   * <p>
+   */
+  void resetAtachedFlag() {
 
-        m_hasBeenAttached = false;
-    }
+    m_hasBeenAttached = false;
+  }
 
-    /**
-     * Removes the editor.<p>
-     */
-    private native void detachEditor() /*-{
+  /**
+   * Removes the editor.
+   *
+   * <p>
+   */
+  private native void detachEditor() /*-{
 
 		var ed = this.@org.opencms.gwt.client.ui.input.tinymce.CmsTinyMCEWidget::m_editor;
 		if (ed != null) {
@@ -724,71 +758,81 @@ implements I_CmsFormWidget, HasResizeHandlers, I_CmsHasInit, HasValueChangeHandl
 		}
     }-*/;
 
-    /**
-     * Used to fire the value changed event from native code.<p>
-     */
-    private void fireChangeFromNative() {
+  /**
+   * Used to fire the value changed event from native code.
+   *
+   * <p>
+   */
+  private void fireChangeFromNative() {
 
-        // skip firing the change event, if the external flag is set
-        //        String message = "fireChangeFromNative\n";
-        //        message += "init: " + m_initialized + "\n";
-        //        message += "external: " + m_externalValueChange + "\n";
-        //        CmsDebugLog.consoleLog(message);
+    // skip firing the change event, if the external flag is set
+    //        String message = "fireChangeFromNative\n";
+    //        message += "init: " + m_initialized + "\n";
+    //        message += "external: " + m_externalValueChange + "\n";
+    //        CmsDebugLog.consoleLog(message);
 
-        if (m_initialized && !m_externalValueChange) {
-            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+    if (m_initialized && !m_externalValueChange) {
+      Scheduler.get()
+          .scheduleDeferred(
+              new ScheduledCommand() {
 
                 public void execute() {
 
-                    try {
-                        CmsTinyMCEWidget.this.fireValueChange(false);
-                    } catch (Throwable t) {
-                        // this may happen when returning from full screen mode, nothing to be done
-                    }
+                  try {
+                    CmsTinyMCEWidget.this.fireValueChange(false);
+                  } catch (Throwable t) {
+                    // this may happen when returning from full screen mode, nothing to be done
+                  }
                 }
-            });
-        }
-        // reset the external flag
-        m_externalValueChange = false;
+              });
     }
+    // reset the external flag
+    m_externalValueChange = false;
+  }
 
-    /**
-     * Fires the resize event.<p>
-     */
-    private void fireResizeEvent() {
+  /**
+   * Fires the resize event.
+   *
+   * <p>
+   */
+  private void fireResizeEvent() {
 
-        ResizeEvent.fire(this, getOffsetWidth(), getOffsetHeight());
-    }
+    ResizeEvent.fire(this, getOffsetWidth(), getOffsetHeight());
+  }
 
-    /**
-     * Returns the editor content.<p>
-     *
-     * @return the editor content
-     */
-    private native String getContent() /*-{
+  /**
+   * Returns the editor content.
+   *
+   * <p>
+   *
+   * @return the editor content
+   */
+  private native String getContent() /*-{
 		var editor = this.@org.opencms.gwt.client.ui.input.tinymce.CmsTinyMCEWidget::m_editor;
 		return editor.getContent();
     }-*/;
 
-    /**
-     * Sets the content of the TinyMCE editor.<p>
-     *
-     * @param newContent the new content
-     */
-    private native void setContent(String newContent) /*-{
+  /**
+   * Sets the content of the TinyMCE editor.
+   *
+   * <p>
+   *
+   * @param newContent the new content
+   */
+  private native void setContent(String newContent) /*-{
 		var editor = this.@org.opencms.gwt.client.ui.input.tinymce.CmsTinyMCEWidget::m_editor;
 		editor.setContent(newContent);
     }-*/;
 
-    /**
-     * Sets the editor status to enabled/disabled.<p>
-     *
-     * Warning: This only works before the TinyMCE editor has actually been initialized
-     * @param editor the editor instance
-     * @param enabled true if editor should be enabled
-     */
-    private native void setEnabled(JavaScriptObject editor, boolean enabled) /*-{
+  /**
+   * Sets the editor status to enabled/disabled.
+   *
+   * <p>Warning: This only works before the TinyMCE editor has actually been initialized
+   *
+   * @param editor the editor instance
+   * @param enabled true if editor should be enabled
+   */
+  private native void setEnabled(JavaScriptObject editor, boolean enabled) /*-{
 		editor.getBody().setAttribute('contenteditable', enabled);
     }-*/;
-
 }

@@ -27,6 +27,10 @@
 
 package org.opencms.workplace.galleries;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsResource;
 import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.json.JSONException;
@@ -39,124 +43,130 @@ import org.opencms.main.OpenCms;
 import org.opencms.workplace.CmsDialog;
 import org.opencms.workplace.CmsWorkplaceSettings;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Provides methods for open gallery dialog.<p>
+ * Provides methods for open gallery dialog.
  *
- * The following files use this class:
+ * <p>The following files use this class:
+ *
  * <ul>
- * <li>/commons/opengallery.jsp
+ *   <li>/commons/opengallery.jsp
  * </ul>
+ *
  * <p>
  *
  * @since 6.0.0
  */
 public class CmsOpenGallery extends CmsDialog {
 
-    /** The dialog type. */
-    public static final String DIALOG_TYPE = "opengallery";
+  /** The dialog type. */
+  public static final String DIALOG_TYPE = "opengallery";
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsOpenGallery.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsOpenGallery.class);
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsOpenGallery(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsOpenGallery(CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsOpenGallery(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsOpenGallery(PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-    /**
-     * Generates a javascript window open for the requested gallery type.<p>
-     *
-     * @return a javascript window open for the requested gallery type
-     */
-    public String openGallery() {
+  /**
+   * Generates a javascript window open for the requested gallery type.
+   *
+   * <p>
+   *
+   * @return a javascript window open for the requested gallery type
+   */
+  public String openGallery() {
 
-        StringBuffer jsOpener = new StringBuffer(32);
-        String galleryType = null;
-        try {
-            CmsResource res = getCms().readResource(getParamResource());
-            if (res != null) {
-                // get gallery path
-                String galleryPath = getParamResource();
-                if (!galleryPath.endsWith("/")) {
-                    galleryPath += "/";
-                }
-                // get the matching gallery type name
-                galleryType = OpenCms.getResourceManager().getResourceType(res.getTypeId()).getTypeName();
-                StringBuffer galleryUri = new StringBuffer(256);
-                galleryUri.append(A_CmsAjaxGallery.PATH_GALLERIES);
-                String width = "650";
-                String height = "700";
-                // path to the gallery dialog with the required request parameters
-                galleryUri.append(galleryType);
-                galleryUri.append("/index.jsp?");
-                galleryUri.append(A_CmsAjaxGallery.PARAM_DIALOGMODE);
-                galleryUri.append("=");
-                galleryUri.append(A_CmsAjaxGallery.MODE_VIEW);
-                galleryUri.append("&");
-                galleryUri.append(A_CmsAjaxGallery.PARAM_PARAMS);
-                galleryUri.append("=");
-                JSONObject jsonObj = new JSONObject();
-                try {
-                    jsonObj.putOpt(A_CmsAjaxGallery.PARAM_STARTUPFOLDER, galleryPath);
-                    jsonObj.putOpt(A_CmsAjaxGallery.PARAM_STARTUPTYPE, A_CmsAjaxGallery.LISTMODE_GALLERY);
-                } catch (JSONException e) {
-                    // ignore, because it should not happen!
-                }
-                galleryUri.append(jsonObj.toString());
-                // open new gallery dialog
-                jsOpener.append("window.open('");
-                jsOpener.append(getJsp().link(galleryUri.toString()));
-
-                jsOpener.append("', '");
-                jsOpener.append(galleryType);
-                jsOpener.append("','width=");
-                jsOpener.append(width);
-                jsOpener.append(", height=");
-                jsOpener.append(height);
-                jsOpener.append(", resizable=yes, top=100, left=270, status=yes');");
-            }
-        } catch (CmsException e) {
-            // requested type is not configured
-            CmsMessageContainer message = Messages.get().container(Messages.ERR_OPEN_GALLERY_1, galleryType);
-            LOG.error(message.key(), e);
-            throw new CmsRuntimeException(message, e);
+    StringBuffer jsOpener = new StringBuffer(32);
+    String galleryType = null;
+    try {
+      CmsResource res = getCms().readResource(getParamResource());
+      if (res != null) {
+        // get gallery path
+        String galleryPath = getParamResource();
+        if (!galleryPath.endsWith("/")) {
+          galleryPath += "/";
         }
+        // get the matching gallery type name
+        galleryType = OpenCms.getResourceManager().getResourceType(res.getTypeId()).getTypeName();
+        StringBuffer galleryUri = new StringBuffer(256);
+        galleryUri.append(A_CmsAjaxGallery.PATH_GALLERIES);
+        String width = "650";
+        String height = "700";
+        // path to the gallery dialog with the required request parameters
+        galleryUri.append(galleryType);
+        galleryUri.append("/index.jsp?");
+        galleryUri.append(A_CmsAjaxGallery.PARAM_DIALOGMODE);
+        galleryUri.append("=");
+        galleryUri.append(A_CmsAjaxGallery.MODE_VIEW);
+        galleryUri.append("&");
+        galleryUri.append(A_CmsAjaxGallery.PARAM_PARAMS);
+        galleryUri.append("=");
+        JSONObject jsonObj = new JSONObject();
+        try {
+          jsonObj.putOpt(A_CmsAjaxGallery.PARAM_STARTUPFOLDER, galleryPath);
+          jsonObj.putOpt(A_CmsAjaxGallery.PARAM_STARTUPTYPE, A_CmsAjaxGallery.LISTMODE_GALLERY);
+        } catch (JSONException e) {
+          // ignore, because it should not happen!
+        }
+        galleryUri.append(jsonObj.toString());
+        // open new gallery dialog
+        jsOpener.append("window.open('");
+        jsOpener.append(getJsp().link(galleryUri.toString()));
 
-        return jsOpener.toString();
+        jsOpener.append("', '");
+        jsOpener.append(galleryType);
+        jsOpener.append("','width=");
+        jsOpener.append(width);
+        jsOpener.append(", height=");
+        jsOpener.append(height);
+        jsOpener.append(", resizable=yes, top=100, left=270, status=yes');");
+      }
+    } catch (CmsException e) {
+      // requested type is not configured
+      CmsMessageContainer message =
+          Messages.get().container(Messages.ERR_OPEN_GALLERY_1, galleryType);
+      LOG.error(message.key(), e);
+      throw new CmsRuntimeException(message, e);
     }
 
-    /**
-     * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    return jsOpener.toString();
+  }
 
-        // fill the parameter values in the get/set methods
-        fillParamValues(request);
-        // set the dialog type
-        setParamDialogtype(DIALOG_TYPE);
-    }
+  /**
+   * @see
+   *     org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings,
+   *     javax.servlet.http.HttpServletRequest)
+   */
+  @Override
+  protected void initWorkplaceRequestValues(
+      CmsWorkplaceSettings settings, HttpServletRequest request) {
+
+    // fill the parameter values in the get/set methods
+    fillParamValues(request);
+    // set the dialog type
+    setParamDialogtype(DIALOG_TYPE);
+  }
 }

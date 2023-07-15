@@ -27,92 +27,103 @@
 
 package org.opencms.workplace.list;
 
-import org.opencms.i18n.CmsMessageContainer;
-
 import java.util.Date;
 import java.util.Locale;
+import org.opencms.i18n.CmsMessageContainer;
 
 /**
- * Formatter for dates.<p>
+ * Formatter for dates.
  *
- * The 'never' message will be displayed if the date is null or <code>{@link Date#getTime()}==0</code>.<p>
+ * <p>The 'never' message will be displayed if the date is null or <code>{@link Date#getTime()}==0
+ * </code>.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListDateMacroFormatter extends CmsListMacroFormatter {
 
-    /** Constant for never message. */
-    private final CmsMessageContainer m_never;
+  /** Constant for never message. */
+  private final CmsMessageContainer m_never;
 
-    /** Constant for never time. */
-    private final long m_neverTime;
+  /** Constant for never time. */
+  private final long m_neverTime;
 
-    /**
-     * Default constructor that sets the mask to use.<p>
-     *
-     * @param mask pattern for <code>{@link java.text.MessageFormat}</code>
-     * @param never message (without args) for the 'never' message
-     */
-    public CmsListDateMacroFormatter(CmsMessageContainer mask, CmsMessageContainer never) {
+  /**
+   * Default constructor that sets the mask to use.
+   *
+   * <p>
+   *
+   * @param mask pattern for <code>{@link java.text.MessageFormat}</code>
+   * @param never message (without args) for the 'never' message
+   */
+  public CmsListDateMacroFormatter(CmsMessageContainer mask, CmsMessageContainer never) {
 
-        this(mask, never, 0);
+    this(mask, never, 0);
+  }
+
+  /**
+   * Default constructor that sets the mask to use.
+   *
+   * <p>
+   *
+   * @param mask pattern for <code>{@link java.text.MessageFormat}</code>
+   * @param never message (without args) for the 'never' message
+   * @param neverTime the time considered as 'never', default is <code>0</code>
+   */
+  public CmsListDateMacroFormatter(
+      CmsMessageContainer mask, CmsMessageContainer never, long neverTime) {
+
+    super(mask);
+    m_never = never;
+    m_neverTime = neverTime;
+  }
+
+  /**
+   * Returns a default date formatter object.
+   *
+   * <p>
+   *
+   * @return a default date formatter object
+   */
+  public static I_CmsListFormatter getDefaultDateFormatter() {
+
+    return new CmsListDateMacroFormatter(
+        Messages.get().container(Messages.GUI_LIST_DATE_FORMAT_1),
+        Messages.get().container(Messages.GUI_LIST_DATE_FORMAT_NEVER_0));
+  }
+
+  /**
+   * Returns a default date formatter object.
+   *
+   * <p>
+   *
+   * @param never time considered as never
+   * @return a default date formatter object
+   */
+  public static I_CmsListFormatter getDefaultDateFormatter(long never) {
+
+    return new CmsListDateMacroFormatter(
+        Messages.get().container(Messages.GUI_LIST_DATE_FORMAT_1),
+        Messages.get().container(Messages.GUI_LIST_DATE_FORMAT_NEVER_0),
+        never);
+  }
+
+  /**
+   * @see org.opencms.workplace.list.CmsListMacroFormatter#format(java.lang.Object,
+   *     java.util.Locale)
+   */
+  @Override
+  public String format(Object data, Locale locale) {
+
+    if (data == null) {
+      return m_never.key(locale);
     }
-
-    /**
-     * Default constructor that sets the mask to use.<p>
-     *
-     * @param mask pattern for <code>{@link java.text.MessageFormat}</code>
-     * @param never message (without args) for the 'never' message
-     * @param neverTime the time considered as 'never', default is <code>0</code>
-     */
-    public CmsListDateMacroFormatter(CmsMessageContainer mask, CmsMessageContainer never, long neverTime) {
-
-        super(mask);
-        m_never = never;
-        m_neverTime = neverTime;
+    if (data instanceof Date) {
+      if (((Date) data).getTime() == m_neverTime) {
+        return m_never.key(locale);
+      }
     }
-
-    /**
-     * Returns a default date formatter object.<p>
-     *
-     * @return a default date formatter object
-     */
-    public static I_CmsListFormatter getDefaultDateFormatter() {
-
-        return new CmsListDateMacroFormatter(
-            Messages.get().container(Messages.GUI_LIST_DATE_FORMAT_1),
-            Messages.get().container(Messages.GUI_LIST_DATE_FORMAT_NEVER_0));
-    }
-
-    /**
-     * Returns a default date formatter object.<p>
-     *
-     * @param never time considered as never
-     *
-     * @return a default date formatter object
-     */
-    public static I_CmsListFormatter getDefaultDateFormatter(long never) {
-
-        return new CmsListDateMacroFormatter(
-            Messages.get().container(Messages.GUI_LIST_DATE_FORMAT_1),
-            Messages.get().container(Messages.GUI_LIST_DATE_FORMAT_NEVER_0),
-            never);
-    }
-
-    /**
-     * @see org.opencms.workplace.list.CmsListMacroFormatter#format(java.lang.Object, java.util.Locale)
-     */
-    @Override
-    public String format(Object data, Locale locale) {
-
-        if (data == null) {
-            return m_never.key(locale);
-        }
-        if (data instanceof Date) {
-            if (((Date)data).getTime() == m_neverTime) {
-                return m_never.key(locale);
-            }
-        }
-        return super.format(data, locale);
-    }
+    return super.format(data, locale);
+  }
 }

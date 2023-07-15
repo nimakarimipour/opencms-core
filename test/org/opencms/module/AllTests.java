@@ -27,45 +27,49 @@
 
 package org.opencms.module;
 
-import org.opencms.test.OpenCmsTestProperties;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.opencms.test.OpenCmsTestProperties;
 
 /**
- * Main test suite for the package <code>{@link org.opencms.module}</code>.<p>
+ * Main test suite for the package <code>{@link org.opencms.module}</code>.
  *
+ * <p>
  *
  * @since 6.0
  */
 public final class AllTests {
 
-    /**
-     * Hide constructor to prevent generation of class instances.<p>
-     */
-    private AllTests() {
+  /**
+   * Hide constructor to prevent generation of class instances.
+   *
+   * <p>
+   */
+  private AllTests() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * Returns the JUnit test suite for this package.<p>
-     *
-     * @return the JUnit test suite for this package
-     */
-    public static Test suite() {
+  /**
+   * Returns the JUnit test suite for this package.
+   *
+   * <p>
+   *
+   * @return the JUnit test suite for this package
+   */
+  public static Test suite() {
 
-        TestSuite suite = new TestSuite("Tests for package " + AllTests.class.getPackage().getName());
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
-        //$JUnit-BEGIN$
-        suite.addTest(new TestSuite(TestCmsModuleNameGeneration.class));
-        suite.addTest(new TestSuite(TestCmsModuleVersion.class));
-        suite.addTest(TestModuleOperations.suite());
-        suite.addTest(TestModuleIssues.suite());
-        suite.addTest(TestModuleDeleteThread.suite());
-        suite.addTest(TestModuleExcludeResources.suite());
-        suite.addTest(TestModuleUpdate.suite());
-        //$JUnit-END$
-        return suite;
-    }
+    TestSuite suite = new TestSuite("Tests for package " + AllTests.class.getPackage().getName());
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    // $JUnit-BEGIN$
+    suite.addTest(new TestSuite(TestCmsModuleNameGeneration.class));
+    suite.addTest(new TestSuite(TestCmsModuleVersion.class));
+    suite.addTest(TestModuleOperations.suite());
+    suite.addTest(TestModuleIssues.suite());
+    suite.addTest(TestModuleDeleteThread.suite());
+    suite.addTest(TestModuleExcludeResources.suite());
+    suite.addTest(TestModuleUpdate.suite());
+    // $JUnit-END$
+    return suite;
+  }
 }

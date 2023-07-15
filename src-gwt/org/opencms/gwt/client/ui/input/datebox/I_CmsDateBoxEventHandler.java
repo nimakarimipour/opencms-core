@@ -30,15 +30,18 @@ package org.opencms.gwt.client.ui.input.datebox;
 import com.google.gwt.event.shared.EventHandler;
 
 /**
- * Interface for date box event handlers.<p>
+ * Interface for date box event handlers.
+ *
+ * <p>
  */
 public interface I_CmsDateBoxEventHandler extends EventHandler {
 
-    /**
-     * Called for date box events.<p>
-     *
-     * @param event the date box event
-     */
-    void onDateBoxEvent(CmsDateBoxEvent event);
-
+  /**
+   * Called for date box events.
+   *
+   * <p>
+   *
+   * @param event the date box event
+   */
+  void onDateBoxEvent(CmsDateBoxEvent event);
 }

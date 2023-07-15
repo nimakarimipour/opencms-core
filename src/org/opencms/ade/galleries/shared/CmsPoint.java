@@ -30,62 +30,69 @@ package org.opencms.ade.galleries.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * A point in 2D space.<p>
+ * A point in 2D space.
+ *
+ * <p>
  */
 public class CmsPoint implements IsSerializable {
 
-    /** x coordinate. */
-    private double m_x;
+  /** x coordinate. */
+  private double m_x;
 
-    /** y coordinate. */
-    private double m_y;
+  /** y coordinate. */
+  private double m_y;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param x the x coordinate
-     * @param y the y coordinate
-     */
-    public CmsPoint(double x, double y) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param x the x coordinate
+   * @param y the y coordinate
+   */
+  public CmsPoint(double x, double y) {
 
-        m_x = x;
-        m_y = y;
-    }
+    m_x = x;
+    m_y = y;
+  }
 
-    /**
-     * Empty default constructor for serialization.<p>
-     */
-    protected CmsPoint() {
-        // empty default constructor for serialization
-    }
+  /**
+   * Empty default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsPoint() {
+    // empty default constructor for serialization
+  }
 
-    /**
-     * Gets the x coordinate.<p>
-     *
-     * @return the x coordinate
-     */
-    public double getX() {
+  /**
+   * Gets the x coordinate.
+   *
+   * <p>
+   *
+   * @return the x coordinate
+   */
+  public double getX() {
 
-        return m_x;
-    }
+    return m_x;
+  }
 
-    /**
-     * Gets the y coordinate.<p>
-     *
-     * @return the y coordinate
-     */
-    public double getY() {
+  /**
+   * Gets the y coordinate.
+   *
+   * <p>
+   *
+   * @return the y coordinate
+   */
+  public double getY() {
 
-        return m_y;
-    }
+    return m_y;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return "(" + m_x + "," + m_y + ")";
-    }
-
+    return "(" + m_x + "," + m_y + ")";
+  }
 }

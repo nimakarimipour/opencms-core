@@ -31,46 +31,52 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Signals that an attempt to authenticate (login) has a user has failed.<p>
+ * Signals that an attempt to authenticate (login) has a user has failed.
  *
- * Usually this means that a proper password / user name combination was not provided.
- * However, there are also other possible explanations, for example a user could be disabled.<p>
+ * <p>Usually this means that a proper password / user name combination was not provided. However,
+ * there are also other possible explanations, for example a user could be disabled.
  *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsAuthentificationException extends CmsSecurityException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 1419722344149667453L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 1419722344149667453L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsAuthentificationException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsAuthentificationException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsAuthentificationException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsAuthentificationException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsAuthentificationException(container, cause);
-    }
+    return new CmsAuthentificationException(container, cause);
+  }
 }

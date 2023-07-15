@@ -27,42 +27,39 @@
 
 package org.opencms.ui.apps.util;
 
+import com.google.common.collect.Maps;
+import com.vaadin.ui.Component;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import com.google.common.collect.Maps;
-import com.vaadin.ui.Component;
-
 public class CmsReflectionAppAttributeProvider {
 
-    public static Map<String, Object> getComponentAttributes(Component component) {
+  public static Map<String, Object> getComponentAttributes(Component component) {
 
-        Class<?> cls = component.getClass();
-        Map<String, Object> result = Maps.newHashMap();
-        for (Method method : cls.getDeclaredMethods()) {
-            ProvidesAppAttribute annotation = method.getAnnotation(ProvidesAppAttribute.class);
-            if (annotation != null) {
-                Object val = null;
-                try {
-                    val = method.invoke(component);
-                    result.put(annotation.name(), val);
-                } catch (InvocationTargetException e) {
-                    Throwable cause = e.getCause();
-                    if (cause instanceof Exception) {
-                        throw new RuntimeException(cause);
-                    } else if (cause instanceof RuntimeException) {
-                        throw (RuntimeException)cause;
-                    } else if (cause instanceof Error) {
-                        throw (Error)cause;
-                    }
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
+    Class<?> cls = component.getClass();
+    Map<String, Object> result = Maps.newHashMap();
+    for (Method method : cls.getDeclaredMethods()) {
+      ProvidesAppAttribute annotation = method.getAnnotation(ProvidesAppAttribute.class);
+      if (annotation != null) {
+        Object val = null;
+        try {
+          val = method.invoke(component);
+          result.put(annotation.name(), val);
+        } catch (InvocationTargetException e) {
+          Throwable cause = e.getCause();
+          if (cause instanceof Exception) {
+            throw new RuntimeException(cause);
+          } else if (cause instanceof RuntimeException) {
+            throw (RuntimeException) cause;
+          } else if (cause instanceof Error) {
+            throw (Error) cause;
+          }
+        } catch (Exception e) {
+          throw new RuntimeException(e);
         }
-        return result;
-
+      }
     }
-
+    return result;
+  }
 }

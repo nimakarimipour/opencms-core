@@ -27,6 +27,10 @@
 
 package org.opencms.ade.sitemap;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
+import org.apache.commons.logging.Log;
 import org.opencms.ade.sitemap.shared.CmsClientSitemapEntry;
 import org.opencms.ade.sitemap.shared.CmsSitemapData;
 import org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService;
@@ -40,122 +44,125 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Sitemap action used to generate the sitemap editor.<p>
+ * Sitemap action used to generate the sitemap editor.
  *
- * See jsp file <tt>/system/workplace/commons/sitemap.jsp</tt>.<p>
+ * <p>See jsp file <tt>/system/workplace/commons/sitemap.jsp</tt>.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsSitemapActionElement extends CmsGwtActionElement {
 
-    /** The OpenCms module name. */
-    public static final String CMS_MODULE_NAME = "org.opencms.ade.sitemap";
+  /** The OpenCms module name. */
+  public static final String CMS_MODULE_NAME = "org.opencms.ade.sitemap";
 
-    /** The GWT module name. */
-    public static final String GWT_MODULE_NAME = "sitemap";
+  /** The GWT module name. */
+  public static final String GWT_MODULE_NAME = "sitemap";
 
-    /** The static log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsSitemapActionElement.class);
+  /** The static log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsSitemapActionElement.class);
 
-    /** The current sitemap data. */
-    private CmsSitemapData m_sitemapData;
+  /** The current sitemap data. */
+  private CmsSitemapData m_sitemapData;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param context the JSP page context object
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsSitemapActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param context the JSP page context object
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsSitemapActionElement(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        super(context, req, res);
+    super(context, req, res);
+  }
+
+  /** @see org.opencms.gwt.CmsGwtActionElement#export() */
+  @Override
+  public String export() throws Exception {
+
+    return "";
+  }
+
+  /** @see org.opencms.gwt.CmsGwtActionElement#exportAll() */
+  @Override
+  public String exportAll() throws Exception {
+
+    CmsRequestUtil.disableCrossSiteFrameEmbedding(getResponse());
+    StringBuffer sb = new StringBuffer();
+    sb.append(export(false));
+    sb.append(
+        exportDictionary(
+            CmsSitemapData.DICT_NAME,
+            I_CmsSitemapService.class.getMethod("prefetch", String.class),
+            getSitemapData()));
+    sb.append(exportModuleScriptTag(GWT_MODULE_NAME));
+    String vaadinBootstrap =
+        CmsStringUtil.joinPaths(
+            OpenCms.getSystemInfo().getContextPath(), "VAADIN/vaadinBootstrap.js");
+    sb.append("  <script \n" + "          src=\"" + vaadinBootstrap + "\"></script>");
+    sb.append(
+        "<script>    \n"
+            + "function initVaadin() { "
+            + CmsVaadinUtils.getBootstrapScript(getCmsObject(), "sitemap-ui", "workplace/sitemap/")
+            + " } "
+            + "</script>");
+    return sb.toString();
+  }
+
+  /**
+   * Returns the needed server data for client-side usage.
+   *
+   * <p>
+   *
+   * @return the needed server data for client-side usage
+   */
+  public CmsSitemapData getSitemapData() {
+
+    if (m_sitemapData == null) {
+      try {
+        m_sitemapData =
+            CmsVfsSitemapService.prefetch(
+                getRequest(), getCmsObject().getRequestContext().getUri());
+      } catch (CmsRpcException e) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
     }
+    return m_sitemapData;
+  }
 
-    /**
-     * @see org.opencms.gwt.CmsGwtActionElement#export()
-     */
-    @Override
-    public String export() throws Exception {
+  /**
+   * Returns the editor title.
+   *
+   * <p>
+   *
+   * @return the editor title
+   */
+  public String getTitle() {
 
-        return "";
-    }
-
-    /**
-     * @see org.opencms.gwt.CmsGwtActionElement#exportAll()
-     */
-    @Override
-    public String exportAll() throws Exception {
-
-        CmsRequestUtil.disableCrossSiteFrameEmbedding(getResponse());
-        StringBuffer sb = new StringBuffer();
-        sb.append(export(false));
-        sb.append(
-            exportDictionary(
-                CmsSitemapData.DICT_NAME,
-                I_CmsSitemapService.class.getMethod("prefetch", String.class),
-                getSitemapData()));
-        sb.append(exportModuleScriptTag(GWT_MODULE_NAME));
-        String vaadinBootstrap = CmsStringUtil.joinPaths(
-            OpenCms.getSystemInfo().getContextPath(),
-            "VAADIN/vaadinBootstrap.js");
-        sb.append("  <script \n" + "          src=\"" + vaadinBootstrap + "\"></script>");
-        sb.append(
-            "<script>    \n"
-                + "function initVaadin() { "
-                + CmsVaadinUtils.getBootstrapScript(getCmsObject(), "sitemap-ui", "workplace/sitemap/")
-                + " } "
-                + "</script>");
-        return sb.toString();
-    }
-
-    /**
-     * Returns the needed server data for client-side usage.<p>
-     *
-     * @return the needed server data for client-side usage
-     */
-    public CmsSitemapData getSitemapData() {
-
-        if (m_sitemapData == null) {
-            try {
-                m_sitemapData = CmsVfsSitemapService.prefetch(
-                    getRequest(),
-                    getCmsObject().getRequestContext().getUri());
-            } catch (CmsRpcException e) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
+    CmsSitemapData data = getSitemapData();
+    String folderTitle = "";
+    if (data != null) {
+      folderTitle = getSitemapData().getOpenPath();
+      CmsClientSitemapEntry root = getSitemapData().getRoot();
+      if (root != null) {
+        CmsClientProperty titleProp =
+            root.getOwnProperties().get(CmsPropertyDefinition.PROPERTY_TITLE);
+        if ((titleProp != null) && !titleProp.isEmpty()) {
+          folderTitle =
+              root.getOwnProperties().get(CmsPropertyDefinition.PROPERTY_TITLE).getEffectiveValue();
+        } else {
+          folderTitle = root.getName();
         }
-        return m_sitemapData;
+      }
     }
-
-    /**
-     * Returns the editor title.<p>
-     *
-     * @return the editor title
-     */
-    public String getTitle() {
-
-        CmsSitemapData data = getSitemapData();
-        String folderTitle = "";
-        if (data != null) {
-            folderTitle = getSitemapData().getOpenPath();
-            CmsClientSitemapEntry root = getSitemapData().getRoot();
-            if (root != null) {
-                CmsClientProperty titleProp = root.getOwnProperties().get(CmsPropertyDefinition.PROPERTY_TITLE);
-                if ((titleProp != null) && !titleProp.isEmpty()) {
-                    folderTitle = root.getOwnProperties().get(CmsPropertyDefinition.PROPERTY_TITLE).getEffectiveValue();
-                } else {
-                    folderTitle = root.getName();
-                }
-            }
-        }
-        return Messages.get().getBundle(getWorkplaceLocale()).key(Messages.GUI_EDITOR_TITLE_1, folderTitle);
-    }
+    return Messages.get()
+        .getBundle(getWorkplaceLocale())
+        .key(Messages.GUI_EDITOR_TITLE_1, folderTitle);
+  }
 }

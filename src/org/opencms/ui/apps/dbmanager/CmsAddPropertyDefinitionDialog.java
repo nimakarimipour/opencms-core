@@ -27,6 +27,12 @@
 
 package org.opencms.ui.apps.dbmanager;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Validator;
+import com.vaadin.v7.ui.TextField;
 import org.opencms.file.CmsPropertyDefinition;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
@@ -36,117 +42,115 @@ import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.util.CmsStringUtil;
 
-import com.vaadin.v7.data.Validator;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.v7.ui.TextField;
-import com.vaadin.ui.Window;
-
 /**
- * Class for dialog to create property definition.<p>
+ * Class for dialog to create property definition.
+ *
+ * <p>
  */
 public class CmsAddPropertyDefinitionDialog extends CmsBasicDialog {
 
-    /**Validator for new Property name. */
-    class PropertyExistValidator implements Validator {
+  /** Validator for new Property name. */
+  class PropertyExistValidator implements Validator {
 
-        /**vaadin serial id. */
-        private static final long serialVersionUID = -2500052661735259675L;
+    /** vaadin serial id. */
+    private static final long serialVersionUID = -2500052661735259675L;
 
-        /**
-         * @see com.vaadin.data.Validator#validate(java.lang.Object)
-         */
-        public void validate(Object value) throws InvalidValueException {
+    /** @see com.vaadin.data.Validator#validate(java.lang.Object) */
+    public void validate(Object value) throws InvalidValueException {
 
-            if (value == null) {
-                throw new InvalidValueException(
-                    CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_PROPERTY_VALIDATION_EMPTY_0));
-            }
-            String propName = (String)value;
-            if (CmsStringUtil.isEmptyOrWhitespaceOnly(propName)) {
-                throw new InvalidValueException(
-                    CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_PROPERTY_VALIDATION_EMPTY_0));
-            }
-            try {
-                if (A_CmsUI.getCmsObject().readPropertyDefinition(propName) != null) {
-                    throw new InvalidValueException(
-                        CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_PROPERTY_VALIDATION_ALREADY_EXIST_0));
-                }
-            } catch (CmsException e) {
-                //should not happen (non existing property leads to null, not throwing exception.)
-            }
-
-            try {
-                CmsPropertyDefinition.checkPropertyName(propName);
-            } catch (CmsIllegalArgumentException e) {
-                throw new InvalidValueException(
-                    CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_PROPERTY_VALIDATION_NOTVALID_0));
-            }
+      if (value == null) {
+        throw new InvalidValueException(
+            CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_PROPERTY_VALIDATION_EMPTY_0));
+      }
+      String propName = (String) value;
+      if (CmsStringUtil.isEmptyOrWhitespaceOnly(propName)) {
+        throw new InvalidValueException(
+            CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_PROPERTY_VALIDATION_EMPTY_0));
+      }
+      try {
+        if (A_CmsUI.getCmsObject().readPropertyDefinition(propName) != null) {
+          throw new InvalidValueException(
+              CmsVaadinUtils.getMessageText(
+                  Messages.GUI_DATABASEAPP_PROPERTY_VALIDATION_ALREADY_EXIST_0));
         }
+      } catch (CmsException e) {
+        // should not happen (non existing property leads to null, not throwing exception.)
+      }
 
+      try {
+        CmsPropertyDefinition.checkPropertyName(propName);
+      } catch (CmsIllegalArgumentException e) {
+        throw new InvalidValueException(
+            CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_PROPERTY_VALIDATION_NOTVALID_0));
+      }
     }
+  }
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = -5454565964997277536L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -5454565964997277536L;
 
-    /**New property name field. */
-    protected TextField m_newProperty;
+  /** New property name field. */
+  protected TextField m_newProperty;
 
-    /**ok button. */
-    private Button m_ok;
+  /** ok button. */
+  private Button m_ok;
 
-    /**cancel button. */
-    private Button m_cancel;
+  /** cancel button. */
+  private Button m_cancel;
 
-    /**
-     * public constructor.<p>
-     * @param window to be closed
-     * @param table to be updated
-     */
-    public CmsAddPropertyDefinitionDialog(final Window window, final CmsPropertyTable table) {
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param window to be closed
+   * @param table to be updated
+   */
+  public CmsAddPropertyDefinitionDialog(final Window window, final CmsPropertyTable table) {
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
-        m_ok.addClickListener(new ClickListener() {
+    m_ok.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = -7356827828386377748L;
+          private static final long serialVersionUID = -7356827828386377748L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                m_newProperty.removeAllValidators();
-                m_newProperty.addValidator(new PropertyExistValidator());
-                if (m_newProperty.isValid()) {
+            m_newProperty.removeAllValidators();
+            m_newProperty.addValidator(new PropertyExistValidator());
+            if (m_newProperty.isValid()) {
 
-                    saveProperty();
-                    table.init();
-                    window.close();
-                }
+              saveProperty();
+              table.init();
+              window.close();
             }
+          }
         });
 
-        m_cancel.addClickListener(new ClickListener() {
+    m_cancel.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = -3198675226086758775L;
+          private static final long serialVersionUID = -3198675226086758775L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                window.close();
-
-            }
+            window.close();
+          }
         });
+  }
 
+  /**
+   * saves the new property.
+   *
+   * <p>
+   */
+  protected void saveProperty() {
+
+    try {
+      A_CmsUI.getCmsObject().createPropertyDefinition(m_newProperty.getValue());
+    } catch (CmsException e) {
+      //
     }
-
-    /**
-     * saves the new property.<p>
-     */
-    protected void saveProperty() {
-
-        try {
-            A_CmsUI.getCmsObject().createPropertyDefinition(m_newProperty.getValue());
-        } catch (CmsException e) {
-            //
-        }
-    }
-
+  }
 }

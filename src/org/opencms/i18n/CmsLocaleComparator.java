@@ -32,41 +32,45 @@ import java.util.Comparator;
 import java.util.Locale;
 
 /**
- * Simple comparator implementation for locales, that compares the String value of the locales.<p>
+ * Simple comparator implementation for locales, that compares the String value of the locales.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public final class CmsLocaleComparator implements Serializable, Comparator<Locale> {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -690619562147670465L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -690619562147670465L;
 
-    /** Static locale comparator. */
-    private static final Comparator<Locale> LOCALE_COMPARATOR = new CmsLocaleComparator();
+  /** Static locale comparator. */
+  private static final Comparator<Locale> LOCALE_COMPARATOR = new CmsLocaleComparator();
 
-    /**
-     * Hides the public constructor.<p>
-     */
-    private CmsLocaleComparator() {
+  /**
+   * Hides the public constructor.
+   *
+   * <p>
+   */
+  private CmsLocaleComparator() {
 
-        // noop
-    }
+    // noop
+  }
 
-    /**
-     * Returns a static instance of the locale comparator.<p>
-     *
-     * @return a static instance of the locale comparator
-     */
-    public static Comparator<Locale> getComparator() {
+  /**
+   * Returns a static instance of the locale comparator.
+   *
+   * <p>
+   *
+   * @return a static instance of the locale comparator
+   */
+  public static Comparator<Locale> getComparator() {
 
-        return LOCALE_COMPARATOR;
-    }
+    return LOCALE_COMPARATOR;
+  }
 
-    /**
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */
-    public int compare(Locale o1, Locale o2) {
+  /** @see java.util.Comparator#compare(java.lang.Object, java.lang.Object) */
+  public int compare(Locale o1, Locale o2) {
 
-        return o1.toString().compareTo(o2.toString());
-    }
+    return o1.toString().compareTo(o2.toString());
+  }
 }

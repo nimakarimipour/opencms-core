@@ -30,135 +30,129 @@ package org.opencms.gwt.shared.categorizedselect;
 import java.util.List;
 
 // TODO: Auto-generated Javadoc
-/**
- * Configuration for the client-side categorized select widget.
- */
+/** Configuration for the client-side categorized select widget. */
 public interface I_CmsCategorizedSelectData {
 
-    /**
-     * Represents a filter category in the categorized select widget (not necessarily an OpenCms category).
-     */
-    public interface Category {
-
-        /**
-         * Gets the internal value representing the filter category.
-         *
-         * @return the key
-         */
-        public String getKey();
-
-        /**
-         * Gets the label.
-         *
-         * @return the label
-         */
-        public String getLabel();
-
-        /**
-         * Sets the key.
-         *
-         * @param key the key.
-         */
-        public void setKey(String key);
-
-        /**
-         * Sets the label.
-         *
-         * @param label the new label
-         */
-        public void setLabel(String label);
-
-    }
+  /**
+   * Represents a filter category in the categorized select widget (not necessarily an OpenCms
+   * category).
+   */
+  public interface Category {
 
     /**
-     * The Interface Option.
+     * Gets the internal value representing the filter category.
+     *
+     * @return the key
      */
-    public interface Option {
+    public String getKey();
 
-        /**
-         * Gets the categories.
-         *
-         * @return the categories
-         */
-        List<String> getCategories();
+    /**
+     * Gets the label.
+     *
+     * @return the label
+     */
+    public String getLabel();
 
-        /**
-         * Gets the key.
-         *
-         * @return the key
-         */
-        String getKey();
+    /**
+     * Sets the key.
+     *
+     * @param key the key.
+     */
+    public void setKey(String key);
 
-        /**
-         * Gets the label.
-         *
-         * @return the label
-         */
-        String getLabel();
+    /**
+     * Sets the label.
+     *
+     * @param label the new label
+     */
+    public void setLabel(String label);
+  }
 
-        /**
-         * Sets the categories.
-         *
-         * @param categories the new categories
-         */
-        void setCategories(List<String> categories);
-
-        /**
-         * Sets the key.
-         *
-         * @param key the new key
-         */
-        void setKey(String key);
-
-        /**
-         * Sets the label.
-         *
-         * @param label the new label
-         */
-        void setLabel(String label);
-
-    }
+  /** The Interface Option. */
+  public interface Option {
 
     /**
      * Gets the categories.
      *
      * @return the categories
      */
-    List<Category> getCategories();
+    List<String> getCategories();
 
     /**
-     * Gets the filter label.
+     * Gets the key.
      *
-     * @return the filter label
+     * @return the key
      */
-    String getFilterLabel();
+    String getKey();
 
     /**
-     * Gets the options.
+     * Gets the label.
      *
-     * @return the options
+     * @return the label
      */
-    List<Option> getOptions();
+    String getLabel();
 
     /**
      * Sets the categories.
      *
      * @param categories the new categories
      */
-    void setCategories(List<Category> categories);
+    void setCategories(List<String> categories);
 
     /**
-     * Sets the filter label.
+     * Sets the key.
      *
-     * @param filterLabel the new filter label
+     * @param key the new key
      */
-    void setFilterLabel(String filterLabel);
+    void setKey(String key);
 
     /**
-     * Sets the options.
+     * Sets the label.
      *
-     * @param options the new options
+     * @param label the new label
      */
-    void setOptions(List<Option> options);
+    void setLabel(String label);
+  }
 
+  /**
+   * Gets the categories.
+   *
+   * @return the categories
+   */
+  List<Category> getCategories();
+
+  /**
+   * Gets the filter label.
+   *
+   * @return the filter label
+   */
+  String getFilterLabel();
+
+  /**
+   * Gets the options.
+   *
+   * @return the options
+   */
+  List<Option> getOptions();
+
+  /**
+   * Sets the categories.
+   *
+   * @param categories the new categories
+   */
+  void setCategories(List<Category> categories);
+
+  /**
+   * Sets the filter label.
+   *
+   * @param filterLabel the new filter label
+   */
+  void setFilterLabel(String filterLabel);
+
+  /**
+   * Sets the options.
+   *
+   * @param options the new options
+   */
+  void setOptions(List<Option> options);
 }

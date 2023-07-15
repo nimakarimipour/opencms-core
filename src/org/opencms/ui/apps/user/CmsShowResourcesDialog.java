@@ -27,6 +27,13 @@
 
 package org.opencms.ui.apps.user;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Window;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.Collections;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
@@ -37,102 +44,101 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.util.CmsUUID;
 
-import java.util.Collections;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.v7.ui.VerticalLayout;
-import com.vaadin.ui.Window;
-
 /**
- * Dialog to show resources with permissions for principle.<p>
+ * Dialog to show resources with permissions for principle.
+ *
+ * <p>
  */
 public class CmsShowResourcesDialog extends CmsBasicDialog {
 
-    /**Type of Dialog. */
-    protected enum DialogType {
-        Group, User, Error;
+  /** Type of Dialog. */
+  protected enum DialogType {
+    Group,
+    User,
+    Error;
+  }
+
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -1744033403586325260L;
+
+  /** Log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsShowResourcesDialog.class);
+
+  /** vaadin component. */
+  private Button m_cancel;
+
+  /** vaadin component. */
+  private VerticalLayout m_layout;
+
+  /** CmsPrincipal. */
+  private CmsPrincipal m_principal;
+
+  /** CmsObject. */
+  private CmsObject m_cms;
+
+  /** Type of dialog. */
+  private DialogType m_type;
+
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param id of principal
+   * @param window holding dialog
+   */
+  public CmsShowResourcesDialog(String id, final Window window) {
+
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+
+    iniCmsObject();
+
+    try {
+      m_principal = A_CmsUI.getCmsObject().readUser(new CmsUUID(id));
+      m_type = DialogType.User;
+    } catch (CmsException e) {
+      try {
+        m_principal = A_CmsUI.getCmsObject().readGroup(new CmsUUID(id));
+        m_type = DialogType.Group;
+      } catch (CmsException e1) {
+        m_type = DialogType.Error;
+      }
     }
+    displayResourceInfoDirectly(
+        Collections.singletonList(CmsAccountsApp.getPrincipalInfo(m_principal)));
+    CmsShowResourceTable table = new CmsShowResourceTable(m_cms, m_principal.getId(), m_type);
+    if (table.hasNoEntries()) {
+      m_layout.addComponent(
+          CmsVaadinUtils.getInfoLayout(
+              org.opencms.ui.apps.Messages.GUI_USERMANAGEMENT_NO_RESOURCES_WITH_PERMISSIONS_0));
+    } else {
+      m_layout.addComponent(table);
+    }
+    m_cancel.addClickListener(
+        new ClickListener() {
 
-    /**vaadin serial id. */
-    private static final long serialVersionUID = -1744033403586325260L;
+          private static final long serialVersionUID = -2117164384116082079L;
 
-    /** Log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsShowResourcesDialog.class);
+          public void buttonClick(ClickEvent event) {
 
-    /**vaadin component.*/
-    private Button m_cancel;
-
-    /**vaadin component.*/
-    private VerticalLayout m_layout;
-
-    /**CmsPrincipal. */
-    private CmsPrincipal m_principal;
-
-    /**CmsObject. */
-    private CmsObject m_cms;
-
-    /**Type of dialog. */
-    private DialogType m_type;
-
-    /**
-     * public constructor.<p>
-     *
-     * @param id of principal
-     * @param window holding dialog
-     */
-    public CmsShowResourcesDialog(String id, final Window window) {
-
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-
-        iniCmsObject();
-
-        try {
-            m_principal = A_CmsUI.getCmsObject().readUser(new CmsUUID(id));
-            m_type = DialogType.User;
-        } catch (CmsException e) {
-            try {
-                m_principal = A_CmsUI.getCmsObject().readGroup(new CmsUUID(id));
-                m_type = DialogType.Group;
-            } catch (CmsException e1) {
-                m_type = DialogType.Error;
-            }
-        }
-        displayResourceInfoDirectly(Collections.singletonList(CmsAccountsApp.getPrincipalInfo(m_principal)));
-        CmsShowResourceTable table = new CmsShowResourceTable(m_cms, m_principal.getId(), m_type);
-        if (table.hasNoEntries()) {
-            m_layout.addComponent(
-                CmsVaadinUtils.getInfoLayout(
-                    org.opencms.ui.apps.Messages.GUI_USERMANAGEMENT_NO_RESOURCES_WITH_PERMISSIONS_0));
-        } else {
-            m_layout.addComponent(table);
-        }
-        m_cancel.addClickListener(new ClickListener() {
-
-            private static final long serialVersionUID = -2117164384116082079L;
-
-            public void buttonClick(ClickEvent event) {
-
-                window.close();
-
-            }
+            window.close();
+          }
         });
+  }
+
+  /**
+   * Initializes CmsObject.
+   *
+   * <p>
+   */
+  private void iniCmsObject() {
+
+    try {
+      m_cms = OpenCms.initCmsObject(A_CmsUI.getCmsObject());
+      m_cms.getRequestContext().setSiteRoot("");
+    } catch (CmsException e) {
+      LOG.error("Unable to clone CmsObject", e);
     }
-
-    /**
-     * Initializes CmsObject.<p>
-     */
-    private void iniCmsObject() {
-
-        try {
-            m_cms = OpenCms.initCmsObject(A_CmsUI.getCmsObject());
-            m_cms.getRequestContext().setSiteRoot("");
-        } catch (CmsException e) {
-            LOG.error("Unable to clone CmsObject", e);
-        }
-    }
-
+  }
 }

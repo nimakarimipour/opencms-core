@@ -30,101 +30,118 @@ package org.opencms.gwt.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * Additional info bean.<p>
+ * Additional info bean.
+ *
+ * <p>
  *
  * @since 8.0.1
  */
 public class CmsAdditionalInfoBean implements IsSerializable {
 
-    /** The info name. */
-    private String m_name;
+  /** The info name. */
+  private String m_name;
 
-    /** The info style name. */
-    private String m_styleName;
+  /** The info style name. */
+  private String m_styleName;
 
-    /** The info value. */
-    private String m_value;
+  /** The info value. */
+  private String m_value;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param name the info name
-     * @param value the info value
-     * @param styleName the info style name
-     */
-    public CmsAdditionalInfoBean(String name, String value, String styleName) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param name the info name
+   * @param value the info value
+   * @param styleName the info style name
+   */
+  public CmsAdditionalInfoBean(String name, String value, String styleName) {
 
-        m_name = name;
-        m_value = value;
-        m_styleName = styleName;
-    }
+    m_name = name;
+    m_value = value;
+    m_styleName = styleName;
+  }
 
-    /**
-     * Constructor for serialization only.<p>
-     */
-    protected CmsAdditionalInfoBean() {
+  /**
+   * Constructor for serialization only.
+   *
+   * <p>
+   */
+  protected CmsAdditionalInfoBean() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Returns the info name.<p>
-     *
-     * @return the info name
-     */
-    public String getName() {
+  /**
+   * Returns the info name.
+   *
+   * <p>
+   *
+   * @return the info name
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the info style name.<p>
-     *
-     * @return the info style name
-     */
-    public String getStyle() {
+  /**
+   * Returns the info style name.
+   *
+   * <p>
+   *
+   * @return the info style name
+   */
+  public String getStyle() {
 
-        return m_styleName;
-    }
+    return m_styleName;
+  }
 
-    /**
-     * Returns the info value.<p>
-     *
-     * @return the info value
-     */
-    public String getValue() {
+  /**
+   * Returns the info value.
+   *
+   * <p>
+   *
+   * @return the info value
+   */
+  public String getValue() {
 
-        return m_value;
-    }
+    return m_value;
+  }
 
-    /**
-     * Sets the info name.<p>
-     *
-     * @param name the info name to set
-     */
-    public void setName(String name) {
+  /**
+   * Sets the info name.
+   *
+   * <p>
+   *
+   * @param name the info name to set
+   */
+  public void setName(String name) {
 
-        m_name = name;
-    }
+    m_name = name;
+  }
 
-    /**
-     * Sets the info style name.<p>
-     *
-     * @param styleName the info style name to set
-     */
-    public void setStyle(String styleName) {
+  /**
+   * Sets the info style name.
+   *
+   * <p>
+   *
+   * @param styleName the info style name to set
+   */
+  public void setStyle(String styleName) {
 
-        m_styleName = styleName;
-    }
+    m_styleName = styleName;
+  }
 
-    /**
-     * Sets the info value.<p>
-     *
-     * @param value the info value to set
-     */
-    public void setValue(String value) {
+  /**
+   * Sets the info value.
+   *
+   * <p>
+   *
+   * @param value the info value to set
+   */
+  public void setValue(String value) {
 
-        m_value = value;
-    }
-
+    m_value = value;
+  }
 }

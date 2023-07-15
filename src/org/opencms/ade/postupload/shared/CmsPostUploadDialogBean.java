@@ -27,129 +27,142 @@
 
 package org.opencms.ade.postupload.shared;
 
-import org.opencms.util.CmsUUID;
-
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
+import org.opencms.util.CmsUUID;
 
 /**
- * Runtime data bean for prefetching.<p>
+ * Runtime data bean for prefetching.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsPostUploadDialogBean implements IsSerializable {
 
-    /** Name of the used js variable. */
-    public static final String DICT_NAME = "postupload_dialog";
+  /** Name of the used js variable. */
+  public static final String DICT_NAME = "postupload_dialog";
 
-    /**
-     * A map of the resources for which the properties should be edited, with the structure ids as keys and the resource
-     * paths as values.
-     */
-    private Map<CmsUUID, String> m_resources = new LinkedHashMap<CmsUUID, String>();
+  /**
+   * A map of the resources for which the properties should be edited, with the structure ids as
+   * keys and the resource paths as values.
+   */
+  private Map<CmsUUID, String> m_resources = new LinkedHashMap<CmsUUID, String>();
 
-    /** Ids of resources for which validation is required. */
-    private Set<CmsUUID> m_idsWithRequiredValidation = new HashSet<>();
+  /** Ids of resources for which validation is required. */
+  private Set<CmsUUID> m_idsWithRequiredValidation = new HashSet<>();
 
-    /** Flag which controls whether the property configurations should be used. */
-    private boolean m_useConfiguration;
+  /** Flag which controls whether the property configurations should be used. */
+  private boolean m_useConfiguration;
 
-    /** Flag to control if configured basic properties should be shown. */
-    private boolean m_addBasicProperties;
+  /** Flag to control if configured basic properties should be shown. */
+  private boolean m_addBasicProperties;
 
-    /**
-     * Default constructor for serialization.<p>
-     */
-    public CmsPostUploadDialogBean() {
+  /**
+   * Default constructor for serialization.
+   *
+   * <p>
+   */
+  public CmsPostUploadDialogBean() {
 
-        // default constructor for serialization
-    }
+    // default constructor for serialization
+  }
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param resources the map of resources for which the properties should be uploaded
-     * @param idsWithRequiredValidation structurei ids of resources for which validation is required
-     */
-    public CmsPostUploadDialogBean(Map<CmsUUID, String> resources, Set<CmsUUID> idsWithRequiredValidation) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param resources the map of resources for which the properties should be uploaded
+   * @param idsWithRequiredValidation structurei ids of resources for which validation is required
+   */
+  public CmsPostUploadDialogBean(
+      Map<CmsUUID, String> resources, Set<CmsUUID> idsWithRequiredValidation) {
 
-        m_resources.putAll(resources);
-        m_idsWithRequiredValidation = idsWithRequiredValidation;
-    }
+    m_resources.putAll(resources);
+    m_idsWithRequiredValidation = idsWithRequiredValidation;
+  }
 
-    /**
-     * Gets the structure ids of resources for which validation is required.
-     *
-     * @return the structure ids of resources for which validation is required
-     */
-    public Set<CmsUUID> getIdsWithRequiredValidation() {
+  /**
+   * Gets the structure ids of resources for which validation is required.
+   *
+   * @return the structure ids of resources for which validation is required
+   */
+  public Set<CmsUUID> getIdsWithRequiredValidation() {
 
-        return m_idsWithRequiredValidation;
-    }
+    return m_idsWithRequiredValidation;
+  }
 
-    /**
-     * Returns the list of resource paths.<p>
-     *
-     * @return the list of resource paths
-     */
-    public Map<CmsUUID, String> getResources() {
+  /**
+   * Returns the list of resource paths.
+   *
+   * <p>
+   *
+   * @return the list of resource paths
+   */
+  public Map<CmsUUID, String> getResources() {
 
-        return m_resources;
-    }
+    return m_resources;
+  }
 
-    /**
-     * Returns true if the basic properties configured for the sitemap should be shown.
-     * @return true if the basic properties configured for the sitemap should be shown.
-     */
-    public boolean isAddBasicProperties() {
+  /**
+   * Returns true if the basic properties configured for the sitemap should be shown.
+   *
+   * @return true if the basic properties configured for the sitemap should be shown.
+   */
+  public boolean isAddBasicProperties() {
 
-        return m_addBasicProperties;
-    }
+    return m_addBasicProperties;
+  }
 
-    /**
-     * Returns true if the property configurations should be used.<p>
-     *
-     * @return true if the property configurations should be used
-     */
-    public boolean isUsePropertyConfiguration() {
+  /**
+   * Returns true if the property configurations should be used.
+   *
+   * <p>
+   *
+   * @return true if the property configurations should be used
+   */
+  public boolean isUsePropertyConfiguration() {
 
-        return m_useConfiguration;
+    return m_useConfiguration;
+  }
 
-    }
+  /**
+   * Set a flag, indicating if basic properties as configured in the sitemap are merged into the
+   * properties shown on file upload.
+   *
+   * @param addBasicProperties flag, indicating if basic properties as configured in the sitemap
+   *     should be added
+   */
+  public void setAddBasicProperties(final boolean addBasicProperties) {
 
-    /**
-     * Set a flag, indicating if basic properties as configured in the sitemap are merged into the
-     * properties shown on file upload.
-     *
-     * @param addBasicProperties flag, indicating if basic properties as configured in the sitemap should be added
-     */
-    public void setAddBasicProperties(final boolean addBasicProperties) {
+    m_addBasicProperties = addBasicProperties;
+  }
 
-        m_addBasicProperties = addBasicProperties;
-    }
+  /**
+   * Sets the map of resources for which the properties should be uploaded.
+   *
+   * <p>
+   *
+   * @param resources the map of resources for which the properties should be uploaded
+   */
+  public void setResources(Map<CmsUUID, String> resources) {
 
-    /**
-     * Sets the map of resources for which the properties should be uploaded.<p>
-     *
-     * @param resources the map of resources for which the properties should be uploaded
-     */
-    public void setResources(Map<CmsUUID, String> resources) {
+    m_resources = resources;
+  }
 
-        m_resources = resources;
-    }
+  /**
+   * Enables/disables use of the property configuration.
+   *
+   * <p>
+   *
+   * @param useConfiguration true if the property configuration should be used
+   */
+  public void setUsePropertyConfiguration(boolean useConfiguration) {
 
-    /**
-     * Enables/disables use of the property configuration.<p>
-     *
-     * @param useConfiguration true if the property configuration should be used
-     */
-    public void setUsePropertyConfiguration(boolean useConfiguration) {
-
-        m_useConfiguration = useConfiguration;
-    }
-
+    m_useConfiguration = useConfiguration;
+  }
 }

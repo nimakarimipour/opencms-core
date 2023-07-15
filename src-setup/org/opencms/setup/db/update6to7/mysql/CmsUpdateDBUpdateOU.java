@@ -27,39 +27,32 @@
 
 package org.opencms.setup.db.update6to7.mysql;
 
+import java.io.IOException;
 import org.opencms.file.CmsResource;
 
-import java.io.IOException;
-
 /**
- * This class upgrades the database tables containing new OU columns.<p>
+ * This class upgrades the database tables containing new OU columns.
  *
- * These tables are
- * cms_groups
- * cms_history_principals
- * cms_history_projects
- * cms_projects
- * cms_users
+ * <p>These tables are cms_groups cms_history_principals cms_history_projects cms_projects cms_users
  */
 public class CmsUpdateDBUpdateOU extends org.opencms.setup.db.update6to7.CmsUpdateDBUpdateOU {
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the sql queries properties file could not be read
-     */
-    public CmsUpdateDBUpdateOU()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the sql queries properties file could not be read
+   */
+  public CmsUpdateDBUpdateOU() throws IOException {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation()
-     */
-    @Override
-    protected String getPropertyFileLocation() {
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation() */
+  @Override
+  protected String getPropertyFileLocation() {
 
-        return CmsResource.getParentFolder(super.getPropertyFileLocation());
-    }
+    return CmsResource.getParentFolder(super.getPropertyFileLocation());
+  }
 }

@@ -28,283 +28,337 @@
 package org.opencms.test;
 
 /**
- * Configurable filter class for OpenCms VFS access method tests.<p>
+ * Configurable filter class for OpenCms VFS access method tests.
+ *
+ * <p>
  */
 public class OpenCmsTestResourceConfigurableFilter extends OpenCmsTestResourceFilter {
 
-    /**
-     * Creates a new OpenCmsTestResourceFilter with all tests enabled.<p>
-     */
-    public OpenCmsTestResourceConfigurableFilter() {
+  /**
+   * Creates a new OpenCmsTestResourceFilter with all tests enabled.
+   *
+   * <p>
+   */
+  public OpenCmsTestResourceConfigurableFilter() {
 
-        m_dateCreated = true;
-        m_dateContent = true;
-        m_dateLastModified = true;
-        m_dateReleased = true;
-        m_dateExpired = true;
-        m_flags = true;
-        m_isTouched = true;
-        m_length = true;
-        m_siblingCount = true;
-        m_name = true;
-        m_projectLastModified = true;
-        m_resourceId = true;
-        m_state = true;
-        m_structureId = true;
-        m_type = true;
-        m_userCreated = true;
-        m_userLastModified = true;
-        m_lockstate = true;
-        m_contents = true;
-        m_properties = true;
-        m_acl = true;
-        m_ace = true;
-        m_nonContentRelations = true;
-        m_dateCreatedSec = false;
-        m_dateLastModifiedSec = false;
-    }
+    m_dateCreated = true;
+    m_dateContent = true;
+    m_dateLastModified = true;
+    m_dateReleased = true;
+    m_dateExpired = true;
+    m_flags = true;
+    m_isTouched = true;
+    m_length = true;
+    m_siblingCount = true;
+    m_name = true;
+    m_projectLastModified = true;
+    m_resourceId = true;
+    m_state = true;
+    m_structureId = true;
+    m_type = true;
+    m_userCreated = true;
+    m_userLastModified = true;
+    m_lockstate = true;
+    m_contents = true;
+    m_properties = true;
+    m_acl = true;
+    m_ace = true;
+    m_nonContentRelations = true;
+    m_dateCreatedSec = false;
+    m_dateLastModifiedSec = false;
+  }
 
-    /**
-     * Creates a new OpenCmsTestResourceFilter based on an existing filter.<p>
-     *
-     * @param baseFilter the filter to base this filter on
-     */
-    public OpenCmsTestResourceConfigurableFilter(OpenCmsTestResourceFilter baseFilter) {
+  /**
+   * Creates a new OpenCmsTestResourceFilter based on an existing filter.
+   *
+   * <p>
+   *
+   * @param baseFilter the filter to base this filter on
+   */
+  public OpenCmsTestResourceConfigurableFilter(OpenCmsTestResourceFilter baseFilter) {
 
-        m_dateContent = baseFilter.testDateContent();
-        m_dateCreated = baseFilter.testDateCreated();
-        m_dateLastModified = baseFilter.testDateLastModified();
-        m_dateReleased = baseFilter.testDateReleased();
-        m_dateExpired = baseFilter.testDateExpired();
-        m_flags = baseFilter.testFlags();
-        m_isTouched = baseFilter.testTouched();
-        m_length = baseFilter.testLength();
-        m_siblingCount = baseFilter.testSiblingCount();
-        m_name = baseFilter.testName();
-        m_projectLastModified = baseFilter.testProjectLastModified();
-        m_resourceId = baseFilter.testResourceId();
-        m_state = baseFilter.testState();
-        m_structureId = baseFilter.testStructureId();
-        m_type = baseFilter.testType();
-        m_userCreated = baseFilter.testUserCreated();
-        m_userLastModified = baseFilter.testUserLastModified();
-        m_lockstate = baseFilter.testLock();
-        m_contents = baseFilter.testContents();
-        m_properties = baseFilter.testProperties();
-        m_ace = baseFilter.testAce();
-        m_acl = baseFilter.testAcl();
-        m_dateCreatedSec = baseFilter.testDateCreatedSec();
-        m_nonContentRelations = baseFilter.testNonContentRelations();
-        m_dateLastModifiedSec = baseFilter.testDateLastModifiedSec();
-    }
+    m_dateContent = baseFilter.testDateContent();
+    m_dateCreated = baseFilter.testDateCreated();
+    m_dateLastModified = baseFilter.testDateLastModified();
+    m_dateReleased = baseFilter.testDateReleased();
+    m_dateExpired = baseFilter.testDateExpired();
+    m_flags = baseFilter.testFlags();
+    m_isTouched = baseFilter.testTouched();
+    m_length = baseFilter.testLength();
+    m_siblingCount = baseFilter.testSiblingCount();
+    m_name = baseFilter.testName();
+    m_projectLastModified = baseFilter.testProjectLastModified();
+    m_resourceId = baseFilter.testResourceId();
+    m_state = baseFilter.testState();
+    m_structureId = baseFilter.testStructureId();
+    m_type = baseFilter.testType();
+    m_userCreated = baseFilter.testUserCreated();
+    m_userLastModified = baseFilter.testUserLastModified();
+    m_lockstate = baseFilter.testLock();
+    m_contents = baseFilter.testContents();
+    m_properties = baseFilter.testProperties();
+    m_ace = baseFilter.testAce();
+    m_acl = baseFilter.testAcl();
+    m_dateCreatedSec = baseFilter.testDateCreatedSec();
+    m_nonContentRelations = baseFilter.testNonContentRelations();
+    m_dateLastModifiedSec = baseFilter.testDateLastModifiedSec();
+  }
 
-    /**
-     * Disables the access list test.<p>
-     */
-    public void disableAceTest() {
+  /**
+   * Disables the access list test.
+   *
+   * <p>
+   */
+  public void disableAceTest() {
 
-        m_ace = false;
-    }
+    m_ace = false;
+  }
 
-    /**
-     * Disables the access list test.<p>
-     */
-    public void disableAclTest() {
+  /**
+   * Disables the access list test.
+   *
+   * <p>
+   */
+  public void disableAclTest() {
 
-        m_acl = false;
-    }
+    m_acl = false;
+  }
 
-    /**
-     * Disables the Contenttest.<p>
-     */
-    public void disableContentsTest() {
+  /**
+   * Disables the Contenttest.
+   *
+   * <p>
+   */
+  public void disableContentsTest() {
 
-        m_contents = false;
-    }
+    m_contents = false;
+  }
 
-    /**
-     * Disables the date content test.<p>
-     */
-    public void disableDateContentTest() {
+  /**
+   * Disables the date content test.
+   *
+   * <p>
+   */
+  public void disableDateContentTest() {
 
-        m_dateContent = false;
-    }
+    m_dateContent = false;
+  }
 
-    /**
-     * Disables the date created check (rounded to the second, for imports).<p>
-     */
-    public void disableDateCreatedSecTest() {
+  /**
+   * Disables the date created check (rounded to the second, for imports).
+   *
+   * <p>
+   */
+  public void disableDateCreatedSecTest() {
 
-        m_dateCreatedSec = false;
-    }
+    m_dateCreatedSec = false;
+  }
 
-    /**
-     * Disables the date created test.<p>
-     */
-    public void disableDateCreatedTest() {
+  /**
+   * Disables the date created test.
+   *
+   * <p>
+   */
+  public void disableDateCreatedTest() {
 
-        m_dateCreated = false;
-    }
+    m_dateCreated = false;
+  }
 
-    /**
-     * Disables the date expired test.<p>
-     */
-    public void disableDateExpiredTest() {
+  /**
+   * Disables the date expired test.
+   *
+   * <p>
+   */
+  public void disableDateExpiredTest() {
 
-        m_dateExpired = false;
-    }
+    m_dateExpired = false;
+  }
 
-    /**
-     * Disables the date last modified check (rounded to the second, for imports).<p>
-     */
-    public void disableDateLastModifiedSecTest() {
+  /**
+   * Disables the date last modified check (rounded to the second, for imports).
+   *
+   * <p>
+   */
+  public void disableDateLastModifiedSecTest() {
 
-        m_dateLastModifiedSec = false;
-    }
+    m_dateLastModifiedSec = false;
+  }
 
-    /**
-     * Disables the date last modified test.<p>
-     */
-    public void disableDateLastModifiedTest() {
+  /**
+   * Disables the date last modified test.
+   *
+   * <p>
+   */
+  public void disableDateLastModifiedTest() {
 
-        m_dateLastModified = false;
-    }
+    m_dateLastModified = false;
+  }
 
-    /**
-     * Disables the date released test.<p>
-     */
-    public void disableDateReleasedTest() {
+  /**
+   * Disables the date released test.
+   *
+   * <p>
+   */
+  public void disableDateReleasedTest() {
 
-        m_dateReleased = false;
-    }
+    m_dateReleased = false;
+  }
 
-    /**
-     * Disables the flags test.<p>
-     */
-    public void disableFlagsTest() {
+  /**
+   * Disables the flags test.
+   *
+   * <p>
+   */
+  public void disableFlagsTest() {
 
-        m_flags = false;
-    }
+    m_flags = false;
+  }
 
-    /**
-     * Disables the length test.<p>
-     */
-    public void disableLengthTest() {
+  /**
+   * Disables the length test.
+   *
+   * <p>
+   */
+  public void disableLengthTest() {
 
-        m_length = false;
-    }
+    m_length = false;
+  }
 
-    /**
-     * Disables the lockstate test.<p>
-     */
-    public void disableLockTest() {
+  /**
+   * Disables the lockstate test.
+   *
+   * <p>
+   */
+  public void disableLockTest() {
 
-        m_lockstate = false;
-    }
+    m_lockstate = false;
+  }
 
-    /**
-     * Disables the name test.<p>
-     */
-    public void disableNameTest() {
+  /**
+   * Disables the name test.
+   *
+   * <p>
+   */
+  public void disableNameTest() {
 
-        m_name = false;
-    }
+    m_name = false;
+  }
 
-    /**
-     * Disables the project last modified test.<p>
-     */
-    public void disableProjectLastModifiedTest() {
+  /**
+   * Disables the project last modified test.
+   *
+   * <p>
+   */
+  public void disableProjectLastModifiedTest() {
 
-        m_projectLastModified = false;
-    }
+    m_projectLastModified = false;
+  }
 
-    /**
-     * Disables the properties test test.<p>
-     */
-    public void disablePropertiesTest() {
+  /**
+   * Disables the properties test test.
+   *
+   * <p>
+   */
+  public void disablePropertiesTest() {
 
-        m_properties = false;
-    }
+    m_properties = false;
+  }
 
-    /**
-     * Disables the resource Id test.<p>
-     */
-    public void disableResourceIdTest() {
+  /**
+   * Disables the resource Id test.
+   *
+   * <p>
+   */
+  public void disableResourceIdTest() {
 
-        m_resourceId = false;
-    }
+    m_resourceId = false;
+  }
 
-    /**
-     * Disables the sibling count test.<p>
-     */
-    public void disableSiblingCountTest() {
+  /**
+   * Disables the sibling count test.
+   *
+   * <p>
+   */
+  public void disableSiblingCountTest() {
 
-        m_siblingCount = false;
-    }
+    m_siblingCount = false;
+  }
 
-    /**
-     * Disables the state test.<p>
-     */
-    public void disableStateTest() {
+  /**
+   * Disables the state test.
+   *
+   * <p>
+   */
+  public void disableStateTest() {
 
-        m_state = false;
-    }
+    m_state = false;
+  }
 
-    /**
-     * Disables the structure Id test.<p>
-     */
-    public void disableStructureIdTest() {
+  /**
+   * Disables the structure Id test.
+   *
+   * <p>
+   */
+  public void disableStructureIdTest() {
 
-        m_structureId = false;
-    }
+    m_structureId = false;
+  }
 
-    /**
-     * Disables the touched test.<p>
-     */
-    public void disableTouchedTest() {
+  /**
+   * Disables the touched test.
+   *
+   * <p>
+   */
+  public void disableTouchedTest() {
 
-        m_isTouched = false;
-    }
+    m_isTouched = false;
+  }
 
-    /**
-     * Disables the type test.<p>
-     */
-    public void disableTypeTest() {
+  /**
+   * Disables the type test.
+   *
+   * <p>
+   */
+  public void disableTypeTest() {
 
-        m_type = false;
-    }
+    m_type = false;
+  }
 
-    /**
-     * Disables the user created test.
-     */
-    public void disableUserCreatedTest() {
+  /** Disables the user created test. */
+  public void disableUserCreatedTest() {
 
-        m_userCreated = false;
-    }
+    m_userCreated = false;
+  }
 
-    /**
-     * Disables the user last modified test.<p>
-     */
-    public void disableUserLastModifiedTest() {
+  /**
+   * Disables the user last modified test.
+   *
+   * <p>
+   */
+  public void disableUserLastModifiedTest() {
 
-        m_userLastModified = false;
-    }
+    m_userLastModified = false;
+  }
 
-    /**
-     * Enables the date created check (rounded to the second, for imports).<p>
-     */
-    public void enableDateCreatedSecTest() {
+  /**
+   * Enables the date created check (rounded to the second, for imports).
+   *
+   * <p>
+   */
+  public void enableDateCreatedSecTest() {
 
-        m_dateCreatedSec = true;
-        m_dateCreated = false;
-    }
+    m_dateCreatedSec = true;
+    m_dateCreated = false;
+  }
 
-    /**
-     * Enables the date last modified check (rounded to the second, for imports).<p>
-     */
-    public void enableDateLastModifiedSecTest() {
+  /**
+   * Enables the date last modified check (rounded to the second, for imports).
+   *
+   * <p>
+   */
+  public void enableDateLastModifiedSecTest() {
 
-        m_dateLastModifiedSec = true;
-        m_dateLastModified = false;
-    }
+    m_dateLastModifiedSec = true;
+    m_dateLastModified = false;
+  }
 }

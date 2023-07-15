@@ -31,21 +31,25 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
 
 /**
- * Panel with fixed height.<p>
+ * Panel with fixed height.
+ *
+ * <p>
  */
 public class FixedHeightPanel extends Panel {
 
-    /**vaadin serial id. */
-    private static final long serialVersionUID = -3738280731026931673L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -3738280731026931673L;
 
-    /**
-     * public constructor.<p>
-     *
-     * @param c component
-     * @param height height
-     */
-    public FixedHeightPanel(Component c, String height) {
-        super(c);
-        setHeight(height);
-    }
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param c component
+   * @param height height
+   */
+  public FixedHeightPanel(Component c, String height) {
+    super(c);
+    setHeight(height);
+  }
 }

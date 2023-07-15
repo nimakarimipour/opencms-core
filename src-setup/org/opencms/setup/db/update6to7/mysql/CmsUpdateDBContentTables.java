@@ -27,53 +27,68 @@
 
 package org.opencms.setup.db.update6to7.mysql;
 
-import org.opencms.setup.CmsSetupDb;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Map;
+import org.opencms.setup.CmsSetupDb;
 
 /**
- * This class creates the table CMS_CONTENTS and fills it with data from the tables CMS_BACKUP_CONTENTS and CMS_ONLINE_CONTENTS.<p>
+ * This class creates the table CMS_CONTENTS and fills it with data from the tables
+ * CMS_BACKUP_CONTENTS and CMS_ONLINE_CONTENTS.
+ *
+ * <p>
  */
-public class CmsUpdateDBContentTables extends org.opencms.setup.db.update6to7.CmsUpdateDBContentTables {
+public class CmsUpdateDBContentTables
+    extends org.opencms.setup.db.update6to7.CmsUpdateDBContentTables {
 
-    /** Constant for the sql query to create the CMS_CONTENTS table.<p> */
-    private static final String QUERY_CREATE_CMS_CONTENTS_TABLE_MYSQL = "Q_CREATE_CMS_CONTENTS_TABLE_MYSQL";
+  /**
+   * Constant for the sql query to create the CMS_CONTENTS table.
+   *
+   * <p>
+   */
+  private static final String QUERY_CREATE_CMS_CONTENTS_TABLE_MYSQL =
+      "Q_CREATE_CMS_CONTENTS_TABLE_MYSQL";
 
-    /** Constant for the SQL query properties.<p> */
-    private static final String QUERY_PROPERTY_FILE = "cms_content_table_queries.properties";
+  /**
+   * Constant for the SQL query properties.
+   *
+   * <p>
+   */
+  private static final String QUERY_PROPERTY_FILE = "cms_content_table_queries.properties";
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the query properties cannot be read
-     */
-    public CmsUpdateDBContentTables()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the query properties cannot be read
+   */
+  public CmsUpdateDBContentTables() throws IOException {
 
-        super();
-        loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+    super();
+    loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+  }
+
+  /**
+   * Creates the CMS_CONTENTS table if it does not exist yet.
+   *
+   * <p>
+   *
+   * @param dbCon the db connection interface
+   * @throws SQLException if something goes wrong
+   */
+  @Override
+  protected void createContentsTable(CmsSetupDb dbCon) throws SQLException {
+
+    System.out.println(new Exception().getStackTrace()[0].toString());
+    if (!dbCon.hasTableOrColumn(TABLE_CMS_CONTENTS, null)) {
+      String query = readQuery(QUERY_CREATE_CMS_CONTENTS_TABLE_MYSQL);
+      Map<String, String> replacer =
+          Collections.singletonMap("${tableEngine}", m_poolData.get("engine"));
+      dbCon.updateSqlStatement(query, replacer, null);
+    } else {
+      System.out.println("table " + TABLE_CMS_CONTENTS + " already exists");
     }
-
-    /**
-     * Creates the CMS_CONTENTS table if it does not exist yet.<p>
-     *
-     * @param dbCon the db connection interface
-     *
-     * @throws SQLException if something goes wrong
-     */
-    @Override
-    protected void createContentsTable(CmsSetupDb dbCon) throws SQLException {
-
-        System.out.println(new Exception().getStackTrace()[0].toString());
-        if (!dbCon.hasTableOrColumn(TABLE_CMS_CONTENTS, null)) {
-            String query = readQuery(QUERY_CREATE_CMS_CONTENTS_TABLE_MYSQL);
-            Map<String, String> replacer = Collections.singletonMap("${tableEngine}", m_poolData.get("engine"));
-            dbCon.updateSqlStatement(query, replacer, null);
-        } else {
-            System.out.println("table " + TABLE_CMS_CONTENTS + " already exists");
-        }
-    }
+  }
 }

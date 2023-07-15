@@ -27,36 +27,41 @@
 
 package org.opencms.ade.postupload.shared.rpc;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.opencms.ade.postupload.shared.CmsPostUploadDialogBean;
 import org.opencms.ade.postupload.shared.CmsPostUploadDialogPanelBean;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * Asynchronous service interface for the upload property dialog.<p>
+ * Asynchronous service interface for the upload property dialog.
+ *
+ * <p>
  */
 public interface I_CmsPostUploadDialogServiceAsync {
 
-    /**
-     * Loads the dialog bean info for the given resource.<p>
-     *
-     * @param uuid the structure id of the resource to load
-     * @param useConfiguration true if the property configurations should be used
-     * @param addBasicProperties if true, the basic properties configured for the sitemap are added in the dialog
-     * @param asyncCallback the asynchronous callback for the result
-     */
-    void load(
-        CmsUUID uuid,
-        boolean useConfiguration,
-        boolean addBasicProperties,
-        AsyncCallback<CmsPostUploadDialogPanelBean> asyncCallback);
+  /**
+   * Loads the dialog bean info for the given resource.
+   *
+   * <p>
+   *
+   * @param uuid the structure id of the resource to load
+   * @param useConfiguration true if the property configurations should be used
+   * @param addBasicProperties if true, the basic properties configured for the sitemap are added in
+   *     the dialog
+   * @param asyncCallback the asynchronous callback for the result
+   */
+  void load(
+      CmsUUID uuid,
+      boolean useConfiguration,
+      boolean addBasicProperties,
+      AsyncCallback<CmsPostUploadDialogPanelBean> asyncCallback);
 
-    /**
-     * Generates dialog data for prefetching in the host page.<p>
-     *
-     * @param asyncCallback the asynchronous callback for the result
-     */
-    void prefetch(AsyncCallback<CmsPostUploadDialogBean> asyncCallback);
-
+  /**
+   * Generates dialog data for prefetching in the host page.
+   *
+   * <p>
+   *
+   * @param asyncCallback the asynchronous callback for the result
+   */
+  void prefetch(AsyncCallback<CmsPostUploadDialogBean> asyncCallback);
 }

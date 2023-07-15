@@ -28,31 +28,32 @@
 package org.opencms.ui.apps.user;
 
 /**
- * The group edit parameters.<p>
+ * The group edit parameters.
+ *
+ * <p>
  */
 public class CmsGroupEditParameters {
 
-    /** True if group should be editable. */
-    private boolean m_editable = true;
+  /** True if group should be editable. */
+  private boolean m_editable = true;
 
-    /**
-     * Check if group is editable.
-     *
-     * @return true if group is editable
-     */
-    public boolean isEditable() {
+  /**
+   * Check if group is editable.
+   *
+   * @return true if group is editable
+   */
+  public boolean isEditable() {
 
-        return m_editable;
-    }
+    return m_editable;
+  }
 
-    /**
-     * Enables/disables editing.
-     *
-     * @param editable the new value
-     */
-    public void setEditable(boolean editable) {
+  /**
+   * Enables/disables editing.
+   *
+   * @param editable the new value
+   */
+  public void setEditable(boolean editable) {
 
-        m_editable = editable;
-    }
-
+    m_editable = editable;
+  }
 }

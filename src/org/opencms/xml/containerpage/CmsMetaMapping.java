@@ -28,75 +28,86 @@
 package org.opencms.xml.containerpage;
 
 /**
- * Configuration bean for meta mappings.<p>
+ * Configuration bean for meta mappings.
+ *
+ * <p>
  */
 public class CmsMetaMapping {
 
-    /** The mapping key. */
-    private String m_key;
+  /** The mapping key. */
+  private String m_key;
 
-    /** The mapped element xpath. */
-    private String m_element;
+  /** The mapped element xpath. */
+  private String m_element;
 
-    /** The mapping order. */
-    private int m_order;
+  /** The mapping order. */
+  private int m_order;
 
-    /** The mapping default value. */
-    private String m_defaultValue;
+  /** The mapping default value. */
+  private String m_defaultValue;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param key the mapping key
-     * @param element the mapped element xpath
-     * @param order the mapping order
-     * @param defaultValue the mapping default value
-     */
-    public CmsMetaMapping(String key, String element, int order, String defaultValue) {
-        m_key = key;
-        m_element = element;
-        m_order = order;
-        m_defaultValue = defaultValue;
-    }
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param key the mapping key
+   * @param element the mapped element xpath
+   * @param order the mapping order
+   * @param defaultValue the mapping default value
+   */
+  public CmsMetaMapping(String key, String element, int order, String defaultValue) {
+    m_key = key;
+    m_element = element;
+    m_order = order;
+    m_defaultValue = defaultValue;
+  }
 
-    /**
-     * Returns the mapping default value.<p>
-     *
-     * @return the mapping default value
-     */
-    public String getDefaultValue() {
+  /**
+   * Returns the mapping default value.
+   *
+   * <p>
+   *
+   * @return the mapping default value
+   */
+  public String getDefaultValue() {
 
-        return m_defaultValue;
-    }
+    return m_defaultValue;
+  }
 
-    /**
-     * Returns the mapped element xpath.<p>
-     *
-     * @return the mapped element xpath
-     */
-    public String getElement() {
+  /**
+   * Returns the mapped element xpath.
+   *
+   * <p>
+   *
+   * @return the mapped element xpath
+   */
+  public String getElement() {
 
-        return m_element;
-    }
+    return m_element;
+  }
 
-    /**
-     * Returns the mapping key.<p>
-     *
-     * @return the mapping key
-     */
-    public String getKey() {
+  /**
+   * Returns the mapping key.
+   *
+   * <p>
+   *
+   * @return the mapping key
+   */
+  public String getKey() {
 
-        return m_key;
-    }
+    return m_key;
+  }
 
-    /**
-     * Returns the mapping order.<p>
-     *
-     * @return the mapping order
-     */
-    public int getOrder() {
+  /**
+   * Returns the mapping order.
+   *
+   * <p>
+   *
+   * @return the mapping order
+   */
+  public int getOrder() {
 
-        return m_order;
-    }
-
+    return m_order;
+  }
 }

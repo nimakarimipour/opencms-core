@@ -30,91 +30,106 @@ package org.opencms.util;
 import org.opencms.test.OpenCmsTestCase;
 
 /**
- * Test case for the URI splitter.<p>
+ * Test case for the URI splitter.
+ *
+ * <p>
  */
 public class TestCmsUriSplitter extends OpenCmsTestCase {
 
-    /**
-     * Tests basic splitting operations.<p>
-     *
-     * @throws Exception if the test fails
-     */
-    public void testBasicSplitting() throws Exception {
+  /**
+   * Tests basic splitting operations.
+   *
+   * <p>
+   *
+   * @throws Exception if the test fails
+   */
+  public void testBasicSplitting() throws Exception {
 
-        String uri = "http://www.opencms.org/some/path#someanchor?a=b&c=d";
+    String uri = "http://www.opencms.org/some/path#someanchor?a=b&c=d";
 
-        CmsUriSplitter splitterA = new CmsUriSplitter(uri, false);
-        CmsUriSplitter splitterB = new CmsUriSplitter(uri, true);
-        assertTrue("Prefix part wrong", "http://www.opencms.org/some/path".equals(splitterA.getPrefix()));
-        assertTrue("Fragment part wrong", "someanchor?a=b&c=d".equals(splitterA.getAnchor()));
-        assertTrue("Query part wrong", null == splitterA.getQuery());
-        assertTrue("Using 'strict' mode should not have generated an error", splitterB.isErrorFree());
-        assertTrue("Split result for URI 1 is different", splitterA.equals(splitterB));
+    CmsUriSplitter splitterA = new CmsUriSplitter(uri, false);
+    CmsUriSplitter splitterB = new CmsUriSplitter(uri, true);
+    assertTrue(
+        "Prefix part wrong", "http://www.opencms.org/some/path".equals(splitterA.getPrefix()));
+    assertTrue("Fragment part wrong", "someanchor?a=b&c=d".equals(splitterA.getAnchor()));
+    assertTrue("Query part wrong", null == splitterA.getQuery());
+    assertTrue("Using 'strict' mode should not have generated an error", splitterB.isErrorFree());
+    assertTrue("Split result for URI 1 is different", splitterA.equals(splitterB));
 
-        uri = "https://www.opencms.org/some/other/path/";
-        splitterA = new CmsUriSplitter(uri);
-        splitterB = new CmsUriSplitter(uri, true);
-        assertTrue("Prefix part wrong", uri.equals(splitterA.getPrefix()));
-        assertTrue("Fragment part wrong", null == splitterA.getAnchor());
-        assertTrue("Query part wrong", null == splitterA.getQuery());
-        assertTrue("Using 'strict' mode should not have generated an error", splitterB.isErrorFree());
-        assertTrue("Split result for URI 2 is different", splitterA.equals(splitterB));
+    uri = "https://www.opencms.org/some/other/path/";
+    splitterA = new CmsUriSplitter(uri);
+    splitterB = new CmsUriSplitter(uri, true);
+    assertTrue("Prefix part wrong", uri.equals(splitterA.getPrefix()));
+    assertTrue("Fragment part wrong", null == splitterA.getAnchor());
+    assertTrue("Query part wrong", null == splitterA.getQuery());
+    assertTrue("Using 'strict' mode should not have generated an error", splitterB.isErrorFree());
+    assertTrue("Split result for URI 2 is different", splitterA.equals(splitterB));
 
-        uri = "http://www.alkacon.com/some/other/path/?a=b&c=d&x=y";
-        splitterA = new CmsUriSplitter(uri);
-        splitterB = new CmsUriSplitter(uri, true);
-        assertTrue("Prefix part wrong", "http://www.alkacon.com/some/other/path/".equals(splitterA.getPrefix()));
-        assertTrue("Fragment part wrong", null == splitterA.getAnchor());
-        assertTrue("Query part wrong", "a=b&c=d&x=y".equals(splitterA.getQuery()));
-        assertTrue("Using 'strict' mode should not have generated an error", splitterB.isErrorFree());
-        assertTrue("Split result for URI 3 is different", splitterA.equals(splitterB));
+    uri = "http://www.alkacon.com/some/other/path/?a=b&c=d&x=y";
+    splitterA = new CmsUriSplitter(uri);
+    splitterB = new CmsUriSplitter(uri, true);
+    assertTrue(
+        "Prefix part wrong",
+        "http://www.alkacon.com/some/other/path/".equals(splitterA.getPrefix()));
+    assertTrue("Fragment part wrong", null == splitterA.getAnchor());
+    assertTrue("Query part wrong", "a=b&c=d&x=y".equals(splitterA.getQuery()));
+    assertTrue("Using 'strict' mode should not have generated an error", splitterB.isErrorFree());
+    assertTrue("Split result for URI 3 is different", splitterA.equals(splitterB));
 
-        uri = "http://www.alkacon.com/yet/anotther/path/#anotheranchor";
-        splitterA = new CmsUriSplitter(uri);
-        splitterB = new CmsUriSplitter(uri, true);
-        assertTrue("Prefix part wrong", "http://www.alkacon.com/yet/anotther/path/".equals(splitterA.getPrefix()));
-        assertTrue("Fragment part wrong", "anotheranchor".equals(splitterA.getAnchor()));
-        assertTrue("Query part wrong", null == splitterA.getQuery());
-        assertTrue("Using 'strict' mode should not have generated an error", splitterB.isErrorFree());
-        assertTrue("Split result for URI 4 is different", splitterA.equals(splitterB));
+    uri = "http://www.alkacon.com/yet/anotther/path/#anotheranchor";
+    splitterA = new CmsUriSplitter(uri);
+    splitterB = new CmsUriSplitter(uri, true);
+    assertTrue(
+        "Prefix part wrong",
+        "http://www.alkacon.com/yet/anotther/path/".equals(splitterA.getPrefix()));
+    assertTrue("Fragment part wrong", "anotheranchor".equals(splitterA.getAnchor()));
+    assertTrue("Query part wrong", null == splitterA.getQuery());
+    assertTrue("Using 'strict' mode should not have generated an error", splitterB.isErrorFree());
+    assertTrue("Split result for URI 4 is different", splitterA.equals(splitterB));
 
-        uri = "http://www.alkacon.com/reverse/order/?a=b&c=d#anotheranchor";
-        splitterA = new CmsUriSplitter(uri);
-        splitterB = new CmsUriSplitter(uri, true);
-        assertTrue("Prefix part wrong", "http://www.alkacon.com/reverse/order/".equals(splitterA.getPrefix()));
-        assertTrue("Fragment part wrong", "anotheranchor".equals(splitterA.getAnchor()));
-        assertTrue("Query part wrong", "a=b&c=d".equals(splitterA.getQuery()));
-        assertTrue("Using 'strict' mode should not have generated an error", splitterB.isErrorFree());
-        assertTrue("Split result for URI 5 is different", splitterA.equals(splitterB));
+    uri = "http://www.alkacon.com/reverse/order/?a=b&c=d#anotheranchor";
+    splitterA = new CmsUriSplitter(uri);
+    splitterB = new CmsUriSplitter(uri, true);
+    assertTrue(
+        "Prefix part wrong", "http://www.alkacon.com/reverse/order/".equals(splitterA.getPrefix()));
+    assertTrue("Fragment part wrong", "anotheranchor".equals(splitterA.getAnchor()));
+    assertTrue("Query part wrong", "a=b&c=d".equals(splitterA.getQuery()));
+    assertTrue("Using 'strict' mode should not have generated an error", splitterB.isErrorFree());
+    assertTrue("Split result for URI 5 is different", splitterA.equals(splitterB));
 
-        uri = "http://www.alkacon.com/reverse/order/?a=b&c=d#anotheranchor?whatabout=thisone";
-        splitterA = new CmsUriSplitter(uri);
-        splitterB = new CmsUriSplitter(uri, true);
-        assertTrue("Prefix part wrong", "http://www.alkacon.com/reverse/order/".equals(splitterA.getPrefix()));
-        assertTrue("Fragment part wrong", "anotheranchor?whatabout=thisone".equals(splitterA.getAnchor()));
-        assertTrue("Query part wrong", "a=b&c=d".equals(splitterA.getQuery()));
-        assertTrue("Using 'strict' mode should not have generated an error", splitterB.isErrorFree());
-        assertTrue("Split result for URI 6 is different", splitterA.equals(splitterB));
+    uri = "http://www.alkacon.com/reverse/order/?a=b&c=d#anotheranchor?whatabout=thisone";
+    splitterA = new CmsUriSplitter(uri);
+    splitterB = new CmsUriSplitter(uri, true);
+    assertTrue(
+        "Prefix part wrong", "http://www.alkacon.com/reverse/order/".equals(splitterA.getPrefix()));
+    assertTrue(
+        "Fragment part wrong", "anotheranchor?whatabout=thisone".equals(splitterA.getAnchor()));
+    assertTrue("Query part wrong", "a=b&c=d".equals(splitterA.getQuery()));
+    assertTrue("Using 'strict' mode should not have generated an error", splitterB.isErrorFree());
+    assertTrue("Split result for URI 6 is different", splitterA.equals(splitterB));
 
-        uri = "http://www.alkacon.com/reverse/order/?a=b&c=d#anotheranchor?whatabout=thisone#craziness";
-        splitterA = new CmsUriSplitter(uri);
-        splitterB = new CmsUriSplitter(uri, true);
+    uri = "http://www.alkacon.com/reverse/order/?a=b&c=d#anotheranchor?whatabout=thisone#craziness";
+    splitterA = new CmsUriSplitter(uri);
+    splitterB = new CmsUriSplitter(uri, true);
 
-        assertTrue("Prefix part wrong", "http://www.alkacon.com/reverse/order/".equals(splitterA.getPrefix()));
-        assertTrue("Fragment part wrong", "craziness".equals(splitterA.getAnchor()));
-        assertTrue("Query part wrong", "a=b&c=d".equals(splitterA.getQuery()));
-        // this URI can not be split in "strict" mode
-        assertFalse("Using 'strict' mode should have generated an error", splitterB.isErrorFree());
-        assertTrue("Split result for URI 7 is different", splitterA.equals(splitterB));
+    assertTrue(
+        "Prefix part wrong", "http://www.alkacon.com/reverse/order/".equals(splitterA.getPrefix()));
+    assertTrue("Fragment part wrong", "craziness".equals(splitterA.getAnchor()));
+    assertTrue("Query part wrong", "a=b&c=d".equals(splitterA.getQuery()));
+    // this URI can not be split in "strict" mode
+    assertFalse("Using 'strict' mode should have generated an error", splitterB.isErrorFree());
+    assertTrue("Split result for URI 7 is different", splitterA.equals(splitterB));
 
-        uri = "http://www.opencms.org/bad/params?a=i have spaces&c=i have spaces, too#someanchor";
-        splitterA = new CmsUriSplitter(uri);
-        splitterB = new CmsUriSplitter(uri, true);
-        assertTrue("Prefix part wrong", "http://www.opencms.org/bad/params".equals(splitterA.getPrefix()));
-        assertTrue("Fragment part wrong", "someanchor".equals(splitterA.getAnchor()));
-        assertTrue("Query part wrong", "a=i have spaces&c=i have spaces, too".equals(splitterA.getQuery()));
-        // this URI can not be split in "strict" mode
-        assertFalse("Using 'strict' mode should have generated an error", splitterB.isErrorFree());
-        assertTrue("Split result for URI 8 is different", splitterA.equals(splitterB));
-    }
+    uri = "http://www.opencms.org/bad/params?a=i have spaces&c=i have spaces, too#someanchor";
+    splitterA = new CmsUriSplitter(uri);
+    splitterB = new CmsUriSplitter(uri, true);
+    assertTrue(
+        "Prefix part wrong", "http://www.opencms.org/bad/params".equals(splitterA.getPrefix()));
+    assertTrue("Fragment part wrong", "someanchor".equals(splitterA.getAnchor()));
+    assertTrue(
+        "Query part wrong", "a=i have spaces&c=i have spaces, too".equals(splitterA.getQuery()));
+    // this URI can not be split in "strict" mode
+    assertFalse("Using 'strict' mode should have generated an error", splitterB.isErrorFree());
+    assertTrue("Split result for URI 8 is different", splitterA.equals(splitterB));
+  }
 }

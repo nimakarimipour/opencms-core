@@ -27,53 +27,54 @@
 
 package org.opencms.acacia.client.widgets;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 import org.opencms.acacia.client.I_CmsWidgetFactory;
 import org.opencms.ade.contenteditor.widgetregistry.client.WidgetRegistry;
 import org.opencms.gwt.client.I_CmsHasInit;
 import org.opencms.gwt.client.ui.input.tinymce.CmsTinyMCEHelper;
 import org.opencms.util.CmsStringUtil;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
-
 /**
- * Factory to generate basic input widget.<p>
+ * Factory to generate basic input widget.
+ *
+ * <p>
  */
 public class CmsHtmlWidgetFactory implements I_CmsWidgetFactory, I_CmsHasInit {
 
-    /** The widget name. */
-    private static final String WIDGET_NAME = "org.opencms.widgets.CmsHtmlWidget";
+  /** The widget name. */
+  private static final String WIDGET_NAME = "org.opencms.widgets.CmsHtmlWidget";
 
-    /**
-     * Initializes this class.<p>
-     */
-    public static void initClass() {
+  /**
+   * Initializes this class.
+   *
+   * <p>
+   */
+  public static void initClass() {
 
-        WidgetRegistry.getInstance().registerWidgetFactory(WIDGET_NAME, new CmsHtmlWidgetFactory());
+    WidgetRegistry.getInstance().registerWidgetFactory(WIDGET_NAME, new CmsHtmlWidgetFactory());
+  }
+
+  /** @see org.opencms.acacia.client.I_CmsWidgetFactory#createFormWidget(java.lang.String) */
+  public I_CmsFormEditWidget createFormWidget(String configuration) {
+
+    JavaScriptObject options = null;
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(configuration)) {
+      options = CmsTinyMCEHelper.generateOptionsForTiny(configuration);
     }
+    return new CmsFormWidgetWrapper(new CmsTinyMCEWidget(options));
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetFactory#createFormWidget(java.lang.String)
-     */
-    public I_CmsFormEditWidget createFormWidget(String configuration) {
+  /**
+   * @see org.opencms.acacia.client.I_CmsWidgetFactory#createInlineWidget(java.lang.String,
+   *     com.google.gwt.dom.client.Element)
+   */
+  public I_CmsEditWidget createInlineWidget(String configuration, Element element) {
 
-        JavaScriptObject options = null;
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(configuration)) {
-            options = CmsTinyMCEHelper.generateOptionsForTiny(configuration);
-        }
-        return new CmsFormWidgetWrapper(new CmsTinyMCEWidget(options));
+    JavaScriptObject options = null;
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(configuration)) {
+      options = CmsTinyMCEHelper.generateOptionsForTiny(configuration);
     }
-
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetFactory#createInlineWidget(java.lang.String, com.google.gwt.dom.client.Element)
-     */
-    public I_CmsEditWidget createInlineWidget(String configuration, Element element) {
-
-        JavaScriptObject options = null;
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(configuration)) {
-            options = CmsTinyMCEHelper.generateOptionsForTiny(configuration);
-        }
-        return new CmsTinyMCEWidget(element, options);
-    }
-
+    return new CmsTinyMCEWidget(element, options);
+  }
 }

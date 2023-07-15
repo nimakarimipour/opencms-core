@@ -34,11 +34,13 @@ package org.opencms.xml.content;
  */
 public class TestXmlContentHandler extends CmsDefaultXmlContentHandler {
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public TestXmlContentHandler() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public TestXmlContentHandler() {
 
-        super();
-    }
+    super();
+  }
 }

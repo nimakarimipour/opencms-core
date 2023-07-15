@@ -27,20 +27,18 @@
 
 package org.opencms.mx;
 
-/**
- * Bean interface for special diagnostic information retrievable via JMX.
- */
+/** Bean interface for special diagnostic information retrievable via JMX. */
 public interface I_CmsDiagnosticsMXBean {
 
-    /**
-     * Contains a textual representation of the current requests running in the OpenCmsServlet.
-     * <p>
-     * For each request, a line of text containing the thread id of the thread handling the request, the request URL, and the current runtime is produced. They look like this:
-     *  <p>
-     *  (#67) http://www.adfasdfasdf.com 33333
-     *
-     * @return a textual representation of the current requests in the OpenCmsServlet
-     */
-    public String listActiveRequests();
-
+  /**
+   * Contains a textual representation of the current requests running in the OpenCmsServlet.
+   *
+   * <p>For each request, a line of text containing the thread id of the thread handling the
+   * request, the request URL, and the current runtime is produced. They look like this:
+   *
+   * <p>(#67) http://www.adfasdfasdf.com 33333
+   *
+   * @return a textual representation of the current requests in the OpenCmsServlet
+   */
+  public String listActiveRequests();
 }

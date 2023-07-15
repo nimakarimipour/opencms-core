@@ -27,49 +27,50 @@
 
 package org.opencms.mail;
 
+import org.apache.commons.mail.HtmlEmail;
 import org.opencms.main.OpenCms;
 
-import org.apache.commons.mail.HtmlEmail;
-
 /**
- * This class is used to send an HTML formatted email with optional attachments.<p>
+ * This class is used to send an HTML formatted email with optional attachments.
  *
- * A text message can also be set for HTML unaware email clients,
- * such as text-based email clients.<p>
+ * <p>A text message can also be set for HTML unaware email clients, such as text-based email
+ * clients.
  *
- * It uses the Apache Commons Email API and extends the provided classes
- * to conveniently generate emails using the OpenCms configuration.<p>
+ * <p>It uses the Apache Commons Email API and extends the provided classes to conveniently generate
+ * emails using the OpenCms configuration.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsHtmlMail extends HtmlEmail {
 
-    /**
-     * Default constructor of a CmsHtmlMail.<p>
-     *
-     * The mail host name and the mail from address are set to the OpenCms
-     * default values of the configuration.<p>
-     *
-     */
-    public CmsHtmlMail() {
+  /**
+   * Default constructor of a CmsHtmlMail.
+   *
+   * <p>The mail host name and the mail from address are set to the OpenCms default values of the
+   * configuration.
+   *
+   * <p>
+   */
+  public CmsHtmlMail() {
 
-        this(OpenCms.getSystemInfo().getMailSettings().getDefaultMailHost());
-    }
+    this(OpenCms.getSystemInfo().getMailSettings().getDefaultMailHost());
+  }
 
-    /**
-     * Constructor of a CmsHtmlMail where the mail host is explicitly chosen..<p>
-     *
-     * The mail from address is set to the OpenCms
-     * default values of the configuration.<p>
-     *
-     * @param mailHost the mail host to use (a host configured in OpenCms).
-     *
-     */
-    public CmsHtmlMail(CmsMailHost mailHost) {
+  /**
+   * Constructor of a CmsHtmlMail where the mail host is explicitly chosen..
+   *
+   * <p>The mail from address is set to the OpenCms default values of the configuration.
+   *
+   * <p>
+   *
+   * @param mailHost the mail host to use (a host configured in OpenCms).
+   */
+  public CmsHtmlMail(CmsMailHost mailHost) {
 
-        // call super constructor
-        super();
-        CmsMailUtil.configureMail(mailHost, this);
-    }
-
+    // call super constructor
+    super();
+    CmsMailUtil.configureMail(mailHost, this);
+  }
 }

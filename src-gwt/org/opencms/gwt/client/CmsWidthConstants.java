@@ -27,66 +27,61 @@
 
 package org.opencms.gwt.client;
 
-/**
- * Adds constants / static methods for accessing the width class breakpoints.
- */
+/** Adds constants / static methods for accessing the width class breakpoints. */
 public class CmsWidthConstants {
 
-    /** Upper bound for 'small'.*/
-    public static final int SMALL_HIGH = 767;
+  /** Upper bound for 'small'. */
+  public static final int SMALL_HIGH = 767;
 
-    /** Lower bound for 'medium'. */
-    public static final int MEDIUM_LOW = 768;
+  /** Lower bound for 'medium'. */
+  public static final int MEDIUM_LOW = 768;
 
-    /** Upper bound for medium. */
-    public static final int MEDIUM_HIGH = 1023;
+  /** Upper bound for medium. */
+  public static final int MEDIUM_HIGH = 1023;
 
-    /** Lower bound for 'large'.*/
-    public static final int LARGE_LOW = 1024;
+  /** Lower bound for 'large'. */
+  public static final int LARGE_LOW = 1024;
 
-    /** 'px' suffix. */
-    public static final String PX = "px";
+  /** 'px' suffix. */
+  public static final String PX = "px";
 
-    /**
-     *
-     * Lower bound for 'large'.
-     *
-     * @return a CSS width value
-     *
-     * */
-    public static String largeLow() {
+  /**
+   * Lower bound for 'large'.
+   *
+   * @return a CSS width value
+   */
+  public static String largeLow() {
 
-        return LARGE_LOW + PX;
-    }
+    return LARGE_LOW + PX;
+  }
 
-    /**
-     * Upper bound for medium.
-     *
-     * @return a CSS width value
-     * */
-    public static String mediumHigh() {
+  /**
+   * Upper bound for medium.
+   *
+   * @return a CSS width value
+   */
+  public static String mediumHigh() {
 
-        return MEDIUM_HIGH + PX;
-    }
+    return MEDIUM_HIGH + PX;
+  }
 
-    /**
-     * Lower bound for 'medium'.
-     *
-     * @return a CSS width value
-     * */
-    public static String mediumLow() {
+  /**
+   * Lower bound for 'medium'.
+   *
+   * @return a CSS width value
+   */
+  public static String mediumLow() {
 
-        return MEDIUM_LOW + PX;
-    }
+    return MEDIUM_LOW + PX;
+  }
 
-    /**
-     * Upper bound for 'small'.
-     *
-     * @return a CSS width value
-     * */
-    public static String smallHigh() {
+  /**
+   * Upper bound for 'small'.
+   *
+   * @return a CSS width value
+   */
+  public static String smallHigh() {
 
-        return SMALL_HIGH + PX;
-    }
-
+    return SMALL_HIGH + PX;
+  }
 }

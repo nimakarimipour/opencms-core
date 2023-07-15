@@ -30,25 +30,26 @@ package org.opencms.jlan;
 import org.alfresco.jlan.app.JLANServer;
 
 /**
- * JLAN server class, which currently just exists to make some methods from the superclass visible.<p>
+ * JLAN server class, which currently just exists to make some methods from the superclass visible.
+ *
+ * <p>
  */
 public class CmsJlanServer extends JLANServer {
 
-    /**
-     * Creates a new server instance.<p>
-     */
-    public CmsJlanServer() {
+  /**
+   * Creates a new server instance.
+   *
+   * <p>
+   */
+  public CmsJlanServer() {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * @see org.alfresco.jlan.app.JLANServer#start(java.lang.String[])
-     */
-    @Override
-    public void start(String[] args) {
+  /** @see org.alfresco.jlan.app.JLANServer#start(java.lang.String[]) */
+  @Override
+  public void start(String[] args) {
 
-        super.start(args);
-    }
-
+    super.start(args);
+  }
 }

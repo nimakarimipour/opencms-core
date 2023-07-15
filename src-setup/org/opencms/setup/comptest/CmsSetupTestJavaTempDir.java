@@ -27,44 +27,42 @@
 
 package org.opencms.setup.comptest;
 
+import java.io.File;
 import org.opencms.setup.CmsSetupBean;
 
-import java.io.File;
-
 /**
- * Tests the java temp directory.<p>
+ * Tests the java temp directory.
+ *
+ * <p>
  *
  * @since 7.0.3
  */
 public class CmsSetupTestJavaTempDir implements I_CmsSetupTest {
 
-    /** The test name. */
-    public static final String TEST_NAME = "Temp Directory";
+  /** The test name. */
+  public static final String TEST_NAME = "Temp Directory";
 
-    /**
-     * @see org.opencms.setup.comptest.I_CmsSetupTest#getName()
-     */
-    public String getName() {
+  /** @see org.opencms.setup.comptest.I_CmsSetupTest#getName() */
+  public String getName() {
 
-        return TEST_NAME;
+    return TEST_NAME;
+  }
+
+  /** @see org.opencms.setup.comptest.I_CmsSetupTest#execute(org.opencms.setup.CmsSetupBean) */
+  public CmsSetupTestResult execute(CmsSetupBean setupBean) {
+
+    CmsSetupTestResult testResult = new CmsSetupTestResult(this);
+
+    File tmpFile = new File(System.getProperty("java.io.tmpdir"));
+    testResult.setResult(tmpFile.getAbsolutePath());
+
+    if (!tmpFile.exists()) {
+      testResult.setRed();
+      testResult.setHelp(
+          "The Java temporary directory '" + tmpFile.getAbsolutePath() + "' does not exist.");
+    } else {
+      testResult.setGreen();
     }
-
-    /**
-     * @see org.opencms.setup.comptest.I_CmsSetupTest#execute(org.opencms.setup.CmsSetupBean)
-     */
-    public CmsSetupTestResult execute(CmsSetupBean setupBean) {
-
-        CmsSetupTestResult testResult = new CmsSetupTestResult(this);
-
-        File tmpFile = new File(System.getProperty("java.io.tmpdir"));
-        testResult.setResult(tmpFile.getAbsolutePath());
-
-        if (!tmpFile.exists()) {
-            testResult.setRed();
-            testResult.setHelp("The Java temporary directory '" + tmpFile.getAbsolutePath() + "' does not exist.");
-        } else {
-            testResult.setGreen();
-        }
-        return testResult;
-    }
+    return testResult;
+  }
 }

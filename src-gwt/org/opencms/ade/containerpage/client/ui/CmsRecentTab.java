@@ -27,61 +27,59 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
-import org.opencms.gwt.client.ui.CmsList;
-import org.opencms.gwt.client.ui.CmsListItem;
-import org.opencms.gwt.client.ui.CmsScrollPanel;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Widget;
+import org.opencms.gwt.client.ui.CmsList;
+import org.opencms.gwt.client.ui.CmsListItem;
+import org.opencms.gwt.client.ui.CmsScrollPanel;
 
 /**
- * Content of the tool-bar menu recent tab.<p>
+ * Content of the tool-bar menu recent tab.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsRecentTab extends A_CmsClipboardTab {
 
-    /** The ui-binder interface for this widget. */
-    interface I_CmsRecentTabUiBinder extends UiBinder<Widget, CmsRecentTab> {
-        // GWT interface, nothing to do here
-    }
+  /** The ui-binder interface for this widget. */
+  interface I_CmsRecentTabUiBinder extends UiBinder<Widget, CmsRecentTab> {
+    // GWT interface, nothing to do here
+  }
 
-    /** The ui-binder for this widget. */
-    private static I_CmsRecentTabUiBinder uiBinder = GWT.create(I_CmsRecentTabUiBinder.class);
+  /** The ui-binder for this widget. */
+  private static I_CmsRecentTabUiBinder uiBinder = GWT.create(I_CmsRecentTabUiBinder.class);
 
-    /** The list panel holding the recent elements. */
-    @UiField(provided = true)
-    protected CmsList<CmsListItem> m_listPanel = new CmsList<CmsListItem>();
+  /** The list panel holding the recent elements. */
+  @UiField(provided = true)
+  protected CmsList<CmsListItem> m_listPanel = new CmsList<CmsListItem>();
 
-    /** The scroll panel. */
-    @UiField
-    protected CmsScrollPanel m_scrollPanel;
+  /** The scroll panel. */
+  @UiField protected CmsScrollPanel m_scrollPanel;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsRecentTab() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsRecentTab() {
 
-        initWidget(uiBinder.createAndBindUi(this));
-    }
+    initWidget(uiBinder.createAndBindUi(this));
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsClipboardTab#getList()
-     */
-    @Override
-    public CmsList<CmsListItem> getList() {
+  /** @see org.opencms.ade.containerpage.client.ui.A_CmsClipboardTab#getList() */
+  @Override
+  public CmsList<CmsListItem> getList() {
 
-        return m_listPanel;
-    }
+    return m_listPanel;
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsClipboardTab#getScrollPanel()
-     */
-    @Override
-    public CmsScrollPanel getScrollPanel() {
+  /** @see org.opencms.ade.containerpage.client.ui.A_CmsClipboardTab#getScrollPanel() */
+  @Override
+  public CmsScrollPanel getScrollPanel() {
 
-        return m_scrollPanel;
-    }
+    return m_scrollPanel;
+  }
 }

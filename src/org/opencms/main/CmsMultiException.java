@@ -27,233 +27,264 @@
 
 package org.opencms.main;
 
-import org.opencms.i18n.CmsMessageContainer;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import org.opencms.i18n.CmsMessageContainer;
 
 /**
- * A multi exception is a container for several exception messages that may be caused by an internal operation.<p>
+ * A multi exception is a container for several exception messages that may be caused by an internal
+ * operation.
  *
- * This is provided so that the user can see a full picture of all the issues that have been caused in an operation,
- * rather then only one (usually the first) issue.
+ * <p>This is provided so that the user can see a full picture of all the issues that have been
+ * caused in an operation, rather then only one (usually the first) issue.
  *
  * @since 2.0.0
  */
 public class CmsMultiException extends CmsException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 1197300254684159700L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 1197300254684159700L;
 
-    /** The list of internal exceptions. */
-    protected List<CmsException> m_exceptions;
+  /** The list of internal exceptions. */
+  protected List<CmsException> m_exceptions;
 
-    /** Indicates if the message has been set as individual message. */
-    protected boolean m_individualMessage;
+  /** Indicates if the message has been set as individual message. */
+  protected boolean m_individualMessage;
 
-    /**
-     * Creates a new multi exception, a container for several exception messages.<p>
-     */
-    public CmsMultiException() {
+  /**
+   * Creates a new multi exception, a container for several exception messages.
+   *
+   * <p>
+   */
+  public CmsMultiException() {
 
-        this(Messages.get().container(Messages.ERR_MULTI_EXCEPTION_1, new Integer(0)));
+    this(Messages.get().container(Messages.ERR_MULTI_EXCEPTION_1, new Integer(0)));
+  }
+
+  /**
+   * Creates a new multi exception using the given base message.
+   *
+   * <p>
+   *
+   * @param message the basic message to use
+   */
+  public CmsMultiException(CmsMessageContainer message) {
+
+    super(message);
+    m_exceptions = new ArrayList<CmsException>();
+    setMessage(message);
+  }
+
+  /**
+   * Creates a new multi exception for the given list of <code>{@link CmsException}</code>
+   * instances.
+   *
+   * <p>
+   *
+   * @param exceptions a list of <code>{@link CmsException}</code> instances
+   */
+  public CmsMultiException(List<CmsException> exceptions) {
+
+    this();
+    setExceptions(exceptions);
+  }
+
+  /**
+   * Adds an Exception to the list of Exceptions kept in this multi Exception.
+   *
+   * <p>
+   *
+   * @param exception the Exception to add
+   */
+  public void addException(CmsException exception) {
+
+    m_exceptions.add(exception);
+    updateMessage();
+  }
+
+  /**
+   * Adds all Exceptions in the given List to the list of Exceptions kept in this multi Exception.
+   *
+   * <p>
+   *
+   * @param exceptions the Exceptions to add
+   */
+  public void addExceptions(List<CmsException> exceptions) {
+
+    m_exceptions.addAll(exceptions);
+    updateMessage();
+  }
+
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
+
+    if (cause instanceof CmsMultiException) {
+      CmsMultiException multiException = (CmsMultiException) cause;
+      return new CmsMultiException(multiException.getExceptions());
     }
+    // not a multi exception, use standard handling
+    return super.createException(container, cause);
+  }
 
-    /**
-     * Creates a new multi exception using the given base message.<p>
-     *
-     * @param message the basic message to use
-     */
-    public CmsMultiException(CmsMessageContainer message) {
+  /**
+   * Returns the (unmodifiable) List of exceptions that are stored in this multi exception.
+   *
+   * <p>
+   *
+   * @return the (unmodifiable) List of exceptions that are stored in this multi exception
+   */
+  public List<CmsException> getExceptions() {
 
-        super(message);
-        m_exceptions = new ArrayList<CmsException>();
-        setMessage(message);
+    return Collections.unmodifiableList(m_exceptions);
+  }
+
+  /**
+   * Returns a localized message composed of all contained exceptions.
+   *
+   * <p>
+   *
+   * @see java.lang.Throwable#getLocalizedMessage()
+   */
+  @Override
+  public String getLocalizedMessage() {
+
+    if (m_exceptions.isEmpty()) {
+      return null;
     }
-
-    /**
-     * Creates a new multi exception for the given list of <code>{@link CmsException}</code> instances.<p>
-     *
-     * @param exceptions a list of <code>{@link CmsException}</code> instances
-     */
-    public CmsMultiException(List<CmsException> exceptions) {
-
-        this();
-        setExceptions(exceptions);
+    StringBuffer result = new StringBuffer(128);
+    Iterator<CmsException> it = m_exceptions.iterator();
+    while (it.hasNext()) {
+      CmsException ex = it.next();
+      result.append(ex.getLocalizedMessage());
+      if (it.hasNext()) {
+        result.append('\n');
+      }
     }
+    return result.toString();
+  }
 
-    /**
-     * Adds an Exception to the list of Exceptions kept in this multi Exception.<p>
-     *
-     * @param exception the Exception to add
-     */
-    public void addException(CmsException exception) {
+  /**
+   * Returns a localized message for the given locale composed of all contained exceptions.
+   *
+   * <p>
+   *
+   * @see org.opencms.main.I_CmsThrowable#getLocalizedMessage(java.util.Locale)
+   */
+  @Override
+  public String getLocalizedMessage(Locale locale) {
 
-        m_exceptions.add(exception);
-        updateMessage();
+    if (m_exceptions.isEmpty()) {
+      return null;
     }
-
-    /**
-     * Adds all Exceptions in the given List to the list of Exceptions kept in this multi Exception.<p>
-     *
-     * @param exceptions the Exceptions to add
-     */
-    public void addExceptions(List<CmsException> exceptions) {
-
-        m_exceptions.addAll(exceptions);
-        updateMessage();
+    StringBuffer result = new StringBuffer(128);
+    Iterator<CmsException> it = m_exceptions.iterator();
+    while (it.hasNext()) {
+      CmsException ex = it.next();
+      result.append(ex.getLocalizedMessage(locale));
+      if (it.hasNext()) {
+        result.append('\n');
+      }
     }
+    return result.toString();
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Returns the individual message (if set) or an empty String.
+   *
+   * <p>
+   *
+   * @param locale the locale for the message to generate
+   * @return the individual message (if set) or an empty String
+   */
+  public String getMessage(Locale locale) {
 
-        if (cause instanceof CmsMultiException) {
-            CmsMultiException multiException = (CmsMultiException)cause;
-            return new CmsMultiException(multiException.getExceptions());
-        }
-        // not a multi exception, use standard handling
-        return super.createException(container, cause);
+    if (hasIndividualMessage()) {
+      return m_message.key(locale);
     }
+    return "";
+  }
 
-    /**
-     * Returns the (unmodifiable) List of exceptions that are stored in this multi exception.<p>
-     *
-     * @return the (unmodifiable) List of exceptions that are stored in this multi exception
-     */
-    public List<CmsException> getExceptions() {
+  /**
+   * Returns <code>true</code> if this multi exceptions contains at last one individual Exception.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this multi exceptions contains at last one individual Exception
+   */
+  public boolean hasExceptions() {
 
-        return Collections.unmodifiableList(m_exceptions);
+    return !m_exceptions.isEmpty();
+  }
+
+  /**
+   * Returns <code>true</code> if this multi message has an individual base message set.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this multi message has an individual base message set
+   * @see #setMessage(CmsMessageContainer)
+   */
+  public boolean hasIndividualMessage() {
+
+    return m_individualMessage;
+  }
+
+  /**
+   * Sets an individual message for the multi exception base message.
+   *
+   * <p>If no individual message has been set, a default message using the key <code>
+   * {@link org.opencms.main.Messages#ERR_MULTI_EXCEPTION_1}</code> will be used.
+   *
+   * <p>If <code>null</code> is given as parameter, any individual message that has been set is
+   * reset to the default message.
+   *
+   * <p>
+   *
+   * @param message the message to set
+   */
+  public void setMessage(CmsMessageContainer message) {
+
+    if ((message != null) && (message.getKey() != Messages.ERR_MULTI_EXCEPTION_1)) {
+      m_individualMessage = true;
+      m_message = message;
+    } else {
+      // if message is null, reset and use default message again
+      m_individualMessage = false;
+      updateMessage();
     }
+  }
 
-    /**
-     * Returns a localized message composed of all contained exceptions.<p>
-     *
-     * @see java.lang.Throwable#getLocalizedMessage()
-     */
-    @Override
-    public String getLocalizedMessage() {
+  /**
+   * Updates the internal list of stored exceptions.
+   *
+   * <p>
+   *
+   * @param exceptions the exceptions to use (will replace the current exception list)
+   */
+  protected void setExceptions(List<CmsException> exceptions) {
 
-        if (m_exceptions.isEmpty()) {
-            return null;
-        }
-        StringBuffer result = new StringBuffer(128);
-        Iterator<CmsException> it = m_exceptions.iterator();
-        while (it.hasNext()) {
-            CmsException ex = it.next();
-            result.append(ex.getLocalizedMessage());
-            if (it.hasNext()) {
-                result.append('\n');
-            }
-        }
-        return result.toString();
+    m_exceptions = new ArrayList<CmsException>(exceptions);
+    updateMessage();
+  }
+
+  /**
+   * Updates the intenal message for the Exception.
+   *
+   * <p>
+   */
+  protected void updateMessage() {
+
+    if (!hasIndividualMessage()) {
+      m_message =
+          Messages.get()
+              .container(Messages.ERR_MULTI_EXCEPTION_1, new Integer(m_exceptions.size()));
     }
-
-    /**
-     * Returns a localized message for the given locale composed of all contained exceptions.<p>
-     *
-     * @see org.opencms.main.I_CmsThrowable#getLocalizedMessage(java.util.Locale)
-     */
-    @Override
-    public String getLocalizedMessage(Locale locale) {
-
-        if (m_exceptions.isEmpty()) {
-            return null;
-        }
-        StringBuffer result = new StringBuffer(128);
-        Iterator<CmsException> it = m_exceptions.iterator();
-        while (it.hasNext()) {
-            CmsException ex = it.next();
-            result.append(ex.getLocalizedMessage(locale));
-            if (it.hasNext()) {
-                result.append('\n');
-            }
-        }
-        return result.toString();
-    }
-
-    /**
-     * Returns the individual message (if set) or an empty String.<p>
-     *
-     * @param locale the locale for the message to generate
-     * @return the individual message (if set) or an empty String
-     */
-    public String getMessage(Locale locale) {
-
-        if (hasIndividualMessage()) {
-            return m_message.key(locale);
-        }
-        return "";
-    }
-
-    /**
-     * Returns <code>true</code> if this multi exceptions contains at last one individual Exception.<p>
-     *
-     * @return <code>true</code> if this multi exceptions contains at last one individual Exception
-     */
-    public boolean hasExceptions() {
-
-        return !m_exceptions.isEmpty();
-    }
-
-    /**
-     * Returns <code>true</code> if this multi message has an individual base message set.<p>
-     *
-     * @return <code>true</code> if this multi message has an individual base message set
-     *
-     * @see #setMessage(CmsMessageContainer)
-     */
-    public boolean hasIndividualMessage() {
-
-        return m_individualMessage;
-    }
-
-    /**
-     * Sets an individual message for the multi exception base message.<p>
-     *
-     * If no individual message has been set, a default message using the key
-     * <code>{@link org.opencms.main.Messages#ERR_MULTI_EXCEPTION_1}</code> will be used.<p>
-     *
-     * If <code>null</code> is given as parameter, any individual message that
-     * has been set is reset to the default message.<p>
-     *
-     * @param message the message to set
-     */
-    public void setMessage(CmsMessageContainer message) {
-
-        if ((message != null) && (message.getKey() != Messages.ERR_MULTI_EXCEPTION_1)) {
-            m_individualMessage = true;
-            m_message = message;
-        } else {
-            // if message is null, reset and use default message again
-            m_individualMessage = false;
-            updateMessage();
-        }
-    }
-
-    /**
-     * Updates the internal list of stored exceptions.<p>
-     *
-     * @param exceptions the exceptions to use (will replace the current exception list)
-     */
-    protected void setExceptions(List<CmsException> exceptions) {
-
-        m_exceptions = new ArrayList<CmsException>(exceptions);
-        updateMessage();
-    }
-
-    /**
-     * Updates the intenal message for the Exception.<p>
-     */
-    protected void updateMessage() {
-
-        if (!hasIndividualMessage()) {
-            m_message = Messages.get().container(Messages.ERR_MULTI_EXCEPTION_1, new Integer(m_exceptions.size()));
-        }
-    }
+  }
 }

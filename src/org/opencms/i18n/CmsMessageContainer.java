@@ -31,140 +31,154 @@ import java.io.Serializable;
 import java.util.Locale;
 
 /**
- * Contains a localized message key, it's arguments and a <code>{@link I_CmsMessageBundle}</code>.<p>
+ * Contains a localized message key, it's arguments and a <code>{@link I_CmsMessageBundle}</code>.
  *
- * Used for delaying the actual message lookup from the bundle to the time the message is displayed,
- * not generated. This is used for localizing internal OpenCms messages. If a message is generated internally by OpenCms,
- * at the time no information about the context of the current user may be available. The message is therefore
- * passed to the class generating the output, where a user context usually exists. Finally, the message is rendered
- * with the locale of the available user, or the OpenCms default locale if no user is available.<p>
+ * <p>Used for delaying the actual message lookup from the bundle to the time the message is
+ * displayed, not generated. This is used for localizing internal OpenCms messages. If a message is
+ * generated internally by OpenCms, at the time no information about the context of the current user
+ * may be available. The message is therefore passed to the class generating the output, where a
+ * user context usually exists. Finally, the message is rendered with the locale of the available
+ * user, or the OpenCms default locale if no user is available.
+ *
+ * <p>
  *
  * @since 6.0.0
- *
  * @see org.opencms.i18n.I_CmsMessageBundle
  */
 public class CmsMessageContainer implements Serializable, I_CmsMessageContainer {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 2844402574674092147L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 2844402574674092147L;
 
-    /** The message arguments to use. */
-    protected Object[] m_args;
+  /** The message arguments to use. */
+  protected Object[] m_args;
 
-    /** The OpenCms message bundle to read the message from. */
-    protected I_CmsMessageBundle m_bundle;
+  /** The OpenCms message bundle to read the message from. */
+  protected I_CmsMessageBundle m_bundle;
 
-    /** The message key to use. */
-    protected String m_key;
+  /** The message key to use. */
+  protected String m_key;
 
-    /**
-     * Creates a new message container for a key without arguments.<p>
-     *
-     * @param bundle the OpenCms message bundle to read the message from
-     * @param key the message key to use
-     */
-    public CmsMessageContainer(I_CmsMessageBundle bundle, String key) {
+  /**
+   * Creates a new message container for a key without arguments.
+   *
+   * <p>
+   *
+   * @param bundle the OpenCms message bundle to read the message from
+   * @param key the message key to use
+   */
+  public CmsMessageContainer(I_CmsMessageBundle bundle, String key) {
 
-        m_bundle = bundle;
-        m_key = key;
+    m_bundle = bundle;
+    m_key = key;
+  }
+
+  /**
+   * Creates a new message container.
+   *
+   * <p>
+   *
+   * @param bundle the OpenCms message bundle to read the message from
+   * @param key the message key to use
+   * @param args the message arguments to use
+   */
+  public CmsMessageContainer(I_CmsMessageBundle bundle, String key, Object... args) {
+
+    m_bundle = bundle;
+    m_key = key;
+    m_args = args;
+  }
+
+  /**
+   * Returns the message arguments to use.
+   *
+   * <p>
+   *
+   * @return the message arguments to use
+   */
+  public Object[] getArgs() {
+
+    return m_args;
+  }
+
+  /**
+   * Returns the message bundle used by this container.
+   *
+   * <p>
+   *
+   * @return the message bundle used by this container
+   */
+  public I_CmsMessageBundle getBundle() {
+
+    return m_bundle;
+  }
+
+  /**
+   * Returns the message key to use.
+   *
+   * <p>
+   *
+   * @return the message key to use
+   */
+  public String getKey() {
+
+    return m_key;
+  }
+
+  /**
+   * Returns the localized message described by this container for the OpenCms default locale.
+   *
+   * <p>
+   *
+   * @return the localized message described by this container for the OpenCms default locale
+   */
+  public String key() {
+
+    if (getBundle() == null) {
+      return getKey();
     }
+    return getBundle().getBundle().key(getKey(), getArgs());
+  }
 
-    /**
-     * Creates a new message container.<p>
-     *
-     * @param bundle the OpenCms message bundle to read the message from
-     * @param key the message key to use
-     * @param args the message arguments to use
-     */
-    public CmsMessageContainer(I_CmsMessageBundle bundle, String key, Object... args) {
+  /**
+   * Returns the localized message described by this container for the given locale.
+   *
+   * <p>
+   *
+   * @param locale the locale to use
+   * @return the localized message described by this container for the given locale
+   */
+  public String key(Locale locale) {
 
-        m_bundle = bundle;
-        m_key = key;
-        m_args = args;
+    if (getBundle() == null) {
+      return getKey();
     }
+    return getBundle().getBundle(locale).key(getKey(), getArgs());
+  }
 
-    /**
-     * Returns the message arguments to use.<p>
-     *
-     * @return the message arguments to use
-     */
-    public Object[] getArgs() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_args;
+    StringBuffer result = new StringBuffer();
+
+    result.append('[');
+    result.append(this.getClass().getName());
+    result.append(", bundle: ");
+    result.append(getBundle().getBundleName());
+    result.append(", key: ");
+    result.append(getKey());
+    Object[] args = getArgs();
+    if (args != null) {
+      for (int i = 0; i < args.length; i++) {
+        result.append(", arg");
+        result.append(i + 1);
+        result.append(": ");
+        result.append(args[i]);
+      }
     }
+    result.append(']');
 
-    /**
-     * Returns the message bundle used by this container.<p>
-     *
-     * @return the message bundle used by this container
-     */
-    public I_CmsMessageBundle getBundle() {
-
-        return m_bundle;
-    }
-
-    /**
-     * Returns the message key to use.<p>
-     *
-     * @return the message key to use
-     */
-    public String getKey() {
-
-        return m_key;
-    }
-
-    /**
-     * Returns the localized message described by this container for the OpenCms default locale.<p>
-     *
-     * @return the localized message described by this container for the OpenCms default locale
-     */
-    public String key() {
-
-        if (getBundle() == null) {
-            return getKey();
-        }
-        return getBundle().getBundle().key(getKey(), getArgs());
-    }
-
-    /**
-     * Returns the localized message described by this container for the given locale.<p>
-     *
-     * @param locale the locale to use
-     * @return the localized message described by this container for the given locale
-     */
-    public String key(Locale locale) {
-
-        if (getBundle() == null) {
-            return getKey();
-        }
-        return getBundle().getBundle(locale).key(getKey(), getArgs());
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-
-        StringBuffer result = new StringBuffer();
-
-        result.append('[');
-        result.append(this.getClass().getName());
-        result.append(", bundle: ");
-        result.append(getBundle().getBundleName());
-        result.append(", key: ");
-        result.append(getKey());
-        Object[] args = getArgs();
-        if (args != null) {
-            for (int i = 0; i < args.length; i++) {
-                result.append(", arg");
-                result.append(i + 1);
-                result.append(": ");
-                result.append(args[i]);
-            }
-        }
-        result.append(']');
-
-        return result.toString();
-    }
+    return result.toString();
+  }
 }

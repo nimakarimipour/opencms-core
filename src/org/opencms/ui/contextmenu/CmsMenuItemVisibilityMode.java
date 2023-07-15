@@ -30,185 +30,205 @@ package org.opencms.ui.contextmenu;
 import org.opencms.util.A_CmsModeIntEnumeration;
 
 /**
- * The visibility modes of a context menu item in the explorer view.<p>
+ * The visibility modes of a context menu item in the explorer view.
+ *
+ * <p>
  *
  * @since 6.5.6
  */
 public final class CmsMenuItemVisibilityMode extends A_CmsModeIntEnumeration {
 
-    /** Menu item visibility: active.  */
-    public static final CmsMenuItemVisibilityMode VISIBILITY_ACTIVE = new CmsMenuItemVisibilityMode(1);
+  /** Menu item visibility: active. */
+  public static final CmsMenuItemVisibilityMode VISIBILITY_ACTIVE =
+      new CmsMenuItemVisibilityMode(1);
 
-    /** Menu item visibility: inactive.  */
-    public static final CmsMenuItemVisibilityMode VISIBILITY_INACTIVE = new CmsMenuItemVisibilityMode(2);
+  /** Menu item visibility: inactive. */
+  public static final CmsMenuItemVisibilityMode VISIBILITY_INACTIVE =
+      new CmsMenuItemVisibilityMode(2);
 
-    /** Menu item visibility: invisible.  */
-    public static final CmsMenuItemVisibilityMode VISIBILITY_INVISIBLE = new CmsMenuItemVisibilityMode(3);
+  /** Menu item visibility: invisible. */
+  public static final CmsMenuItemVisibilityMode VISIBILITY_INVISIBLE =
+      new CmsMenuItemVisibilityMode(3);
 
-    /** Serializable version id. */
-    private static final long serialVersionUID = 2526260041565757791L;
+  /** Serializable version id. */
+  private static final long serialVersionUID = 2526260041565757791L;
 
-    /** The name of the message key for the visibility mode. */
-    private String m_messageKey;
+  /** The name of the message key for the visibility mode. */
+  private String m_messageKey;
 
-    /** The prioritization flag. */
-    private boolean m_prioritized;
+  /** The prioritization flag. */
+  private boolean m_prioritized;
 
-    /**
-     * Private constructor.<p>
-     *
-     * @param mode the menu item visibility mode integer representation
-     */
-    private CmsMenuItemVisibilityMode(int mode) {
+  /**
+   * Private constructor.
+   *
+   * <p>
+   *
+   * @param mode the menu item visibility mode integer representation
+   */
+  private CmsMenuItemVisibilityMode(int mode) {
 
-        super(mode);
+    super(mode);
+  }
+
+  /**
+   * Utilitiy method that returns 'active' if the parameter is true, otherwise inactive.
+   *
+   * <p>
+   *
+   * @param active - whether return value should be 'active'
+   * @return the visibility
+   */
+  public static CmsMenuItemVisibilityMode activeInactive(boolean active) {
+
+    if (active) {
+      return VISIBILITY_ACTIVE;
+    } else {
+      return VISIBILITY_INACTIVE;
     }
+  }
 
-    /**
-     * Utilitiy method that returns 'active' if the parameter is true, otherwise inactive.<p>
-     *
-     * @param active - whether return value should be 'active'
-     *
-     * @return the visibility
-     */
-    public static CmsMenuItemVisibilityMode activeInactive(boolean active) {
+  /**
+   * Utility method that returns 'active' if the parameter is true, otherwise invisible.
+   *
+   * <p>
+   *
+   * @param active - whether return value should be 'active' rather than 'invisible'
+   * @return the visibility
+   */
+  public static CmsMenuItemVisibilityMode activeInvisible(boolean active) {
 
-        if (active) {
-            return VISIBILITY_ACTIVE;
-        } else {
-            return VISIBILITY_INACTIVE;
-        }
+    if (active) {
+      return VISIBILITY_ACTIVE;
+    } else {
+      return VISIBILITY_INVISIBLE;
     }
+  }
 
-    /**
-     * Utility method that returns 'active' if the parameter is true, otherwise invisible.<p>
-     *
-     * @param active - whether return value should be 'active' rather than 'invisible'
-     *
-     * @return the visibility
-     */
-    public static CmsMenuItemVisibilityMode activeInvisible(boolean active) {
+  /**
+   * Returns the menu item visibility mode for the given mode value.
+   *
+   * <p>This is used only for serialization and should not be accessed for other purposes.
+   *
+   * <p>
+   *
+   * @param type the mode value to get the item visibility mode for
+   * @return the menu item visibility mode for the given mode value
+   */
+  public static CmsMenuItemVisibilityMode valueOf(int type) {
 
-        if (active) {
-            return VISIBILITY_ACTIVE;
-        } else {
-            return VISIBILITY_INVISIBLE;
-        }
+    switch (type) {
+      case 1:
+        return VISIBILITY_ACTIVE;
+      case 2:
+        return VISIBILITY_INACTIVE;
+      case 3:
+        return VISIBILITY_INVISIBLE;
+      default:
+        return VISIBILITY_INVISIBLE;
     }
+  }
 
-    /**
-     * Returns the menu item visibility mode for the given mode value.<p>
-     *
-     * This is used only for serialization and should not be accessed for other purposes.<p>
-     *
-     * @param type the mode value to get the item visibility mode for
-     *
-     * @return the menu item visibility mode for the given mode value
-     */
-    public static CmsMenuItemVisibilityMode valueOf(int type) {
+  /**
+   * Adds the name of the message key for the visibility mode.
+   *
+   * <p>
+   *
+   * @param messageKey the name of the message key for the visibility mode
+   * @return an extended visibility mode containing the message key
+   */
+  public CmsMenuItemVisibilityMode addMessageKey(String messageKey) {
 
-        switch (type) {
-            case 1:
-                return VISIBILITY_ACTIVE;
-            case 2:
-                return VISIBILITY_INACTIVE;
-            case 3:
-                return VISIBILITY_INVISIBLE;
-            default:
-                return VISIBILITY_INVISIBLE;
-        }
+    CmsMenuItemVisibilityMode mode = clone();
+    mode.m_messageKey = messageKey;
+    return mode;
+  }
+
+  /**
+   * Returns the name of the message key for the visibility mode.
+   *
+   * <p>Is usually used as description for the inactive visibility modes.
+   *
+   * <p>
+   *
+   * @return the name of the message key for the visibility mode
+   */
+  public String getMessageKey() {
+
+    return m_messageKey;
+  }
+
+  /**
+   * Returns if the mode is set to {@link #VISIBILITY_ACTIVE}.
+   *
+   * <p>
+   *
+   * @return true if the mode is set to {@link #VISIBILITY_ACTIVE}, otherwise false
+   */
+  public boolean isActive() {
+
+    return getMode() == VISIBILITY_ACTIVE.getMode();
+  }
+
+  /**
+   * Returns if the mode is set to {@link #VISIBILITY_INACTIVE}.
+   *
+   * <p>
+   *
+   * @return true if the mode is set to {@link #VISIBILITY_INACTIVE}, otherwise false
+   */
+  public boolean isInActive() {
+
+    return getMode() == VISIBILITY_INACTIVE.getMode();
+  }
+
+  /**
+   * Returns if the mode is set to {@link #VISIBILITY_INVISIBLE}.
+   *
+   * <p>
+   *
+   * @return true if the mode is set to {@link #VISIBILITY_INVISIBLE}, otherwise false
+   */
+  public boolean isInVisible() {
+
+    return getMode() == VISIBILITY_INVISIBLE.getMode();
+  }
+
+  /**
+   * Returns the prioritization flag.
+   *
+   * <p>
+   *
+   * @return prioritization flag
+   */
+  public boolean isPrioritized() {
+
+    return m_prioritized;
+  }
+
+  /**
+   * Returns a prioritized instance of the visibility mode.
+   *
+   * <p>
+   *
+   * @param prioritized <code>true</code> to prioritize
+   * @return the new visibility mode instance
+   */
+  public CmsMenuItemVisibilityMode prioritize(boolean prioritized) {
+
+    if (m_prioritized != prioritized) {
+      CmsMenuItemVisibilityMode result = clone();
+      result.m_prioritized = prioritized;
+      return result;
+    } else {
+      return this;
     }
+  }
 
-    /**
-     * Adds the name of the message key for the visibility mode.<p>
-     *
-     * @param messageKey the name of the message key for the visibility mode
-     * @return an extended visibility mode containing the message key
-     */
-    public CmsMenuItemVisibilityMode addMessageKey(String messageKey) {
+  /** @see java.lang.Object#clone() */
+  @Override
+  protected CmsMenuItemVisibilityMode clone() {
 
-        CmsMenuItemVisibilityMode mode = clone();
-        mode.m_messageKey = messageKey;
-        return mode;
-    }
-
-    /**
-     * Returns the name of the message key for the visibility mode.<p>
-     *
-     * Is usually used as description for the inactive visibility modes.<p>
-     *
-     * @return the name of the message key for the visibility mode
-     */
-    public String getMessageKey() {
-
-        return m_messageKey;
-    }
-
-    /**
-     * Returns if the mode is set to {@link #VISIBILITY_ACTIVE}.<p>
-     *
-     * @return true if the mode is set to {@link #VISIBILITY_ACTIVE}, otherwise false
-     */
-    public boolean isActive() {
-
-        return getMode() == VISIBILITY_ACTIVE.getMode();
-    }
-
-    /**
-     * Returns if the mode is set to {@link #VISIBILITY_INACTIVE}.<p>
-     *
-     * @return true if the mode is set to {@link #VISIBILITY_INACTIVE}, otherwise false
-     */
-    public boolean isInActive() {
-
-        return getMode() == VISIBILITY_INACTIVE.getMode();
-    }
-
-    /**
-     * Returns if the mode is set to {@link #VISIBILITY_INVISIBLE}.<p>
-     *
-     * @return true if the mode is set to {@link #VISIBILITY_INVISIBLE}, otherwise false
-     */
-    public boolean isInVisible() {
-
-        return getMode() == VISIBILITY_INVISIBLE.getMode();
-    }
-
-    /**
-     * Returns the prioritization flag.<p>
-     *
-     * @return prioritization flag
-     */
-    public boolean isPrioritized() {
-
-        return m_prioritized;
-    }
-
-    /**
-     * Returns a prioritized instance of the visibility mode.<p>
-     *
-     * @param prioritized <code>true</code> to prioritize
-     *
-     * @return the new visibility mode instance
-     */
-    public CmsMenuItemVisibilityMode prioritize(boolean prioritized) {
-
-        if (m_prioritized != prioritized) {
-            CmsMenuItemVisibilityMode result = clone();
-            result.m_prioritized = prioritized;
-            return result;
-        } else {
-            return this;
-        }
-    }
-
-    /**
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    protected CmsMenuItemVisibilityMode clone() {
-
-        return new CmsMenuItemVisibilityMode(getMode());
-    }
-
+    return new CmsMenuItemVisibilityMode(getMode());
+  }
 }

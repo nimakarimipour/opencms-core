@@ -27,57 +27,63 @@
 
 package org.opencms.ui.apps;
 
+import java.util.Collection;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 
-import java.util.Collection;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Tests the configuration loading.<p>
+ * Tests the configuration loading.
+ *
+ * <p>
  */
 public class TestCmsAppManager extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestCmsAppManager(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestCmsAppManager(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestCmsAppManager.class.getName());
+    TestSuite suite = new TestSuite();
+    suite.setName(TestCmsAppManager.class.getName());
 
-        suite.addTest(new TestCmsAppManager("testCollectAppConfigurations"));
+    suite.addTest(new TestCmsAppManager("testCollectAppConfigurations"));
 
-        return suite;
-    }
+    return suite;
+  }
 
-    /**
-     * Tests the collect app configurations.<p>
-     *
-     * @throws Exception if something fails
-     */
-    public void testCollectAppConfigurations() throws Exception {
+  /**
+   * Tests the collect app configurations.
+   *
+   * <p>
+   *
+   * @throws Exception if something fails
+   */
+  public void testCollectAppConfigurations() throws Exception {
 
-        CmsWorkplaceAppManager manager = new CmsWorkplaceAppManager();
-        manager.loadApps();
-        Collection<I_CmsWorkplaceAppConfiguration> configs = manager.getWorkplaceApps();
+    CmsWorkplaceAppManager manager = new CmsWorkplaceAppManager();
+    manager.loadApps();
+    Collection<I_CmsWorkplaceAppConfiguration> configs = manager.getWorkplaceApps();
 
-        assertTrue("Should find apps", !configs.isEmpty());
-    }
+    assertTrue("Should find apps", !configs.isEmpty());
+  }
 }

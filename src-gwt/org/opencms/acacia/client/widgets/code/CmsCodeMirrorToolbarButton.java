@@ -27,77 +27,76 @@
 
 package org.opencms.acacia.client.widgets.code;
 
-import org.opencms.gwt.client.ui.FontOpenCms;
-import org.opencms.gwt.client.util.CmsStyleVariable;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import org.opencms.gwt.client.ui.FontOpenCms;
+import org.opencms.gwt.client.util.CmsStyleVariable;
 
-/**
- * Simple toolbar button class for the CodeMirror widget.
- */
+/** Simple toolbar button class for the CodeMirror widget. */
 public class CmsCodeMirrorToolbarButton extends Composite implements HasClickHandlers {
 
-    /** The root element. */
-    protected HTML m_root;
+  /** The root element. */
+  protected HTML m_root;
 
-    /** True if the button is enabled. */
-    protected boolean m_enabled = true;
+  /** True if the button is enabled. */
+  protected boolean m_enabled = true;
 
-    /** Controls the style for enabled / disabled state. */
-    protected CmsStyleVariable m_enabledStyle = new CmsStyleVariable(this);
+  /** Controls the style for enabled / disabled state. */
+  protected CmsStyleVariable m_enabledStyle = new CmsStyleVariable(this);
 
-    /**
-     * Creates a new instance.
-     *
-     * @param icon the icon
-     */
-    public CmsCodeMirrorToolbarButton(FontOpenCms icon) {
+  /**
+   * Creates a new instance.
+   *
+   * @param icon the icon
+   */
+  public CmsCodeMirrorToolbarButton(FontOpenCms icon) {
 
-        m_root = new HTML();
-        m_root.setHTML("<span>" + icon.getCodePointEntity() + "</span>");
-        initWidget(m_root);
-        addStyleName("oc-codewidget-button");
-    }
+    m_root = new HTML();
+    m_root.setHTML("<span>" + icon.getCodePointEntity() + "</span>");
+    initWidget(m_root);
+    addStyleName("oc-codewidget-button");
+  }
 
-    /**
-     * Creates a new instance.
-     *
-     * @param icon the icon text.
-     */
-    public CmsCodeMirrorToolbarButton(String icon) {
+  /**
+   * Creates a new instance.
+   *
+   * @param icon the icon text.
+   */
+  public CmsCodeMirrorToolbarButton(String icon) {
 
-        m_root = new HTML();
-        m_root.setHTML("<span>" + icon + "</span>");
-        initWidget(m_root);
-        addStyleName("oc-codewidget-button");
-    }
+    m_root = new HTML();
+    m_root.setHTML("<span>" + icon + "</span>");
+    initWidget(m_root);
+    addStyleName("oc-codewidget-button");
+  }
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasClickHandlers#addClickHandler(com.google.gwt.event.dom.client.ClickHandler)
-     */
-    public HandlerRegistration addClickHandler(ClickHandler handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasClickHandlers#addClickHandler(com.google.gwt.event.dom.client.ClickHandler)
+   */
+  public HandlerRegistration addClickHandler(ClickHandler handler) {
 
-        return addDomHandler(event -> {
-            if (m_enabled) {
-                handler.onClick(event);
-            }
-        }, ClickEvent.getType());
-    }
+    return addDomHandler(
+        event -> {
+          if (m_enabled) {
+            handler.onClick(event);
+          }
+        },
+        ClickEvent.getType());
+  }
 
-    /**
-     * Enables / disables the button.
-     *
-     * @param enabled true if the button should be enabled
-     */
-    public void setEnabled(boolean enabled) {
+  /**
+   * Enables / disables the button.
+   *
+   * @param enabled true if the button should be enabled
+   */
+  public void setEnabled(boolean enabled) {
 
-        m_enabled = enabled;
-        m_enabledStyle.setValue(enabled ? null : "oc-disabled");
-    }
-
+    m_enabled = enabled;
+    m_enabledStyle.setValue(enabled ? null : "oc-disabled");
+  }
 }

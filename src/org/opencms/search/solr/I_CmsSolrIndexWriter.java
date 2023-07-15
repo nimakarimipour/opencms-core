@@ -27,17 +27,18 @@
 
 package org.opencms.search.solr;
 
-import org.opencms.search.I_CmsIndexWriter;
-
 import java.io.IOException;
+import org.opencms.search.I_CmsIndexWriter;
 
 /** Interface for Solr index writers. */
 public interface I_CmsSolrIndexWriter extends I_CmsIndexWriter {
 
-    /**
-     * Deletes all documents of the index belonging to this index writer.<p>
-     *
-     * @throws IOException if something goes wrong
-     */
-    public void deleteAllDocuments() throws IOException;
+  /**
+   * Deletes all documents of the index belonging to this index writer.
+   *
+   * <p>
+   *
+   * @throws IOException if something goes wrong
+   */
+  public void deleteAllDocuments() throws IOException;
 }

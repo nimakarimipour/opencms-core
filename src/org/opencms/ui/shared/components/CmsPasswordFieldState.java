@@ -29,33 +29,29 @@ package org.opencms.ui.shared.components;
 
 import com.vaadin.v7.shared.ui.textfield.AbstractTextFieldState;
 
-/**
- * Widget state for the special password field used by the login dialog.
- */
+/** Widget state for the special password field used by the login dialog. */
 public class CmsPasswordFieldState extends AbstractTextFieldState {
 
-    /** Flag indicating whether the password is visible or not. */
-    private boolean m_passwordVisible;
+  /** Flag indicating whether the password is visible or not. */
+  private boolean m_passwordVisible;
 
-    /**
-     * Returns true if the password is visible.
-     *
-     * @return true if the password is visible
-     */
-    public boolean isPasswordVisible() {
+  /**
+   * Returns true if the password is visible.
+   *
+   * @return true if the password is visible
+   */
+  public boolean isPasswordVisible() {
 
-        return m_passwordVisible;
+    return m_passwordVisible;
+  }
 
-    }
+  /**
+   * Sets the password visibility.
+   *
+   * @param visible true if the password should be visible
+   */
+  public void setPasswordVisible(boolean visible) {
 
-    /**
-     * Sets the password visibility.
-     *
-     * @param visible true if the password should be visible
-     */
-    public void setPasswordVisible(boolean visible) {
-
-        m_passwordVisible = visible;
-    }
-
+    m_passwordVisible = visible;
+  }
 }

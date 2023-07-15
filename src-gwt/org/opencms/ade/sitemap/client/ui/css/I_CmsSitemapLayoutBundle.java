@@ -31,105 +31,142 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
 
 /**
- * Resource bundle to access CSS and image resources.<p>
+ * Resource bundle to access CSS and image resources.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsSitemapLayoutBundle extends org.opencms.gwt.client.ui.css.I_CmsLayoutBundle {
 
-    /** Clipboard CSS. */
-    interface I_CmsClipboardCss extends CssResource {
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String clipboardList();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String listClearButton();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String menuTabContainer();
-    }
-
-    /** Root CSS. */
-    interface I_CmsSitemapCss extends CssResource {
-
-        /** Access method.<p>
-        *
-        * @return the CSS class name
-        */
-        String headerContainer();
-
-        /** Access method.<p>
-        *
-        * @return the CSS class name
-        */
-        String headerContainerVaadinMode();
-
-        /** Access method.<p>
-        *
-        * @return the CSS class name
-        */
-        String hiddenHeader();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String page();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String pageCenter();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String root();
-    }
-
-    /** The bundle instance. */
-    I_CmsSitemapLayoutBundle INSTANCE = GWT.create(I_CmsSitemapLayoutBundle.class);
+  /** Clipboard CSS. */
+  interface I_CmsClipboardCss extends CssResource {
 
     /**
-     * Access method.<p>
+     * Access method.
      *
-     * @return the root CSS
-     **/
-    @Source("clipboard.gss")
-    I_CmsClipboardCss clipboardCss();
-
-    /**
-     * Access method.<p>
+     * <p>
      *
-     * @return the image bundle for the sitemap
+     * @return the CSS class name
      */
-    I_CmsImageBundle images();
+    String clipboardList();
 
     /**
-     * Access method.<p>
+     * Access method.
      *
-     * @return the root CSS
+     * <p>
+     *
+     * @return the CSS class name
      */
-    @Source("sitemap.gss")
-    I_CmsSitemapCss sitemapCss();
+    String listClearButton();
 
     /**
-     * Access method.<p>
+     * Access method.
      *
-     * @return the root CSS
-     **/
-    @Source("sitemapItem.gss")
-    I_CmsSitemapItemCss sitemapItemCss();
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String menuTabContainer();
+  }
+
+  /** Root CSS. */
+  interface I_CmsSitemapCss extends CssResource {
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String headerContainer();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String headerContainerVaadinMode();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String hiddenHeader();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String page();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String pageCenter();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String root();
+  }
+
+  /** The bundle instance. */
+  I_CmsSitemapLayoutBundle INSTANCE = GWT.create(I_CmsSitemapLayoutBundle.class);
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the root CSS
+   */
+  @Source("clipboard.gss")
+  I_CmsClipboardCss clipboardCss();
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the image bundle for the sitemap
+   */
+  I_CmsImageBundle images();
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the root CSS
+   */
+  @Source("sitemap.gss")
+  I_CmsSitemapCss sitemapCss();
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the root CSS
+   */
+  @Source("sitemapItem.gss")
+  I_CmsSitemapItemCss sitemapItemCss();
 }

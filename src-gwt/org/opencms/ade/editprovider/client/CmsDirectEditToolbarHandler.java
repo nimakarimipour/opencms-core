@@ -27,6 +27,14 @@
 
 package org.opencms.ade.editprovider.client;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.PopupPanel;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.opencms.ade.publish.client.CmsPublishDialog;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.client.rpc.CmsRpcAction;
@@ -43,253 +51,258 @@ import org.opencms.gwt.shared.CmsCoreData.AdeContext;
 import org.opencms.gwt.shared.CmsGwtConstants;
 import org.opencms.util.CmsUUID;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.PopupPanel;
-
 /**
- * A toolbar handler for the Toolbar direct edit provider.<p>
+ * A toolbar handler for the Toolbar direct edit provider.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsDirectEditToolbarHandler extends A_CmsToolbarHandler {
 
-    /** The currently active button. */
-    private I_CmsToolbarButton m_activeButton;
+  /** The currently active button. */
+  private I_CmsToolbarButton m_activeButton;
 
-    /** The context menu button. */
-    private CmsToolbarContextButton m_contextButton;
+  /** The context menu button. */
+  private CmsToolbarContextButton m_contextButton;
 
-    /** The context menu commands. */
-    private Map<String, I_CmsContextMenuCommand> m_contextMenuCommands;
+  /** The context menu commands. */
+  private Map<String, I_CmsContextMenuCommand> m_contextMenuCommands;
 
-    /** The editor handler. */
-    private I_CmsContentEditorHandler m_editorHandler;
+  /** The editor handler. */
+  private I_CmsContentEditorHandler m_editorHandler;
 
-    /** The entry point. */
-    private CmsDirectEditEntryPoint m_entryPoint;
+  /** The entry point. */
+  private CmsDirectEditEntryPoint m_entryPoint;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param entryPoint the entry point
-     */
-    public CmsDirectEditToolbarHandler(CmsDirectEditEntryPoint entryPoint) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param entryPoint the entry point
+   */
+  public CmsDirectEditToolbarHandler(CmsDirectEditEntryPoint entryPoint) {
 
-        m_entryPoint = entryPoint;
-        m_editorHandler = new I_CmsContentEditorHandler() {
+    m_entryPoint = entryPoint;
+    m_editorHandler =
+        new I_CmsContentEditorHandler() {
 
-            /**
-             * @see org.opencms.gwt.client.ui.contenteditor.I_CmsContentEditorHandler#onClose(java.lang.String, org.opencms.util.CmsUUID, boolean, boolean, boolean)
-             */
-            public void onClose(
-                String sitePath,
-                CmsUUID structureId,
-                boolean isNew,
-                boolean hasChangedSettings,
-                boolean usedPublishDialog) {
+          /**
+           * @see
+           *     org.opencms.gwt.client.ui.contenteditor.I_CmsContentEditorHandler#onClose(java.lang.String,
+           *     org.opencms.util.CmsUUID, boolean, boolean, boolean)
+           */
+          public void onClose(
+              String sitePath,
+              CmsUUID structureId,
+              boolean isNew,
+              boolean hasChangedSettings,
+              boolean usedPublishDialog) {
 
-                Window.Location.reload();
-            }
+            Window.Location.reload();
+          }
         };
+  }
+
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarHandler#activateSelection() */
+  public void activateSelection() {
+
+    // do nothing
+  }
+
+  /**
+   * De-activates the current button.
+   *
+   * <p>
+   */
+  public void deactivateCurrentButton() {
+
+    if (m_activeButton != null) {
+      m_activeButton.setActive(false);
+      m_activeButton = null;
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarHandler#activateSelection()
-     */
-    public void activateSelection() {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#ensureLockOnResource(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.util.I_CmsSimpleCallback)
+   */
+  public void ensureLockOnResource(CmsUUID structureId, I_CmsSimpleCallback<Boolean> callback) {
 
-        // do nothing
+    CmsCoreProvider.get().lock(structureId, callback);
+  }
+
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarHandler#getActiveButton() */
+  public I_CmsToolbarButton getActiveButton() {
+
+    return m_activeButton;
+  }
+
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#getContextMenuCommands() */
+  public Map<String, I_CmsContextMenuCommand> getContextMenuCommands() {
+
+    if (m_contextMenuCommands == null) {
+      I_CmsContextMenuCommandInitializer initializer =
+          GWT.create(I_CmsContextMenuCommandInitializer.class);
+      m_contextMenuCommands = initializer.initCommands();
     }
+    return m_contextMenuCommands;
+  }
 
-    /**
-     * De-activates the current button.<p>
-     */
-    public void deactivateCurrentButton() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#getContextType() */
+  public String getContextType() {
 
-        if (m_activeButton != null) {
-            m_activeButton.setActive(false);
-            m_activeButton = null;
-        }
-    }
+    return CmsGwtConstants.CONTEXT_TYPE_APP_TOOLBAR;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#ensureLockOnResource(org.opencms.util.CmsUUID, org.opencms.gwt.client.util.I_CmsSimpleCallback)
-     */
-    public void ensureLockOnResource(CmsUUID structureId, I_CmsSimpleCallback<Boolean> callback) {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#getEditorHandler() */
+  public I_CmsContentEditorHandler getEditorHandler() {
 
-        CmsCoreProvider.get().lock(structureId, callback);
-    }
+    return m_editorHandler;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarHandler#getActiveButton()
-     */
-    public I_CmsToolbarButton getActiveButton() {
+  /**
+   * Inserts the context menu.
+   *
+   * <p>
+   *
+   * @param menuBeans the menu beans from the server
+   * @param structureId the structure id of the resource at which the workplace should be opened
+   */
+  public void insertContextMenu(List<CmsContextMenuEntryBean> menuBeans, CmsUUID structureId) {
 
-        return m_activeButton;
-    }
+    List<I_CmsContextMenuEntry> menuEntries = transformEntries(menuBeans, structureId);
+    m_contextButton.showMenu(menuEntries);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#getContextMenuCommands()
-     */
-    public Map<String, I_CmsContextMenuCommand> getContextMenuCommands() {
+  /**
+   * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#leavePage(java.lang.String)
+   */
+  public void leavePage(String targetUri) {
 
-        if (m_contextMenuCommands == null) {
-            I_CmsContextMenuCommandInitializer initializer = GWT.create(I_CmsContextMenuCommandInitializer.class);
-            m_contextMenuCommands = initializer.initCommands();
-        }
-        return m_contextMenuCommands;
-    }
+    Window.Location.replace(targetUri);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#getContextType()
-     */
-    public String getContextType() {
+  /**
+   * @see org.opencms.gwt.client.ui.I_CmsToolbarHandler#loadContextMenu(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.shared.CmsCoreData.AdeContext)
+   */
+  public void loadContextMenu(final CmsUUID structureId, final AdeContext context) {
 
-        return CmsGwtConstants.CONTEXT_TYPE_APP_TOOLBAR;
-    }
+    /** The RPC menu action for the container page dialog. */
+    CmsRpcAction<List<CmsContextMenuEntryBean>> menuAction =
+        new CmsRpcAction<List<CmsContextMenuEntryBean>>() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#getEditorHandler()
-     */
-    public I_CmsContentEditorHandler getEditorHandler() {
+          /** @see org.opencms.gwt.client.rpc.CmsRpcAction#execute() */
+          @Override
+          public void execute() {
 
-        return m_editorHandler;
-    }
+            CmsCoreProvider.getService().getContextMenuEntries(structureId, context, this);
+          }
 
-    /**
-     * Inserts the context menu.<p>
-     *
-     * @param menuBeans the menu beans from the server
-     * @param structureId the structure id of the resource at which the workplace should be opened
-     */
-    public void insertContextMenu(List<CmsContextMenuEntryBean> menuBeans, CmsUUID structureId) {
+          /** @see org.opencms.gwt.client.rpc.CmsRpcAction#onResponse(java.lang.Object) */
+          @Override
+          public void onResponse(List<CmsContextMenuEntryBean> menuBeans) {
 
-        List<I_CmsContextMenuEntry> menuEntries = transformEntries(menuBeans, structureId);
-        m_contextButton.showMenu(menuEntries);
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#leavePage(java.lang.String)
-     */
-    public void leavePage(String targetUri) {
-
-        Window.Location.replace(targetUri);
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarHandler#loadContextMenu(org.opencms.util.CmsUUID, org.opencms.gwt.shared.CmsCoreData.AdeContext)
-     */
-    public void loadContextMenu(final CmsUUID structureId, final AdeContext context) {
-
-        /** The RPC menu action for the container page dialog. */
-        CmsRpcAction<List<CmsContextMenuEntryBean>> menuAction = new CmsRpcAction<List<CmsContextMenuEntryBean>>() {
-
-            /**
-            * @see org.opencms.gwt.client.rpc.CmsRpcAction#execute()
-            */
-            @Override
-            public void execute() {
-
-                CmsCoreProvider.getService().getContextMenuEntries(structureId, context, this);
-            }
-
-            /**
-            * @see org.opencms.gwt.client.rpc.CmsRpcAction#onResponse(java.lang.Object)
-            */
-            @Override
-            public void onResponse(List<CmsContextMenuEntryBean> menuBeans) {
-
-                insertContextMenu(menuBeans, structureId);
-            }
+            insertContextMenu(menuBeans, structureId);
+          }
         };
-        menuAction.execute();
+    menuAction.execute();
+  }
 
-    }
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#onSiteOrProjectChange(java.lang.String,
+   *     java.lang.String)
+   */
+  public void onSiteOrProjectChange(String sitePath, String serverLink) {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#onSiteOrProjectChange(java.lang.String, java.lang.String)
-     */
-    public void onSiteOrProjectChange(String sitePath, String serverLink) {
+    leavePage(serverLink);
+  }
 
-        leavePage(serverLink);
-    }
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#refreshResource(org.opencms.util.CmsUUID)
+   */
+  public void refreshResource(CmsUUID structureId) {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#refreshResource(org.opencms.util.CmsUUID)
-     */
-    public void refreshResource(CmsUUID structureId) {
+    Window.Location.reload();
+  }
 
-        Window.Location.reload();
-    }
+  /**
+   * Sets the currently active tool-bar button.
+   *
+   * <p>
+   *
+   * @param button the button
+   */
+  public void setActiveButton(I_CmsToolbarButton button) {
 
-    /**
-     * Sets the currently active tool-bar button.<p>
-     *
-     * @param button the button
-     */
-    public void setActiveButton(I_CmsToolbarButton button) {
+    m_activeButton = button;
+  }
 
-        m_activeButton = button;
-    }
+  /**
+   * Sets the context menu button.
+   *
+   * <p>
+   *
+   * @param button the context menu button
+   */
+  public void setContextMenuButton(CmsToolbarContextButton button) {
 
-    /**
-     * Sets the context menu button.<p>
-     *
-     * @param button the context menu button
-     */
-    public void setContextMenuButton(CmsToolbarContextButton button) {
+    m_contextButton = button;
+  }
 
-        m_contextButton = button;
-    }
+  /**
+   * Opens the publish dialog.
+   *
+   * <p>
+   */
+  public void showPublishDialog() {
 
-    /**
-     * Opens the publish dialog.<p>
-     */
-    public void showPublishDialog() {
+    CmsPublishDialog.showPublishDialog(
+        new HashMap<String, String>(),
+        new CloseHandler<PopupPanel>() {
 
-        CmsPublishDialog.showPublishDialog(new HashMap<String, String>(), new CloseHandler<PopupPanel>() {
+          /**
+           * @see
+           *     com.google.gwt.event.logical.shared.CloseHandler#onClose(com.google.gwt.event.logical.shared.CloseEvent)
+           */
+          public void onClose(CloseEvent<PopupPanel> event) {
 
-            /**
-             * @see com.google.gwt.event.logical.shared.CloseHandler#onClose(com.google.gwt.event.logical.shared.CloseEvent)
-             */
-            public void onClose(CloseEvent<PopupPanel> event) {
+            deactivateCurrentButton();
+          }
+        },
+        new Runnable() {
 
-                deactivateCurrentButton();
+          public void run() {
 
-            }
-        }, new Runnable() {
+            showPublishDialog();
+          }
+        },
+        null);
+  }
 
-            public void run() {
+  /**
+   * Toggles the visibility of the toolbar.
+   *
+   * <p>
+   *
+   * @param show <code>true</code> to show the toolbar
+   */
+  public void showToolbar(boolean show) {
 
-                showPublishDialog();
-            }
+    m_entryPoint.toggleToolbar(show);
+  }
 
-        }, null);
-    }
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#unlockResource(org.opencms.util.CmsUUID)
+   */
+  public void unlockResource(CmsUUID structureId) {
 
-    /**
-     * Toggles the visibility of the toolbar.<p>
-     *
-     * @param show <code>true</code> to show the toolbar
-     */
-    public void showToolbar(boolean show) {
-
-        m_entryPoint.toggleToolbar(show);
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#unlockResource(org.opencms.util.CmsUUID)
-     */
-    public void unlockResource(CmsUUID structureId) {
-
-        CmsCoreProvider.get().unlock(structureId);
-    }
-
+    CmsCoreProvider.get().unlock(structureId);
+  }
 }

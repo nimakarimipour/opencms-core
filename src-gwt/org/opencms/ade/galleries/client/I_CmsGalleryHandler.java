@@ -27,55 +27,60 @@
 
 package org.opencms.ade.galleries.client;
 
+import com.google.gwt.user.client.ui.Widget;
 import org.opencms.ade.galleries.client.ui.CmsResultListItem;
 import org.opencms.ade.galleries.shared.CmsResultItemBean;
 import org.opencms.gwt.client.dnd.CmsDNDHandler;
 import org.opencms.gwt.client.ui.I_CmsAutoHider;
 
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * A handler interface which allows the gallery dialog to interact with the context it is used in, e.g. the container page editor.
+ * A handler interface which allows the gallery dialog to interact with the context it is used in,
+ * e.g. the container page editor.
  */
 public interface I_CmsGalleryHandler {
 
-    /**
-     * This method is used to disable drag-and-drop for specific results.<p>
-     *
-     * If this returns false, drag and drop should be disabled for the result (however, if true is returned,
-     * this does not automatically mean that drag and drop should be enabled.)
-     *
-     * @param resultBean the result for which drag-and-drop feasibility should be checked
-     * @return false if DnD should be prohibited for the element, else true
-     */
-    boolean filterDnd(CmsResultItemBean resultBean);
+  /**
+   * This method is used to disable drag-and-drop for specific results.
+   *
+   * <p>If this returns false, drag and drop should be disabled for the result (however, if true is
+   * returned, this does not automatically mean that drag and drop should be enabled.)
+   *
+   * @param resultBean the result for which drag-and-drop feasibility should be checked
+   * @return false if DnD should be prohibited for the element, else true
+   */
+  boolean filterDnd(CmsResultItemBean resultBean);
 
-    /**
-     * Gets an additional widget to display in the type tab.<p>
-     *
-     * @return the additional widget to display
-     */
-    Widget getAdditionalTypeTabControl();
+  /**
+   * Gets an additional widget to display in the type tab.
+   *
+   * <p>
+   *
+   * @return the additional widget to display
+   */
+  Widget getAdditionalTypeTabControl();
 
-    /**
-     * Gets the auto-hide parent.<p>
-     *
-     * @return the auto-hide parent
-     */
-    I_CmsAutoHider getAutoHideParent();
+  /**
+   * Gets the auto-hide parent.
+   *
+   * <p>
+   *
+   * @return the auto-hide parent
+   */
+  I_CmsAutoHider getAutoHideParent();
 
-    /**
-     * Gets the drag-and-drop handler for the result list.
-     *
-     * @return the drag-and-drop handler
-     */
-    CmsDNDHandler getDndHandler();
+  /**
+   * Gets the drag-and-drop handler for the result list.
+   *
+   * @return the drag-and-drop handler
+   */
+  CmsDNDHandler getDndHandler();
 
-    /**
-     * Processes a result list item.<p>
-     *
-     * @param item the item to process
-     */
-    void processResultItem(CmsResultListItem item);
-
+  /**
+   * Processes a result list item.
+   *
+   * <p>
+   *
+   * @param item the item to process
+   */
+  void processResultItem(CmsResultListItem item);
 }

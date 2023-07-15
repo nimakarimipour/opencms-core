@@ -27,83 +27,91 @@
 
 package org.opencms.workplace.tools.modules;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.widgets.CmsInputWidget;
 import org.opencms.workplace.CmsWidgetDialogParameter;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Edit class to edit module parameters.<p>
+ * Edit class to edit module parameters.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsModulesEditParameters extends CmsModulesEditBase {
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsModulesEditParameters(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsModulesEditParameters(CmsJspActionElement jsp) {
 
-        super(jsp);
+    super(jsp);
+  }
+
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsModulesEditParameters(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
+
+    this(new CmsJspActionElement(context, req, res));
+  }
+
+  /**
+   * Creates the dialog HTML for all defined widgets of the named dialog (page).
+   *
+   * <p>
+   *
+   * @param dialog the dialog (page) to get the HTML for
+   * @return the dialog HTML for all defined widgets of the named dialog (page)
+   */
+  @Override
+  protected String createDialogHtml(String dialog) {
+
+    StringBuffer result = new StringBuffer(1024);
+
+    // create table
+    result.append(createWidgetTableStart());
+
+    // show error header once if there were validation errors
+    result.append(createWidgetErrorHeader());
+
+    if (dialog.equals(PAGES[0])) {
+      result.append(dialogBlockStart(key("label.parameter")));
+      result.append(createWidgetTableStart());
+      result.append(createDialogRowsHtml(0, 0));
+      result.append(createWidgetTableEnd());
+      result.append(dialogBlockEnd());
     }
+    // close table
+    result.append(createWidgetTableEnd());
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsModulesEditParameters(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    return result.toString();
+  }
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+  /**
+   * Creates the list of widgets for this dialog.
+   *
+   * <p>
+   */
+  @Override
+  protected void defineWidgets() {
 
-    /**
-     * Creates the dialog HTML for all defined widgets of the named dialog (page).<p>
-     *
-     * @param dialog the dialog (page) to get the HTML for
-     * @return the dialog HTML for all defined widgets of the named dialog (page)
-     */
-    @Override
-    protected String createDialogHtml(String dialog) {
+    super.defineWidgets();
 
-        StringBuffer result = new StringBuffer(1024);
-
-        // create table
-        result.append(createWidgetTableStart());
-
-        // show error header once if there were validation errors
-        result.append(createWidgetErrorHeader());
-
-        if (dialog.equals(PAGES[0])) {
-            result.append(dialogBlockStart(key("label.parameter")));
-            result.append(createWidgetTableStart());
-            result.append(createDialogRowsHtml(0, 0));
-            result.append(createWidgetTableEnd());
-            result.append(dialogBlockEnd());
-        }
-        // close table
-        result.append(createWidgetTableEnd());
-
-        return result.toString();
-    }
-
-    /**
-     * Creates the list of widgets for this dialog.<p>
-     */
-    @Override
-    protected void defineWidgets() {
-
-        super.defineWidgets();
-
-        addWidget(new CmsWidgetDialogParameter(m_module, "parameters", PAGES[0], new CmsInputWidget()));
-
-    }
-
+    addWidget(new CmsWidgetDialogParameter(m_module, "parameters", PAGES[0], new CmsInputWidget()));
+  }
 }

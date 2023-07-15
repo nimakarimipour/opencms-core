@@ -27,62 +27,69 @@
 
 package org.opencms.ui.apps.cacheadmin;
 
-import org.opencms.ui.A_CmsUI;
-import org.opencms.ui.CmsVaadinUtils;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import org.opencms.ui.A_CmsUI;
+import org.opencms.ui.CmsVaadinUtils;
 
 /**
- * class for the input dialog to search for cached images.<p>
+ * class for the input dialog to search for cached images.
+ *
+ * <p>
  */
 public class CmsImageCacheInput extends VerticalLayout {
 
-    /**vaadin serial id. */
-    private static final long serialVersionUID = 1021439352252805506L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 1021439352252805506L;
 
-    /**vaadin component. */
-    private TextField m_searchString;
+  /** vaadin component. */
+  private TextField m_searchString;
 
-    /**vaadin component. */
-    private Button m_okButton;
+  /** vaadin component. */
+  private Button m_okButton;
 
-    /**
-     * public constructor.<p>
-     *
-     * @param table to be updated after user input
-     */
-    public CmsImageCacheInput(final CmsImageCacheTable table) {
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param table to be updated after user input
+   */
+  public CmsImageCacheInput(final CmsImageCacheTable table) {
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
-        String siteRoot = A_CmsUI.getCmsObject().getRequestContext().getSiteRoot();
-        if (!siteRoot.endsWith("/")) {
-            siteRoot += "/";
-        }
-        siteRoot += "*";
-        m_searchString.setValue(siteRoot);
+    String siteRoot = A_CmsUI.getCmsObject().getRequestContext().getSiteRoot();
+    if (!siteRoot.endsWith("/")) {
+      siteRoot += "/";
+    }
+    siteRoot += "*";
+    m_searchString.setValue(siteRoot);
 
-        m_okButton.addClickListener(new ClickListener() {
+    m_okButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = -2309066076096393602L;
+          private static final long serialVersionUID = -2309066076096393602L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                table.load(getSearchPattern());
-            }
+            table.load(getSearchPattern());
+          }
         });
-    }
+  }
 
-    /**
-     * Reads the search field out.<p>
-     *
-     * @return search pattern
-     */
-    protected String getSearchPattern() {
+  /**
+   * Reads the search field out.
+   *
+   * <p>
+   *
+   * @return search pattern
+   */
+  protected String getSearchPattern() {
 
-        return m_searchString.getValue();
-    }
+    return m_searchString.getValue();
+  }
 }

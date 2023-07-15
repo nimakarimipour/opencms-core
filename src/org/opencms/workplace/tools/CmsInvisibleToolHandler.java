@@ -30,27 +30,24 @@ package org.opencms.workplace.tools;
 import org.opencms.file.CmsObject;
 
 /**
- * This tool handler just hides the tool for the user, but the tool can still
- * be invoked explicitly, usefull for tool that requires an argument, like
- * edit tools.<p>
+ * This tool handler just hides the tool for the user, but the tool can still be invoked explicitly,
+ * usefull for tool that requires an argument, like edit tools.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsInvisibleToolHandler extends A_CmsToolHandler {
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject)
-     */
-    public boolean isEnabled(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject) */
+  public boolean isEnabled(CmsObject cms) {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.A_CmsToolHandler#isVisible(org.opencms.file.CmsObject)
-     */
-    public boolean isVisible(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.A_CmsToolHandler#isVisible(org.opencms.file.CmsObject) */
+  public boolean isVisible(CmsObject cms) {
 
-        return false;
-    }
+    return false;
+  }
 }

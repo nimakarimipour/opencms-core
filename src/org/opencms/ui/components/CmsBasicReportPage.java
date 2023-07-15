@@ -27,74 +27,78 @@
 
 package org.opencms.ui.components;
 
-import org.opencms.report.A_CmsReportThread;
-import org.opencms.ui.CmsVaadinUtils;
-import org.opencms.ui.apps.A_CmsAttributeAwareApp;
-import org.opencms.ui.report.CmsReportWidget;
-
-import java.util.Collections;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.VerticalLayout;
+import java.util.Collections;
+import org.opencms.report.A_CmsReportThread;
+import org.opencms.ui.CmsVaadinUtils;
+import org.opencms.ui.apps.A_CmsAttributeAwareApp;
+import org.opencms.ui.report.CmsReportWidget;
 
 /**
- * Page to display a report.<p>
+ * Page to display a report.
+ *
+ * <p>
  */
 public class CmsBasicReportPage extends VerticalLayout {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The OK button. */
-    private Button m_ok;
+  /** The OK button. */
+  private Button m_ok;
 
-    /** The panel for the report. */
-    private Panel m_panel;
+  /** The panel for the report. */
+  private Panel m_panel;
 
-    /** The immediate parent layout of the report. */
-    private VerticalLayout m_reportContainer;
+  /** The immediate parent layout of the report. */
+  private VerticalLayout m_reportContainer;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param label the caption for the panel
-     * @param reportThread the report thread whose output should be displayed
-     * @param callback the callback to call when the user clicks OK
-     */
-    public CmsBasicReportPage(String label, final A_CmsReportThread reportThread, final Runnable callback) {
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        m_panel.setCaption(label);
-        CmsReportWidget reportWidget = new CmsReportWidget(reportThread);
-        reportWidget.setSizeFull();
-        m_reportContainer.addComponent(reportWidget);
-        if (reportThread != null) {
-            addAttachListener(new AttachListener() {
-
-                private static final long serialVersionUID = 1L;
-
-                public void attach(AttachEvent event) {
-
-                    if (reportThread.getState() == Thread.State.NEW) {
-                        reportThread.start();
-                    }
-                }
-            });
-        }
-        setSpacing(true);
-        m_ok.addClickListener(new ClickListener() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param label the caption for the panel
+   * @param reportThread the report thread whose output should be displayed
+   * @param callback the callback to call when the user clicks OK
+   */
+  public CmsBasicReportPage(
+      String label, final A_CmsReportThread reportThread, final Runnable callback) {
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    m_panel.setCaption(label);
+    CmsReportWidget reportWidget = new CmsReportWidget(reportThread);
+    reportWidget.setSizeFull();
+    m_reportContainer.addComponent(reportWidget);
+    if (reportThread != null) {
+      addAttachListener(
+          new AttachListener() {
 
             private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+            public void attach(AttachEvent event) {
 
-                callback.run();
+              if (reportThread.getState() == Thread.State.NEW) {
+                reportThread.start();
+              }
             }
-
-        });
-        setData(Collections.singletonMap(A_CmsAttributeAwareApp.ATTR_MAIN_HEIGHT_FULL, Boolean.TRUE));
+          });
     }
+    setSpacing(true);
+    m_ok.addClickListener(
+        new ClickListener() {
 
+          private static final long serialVersionUID = 1L;
+
+          public void buttonClick(ClickEvent event) {
+
+            callback.run();
+          }
+        });
+    setData(Collections.singletonMap(A_CmsAttributeAwareApp.ATTR_MAIN_HEIGHT_FULL, Boolean.TRUE));
+  }
 }

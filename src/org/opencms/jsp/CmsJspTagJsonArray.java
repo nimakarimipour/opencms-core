@@ -27,71 +27,64 @@
 
 package org.opencms.jsp;
 
-import org.opencms.json.JSONArray;
-
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
+import org.opencms.json.JSONArray;
 
 /**
  * Tag for defining a JSON array.
  *
- * Values created by nested JSON tags will be added to the array.
+ * <p>Values created by nested JSON tags will be added to the array.
  */
 public class CmsJspTagJsonArray extends A_CmsJspJsonTag implements I_CmsJspJsonContext {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = -5609309021078612934L;
+  /** Serial version id. */
+  private static final long serialVersionUID = -5609309021078612934L;
 
-    /** The JSON array to build. */
-    private JSONArray m_jsonArray;
+  /** The JSON array to build. */
+  private JSONArray m_jsonArray;
 
-    /**
-     * Default constructor explicitly resetting all variables.
-     */
-    public CmsJspTagJsonArray() {
+  /** Default constructor explicitly resetting all variables. */
+  public CmsJspTagJsonArray() {
 
-        init();
+    init();
+  }
+
+  /** @see org.opencms.jsp.I_CmsJspJsonContext#addValue(java.lang.String, java.lang.Object) */
+  public void addValue(String key, Object val) throws JspException {
+
+    if (key != null) {
+      throw new JspTagException(
+          "Can not add value to JSONArray with a key (key:" + key + ", val:" + val + ")");
     }
 
-    /**
-     * @see org.opencms.jsp.I_CmsJspJsonContext#addValue(java.lang.String, java.lang.Object)
-     */
-    public void addValue(String key, Object val) throws JspException {
+    m_jsonArray.put(val);
+  }
 
-        if (key != null) {
-            throw new JspTagException("Can not add value to JSONArray with a key (key:" + key + ", val:" + val + ")");
-        }
+  /** @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag() */
+  @Override
+  public int doStartTag() {
 
-        m_jsonArray.put(val);
+    m_jsonArray = new JSONArray();
+    return EVAL_BODY_INCLUDE;
+  }
 
-    }
+  /** @see org.opencms.jsp.A_CmsJspJsonTag#getJsonValue() */
+  @Override
+  public Object getJsonValue() {
 
-    /**
-     * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
-     */
-    @Override
-    public int doStartTag() {
+    return m_jsonArray;
+  }
 
-        m_jsonArray = new JSONArray();
-        return EVAL_BODY_INCLUDE;
-    }
+  /**
+   * Initializes / resets the internal values.
+   *
+   * <p>
+   */
+  @Override
+  protected void init() {
 
-    /**
-     * @see org.opencms.jsp.A_CmsJspJsonTag#getJsonValue()
-     */
-    @Override
-    public Object getJsonValue() {
-
-        return m_jsonArray;
-    }
-
-    /**
-     * Initializes / resets the internal values.<p>
-     */
-    @Override
-    protected void init() {
-
-        super.init();
-        m_jsonArray = null;
-    }
+    super.init();
+    m_jsonArray = null;
+  }
 }

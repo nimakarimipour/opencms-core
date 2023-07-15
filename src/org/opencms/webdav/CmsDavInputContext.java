@@ -28,38 +28,34 @@
 package org.opencms.webdav;
 
 import java.io.InputStream;
-
 import org.apache.jackrabbit.webdav.DavServletRequest;
 import org.apache.jackrabbit.webdav.io.InputContextImpl;
 
-/**
- * Input context that also allows querying the request method.
- */
+/** Input context that also allows querying the request method. */
 public class CmsDavInputContext extends InputContextImpl {
 
-    /** The current request. */
-    private DavServletRequest m_request;
+  /** The current request. */
+  private DavServletRequest m_request;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param request the request
-     * @param stream the stream
-     */
-    public CmsDavInputContext(DavServletRequest request, InputStream stream) {
+  /**
+   * Creates a new instance.
+   *
+   * @param request the request
+   * @param stream the stream
+   */
+  public CmsDavInputContext(DavServletRequest request, InputStream stream) {
 
-        super(request, stream);
-        m_request = request;
+    super(request, stream);
+    m_request = request;
+  }
 
-    }
+  /**
+   * Gets the request method for the current request.
+   *
+   * @return the request method
+   */
+  public String getMethod() {
 
-    /**
-     * Gets the request method for the current request.
-     *
-     * @return the request method
-     */
-    public String getMethod() {
-
-        return m_request.getMethod();
-    }
+    return m_request.getMethod();
+  }
 }

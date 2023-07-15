@@ -27,100 +27,104 @@
 
 package org.opencms.workplace.tools.accounts;
 
-import org.opencms.main.CmsIllegalArgumentException;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import org.opencms.main.CmsIllegalArgumentException;
 
 /**
- * Wrapper class for
- * the different types of icon actions the dependency lists.<p>
+ * Wrapper class for the different types of icon actions the dependency lists.
  *
- * The possibles values are:<br>
+ * <p>The possibles values are:<br>
+ *
  * <ul>
- *   <li>{@link #RESOURCE}</li>
- *   <li>{@link #GROUP}</li>
- *   <li>{@link #USER}</li>
+ *   <li>{@link #RESOURCE}
+ *   <li>{@link #GROUP}
+ *   <li>{@link #USER}
  * </ul>
+ *
  * <p>
  *
  * @since 6.0.0
  */
 public final class CmsDependencyIconActionType {
 
-    /** Constant for the resource icon action. */
-    public static final CmsDependencyIconActionType RESOURCE = new CmsDependencyIconActionType("r");
+  /** Constant for the resource icon action. */
+  public static final CmsDependencyIconActionType RESOURCE = new CmsDependencyIconActionType("r");
 
-    /** Constant for the group icon action.  */
-    public static final CmsDependencyIconActionType GROUP = new CmsDependencyIconActionType("g");
+  /** Constant for the group icon action. */
+  public static final CmsDependencyIconActionType GROUP = new CmsDependencyIconActionType("g");
 
-    /** Constant for the user icon action.     */
-    public static final CmsDependencyIconActionType USER = new CmsDependencyIconActionType("u");
+  /** Constant for the user icon action. */
+  public static final CmsDependencyIconActionType USER = new CmsDependencyIconActionType("u");
 
-    /** Array constant for all available align types. */
-    private static final CmsDependencyIconActionType[] VALUE_ARRAY = {RESOURCE, GROUP, USER};
+  /** Array constant for all available align types. */
+  private static final CmsDependencyIconActionType[] VALUE_ARRAY = {RESOURCE, GROUP, USER};
 
-    /** List of mode constants. */
-    public static final List<CmsDependencyIconActionType> VALUES = Collections.unmodifiableList(
-        Arrays.asList(VALUE_ARRAY));
+  /** List of mode constants. */
+  public static final List<CmsDependencyIconActionType> VALUES =
+      Collections.unmodifiableList(Arrays.asList(VALUE_ARRAY));
 
-    /** Internal representation. */
-    private final String m_mode;
+  /** Internal representation. */
+  private final String m_mode;
 
-    /**
-     * Private constructor.<p>
-     *
-     * @param mode the view mode
-     */
-    private CmsDependencyIconActionType(String mode) {
+  /**
+   * Private constructor.
+   *
+   * <p>
+   *
+   * @param mode the view mode
+   */
+  private CmsDependencyIconActionType(String mode) {
 
-        m_mode = mode;
+    m_mode = mode;
+  }
+
+  /**
+   * Parses an string into an element of this enumeration.
+   *
+   * <p>
+   *
+   * @param value the id to parse
+   * @return the enumeration element
+   * @throws CmsIllegalArgumentException if the given value could not be matched against a <code>
+   *     {@link CmsDependencyIconActionType}</code> type.
+   */
+  public static CmsDependencyIconActionType valueOf(String value)
+      throws CmsIllegalArgumentException {
+
+    Iterator<CmsDependencyIconActionType> iter = VALUES.iterator();
+    while (iter.hasNext()) {
+      CmsDependencyIconActionType target = iter.next();
+      if (value.equals(target.getId())) {
+        return target;
+      }
     }
-
-    /**
-     * Parses an string into an element of this enumeration.<p>
-     *
-     * @param value the id to parse
-     *
-     * @return the enumeration element
-     *
-     * @throws CmsIllegalArgumentException if the given value could not be matched against a
-     *         <code>{@link CmsDependencyIconActionType}</code> type.
-     */
-    public static CmsDependencyIconActionType valueOf(String value) throws CmsIllegalArgumentException {
-
-        Iterator<CmsDependencyIconActionType> iter = VALUES.iterator();
-        while (iter.hasNext()) {
-            CmsDependencyIconActionType target = iter.next();
-            if (value.equals(target.getId())) {
-                return target;
-            }
-        }
-        throw new CmsIllegalArgumentException(
-            org.opencms.db.Messages.get().container(
+    throw new CmsIllegalArgumentException(
+        org.opencms.db.Messages.get()
+            .container(
                 org.opencms.db.Messages.ERR_MODE_ENUM_PARSE_2,
                 value,
                 CmsDependencyIconActionType.class.getName()));
-    }
+  }
 
-    /**
-     * Returns the id string.<p>
-     *
-     * @return the id string
-     */
-    public String getId() {
+  /**
+   * Returns the id string.
+   *
+   * <p>
+   *
+   * @return the id string
+   */
+  public String getId() {
 
-        return m_mode;
-    }
+    return m_mode;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_mode;
-    }
+    return m_mode;
+  }
 }

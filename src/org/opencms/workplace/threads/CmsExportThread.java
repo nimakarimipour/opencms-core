@@ -27,65 +27,64 @@
 
 package org.opencms.workplace.threads;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.importexport.I_CmsImportExportHandler;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.report.A_CmsReportThread;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Exports selected resources of the OpenCms into an OpenCms export file.<p>
+ * Exports selected resources of the OpenCms into an OpenCms export file.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsExportThread extends A_CmsReportThread {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsExportThread.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsExportThread.class);
 
-    /** The import export handler. */
-    private I_CmsImportExportHandler m_handler;
+  /** The import export handler. */
+  private I_CmsImportExportHandler m_handler;
 
-    /**
-     * Creates a new data export thread.<p>
-     *
-     * @param cms the current OpenCms context object
-     * @param handler export handler containing the export data
-     * @param old flag for old report mode
-     */
-    public CmsExportThread(CmsObject cms, I_CmsImportExportHandler handler, boolean old) {
+  /**
+   * Creates a new data export thread.
+   *
+   * <p>
+   *
+   * @param cms the current OpenCms context object
+   * @param handler export handler containing the export data
+   * @param old flag for old report mode
+   */
+  public CmsExportThread(CmsObject cms, I_CmsImportExportHandler handler, boolean old) {
 
-        super(cms, "OpenCms: " + handler.getDescription());
-        m_handler = handler;
-        if (old) {
-            initOldHtmlReport(cms.getRequestContext().getLocale());
-        } else {
-            initHtmlReport(cms.getRequestContext().getLocale());
-        }
+    super(cms, "OpenCms: " + handler.getDescription());
+    m_handler = handler;
+    if (old) {
+      initOldHtmlReport(cms.getRequestContext().getLocale());
+    } else {
+      initHtmlReport(cms.getRequestContext().getLocale());
     }
+  }
 
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
+  /** @see org.opencms.report.A_CmsReportThread#getReportUpdate() */
+  @Override
+  public String getReportUpdate() {
 
-        return getReport().getReportUpdate();
+    return getReport().getReportUpdate();
+  }
+
+  /** @see java.lang.Runnable#run() */
+  @Override
+  public void run() {
+
+    try {
+      OpenCms.getImportExportManager().exportData(getCms(), m_handler, getReport());
+    } catch (Throwable e) {
+      getReport().println(e);
+      LOG.error(Messages.get().getBundle().key(Messages.ERR_DB_EXPORT_0), e);
     }
-
-    /**
-     * @see java.lang.Runnable#run()
-     */
-    @Override
-    public void run() {
-
-        try {
-            OpenCms.getImportExportManager().exportData(getCms(), m_handler, getReport());
-        } catch (Throwable e) {
-            getReport().println(e);
-            LOG.error(Messages.get().getBundle().key(Messages.ERR_DB_EXPORT_0), e);
-        }
-    }
+  }
 }

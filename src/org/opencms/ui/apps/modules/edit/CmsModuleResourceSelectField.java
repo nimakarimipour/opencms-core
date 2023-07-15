@@ -27,6 +27,16 @@
 
 package org.opencms.ui.apps.modules.edit;
 
+import com.vaadin.server.AbstractErrorMessage.ContentMode;
+import com.vaadin.server.ErrorMessage;
+import com.vaadin.server.UserError;
+import com.vaadin.shared.ui.ErrorLevel;
+import com.vaadin.ui.Component;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.IndexedContainer;
+import java.util.Arrays;
+import org.apache.commons.logging.Log;
 import org.opencms.ade.galleries.CmsSiteSelectorOptionBuilder;
 import org.opencms.ade.galleries.shared.CmsSiteSelectorOption;
 import org.opencms.db.CmsUserSettings;
@@ -42,134 +52,131 @@ import org.opencms.ui.components.fileselect.CmsResourceSelectDialog;
 import org.opencms.ui.components.fileselect.CmsResourceSelectDialog.Options;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.Arrays;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.server.AbstractErrorMessage.ContentMode;
-import com.vaadin.server.ErrorMessage;
-import com.vaadin.server.UserError;
-import com.vaadin.shared.ui.ErrorLevel;
-import com.vaadin.ui.Component;
-import com.vaadin.v7.data.Item;
-import com.vaadin.v7.data.Property;
-import com.vaadin.v7.data.util.IndexedContainer;
-
 /**
- * A widget for selecting a module resource.<p>
+ * A widget for selecting a module resource.
+ *
+ * <p>
  */
 public class CmsModuleResourceSelectField extends CmsPathSelectField {
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsModuleResourceSelectField.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsModuleResourceSelectField.class);
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsModuleResourceSelectField() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsModuleResourceSelectField() {
 
-        addValueChangeListener(new ValueChangeListener() {
+    addValueChangeListener(
+        new ValueChangeListener() {
 
-            /** Serial version id. */
-            private static final long serialVersionUID = 1L;
+          /** Serial version id. */
+          private static final long serialVersionUID = 1L;
 
-            @SuppressWarnings("synthetic-access")
-            public void valueChange(Property.ValueChangeEvent event) {
+          @SuppressWarnings("synthetic-access")
+          public void valueChange(Property.ValueChangeEvent event) {
 
-                updateValidation();
-            }
-
+            updateValidation();
+          }
         });
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.components.fileselect.A_CmsFileSelectField#setCmsObject(org.opencms.file.CmsObject)
+   */
+  @Override
+  public void setCmsObject(CmsObject cms) {
+
+    m_cms = cms;
+  }
+
+  /**
+   * Updates the site root.
+   *
+   * <p>
+   *
+   * @param siteRoot the site root
+   */
+  public void updateSite(String siteRoot) {
+
+    try {
+      CmsObject cloneCms = OpenCms.initCmsObject(m_cms);
+      if (siteRoot == null) {
+        siteRoot = "/system";
+      }
+      cloneCms.getRequestContext().setSiteRoot(siteRoot);
+      m_cms = cloneCms;
+    } catch (CmsException e1) {
+      LOG.error(e1.getLocalizedMessage(), e1);
     }
+    updateValidation();
+  }
 
-    /**
-     * @see org.opencms.ui.components.fileselect.A_CmsFileSelectField#setCmsObject(org.opencms.file.CmsObject)
-     */
-    @Override
-    public void setCmsObject(CmsObject cms) {
+  /** @see org.opencms.ui.components.fileselect.A_CmsFileSelectField#getOptions() */
+  @Override
+  protected Options getOptions() {
 
-        m_cms = cms;
-    }
+    Options options = new Options();
 
-    /**
-     * Updates the site root.<p>
-     *
-     * @param siteRoot the site root
-     */
-    public void updateSite(String siteRoot) {
-
-        try {
-            CmsObject cloneCms = OpenCms.initCmsObject(m_cms);
-            if (siteRoot == null) {
-                siteRoot = "/system";
-            }
-            cloneCms.getRequestContext().setSiteRoot(siteRoot);
-            m_cms = cloneCms;
-        } catch (CmsException e1) {
-            LOG.error(e1.getLocalizedMessage(), e1);
+    CmsSiteSelectorOptionBuilder optBuilder = new CmsSiteSelectorOptionBuilder(m_cms);
+    optBuilder.addNormalSites(true, (new CmsUserSettings(m_cms)).getStartFolder());
+    optBuilder.addSharedSite();
+    optBuilder.addSystemFolder();
+    IndexedContainer availableSites = new IndexedContainer();
+    availableSites.addContainerProperty(
+        CmsResourceSelectDialog.PROPERTY_SITE_CAPTION, String.class, null);
+    for (CmsSiteSelectorOption option : optBuilder.getOptions()) {
+      String siteRoot = option.getSiteRoot();
+      boolean matches = false;
+      for (String candidate :
+          Arrays.asList(
+              m_cms.getRequestContext().getSiteRoot(),
+              "/system",
+              OpenCms.getSiteManager().getSharedFolder())) {
+        if (CmsStringUtil.comparePaths(candidate, siteRoot)) {
+          matches = true;
+          break;
         }
-        updateValidation();
+      }
+      if (matches) {
+        Item siteItem = availableSites.addItem(option.getSiteRoot());
+        siteItem
+            .getItemProperty(CmsResourceSelectDialog.PROPERTY_SITE_CAPTION)
+            .setValue(option.getMessage());
+      }
     }
+    options.setSiteSelectionContainer(availableSites);
+    return options;
+  }
 
-    /**
-     * @see org.opencms.ui.components.fileselect.A_CmsFileSelectField#getOptions()
-     */
-    @Override
-    protected Options getOptions() {
+  /**
+   * Updates the validation status.
+   *
+   * <p>
+   */
+  private void updateValidation() {
 
-        Options options = new Options();
-
-        CmsSiteSelectorOptionBuilder optBuilder = new CmsSiteSelectorOptionBuilder(m_cms);
-        optBuilder.addNormalSites(true, (new CmsUserSettings(m_cms)).getStartFolder());
-        optBuilder.addSharedSite();
-        optBuilder.addSystemFolder();
-        IndexedContainer availableSites = new IndexedContainer();
-        availableSites.addContainerProperty(CmsResourceSelectDialog.PROPERTY_SITE_CAPTION, String.class, null);
-        for (CmsSiteSelectorOption option : optBuilder.getOptions()) {
-            String siteRoot = option.getSiteRoot();
-            boolean matches = false;
-            for (String candidate : Arrays.asList(
-                m_cms.getRequestContext().getSiteRoot(),
-                "/system",
-                OpenCms.getSiteManager().getSharedFolder())) {
-                if (CmsStringUtil.comparePaths(candidate, siteRoot)) {
-                    matches = true;
-                    break;
-                }
-            }
-            if (matches) {
-                Item siteItem = availableSites.addItem(option.getSiteRoot());
-                siteItem.getItemProperty(CmsResourceSelectDialog.PROPERTY_SITE_CAPTION).setValue(option.getMessage());
-            }
-        }
-        options.setSiteSelectionContainer(availableSites);
-        return options;
-
+    boolean changed = false;
+    changed |= CmsVaadinUtils.updateComponentError(m_textField, null);
+    String path = getValue();
+    if (!CmsStringUtil.isEmptyOrWhitespaceOnly(path)) {
+      if (!m_cms.existsResource(path, CmsResourceFilter.IGNORE_EXPIRATION)) {
+        ErrorMessage error =
+            new UserError(
+                CmsVaadinUtils.getMessageText(Messages.GUI_MODULES_MODULE_RESOURCE_NOT_FOUND_0),
+                ContentMode.TEXT,
+                ErrorLevel.WARNING);
+        changed |= CmsVaadinUtils.updateComponentError(m_textField, error);
+      }
     }
-
-    /**
-     * Updates the validation status.<p>
-     */
-    private void updateValidation() {
-
-        boolean changed = false;
-        changed |= CmsVaadinUtils.updateComponentError(m_textField, null);
-        String path = getValue();
-        if (!CmsStringUtil.isEmptyOrWhitespaceOnly(path)) {
-            if (!m_cms.existsResource(path, CmsResourceFilter.IGNORE_EXPIRATION)) {
-                ErrorMessage error = new UserError(
-                    CmsVaadinUtils.getMessageText(Messages.GUI_MODULES_MODULE_RESOURCE_NOT_FOUND_0),
-                    ContentMode.TEXT,
-                    ErrorLevel.WARNING);
-                changed |= CmsVaadinUtils.updateComponentError(m_textField, error);
-            }
-        }
-        if (changed) {
-            fireEvent(new Component.ErrorEvent(null, this));
-        }
+    if (changed) {
+      fireEvent(new Component.ErrorEvent(null, this));
     }
-
+  }
 }

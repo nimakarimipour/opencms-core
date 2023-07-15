@@ -27,6 +27,8 @@
 
 package org.opencms.ade.sitemap.client.edit;
 
+import java.util.List;
+import java.util.Map;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.client.ui.css.I_CmsSitemapLayoutBundle;
@@ -43,218 +45,191 @@ import org.opencms.gwt.shared.property.CmsClientTemplateBean;
 import org.opencms.gwt.shared.property.CmsPropertyModification;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * Property submission handler for the sitemap editor's locale comparison mode.<p>
+ * Property submission handler for the sitemap editor's locale comparison mode.
+ *
+ * <p>
  */
 public class CmsLocaleComparePropertyHandler implements I_CmsPropertyEditorHandler {
 
-    /** The property data loaded from the server. */
-    private CmsLocaleComparePropertyData m_data;
+  /** The property data loaded from the server. */
+  private CmsLocaleComparePropertyData m_data;
 
-    /** The page information. */
-    private CmsListInfoBean m_pageInfo;
+  /** The page information. */
+  private CmsListInfoBean m_pageInfo;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param data the property data loaded from the server
-     */
-    public CmsLocaleComparePropertyHandler(CmsLocaleComparePropertyData data) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param data the property data loaded from the server
+   */
+  public CmsLocaleComparePropertyHandler(CmsLocaleComparePropertyData data) {
 
-        m_data = data;
-    }
+    m_data = data;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getAllPropertyNames()
-     */
-    public List<String> getAllPropertyNames() {
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getAllPropertyNames() */
+  public List<String> getAllPropertyNames() {
 
-        return CmsSitemapView.getInstance().getController().getData().getAllPropertyNames();
+    return CmsSitemapView.getInstance().getController().getData().getAllPropertyNames();
+  }
 
-    }
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getDefaultFileId() */
+  public CmsUUID getDefaultFileId() {
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getDefaultFileId()
-     */
-    public CmsUUID getDefaultFileId() {
+    return m_data.getDefaultFileId();
+  }
 
-        return m_data.getDefaultFileId();
-    }
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getDefaultFileProperties() */
+  public Map<String, CmsClientProperty> getDefaultFileProperties() {
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getDefaultFileProperties()
-     */
-    public Map<String, CmsClientProperty> getDefaultFileProperties() {
+    return m_data.getDefaultFileProperties();
+  }
 
-        return m_data.getDefaultFileProperties();
-    }
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getDialogTitle() */
+  public String getDialogTitle() {
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getDialogTitle()
-     */
-    public String getDialogTitle() {
+    return Messages.get().key(Messages.GUI_PROPERTY_EDITOR_TITLE_0);
+  }
 
-        return Messages.get().key(Messages.GUI_PROPERTY_EDITOR_TITLE_0);
-    }
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getForbiddenUrlNames() */
+  public List<String> getForbiddenUrlNames() {
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getForbiddenUrlNames()
-     */
-    public List<String> getForbiddenUrlNames() {
+    return m_data.getForbiddenUrlNames();
+  }
 
-        return m_data.getForbiddenUrlNames();
-    }
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getId() */
+  public CmsUUID getId() {
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getId()
-     */
-    public CmsUUID getId() {
+    return m_data.getId();
+  }
 
-        return m_data.getId();
-    }
+  /**
+   * @see
+   *     org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getInheritedProperty(java.lang.String)
+   */
+  public CmsClientProperty getInheritedProperty(String name) {
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getInheritedProperty(java.lang.String)
-     */
-    public CmsClientProperty getInheritedProperty(String name) {
+    return m_data.getInheritedProperty(name);
+  }
 
-        return m_data.getInheritedProperty(name);
-    }
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getModeClass() */
+  public String getModeClass() {
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getModeClass()
-     */
-    public String getModeClass() {
+    return I_CmsSitemapLayoutBundle.INSTANCE.sitemapItemCss().navMode();
+  }
 
-        return I_CmsSitemapLayoutBundle.INSTANCE.sitemapItemCss().navMode();
-    }
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getName() */
+  public String getName() {
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getName()
-     */
-    public String getName() {
+    return m_data.getName();
+  }
 
-        return m_data.getName();
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getOwnProperties() */
+  public Map<String, CmsClientProperty> getOwnProperties() {
 
-    }
+    return m_data.getOwnProperties();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getOwnProperties()
-     */
-    public Map<String, CmsClientProperty> getOwnProperties() {
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getPageInfo() */
+  public CmsListInfoBean getPageInfo() {
 
-        return m_data.getOwnProperties();
-    }
+    return m_pageInfo;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getPageInfo()
-     */
-    public CmsListInfoBean getPageInfo() {
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getPath() */
+  public String getPath() {
 
-        return m_pageInfo;
-    }
+    return m_data.getPath();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getPath()
-     */
-    public String getPath() {
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getPossibleTemplates() */
+  public Map<String, CmsClientTemplateBean> getPossibleTemplates() {
 
-        return m_data.getPath();
-    }
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#getPossibleTemplates()
-     */
-    public Map<String, CmsClientTemplateBean> getPossibleTemplates() {
+  /**
+   * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#handleSubmit(java.lang.String,
+   *     java.lang.String, java.util.List, boolean, org.opencms.gwt.client.property.CmsReloadMode)
+   */
+  public void handleSubmit(
+      final String newUrlName,
+      String vfsPath,
+      final List<CmsPropertyModification> propertyChanges,
+      final boolean editedName,
+      CmsReloadMode reloadMode) {
 
-        // TODO Auto-generated method stub
-        return null;
-    }
+    final CmsUUID id = m_data.getId();
+    final I_CmsSitemapServiceAsync service =
+        CmsSitemapView.getInstance().getController().getService();
+    CmsRpcAction<Void> action =
+        new CmsRpcAction<Void>() {
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#handleSubmit(java.lang.String, java.lang.String, java.util.List, boolean, org.opencms.gwt.client.property.CmsReloadMode)
-     */
-    public void handleSubmit(
-        final String newUrlName,
-        String vfsPath,
-        final List<CmsPropertyModification> propertyChanges,
-        final boolean editedName,
-        CmsReloadMode reloadMode) {
+          @Override
+          public void execute() {
 
-        final CmsUUID id = m_data.getId();
-        final I_CmsSitemapServiceAsync service = CmsSitemapView.getInstance().getController().getService();
-        CmsRpcAction<Void> action = new CmsRpcAction<Void>() {
+            start(0, false);
+            service.savePropertiesForLocaleCompareMode(
+                id, newUrlName, propertyChanges, editedName, this);
+          }
 
-            @Override
-            public void execute() {
+          @Override
+          protected void onResponse(Void result) {
 
-                start(0, false);
-                service.savePropertiesForLocaleCompareMode(id, newUrlName, propertyChanges, editedName, this);
-            }
-
-            @Override
-            protected void onResponse(Void result) {
-
-                stop(false);
-                CmsJsUtil.callNamedFunctionWithString(CmsGwtConstants.CALLBACK_HANDLE_CHANGED_PROPERTIES, "" + id);
-
-            }
+            stop(false);
+            CmsJsUtil.callNamedFunctionWithString(
+                CmsGwtConstants.CALLBACK_HANDLE_CHANGED_PROPERTIES, "" + id);
+          }
         };
-        action.execute();
-    }
+    action.execute();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#hasEditableName()
-     */
-    public boolean hasEditableName() {
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#hasEditableName() */
+  public boolean hasEditableName() {
 
-        return m_data.hasEditableName();
-    }
+    return m_data.hasEditableName();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#isFolder()
-     */
-    public boolean isFolder() {
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#isFolder() */
+  public boolean isFolder() {
 
-        return m_data.isFolder();
-    }
+    return m_data.isFolder();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#isHiddenProperty(java.lang.String)
-     */
-    public boolean isHiddenProperty(String key) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#isHiddenProperty(java.lang.String)
+   */
+  public boolean isHiddenProperty(String key) {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#isSimpleMode()
-     */
-    public boolean isSimpleMode() {
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#isSimpleMode() */
+  public boolean isSimpleMode() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * Sets the page information.<p>
-     *
-     * @param pageInfo the page information
-     */
-    public void setPageInfo(CmsListInfoBean pageInfo) {
+  /**
+   * Sets the page information.
+   *
+   * <p>
+   *
+   * @param pageInfo the page information
+   */
+  public void setPageInfo(CmsListInfoBean pageInfo) {
 
-        m_pageInfo = pageInfo;
+    m_pageInfo = pageInfo;
+  }
 
-    }
+  /** @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#useAdeTemplates() */
+  public boolean useAdeTemplates() {
 
-    /**
-     * @see org.opencms.gwt.client.property.I_CmsPropertyEditorHandler#useAdeTemplates()
-     */
-    public boolean useAdeTemplates() {
-
-        return true;
-    }
-
+    return true;
+  }
 }

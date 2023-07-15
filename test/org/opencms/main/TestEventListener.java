@@ -37,44 +37,49 @@ import java.util.List;
  */
 public class TestEventListener implements I_CmsEventListener {
 
-    /** The list of recieved events. */
-    List m_events;
+  /** The list of recieved events. */
+  List m_events;
 
-    /**
-     * Default constructor.<p>
-     */
-    public TestEventListener() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public TestEventListener() {
 
-        m_events = new ArrayList();
-    }
+    m_events = new ArrayList();
+  }
 
-    /**
-     * @see org.opencms.main.I_CmsEventListener#cmsEvent(org.opencms.main.CmsEvent)
-     */
-    public void cmsEvent(CmsEvent event) {
+  /** @see org.opencms.main.I_CmsEventListener#cmsEvent(org.opencms.main.CmsEvent) */
+  public void cmsEvent(CmsEvent event) {
 
-        m_events.add(event);
-    }
+    m_events.add(event);
+  }
 
-    /**
-     * Returns a list of all recieved events.<p>
-     *
-     * @return a list of all recieved events
-     */
-    public List getEvents() {
+  /**
+   * Returns a list of all recieved events.
+   *
+   * <p>
+   *
+   * @return a list of all recieved events
+   */
+  public List getEvents() {
 
-        return m_events;
-    }
+    return m_events;
+  }
 
-    /**
-     * Returns <code>true</code> in case this listener has recieved at last one event of the given type.<p>
-     *
-     * @param event the event id to check
-     *
-     * @return <code>true</code> in case this listener has recieved at last one event of the given type
-     */
-    public boolean hasRecievedEvent(int event) {
+  /**
+   * Returns <code>true</code> in case this listener has recieved at last one event of the given
+   * type.
+   *
+   * <p>
+   *
+   * @param event the event id to check
+   * @return <code>true</code> in case this listener has recieved at last one event of the given
+   *     type
+   */
+  public boolean hasRecievedEvent(int event) {
 
-        return m_events.contains(new CmsEvent(event, null));
-    }
+    return m_events.contains(new CmsEvent(event, null));
+  }
 }

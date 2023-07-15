@@ -31,80 +31,92 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Group container bean.<p>
+ * Group container bean.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsGroupContainer extends CmsContainerElement {
 
-    /** The group-container description. */
-    private String m_description;
+  /** The group-container description. */
+  private String m_description;
 
-    /** List of the contained elements id's. */
-    private List<CmsContainerElement> m_elements;
+  /** List of the contained elements id's. */
+  private List<CmsContainerElement> m_elements;
 
-    /** The container types supported by this group container. */
-    private Set<String> m_types;
+  /** The container types supported by this group container. */
+  private Set<String> m_types;
 
-    /**
-     * Returns the group-container description.<p>
-     *
-     * @return the group-container description
-     */
-    public String getDescription() {
+  /**
+   * Returns the group-container description.
+   *
+   * <p>
+   *
+   * @return the group-container description
+   */
+  public String getDescription() {
 
-        return m_description;
-    }
+    return m_description;
+  }
 
-    /**
-     * Returns the list of the contained elements id's.<p>
-     *
-     * @return the list of the contained elements id's
-     */
-    public List<CmsContainerElement> getElements() {
+  /**
+   * Returns the list of the contained elements id's.
+   *
+   * <p>
+   *
+   * @return the list of the contained elements id's
+   */
+  public List<CmsContainerElement> getElements() {
 
-        return m_elements;
-    }
+    return m_elements;
+  }
 
-    /**
-     * Returns the container types.<p>
-     *
-     * @return the container types
-     */
-    public Set<String> getTypes() {
+  /**
+   * Returns the container types.
+   *
+   * <p>
+   *
+   * @return the container types
+   */
+  public Set<String> getTypes() {
 
-        return m_types;
-    }
+    return m_types;
+  }
 
-    /**
-     * Sets the group-container description.<p>
-     *
-     * @param description the group-container description to set
-     */
-    public void setDescription(String description) {
+  /**
+   * Sets the group-container description.
+   *
+   * <p>
+   *
+   * @param description the group-container description to set
+   */
+  public void setDescription(String description) {
 
-        m_description = description;
-    }
+    m_description = description;
+  }
 
-    /**
-     * Sets the elements contained in this container.<p>
-     *
-     * @param elements the elements
-     */
-    public void setElements(List<CmsContainerElement> elements) {
+  /**
+   * Sets the elements contained in this container.
+   *
+   * <p>
+   *
+   * @param elements the elements
+   */
+  public void setElements(List<CmsContainerElement> elements) {
 
-        m_elements = elements;
+    m_elements = elements;
+  }
 
-    }
+  /**
+   * Sets the types.
+   *
+   * <p>
+   *
+   * @param types the types to set
+   */
+  public void setTypes(Set<String> types) {
 
-    /**
-     * Sets the types.<p>
-     *
-     * @param types the types to set
-     */
-    public void setTypes(Set<String> types) {
-
-        m_types = types;
-    }
-
+    m_types = types;
+  }
 }

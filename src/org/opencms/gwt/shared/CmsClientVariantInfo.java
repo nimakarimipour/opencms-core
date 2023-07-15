@@ -27,109 +27,123 @@
 
 package org.opencms.gwt.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.Map;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Client-side bean which holds information about a client variant of a template context.<p>
+ * Client-side bean which holds information about a client variant of a template context.
+ *
+ * <p>
  */
 public class CmsClientVariantInfo implements IsSerializable {
 
-    /** The name. */
-    private String m_name;
+  /** The name. */
+  private String m_name;
 
-    /** The nice name. */
-    private String m_niceName;
+  /** The nice name. */
+  private String m_niceName;
 
-    /** The parameters. */
-    private Map<String, String> m_parameters;
+  /** The parameters. */
+  private Map<String, String> m_parameters;
 
-    /** The screen height. */
-    private int m_screenHeight;
+  /** The screen height. */
+  private int m_screenHeight;
 
-    /** The screen width. */
-    private int m_screenWidth;
+  /** The screen width. */
+  private int m_screenWidth;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param name
-     * @param niceName
-     * @param screenWidth
-     * @param screenHeight
-     * @param parameters
-     */
-    public CmsClientVariantInfo(
-        String name,
-        String niceName,
-        int screenWidth,
-        int screenHeight,
-        Map<String, String> parameters) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param name
+   * @param niceName
+   * @param screenWidth
+   * @param screenHeight
+   * @param parameters
+   */
+  public CmsClientVariantInfo(
+      String name,
+      String niceName,
+      int screenWidth,
+      int screenHeight,
+      Map<String, String> parameters) {
 
-        m_name = name;
-        m_niceName = niceName;
-        m_screenWidth = screenWidth;
-        m_screenHeight = screenHeight;
-        m_parameters = parameters;
-    }
+    m_name = name;
+    m_niceName = niceName;
+    m_screenWidth = screenWidth;
+    m_screenHeight = screenHeight;
+    m_parameters = parameters;
+  }
 
-    /**
-     * Default constructor for serialization.<p>
-     */
-    protected CmsClientVariantInfo() {
+  /**
+   * Default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsClientVariantInfo() {
 
-        // for serialization
-    }
+    // for serialization
+  }
 
-    /**
-     * Gets the internal name.<p>
-     *
-     * @return the internal name
-     */
-    public String getName() {
+  /**
+   * Gets the internal name.
+   *
+   * <p>
+   *
+   * @return the internal name
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Gets the nice name.<p>
-     *
-     * @return the nice name
-     */
-    public String getNiceName() {
+  /**
+   * Gets the nice name.
+   *
+   * <p>
+   *
+   * @return the nice name
+   */
+  public String getNiceName() {
 
-        return m_niceName;
-    }
+    return m_niceName;
+  }
 
-    /**
-     * Gets the parameters.<p>
-     *
-     * @return the parameters
-     */
-    public Map<String, String> getParameters() {
+  /**
+   * Gets the parameters.
+   *
+   * <p>
+   *
+   * @return the parameters
+   */
+  public Map<String, String> getParameters() {
 
-        return m_parameters;
-    }
+    return m_parameters;
+  }
 
-    /**
-     * Gets the screen height.<p>
-     *
-     * @return the screen height
-     */
-    public int getScreenHeight() {
+  /**
+   * Gets the screen height.
+   *
+   * <p>
+   *
+   * @return the screen height
+   */
+  public int getScreenHeight() {
 
-        return m_screenHeight;
-    }
+    return m_screenHeight;
+  }
 
-    /**
-     * Gets the screen width.<p>
-     *
-     * @return the screen width
-     */
-    public int getScreenWidth() {
+  /**
+   * Gets the screen width.
+   *
+   * <p>
+   *
+   * @return the screen width
+   */
+  public int getScreenWidth() {
 
-        return m_screenWidth;
-    }
-
+    return m_screenWidth;
+  }
 }

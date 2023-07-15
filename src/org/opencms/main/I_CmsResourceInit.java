@@ -27,63 +27,69 @@
 
 package org.opencms.main;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.security.CmsSecurityException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /**
- * This interface checks the requested resource from the OpenCms request context
- * and returns it to the calling method, which will usually be
- * {@link OpenCms#initResource(CmsObject, String, HttpServletRequest, HttpServletResponse)}.<p>
+ * This interface checks the requested resource from the OpenCms request context and returns it to
+ * the calling method, which will usually be {@link OpenCms#initResource(CmsObject, String,
+ * HttpServletRequest, HttpServletResponse)}.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsResourceInit {
 
-    /** Resource init handlers can use this attribute to pass an alternative CmsObject for loading the resource returned by them. */
-    public static final String ATTR_ALTERNATIVE_CMS_OBJECT = "resourceinit.alternativeCmsObject";
+  /**
+   * Resource init handlers can use this attribute to pass an alternative CmsObject for loading the
+   * resource returned by them.
+   */
+  public static final String ATTR_ALTERNATIVE_CMS_OBJECT = "resourceinit.alternativeCmsObject";
 
-    /**
-     * Gets the configuration data.
-     *
-     * @return the configuration data
-     */
-    default CmsParameterConfiguration getConfiguration() {
+  /**
+   * Gets the configuration data.
+   *
+   * @return the configuration data
+   */
+  default CmsParameterConfiguration getConfiguration() {
 
-        return new CmsParameterConfiguration();
-    }
+    return new CmsParameterConfiguration();
+  }
 
-    /**
-     * Initializes parameters.
-     *
-     * @param params the configuration parameters
-     */
-    default void initParameters(CmsParameterConfiguration params) {
+  /**
+   * Initializes parameters.
+   *
+   * @param params the configuration parameters
+   */
+  default void initParameters(CmsParameterConfiguration params) {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Possibility to modify or change the CmsFile with the CmsObject.<p>
-     *
-     * Caution: reading parameters from the request, destroys special characters in all
-     * parameters, because the encoding for the request was not set yet.<p>
-     *
-     * @param resource the requested file
-     * @param cms the current CmsObject
-     * @param req the current request
-     * @param res the current response
-     * @return a resource in the OpenCms VFS
-     *
-     * @throws CmsResourceInitException if other implementations of the interface should not be executed
-     * @throws CmsSecurityException if other implementations of the interface should not be executed,
-     *      and the security exception should be escalated
-     */
-    CmsResource initResource(CmsResource resource, CmsObject cms, HttpServletRequest req, HttpServletResponse res)
-    throws CmsResourceInitException, CmsSecurityException;
-
+  /**
+   * Possibility to modify or change the CmsFile with the CmsObject.
+   *
+   * <p>Caution: reading parameters from the request, destroys special characters in all parameters,
+   * because the encoding for the request was not set yet.
+   *
+   * <p>
+   *
+   * @param resource the requested file
+   * @param cms the current CmsObject
+   * @param req the current request
+   * @param res the current response
+   * @return a resource in the OpenCms VFS
+   * @throws CmsResourceInitException if other implementations of the interface should not be
+   *     executed
+   * @throws CmsSecurityException if other implementations of the interface should not be executed,
+   *     and the security exception should be escalated
+   */
+  CmsResource initResource(
+      CmsResource resource, CmsObject cms, HttpServletRequest req, HttpServletResponse res)
+      throws CmsResourceInitException, CmsSecurityException;
 }

@@ -27,6 +27,13 @@
 
 package org.opencms.ui.apps.shell;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Window;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextArea;
+import com.vaadin.v7.ui.VerticalLayout;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
@@ -38,105 +45,107 @@ import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsBasicDialog.DialogWidth;
 import org.opencms.util.CmsUUID;
 
-import org.apache.commons.logging.Log;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Window;
-import com.vaadin.v7.ui.ComboBox;
-import com.vaadin.v7.ui.TextArea;
-import com.vaadin.v7.ui.VerticalLayout;
-
 /**
- * Layout for shell script settings and input dialog.<p>
+ * Layout for shell script settings and input dialog.
+ *
+ * <p>
  */
 public class CmsShellScriptLayout extends VerticalLayout {
 
-    /** The log instance for this class. */
-    static final Log LOG = CmsLog.getLog(CmsShellScriptLayout.class);
+  /** The log instance for this class. */
+  static final Log LOG = CmsLog.getLog(CmsShellScriptLayout.class);
 
-    /**vaadin serial id. */
-    private static final long serialVersionUID = -7284574557422737112L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -7284574557422737112L;
 
-    /**Vaadin component. */
-    private ComboBox m_site;
+  /** Vaadin component. */
+  private ComboBox m_site;
 
-    /**Vaadin component. */
-    private ComboBox m_project;
+  /** Vaadin component. */
+  private ComboBox m_project;
 
-    /**Vaadin component. */
-    private TextArea m_script;
+  /** Vaadin component. */
+  private TextArea m_script;
 
-    /**Vaadin component. */
-    private Button m_ok;
+  /** Vaadin component. */
+  private Button m_ok;
 
-    /**
-     * public constructor.<p>
-     */
-    public CmsShellScriptLayout() {
+  /**
+   * public constructor.
+   *
+   * <p>
+   */
+  public CmsShellScriptLayout() {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        m_site.setContainerDataSource(CmsVaadinUtils.getAvailableSitesContainer(A_CmsUI.getCmsObject(), "caption"));
-        m_site.setItemCaptionPropertyId("caption");
-        m_site.select(A_CmsUI.getCmsObject().getRequestContext().getSiteRoot());
-        m_project.setContainerDataSource(CmsVaadinUtils.getProjectsContainer(A_CmsUI.getCmsObject(), "caption"));
-        m_project.setItemCaptionPropertyId("caption");
-        m_project.select(A_CmsUI.getCmsObject().getRequestContext().getCurrentProject().getUuid());
-        m_site.setNewItemsAllowed(false);
-        m_site.setNullSelectionAllowed(false);
-        m_project.setNewItemsAllowed(false);
-        m_project.setNullSelectionAllowed(false);
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    m_site.setContainerDataSource(
+        CmsVaadinUtils.getAvailableSitesContainer(A_CmsUI.getCmsObject(), "caption"));
+    m_site.setItemCaptionPropertyId("caption");
+    m_site.select(A_CmsUI.getCmsObject().getRequestContext().getSiteRoot());
+    m_project.setContainerDataSource(
+        CmsVaadinUtils.getProjectsContainer(A_CmsUI.getCmsObject(), "caption"));
+    m_project.setItemCaptionPropertyId("caption");
+    m_project.select(A_CmsUI.getCmsObject().getRequestContext().getCurrentProject().getUuid());
+    m_site.setNewItemsAllowed(false);
+    m_site.setNullSelectionAllowed(false);
+    m_project.setNewItemsAllowed(false);
+    m_project.setNullSelectionAllowed(false);
 
-        m_script.setValue(CmsVaadinUtils.getMessageText(Messages.GUI_SHELL_SCRIPT_APP_INI_COMMENT_0));
+    m_script.setValue(CmsVaadinUtils.getMessageText(Messages.GUI_SHELL_SCRIPT_APP_INI_COMMENT_0));
 
-        m_ok.addClickListener(new Button.ClickListener() {
+    m_ok.addClickListener(
+        new Button.ClickListener() {
 
-            private static final long serialVersionUID = 6836938102455627631L;
+          private static final long serialVersionUID = 6836938102455627631L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                try {
-                    Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
+            try {
+              Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
 
-                    CmsObject cms = OpenCms.initCmsObject(A_CmsUI.getCmsObject());
-                    setupCms(cms);
-                    CmsShellScriptThread thread = new CmsShellScriptThread(cms, getScript());
-                    CmsShellScriptReportDialog dialog = new CmsShellScriptReportDialog(thread, window);
-                    window.setContent(dialog);
+              CmsObject cms = OpenCms.initCmsObject(A_CmsUI.getCmsObject());
+              setupCms(cms);
+              CmsShellScriptThread thread = new CmsShellScriptThread(cms, getScript());
+              CmsShellScriptReportDialog dialog = new CmsShellScriptReportDialog(thread, window);
+              window.setContent(dialog);
 
-                    A_CmsUI.get().addWindow(window);
-                    thread.start();
-                } catch (CmsException e) {
-                    LOG.error("Unable to initialize CmsObject", e);
-                }
+              A_CmsUI.get().addWindow(window);
+              thread.start();
+            } catch (CmsException e) {
+              LOG.error("Unable to initialize CmsObject", e);
             }
+          }
         });
+  }
+
+  /**
+   * Gets the currently entered script.
+   *
+   * <p>
+   *
+   * @return String
+   */
+  protected String getScript() {
+
+    return m_script.getValue();
+  }
+
+  /**
+   * Sets up given CmsObject with currently set Project and Site.
+   *
+   * <p>
+   *
+   * @param cms CmsObject to gets adjusted to input fields
+   */
+  protected void setupCms(CmsObject cms) {
+
+    cms.getRequestContext().setUri("/");
+    cms.getRequestContext().setSiteRoot((String) m_site.getValue());
+    try {
+      cms.getRequestContext().setCurrentProject(cms.readProject((CmsUUID) m_project.getValue()));
+    } catch (CmsException e) {
+      LOG.error("Unable to read Project", e);
     }
-
-    /**
-     * Gets the currently entered script.<p>
-     *
-     * @return String
-     */
-    protected String getScript() {
-
-        return m_script.getValue();
-    }
-
-    /**
-     * Sets up given CmsObject with currently set Project and Site.<p>
-     *
-     * @param cms CmsObject to gets adjusted to input fields
-     */
-    protected void setupCms(CmsObject cms) {
-
-        cms.getRequestContext().setUri("/");
-        cms.getRequestContext().setSiteRoot((String)m_site.getValue());
-        try {
-            cms.getRequestContext().setCurrentProject(cms.readProject((CmsUUID)m_project.getValue()));
-        } catch (CmsException e) {
-            LOG.error("Unable to read Project", e);
-        }
-    }
-
+  }
 }

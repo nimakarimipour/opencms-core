@@ -27,122 +27,130 @@
 
 package org.opencms.workplace.tools.accounts;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.main.OpenCms;
 import org.opencms.security.CmsOrganizationalUnit;
 import org.opencms.widgets.CmsDisplayWidget;
 import org.opencms.workplace.CmsWidgetDialogParameter;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Dialog to get an overview of an organizational unit in the administration view.<p>
+ * Dialog to get an overview of an organizational unit in the administration view.
+ *
+ * <p>
  *
  * @since 6.5.6
  */
 public class CmsOrgUnitOverviewDialog extends A_CmsOrgUnitDialog {
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsOrgUnitOverviewDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsOrgUnitOverviewDialog(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        super(context, req, res);
+    super(context, req, res);
+  }
+
+  /** @see org.opencms.workplace.CmsWidgetDialog#actionCommit() */
+  @Override
+  public void actionCommit() {
+
+    // noop
+  }
+
+  /**
+   * Creates the dialog HTML for all defined widgets of the named dialog (page).
+   *
+   * <p>This overwrites the method from the super class to create a layout variation for the
+   * widgets.
+   *
+   * <p>
+   *
+   * @param dialog the dialog (page) to get the HTML for
+   * @return the dialog HTML for all defined widgets of the named dialog (page)
+   */
+  @Override
+  protected String createDialogHtml(String dialog) {
+
+    StringBuffer result = new StringBuffer(1024);
+
+    result.append(createWidgetTableStart());
+    // show error header once if there were validation errors
+    result.append(createWidgetErrorHeader());
+
+    if (dialog.equals(PAGES[0])) {
+      // create the widgets for the first dialog page
+      result.append(
+          dialogBlockStart(key(Messages.GUI_ORGUNIT_EDITOR_LABEL_IDENTIFICATION_BLOCK_0)));
+      result.append(createWidgetTableStart());
+      result.append(createDialogRowsHtml(0, 2));
+      result.append(createWidgetTableEnd());
+      result.append(dialogBlockEnd());
     }
 
-    /**
-     * @see org.opencms.workplace.CmsWidgetDialog#actionCommit()
-     */
-    @Override
-    public void actionCommit() {
+    result.append(createWidgetTableEnd());
+    return result.toString();
+  }
 
-        // noop
+  /** @see org.opencms.workplace.CmsWidgetDialog#defaultActionHtmlEnd() */
+  @Override
+  protected String defaultActionHtmlEnd() {
+
+    return "";
+  }
+
+  /** @see org.opencms.workplace.CmsWidgetDialog#defineWidgets() */
+  @Override
+  protected void defineWidgets() {
+
+    // initialize the user object to use for the dialog
+    initOrgUnitObject();
+
+    setKeyPrefix(KEY_PREFIX);
+
+    // widgets to display
+    addWidget(
+        new CmsWidgetDialogParameter(m_orgUnitBean, "name", PAGES[0], new CmsDisplayWidget()));
+    addWidget(
+        new CmsWidgetDialogParameter(
+            m_orgUnitBean, "description", PAGES[0], new CmsDisplayWidget()));
+    addWidget(
+        new CmsWidgetDialogParameter(m_orgUnitBean, "parentOu", PAGES[0], new CmsDisplayWidget()));
+  }
+
+  /**
+   * Initializes the organizational unit object to work with depending on the dialog state and
+   * request parameters.
+   *
+   * <p>
+   */
+  @Override
+  protected void initOrgUnitObject() {
+
+    try {
+      CmsOrganizationalUnit orgunit =
+          OpenCms.getOrgUnitManager().readOrganizationalUnit(getCms(), getParamOufqn());
+      m_orgUnitBean = new CmsOrgUnitBean();
+      m_orgUnitBean.setDescription(orgunit.getDescription(getLocale()));
+      m_orgUnitBean.setName(orgunit.getName());
+      if (!orgunit.getName().equals("")) {
+        m_orgUnitBean.setParentOu(orgunit.getParentFqn());
+      }
+      m_orgUnitBean.setFqn(orgunit.getName());
+      setResourcesInBean(
+          m_orgUnitBean,
+          OpenCms.getOrgUnitManager()
+              .getResourcesForOrganizationalUnit(getCms(), orgunit.getName()));
+    } catch (Exception e) {
+      // noop
     }
-
-    /**
-     * Creates the dialog HTML for all defined widgets of the named dialog (page).<p>
-     *
-     * This overwrites the method from the super class to create a layout variation for the widgets.<p>
-     *
-     * @param dialog the dialog (page) to get the HTML for
-     * @return the dialog HTML for all defined widgets of the named dialog (page)
-     */
-    @Override
-    protected String createDialogHtml(String dialog) {
-
-        StringBuffer result = new StringBuffer(1024);
-
-        result.append(createWidgetTableStart());
-        // show error header once if there were validation errors
-        result.append(createWidgetErrorHeader());
-
-        if (dialog.equals(PAGES[0])) {
-            // create the widgets for the first dialog page
-            result.append(dialogBlockStart(key(Messages.GUI_ORGUNIT_EDITOR_LABEL_IDENTIFICATION_BLOCK_0)));
-            result.append(createWidgetTableStart());
-            result.append(createDialogRowsHtml(0, 2));
-            result.append(createWidgetTableEnd());
-            result.append(dialogBlockEnd());
-        }
-
-        result.append(createWidgetTableEnd());
-        return result.toString();
-    }
-
-    /**
-     * @see org.opencms.workplace.CmsWidgetDialog#defaultActionHtmlEnd()
-     */
-    @Override
-    protected String defaultActionHtmlEnd() {
-
-        return "";
-    }
-
-    /**
-     * @see org.opencms.workplace.CmsWidgetDialog#defineWidgets()
-     */
-    @Override
-    protected void defineWidgets() {
-
-        // initialize the user object to use for the dialog
-        initOrgUnitObject();
-
-        setKeyPrefix(KEY_PREFIX);
-
-        // widgets to display
-        addWidget(new CmsWidgetDialogParameter(m_orgUnitBean, "name", PAGES[0], new CmsDisplayWidget()));
-        addWidget(new CmsWidgetDialogParameter(m_orgUnitBean, "description", PAGES[0], new CmsDisplayWidget()));
-        addWidget(new CmsWidgetDialogParameter(m_orgUnitBean, "parentOu", PAGES[0], new CmsDisplayWidget()));
-    }
-
-    /**
-     * Initializes the organizational unit object to work with depending on the dialog state and request parameters.<p>
-     *
-     */
-    @Override
-    protected void initOrgUnitObject() {
-
-        try {
-            CmsOrganizationalUnit orgunit = OpenCms.getOrgUnitManager().readOrganizationalUnit(
-                getCms(),
-                getParamOufqn());
-            m_orgUnitBean = new CmsOrgUnitBean();
-            m_orgUnitBean.setDescription(orgunit.getDescription(getLocale()));
-            m_orgUnitBean.setName(orgunit.getName());
-            if (!orgunit.getName().equals("")) {
-                m_orgUnitBean.setParentOu(orgunit.getParentFqn());
-            }
-            m_orgUnitBean.setFqn(orgunit.getName());
-            setResourcesInBean(
-                m_orgUnitBean,
-                OpenCms.getOrgUnitManager().getResourcesForOrganizationalUnit(getCms(), orgunit.getName()));
-        } catch (Exception e) {
-            // noop
-        }
-    }
+  }
 }

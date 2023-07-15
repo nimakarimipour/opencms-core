@@ -27,6 +27,8 @@
 
 package org.opencms.ui.actions;
 
+import java.util.List;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.types.CmsResourceTypeXmlContainerPage;
@@ -34,100 +36,91 @@ import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.I_CmsDialogContext.ContextType;
 import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * The edit page action. Available for container pages.<p>
+ * The edit page action. Available for container pages.
+ *
+ * <p>
  */
 public class CmsEditPageAction extends CmsDisplayAction implements I_CmsADEAction {
 
-    /** The action id. */
-    @SuppressWarnings("hiding")
-    public static final String ACTION_ID = "editpage";
+  /** The action id. */
+  @SuppressWarnings("hiding")
+  public static final String ACTION_ID = "editpage";
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName()
-     */
-    public String getCommandClassName() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName() */
+  public String getCommandClassName() {
 
-        return "org.opencms.gwt.client.ui.contextmenu.CmsShowPage";
+    return "org.opencms.gwt.client.ui.contextmenu.CmsShowPage";
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsDefaultAction#getDefaultActionRank(org.opencms.ui.I_CmsDialogContext)
+   */
+  @Override
+  public int getDefaultActionRank(I_CmsDialogContext context) {
+
+    return 30;
+  }
+
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  @Override
+  public String getId() {
+
+    return ACTION_ID;
+  }
+
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getJspPath() */
+  public String getJspPath() {
+
+    return null;
+  }
+
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getParams() */
+  public Map<String, String> getParams() {
+
+    return null;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  @Override
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+
+    if ((resources.size() == 1)
+        && CmsResourceTypeXmlContainerPage.isContainerPage(resources.get(0))
+        && !resources.get(0).getState().isDeleted()) {
+      return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
+    } else {
+      return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
     }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsDefaultAction#getDefaultActionRank(org.opencms.ui.I_CmsDialogContext)
-     */
-    @Override
-    public int getDefaultActionRank(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.A_CmsWorkplaceAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
+   */
+  @Override
+  public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
 
-        return 30;
-    }
-
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    @Override
-    public String getId() {
-
-        return ACTION_ID;
-    }
-
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
-     */
-    public String getJspPath() {
-
-        return null;
-    }
-
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
-     */
-    public Map<String, String> getParams() {
-
-        return null;
-    }
-
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    @Override
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
-
-        if ((resources.size() == 1)
-            && CmsResourceTypeXmlContainerPage.isContainerPage(resources.get(0))
-            && !resources.get(0).getState().isDeleted()) {
-            return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
-        } else {
-            return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-        }
-    }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
-     */
-    @Override
-    public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
-
-        return context.getContextType().equals(ContextType.containerpageToolbar)
+    return context.getContextType().equals(ContextType.containerpageToolbar)
         ? CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE
         : super.getVisibility(context);
-    }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported()
-     */
-    public boolean isAdeSupported() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported() */
+  public boolean isAdeSupported() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return org.opencms.ui.Messages.GUI_ACTION_OPEN_PAGE_0;
-    }
+    return org.opencms.ui.Messages.GUI_ACTION_OPEN_PAGE_0;
+  }
 }

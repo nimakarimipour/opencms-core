@@ -30,18 +30,17 @@ package org.opencms.ade.galleries.preview;
 import org.opencms.ade.galleries.shared.I_CmsImagePreviewProvider;
 
 /**
- * The preview provider for binary resources.<p>
+ * The preview provider for binary resources.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsImagePreviewProvider implements I_CmsPreviewProvider {
 
-    /**
-     * @see org.opencms.ade.galleries.preview.I_CmsPreviewProvider#getPreviewName()
-     */
-    public String getPreviewName() {
+  /** @see org.opencms.ade.galleries.preview.I_CmsPreviewProvider#getPreviewName() */
+  public String getPreviewName() {
 
-        return I_CmsImagePreviewProvider.PREVIEW_NAME;
-    }
-
+    return I_CmsImagePreviewProvider.PREVIEW_NAME;
+  }
 }

@@ -83,191 +83,194 @@
 
 package org.opencms.i18n;
 
-import org.opencms.main.OpenCms;
-import org.opencms.util.CmsStringUtil;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
+import org.opencms.main.OpenCms;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * Parses the HTTP <code>Accept-Language</code> header as per section 14.4 of RFC 2068
- * (HTTP 1.1 header field definitions) and creates a sorted list of Locales from it.
+ * Parses the HTTP <code>Accept-Language</code> header as per section 14.4 of RFC 2068 (HTTP 1.1
+ * header field definitions) and creates a sorted list of Locales from it.
  *
  * @since 6.0.0
  */
 public class CmsAcceptLanguageHeaderParser {
 
+  /** Struct representing an element of the HTTP <code>Accept-Language</code> header. */
+  protected static class AcceptLanguage implements Comparable<AcceptLanguage> {
+
+    /** The language and country. */
+    Locale m_locale;
+
     /**
-     * Struct representing an element of the HTTP <code>Accept-Language</code> header.
+     * The m_quality of our m_locale (as values approach <code>1.0</code>, they indicate increased
+     * user preference).
      */
-    protected static class AcceptLanguage implements Comparable<AcceptLanguage> {
+    Float m_quality = DEFAULT_QUALITY;
 
-        /** The language and country. */
-        Locale m_locale;
+    /** @see java.lang.Comparable#compareTo(java.lang.Object) */
+    public final int compareTo(AcceptLanguage acceptLang) {
 
-        /**  The m_quality of our m_locale (as values approach <code>1.0</code>, they indicate increased user preference). */
-        Float m_quality = DEFAULT_QUALITY;
-
-        /**
-         * @see java.lang.Comparable#compareTo(java.lang.Object)
-         */
-        public final int compareTo(AcceptLanguage acceptLang) {
-
-            return m_quality.compareTo((acceptLang).m_quality);
-        }
-
-        /**
-         * @see java.lang.Object#equals(java.lang.Object)
-         */
-        @Override
-        public boolean equals(Object obj) {
-
-            if (obj == this) {
-                return true;
-            }
-            if (obj instanceof AcceptLanguage) {
-                AcceptLanguage other = (AcceptLanguage)obj;
-                return m_locale.equals(other.m_locale) && (m_quality.floatValue() == other.m_quality.floatValue());
-            }
-            return false;
-        }
-
-        /**
-         * @see java.lang.Object#hashCode()
-         */
-        @Override
-        public int hashCode() {
-
-            return m_locale.hashCode() * (int)(m_quality.floatValue() * 1117.0);
-        }
+      return m_quality.compareTo((acceptLang).m_quality);
     }
 
-    /** A constant for the HTTP <code>Accept-Language</code> header. */
-    public static final String ACCEPT_LANGUAGE = "Accept-Language";
+    /** @see java.lang.Object#equals(java.lang.Object) */
+    @Override
+    public boolean equals(Object obj) {
 
-    /** The default m_quality value for an <code>AcceptLanguage</code> object. */
-    protected static final Float DEFAULT_QUALITY = new Float(1.0f);
-
-    /** Separates elements of the <code>Accept-Language</code> HTTP header. */
-    private static final char LOCALE_SEPARATOR = ',';
-
-    /** Separates m_locale from m_quality within elements. */
-    private static final char QUALITY_SEPARATOR = ';';
-
-    /** The parsed <code>Accept-Language</code> headers. */
-    private List<AcceptLanguage> m_acceptLanguage = new ArrayList<AcceptLanguage>(3);
-
-    /** The parsed locales. */
-    private List<Locale> m_locales;
-
-    /**
-     * Parses the <code>Accept-Language</code> header from the provided request.<p>
-     *
-     * @param req the request to parse
-     * @param defaultLocale the default locale to use
-     */
-    public CmsAcceptLanguageHeaderParser(HttpServletRequest req, Locale defaultLocale) {
-
-        this(req.getHeader(ACCEPT_LANGUAGE), defaultLocale);
+      if (obj == this) {
+        return true;
+      }
+      if (obj instanceof AcceptLanguage) {
+        AcceptLanguage other = (AcceptLanguage) obj;
+        return m_locale.equals(other.m_locale)
+            && (m_quality.floatValue() == other.m_quality.floatValue());
+      }
+      return false;
     }
 
-    /**
-     * Parses the <code>Accept-Language</code> header.<p>
-     *
-     * @param header the <code>Accept-Language</code> header (i.e. <code>en, es;q=0.8, zh-TW;q=0.1</code>)
-     * @param defaultLocale the default locale to use
-     */
-    public CmsAcceptLanguageHeaderParser(String header, Locale defaultLocale) {
+    /** @see java.lang.Object#hashCode() */
+    @Override
+    public int hashCode() {
 
-        // check if there was a locale foud in the HTTP header.
-        // if not, use the default locale.
-        if (header == null) {
-            m_locales = new ArrayList<Locale>();
-            m_locales.add(defaultLocale);
+      return m_locale.hashCode() * (int) (m_quality.floatValue() * 1117.0);
+    }
+  }
+
+  /** A constant for the HTTP <code>Accept-Language</code> header. */
+  public static final String ACCEPT_LANGUAGE = "Accept-Language";
+
+  /** The default m_quality value for an <code>AcceptLanguage</code> object. */
+  protected static final Float DEFAULT_QUALITY = new Float(1.0f);
+
+  /** Separates elements of the <code>Accept-Language</code> HTTP header. */
+  private static final char LOCALE_SEPARATOR = ',';
+
+  /** Separates m_locale from m_quality within elements. */
+  private static final char QUALITY_SEPARATOR = ';';
+
+  /** The parsed <code>Accept-Language</code> headers. */
+  private List<AcceptLanguage> m_acceptLanguage = new ArrayList<AcceptLanguage>(3);
+
+  /** The parsed locales. */
+  private List<Locale> m_locales;
+
+  /**
+   * Parses the <code>Accept-Language</code> header from the provided request.
+   *
+   * <p>
+   *
+   * @param req the request to parse
+   * @param defaultLocale the default locale to use
+   */
+  public CmsAcceptLanguageHeaderParser(HttpServletRequest req, Locale defaultLocale) {
+
+    this(req.getHeader(ACCEPT_LANGUAGE), defaultLocale);
+  }
+
+  /**
+   * Parses the <code>Accept-Language</code> header.
+   *
+   * <p>
+   *
+   * @param header the <code>Accept-Language</code> header (i.e. <code>en, es;q=0.8, zh-TW;q=0.1
+   *     </code>)
+   * @param defaultLocale the default locale to use
+   */
+  public CmsAcceptLanguageHeaderParser(String header, Locale defaultLocale) {
+
+    // check if there was a locale foud in the HTTP header.
+    // if not, use the default locale.
+    if (header == null) {
+      m_locales = new ArrayList<Locale>();
+      m_locales.add(defaultLocale);
+    } else {
+      List<String> tokens = CmsStringUtil.splitAsList(header, LOCALE_SEPARATOR, true);
+      Iterator<String> it = tokens.iterator();
+      while (it.hasNext()) {
+        AcceptLanguage acceptLang = new AcceptLanguage();
+        String element = it.next();
+        int index;
+
+        // Record and cut off any quality value that comes after a semi-colon.
+        index = element.indexOf(QUALITY_SEPARATOR);
+        if (index != -1) {
+          String q = element.substring(index);
+          element = element.substring(0, index);
+          index = q.indexOf('=');
+          if (index != -1) {
+            try {
+              acceptLang.m_quality = Float.valueOf(q.substring(index + 1));
+            } catch (NumberFormatException useDefault) {
+              // noop
+            }
+          }
+        }
+
+        element = element.trim();
+
+        // Create a Locale from the language. A dash may separate the language from the country.
+        index = element.indexOf('-');
+        if (index == -1) {
+          // No dash means no country.
+          acceptLang.m_locale = new Locale(element, "");
         } else {
-            List<String> tokens = CmsStringUtil.splitAsList(header, LOCALE_SEPARATOR, true);
-            Iterator<String> it = tokens.iterator();
-            while (it.hasNext()) {
-                AcceptLanguage acceptLang = new AcceptLanguage();
-                String element = it.next();
-                int index;
-
-                // Record and cut off any quality value that comes after a semi-colon.
-                index = element.indexOf(QUALITY_SEPARATOR);
-                if (index != -1) {
-                    String q = element.substring(index);
-                    element = element.substring(0, index);
-                    index = q.indexOf('=');
-                    if (index != -1) {
-                        try {
-                            acceptLang.m_quality = Float.valueOf(q.substring(index + 1));
-                        } catch (NumberFormatException useDefault) {
-                            // noop
-                        }
-                    }
-                }
-
-                element = element.trim();
-
-                // Create a Locale from the language. A dash may separate the language from the country.
-                index = element.indexOf('-');
-                if (index == -1) {
-                    // No dash means no country.
-                    acceptLang.m_locale = new Locale(element, "");
-                } else {
-                    acceptLang.m_locale = new Locale(element.substring(0, index), element.substring(index + 1));
-                }
-
-                m_acceptLanguage.add(acceptLang);
-            }
-
-            // sort by quality in descending order
-            Collections.sort(m_acceptLanguage, Collections.reverseOrder());
-
-            // store all calculated Locales in a List
-            m_locales = new ArrayList<Locale>(m_acceptLanguage.size());
-            Iterator<AcceptLanguage> i = m_acceptLanguage.iterator();
-            while (i.hasNext()) {
-                AcceptLanguage lang = i.next();
-                m_locales.add(lang.m_locale);
-            }
+          acceptLang.m_locale =
+              new Locale(element.substring(0, index), element.substring(index + 1));
         }
 
+        m_acceptLanguage.add(acceptLang);
+      }
+
+      // sort by quality in descending order
+      Collections.sort(m_acceptLanguage, Collections.reverseOrder());
+
+      // store all calculated Locales in a List
+      m_locales = new ArrayList<Locale>(m_acceptLanguage.size());
+      Iterator<AcceptLanguage> i = m_acceptLanguage.iterator();
+      while (i.hasNext()) {
+        AcceptLanguage lang = i.next();
+        m_locales.add(lang.m_locale);
+      }
     }
+  }
 
-    /**
-     * Creates a value string for the HTTP Accept-Language header based on the default localed.<p>
-     *
-     * @return value string for the HTTP Accept-Language
-     */
-    public static String createLanguageHeader() {
+  /**
+   * Creates a value string for the HTTP Accept-Language header based on the default localed.
+   *
+   * <p>
+   *
+   * @return value string for the HTTP Accept-Language
+   */
+  public static String createLanguageHeader() {
 
-        String header;
+    String header;
 
-        // get the default accept-language header value
-        List<Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales();
-        Iterator<Locale> i = defaultLocales.iterator();
-        header = "";
-        while (i.hasNext()) {
-            Locale loc = i.next();
-            header += loc.getLanguage() + ", ";
-        }
-        header = header.substring(0, header.length() - 2);
-        return header;
+    // get the default accept-language header value
+    List<Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales();
+    Iterator<Locale> i = defaultLocales.iterator();
+    header = "";
+    while (i.hasNext()) {
+      Locale loc = i.next();
+      header += loc.getLanguage() + ", ";
     }
+    header = header.substring(0, header.length() - 2);
+    return header;
+  }
 
-    /**
-     * Returns the sorted list of accepted Locales.<p>
-     *
-     * @return the sorted list of accepted Locales
-     */
-    public List<Locale> getAcceptedLocales() {
+  /**
+   * Returns the sorted list of accepted Locales.
+   *
+   * <p>
+   *
+   * @return the sorted list of accepted Locales
+   */
+  public List<Locale> getAcceptedLocales() {
 
-        return m_locales;
-    }
+    return m_locales;
+  }
 }

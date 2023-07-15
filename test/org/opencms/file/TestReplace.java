@@ -27,6 +27,9 @@
 
 package org.opencms.file;
 
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.file.types.CmsResourceTypeJsp;
 import org.opencms.file.types.CmsResourceTypePlain;
 import org.opencms.lock.CmsLockType;
@@ -35,136 +38,144 @@ import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 import org.opencms.test.OpenCmsTestResourceFilter;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Unit tests for replace operation.<p>
+ * Unit tests for replace operation.
+ *
+ * <p>
  */
 public class TestReplace extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestReplace(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestReplace(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestReplace.class.getName());
+    TestSuite suite = new TestSuite();
+    suite.setName(TestReplace.class.getName());
 
-        suite.addTest(new TestReplace("testReplaceResourceContent"));
-        suite.addTest(new TestReplace("testReplaceResourceJsp"));
+    suite.addTest(new TestReplace("testReplaceResourceContent"));
+    suite.addTest(new TestReplace("testReplaceResourceJsp"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
+    return wrapper;
+  }
+
+  /**
+   * Tests the "replace resource" operation.
+   *
+   * <p>
+   *
+   * @throws Throwable if something goes wrong
+   */
+  public void testReplaceResourceContent() throws Throwable {
+
+    CmsObject cms = getCmsObject();
+    echo("Testing replacement of file content");
+
+    String path = "/types/text.txt";
+    String contentStr = "Hello this is the new content";
+
+    long timestamp = System.currentTimeMillis();
+
+    storeResources(cms, path);
+    cms.lockResource(path);
+    cms.replaceResource(path, CmsResourceTypePlain.getStaticTypeId(), contentStr.getBytes(), null);
+
+    // project must be current project
+    assertProject(cms, path, cms.getRequestContext().getCurrentProject());
+    // state must be "new"
+    assertState(cms, path, CmsResource.STATE_CHANGED);
+    // date lastmodified must be new
+    assertDateLastModifiedAfter(cms, path, timestamp);
+    // user lastmodified must be current user
+    assertUserLastModified(cms, path, cms.getRequestContext().getCurrentUser());
+    // assert lock state
+    assertLock(cms, path, CmsLockType.EXCLUSIVE);
+    // assert new content
+    assertContent(cms, path, contentStr.getBytes());
+    // now check the rest of the attributes
+    assertFilter(cms, path, OpenCmsTestResourceFilter.FILTER_REPLACERESOURCE);
+  }
+
+  /**
+   * Tests the "replace resource" operation for jsp without permissions.
+   *
+   * <p>
+   *
+   * @throws Throwable if something goes wrong
+   */
+  public void testReplaceResourceJsp() throws Throwable {
+
+    CmsObject cms = getCmsObject();
+    echo("Testing replacement of file for jsp without permissions");
+    CmsProject offlineProject = cms.getRequestContext().getCurrentProject();
+
+    String path = "/types/text.txt";
+    String contentStr = "Hello this is the new content";
+
+    // this should work since we are admin
+    cms.replaceResource(path, CmsResourceTypeJsp.getJSPTypeId(), contentStr.getBytes(), null);
+    cms.unlockResource(path);
+
+    cms.loginUser("test1", "test1");
+    cms.getRequestContext().setCurrentProject(offlineProject);
+
+    try {
+      cms.lockResource(path);
+      cms.replaceResource(
+          path, CmsResourceTypePlain.getStaticTypeId(), contentStr.getBytes(), null);
+      fail("replaceResource from jsp without permissions should fail");
+    } catch (CmsSecurityException e) {
+      // ok
     }
 
-    /**
-     * Tests the "replace resource" operation.<p>
-     *
-     * @throws Throwable if something goes wrong
-     */
-    public void testReplaceResourceContent() throws Throwable {
+    cms = getCmsObject();
+    cms.lockResource(path);
+    cms.replaceResource(path, CmsResourceTypePlain.getStaticTypeId(), contentStr.getBytes(), null);
+    cms.unlockResource(path);
 
-        CmsObject cms = getCmsObject();
-        echo("Testing replacement of file content");
+    cms.loginUser("test1", "test1");
+    cms.getRequestContext().setCurrentProject(offlineProject);
 
-        String path = "/types/text.txt";
-        String contentStr = "Hello this is the new content";
-
-        long timestamp = System.currentTimeMillis();
-
-        storeResources(cms, path);
-        cms.lockResource(path);
-        cms.replaceResource(path, CmsResourceTypePlain.getStaticTypeId(), contentStr.getBytes(), null);
-
-        // project must be current project
-        assertProject(cms, path, cms.getRequestContext().getCurrentProject());
-        // state must be "new"
-        assertState(cms, path, CmsResource.STATE_CHANGED);
-        // date lastmodified must be new
-        assertDateLastModifiedAfter(cms, path, timestamp);
-        // user lastmodified must be current user
-        assertUserLastModified(cms, path, cms.getRequestContext().getCurrentUser());
-        // assert lock state
-        assertLock(cms, path, CmsLockType.EXCLUSIVE);
-        // assert new content
-        assertContent(cms, path, contentStr.getBytes());
-        // now check the rest of the attributes
-        assertFilter(cms, path, OpenCmsTestResourceFilter.FILTER_REPLACERESOURCE);
+    try {
+      cms.lockResource(path);
+      cms.replaceResource(path, CmsResourceTypeJsp.getJSPTypeId(), contentStr.getBytes(), null);
+      fail("replaceResource to jsp without permissions should fail");
+    } catch (CmsSecurityException e) {
+      // ok
     }
-
-    /**
-     * Tests the "replace resource" operation for jsp without permissions.<p>
-     *
-     * @throws Throwable if something goes wrong
-     */
-    public void testReplaceResourceJsp() throws Throwable {
-
-        CmsObject cms = getCmsObject();
-        echo("Testing replacement of file for jsp without permissions");
-        CmsProject offlineProject = cms.getRequestContext().getCurrentProject();
-
-        String path = "/types/text.txt";
-        String contentStr = "Hello this is the new content";
-
-        // this should work since we are admin
-        cms.replaceResource(path, CmsResourceTypeJsp.getJSPTypeId(), contentStr.getBytes(), null);
-        cms.unlockResource(path);
-
-        cms.loginUser("test1", "test1");
-        cms.getRequestContext().setCurrentProject(offlineProject);
-
-        try {
-            cms.lockResource(path);
-            cms.replaceResource(path, CmsResourceTypePlain.getStaticTypeId(), contentStr.getBytes(), null);
-            fail("replaceResource from jsp without permissions should fail");
-        } catch (CmsSecurityException e) {
-            // ok
-        }
-
-        cms = getCmsObject();
-        cms.lockResource(path);
-        cms.replaceResource(path, CmsResourceTypePlain.getStaticTypeId(), contentStr.getBytes(), null);
-        cms.unlockResource(path);
-
-        cms.loginUser("test1", "test1");
-        cms.getRequestContext().setCurrentProject(offlineProject);
-
-        try {
-            cms.lockResource(path);
-            cms.replaceResource(path, CmsResourceTypeJsp.getJSPTypeId(), contentStr.getBytes(), null);
-            fail("replaceResource to jsp without permissions should fail");
-        } catch (CmsSecurityException e) {
-            // ok
-        }
-    }
+  }
 }

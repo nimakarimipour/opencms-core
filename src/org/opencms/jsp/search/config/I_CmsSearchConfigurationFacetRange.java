@@ -32,42 +32,53 @@ import java.util.Collection;
 /** The interface a field facet configuration must implement. */
 public interface I_CmsSearchConfigurationFacetRange extends I_CmsSearchConfigurationFacet {
 
-    enum Other {
-        before, after, between, none, all
-    }
+  enum Other {
+    before,
+    after,
+    between,
+    none,
+    all
+  }
 
-    /**
-     * Returns the value of facet.range.end for the facet.
-     * @return the value of facet.range.end for the facet.
-     */
-    String getEnd();
+  /**
+   * Returns the value of facet.range.end for the facet.
+   *
+   * @return the value of facet.range.end for the facet.
+   */
+  String getEnd();
 
-    /**
-     * Returns the value of facet.range.gap for the facet.
-     * @return the value of facet.range.gap for the facet.
-     */
-    String getGap();
+  /**
+   * Returns the value of facet.range.gap for the facet.
+   *
+   * @return the value of facet.range.gap for the facet.
+   */
+  String getGap();
 
-    /**
-     * Returns the value of facet.range.hardend for the facet.
-     * @return the value of facet.range.hardend for the facet.
-     */
-    boolean getHardEnd();
+  /**
+   * Returns the value of facet.range.hardend for the facet.
+   *
+   * @return the value of facet.range.hardend for the facet.
+   */
+  boolean getHardEnd();
 
-    /**
-     * Returns the values of facet.range.other for the facet.
-     * @return the values of facet.range.other for the facet.
-     */
-    Collection<Other> getOther();
+  /**
+   * Returns the values of facet.range.other for the facet.
+   *
+   * @return the values of facet.range.other for the facet.
+   */
+  Collection<Other> getOther();
 
-    /** Returns the numeric index field that is used for the facet, i.e., the value of facet.range.
-     * @return The numeric index field that is used for the facet, i.e., the value of facet.range.
-     */
-    String getRange();
+  /**
+   * Returns the numeric index field that is used for the facet, i.e., the value of facet.range.
+   *
+   * @return The numeric index field that is used for the facet, i.e., the value of facet.range.
+   */
+  String getRange();
 
-    /**
-     * Returns the value of facet.range.start for the facet.
-     * @return the value of facet.range.start for the facet.
-     */
-    String getStart();
+  /**
+   * Returns the value of facet.range.start for the facet.
+   *
+   * @return the value of facet.range.start for the facet.
+   */
+  String getStart();
 }

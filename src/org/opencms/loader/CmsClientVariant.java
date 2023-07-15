@@ -27,104 +27,116 @@
 
 package org.opencms.loader;
 
-import org.opencms.i18n.I_CmsMessageContainer;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import org.opencms.i18n.I_CmsMessageContainer;
 
 /**
- * Bean that represents a client variant of a template context.<p>
+ * Bean that represents a client variant of a template context.
+ *
+ * <p>
  */
 public class CmsClientVariant {
 
-    /** The nice name of the variant. */
-    private I_CmsMessageContainer m_message;
+  /** The nice name of the variant. */
+  private I_CmsMessageContainer m_message;
 
-    /** The internal name of the client variant. */
-    private String m_name;
+  /** The internal name of the client variant. */
+  private String m_name;
 
-    /** An additional map of parameters for the variant. */
-    private Map<String, String> m_parameters;
+  /** An additional map of parameters for the variant. */
+  private Map<String, String> m_parameters;
 
-    /** The screen height. */
-    private int m_screenHeight;
+  /** The screen height. */
+  private int m_screenHeight;
 
-    /** The screen width. */
-    private int m_screenWidth;
+  /** The screen width. */
+  private int m_screenWidth;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param name the internal name of the client variant
-     * @param message the nice name of the variant
-     * @param width the screen width
-     * @param height the screen height
-     * @param parameters parameters for the variant
-     */
-    public CmsClientVariant(
-        String name,
-        I_CmsMessageContainer message,
-        int width,
-        int height,
-        Map<String, String> parameters) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param name the internal name of the client variant
+   * @param message the nice name of the variant
+   * @param width the screen width
+   * @param height the screen height
+   * @param parameters parameters for the variant
+   */
+  public CmsClientVariant(
+      String name,
+      I_CmsMessageContainer message,
+      int width,
+      int height,
+      Map<String, String> parameters) {
 
-        m_name = name;
-        m_screenWidth = width;
-        m_screenHeight = height;
-        m_message = message;
-        m_parameters = new HashMap<String, String>(parameters);
-    }
+    m_name = name;
+    m_screenWidth = width;
+    m_screenHeight = height;
+    m_message = message;
+    m_parameters = new HashMap<String, String>(parameters);
+  }
 
-    /**
-     * Gets the internal name.<p>
-     *
-     * @return the name
-     */
-    public String getName() {
+  /**
+   * Gets the internal name.
+   *
+   * <p>
+   *
+   * @return the name
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Gets the nice name for a locale.<p>
-     *
-     * @param locale the locale
-     *
-     * @return the nice name
-     */
-    public String getNiceName(Locale locale) {
+  /**
+   * Gets the nice name for a locale.
+   *
+   * <p>
+   *
+   * @param locale the locale
+   * @return the nice name
+   */
+  public String getNiceName(Locale locale) {
 
-        return m_message.key(locale);
-    }
+    return m_message.key(locale);
+  }
 
-    /**
-     * Gets the parameters.<p>
-     *
-     * @return the parameters
-     */
-    public Map<String, String> getParameters() {
+  /**
+   * Gets the parameters.
+   *
+   * <p>
+   *
+   * @return the parameters
+   */
+  public Map<String, String> getParameters() {
 
-        return m_parameters;
-    }
+    return m_parameters;
+  }
 
-    /**
-     * Gets the screen height.<p>
-     *
-     * @return the screen height
-     */
-    public int getScreenHeight() {
+  /**
+   * Gets the screen height.
+   *
+   * <p>
+   *
+   * @return the screen height
+   */
+  public int getScreenHeight() {
 
-        return m_screenHeight;
-    }
+    return m_screenHeight;
+  }
 
-    /**
-     * Gets the screen width.<p>
-     *
-     * @return the screen width
-     */
-    public int getScreenWidth() {
+  /**
+   * Gets the screen width.
+   *
+   * <p>
+   *
+   * @return the screen width
+   */
+  public int getScreenWidth() {
 
-        return m_screenWidth;
-    }
+    return m_screenWidth;
+  }
 }

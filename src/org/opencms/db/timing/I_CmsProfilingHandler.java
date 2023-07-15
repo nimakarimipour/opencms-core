@@ -28,16 +28,19 @@
 package org.opencms.db.timing;
 
 /**
- * Profiling handler interface which gets informed of method call durations.<p>
+ * Profiling handler interface which gets informed of method call durations.
+ *
+ * <p>
  */
 public interface I_CmsProfilingHandler {
 
-    /**
-     * Adds measured method call duration.<p>
-     *
-     * @param key a key identifying the method
-     * @param nanos the nanoseconds measured
-     */
-    void putTime(String key, long nanos);
-
+  /**
+   * Adds measured method call duration.
+   *
+   * <p>
+   *
+   * @param key a key identifying the method
+   * @param nanos the nanoseconds measured
+   */
+  void putTime(String key, long nanos);
 }

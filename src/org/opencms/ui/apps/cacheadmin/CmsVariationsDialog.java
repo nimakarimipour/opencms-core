@@ -27,6 +27,14 @@
 
 package org.opencms.ui.apps.cacheadmin;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Panel;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.Iterator;
+import java.util.Set;
 import org.opencms.flex.CmsFlexCache;
 import org.opencms.main.OpenCms;
 import org.opencms.ui.A_CmsUI;
@@ -34,78 +42,73 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.cacheadmin.CmsCacheViewApp.Mode;
 import org.opencms.ui.components.CmsBasicDialog;
 
-import java.util.Iterator;
-import java.util.Set;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Panel;
-import com.vaadin.v7.ui.Label;
-import com.vaadin.v7.ui.VerticalLayout;
-
 /**
- * Class for the dialog to show variations of flex cache and image cache.<p>
+ * Class for the dialog to show variations of flex cache and image cache.
+ *
+ * <p>
  */
 public class CmsVariationsDialog extends CmsBasicDialog {
 
-    /**generated vaadin id.*/
-    private static final long serialVersionUID = -7346908393288365974L;
+  /** generated vaadin id. */
+  private static final long serialVersionUID = -7346908393288365974L;
 
-    /**vaadin component.*/
-    private Button m_cancelButton;
+  /** vaadin component. */
+  private Button m_cancelButton;
 
-    /**vaadin component.*/
-    private FormLayout m_layout;
+  /** vaadin component. */
+  private FormLayout m_layout;
 
-    /**vaadin component.*/
-    private VerticalLayout m_outerlayout;
+  /** vaadin component. */
+  private VerticalLayout m_outerlayout;
 
-    /**vaadin component.*/
-    private Panel m_panel;
+  /** vaadin component. */
+  private Panel m_panel;
 
-    /**
-     * public constructor.<p>
-     *
-     * @param resource to show variations for.
-     * @param cancel runnable
-     * @param mode mode
-     */
-    public CmsVariationsDialog(String resource, final Runnable cancel, CmsCacheViewApp.Mode mode) {
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param resource to show variations for.
+   * @param cancel runnable
+   * @param mode mode
+   */
+  public CmsVariationsDialog(String resource, final Runnable cancel, CmsCacheViewApp.Mode mode) {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
-        m_cancelButton.addClickListener(new Button.ClickListener() {
+    m_cancelButton.addClickListener(
+        new Button.ClickListener() {
 
-            private static final long serialVersionUID = -4321889329235244258L;
+          private static final long serialVersionUID = -4321889329235244258L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                cancel.run();
-            }
+            cancel.run();
+          }
         });
 
-        Iterator<String> variationsIterator = null;
+    Iterator<String> variationsIterator = null;
 
-        if (Mode.FlexCache.equals(mode)) {
-            //For FlexCache
-            CmsFlexCache cache = OpenCms.getFlexCache();
-            Set<String> variations = cache.getCachedVariations(resource, A_CmsUI.getCmsObject());
-            variationsIterator = variations.iterator();
+    if (Mode.FlexCache.equals(mode)) {
+      // For FlexCache
+      CmsFlexCache cache = OpenCms.getFlexCache();
+      Set<String> variations = cache.getCachedVariations(resource, A_CmsUI.getCmsObject());
+      variationsIterator = variations.iterator();
 
-            m_panel.setSizeFull();
+      m_panel.setSizeFull();
 
-            m_layout.setHeight("100%");
-            m_outerlayout.setHeight("100%");
+      m_layout.setHeight("100%");
+      m_outerlayout.setHeight("100%");
 
-            m_layout.addStyleName("v-scrollable");
+      m_layout.addStyleName("v-scrollable");
 
-            while (variationsIterator.hasNext()) {
-                m_layout.addComponent(new Label(variationsIterator.next()));
-            }
-        } else {
-            m_outerlayout.addComponent(new CmsImageVariationsTable(resource));
-        }
-
+      while (variationsIterator.hasNext()) {
+        m_layout.addComponent(new Label(variationsIterator.next()));
+      }
+    } else {
+      m_outerlayout.addComponent(new CmsImageVariationsTable(resource));
     }
+  }
 }

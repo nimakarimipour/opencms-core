@@ -27,79 +27,90 @@
 
 package org.opencms.workplace.list;
 
-import org.opencms.jsp.CmsJspActionElement;
-import org.opencms.workplace.CmsDialog;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import org.opencms.jsp.CmsJspActionElement;
+import org.opencms.workplace.CmsDialog;
 
 /**
- * Generates a CSV file for a given list.<p>
+ * Generates a CSV file for a given list.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListCsvExportDialog extends CmsDialog {
 
-    /** List class parameter name constant. */
-    public static final String PARAM_LISTCLASS = "listclass";
+  /** List class parameter name constant. */
+  public static final String PARAM_LISTCLASS = "listclass";
 
-    /** List class parameter value. */
-    private String m_paramListclass;
+  /** List class parameter value. */
+  private String m_paramListclass;
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsListCsvExportDialog(CmsJspActionElement jsp) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsListCsvExportDialog(CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Generates the CSV file for the given list.<p>
-     *
-     * @return CSV file
-     *
-     * @throws ClassNotFoundException if the list dialog class is not found
-     */
-    public String generateCsv() throws ClassNotFoundException {
+  /**
+   * Generates the CSV file for the given list.
+   *
+   * <p>
+   *
+   * @return CSV file
+   * @throws ClassNotFoundException if the list dialog class is not found
+   */
+  public String generateCsv() throws ClassNotFoundException {
 
-        CmsHtmlList list = A_CmsListDialog.getListObject(Class.forName(getParamListclass()), getSettings());
-        return list.listCsv();
-    }
+    CmsHtmlList list =
+        A_CmsListDialog.getListObject(Class.forName(getParamListclass()), getSettings());
+    return list.listCsv();
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsListCsvExportDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsListCsvExportDialog(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-    /**
-     * Returns the value for the List class parameter.<p>
-     *
-     * @return the value for the List class parameter
-     */
-    public String getParamListclass() {
+  /**
+   * Returns the value for the List class parameter.
+   *
+   * <p>
+   *
+   * @return the value for the List class parameter
+   */
+  public String getParamListclass() {
 
-        return m_paramListclass;
-    }
+    return m_paramListclass;
+  }
 
-    /**
-     * Sets the value for the List class parameter.<p>
-     *
-     * @param listclass the value for the List class parameter to set
-     */
-    public void setParamListclass(String listclass) {
+  /**
+   * Sets the value for the List class parameter.
+   *
+   * <p>
+   *
+   * @param listclass the value for the List class parameter to set
+   */
+  public void setParamListclass(String listclass) {
 
-        m_paramListclass = listclass;
-    }
-
+    m_paramListclass = listclass;
+  }
 }

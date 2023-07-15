@@ -27,108 +27,118 @@
 
 package org.opencms.report;
 
+import com.google.common.collect.Maps;
 import java.util.Map;
 
-import com.google.common.collect.Maps;
-
 /**
- * Enum representing report entry types.<p>
+ * Enum representing report entry types.
+ *
+ * <p>
  */
 public enum CmsReportFormatType {
-    /** Default format. */
-    fmtDefault("FORMAT_DEFAULT", I_CmsReport.FORMAT_DEFAULT),
+  /** Default format. */
+  fmtDefault("FORMAT_DEFAULT", I_CmsReport.FORMAT_DEFAULT),
 
-    /** Error format. */
-    fmtError("FORMAT_ERROR", I_CmsReport.FORMAT_ERROR),
+  /** Error format. */
+  fmtError("FORMAT_ERROR", I_CmsReport.FORMAT_ERROR),
 
-    /** Exception format. */
-    fmtException("EXCEPTION", -2),
+  /** Exception format. */
+  fmtException("EXCEPTION", -2),
 
-    /** Headline format. */
-    fmtHeadline("FORMAT_HEADLINE", I_CmsReport.FORMAT_HEADLINE),
+  /** Headline format. */
+  fmtHeadline("FORMAT_HEADLINE", I_CmsReport.FORMAT_HEADLINE),
 
-    /** Newline format. */
-    fmtNewline("NEWLINE", -1),
+  /** Newline format. */
+  fmtNewline("NEWLINE", -1),
 
-    /** Note format. */
-    fmtNote("FORMAT_NOTE", I_CmsReport.FORMAT_NOTE),
+  /** Note format. */
+  fmtNote("FORMAT_NOTE", I_CmsReport.FORMAT_NOTE),
 
-    /** 'OK' format. */
-    fmtOk("FORMAT_OK", I_CmsReport.FORMAT_OK),
+  /** 'OK' format. */
+  fmtOk("FORMAT_OK", I_CmsReport.FORMAT_OK),
 
-    /** Warning format. */
-    fmtWarning("FORMAT_WARNING", I_CmsReport.FORMAT_WARNING);
+  /** Warning format. */
+  fmtWarning("FORMAT_WARNING", I_CmsReport.FORMAT_WARNING);
 
-    /** Enum values by id. */
-    private static Map<Integer, CmsReportFormatType> m_byId = Maps.newHashMap();
+  /** Enum values by id. */
+  private static Map<Integer, CmsReportFormatType> m_byId = Maps.newHashMap();
 
-    /** Enum values by format name. */
-    private static Map<String, CmsReportFormatType> m_byName = Maps.newHashMap();
+  /** Enum values by format name. */
+  private static Map<String, CmsReportFormatType> m_byName = Maps.newHashMap();
 
-    /** The format id. */
-    private int m_id;
+  /** The format id. */
+  private int m_id;
 
-    /** The format name. */
-    private String m_name;
+  /** The format name. */
+  private String m_name;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param formatName the format name
-     * @param formatId the format id
-     */
-    private CmsReportFormatType(String formatName, int formatId) {
-        m_name = formatName;
-        m_id = formatId;
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param formatName the format name
+   * @param formatId the format id
+   */
+  private CmsReportFormatType(String formatName, int formatId) {
+    m_name = formatName;
+    m_id = formatId;
+  }
+
+  static {
+    for (CmsReportFormatType type : values()) {
+      m_byId.put(Integer.valueOf(type.getFormatId()), type);
+      m_byName.put(type.getFormatName(), type);
     }
+  }
 
-    static {
-        for (CmsReportFormatType type : values()) {
-            m_byId.put(Integer.valueOf(type.getFormatId()), type);
-            m_byName.put(type.getFormatName(), type);
-        }
-    }
+  /**
+   * Gets the format enum by its id.
+   *
+   * <p>
+   *
+   * @param id the format id
+   * @return the format enum
+   */
+  public static CmsReportFormatType byId(int id) {
 
-    /**
-     * Gets the format enum by its id.<p>
-     *
-     * @param id the format id
-     * @return the format enum
-     */
-    public static CmsReportFormatType byId(int id) {
+    return m_byId.get(Integer.valueOf(id));
+  }
 
-        return m_byId.get(Integer.valueOf(id));
-    }
+  /**
+   * Gets the format enum by its format naem.
+   *
+   * <p>
+   *
+   * @param name the format name
+   * @return the format enum value
+   */
+  public static CmsReportFormatType byName(String name) {
 
-    /**
-     * Gets the format enum by its format naem.<p>
-     *
-     * @param name the format name
-     * @return the format enum value
-     */
-    public static CmsReportFormatType byName(String name) {
+    return m_byName.get(name);
+  }
 
-        return m_byName.get(name);
-    }
+  /**
+   * Gets the format id.
+   *
+   * <p>
+   *
+   * @return the format id
+   */
+  public int getFormatId() {
 
-    /**
-     * Gets the format id.<p>
-     *
-     * @return the format id
-     */
-    public int getFormatId() {
+    return m_id;
+  }
 
-        return m_id;
-    }
+  /**
+   * Gets the format name.
+   *
+   * <p>
+   *
+   * @return the format name
+   */
+  public String getFormatName() {
 
-    /**
-     * Gets the format name.<p>
-     *
-     * @return the format name
-     */
-    public String getFormatName() {
-
-        return m_name;
-    }
-
+    return m_name;
+  }
 }

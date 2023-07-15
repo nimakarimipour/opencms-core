@@ -27,103 +27,123 @@
 
 package org.opencms.acacia.client.widgets.serialdate;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.CssResource.Import;
 import org.opencms.acacia.client.css.I_CmsLayoutBundle.I_Widgets;
 import org.opencms.gwt.client.ui.css.I_CmsConstantsBundle;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.CssResource.Import;
-
 /**
- * Content editor CSS resources bundle.<p>
+ * Content editor CSS resources bundle.
+ *
+ * <p>
  */
 public interface I_CmsLayoutBundle extends org.opencms.gwt.client.ui.css.I_CmsLayoutBundle {
 
-    /** The XML content widget CSS. */
-    interface I_CmsWidgetCss extends I_Widgets {
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String button();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String ordinalTextBox();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String patternInput();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String patternRadio();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String patternRow();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String radioButtonStyle();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String serialDateWidget();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String shortTextBox();
-
-        /**
-         * Css class reader.<p>
-         *
-         * @return the css class
-         */
-        String statusLabel();
-    }
-
-    /** The bundle instance. */
-    I_CmsLayoutBundle INSTANCE = GWT.create(I_CmsLayoutBundle.class);
+  /** The XML content widget CSS. */
+  interface I_CmsWidgetCss extends I_Widgets {
 
     /**
-     * @see org.opencms.gwt.client.ui.css.I_CmsLayoutBundle#constants()
-     */
-    I_CmsConstantsBundle constants();
-
-    /**
-     * Access method.<p>
+     * Css class reader.
      *
-     * @return the XML content widget CSS
+     * <p>
+     *
+     * @return the css class
      */
-    @Source("widget.gss")
-    @Import(value = {
+    String button();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String ordinalTextBox();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String patternInput();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String patternRadio();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String patternRow();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String radioButtonStyle();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String serialDateWidget();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String shortTextBox();
+
+    /**
+     * Css class reader.
+     *
+     * <p>
+     *
+     * @return the css class
+     */
+    String statusLabel();
+  }
+
+  /** The bundle instance. */
+  I_CmsLayoutBundle INSTANCE = GWT.create(I_CmsLayoutBundle.class);
+
+  /** @see org.opencms.gwt.client.ui.css.I_CmsLayoutBundle#constants() */
+  I_CmsConstantsBundle constants();
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the XML content widget CSS
+   */
+  @Source("widget.gss")
+  @Import(
+      value = {
         I_CmsFieldsetCss.class,
         org.opencms.acacia.client.css.I_CmsWidgetsLayoutBundle.I_CmsWidgetCss.class,
         org.opencms.acacia.client.css.I_CmsLayoutBundle.I_Style.class,
-        I_CmsButtonCss.class})
-    I_CmsWidgetCss widgetCss();
-
+        I_CmsButtonCss.class
+      })
+  I_CmsWidgetCss widgetCss();
 }

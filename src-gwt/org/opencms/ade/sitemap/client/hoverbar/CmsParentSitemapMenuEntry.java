@@ -32,42 +32,43 @@ import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
 
 /**
- * Sitemap context menu goto parent sitemap entry.<p>
+ * Sitemap context menu goto parent sitemap entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsParentSitemapMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsParentSitemapMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsParentSitemapMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_PARENT_0));
-        setActive(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_PARENT_0));
+    setActive(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-        getHoverbar().getController().gotoParentSitemap();
-    }
+    getHoverbar().getController().gotoParentSitemap();
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        CmsSitemapController controller = getHoverbar().getController();
-        boolean show = !CmsSitemapView.getInstance().isSpecialMode()
+    CmsSitemapController controller = getHoverbar().getController();
+    boolean show =
+        !CmsSitemapView.getInstance().isSpecialMode()
             && controller.isRoot(getHoverbar().getEntry().getSitePath())
             && (controller.getData().getParentSitemap() != null);
-        setVisible(show);
-    }
+    setVisible(show);
+  }
 }

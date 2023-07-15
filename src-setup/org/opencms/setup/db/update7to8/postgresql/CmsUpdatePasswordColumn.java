@@ -28,17 +28,19 @@
 package org.opencms.setup.db.update7to8.postgresql;
 
 /**
- * Postgres version of CmsUpdatePasswordColumn.<p>
+ * Postgres version of CmsUpdatePasswordColumn.
+ *
+ * <p>
  */
-public class CmsUpdatePasswordColumn extends org.opencms.setup.db.update7to8.CmsUpdatePasswordColumn {
+public class CmsUpdatePasswordColumn
+    extends org.opencms.setup.db.update7to8.CmsUpdatePasswordColumn {
 
-    /**
-     * @see org.opencms.setup.db.update7to8.CmsUpdatePasswordColumn#getUpdateSql()
-     */
-    @Override
-    public String getUpdateSql() {
+  /** @see org.opencms.setup.db.update7to8.CmsUpdatePasswordColumn#getUpdateSql() */
+  @Override
+  public String getUpdateSql() {
 
-        return "ALTER TABLE CMS_USERS ALTER COLUMN USER_PASSWORD TYPE VARCHAR(" + getNewColumnLength() + ")";
-    }
-
+    return "ALTER TABLE CMS_USERS ALTER COLUMN USER_PASSWORD TYPE VARCHAR("
+        + getNewColumnLength()
+        + ")";
+  }
 }

@@ -27,73 +27,71 @@
 
 package org.opencms.ade.publish;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.ade.publish.shared.CmsPublishData;
 import org.opencms.ade.publish.shared.rpc.I_CmsPublishService;
 import org.opencms.gwt.CmsGwtActionElement;
 import org.opencms.gwt.shared.CmsCoreData;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
-/**
- * @since 8.0.0
- */
+/** @since 8.0.0 */
 public class CmsPublishActionElement extends CmsGwtActionElement {
 
-    /** The OpenCms module name. */
-    public static final String CMS_MODULE_NAME = "org.opencms.ade.publish";
+  /** The OpenCms module name. */
+  public static final String CMS_MODULE_NAME = "org.opencms.ade.publish";
 
-    /** The GWT module name. */
-    public static final String GWT_MODULE_NAME = CmsCoreData.ModuleKey.publish.name();
+  /** The GWT module name. */
+  public static final String GWT_MODULE_NAME = CmsCoreData.ModuleKey.publish.name();
 
-    /**
-     * Constructor.<p>
-     *
-     * @param context the JSP page context object
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsPublishActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param context the JSP page context object
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsPublishActionElement(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        super(context, req, res);
-    }
+    super(context, req, res);
+  }
 
-    /**
-     * @see org.opencms.gwt.CmsGwtActionElement#export()
-     */
-    @Override
-    public String export() throws Exception {
+  /** @see org.opencms.gwt.CmsGwtActionElement#export() */
+  @Override
+  public String export() throws Exception {
 
-        return "";
-    }
+    return "";
+  }
 
-    /**
-     * @see org.opencms.gwt.CmsGwtActionElement#exportAll()
-     */
-    @Override
-    public String exportAll() throws Exception {
+  /** @see org.opencms.gwt.CmsGwtActionElement#exportAll() */
+  @Override
+  public String exportAll() throws Exception {
 
-        StringBuffer sb = new StringBuffer();
-        sb.append(super.export());
-        CmsPublishData initData = CmsPublishService.prefetch(getRequest());
-        String prefetchedData = exportDictionary(
+    StringBuffer sb = new StringBuffer();
+    sb.append(super.export());
+    CmsPublishData initData = CmsPublishService.prefetch(getRequest());
+    String prefetchedData =
+        exportDictionary(
             CmsPublishData.DICT_NAME,
             I_CmsPublishService.class.getMethod("getInitData", java.util.HashMap.class),
             initData);
-        sb.append(prefetchedData);
-        sb.append(exportModuleScriptTag(GWT_MODULE_NAME));
-        return sb.toString();
-    }
+    sb.append(prefetchedData);
+    sb.append(exportModuleScriptTag(GWT_MODULE_NAME));
+    return sb.toString();
+  }
 
-    /**
-     * Returns the dialog title.<p>
-     *
-     * @return the dialog title
-     */
-    public String getTitle() {
+  /**
+   * Returns the dialog title.
+   *
+   * <p>
+   *
+   * @return the dialog title
+   */
+  public String getTitle() {
 
-        return "Publish";
-    }
-
+    return "Publish";
+  }
 }

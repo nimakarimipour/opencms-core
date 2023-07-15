@@ -27,110 +27,102 @@
 
 package org.opencms.report;
 
+import java.util.Locale;
+import org.apache.commons.logging.Log;
 import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsLog;
 
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Report for shell which writes to LOG.<p>
+ * Report for shell which writes to LOG.
+ *
+ * <p>
  */
 public class CmsShellLogReport extends CmsShellReport {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsShellLogReport.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsShellLogReport.class);
 
-    /**Line to write in LOG. */
-    private String m_line = "";
+  /** Line to write in LOG. */
+  private String m_line = "";
 
-    /**
-     * public constructor.<p>
-     *
-     * @param locale locale
-     */
-    public CmsShellLogReport(Locale locale) {
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param locale locale
+   */
+  public CmsShellLogReport(Locale locale) {
 
-        super(locale);
+    super(locale);
+  }
 
-    }
+  /** @see org.opencms.report.A_CmsReport#print(org.opencms.i18n.CmsMessageContainer) */
+  @Override
+  public void print(CmsMessageContainer container) {
 
-    /**
-     * @see org.opencms.report.A_CmsReport#print(org.opencms.i18n.CmsMessageContainer)
-     */
-    @Override
-    public void print(CmsMessageContainer container) {
+    super.print(container);
+    m_line += (container.key());
+  }
 
-        super.print(container);
-        m_line += (container.key());
-    }
+  /** @see org.opencms.report.A_CmsReport#print(org.opencms.i18n.CmsMessageContainer, int) */
+  @Override
+  public void print(CmsMessageContainer container, int format) {
 
-    /**
-     * @see org.opencms.report.A_CmsReport#print(org.opencms.i18n.CmsMessageContainer, int)
-     */
-    @Override
-    public void print(CmsMessageContainer container, int format) {
+    super.print(container, format);
+    m_line += (container.key());
+  }
 
-        super.print(container, format);
-        m_line += (container.key());
-    }
+  /** @see org.opencms.report.CmsPrintStreamReport#println() */
+  @Override
+  public void println() {
 
-    /**
-     * @see org.opencms.report.CmsPrintStreamReport#println()
-     */
-    @Override
-    public void println() {
+    super.println();
+    LOG.info(m_line);
+    m_line = "";
+  }
 
-        super.println();
-        LOG.info(m_line);
-        m_line = "";
-    }
+  /** @see org.opencms.report.A_CmsReport#println(org.opencms.i18n.CmsMessageContainer) */
+  @Override
+  public void println(CmsMessageContainer container) {
 
-    /**
-     * @see org.opencms.report.A_CmsReport#println(org.opencms.i18n.CmsMessageContainer)
-     */
-    @Override
-    public void println(CmsMessageContainer container) {
+    super.println(container);
+    m_line += container.key();
+    LOG.info(m_line);
+    m_line = "";
+  }
 
-        super.println(container);
-        m_line += container.key();
-        LOG.info(m_line);
-        m_line = "";
-    }
+  /** @see org.opencms.report.A_CmsReport#println(org.opencms.i18n.CmsMessageContainer, int) */
+  @Override
+  public void println(CmsMessageContainer container, int format) {
 
-    /**
-     * @see org.opencms.report.A_CmsReport#println(org.opencms.i18n.CmsMessageContainer, int)
-     */
-    @Override
-    public void println(CmsMessageContainer container, int format) {
+    super.println(container, format);
 
-        super.println(container, format);
+    m_line += container.key();
+    LOG.info(m_line);
+    m_line = "";
+  }
 
-        m_line += container.key();
-        LOG.info(m_line);
-        m_line = "";
-    }
+  /**
+   * @see org.opencms.report.A_CmsReport#printMessageWithParam(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Object)
+   */
+  @Override
+  public void printMessageWithParam(CmsMessageContainer container, Object param) {
 
-    /**
-     * @see org.opencms.report.A_CmsReport#printMessageWithParam(org.opencms.i18n.CmsMessageContainer, java.lang.Object)
-     */
-    @Override
-    public void printMessageWithParam(CmsMessageContainer container, Object param) {
+    super.printMessageWithParam(container, param);
 
-        super.printMessageWithParam(container, param);
+    m_line += container.key();
+  }
 
-        m_line += container.key();
-    }
+  /**
+   * @see org.opencms.report.A_CmsReport#printMessageWithParam(int, int,
+   *     org.opencms.i18n.CmsMessageContainer, java.lang.Object)
+   */
+  @Override
+  public void printMessageWithParam(int m, int n, CmsMessageContainer container, Object param) {
 
-    /**
-     * @see org.opencms.report.A_CmsReport#printMessageWithParam(int, int, org.opencms.i18n.CmsMessageContainer, java.lang.Object)
-     */
-    @Override
-    public void printMessageWithParam(int m, int n, CmsMessageContainer container, Object param) {
-
-        super.printMessageWithParam(m, n, container, param);
-        m_line += container.key();
-    }
-
+    super.printMessageWithParam(m, n, container, param);
+    m_line += container.key();
+  }
 }

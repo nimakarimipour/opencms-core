@@ -27,53 +27,51 @@
 
 package org.opencms.ui.sitemap;
 
-import org.opencms.ui.A_CmsUI;
-
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.CssLayout;
+import org.opencms.ui.A_CmsUI;
 
 /**
- * UI class for Vaadin dialogs in the sitemap editor.<p>
+ * UI class for Vaadin dialogs in the sitemap editor.
+ *
+ * <p>
  */
 public class CmsSitemapUI extends A_CmsUI {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The content. */
-    private CssLayout m_content = new CssLayout();
+  /** The content. */
+  private CssLayout m_content = new CssLayout();
 
-    /** The sitemap extension installed on this UI instance. */
-    private CmsSitemapExtension m_sitemapExtension;
+  /** The sitemap extension installed on this UI instance. */
+  private CmsSitemapExtension m_sitemapExtension;
 
-    /**
-     * @see com.vaadin.ui.AbstractSingleComponentContainer#getContent()
-     */
-    @Override
-    public CssLayout getContent() {
+  /** @see com.vaadin.ui.AbstractSingleComponentContainer#getContent() */
+  @Override
+  public CssLayout getContent() {
 
-        return (CssLayout)super.getContent();
-    }
+    return (CssLayout) super.getContent();
+  }
 
-    /**
-     * @see org.opencms.ui.A_CmsUI#init(com.vaadin.server.VaadinRequest)
-     */
-    @Override
-    protected void init(VaadinRequest request) {
+  /** @see org.opencms.ui.A_CmsUI#init(com.vaadin.server.VaadinRequest) */
+  @Override
+  protected void init(VaadinRequest request) {
 
-        super.init(request);
-        m_sitemapExtension = new CmsSitemapExtension(this);
-        setContent(m_content);
-    }
+    super.init(request);
+    m_sitemapExtension = new CmsSitemapExtension(this);
+    setContent(m_content);
+  }
 
-    /**
-     * Gets the sitemap extension instance.<p>
-     *
-     * @return the sitemap extension instance
-     */
-    CmsSitemapExtension getSitemapExtension() {
+  /**
+   * Gets the sitemap extension instance.
+   *
+   * <p>
+   *
+   * @return the sitemap extension instance
+   */
+  CmsSitemapExtension getSitemapExtension() {
 
-        return m_sitemapExtension;
-    }
-
+    return m_sitemapExtension;
+  }
 }

@@ -28,12 +28,14 @@
 package org.opencms.ade.galleries.shared;
 
 /**
- * Constants interface for binary resource preview.<p>
+ * Constants interface for binary resource preview.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsImagePreviewProvider {
 
-    /** The preview name. */
-    String PREVIEW_NAME = "image";
+  /** The preview name. */
+  String PREVIEW_NAME = "image";
 }

@@ -31,38 +31,47 @@ import org.opencms.i18n.CmsEncoder;
 import org.opencms.test.OpenCmsTestCase;
 
 /**
- * Test case for <code>{@link org.opencms.util.CmsHtml2TextConverter}</code>.<p>
+ * Test case for <code>{@link org.opencms.util.CmsHtml2TextConverter}</code>.
+ *
+ * <p>
  *
  * @since 6.2.0
  */
 public class TestCmsHtml2TextConverter extends OpenCmsTestCase {
 
-    /**
-     * Tests the HTML extractor.<p>
-     *
-     * @throws Exception in case the test fails
-     */
-    public void testHtmlExtractor() throws Exception {
+  /**
+   * Tests the HTML extractor.
+   *
+   * <p>
+   *
+   * @throws Exception in case the test fails
+   */
+  public void testHtmlExtractor() throws Exception {
 
-        String content1 = CmsFileUtil.readFile("org/opencms/util/testHtml_01.html", CmsEncoder.ENCODING_ISO_8859_1);
-        String result1 = CmsHtml2TextConverter.html2text(content1, CmsEncoder.ENCODING_ISO_8859_1);
-        System.out.println(result1 + "\n\n");
+    String content1 =
+        CmsFileUtil.readFile("org/opencms/util/testHtml_01.html", CmsEncoder.ENCODING_ISO_8859_1);
+    String result1 = CmsHtml2TextConverter.html2text(content1, CmsEncoder.ENCODING_ISO_8859_1);
+    System.out.println(result1 + "\n\n");
 
-        String expected1 = CmsFileUtil.readFile(
-            "org/opencms/util/testHtml_01_result.html",
-            CmsEncoder.ENCODING_ISO_8859_1);
-        assertEquals(expected1, result1);
+    String expected1 =
+        CmsFileUtil.readFile(
+            "org/opencms/util/testHtml_01_result.html", CmsEncoder.ENCODING_ISO_8859_1);
+    assertEquals(expected1, result1);
 
-        String content2 = CmsFileUtil.readFile("org/opencms/util/testHtml_02.html", CmsEncoder.ENCODING_ISO_8859_1);
-        String result2 = CmsHtml2TextConverter.html2text(content2, CmsEncoder.ENCODING_ISO_8859_1);
-        System.out.println(result2 + "\n\n");
+    String content2 =
+        CmsFileUtil.readFile("org/opencms/util/testHtml_02.html", CmsEncoder.ENCODING_ISO_8859_1);
+    String result2 = CmsHtml2TextConverter.html2text(content2, CmsEncoder.ENCODING_ISO_8859_1);
+    System.out.println(result2 + "\n\n");
 
-        String content3 = CmsFileUtil.readFile("org/opencms/util/testHtml_03.html", CmsEncoder.ENCODING_ISO_8859_1);
-        String result3 = CmsHtml2TextConverter.html2text(content3, CmsEncoder.ENCODING_ISO_8859_1);
-        System.out.println(result3 + "\n\n");
+    String content3 =
+        CmsFileUtil.readFile("org/opencms/util/testHtml_03.html", CmsEncoder.ENCODING_ISO_8859_1);
+    String result3 = CmsHtml2TextConverter.html2text(content3, CmsEncoder.ENCODING_ISO_8859_1);
+    System.out.println(result3 + "\n\n");
 
-        //        String content3 = CmsFileUtil.readFile("org/opencms/util/testHtml_02.html", CmsEncoder.ENCODING_ISO_8859_1);
-        //        String result3 = CmsHtmlTextAuszeichner.machDieAuszeichnung(content3, CmsEncoder.ENCODING_ISO_8859_1);
-        //        System.out.println(result3 + "\n\n");
-    }
+    //        String content3 = CmsFileUtil.readFile("org/opencms/util/testHtml_02.html",
+    // CmsEncoder.ENCODING_ISO_8859_1);
+    //        String result3 = CmsHtmlTextAuszeichner.machDieAuszeichnung(content3,
+    // CmsEncoder.ENCODING_ISO_8859_1);
+    //        System.out.println(result3 + "\n\n");
+  }
 }

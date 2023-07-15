@@ -30,52 +30,54 @@ package org.opencms.ade.galleries.client.preview.util;
 import org.opencms.ade.galleries.shared.CmsPoint;
 
 /**
- * Simple translation by x/y offset.<p>
+ * Simple translation by x/y offset.
+ *
+ * <p>
  */
 public class CmsTranslate implements I_CmsTransform {
 
-    /** The horizontal offset. */
-    private double m_cx;
+  /** The horizontal offset. */
+  private double m_cx;
 
-    /** The vertical offset. */
-    private double m_cy;
+  /** The vertical offset. */
+  private double m_cy;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param cx the horizontal offset
-     * @param cy the vertical offset
-     */
-    public CmsTranslate(double cx, double cy) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param cx the horizontal offset
+   * @param cy the vertical offset
+   */
+  public CmsTranslate(double cx, double cy) {
 
-        m_cx = cx;
-        m_cy = cy;
-    }
+    m_cx = cx;
+    m_cy = cy;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return "[CmsTranslate " + m_cx + " " + m_cy + "]";
+    return "[CmsTranslate " + m_cx + " " + m_cy + "]";
+  }
 
-    }
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.util.I_CmsTransform#transformBack(org.opencms.ade.galleries.shared.CmsPoint)
+   */
+  public CmsPoint transformBack(CmsPoint point) {
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.util.I_CmsTransform#transformBack(org.opencms.ade.galleries.shared.CmsPoint)
-     */
-    public CmsPoint transformBack(CmsPoint point) {
+    return new CmsPoint(point.getX() - m_cx, point.getY() - m_cy);
+  }
 
-        return new CmsPoint(point.getX() - m_cx, point.getY() - m_cy);
-    }
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.util.I_CmsTransform#transformForward(org.opencms.ade.galleries.shared.CmsPoint)
+   */
+  public CmsPoint transformForward(CmsPoint point) {
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.util.I_CmsTransform#transformForward(org.opencms.ade.galleries.shared.CmsPoint)
-     */
-    public CmsPoint transformForward(CmsPoint point) {
-
-        return new CmsPoint(point.getX() + m_cx, point.getY() + m_cy);
-    }
-
+    return new CmsPoint(point.getX() + m_cx, point.getY() + m_cy);
+  }
 }

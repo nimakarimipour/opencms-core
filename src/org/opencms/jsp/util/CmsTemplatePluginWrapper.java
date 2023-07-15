@@ -27,125 +27,118 @@
 
 package org.opencms.jsp.util;
 
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.ade.configuration.plugins.CmsTemplatePlugin;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 import org.opencms.relations.CmsLink;
 import org.opencms.relations.CmsLinkInfo;
 
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
-/**
- * Wrapper around template plugin objects for use in JSP EL expressions.
- */
+/** Wrapper around template plugin objects for use in JSP EL expressions. */
 public class CmsTemplatePluginWrapper {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsTemplatePluginWrapper.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsTemplatePluginWrapper.class);
 
-    /** The current CmsObject. */
-    private CmsObject m_cms;
+  /** The current CmsObject. */
+  private CmsObject m_cms;
 
-    /** The wrapped plugin. */
-    private CmsTemplatePlugin m_plugin;
+  /** The wrapped plugin. */
+  private CmsTemplatePlugin m_plugin;
 
-    /**
-     * Creates a new wrapper.
-     *
-     * @param cms the current CmsObject
-     * @param plugin the plugin to wrap
-     */
-    public CmsTemplatePluginWrapper(CmsObject cms, CmsTemplatePlugin plugin) {
+  /**
+   * Creates a new wrapper.
+   *
+   * @param cms the current CmsObject
+   * @param plugin the plugin to wrap
+   */
+  public CmsTemplatePluginWrapper(CmsObject cms, CmsTemplatePlugin plugin) {
 
-        m_cms = cms;
-        m_plugin = plugin;
+    m_cms = cms;
+    m_plugin = plugin;
+  }
+
+  /**
+   * Gets the plugin attributes.
+   *
+   * @return the plugin attributes
+   */
+  public Map<String, String> getAttributes() {
+
+    return m_plugin.getAttributes();
+  }
+
+  /**
+   * Gets the group of the plugin.
+   *
+   * @return the group
+   */
+  public String getGroup() {
+
+    return m_plugin.getGroup();
+  }
+
+  /**
+   * Gets a link to the plugin target.
+   *
+   * @return a link to the plugin target
+   */
+  public String getLink() {
+
+    CmsLinkInfo target = m_plugin.getTarget();
+    CmsLink targetLink = target.toLink();
+    if (targetLink == null) {
+      LOG.warn("getLink called on template plugin with no link target: " + toString());
+      return "";
     }
+    String link = targetLink.getLink(m_cms);
+    return link;
+  }
 
-    /**
-     * Gets the plugin attributes.
-     *
-     * @return the plugin attributes
-     */
-    public Map<String, String> getAttributes() {
+  /**
+   * Gets the order of the plugin.
+   *
+   * @return the order of the plugin
+   */
+  public int getOrder() {
 
-        return m_plugin.getAttributes();
+    return m_plugin.getOrder();
+  }
+
+  /**
+   * Returns the path of the resource, if this is an internal link, and null otherwise.
+   *
+   * @return the path of the link target
+   */
+  public String getPath() {
+
+    CmsLinkInfo target = m_plugin.getTarget();
+    if (!target.isInternal()) {
+      return null;
     }
-
-    /**
-     * Gets the group of the plugin.
-     *
-     * @return the group
-     */
-    public String getGroup() {
-
-        return m_plugin.getGroup();
+    CmsLink targetLink = target.toLink();
+    if (targetLink == null) {
+      return null;
     }
+    targetLink.checkConsistency(m_cms);
+    return m_cms.getRequestContext().removeSiteRoot(targetLink.getTarget());
+  }
 
-    /**
-     * Gets a link to the plugin target.
-     *
-     * @return a link to the plugin target
-     */
-    public String getLink() {
+  /**
+   * Gets the plugin bean wrapped by this wrapper.
+   *
+   * @return the wrapped template plugin
+   */
+  public CmsTemplatePlugin getPlugin() {
 
-        CmsLinkInfo target = m_plugin.getTarget();
-        CmsLink targetLink = target.toLink();
-        if (targetLink == null) {
-            LOG.warn("getLink called on template plugin with no link target: " + toString());
-            return "";
-        }
-        String link = targetLink.getLink(m_cms);
-        return link;
-    }
+    return m_plugin;
+  }
 
-    /**
-     * Gets the order of the plugin.
-     *
-     * @return the order of the plugin
-     */
-    public int getOrder() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_plugin.getOrder();
-    }
-
-    /**
-     * Returns the path of the resource, if this is an internal link, and null otherwise.
-     *
-     * @return the path of the link target
-     */
-    public String getPath() {
-
-        CmsLinkInfo target = m_plugin.getTarget();
-        if (!target.isInternal()) {
-            return null;
-        }
-        CmsLink targetLink = target.toLink();
-        if (targetLink == null) {
-            return null;
-        }
-        targetLink.checkConsistency(m_cms);
-        return m_cms.getRequestContext().removeSiteRoot(targetLink.getTarget());
-    }
-
-    /**
-     * Gets the plugin bean wrapped by this wrapper.
-     *
-     * @return the wrapped template plugin
-     */
-    public CmsTemplatePlugin getPlugin() {
-
-        return m_plugin;
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-
-        return m_plugin.toString();
-    }
-
+    return m_plugin.toString();
+  }
 }

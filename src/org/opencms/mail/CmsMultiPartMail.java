@@ -27,47 +27,47 @@
 
 package org.opencms.mail;
 
+import org.apache.commons.mail.MultiPartEmail;
 import org.opencms.main.OpenCms;
 
-import org.apache.commons.mail.MultiPartEmail;
-
 /**
- * This class is used to send multi-part internet email like
- * messages with attachments.<p>
+ * This class is used to send multi-part internet email like messages with attachments.
  *
- * It uses the Apache Commons Email API and extends the provided classes
- * to conveniently generate emails using the OpenCms configuration.<p>
+ * <p>It uses the Apache Commons Email API and extends the provided classes to conveniently generate
+ * emails using the OpenCms configuration.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsMultiPartMail extends MultiPartEmail {
 
-    /**
-     * Default constructor of a CmsMultiPartMail.<p>
-     *
-     * The mail host name and the mail from address are set to the OpenCms
-     * default values of the configuration.<p>
-     *
-     */
-    public CmsMultiPartMail() {
+  /**
+   * Default constructor of a CmsMultiPartMail.
+   *
+   * <p>The mail host name and the mail from address are set to the OpenCms default values of the
+   * configuration.
+   *
+   * <p>
+   */
+  public CmsMultiPartMail() {
 
-        this(OpenCms.getSystemInfo().getMailSettings().getDefaultMailHost());
-    }
+    this(OpenCms.getSystemInfo().getMailSettings().getDefaultMailHost());
+  }
 
-    /**
-     * Default constructor of a CmsMultiPartMail.<p>
-     *
-     * The mail from address is set to the OpenCms
-     * default values of the configuration.<p>
-     *
-     * @param mailHost the mail host to use (a host configured in OpenCms).
-     *
-     */
-    public CmsMultiPartMail(CmsMailHost mailHost) {
+  /**
+   * Default constructor of a CmsMultiPartMail.
+   *
+   * <p>The mail from address is set to the OpenCms default values of the configuration.
+   *
+   * <p>
+   *
+   * @param mailHost the mail host to use (a host configured in OpenCms).
+   */
+  public CmsMultiPartMail(CmsMailHost mailHost) {
 
-        // call super constructor
-        super();
-        CmsMailUtil.configureMail(mailHost, this);
-    }
-
+    // call super constructor
+    super();
+    CmsMailUtil.configureMail(mailHost, this);
+  }
 }

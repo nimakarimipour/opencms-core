@@ -33,15 +33,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation used for declaring that a specific preference class should be used for a built-in preference.
+ * Annotation used for declaring that a specific preference class should be used for a built-in
+ * preference.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = ElementType.METHOD)
 public @interface PrefMetadata {
 
-    /**
-     * @return the class to be used for the preference
-     */
-    Class<?>type();
-
+  /** @return the class to be used for the preference */
+  Class<?> type();
 }

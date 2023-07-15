@@ -32,8 +32,10 @@ import com.vaadin.shared.communication.ServerRpc;
 /** The max height server interface. */
 public interface I_CmsPollServerRpc extends ServerRpc {
 
-    /**
-     * Polls the server.<p>
-     */
-    public void poll();
+  /**
+   * Polls the server.
+   *
+   * <p>
+   */
+  public void poll();
 }

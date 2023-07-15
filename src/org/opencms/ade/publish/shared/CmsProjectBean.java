@@ -27,158 +27,180 @@
 
 package org.opencms.ade.publish.shared;
 
-import org.opencms.util.CmsUUID;
-
 import com.google.common.collect.ComparisonChain;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import org.opencms.util.CmsUUID;
 
 /**
- * A project bean.<p>
+ * A project bean.
+ *
+ * <p>
  *
  * @since 7.6
  */
 public class CmsProjectBean implements IsSerializable, Comparable<CmsProjectBean> {
 
-    /** The default group name. */
-    private String m_defaultGroupName;
+  /** The default group name. */
+  private String m_defaultGroupName;
 
-    /** The project description. */
-    private String m_description;
+  /** The project description. */
+  private String m_description;
 
-    /** The project id.*/
-    private CmsUUID m_id;
+  /** The project id. */
+  private CmsUUID m_id;
 
-    /** The project name.*/
-    private String m_name;
+  /** The project name. */
+  private String m_name;
 
-    /** The rank which is used for sorting projects. */
-    private int m_rank = 1000;
+  /** The rank which is used for sorting projects. */
+  private int m_rank = 1000;
 
-    /** The project type. */
-    private int m_type;
+  /** The project type. */
+  private int m_type;
 
-    /**
-     * Creates a new project bean.<p>
-     *
-     * @param id the project id
-     * @param type the project type
-     * @param name the project name
-     * @param description the project description
-     **/
-    public CmsProjectBean(CmsUUID id, int type, String name, String description) {
+  /**
+   * Creates a new project bean.
+   *
+   * <p>
+   *
+   * @param id the project id
+   * @param type the project type
+   * @param name the project name
+   * @param description the project description
+   */
+  public CmsProjectBean(CmsUUID id, int type, String name, String description) {
 
-        m_id = id;
-        m_name = name;
-        m_type = type;
-        m_description = description;
-    }
+    m_id = id;
+    m_name = name;
+    m_type = type;
+    m_description = description;
+  }
 
-    /**
-     * For serialization.<p>
-     */
-    protected CmsProjectBean() {
+  /**
+   * For serialization.
+   *
+   * <p>
+   */
+  protected CmsProjectBean() {
 
-        // for serialization
-    }
+    // for serialization
+  }
 
-    /**
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    public int compareTo(CmsProjectBean otherProject) {
+  /** @see java.lang.Comparable#compareTo(java.lang.Object) */
+  public int compareTo(CmsProjectBean otherProject) {
 
-        return ComparisonChain.start().compare(m_rank, otherProject.getRank()).compare(
-            m_name,
-            otherProject.getName()).result();
+    return ComparisonChain.start()
+        .compare(m_rank, otherProject.getRank())
+        .compare(m_name, otherProject.getName())
+        .result();
+  }
 
-    }
+  /**
+   * The default name to use for publish groups computed from this project, if no other name is
+   * available.
+   *
+   * <p>
+   *
+   * @return the default publish group name
+   */
+  public String getDefaultGroupName() {
 
-    /**
-     * The default name to use for publish groups computed from this project, if no other name is available.<p>
-     *
-     * @return the default publish group name
-     */
-    public String getDefaultGroupName() {
+    return m_defaultGroupName;
+  }
 
-        return m_defaultGroupName;
-    }
+  /**
+   * Returns the project description.
+   *
+   * <p>
+   *
+   * @return the project description
+   */
+  public String getDescription() {
 
-    /**
-     * Returns the project description.<p>
-     *
-     * @return the project description
-     */
-    public String getDescription() {
+    return m_description;
+  }
 
-        return m_description;
-    }
+  /**
+   * Returns the id.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  public CmsUUID getId() {
 
-    /**
-     * Returns the id.<p>
-     *
-     * @return the id
-     */
-    public CmsUUID getId() {
+    return m_id;
+  }
 
-        return m_id;
-    }
+  /**
+   * Returns the name.
+   *
+   * <p>
+   *
+   * @return the name
+   */
+  public String getName() {
 
-    /**
-     * Returns the name.<p>
-     *
-     * @return the name
-     */
-    public String getName() {
+    return m_name;
+  }
 
-        return m_name;
-    }
+  /**
+   * Gets the sorting rank.
+   *
+   * <p>
+   *
+   * @return the sorting rank
+   */
+  public int getRank() {
 
-    /**
-     * Gets the sorting rank.<p>
-     *
-     * @return the sorting rank
-     */
-    public int getRank() {
+    return m_rank;
+  }
 
-        return m_rank;
-    }
+  /**
+   * Returns the project type.
+   *
+   * <p>
+   *
+   * @return the project type
+   */
+  public int getType() {
 
-    /**
-     * Returns the project type.<p>
-     *
-     * @return the project type
-     */
-    public int getType() {
+    return m_type;
+  }
 
-        return m_type;
-    }
+  /**
+   * Returns if the project is of the type workflow project.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the project is of the type workflow project
+   */
+  public boolean isWorkflowProject() {
 
-    /**
-     * Returns if the project is of the type workflow project.<p>
-     *
-     * @return <code>true</code> if the project is of the type workflow project
-     */
-    public boolean isWorkflowProject() {
+    return m_type == 2;
+  }
 
-        return m_type == 2;
-    }
+  /**
+   * Sets the default publish group name.
+   *
+   * <p>
+   *
+   * @param defaultGroupName the default publish group name
+   */
+  public void setDefaultGroupName(String defaultGroupName) {
 
-    /**
-     * Sets the default publish group name.<p>
-     *
-     * @param defaultGroupName the default publish group name
-     */
-    public void setDefaultGroupName(String defaultGroupName) {
+    m_defaultGroupName = defaultGroupName;
+  }
 
-        m_defaultGroupName = defaultGroupName;
-    }
+  /**
+   * Sets the sorting rank.
+   *
+   * <p>
+   *
+   * @param rank the sorting rank
+   */
+  public void setRank(int rank) {
 
-    /**
-     * Sets the sorting rank.<p>
-     *
-     * @param rank the sorting rank
-     */
-    public void setRank(int rank) {
-
-        m_rank = rank;
-    }
+    m_rank = rank;
+  }
 }

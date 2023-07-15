@@ -27,53 +27,62 @@
 
 package org.opencms.ade.galleries.client.preview;
 
+import com.google.gwt.user.client.ui.Widget;
 import org.opencms.ade.galleries.client.ui.CmsGalleryDialog;
 import org.opencms.ade.galleries.shared.CmsResourceInfoBean;
 
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * Preview dialog handler interface.<p>
+ * Preview dialog handler interface.
  *
- * Delegates the actions of the preview controller to the preview dialog.<p>
+ * <p>Delegates the actions of the preview controller to the preview dialog.
+ *
+ * <p>
  *
  * @param <T> the resource info bean type
- *
  * @since 8.0.0
  */
 public interface I_CmsPreviewHandler<T extends CmsResourceInfoBean> extends I_CmsPropertiesHandler {
 
-    /**
-     * Closes the preview.<p>
-     */
-    void closePreview();
+  /**
+   * Closes the preview.
+   *
+   * <p>
+   */
+  void closePreview();
 
-    /**
-     * Gets the additional widget to be displayed in the property tab.<p>
-     *
-     * @return the additional widget to be displayed in the property tab
-     */
-    Widget getAdditionalWidgetForPropertyTab();
+  /**
+   * Gets the additional widget to be displayed in the property tab.
+   *
+   * <p>
+   *
+   * @return the additional widget to be displayed in the property tab
+   */
+  Widget getAdditionalWidgetForPropertyTab();
 
-    /**
-     * Returns the gallery dialog.<p>
-     *
-     * @return the gallery dialog
-     */
-    CmsGalleryDialog getGalleryDialog();
+  /**
+   * Returns the gallery dialog.
+   *
+   * <p>
+   *
+   * @return the gallery dialog
+   */
+  CmsGalleryDialog getGalleryDialog();
 
-    /**
-     * Returns false, if the dialog may not be closed due to unsaved properties.<p>
-     *
-     * @return <code>true</code> if the dialog may be closed
-     */
-    boolean setDataInEditor();
+  /**
+   * Returns false, if the dialog may not be closed due to unsaved properties.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the dialog may be closed
+   */
+  boolean setDataInEditor();
 
-    /**
-     * Displays the given resource info data.<p>
-     *
-     * @param resourceInfo the resource info data
-     */
-    void showData(T resourceInfo);
-
+  /**
+   * Displays the given resource info data.
+   *
+   * <p>
+   *
+   * @param resourceInfo the resource info data
+   */
+  void showData(T resourceInfo);
 }

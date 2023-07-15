@@ -27,181 +27,192 @@
 
 package org.opencms.ui.apps;
 
+import com.google.common.collect.Lists;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.json.JSONArray;
 import org.opencms.json.JSONException;
 import org.opencms.json.JSONObject;
 import org.opencms.main.CmsLog;
 import org.opencms.ui.components.CmsResourceTableProperty;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
-import com.google.common.collect.Lists;
-
 /**
- * Stores the file explorer settings.<p>
+ * Stores the file explorer settings.
+ *
+ * <p>
  */
 public class CmsFileExplorerSettings implements Serializable, I_CmsAppSettings {
 
-    /** JSON key. */
-    private static final String COLLAPSED_COLUMNS_KEY = "collapsed_collumns";
+  /** JSON key. */
+  private static final String COLLAPSED_COLUMNS_KEY = "collapsed_collumns";
 
-    /** Log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsFileExplorerSettings.class);
+  /** Log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsFileExplorerSettings.class);
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** JSON key. */
-    private static final String SORT_COLUMN_KEY = "sort_column";
+  /** JSON key. */
+  private static final String SORT_COLUMN_KEY = "sort_column";
 
-    /** JSON key. */
-    private static final String SORT_ORDER_KEY = "sort_order";
+  /** JSON key. */
+  private static final String SORT_ORDER_KEY = "sort_order";
 
-    /** The collapsed column ids. */
-    private List<CmsResourceTableProperty> m_collapsedColumns;
+  /** The collapsed column ids. */
+  private List<CmsResourceTableProperty> m_collapsedColumns;
 
-    /** The sort order. */
-    private boolean m_sortAscending;
+  /** The sort order. */
+  private boolean m_sortAscending;
 
-    /** The sort column id. */
-    private CmsResourceTableProperty m_sortColumnId;
+  /** The sort column id. */
+  private CmsResourceTableProperty m_sortColumnId;
 
-    /**
-     * Constructor.<p>
-     * Will initialize the default settings.<p>
-     */
-    public CmsFileExplorerSettings() {
+  /**
+   * Constructor.
+   *
+   * <p>Will initialize the default settings.
+   *
+   * <p>
+   */
+  public CmsFileExplorerSettings() {
 
-        // initialize with the default settings
-        m_sortColumnId = CmsResourceTableProperty.PROPERTY_RESOURCE_NAME;
-        m_sortAscending = true;
-        m_collapsedColumns = new ArrayList<CmsResourceTableProperty>();
-        Collections.addAll(
-            m_collapsedColumns,
-            CmsResourceTableProperty.PROPERTY_NAVIGATION_TEXT,
-            CmsResourceTableProperty.PROPERTY_PERMISSIONS,
-            CmsResourceTableProperty.PROPERTY_USER_MODIFIED,
-            CmsResourceTableProperty.PROPERTY_DATE_CREATED,
-            CmsResourceTableProperty.PROPERTY_USER_CREATED,
-            CmsResourceTableProperty.PROPERTY_INTERNAL_RESOURCE_TYPE,
-            CmsResourceTableProperty.PROPERTY_STATE_NAME,
-            CmsResourceTableProperty.PROPERTY_USER_LOCKED);
+    // initialize with the default settings
+    m_sortColumnId = CmsResourceTableProperty.PROPERTY_RESOURCE_NAME;
+    m_sortAscending = true;
+    m_collapsedColumns = new ArrayList<CmsResourceTableProperty>();
+    Collections.addAll(
+        m_collapsedColumns,
+        CmsResourceTableProperty.PROPERTY_NAVIGATION_TEXT,
+        CmsResourceTableProperty.PROPERTY_PERMISSIONS,
+        CmsResourceTableProperty.PROPERTY_USER_MODIFIED,
+        CmsResourceTableProperty.PROPERTY_DATE_CREATED,
+        CmsResourceTableProperty.PROPERTY_USER_CREATED,
+        CmsResourceTableProperty.PROPERTY_INTERNAL_RESOURCE_TYPE,
+        CmsResourceTableProperty.PROPERTY_STATE_NAME,
+        CmsResourceTableProperty.PROPERTY_USER_LOCKED);
+  }
+
+  /**
+   * Returns the collapsed column ids.
+   *
+   * <p>
+   *
+   * @return the collapsed column ids
+   */
+  public List<CmsResourceTableProperty> getCollapsedColumns() {
+
+    return m_collapsedColumns;
+  }
+
+  /** @see org.opencms.ui.apps.I_CmsAppSettings#getSettingsString() */
+  public String getSettingsString() {
+
+    JSONObject json = new JSONObject();
+    try {
+      json.put(SORT_ORDER_KEY, m_sortAscending);
+      json.put(SORT_COLUMN_KEY, m_sortColumnId.getId());
+      List<String> collapsed = Lists.newArrayList();
+      for (CmsResourceTableProperty column : m_collapsedColumns) {
+        collapsed.add(column.getId());
+      }
+      json.put(COLLAPSED_COLUMNS_KEY, new JSONArray(collapsed));
+    } catch (JSONException e) {
+      LOG.error(e.getLocalizedMessage(), e);
     }
 
-    /**
-     * Returns the collapsed column ids.<p>
-     *
-     * @return the collapsed column ids
-     */
-    public List<CmsResourceTableProperty> getCollapsedColumns() {
+    return json.toString();
+  }
 
-        return m_collapsedColumns;
-    }
+  /**
+   * Gets the sort column id.
+   *
+   * <p>
+   *
+   * @return the sort column id
+   */
+  public CmsResourceTableProperty getSortColumnId() {
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppSettings#getSettingsString()
-     */
-    public String getSettingsString() {
+    return m_sortColumnId;
+  }
 
-        JSONObject json = new JSONObject();
-        try {
-            json.put(SORT_ORDER_KEY, m_sortAscending);
-            json.put(SORT_COLUMN_KEY, m_sortColumnId.getId());
-            List<String> collapsed = Lists.newArrayList();
-            for (CmsResourceTableProperty column : m_collapsedColumns) {
-                collapsed.add(column.getId());
-            }
-            json.put(COLLAPSED_COLUMNS_KEY, new JSONArray(collapsed));
-        } catch (JSONException e) {
-            LOG.error(e.getLocalizedMessage(), e);
+  /**
+   * Returns the sort order.
+   *
+   * <p>
+   *
+   * @return the sort order
+   */
+  public boolean isSortAscending() {
+
+    return m_sortAscending;
+  }
+
+  /** @see org.opencms.ui.apps.I_CmsAppSettings#restoreSettings(java.lang.String) */
+  public void restoreSettings(String storedSettings) {
+
+    Map<String, CmsResourceTableProperty> columnMap =
+        CmsResourceTableProperty.getDefaultColumnsByName();
+
+    try {
+      JSONObject json = new JSONObject(storedSettings);
+      if (json.has(SORT_ORDER_KEY)) {
+        m_sortAscending = json.getBoolean(SORT_ORDER_KEY);
+      }
+      if (json.has(SORT_COLUMN_KEY)) {
+        m_sortColumnId = columnMap.get(json.getString(SORT_COLUMN_KEY));
+      }
+      if (json.has(COLLAPSED_COLUMNS_KEY)) {
+        List<CmsResourceTableProperty> collapsed = new ArrayList<CmsResourceTableProperty>();
+        JSONArray array = json.getJSONArray(COLLAPSED_COLUMNS_KEY);
+
+        for (int i = 0; i < array.length(); i++) {
+          collapsed.add(columnMap.get(array.getString(i)));
         }
+        m_collapsedColumns = collapsed;
+      }
 
-        return json.toString();
+    } catch (JSONException e) {
+      LOG.error("Failed to restore file explorer settings from '" + storedSettings + "'", e);
     }
+  }
 
-    /**
-     * Gets the sort column id.<p>
-     *
-     * @return the sort column id
-     */
-    public CmsResourceTableProperty getSortColumnId() {
+  /**
+   * Sets the collapsed columns.
+   *
+   * <p>
+   *
+   * @param collapsedColumns the collapsed columns
+   */
+  public void setCollapsedColumns(List<CmsResourceTableProperty> collapsedColumns) {
 
-        return m_sortColumnId;
-    }
+    m_collapsedColumns = collapsedColumns;
+  }
 
-    /**
-     * Returns the sort order.<p>
-     *
-     * @return the sort order
-     */
-    public boolean isSortAscending() {
+  /**
+   * Sets the sort order.
+   *
+   * <p>
+   *
+   * @param sortAscending the sort order
+   */
+  public void setSortAscending(boolean sortAscending) {
 
-        return m_sortAscending;
-    }
+    m_sortAscending = sortAscending;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppSettings#restoreSettings(java.lang.String)
-     */
-    public void restoreSettings(String storedSettings) {
+  /**
+   * Sets the sort column.
+   *
+   * <p>
+   *
+   * @param sortColumnId the sort column
+   */
+  public void setSortColumnId(CmsResourceTableProperty sortColumnId) {
 
-        Map<String, CmsResourceTableProperty> columnMap = CmsResourceTableProperty.getDefaultColumnsByName();
-
-        try {
-            JSONObject json = new JSONObject(storedSettings);
-            if (json.has(SORT_ORDER_KEY)) {
-                m_sortAscending = json.getBoolean(SORT_ORDER_KEY);
-            }
-            if (json.has(SORT_COLUMN_KEY)) {
-                m_sortColumnId = columnMap.get(json.getString(SORT_COLUMN_KEY));
-            }
-            if (json.has(COLLAPSED_COLUMNS_KEY)) {
-                List<CmsResourceTableProperty> collapsed = new ArrayList<CmsResourceTableProperty>();
-                JSONArray array = json.getJSONArray(COLLAPSED_COLUMNS_KEY);
-
-                for (int i = 0; i < array.length(); i++) {
-                    collapsed.add(columnMap.get(array.getString(i)));
-                }
-                m_collapsedColumns = collapsed;
-            }
-
-        } catch (JSONException e) {
-            LOG.error("Failed to restore file explorer settings from '" + storedSettings + "'", e);
-        }
-    }
-
-    /**
-     * Sets the collapsed columns.<p>
-     *
-     * @param collapsedColumns the collapsed columns
-     */
-    public void setCollapsedColumns(List<CmsResourceTableProperty> collapsedColumns) {
-
-        m_collapsedColumns = collapsedColumns;
-    }
-
-    /**
-     * Sets the sort order.<p>
-     *
-     * @param sortAscending the sort order
-     */
-    public void setSortAscending(boolean sortAscending) {
-
-        m_sortAscending = sortAscending;
-    }
-
-    /**
-     * Sets the sort column.<p>
-     *
-     * @param sortColumnId the sort column
-     */
-    public void setSortColumnId(CmsResourceTableProperty sortColumnId) {
-
-        m_sortColumnId = sortColumnId;
-    }
+    m_sortColumnId = sortColumnId;
+  }
 }

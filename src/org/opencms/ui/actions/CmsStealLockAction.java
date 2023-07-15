@@ -27,6 +27,9 @@
 
 package org.opencms.ui.actions;
 
+import com.google.common.collect.Lists;
+import java.util.List;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
@@ -37,65 +40,59 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
-import com.google.common.collect.Lists;
-
 /**
- * Action "Steal lock".<p>
+ * Action "Steal lock".
+ *
+ * <p>
  */
 public class CmsStealLockAction extends A_CmsWorkplaceAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "steallock";
+  /** The action id. */
+  public static final String ACTION_ID = "steallock";
 
-    /** The log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsStealLockAction.class);
+  /** The log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsStealLockAction.class);
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        CmsObject cms = A_CmsUI.getCmsObject();
-        List<CmsUUID> changedIds = Lists.newArrayList();
+    CmsObject cms = A_CmsUI.getCmsObject();
+    List<CmsUUID> changedIds = Lists.newArrayList();
 
-        for (CmsResource res : context.getResources()) {
-            try {
-                cms.changeLock(res);
-                changedIds.add(res.getStructureId());
-            } catch (CmsException e) {
-                LOG.warn(e.getLocalizedMessage(), e);
-            }
-        }
-        context.finish(changedIds);
+    for (CmsResource res : context.getResources()) {
+      try {
+        cms.changeLock(res);
+        changedIds.add(res.getStructureId());
+      } catch (CmsException e) {
+        LOG.warn(e.getLocalizedMessage(), e);
+      }
     }
+    context.finish(changedIds);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
-    }
+    return ACTION_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
 
-        return CmsStandardVisibilityCheck.STEAL_LOCK.getVisibility(cms, resources);
-    }
+    return CmsStandardVisibilityCheck.STEAL_LOCK.getVisibility(cms, resources);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return "GUI_EXPLORER_CONTEXT_OVERRIDELOCK_0";
-    }
-
+    return "GUI_EXPLORER_CONTEXT_OVERRIDELOCK_0";
+  }
 }

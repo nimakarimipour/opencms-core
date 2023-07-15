@@ -27,6 +27,15 @@
 
 package org.opencms.ade.sitemap.client.attributes;
 
+import com.google.common.base.Optional;
+import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Widget;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import jsinterop.annotations.JsMethod;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.shared.CmsSitemapAttributeData;
@@ -49,204 +58,186 @@ import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-
-import com.google.common.base.Optional;
-import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Widget;
-
-import jsinterop.annotations.JsMethod;
-
-/**
- * Sitemap attribute editor dialog.
- */
+/** Sitemap attribute editor dialog. */
 public class CmsAttributesDialog extends CmsFormDialog {
 
-    /**
-     * Field panel for the form fields.
-     */
-    public static class FieldPanel extends CmsInfoBoxFormFieldPanel {
-
-        /**
-         * Creates a new instance.
-         *
-         * @param info the list info bean for the sitemap configuration file
-         */
-        public FieldPanel(CmsListInfoBean info) {
-
-            super(info);
-        }
-
-        /**
-         * @see org.opencms.gwt.client.ui.input.form.A_CmsFormFieldPanel#createRow(org.opencms.gwt.client.ui.input.I_CmsFormField)
-         */
-        @Override
-        protected CmsFormRow createRow(I_CmsFormField field) {
-
-            // show description on help icons instead of the title
-            CmsFormRow row = createRow(
-                field.getLabel(),
-                A_CmsFormFieldPanel.NO_DESCRIPTION,
-                (Widget)field.getWidget(),
-                field.getDescription(),
-                true);
-            return row;
-        }
-
-    }
-
-    /** The sitemap attribute data. */
-    private CmsSitemapAttributeData m_data;
-
-    /** The registration for the WindowClose handler registered by this dialog. */
-    private HandlerRegistration m_windowCloseRegistration;
+  /** Field panel for the form fields. */
+  public static class FieldPanel extends CmsInfoBoxFormFieldPanel {
 
     /**
      * Creates a new instance.
      *
-     * @param data the sitemap attribute data
+     * @param info the list info bean for the sitemap configuration file
      */
-    public CmsAttributesDialog(CmsSitemapAttributeData data) {
+    public FieldPanel(CmsListInfoBean info) {
 
-        super(Messages.get().key(Messages.GUI_EDIT_ATTRIBUTES_0), new CmsForm(false), null);
-        setAnimationEnabled(false);
-        setUseAnimation(false);
-        addStyleName(I_CmsLayoutBundle.INSTANCE.attributeEditorCss().attributeEditor());
-        m_data = data;
+      super(info);
+    }
 
-        I_CmsFormSubmitHandler submitHandler = new I_CmsFormSubmitHandler() {
+    /**
+     * @see
+     *     org.opencms.gwt.client.ui.input.form.A_CmsFormFieldPanel#createRow(org.opencms.gwt.client.ui.input.I_CmsFormField)
+     */
+    @Override
+    protected CmsFormRow createRow(I_CmsFormField field) {
 
-            /**
-             * @see org.opencms.gwt.client.ui.input.form.I_CmsFormSubmitHandler#onSubmitForm(org.opencms.gwt.client.ui.input.form.CmsForm, java.util.Map, java.util.Set)
-             */
-            public void onSubmitForm(
-                CmsForm formParam,
-                final Map<String, String> fieldValues,
-                Set<String> editedFields) {
+      // show description on help icons instead of the title
+      CmsFormRow row =
+          createRow(
+              field.getLabel(),
+              A_CmsFormFieldPanel.NO_DESCRIPTION,
+              (Widget) field.getWidget(),
+              field.getDescription(),
+              true);
+      return row;
+    }
+  }
 
-                final I_CmsSitemapServiceAsync service = CmsSitemapView.getInstance().getController().getService();
-                CmsRpcAction<Void> action = new CmsRpcAction<Void>() {
+  /** The sitemap attribute data. */
+  private CmsSitemapAttributeData m_data;
 
-                    @Override
-                    public void execute() {
+  /** The registration for the WindowClose handler registered by this dialog. */
+  private HandlerRegistration m_windowCloseRegistration;
 
-                        start(0, true);
-                        CmsUUID rootId = CmsSitemapView.getInstance().getController().getData().getRoot().getId();
-                        // We need to send all values to the server, not just the edited ones, because when an inherited
-                        // value from a parent sitemap has changed to match the value explicitly set in a child sitemap, we want
-                        // to clear the value from the child sitemap even if the user hasn't edited it just now.
-                        service.saveSitemapAttributes(rootId, fieldValues, this);
-                    }
+  /**
+   * Creates a new instance.
+   *
+   * @param data the sitemap attribute data
+   */
+  public CmsAttributesDialog(CmsSitemapAttributeData data) {
 
-                    @SuppressWarnings("synthetic-access")
-                    @Override
-                    protected void onResponse(Void result) {
+    super(Messages.get().key(Messages.GUI_EDIT_ATTRIBUTES_0), new CmsForm(false), null);
+    setAnimationEnabled(false);
+    setUseAnimation(false);
+    addStyleName(I_CmsLayoutBundle.INSTANCE.attributeEditorCss().attributeEditor());
+    m_data = data;
 
-                        stop(false);
-                        sendUnlockRequest();
-                    }
+    I_CmsFormSubmitHandler submitHandler =
+        new I_CmsFormSubmitHandler() {
+
+          /**
+           * @see
+           *     org.opencms.gwt.client.ui.input.form.I_CmsFormSubmitHandler#onSubmitForm(org.opencms.gwt.client.ui.input.form.CmsForm,
+           *     java.util.Map, java.util.Set)
+           */
+          public void onSubmitForm(
+              CmsForm formParam, final Map<String, String> fieldValues, Set<String> editedFields) {
+
+            final I_CmsSitemapServiceAsync service =
+                CmsSitemapView.getInstance().getController().getService();
+            CmsRpcAction<Void> action =
+                new CmsRpcAction<Void>() {
+
+                  @Override
+                  public void execute() {
+
+                    start(0, true);
+                    CmsUUID rootId =
+                        CmsSitemapView.getInstance().getController().getData().getRoot().getId();
+                    // We need to send all values to the server, not just the edited ones, because
+                    // when an inherited
+                    // value from a parent sitemap has changed to match the value explicitly set in
+                    // a child sitemap, we want
+                    // to clear the value from the child sitemap even if the user hasn't edited it
+                    // just now.
+                    service.saveSitemapAttributes(rootId, fieldValues, this);
+                  }
+
+                  @SuppressWarnings("synthetic-access")
+                  @Override
+                  protected void onResponse(Void result) {
+
+                    stop(false);
+                    sendUnlockRequest();
+                  }
                 };
-                action.execute();
-            }
+            action.execute();
+          }
         };
-        CmsDialogFormHandler formHandler = new CmsDialogFormHandler();
-        formHandler.setSubmitHandler(submitHandler);
-        getForm().setWidget(new FieldPanel(data.getInfo()));
-        getForm().setFormHandler(formHandler);
-        formHandler.setDialog(this);
-        for (Map.Entry<String, CmsXmlContentProperty> attrEntry : m_data.getAttributeDefinitions().entrySet()) {
-            String attrName = attrEntry.getKey();
-            CmsXmlContentProperty definition = attrEntry.getValue();
-            CmsBasicFormField field = CmsBasicFormField.createField(
-                definition,
-                definition.getName(),
-                new I_CmsFormWidgetMultiFactory() {
+    CmsDialogFormHandler formHandler = new CmsDialogFormHandler();
+    formHandler.setSubmitHandler(submitHandler);
+    getForm().setWidget(new FieldPanel(data.getInfo()));
+    getForm().setFormHandler(formHandler);
+    formHandler.setDialog(this);
+    for (Map.Entry<String, CmsXmlContentProperty> attrEntry :
+        m_data.getAttributeDefinitions().entrySet()) {
+      String attrName = attrEntry.getKey();
+      CmsXmlContentProperty definition = attrEntry.getValue();
+      CmsBasicFormField field =
+          CmsBasicFormField.createField(
+              definition,
+              definition.getName(),
+              new I_CmsFormWidgetMultiFactory() {
 
-                    public I_CmsFormWidget createFormWidget(
-                        String widgetName,
-                        Map<String, String> widgetParams,
-                        Optional<String> defaultValue) {
+                public I_CmsFormWidget createFormWidget(
+                    String widgetName,
+                    Map<String, String> widgetParams,
+                    Optional<String> defaultValue) {
 
-                        return CmsWidgetFactoryRegistry.instance().createFormWidget(
-                            widgetName,
-                            widgetParams,
-                            defaultValue);
-                    }
-                },
-                Collections.<String, String> emptyMap(),
-                false);
-            getForm().addField(field, m_data.getAttributeValues().get(attrName));
-        }
-        addAttachHandler(event -> handleAttach(event));
-        getForm().render();
+                  return CmsWidgetFactoryRegistry.instance()
+                      .createFormWidget(widgetName, widgetParams, defaultValue);
+                }
+              },
+              Collections.<String, String>emptyMap(),
+              false);
+      getForm().addField(field, m_data.getAttributeValues().get(attrName));
     }
+    addAttachHandler(event -> handleAttach(event));
+    getForm().render();
+  }
 
-    /**
-     * Native method - navigator.sendBeacon().
-     *
-     * @param target the target URL
-     * @param data the data to send to the target URL
-     */
-    @JsMethod(namespace = "navigator")
-    private static native void sendBeacon(String target, String data);
+  /**
+   * Native method - navigator.sendBeacon().
+   *
+   * @param target the target URL
+   * @param data the data to send to the target URL
+   */
+  @JsMethod(namespace = "navigator")
+  private static native void sendBeacon(String target, String data);
 
-    /**
-     * @see com.google.gwt.user.client.ui.PopupPanel#setPopupPosition(int, int)
-     */
-    @Override
-    public void setPopupPosition(int left, int top) {
+  /** @see com.google.gwt.user.client.ui.PopupPanel#setPopupPosition(int, int) */
+  @Override
+  public void setPopupPosition(int left, int top) {
 
-        // handled by CSS
+    // handled by CSS
+  }
+
+  /** @see org.opencms.gwt.client.ui.input.form.CmsFormDialog#show() */
+  @Override
+  public void show() {
+
+    super.show();
+    // positioning handled by CSS
+    getElement().getStyle().clearPosition();
+    getElement().getStyle().clearLeft();
+    getElement().getStyle().clearTop();
+  }
+
+  /** @see org.opencms.gwt.client.ui.input.form.CmsFormDialog#onClickCancel() */
+  @Override
+  protected void onClickCancel() {
+
+    super.onClickCancel();
+    sendUnlockRequest();
+  }
+
+  /**
+   * Handles attach/detach events for the dialog.
+   *
+   * @param event the attach/detach event
+   */
+  private void handleAttach(AttachEvent event) {
+
+    if (event.isAttached()) {
+      m_windowCloseRegistration = Window.addCloseHandler(closeEvent -> sendUnlockRequest());
+    } else {
+      m_windowCloseRegistration.removeHandler();
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.form.CmsFormDialog#show()
-     */
-    @Override
-    public void show() {
+  /** Tells the server to unlock the sitemap configuration. */
+  private void sendUnlockRequest() {
 
-        super.show();
-        // positioning handled by CSS
-        getElement().getStyle().clearPosition();
-        getElement().getStyle().clearLeft();
-        getElement().getStyle().clearTop();
-
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.form.CmsFormDialog#onClickCancel()
-     */
-    @Override
-    protected void onClickCancel() {
-
-        super.onClickCancel();
-        sendUnlockRequest();
-    }
-
-    /**
-     * Handles attach/detach events for the dialog.
-     *
-     * @param event the attach/detach event
-     */
-    private void handleAttach(AttachEvent event) {
-
-        if (event.isAttached()) {
-            m_windowCloseRegistration = Window.addCloseHandler(closeEvent -> sendUnlockRequest());
-        } else {
-            m_windowCloseRegistration.removeHandler();
-        }
-    }
-
-    /**
-     * Tells the server to unlock the sitemap configuration.
-     */
-    private void sendUnlockRequest() {
-
-        sendBeacon(m_data.getUnlockUrl(), "");
-
-    }
+    sendBeacon(m_data.getUnlockUrl(), "");
+  }
 }

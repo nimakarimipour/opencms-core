@@ -30,88 +30,107 @@ package org.opencms.ade.galleries.client.preview.util;
 import org.opencms.ade.galleries.shared.CmsPoint;
 
 /**
- * A coordinate system transform for translating between coordinates relative to a rectangle and the coordinates relative to a second
- * rectangle with the first rectangle fit into the second one, either by just centering if possible or by centering and scaling it.
+ * A coordinate system transform for translating between coordinates relative to a rectangle and the
+ * coordinates relative to a second rectangle with the first rectangle fit into the second one,
+ * either by just centering if possible or by centering and scaling it.
  */
 public class CmsBoxFit implements I_CmsTransform {
 
-    /**
-     * Scale mode.<p>
-     */
-    public enum Mode {
-        /** Always scale. */
-        scaleAlways,
-
-        /** Only scale if the rectangle in the target coordinate system does not fit in the source coordinate system. */
-        scaleOnlyIfNecessary;
-    }
-
-    /** Name for debugging. */
-    private String m_name;
-
-    /** The horizontal offset. */
-    private double m_offsetLeft;
-
-    /** The vertical offset. */
-    private double m_offsetTop;
-
-    /** The scaling factor. */
-    private double m_scale;
+  /**
+   * Scale mode.
+   *
+   * <p>
+   */
+  public enum Mode {
+    /** Always scale. */
+    scaleAlways,
 
     /**
-     * Creates a new instance.<p>
-     *
-     * @param mode the scale mode
-     * @param width the width of the first rectangle
-     * @param height the height of the first rectangle
-     * @param naturalWidth the width of the second rectangle
-     * @param naturalHeight the height of the second rectangle
+     * Only scale if the rectangle in the target coordinate system does not fit in the source
+     * coordinate system.
      */
-    public CmsBoxFit(Mode mode, double width, double height, double naturalWidth, double naturalHeight) {
+    scaleOnlyIfNecessary;
+  }
 
-        m_name = "[CmsBoxFit " + mode + " " + width + " " + height + " " + naturalWidth + " " + naturalHeight + "]";
-        if ((mode == Mode.scaleOnlyIfNecessary) && (naturalWidth <= width) && (naturalHeight <= height)) {
-            // just fit the rectangle in the middle, no scaling
-            m_offsetLeft = (width - naturalWidth) / 2.0;
-            m_offsetTop = (height - naturalHeight) / 2.0;
-            m_scale = 1;
-        } else {
-            // Use minimum so that the second rectangle, when scaled, completely fits in the first one
-            m_scale = Math.min(width / naturalWidth, height / naturalHeight);
-            m_offsetLeft = (width - (naturalWidth * m_scale)) / 2.0;
-            m_offsetTop = (height - (naturalHeight * m_scale)) / 2.0;
-        }
+  /** Name for debugging. */
+  private String m_name;
 
+  /** The horizontal offset. */
+  private double m_offsetLeft;
+
+  /** The vertical offset. */
+  private double m_offsetTop;
+
+  /** The scaling factor. */
+  private double m_scale;
+
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param mode the scale mode
+   * @param width the width of the first rectangle
+   * @param height the height of the first rectangle
+   * @param naturalWidth the width of the second rectangle
+   * @param naturalHeight the height of the second rectangle
+   */
+  public CmsBoxFit(
+      Mode mode, double width, double height, double naturalWidth, double naturalHeight) {
+
+    m_name =
+        "[CmsBoxFit "
+            + mode
+            + " "
+            + width
+            + " "
+            + height
+            + " "
+            + naturalWidth
+            + " "
+            + naturalHeight
+            + "]";
+    if ((mode == Mode.scaleOnlyIfNecessary)
+        && (naturalWidth <= width)
+        && (naturalHeight <= height)) {
+      // just fit the rectangle in the middle, no scaling
+      m_offsetLeft = (width - naturalWidth) / 2.0;
+      m_offsetTop = (height - naturalHeight) / 2.0;
+      m_scale = 1;
+    } else {
+      // Use minimum so that the second rectangle, when scaled, completely fits in the first one
+      m_scale = Math.min(width / naturalWidth, height / naturalHeight);
+      m_offsetLeft = (width - (naturalWidth * m_scale)) / 2.0;
+      m_offsetTop = (height - (naturalHeight * m_scale)) / 2.0;
     }
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.util.I_CmsTransform#transformBack(org.opencms.ade.galleries.shared.CmsPoint)
-     */
-    public CmsPoint transformBack(CmsPoint point) {
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.util.I_CmsTransform#transformBack(org.opencms.ade.galleries.shared.CmsPoint)
+   */
+  public CmsPoint transformBack(CmsPoint point) {
 
-        double rx = (m_scale * point.getX()) + m_offsetLeft;
-        double ry = (m_scale * point.getY()) + m_offsetTop;
-        return new CmsPoint(rx, ry);
-    }
+    double rx = (m_scale * point.getX()) + m_offsetLeft;
+    double ry = (m_scale * point.getY()) + m_offsetTop;
+    return new CmsPoint(rx, ry);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.util.I_CmsTransform#transformForward(org.opencms.ade.galleries.shared.CmsPoint)
-     */
-    public CmsPoint transformForward(CmsPoint point) {
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.util.I_CmsTransform#transformForward(org.opencms.ade.galleries.shared.CmsPoint)
+   */
+  public CmsPoint transformForward(CmsPoint point) {
 
-        double rx = (point.getX() - m_offsetLeft) / m_scale;
-        double ry = (point.getY() - m_offsetTop) / m_scale;
-        return new CmsPoint(rx, ry);
-
-    }
-
+    double rx = (point.getX() - m_offsetLeft) / m_scale;
+    double ry = (point.getY() - m_offsetTop) / m_scale;
+    return new CmsPoint(rx, ry);
+  }
 }

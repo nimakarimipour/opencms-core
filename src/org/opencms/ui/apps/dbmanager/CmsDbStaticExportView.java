@@ -27,56 +27,64 @@
 
 package org.opencms.ui.apps.dbmanager;
 
-import org.opencms.ui.A_CmsUI;
-import org.opencms.ui.CmsVaadinUtils;
-import org.opencms.ui.apps.Messages;
-import org.opencms.ui.report.CmsReportDialog;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.VerticalLayout;
+import org.opencms.ui.A_CmsUI;
+import org.opencms.ui.CmsVaadinUtils;
+import org.opencms.ui.apps.Messages;
+import org.opencms.ui.report.CmsReportDialog;
 
 /**
- * Class for the static export view.<p>
+ * Class for the static export view.
+ *
+ * <p>
  */
 public class CmsDbStaticExportView extends VerticalLayout {
 
-    /**Vaadin serial id.*/
-    private static final long serialVersionUID = 6812301161700680358L;
+  /** Vaadin serial id. */
+  private static final long serialVersionUID = 6812301161700680358L;
 
-    /**Vaadin component.*/
-    private Button m_ok;
+  /** Vaadin component. */
+  private Button m_ok;
 
-    /**Vaadin component.*/
-    private Panel m_startPanel;
+  /** Vaadin component. */
+  private Panel m_startPanel;
 
-    /**
-     * public constructor.<p>
-     */
-    public CmsDbStaticExportView() {
+  /**
+   * public constructor.
+   *
+   * <p>
+   */
+  public CmsDbStaticExportView() {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        m_ok.addClickListener(new ClickListener() {
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    m_ok.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 3329214665347113504L;
+          private static final long serialVersionUID = 3329214665347113504L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                startThread();
-            }
+            startThread();
+          }
         });
-    }
+  }
 
-    /**
-     * Start export thread.<p>
-     */
-    void startThread() {
+  /**
+   * Start export thread.
+   *
+   * <p>
+   */
+  void startThread() {
 
-        m_startPanel.setVisible(false);
-        CmsStaticExportThread thread = new CmsStaticExportThread(A_CmsUI.getCmsObject());
-        String title = CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_STATEXP_ADMIN_TOOL_NAME_0);
-        CmsReportDialog.showReportDialog(title, thread);
-    }
+    m_startPanel.setVisible(false);
+    CmsStaticExportThread thread = new CmsStaticExportThread(A_CmsUI.getCmsObject());
+    String title =
+        CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_STATEXP_ADMIN_TOOL_NAME_0);
+    CmsReportDialog.showReportDialog(title, thread);
+  }
 }

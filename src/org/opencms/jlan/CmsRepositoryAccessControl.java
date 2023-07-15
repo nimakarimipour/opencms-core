@@ -33,37 +33,43 @@ import org.alfresco.jlan.server.auth.acl.AccessControlManager;
 import org.alfresco.jlan.server.core.SharedDevice;
 
 /**
- * JLAN access control which just asks the CmsJlanRepository if a user can connect to it.<p>
+ * JLAN access control which just asks the CmsJlanRepository if a user can connect to it.
+ *
+ * <p>
  */
 public class CmsRepositoryAccessControl extends AccessControl {
 
-    /** The repository for which to control access. */
-    private CmsJlanRepository m_repository;
+  /** The repository for which to control access. */
+  private CmsJlanRepository m_repository;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param repository the repository for which to control access
-     */
-    public CmsRepositoryAccessControl(CmsJlanRepository repository) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param repository the repository for which to control access
+   */
+  public CmsRepositoryAccessControl(CmsJlanRepository repository) {
 
-        super("viewPermission", "", 0);
-        m_repository = repository;
+    super("viewPermission", "", 0);
+    m_repository = repository;
+  }
+
+  /**
+   * @see
+   *     org.alfresco.jlan.server.auth.acl.AccessControl#allowsAccess(org.alfresco.jlan.server.SrvSession,
+   *     org.alfresco.jlan.server.core.SharedDevice,
+   *     org.alfresco.jlan.server.auth.acl.AccessControlManager)
+   */
+  @Override
+  public int allowsAccess(SrvSession session, SharedDevice device, AccessControlManager manager) {
+
+    String user = session.getClientInformation().getUserName();
+    user = CmsJlanUsers.translateUser(user);
+    if (m_repository.allowAccess(user)) {
+      return AccessControl.Default;
+    } else {
+      return AccessControl.NoAccess;
     }
-
-    /**
-     * @see org.alfresco.jlan.server.auth.acl.AccessControl#allowsAccess(org.alfresco.jlan.server.SrvSession, org.alfresco.jlan.server.core.SharedDevice, org.alfresco.jlan.server.auth.acl.AccessControlManager)
-     */
-    @Override
-    public int allowsAccess(SrvSession session, SharedDevice device, AccessControlManager manager) {
-
-        String user = session.getClientInformation().getUserName();
-        user = CmsJlanUsers.translateUser(user);
-        if (m_repository.allowAccess(user)) {
-            return AccessControl.Default;
-        } else {
-            return AccessControl.NoAccess;
-        }
-    }
-
+  }
 }

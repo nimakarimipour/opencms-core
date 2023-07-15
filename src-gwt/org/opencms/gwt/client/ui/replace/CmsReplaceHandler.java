@@ -27,112 +27,121 @@
 
 package org.opencms.gwt.client.ui.replace;
 
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.ui.PopupPanel;
 import org.opencms.gwt.client.ui.contextmenu.CmsReplace;
 import org.opencms.gwt.client.ui.input.upload.CmsFileInput;
 import org.opencms.gwt.client.ui.input.upload.I_CmsUploadButton;
 import org.opencms.gwt.client.ui.input.upload.I_CmsUploadButtonHandler;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.PopupPanel;
-
 /**
- * The replace dialog handler.<p>
+ * The replace dialog handler.
+ *
+ * <p>
  */
 public class CmsReplaceHandler implements I_CmsUploadButtonHandler {
 
-    /** The replace dialog. */
-    private CmsReplaceDialog m_dialog;
+  /** The replace dialog. */
+  private CmsReplaceDialog m_dialog;
 
-    /** The menu item. */
-    private CmsReplace m_menuItem;
+  /** The menu item. */
+  private CmsReplace m_menuItem;
 
-    /** The structure id of the resource to replace. */
-    private CmsUUID m_structureId;
+  /** The structure id of the resource to replace. */
+  private CmsUUID m_structureId;
 
-    /** The upload button. */
-    private I_CmsUploadButton m_uploadButton;
+  /** The upload button. */
+  private I_CmsUploadButton m_uploadButton;
 
-    /** The dialog close handler. */
-    private CloseHandler<PopupPanel> m_closeHandler;
+  /** The dialog close handler. */
+  private CloseHandler<PopupPanel> m_closeHandler;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param structureId the structure id of the resource to replace
-     */
-    public CmsReplaceHandler(CmsUUID structureId) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource to replace
+   */
+  public CmsReplaceHandler(CmsUUID structureId) {
 
-        m_structureId = structureId;
+    m_structureId = structureId;
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.upload.I_CmsUploadButtonHandler#initializeFileInput(org.opencms.gwt.client.ui.input.upload.CmsFileInput)
+   */
+  public void initializeFileInput(CmsFileInput fileInput) {
+
+    // important to set font-size as inline style, as IE7 and IE8 will not accept it otherwise
+    fileInput.getElement().getStyle().setFontSize(200, Unit.PX);
+    fileInput.getElement().getStyle().setProperty("minHeight", "200px");
+    fileInput.setAllowMultipleFiles(false);
+    fileInput.setName("replace");
+    fileInput.addStyleName(
+        org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.uploadButton().uploadFileInput());
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.upload.I_CmsUploadButtonHandler#onChange(org.opencms.gwt.client.ui.input.upload.CmsFileInput)
+   */
+  public void onChange(CmsFileInput fileInput) {
+
+    if (m_dialog == null) {
+      m_dialog = new CmsReplaceDialog(this);
+      m_dialog.center();
+      m_dialog.initContent(m_structureId);
+      if (m_closeHandler != null) {
+        m_dialog.addCloseHandler(m_closeHandler);
+      }
+    } else if (m_uploadButton != null) {
+      m_uploadButton.createFileInput();
     }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.upload.I_CmsUploadButtonHandler#initializeFileInput(org.opencms.gwt.client.ui.input.upload.CmsFileInput)
-     */
-    public void initializeFileInput(CmsFileInput fileInput) {
-
-        // important to set font-size as inline style, as IE7 and IE8 will not accept it otherwise
-        fileInput.getElement().getStyle().setFontSize(200, Unit.PX);
-        fileInput.getElement().getStyle().setProperty("minHeight", "200px");
-        fileInput.setAllowMultipleFiles(false);
-        fileInput.setName("replace");
-        fileInput.addStyleName(
-            org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.uploadButton().uploadFileInput());
+    if (fileInput.getFiles().length == 1) {
+      m_dialog.setFileInput(fileInput);
     }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.upload.I_CmsUploadButtonHandler#onChange(org.opencms.gwt.client.ui.input.upload.CmsFileInput)
-     */
-    public void onChange(CmsFileInput fileInput) {
-
-        if (m_dialog == null) {
-            m_dialog = new CmsReplaceDialog(this);
-            m_dialog.center();
-            m_dialog.initContent(m_structureId);
-            if (m_closeHandler != null) {
-                m_dialog.addCloseHandler(m_closeHandler);
-            }
-        } else if (m_uploadButton != null) {
-            m_uploadButton.createFileInput();
-        }
-        if (fileInput.getFiles().length == 1) {
-            m_dialog.setFileInput(fileInput);
-        }
-        if (m_menuItem != null) {
-            m_menuItem.getParentMenu().hide();
-        }
+    if (m_menuItem != null) {
+      m_menuItem.getParentMenu().hide();
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.upload.I_CmsUploadButtonHandler#setButton(org.opencms.gwt.client.ui.input.upload.I_CmsUploadButton)
-     */
-    public void setButton(I_CmsUploadButton button) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.upload.I_CmsUploadButtonHandler#setButton(org.opencms.gwt.client.ui.input.upload.I_CmsUploadButton)
+   */
+  public void setButton(I_CmsUploadButton button) {
 
-        m_uploadButton = button;
+    m_uploadButton = button;
+  }
+
+  /**
+   * Sets the dialog close handler.
+   *
+   * <p>
+   *
+   * @param closeHandler the close handler
+   */
+  public void setCloseHandler(CloseHandler<PopupPanel> closeHandler) {
+
+    m_closeHandler = closeHandler;
+    if (m_dialog != null) {
+      m_dialog.addCloseHandler(closeHandler);
     }
+  }
 
-    /**
-     * Sets the dialog close handler.<p>
-     *
-     * @param closeHandler the close handler
-     */
-    public void setCloseHandler(CloseHandler<PopupPanel> closeHandler) {
+  /**
+   * Sets the replace menu item.
+   *
+   * <p>
+   *
+   * @param menuItem the replace menu item to set
+   */
+  public void setMenuItem(CmsReplace menuItem) {
 
-        m_closeHandler = closeHandler;
-        if (m_dialog != null) {
-            m_dialog.addCloseHandler(closeHandler);
-        }
-    }
-
-    /**
-     * Sets the replace menu item.<p>
-     *
-     * @param menuItem the replace menu item to set
-     */
-    public void setMenuItem(CmsReplace menuItem) {
-
-        m_menuItem = menuItem;
-    }
-
+    m_menuItem = menuItem;
+  }
 }

@@ -27,85 +27,100 @@
 
 package org.opencms.jsp;
 
+import java.util.List;
+import javax.servlet.jsp.JspException;
 import org.opencms.file.CmsResource;
 
-import java.util.List;
-
-import javax.servlet.jsp.JspException;
-
 /**
- * Provides access to a <code>{@link org.opencms.file.CmsResource}</code> object that was previously loaded by a parent tag.<p>
+ * Provides access to a <code>{@link org.opencms.file.CmsResource}</code> object that was previously
+ * loaded by a parent tag.
+ *
+ * <p>
  *
  * @since 8.0
  */
 public interface I_CmsResourceContainer {
 
-    /**
-     * Returns the name of the currently used resource collector.<p>
-     *
-     * @return the name of the currently used resource collector
-     */
-    String getCollectorName();
+  /**
+   * Returns the name of the currently used resource collector.
+   *
+   * <p>
+   *
+   * @return the name of the currently used resource collector
+   */
+  String getCollectorName();
 
-    /**
-     * Returns the parameters of the currently used resource collector.<p>
-     *
-     * @return the parameters of the currently used resource collector
-     */
-    String getCollectorParam();
+  /**
+   * Returns the parameters of the currently used resource collector.
+   *
+   * <p>
+   *
+   * @return the parameters of the currently used resource collector
+   */
+  String getCollectorParam();
 
-    /**
-     * Returns the list of all currently loaded resources (instances of <code>{@link org.opencms.file.CmsResource}</code>).<p>
-     *
-     * @return the list of all currently loaded resources
-     */
-    List<CmsResource> getCollectorResult();
+  /**
+   * Returns the list of all currently loaded resources (instances of <code>
+   * {@link org.opencms.file.CmsResource}</code>).
+   *
+   * <p>
+   *
+   * @return the list of all currently loaded resources
+   */
+  List<CmsResource> getCollectorResult();
 
-    /**
-     * Returns the currently loaded resource.<p>
-     *
-     * @return the currently loaded resource
-     */
-    CmsResource getResource();
+  /**
+   * Returns the currently loaded resource.
+   *
+   * <p>
+   *
+   * @return the currently loaded resource
+   */
+  CmsResource getResource();
 
-    /**
-     * Returns the resource name in the VFS for the currently loaded resource.<p>
-     *
-     * @return the resource name in the VFS for the currently loaded resource
-     */
-    String getResourceName();
+  /**
+   * Returns the resource name in the VFS for the currently loaded resource.
+   *
+   * <p>
+   *
+   * @return the resource name in the VFS for the currently loaded resource
+   */
+  String getResourceName();
 
-    /**
-     * Resource iteration method to be used by JSP scriptlet code.<p>
-     *
-     * Calling this method will insert "direct edit" HTML to the output page (if required).<p>
-     *
-     * @return <code>true</code> if more resources are to be iterated
-     *
-     * @throws JspException in case something goes wrong
-     */
-    boolean hasMoreResources() throws JspException;
+  /**
+   * Resource iteration method to be used by JSP scriptlet code.
+   *
+   * <p>Calling this method will insert "direct edit" HTML to the output page (if required).
+   *
+   * <p>
+   *
+   * @return <code>true</code> if more resources are to be iterated
+   * @throws JspException in case something goes wrong
+   */
+  boolean hasMoreResources() throws JspException;
 
-    /**
-     * Resource iteration method to be used by JSP scriptlet code.<p>
-     *
-     * Calling this method will insert "direct edit" HTML to the output page (if required).<p>
-     *
-     * @return <code>true</code> if more resources are to be iterated
-     *
-     * @deprecated use {@link #hasMoreResources()}
-     *
-     * @throws JspException in case something goes wrong
-     */
-    @Deprecated
-    boolean hasMoreContent() throws JspException;
+  /**
+   * Resource iteration method to be used by JSP scriptlet code.
+   *
+   * <p>Calling this method will insert "direct edit" HTML to the output page (if required).
+   *
+   * <p>
+   *
+   * @return <code>true</code> if more resources are to be iterated
+   * @deprecated use {@link #hasMoreResources()}
+   * @throws JspException in case something goes wrong
+   */
+  @Deprecated
+  boolean hasMoreContent() throws JspException;
 
-    /**
-     * Returns <code>true</code> if this container is used as a resource preloader.<p>
-     *
-     * A resource preloader is used to load resources without looping through it.<p>
-     *
-     * @return <code>true</code> if this container is used as a resource preloader
-     */
-    boolean isPreloader();
+  /**
+   * Returns <code>true</code> if this container is used as a resource preloader.
+   *
+   * <p>A resource preloader is used to load resources without looping through it.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this container is used as a resource preloader
+   */
+  boolean isPreloader();
 }

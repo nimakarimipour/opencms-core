@@ -28,33 +28,44 @@
 package org.opencms.ui.components.editablegroup;
 
 /**
- * Server side handler interface for button presses in a multivalue widget group row's button bar.<p>
+ * Server side handler interface for button presses in a multivalue widget group row's button bar.
+ *
+ * <p>
  */
 public interface I_CmsEditableGroupActionHandler {
 
-    /**
-     * Triggered when the 'add' button is clicked.<p>
-     */
-    void onAdd();
+  /**
+   * Triggered when the 'add' button is clicked.
+   *
+   * <p>
+   */
+  void onAdd();
 
-    /**
-     * Triggered when the 'delete' button is clicked.<p>
-     */
-    void onDelete();
+  /**
+   * Triggered when the 'delete' button is clicked.
+   *
+   * <p>
+   */
+  void onDelete();
 
-    /**
-     * Triggered when the 'down' button is clicked.<p>
-     */
-    void onDown();
+  /**
+   * Triggered when the 'down' button is clicked.
+   *
+   * <p>
+   */
+  void onDown();
 
-    /**
-     * Triggered when the 'edit' button is clicked.<p>
-     */
-    void onEdit();
+  /**
+   * Triggered when the 'edit' button is clicked.
+   *
+   * <p>
+   */
+  void onEdit();
 
-    /**
-     * Triggered when the 'up' button is clicked.<p>
-     */
-    void onUp();
-
+  /**
+   * Triggered when the 'up' button is clicked.
+   *
+   * <p>
+   */
+  void onUp();
 }

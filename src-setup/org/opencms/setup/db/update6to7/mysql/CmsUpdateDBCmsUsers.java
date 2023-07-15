@@ -27,50 +27,63 @@
 
 package org.opencms.setup.db.update6to7.mysql;
 
-import org.opencms.setup.CmsSetupDb;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Map;
+import org.opencms.setup.CmsSetupDb;
 
 /**
- * This class makes an update of the CMS_USERS table splitting it up into CMS_USERS and CMS_USERDATA.<p>
- * Unnecessary colums from CMS_USERS will be deleted and the new column USER_DATECREATED is added.
+ * This class makes an update of the CMS_USERS table splitting it up into CMS_USERS and
+ * CMS_USERDATA.
+ *
+ * <p>Unnecessary colums from CMS_USERS will be deleted and the new column USER_DATECREATED is
+ * added.
  */
 public class CmsUpdateDBCmsUsers extends org.opencms.setup.db.update6to7.CmsUpdateDBCmsUsers {
 
-    /** Constant for the query to create the user data table.<p> */
-    private static final String QUERY_CREATE_TABLE_USERDATA_MYSQL = "Q_CREATE_TABLE_USERDATA_MYSQL";
+  /**
+   * Constant for the query to create the user data table.
+   *
+   * <p>
+   */
+  private static final String QUERY_CREATE_TABLE_USERDATA_MYSQL = "Q_CREATE_TABLE_USERDATA_MYSQL";
 
-    /** Constant for the SQL query properties.<p> */
-    private static final String QUERY_PROPERTY_FILE = "cms_users_queries.properties";
+  /**
+   * Constant for the SQL query properties.
+   *
+   * <p>
+   */
+  private static final String QUERY_PROPERTY_FILE = "cms_users_queries.properties";
 
-    /**
-     * Default constructor.<p>
-     *
-     * @throws IOException if the default sql queries property file could not be read
-     */
-    public CmsUpdateDBCmsUsers()
-    throws IOException {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the default sql queries property file could not be read
+   */
+  public CmsUpdateDBCmsUsers() throws IOException {
 
-        super();
-        loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
-    }
+    super();
+    loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+  }
 
-    /**
-     * Creates the CMS_USERDATA table if it does not exist yet.<p>
-     *
-     * @param dbCon the db connection interface
-     *
-     * @throws SQLException if something goes wrong
-     */
-    @Override
-    protected void createUserDataTable(CmsSetupDb dbCon) throws SQLException {
+  /**
+   * Creates the CMS_USERDATA table if it does not exist yet.
+   *
+   * <p>
+   *
+   * @param dbCon the db connection interface
+   * @throws SQLException if something goes wrong
+   */
+  @Override
+  protected void createUserDataTable(CmsSetupDb dbCon) throws SQLException {
 
-        System.out.println(new Exception().getStackTrace()[0].toString());
-        String createStatement = readQuery(QUERY_CREATE_TABLE_USERDATA_MYSQL);
-        Map<String, String> replacer = Collections.singletonMap("${tableEngine}", m_poolData.get("engine"));
-        dbCon.updateSqlStatement(createStatement, replacer, null);
-    }
+    System.out.println(new Exception().getStackTrace()[0].toString());
+    String createStatement = readQuery(QUERY_CREATE_TABLE_USERDATA_MYSQL);
+    Map<String, String> replacer =
+        Collections.singletonMap("${tableEngine}", m_poolData.get("engine"));
+    dbCon.updateSqlStatement(createStatement, replacer, null);
+  }
 }

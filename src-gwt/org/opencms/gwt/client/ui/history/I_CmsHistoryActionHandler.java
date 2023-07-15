@@ -30,30 +30,36 @@ package org.opencms.gwt.client.ui.history;
 import org.opencms.gwt.shared.CmsHistoryResourceBean;
 
 /**
- * Interface for classes which implement the actions that can be triggered from the history dialog.<p>
+ * Interface for classes which implement the actions that can be triggered from the history dialog.
  *
+ * <p>
  */
 public interface I_CmsHistoryActionHandler {
 
-    /**
-     * Reverts a resource to a given historical state.<p>
-     *
-     * @param historyRes the historical resource to which the resource should be reverted
-     */
-    void revert(CmsHistoryResourceBean historyRes);
+  /**
+   * Reverts a resource to a given historical state.
+   *
+   * <p>
+   *
+   * @param historyRes the historical resource to which the resource should be reverted
+   */
+  void revert(CmsHistoryResourceBean historyRes);
 
-    /**
-     * Sets the action which should be executed after reverting the resource.<p>
-     *
-     * @param action the action
-     */
-    void setPostRevertAction(Runnable action);
+  /**
+   * Sets the action which should be executed after reverting the resource.
+   *
+   * <p>
+   *
+   * @param action the action
+   */
+  void setPostRevertAction(Runnable action);
 
-    /**
-     * Show the preview for a given historical resource.<p>
-     *
-     * @param historyRes the history resource
-     */
-    void showPreview(CmsHistoryResourceBean historyRes);
-
+  /**
+   * Show the preview for a given historical resource.
+   *
+   * <p>
+   *
+   * @param historyRes the history resource
+   */
+  void showPreview(CmsHistoryResourceBean historyRes);
 }

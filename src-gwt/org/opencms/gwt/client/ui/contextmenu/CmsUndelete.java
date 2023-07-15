@@ -36,124 +36,124 @@ import org.opencms.gwt.shared.CmsResourceStatusBean;
 import org.opencms.util.CmsUUID;
 
 /**
- * ADE context menu option for undeleting a file.<p>
+ * ADE context menu option for undeleting a file.
+ *
+ * <p>
  */
 public class CmsUndelete implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand {
 
-    /**
-     * Creates a new context menu command.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Creates a new context menu command.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new CmsUndelete();
-    }
+    return new CmsUndelete();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public void execute(
-        final CmsUUID structureId,
-        final I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public void execute(
+      final CmsUUID structureId,
+      final I_CmsContextMenuHandler handler,
+      CmsContextMenuEntryBean bean) {
 
-        CmsCoreProvider.get();
+    CmsCoreProvider.get();
 
-        CmsRpcAction<CmsResourceStatusBean> loadStatusAction = new CmsRpcAction<CmsResourceStatusBean>() {
+    CmsRpcAction<CmsResourceStatusBean> loadStatusAction =
+        new CmsRpcAction<CmsResourceStatusBean>() {
 
-            @Override
-            public void execute() {
+          @Override
+          public void execute() {
 
-                start(0, true);
-                CmsCoreProvider.getVfsService().getResourceStatus(
-                    structureId,
-                    CmsCoreProvider.get().getLocale(),
-                    false,
-                    null,
-                    null,
-                    this);
+            start(0, true);
+            CmsCoreProvider.getVfsService()
+                .getResourceStatus(
+                    structureId, CmsCoreProvider.get().getLocale(), false, null, null, this);
+          }
 
-            }
+          @Override
+          protected void onResponse(CmsResourceStatusBean result) {
 
-            @Override
-            protected void onResponse(CmsResourceStatusBean result) {
+            stop(false);
+            CmsResourceInfoConfirmDialog dialog =
+                new CmsResourceInfoConfirmDialog(result) {
 
-                stop(false);
-                CmsResourceInfoConfirmDialog dialog = new CmsResourceInfoConfirmDialog(result) {
+                  @Override
+                  public String getCancelText() {
 
-                    @Override
-                    public String getCancelText() {
+                    return Messages.get().key(Messages.GUI_CANCEL_0);
+                  }
 
-                        return Messages.get().key(Messages.GUI_CANCEL_0);
-                    }
+                  @Override
+                  public String getCaption() {
 
-                    @Override
-                    public String getCaption() {
+                    return Messages.get().key(Messages.GUI_UNDELETE_CAPTION_0);
+                  }
 
-                        return Messages.get().key(Messages.GUI_UNDELETE_CAPTION_0);
-                    }
+                  @Override
+                  public String getOkText() {
 
-                    @Override
-                    public String getOkText() {
+                    return Messages.get().key(Messages.GUI_OK_0);
+                  }
 
-                        return Messages.get().key(Messages.GUI_OK_0);
-                    }
+                  @Override
+                  public String getText() {
 
-                    @Override
-                    public String getText() {
+                    return Messages.get().key(Messages.GUI_UNDELETE_TEXT_0);
+                  }
 
-                        return Messages.get().key(Messages.GUI_UNDELETE_TEXT_0);
-                    }
+                  @Override
+                  public void onConfirm() {
 
-                    @Override
-                    public void onConfirm() {
+                    CmsRpcAction<Void> undeleteAction =
+                        new CmsRpcAction<Void>() {
 
-                        CmsRpcAction<Void> undeleteAction = new CmsRpcAction<Void>() {
+                          @Override
+                          public void execute() {
 
-                            @Override
-                            public void execute() {
+                            start(0, true);
+                            CmsCoreProvider.getVfsService().undelete(structureId, this);
+                          }
 
-                                start(0, true);
-                                CmsCoreProvider.getVfsService().undelete(structureId, this);
-                            }
+                          @Override
+                          protected void onResponse(Void voidResult) {
 
-                            @Override
-                            protected void onResponse(Void voidResult) {
-
-                                stop(false);
-                                handler.refreshResource(structureId);
-                            }
-
+                            stop(false);
+                            handler.refreshResource(structureId);
+                          }
                         };
-                        undeleteAction.execute();
-
-                    }
+                    undeleteAction.execute();
+                  }
                 };
-                dialog.display();
-            }
+            dialog.display();
+          }
         };
-        loadStatusAction.execute();
+    loadStatusAction.execute();
+  }
 
-    }
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+    return null;
+  }
 
-        return null;
-    }
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget() */
+  public boolean hasItemWidget() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget()
-     */
-    public boolean hasItemWidget() {
-
-        return false;
-    }
-
+    return false;
+  }
 }

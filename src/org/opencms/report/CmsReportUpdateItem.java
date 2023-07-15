@@ -28,47 +28,52 @@
 package org.opencms.report;
 
 /**
- * Represents a single report entry.<p>
+ * Represents a single report entry.
+ *
+ * <p>
  */
 public class CmsReportUpdateItem {
 
-    /** Either a string, or an exception. */
-    private Object m_message;
+  /** Either a string, or an exception. */
+  private Object m_message;
 
-    /** String indicating the report type. */
-    private CmsReportFormatType m_type;
+  /** String indicating the report type. */
+  private CmsReportFormatType m_type;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param type the entry type
-     * @param message the message (either a string or an exception)
-     */
-    public CmsReportUpdateItem(CmsReportFormatType type, Object message) {
-        m_type = type;
-        m_message = message;
-    }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param type the entry type
+   * @param message the message (either a string or an exception)
+   */
+  public CmsReportUpdateItem(CmsReportFormatType type, Object message) {
+    m_type = type;
+    m_message = message;
+  }
 
-    /**
-     * Gets the message.<p>
-     *
-     * The message is either a string or an exception.
-     *
-     * @return the message
-     */
-    public Object getMessage() {
+  /**
+   * Gets the message.
+   *
+   * <p>The message is either a string or an exception.
+   *
+   * @return the message
+   */
+  public Object getMessage() {
 
-        return m_message;
-    }
+    return m_message;
+  }
 
-    /**
-     * Gets the entry type.<p>
-     *
-     * @return the entry type
-     */
-    public CmsReportFormatType getType() {
+  /**
+   * Gets the entry type.
+   *
+   * <p>
+   *
+   * @return the entry type
+   */
+  public CmsReportFormatType getType() {
 
-        return m_type;
-    }
-
+    return m_type;
+  }
 }

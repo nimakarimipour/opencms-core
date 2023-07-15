@@ -27,6 +27,12 @@
 
 package org.opencms.ade.properties.client;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.PopupPanel;
+import java.util.ArrayList;
 import org.opencms.ade.properties.shared.I_CmsAdePropertiesConstants;
 import org.opencms.gwt.client.A_CmsEntryPoint;
 import org.opencms.gwt.client.CmsCoreProvider;
@@ -39,183 +45,196 @@ import org.opencms.gwt.client.ui.contextmenu.CmsEditProperties;
 import org.opencms.gwt.client.ui.contextmenu.CmsEditProperties.PropertyEditingContext;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.PopupPanel;
-
 /**
- * Entry point class for the standalone ADE properties dialog.<p>
+ * Entry point class for the standalone ADE properties dialog.
+ *
+ * <p>
  */
 public class CmsPropertiesEntryPoint extends A_CmsEntryPoint {
 
+  /**
+   * Property editor handler for the standalone dialog.
+   *
+   * <p>
+   */
+  static class PropertyEditorHandler extends CmsSimplePropertyEditorHandler {
+
     /**
-     * Property editor handler for the standalone dialog.<p>
+     * Default constructor.
+     *
+     * <p>
      */
-    static class PropertyEditorHandler extends CmsSimplePropertyEditorHandler {
+    public PropertyEditorHandler() {
 
-        /**
-         * Default constructor.<p>
-         */
-        public PropertyEditorHandler() {
-
-            super(null);
-        }
-
-        /**
-         * Override: Always return false, since we want to be free to choose any JSP.
-         *
-         * @see org.opencms.gwt.client.property.CmsSimplePropertyEditorHandler#useAdeTemplates()
-         */
-        @Override
-        public boolean useAdeTemplates() {
-
-            return false;
-        }
+      super(null);
     }
 
-    /** The link to open after editing the properties / property definition is finished. */
-    protected String m_closeLink;
-
-    /** Flag which indicates that the property definition dialog needs to be opened. */
-    protected boolean m_needsPropertyDefinitionDialog;
-
     /**
-     * @see org.opencms.gwt.client.A_CmsEntryPoint#onModuleLoad()
+     * Override: Always return false, since we want to be free to choose any JSP.
+     *
+     * @see org.opencms.gwt.client.property.CmsSimplePropertyEditorHandler#useAdeTemplates()
      */
     @Override
-    public void onModuleLoad() {
+    public boolean useAdeTemplates() {
 
-        super.onModuleLoad();
-        m_closeLink = CmsCoreProvider.getMetaElementContent(I_CmsAdePropertiesConstants.META_BACKLINK);
-        String resource = CmsCoreProvider.getMetaElementContent(I_CmsAdePropertiesConstants.META_RESOURCE);
-        editProperties(new CmsUUID(resource));
+      return false;
     }
+  }
 
-    /**
-     * Starts the property editor for the resource with the given structure id.<p>
-     *
-     * @param structureId the structure id of a resource
-     */
-    protected void editProperties(final CmsUUID structureId) {
+  /** The link to open after editing the properties / property definition is finished. */
+  protected String m_closeLink;
 
-        CmsEditProperties.editProperties(structureId, null, false, null, false, new PropertyEditingContext() {
+  /** Flag which indicates that the property definition dialog needs to be opened. */
+  protected boolean m_needsPropertyDefinitionDialog;
 
-            @Override
-            public CmsPropertyDefinitionButton createPropertyDefinitionButton() {
+  /** @see org.opencms.gwt.client.A_CmsEntryPoint#onModuleLoad() */
+  @Override
+  public void onModuleLoad() {
 
-                CmsPropertyDefinitionButton button = new CmsPropertyDefinitionButton() {
+    super.onModuleLoad();
+    m_closeLink = CmsCoreProvider.getMetaElementContent(I_CmsAdePropertiesConstants.META_BACKLINK);
+    String resource =
+        CmsCoreProvider.getMetaElementContent(I_CmsAdePropertiesConstants.META_RESOURCE);
+    editProperties(new CmsUUID(resource));
+  }
 
-                    /**
-                     * @see org.opencms.gwt.client.property.definition.CmsPropertyDefinitionButton#onBeforeEditPropertyDefinition()
-                     */
-                    @SuppressWarnings("synthetic-access")
-                    @Override
-                    public void onBeforeEditPropertyDefinition() {
+  /**
+   * Starts the property editor for the resource with the given structure id.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of a resource
+   */
+  protected void editProperties(final CmsUUID structureId) {
 
-                        m_needsPropertyDefinitionDialog = true;
-                        m_formDialog.hide();
-                    }
+    CmsEditProperties.editProperties(
+        structureId,
+        null,
+        false,
+        null,
+        false,
+        new PropertyEditingContext() {
 
-                    @Override
-                    public void onClosePropertyDefinitionDialog() {
+          @Override
+          public CmsPropertyDefinitionButton createPropertyDefinitionButton() {
 
-                        closeDelayed();
-                    }
+            CmsPropertyDefinitionButton button =
+                new CmsPropertyDefinitionButton() {
+
+                  /**
+                   * @see
+                   *     org.opencms.gwt.client.property.definition.CmsPropertyDefinitionButton#onBeforeEditPropertyDefinition()
+                   */
+                  @SuppressWarnings("synthetic-access")
+                  @Override
+                  public void onBeforeEditPropertyDefinition() {
+
+                    m_needsPropertyDefinitionDialog = true;
+                    m_formDialog.hide();
+                  }
+
+                  @Override
+                  public void onClosePropertyDefinitionDialog() {
+
+                    closeDelayed();
+                  }
                 };
-                return button;
-            }
+            return button;
+          }
 
-            @Override
-            public void initCloseHandler() {
+          @Override
+          public void initCloseHandler() {
 
-                m_formDialog.addCloseHandler(new CloseHandler<PopupPanel>() {
+            m_formDialog.addCloseHandler(
+                new CloseHandler<PopupPanel>() {
 
-                    public void onClose(CloseEvent<PopupPanel> event) {
+                  public void onClose(CloseEvent<PopupPanel> event) {
 
-                        onClosePropertyDialog();
-                    }
-
+                    onClosePropertyDialog();
+                  }
                 });
-            }
-
+          }
         });
-    }
+  }
 
-    /**
-     * Opens the dialog for creating new property definitions.<p>
-     */
-    protected void editPropertyDefinition() {
+  /**
+   * Opens the dialog for creating new property definitions.
+   *
+   * <p>
+   */
+  protected void editPropertyDefinition() {
 
-        CmsRpcAction<ArrayList<String>> action = new CmsRpcAction<ArrayList<String>>() {
+    CmsRpcAction<ArrayList<String>> action =
+        new CmsRpcAction<ArrayList<String>>() {
 
-            @Override
-            public void execute() {
+          @Override
+          public void execute() {
 
-                start(200, true);
-                CmsCoreProvider.getVfsService().getDefinedProperties(this);
-            }
+            start(200, true);
+            CmsCoreProvider.getVfsService().getDefinedProperties(this);
+          }
 
-            @Override
-            protected void onResponse(ArrayList<String> result) {
+          @Override
+          protected void onResponse(ArrayList<String> result) {
 
-                stop(false);
-                CmsPropertyDefinitionDialog dialog = new CmsPropertyDefinitionDialog(result);
-                dialog.center();
-                dialog.addCloseHandler(new CloseHandler<PopupPanel>() {
+            stop(false);
+            CmsPropertyDefinitionDialog dialog = new CmsPropertyDefinitionDialog(result);
+            dialog.center();
+            dialog.addCloseHandler(
+                new CloseHandler<PopupPanel>() {
 
-                    public void onClose(CloseEvent<PopupPanel> event) {
+                  public void onClose(CloseEvent<PopupPanel> event) {
 
-                        onClosePropertyDefinitionDialog();
-                    }
-
+                    onClosePropertyDefinitionDialog();
+                  }
                 });
-            }
-
+          }
         };
-        action.execute();
+    action.execute();
+  }
+
+  /**
+   * This method is called after the property definition dialog is closed.
+   *
+   * <p>
+   */
+  protected void onClosePropertyDefinitionDialog() {
+
+    closeDelayed();
+  }
+
+  /**
+   * This method is called after the property dialog is closed.
+   *
+   * <p>
+   */
+  protected void onClosePropertyDialog() {
+
+    if (!m_needsPropertyDefinitionDialog) {
+      closeDelayed();
     }
+  }
 
-    /**
-     * This method is called after the property definition dialog is closed.<p>
-     */
-    protected void onClosePropertyDefinitionDialog() {
+  /**
+   * Returns to the close link after a short delay.
+   *
+   * <p>
+   */
+  void closeDelayed() {
 
-        closeDelayed();
-    }
+    Scheduler.RepeatingCommand command =
+        new Scheduler.RepeatingCommand() {
 
-    /**
-     * This method is called after the property dialog is closed.<p>
-     */
-    protected void onClosePropertyDialog() {
+          public boolean execute() {
 
-        if (!m_needsPropertyDefinitionDialog) {
-            closeDelayed();
-        }
-    }
-
-    /**
-     * Returns to the close link after a short delay.<p>
-     */
-    void closeDelayed() {
-
-        Scheduler.RepeatingCommand command = new Scheduler.RepeatingCommand() {
-
-            public boolean execute() {
-
-                if (CmsErrorDialog.isShowingErrorDialogs()) {
-                    return true;
-                } else {
-                    Window.Location.assign(m_closeLink);
-                    return false;
-                }
-
+            if (CmsErrorDialog.isShowingErrorDialogs()) {
+              return true;
+            } else {
+              Window.Location.assign(m_closeLink);
+              return false;
             }
+          }
         };
-        Scheduler.get().scheduleFixedDelay(command, 300);
-    }
-
+    Scheduler.get().scheduleFixedDelay(command, 300);
+  }
 }

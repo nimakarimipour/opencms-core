@@ -29,21 +29,16 @@ package org.opencms.main;
 
 import org.opencms.file.CmsObject;
 
-/**
- * Interface for plugins that need to be called during startup and shutdown.
- */
+/** Interface for plugins that need to be called during startup and shutdown. */
 public interface I_CmsStartStopHandler {
 
-    /**
-     * Called before everything else in the system is being shut down.
-     */
-    public void shutdown();
+  /** Called before everything else in the system is being shut down. */
+  public void shutdown();
 
-    /**
-     * Called after everything else in the system has been initialized.
-     *
-     * @param cms an Admin CMS context
-     */
-    public void startup(CmsObject cms);
-
+  /**
+   * Called after everything else in the system has been initialized.
+   *
+   * @param cms an Admin CMS context
+   */
+  public void startup(CmsObject cms);
 }

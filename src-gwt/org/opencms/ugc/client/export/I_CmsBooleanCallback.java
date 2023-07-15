@@ -33,18 +33,21 @@ import org.timepedia.exporter.client.ExportPackage;
 import org.timepedia.exporter.client.Exportable;
 
 /**
- * Callback interface for functions taking a boolean value as a parameter.<p>
+ * Callback interface for functions taking a boolean value as a parameter.
+ *
+ * <p>
  */
 @Export
 @ExportPackage("opencmsugc")
 @ExportClosure
 public interface I_CmsBooleanCallback extends Exportable {
 
-    /**
-     * Call the function with the given parameter.<p>
-     *
-     * @param b the boolean parameter
-     */
-    void call(boolean b);
-
+  /**
+   * Call the function with the given parameter.
+   *
+   * <p>
+   *
+   * @param b the boolean parameter
+   */
+  void call(boolean b);
 }

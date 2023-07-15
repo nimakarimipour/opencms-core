@@ -27,59 +27,65 @@
 
 package org.opencms.ui.apps.cacheadmin;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Window;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.CmsBasicDialog;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.v7.ui.VerticalLayout;
-import com.vaadin.ui.Window;
-
 /**
- * Dialog for the flush actions.<p>
+ * Dialog for the flush actions.
+ *
+ * <p>
  */
 public class CmsFlushButtonHolderDialog extends CmsBasicDialog {
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = -223664443814758803L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -223664443814758803L;
 
-    /**vaadin component. */
-    private Button m_cancelButton;
+  /** vaadin component. */
+  private Button m_cancelButton;
 
-    /**
-     * public constructor.<p>
-     *
-     * @param window window
-     */
-    public CmsFlushButtonHolderDialog(final Window window) {
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param window window
+   */
+  public CmsFlushButtonHolderDialog(final Window window) {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        VerticalLayout layout = CmsFlushCache.getButtonLayout(0, new Runnable() {
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    VerticalLayout layout =
+        CmsFlushCache.getButtonLayout(
+            0,
+            new Runnable() {
 
-            public void run() {
+              public void run() {
 
                 window.close();
                 A_CmsUI.get().reload();
-            }
+              }
+            });
+    layout.addStyleName("o-center");
+    setContent(layout);
+
+    m_cancelButton.addClickListener(
+        new ClickListener() {
+
+          private static final long serialVersionUID = 2203061285642153560L;
+
+          public void buttonClick(ClickEvent event) {
+
+            window.close();
+          }
         });
-        layout.addStyleName("o-center");
-        setContent(layout);
 
-        m_cancelButton.addClickListener(new ClickListener() {
-
-            private static final long serialVersionUID = 2203061285642153560L;
-
-            public void buttonClick(ClickEvent event) {
-
-                window.close();
-
-            }
-
-        });
-
-        window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_CACHE_CLEAN_0));
-    }
+    window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_CACHE_CLEAN_0));
+  }
 }

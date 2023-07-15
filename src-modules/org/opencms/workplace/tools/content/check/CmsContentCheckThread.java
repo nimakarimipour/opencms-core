@@ -31,66 +31,69 @@
 
 package org.opencms.workplace.tools.content.check;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 import org.opencms.report.A_CmsReportThread;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Thread for content checks. <p>
+ * Thread for content checks.
+ *
+ * <p>
  *
  * @since 6.1.2
  */
 public class CmsContentCheckThread extends A_CmsReportThread {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsContentCheckThread.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsContentCheckThread.class);
 
-    /** the CmsObject to use. */
-    private CmsObject m_cms;
+  /** the CmsObject to use. */
+  private CmsObject m_cms;
 
-    /** reference to the CmsContentCheckObject. */
-    private CmsContentCheck m_contentCheck;
+  /** reference to the CmsContentCheckObject. */
+  private CmsContentCheck m_contentCheck;
 
-    /**
-     * Constructor, creates a new CmsContentCheckThread.<p>
-     *
-     * @param cms the current CmsObject
-     * @param contentCheck the CmsContentCheck objectt
-     */
-    public CmsContentCheckThread(CmsObject cms, CmsContentCheck contentCheck) {
+  /**
+   * Constructor, creates a new CmsContentCheckThread.
+   *
+   * <p>
+   *
+   * @param cms the current CmsObject
+   * @param contentCheck the CmsContentCheck objectt
+   */
+  public CmsContentCheckThread(CmsObject cms, CmsContentCheck contentCheck) {
 
-        super(cms, "contentcheck");
-        initHtmlReport(cms.getRequestContext().getLocale());
-        m_cms = cms;
-        m_cms.getRequestContext().setUpdateSessionEnabled(false);
-        m_contentCheck = contentCheck;
+    super(cms, "contentcheck");
+    initHtmlReport(cms.getRequestContext().getLocale());
+    m_cms = cms;
+    m_cms.getRequestContext().setUpdateSessionEnabled(false);
+    m_contentCheck = contentCheck;
+  }
+
+  /** @see org.opencms.report.A_CmsReportThread#getReportUpdate() */
+  @Override
+  public String getReportUpdate() {
+
+    return getReport().getReportUpdate();
+  }
+
+  /**
+   * The run method which starts the import process.
+   *
+   * <p>
+   */
+  @Override
+  public void run() {
+
+    try {
+      // do the content check
+      m_contentCheck.startContentCheck(m_cms, getReport());
+    } catch (Exception e) {
+      getReport().println(e);
+      if (LOG.isErrorEnabled()) {
+        LOG.error(e.getLocalizedMessage());
+      }
     }
-
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
-
-        return getReport().getReportUpdate();
-    }
-
-    /**
-     * The run method which starts the import process.<p>
-     */
-    @Override
-    public void run() {
-
-        try {
-            // do the content check
-            m_contentCheck.startContentCheck(m_cms, getReport());
-        } catch (Exception e) {
-            getReport().println(e);
-            if (LOG.isErrorEnabled()) {
-                LOG.error(e.getLocalizedMessage());
-            }
-        }
-    }
+  }
 }

@@ -36,79 +36,83 @@ import org.opencms.xml.xml2json.handler.CmsJsonHandlerException;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerXmlContent.PathNotFoundException;
 import org.opencms.xml.xml2json.renderer.CmsJsonRendererContainerPage;
 
-/**
- * Class representing a JSON document for a container page.
- */
+/** Class representing a JSON document for a container page. */
 public class CmsJsonDocumentContainerPage extends CmsJsonDocumentXmlContent {
 
-    /** The container page renderer. */
-    private CmsJsonRendererContainerPage m_renderer;
+  /** The container page renderer. */
+  private CmsJsonRendererContainerPage m_renderer;
 
-    /**
-     * Creates a new container page JSON document.<p>
-     *
-     * @param jsonRequest the JSON request
-     * @param xmlContent the XML content
-     * @throws Exception if something goes wrong
-     */
-    public CmsJsonDocumentContainerPage(CmsJsonRequest jsonRequest, CmsXmlContent xmlContent)
-    throws Exception {
+  /**
+   * Creates a new container page JSON document.
+   *
+   * <p>
+   *
+   * @param jsonRequest the JSON request
+   * @param xmlContent the XML content
+   * @throws Exception if something goes wrong
+   */
+  public CmsJsonDocumentContainerPage(CmsJsonRequest jsonRequest, CmsXmlContent xmlContent)
+      throws Exception {
 
-        this(jsonRequest, xmlContent, true);
+    this(jsonRequest, xmlContent, true);
+  }
+
+  /**
+   * Creates a new container page JSON document.
+   *
+   * <p>
+   *
+   * @param jsonRequest the JSON request
+   * @param xmlContent the XML content
+   * @param embedLinkedModelgroups whether to embedLinkedContents
+   * @throws Exception if something goes wrong
+   */
+  public CmsJsonDocumentContainerPage(
+      CmsJsonRequest jsonRequest, CmsXmlContent xmlContent, boolean embedLinkedModelgroups)
+      throws Exception {
+
+    super(jsonRequest, xmlContent, embedLinkedModelgroups);
+    initRenderer();
+  }
+
+  /** @see org.opencms.xml.xml2json.document.CmsJsonDocumentResource#getJson() */
+  @Override
+  public Object getJson()
+      throws JSONException, CmsException, CmsJsonHandlerException, PathNotFoundException,
+          Exception {
+
+    insertJsonContainerPage();
+    Boolean paramContent = m_jsonRequest.getParamContent();
+    if (paramContent.booleanValue()) {
+      insertJsonLinkedContents();
     }
+    insertJsonWrapper();
+    return m_json;
+  }
 
-    /**
-     * Creates a new container page JSON document.<p>
-     *
-     * @param jsonRequest the JSON request
-     * @param xmlContent the XML content
-     * @param embedLinkedModelgroups whether to embedLinkedContents
-     * @throws Exception if something goes wrong
-     */
-    public CmsJsonDocumentContainerPage(
-        CmsJsonRequest jsonRequest,
-        CmsXmlContent xmlContent,
-        boolean embedLinkedModelgroups)
-    throws Exception {
+  /**
+   * Initializes the container page renderer.
+   *
+   * <p>
+   */
+  private void initRenderer() {
 
-        super(jsonRequest, xmlContent, embedLinkedModelgroups);
-        initRenderer();
-    }
-
-    /**
-     * @see org.opencms.xml.xml2json.document.CmsJsonDocumentResource#getJson()
-     */
-    @Override
-    public Object getJson()
-    throws JSONException, CmsException, CmsJsonHandlerException, PathNotFoundException, Exception {
-
-        insertJsonContainerPage();
-        Boolean paramContent = m_jsonRequest.getParamContent();
-        if (paramContent.booleanValue()) {
-            insertJsonLinkedContents();
-        }
-        insertJsonWrapper();
-        return m_json;
-    }
-
-    /**
-     * Initializes the container page renderer.<p>
-     */
-    private void initRenderer() {
-
-        m_renderer = new CmsJsonRendererContainerPage(
+    m_renderer =
+        new CmsJsonRendererContainerPage(
             m_context.getCms(),
             m_xmlContent.getFile(),
             m_context.getAccessPolicy()::checkPropertyAccess);
-    }
+  }
 
-    /**
-     * Inserts a JSON representation of this container page into this JSON document.<p>
-     *
-     * @throws Exception if JSON rendering fails
-     */
-    private void insertJsonContainerPage() throws Exception {
+  /**
+   * Inserts a JSON representation of this container page into this JSON document.
+   *
+   * <p>
+   *
+   * @throws Exception if JSON rendering fails
+   */
+  private void insertJsonContainerPage() throws Exception {
 
-        m_json = (JSONObject)m_renderer.renderJson();
-    }
+    m_json = (JSONObject) m_renderer.renderJson();
+  }
 }

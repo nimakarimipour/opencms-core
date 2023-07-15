@@ -27,6 +27,9 @@
 
 package org.opencms.ui.actions;
 
+import com.google.common.collect.Lists;
+import java.util.List;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.ui.A_CmsUI;
@@ -38,97 +41,86 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilitySingleOnly;
 import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 
-import java.util.List;
-import java.util.Map;
-
-import com.google.common.collect.Lists;
-
 /**
- * Action for editing external links resources.<p>
+ * Action for editing external links resources.
+ *
+ * <p>
  */
 public class CmsEditPointerAction extends A_CmsWorkplaceAction implements I_CmsADEAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "editpointer";
+  /** The action id. */
+  public static final String ACTION_ID = "editpointer";
 
-    /** The action visibility. */
-    public static final I_CmsHasMenuItemVisibility VISIBILITY = new CmsMenuItemVisibilitySingleOnly(
-        CmsStandardVisibilityCheck.EDIT_POINTER);
+  /** The action visibility. */
+  public static final I_CmsHasMenuItemVisibility VISIBILITY =
+      new CmsMenuItemVisibilitySingleOnly(CmsStandardVisibilityCheck.EDIT_POINTER);
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(final I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(final I_CmsDialogContext context) {
 
-        if (!hasBlockingLocks(context)) {
-            CmsGwtDialogExtension extension = new CmsGwtDialogExtension(
-                A_CmsUI.get(),
-                new I_CmsUpdateListener<String>() {
+    if (!hasBlockingLocks(context)) {
+      CmsGwtDialogExtension extension =
+          new CmsGwtDialogExtension(
+              A_CmsUI.get(),
+              new I_CmsUpdateListener<String>() {
 
-                    public void onUpdate(List<String> updatedItems) {
+                public void onUpdate(List<String> updatedItems) {
 
-                        context.finish(Lists.newArrayList(context.getResources().get(0).getStructureId()));
-                    }
-                });
-            extension.editPointer(context.getResources().get(0));
-        }
+                  context.finish(
+                      Lists.newArrayList(context.getResources().get(0).getStructureId()));
+                }
+              });
+      extension.editPointer(context.getResources().get(0));
     }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName()
-     */
-    public String getCommandClassName() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName() */
+  public String getCommandClassName() {
 
-        return "org.opencms.gwt.client.ui.contextmenu.CmsEditExternalLink";
-    }
+    return "org.opencms.gwt.client.ui.contextmenu.CmsEditExternalLink";
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
-    }
+    return ACTION_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
-     */
-    public String getJspPath() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getJspPath() */
+  public String getJspPath() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
-     */
-    public Map<String, String> getParams() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getParams() */
+  public Map<String, String> getParams() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
 
-        return VISIBILITY.getVisibility(cms, resources);
-    }
+    return VISIBILITY.getVisibility(cms, resources);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported()
-     */
-    public boolean isAdeSupported() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported() */
+  public boolean isAdeSupported() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return org.opencms.workplace.explorer.Messages.GUI_EXPLORER_CONTEXT_EDIT_0;
-    }
-
+    return org.opencms.workplace.explorer.Messages.GUI_EXPLORER_CONTEXT_EDIT_0;
+  }
 }

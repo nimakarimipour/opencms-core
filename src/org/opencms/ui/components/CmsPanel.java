@@ -30,15 +30,15 @@ package org.opencms.ui.components;
 import com.vaadin.ui.Panel;
 
 /**
- * Replacement for the Panel class which works around a problem where the scroll position of the panel is sometimes reset
- * after an RPC call.<p>
+ * Replacement for the Panel class which works around a problem where the scroll position of the
+ * panel is sometimes reset after an RPC call.
  *
- * The actual fix for this is contained in the client side connector belonging to this widget.
+ * <p>The actual fix for this is contained in the client side connector belonging to this widget.
  */
 public class CmsPanel extends Panel {
 
-    /** The serialization id. */
-    private static final long serialVersionUID = 1L;
+  /** The serialization id. */
+  private static final long serialVersionUID = 1L;
 
-    // nothing here, everything's on the client side
+  // nothing here, everything's on the client side
 }

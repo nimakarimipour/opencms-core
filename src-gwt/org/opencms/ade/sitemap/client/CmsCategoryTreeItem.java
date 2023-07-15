@@ -34,46 +34,53 @@ import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.util.CmsUUID;
 
 /**
- * Widget representing a category in the category mode of the sitemap editor.<p>
+ * Widget representing a category in the category mode of the sitemap editor.
+ *
+ * <p>
  */
 public class CmsCategoryTreeItem extends CmsTreeItem {
 
-    /** Structure id of the category. */
-    private CmsUUID m_structureId;
+  /** Structure id of the category. */
+  private CmsUUID m_structureId;
 
-    /**
-     * Creates a new tree item.<p>
-     *
-     * @param entry the data for the tree item
-     */
-    public CmsCategoryTreeItem(CmsCategoryTreeEntry entry) {
+  /**
+   * Creates a new tree item.
+   *
+   * <p>
+   *
+   * @param entry the data for the tree item
+   */
+  public CmsCategoryTreeItem(CmsCategoryTreeEntry entry) {
 
-        super(true, new CmsListItemWidget(createCategoryListInfo(entry)));
-        m_structureId = entry.getId();
-    }
+    super(true, new CmsListItemWidget(createCategoryListInfo(entry)));
+    m_structureId = entry.getId();
+  }
 
-    /**
-     * Creates the list info bean for a tree item from a category bean.<p>
-     *
-     * @param entry the category data
-     *
-     * @return the list info bean
-     */
-    public static CmsListInfoBean createCategoryListInfo(CmsCategoryTreeEntry entry) {
+  /**
+   * Creates the list info bean for a tree item from a category bean.
+   *
+   * <p>
+   *
+   * @param entry the category data
+   * @return the list info bean
+   */
+  public static CmsListInfoBean createCategoryListInfo(CmsCategoryTreeEntry entry) {
 
-        CmsListInfoBean info = new CmsListInfoBean(entry.getTitle(), entry.getPath(), null);
-        info.setBigIconClasses(entry.getBigIconClasses());
-        info.setResourceType("category");
-        return info;
-    }
+    CmsListInfoBean info = new CmsListInfoBean(entry.getTitle(), entry.getPath(), null);
+    info.setBigIconClasses(entry.getBigIconClasses());
+    info.setResourceType("category");
+    return info;
+  }
 
-    /**
-     * Gets the structure id.<p>
-     *
-     * @return the structure id
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Gets the structure id.
+   *
+   * <p>
+   *
+   * @return the structure id
+   */
+  public CmsUUID getStructureId() {
 
-        return m_structureId;
-    }
+    return m_structureId;
+  }
 }

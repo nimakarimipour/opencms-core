@@ -27,107 +27,118 @@
 
 package org.opencms.gwt.client.ui.input.location;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.ui.SuggestOracle;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.user.client.ui.SuggestOracle;
-
 /**
- * A suggest oracle for locations based on the google maps API.<p>
+ * A suggest oracle for locations based on the google maps API.
+ *
+ * <p>
  */
 public class CmsLocationSuggestOracle extends SuggestOracle {
 
-    /**
-     * The location suggestion data.<p>
-     */
-    public static class LocationSuggestion implements SuggestOracle.Suggestion {
+  /**
+   * The location suggestion data.
+   *
+   * <p>
+   */
+  public static class LocationSuggestion implements SuggestOracle.Suggestion {
 
-        /** The address. */
-        private String m_address;
-
-        /**
-         * Constructor.<p>
-         *
-         * @param address the address
-         */
-        public LocationSuggestion(String address) {
-
-            m_address = address;
-        }
-
-        /**
-         * @see com.google.gwt.user.client.ui.SuggestOracle.Suggestion#getDisplayString()
-         */
-        public String getDisplayString() {
-
-            return m_address;
-        }
-
-        /**
-         * @see com.google.gwt.user.client.ui.SuggestOracle.Suggestion#getReplacementString()
-         */
-        public String getReplacementString() {
-
-            return m_address;
-        }
-
-    }
-
-    /** The location controller. */
-    private CmsLocationController m_controller;
-
-    /** The google geocoder instance. */
-    private JavaScriptObject m_geocoder;
+    /** The address. */
+    private String m_address;
 
     /**
-     * Constructor.<p>
+     * Constructor.
      *
-     * @param controller the location controller
-     */
-    public CmsLocationSuggestOracle(CmsLocationController controller) {
-
-        m_controller = controller;
-    }
-
-    /**
-     * Adds a location suggestion to the list.<p>
+     * <p>
      *
-     * @param suggestions the suggestions list
      * @param address the address
      */
-    private static void addSuggestion(List<LocationSuggestion> suggestions, String address) {
+    public LocationSuggestion(String address) {
 
-        suggestions.add(new LocationSuggestion(address));
+      m_address = address;
     }
 
-    /**
-     * Creates a location suggestions list.<p>
-     *
-     * @return the location suggestions list
-     */
-    private static List<LocationSuggestion> createSuggestList() {
+    /** @see com.google.gwt.user.client.ui.SuggestOracle.Suggestion#getDisplayString() */
+    public String getDisplayString() {
 
-        return new ArrayList<LocationSuggestion>();
+      return m_address;
     }
 
-    /**
-     * Executes the suggestions callback.<p>
-     *
-     * @param request the suggestions request
-     * @param suggestions the suggestions
-     * @param callback the callback
-     */
-    private static void respond(Request request, List<LocationSuggestion> suggestions, Callback callback) {
+    /** @see com.google.gwt.user.client.ui.SuggestOracle.Suggestion#getReplacementString() */
+    public String getReplacementString() {
 
-        callback.onSuggestionsReady(request, new Response(suggestions));
+      return m_address;
     }
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.SuggestOracle#requestSuggestions(com.google.gwt.user.client.ui.SuggestOracle.Request, com.google.gwt.user.client.ui.SuggestOracle.Callback)
-     */
-    @Override
-    public native void requestSuggestions(final Request request, final Callback callback) /*-{
+  /** The location controller. */
+  private CmsLocationController m_controller;
+
+  /** The google geocoder instance. */
+  private JavaScriptObject m_geocoder;
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param controller the location controller
+   */
+  public CmsLocationSuggestOracle(CmsLocationController controller) {
+
+    m_controller = controller;
+  }
+
+  /**
+   * Adds a location suggestion to the list.
+   *
+   * <p>
+   *
+   * @param suggestions the suggestions list
+   * @param address the address
+   */
+  private static void addSuggestion(List<LocationSuggestion> suggestions, String address) {
+
+    suggestions.add(new LocationSuggestion(address));
+  }
+
+  /**
+   * Creates a location suggestions list.
+   *
+   * <p>
+   *
+   * @return the location suggestions list
+   */
+  private static List<LocationSuggestion> createSuggestList() {
+
+    return new ArrayList<LocationSuggestion>();
+  }
+
+  /**
+   * Executes the suggestions callback.
+   *
+   * <p>
+   *
+   * @param request the suggestions request
+   * @param suggestions the suggestions
+   * @param callback the callback
+   */
+  private static void respond(
+      Request request, List<LocationSuggestion> suggestions, Callback callback) {
+
+    callback.onSuggestionsReady(request, new Response(suggestions));
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.user.client.ui.SuggestOracle#requestSuggestions(com.google.gwt.user.client.ui.SuggestOracle.Request,
+   *     com.google.gwt.user.client.ui.SuggestOracle.Callback)
+   */
+  @Override
+  public native void requestSuggestions(final Request request, final Callback callback) /*-{
 		var query = request.@com.google.gwt.user.client.ui.SuggestOracle.Request::getQuery()();
 		var controller = this.@org.opencms.gwt.client.ui.input.location.CmsLocationSuggestOracle::m_controller;
 		var pos = controller.@org.opencms.gwt.client.ui.input.location.CmsLocationController::getCurrentPosition()();
@@ -159,5 +170,4 @@ public class CmsLocationSuggestOracle extends SuggestOracle {
 							@org.opencms.gwt.client.ui.input.location.CmsLocationSuggestOracle::respond(Lcom/google/gwt/user/client/ui/SuggestOracle$Request;Ljava/util/List;Lcom/google/gwt/user/client/ui/SuggestOracle$Callback;)(request, suggestions, callback);
 						});
     }-*/;
-
 }

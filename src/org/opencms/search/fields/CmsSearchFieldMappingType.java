@@ -31,114 +31,126 @@ import org.opencms.util.A_CmsModeIntEnumeration;
 import org.opencms.util.CmsStringUtil;
 
 /**
- * Describes a possible mapping type for a piece of content used in building a search index.<p>
+ * Describes a possible mapping type for a piece of content used in building a search index.
  *
- * The mapping type is responsible to select which content from the OpenCms resource is used for
- * a field.<p>
+ * <p>The mapping type is responsible to select which content from the OpenCms resource is used for
+ * a field.
+ *
+ * <p>
  *
  * @since 7.0.0
  */
 public final class CmsSearchFieldMappingType extends A_CmsModeIntEnumeration {
 
-    /** The "dynamic" mapping type, this is required if a special class is used to process the field mapping value. */
-    public static final CmsSearchFieldMappingType ATTRIBUTE = new CmsSearchFieldMappingType(5);
+  /**
+   * The "dynamic" mapping type, this is required if a special class is used to process the field
+   * mapping value.
+   */
+  public static final CmsSearchFieldMappingType ATTRIBUTE = new CmsSearchFieldMappingType(5);
 
-    /** The "content" mapping type, maps the content of the resource (no parameters required). */
-    public static final CmsSearchFieldMappingType CONTENT = new CmsSearchFieldMappingType(0);
+  /** The "content" mapping type, maps the content of the resource (no parameters required). */
+  public static final CmsSearchFieldMappingType CONTENT = new CmsSearchFieldMappingType(0);
 
-    /** The "dynamic" mapping type, this is required if a special class is used to process the field mapping value. */
-    public static final CmsSearchFieldMappingType DYNAMIC = new CmsSearchFieldMappingType(4);
+  /**
+   * The "dynamic" mapping type, this is required if a special class is used to process the field
+   * mapping value.
+   */
+  public static final CmsSearchFieldMappingType DYNAMIC = new CmsSearchFieldMappingType(4);
 
-    /** The "item" mapping type, maps the selected content item of the content. */
-    public static final CmsSearchFieldMappingType ITEM = new CmsSearchFieldMappingType(3);
+  /** The "item" mapping type, maps the selected content item of the content. */
+  public static final CmsSearchFieldMappingType ITEM = new CmsSearchFieldMappingType(3);
 
-    /** The "property" mapping type, maps the selected property value of the resource. */
-    public static final CmsSearchFieldMappingType PROPERTY = new CmsSearchFieldMappingType(1);
+  /** The "property" mapping type, maps the selected property value of the resource. */
+  public static final CmsSearchFieldMappingType PROPERTY = new CmsSearchFieldMappingType(1);
 
-    /** The "property-search" mapping type, maps the selected property value of the resource with search upwards. */
-    public static final CmsSearchFieldMappingType PROPERTY_SEARCH = new CmsSearchFieldMappingType(2);
+  /**
+   * The "property-search" mapping type, maps the selected property value of the resource with
+   * search upwards.
+   */
+  public static final CmsSearchFieldMappingType PROPERTY_SEARCH = new CmsSearchFieldMappingType(2);
 
-    /** ID required for safe serialization. */
-    private static final long serialVersionUID = 1959271063305411797L;
+  /** ID required for safe serialization. */
+  private static final long serialVersionUID = 1959271063305411797L;
 
-    /** String constant for the "attribute" type. */
-    private static final String STR_ATTRIBUTE = "attribute";
+  /** String constant for the "attribute" type. */
+  private static final String STR_ATTRIBUTE = "attribute";
 
-    /** String constant for the "content" type. */
-    private static final String STR_CONTENT = "content";
+  /** String constant for the "content" type. */
+  private static final String STR_CONTENT = "content";
 
-    /** String constant for the "dynamic" type. */
-    private static final String STR_DYNAMIC = "dynamic";
+  /** String constant for the "dynamic" type. */
+  private static final String STR_DYNAMIC = "dynamic";
 
-    /** String constant for the "item" type. */
-    private static final String STR_ITEM = "item";
+  /** String constant for the "item" type. */
+  private static final String STR_ITEM = "item";
 
-    /** String constant for the "property" type. */
-    private static final String STR_PROPERTY = "property";
+  /** String constant for the "property" type. */
+  private static final String STR_PROPERTY = "property";
 
-    /** String constant for the "property-search" type. */
-    private static final String STR_PROPERTY_SEARCH = "property-search";
+  /** String constant for the "property-search" type. */
+  private static final String STR_PROPERTY_SEARCH = "property-search";
 
-    /**
-     * Hides the public constructor.<p>
-     *
-     * @param mode the mode constant to use
-     */
-    private CmsSearchFieldMappingType(int mode) {
+  /**
+   * Hides the public constructor.
+   *
+   * <p>
+   *
+   * @param mode the mode constant to use
+   */
+  private CmsSearchFieldMappingType(int mode) {
 
-        super(mode);
+    super(mode);
+  }
+
+  /**
+   * Returns the matching field mapping type, or <code>null</code> if the given value is not a valid
+   * mapping type name.
+   *
+   * <p>
+   *
+   * @param value the name of the mapping type
+   * @return the matching field mapping type
+   */
+  public static CmsSearchFieldMappingType valueOf(String value) {
+
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(value)) {
+      return null;
     }
-
-    /**
-     * Returns the matching field mapping type, or <code>null</code> if the given value is
-     * not a valid mapping type name.<p>
-     *
-     * @param value the name of the mapping type
-     *
-     * @return the matching field mapping type
-     */
-    public static CmsSearchFieldMappingType valueOf(String value) {
-
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(value)) {
-            return null;
-        }
-        value = value.trim().toLowerCase();
-        if (STR_CONTENT.equals(value)) {
-            return CONTENT;
-        } else if (STR_PROPERTY.equals(value)) {
-            return PROPERTY;
-        } else if (STR_PROPERTY_SEARCH.equals(value)) {
-            return PROPERTY_SEARCH;
-        } else if (STR_ITEM.equals(value)) {
-            return ITEM;
-        } else if (STR_DYNAMIC.equals(value)) {
-            return DYNAMIC;
-        } else if (STR_ATTRIBUTE.equals(value)) {
-            return ATTRIBUTE;
-        }
-        return null;
+    value = value.trim().toLowerCase();
+    if (STR_CONTENT.equals(value)) {
+      return CONTENT;
+    } else if (STR_PROPERTY.equals(value)) {
+      return PROPERTY;
+    } else if (STR_PROPERTY_SEARCH.equals(value)) {
+      return PROPERTY_SEARCH;
+    } else if (STR_ITEM.equals(value)) {
+      return ITEM;
+    } else if (STR_DYNAMIC.equals(value)) {
+      return DYNAMIC;
+    } else if (STR_ATTRIBUTE.equals(value)) {
+      return ATTRIBUTE;
     }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.util.A_CmsModeIntEnumeration#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see org.opencms.util.A_CmsModeIntEnumeration#toString() */
+  @Override
+  public String toString() {
 
-        switch (getMode()) {
-            case 1:
-                return STR_PROPERTY;
-            case 2:
-                return STR_PROPERTY_SEARCH;
-            case 3:
-                return STR_ITEM;
-            case 4:
-                return STR_DYNAMIC;
-            case 5:
-                return STR_ATTRIBUTE;
-            case 0:
-            default:
-                return STR_CONTENT;
-        }
+    switch (getMode()) {
+      case 1:
+        return STR_PROPERTY;
+      case 2:
+        return STR_PROPERTY_SEARCH;
+      case 3:
+        return STR_ITEM;
+      case 4:
+        return STR_DYNAMIC;
+      case 5:
+        return STR_ATTRIBUTE;
+      case 0:
+      default:
+        return STR_CONTENT;
     }
+  }
 }

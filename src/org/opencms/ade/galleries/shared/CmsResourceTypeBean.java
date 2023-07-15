@@ -27,254 +27,292 @@
 
 package org.opencms.ade.galleries.shared;
 
+import java.util.ArrayList;
 import org.opencms.gwt.shared.CmsListInfoBean;
 
-import java.util.ArrayList;
-
 /**
- * Bean representing resource type information.<p>
+ * Bean representing resource type information.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsResourceTypeBean extends CmsListInfoBean {
 
-    /** Enum for data source from which resource type bean was constructed. */
-    public enum Origin {
-        /** from sitemap config. */
-        config,
+  /** Enum for data source from which resource type bean was constructed. */
+  public enum Origin {
+    /** from sitemap config. */
+    config,
 
-        /** from other source. */
-        other,
-        /** unknown. */
-        unknown
-    }
+    /** from other source. */
+    other,
+    /** unknown. */
+    unknown
+  }
 
-    /** Enum representing the visibility of a resource type in the bean. */
-    public enum TypeVisibility {
-        /** Never displayed. */
-        hidden,
-        /** Always show the type. */
-        showAlways,
-        /** The user may choose to display the type, but it's not shown by default. */
-        showOptional
-    }
+  /** Enum representing the visibility of a resource type in the bean. */
+  public enum TypeVisibility {
+    /** Never displayed. */
+    hidden,
+    /** Always show the type. */
+    showAlways,
+    /** The user may choose to display the type, but it's not shown by default. */
+    showOptional
+  }
 
-    /** Flag to indicate if the current user may create a new resource of this type. */
-    private boolean m_creatableType;
+  /** Flag to indicate if the current user may create a new resource of this type. */
+  private boolean m_creatableType;
 
-    /** The creation path. */
-    private String m_createPath;
+  /** The creation path. */
+  private String m_createPath;
 
-    /** The deactivated flag. */
-    private boolean m_deactivated;
+  /** The deactivated flag. */
+  private boolean m_deactivated;
 
-    /** An array of gallery type names associated with this content type. */
-    private ArrayList<String> m_galleryTypeNames;
+  /** An array of gallery type names associated with this content type. */
+  private ArrayList<String> m_galleryTypeNames;
 
-    /** The naming pattern for new resources. */
-    private String m_namePattern;
+  /** The naming pattern for new resources. */
+  private String m_namePattern;
 
-    /** Origin. */
-    private Origin m_origin = Origin.unknown;
+  /** Origin. */
+  private Origin m_origin = Origin.unknown;
 
-    /** The name of the preview provider. */
-    private String m_previewProviderName;
+  /** The name of the preview provider. */
+  private String m_previewProviderName;
 
-    /** The resource type id. */
-    private int m_typeId;
+  /** The resource type id. */
+  private int m_typeId;
 
-    /** Visibility of this type. */
-    private TypeVisibility m_visibility = TypeVisibility.showAlways;
+  /** Visibility of this type. */
+  private TypeVisibility m_visibility = TypeVisibility.showAlways;
 
-    /**
-     * Gets the creation path.<p>
-     *
-     * @return the creation path
-     */
-    public String getCreatePath() {
+  /**
+   * Gets the creation path.
+   *
+   * <p>
+   *
+   * @return the creation path
+   */
+  public String getCreatePath() {
 
-        return m_createPath;
-    }
+    return m_createPath;
+  }
 
-    /**
-     * Returns the description.<p>
-     *
-     * @return the description
-     */
-    public String getDescription() {
+  /**
+   * Returns the description.
+   *
+   * <p>
+   *
+   * @return the description
+   */
+  public String getDescription() {
 
-        return getSubTitle();
-    }
+    return getSubTitle();
+  }
 
-    /**
-     * Returns the list with the gallery types names associated with this resource type.<p>
-     *
-     * @return the gallery type names
-     */
-    public ArrayList<String> getGalleryTypeNames() {
+  /**
+   * Returns the list with the gallery types names associated with this resource type.
+   *
+   * <p>
+   *
+   * @return the gallery type names
+   */
+  public ArrayList<String> getGalleryTypeNames() {
 
-        return m_galleryTypeNames;
-    }
+    return m_galleryTypeNames;
+  }
 
-    /**
-     * Returns the naming pattern for new resources.<p>
-     *
-     * @return the naming pattern
-     */
-    public String getNamePattern() {
+  /**
+   * Returns the naming pattern for new resources.
+   *
+   * <p>
+   *
+   * @return the naming pattern
+   */
+  public String getNamePattern() {
 
-        return m_namePattern;
-    }
+    return m_namePattern;
+  }
 
-    /**
-     * Returns the origin.<p>
-     *
-     * @return the origin
-     */
-    public Origin getOrigin() {
+  /**
+   * Returns the origin.
+   *
+   * <p>
+   *
+   * @return the origin
+   */
+  public Origin getOrigin() {
 
-        return m_origin;
-    }
+    return m_origin;
+  }
 
-    /**
-     * Returns the preview provider name.<p>
-     *
-     * @return the preview provider name
-     */
-    public String getPreviewProviderName() {
+  /**
+   * Returns the preview provider name.
+   *
+   * <p>
+   *
+   * @return the preview provider name
+   */
+  public String getPreviewProviderName() {
 
-        return m_previewProviderName;
-    }
+    return m_previewProviderName;
+  }
 
-    /**
-     * Returns the resource type id.<p>
-     *
-     * @return the resource type id
-     */
-    public int getTypeId() {
+  /**
+   * Returns the resource type id.
+   *
+   * <p>
+   *
+   * @return the resource type id
+   */
+  public int getTypeId() {
 
-        return m_typeId;
-    }
+    return m_typeId;
+  }
 
-    /**
-     * Gets the visibility.<p>
-     *
-     * @return the visibility
-     */
-    public TypeVisibility getVisibility() {
+  /**
+   * Gets the visibility.
+   *
+   * <p>
+   *
+   * @return the visibility
+   */
+  public TypeVisibility getVisibility() {
 
-        return m_visibility;
-    }
+    return m_visibility;
+  }
 
-    /**
-     * Returns if the current user may create a new resource of this type.<p>
-     *
-     * @return <code>true</code> if the current user may create a new resource of this type
-     */
-    public boolean isCreatableType() {
+  /**
+   * Returns if the current user may create a new resource of this type.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the current user may create a new resource of this type
+   */
+  public boolean isCreatableType() {
 
-        return m_creatableType;
-    }
+    return m_creatableType;
+  }
 
-    /**
-     * Returns if the type is deactivated.<p>
-     *
-     * @return if the type is deactivated
-     */
-    public boolean isDeactivated() {
+  /**
+   * Returns if the type is deactivated.
+   *
+   * <p>
+   *
+   * @return if the type is deactivated
+   */
+  public boolean isDeactivated() {
 
-        return m_deactivated;
-    }
+    return m_deactivated;
+  }
 
-    /**
-     * Sets flag to indicate if the current user may create a new resource of this type.<p>
-     *
-     * @param creatableType <code>true</code> if the current user may create a new resource of this type
-     */
-    public void setCreatableType(boolean creatableType) {
+  /**
+   * Sets flag to indicate if the current user may create a new resource of this type.
+   *
+   * <p>
+   *
+   * @param creatableType <code>true</code> if the current user may create a new resource of this
+   *     type
+   */
+  public void setCreatableType(boolean creatableType) {
 
-        m_creatableType = creatableType;
-    }
+    m_creatableType = creatableType;
+  }
 
-    /**
-     * Sets the creation path.<p>
-     *
-     * @param createPath the creation path
-     */
-    public void setCreatePath(String createPath) {
+  /**
+   * Sets the creation path.
+   *
+   * <p>
+   *
+   * @param createPath the creation path
+   */
+  public void setCreatePath(String createPath) {
 
-        m_createPath = createPath;
-    }
+    m_createPath = createPath;
+  }
 
-    /**
-     * Sets the type deactivated.<p>
-     *
-     * @param deactivated if the type is deactivated
-     */
-    public void setDeactivated(boolean deactivated) {
+  /**
+   * Sets the type deactivated.
+   *
+   * <p>
+   *
+   * @param deactivated if the type is deactivated
+   */
+  public void setDeactivated(boolean deactivated) {
 
-        m_deactivated = deactivated;
-    }
+    m_deactivated = deactivated;
+  }
 
-    /**
-     * Sets the list with the gallery types names associated with this resource type.<p>
-     *
-     * @param galleryNames the list with gallery type names to set
-     */
-    public void setGalleryTypeNames(ArrayList<String> galleryNames) {
+  /**
+   * Sets the list with the gallery types names associated with this resource type.
+   *
+   * <p>
+   *
+   * @param galleryNames the list with gallery type names to set
+   */
+  public void setGalleryTypeNames(ArrayList<String> galleryNames) {
 
-        m_galleryTypeNames = galleryNames;
-    }
+    m_galleryTypeNames = galleryNames;
+  }
 
-    /**
-     * Sets the naming pattern for new resources.<p>
-     *
-     * @param pattern the naming pattern for new resources
-     */
-    public void setNamePattern(String pattern) {
+  /**
+   * Sets the naming pattern for new resources.
+   *
+   * <p>
+   *
+   * @param pattern the naming pattern for new resources
+   */
+  public void setNamePattern(String pattern) {
 
-        m_namePattern = pattern;
-    }
+    m_namePattern = pattern;
+  }
 
-    /**
-     * Sets the origin.<p>
-     *
-     * @param origin the origin to set
-     */
-    public void setOrigin(Origin origin) {
+  /**
+   * Sets the origin.
+   *
+   * <p>
+   *
+   * @param origin the origin to set
+   */
+  public void setOrigin(Origin origin) {
 
-        m_origin = origin;
-    }
+    m_origin = origin;
+  }
 
-    /**
-     * Sets the preview provider name.<p>
-     *
-     * @param previewProviderName the preview provider name to set
-     */
-    public void setPreviewProviderName(String previewProviderName) {
+  /**
+   * Sets the preview provider name.
+   *
+   * <p>
+   *
+   * @param previewProviderName the preview provider name to set
+   */
+  public void setPreviewProviderName(String previewProviderName) {
 
-        m_previewProviderName = previewProviderName;
-    }
+    m_previewProviderName = previewProviderName;
+  }
 
-    /**
-     * Sets the resource type id.<p>
-     *
-     * @param typeId the resource type id to set
-     */
-    public void setTypeId(int typeId) {
+  /**
+   * Sets the resource type id.
+   *
+   * <p>
+   *
+   * @param typeId the resource type id to set
+   */
+  public void setTypeId(int typeId) {
 
-        m_typeId = typeId;
-    }
+    m_typeId = typeId;
+  }
 
-    /**
-     * Sets the visibility.<p>
-     *
-     * @param visibility the new visibility
-     */
-    public void setVisibility(TypeVisibility visibility) {
+  /**
+   * Sets the visibility.
+   *
+   * <p>
+   *
+   * @param visibility the new visibility
+   */
+  public void setVisibility(TypeVisibility visibility) {
 
-        m_visibility = visibility;
-
-    }
-
+    m_visibility = visibility;
+  }
 }

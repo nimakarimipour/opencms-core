@@ -27,70 +27,77 @@
 
 package org.opencms.ade.galleries.shared.rpc;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.Map;
 import org.opencms.ade.galleries.shared.CmsImageInfoBean;
 import org.opencms.ade.galleries.shared.CmsResourceInfoBean;
 
-import java.util.Map;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * Handles the common RPC services related to the gallery preview dialog.<p>
+ * Handles the common RPC services related to the gallery preview dialog.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.ade.galleries.CmsPreviewService
  * @see org.opencms.ade.galleries.shared.rpc.I_CmsPreviewService
  * @see org.opencms.ade.galleries.shared.rpc.I_CmsPreviewServiceAsync
  */
 public interface I_CmsPreviewServiceAsync {
 
-    /**
-     * Returns the image resource data to be displayed in the preview dialog.<p>
-     *
-     * @param resourcePath the resource path
-     * @param locale the content locale
-     * @param callback the call-back
-     */
-    void getImageInfo(String resourcePath, String locale, AsyncCallback<CmsImageInfoBean> callback);
+  /**
+   * Returns the image resource data to be displayed in the preview dialog.
+   *
+   * <p>
+   *
+   * @param resourcePath the resource path
+   * @param locale the content locale
+   * @param callback the call-back
+   */
+  void getImageInfo(String resourcePath, String locale, AsyncCallback<CmsImageInfoBean> callback);
 
-    /**
-     * Returns the data to be displayed in the preview dialog.<p>
-     *
-     * @param resourcePath the path to the selected resource
-     * @param locale the content locale
-     * @param callback the call-back
-     */
-    void getResourceInfo(String resourcePath, String locale, AsyncCallback<CmsResourceInfoBean> callback);
+  /**
+   * Returns the data to be displayed in the preview dialog.
+   *
+   * <p>
+   *
+   * @param resourcePath the path to the selected resource
+   * @param locale the content locale
+   * @param callback the call-back
+   */
+  void getResourceInfo(
+      String resourcePath, String locale, AsyncCallback<CmsResourceInfoBean> callback);
 
-    /**
-     * Saves the given properties to the resource and returns the data to be displayed in the preview dialog.<p>
-     *
-     * @param resourcePath the path to the selected resource
-     * @param locale the content locale
-     * @param properties a map with the key/value pairs of the properties to be updated
-     *
-     * @param callback the call-back
-     */
-    void updateImageProperties(
-        String resourcePath,
-        String locale,
-        Map<String, String> properties,
-        AsyncCallback<CmsImageInfoBean> callback);
+  /**
+   * Saves the given properties to the resource and returns the data to be displayed in the preview
+   * dialog.
+   *
+   * <p>
+   *
+   * @param resourcePath the path to the selected resource
+   * @param locale the content locale
+   * @param properties a map with the key/value pairs of the properties to be updated
+   * @param callback the call-back
+   */
+  void updateImageProperties(
+      String resourcePath,
+      String locale,
+      Map<String, String> properties,
+      AsyncCallback<CmsImageInfoBean> callback);
 
-    /**
-     * Saves the given properties to the resource and returns the data to be displayed in the preview dialog.<p>
-     *
-     * @param resourcePath the path to the selected resource
-     * @param locale the content locale
-     * @param properties a map with the key/value pairs of the properties to be updated
-     *
-     * @param callback the call-back
-     */
-    void updateResourceProperties(
-        String resourcePath,
-        String locale,
-        Map<String, String> properties,
-        AsyncCallback<CmsResourceInfoBean> callback);
-
+  /**
+   * Saves the given properties to the resource and returns the data to be displayed in the preview
+   * dialog.
+   *
+   * <p>
+   *
+   * @param resourcePath the path to the selected resource
+   * @param locale the content locale
+   * @param properties a map with the key/value pairs of the properties to be updated
+   * @param callback the call-back
+   */
+  void updateResourceProperties(
+      String resourcePath,
+      String locale,
+      Map<String, String> properties,
+      AsyncCallback<CmsResourceInfoBean> callback);
 }

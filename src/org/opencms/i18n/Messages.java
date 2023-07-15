@@ -28,131 +28,147 @@
 package org.opencms.i18n;
 
 /**
- * Convenience class to access the localized messages of this OpenCms package.<p>
+ * Convenience class to access the localized messages of this OpenCms package.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public final class Messages extends A_CmsMessageBundle {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_CANT_FIND_RESOURCE_FOR_BUNDLE_2 = "ERR_CANT_FIND_RESOURCE_FOR_BUNDLE_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_CANT_FIND_RESOURCE_FOR_BUNDLE_2 =
+      "ERR_CANT_FIND_RESOURCE_FOR_BUNDLE_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_CREATING_MESSAGES_2 = "ERR_CREATING_MESSAGES_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_CREATING_MESSAGES_2 = "ERR_CREATING_MESSAGES_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_ENCODING_ISSUES_1 = "ERR_ENCODING_ISSUES_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_ENCODING_ISSUES_1 = "ERR_ENCODING_ISSUES_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_MESSAGE_BUNDLE_NOT_INITIALIZED_1 = "ERR_MESSAGE_BUNDLE_NOT_INITIALIZED_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_MESSAGE_BUNDLE_NOT_INITIALIZED_1 =
+      "ERR_MESSAGE_BUNDLE_NOT_INITIALIZED_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_MULTIMSG_EMPTY_LIST_0 = "ERR_MULTIMSG_EMPTY_LIST_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_MULTIMSG_EMPTY_LIST_0 = "ERR_MULTIMSG_EMPTY_LIST_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_MULTIMSG_LOCALE_DOES_NOT_MATCH_2 = "ERR_MULTIMSG_LOCALE_DOES_NOT_MATCH_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_MULTIMSG_LOCALE_DOES_NOT_MATCH_2 =
+      "ERR_MULTIMSG_LOCALE_DOES_NOT_MATCH_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_READ_ENCODING_PROP_1 = "ERR_READ_ENCODING_PROP_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_READ_ENCODING_PROP_1 = "ERR_READ_ENCODING_PROP_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_RESOURCE_BUNDLE_NOT_FOUND_1 = "ERR_RESOURCE_BUNDLE_NOT_FOUND_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_RESOURCE_BUNDLE_NOT_FOUND_1 = "ERR_RESOURCE_BUNDLE_NOT_FOUND_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNSUPPORTED_REQUEST_ENCODING_1 = "ERR_UNSUPPORTED_REQUEST_ENCODING_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_UNSUPPORTED_REQUEST_ENCODING_1 =
+      "ERR_UNSUPPORTED_REQUEST_ENCODING_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNSUPPORTED_VM_ENCODING_1 = "ERR_UNSUPPORTED_VM_ENCODING_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_UNSUPPORTED_VM_ENCODING_1 = "ERR_UNSUPPORTED_VM_ENCODING_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String INIT_I18N_CONFIG_ADD_LOCALE_1 = "INIT_I18N_CONFIG_ADD_LOCALE_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String INIT_I18N_CONFIG_ADD_LOCALE_1 = "INIT_I18N_CONFIG_ADD_LOCALE_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String INIT_I18N_CONFIG_DEFAULT_LOCALE_2 = "INIT_I18N_CONFIG_DEFAULT_LOCALE_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String INIT_I18N_CONFIG_DEFAULT_LOCALE_2 =
+      "INIT_I18N_CONFIG_DEFAULT_LOCALE_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String INIT_I18N_CONFIG_LOC_HANDLER_1 = "INIT_I18N_CONFIG_LOC_HANDLER_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String INIT_I18N_CONFIG_LOC_HANDLER_1 = "INIT_I18N_CONFIG_LOC_HANDLER_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String INIT_I18N_CONFIG_START_0 = "INIT_I18N_CONFIG_START_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String INIT_I18N_CONFIG_START_0 = "INIT_I18N_CONFIG_START_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String INIT_I18N_CONFIG_VFSACCESS_0 = "INIT_I18N_CONFIG_VFSACCESS_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String INIT_I18N_CONFIG_VFSACCESS_0 = "INIT_I18N_CONFIG_VFSACCESS_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String INIT_I18N_DEFAULT_LOCALE_2 = "INIT_I18N_DEFAULT_LOCALE_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String INIT_I18N_DEFAULT_LOCALE_2 = "INIT_I18N_DEFAULT_LOCALE_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String INIT_I18N_KEEPING_DEFAULT_LOCALE_1 = "INIT_I18N_KEEPING_DEFAULT_LOCALE_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String INIT_I18N_KEEPING_DEFAULT_LOCALE_1 =
+      "INIT_I18N_KEEPING_DEFAULT_LOCALE_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String INIT_I18N_LAND_DETECT_LOADING_PROFILE_FAILED_1 = "INIT_I18N_LAND_DETECT_LOADING_PROFILE_FAILED_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String INIT_I18N_LAND_DETECT_LOADING_PROFILE_FAILED_1 =
+      "INIT_I18N_LAND_DETECT_LOADING_PROFILE_FAILED_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String INIT_I18N_LAND_DETECT_PROFILE_NOT_AVAILABLE_1 = "INIT_I18N_LAND_DETECT_PROFILE_NOT_AVAILABLE_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String INIT_I18N_LAND_DETECT_PROFILE_NOT_AVAILABLE_1 =
+      "INIT_I18N_LAND_DETECT_PROFILE_NOT_AVAILABLE_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String INIT_I18N_LANG_DETECT_FAILED_0 = "INIT_I18N_LANG_DETECT_FAILED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String INIT_I18N_LANG_DETECT_FAILED_0 = "INIT_I18N_LANG_DETECT_FAILED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_CREATE_LOCALE_FAILED_1 = "LOG_CREATE_LOCALE_FAILED_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_CREATE_LOCALE_FAILED_1 = "LOG_CREATE_LOCALE_FAILED_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_ENCODING_NOT_FOUND_1 = "LOG_ENCODING_NOT_FOUND_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_ENCODING_NOT_FOUND_1 = "LOG_ENCODING_NOT_FOUND_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_LOCALE_MANAGER_FLUSH_CACHE_1 = "LOG_LOCALE_MANAGER_FLUSH_CACHE_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_LOCALE_MANAGER_FLUSH_CACHE_1 = "LOG_LOCALE_MANAGER_FLUSH_CACHE_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_LOCALE_NOT_FOUND_1 = "LOG_LOCALE_NOT_FOUND_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_LOCALE_NOT_FOUND_1 = "LOG_LOCALE_NOT_FOUND_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_MESSAGE_KEY_FOUND_2 = "LOG_MESSAGE_KEY_FOUND_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_MESSAGE_KEY_FOUND_2 = "LOG_MESSAGE_KEY_FOUND_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_MESSAGE_KEY_FOUND_CACHED_2 = "LOG_MESSAGE_KEY_FOUND_CACHED_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_MESSAGE_KEY_FOUND_CACHED_2 = "LOG_MESSAGE_KEY_FOUND_CACHED_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_MESSAGE_KEY_NOT_FOUND_1 = "LOG_MESSAGE_KEY_NOT_FOUND_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_MESSAGE_KEY_NOT_FOUND_1 = "LOG_MESSAGE_KEY_NOT_FOUND_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_RESOLVE_MESSAGE_KEY_1 = "LOG_RESOLVE_MESSAGE_KEY_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_RESOLVE_MESSAGE_KEY_1 = "LOG_RESOLVE_MESSAGE_KEY_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_UNABLE_TO_SET_DEFAULT_LOCALE_2 = "LOG_UNABLE_TO_SET_DEFAULT_LOCALE_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_UNABLE_TO_SET_DEFAULT_LOCALE_2 =
+      "LOG_UNABLE_TO_SET_DEFAULT_LOCALE_2";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.i18n.messages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME = "org.opencms.i18n.messages";
 
-    /** Static instance member. */
-    private static final I_CmsMessageBundle INSTANCE = new Messages();
+  /** Static instance member. */
+  private static final I_CmsMessageBundle INSTANCE = new Messages();
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
-    }
+    // hide the constructor
+  }
 
-    /**
-     * Returns an instance of this localized message accessor.<p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static I_CmsMessageBundle get() {
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static I_CmsMessageBundle get() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the bundle name for this OpenCms package.<p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
 
-        return BUNDLE_NAME;
-    }
-
+    return BUNDLE_NAME;
+  }
 }

@@ -33,98 +33,115 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Superclass for all SQL manager implementations.<p>
+ * Superclass for all SQL manager implementations.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsSqlManager {
 
-    /** the driver manager. */
-    private CmsDriverManager m_driverManager;
+  /** the driver manager. */
+  private CmsDriverManager m_driverManager;
 
-    /**
-     * Protected constructor to allow only subclassing.<p>
-     */
-    protected CmsSqlManager() {
-        // hide public constructor
-    }
+  /**
+   * Protected constructor to allow only subclassing.
+   *
+   * <p>
+   */
+  protected CmsSqlManager() {
+    // hide public constructor
+  }
 
-    /**
-     * Creates a new SQL manager from the provided driver manager.<p>
-     *
-     * @param driverManager the low level database driver manager
-     */
-    protected CmsSqlManager(CmsDriverManager driverManager) {
+  /**
+   * Creates a new SQL manager from the provided driver manager.
+   *
+   * <p>
+   *
+   * @param driverManager the low level database driver manager
+   */
+  protected CmsSqlManager(CmsDriverManager driverManager) {
 
-        m_driverManager = driverManager;
-    }
+    m_driverManager = driverManager;
+  }
 
-    /**
-     * Returns the number of active connections managed by a pool.<p>
-     *
-     * @param dbPoolUrl the url of a pool
-     * @return the number of active connections
-     * @throws CmsDbException if something goes wrong
-     */
-    public int getActiveConnections(String dbPoolUrl) throws CmsDbException {
+  /**
+   * Returns the number of active connections managed by a pool.
+   *
+   * <p>
+   *
+   * @param dbPoolUrl the url of a pool
+   * @return the number of active connections
+   * @throws CmsDbException if something goes wrong
+   */
+  public int getActiveConnections(String dbPoolUrl) throws CmsDbException {
 
-        return m_driverManager.getActiveConnections(dbPoolUrl);
-    }
+    return m_driverManager.getActiveConnections(dbPoolUrl);
+  }
 
-    /**
-     * Returns a connection to the database using the given pool identified by its name.<p>
-     *
-     * @param dbPoolName the pool name
-     * @return a database connection
-     * @throws SQLException if something goes wrong
-     */
-    public Connection getConnection(String dbPoolName) throws SQLException {
+  /**
+   * Returns a connection to the database using the given pool identified by its name.
+   *
+   * <p>
+   *
+   * @param dbPoolName the pool name
+   * @return a database connection
+   * @throws SQLException if something goes wrong
+   */
+  public Connection getConnection(String dbPoolName) throws SQLException {
 
-        return getConnectionByUrl(CmsDbPoolV11.OPENCMS_URL_PREFIX + dbPoolName);
-    }
+    return getConnectionByUrl(CmsDbPoolV11.OPENCMS_URL_PREFIX + dbPoolName);
+  }
 
-    /**
-     * Returns a connection to the database using the given pool identified by its full url.<p>
-     *
-     * @param dbPoolUrl the pool url
-     * @return a database connection
-     * @throws SQLException if something goes wrong
-     */
-    public Connection getConnectionByUrl(String dbPoolUrl) throws SQLException {
+  /**
+   * Returns a connection to the database using the given pool identified by its full url.
+   *
+   * <p>
+   *
+   * @param dbPoolUrl the pool url
+   * @return a database connection
+   * @throws SQLException if something goes wrong
+   */
+  public Connection getConnectionByUrl(String dbPoolUrl) throws SQLException {
 
-        return CmsDriverManager.m_pools.get(dbPoolUrl).getConnection();
-    }
+    return CmsDriverManager.m_pools.get(dbPoolUrl).getConnection();
+  }
 
-    /**
-     * Returns a list of available database connection pool names.<p>
-     *
-     * @return a list of database connection pool names
-     */
-    public List<String> getDbPoolUrls() {
+  /**
+   * Returns a list of available database connection pool names.
+   *
+   * <p>
+   *
+   * @return a list of database connection pool names
+   */
+  public List<String> getDbPoolUrls() {
 
-        return new ArrayList<String>(CmsDriverManager.m_pools.keySet());
+    return new ArrayList<String>(CmsDriverManager.m_pools.keySet());
+  }
 
-    }
+  /**
+   * Returns the name of the default database connection pool.
+   *
+   * <p>
+   *
+   * @return the name of the default database connection pool
+   */
+  public String getDefaultDbPoolName() {
 
-    /**
-     * Returns the name of the default database connection pool.<p>
-     *
-     * @return the name of the default database connection pool
-     */
-    public String getDefaultDbPoolName() {
+    return CmsDbPoolV11.getDefaultDbPoolName();
+  }
 
-        return CmsDbPoolV11.getDefaultDbPoolName();
-    }
+  /**
+   * Returns the number of idle connections managed by a pool.
+   *
+   * <p>
+   *
+   * @param dbPoolUrl the url of a pool
+   * @return the number of idle connections
+   * @throws CmsDbException if something goes wrong
+   */
+  public int getIdleConnections(String dbPoolUrl) throws CmsDbException {
 
-    /**
-     * Returns the number of idle connections managed by a pool.<p>
-     *
-     * @param dbPoolUrl the url of a pool
-     * @return the number of idle connections
-     * @throws CmsDbException if something goes wrong
-     */
-    public int getIdleConnections(String dbPoolUrl) throws CmsDbException {
-
-        return m_driverManager.getIdleConnections(dbPoolUrl);
-    }
+    return m_driverManager.getIdleConnections(dbPoolUrl);
+  }
 }

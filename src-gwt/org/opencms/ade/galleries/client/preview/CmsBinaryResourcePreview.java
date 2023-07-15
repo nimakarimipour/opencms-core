@@ -27,159 +27,153 @@
 
 package org.opencms.ade.galleries.client.preview;
 
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.FlowPanel;
+import java.util.Map;
 import org.opencms.ade.galleries.client.preview.ui.CmsBinaryPreviewDialog;
 import org.opencms.ade.galleries.client.ui.CmsGalleryDialog;
 import org.opencms.ade.galleries.shared.CmsResourceInfoBean;
 import org.opencms.ade.galleries.shared.I_CmsBinaryPreviewProvider;
 import org.opencms.gwt.client.rpc.CmsRpcAction;
 
-import java.util.Map;
-
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.FlowPanel;
-
 /**
- * The binary resource preview.<p>
+ * The binary resource preview.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public final class CmsBinaryResourcePreview extends A_CmsResourcePreview<CmsResourceInfoBean> {
 
-    /** The preview handler. */
-    private CmsBinaryPreviewHandler m_handler;
+  /** The preview handler. */
+  private CmsBinaryPreviewHandler m_handler;
 
-    /** The preview dialog widget. */
-    private CmsBinaryPreviewDialog m_previewDialog;
+  /** The preview dialog widget. */
+  private CmsBinaryPreviewDialog m_previewDialog;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param galleryDialog the gallery dialog instance
-     */
-    public CmsBinaryResourcePreview(CmsGalleryDialog galleryDialog) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param galleryDialog the gallery dialog instance
+   */
+  public CmsBinaryResourcePreview(CmsGalleryDialog galleryDialog) {
 
-        super(galleryDialog);
-    }
+    super(galleryDialog);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.A_CmsResourcePreview#getHandler()
-     */
-    @Override
-    public CmsBinaryPreviewHandler getHandler() {
+  /** @see org.opencms.ade.galleries.client.preview.A_CmsResourcePreview#getHandler() */
+  @Override
+  public CmsBinaryPreviewHandler getHandler() {
 
-        return m_handler;
-    }
+    return m_handler;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsResourcePreview#getPreviewDialog()
-     */
-    public CmsBinaryPreviewDialog getPreviewDialog() {
+  /** @see org.opencms.ade.galleries.client.preview.I_CmsResourcePreview#getPreviewDialog() */
+  public CmsBinaryPreviewDialog getPreviewDialog() {
 
-        return m_previewDialog;
-    }
+    return m_previewDialog;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsResourcePreview#getPreviewName()
-     */
-    public String getPreviewName() {
+  /** @see org.opencms.ade.galleries.client.preview.I_CmsResourcePreview#getPreviewName() */
+  public String getPreviewName() {
 
-        return I_CmsBinaryPreviewProvider.PREVIEW_NAME;
-    }
+    return I_CmsBinaryPreviewProvider.PREVIEW_NAME;
+  }
 
-    /**
-     * Loads the resource info and displays the retrieved data.<p>
-     *
-     * @param resourcePath the resource path
-     */
-    public void loadResourceInfo(final String resourcePath) {
+  /**
+   * Loads the resource info and displays the retrieved data.
+   *
+   * <p>
+   *
+   * @param resourcePath the resource path
+   */
+  public void loadResourceInfo(final String resourcePath) {
 
-        CmsRpcAction<CmsResourceInfoBean> action = new CmsRpcAction<CmsResourceInfoBean>() {
+    CmsRpcAction<CmsResourceInfoBean> action =
+        new CmsRpcAction<CmsResourceInfoBean>() {
 
-            /**
-             * @see org.opencms.gwt.client.rpc.CmsRpcAction#execute()
-             */
-            @Override
-            public void execute() {
+          /** @see org.opencms.gwt.client.rpc.CmsRpcAction#execute() */
+          @Override
+          public void execute() {
 
-                getService().getResourceInfo(resourcePath, getLocale(), this);
-            }
+            getService().getResourceInfo(resourcePath, getLocale(), this);
+          }
 
-            /**
-             * @see org.opencms.gwt.client.rpc.CmsRpcAction#onResponse(java.lang.Object)
-             */
-            @Override
-            protected void onResponse(CmsResourceInfoBean result) {
+          /** @see org.opencms.gwt.client.rpc.CmsRpcAction#onResponse(java.lang.Object) */
+          @Override
+          protected void onResponse(CmsResourceInfoBean result) {
 
-                showData(result);
-            }
+            showData(result);
+          }
         };
-        action.execute();
+    action.execute();
+  }
+
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.I_CmsResourcePreview#openPreview(java.lang.String,
+   *     boolean)
+   */
+  public void openPreview(String resourcePath, boolean disableSelection) {
+
+    if (m_previewDialog != null) {
+      m_previewDialog.removeFromParent();
     }
-
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsResourcePreview#openPreview(java.lang.String, boolean)
-     */
-    public void openPreview(String resourcePath, boolean disableSelection) {
-
-        if (m_previewDialog != null) {
-            m_previewDialog.removeFromParent();
-        }
-        FlowPanel parentPanel = getGalleryDialog().getParentPanel();
-        m_previewDialog = new CmsBinaryPreviewDialog(
+    FlowPanel parentPanel = getGalleryDialog().getParentPanel();
+    m_previewDialog =
+        new CmsBinaryPreviewDialog(
             getGalleryDialog().getController().getDialogMode(),
             parentPanel.getOffsetHeight(),
             parentPanel.getOffsetWidth(),
             disableSelection);
 
-        m_handler = new CmsBinaryPreviewHandler(this);
-        m_previewDialog.init(m_handler);
-        CmsPreviewUtil.exportFunctions(getPreviewName(), this);
-        parentPanel.add(m_previewDialog);
-        m_handler.getGalleryDialog().setPreviewVisible(true);
-        //load preview data
-        loadResourceInfo(resourcePath);
-    }
+    m_handler = new CmsBinaryPreviewHandler(this);
+    m_previewDialog.init(m_handler);
+    CmsPreviewUtil.exportFunctions(getPreviewName(), this);
+    parentPanel.add(m_previewDialog);
+    m_handler.getGalleryDialog().setPreviewVisible(true);
+    // load preview data
+    loadResourceInfo(resourcePath);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.A_CmsResourcePreview#removePreview()
-     */
-    @Override
-    public void removePreview() {
+  /** @see org.opencms.ade.galleries.client.preview.A_CmsResourcePreview#removePreview() */
+  @Override
+  public void removePreview() {
 
-        super.removePreview();
-        m_handler = null;
-    }
+    super.removePreview();
+    m_handler = null;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsResourcePreview#saveProperties(java.util.Map, com.google.gwt.user.client.Command)
-     */
-    public void saveProperties(final Map<String, String> properties, final Command afterSaveCallback) {
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.I_CmsResourcePreview#saveProperties(java.util.Map,
+   *     com.google.gwt.user.client.Command)
+   */
+  public void saveProperties(
+      final Map<String, String> properties, final Command afterSaveCallback) {
 
-        CmsRpcAction<CmsResourceInfoBean> action = new CmsRpcAction<CmsResourceInfoBean>() {
+    CmsRpcAction<CmsResourceInfoBean> action =
+        new CmsRpcAction<CmsResourceInfoBean>() {
 
-            /**
-             * @see org.opencms.gwt.client.rpc.CmsRpcAction#execute()
-             */
-            @Override
-            public void execute() {
+          /** @see org.opencms.gwt.client.rpc.CmsRpcAction#execute() */
+          @Override
+          public void execute() {
 
-                getService().updateResourceProperties(getResourcePath(), getLocale(), properties, this);
+            getService().updateResourceProperties(getResourcePath(), getLocale(), properties, this);
+          }
+
+          /** @see org.opencms.gwt.client.rpc.CmsRpcAction#onResponse(java.lang.Object) */
+          @Override
+          protected void onResponse(CmsResourceInfoBean result) {
+
+            showData(result);
+            if (afterSaveCallback != null) {
+              afterSaveCallback.execute();
             }
-
-            /**
-             * @see org.opencms.gwt.client.rpc.CmsRpcAction#onResponse(java.lang.Object)
-             */
-            @Override
-            protected void onResponse(CmsResourceInfoBean result) {
-
-                showData(result);
-                if (afterSaveCallback != null) {
-                    afterSaveCallback.execute();
-                }
-
-            }
+          }
         };
-        action.execute();
-
-    }
+    action.execute();
+  }
 }

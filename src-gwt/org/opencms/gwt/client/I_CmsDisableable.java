@@ -28,14 +28,18 @@
 package org.opencms.gwt.client;
 
 /**
- * Interface for disableable GUI elements.<p>
+ * Interface for disableable GUI elements.
+ *
+ * <p>
  */
 public interface I_CmsDisableable {
 
-    /**
-     * True if this GUI element is disabled.<p>
-     *
-     * @return true if this GUI element is disabled
-     */
-    boolean isDisabled();
+  /**
+   * True if this GUI element is disabled.
+   *
+   * <p>
+   *
+   * @return true if this GUI element is disabled
+   */
+  boolean isDisabled();
 }

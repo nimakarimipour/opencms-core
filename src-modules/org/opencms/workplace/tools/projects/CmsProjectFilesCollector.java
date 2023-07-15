@@ -27,6 +27,11 @@
 
 package org.opencms.workplace.tools.projects;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.db.CmsResourceState;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProject;
@@ -42,112 +47,115 @@ import org.opencms.workplace.list.A_CmsListResourceCollector;
 import org.opencms.workplace.list.CmsListItem;
 import org.opencms.workplace.list.I_CmsListResourceCollector;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Collector for {@link org.opencms.file.CmsResource} objects from a project.<p>
+ * Collector for {@link org.opencms.file.CmsResource} objects from a project.
+ *
+ * <p>
  *
  * @since 6.1.0
  */
 public class CmsProjectFilesCollector extends A_CmsListResourceCollector {
 
-    /** Parameter of the default collector name. */
-    public static final String COLLECTOR_NAME = "projectresources";
+  /** Parameter of the default collector name. */
+  public static final String COLLECTOR_NAME = "projectresources";
 
-    /** Project Parameter name constant. */
-    public static final String PARAM_PROJECT = "project";
+  /** Project Parameter name constant. */
+  public static final String PARAM_PROJECT = "project";
 
-    /** Resource state Parameter name constant. */
-    public static final String PARAM_STATE = "state";
+  /** Resource state Parameter name constant. */
+  public static final String PARAM_STATE = "state";
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsProjectFilesCollector.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsProjectFilesCollector.class);
 
-    /**
-     * Constructor, creates a new instance.<p>
-     *
-     * @param wp the workplace object
-     * @param projectId the id of the project
-     * @param state the state of the resources to filter
-     */
-    public CmsProjectFilesCollector(A_CmsListExplorerDialog wp, CmsUUID projectId, CmsResourceState state) {
+  /**
+   * Constructor, creates a new instance.
+   *
+   * <p>
+   *
+   * @param wp the workplace object
+   * @param projectId the id of the project
+   * @param state the state of the resources to filter
+   */
+  public CmsProjectFilesCollector(
+      A_CmsListExplorerDialog wp, CmsUUID projectId, CmsResourceState state) {
 
-        super(wp);
-        m_collectorParameter += I_CmsListResourceCollector.SEP_PARAM
+    super(wp);
+    m_collectorParameter +=
+        I_CmsListResourceCollector.SEP_PARAM
             + PARAM_STATE
             + I_CmsListResourceCollector.SEP_KEYVAL
             + state;
-        m_collectorParameter += I_CmsListResourceCollector.SEP_PARAM
+    m_collectorParameter +=
+        I_CmsListResourceCollector.SEP_PARAM
             + PARAM_PROJECT
             + I_CmsListResourceCollector.SEP_KEYVAL
             + projectId;
+  }
+
+  /** @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames() */
+  public List getCollectorNames() {
+
+    List names = new ArrayList();
+    names.add(COLLECTOR_NAME);
+    return names;
+  }
+
+  /**
+   * @see
+   *     org.opencms.workplace.list.A_CmsListResourceCollector#getResources(org.opencms.file.CmsObject,
+   *     java.util.Map)
+   */
+  @Override
+  public List getResources(CmsObject cms, Map params) throws CmsException {
+
+    CmsUUID projectId = CmsProject.ONLINE_PROJECT_ID;
+    try {
+      projectId = new CmsUUID((String) params.get(PARAM_PROJECT));
+    } catch (Throwable e) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(e.getLocalizedMessage(), e);
+      }
+    }
+    CmsResourceState state = CmsResource.STATE_KEEP;
+    try {
+      state = CmsResourceState.valueOf(Integer.parseInt((String) params.get(PARAM_STATE)));
+    } catch (Throwable e) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(e.getLocalizedMessage(), e);
+      }
     }
 
-    /**
-     * @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames()
-     */
-    public List getCollectorNames() {
+    // show files in the selected project with the selected status
+    List resources = cms.readProjectView(projectId, state);
 
-        List names = new ArrayList();
-        names.add(COLLECTOR_NAME);
-        return names;
+    // remove not visible files
+    Iterator itRes = resources.iterator();
+    // dont's show resources that  are in a different site root
+    String siteRoot = cms.getRequestContext().getSiteRoot();
+    // this is not sufficient (startsWith) if one siteRoot is prefix of another as siteRoot ends
+    // without slash!
+    siteRoot += "/";
+    while (itRes.hasNext()) {
+      CmsResource resource = (CmsResource) itRes.next();
+      String rootPath = resource.getRootPath();
+      if (!rootPath.startsWith(siteRoot)
+          && !rootPath.startsWith(CmsWorkplace.VFS_PATH_SYSTEM)
+          && !OpenCms.getSiteManager().startsWithShared(rootPath)) {
+        itRes.remove();
+      }
     }
+    return resources;
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListResourceCollector#getResources(org.opencms.file.CmsObject, java.util.Map)
-     */
-    @Override
-    public List getResources(CmsObject cms, Map params) throws CmsException {
+  /**
+   * @see
+   *     org.opencms.workplace.list.A_CmsListResourceCollector#setAdditionalColumns(org.opencms.workplace.list.CmsListItem,
+   *     org.opencms.workplace.explorer.CmsResourceUtil)
+   */
+  @Override
+  protected void setAdditionalColumns(CmsListItem item, CmsResourceUtil resUtil) {
 
-        CmsUUID projectId = CmsProject.ONLINE_PROJECT_ID;
-        try {
-            projectId = new CmsUUID((String)params.get(PARAM_PROJECT));
-        } catch (Throwable e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getLocalizedMessage(), e);
-            }
-        }
-        CmsResourceState state = CmsResource.STATE_KEEP;
-        try {
-            state = CmsResourceState.valueOf(Integer.parseInt((String)params.get(PARAM_STATE)));
-        } catch (Throwable e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getLocalizedMessage(), e);
-            }
-        }
-
-        // show files in the selected project with the selected status
-        List resources = cms.readProjectView(projectId, state);
-
-        // remove not visible files
-        Iterator itRes = resources.iterator();
-        // dont's show resources that  are in a different site root
-        String siteRoot = cms.getRequestContext().getSiteRoot();
-        // this is not sufficient (startsWith) if one siteRoot is prefix of another as siteRoot ends without slash!
-        siteRoot += "/";
-        while (itRes.hasNext()) {
-            CmsResource resource = (CmsResource)itRes.next();
-            String rootPath = resource.getRootPath();
-            if (!rootPath.startsWith(siteRoot)
-                && !rootPath.startsWith(CmsWorkplace.VFS_PATH_SYSTEM)
-                && !OpenCms.getSiteManager().startsWithShared(rootPath)) {
-                itRes.remove();
-            }
-        }
-        return resources;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.A_CmsListResourceCollector#setAdditionalColumns(org.opencms.workplace.list.CmsListItem, org.opencms.workplace.explorer.CmsResourceUtil)
-     */
-    @Override
-    protected void setAdditionalColumns(CmsListItem item, CmsResourceUtil resUtil) {
-
-        // no-op
-    }
+    // no-op
+  }
 }

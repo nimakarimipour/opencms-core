@@ -27,6 +27,9 @@
 
 package org.opencms.ui.actions;
 
+import com.vaadin.navigator.View;
+import com.vaadin.ui.UI;
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.types.CmsResourceTypeXmlContainerPage;
@@ -42,65 +45,63 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 
-import java.util.List;
-
-import com.vaadin.navigator.View;
-import com.vaadin.ui.UI;
-
 /**
- * The form edit dialog action. Used for XML container pages only.<p>
+ * The form edit dialog action. Used for XML container pages only.
+ *
+ * <p>
  */
 public class CmsFormEditDialogAction extends A_CmsWorkplaceAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "formedit";
+  /** The action id. */
+  public static final String ACTION_ID = "formedit";
 
-    /** The action visibility. */
-    public static final I_CmsHasMenuItemVisibility VISIBILITY = CmsStandardVisibilityCheck.EDIT;
+  /** The action visibility. */
+  public static final I_CmsHasMenuItemVisibility VISIBILITY = CmsStandardVisibilityCheck.EDIT;
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        View view = CmsAppWorkplaceUi.get().getCurrentView();
-        if (view instanceof CmsAppView) {
-            ((CmsAppView)view).setCacheStatus(CacheStatus.cacheOnce);
-        }
-        CmsAppWorkplaceUi.get().showApp(
+    View view = CmsAppWorkplaceUi.get().getCurrentView();
+    if (view instanceof CmsAppView) {
+      ((CmsAppView) view).setCacheStatus(CacheStatus.cacheOnce);
+    }
+    CmsAppWorkplaceUi.get()
+        .showApp(
             OpenCms.getWorkplaceAppManager().getAppConfiguration(CmsEditorConfiguration.APP_ID),
             CmsEditor.getEditState(
                 context.getResources().get(0).getStructureId(),
                 false,
                 UI.getCurrent().getPage().getLocation().toString()));
+  }
+
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
+
+    return ACTION_ID;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+
+    if ((resources.size() == 1)
+        && CmsResourceTypeXmlContainerPage.isContainerPage(resources.get(0))) {
+      return VISIBILITY.getVisibility(cms, resources);
+    } else {
+      return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
     }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return ACTION_ID;
-    }
-
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
-
-        if ((resources.size() == 1) && CmsResourceTypeXmlContainerPage.isContainerPage(resources.get(0))) {
-            return VISIBILITY.getVisibility(cms, resources);
-        } else {
-            return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-        }
-    }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
-
-        return Messages.GUI_ACTION_OPEN_FORM_EDITOR_0;
-    }
+    return Messages.GUI_ACTION_OPEN_FORM_EDITOR_0;
+  }
 }

@@ -27,6 +27,9 @@
 
 package org.opencms.ui.client;
 
+import com.vaadin.client.communication.StateChangeEvent;
+import com.vaadin.client.ui.AbstractComponentConnector;
+import com.vaadin.shared.ui.Connect;
 import org.opencms.gwt.client.ui.contextmenu.CmsContextMenuButton;
 import org.opencms.gwt.client.ui.contextmenu.CmsContextMenuHandler;
 import org.opencms.gwt.shared.CmsCoreData.AdeContext;
@@ -35,73 +38,63 @@ import org.opencms.ui.shared.components.CmsGwtContextMenuButtonState;
 import org.opencms.ui.shared.rpc.I_CmsGwtContextMenuServerRpc;
 import org.opencms.util.CmsUUID;
 
-import com.vaadin.client.communication.StateChangeEvent;
-import com.vaadin.client.ui.AbstractComponentConnector;
-import com.vaadin.shared.ui.Connect;
-
-/**
- * Connector for using the GWT based context menu buttons as Vaadin widgets.
- */
+/** Connector for using the GWT based context menu buttons as Vaadin widgets. */
 @Connect(CmsGwtContextMenuButton.class)
 public class CmsGwtContextMenuButtonConnector extends AbstractComponentConnector {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#getState()
-     */
-    @Override
-    public CmsGwtContextMenuButtonState getState() {
+  /** @see com.vaadin.client.ui.AbstractComponentConnector#getState() */
+  @Override
+  public CmsGwtContextMenuButtonState getState() {
 
-        return (CmsGwtContextMenuButtonState)super.getState();
-    }
+    return (CmsGwtContextMenuButtonState) super.getState();
+  }
 
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#getWidget()
-     */
-    @Override
-    public CmsContextMenuButton getWidget() {
+  /** @see com.vaadin.client.ui.AbstractComponentConnector#getWidget() */
+  @Override
+  public CmsContextMenuButton getWidget() {
 
-        return (CmsContextMenuButton)super.getWidget();
-    }
+    return (CmsContextMenuButton) super.getWidget();
+  }
 
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#onStateChanged(com.vaadin.client.communication.StateChangeEvent)
-     */
-    @Override
-    public void onStateChanged(StateChangeEvent stateChangeEvent) {
+  /**
+   * @see
+   *     com.vaadin.client.ui.AbstractComponentConnector#onStateChanged(com.vaadin.client.communication.StateChangeEvent)
+   */
+  @Override
+  public void onStateChanged(StateChangeEvent stateChangeEvent) {
 
-        super.onStateChanged(stateChangeEvent);
-    }
+    super.onStateChanged(stateChangeEvent);
+  }
 
-    /**
-     * @see com.vaadin.client.ui.AbstractComponentConnector#createWidget()
-     */
-    @Override
-    protected CmsContextMenuButton createWidget() {
+  /** @see com.vaadin.client.ui.AbstractComponentConnector#createWidget() */
+  @Override
+  protected CmsContextMenuButton createWidget() {
 
-        CmsGwtContextMenuButtonState state = getState();
-        final I_CmsGwtContextMenuServerRpc rpc = getRpcProxy(I_CmsGwtContextMenuServerRpc.class);
-        CmsContextMenuButton result = new CmsContextMenuButton(
+    CmsGwtContextMenuButtonState state = getState();
+    final I_CmsGwtContextMenuServerRpc rpc = getRpcProxy(I_CmsGwtContextMenuServerRpc.class);
+    CmsContextMenuButton result =
+        new CmsContextMenuButton(
             new CmsUUID(state.getStructureId()),
             new CmsContextMenuHandler() {
 
-                @Override
-                public void refreshResource(CmsUUID structureId) {
+              @Override
+              public void refreshResource(CmsUUID structureId) {
 
-                    rpc.refresh("" + structureId);
-                }
+                rpc.refresh("" + structureId);
+              }
             },
             AdeContext.resourceinfo);
-        if (state.styles != null) {
-            for (String s : state.styles) {
-                // onStateChanged apparently isn't called for the initial state, so set the styles manually here.
-                // There may be a better way to handle this, but I haven't found one.
-                result.addStyleName(s);
-            }
-        }
-        return result;
+    if (state.styles != null) {
+      for (String s : state.styles) {
+        // onStateChanged apparently isn't called for the initial state, so set the styles manually
+        // here.
+        // There may be a better way to handle this, but I haven't found one.
+        result.addStyleName(s);
+      }
     }
-
+    return result;
+  }
 }

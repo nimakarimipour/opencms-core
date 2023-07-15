@@ -27,42 +27,43 @@
 
 package org.opencms.ui.apps.user;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.VerticalLayout;
 import org.opencms.report.A_CmsReportThread;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.report.CmsReportWidget;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.VerticalLayout;
-
 /**
- * Dialog for reports.<p>
+ * Dialog for reports.
+ *
+ * <p>
  */
 public class CmsShowReportDialog extends CmsBasicDialog {
 
-    /**vaadin serial id. */
-    private static final long serialVersionUID = 1267691928074775090L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 1267691928074775090L;
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param thread to be shown
-     * @param close Runnable run on close click
-     */
-    public CmsShowReportDialog(A_CmsReportThread thread, Runnable close) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param thread to be shown
+   * @param close Runnable run on close click
+   */
+  public CmsShowReportDialog(A_CmsReportThread thread, Runnable close) {
 
-        setHeight(CmsImportExportUserDialog.DIALOG_HEIGHT);
-        VerticalLayout panel = new VerticalLayout();
-        panel.setSizeFull();
-        CmsReportWidget widget = new CmsReportWidget(thread);
-        widget.setSizeFull();
-        panel.addComponent(widget);
-        setContent(panel);
+    setHeight(CmsImportExportUserDialog.DIALOG_HEIGHT);
+    VerticalLayout panel = new VerticalLayout();
+    panel.setSizeFull();
+    CmsReportWidget widget = new CmsReportWidget(thread);
+    widget.setSizeFull();
+    panel.addComponent(widget);
+    setContent(panel);
 
-        Button closeButton = new Button(CmsVaadinUtils.messageClose());
-        closeButton.addClickListener(event -> close.run());
-        addButton(closeButton, true);
-
-    }
-
+    Button closeButton = new Button(CmsVaadinUtils.messageClose());
+    closeButton.addClickListener(event -> close.run());
+    addButton(closeButton, true);
+  }
 }

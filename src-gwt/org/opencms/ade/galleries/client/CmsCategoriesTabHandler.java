@@ -28,78 +28,78 @@
 package org.opencms.ade.galleries.client;
 
 /**
- * The categories tab handler.<p>
+ * The categories tab handler.
  *
- * This class receives events information from the categories tab and
- * delegates them to the gallery controller.
+ * <p>This class receives events information from the categories tab and delegates them to the
+ * gallery controller.
  *
  * @since 8.0.0
  */
 public class CmsCategoriesTabHandler extends A_CmsTabHandler {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param controller the gallery controller
-     */
-    public CmsCategoriesTabHandler(CmsGalleryController controller) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param controller the gallery controller
+   */
+  public CmsCategoriesTabHandler(CmsGalleryController controller) {
 
-        super(controller);
-    }
+    super(controller);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#clearParams()
-     */
-    @Override
-    public void clearParams() {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#clearParams() */
+  @Override
+  public void clearParams() {
 
-        m_controller.clearCategories();
-    }
+    m_controller.clearCategories();
+  }
 
-    /**
-     * Will be triggered when the user unchecks the checkbox to deselect a category.<p>
-     *
-     * @param categoryPath the category path as id
-     */
-    public void onDeselectCategory(String categoryPath) {
+  /**
+   * Will be triggered when the user unchecks the checkbox to deselect a category.
+   *
+   * <p>
+   *
+   * @param categoryPath the category path as id
+   */
+  public void onDeselectCategory(String categoryPath) {
 
-        m_controller.removeCategory(categoryPath);
-    }
+    m_controller.removeCategory(categoryPath);
+  }
 
-    /**
-     * Will be triggered when the user checks the checkbox to select a category.<p>
-     *
-     * @param categoryPath the category path as id
-     */
-    public void onSelectCategory(String categoryPath) {
+  /**
+   * Will be triggered when the user checks the checkbox to select a category.
+   *
+   * <p>
+   *
+   * @param categoryPath the category path as id
+   */
+  public void onSelectCategory(String categoryPath) {
 
-        m_controller.addCategory(categoryPath);
-    }
+    m_controller.addCategory(categoryPath);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSelection()
-     */
-    @Override
-    public void onSelection() {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSelection() */
+  @Override
+  public void onSelection() {
 
-        m_controller.updateCategoriesTab();
-    }
+    m_controller.updateCategoriesTab();
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSort(java.lang.String,java.lang.String)
-     */
-    @Override
-    public void onSort(String sortParams, String filter) {
+  /**
+   * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSort(java.lang.String,java.lang.String)
+   */
+  @Override
+  public void onSort(String sortParams, String filter) {
 
-        m_controller.sortCategories(sortParams, filter);
-    }
+    m_controller.sortCategories(sortParams, filter);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#removeParam(java.lang.String)
-     */
-    @Override
-    public void removeParam(String paramKey) {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#removeParam(java.lang.String) */
+  @Override
+  public void removeParam(String paramKey) {
 
-        m_controller.removeCategoryParam(paramKey);
-    }
+    m_controller.removeCategoryParam(paramKey);
+  }
 }

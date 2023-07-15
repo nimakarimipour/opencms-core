@@ -27,139 +27,149 @@
 
 package org.opencms.workplace.list;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.report.I_CmsReportThread;
 import org.opencms.workplace.CmsReport;
 import org.opencms.workplace.CmsWorkplaceSettings;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Provides a report in the list widget.<p>
+ * Provides a report in the list widget.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public abstract class A_CmsListReport extends CmsReport {
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public A_CmsListReport(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public A_CmsListReport(CmsJspActionElement jsp) {
 
-        super(jsp);
+    super(jsp);
+  }
 
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public A_CmsListReport(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+
+    this(new CmsJspActionElement(context, req, res));
+  }
+
+  /** @see org.opencms.workplace.CmsDialog#actionCloseDialog() */
+  @Override
+  public void actionCloseDialog() throws JspException {
+
+    getSettings().setListObject(null);
+    super.actionCloseDialog();
+  }
+
+  /**
+   * Performs the dialog actions depending on the initialized action.
+   *
+   * <p>
+   *
+   * @throws JspException if dialog actions fail
+   */
+  public void displayReport() throws JspException {
+
+    // save initialized instance of this class in request attribute for included sub-elements
+    getJsp().getRequest().setAttribute(SESSION_WORKPLACE_CLASS, this);
+    switch (getAction()) {
+      case ACTION_REPORT_END:
+      case ACTION_CANCEL:
+        actionCloseDialog();
+        break;
+      case ACTION_REPORT_UPDATE:
+        setParamAction(REPORT_UPDATE);
+        getJsp().include(FILE_REPORT_OUTPUT);
+        break;
+      case ACTION_REPORT_BEGIN:
+      case ACTION_CONFIRMED:
+      case ACTION_DEFAULT:
+      default:
+        I_CmsReportThread thread = initializeThread();
+        thread.start();
+        setParamAction(REPORT_BEGIN);
+        setParamThread(thread.getUUID().toString());
+        getJsp().include(FILE_REPORT_OUTPUT);
     }
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public A_CmsListReport(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Initializes the report thread to use for this report.
+   *
+   * <p>
+   *
+   * @return the reported thread to use for this report.
+   */
+  public abstract I_CmsReportThread initializeThread();
 
-        this(new CmsJspActionElement(context, req, res));
+  /**
+   * @see
+   *     org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings,
+   *     javax.servlet.http.HttpServletRequest)
+   */
+  @Override
+  protected void initWorkplaceRequestValues(
+      CmsWorkplaceSettings settings, HttpServletRequest request) {
 
+    // fill the parameter values in the get/set methods
+    fillParamValues(request);
+
+    if (REPORT_UPDATE.equals(getParamAction())) {
+      setAction(ACTION_REPORT_UPDATE);
+    } else if (REPORT_BEGIN.equals(getParamAction())) {
+      setAction(ACTION_REPORT_BEGIN);
+    } else if (REPORT_END.equals(getParamAction())) {
+      setAction(ACTION_REPORT_END);
+    } else if (DIALOG_CANCEL.equals(getParamAction())) {
+      setAction(ACTION_CANCEL);
+    } else {
+      // set the default action
+      setAction(ACTION_DEFAULT);
     }
-
-    /**
-     * @see org.opencms.workplace.CmsDialog#actionCloseDialog()
-     */
-    @Override
-    public void actionCloseDialog() throws JspException {
-
-        getSettings().setListObject(null);
-        super.actionCloseDialog();
-    }
-
-    /**
-     * Performs the dialog actions depending on the initialized action.<p>
-     *
-     * @throws JspException if dialog actions fail
-     */
-    public void displayReport() throws JspException {
-
-        // save initialized instance of this class in request attribute for included sub-elements
-        getJsp().getRequest().setAttribute(SESSION_WORKPLACE_CLASS, this);
-        switch (getAction()) {
-            case ACTION_REPORT_END:
-            case ACTION_CANCEL:
-                actionCloseDialog();
-                break;
-            case ACTION_REPORT_UPDATE:
-                setParamAction(REPORT_UPDATE);
-                getJsp().include(FILE_REPORT_OUTPUT);
-                break;
-            case ACTION_REPORT_BEGIN:
-            case ACTION_CONFIRMED:
-            case ACTION_DEFAULT:
-            default:
-                I_CmsReportThread thread = initializeThread();
-                thread.start();
-                setParamAction(REPORT_BEGIN);
-                setParamThread(thread.getUUID().toString());
-                getJsp().include(FILE_REPORT_OUTPUT);
+    if (DIALOG_INITIAL.equals(getParamAction()) || (getParamAction() == null)) {
+      // test the needed parameters
+      try {
+        validateParameters();
+      } catch (Exception e) {
+        // redirect to parent if parameters not available
+        setAction(ACTION_CANCEL);
+        try {
+          actionCloseDialog();
+        } catch (JspException e1) {
+          // noop
         }
+        return;
+      }
     }
+  }
 
-    /**
-     * Initializes the report thread to use for this report.<p>
-     *
-     * @return the reported thread to use for this report.
-     */
-    public abstract I_CmsReportThread initializeThread();
+  /**
+   * Should be overridden for parameter validation.
+   *
+   * <p>
+   *
+   * @throws Exception if the parameters are not valid
+   */
+  protected void validateParameters() throws Exception {
 
-    /**
-     * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
-
-        // fill the parameter values in the get/set methods
-        fillParamValues(request);
-
-        if (REPORT_UPDATE.equals(getParamAction())) {
-            setAction(ACTION_REPORT_UPDATE);
-        } else if (REPORT_BEGIN.equals(getParamAction())) {
-            setAction(ACTION_REPORT_BEGIN);
-        } else if (REPORT_END.equals(getParamAction())) {
-            setAction(ACTION_REPORT_END);
-        } else if (DIALOG_CANCEL.equals(getParamAction())) {
-            setAction(ACTION_CANCEL);
-        } else {
-            // set the default action
-            setAction(ACTION_DEFAULT);
-        }
-        if (DIALOG_INITIAL.equals(getParamAction()) || (getParamAction() == null)) {
-            // test the needed parameters
-            try {
-                validateParameters();
-            } catch (Exception e) {
-                // redirect to parent if parameters not available
-                setAction(ACTION_CANCEL);
-                try {
-                    actionCloseDialog();
-                } catch (JspException e1) {
-                    // noop
-                }
-                return;
-            }
-        }
-    }
-
-    /**
-     * Should be overridden for parameter validation.<p>
-     *
-     * @throws Exception if the parameters are not valid
-     */
-    protected void validateParameters() throws Exception {
-
-        // valid by default
-    }
+    // valid by default
+  }
 }

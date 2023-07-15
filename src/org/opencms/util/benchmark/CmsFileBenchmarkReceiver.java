@@ -27,86 +27,83 @@
 
 package org.opencms.util.benchmark;
 
-import org.opencms.main.CmsLog;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
-
 import org.apache.commons.logging.Log;
+import org.opencms.main.CmsLog;
 
-/**
- * Appends benchmark samples to a file.
- */
+/** Appends benchmark samples to a file. */
 public class CmsFileBenchmarkReceiver implements CmsBenchmarkTable.Receiver {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsFileBenchmarkReceiver.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsFileBenchmarkReceiver.class);
 
-    /** The target file path. */
-    private String m_path;
+  /** The target file path. */
+  private String m_path;
 
-    /** The benchmark group. */
-    private String m_group;
+  /** The benchmark group. */
+  private String m_group;
 
-    /** The benchmark name. */
-    private String m_benchmark;
+  /** The benchmark name. */
+  private String m_benchmark;
 
-    /**
-     * Creates a new instance and configures it via the Java system properties.<p>
-     *
-     * The following properties are used:
-     * <ul>
-     * <li>opencms.benchmark.file: the output file
-     * <li>opencms.benchmark.name: the benchmark name
-     * <li>opencms.benchmark.group: the benchmark group
-     * </ul>
-     */
-    public CmsFileBenchmarkReceiver() {
+  /**
+   * Creates a new instance and configures it via the Java system properties.
+   *
+   * <p>The following properties are used:
+   *
+   * <ul>
+   *   <li>opencms.benchmark.file: the output file
+   *   <li>opencms.benchmark.name: the benchmark name
+   *   <li>opencms.benchmark.group: the benchmark group
+   * </ul>
+   */
+  public CmsFileBenchmarkReceiver() {
 
-        Properties prop = System.getProperties();
-        String prefix = "opencms.benchmark.";
-        m_path = prop.getProperty(prefix + "file");
-        m_benchmark = prop.getProperty(prefix + "name");
-        m_group = prop.getProperty(prefix + "group");
+    Properties prop = System.getProperties();
+    String prefix = "opencms.benchmark.";
+    m_path = prop.getProperty(prefix + "file");
+    m_benchmark = prop.getProperty(prefix + "name");
+    m_group = prop.getProperty(prefix + "group");
+  }
+
+  /**
+   * Creates a new instance.
+   *
+   * @param path the output file path
+   * @param benchmark the benchmark name
+   * @param group the benchmark group
+   */
+  public CmsFileBenchmarkReceiver(String path, String benchmark, String group) {
+
+    m_path = path;
+    m_group = group;
+    m_benchmark = benchmark;
+  }
+
+  /**
+   * @see org.opencms.util.benchmark.CmsBenchmarkTable.Receiver#receiveSample(java.lang.String,
+   *     long)
+   */
+  public synchronized void receiveSample(String sampleName, long sampleTime) {
+
+    try (FileWriter fw = new FileWriter(m_path, true)) {
+      String line =
+          System.currentTimeMillis()
+              + " "
+              + m_benchmark
+              + " "
+              + m_group
+              + " "
+              + sampleName
+              + " "
+              + sampleTime
+              + "\n";
+      fw.write(line);
+    } catch (IOException e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      e.printStackTrace();
     }
-
-    /**
-     * Creates a new instance.
-     *
-     * @param path the output file path
-     * @param benchmark the benchmark name
-     * @param group the benchmark group
-     */
-    public CmsFileBenchmarkReceiver(String path, String benchmark, String group) {
-
-        m_path = path;
-        m_group = group;
-        m_benchmark = benchmark;
-    }
-
-    /**
-     * @see org.opencms.util.benchmark.CmsBenchmarkTable.Receiver#receiveSample(java.lang.String, long)
-     */
-    public synchronized void receiveSample(String sampleName, long sampleTime) {
-
-        try (FileWriter fw = new FileWriter(m_path, true)) {
-            String line = System.currentTimeMillis()
-                + " "
-                + m_benchmark
-                + " "
-                + m_group
-                + " "
-                + sampleName
-                + " "
-                + sampleTime
-                + "\n";
-            fw.write(line);
-        } catch (IOException e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            e.printStackTrace();
-        }
-
-    }
-
+  }
 }

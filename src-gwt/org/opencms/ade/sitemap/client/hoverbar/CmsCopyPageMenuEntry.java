@@ -27,6 +27,9 @@
 
 package org.opencms.ade.sitemap.client.hoverbar;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayString;
+import java.util.List;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
@@ -36,79 +39,77 @@ import org.opencms.gwt.client.util.CmsScriptCallbackHelper;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayString;
-
 /**
- * Menu entry for the "copy page" command.<p>
+ * Menu entry for the "copy page" command.
+ *
+ * <p>
  */
 public class CmsCopyPageMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param hoverbar the hoverbar for the current item
-     */
-    public CmsCopyPageMenuEntry(CmsSitemapHoverbar hoverbar) {
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_COPYPAGE_MENU_ENTRY_0));
-        setActive(true);
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar for the current item
+   */
+  public CmsCopyPageMenuEntry(CmsSitemapHoverbar hoverbar) {
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_COPYPAGE_MENU_ENTRY_0));
+    setActive(true);
+  }
 
-    }
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  @Override
+  public void execute() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    @Override
-    public void execute() {
+    CmsUUID id = getHoverbar().getEntry().getId();
+    CmsScriptCallbackHelper callback =
+        new CmsScriptCallbackHelper() {
 
-        CmsUUID id = getHoverbar().getEntry().getId();
-        CmsScriptCallbackHelper callback = new CmsScriptCallbackHelper() {
+          @Override
+          public void run() {
 
-            @Override
-            public void run() {
+            JsArrayString args = m_arguments.cast();
+            String ids = args.get(0);
+            if (ids.length() > 0) {
+              List<String> idList = CmsStringUtil.splitAsList(ids, "|");
+              CmsSitemapController controller = CmsSitemapView.getInstance().getController();
+              for (String idFromList : idList) {
 
-                JsArrayString args = m_arguments.cast();
-                String ids = args.get(0);
-                if (ids.length() > 0) {
-                    List<String> idList = CmsStringUtil.splitAsList(ids, "|");
-                    CmsSitemapController controller = CmsSitemapView.getInstance().getController();
-                    for (String idFromList : idList) {
-
-                        if (null != controller.getEntryById(new CmsUUID(idFromList))) {
-                            controller.updateEntry(new CmsUUID(idFromList));
-                        }
-                    }
+                if (null != controller.getEntryById(new CmsUUID(idFromList))) {
+                  controller.updateEntry(new CmsUUID(idFromList));
                 }
+              }
             }
+          }
         };
-        openPageCopyDialog("" + id, callback.createCallback());
-    }
+    openPageCopyDialog("" + id, callback.createCallback());
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        boolean show = getHoverbar().getController().isEditable()
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    boolean show =
+        getHoverbar().getController().isEditable()
             && CmsSitemapView.getInstance().isNavigationMode()
             && (entry != null)
-            && ((entry.getEntryType() == EntryType.folder) || (entry.getEntryType() == EntryType.leaf));
-        setVisible(show);
-    }
+            && ((entry.getEntryType() == EntryType.folder)
+                || (entry.getEntryType() == EntryType.leaf));
+    setVisible(show);
+  }
 
-    /**
-     * Opens the page copy dialog for the given structure id.<p>
-     *
-     * @param id the structure id of the selected sitemap entry
-     * @param callback the callback to call when the dialog has finished
-     */
-    public native void openPageCopyDialog(String id, JavaScriptObject callback) /*-{
+  /**
+   * Opens the page copy dialog for the given structure id.
+   *
+   * <p>
+   *
+   * @param id the structure id of the selected sitemap entry
+   * @param callback the callback to call when the dialog has finished
+   */
+  public native void openPageCopyDialog(String id, JavaScriptObject callback) /*-{
                                                                                 $wnd.cmsOpenPageCopyDialog(id, callback);
                                                                                 }-*/;
-
 }

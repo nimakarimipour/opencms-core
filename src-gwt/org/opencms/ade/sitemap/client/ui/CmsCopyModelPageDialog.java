@@ -27,54 +27,61 @@
 
 package org.opencms.ade.sitemap.client.ui;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.gwt.shared.CmsListInfoBean;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * The create new gallery folder dialog.<p>
+ * The create new gallery folder dialog.
+ *
+ * <p>
  */
 public class CmsCopyModelPageDialog extends A_CmsNewModelPageDialog {
 
-    /** The callbackr. */
-    private AsyncCallback<String> m_callback;
+  /** The callbackr. */
+  private AsyncCallback<String> m_callback;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param infoBean the list info bean to display in the dialog
-     * @param isModelGroup if copying as model group
-     * @param callback the callback to call with the title entered by the user
-     */
-    public CmsCopyModelPageDialog(CmsListInfoBean infoBean, boolean isModelGroup, AsyncCallback<String> callback) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param infoBean the list info bean to display in the dialog
+   * @param isModelGroup if copying as model group
+   * @param callback the callback to call with the title entered by the user
+   */
+  public CmsCopyModelPageDialog(
+      CmsListInfoBean infoBean, boolean isModelGroup, AsyncCallback<String> callback) {
 
-        super(
-            isModelGroup
+    super(
+        isModelGroup
             ? Messages.get().key(Messages.GUI_COPY_AS_MODEL_GROUP_PAGE_DIALOG_TITLE_0)
             : Messages.get().key(Messages.GUI_COPY_MODEL_PAGE_DIALOG_TITLE_0),
-            infoBean);
-        m_callback = callback;
-    }
+        infoBean);
+    m_callback = callback;
+  }
 
-    /**
-     * Gets the description from the description text box.<p>
-     *
-     * @return the description
-     */
-    public String getDescription() {
+  /**
+   * Gets the description from the description text box.
+   *
+   * <p>
+   *
+   * @return the description
+   */
+  public String getDescription() {
 
-        return m_descriptionInput.getFormValueAsString();
-    }
+    return m_descriptionInput.getFormValueAsString();
+  }
 
-    /**
-     * Creates the new gallery folder.<p>
-     */
-    @Override
-    protected void onOk() {
+  /**
+   * Creates the new gallery folder.
+   *
+   * <p>
+   */
+  @Override
+  protected void onOk() {
 
-        m_callback.onSuccess(m_titleInput.getFormValueAsString());
-        hide();
-    }
-
+    m_callback.onSuccess(m_titleInput.getFormValueAsString());
+    hide();
+  }
 }

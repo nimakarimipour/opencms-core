@@ -27,6 +27,13 @@
 
 package org.opencms.ade.sitemap.client.ui;
 
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Widget;
 import org.opencms.gwt.client.Messages;
 import org.opencms.gwt.client.ui.CmsPopup;
 import org.opencms.gwt.client.ui.CmsPushButton;
@@ -40,151 +47,157 @@ import org.opencms.gwt.client.ui.input.form.CmsFieldsetFormFieldPanel;
 import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.util.CmsStringUtil;
 
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * The create new gallery folder dialog.<p>
+ * The create new gallery folder dialog.
+ *
+ * <p>
  */
 public abstract class A_CmsNewModelPageDialog extends CmsPopup {
 
-    /** The text metrics key. */
-    private static final String METRICS_KEY = "CREATE_NEW_GALLERY_DIALOG";
+  /** The text metrics key. */
+  private static final String METRICS_KEY = "CREATE_NEW_GALLERY_DIALOG";
 
-    /** The text box for the description. */
-    protected CmsTextBox m_descriptionInput;
+  /** The text box for the description. */
+  protected CmsTextBox m_descriptionInput;
 
-    /** The title input. */
-    protected CmsTextBox m_titleInput;
+  /** The title input. */
+  protected CmsTextBox m_titleInput;
 
-    /** The dialog content panel. */
-    private CmsFieldsetFormFieldPanel m_dialogContent;
+  /** The dialog content panel. */
+  private CmsFieldsetFormFieldPanel m_dialogContent;
 
-    /** The OK button. */
-    private CmsPushButton m_okButton;
+  /** The OK button. */
+  private CmsPushButton m_okButton;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param title the title of the dialog
-     * @param infoBean the resource info bean to display
-     */
-    public A_CmsNewModelPageDialog(String title, CmsListInfoBean infoBean) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param title the title of the dialog
+   * @param infoBean the resource info bean to display
+   */
+  public A_CmsNewModelPageDialog(String title, CmsListInfoBean infoBean) {
 
-        super(title);
-        initialize(infoBean);
-    }
+    super(title);
+    initialize(infoBean);
+  }
 
-    /**
-     * Initializes the dialog.<p>
-     *
-     * @param listInfo the resource info to display
-     */
-    public void initialize(CmsListInfoBean listInfo) {
+  /**
+   * Initializes the dialog.
+   *
+   * <p>
+   *
+   * @param listInfo the resource info to display
+   */
+  public void initialize(CmsListInfoBean listInfo) {
 
-        m_dialogContent = new CmsFieldsetFormFieldPanel(listInfo, null);
-        m_dialogContent.addStyleName(I_CmsInputLayoutBundle.INSTANCE.inputCss().highTextBoxes());
-        m_dialogContent.getFieldSet().setOpenerVisible(false);
-        m_dialogContent.getFieldSet().getElement().getStyle().setMarginTop(4, Style.Unit.PX);
-        setMainContent(m_dialogContent);
-        m_titleInput = new CmsTextBox();
-        m_titleInput.setTriggerChangeOnKeyPress(true);
-        m_titleInput.addValueChangeHandler(new ValueChangeHandler<String>() {
+    m_dialogContent = new CmsFieldsetFormFieldPanel(listInfo, null);
+    m_dialogContent.addStyleName(I_CmsInputLayoutBundle.INSTANCE.inputCss().highTextBoxes());
+    m_dialogContent.getFieldSet().setOpenerVisible(false);
+    m_dialogContent.getFieldSet().getElement().getStyle().setMarginTop(4, Style.Unit.PX);
+    setMainContent(m_dialogContent);
+    m_titleInput = new CmsTextBox();
+    m_titleInput.setTriggerChangeOnKeyPress(true);
+    m_titleInput.addValueChangeHandler(
+        new ValueChangeHandler<String>() {
 
-            public void onValueChange(ValueChangeEvent<String> event) {
+          public void onValueChange(ValueChangeEvent<String> event) {
 
-                setOkEnabled(CmsStringUtil.isNotEmptyOrWhitespaceOnly(event.getValue()));
-            }
+            setOkEnabled(CmsStringUtil.isNotEmptyOrWhitespaceOnly(event.getValue()));
+          }
         });
-        addInputRow(
-            org.opencms.ade.sitemap.client.Messages.get().key(
-                org.opencms.ade.sitemap.client.Messages.GUI_MODEL_PAGE_TITLE_LABEL_0),
+    addInputRow(
+        org.opencms.ade.sitemap.client.Messages.get()
+            .key(org.opencms.ade.sitemap.client.Messages.GUI_MODEL_PAGE_TITLE_LABEL_0),
+        m_titleInput);
 
-            m_titleInput);
+    m_descriptionInput = new CmsTextBox();
 
-        m_descriptionInput = new CmsTextBox();
+    addDialogClose(null);
+    addInputRow(
+        org.opencms.ade.sitemap.client.Messages.get()
+            .key(org.opencms.ade.sitemap.client.Messages.GUI_MODEL_PAGE_DESCRIPTION_LABEL_0),
+        m_descriptionInput);
 
-        addDialogClose(null);
-        addInputRow(
-            org.opencms.ade.sitemap.client.Messages.get().key(
-                org.opencms.ade.sitemap.client.Messages.GUI_MODEL_PAGE_DESCRIPTION_LABEL_0),
+    CmsPushButton closeButton = new CmsPushButton();
+    closeButton.setText(Messages.get().key(Messages.GUI_CANCEL_0));
+    closeButton.setUseMinWidth(true);
+    closeButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.BLUE);
+    closeButton.addClickHandler(
+        new ClickHandler() {
 
-            m_descriptionInput);
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          public void onClick(ClickEvent event) {
 
-        CmsPushButton closeButton = new CmsPushButton();
-        closeButton.setText(Messages.get().key(Messages.GUI_CANCEL_0));
-        closeButton.setUseMinWidth(true);
-        closeButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.BLUE);
-        closeButton.addClickHandler(new ClickHandler() {
-
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
-
-                hide();
-            }
+            hide();
+          }
         });
-        addButton(closeButton);
+    addButton(closeButton);
 
-        m_okButton = new CmsPushButton();
-        m_okButton.setText(Messages.get().key(Messages.GUI_OK_0));
-        m_okButton.setUseMinWidth(true);
-        m_okButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.RED);
-        m_okButton.addClickHandler(new ClickHandler() {
+    m_okButton = new CmsPushButton();
+    m_okButton.setText(Messages.get().key(Messages.GUI_OK_0));
+    m_okButton.setUseMinWidth(true);
+    m_okButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.RED);
+    m_okButton.addClickHandler(
+        new ClickHandler() {
 
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          public void onClick(ClickEvent event) {
 
-                onOk();
-            }
+            onOk();
+          }
         });
-        addButton(m_okButton);
-        setOkEnabled(false);
+    addButton(m_okButton);
+    setOkEnabled(false);
+  }
+
+  /**
+   * Creates the new gallery folder.
+   *
+   * <p>
+   */
+  protected abstract void onOk();
+
+  /**
+   * Enables or disables the OK button.
+   *
+   * <p>
+   *
+   * @param enabled <code>true</code> to enable the button
+   */
+  protected void setOkEnabled(boolean enabled) {
+
+    if (enabled) {
+      m_okButton.enable();
+    } else {
+      m_okButton.disable("Invalid title");
     }
+  }
 
-    /**
-     * Creates the new gallery folder.<p>
-     */
-    protected abstract void onOk();
+  /**
+   * Adds a row to the form.
+   *
+   * <p>
+   *
+   * @param label the label
+   * @param inputWidget the input widget
+   */
+  private void addInputRow(String label, Widget inputWidget) {
 
-    /**
-     * Enables or disables the OK button.<p>
-     *
-     * @param enabled <code>true</code> to enable the button
-     */
-    protected void setOkEnabled(boolean enabled) {
-
-        if (enabled) {
-            m_okButton.enable();
-        } else {
-            m_okButton.disable("Invalid title");
-        }
-    }
-
-    /**
-     * Adds a row to the form.<p>
-     *
-     * @param label the label
-     * @param inputWidget the input widget
-     */
-    private void addInputRow(String label, Widget inputWidget) {
-
-        FlowPanel row = new FlowPanel();
-        row.setStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().simpleFormRow());
-        CmsLabel labelWidget = new CmsLabel(label);
-        labelWidget.setStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().simpleFormLabel());
-        row.add(labelWidget);
-        inputWidget.addStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().simpleFormInputBox());
-        row.add(inputWidget);
-        m_dialogContent.getFieldSet().add(row);
-    }
-
+    FlowPanel row = new FlowPanel();
+    row.setStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().simpleFormRow());
+    CmsLabel labelWidget = new CmsLabel(label);
+    labelWidget.setStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().simpleFormLabel());
+    row.add(labelWidget);
+    inputWidget.addStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().simpleFormInputBox());
+    row.add(inputWidget);
+    m_dialogContent.getFieldSet().add(row);
+  }
 }

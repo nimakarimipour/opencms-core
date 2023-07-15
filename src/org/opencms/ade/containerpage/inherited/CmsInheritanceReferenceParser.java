@@ -31,6 +31,10 @@
 
 package org.opencms.ade.containerpage.inherited;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import org.opencms.file.CmsFile;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
@@ -42,116 +46,124 @@ import org.opencms.xml.content.CmsXmlContentRootLocation;
 import org.opencms.xml.content.I_CmsXmlContentLocation;
 import org.opencms.xml.content.I_CmsXmlContentValueLocation;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 /**
- * Parser class for parsing inheritance container references.<p>
+ * Parser class for parsing inheritance container references.
+ *
+ * <p>
  */
 public class CmsInheritanceReferenceParser {
 
-    /** The CMS context used for parsing the file. */
-    private CmsObject m_cms;
+  /** The CMS context used for parsing the file. */
+  private CmsObject m_cms;
 
-    /** The map of parsed references. */
-    private Map<Locale, CmsInheritanceReference> m_references = new HashMap<Locale, CmsInheritanceReference>();
+  /** The map of parsed references. */
+  private Map<Locale, CmsInheritanceReference> m_references =
+      new HashMap<Locale, CmsInheritanceReference>();
 
-    /** The resource being parsed. */
-    private CmsResource m_resource;
+  /** The resource being parsed. */
+  private CmsResource m_resource;
 
-    /**
-     * Creates a new parser instance.<p>
-     *
-     * @param cms the CMS context to use
-     */
-    public CmsInheritanceReferenceParser(CmsObject cms) {
+  /**
+   * Creates a new parser instance.
+   *
+   * <p>
+   *
+   * @param cms the CMS context to use
+   */
+  public CmsInheritanceReferenceParser(CmsObject cms) {
 
-        m_cms = cms;
+    m_cms = cms;
+  }
+
+  /**
+   * Gets the parsed reference for a locale.
+   *
+   * <p>Gets the reference object for the locale, and uses the reference for the English language as
+   * a fallback.
+   *
+   * <p>
+   *
+   * @param locale the locale to get the reference for
+   * @return the reference for the locale
+   */
+  public CmsInheritanceReference getReference(Locale locale) {
+
+    CmsInheritanceReference ref = m_references.get(locale);
+    if (ref == null) {
+      ref = m_references.get(Locale.ENGLISH);
     }
+    return ref;
+  }
 
-    /**
-     * Gets the parsed reference for a locale.<p>
-     *
-     * Gets the reference object for the locale, and uses the reference for the English language as a fallback.<p>
-     *
-     * @param  locale the locale to get the reference for
-     * @return the reference for the locale
-     */
-    public CmsInheritanceReference getReference(Locale locale) {
+  /**
+   * Parses a given resource.
+   *
+   * <p>
+   *
+   * @param resource the resource to parse
+   * @throws CmsException if something goes wrong
+   */
+  public void parse(CmsResource resource) throws CmsException {
 
-        CmsInheritanceReference ref = m_references.get(locale);
-        if (ref == null) {
-            ref = m_references.get(Locale.ENGLISH);
-        }
-        return ref;
+    CmsFile file = m_cms.readFile(resource);
+    m_resource = resource;
+    CmsXmlContent content = CmsXmlContentFactory.unmarshal(m_cms, file);
+    parse(content);
+  }
+
+  /**
+   * Parses the given XML content.
+   *
+   * <p>
+   *
+   * @param content the XML content to parse
+   */
+  protected void parse(CmsXmlContent content) {
+
+    List<Locale> availableLocales = content.getLocales();
+    for (Locale locale : availableLocales) {
+      CmsXmlContentRootLocation location = new CmsXmlContentRootLocation(content, locale);
+      CmsInheritanceReference ref = parseReference(location, locale);
+      if (ref != null) {
+        m_references.put(locale, ref);
+      }
     }
+  }
 
-    /**
-     * Parses a given resource.<p>
-     *
-     * @param resource the resource to parse
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public void parse(CmsResource resource) throws CmsException {
+  /**
+   * Extracts a single inheritance reference from a location in the XML content.
+   *
+   * <p>This method may return null if the given location doesn't contain a valid inheritance
+   * container reference.
+   *
+   * <p>
+   *
+   * @param location the location from which to parse the inheritance reference
+   * @param locale the locale from which to parse the inheritance reference
+   * @return the parsed inheritance reference, or null
+   */
+  protected CmsInheritanceReference parseReference(
+      I_CmsXmlContentLocation location, Locale locale) {
 
-        CmsFile file = m_cms.readFile(resource);
-        m_resource = resource;
-        CmsXmlContent content = CmsXmlContentFactory.unmarshal(m_cms, file);
-        parse(content);
+    I_CmsXmlContentValueLocation nameLocation = location.getSubValue("ConfigName");
+    if (nameLocation == null) {
+      return null;
     }
-
-    /**
-     * Parses the given XML content.<p>
-     *
-     * @param content the XML content to parse
-     */
-    protected void parse(CmsXmlContent content) {
-
-        List<Locale> availableLocales = content.getLocales();
-        for (Locale locale : availableLocales) {
-            CmsXmlContentRootLocation location = new CmsXmlContentRootLocation(content, locale);
-            CmsInheritanceReference ref = parseReference(location, locale);
-            if (ref != null) {
-                m_references.put(locale, ref);
-            }
-        }
+    String configName = nameLocation.asString(m_cms);
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(configName)) {
+      return null;
     }
-
-    /**
-     * Extracts a single inheritance reference from a location in the XML content.<p>
-     *
-     * This method may return null if the given location doesn't contain a valid inheritance container reference.<p>
-     *
-     * @param location the location from which to parse the inheritance reference
-     * @param locale the locale from  which to parse the inheritance reference
-     *
-     * @return the parsed inheritance reference, or null
-     */
-    protected CmsInheritanceReference parseReference(I_CmsXmlContentLocation location, Locale locale) {
-
-        I_CmsXmlContentValueLocation nameLocation = location.getSubValue("ConfigName");
-        if (nameLocation == null) {
-            return null;
-        }
-        String configName = nameLocation.asString(m_cms);
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(configName)) {
-            return null;
-        }
-        configName = configName.trim();
-        I_CmsXmlContentValueLocation titleLocation = location.getSubValue("Title");
-        String title = null;
-        if (titleLocation != null) {
-            title = titleLocation.asString(m_cms);
-        }
-        I_CmsXmlContentValueLocation descriptionLocation = location.getSubValue("Description");
-        String description = null;
-        if (descriptionLocation != null) {
-            description = descriptionLocation.asString(m_cms);
-        }
-        return new CmsInheritanceReference(configName, title, description, m_resource, locale);
+    configName = configName.trim();
+    I_CmsXmlContentValueLocation titleLocation = location.getSubValue("Title");
+    String title = null;
+    if (titleLocation != null) {
+      title = titleLocation.asString(m_cms);
     }
-
+    I_CmsXmlContentValueLocation descriptionLocation = location.getSubValue("Description");
+    String description = null;
+    if (descriptionLocation != null) {
+      description = descriptionLocation.asString(m_cms);
+    }
+    return new CmsInheritanceReference(configName, title, description, m_resource, locale);
+  }
 }

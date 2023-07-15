@@ -27,51 +27,56 @@
 
 package org.opencms.workplace.list;
 
-import org.opencms.i18n.CmsMessageContainer;
-
 import java.text.MessageFormat;
 import java.util.Locale;
+import org.opencms.i18n.CmsMessageContainer;
 
 /**
- * This list formatter uses the <code>{@link MessageFormat}</code> class for macro like formatting.<p>
+ * This list formatter uses the <code>{@link MessageFormat}</code> class for macro like formatting.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListMacroFormatter implements I_CmsListFormatter {
 
-    /** pattern for <code>{@link MessageFormat}</code>. */
-    private final CmsMessageContainer m_mask;
+  /** pattern for <code>{@link MessageFormat}</code>. */
+  private final CmsMessageContainer m_mask;
 
-    /**
-     * Default constructor that sets the mask to use.<p>
-     *
-     * @param mask pattern for <code>{@link MessageFormat}</code>
-     */
-    public CmsListMacroFormatter(CmsMessageContainer mask) {
+  /**
+   * Default constructor that sets the mask to use.
+   *
+   * <p>
+   *
+   * @param mask pattern for <code>{@link MessageFormat}</code>
+   */
+  public CmsListMacroFormatter(CmsMessageContainer mask) {
 
-        m_mask = mask;
+    m_mask = mask;
+  }
+
+  /**
+   * @see org.opencms.workplace.list.I_CmsListFormatter#format(java.lang.Object, java.util.Locale)
+   */
+  public String format(Object data, Locale locale) {
+
+    if (data == null) {
+      return null;
     }
+    String locMask = m_mask.key(locale);
+    MessageFormat formatter = new MessageFormat(locMask, locale);
+    return formatter.format(new Object[] {data});
+  }
 
-    /**
-     * @see org.opencms.workplace.list.I_CmsListFormatter#format(java.lang.Object, java.util.Locale)
-     */
-    public String format(Object data, Locale locale) {
+  /**
+   * Returns the mask.
+   *
+   * <p>
+   *
+   * @return the mask
+   */
+  public CmsMessageContainer getMask() {
 
-        if (data == null) {
-            return null;
-        }
-        String locMask = m_mask.key(locale);
-        MessageFormat formatter = new MessageFormat(locMask, locale);
-        return formatter.format(new Object[] {data});
-    }
-
-    /**
-     * Returns the mask.<p>
-     *
-     * @return the mask
-     */
-    public CmsMessageContainer getMask() {
-
-        return m_mask;
-    }
+    return m_mask;
+  }
 }

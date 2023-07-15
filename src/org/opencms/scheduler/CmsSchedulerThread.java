@@ -27,114 +27,123 @@
 
 package org.opencms.scheduler;
 
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 
-import org.apache.commons.logging.Log;
-
 /**
- * A worker thread for the OpenCms scheduler.<p>
+ * A worker thread for the OpenCms scheduler.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsSchedulerThread extends Thread {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsSchedulerThread.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsSchedulerThread.class);
 
-    /** The scheduler thread pool this thread belongs to. */
-    private CmsSchedulerThreadPool m_pool;
+  /** The scheduler thread pool this thread belongs to. */
+  private CmsSchedulerThreadPool m_pool;
 
-    /** A flag that signals the thread to terminate. */
-    private boolean m_run;
+  /** A flag that signals the thread to terminate. */
+  private boolean m_run;
 
-    /** A runnable class. */
-    private Runnable m_runnable;
+  /** A runnable class. */
+  private Runnable m_runnable;
 
-    /**
-     * Create a scheduler thread that runs continuosly,
-     * waiting for new runnables to be provided by the scheduler thread pool.<p>
-     *
-     * @param pool the pool to use
-     * @param threadGroup the thread group to use
-     * @param threadName the name for the thread
-     * @param prio the priority of the thread
-     * @param isDaemon controls if this should be a deamon thread or not
-     */
-    CmsSchedulerThread(
-        CmsSchedulerThreadPool pool,
-        ThreadGroup threadGroup,
-        String threadName,
-        int prio,
-        boolean isDaemon) {
+  /**
+   * Create a scheduler thread that runs continuosly, waiting for new runnables to be provided by
+   * the scheduler thread pool.
+   *
+   * <p>
+   *
+   * @param pool the pool to use
+   * @param threadGroup the thread group to use
+   * @param threadName the name for the thread
+   * @param prio the priority of the thread
+   * @param isDaemon controls if this should be a deamon thread or not
+   */
+  CmsSchedulerThread(
+      CmsSchedulerThreadPool pool,
+      ThreadGroup threadGroup,
+      String threadName,
+      int prio,
+      boolean isDaemon) {
 
-        this(pool, threadGroup, threadName, prio, isDaemon, null);
-    }
+    this(pool, threadGroup, threadName, prio, isDaemon, null);
+  }
 
-    /**
-     * Create a scheduler thread that runs the specified runnable exactly once.<p>
-     *
-     * @param pool the pool to use
-     * @param threadGroup the thread group to use
-     * @param threadName the name for the thread
-     * @param prio the priority of the thread
-     * @param isDaemon controls if this should be a deamon thread or not
-     * @param runnable the runnable to run
-     */
-    CmsSchedulerThread(
-        CmsSchedulerThreadPool pool,
-        ThreadGroup threadGroup,
-        String threadName,
-        int prio,
-        boolean isDaemon,
-        Runnable runnable) {
+  /**
+   * Create a scheduler thread that runs the specified runnable exactly once.
+   *
+   * <p>
+   *
+   * @param pool the pool to use
+   * @param threadGroup the thread group to use
+   * @param threadName the name for the thread
+   * @param prio the priority of the thread
+   * @param isDaemon controls if this should be a deamon thread or not
+   * @param runnable the runnable to run
+   */
+  CmsSchedulerThread(
+      CmsSchedulerThreadPool pool,
+      ThreadGroup threadGroup,
+      String threadName,
+      int prio,
+      boolean isDaemon,
+      Runnable runnable) {
 
-        super(threadGroup, threadName);
-        m_run = true;
-        m_pool = pool;
-        m_runnable = runnable;
-        setPriority(prio);
-        setDaemon(isDaemon);
-    }
+    super(threadGroup, threadName);
+    m_run = true;
+    m_pool = pool;
+    m_runnable = runnable;
+    setPriority(prio);
+    setDaemon(isDaemon);
+  }
 
-    /**
-     * Loop, executing targets as they are received.<p>
-     */
-    @Override
-    public void run() {
+  /**
+   * Loop, executing targets as they are received.
+   *
+   * <p>
+   */
+  @Override
+  public void run() {
 
-        boolean runOnce = (m_runnable != null);
+    boolean runOnce = (m_runnable != null);
 
-        while (m_run) {
-            setPriority(m_pool.getThreadPriority());
-            try {
-                if (m_runnable == null) {
-                    m_runnable = m_pool.getNextRunnable();
-                }
-
-                if (m_runnable != null) {
-                    m_runnable.run();
-                }
-            } catch (InterruptedException e) {
-                LOG.error(Messages.get().getBundle().key(Messages.LOG_THREAD_INTERRUPTED_1, getName()), e);
-            } catch (Throwable t) {
-                LOG.error(Messages.get().getBundle().key(Messages.LOG_THREAD_ERROR_1, getName()), t);
-            } finally {
-                if (runOnce) {
-                    m_run = false;
-                }
-                m_runnable = null;
-            }
+    while (m_run) {
+      setPriority(m_pool.getThreadPriority());
+      try {
+        if (m_runnable == null) {
+          m_runnable = m_pool.getNextRunnable();
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(Messages.get().getBundle().key(Messages.LOG_THREAD_SHUTDOWN_1, getName()));
+
+        if (m_runnable != null) {
+          m_runnable.run();
         }
+      } catch (InterruptedException e) {
+        LOG.error(Messages.get().getBundle().key(Messages.LOG_THREAD_INTERRUPTED_1, getName()), e);
+      } catch (Throwable t) {
+        LOG.error(Messages.get().getBundle().key(Messages.LOG_THREAD_ERROR_1, getName()), t);
+      } finally {
+        if (runOnce) {
+          m_run = false;
+        }
+        m_runnable = null;
+      }
     }
-
-    /**
-     * Signal the thread that it should terminate.<p>
-     */
-    void shutdown() {
-
-        m_run = false;
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(Messages.get().getBundle().key(Messages.LOG_THREAD_SHUTDOWN_1, getName()));
     }
+  }
+
+  /**
+   * Signal the thread that it should terminate.
+   *
+   * <p>
+   */
+  void shutdown() {
+
+    m_run = false;
+  }
 }

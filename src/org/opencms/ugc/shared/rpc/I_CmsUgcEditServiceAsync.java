@@ -27,92 +27,99 @@
 
 package org.opencms.ugc.shared.rpc;
 
-import org.opencms.ugc.shared.CmsUgcContent;
-import org.opencms.util.CmsUUID;
-
-import java.util.Map;
-import java.util.Set;
-
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.SynchronizedRpcRequest;
+import java.util.Map;
+import java.util.Set;
+import org.opencms.ugc.shared.CmsUgcContent;
+import org.opencms.util.CmsUUID;
 
 /**
- * The asynchronous form edit service interface.<p>
+ * The asynchronous form edit service interface.
+ *
+ * <p>
  */
 public interface I_CmsUgcEditServiceAsync {
 
-    /**
-     * Destroys a session.<p>
-     *
-     * @param sessionId the id of the session to destroy
-     *
-     * @param callback if something goes wrong
-     */
-    @SynchronizedRpcRequest
-    void destroySession(CmsUUID sessionId, AsyncCallback<Void> callback);
+  /**
+   * Destroys a session.
+   *
+   * <p>
+   *
+   * @param sessionId the id of the session to destroy
+   * @param callback if something goes wrong
+   */
+  @SynchronizedRpcRequest
+  void destroySession(CmsUUID sessionId, AsyncCallback<Void> callback);
 
-    /**
-     * Returns the form content for an existing session.<p>
-     *
-     * @param sessionId the id of the existing session
-     * @param callback the callback for the result
-     *
-     * @return the request builder for this RPC call
-     */
-    RequestBuilder getContent(CmsUUID sessionId, AsyncCallback<CmsUgcContent> callback);
+  /**
+   * Returns the form content for an existing session.
+   *
+   * <p>
+   *
+   * @param sessionId the id of the existing session
+   * @param callback the callback for the result
+   * @return the request builder for this RPC call
+   */
+  RequestBuilder getContent(CmsUUID sessionId, AsyncCallback<CmsUgcContent> callback);
 
-    /**
-     * Gets the link corresponding to a given site path.<p>
-     *
-     * @param path the site path
-     * @param resultCallback the callback for the result
-     *
-     * @return the request builder for the RPC call
-     */
-    RequestBuilder getLink(String path, AsyncCallback<String> resultCallback);
+  /**
+   * Gets the link corresponding to a given site path.
+   *
+   * <p>
+   *
+   * @param path the site path
+   * @param resultCallback the callback for the result
+   * @return the request builder for the RPC call
+   */
+  RequestBuilder getLink(String path, AsyncCallback<String> resultCallback);
 
-    /**
-     * Saves the given content values to the edited content.<p>
-     *
-     * @param sessionId the session id
-     * @param contentValues the content values
-     * @param callback the callback
-     *
-     * @return the request builder for this  RPC call
-     */
-    RequestBuilder saveContent(
-        CmsUUID sessionId,
-        Map<String, String> contentValues,
-        AsyncCallback<Map<String, String>> callback);
+  /**
+   * Saves the given content values to the edited content.
+   *
+   * <p>
+   *
+   * @param sessionId the session id
+   * @param contentValues the content values
+   * @param callback the callback
+   * @return the request builder for this RPC call
+   */
+  RequestBuilder saveContent(
+      CmsUUID sessionId,
+      Map<String, String> contentValues,
+      AsyncCallback<Map<String, String>> callback);
 
-    /**
-     * Uploads submitted file form fields to the VFS.<p>
-     *
-     * @param sessionId the session id
-     * @param fieldNames the set of names of the form fields containing the uploads
-     * @param formDataId the form data id
-     * @param filenameCallback the callback to call with the resulting map from field names to file paths
-     *
-     * @return the request builder for this service method
-     */
-    RequestBuilder uploadFiles(
-        CmsUUID sessionId,
-        Set<String> fieldNames,
-        String formDataId,
-        AsyncCallback<Map<String, String>> filenameCallback);
+  /**
+   * Uploads submitted file form fields to the VFS.
+   *
+   * <p>
+   *
+   * @param sessionId the session id
+   * @param fieldNames the set of names of the form fields containing the uploads
+   * @param formDataId the form data id
+   * @param filenameCallback the callback to call with the resulting map from field names to file
+   *     paths
+   * @return the request builder for this service method
+   */
+  RequestBuilder uploadFiles(
+      CmsUUID sessionId,
+      Set<String> fieldNames,
+      String formDataId,
+      AsyncCallback<Map<String, String>> filenameCallback);
 
-    /**
-     * Validates the new content values for a content loaded in the given session.<p>
-     *
-     * @param sessionId the id of the session containing the content
-     * @param values the values to validate
-     * @param resultCallback the callback to call with the result
-     *
-     * @return the request builder for the RPC call
-     */
-    RequestBuilder validateContent(
-        CmsUUID sessionId,
-        Map<String, String> values,
-        AsyncCallback<Map<String, String>> resultCallback);
+  /**
+   * Validates the new content values for a content loaded in the given session.
+   *
+   * <p>
+   *
+   * @param sessionId the id of the session containing the content
+   * @param values the values to validate
+   * @param resultCallback the callback to call with the result
+   * @return the request builder for the RPC call
+   */
+  RequestBuilder validateContent(
+      CmsUUID sessionId,
+      Map<String, String> values,
+      AsyncCallback<Map<String, String>> resultCallback);
 }

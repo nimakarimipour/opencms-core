@@ -27,60 +27,64 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
-import org.opencms.gwt.client.ui.input.CmsSelectBox;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import org.opencms.gwt.client.ui.input.CmsSelectBox;
 
 /**
- * Widget containing a select box for selecting formatters and a help icon.<p>
+ * Widget containing a select box for selecting formatters and a help icon.
+ *
+ * <p>
  */
 public class CmsElementSettingsFormatterWidget extends Composite {
 
-    /** The UiBinder interface for this class. */
-    public interface I_UiBinder extends UiBinder<FlowPanel, CmsElementSettingsFormatterWidget> {
-        // nothing here
-    }
+  /** The UiBinder interface for this class. */
+  public interface I_UiBinder extends UiBinder<FlowPanel, CmsElementSettingsFormatterWidget> {
+    // nothing here
+  }
 
-    /** The UiBinder instance for this class. */
-    public static I_UiBinder uiBinder = GWT.create(I_UiBinder.class);
+  /** The UiBinder instance for this class. */
+  public static I_UiBinder uiBinder = GWT.create(I_UiBinder.class);
 
-    /** The formatter select box. */
-    @UiField
-    protected CmsSelectBox m_formatterSelect;
+  /** The formatter select box. */
+  @UiField protected CmsSelectBox m_formatterSelect;
 
-    /** The help icon. */
-    @UiField
-    protected FlowPanel m_help;
+  /** The help icon. */
+  @UiField protected FlowPanel m_help;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsElementSettingsFormatterWidget() {
-        initWidget(uiBinder.createAndBindUi(this));
-    }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsElementSettingsFormatterWidget() {
+    initWidget(uiBinder.createAndBindUi(this));
+  }
 
-    /**
-     * Returns the formatterSelect.<p>
-     *
-     * @return the formatterSelect
-     */
-    public CmsSelectBox getFormatterSelect() {
+  /**
+   * Returns the formatterSelect.
+   *
+   * <p>
+   *
+   * @return the formatterSelect
+   */
+  public CmsSelectBox getFormatterSelect() {
 
-        return m_formatterSelect;
-    }
+    return m_formatterSelect;
+  }
 
-    /**
-     * Returns the help.<p>
-     *
-     * @return the help
-     */
-    public FlowPanel getHelp() {
+  /**
+   * Returns the help.
+   *
+   * <p>
+   *
+   * @return the help
+   */
+  public FlowPanel getHelp() {
 
-        return m_help;
-    }
-
+    return m_help;
+  }
 }

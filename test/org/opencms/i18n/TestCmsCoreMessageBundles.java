@@ -27,44 +27,39 @@
 
 package org.opencms.i18n;
 
-import org.opencms.gwt.I_CmsClientMessageBundle;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import org.opencms.gwt.I_CmsClientMessageBundle;
 
 /**
- * Tests all {@link org.opencms.i18n.I_CmsMessageBundle} instances for the OpenCms
- * core classes (folder src, org.* packages). <p>
+ * Tests all {@link org.opencms.i18n.I_CmsMessageBundle} instances for the OpenCms core classes
+ * (folder src, org.* packages).
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public final class TestCmsCoreMessageBundles extends TestCmsMessageBundles {
 
-    /**
-     * @see org.opencms.i18n.TestCmsMessageBundles#getNotLocalizedBundles(Locale)
-     */
-    @Override
-    protected List<I_CmsMessageBundle> getNotLocalizedBundles(Locale locale) {
+  /** @see org.opencms.i18n.TestCmsMessageBundles#getNotLocalizedBundles(Locale) */
+  @Override
+  protected List<I_CmsMessageBundle> getNotLocalizedBundles(Locale locale) {
 
-        return Collections.emptyList();
-    }
+    return Collections.emptyList();
+  }
 
-    /**
-     * @see org.opencms.i18n.TestCmsMessageBundles#getTestClientMessageBundles()
-     */
-    @Override
-    protected List<I_CmsClientMessageBundle> getTestClientMessageBundles() throws Exception {
+  /** @see org.opencms.i18n.TestCmsMessageBundles#getTestClientMessageBundles() */
+  @Override
+  protected List<I_CmsClientMessageBundle> getTestClientMessageBundles() throws Exception {
 
-        return Collections.emptyList();
-    }
+    return Collections.emptyList();
+  }
 
-    /**
-     * @see org.opencms.i18n.TestCmsMessageBundles#getTestMessageBundles()
-     */
-    @Override
-    protected I_CmsMessageBundle[] getTestMessageBundles() {
+  /** @see org.opencms.i18n.TestCmsMessageBundles#getTestMessageBundles() */
+  @Override
+  protected I_CmsMessageBundle[] getTestMessageBundles() {
 
-        return A_CmsMessageBundle.getOpenCmsMessageBundles();
-    }
+    return A_CmsMessageBundle.getOpenCmsMessageBundles();
+  }
 }

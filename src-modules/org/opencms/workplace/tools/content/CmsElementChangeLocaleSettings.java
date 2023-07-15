@@ -28,133 +28,156 @@
 package org.opencms.workplace.tools.content;
 
 /**
- * Settings object that provides the settings to convert page locales from one locale to another.<p>
+ * Settings object that provides the settings to convert page locales from one locale to another.
+ *
+ * <p>
  *
  * @since 6.0.1
  */
 public class CmsElementChangeLocaleSettings {
 
-    /** Flag indicating if resources in sub folders should be changed, too. */
-    private boolean m_includeSubFolders;
+  /** Flag indicating if resources in sub folders should be changed, too. */
+  private boolean m_includeSubFolders;
 
-    /** The new Locale to use for the page elements. */
-    private String m_newLocale;
+  /** The new Locale to use for the page elements. */
+  private String m_newLocale;
 
-    /** The old Locale of the page elements. */
-    private String m_oldLocale;
+  /** The old Locale of the page elements. */
+  private String m_oldLocale;
 
-    /** The template for the pages that should be converted. */
-    private String m_template;
+  /** The template for the pages that should be converted. */
+  private String m_template;
 
-    /** The VFS folder in OpenCms to start the conversion from. */
-    private String m_vfsFolder;
+  /** The VFS folder in OpenCms to start the conversion from. */
+  private String m_vfsFolder;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsElementChangeLocaleSettings() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsElementChangeLocaleSettings() {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * Returns the new Locale to use for the page elements.<p>
-     *
-     * @return the new Locale to use for the page elements
-     */
-    public String getNewLocale() {
+  /**
+   * Returns the new Locale to use for the page elements.
+   *
+   * <p>
+   *
+   * @return the new Locale to use for the page elements
+   */
+  public String getNewLocale() {
 
-        return m_newLocale;
-    }
+    return m_newLocale;
+  }
 
-    /**
-     * Returns the old Locale of the page elements.<p>
-     *
-     * @return the old Locale of the page elements
-     */
-    public String getOldLocale() {
+  /**
+   * Returns the old Locale of the page elements.
+   *
+   * <p>
+   *
+   * @return the old Locale of the page elements
+   */
+  public String getOldLocale() {
 
-        return m_oldLocale;
-    }
+    return m_oldLocale;
+  }
 
-    /**
-     * Returns the template for the pages that should be converted.<p>
-     *
-     * @return the template for the pages that should be converted
-     */
-    public String getTemplate() {
+  /**
+   * Returns the template for the pages that should be converted.
+   *
+   * <p>
+   *
+   * @return the template for the pages that should be converted
+   */
+  public String getTemplate() {
 
-        return m_template;
-    }
+    return m_template;
+  }
 
-    /**
-     * Returns the VFS folder in OpenCms to start the conversion from.<p>
-     *
-     * @return the VFS folder in OpenCms to start the conversion from
-     */
-    public String getVfsFolder() {
+  /**
+   * Returns the VFS folder in OpenCms to start the conversion from.
+   *
+   * <p>
+   *
+   * @return the VFS folder in OpenCms to start the conversion from
+   */
+  public String getVfsFolder() {
 
-        return m_vfsFolder;
-    }
+    return m_vfsFolder;
+  }
 
-    /**
-     * Returns the flag indicating if resources in sub folders should be changed, too.<p>
-     *
-     * @return the flag indicating if resources in sub folders should be changed, too
-     */
-    public boolean isIncludeSubFolders() {
+  /**
+   * Returns the flag indicating if resources in sub folders should be changed, too.
+   *
+   * <p>
+   *
+   * @return the flag indicating if resources in sub folders should be changed, too
+   */
+  public boolean isIncludeSubFolders() {
 
-        return m_includeSubFolders;
-    }
+    return m_includeSubFolders;
+  }
 
-    /**
-     * Sets the flag indicating if resources in sub folders should be changed, too.<p>
-     *
-     * @param includeSubFolders the flag indicating if resources in sub folders should be changed, too
-     */
-    public void setIncludeSubFolders(boolean includeSubFolders) {
+  /**
+   * Sets the flag indicating if resources in sub folders should be changed, too.
+   *
+   * <p>
+   *
+   * @param includeSubFolders the flag indicating if resources in sub folders should be changed, too
+   */
+  public void setIncludeSubFolders(boolean includeSubFolders) {
 
-        m_includeSubFolders = includeSubFolders;
-    }
+    m_includeSubFolders = includeSubFolders;
+  }
 
-    /**
-     * Sets the new Locale to use for the page elements.<p>
-     *
-     * @param newLocale the new Locale to use for the page elements
-     */
-    public void setNewLocale(String newLocale) {
+  /**
+   * Sets the new Locale to use for the page elements.
+   *
+   * <p>
+   *
+   * @param newLocale the new Locale to use for the page elements
+   */
+  public void setNewLocale(String newLocale) {
 
-        m_newLocale = newLocale;
-    }
+    m_newLocale = newLocale;
+  }
 
-    /**
-     * Sets the old Locale of the page elements.<p>
-     *
-     * @param oldLocale the old Locale of the page elements
-     */
-    public void setOldLocale(String oldLocale) {
+  /**
+   * Sets the old Locale of the page elements.
+   *
+   * <p>
+   *
+   * @param oldLocale the old Locale of the page elements
+   */
+  public void setOldLocale(String oldLocale) {
 
-        m_oldLocale = oldLocale;
-    }
+    m_oldLocale = oldLocale;
+  }
 
-    /**
-     * Sets the template for the pages that should be converted.<p>
-     *
-     * @param template the template for the pages that should be converted
-     */
-    public void setTemplate(String template) {
+  /**
+   * Sets the template for the pages that should be converted.
+   *
+   * <p>
+   *
+   * @param template the template for the pages that should be converted
+   */
+  public void setTemplate(String template) {
 
-        m_template = template;
-    }
+    m_template = template;
+  }
 
-    /**
-     * Sets the VFS folder in OpenCms to start the conversion from.<p>
-     *
-     * @param vfsFolder the VFS folder in OpenCms to start the conversion from
-     */
-    public void setVfsFolder(String vfsFolder) {
+  /**
+   * Sets the VFS folder in OpenCms to start the conversion from.
+   *
+   * <p>
+   *
+   * @param vfsFolder the VFS folder in OpenCms to start the conversion from
+   */
+  public void setVfsFolder(String vfsFolder) {
 
-        m_vfsFolder = vfsFolder;
-    }
-
+    m_vfsFolder = vfsFolder;
+  }
 }

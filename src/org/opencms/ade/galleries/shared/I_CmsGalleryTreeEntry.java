@@ -30,24 +30,29 @@ package org.opencms.ade.galleries.shared;
 import java.util.List;
 
 /**
- * Common interface for accessing sitemap/VFS entry beans as tree nodes.<p>
+ * Common interface for accessing sitemap/VFS entry beans as tree nodes.
+ *
+ * <p>
  *
  * @param <T> the node type
  */
 public interface I_CmsGalleryTreeEntry<T> {
 
-    /**
-     * Adds a new child to the node.<p>
-     *
-     * @param child the child to add
-     */
-    void addChild(T child);
+  /**
+   * Adds a new child to the node.
+   *
+   * <p>
+   *
+   * @param child the child to add
+   */
+  void addChild(T child);
 
-    /**
-     * Gets the children of this node.<p>
-     *
-     * @return the children of this node
-     */
-    List<T> getChildren();
-
+  /**
+   * Gets the children of this node.
+   *
+   * <p>
+   *
+   * @return the children of this node
+   */
+  List<T> getChildren();
 }

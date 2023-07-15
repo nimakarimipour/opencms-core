@@ -30,19 +30,24 @@ package org.opencms.gwt.client.validation;
 import org.opencms.gwt.client.ui.input.I_CmsFormField;
 
 /**
- * This interface is used to tell an object that it should either validate a form
- * field or request an asynchronous validation from a {@link I_CmsValidationController}.<p>
+ * This interface is used to tell an object that it should either validate a form field or request
+ * an asynchronous validation from a {@link I_CmsValidationController}.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsValidator {
 
-    /**
-     * If this method is called, the object should either validate the form field and report the result to the
-     * validation controller, or request asynchronous validation of the field from the validation controller.<p>
-     *
-     * @param field the form field to be validated
-     * @param controller the validation controller
-     */
-    void validate(I_CmsFormField field, I_CmsValidationController controller);
+  /**
+   * If this method is called, the object should either validate the form field and report the
+   * result to the validation controller, or request asynchronous validation of the field from the
+   * validation controller.
+   *
+   * <p>
+   *
+   * @param field the form field to be validated
+   * @param controller the validation controller
+   */
+  void validate(I_CmsFormField field, I_CmsValidationController controller);
 }

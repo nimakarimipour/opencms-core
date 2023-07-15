@@ -28,42 +28,46 @@
 package org.opencms.ade.upload;
 
 /**
- * This exception makes it possible to handle expected upload errors in another way than
- * unexpected errors.<p>
+ * This exception makes it possible to handle expected upload errors in another way than unexpected
+ * errors.
  *
- * It is supposed to be used when an expected upload exception occurred.<p>
+ * <p>It is supposed to be used when an expected upload exception occurred.
  *
- * For example we can send a message like "file size limit exceeded" so the user knows
- * that he selected a file is responsible for the error. In other cases it does not make
- * sense to confuse the user with error information he won't understand like an encoding
- * error, ...<p>
+ * <p>For example we can send a message like "file size limit exceeded" so the user knows that he
+ * selected a file is responsible for the error. In other cases it does not make sense to confuse
+ * the user with error information he won't understand like an encoding error, ...
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsUploadException extends RuntimeException {
 
-    /** The serial version UID. */
-    private static final long serialVersionUID = 5436746014936990102L;
+  /** The serial version UID. */
+  private static final long serialVersionUID = 5436746014936990102L;
 
-    /**
-     * Public constructor that sets the error message.<p>
-     *
-     * @param message the message
-     */
-    public CmsUploadException(String message) {
+  /**
+   * Public constructor that sets the error message.
+   *
+   * <p>
+   *
+   * @param message the message
+   */
+  public CmsUploadException(String message) {
 
-        super(message);
-    }
+    super(message);
+  }
 
-    /**
-     * Public constructor that sets the error message and the cause.<p>
-     *
-     * @param message the message
-     * @param cause the cause
-     */
-    public CmsUploadException(String message, Throwable cause) {
+  /**
+   * Public constructor that sets the error message and the cause.
+   *
+   * <p>
+   *
+   * @param message the message
+   * @param cause the cause
+   */
+  public CmsUploadException(String message, Throwable cause) {
 
-        super(message, cause);
-    }
-
+    super(message, cause);
+  }
 }

@@ -33,98 +33,115 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * The validation context. Keeps track of valid and invalid entity id's.<p>
+ * The validation context. Keeps track of valid and invalid entity id's.
+ *
+ * <p>
  */
 public class CmsValidationContext {
 
-    /** The invalid entity id's. */
-    private Map<String, String> m_invalidEntityIds;
+  /** The invalid entity id's. */
+  private Map<String, String> m_invalidEntityIds;
 
-    /** The valid entity id's. */
-    private Set<String> m_validEntityIds;
+  /** The valid entity id's. */
+  private Set<String> m_validEntityIds;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsValidationContext() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsValidationContext() {
 
-        m_invalidEntityIds = new HashMap<String, String>();
-        m_validEntityIds = new HashSet<String>();
-    }
+    m_invalidEntityIds = new HashMap<String, String>();
+    m_validEntityIds = new HashSet<String>();
+  }
 
-    /**
-     * Adds an invalid entity id.<p>
-     *
-     * @param entityId the entity id
-     * @param invalidFields the invalid fields
-     */
-    public void addInvalidEntity(String entityId, String invalidFields) {
+  /**
+   * Adds an invalid entity id.
+   *
+   * <p>
+   *
+   * @param entityId the entity id
+   * @param invalidFields the invalid fields
+   */
+  public void addInvalidEntity(String entityId, String invalidFields) {
 
-        m_validEntityIds.remove(entityId);
-        m_invalidEntityIds.put(entityId, invalidFields);
-    }
+    m_validEntityIds.remove(entityId);
+    m_invalidEntityIds.put(entityId, invalidFields);
+  }
 
-    /**
-     * Adds a valid entity id.<p>
-     *
-     * @param entityId the entity id
-     */
-    public void addValidEntity(String entityId) {
+  /**
+   * Adds a valid entity id.
+   *
+   * <p>
+   *
+   * @param entityId the entity id
+   */
+  public void addValidEntity(String entityId) {
 
-        m_invalidEntityIds.remove(entityId);
-        m_validEntityIds.add(entityId);
-    }
+    m_invalidEntityIds.remove(entityId);
+    m_validEntityIds.add(entityId);
+  }
 
-    /**
-     * Returns the invalid entity id's.<p>
-     *
-     * @return the invalid entity id's
-     */
-    public Set<String> getInvalidEntityIds() {
+  /**
+   * Returns the invalid entity id's.
+   *
+   * <p>
+   *
+   * @return the invalid entity id's
+   */
+  public Set<String> getInvalidEntityIds() {
 
-        return m_invalidEntityIds.keySet();
-    }
+    return m_invalidEntityIds.keySet();
+  }
 
-    /**
-     * Returns the invalid fields of the given entity.<p>
-     *
-     * @param entityId the entity id
-     *
-     * @return the invalid fields
-     */
-    public String getInvalidFields(String entityId) {
+  /**
+   * Returns the invalid fields of the given entity.
+   *
+   * <p>
+   *
+   * @param entityId the entity id
+   * @return the invalid fields
+   */
+  public String getInvalidFields(String entityId) {
 
-        return m_invalidEntityIds.get(entityId);
-    }
+    return m_invalidEntityIds.get(entityId);
+  }
 
-    /**
-     * Returns the valid entity id's.<p>
-     *
-     * @return the valid entity id's
-     */
-    public Set<String> getValidEntityIds() {
+  /**
+   * Returns the valid entity id's.
+   *
+   * <p>
+   *
+   * @return the valid entity id's
+   */
+  public Set<String> getValidEntityIds() {
 
-        return m_validEntityIds;
-    }
+    return m_validEntityIds;
+  }
 
-    /**
-     * Returns if there are any invalid entities.<p>
-     *
-     * @return <code>true</code>  if there are any invalid entities
-     */
-    public boolean hasValidationErrors() {
+  /**
+   * Returns if there are any invalid entities.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if there are any invalid entities
+   */
+  public boolean hasValidationErrors() {
 
-        return !m_invalidEntityIds.isEmpty();
-    }
+    return !m_invalidEntityIds.isEmpty();
+  }
 
-    /**
-     * Removes the given entity id, use when validating the entity is no longer required.<p>
-     *
-     * @param entityId the entity id
-     */
-    public void removeEntityId(String entityId) {
+  /**
+   * Removes the given entity id, use when validating the entity is no longer required.
+   *
+   * <p>
+   *
+   * @param entityId the entity id
+   */
+  public void removeEntityId(String entityId) {
 
-        m_invalidEntityIds.remove(entityId);
-        m_validEntityIds.remove(entityId);
-    }
+    m_invalidEntityIds.remove(entityId);
+    m_validEntityIds.remove(entityId);
+  }
 }

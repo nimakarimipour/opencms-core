@@ -27,6 +27,9 @@
 
 package org.opencms.ade.sitemap.client.toolbar;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import java.util.Collection;
 import org.opencms.ade.sitemap.client.CmsGalleryTreeItem;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
@@ -39,82 +42,81 @@ import org.opencms.gwt.client.ui.I_CmsButton;
 import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
 import org.opencms.gwt.client.ui.I_CmsListItem;
 
-import java.util.Collection;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-
 /**
- * The create new gallery menu.<p>
+ * The create new gallery menu.
+ *
+ * <p>
  */
 public class CmsToolbarNewGalleryButton extends A_CmsToolbarListMenuButton {
 
-    /** The gallery types list. */
-    private CmsList<I_CmsListItem> m_galleriesList;
+  /** The gallery types list. */
+  private CmsList<I_CmsListItem> m_galleriesList;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param toolbar the tool bar instance
-     * @param controller the controller
-     */
-    public CmsToolbarNewGalleryButton(CmsSitemapToolbar toolbar, CmsSitemapController controller) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param toolbar the tool bar instance
+   * @param controller the controller
+   */
+  public CmsToolbarNewGalleryButton(CmsSitemapToolbar toolbar, CmsSitemapController controller) {
 
-        super("", I_CmsButton.ButtonData.WAND_BUTTON.getIconClass(), toolbar, controller);
-        m_galleriesList = new CmsList<I_CmsListItem>();
-        addTab(createTab(m_galleriesList), Messages.get().key(Messages.GUI_GALLERIES_TYPES_TAB_0));
+    super("", I_CmsButton.ButtonData.WAND_BUTTON.getIconClass(), toolbar, controller);
+    m_galleriesList = new CmsList<I_CmsListItem>();
+    addTab(createTab(m_galleriesList), Messages.get().key(Messages.GUI_GALLERIES_TYPES_TAB_0));
+  }
+
+  /** @see org.opencms.ade.sitemap.client.toolbar.A_CmsToolbarListMenuButton#initContent() */
+  @Override
+  protected boolean initContent() {
+
+    return true;
+  }
+
+  /**
+   * Sets the available gallery types.
+   *
+   * <p>
+   *
+   * @param galleryTypes the gallery types
+   */
+  protected void setGalleryTypes(Collection<CmsGalleryType> galleryTypes) {
+
+    m_galleriesList.clear();
+    for (CmsGalleryType galleryType : galleryTypes) {
+      m_galleriesList.addItem(makeGalleryTypeItem(galleryType));
     }
+    m_galleriesList.truncate(TM_LITST_MENU, DIALOG_WIDTH);
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.toolbar.A_CmsToolbarListMenuButton#initContent()
-     */
-    @Override
-    protected boolean initContent() {
+  /**
+   * Creates a gallery type item.
+   *
+   * <p>
+   *
+   * @param galleryType the gallery type
+   * @return the type item
+   */
+  private I_CmsListItem makeGalleryTypeItem(final CmsGalleryType galleryType) {
 
-        return true;
-    }
+    CmsListItem item = new CmsListItem(CmsGalleryTreeItem.createListWidget(galleryType));
+    CmsPushButton button = new CmsPushButton();
+    button.setImageClass(I_CmsButton.ADD_SMALL);
+    button.setButtonStyle(ButtonStyle.FONT_ICON, null);
+    button.setTitle(Messages.get().key(Messages.GUI_GALLERIES_CREATE_0));
+    button.addClickHandler(
+        new ClickHandler() {
 
-    /**
-     * Sets the available gallery types.<p>
-     *
-     * @param galleryTypes the gallery types
-     */
-    protected void setGalleryTypes(Collection<CmsGalleryType> galleryTypes) {
+          public void onClick(ClickEvent event) {
 
-        m_galleriesList.clear();
-        for (CmsGalleryType galleryType : galleryTypes) {
-            m_galleriesList.addItem(makeGalleryTypeItem(galleryType));
-        }
-        m_galleriesList.truncate(TM_LITST_MENU, DIALOG_WIDTH);
-    }
-
-    /**
-     * Creates a gallery type item.<p>
-     *
-     * @param galleryType the gallery type
-     *
-     * @return the type item
-     */
-    private I_CmsListItem makeGalleryTypeItem(final CmsGalleryType galleryType) {
-
-        CmsListItem item = new CmsListItem(CmsGalleryTreeItem.createListWidget(galleryType));
-        CmsPushButton button = new CmsPushButton();
-        button.setImageClass(I_CmsButton.ADD_SMALL);
-        button.setButtonStyle(ButtonStyle.FONT_ICON, null);
-        button.setTitle(Messages.get().key(Messages.GUI_GALLERIES_CREATE_0));
-        button.addClickHandler(new ClickHandler() {
-
-            public void onClick(ClickEvent event) {
-
-                closeMenu();
-                CmsCreateGalleryDialog dialog = new CmsCreateGalleryDialog(
-                    getController(),
-                    galleryType.getTypeId(),
-                    null);
-                dialog.center();
-            }
+            closeMenu();
+            CmsCreateGalleryDialog dialog =
+                new CmsCreateGalleryDialog(getController(), galleryType.getTypeId(), null);
+            dialog.center();
+          }
         });
-        item.getListItemWidget().addButton(button);
-        return item;
-    }
+    item.getListItemWidget().addButton(button);
+    return item;
+  }
 }

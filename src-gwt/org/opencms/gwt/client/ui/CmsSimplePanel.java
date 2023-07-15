@@ -33,27 +33,29 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Simpler to use {@link com.google.gwt.user.client.ui.HTMLPanel}.<p>
+ * Simpler to use {@link com.google.gwt.user.client.ui.HTMLPanel}.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsSimplePanel extends ComplexPanel {
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsSimplePanel() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsSimplePanel() {
 
-        super();
-        setElement(Document.get().createDivElement());
-    }
+    super();
+    setElement(Document.get().createDivElement());
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.Panel#add(com.google.gwt.user.client.ui.Widget)
-     */
-    @Override
-    public void add(Widget child) {
+  /** @see com.google.gwt.user.client.ui.Panel#add(com.google.gwt.user.client.ui.Widget) */
+  @Override
+  public void add(Widget child) {
 
-        super.add(child, (Element)getElement());
-    }
+    super.add(child, (Element) getElement());
+  }
 }

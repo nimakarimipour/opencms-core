@@ -32,45 +32,52 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 
 /**
- * A vertical menu styled like e menu bar sub menu or the context menu.<p>
+ * A vertical menu styled like e menu bar sub menu or the context menu.
+ *
+ * <p>
  */
 public class CmsVerticalMenu extends CssLayout {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 3525340578362922967L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 3525340578362922967L;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsVerticalMenu() {
-        setSizeFull();
-        setPrimaryStyleName(OpenCmsTheme.VERTICAL_MENU);
-    }
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsVerticalMenu() {
+    setSizeFull();
+    setPrimaryStyleName(OpenCmsTheme.VERTICAL_MENU);
+  }
 
-    /**
-     * Adds a menu entry button.<p>
-     *
-     * @param entryButton the entry button
-     */
-    public void addMenuEntry(Button entryButton) {
+  /**
+   * Adds a menu entry button.
+   *
+   * <p>
+   *
+   * @param entryButton the entry button
+   */
+  public void addMenuEntry(Button entryButton) {
 
-        entryButton.setPrimaryStyleName(OpenCmsTheme.VERTICAL_MENU_ITEM);
-        addComponent(entryButton);
-    }
+    entryButton.setPrimaryStyleName(OpenCmsTheme.VERTICAL_MENU_ITEM);
+    addComponent(entryButton);
+  }
 
-    /**
-     * Adds an entry to the menu, returns the entry button.<p>
-     *
-     * @param label the label
-     * @param icon the icon
-     *
-     * @return the entry button
-     */
-    public Button addMenuEntry(String label, Resource icon) {
+  /**
+   * Adds an entry to the menu, returns the entry button.
+   *
+   * <p>
+   *
+   * @param label the label
+   * @param icon the icon
+   * @return the entry button
+   */
+  public Button addMenuEntry(String label, Resource icon) {
 
-        Button button = new Button(label, icon);
-        button.setPrimaryStyleName(OpenCmsTheme.VERTICAL_MENU_ITEM);
-        addComponent(button);
-        return button;
-    }
+    Button button = new Button(label, icon);
+    button.setPrimaryStyleName(OpenCmsTheme.VERTICAL_MENU_ITEM);
+    addComponent(button);
+    return button;
+  }
 }

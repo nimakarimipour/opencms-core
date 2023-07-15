@@ -35,50 +35,53 @@ import org.opencms.workplace.tools.A_CmsHtmlIconButton;
 import org.opencms.workplace.tools.CmsHtmlIconButtonStyleEnum;
 
 /**
- * Action handler for multiple actions from logging view.<p>
- * */
+ * Action handler for multiple actions from logging view.
+ *
+ * <p>
+ */
 public class CmsChangeLogLevelMultiAction extends CmsListMultiAction {
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id the unique id
-     */
-    public CmsChangeLogLevelMultiAction(String id) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id the unique id
+   */
+  public CmsChangeLogLevelMultiAction(String id) {
 
-        super(id);
+    super(id);
+  }
+
+  /** @see org.opencms.workplace.tools.I_CmsHtmlIconButton#buttonHtml(CmsWorkplace) */
+  @Override
+  public String buttonHtml(CmsWorkplace wp) {
+
+    if (!isVisible()) {
+      return "";
     }
-
-    /**
-     * @see org.opencms.workplace.tools.I_CmsHtmlIconButton#buttonHtml(CmsWorkplace)
-     */
-    @Override
-    public String buttonHtml(CmsWorkplace wp) {
-
-        if (!isVisible()) {
-            return "";
-        }
-        if (isEnabled()) {
-            String onClic = "listMAction('"
-                + getListId()
-                + "','"
-                + getId()
-                + "', '"
-                + CmsStringUtil.escapeJavaScript(wp.resolveMacros(getConfirmationMessage().key(wp.getLocale())))
-                + "', "
-                + CmsHtmlList.NO_SELECTION_HELP_VAR
-                + ");";
-            return A_CmsHtmlIconButton.defaultButtonHtml(
-                CmsHtmlIconButtonStyleEnum.SMALL_ICON_ONLY,
-                getId(),
-                getName().key(wp.getLocale()),
-                getHelpText().key(wp.getLocale()),
-                isEnabled(),
-                getIconPath(),
-                null,
-                onClic);
-        }
-        return "";
+    if (isEnabled()) {
+      String onClic =
+          "listMAction('"
+              + getListId()
+              + "','"
+              + getId()
+              + "', '"
+              + CmsStringUtil.escapeJavaScript(
+                  wp.resolveMacros(getConfirmationMessage().key(wp.getLocale())))
+              + "', "
+              + CmsHtmlList.NO_SELECTION_HELP_VAR
+              + ");";
+      return A_CmsHtmlIconButton.defaultButtonHtml(
+          CmsHtmlIconButtonStyleEnum.SMALL_ICON_ONLY,
+          getId(),
+          getName().key(wp.getLocale()),
+          getHelpText().key(wp.getLocale()),
+          isEnabled(),
+          getIconPath(),
+          null,
+          onClic);
     }
-
+    return "";
+  }
 }

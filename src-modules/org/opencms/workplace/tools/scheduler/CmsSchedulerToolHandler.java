@@ -33,26 +33,24 @@ import org.opencms.security.CmsRole;
 import org.opencms.workplace.tools.A_CmsToolHandler;
 
 /**
- * Scheduled Jobs management tool handler that hides the tool if the current user
- * has not the needed privileges.<p>
+ * Scheduled Jobs management tool handler that hides the tool if the current user has not the needed
+ * privileges.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsSchedulerToolHandler extends A_CmsToolHandler {
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject)
-     */
-    public boolean isEnabled(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject) */
+  public boolean isEnabled(CmsObject cms) {
 
-        return OpenCms.getRoleManager().hasRole(cms, CmsRole.WORKPLACE_MANAGER);
-    }
+    return OpenCms.getRoleManager().hasRole(cms, CmsRole.WORKPLACE_MANAGER);
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.A_CmsToolHandler#isVisible(org.opencms.file.CmsObject)
-     */
-    public boolean isVisible(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.A_CmsToolHandler#isVisible(org.opencms.file.CmsObject) */
+  public boolean isVisible(CmsObject cms) {
 
-        return OpenCms.getRoleManager().hasRole(cms, CmsRole.WORKPLACE_MANAGER);
-    }
+    return OpenCms.getRoleManager().hasRole(cms, CmsRole.WORKPLACE_MANAGER);
+  }
 }

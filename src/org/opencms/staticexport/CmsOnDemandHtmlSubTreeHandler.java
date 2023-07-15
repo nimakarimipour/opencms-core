@@ -27,41 +27,42 @@
 
 package org.opencms.staticexport;
 
-import org.opencms.util.CmsFileUtil;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.util.List;
+import org.opencms.util.CmsFileUtil;
 
 /**
- * Concrete OnDemandExportHandler.<p>
+ * Concrete OnDemandExportHandler.
  *
- * The published files and folders are purged, as also all the html files in each subtree.<p>
+ * <p>The published files and folders are purged, as also all the html files in each subtree.
+ *
+ * <p>
  *
  * @since 6.0.0
- *
  * @see I_CmsStaticExportHandler
  */
 public class CmsOnDemandHtmlSubTreeHandler extends A_CmsOnDemandStaticExportHandler {
 
-    /**
-     * @see org.opencms.staticexport.A_CmsOnDemandStaticExportHandler#getRelatedFilesToPurge(java.lang.String, java.lang.String)
-     */
-    @Override
-    protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
+  /**
+   * @see
+   *     org.opencms.staticexport.A_CmsOnDemandStaticExportHandler#getRelatedFilesToPurge(java.lang.String,
+   *     java.lang.String)
+   */
+  @Override
+  protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
 
-        FileFilter htmlFilter = new FileFilter() {
+    FileFilter htmlFilter =
+        new FileFilter() {
 
-            /**
-             * Accepts only html files
-             */
-            public boolean accept(File file) {
+          /** Accepts only html files */
+          public boolean accept(File file) {
 
-                return file.isFile() && (file.getName().endsWith(".html") || file.getName().endsWith(".htm"));
-            }
-
+            return file.isFile()
+                && (file.getName().endsWith(".html") || file.getName().endsWith(".htm"));
+          }
         };
 
-        return CmsFileUtil.getFiles(exportFileName, htmlFilter, true);
-    }
+    return CmsFileUtil.getFiles(exportFileName, htmlFilter, true);
+  }
 }

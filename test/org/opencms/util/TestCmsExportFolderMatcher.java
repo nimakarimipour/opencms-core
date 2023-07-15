@@ -27,54 +27,51 @@
 
 package org.opencms.util;
 
+import java.util.ArrayList;
 import org.opencms.staticexport.CmsExportFolderMatcher;
 import org.opencms.test.OpenCmsTestCase;
 
-import java.util.ArrayList;
-
-/**
- * @since 6.0.0
- */
+/** @since 6.0.0 */
 public class TestCmsExportFolderMatcher extends OpenCmsTestCase {
 
-    private static String checkRes = "/system/opencms.ini";
+  private static String checkRes = "/system/opencms.ini";
 
-    /**
-     * Tests for the resource name translation.<p>
-     */
-    public void testTranslateResource() {
+  /**
+   * Tests for the resource name translation.
+   *
+   * <p>
+   */
+  public void testTranslateResource() {
 
-        /** default folders. */
-        ArrayList folders = new ArrayList();
+    /** default folders. */
+    ArrayList folders = new ArrayList();
 
-        folders.add("\\/sites\\/.*");
-        folders.add("\\/system\\/galleries\\/.*");
-        folders.add("\\/system\\/modules\\/.*\\/resources\\/.*");
+    folders.add("\\/sites\\/.*");
+    folders.add("\\/system\\/galleries\\/.*");
+    folders.add("\\/system\\/modules\\/.*\\/resources\\/.*");
 
-        CmsExportFolderMatcher matcher = new CmsExportFolderMatcher(folders, checkRes);
+    CmsExportFolderMatcher matcher = new CmsExportFolderMatcher(folders, checkRes);
 
-        boolean test;
-        test = matcher.match("/system/opencms.ini");
-        assertEquals(test, true);
+    boolean test;
+    test = matcher.match("/system/opencms.ini");
+    assertEquals(test, true);
 
-        test = matcher.match("/sites/default/index.html");
-        assertEquals(test, true);
+    test = matcher.match("/sites/default/index.html");
+    assertEquals(test, true);
 
-        test = matcher.match("/sites/default/folder/index.html");
-        assertEquals(test, true);
+    test = matcher.match("/sites/default/folder/index.html");
+    assertEquals(test, true);
 
-        test = matcher.match("/gibtsnicht/index.html");
-        assertEquals(test, false);
+    test = matcher.match("/gibtsnicht/index.html");
+    assertEquals(test, false);
 
-        test = matcher.match("/system/galleries/pics/demo.gif");
-        assertEquals(test, true);
+    test = matcher.match("/system/galleries/pics/demo.gif");
+    assertEquals(test, true);
 
-        test = matcher.match("/system/modules/org.opencms.welcome/resources/test.gif");
-        assertEquals(test, true);
+    test = matcher.match("/system/modules/org.opencms.welcome/resources/test.gif");
+    assertEquals(test, true);
 
-        test = matcher.match("/system/modules/org.opencms.welcome/templates/test.jsp");
-        assertEquals(test, false);
-
-    }
-
+    test = matcher.match("/system/modules/org.opencms.welcome/templates/test.jsp");
+    assertEquals(test, false);
+  }
 }

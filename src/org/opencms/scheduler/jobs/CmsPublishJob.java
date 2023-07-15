@@ -27,6 +27,10 @@
 
 package org.opencms.scheduler.jobs;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProject;
 import org.opencms.file.CmsUser;
@@ -37,110 +41,107 @@ import org.opencms.notification.CmsPublishNotification;
 import org.opencms.report.CmsLogReport;
 import org.opencms.scheduler.I_CmsScheduledJob;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Scheduled job for time based publishing.<p>
+ * Scheduled job for time based publishing.
  *
- * This class is called via the scheduled job backoffice to publish a project at a given time.<p>
+ * <p>This class is called via the scheduled job backoffice to publish a project at a given time.
  *
- * Per default, it publishes all new, edited and deleted resources in the project which are not locked.
- * To unlock all resources in the project before publishing, add the parameter <code>unlock=true</code>
- * in the scheduled job configuration. In addition you are able to perform a link validation before
- * publishing the project by adding the parameter <code>linkcheck=true</code>. It is possible to send
- * an email to a user in OpenCms in case somthing went wrong during this process. To do so specifiy
- * a parameter<code>mail-to-user=username_in_opencms</code>.<p>
+ * <p>Per default, it publishes all new, edited and deleted resources in the project which are not
+ * locked. To unlock all resources in the project before publishing, add the parameter <code>
+ * unlock=true</code> in the scheduled job configuration. In addition you are able to perform a link
+ * validation before publishing the project by adding the parameter <code>linkcheck=true</code>. It
+ * is possible to send an email to a user in OpenCms in case somthing went wrong during this
+ * process. To do so specifiy a parameter<code>mail-to-user=username_in_opencms</code>.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsPublishJob implements I_CmsScheduledJob {
 
-    /** Linkcheck parameter. */
-    public static final String PARAM_LINKCHECK = "linkcheck";
+  /** Linkcheck parameter. */
+  public static final String PARAM_LINKCHECK = "linkcheck";
 
-    /** Unlock parameter. */
-    public static final String PARAM_UNLOCK = "unlock";
+  /** Unlock parameter. */
+  public static final String PARAM_UNLOCK = "unlock";
 
-    /** Mail to user parameter. */
-    public static final String PARAM_USER = "mail-to-user";
+  /** Mail to user parameter. */
+  public static final String PARAM_USER = "mail-to-user";
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsPublishJob.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsPublishJob.class);
 
-    /**
-     * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
-     */
-    public synchronized String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  /**
+   * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
+   */
+  public synchronized String launch(CmsObject cms, Map<String, String> parameters)
+      throws Exception {
 
-        Date jobStart = new Date();
-        String finishMessage;
-        String unlock = parameters.get(PARAM_UNLOCK);
-        String linkcheck = parameters.get(PARAM_LINKCHECK);
-        CmsProject project = cms.getRequestContext().getCurrentProject();
+    Date jobStart = new Date();
+    String finishMessage;
+    String unlock = parameters.get(PARAM_UNLOCK);
+    String linkcheck = parameters.get(PARAM_LINKCHECK);
+    CmsProject project = cms.getRequestContext().getCurrentProject();
 
-        CmsLogReport report = new CmsLogReport(cms.getRequestContext().getLocale(), CmsPublishJob.class);
+    CmsLogReport report =
+        new CmsLogReport(cms.getRequestContext().getLocale(), CmsPublishJob.class);
 
+    try {
+
+      // check if the unlock parameter was given
+      if (Boolean.valueOf(unlock).booleanValue()) {
+        cms.unlockProject(project.getUuid());
+      }
+
+      // validate links if linkcheck parameter was given
+      if (Boolean.valueOf(linkcheck).booleanValue()) {
+        OpenCms.getPublishManager()
+            .validateRelations(cms, OpenCms.getPublishManager().getPublishList(cms), report);
+      }
+
+      // publish the project, the publish output will be put in the logfile
+      OpenCms.getPublishManager().publishProject(cms, report);
+      OpenCms.getPublishManager().waitWhileRunning();
+      finishMessage =
+          Messages.get().getBundle().key(Messages.LOG_PUBLISH_FINISHED_1, project.getName());
+    } catch (CmsException e) {
+      // there was an error, so create an output for the logfile
+      finishMessage =
+          Messages.get()
+              .getBundle()
+              .key(Messages.LOG_PUBLISH_FAILED_2, project.getName(), e.getMessageContainer().key());
+
+      // add error to report
+      report.addError(finishMessage);
+    } finally {
+      // wait for other processes that may add entries to the report
+      long lastTime = report.getLastEntryTime();
+      long beforeLastTime = 0;
+      while (lastTime != beforeLastTime) {
+        wait(300000);
+        beforeLastTime = lastTime;
+        lastTime = report.getLastEntryTime();
+      }
+
+      // send publish notification
+      if (report.hasWarning() || report.hasError()) {
         try {
+          String userName = parameters.get(PARAM_USER);
+          CmsUser user = cms.readUser(userName);
 
-            // check if the unlock parameter was given
-            if (Boolean.valueOf(unlock).booleanValue()) {
-                cms.unlockProject(project.getUuid());
-            }
+          CmsPublishNotification notification = new CmsPublishNotification(cms, user, report);
 
-            // validate links if linkcheck parameter was given
-            if (Boolean.valueOf(linkcheck).booleanValue()) {
-                OpenCms.getPublishManager().validateRelations(
-                    cms,
-                    OpenCms.getPublishManager().getPublishList(cms),
-                    report);
-            }
+          DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+          notification.addMacro("jobStart", df.format(jobStart));
 
-            // publish the project, the publish output will be put in the logfile
-            OpenCms.getPublishManager().publishProject(cms, report);
-            OpenCms.getPublishManager().waitWhileRunning();
-            finishMessage = Messages.get().getBundle().key(Messages.LOG_PUBLISH_FINISHED_1, project.getName());
-        } catch (CmsException e) {
-            // there was an error, so create an output for the logfile
-            finishMessage = Messages.get().getBundle().key(
-                Messages.LOG_PUBLISH_FAILED_2,
-                project.getName(),
-                e.getMessageContainer().key());
-
-            // add error to report
-            report.addError(finishMessage);
-        } finally {
-            //wait for other processes that may add entries to the report
-            long lastTime = report.getLastEntryTime();
-            long beforeLastTime = 0;
-            while (lastTime != beforeLastTime) {
-                wait(300000);
-                beforeLastTime = lastTime;
-                lastTime = report.getLastEntryTime();
-            }
-
-            // send publish notification
-            if (report.hasWarning() || report.hasError()) {
-                try {
-                    String userName = parameters.get(PARAM_USER);
-                    CmsUser user = cms.readUser(userName);
-
-                    CmsPublishNotification notification = new CmsPublishNotification(cms, user, report);
-
-                    DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-                    notification.addMacro("jobStart", df.format(jobStart));
-
-                    notification.send();
-                } catch (Exception e) {
-                    LOG.error(Messages.get().getBundle().key(Messages.LOG_PUBLISH_SEND_NOTIFICATION_FAILED_0), e);
-                }
-            }
+          notification.send();
+        } catch (Exception e) {
+          LOG.error(
+              Messages.get().getBundle().key(Messages.LOG_PUBLISH_SEND_NOTIFICATION_FAILED_0), e);
         }
-
-        return finishMessage;
+      }
     }
 
+    return finishMessage;
+  }
 }

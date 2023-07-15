@@ -27,75 +27,81 @@
 
 package org.opencms.gwt.client.ui.contextmenu;
 
+import com.google.gwt.user.client.Command;
 import org.opencms.gwt.client.ui.CmsDeleteWarningDialog;
 import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.Command;
-
 /**
- * The delete resource context menu command.<p>
+ * The delete resource context menu command.
+ *
+ * <p>
  */
-public final class CmsDeleteResource implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand {
+public final class CmsDeleteResource
+    implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand {
 
-    /**
-     * Constructor.<p>
-     */
-    private CmsDeleteResource() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  private CmsDeleteResource() {
 
-        // hiding constructor
-    }
+    // hiding constructor
+  }
 
-    /**
-     * Returns the context menu command according to
-     * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new CmsDeleteResource();
-    }
+    return new CmsDeleteResource();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public void execute(
-        final CmsUUID structureId,
-        final I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public void execute(
+      final CmsUUID structureId,
+      final I_CmsContextMenuHandler handler,
+      CmsContextMenuEntryBean bean) {
 
-        CmsDeleteWarningDialog dialog = new CmsDeleteWarningDialog(structureId);
-        Command callback = new Command() {
+    CmsDeleteWarningDialog dialog = new CmsDeleteWarningDialog(structureId);
+    Command callback =
+        new Command() {
 
-            /**
-             * @see com.google.gwt.user.client.Command#execute()
-             */
-            public void execute() {
+          /** @see com.google.gwt.user.client.Command#execute() */
+          public void execute() {
 
-                handler.refreshResource(structureId);
-            }
+            handler.refreshResource(structureId);
+          }
         };
-        dialog.loadAndShow(callback);
-    }
+    dialog.loadAndShow(callback);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget()
-     */
-    public boolean hasItemWidget() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget() */
+  public boolean hasItemWidget() {
 
-        return false;
-    }
-
+    return false;
+  }
 }

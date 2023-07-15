@@ -27,108 +27,119 @@
 
 package org.opencms.workplace.tools.modules;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.widgets.CmsVfsFileWidget;
 import org.opencms.workplace.CmsWidgetDialogParameter;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Edit class to edit an exiting module.<p>
+ * Edit class to edit an exiting module.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsModulesEditResources extends CmsModulesEditBase {
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsModulesEditResources(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsModulesEditResources(CmsJspActionElement jsp) {
 
-        super(jsp);
+    super(jsp);
+  }
+
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsModulesEditResources(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
+
+    this(new CmsJspActionElement(context, req, res));
+  }
+
+  /** @see org.opencms.workplace.tools.modules.CmsModulesEditBase#actionCommit() */
+  @Override
+  public void actionCommit() {
+
+    try {
+      // validate the module reouces
+      m_module.checkResources(getCms());
+    } catch (CmsRuntimeException e) {
+      addCommitError(e);
     }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsModulesEditResources(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    // now do the committing in the base class
+    super.actionCommit();
+  }
 
-        this(new CmsJspActionElement(context, req, res));
+  /**
+   * Creates the dialog HTML for all defined widgets of the named dialog (page).
+   *
+   * <p>
+   *
+   * @param dialog the dialog (page) to get the HTML for
+   * @return the dialog HTML for all defined widgets of the named dialog (page)
+   */
+  @Override
+  protected String createDialogHtml(String dialog) {
+
+    StringBuffer result = new StringBuffer(1024);
+
+    // create table
+    result.append(createWidgetTableStart());
+
+    // show error header once if there were validation errors
+    result.append(createWidgetErrorHeader());
+
+    if (dialog.equals(PAGES[0])) {
+      result.append(dialogBlockStart(key("label.resource")));
+      result.append(createWidgetTableStart());
+      result.append(createDialogRowsHtml(0, 0));
+      result.append(createWidgetTableEnd());
+      result.append(dialogBlockEnd());
     }
 
-    /**
-     * @see org.opencms.workplace.tools.modules.CmsModulesEditBase#actionCommit()
-     */
-    @Override
-    public void actionCommit() {
-
-        try {
-            // validate the module reouces
-            m_module.checkResources(getCms());
-        } catch (CmsRuntimeException e) {
-            addCommitError(e);
-        }
-
-        // now do the committing in the base class
-        super.actionCommit();
+    if (dialog.equals(PAGES[0])) {
+      result.append(dialogBlockStart(key("label.excluderesource")));
+      result.append(createWidgetTableStart());
+      result.append(createDialogRowsHtml(1, 1));
+      result.append(createWidgetTableEnd());
+      result.append(dialogBlockEnd());
     }
+    // close table
+    result.append(createWidgetTableEnd());
 
-    /**
-     * Creates the dialog HTML for all defined widgets of the named dialog (page).<p>
-     *
-     * @param dialog the dialog (page) to get the HTML for
-     * @return the dialog HTML for all defined widgets of the named dialog (page)
-     */
-    @Override
-    protected String createDialogHtml(String dialog) {
+    return result.toString();
+  }
 
-        StringBuffer result = new StringBuffer(1024);
+  /**
+   * Creates the list of widgets for this dialog.
+   *
+   * <p>
+   */
+  @Override
+  protected void defineWidgets() {
 
-        // create table
-        result.append(createWidgetTableStart());
+    super.defineWidgets();
 
-        // show error header once if there were validation errors
-        result.append(createWidgetErrorHeader());
-
-        if (dialog.equals(PAGES[0])) {
-            result.append(dialogBlockStart(key("label.resource")));
-            result.append(createWidgetTableStart());
-            result.append(createDialogRowsHtml(0, 0));
-            result.append(createWidgetTableEnd());
-            result.append(dialogBlockEnd());
-        }
-
-        if (dialog.equals(PAGES[0])) {
-            result.append(dialogBlockStart(key("label.excluderesource")));
-            result.append(createWidgetTableStart());
-            result.append(createDialogRowsHtml(1, 1));
-            result.append(createWidgetTableEnd());
-            result.append(dialogBlockEnd());
-        }
-        // close table
-        result.append(createWidgetTableEnd());
-
-        return result.toString();
-    }
-
-    /**
-     * Creates the list of widgets for this dialog.<p>
-     */
-    @Override
-    protected void defineWidgets() {
-
-        super.defineWidgets();
-
-        addWidget(new CmsWidgetDialogParameter(m_module, "resources", PAGES[0], new CmsVfsFileWidget()));
-        addWidget(new CmsWidgetDialogParameter(m_module, "excludeResources", PAGES[0], new CmsVfsFileWidget()));
-    }
+    addWidget(
+        new CmsWidgetDialogParameter(m_module, "resources", PAGES[0], new CmsVfsFileWidget()));
+    addWidget(
+        new CmsWidgetDialogParameter(
+            m_module, "excludeResources", PAGES[0], new CmsVfsFileWidget()));
+  }
 }

@@ -36,118 +36,131 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 /**
- * This class coordinates multiple radio buttons and makes sure that when a radio button of a group is
- * selected, no other radio button of the same group is selected.<p>
+ * This class coordinates multiple radio buttons and makes sure that when a radio button of a group
+ * is selected, no other radio button of the same group is selected.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsRadioButtonGroup implements HasValueChangeHandlers<String> {
 
-    /** The event bus. */
-    private transient SimpleEventBus m_eventBus;
+  /** The event bus. */
+  private transient SimpleEventBus m_eventBus;
 
-    /** The currently selected radio button (null if none is selected). */
-    private CmsRadioButton m_selectedButton;
+  /** The currently selected radio button (null if none is selected). */
+  private CmsRadioButton m_selectedButton;
 
-    /** The object to which value change events should be fired. */
-    private HasValueChangeHandlers<String> m_target;
+  /** The object to which value change events should be fired. */
+  private HasValueChangeHandlers<String> m_target;
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
 
-        return addHandler(handler, ValueChangeEvent.getType());
+    return addHandler(handler, ValueChangeEvent.getType());
+  }
+
+  /**
+   * Deselects a selected radio button (if one is selected).
+   *
+   * <p>
+   */
+  public void deselectButton() {
+
+    if (m_selectedButton != null) {
+      if (m_selectedButton.isChecked()) {
+        m_selectedButton.setChecked(false);
+      }
+      m_selectedButton = null;
+      ValueChangeEvent.fire(this, null);
     }
+  }
 
-    /**
-     * Deselects a selected radio button (if one is selected).<p>
-     */
-    public void deselectButton() {
+  /**
+   * @see com.google.gwt.event.shared.HasHandlers#fireEvent(com.google.gwt.event.shared.GwtEvent)
+   */
+  public void fireEvent(GwtEvent<?> event) {
 
-        if (m_selectedButton != null) {
-            if (m_selectedButton.isChecked()) {
-                m_selectedButton.setChecked(false);
-            }
-            m_selectedButton = null;
-            ValueChangeEvent.fire(this, null);
-        }
+    ensureHandlers().fireEventFromSource(event, this);
+  }
+
+  /**
+   * Returns the currently selected button, or null if none is selected.
+   *
+   * <p>
+   *
+   * @return the selected button or null
+   */
+  public CmsRadioButton getSelectedButton() {
+
+    return m_selectedButton;
+  }
+
+  /**
+   * Selects a new button and deselects the previously selected one.
+   *
+   * <p>
+   *
+   * @param button the button which should be selected
+   */
+  public void selectButton(CmsRadioButton button) {
+
+    if (m_selectedButton != button) {
+      if (m_selectedButton != null) {
+        m_selectedButton.setChecked(false);
+      }
+      if (!button.isChecked()) {
+        button.setChecked(true);
+      }
+      m_selectedButton = button;
+      if (m_target != null) {
+        ValueChangeEvent.fire(m_target, button.getName());
+      }
+      ValueChangeEvent.fire(this, button.getName());
     }
+  }
 
-    /**
-     * @see com.google.gwt.event.shared.HasHandlers#fireEvent(com.google.gwt.event.shared.GwtEvent)
-     */
-    public void fireEvent(GwtEvent<?> event) {
+  /**
+   * Sets the new value change event target for this button group.
+   *
+   * <p>
+   *
+   * @param target the value change event target
+   */
+  public void setValueChangeTarget(HasValueChangeHandlers<String> target) {
 
-        ensureHandlers().fireEventFromSource(event, this);
+    m_target = target;
+  }
+
+  /**
+   * Adds this handler to the widget.
+   *
+   * @param <H> the type of handler to add
+   * @param type the event type
+   * @param handler the handler
+   * @return {@link HandlerRegistration} used to remove the handler
+   */
+  protected final <H extends EventHandler> HandlerRegistration addHandler(
+      final H handler, GwtEvent.Type<H> type) {
+
+    return ensureHandlers().addHandlerToSource(type, this, handler);
+  }
+
+  /**
+   * Lazy initializing the handler manager.
+   *
+   * <p>
+   *
+   * @return the handler manager
+   */
+  private SimpleEventBus ensureHandlers() {
+
+    if (m_eventBus == null) {
+      m_eventBus = new SimpleEventBus();
     }
-
-    /**
-     * Returns the currently selected button, or null if none is selected.<p>
-     *
-     * @return the selected button or null
-     */
-    public CmsRadioButton getSelectedButton() {
-
-        return m_selectedButton;
-    }
-
-    /**
-     * Selects a new button and deselects the previously selected one.<p>
-     *
-     * @param button the button which should be selected
-     */
-    public void selectButton(CmsRadioButton button) {
-
-        if (m_selectedButton != button) {
-            if (m_selectedButton != null) {
-                m_selectedButton.setChecked(false);
-            }
-            if (!button.isChecked()) {
-                button.setChecked(true);
-            }
-            m_selectedButton = button;
-            if (m_target != null) {
-                ValueChangeEvent.fire(m_target, button.getName());
-            }
-            ValueChangeEvent.fire(this, button.getName());
-        }
-    }
-
-    /**
-     * Sets the new value change event target for this button group.<p>
-     *
-     * @param target the value change event target
-     */
-    public void setValueChangeTarget(HasValueChangeHandlers<String> target) {
-
-        m_target = target;
-    }
-
-    /**
-     * Adds this handler to the widget.
-     *
-     * @param <H> the type of handler to add
-     * @param type the event type
-     * @param handler the handler
-     * @return {@link HandlerRegistration} used to remove the handler
-     */
-    protected final <H extends EventHandler> HandlerRegistration addHandler(final H handler, GwtEvent.Type<H> type) {
-
-        return ensureHandlers().addHandlerToSource(type, this, handler);
-    }
-
-    /**
-     * Lazy initializing the handler manager.<p>
-     *
-     * @return the handler manager
-     */
-    private SimpleEventBus ensureHandlers() {
-
-        if (m_eventBus == null) {
-            m_eventBus = new SimpleEventBus();
-        }
-        return m_eventBus;
-    }
-
+    return m_eventBus;
+  }
 }

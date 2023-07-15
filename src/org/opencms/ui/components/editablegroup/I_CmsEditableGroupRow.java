@@ -29,23 +29,22 @@ package org.opencms.ui.components.editablegroup;
 
 import com.vaadin.ui.Component;
 
-/**
- * Interface for components used as editable group rows.
- */
+/** Interface for components used as editable group rows. */
 public interface I_CmsEditableGroupRow extends Component {
 
-    /**
-     * Returns the button bar widget.
-     *
-     * @return the button bar widget
-     */
-    public CmsEditableGroupButtons getButtonBar();
+  /**
+   * Returns the button bar widget.
+   *
+   * @return the button bar widget
+   */
+  public CmsEditableGroupButtons getButtonBar();
 
-    /**
-     * Returns the input field.<p>
-     *
-     * @return the input field
-     */
-    public Component getComponent();
-
+  /**
+   * Returns the input field.
+   *
+   * <p>
+   *
+   * @return the input field
+   */
+  public Component getComponent();
 }

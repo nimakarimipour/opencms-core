@@ -30,59 +30,70 @@ package org.opencms.gwt.shared.property;
 import org.opencms.util.CmsStringUtil;
 
 /**
- * A bean which represents a value together with a path which indicates from where the value has been read.<p>
+ * A bean which represents a value together with a path which indicates from where the value has
+ * been read.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsPathValue {
 
-    /** The path. */
-    private final String m_path;
+  /** The path. */
+  private final String m_path;
 
-    /** The value. */
-    private final String m_value;
+  /** The value. */
+  private final String m_value;
 
-    /**
-     * Creates a new instance.<p>
-     * @param value the value
-     * @param path the path
-     */
-    public CmsPathValue(String value, String path) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param value the value
+   * @param path the path
+   */
+  public CmsPathValue(String value, String path) {
 
-        m_path = path;
-        m_value = value;
-    }
+    m_path = path;
+    m_value = value;
+  }
 
-    /**
-     * Gets the path.<p>
-     *
-     * @return the path
-     */
-    public String getPath() {
+  /**
+   * Gets the path.
+   *
+   * <p>
+   *
+   * @return the path
+   */
+  public String getPath() {
 
-        return m_path;
-    }
+    return m_path;
+  }
 
-    /**
-     * Gets the value.<p>
-     *
-     * @return the value
-     */
-    public String getValue() {
+  /**
+   * Gets the value.
+   *
+   * <p>
+   *
+   * @return the value
+   */
+  public String getValue() {
 
-        return m_value;
-    }
+    return m_value;
+  }
 
-    /**
-     * Creates a new path value with the same value as this one, but with a prefix prepended to the path.<p>
-     *
-     * @param pathPart the path part which should be prepended to the path
-     *
-     * @return the new path value
-     */
-    public CmsPathValue prepend(String pathPart) {
+  /**
+   * Creates a new path value with the same value as this one, but with a prefix prepended to the
+   * path.
+   *
+   * <p>
+   *
+   * @param pathPart the path part which should be prepended to the path
+   * @return the new path value
+   */
+  public CmsPathValue prepend(String pathPart) {
 
-        return new CmsPathValue(m_value, CmsStringUtil.joinPaths(pathPart, m_path));
-    }
-
+    return new CmsPathValue(m_value, CmsStringUtil.joinPaths(pathPart, m_path));
+  }
 }

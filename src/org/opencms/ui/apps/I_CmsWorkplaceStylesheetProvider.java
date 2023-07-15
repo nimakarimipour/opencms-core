@@ -30,16 +30,17 @@ package org.opencms.ui.apps;
 import java.util.List;
 
 /**
- * Interface that can be implemented by external libraries to add more stylesheets
- * that should be automatically loaded in the workplace.
+ * Interface that can be implemented by external libraries to add more stylesheets that should be
+ * automatically loaded in the workplace.
  */
 public interface I_CmsWorkplaceStylesheetProvider {
 
-    /**
-     * Gets the list of stylesheet links.<p>
-     *
-     * @return the stylesheet links
-     */
-    List<String> getStylesheets();
-
+  /**
+   * Gets the list of stylesheet links.
+   *
+   * <p>
+   *
+   * @return the stylesheet links
+   */
+  List<String> getStylesheets();
 }

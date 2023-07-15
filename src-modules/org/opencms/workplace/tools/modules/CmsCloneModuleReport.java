@@ -27,51 +27,55 @@
 
 package org.opencms.workplace.tools.modules;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.report.I_CmsReportThread;
 import org.opencms.workplace.list.A_CmsListReport;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Displays the clone module report.<p>
+ * Displays the clone module report.
+ *
+ * <p>
  */
 public class CmsCloneModuleReport extends A_CmsListReport {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param jsp the JSP action element
-     */
-    public CmsCloneModuleReport(CmsJspActionElement jsp) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param jsp the JSP action element
+   */
+  public CmsCloneModuleReport(CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsCloneModuleReport(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsCloneModuleReport(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListReport#initializeThread()
-     */
-    @Override
-    public I_CmsReportThread initializeThread() {
+  /** @see org.opencms.workplace.list.A_CmsListReport#initializeThread() */
+  @Override
+  public I_CmsReportThread initializeThread() {
 
-        CmsCloneModuleInfo cloneInfo = (CmsCloneModuleInfo)getJsp().getRequest().getAttribute(
-            CmsCloneModule.ATTR_CLONE_MODULE_INFO);
+    CmsCloneModuleInfo cloneInfo =
+        (CmsCloneModuleInfo)
+            getJsp().getRequest().getAttribute(CmsCloneModule.ATTR_CLONE_MODULE_INFO);
 
-        return new CmsCloneModuleThread(getCms(), cloneInfo);
-    }
-
+    return new CmsCloneModuleThread(getCms(), cloneInfo);
+  }
 }

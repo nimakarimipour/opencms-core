@@ -30,137 +30,150 @@ package org.opencms.ade.galleries.client;
 import org.opencms.ade.galleries.shared.CmsGallerySearchScope;
 
 /**
- * The full text search tab handler.<p>
+ * The full text search tab handler.
  *
- * This class receives events information from the full text search tab and
- * delegates them to the gallery search controller.
+ * <p>This class receives events information from the full text search tab and delegates them to the
+ * gallery search controller.
  *
  * @since 8.0.0
  */
 public class CmsSearchTabHandler extends A_CmsTabHandler {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param controller the gallery controller
-     */
-    public CmsSearchTabHandler(CmsGalleryController controller) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param controller the gallery controller
+   */
+  public CmsSearchTabHandler(CmsGalleryController controller) {
 
-        super(controller);
-    }
+    super(controller);
+  }
 
-    /**
-     * Delegates the clear input action (click on the clear button) to the controller.<p>
-     */
-    public void clearInput() {
+  /**
+   * Delegates the clear input action (click on the clear button) to the controller.
+   *
+   * <p>
+   */
+  public void clearInput() {
 
-        m_controller.clearTextSearch();
-    }
+    m_controller.clearTextSearch();
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#clearParams()
-     */
-    @Override
-    public void clearParams() {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#clearParams() */
+  @Override
+  public void clearParams() {
 
-        m_controller.clearTextSearch();
-    }
+    m_controller.clearTextSearch();
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSelection()
-     */
-    @Override
-    public void onSelection() {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSelection() */
+  @Override
+  public void onSelection() {
 
-        // no list present
-    }
+    // no list present
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSort(java.lang.String, java.lang.String)
-     */
-    @Override
-    public void onSort(String sortParams, String filter) {
+  /**
+   * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSort(java.lang.String,
+   *     java.lang.String)
+   */
+  @Override
+  public void onSort(String sortParams, String filter) {
 
-        // not available for this tab
-    }
+    // not available for this tab
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#removeParam(java.lang.String)
-     */
-    @Override
-    public void removeParam(String paramKey) {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#removeParam(java.lang.String) */
+  @Override
+  public void removeParam(String paramKey) {
 
-        m_controller.removeTextSearchParameter(paramKey);
-    }
+    m_controller.removeTextSearchParameter(paramKey);
+  }
 
-    /**
-     * Delegates the value for the created until date to the controller.<p>
-     *
-     * @param createdEnd the created until date as long
-     */
-    public void setDateCreatedEnd(long createdEnd) {
+  /**
+   * Delegates the value for the created until date to the controller.
+   *
+   * <p>
+   *
+   * @param createdEnd the created until date as long
+   */
+  public void setDateCreatedEnd(long createdEnd) {
 
-        m_controller.addDateCreatedEnd(createdEnd);
-    }
+    m_controller.addDateCreatedEnd(createdEnd);
+  }
 
-    /**
-     * Delegates the value for the created since date to the controller.<p>
-     *
-     * @param createdStart the created since date as long
-     */
-    public void setDateCreatedStart(long createdStart) {
+  /**
+   * Delegates the value for the created since date to the controller.
+   *
+   * <p>
+   *
+   * @param createdStart the created since date as long
+   */
+  public void setDateCreatedStart(long createdStart) {
 
-        m_controller.addDateCreatedStart(createdStart);
-    }
+    m_controller.addDateCreatedStart(createdStart);
+  }
 
-    /**
-     * Delegates the value for the modified until date to the controller.<p>
-     *
-     * @param modifiedEnd the modified until date as long
-     */
-    public void setDateModifiedEnd(long modifiedEnd) {
+  /**
+   * Delegates the value for the modified until date to the controller.
+   *
+   * <p>
+   *
+   * @param modifiedEnd the modified until date as long
+   */
+  public void setDateModifiedEnd(long modifiedEnd) {
 
-        m_controller.addDateModifiedEnd(modifiedEnd);
-    }
+    m_controller.addDateModifiedEnd(modifiedEnd);
+  }
 
-    /**
-     * Delegates the value for the modified since date to the controller.<p>
-     *
-     * @param modifiedStart the modified since date as long
-     */
-    public void setDateModifiedStart(long modifiedStart) {
+  /**
+   * Delegates the value for the modified since date to the controller.
+   *
+   * <p>
+   *
+   * @param modifiedStart the modified since date as long
+   */
+  public void setDateModifiedStart(long modifiedStart) {
 
-        m_controller.addDateModifiedStart(modifiedStart);
-    }
+    m_controller.addDateModifiedStart(modifiedStart);
+  }
 
-    /**
-     * Sets if the search should include expired or unreleased resources.<p>
-     *
-     * @param includeExpired if the search should include expired or unreleased resources
-     * @param fireEvent true if a change event should be fired
-     */
-    public void setIncludeExpired(boolean includeExpired, boolean fireEvent) {
+  /**
+   * Sets if the search should include expired or unreleased resources.
+   *
+   * <p>
+   *
+   * @param includeExpired if the search should include expired or unreleased resources
+   * @param fireEvent true if a change event should be fired
+   */
+  public void setIncludeExpired(boolean includeExpired, boolean fireEvent) {
 
-        m_controller.setIncludeExpired(includeExpired, fireEvent);
-    }
+    m_controller.setIncludeExpired(includeExpired, fireEvent);
+  }
 
-    /**
-     * Delegates the locale value to the controller.<p>
-     *
-     * @param locale the locale
-     */
-    public void setLocale(String locale) {
+  /**
+   * Delegates the locale value to the controller.
+   *
+   * <p>
+   *
+   * @param locale the locale
+   */
+  public void setLocale(String locale) {
 
-        m_controller.addLocale(locale);
-    }
+    m_controller.addLocale(locale);
+  }
 
-    /**
-     * Sets the search scope.<p>
-     *
-     * @param scope the search scope
-     */
-    public void setScope(CmsGallerySearchScope scope) {
+  /**
+   * Sets the search scope.
+   *
+   * <p>
+   *
+   * @param scope the search scope
+   */
+  public void setScope(CmsGallerySearchScope scope) {
 
-        m_controller.addScope(scope);
-    }
+    m_controller.addScope(scope);
+  }
 }

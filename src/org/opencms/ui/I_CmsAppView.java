@@ -31,71 +31,93 @@ import com.vaadin.navigator.View;
 import com.vaadin.ui.Component;
 
 /**
- * Factory to create components.<p>
+ * Factory to create components.
+ *
+ * <p>
  */
 public interface I_CmsAppView extends View {
 
-    /**
-     * Disables the global keyboard shortcuts.<p>
-     */
-    void disableGlobalShortcuts();
+  /**
+   * Disables the global keyboard shortcuts.
+   *
+   * <p>
+   */
+  void disableGlobalShortcuts();
 
-    /**
-     * Enables the global keyboard shortcuts.<p>
-     */
-    void enableGlobalShortcuts();
+  /**
+   * Enables the global keyboard shortcuts.
+   *
+   * <p>
+   */
+  void enableGlobalShortcuts();
 
-    /**
-     * Enters the view.<p>
-     *
-     * @param state the state to set
-     */
-    void enter(String state);
+  /**
+   * Enters the view.
+   *
+   * <p>
+   *
+   * @param state the state to set
+   */
+  void enter(String state);
 
-    /**
-     * Returns the app component, initializes it if required.<p>
-     *
-     * @return the component
-     */
-    Component getComponent();
+  /**
+   * Returns the app component, initializes it if required.
+   *
+   * <p>
+   *
+   * @return the component
+   */
+  Component getComponent();
 
-    /**
-     * Returns the view name.<p>
-     *
-     * @return the view name
-     */
-    String getName();
+  /**
+   * Returns the view name.
+   *
+   * <p>
+   *
+   * @return the view name
+   */
+  String getName();
 
-    /**
-     * Returns whether this view should be cached within the user session.<p>
-     *
-     * @return <code>true</code> if the view is cachable
-     */
-    boolean isCachable();
+  /**
+   * Returns whether this view should be cached within the user session.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the view is cachable
+   */
+  boolean isCachable();
 
-    /**
-     * Creates a new component instance.<p>
-     *
-     * @return the new component
-     */
-    Component reinitComponent();
+  /**
+   * Creates a new component instance.
+   *
+   * <p>
+   *
+   * @return the new component
+   */
+  Component reinitComponent();
 
-    /**
-     * Returns whether this view needs to be restored from cache.<p>
-     *
-     * @return <code>true</code> if this view needs to be restored from cache
-     */
-    boolean requiresRestore();
+  /**
+   * Returns whether this view needs to be restored from cache.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this view needs to be restored from cache
+   */
+  boolean requiresRestore();
 
-    /**
-     * Restores the view from cache.<p>
-     */
-    void restoreFromCache();
+  /**
+   * Restores the view from cache.
+   *
+   * <p>
+   */
+  void restoreFromCache();
 
-    /**
-     * Sets the requires restore from cache flag.<p>
-     *
-     * @param restored the requires restore from cache flag
-     */
-    void setRequiresRestore(boolean restored);
+  /**
+   * Sets the requires restore from cache flag.
+   *
+   * <p>
+   *
+   * @param restored the requires restore from cache flag
+   */
+  void setRequiresRestore(boolean restored);
 }

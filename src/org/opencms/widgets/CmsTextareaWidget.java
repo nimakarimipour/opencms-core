@@ -27,6 +27,8 @@
 
 package org.opencms.widgets;
 
+import java.util.List;
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.i18n.CmsEncoder;
@@ -34,148 +36,144 @@ import org.opencms.i18n.CmsMessages;
 import org.opencms.xml.content.I_CmsXmlContentHandler.DisplayType;
 import org.opencms.xml.types.A_CmsXmlContentValue;
 
-import java.util.List;
-import java.util.Locale;
-
 /**
- * Provides a standard HTML form textarea widget, for use on a widget dialog.<p>
+ * Provides a standard HTML form textarea widget, for use on a widget dialog.
  *
- * Displays a textarea with 4 rows to enter String values conveniently.<p>
+ * <p>Displays a textarea with 4 rows to enter String values conveniently.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsTextareaWidget extends A_CmsWidget implements I_CmsADEWidget {
 
-    /** Default number of rows to display. */
-    private static final int DEFAULT_ROWS_NUMBER = 4;
+  /** Default number of rows to display. */
+  private static final int DEFAULT_ROWS_NUMBER = 4;
 
-    /**
-     * Creates a new textarea widget.<p>
-     */
-    public CmsTextareaWidget() {
+  /**
+   * Creates a new textarea widget.
+   *
+   * <p>
+   */
+  public CmsTextareaWidget() {
 
-        // default configuration is to display 4 rows
-        this(DEFAULT_ROWS_NUMBER);
+    // default configuration is to display 4 rows
+    this(DEFAULT_ROWS_NUMBER);
+  }
+
+  /**
+   * Creates a new textarea widget with the given number of rows.
+   *
+   * <p>
+   *
+   * @param rows the number of rows to display
+   */
+  public CmsTextareaWidget(int rows) {
+
+    super("" + rows);
+  }
+
+  /**
+   * Creates a new textarea widget with the given configuration.
+   *
+   * <p>
+   *
+   * @param configuration the configuration to use
+   */
+  public CmsTextareaWidget(String configuration) {
+
+    super(configuration);
+  }
+
+  /**
+   * @see org.opencms.widgets.I_CmsADEWidget#getConfiguration(org.opencms.file.CmsObject,
+   *     org.opencms.xml.types.A_CmsXmlContentValue, org.opencms.i18n.CmsMessages,
+   *     org.opencms.file.CmsResource, java.util.Locale)
+   */
+  public String getConfiguration(
+      CmsObject cms,
+      A_CmsXmlContentValue schemaType,
+      CmsMessages messages,
+      CmsResource resource,
+      Locale contentLocale) {
+
+    return getConfiguration();
+  }
+
+  /** @see org.opencms.widgets.I_CmsADEWidget#getCssResourceLinks(org.opencms.file.CmsObject) */
+  public List<String> getCssResourceLinks(CmsObject cms) {
+
+    return null;
+  }
+
+  /** @see org.opencms.widgets.I_CmsADEWidget#getDefaultDisplayType() */
+  public DisplayType getDefaultDisplayType() {
+
+    return DisplayType.wide;
+  }
+
+  /**
+   * @see org.opencms.widgets.I_CmsWidget#getDialogWidget(org.opencms.file.CmsObject,
+   *     org.opencms.widgets.I_CmsWidgetDialog, org.opencms.widgets.I_CmsWidgetParameter)
+   */
+  public String getDialogWidget(
+      CmsObject cms, I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
+
+    String id = param.getId();
+    StringBuffer result = new StringBuffer(16);
+    int rows = DEFAULT_ROWS_NUMBER;
+    try {
+      rows = new Integer(getConfiguration()).intValue();
+    } catch (Exception e) {
+      // ignore
     }
 
-    /**
-     * Creates a new textarea widget with the given number of rows.<p>
-     *
-     * @param rows the number of rows to display
-     */
-    public CmsTextareaWidget(int rows) {
-
-        super("" + rows);
+    result.append("<td class=\"xmlTd\">");
+    result.append("<textarea class=\"xmlInput maxwidth");
+    if (param.hasError()) {
+      result.append(" xmlInputError");
     }
+    result.append("\" name=\"");
+    result.append(id);
+    result.append("\" rows=\"");
+    result.append(rows);
+    result.append("\" cols=\"60\" style=\"overflow:auto;\">");
+    result.append(CmsEncoder.escapeXml(param.getStringValue(cms)));
+    result.append("</textarea>");
+    result.append("</td>");
 
-    /**
-     * Creates a new textarea widget with the given configuration.<p>
-     *
-     * @param configuration the configuration to use
-     */
-    public CmsTextareaWidget(String configuration) {
+    return result.toString();
+  }
 
-        super(configuration);
-    }
+  /** @see org.opencms.widgets.I_CmsADEWidget#getInitCall() */
+  public String getInitCall() {
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getConfiguration(org.opencms.file.CmsObject, org.opencms.xml.types.A_CmsXmlContentValue, org.opencms.i18n.CmsMessages, org.opencms.file.CmsResource, java.util.Locale)
-     */
-    public String getConfiguration(
-        CmsObject cms,
-        A_CmsXmlContentValue schemaType,
-        CmsMessages messages,
-        CmsResource resource,
-        Locale contentLocale) {
+    return null;
+  }
 
-        return getConfiguration();
-    }
+  /**
+   * @see org.opencms.widgets.I_CmsADEWidget#getJavaScriptResourceLinks(org.opencms.file.CmsObject)
+   */
+  public List<String> getJavaScriptResourceLinks(CmsObject cms) {
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getCssResourceLinks(org.opencms.file.CmsObject)
-     */
-    public List<String> getCssResourceLinks(CmsObject cms) {
+    return null;
+  }
 
-        return null;
-    }
+  /** @see org.opencms.widgets.I_CmsADEWidget#getWidgetName() */
+  public String getWidgetName() {
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getDefaultDisplayType()
-     */
-    public DisplayType getDefaultDisplayType() {
+    return CmsTextareaWidget.class.getName();
+  }
 
-        return DisplayType.wide;
-    }
+  /** @see org.opencms.widgets.I_CmsADEWidget#isInternal() */
+  public boolean isInternal() {
 
-    /**
-     * @see org.opencms.widgets.I_CmsWidget#getDialogWidget(org.opencms.file.CmsObject, org.opencms.widgets.I_CmsWidgetDialog, org.opencms.widgets.I_CmsWidgetParameter)
-     */
-    public String getDialogWidget(CmsObject cms, I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
+    return true;
+  }
 
-        String id = param.getId();
-        StringBuffer result = new StringBuffer(16);
-        int rows = DEFAULT_ROWS_NUMBER;
-        try {
-            rows = new Integer(getConfiguration()).intValue();
-        } catch (Exception e) {
-            // ignore
-        }
+  /** @see org.opencms.widgets.I_CmsWidget#newInstance() */
+  public I_CmsWidget newInstance() {
 
-        result.append("<td class=\"xmlTd\">");
-        result.append("<textarea class=\"xmlInput maxwidth");
-        if (param.hasError()) {
-            result.append(" xmlInputError");
-        }
-        result.append("\" name=\"");
-        result.append(id);
-        result.append("\" rows=\"");
-        result.append(rows);
-        result.append("\" cols=\"60\" style=\"overflow:auto;\">");
-        result.append(CmsEncoder.escapeXml(param.getStringValue(cms)));
-        result.append("</textarea>");
-        result.append("</td>");
-
-        return result.toString();
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getInitCall()
-     */
-    public String getInitCall() {
-
-        return null;
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getJavaScriptResourceLinks(org.opencms.file.CmsObject)
-     */
-    public List<String> getJavaScriptResourceLinks(CmsObject cms) {
-
-        return null;
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
-     */
-    public String getWidgetName() {
-
-        return CmsTextareaWidget.class.getName();
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#isInternal()
-     */
-    public boolean isInternal() {
-
-        return true;
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsWidget#newInstance()
-     */
-    public I_CmsWidget newInstance() {
-
-        return new CmsTextareaWidget(getConfiguration());
-    }
-
+    return new CmsTextareaWidget(getConfiguration());
+  }
 }

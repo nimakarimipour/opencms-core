@@ -28,17 +28,19 @@
 package org.opencms.setup.db.update7to8.mysql;
 
 /**
- * MySQL version of CmsUpdatePasswordColumn.<p>
+ * MySQL version of CmsUpdatePasswordColumn.
+ *
+ * <p>
  */
-public class CmsUpdatePasswordColumn extends org.opencms.setup.db.update7to8.CmsUpdatePasswordColumn {
+public class CmsUpdatePasswordColumn
+    extends org.opencms.setup.db.update7to8.CmsUpdatePasswordColumn {
 
-    /**
-     * @see org.opencms.setup.db.update7to8.CmsUpdatePasswordColumn#getUpdateSql()
-     */
-    @Override
-    public String getUpdateSql() {
+  /** @see org.opencms.setup.db.update7to8.CmsUpdatePasswordColumn#getUpdateSql() */
+  @Override
+  public String getUpdateSql() {
 
-        return "ALTER TABLE CMS_USERS MODIFY USER_PASSWORD VARCHAR(" + getNewColumnLength() + ") BINARY";
-    }
-
+    return "ALTER TABLE CMS_USERS MODIFY USER_PASSWORD VARCHAR("
+        + getNewColumnLength()
+        + ") BINARY";
+  }
 }

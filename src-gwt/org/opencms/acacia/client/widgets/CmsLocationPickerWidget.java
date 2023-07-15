@@ -27,9 +27,6 @@
 
 package org.opencms.acacia.client.widgets;
 
-import org.opencms.gwt.client.I_CmsHasResizeOnShow;
-import org.opencms.gwt.client.ui.input.location.CmsLocationPicker;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -37,140 +34,131 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
+import org.opencms.gwt.client.I_CmsHasResizeOnShow;
+import org.opencms.gwt.client.ui.input.location.CmsLocationPicker;
 
 /**
  * Provides a display only widget, for use on a widget dialog.<br>
  * If there is no value in the content xml, the value<br>
- * set in the configuration string of the xsd is shown.<p>
+ * set in the configuration string of the xsd is shown.
  *
- * */
-public class CmsLocationPickerWidget extends Composite implements I_CmsEditWidget, I_CmsHasResizeOnShow {
+ * <p>
+ */
+public class CmsLocationPickerWidget extends Composite
+    implements I_CmsEditWidget, I_CmsHasResizeOnShow {
 
-    /** Value of the activation. */
-    private boolean m_active = true;
+  /** Value of the activation. */
+  private boolean m_active = true;
 
-    /** The disabled textbox to show the value. */
-    private CmsLocationPicker m_locationPicker;
+  /** The disabled textbox to show the value. */
+  private CmsLocationPicker m_locationPicker;
 
-    /**
-     * Creates a new display widget.<p>
-     *
-     * @param config The configuration string given from OpenCms XSD.
-     */
-    public CmsLocationPickerWidget(String config) {
+  /**
+   * Creates a new display widget.
+   *
+   * <p>
+   *
+   * @param config The configuration string given from OpenCms XSD.
+   */
+  public CmsLocationPickerWidget(String config) {
 
-        m_locationPicker = new CmsLocationPicker(config);
-        initWidget(m_locationPicker);
+    m_locationPicker = new CmsLocationPicker(config);
+    initWidget(m_locationPicker);
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
+   */
+  public HandlerRegistration addFocusHandler(FocusHandler handler) {
+
+    return addDomHandler(handler, FocusEvent.getType());
+  }
+
+  /**
+   * @see
+   *     org.opencms.acacia.client.widgets.I_CmsEditWidget#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+
+    return m_locationPicker.addHandler(handler, ValueChangeEvent.getType());
+  }
+
+  /**
+   * Represents a value change event.
+   *
+   * <p>
+   */
+  public void fireChangeEvent() {
+
+    ValueChangeEvent.fire(m_locationPicker, m_locationPicker.getStringValue());
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#getValue() */
+  public String getValue() {
+
+    return m_locationPicker.getStringValue();
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive() */
+  public boolean isActive() {
+
+    return m_active;
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget() */
+  public void onAttachWidget() {
+
+    super.onAttach();
+  }
+
+  /**
+   * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
+   */
+  public boolean owns(Element element) {
+
+    return getElement().isOrHasChild(element);
+  }
+
+  /** @see org.opencms.gwt.client.I_CmsHasResizeOnShow#resizeOnShow() */
+  public void resizeOnShow() {
+
+    m_locationPicker.resizeOnShow();
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean) */
+  public void setActive(boolean active) {
+
+    // check if the value has changed. If there is no change do nothing.
+    if (m_active == active) {
+      return;
     }
-
-    /**
-     * @see com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
-     */
-    public HandlerRegistration addFocusHandler(FocusHandler handler) {
-
-        return addDomHandler(handler, FocusEvent.getType());
+    m_active = active;
+    m_locationPicker.setEnabled(m_active);
+    if (active) {
+      fireChangeEvent();
     }
+  }
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String) */
+  public void setName(String name) {
 
-        return m_locationPicker.addHandler(handler, ValueChangeEvent.getType());
+    // no input field so nothing to do
+
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object) */
+  public void setValue(String value) {
+
+    setValue(value, false);
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean) */
+  public void setValue(String value, boolean fireEvents) {
+
+    m_locationPicker.setValue(value);
+    if (fireEvents) {
+      fireChangeEvent();
     }
-
-    /**
-     * Represents a value change event.<p>
-     *
-     */
-    public void fireChangeEvent() {
-
-        ValueChangeEvent.fire(m_locationPicker, m_locationPicker.getStringValue());
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#getValue()
-     */
-    public String getValue() {
-
-        return m_locationPicker.getStringValue();
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive()
-     */
-    public boolean isActive() {
-
-        return m_active;
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget()
-     */
-    public void onAttachWidget() {
-
-        super.onAttach();
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
-     */
-    public boolean owns(Element element) {
-
-        return getElement().isOrHasChild(element);
-
-    }
-
-    /**
-     * @see org.opencms.gwt.client.I_CmsHasResizeOnShow#resizeOnShow()
-     */
-    public void resizeOnShow() {
-
-        m_locationPicker.resizeOnShow();
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean)
-     */
-    public void setActive(boolean active) {
-
-        // check if the value has changed. If there is no change do nothing.
-        if (m_active == active) {
-            return;
-        }
-        m_active = active;
-        m_locationPicker.setEnabled(m_active);
-        if (active) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String)
-     */
-    public void setName(String name) {
-
-        // no input field so nothing to do
-
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
-     */
-    public void setValue(String value) {
-
-        setValue(value, false);
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
-     */
-    public void setValue(String value, boolean fireEvents) {
-
-        m_locationPicker.setValue(value);
-        if (fireEvents) {
-            fireChangeEvent();
-        }
-    }
-
+  }
 }

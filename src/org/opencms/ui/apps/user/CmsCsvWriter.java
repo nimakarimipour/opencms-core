@@ -34,65 +34,66 @@ package org.opencms.ui.apps.user;
 /** Helper to produce Csv files. */
 public class CmsCsvWriter {
 
-    /** The "bom" bytes as String that need to be placed at the very beginning of the produced csv. */
-    private static final String BOM = "\ufeff";
+  /** The "bom" bytes as String that need to be placed at the very beginning of the produced csv. */
+  private static final String BOM = "\ufeff";
 
-    /** Internal variable holding the CSV content. */
-    StringBuffer m_csv = new StringBuffer(BOM);
+  /** Internal variable holding the CSV content. */
+  StringBuffer m_csv = new StringBuffer(BOM);
 
-    /**
-     * Adds a line to the CSV.
-     * @param values the (unescaped) values to add.
-     */
-    public void addLine(String... values) {
+  /**
+   * Adds a line to the CSV.
+   *
+   * @param values the (unescaped) values to add.
+   */
+  public void addLine(String... values) {
 
-        if (null != values) {
-            if (values.length > 0) {
-                m_csv.append(esc(values[0]));
-            }
-            for (int i = 1; i < values.length; i++) {
-                m_csv.append(sep()).append(esc(values[i]));
-            }
-        }
-        m_csv.append(nl());
+    if (null != values) {
+      if (values.length > 0) {
+        m_csv.append(esc(values[0]));
+      }
+      for (int i = 1; i < values.length; i++) {
+        m_csv.append(sep()).append(esc(values[i]));
+      }
     }
+    m_csv.append(nl());
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_csv.toString();
-    }
+    return m_csv.toString();
+  }
 
-    /**
-     * Escapes the provided value for CSV.
-     * @param value the value to escape
-     * @return the escaped value.
-     */
-    private String esc(String value) {
+  /**
+   * Escapes the provided value for CSV.
+   *
+   * @param value the value to escape
+   * @return the escaped value.
+   */
+  private String esc(String value) {
 
-        value = value.replace("\"", "\"\"");
-        return '"' + value + '"';
-    }
+    value = value.replace("\"", "\"\"");
+    return '"' + value + '"';
+  }
 
-    /**
-     * Returns a line break as to use in the CSV output.
-     * @return a line break as to use in the CSV output.
-     */
-    private String nl() {
+  /**
+   * Returns a line break as to use in the CSV output.
+   *
+   * @return a line break as to use in the CSV output.
+   */
+  private String nl() {
 
-        return "\n";
-    }
+    return "\n";
+  }
 
-    /**
-     * Returns the value separator to use in the CSV output.
-     * @return the value separator to use in the CSV output.
-     */
-    private String sep() {
+  /**
+   * Returns the value separator to use in the CSV output.
+   *
+   * @return the value separator to use in the CSV output.
+   */
+  private String sep() {
 
-        return ";";
-    }
-
+    return ";";
+  }
 }

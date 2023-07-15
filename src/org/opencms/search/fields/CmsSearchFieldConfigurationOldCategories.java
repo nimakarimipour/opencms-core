@@ -27,6 +27,10 @@
 
 package org.opencms.search.fields;
 
+import java.util.List;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
 import org.opencms.file.CmsPropertyDefinition;
@@ -35,68 +39,72 @@ import org.opencms.search.I_CmsSearchDocument;
 import org.opencms.search.extractors.I_CmsExtractionResult;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.List;
-
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StringField;
-
 /**
- * Describes a field configuration using the old (pre 8.0) logic for categories that depend on properties.<p>
+ * Describes a field configuration using the old (pre 8.0) logic for categories that depend on
+ * properties.
  *
- * Configure this class for a search index field configuration in case you want the old behavior.<p>
+ * <p>Configure this class for a search index field configuration in case you want the old behavior.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsSearchFieldConfigurationOldCategories extends CmsLuceneFieldConfiguration {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -8513437470793639802L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -8513437470793639802L;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsSearchFieldConfigurationOldCategories() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsSearchFieldConfigurationOldCategories() {
 
-        // nothing special to to here
+    // nothing special to to here
+  }
+
+  /**
+   * Extends the given document by resource category information based on properties.
+   *
+   * <p>
+   *
+   * @param document the document to extend
+   * @param cms the OpenCms context used for building the search index
+   * @param resource the resource that is indexed
+   * @param extractionResult the plain text extraction result from the resource
+   * @param properties the list of all properties directly attached to the resource (not searched)
+   * @param propertiesSearched the list of all searched properties of the resource
+   * @return the document extended by resource category information
+   * @see
+   *     org.opencms.search.fields.CmsSearchFieldConfiguration#appendCategories(org.opencms.search.I_CmsSearchDocument,
+   *     org.opencms.file.CmsObject, org.opencms.file.CmsResource,
+   *     org.opencms.search.extractors.I_CmsExtractionResult, java.util.List, java.util.List)
+   */
+  @Override
+  protected I_CmsSearchDocument appendCategories(
+      I_CmsSearchDocument document,
+      CmsObject cms,
+      CmsResource resource,
+      I_CmsExtractionResult extractionResult,
+      List<CmsProperty> properties,
+      List<CmsProperty> propertiesSearched) {
+
+    Document doc = (Document) document.getDocument();
+
+    // add the category of the file (this is searched so the value can also be attached on a folder)
+    String value =
+        CmsProperty.get(CmsPropertyDefinition.PROPERTY_SEARCH_CATEGORY, propertiesSearched)
+            .getValue();
+    if (CmsStringUtil.isNotEmpty(value)) {
+      // all categories are internally stored lower case
+      value = value.trim().toLowerCase();
+      if (value.length() > 0) {
+        Field field = new StringField(CmsSearchField.FIELD_CATEGORY, value, Field.Store.YES);
+        // field.setBoost(0);
+        doc.add(field);
+      }
     }
-
-    /**
-     * Extends the given document by resource category information based on properties.<p>
-     *
-     * @param document the document to extend
-     * @param cms the OpenCms context used for building the search index
-     * @param resource the resource that is indexed
-     * @param extractionResult the plain text extraction result from the resource
-     * @param properties the list of all properties directly attached to the resource (not searched)
-     * @param propertiesSearched the list of all searched properties of the resource
-     *
-     * @return the document extended by resource category information
-     *
-     * @see org.opencms.search.fields.CmsSearchFieldConfiguration#appendCategories(org.opencms.search.I_CmsSearchDocument, org.opencms.file.CmsObject, org.opencms.file.CmsResource, org.opencms.search.extractors.I_CmsExtractionResult, java.util.List, java.util.List)
-     */
-    @Override
-    protected I_CmsSearchDocument appendCategories(
-        I_CmsSearchDocument document,
-        CmsObject cms,
-        CmsResource resource,
-        I_CmsExtractionResult extractionResult,
-        List<CmsProperty> properties,
-        List<CmsProperty> propertiesSearched) {
-
-        Document doc = (Document)document.getDocument();
-
-        // add the category of the file (this is searched so the value can also be attached on a folder)
-        String value = CmsProperty.get(CmsPropertyDefinition.PROPERTY_SEARCH_CATEGORY, propertiesSearched).getValue();
-        if (CmsStringUtil.isNotEmpty(value)) {
-            // all categories are internally stored lower case
-            value = value.trim().toLowerCase();
-            if (value.length() > 0) {
-                Field field = new StringField(CmsSearchField.FIELD_CATEGORY, value, Field.Store.YES);
-                // field.setBoost(0);
-                doc.add(field);
-            }
-        }
-        return document;
-    }
+    return document;
+  }
 }

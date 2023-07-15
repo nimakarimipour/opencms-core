@@ -31,62 +31,73 @@ import org.opencms.db.CmsPublishList;
 import org.opencms.report.I_CmsReport;
 
 /**
- * Defines a read-only publish job that is still waiting for publishing.<p>
+ * Defines a read-only publish job that is still waiting for publishing.
+ *
+ * <p>
  *
  * @since 6.5.5
  */
 public class CmsPublishJobEnqueued extends CmsPublishJobBase {
 
-    /**
-     * Default constructor.<p>
-     *
-     * @param publishJob the delegate publish job
-     */
-    protected CmsPublishJobEnqueued(CmsPublishJobInfoBean publishJob) {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   *
+   * @param publishJob the delegate publish job
+   */
+  protected CmsPublishJobEnqueued(CmsPublishJobInfoBean publishJob) {
 
-        super(publishJob);
-    }
+    super(publishJob);
+  }
 
-    /**
-     * Returns the time this object has been created.<p>
-     *
-     * @return the time this object has been created
-     */
-    public long getEnqueueTime() {
+  /**
+   * Returns the time this object has been created.
+   *
+   * <p>
+   *
+   * @return the time this object has been created
+   */
+  public long getEnqueueTime() {
 
-        return m_publishJob.getEnqueueTime();
-    }
+    return m_publishJob.getEnqueueTime();
+  }
 
-    /**
-     * Returns the list of resources to publish.<p>
-     *
-     * @return the list of resources to publish
-     */
-    public CmsPublishList getOriginalPublishList() {
+  /**
+   * Returns the list of resources to publish.
+   *
+   * <p>
+   *
+   * @return the list of resources to publish
+   */
+  public CmsPublishList getOriginalPublishList() {
 
-        return m_publishJob.getOriginalPublishList();
-    }
+    return m_publishJob.getOriginalPublishList();
+  }
 
-    /**
-     * Returns the list of resources to publish.<p>
-     *
-     * @return the list of resources to publish
-     */
-    public CmsPublishList getPublishList() {
+  /**
+   * Returns the list of resources to publish.
+   *
+   * <p>
+   *
+   * @return the list of resources to publish
+   */
+  public CmsPublishList getPublishList() {
 
-        return m_publishJob.getPublishList();
-    }
+    return m_publishJob.getPublishList();
+  }
 
-    /**
-     * Returns the report for this publish job.<p>
-     *
-     * This is not the original report, it is wrapper that
-     * also writes to a temporary file.<p>
-     *
-     * @return the report for this publish job
-     */
-    public I_CmsReport getReport() {
+  /**
+   * Returns the report for this publish job.
+   *
+   * <p>This is not the original report, it is wrapper that also writes to a temporary file.
+   *
+   * <p>
+   *
+   * @return the report for this publish job
+   */
+  public I_CmsReport getReport() {
 
-        return m_publishJob.getPublishReport();
-    }
+    return m_publishJob.getPublishReport();
+  }
 }

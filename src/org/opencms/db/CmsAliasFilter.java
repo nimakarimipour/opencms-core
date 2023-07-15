@@ -30,73 +30,84 @@ package org.opencms.db;
 import org.opencms.util.CmsUUID;
 
 /**
- * This class is used for filtering aliases in database operations.<p>
+ * This class is used for filtering aliases in database operations.
+ *
+ * <p>
  */
 public class CmsAliasFilter {
 
-    /** The alias path. */
-    private String m_path;
+  /** The alias path. */
+  private String m_path;
 
-    /** The alias site root. */
-    private String m_siteRoot;
+  /** The alias site root. */
+  private String m_siteRoot;
 
-    /** The alias structure id. */
-    private CmsUUID m_structureId;
+  /** The alias structure id. */
+  private CmsUUID m_structureId;
 
-    /**
-     * Creates a new alias filter.<p>
-     *
-     * Any parameter which is null will not be used for filtering.<p>
-     *
-     * @param siteRoot the site root to filter
-     * @param aliasPath the alias path to filter
-     * @param structureId the structure id to filter
-     */
-    public CmsAliasFilter(String siteRoot, String aliasPath, CmsUUID structureId) {
+  /**
+   * Creates a new alias filter.
+   *
+   * <p>Any parameter which is null will not be used for filtering.
+   *
+   * <p>
+   *
+   * @param siteRoot the site root to filter
+   * @param aliasPath the alias path to filter
+   * @param structureId the structure id to filter
+   */
+  public CmsAliasFilter(String siteRoot, String aliasPath, CmsUUID structureId) {
 
-        m_path = aliasPath;
-        m_structureId = structureId;
-        m_siteRoot = siteRoot;
-    }
+    m_path = aliasPath;
+    m_structureId = structureId;
+    m_siteRoot = siteRoot;
+  }
 
-    /**
-     * Gets the alias path to filter.<p>
-     *
-     * @return the alias path
-     */
-    public String getPath() {
+  /**
+   * Gets the alias path to filter.
+   *
+   * <p>
+   *
+   * @return the alias path
+   */
+  public String getPath() {
 
-        return m_path;
-    }
+    return m_path;
+  }
 
-    /**
-     * Gets the site root to filter.<p>
-     *
-     * @return the site root
-     */
-    public String getSiteRoot() {
+  /**
+   * Gets the site root to filter.
+   *
+   * <p>
+   *
+   * @return the site root
+   */
+  public String getSiteRoot() {
 
-        return m_siteRoot;
-    }
+    return m_siteRoot;
+  }
 
-    /**
-     * Gets the structure id to filter.<p>
-     *
-     * @return the structure id
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Gets the structure id to filter.
+   *
+   * <p>
+   *
+   * @return the structure id
+   */
+  public CmsUUID getStructureId() {
 
-        return m_structureId;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * Checks whether this filter is trivial, i.e. would match all aliases.<p>
-     *
-     * @return true if the filter is trivial
-     */
-    public boolean isNullFilter() {
+  /**
+   * Checks whether this filter is trivial, i.e. would match all aliases.
+   *
+   * <p>
+   *
+   * @return true if the filter is trivial
+   */
+  public boolean isNullFilter() {
 
-        return (m_path == null) && (m_siteRoot == null) && (m_structureId == null);
-    }
-
+    return (m_path == null) && (m_siteRoot == null) && (m_structureId == null);
+  }
 }

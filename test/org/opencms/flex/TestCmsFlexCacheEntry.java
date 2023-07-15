@@ -30,27 +30,29 @@ package org.opencms.flex;
 import org.opencms.test.OpenCmsTestCase;
 
 /**
- * Tests for the CmsFlexCacheEntry.<p>
+ * Tests for the CmsFlexCacheEntry.
+ *
+ * <p>
  */
 public class TestCmsFlexCacheEntry extends OpenCmsTestCase {
 
-    /**
-     * Tests the method getAbsoluteUri.<p>
-     */
-    public void testSetDateLastModifiedToPreviousTimeout() {
+  /**
+   * Tests the method getAbsoluteUri.
+   *
+   * <p>
+   */
+  public void testSetDateLastModifiedToPreviousTimeout() {
 
-        CmsFlexCacheEntry entry = new CmsFlexCacheEntry();
-        long timeout = 1;
+    CmsFlexCacheEntry entry = new CmsFlexCacheEntry();
+    long timeout = 1;
 
-        entry.complete();
-        entry.setDateExpiresToNextTimeout(timeout);
-        entry.setDateLastModifiedToPreviousTimeout(timeout);
+    entry.complete();
+    entry.setDateExpiresToNextTimeout(timeout);
+    entry.setDateLastModifiedToPreviousTimeout(timeout);
 
-        long timeExpire = entry.getDateExpires();
-        long timeLastMod = entry.getDateLastModified();
-        long timeoutDiff = (timeExpire - timeLastMod) / 60000;
-        assertEquals(timeout, timeoutDiff);
-
-    }
-
+    long timeExpire = entry.getDateExpires();
+    long timeLastMod = entry.getDateLastModified();
+    long timeoutDiff = (timeExpire - timeLastMod) / 60000;
+    assertEquals(timeout, timeoutDiff);
+  }
 }

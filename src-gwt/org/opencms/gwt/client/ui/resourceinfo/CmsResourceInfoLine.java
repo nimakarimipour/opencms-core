@@ -37,83 +37,87 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * A single information item for the resource information dialog.<p>
+ * A single information item for the resource information dialog.
+ *
+ * <p>
  */
 public class CmsResourceInfoLine extends Composite implements HasText {
 
-    /**
-     * The uibinder interface for this widget.<p>
-     */
-    interface I_CmsResourceInfoLineUiBinder extends UiBinder<Widget, CmsResourceInfoLine> {
-        // empty
+  /**
+   * The uibinder interface for this widget.
+   *
+   * <p>
+   */
+  interface I_CmsResourceInfoLineUiBinder extends UiBinder<Widget, CmsResourceInfoLine> {
+    // empty
+  }
+
+  /** The uibinder instance for this widget. */
+  private static I_CmsResourceInfoLineUiBinder uiBinder =
+      GWT.create(I_CmsResourceInfoLineUiBinder.class);
+
+  /** The field content. */
+  @UiField protected HTML m_content = new HTML();
+
+  /** The label for the field. */
+  @UiField protected InlineLabel m_label = new InlineLabel();
+
+  /** Flag which controls whether HTML should be use for the info value. */
+  private boolean m_useHtml;
+
+  /**
+   * Creates a new widget instance.
+   *
+   * <p>
+   */
+  public CmsResourceInfoLine() {
+
+    initWidget(uiBinder.createAndBindUi(this));
+    setVisible(false);
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasText#getText() */
+  public String getText() {
+
+    return m_content.getText();
+  }
+
+  /**
+   * Sets the label text.
+   *
+   * <p>
+   *
+   * @param label the label text
+   */
+  public void setLabel(String label) {
+
+    m_label.setText(label);
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasText#setText(java.lang.String) */
+  public void setText(String text) {
+
+    if (text == null) {
+      setVisible(false);
+    } else {
+      if (m_useHtml) {
+        m_content.setHTML(text);
+      } else {
+        m_content.setText(text);
+      }
+      setVisible(true);
     }
+  }
 
-    /** The uibinder instance for this widget. */
-    private static I_CmsResourceInfoLineUiBinder uiBinder = GWT.create(I_CmsResourceInfoLineUiBinder.class);
+  /**
+   * Enables or disables the use of HTML in the content field.
+   *
+   * <p>
+   *
+   * @param useHtml if true, enables HTML usage
+   */
+  public void setUseHtml(boolean useHtml) {
 
-    /** The field content. */
-    @UiField
-    protected HTML m_content = new HTML();
-
-    /** The label for the field. */
-    @UiField
-    protected InlineLabel m_label = new InlineLabel();
-
-    /** Flag which controls whether HTML should be use for the info value. */
-    private boolean m_useHtml;
-
-    /**
-     * Creates a new widget instance.<p>
-     */
-    public CmsResourceInfoLine() {
-
-        initWidget(uiBinder.createAndBindUi(this));
-        setVisible(false);
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasText#getText()
-     */
-    public String getText() {
-
-        return m_content.getText();
-    }
-
-    /**
-     * Sets the label text.<p>
-     *
-     * @param label the label text
-     */
-    public void setLabel(String label) {
-
-        m_label.setText(label);
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasText#setText(java.lang.String)
-     */
-    public void setText(String text) {
-
-        if (text == null) {
-            setVisible(false);
-        } else {
-            if (m_useHtml) {
-                m_content.setHTML(text);
-            } else {
-                m_content.setText(text);
-            }
-            setVisible(true);
-        }
-    }
-
-    /**
-     * Enables or disables the use of HTML in the content field.<p>
-     *
-     * @param useHtml if true, enables HTML usage
-     */
-    public void setUseHtml(boolean useHtml) {
-
-        m_useHtml = useHtml;
-    }
-
+    m_useHtml = useHtml;
+  }
 }

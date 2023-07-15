@@ -27,10 +27,7 @@
 
 package org.apache.logging.log4j.core.appender;
 
-import org.opencms.test.I_CmsLogHandler;
-
 import java.io.Serializable;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.Filter;
 import org.apache.logging.log4j.core.Layout;
@@ -40,119 +37,125 @@ import org.apache.logging.log4j.core.config.plugins.PluginAttribute;
 import org.apache.logging.log4j.core.config.plugins.PluginElement;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 import org.apache.logging.log4j.core.layout.PatternLayout;
+import org.opencms.test.I_CmsLogHandler;
 
 /**
- * Simple extension of the log4j console appender that throws a
- * <code>RuntimeException</code> if an error (or fatal) event is logged,
- * causing the running test to fail.<p>
+ * Simple extension of the log4j console appender that throws a <code>RuntimeException</code> if an
+ * error (or fatal) event is logged, causing the running test to fail.
+ *
+ * <p>
  *
  * @since 11.0.0
- *
  */
 @Plugin(name = "TestLogAppender", category = "Core", elementType = "appender", printObject = true)
 public class OpenCmsTestLogAppender extends AbstractOutputStreamAppender<OutputStreamManager> {
 
-    /** Indicates if a logged error / fatal message should cause a test to fail. */
-    private static boolean m_breakOnError;
+  /** Indicates if a logged error / fatal message should cause a test to fail. */
+  private static boolean m_breakOnError;
 
-    /** Instance counter used for name generation. */
-    private static int m_count = 0;
+  /** Instance counter used for name generation. */
+  private static int m_count = 0;
 
-    /** Current log handler. */
-    private static I_CmsLogHandler m_handler;
+  /** Current log handler. */
+  private static I_CmsLogHandler m_handler;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param name appender name
-     * @param layout the log layout
-     * @param filter the log filter
-     * @param manager the output stream manager
-     */
-    protected OpenCmsTestLogAppender(
-        String name,
-        Layout<? extends Serializable> layout,
-        Filter filter,
-        OutputStreamManager manager) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param name appender name
+   * @param layout the log layout
+   * @param filter the log filter
+   * @param manager the output stream manager
+   */
+  protected OpenCmsTestLogAppender(
+      String name,
+      Layout<? extends Serializable> layout,
+      Filter filter,
+      OutputStreamManager manager) {
 
-        super(name, layout, filter, false, true, manager);
+    super(name, layout, filter, false, true, manager);
+  }
 
+  /**
+   * Factory method used by log4j2 to create appender instances when reading the log4j2
+   * configuration.
+   *
+   * <p>
+   *
+   * @param name the appender name
+   * @param layout the log layout
+   * @param filter the filter
+   * @return the appender instance
+   */
+  @SuppressWarnings("resource")
+  @PluginFactory
+  public static OpenCmsTestLogAppender createAppender(
+      @PluginAttribute("name") String name,
+      @PluginElement("Layout") Layout<? extends Serializable> layout,
+      @PluginElement("Filter") final Filter filter) {
+
+    if (name == null) {
+      LOGGER.error("No name provided for MyCustomAppenderImpl");
+      return null;
+    }
+    if (layout == null) {
+      layout = PatternLayout.createDefaultLayout();
+    }
+    return new OpenCmsTestLogAppender(
+        name,
+        layout,
+        filter,
+        new OutputStreamManager(System.out, "OpenCmsTestLogAppender_" + m_count++, layout, true));
+  }
+
+  /**
+   * Sets the "break on error" status.
+   *
+   * <p>
+   *
+   * @param value the "break on error" status to set
+   */
+  public static void setBreakOnError(boolean value) {
+
+    m_breakOnError = value;
+  }
+
+  /**
+   * Sets the current log handler.
+   *
+   * <p>
+   *
+   * @param handler the handler
+   */
+  public static void setHandler(I_CmsLogHandler handler) {
+
+    m_handler = handler;
+  }
+
+  /** @see org.apache.logging.log4j.core.Appender#append(LogEvent event) */
+  @Override
+  public void append(LogEvent logEvent) {
+
+    // first log the event as usual
+    super.append(logEvent);
+    if (m_handler != null) {
+      m_handler.handleLogEvent(logEvent);
     }
 
-    /**
-     * Factory method used by log4j2 to create appender instances when reading the log4j2 configuration.<p>
-     *
-     * @param name the appender name
-     * @param layout the log layout
-     * @param filter the filter
-     *
-     * @return the appender instance
-     */
-    @SuppressWarnings("resource")
-    @PluginFactory
-    public static OpenCmsTestLogAppender createAppender(
-        @PluginAttribute("name") String name,
-        @PluginElement("Layout") Layout<? extends Serializable> layout,
-        @PluginElement("Filter") final Filter filter) {
-
-        if (name == null) {
-            LOGGER.error("No name provided for MyCustomAppenderImpl");
-            return null;
+    if (m_breakOnError) {
+      int logLevel = logEvent.getLevel().intLevel();
+      if ((logLevel == Level.ERROR.intLevel()) || (logLevel == Level.FATAL.intLevel())) {
+        if (logEvent.getThrownProxy() != null) {
+          if (logEvent.getThrownProxy().getThrowable() != null) {
+            throw new RuntimeException(
+                logEvent.getMessage().getFormattedMessage(),
+                logEvent.getThrownProxy().getThrowable());
+          }
         }
-        if (layout == null) {
-            layout = PatternLayout.createDefaultLayout();
-        }
-        return new OpenCmsTestLogAppender(
-            name,
-            layout,
-            filter,
-            new OutputStreamManager(System.out, "OpenCmsTestLogAppender_" + m_count++, layout, true));
+        throw new RuntimeException(logEvent.getMessage().getFormattedMessage());
+      }
     }
-
-    /**
-     * Sets the "break on error" status.<p>
-     *
-     * @param value the "break on error" status to set
-     */
-    public static void setBreakOnError(boolean value) {
-
-        m_breakOnError = value;
-    }
-
-    /**
-     * Sets the current log handler.<p>
-     *
-     * @param handler the handler
-     */
-    public static void setHandler(I_CmsLogHandler handler) {
-
-        m_handler = handler;
-    }
-
-    /**
-     * @see org.apache.logging.log4j.core.Appender#append(LogEvent event)
-     */
-    @Override
-    public void append(LogEvent logEvent) {
-
-        // first log the event as usual
-        super.append(logEvent);
-        if (m_handler != null) {
-            m_handler.handleLogEvent(logEvent);
-        }
-
-        if (m_breakOnError) {
-            int logLevel = logEvent.getLevel().intLevel();
-            if ((logLevel == Level.ERROR.intLevel()) || (logLevel == Level.FATAL.intLevel())) {
-                if (logEvent.getThrownProxy() != null) {
-                    if (logEvent.getThrownProxy().getThrowable() != null) {
-                        throw new RuntimeException(
-                            logEvent.getMessage().getFormattedMessage(),
-                            logEvent.getThrownProxy().getThrowable());
-                    }
-                }
-                throw new RuntimeException(logEvent.getMessage().getFormattedMessage());
-            }
-        }
-    }
+  }
 }

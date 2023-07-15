@@ -27,6 +27,10 @@
 
 package org.opencms.ui.actions;
 
+import com.google.common.collect.Sets;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 import org.opencms.file.CmsResource;
 import org.opencms.file.types.CmsResourceTypeXmlContainerPage;
 import org.opencms.file.types.CmsResourceTypeXmlContent;
@@ -38,70 +42,63 @@ import org.opencms.ui.Messages;
 import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 /**
- * Action to logout.<p>
- * Used within the ADE context only.<p>
+ * Action to logout.
+ *
+ * <p>Used within the ADE context only.
+ *
+ * <p>
  */
 public class CmsEditContentAction extends A_CmsEditFileAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "ade_editcontent";
+  /** The action id. */
+  public static final String ACTION_ID = "ade_editcontent";
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
+    return ACTION_ID;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.actions.A_CmsWorkplaceAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
+   */
+  @Override
+  public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
+
+    Set<String> validContexts = Sets.newHashSet();
+    for (AdeContext adecontext : Arrays.asList(AdeContext.gallery, AdeContext.resourceinfo)) {
+      validContexts.add(adecontext.name());
     }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
-     */
-    @Override
-    public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
-
-        Set<String> validContexts = Sets.newHashSet();
-        for (AdeContext adecontext : Arrays.asList(AdeContext.gallery, AdeContext.resourceinfo)) {
-            validContexts.add(adecontext.name());
-        }
-        if (!validContexts.contains(context.getAppId())) {
-            return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-        }
-        List<CmsResource> resources = context.getResources();
-        CmsResource resource = resources.get(0);
-        if (OpenCms.getADEManager().isEditorRestricted(context.getCms(), resource)) {
-            return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-        }
-        I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(resource);
-        if ((type instanceof CmsResourceTypeXmlContent) && !CmsResourceTypeXmlContainerPage.isContainerPage(resource)) {
-            return CmsStandardVisibilityCheck.DEFAULT.getSingleVisibility(context.getCms(), resource);
-        } else {
-            return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-        }
+    if (!validContexts.contains(context.getAppId())) {
+      return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
     }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsEditFileAction#getFileParam()
-     */
-    @Override
-    protected String getFileParam() {
-
-        return "%(file)";
+    List<CmsResource> resources = context.getResources();
+    CmsResource resource = resources.get(0);
+    if (OpenCms.getADEManager().isEditorRestricted(context.getCms(), resource)) {
+      return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
     }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
-
-        return Messages.GUI_ACTION_EDIT_CONTENT_0;
+    I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(resource);
+    if ((type instanceof CmsResourceTypeXmlContent)
+        && !CmsResourceTypeXmlContainerPage.isContainerPage(resource)) {
+      return CmsStandardVisibilityCheck.DEFAULT.getSingleVisibility(context.getCms(), resource);
+    } else {
+      return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
     }
+  }
+
+  /** @see org.opencms.ui.actions.A_CmsEditFileAction#getFileParam() */
+  @Override
+  protected String getFileParam() {
+
+    return "%(file)";
+  }
+
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
+
+    return Messages.GUI_ACTION_EDIT_CONTENT_0;
+  }
 }

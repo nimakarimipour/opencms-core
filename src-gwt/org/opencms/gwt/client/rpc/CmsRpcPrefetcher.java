@@ -31,61 +31,66 @@ import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 
 /**
- * Utility class for deserializing prefetched RPC data.<p>
+ * Utility class for deserializing prefetched RPC data.
+ *
+ * <p>
  *
  * @since 8.0
  */
 public final class CmsRpcPrefetcher {
 
-    /**
-     * Hidden constructor.<p>
-     */
-    private CmsRpcPrefetcher() {
+  /**
+   * Hidden constructor.
+   *
+   * <p>
+   */
+  private CmsRpcPrefetcher() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * Deserializes the prefetched RPC data with the given dictionary name.<p>
-     *
-     * @param asyncService the RPC service instance
-     * @param dictionaryName the global variable name
-     *
-     * @return the prefetched RPC data
-     *
-     * @throws SerializationException if the deserialization fails
-     */
-    public static Object getSerializedObjectFromDictionary(Object asyncService, String dictionaryName)
-    throws SerializationException {
+  /**
+   * Deserializes the prefetched RPC data with the given dictionary name.
+   *
+   * <p>
+   *
+   * @param asyncService the RPC service instance
+   * @param dictionaryName the global variable name
+   * @return the prefetched RPC data
+   * @throws SerializationException if the deserialization fails
+   */
+  public static Object getSerializedObjectFromDictionary(Object asyncService, String dictionaryName)
+      throws SerializationException {
 
-        return getSerializedObjectFromString(asyncService, getString(dictionaryName));
-    }
+    return getSerializedObjectFromString(asyncService, getString(dictionaryName));
+  }
 
-    /**
-     * Deserializes the prefetched RPC data.<p>
-     *
-     * @param asyncService the RPC service instance
-     * @param serializedData the serialized object data
-     *
-     * @return the prefetched RPC data
-     *
-     * @throws SerializationException if the deserialization fails
-     */
-    public static Object getSerializedObjectFromString(Object asyncService, String serializedData)
-    throws SerializationException {
+  /**
+   * Deserializes the prefetched RPC data.
+   *
+   * <p>
+   *
+   * @param asyncService the RPC service instance
+   * @param serializedData the serialized object data
+   * @return the prefetched RPC data
+   * @throws SerializationException if the deserialization fails
+   */
+  public static Object getSerializedObjectFromString(Object asyncService, String serializedData)
+      throws SerializationException {
 
-        SerializationStreamFactory ssf = (SerializationStreamFactory)asyncService;
-        return ssf.createStreamReader(serializedData).readObject();
-    }
+    SerializationStreamFactory ssf = (SerializationStreamFactory) asyncService;
+    return ssf.createStreamReader(serializedData).readObject();
+  }
 
-    /**
-     * Retrieves the given global variable as a string.<p>
-     *
-     * @param name the name of the variable to retrieve
-     *
-     * @return the variable's value
-     */
-    private static native String getString(String name) /*-{
+  /**
+   * Retrieves the given global variable as a string.
+   *
+   * <p>
+   *
+   * @param name the name of the variable to retrieve
+   * @return the variable's value
+   */
+  private static native String getString(String name) /*-{
                                                         var metas = $wnd.document.getElementsByTagName('META');
                                                         var i;
                                                         for (i = 0; i < metas.length; i++) {

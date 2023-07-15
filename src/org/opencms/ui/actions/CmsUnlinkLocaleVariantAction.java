@@ -27,6 +27,8 @@
 
 package org.opencms.ui.actions;
 
+import java.util.List;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResourceFilter;
@@ -43,108 +45,107 @@ import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 import org.opencms.ui.sitemap.CmsUnlinkDialog;
 
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Workplace action for the 'Link locale variant' dialog.<p>
+ * Workplace action for the 'Link locale variant' dialog.
+ *
+ * <p>
  */
 public class CmsUnlinkLocaleVariantAction extends A_CmsWorkplaceAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "unlinklocale";
+  /** The action id. */
+  public static final String ACTION_ID = "unlinklocale";
 
-    /** The action visibility. */
-    public static final I_CmsHasMenuItemVisibility VISIBILITY = new CmsMenuItemVisibilitySingleOnly(
-        CmsStandardVisibilityCheck.DEFAULT_DEFAULTFILE);
+  /** The action visibility. */
+  public static final I_CmsHasMenuItemVisibility VISIBILITY =
+      new CmsMenuItemVisibilitySingleOnly(CmsStandardVisibilityCheck.DEFAULT_DEFAULTFILE);
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsUnlinkLocaleVariantAction.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsUnlinkLocaleVariantAction.class);
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(final I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(final I_CmsDialogContext context) {
 
+    try {
+      final CmsResource resource = context.getResources().get(0);
+      CmsObject cms = context.getCms();
+      List<CmsRelation> relations = readOutgoingRelations(cms, resource);
+      for (CmsRelation relation : relations) {
         try {
-            final CmsResource resource = context.getResources().get(0);
-            CmsObject cms = context.getCms();
-            List<CmsRelation> relations = readOutgoingRelations(cms, resource);
-            for (CmsRelation relation : relations) {
-                try {
-                    CmsResource target = relation.getTarget(cms, CmsResourceFilter.IGNORE_EXPIRATION);
-                    CmsUnlinkDialog unlinkDialog = new CmsUnlinkDialog(context, target);
-                    openDialog(unlinkDialog, context);
-                    break;
-                } catch (CmsException e) {
-                    LOG.info("No target found for: " + relation, e);
-                }
-            }
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            context.error(e);
-        }
-    }
-
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
-
-        return ACTION_ID;
-    }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    public String getTitleKey() {
-
-        return Messages.GUI_LOCALECOMPARE_UNLINK_LOCALE_VARIANT_0;
-    }
-
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
-
-        CmsMenuItemVisibilityMode visibility = VISIBILITY.getVisibility(cms, resources);
-        if (visibility.isInVisible() || visibility.isInActive()) {
-            return visibility;
-        }
-        try {
-            List<CmsRelation> relations = readOutgoingRelations(cms, resources.get(0));
-            boolean hasRelations = false;
-            for (CmsRelation relation : relations) {
-                if (!relation.getTargetId().isNullUUID()) {
-                    hasRelations = true;
-                    break;
-                }
-            }
-            return hasRelations
-            ? CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE
-            : CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
+          CmsResource target = relation.getTarget(cms, CmsResourceFilter.IGNORE_EXPIRATION);
+          CmsUnlinkDialog unlinkDialog = new CmsUnlinkDialog(context, target);
+          openDialog(unlinkDialog, context);
+          break;
         } catch (CmsException e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
+          LOG.info("No target found for: " + relation, e);
         }
+      }
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      context.error(e);
     }
+  }
 
-    /**
-     * Reads the outgoing LOCALE_VARIANT relations for a given resource.<p>
-     *
-     * @param cms the CMS context
-     * @param resource the resource
-     * @return the list of relations
-     * @throws CmsException if something goes wrong
-     */
-    List<CmsRelation> readOutgoingRelations(CmsObject cms, CmsResource resource) throws CmsException {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        List<CmsRelation> results = cms.readRelations(
-            CmsRelationFilter.relationsFromStructureId(resource.getStructureId()).filterType(
-                CmsRelationType.LOCALE_VARIANT));
-        return results;
+    return ACTION_ID;
+  }
+
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  public String getTitleKey() {
+
+    return Messages.GUI_LOCALECOMPARE_UNLINK_LOCALE_VARIANT_0;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+
+    CmsMenuItemVisibilityMode visibility = VISIBILITY.getVisibility(cms, resources);
+    if (visibility.isInVisible() || visibility.isInActive()) {
+      return visibility;
     }
+    try {
+      List<CmsRelation> relations = readOutgoingRelations(cms, resources.get(0));
+      boolean hasRelations = false;
+      for (CmsRelation relation : relations) {
+        if (!relation.getTargetId().isNullUUID()) {
+          hasRelations = true;
+          break;
+        }
+      }
+      return hasRelations
+          ? CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE
+          : CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
+    } catch (CmsException e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
+    }
+  }
 
+  /**
+   * Reads the outgoing LOCALE_VARIANT relations for a given resource.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @param resource the resource
+   * @return the list of relations
+   * @throws CmsException if something goes wrong
+   */
+  List<CmsRelation> readOutgoingRelations(CmsObject cms, CmsResource resource) throws CmsException {
+
+    List<CmsRelation> results =
+        cms.readRelations(
+            CmsRelationFilter.relationsFromStructureId(resource.getStructureId())
+                .filterType(CmsRelationType.LOCALE_VARIANT));
+    return results;
+  }
 }

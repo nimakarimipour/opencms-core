@@ -27,147 +27,138 @@
 
 package org.opencms.file.history;
 
+import java.util.Locale;
 import org.opencms.security.CmsPrincipal;
 import org.opencms.security.I_CmsPrincipal;
 import org.opencms.util.CmsUUID;
 
-import java.util.Locale;
-
 /**
- * Describes an OpenCms historical principal entry.<p>
+ * Describes an OpenCms historical principal entry.
+ *
+ * <p>
  *
  * @since 6.9.1
  */
 public class CmsHistoryPrincipal extends CmsPrincipal implements Cloneable {
 
-    /** The date the principal was deleted. */
-    private long m_dateDeleted;
+  /** The date the principal was deleted. */
+  private long m_dateDeleted;
 
-    /** The email address of this deleted user, if this principal is a user. */
-    private String m_email;
+  /** The email address of this deleted user, if this principal is a user. */
+  private String m_email;
 
-    /** The type of this deleted principal. */
-    private String m_type;
+  /** The type of this deleted principal. */
+  private String m_type;
 
-    /** The id of user that deleted this principal. */
-    private CmsUUID m_userDeleted;
+  /** The id of user that deleted this principal. */
+  private CmsUUID m_userDeleted;
 
-    /**
-     * Default constructor.<p>
-     *
-     * @param id the unique id of this principal
-     * @param name the fully qualified name
-     * @param description the description
-     * @param type the principal type
-     * @param email the email address
-     * @param userDeleted the id of user that deleted this principal
-     * @param dateDeleted the date the principal was deleted
-     */
-    public CmsHistoryPrincipal(
-        CmsUUID id,
-        String name,
-        String description,
-        String email,
-        String type,
-        CmsUUID userDeleted,
-        long dateDeleted) {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   *
+   * @param id the unique id of this principal
+   * @param name the fully qualified name
+   * @param description the description
+   * @param type the principal type
+   * @param email the email address
+   * @param userDeleted the id of user that deleted this principal
+   * @param dateDeleted the date the principal was deleted
+   */
+  public CmsHistoryPrincipal(
+      CmsUUID id,
+      String name,
+      String description,
+      String email,
+      String type,
+      CmsUUID userDeleted,
+      long dateDeleted) {
 
-        m_id = id;
-        m_name = name;
-        m_description = description;
-        m_email = email;
-        m_type = type;
-        m_dateDeleted = dateDeleted;
-        m_userDeleted = userDeleted;
-    }
+    m_id = id;
+    m_name = name;
+    m_description = description;
+    m_email = email;
+    m_type = type;
+    m_dateDeleted = dateDeleted;
+    m_userDeleted = userDeleted;
+  }
 
-    /**
-     * @see org.opencms.security.I_CmsPrincipal#checkName(java.lang.String)
-     */
-    public void checkName(String name) {
+  /** @see org.opencms.security.I_CmsPrincipal#checkName(java.lang.String) */
+  public void checkName(String name) {
 
-        // noop
-    }
+    // noop
+  }
 
-    /**
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    public Object clone() {
+  /** @see java.lang.Object#clone() */
+  @Override
+  public Object clone() {
 
-        return new CmsHistoryPrincipal(
-            getId(),
-            getName(),
-            getDescription(),
-            getEmail(),
-            getType(),
-            m_userDeleted,
-            m_dateDeleted);
-    }
+    return new CmsHistoryPrincipal(
+        getId(), getName(), getDescription(), getEmail(), getType(), m_userDeleted, m_dateDeleted);
+  }
 
-    /**
-     * Returns the date the user was deleted.
-     *
-     * @return the date the user was deleted
-     */
-    public long getDateDeleted() {
+  /**
+   * Returns the date the user was deleted.
+   *
+   * @return the date the user was deleted
+   */
+  public long getDateDeleted() {
 
-        return m_dateDeleted;
-    }
+    return m_dateDeleted;
+  }
 
-    /**
-     * @see org.opencms.security.I_CmsPrincipal#getDescription(java.util.Locale)
-     */
-    public String getDescription(Locale locale) {
+  /** @see org.opencms.security.I_CmsPrincipal#getDescription(java.util.Locale) */
+  public String getDescription(Locale locale) {
 
-        return "";
-    }
+    return "";
+  }
 
-    /**
-     * Returns the email address of this deleted user, if this principal is a user.<p>
-     *
-     * @return the email address of this deleted user
-     */
-    public String getEmail() {
+  /**
+   * Returns the email address of this deleted user, if this principal is a user.
+   *
+   * <p>
+   *
+   * @return the email address of this deleted user
+   */
+  public String getEmail() {
 
-        return m_email;
-    }
+    return m_email;
+  }
 
-    /**
-     * Returns the principal type.<p>
-     *
-     * @return the principal type
-     */
-    public String getType() {
+  /**
+   * Returns the principal type.
+   *
+   * <p>
+   *
+   * @return the principal type
+   */
+  public String getType() {
 
-        return m_type;
-    }
+    return m_type;
+  }
 
-    /**
-     * Returns the id of user that deleted this user.
-     *
-     * @return the id of user that deleted this user
-     */
-    public CmsUUID getUserDeleted() {
+  /**
+   * Returns the id of user that deleted this user.
+   *
+   * @return the id of user that deleted this user
+   */
+  public CmsUUID getUserDeleted() {
 
-        return m_userDeleted;
-    }
+    return m_userDeleted;
+  }
 
-    /**
-     * @see org.opencms.security.CmsPrincipal#isGroup()
-     */
-    @Override
-    public boolean isGroup() {
+  /** @see org.opencms.security.CmsPrincipal#isGroup() */
+  @Override
+  public boolean isGroup() {
 
-        return m_type.equals(I_CmsPrincipal.PRINCIPAL_GROUP);
-    }
+    return m_type.equals(I_CmsPrincipal.PRINCIPAL_GROUP);
+  }
 
-    /**
-     * @see org.opencms.security.CmsPrincipal#isUser()
-     */
-    @Override
-    public boolean isUser() {
+  /** @see org.opencms.security.CmsPrincipal#isUser() */
+  @Override
+  public boolean isUser() {
 
-        return m_type.equals(I_CmsPrincipal.PRINCIPAL_USER);
-    }
+    return m_type.equals(I_CmsPrincipal.PRINCIPAL_USER);
+  }
 }

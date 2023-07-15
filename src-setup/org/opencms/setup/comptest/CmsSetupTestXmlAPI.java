@@ -27,61 +27,58 @@
 
 package org.opencms.setup.comptest;
 
+import org.dom4j.io.SAXReader;
 import org.opencms.setup.CmsSetupBean;
 
-import org.dom4j.io.SAXReader;
-
 /**
- * Test for the XML API.<p>
+ * Test for the XML API.
+ *
+ * <p>
  *
  * @since 6.1.8
  */
 public class CmsSetupTestXmlAPI implements I_CmsSetupTest {
 
-    /** The test name. */
-    public static final String TEST_NAME = "XML API";
+  /** The test name. */
+  public static final String TEST_NAME = "XML API";
 
-    /**
-     * @see org.opencms.setup.comptest.I_CmsSetupTest#getName()
-     */
-    public String getName() {
+  /** @see org.opencms.setup.comptest.I_CmsSetupTest#getName() */
+  public String getName() {
 
-        return TEST_NAME;
+    return TEST_NAME;
+  }
+
+  /** @see org.opencms.setup.comptest.I_CmsSetupTest#execute(org.opencms.setup.CmsSetupBean) */
+  public CmsSetupTestResult execute(CmsSetupBean setupBean) throws Exception {
+
+    CmsSetupTestResult testResult = new CmsSetupTestResult(this);
+
+    SAXReader reader = new SAXReader();
+    Throwable exc = null;
+    try {
+      reader.setValidation(false);
+      reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+    } catch (Throwable e) {
+      exc = e;
     }
 
-    /**
-     * @see org.opencms.setup.comptest.I_CmsSetupTest#execute(org.opencms.setup.CmsSetupBean)
-     */
-    public CmsSetupTestResult execute(CmsSetupBean setupBean) throws Exception {
-
-        CmsSetupTestResult testResult = new CmsSetupTestResult(this);
-
-        SAXReader reader = new SAXReader();
-        Throwable exc = null;
-        try {
-            reader.setValidation(false);
-            reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-        } catch (Throwable e) {
-            exc = e;
-        }
-
-        if (exc == null) {
-            testResult.setResult("passed");
-            testResult.setHelp(
-                "OpenCms requires Xerces version 2 to run. Usually this should be available as part of the servlet environment.");
-            testResult.setGreen();
-        } else {
-            testResult.setResult("not passed");
-            testResult.setRed();
-            testResult.setInfo(
-                "OpenCms requires Xerces XML API to be configured. "
-                    + "Be sure to set following Java System parameters:<br><pre>"
-                    + "javax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl\n"
-                    + "javax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl\n"
-                    + "javax.xml.transform.TransformerFactory=org.apache.xalan.processor.TransformerFactoryImpl\n"
-                    + "org.xml.sax.driver=org.apache.xerces.parsers.SAXParser</pre>");
-            testResult.setHelp(exc.getClass().getName() + ": " + exc.getMessage());
-        }
-        return testResult;
+    if (exc == null) {
+      testResult.setResult("passed");
+      testResult.setHelp(
+          "OpenCms requires Xerces version 2 to run. Usually this should be available as part of the servlet environment.");
+      testResult.setGreen();
+    } else {
+      testResult.setResult("not passed");
+      testResult.setRed();
+      testResult.setInfo(
+          "OpenCms requires Xerces XML API to be configured. "
+              + "Be sure to set following Java System parameters:<br><pre>"
+              + "javax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl\n"
+              + "javax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl\n"
+              + "javax.xml.transform.TransformerFactory=org.apache.xalan.processor.TransformerFactoryImpl\n"
+              + "org.xml.sax.driver=org.apache.xerces.parsers.SAXParser</pre>");
+      testResult.setHelp(exc.getClass().getName() + ": " + exc.getMessage());
     }
+    return testResult;
+  }
 }

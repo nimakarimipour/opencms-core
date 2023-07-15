@@ -27,6 +27,7 @@
 
 package org.opencms.ui.apps.modules;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
@@ -35,68 +36,64 @@ import org.opencms.module.CmsModuleManager;
 import org.opencms.report.A_CmsReportThread;
 import org.opencms.report.I_CmsReport;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Report thread for importing a module.<p>
+ * Report thread for importing a module.
+ *
+ * <p>
  */
 public class CmsModuleImportThread extends A_CmsReportThread {
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsModuleImportThread.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsModuleImportThread.class);
 
-    /** The cms object used for the import. */
-    private CmsObject m_cms;
+  /** The cms object used for the import. */
+  private CmsObject m_cms;
 
-    /** The module metadata. */
-    private CmsModule m_module;
+  /** The module metadata. */
+  private CmsModule m_module;
 
-    /** The module file path. */
-    private String m_path;
+  /** The module file path. */
+  private String m_path;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param cms the cms object used for the import
-     * @param module the module
-     * @param path the module file path
-     */
-    public CmsModuleImportThread(CmsObject cms, CmsModule module, String path) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param cms the cms object used for the import
+   * @param module the module
+   * @param path the module file path
+   */
+  public CmsModuleImportThread(CmsObject cms, CmsModule module, String path) {
 
-        super(cms, "Import of " + path);
-        m_module = module;
-        m_path = path;
-        m_cms = cms;
-        initHtmlReport(OpenCms.getWorkplaceManager().getWorkplaceLocale(cms));
+    super(cms, "Import of " + path);
+    m_module = module;
+    m_path = path;
+    m_cms = cms;
+    initHtmlReport(OpenCms.getWorkplaceManager().getWorkplaceLocale(cms));
+  }
+
+  /** @see org.opencms.report.A_CmsReportThread#getReportUpdate() */
+  @Override
+  public String getReportUpdate() {
+
+    return getReport().getReportUpdate();
+  }
+
+  /** @see java.lang.Thread#run() */
+  @Override
+  public void run() {
+
+    LOG.info("Starting import thread for " + m_module.getName() + ", import =  " + m_path);
+    I_CmsReport report = getReport();
+
+    try {
+      CmsObject cms = m_cms;
+      CmsModuleManager manager = OpenCms.getModuleManager();
+      manager.replaceModule(cms, m_path, report);
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      report.addError(e);
     }
-
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
-
-        return getReport().getReportUpdate();
-    }
-
-    /**
-     * @see java.lang.Thread#run()
-     */
-    @Override
-    public void run() {
-
-        LOG.info("Starting import thread for " + m_module.getName() + ", import =  " + m_path);
-        I_CmsReport report = getReport();
-
-        try {
-            CmsObject cms = m_cms;
-            CmsModuleManager manager = OpenCms.getModuleManager();
-            manager.replaceModule(cms, m_path, report);
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            report.addError(e);
-        }
-
-    }
-
+  }
 }

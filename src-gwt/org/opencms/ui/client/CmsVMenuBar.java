@@ -33,47 +33,55 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.vaadin.client.ui.VMenuBar;
 
 /**
- * Extending the VAADIN menu bar only to add a corner element pointing at the opening button.<p>
+ * Extending the VAADIN menu bar only to add a corner element pointing at the opening button.
+ *
+ * <p>
  */
 public class CmsVMenuBar extends VMenuBar {
 
-    /** The pointy corner CSS class. */
-    protected static final String CORNER_CLASS = "o-toolbar-menu-corner";
+  /** The pointy corner CSS class. */
+  protected static final String CORNER_CLASS = "o-toolbar-menu-corner";
 
-    /** The additional offset. */
-    private static final int OFFSET = -4;
+  /** The additional offset. */
+  private static final int OFFSET = -4;
 
-    /**
-     * Constructor.<p>
-     */
-    CmsVMenuBar() {
-        super();
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  CmsVMenuBar() {
+    super();
+  }
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param submenu if this is a sub-menu
+   * @param parentmenu the parent menu
+   */
+  CmsVMenuBar(boolean submenu, VMenuBar parentmenu) {
+    super(submenu, parentmenu);
+  }
+
+  /**
+   * @see
+   *     com.vaadin.client.ui.VMenuBar#showChildMenuAt(com.vaadin.client.ui.VMenuBar.CustomMenuItem,
+   *     int, int)
+   */
+  @Override
+  protected void showChildMenuAt(CustomMenuItem item, int top, int left) {
+
+    super.showChildMenuAt(item, top, left);
+    if (!subMenu) {
+      int popupLeft = popup.getPopupLeft();
+      int dif = (left - popupLeft) + OFFSET;
+      Element corner = Document.get().createDivElement();
+      corner.setClassName(CORNER_CLASS);
+      corner.getStyle().setLeft(dif, Unit.PX);
+      popup.getElement().appendChild(corner);
     }
-
-    /**
-     * Constructor.<p>
-     *
-     * @param submenu if this is a sub-menu
-     * @param parentmenu the parent menu
-     */
-    CmsVMenuBar(boolean submenu, VMenuBar parentmenu) {
-        super(submenu, parentmenu);
-    }
-
-    /**
-     * @see com.vaadin.client.ui.VMenuBar#showChildMenuAt(com.vaadin.client.ui.VMenuBar.CustomMenuItem, int, int)
-     */
-    @Override
-    protected void showChildMenuAt(CustomMenuItem item, int top, int left) {
-
-        super.showChildMenuAt(item, top, left);
-        if (!subMenu) {
-            int popupLeft = popup.getPopupLeft();
-            int dif = (left - popupLeft) + OFFSET;
-            Element corner = Document.get().createDivElement();
-            corner.setClassName(CORNER_CLASS);
-            corner.getStyle().setLeft(dif, Unit.PX);
-            popup.getElement().appendChild(corner);
-        }
-    }
+  }
 }

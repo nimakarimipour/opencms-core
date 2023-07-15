@@ -27,119 +27,134 @@
 
 package org.opencms.publish;
 
+import java.util.concurrent.ConcurrentHashMap;
 import org.opencms.db.CmsPublishList;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.concurrent.ConcurrentHashMap;
-
 /**
- * Performs some additional checks on publish lists to prevent inconsistent VFS states.<p>
+ * Performs some additional checks on publish lists to prevent inconsistent VFS states.
+ *
+ * <p>
  */
 public class CmsPublishListVerifier {
 
+  /**
+   * Entry for parent folders in which it is not allowed to publish resources.
+   *
+   * <p>Also contains a field for the reason why publishing is not allowed.
+   */
+  private class ForbiddenFolderEntry {
+
+    /** Reason why publishing is not allowed. */
+    String m_reason;
+
+    /** Root path of the forbidden parent folder. */
+    String m_rootPath;
+
     /**
-     * Entry for parent folders in which it is not allowed to publish resources.<p>
+     * Creates a new entry.
      *
-     * Also contains a field for the reason why publishing is not allowed.
-     */
-    private class ForbiddenFolderEntry {
-
-        /** Reason why publishing is not allowed. */
-        String m_reason;
-
-        /** Root path of the forbidden parent folder. */
-        String m_rootPath;
-
-        /**
-         * Creates a new entry.<p>
-         *
-         * @param rootPath the root path of the forbidden entry
-         * @param reason the reason why publishing is not allowed
-         */
-        public ForbiddenFolderEntry(String rootPath, String reason) {
-            m_rootPath = rootPath;
-            m_reason = reason;
-        }
-
-        /**
-         * Returns the reason.<p>
-         *
-         * @return the reason
-         */
-        public String getReason() {
-
-            return m_reason;
-        }
-
-        /**
-         * Returns the rootPath.<p>
-         *
-         * @return the rootPath
-         */
-        public String getRootPath() {
-
-            return m_rootPath;
-        }
-    }
-
-    /** Forbidden parent folders, with UUIDs as keys. */
-    private ConcurrentHashMap<CmsUUID, ForbiddenFolderEntry> m_forbiddenParentFolders = new ConcurrentHashMap<CmsUUID, ForbiddenFolderEntry>();
-
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsPublishListVerifier() {
-        // do nothing
-    }
-
-    /**
-     * Adds a forbidden parent folder.<p>
+     * <p>
      *
-     * @param parentFolder the forbidden parent folder
+     * @param rootPath the root path of the forbidden entry
      * @param reason the reason why publishing is not allowed
-     * @return an ID which can be used later to remove the forbidden parent folder
      */
-    public CmsUUID addForbiddenParentFolder(String parentFolder, String reason) {
-
-        CmsUUID id = new CmsUUID();
-        m_forbiddenParentFolders.put(id, new ForbiddenFolderEntry(parentFolder, reason));
-        return id;
+    public ForbiddenFolderEntry(String rootPath, String reason) {
+      m_rootPath = rootPath;
+      m_reason = reason;
     }
 
     /**
-     * Checks whether the given publish job is OK, and throws an exception otherwise.<p>
+     * Returns the reason.
      *
-     * @param publishList the publish list
-     * @throws CmsException if there's something wrong with the publish job
+     * <p>
+     *
+     * @return the reason
      */
-    public void checkPublishList(CmsPublishList publishList) throws CmsException {
+    public String getReason() {
 
-        for (CmsResource resource : publishList.getAllResources()) {
-            for (ForbiddenFolderEntry entry : m_forbiddenParentFolders.values()) {
-                if (CmsStringUtil.isPrefixPath(entry.getRootPath(), resource.getRootPath())) {
-                    throw new CmsPublishException(
-                        Messages.get().container(
-                            Messages.ERR_PUBLISH_FORBIDDEN_PARENT_FOLDER_3,
-                            resource.getRootPath(),
-                            entry.getRootPath(),
-                            entry.getReason()));
-                }
-            }
+      return m_reason;
+    }
 
+    /**
+     * Returns the rootPath.
+     *
+     * <p>
+     *
+     * @return the rootPath
+     */
+    public String getRootPath() {
+
+      return m_rootPath;
+    }
+  }
+
+  /** Forbidden parent folders, with UUIDs as keys. */
+  private ConcurrentHashMap<CmsUUID, ForbiddenFolderEntry> m_forbiddenParentFolders =
+      new ConcurrentHashMap<CmsUUID, ForbiddenFolderEntry>();
+
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsPublishListVerifier() {
+    // do nothing
+  }
+
+  /**
+   * Adds a forbidden parent folder.
+   *
+   * <p>
+   *
+   * @param parentFolder the forbidden parent folder
+   * @param reason the reason why publishing is not allowed
+   * @return an ID which can be used later to remove the forbidden parent folder
+   */
+  public CmsUUID addForbiddenParentFolder(String parentFolder, String reason) {
+
+    CmsUUID id = new CmsUUID();
+    m_forbiddenParentFolders.put(id, new ForbiddenFolderEntry(parentFolder, reason));
+    return id;
+  }
+
+  /**
+   * Checks whether the given publish job is OK, and throws an exception otherwise.
+   *
+   * <p>
+   *
+   * @param publishList the publish list
+   * @throws CmsException if there's something wrong with the publish job
+   */
+  public void checkPublishList(CmsPublishList publishList) throws CmsException {
+
+    for (CmsResource resource : publishList.getAllResources()) {
+      for (ForbiddenFolderEntry entry : m_forbiddenParentFolders.values()) {
+        if (CmsStringUtil.isPrefixPath(entry.getRootPath(), resource.getRootPath())) {
+          throw new CmsPublishException(
+              Messages.get()
+                  .container(
+                      Messages.ERR_PUBLISH_FORBIDDEN_PARENT_FOLDER_3,
+                      resource.getRootPath(),
+                      entry.getRootPath(),
+                      entry.getReason()));
         }
+      }
     }
+  }
 
-    /**
-     * Removes the forbidden parent folder using the id obtained while it was added.<p>
-     *
-     * @param id the id to remove the parent folder
-     */
-    public void removeForbiddenParentFolder(CmsUUID id) {
+  /**
+   * Removes the forbidden parent folder using the id obtained while it was added.
+   *
+   * <p>
+   *
+   * @param id the id to remove the parent folder
+   */
+  public void removeForbiddenParentFolder(CmsUUID id) {
 
-        m_forbiddenParentFolders.remove(id);
-    }
-
+    m_forbiddenParentFolders.remove(id);
+  }
 }

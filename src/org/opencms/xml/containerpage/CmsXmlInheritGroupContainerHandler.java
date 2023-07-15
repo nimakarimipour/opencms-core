@@ -27,6 +27,11 @@
 
 package org.opencms.xml.containerpage;
 
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import org.apache.commons.logging.Log;
 import org.opencms.ade.configuration.CmsADEManager;
 import org.opencms.ade.containerpage.inherited.CmsInheritanceReference;
 import org.opencms.ade.containerpage.inherited.CmsInheritanceReferenceParser;
@@ -39,116 +44,112 @@ import org.opencms.main.OpenCms;
 import org.opencms.xml.CmsXmlContentDefinition;
 import org.opencms.xml.content.CmsDefaultXmlContentHandler;
 
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.logging.Log;
-
-/**
- * The XML content handler class for inheritance groups.
- */
+/** The XML content handler class for inheritance groups. */
 public class CmsXmlInheritGroupContainerHandler extends CmsDefaultXmlContentHandler {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsXmlInheritGroupContainerHandler.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsXmlInheritGroupContainerHandler.class);
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsXmlInheritGroupContainerHandler() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsXmlInheritGroupContainerHandler() {
 
-        super();
+    super();
+  }
+
+  /**
+   * Returns the elements of the given inheritance group for the request context URI.
+   *
+   * <p>
+   *
+   * @param cms the current cms context
+   * @param resource the inheritance group resource
+   * @return the elements
+   */
+  public static List<CmsContainerElementBean> loadInheritContainerElements(
+      CmsObject cms, CmsResource resource) {
+
+    CmsInheritanceReferenceParser parser = new CmsInheritanceReferenceParser(cms);
+    try {
+      parser.parse(resource);
+      CmsInheritanceReference ref = parser.getReference(cms.getRequestContext().getLocale());
+      if (ref != null) {
+        String name = ref.getName();
+        CmsADEManager adeManager = OpenCms.getADEManager();
+        CmsInheritedContainerState result =
+            adeManager.getInheritedContainerState(cms, cms.getRequestContext().getRootUri(), name);
+        return result.getElements(false);
+      }
+    } catch (CmsException e) {
+      LOG.error(e.getLocalizedMessage(), e);
     }
+    return Collections.emptyList();
+  }
 
-    /**
-     * Returns the elements of the given inheritance group for the request context URI.<p>
-     *
-     * @param cms the current cms context
-     * @param resource the inheritance group resource
-     *
-     * @return the elements
-     */
-    public static List<CmsContainerElementBean> loadInheritContainerElements(CmsObject cms, CmsResource resource) {
+  /**
+   * @see
+   *     org.opencms.xml.content.CmsDefaultXmlContentHandler#getCSSHeadIncludes(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource)
+   */
+  @Override
+  public Set<String> getCSSHeadIncludes(CmsObject cms, CmsResource resource) throws CmsException {
 
-        CmsInheritanceReferenceParser parser = new CmsInheritanceReferenceParser(cms);
-        try {
-            parser.parse(resource);
-            CmsInheritanceReference ref = parser.getReference(cms.getRequestContext().getLocale());
-            if (ref != null) {
-                String name = ref.getName();
-                CmsADEManager adeManager = OpenCms.getADEManager();
-                CmsInheritedContainerState result = adeManager.getInheritedContainerState(
-                    cms,
-                    cms.getRequestContext().getRootUri(),
-                    name);
-                return result.getElements(false);
-            }
-        } catch (CmsException e) {
-            LOG.error(e.getLocalizedMessage(), e);
-        }
-        return Collections.emptyList();
+    Set<String> result = new LinkedHashSet<String>();
+
+    List<CmsContainerElementBean> containerElements = loadInheritContainerElements(cms, resource);
+    for (CmsContainerElementBean elementBean : containerElements) {
+      if (elementBean.isGroupContainer(cms) || elementBean.isInheritedContainer(cms)) {
+        throw new CmsException(
+            Messages.get()
+                .container(
+                    Messages.ERR_ELEMENT_GROUP_REFERENCES_ANOTHER_GROUP_2,
+                    resource.getRootPath(),
+                    elementBean.getResource().getRootPath()));
+      }
+      CmsResource elementResource = elementBean.getResource();
+      Set<String> elementIncludes =
+          CmsXmlContentDefinition.getContentHandlerForResource(cms, elementResource)
+              .getCSSHeadIncludes(cms, elementResource);
+      result.addAll(elementIncludes);
     }
+    return result;
+  }
 
-    /**
-     * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#getCSSHeadIncludes(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
-     */
-    @Override
-    public Set<String> getCSSHeadIncludes(CmsObject cms, CmsResource resource) throws CmsException {
+  /**
+   * @see
+   *     org.opencms.xml.content.CmsDefaultXmlContentHandler#getJSHeadIncludes(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource)
+   */
+  @Override
+  public Set<String> getJSHeadIncludes(CmsObject cms, CmsResource resource) throws CmsException {
 
-        Set<String> result = new LinkedHashSet<String>();
-
-        List<CmsContainerElementBean> containerElements = loadInheritContainerElements(cms, resource);
-        for (CmsContainerElementBean elementBean : containerElements) {
-            if (elementBean.isGroupContainer(cms) || elementBean.isInheritedContainer(cms)) {
-                throw new CmsException(
-                    Messages.get().container(
-                        Messages.ERR_ELEMENT_GROUP_REFERENCES_ANOTHER_GROUP_2,
-                        resource.getRootPath(),
-                        elementBean.getResource().getRootPath()));
-            }
-            CmsResource elementResource = elementBean.getResource();
-            Set<String> elementIncludes = CmsXmlContentDefinition.getContentHandlerForResource(
-                cms,
-                elementResource).getCSSHeadIncludes(cms, elementResource);
-            result.addAll(elementIncludes);
-        }
-        return result;
+    Set<String> result = new LinkedHashSet<String>();
+    List<CmsContainerElementBean> containerElements = loadInheritContainerElements(cms, resource);
+    for (CmsContainerElementBean elementBean : containerElements) {
+      if (elementBean.isGroupContainer(cms) || elementBean.isInheritedContainer(cms)) {
+        throw new CmsException(
+            Messages.get()
+                .container(
+                    Messages.ERR_ELEMENT_GROUP_REFERENCES_ANOTHER_GROUP_2,
+                    resource.getRootPath(),
+                    elementBean.getResource().getRootPath()));
+      }
+      CmsResource elementResource = elementBean.getResource();
+      Set<String> elementIncludes =
+          CmsXmlContentDefinition.getContentHandlerForResource(cms, elementResource)
+              .getJSHeadIncludes(cms, elementResource);
+      result.addAll(elementIncludes);
     }
+    return result;
+  }
 
-    /**
-     * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#getJSHeadIncludes(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
-     */
-    @Override
-    public Set<String> getJSHeadIncludes(CmsObject cms, CmsResource resource) throws CmsException {
+  /** @see org.opencms.xml.content.CmsDefaultXmlContentHandler#hasModifiableFormatters() */
+  @Override
+  public boolean hasModifiableFormatters() {
 
-        Set<String> result = new LinkedHashSet<String>();
-        List<CmsContainerElementBean> containerElements = loadInheritContainerElements(cms, resource);
-        for (CmsContainerElementBean elementBean : containerElements) {
-            if (elementBean.isGroupContainer(cms) || elementBean.isInheritedContainer(cms)) {
-                throw new CmsException(
-                    Messages.get().container(
-                        Messages.ERR_ELEMENT_GROUP_REFERENCES_ANOTHER_GROUP_2,
-                        resource.getRootPath(),
-                        elementBean.getResource().getRootPath()));
-            }
-            CmsResource elementResource = elementBean.getResource();
-            Set<String> elementIncludes = CmsXmlContentDefinition.getContentHandlerForResource(
-                cms,
-                elementResource).getJSHeadIncludes(cms, elementResource);
-            result.addAll(elementIncludes);
-        }
-        return result;
-    }
-
-    /**
-     * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#hasModifiableFormatters()
-     */
-    @Override
-    public boolean hasModifiableFormatters() {
-
-        return false;
-    }
-
+    return false;
+  }
 }

@@ -27,133 +27,148 @@
 
 package org.opencms.site;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.opencms.main.OpenCms;
 import org.opencms.ui.CmsVaadinUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Enumeration for different SSL Modes of sites.<p>
+ * Enumeration for different SSL Modes of sites.
+ *
+ * <p>
  */
 public enum CmsSSLMode {
 
-    /**No encryption. */
-    NO("no", Messages.GUI_SSL_MODE_NOSSL_0),
-    /**Manual ssl configuration of server. */
-    MANUAL("manual", Messages.GUI_SSL_MODE_MANUAL_0),
-    /**Manual ssl configuration of server with endpoint termination. */
-    MANUAL_EP_TERMINATION("manual-ep-termination", Messages.GUI_SSL_MODE_MANUAL_EP_0),
-    /**Encryption via Let's encrypt. */
-    LETS_ENCRYPT("lets-encrypt", Messages.GUI_SSL_MODE_LETS_ENCRYPT_0),
-    /**Encryption via secure server (the old OpenCms way). */
-    SECURE_SERVER("secure-server", Messages.GUI_SSL_MODE_SECURE_SERVER_0);
+  /** No encryption. */
+  NO("no", Messages.GUI_SSL_MODE_NOSSL_0),
+  /** Manual ssl configuration of server. */
+  MANUAL("manual", Messages.GUI_SSL_MODE_MANUAL_0),
+  /** Manual ssl configuration of server with endpoint termination. */
+  MANUAL_EP_TERMINATION("manual-ep-termination", Messages.GUI_SSL_MODE_MANUAL_EP_0),
+  /** Encryption via Let's encrypt. */
+  LETS_ENCRYPT("lets-encrypt", Messages.GUI_SSL_MODE_LETS_ENCRYPT_0),
+  /** Encryption via secure server (the old OpenCms way). */
+  SECURE_SERVER("secure-server", Messages.GUI_SSL_MODE_SECURE_SERVER_0);
 
-    /**Message key for label. */
-    private String m_message;
+  /** Message key for label. */
+  private String m_message;
 
-    /**XML value representing mode. */
-    private String m_xmlValue;
+  /** XML value representing mode. */
+  private String m_xmlValue;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param xmlValue xmlValue
-     * @param message Message
-     */
-    CmsSSLMode(String xmlValue, String message) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param xmlValue xmlValue
+   * @param message Message
+   */
+  CmsSSLMode(String xmlValue, String message) {
 
-        m_xmlValue = xmlValue;
-        m_message = message;
+    m_xmlValue = xmlValue;
+    m_message = message;
+  }
+
+  /**
+   * List of all available modes.
+   *
+   * <p>
+   *
+   * @param includeOldStyle include old Secure Server Styles?
+   * @param includeLetsEncrypt if true, include the LETS_ENCRYPT mode in the result
+   * @return List<CmsSSLMode> -- the list of available modes
+   */
+  public static List<CmsSSLMode> availableModes(
+      boolean includeOldStyle, boolean includeLetsEncrypt) {
+
+    includeOldStyle = includeOldStyle & OpenCms.getSiteManager().isOldStyleSecureServerAllowed();
+    List<CmsSSLMode> res = new ArrayList<CmsSSLMode>();
+    for (CmsSSLMode mode : values()) {
+      switch (mode) {
+        case SECURE_SERVER:
+          if (includeOldStyle) {
+            res.add(mode);
+          }
+          break;
+        case LETS_ENCRYPT:
+          if (includeLetsEncrypt) {
+            res.add(mode);
+          }
+          break;
+        default:
+          res.add(mode);
+      }
     }
+    return res;
+  }
 
-    /**
-     * List of all available modes.<p>
-     *
-     * @param includeOldStyle include old Secure Server Styles?
-     * @param includeLetsEncrypt if true, include the LETS_ENCRYPT mode in the result
-     *
-     * @return List<CmsSSLMode> -- the list of available modes
-     */
-    public static List<CmsSSLMode> availableModes(boolean includeOldStyle, boolean includeLetsEncrypt) {
+  /**
+   * The default SSL Mode.
+   *
+   * <p>
+   *
+   * @return CmsSSLMode
+   */
+  public static CmsSSLMode getDefault() {
 
-        includeOldStyle = includeOldStyle & OpenCms.getSiteManager().isOldStyleSecureServerAllowed();
-        List<CmsSSLMode> res = new ArrayList<CmsSSLMode>();
-        for (CmsSSLMode mode : values()) {
-            switch (mode) {
-                case SECURE_SERVER:
-                    if (includeOldStyle) {
-                        res.add(mode);
-                    }
-                    break;
-                case LETS_ENCRYPT:
-                    if (includeLetsEncrypt) {
-                        res.add(mode);
-                    }
-                    break;
-                default:
-                    res.add(mode);
-            }
-        }
-        return res;
+    if (OpenCms.getSiteManager().isOldStyleSecureServerAllowed()) {
+      return SECURE_SERVER;
     }
+    return NO;
+  }
 
-    /**
-     * The default SSL Mode.<p>
-     *
-     * @return CmsSSLMode
-     */
-    public static CmsSSLMode getDefault() {
+  /**
+   * Gets CmsSSLMode from given XML value.
+   *
+   * <p>
+   *
+   * @param xmlValue to get CmsSSLMode for
+   * @return CmsSSLMode
+   */
+  public static CmsSSLMode getModeFromXML(String xmlValue) {
 
-        if (OpenCms.getSiteManager().isOldStyleSecureServerAllowed()) {
-            return SECURE_SERVER;
-        }
-        return NO;
+    for (CmsSSLMode mode : values()) {
+      if (mode.getXMLValue().equals(xmlValue)) {
+        return mode;
+      }
     }
+    return SECURE_SERVER;
+  }
 
-    /**
-     * Gets CmsSSLMode from given XML value.<p>
-     *
-     * @param xmlValue to get CmsSSLMode for
-     * @return CmsSSLMode
-     */
-    public static CmsSSLMode getModeFromXML(String xmlValue) {
+  /**
+   * Gets localized message.
+   *
+   * <p>
+   *
+   * @return localized message
+   */
+  public String getLocalizedMessage() {
 
-        for (CmsSSLMode mode : values()) {
-            if (mode.getXMLValue().equals(xmlValue)) {
-                return mode;
-            }
-        }
-        return SECURE_SERVER;
-    }
+    return CmsVaadinUtils.getMessageText(m_message);
+  }
 
-    /**
-     * Gets localized message.<p>
-     *
-     * @return localized message
-     */
-    public String getLocalizedMessage() {
+  /**
+   * Gets the XML value.
+   *
+   * <p>
+   *
+   * @return the XML value
+   */
+  public String getXMLValue() {
 
-        return CmsVaadinUtils.getMessageText(m_message);
-    }
+    return m_xmlValue;
+  }
 
-    /**
-     * Gets the XML value.<p>
-     *
-     * @return the XML value
-     */
-    public String getXMLValue() {
+  /**
+   * Returns if SSL Mode is secure.
+   *
+   * <p>
+   *
+   * @return true if secure
+   */
+  public boolean isSecure() {
 
-        return m_xmlValue;
-    }
-
-    /**
-     * Returns if SSL Mode is secure.<p>
-     *
-     * @return true if secure
-     */
-    public boolean isSecure() {
-
-        return this.equals(MANUAL_EP_TERMINATION) || this.equals(MANUAL) || this.equals(LETS_ENCRYPT);
-    }
+    return this.equals(MANUAL_EP_TERMINATION) || this.equals(MANUAL) || this.equals(LETS_ENCRYPT);
+  }
 }

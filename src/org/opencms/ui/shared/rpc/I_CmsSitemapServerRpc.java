@@ -30,31 +30,37 @@ package org.opencms.ui.shared.rpc;
 import com.vaadin.shared.communication.ServerRpc;
 
 /**
- * Interface for the client-to-server rpc calls used by the sitemap extension.<p>
+ * Interface for the client-to-server rpc calls used by the sitemap extension.
  *
+ * <p>
  */
 public interface I_CmsSitemapServerRpc extends ServerRpc {
 
-    /**
-     * Handles changes made via the property dialog.<p>
-     *
-     * @param id the structure id of the changed resource
-     */
-    void handleChangedProperties(String id);
+  /**
+   * Handles changes made via the property dialog.
+   *
+   * <p>
+   *
+   * @param id the structure id of the changed resource
+   */
+  void handleChangedProperties(String id);
 
-    /**
-     * Opens the page copy dialog for a resource.<p>
-     *
-     * @param callId a unique (per client) id representing the RPC call
-     * @param structureId the structure id of the resource for which to open the dialog
-     */
-    void openPageCopyDialog(String callId, String structureId);
+  /**
+   * Opens the page copy dialog for a resource.
+   *
+   * <p>
+   *
+   * @param callId a unique (per client) id representing the RPC call
+   * @param structureId the structure id of the resource for which to open the dialog
+   */
+  void openPageCopyDialog(String callId, String structureId);
 
-    /**
-     * Displays the locale comparison view.<p>
-     *
-     * @param id the locale comparison view
-     */
-    void showLocaleComparison(String id);
-
+  /**
+   * Displays the locale comparison view.
+   *
+   * <p>
+   *
+   * @param id the locale comparison view
+   */
+  void showLocaleComparison(String id);
 }

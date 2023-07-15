@@ -31,48 +31,55 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
 
 /**
- * Default implementation of a independent action for a html list column that can execute java script code.<p>
+ * Default implementation of a independent action for a html list column that can execute java
+ * script code.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public abstract class A_CmsListIndependentJsAction extends CmsListIndependentAction {
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id unique id
-     */
-    public A_CmsListIndependentJsAction(String id) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id unique id
+   */
+  public A_CmsListIndependentJsAction(String id) {
 
-        super(id);
+    super(id);
+  }
+
+  /**
+   * @see
+   *     org.opencms.workplace.list.CmsListIndependentAction#resolveOnClic(org.opencms.workplace.CmsWorkplace)
+   */
+  @Override
+  protected String resolveOnClic(CmsWorkplace wp) {
+
+    String confirmationMessage = getConfirmationMessage().key(wp.getLocale());
+    StringBuffer onClic = new StringBuffer(128);
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(confirmationMessage)) {
+      onClic.append("if (confirm('");
+      onClic.append(CmsStringUtil.escapeJavaScript(confirmationMessage));
+      onClic.append("')) { ");
     }
-
-    /**
-     * @see org.opencms.workplace.list.CmsListIndependentAction#resolveOnClic(org.opencms.workplace.CmsWorkplace)
-     */
-    @Override
-    protected String resolveOnClic(CmsWorkplace wp) {
-
-        String confirmationMessage = getConfirmationMessage().key(wp.getLocale());
-        StringBuffer onClic = new StringBuffer(128);
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(confirmationMessage)) {
-            onClic.append("if (confirm('");
-            onClic.append(CmsStringUtil.escapeJavaScript(confirmationMessage));
-            onClic.append("')) { ");
-        }
-        onClic.append(jsCode(wp));
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(confirmationMessage)) {
-            onClic.append(" } ");
-        }
-        return onClic.toString();
+    onClic.append(jsCode(wp));
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(confirmationMessage)) {
+      onClic.append(" } ");
     }
+    return onClic.toString();
+  }
 
-    /**
-     * The js code to execute.<p>
-     *
-     * @param wp the workplace context
-     *
-     * @return js code to execute
-     */
-    public abstract String jsCode(CmsWorkplace wp);
+  /**
+   * The js code to execute.
+   *
+   * <p>
+   *
+   * @param wp the workplace context
+   * @return js code to execute
+   */
+  public abstract String jsCode(CmsWorkplace wp);
 }

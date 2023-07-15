@@ -34,84 +34,92 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FocusWidget;
 
 /**
- * Abstract editing widget class.<p>
+ * Abstract editing widget class.
+ *
+ * <p>
  */
 public abstract class A_CmsEditWidget extends FocusWidget implements I_CmsEditWidget {
 
-    /** The previous value. */
-    private String m_previousValue;
+  /** The previous value. */
+  private String m_previousValue;
 
-    /**
-     * Constructor wrapping a specific DOM element.<p>
-     *
-     * @param element the element to wrap
-     */
-    protected A_CmsEditWidget(Element element) {
+  /**
+   * Constructor wrapping a specific DOM element.
+   *
+   * <p>
+   *
+   * @param element the element to wrap
+   */
+  protected A_CmsEditWidget(Element element) {
 
-        super(element);
-        m_previousValue = element.getInnerHTML();
+    super(element);
+    m_previousValue = element.getInnerHTML();
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  public abstract HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler);
+
+  /** @see com.google.gwt.user.client.ui.HasValue#getValue() */
+  public String getValue() {
+
+    return getElement().getInnerText().trim();
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget() */
+  public void onAttachWidget() {
+
+    onAttach();
+  }
+
+  /**
+   * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
+   */
+  public boolean owns(com.google.gwt.dom.client.Element element) {
+
+    return false;
+  }
+
+  /**
+   * Fires the value change event, if the value has changed.
+   *
+   * <p>
+   *
+   * @param force <code>true</code> to force firing the event, not regarding an actually changed
+   *     value
+   */
+  protected void fireValueChange(boolean force) {
+
+    String currentValue = getValue();
+    if (force || !currentValue.equals(m_previousValue)) {
+      m_previousValue = currentValue;
+      ValueChangeEvent.fire(this, currentValue);
     }
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    public abstract HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler);
+  /**
+   * Returns the previous value.
+   *
+   * <p>
+   *
+   * @return the previous value
+   */
+  protected String getPreviousValue() {
 
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#getValue()
-     */
-    public String getValue() {
+    return m_previousValue;
+  }
 
-        return getElement().getInnerText().trim();
-    }
+  /**
+   * Sets the previous value.
+   *
+   * <p>
+   *
+   * @param previousValue the previous value to set
+   */
+  protected void setPreviousValue(String previousValue) {
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget()
-     */
-    public void onAttachWidget() {
-
-        onAttach();
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
-     */
-    public boolean owns(com.google.gwt.dom.client.Element element) {
-
-        return false;
-    }
-
-    /**
-     * Fires the value change event, if the value has changed.<p>
-     *
-     * @param force <code>true</code> to force firing the event, not regarding an actually changed value
-     */
-    protected void fireValueChange(boolean force) {
-
-        String currentValue = getValue();
-        if (force || !currentValue.equals(m_previousValue)) {
-            m_previousValue = currentValue;
-            ValueChangeEvent.fire(this, currentValue);
-        }
-    }
-
-    /**
-     * Returns the previous value.<p>
-     *
-     * @return the previous value
-     */
-    protected String getPreviousValue() {
-
-        return m_previousValue;
-    }
-
-    /**
-     * Sets the previous value.<p>
-     *
-     * @param previousValue the previous value to set
-     */
-    protected void setPreviousValue(String previousValue) {
-
-        m_previousValue = previousValue;
-    }
+    m_previousValue = previousValue;
+  }
 }

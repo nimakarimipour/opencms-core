@@ -27,92 +27,101 @@
 
 package org.opencms.jsp.jsonpart;
 
+import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.common.collect.Lists;
-
 /**
- * Helper class used to translate key/value pairs from and to the format which can be processed by the
- * CmsJsonPartFilter.<p>
+ * Helper class used to translate key/value pairs from and to the format which can be processed by
+ * the CmsJsonPartFilter.
+ *
+ * <p>
  */
 public class CmsJsonPart {
 
-    /** The terminator used for JSON parts. */
-    public static final String END = "\u0007ENDJSONPART";
+  /** The terminator used for JSON parts. */
+  public static final String END = "\u0007ENDJSONPART";
 
-    /** Pattern used to detect the parts of the content which should be transformed to JSON. */
-    private static Pattern FORMAT_PATTERN = Pattern.compile(
-        "BEGINJSONPART\u0007(.*?)\u0007(.*?)\u0007ENDJSONPART",
-        Pattern.DOTALL);
+  /** Pattern used to detect the parts of the content which should be transformed to JSON. */
+  private static Pattern FORMAT_PATTERN =
+      Pattern.compile("BEGINJSONPART\u0007(.*?)\u0007(.*?)\u0007ENDJSONPART", Pattern.DOTALL);
 
-    /** The key. */
-    private String m_key;
+  /** The key. */
+  private String m_key;
 
-    /** The value. */
-    private String m_value;
+  /** The value. */
+  private String m_value;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param key the key
-     * @param value the value
-     */
-    public CmsJsonPart(String key, String value) {
-        super();
-        m_key = key;
-        m_value = value;
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param key the key
+   * @param value the value
+   */
+  public CmsJsonPart(String key, String value) {
+    super();
+    m_key = key;
+    m_value = value;
+  }
+
+  /**
+   * Gets the header section for a named JSON part.
+   *
+   * <p>
+   *
+   * @param key the JSON key for the part
+   * @return the header section for the given key
+   */
+  public static final String getHeader(String key) {
+
+    return "BEGINJSONPART\u0007" + key + "\u0007";
+  }
+
+  /**
+   * Parses the encoded JSON parts from the given string and puts them in a list.
+   *
+   * <p>
+   *
+   * @param text the text containing the encoded JSON parts
+   * @return the decoded JSON parts
+   */
+  public static List<CmsJsonPart> parseJsonParts(String text) {
+
+    List<CmsJsonPart> result = Lists.newArrayList();
+    Matcher matcher = FORMAT_PATTERN.matcher(text);
+    while (matcher.find()) {
+      String key = matcher.group(1);
+      String value = matcher.group(2);
+      CmsJsonPart part = new CmsJsonPart(key, value);
+      result.add(part);
     }
+    return result;
+  }
 
-    /**
-     * Gets the header section for a named JSON part.<p>
-     *
-     * @param key the JSON key for the part
-     * @return the header section for the given key
-     */
-    public static final String getHeader(String key) {
+  /**
+   * Returns the key.
+   *
+   * <p>
+   *
+   * @return the key
+   */
+  public String getKey() {
 
-        return "BEGINJSONPART\u0007" + key + "\u0007";
-    }
+    return m_key;
+  }
 
-    /**
-     * Parses the encoded JSON parts from the given string and puts them in a list.<p>
-     *
-     * @param text the text containing the encoded JSON parts
-     * @return the decoded JSON parts
-     */
-    public static List<CmsJsonPart> parseJsonParts(String text) {
+  /**
+   * Returns the value.
+   *
+   * <p>
+   *
+   * @return the value
+   */
+  public String getValue() {
 
-        List<CmsJsonPart> result = Lists.newArrayList();
-        Matcher matcher = FORMAT_PATTERN.matcher(text);
-        while (matcher.find()) {
-            String key = matcher.group(1);
-            String value = matcher.group(2);
-            CmsJsonPart part = new CmsJsonPart(key, value);
-            result.add(part);
-        }
-        return result;
-    }
-
-    /**
-     * Returns the key.<p>
-     *
-     * @return the key
-     */
-    public String getKey() {
-
-        return m_key;
-    }
-
-    /**
-     * Returns the value.<p>
-     *
-     * @return the value
-     */
-    public String getValue() {
-
-        return m_value;
-    }
-
+    return m_value;
+  }
 }

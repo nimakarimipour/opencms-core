@@ -27,94 +27,97 @@
 
 package org.opencms.search.extractors;
 
-import org.opencms.xml.CmsXmlGenericWrapper;
-
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
 import org.dom4j.Document;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
+import org.opencms.xml.CmsXmlGenericWrapper;
 
 /**
- * Extracts the text from OpenOffice documents (.ods, .odf).<p>
+ * Extracts the text from OpenOffice documents (.ods, .odf).
+ *
+ * <p>
  *
  * @since 7.0.4
  */
 public final class CmsExtractorOpenOffice extends A_CmsTextExtractor {
 
-    /** Static member instance of the extractor. */
-    private static final CmsExtractorOpenOffice INSTANCE = new CmsExtractorOpenOffice();
+  /** Static member instance of the extractor. */
+  private static final CmsExtractorOpenOffice INSTANCE = new CmsExtractorOpenOffice();
 
-    /**
-     * Hide the public constructor.<p>
-     */
-    private CmsExtractorOpenOffice() {
+  /**
+   * Hide the public constructor.
+   *
+   * <p>
+   */
+  private CmsExtractorOpenOffice() {
 
-        // noop
-    }
+    // noop
+  }
 
-    /**
-     * Returns an instance of this text extractor.<p>
-     *
-     * @return an instance of this text extractor
-     */
-    public static I_CmsTextExtractor getExtractor() {
+  /**
+   * Returns an instance of this text extractor.
+   *
+   * <p>
+   *
+   * @return an instance of this text extractor
+   */
+  public static I_CmsTextExtractor getExtractor() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * @see org.opencms.search.extractors.A_CmsTextExtractor#extractText(java.io.InputStream, java.lang.String)
-     */
-    @Override
-    public I_CmsExtractionResult extractText(InputStream in, String encoding) throws Exception {
+  /**
+   * @see org.opencms.search.extractors.A_CmsTextExtractor#extractText(java.io.InputStream,
+   *     java.lang.String)
+   */
+  @Override
+  public I_CmsExtractionResult extractText(InputStream in, String encoding) throws Exception {
 
-        try (ZipInputStream zin = new ZipInputStream(in)) {
-            ZipEntry ze;
-            boolean FOUND_CONTENT = false;
-            String result = "";
-            while (!FOUND_CONTENT) {
-                ze = zin.getNextEntry();
-                FOUND_CONTENT = ze.getName().equalsIgnoreCase("content.xml");
-                if (FOUND_CONTENT) {
-                    result = readContent(zin);
-                }
-            }
-            result = removeControlChars(result);
-            return new CmsExtractionResult(result);
+    try (ZipInputStream zin = new ZipInputStream(in)) {
+      ZipEntry ze;
+      boolean FOUND_CONTENT = false;
+      String result = "";
+      while (!FOUND_CONTENT) {
+        ze = zin.getNextEntry();
+        FOUND_CONTENT = ze.getName().equalsIgnoreCase("content.xml");
+        if (FOUND_CONTENT) {
+          result = readContent(zin);
         }
+      }
+      result = removeControlChars(result);
+      return new CmsExtractionResult(result);
     }
+  }
 
-    /**
-     * Internal routine that parses the specific content.xml part of
-     * an odf document.<p>
-     *
-     * @param in the input stream spooled to the start of the content.xml part
-     *
-     * @return the extracted content
-     *
-     * @throws Exception if sth goes wrong
-     */
-    private String readContent(java.io.InputStream in) throws Exception {
+  /**
+   * Internal routine that parses the specific content.xml part of an odf document.
+   *
+   * <p>
+   *
+   * @param in the input stream spooled to the start of the content.xml part
+   * @return the extracted content
+   * @throws Exception if sth goes wrong
+   */
+  private String readContent(java.io.InputStream in) throws Exception {
 
-        StringBuffer resultBuffer = new StringBuffer();
-        SAXReader reader = new SAXReader();
-        Document doc = reader.read(in);
-        List<Node> textlist = CmsXmlGenericWrapper.selectNodes(doc, "//text:p[@*] | //text:span[@*]");
-        Iterator<Node> li = textlist.iterator();
-        while (li.hasNext()) {
-            Node textNode = li.next();
-            String text = textNode.getText();
-            if (text.length() > 1) {
-                text = " " + text + " ";
-                resultBuffer.append(text);
-            }
-        }
-        return resultBuffer.toString();
+    StringBuffer resultBuffer = new StringBuffer();
+    SAXReader reader = new SAXReader();
+    Document doc = reader.read(in);
+    List<Node> textlist = CmsXmlGenericWrapper.selectNodes(doc, "//text:p[@*] | //text:span[@*]");
+    Iterator<Node> li = textlist.iterator();
+    while (li.hasNext()) {
+      Node textNode = li.next();
+      String text = textNode.getText();
+      if (text.length() > 1) {
+        text = " " + text + " ";
+        resultBuffer.append(text);
+      }
     }
-
+    return resultBuffer.toString();
+  }
 }

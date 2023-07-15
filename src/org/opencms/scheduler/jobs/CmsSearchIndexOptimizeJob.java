@@ -27,6 +27,8 @@
 
 package org.opencms.scheduler.jobs;
 
+import java.util.List;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.main.OpenCms;
 import org.opencms.scheduler.I_CmsScheduledJob;
@@ -34,74 +36,72 @@ import org.opencms.search.I_CmsIndexWriter;
 import org.opencms.search.I_CmsSearchIndex;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * A schedulable OpenCms job that optimizes the Lucene based search indexes at runtime.<p>
+ * A schedulable OpenCms job that optimizes the Lucene based search indexes at runtime.
  *
- * Only indexes which return <code>true</code> for
- * {@link I_CmsSearchIndex#isUpdatedIncremental()} are being optimized.
- * By default, all such indexes are optimized if this job is run.<p>
+ * <p>Only indexes which return <code>true</code> for {@link
+ * I_CmsSearchIndex#isUpdatedIncremental()} are being optimized. By default, all such indexes are
+ * optimized if this job is run.
  *
- * Job parameters:<p>
+ * <p>Job parameters:
+ *
+ * <p>
+ *
  * <dl>
- * <dt><code>optimizeIndexes={comma separated list of index names}</code></dt>
- * <dd>Specifies list of indexes to be optimized. Only the indexes in this list are being optimized.
- * This parameter overrides an exclude list given with <code>excludeIndexes</code>.</dd>
- * <dt><code>excludeIndexes={comma separated list of index names}</code></dt>
- * <dd>Specifies list of indexes to be excluded from optimization.</dd>
+ *   <dt><code>optimizeIndexes={comma separated list of index names}</code>
+ *   <dd>Specifies list of indexes to be optimized. Only the indexes in this list are being
+ *       optimized. This parameter overrides an exclude list given with <code>excludeIndexes</code>.
+ *   <dt><code>excludeIndexes={comma separated list of index names}</code>
+ *   <dd>Specifies list of indexes to be excluded from optimization.
  * </dl>
  *
  * @since 8.5.0
  */
 public class CmsSearchIndexOptimizeJob implements I_CmsScheduledJob {
 
-    /** Parameter to control which indexes are excluded from optimization. */
-    public static final String PARAM_INDEXES_EXCLUDED = "excludeIndexes";
+  /** Parameter to control which indexes are excluded from optimization. */
+  public static final String PARAM_INDEXES_EXCLUDED = "excludeIndexes";
 
-    /** Parameter to control which indexes are optimized. */
-    public static final String PARAM_INDEXES_OPTIMIZED = "optimizeIndexes";
+  /** Parameter to control which indexes are optimized. */
+  public static final String PARAM_INDEXES_OPTIMIZED = "optimizeIndexes";
 
-    /**
-     * @see org.opencms.scheduler.I_CmsScheduledJob#launch(CmsObject, Map)
-     */
-    public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  /** @see org.opencms.scheduler.I_CmsScheduledJob#launch(CmsObject, Map) */
+  public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
-        List<String> optimizeIndexes = null;
-        List<String> excludeIndexes = null;
+    List<String> optimizeIndexes = null;
+    List<String> excludeIndexes = null;
 
-        String oi = parameters.get(PARAM_INDEXES_OPTIMIZED);
-        if (oi != null) {
-            optimizeIndexes = CmsStringUtil.splitAsList(oi, ',', true);
-            if (optimizeIndexes.isEmpty()) {
-                optimizeIndexes = null;
-            }
-        } else {
-            oi = parameters.get(PARAM_INDEXES_EXCLUDED);
-            if (oi != null) {
-                excludeIndexes = CmsStringUtil.splitAsList(oi, ',', true);
-                if (excludeIndexes.isEmpty()) {
-                    excludeIndexes = null;
-                }
-            }
+    String oi = parameters.get(PARAM_INDEXES_OPTIMIZED);
+    if (oi != null) {
+      optimizeIndexes = CmsStringUtil.splitAsList(oi, ',', true);
+      if (optimizeIndexes.isEmpty()) {
+        optimizeIndexes = null;
+      }
+    } else {
+      oi = parameters.get(PARAM_INDEXES_EXCLUDED);
+      if (oi != null) {
+        excludeIndexes = CmsStringUtil.splitAsList(oi, ',', true);
+        if (excludeIndexes.isEmpty()) {
+          excludeIndexes = null;
         }
-
-        for (I_CmsSearchIndex index : OpenCms.getSearchManager().getSearchIndexes()) {
-            if (index.isUpdatedIncremental()) {
-                // only indexes that are updated incremental need to be optimized
-
-                if (((optimizeIndexes == null) && (excludeIndexes == null))
-                    || ((optimizeIndexes != null) && optimizeIndexes.contains(index.getName()))
-                    || ((excludeIndexes != null) && !excludeIndexes.contains(index.getName()))) {
-                    // make sure index is either included or not excluded by name
-
-                    I_CmsIndexWriter writer = index.getIndexWriter(null, false);
-                    writer.optimize();
-                }
-            }
-        }
-
-        return null;
+      }
     }
+
+    for (I_CmsSearchIndex index : OpenCms.getSearchManager().getSearchIndexes()) {
+      if (index.isUpdatedIncremental()) {
+        // only indexes that are updated incremental need to be optimized
+
+        if (((optimizeIndexes == null) && (excludeIndexes == null))
+            || ((optimizeIndexes != null) && optimizeIndexes.contains(index.getName()))
+            || ((excludeIndexes != null) && !excludeIndexes.contains(index.getName()))) {
+          // make sure index is either included or not excluded by name
+
+          I_CmsIndexWriter writer = index.getIndexWriter(null, false);
+          writer.optimize();
+        }
+      }
+    }
+
+    return null;
+  }
 }

@@ -27,6 +27,12 @@
 
 package org.opencms.workplace.editors;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.ade.contenteditor.CmsWidgetUtil;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
@@ -35,159 +41,171 @@ import org.opencms.widgets.Messages;
 import org.opencms.xml.content.I_CmsXmlContentValueVisitor;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Visitor implementation that collects the different widgets for all visited values and all widgets for the found values.<p>
+ * Visitor implementation that collects the different widgets for all visited values and all widgets
+ * for the found values.
  *
- * This implementation is needed when creating the html output of the xmlcontent editor
- * {@link org.opencms.workplace.editors.CmsXmlContentEditor}.<p>
+ * <p>This implementation is needed when creating the html output of the xmlcontent editor {@link
+ * org.opencms.workplace.editors.CmsXmlContentEditor}.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsXmlContentWidgetVisitor implements I_CmsXmlContentValueVisitor {
 
-    /** Static reference to the log. */
-    private static final Log LOG = CmsLog.getLog(CmsXmlContentWidgetVisitor.class);
+  /** Static reference to the log. */
+  private static final Log LOG = CmsLog.getLog(CmsXmlContentWidgetVisitor.class);
 
-    /** The locale to get the values from. */
-    private Locale m_locale;
+  /** The locale to get the values from. */
+  private Locale m_locale;
 
-    /** The unique widgets found in the XML content.  */
-    private List<I_CmsWidget> m_uniqueWidgets;
+  /** The unique widgets found in the XML content. */
+  private List<I_CmsWidget> m_uniqueWidgets;
 
-    /** The values corresponding to the found widgets. */
-    private Map<String, I_CmsXmlContentValue> m_values;
+  /** The values corresponding to the found widgets. */
+  private Map<String, I_CmsXmlContentValue> m_values;
 
-    /** The CMS context. */
-    private CmsObject m_cms;
+  /** The CMS context. */
+  private CmsObject m_cms;
 
-    /** The widgets found in the XML content. */
-    private Map<String, I_CmsWidget> m_widgets;
+  /** The widgets found in the XML content. */
+  private Map<String, I_CmsWidget> m_widgets;
 
-    /**
-     * Creates a new widget collector node visitor.<p>
-     *
-     * @param cms the CMS context
-     */
-    public CmsXmlContentWidgetVisitor(CmsObject cms) {
+  /**
+   * Creates a new widget collector node visitor.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   */
+  public CmsXmlContentWidgetVisitor(CmsObject cms) {
 
-        m_cms = cms;
-        initialize(null);
+    m_cms = cms;
+    initialize(null);
+  }
+
+  /**
+   * Creates a new widget collector node visitor.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @param locale the Locale to get the widgets from
+   */
+  public CmsXmlContentWidgetVisitor(CmsObject cms, Locale locale) {
+
+    m_cms = cms;
+    initialize(locale);
+  }
+
+  /**
+   * Returns the locale to get the widgets from.
+   *
+   * <p>
+   *
+   * @return the locale to get the widgets from
+   */
+  public Locale getLocale() {
+
+    return m_locale;
+  }
+
+  /**
+   * Returns the unique widgets that were found in the content.
+   *
+   * <p>
+   *
+   * @return the unique widgets that were found in the content
+   */
+  public List<I_CmsWidget> getUniqueWidgets() {
+
+    return m_uniqueWidgets;
+  }
+
+  /**
+   * Returns all simple values that were found in the content.
+   *
+   * <p>The map key is the complete xpath of the value.
+   *
+   * <p>
+   *
+   * @return all simple values that were found in the content
+   */
+  public Map<String, I_CmsXmlContentValue> getValues() {
+
+    return m_values;
+  }
+
+  /**
+   * Returns all widgets that were found in the content.
+   *
+   * <p>The map key is the complete xpath of the corresponding value.
+   *
+   * <p>
+   *
+   * @return all widgets that were found in the content
+   */
+  public Map<String, I_CmsWidget> getWidgets() {
+
+    return m_widgets;
+  }
+
+  /**
+   * @see
+   *     org.opencms.xml.content.I_CmsXmlContentValueVisitor#visit(org.opencms.xml.types.I_CmsXmlContentValue)
+   */
+  public void visit(I_CmsXmlContentValue value) {
+
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
+          org.opencms.workplace.editors.Messages.get()
+              .getBundle()
+              .key(org.opencms.workplace.editors.Messages.LOG_VISITING_1, value.getPath()));
     }
 
-    /**
-     * Creates a new widget collector node visitor.<p>
-     *
-     * @param cms the CMS context
-     * @param locale the Locale to get the widgets from
-     */
-    public CmsXmlContentWidgetVisitor(CmsObject cms, Locale locale) {
-
-        m_cms = cms;
-        initialize(locale);
-    }
-
-    /**
-     * Returns the locale to get the widgets from.<p>
-     *
-     * @return the locale to get the widgets from
-     */
-    public Locale getLocale() {
-
-        return m_locale;
-    }
-
-    /**
-     * Returns the unique widgets that were found in the content.<p>
-     *
-     * @return the unique widgets that were found in the content
-     */
-    public List<I_CmsWidget> getUniqueWidgets() {
-
-        return m_uniqueWidgets;
-    }
-
-    /**
-     * Returns all simple values that were found in the content.<p>
-     *
-     * The map key is the complete xpath of the value.<p>
-     *
-     * @return all simple values that were found in the content
-     */
-    public Map<String, I_CmsXmlContentValue> getValues() {
-
-        return m_values;
-    }
-
-    /**
-     * Returns all widgets that were found in the content.<p>
-     *
-     * The map key is the complete xpath of the corresponding value.<p>
-     *
-     * @return all widgets that were found in the content
-     */
-    public Map<String, I_CmsWidget> getWidgets() {
-
-        return m_widgets;
-    }
-
-    /**
-     * @see org.opencms.xml.content.I_CmsXmlContentValueVisitor#visit(org.opencms.xml.types.I_CmsXmlContentValue)
-     */
-    public void visit(I_CmsXmlContentValue value) {
-
-        if (LOG.isDebugEnabled()) {
+    if (value.isSimpleType()) {
+      // only visit simple values
+      boolean useLocale = m_locale != null;
+      if ((useLocale && (value.getLocale().equals(getLocale()))) || (!useLocale)) {
+        try {
+          // get widget for value
+          I_CmsWidget widget = CmsWidgetUtil.collectWidgetInfo(m_cms, value).getWidget();
+          if (!m_uniqueWidgets.contains(widget)) {
+            m_uniqueWidgets.add(widget);
+          }
+          m_widgets.put(value.getPath(), widget);
+          m_values.put(value.getPath(), value);
+          if (LOG.isDebugEnabled()) {
             LOG.debug(
-                org.opencms.workplace.editors.Messages.get().getBundle().key(
-                    org.opencms.workplace.editors.Messages.LOG_VISITING_1,
-                    value.getPath()));
+                Messages.get()
+                    .getBundle()
+                    .key(Messages.LOG_DEBUG_WIDGETCOLLECTOR_ADD_1, value.getPath()));
+          }
+        } catch (Exception e) {
+          // should usually not happen
+          if (LOG.isErrorEnabled()) {
+            LOG.error(Messages.get().getBundle().key(Messages.ERR_WIDGETCOLLECTOR_ADD_1, value), e);
+          }
         }
-
-        if (value.isSimpleType()) {
-            // only visit simple values
-            boolean useLocale = m_locale != null;
-            if ((useLocale && (value.getLocale().equals(getLocale()))) || (!useLocale)) {
-                try {
-                    // get widget for value
-                    I_CmsWidget widget = CmsWidgetUtil.collectWidgetInfo(m_cms, value).getWidget();
-                    if (!m_uniqueWidgets.contains(widget)) {
-                        m_uniqueWidgets.add(widget);
-                    }
-                    m_widgets.put(value.getPath(), widget);
-                    m_values.put(value.getPath(), value);
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug(
-                            Messages.get().getBundle().key(Messages.LOG_DEBUG_WIDGETCOLLECTOR_ADD_1, value.getPath()));
-                    }
-                } catch (Exception e) {
-                    // should usually not happen
-                    if (LOG.isErrorEnabled()) {
-                        LOG.error(Messages.get().getBundle().key(Messages.ERR_WIDGETCOLLECTOR_ADD_1, value), e);
-                    }
-                }
-            }
-        }
+      }
     }
+  }
 
-    /**
-     * Initializes the necessary members of the collector.<p>
-     *
-     * @param locale the Locale to get the widgets from
-     */
-    private void initialize(Locale locale) {
+  /**
+   * Initializes the necessary members of the collector.
+   *
+   * <p>
+   *
+   * @param locale the Locale to get the widgets from
+   */
+  private void initialize(Locale locale) {
 
-        // start with a new instance of the widgets and unique widgets
-        m_widgets = new HashMap<String, I_CmsWidget>(25);
-        m_uniqueWidgets = new ArrayList<I_CmsWidget>(12);
-        m_values = new HashMap<String, I_CmsXmlContentValue>(25);
-        // store Locale to use when collecting the widgets
-        m_locale = locale;
-    }
+    // start with a new instance of the widgets and unique widgets
+    m_widgets = new HashMap<String, I_CmsWidget>(25);
+    m_uniqueWidgets = new ArrayList<I_CmsWidget>(12);
+    m_values = new HashMap<String, I_CmsXmlContentValue>(25);
+    // store Locale to use when collecting the widgets
+    m_locale = locale;
+  }
 }

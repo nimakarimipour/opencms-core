@@ -30,33 +30,28 @@ package org.opencms.relations;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 
-/**
- * Interface used to inject custom link handling behavior into HTML/link content fields.
- */
+/** Interface used to inject custom link handling behavior into HTML/link content fields. */
 public interface I_CmsCustomLinkRenderer {
 
-    /**
-     * Returns the link for the given link object.<p>
-     *
-     * If null is returned, this means the normal link handling behavior should be used instead.
-     *
-     * @param cms the CMS context
-     * @param link the link object
-     *
-     * @return the link for the link object
-     */
-    String getLink(CmsObject cms, CmsLink link);
+  /**
+   * Returns the link for the given link object.
+   *
+   * <p>If null is returned, this means the normal link handling behavior should be used instead.
+   *
+   * @param cms the CMS context
+   * @param link the link object
+   * @return the link for the link object
+   */
+  String getLink(CmsObject cms, CmsLink link);
 
-    /**
-     * Returns the link for the given link resource.<p>
-     *
-     * If null is returned, this means the normal link handling behavior should be used instead.
-     *
-     * @param cms the CMS context
-     * @param resource the resource linked to
-     *
-     * @return the link for the link object
-     */
-    String getLink(CmsObject cms, CmsResource resource);
-
+  /**
+   * Returns the link for the given link resource.
+   *
+   * <p>If null is returned, this means the normal link handling behavior should be used instead.
+   *
+   * @param cms the CMS context
+   * @param resource the resource linked to
+   * @return the link for the link object
+   */
+  String getLink(CmsObject cms, CmsResource resource);
 }

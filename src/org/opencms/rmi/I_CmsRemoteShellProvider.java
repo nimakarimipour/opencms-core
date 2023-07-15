@@ -31,18 +31,20 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * Used to create new instances of I_CmsRemoteShell.<p>
+ * Used to create new instances of I_CmsRemoteShell.
+ *
+ * <p>
  */
 public interface I_CmsRemoteShellProvider extends Remote {
 
-    /**
-     * Creates a new shell instance with the given additional commands class.<p>
-     *
-     * @param additionalCommandsName the name of the additional commands class
-     * @return the new shell instance
-     *
-     * @throws RemoteException if RMI stuff goes wrong
-     */
-    I_CmsRemoteShell createShell(String additionalCommandsName) throws RemoteException;
-
+  /**
+   * Creates a new shell instance with the given additional commands class.
+   *
+   * <p>
+   *
+   * @param additionalCommandsName the name of the additional commands class
+   * @return the new shell instance
+   * @throws RemoteException if RMI stuff goes wrong
+   */
+  I_CmsRemoteShell createShell(String additionalCommandsName) throws RemoteException;
 }

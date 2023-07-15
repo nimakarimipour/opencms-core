@@ -33,57 +33,66 @@ import org.opencms.ui.util.table.Column;
 import org.opencms.workplace.comparison.CmsAttributeComparison;
 
 /**
- * Represents a row in an attribute comparison table.<p>
+ * Represents a row in an attribute comparison table.
+ *
+ * <p>
  */
 public class CmsPropertyCompareBean {
 
-    /** The attribute comparison. */
-    private CmsAttributeComparison m_comp;
+  /** The attribute comparison. */
+  private CmsAttributeComparison m_comp;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param comp an attribute comparison
-     */
-    public CmsPropertyCompareBean(CmsAttributeComparison comp) {
-        m_comp = comp;
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param comp an attribute comparison
+   */
+  public CmsPropertyCompareBean(CmsAttributeComparison comp) {
+    m_comp = comp;
+  }
+
+  /**
+   * Gets the attribute name.
+   *
+   * <p>
+   *
+   * @return the attribute name
+   */
+  @Column(header = Messages.GUI_HISTORY_DIALOG_COL_PROPERTY_0, order = 10)
+  public String getProperty() {
+
+    String result = m_comp.getName();
+    if (result.startsWith("GUI_")) {
+      result = CmsVaadinUtils.getMessageText(result);
     }
+    return result;
+  }
 
-    /**
-     * Gets the attribute name.<p>
-     *
-     * @return the attribute name
-     */
-    @Column(header = Messages.GUI_HISTORY_DIALOG_COL_PROPERTY_0, order = 10)
-    public String getProperty() {
+  /**
+   * Gets the value for the first version.
+   *
+   * <p>
+   *
+   * @return the first version's value
+   */
+  @Column(header = "V1 (%(v1))", order = 20)
+  public String getV1() {
 
-        String result = m_comp.getName();
-        if (result.startsWith("GUI_")) {
-            result = CmsVaadinUtils.getMessageText(result);
-        }
-        return result;
-    }
+    return m_comp.getVersion1();
+  }
 
-    /**
-     * Gets the value for the first version.<p>
-     *
-     * @return the first version's value
-     */
-    @Column(header = "V1 (%(v1))", order = 20)
-    public String getV1() {
+  /**
+   * Gets the value for the second version.
+   *
+   * <p>
+   *
+   * @return the second version's value
+   */
+  @Column(header = "V2 (%(v2))", order = 30)
+  public String getV2() {
 
-        return m_comp.getVersion1();
-    }
-
-    /**
-     * Gets the value for the second version.<p>
-     *
-     * @return the second version's value
-     */
-    @Column(header = "V2 (%(v2))", order = 30)
-    public String getV2() {
-
-        return m_comp.getVersion2();
-    }
-
+    return m_comp.getVersion2();
+  }
 }

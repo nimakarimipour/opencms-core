@@ -27,259 +27,297 @@
 
 package org.opencms.ade.sitemap.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+import java.util.List;
+import java.util.Map;
 import org.opencms.gwt.shared.property.CmsClientProperty;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-import java.util.Map;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Data used for the property editor in the sitemap editor's locale comparison view.<p>
+ * Data used for the property editor in the sitemap editor's locale comparison view.
+ *
+ * <p>
  */
 public class CmsLocaleComparePropertyData implements IsSerializable {
 
-    /** The default file id. */
-    private CmsUUID m_defaultFileId;
+  /** The default file id. */
+  private CmsUUID m_defaultFileId;
 
-    /** The default file properties. */
-    private Map<String, CmsClientProperty> m_defaultFileProperties;
+  /** The default file properties. */
+  private Map<String, CmsClientProperty> m_defaultFileProperties;
 
-    /** The forbidden URL names. */
-    private List<String> m_forbiddenUrlNames;
+  /** The forbidden URL names. */
+  private List<String> m_forbiddenUrlNames;
 
-    /** True if the entry has an editable file name. */
-    private boolean m_hasEditableName;
+  /** True if the entry has an editable file name. */
+  private boolean m_hasEditableName;
 
-    /** The id. */
-    private CmsUUID m_id;
+  /** The id. */
+  private CmsUUID m_id;
 
-    /** The inherited properties. */
-    private Map<String, CmsClientProperty> m_inheritedProperties;
+  /** The inherited properties. */
+  private Map<String, CmsClientProperty> m_inheritedProperties;
 
-    /** True if the entry is a folder. */
-    private boolean m_isFolder;
+  /** True if the entry is a folder. */
+  private boolean m_isFolder;
 
-    /** The current file name. */
-    private String m_name;
+  /** The current file name. */
+  private String m_name;
 
-    /** The folder properties. */
-    private Map<String, CmsClientProperty> m_ownProperties;
+  /** The folder properties. */
+  private Map<String, CmsClientProperty> m_ownProperties;
 
-    /** The path. */
-    private String m_path;
+  /** The path. */
+  private String m_path;
 
-    /**
-     * Default constructor.<p>
-     *
-     * Creates a new, empty instance.
-     */
-    public CmsLocaleComparePropertyData() {
-        // do nothing
+  /**
+   * Default constructor.
+   *
+   * <p>Creates a new, empty instance.
+   */
+  public CmsLocaleComparePropertyData() {
+    // do nothing
 
-    }
+  }
 
-    /**
-     * Returns the defaultFileId.<p>
-     *
-     * @return the defaultFileId
-     */
-    public CmsUUID getDefaultFileId() {
+  /**
+   * Returns the defaultFileId.
+   *
+   * <p>
+   *
+   * @return the defaultFileId
+   */
+  public CmsUUID getDefaultFileId() {
 
-        return m_defaultFileId;
-    }
+    return m_defaultFileId;
+  }
 
-    /**
-     * Returns the defaultFileProperties.<p>
-     *
-     * @return the defaultFileProperties
-     */
-    public Map<String, CmsClientProperty> getDefaultFileProperties() {
+  /**
+   * Returns the defaultFileProperties.
+   *
+   * <p>
+   *
+   * @return the defaultFileProperties
+   */
+  public Map<String, CmsClientProperty> getDefaultFileProperties() {
 
-        return m_defaultFileProperties;
-    }
+    return m_defaultFileProperties;
+  }
 
-    /**
-     * Gets the list of forbidden url names.<p>
-     *
-     * @return the list of forbidden url names
-     */
-    public List<String> getForbiddenUrlNames() {
+  /**
+   * Gets the list of forbidden url names.
+   *
+   * <p>
+   *
+   * @return the list of forbidden url names
+   */
+  public List<String> getForbiddenUrlNames() {
 
-        return m_forbiddenUrlNames;
-    }
+    return m_forbiddenUrlNames;
+  }
 
-    /**
-     * Gets the structure id of the entry to edit.<p>
-     *
-     * @return the structure id of the entry to edit
-     */
-    public CmsUUID getId() {
+  /**
+   * Gets the structure id of the entry to edit.
+   *
+   * <p>
+   *
+   * @return the structure id of the entry to edit
+   */
+  public CmsUUID getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Gets the inherited property with the given name , or null if none exist.<p>
-     *
-     * @param name the property name
-     * @return the inherited property
-     */
-    public CmsClientProperty getInheritedProperty(String name) {
+  /**
+   * Gets the inherited property with the given name , or null if none exist.
+   *
+   * <p>
+   *
+   * @param name the property name
+   * @return the inherited property
+   */
+  public CmsClientProperty getInheritedProperty(String name) {
 
-        return m_inheritedProperties.get(name);
-    }
+    return m_inheritedProperties.get(name);
+  }
 
-    /**
-     * Gets the current name.<p>
-     *
-     * @return the current name
-     */
-    public String getName() {
+  /**
+   * Gets the current name.
+   *
+   * <p>
+   *
+   * @return the current name
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the ownProperties.<p>
-     *
-     * @return the ownProperties
-     */
-    public Map<String, CmsClientProperty> getOwnProperties() {
+  /**
+   * Returns the ownProperties.
+   *
+   * <p>
+   *
+   * @return the ownProperties
+   */
+  public Map<String, CmsClientProperty> getOwnProperties() {
 
-        return m_ownProperties;
-    }
+    return m_ownProperties;
+  }
 
-    /**
-     * Returns the path.<p>
-     *
-     * @return the path
-     */
-    public String getPath() {
+  /**
+   * Returns the path.
+   *
+   * <p>
+   *
+   * @return the path
+   */
+  public String getPath() {
 
-        return m_path;
-    }
+    return m_path;
+  }
 
-    /**
-     * Returns tree if the entry has an editable name.<p>
-     *
-     * @return true if the entry has an editable name
-     */
-    public boolean hasEditableName() {
+  /**
+   * Returns tree if the entry has an editable name.
+   *
+   * <p>
+   *
+   * @return true if the entry has an editable name
+   */
+  public boolean hasEditableName() {
 
-        return m_hasEditableName;
-    }
+    return m_hasEditableName;
+  }
 
-    /**
-     * Returns the isFolder.<p>
-     *
-     * @return the isFolder
-     */
-    public boolean isFolder() {
+  /**
+   * Returns the isFolder.
+   *
+   * <p>
+   *
+   * @return the isFolder
+   */
+  public boolean isFolder() {
 
-        return m_isFolder;
-    }
+    return m_isFolder;
+  }
 
-    /**
-     * Sets the defaultFileId.<p>
-     *
-     * @param defaultFileId the defaultFileId to set
-     */
-    public void setDefaultFileId(CmsUUID defaultFileId) {
+  /**
+   * Sets the defaultFileId.
+   *
+   * <p>
+   *
+   * @param defaultFileId the defaultFileId to set
+   */
+  public void setDefaultFileId(CmsUUID defaultFileId) {
 
-        m_defaultFileId = defaultFileId;
-    }
+    m_defaultFileId = defaultFileId;
+  }
 
-    /**
-     * Sets the defaultFileProperties.<p>
-     *
-     * @param defaultFileProperties the defaultFileProperties to set
-     */
-    public void setDefaultFileProperties(Map<String, CmsClientProperty> defaultFileProperties) {
+  /**
+   * Sets the defaultFileProperties.
+   *
+   * <p>
+   *
+   * @param defaultFileProperties the defaultFileProperties to set
+   */
+  public void setDefaultFileProperties(Map<String, CmsClientProperty> defaultFileProperties) {
 
-        m_defaultFileProperties = defaultFileProperties;
-    }
+    m_defaultFileProperties = defaultFileProperties;
+  }
 
-    /**
-     * Sets the isFolder.<p>
-     *
-     * @param isFolder the isFolder to set
-     */
-    public void setFolder(boolean isFolder) {
+  /**
+   * Sets the isFolder.
+   *
+   * <p>
+   *
+   * @param isFolder the isFolder to set
+   */
+  public void setFolder(boolean isFolder) {
 
-        m_isFolder = isFolder;
-    }
+    m_isFolder = isFolder;
+  }
 
-    /**
-     * Sets the forbiddenUrlNames.<p>
-     *
-     * @param forbiddenUrlNames the forbiddenUrlNames to set
-     */
-    public void setForbiddenUrlNames(List<String> forbiddenUrlNames) {
+  /**
+   * Sets the forbiddenUrlNames.
+   *
+   * <p>
+   *
+   * @param forbiddenUrlNames the forbiddenUrlNames to set
+   */
+  public void setForbiddenUrlNames(List<String> forbiddenUrlNames) {
 
-        m_forbiddenUrlNames = forbiddenUrlNames;
-    }
+    m_forbiddenUrlNames = forbiddenUrlNames;
+  }
 
-    /**
-     * Enables / disables editing of the file name.<p>
-     *
-     * @param editable true if the file name should be editable
-     */
-    public void setHasEditableName(boolean editable) {
+  /**
+   * Enables / disables editing of the file name.
+   *
+   * <p>
+   *
+   * @param editable true if the file name should be editable
+   */
+  public void setHasEditableName(boolean editable) {
 
-        m_hasEditableName = editable;
-    }
+    m_hasEditableName = editable;
+  }
 
-    /**
-     * Sets the structure id of the entry to edit.<p>
-     *
-     * @param id the id
-     */
-    public void setId(CmsUUID id) {
+  /**
+   * Sets the structure id of the entry to edit.
+   *
+   * <p>
+   *
+   * @param id the id
+   */
+  public void setId(CmsUUID id) {
 
-        m_id = id;
-    }
+    m_id = id;
+  }
 
-    /**
-     * Sets the inherited properties.<p>
-     *
-     * @param inheritedProps the inherited properties
-     */
-    public void setInheritedProperties(Map<String, CmsClientProperty> inheritedProps) {
+  /**
+   * Sets the inherited properties.
+   *
+   * <p>
+   *
+   * @param inheritedProps the inherited properties
+   */
+  public void setInheritedProperties(Map<String, CmsClientProperty> inheritedProps) {
 
-        m_inheritedProperties = inheritedProps;
+    m_inheritedProperties = inheritedProps;
+  }
 
-    }
+  /**
+   * Sets the name.
+   *
+   * <p>
+   *
+   * @param name the name
+   */
+  public void setName(String name) {
 
-    /**
-     * Sets the name.<p>
-     *
-     * @param name the name
-     */
-    public void setName(String name) {
+    m_name = name;
+  }
 
-        m_name = name;
-    }
+  /**
+   * Sets the ownProperties.
+   *
+   * <p>
+   *
+   * @param ownProperties the ownProperties to set
+   */
+  public void setOwnProperties(Map<String, CmsClientProperty> ownProperties) {
 
-    /**
-     * Sets the ownProperties.<p>
-     *
-     * @param ownProperties the ownProperties to set
-     */
-    public void setOwnProperties(Map<String, CmsClientProperty> ownProperties) {
+    m_ownProperties = ownProperties;
+  }
 
-        m_ownProperties = ownProperties;
-    }
+  /**
+   * Sets the path.
+   *
+   * <p>
+   *
+   * @param path the path to set
+   */
+  public void setPath(String path) {
 
-    /**
-     * Sets the path.<p>
-     *
-     * @param path the path to set
-     */
-    public void setPath(String path) {
-
-        m_path = path;
-    }
-
+    m_path = path;
+  }
 }

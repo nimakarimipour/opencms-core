@@ -27,55 +27,60 @@
 
 package org.opencms.staticexport;
 
-import org.opencms.util.CmsStringUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * This class provides a file name matcher to find out those resources which must be part of
- * a static export.<p>
+ * This class provides a file name matcher to find out those resources which must be part of a
+ * static export.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsExportFolderMatcher {
 
-    /** Internal array containing the vfs folders that should be exported. */
-    private List<Pattern> m_vfsFolders;
+  /** Internal array containing the vfs folders that should be exported. */
+  private List<Pattern> m_vfsFolders;
 
-    /**
-     * Creates a new CmsExportFolderMatcher.<p>
-     *
-     * @param vfsFolders array of vfsFolder used for static export
-     * @param checkResource additional resource name to be added to the static export
-     */
-    public CmsExportFolderMatcher(List<String> vfsFolders, String checkResource) {
+  /**
+   * Creates a new CmsExportFolderMatcher.
+   *
+   * <p>
+   *
+   * @param vfsFolders array of vfsFolder used for static export
+   * @param checkResource additional resource name to be added to the static export
+   */
+  public CmsExportFolderMatcher(List<String> vfsFolders, String checkResource) {
 
-        m_vfsFolders = new ArrayList<Pattern>();
-        for (String patternAsString : vfsFolders) {
-            m_vfsFolders.add(Pattern.compile(patternAsString));
-        }
-        m_vfsFolders.add(Pattern.compile(CmsStringUtil.escapePattern(checkResource)));
+    m_vfsFolders = new ArrayList<Pattern>();
+    for (String patternAsString : vfsFolders) {
+      m_vfsFolders.add(Pattern.compile(patternAsString));
     }
+    m_vfsFolders.add(Pattern.compile(CmsStringUtil.escapePattern(checkResource)));
+  }
 
-    /**
-     * Checks if a vfsName matches the given static export folders.<p>
-     *
-     * @param vfsName the vfs name of a resource to check
-     * @return true if the name matches one of the given static export folders
-     */
-    public boolean match(String vfsName) {
+  /**
+   * Checks if a vfsName matches the given static export folders.
+   *
+   * <p>
+   *
+   * @param vfsName the vfs name of a resource to check
+   * @return true if the name matches one of the given static export folders
+   */
+  public boolean match(String vfsName) {
 
-        boolean match = false;
+    boolean match = false;
 
-        for (int j = 0; j < m_vfsFolders.size(); j++) {
-            Pattern pattern = m_vfsFolders.get(j);
-            match = pattern.matcher(vfsName).matches();
-            if (match) {
-                break;
-            }
-        }
-        return match;
+    for (int j = 0; j < m_vfsFolders.size(); j++) {
+      Pattern pattern = m_vfsFolders.get(j);
+      match = pattern.matcher(vfsName).matches();
+      if (match) {
+        break;
+      }
     }
+    return match;
+  }
 }

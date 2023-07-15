@@ -30,14 +30,18 @@ package org.opencms.ui.contextmenu;
 import java.util.List;
 
 /**
- * Interface for classes which provide context menu items.<p>
+ * Interface for classes which provide context menu items.
+ *
+ * <p>
  */
 public interface I_CmsContextMenuItemProvider {
 
-    /**
-     * Gets a list of available context menu items.<p>
-     *
-     * @return the available context menu items
-     */
-    List<I_CmsContextMenuItem> getMenuItems();
+  /**
+   * Gets a list of available context menu items.
+   *
+   * <p>
+   *
+   * @return the available context menu items
+   */
+  List<I_CmsContextMenuItem> getMenuItems();
 }

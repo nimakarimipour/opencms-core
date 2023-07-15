@@ -27,101 +27,109 @@
 
 package org.opencms.cache;
 
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.file.CmsResource;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Tests for the decoration postprocessor.<p>
+ * Tests for the decoration postprocessor.
+ *
+ * <p>
  *
  * @since 6.1.3
  */
 public class TestCache extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestCache(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestCache(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestCache.class.getName());
+    TestSuite suite = new TestSuite();
+    suite.setName(TestCache.class.getName());
 
-        suite.addTest(new TestCache("testVfsMemoryObjectCache"));
+    suite.addTest(new TestCache("testVfsMemoryObjectCache"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
-    }
+    return wrapper;
+  }
 
-    /**
-     * Tests the decoration postprocessor.<p>
-     *
-     * @throws Exception if something goes wrong
-     */
-    public void testVfsMemoryObjectCache() throws Exception {
+  /**
+   * Tests the decoration postprocessor.
+   *
+   * <p>
+   *
+   * @throws Exception if something goes wrong
+   */
+  public void testVfsMemoryObjectCache() throws Exception {
 
-        // get the cache
-        CmsVfsMemoryObjectCache cache = CmsVfsMemoryObjectCache.getVfsMemoryObjectCache();
+    // get the cache
+    CmsVfsMemoryObjectCache cache = CmsVfsMemoryObjectCache.getVfsMemoryObjectCache();
 
-        String res1RootPath = "/sites/default/index.html";
-        String res1Path = "/index.html";
-        CmsResource res1;
+    String res1RootPath = "/sites/default/index.html";
+    String res1Path = "/index.html";
+    CmsResource res1;
 
-        // try to read from cache
-        Object o = cache.getCachedObject(getCmsObject(), res1RootPath);
-        // must be empty
-        assertNull(o);
+    // try to read from cache
+    Object o = cache.getCachedObject(getCmsObject(), res1RootPath);
+    // must be empty
+    assertNull(o);
 
-        // read resource and put it in cache
-        res1 = getCmsObject().readResource(res1Path);
-        cache.putCachedObject(getCmsObject(), res1RootPath, res1);
+    // read resource and put it in cache
+    res1 = getCmsObject().readResource(res1Path);
+    cache.putCachedObject(getCmsObject(), res1RootPath, res1);
 
-        // try to read from cache
-        o = cache.getCachedObject(getCmsObject(), res1RootPath);
-        // must be the same as res1
-        assertEquals(o, res1);
+    // try to read from cache
+    o = cache.getCachedObject(getCmsObject(), res1RootPath);
+    // must be the same as res1
+    assertEquals(o, res1);
 
-        // now modify the resource
-        getCmsObject().lockResource(res1Path);
-        getCmsObject().setDateLastModified(res1Path, 12345, false);
-        getCmsObject().unlockResource(res1Path);
+    // now modify the resource
+    getCmsObject().lockResource(res1Path);
+    getCmsObject().setDateLastModified(res1Path, 12345, false);
+    getCmsObject().unlockResource(res1Path);
 
-        // read it and compare it with the cached resourced
-        res1 = getCmsObject().readResource(res1Path);
-        o = cache.getCachedObject(getCmsObject(), res1RootPath);
-        // must be empty
-        assertNull(o);
-        assertNotNull(res1);
-    }
+    // read it and compare it with the cached resourced
+    res1 = getCmsObject().readResource(res1Path);
+    o = cache.getCachedObject(getCmsObject(), res1RootPath);
+    // must be empty
+    assertNull(o);
+    assertNotNull(res1);
+  }
 }

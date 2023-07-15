@@ -27,68 +27,77 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.ui.editors.CmsEditorStateExtension;
-import org.opencms.ui.shared.rpc.I_CmsEditorStateRPC;
-import org.opencms.util.CmsStringUtil;
-
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
 import com.vaadin.shared.ui.Connect;
+import org.opencms.ui.editors.CmsEditorStateExtension;
+import org.opencms.ui.shared.rpc.I_CmsEditorStateRPC;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * Client connector to the editor state extension.<p>
+ * Client connector to the editor state extension.
+ *
+ * <p>
  */
 @Connect(CmsEditorStateExtension.class)
 public class CmsEditorStateConnector extends AbstractExtensionConnector {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 7273974997472100908L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 7273974997472100908L;
 
-    /** The number of export method attemps. */
-    int m_exportRuns;
+  /** The number of export method attemps. */
+  int m_exportRuns;
 
-    /** The RPC proxy. */
-    I_CmsEditorStateRPC m_rpc;
+  /** The RPC proxy. */
+  I_CmsEditorStateRPC m_rpc;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsEditorStateConnector() {
-        m_rpc = getRpcProxy(I_CmsEditorStateRPC.class);
-    }
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsEditorStateConnector() {
+    m_rpc = getRpcProxy(I_CmsEditorStateRPC.class);
+  }
 
-    /**
-     * @see com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
-     */
-    @Override
-    protected void extend(final ServerConnector target) {
+  /**
+   * @see
+   *     com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
+   */
+  @Override
+  protected void extend(final ServerConnector target) {
 
-        m_exportRuns = 0;
-        Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+    m_exportRuns = 0;
+    Scheduler.get()
+        .scheduleFixedDelay(
+            new RepeatingCommand() {
 
-            public boolean execute() {
+              public boolean execute() {
 
                 m_exportRuns++;
-                String frameName = ((ComponentConnector)target).getWidget().getElement().getAttribute("name");
+                String frameName =
+                    ((ComponentConnector) target).getWidget().getElement().getAttribute("name");
                 if (CmsStringUtil.isEmptyOrWhitespaceOnly(frameName)) {
-                    frameName = "edit";
+                  frameName = "edit";
                 }
                 return !exportMethod(frameName) && (m_exportRuns < 5);
-            }
-        }, 50);
-    }
+              }
+            },
+            50);
+  }
 
-    /**
-     * Exports the setEditorChangedState method to the edit frame.<p>
-     *
-     * @param frameName the edit frame name
-     *
-     * @return <code>true</code> indicates the frame was found and the method exported
-     */
-    native boolean exportMethod(String frameName)/*-{
+  /**
+   * Exports the setEditorChangedState method to the edit frame.
+   *
+   * <p>
+   *
+   * @param frameName the edit frame name
+   * @return <code>true</code> indicates the frame was found and the method exported
+   */
+  native boolean exportMethod(String frameName) /*-{
 		var self = this;
 		var frame = $wnd.frames[frameName];
 		if (frame == null && $wnd.frames.length > 0) {
@@ -109,14 +118,15 @@ public class CmsEditorStateConnector extends AbstractExtensionConnector {
 			return false;
     }-*/;
 
-    /**
-     * Sets the editor changed state.<p>
-     *
-     * @param changed indicates if the editor content was changed
-     */
-    private void setEditorChangedState(boolean changed) {
+  /**
+   * Sets the editor changed state.
+   *
+   * <p>
+   *
+   * @param changed indicates if the editor content was changed
+   */
+  private void setEditorChangedState(boolean changed) {
 
-        m_rpc.setHasChanges(changed);
-    }
-
+    m_rpc.setHasChanges(changed);
+  }
 }

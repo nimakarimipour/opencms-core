@@ -27,27 +27,29 @@
 
 package org.opencms.ade.publish;
 
+import java.util.Set;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 
-import java.util.Set;
-
 /**
- * Interface used to generate mode-specific 'related resources' for the publish dialog in addition to resources linked by normal relations.<p>
+ * Interface used to generate mode-specific 'related resources' for the publish dialog in addition
+ * to resources linked by normal relations.
+ *
+ * <p>
  */
 public interface I_CmsPublishRelatedResourceProvider {
 
-    /**
-     * Gets the set of additional related resources.<p>
-     *
-     * @param cms the current CMS context
-     * @param res the resource for which the related resources should be returned
-     *
-     * @return the set of related resources
-     *
-     * @throws CmsException if something goes wrong
-     */
-    Set<CmsResource> getAdditionalRelatedResources(CmsObject cms, CmsResource res) throws CmsException;
-
+  /**
+   * Gets the set of additional related resources.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param res the resource for which the related resources should be returned
+   * @return the set of related resources
+   * @throws CmsException if something goes wrong
+   */
+  Set<CmsResource> getAdditionalRelatedResources(CmsObject cms, CmsResource res)
+      throws CmsException;
 }

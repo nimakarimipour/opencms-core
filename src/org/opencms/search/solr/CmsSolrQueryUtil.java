@@ -27,33 +27,33 @@
 
 package org.opencms.search.solr;
 
-/**
- * Utilities for building and analyzing Solr queries.
- */
+/** Utilities for building and analyzing Solr queries. */
 public class CmsSolrQueryUtil {
 
-    /** The prefix to distinguish a Geo filter query from other filter queries. */
-    public static final String GEO_FILTER_QUERY_PREFIX = "{!geofilt";
+  /** The prefix to distinguish a Geo filter query from other filter queries. */
+  public static final String GEO_FILTER_QUERY_PREFIX = "{!geofilt";
 
-    /**
-     * Composes a Geo filter query string for given parameters.
-     * @param fieldName the field name
-     * @param coordinates the coordinates
-     * @param radius the search radius
-     * @param units the units of the search radius
-     * @return the Geo filter query string
-     */
-    public static String composeGeoFilterQuery(String fieldName, String coordinates, String radius, String units) {
+  /**
+   * Composes a Geo filter query string for given parameters.
+   *
+   * @param fieldName the field name
+   * @param coordinates the coordinates
+   * @param radius the search radius
+   * @param units the units of the search radius
+   * @return the Geo filter query string
+   */
+  public static String composeGeoFilterQuery(
+      String fieldName, String coordinates, String radius, String units) {
 
-        return GEO_FILTER_QUERY_PREFIX
-            + " sfield="
-            + fieldName
-            + " pt="
-            + coordinates
-            + " d="
-            + radius
-            + " units="
-            + units
-            + "}";
-    }
+    return GEO_FILTER_QUERY_PREFIX
+        + " sfield="
+        + fieldName
+        + " pt="
+        + coordinates
+        + " d="
+        + radius
+        + " units="
+        + units
+        + "}";
+  }
 }

@@ -39,54 +39,60 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
 /**
- * Context menu entry for the 'Go to parent sitemap' action.<p>
+ * Context menu entry for the 'Go to parent sitemap' action.
+ *
+ * <p>
  */
-public class CmsGoToParentAction implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand, I_CmsDisableable {
+public class CmsGoToParentAction
+    implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand, I_CmsDisableable {
 
-    /**
-     * Returns the context menu command according to
-     * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new CmsGoToParentAction();
-    }
+    return new CmsGoToParentAction();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public void execute(CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public void execute(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-        CmsSitemapView.getInstance().getController().gotoParentSitemap();
-    }
+    CmsSitemapView.getInstance().getController().gotoParentSitemap();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget()
-     */
-    public boolean hasItemWidget() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget() */
+  public boolean hasItemWidget() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.I_CmsDisableable#isDisabled()
-     */
-    public boolean isDisabled() {
+  /** @see org.opencms.gwt.client.I_CmsDisableable#isDisabled() */
+  public boolean isDisabled() {
 
-        CmsSitemapController controller = CmsSitemapView.getInstance().getController();
-        return CmsStringUtil.isEmptyOrWhitespaceOnly(controller.getData().getParentSitemap());
-    }
+    CmsSitemapController controller = CmsSitemapView.getInstance().getController();
+    return CmsStringUtil.isEmptyOrWhitespaceOnly(controller.getData().getParentSitemap());
+  }
 }

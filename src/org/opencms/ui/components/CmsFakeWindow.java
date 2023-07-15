@@ -27,80 +27,84 @@
 
 package org.opencms.ui.components;
 
-import org.opencms.main.CmsLog;
-import org.opencms.ui.CmsVaadinUtils;
-
+import com.vaadin.ui.CustomLayout;
+import com.vaadin.ui.JavaScript;
 import java.io.InputStream;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.text.StringEscapeUtils;
-
-import com.vaadin.ui.CustomLayout;
-import com.vaadin.ui.JavaScript;
+import org.opencms.main.CmsLog;
+import org.opencms.ui.CmsVaadinUtils;
 
 /**
- * Layout which looks like a Vaadin window without actually being a window.<p>
+ * Layout which looks like a Vaadin window without actually being a window.
+ *
+ * <p>
  */
 public class CmsFakeWindow extends CustomLayout {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsFakeWindow.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsFakeWindow.class);
 
-    /** The content location. */
-    public static final String LOCATION_CONTENT = "content";
+  /** The content location. */
+  public static final String LOCATION_CONTENT = "content";
 
-    /** The window title. */
-    private String m_windowTitle;
+  /** The window title. */
+  private String m_windowTitle;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsFakeWindow() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsFakeWindow() {
 
-        super();
+    super();
 
-        // Need this for setWindowTitle, see below
-        setId(RandomStringUtils.randomAlphabetic(8));
+    // Need this for setWindowTitle, see below
+    setId(RandomStringUtils.randomAlphabetic(8));
 
-        try {
-            @SuppressWarnings("resource")
-            InputStream layoutStream = CmsVaadinUtils.readCustomLayout(getClass(), "CmsFakeWindow.html");
-            initTemplateContentsFromInputStream(layoutStream);
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
-        }
+    try {
+      @SuppressWarnings("resource")
+      InputStream layoutStream = CmsVaadinUtils.readCustomLayout(getClass(), "CmsFakeWindow.html");
+      initTemplateContentsFromInputStream(layoutStream);
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage(), e);
     }
+  }
 
-    /**
-     * Gets the window title.<p>
-     *
-     * @return the window title
-     */
-    public String getWindowTitle() {
+  /**
+   * Gets the window title.
+   *
+   * <p>
+   *
+   * @return the window title
+   */
+  public String getWindowTitle() {
 
-        return m_windowTitle;
-    }
+    return m_windowTitle;
+  }
 
-    /**
-     * Sets the window title.<p>
-     *
-     * @param title the new window title
-     */
-    public void setWindowTitle(String title) {
+  /**
+   * Sets the window title.
+   *
+   * <p>
+   *
+   * @param title the new window title
+   */
+  public void setWindowTitle(String title) {
 
-        /* HACK: Using a Label destroys the layout for some reason, so we resort to setting the caption directly in the
-         element via an explicit JavaScript call. */
-        m_windowTitle = title;
-        JavaScript.eval(
-            "document.querySelector('#"
-                + getId()
-                + " .fakewindowheader').innerHTML = '"
-                + StringEscapeUtils.escapeEcmaScript(title)
-                + "'");
-    }
-
+    /* HACK: Using a Label destroys the layout for some reason, so we resort to setting the caption directly in the
+    element via an explicit JavaScript call. */
+    m_windowTitle = title;
+    JavaScript.eval(
+        "document.querySelector('#"
+            + getId()
+            + " .fakewindowheader').innerHTML = '"
+            + StringEscapeUtils.escapeEcmaScript(title)
+            + "'");
+  }
 }

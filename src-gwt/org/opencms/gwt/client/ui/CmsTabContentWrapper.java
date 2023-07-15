@@ -31,28 +31,30 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Wrapper for a tab content widget which is used to bypass the problem that measuring the direct tab content's size doesn't work.<p>
+ * Wrapper for a tab content widget which is used to bypass the problem that measuring the direct
+ * tab content's size doesn't work.
  *
+ * <p>
  */
 public class CmsTabContentWrapper extends SimplePanel {
 
-    /**
-     * Creates a new wrapper widget.<p>
-     *
-     * @param widget the widget to wrap
-     */
-    public CmsTabContentWrapper(Widget widget) {
+  /**
+   * Creates a new wrapper widget.
+   *
+   * <p>
+   *
+   * @param widget the widget to wrap
+   */
+  public CmsTabContentWrapper(Widget widget) {
 
-        super(widget);
-        addStyleName("cmsTabContentWrapper");
-    }
+    super(widget);
+    addStyleName("cmsTabContentWrapper");
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.SimplePanel#getWidget()
-     */
-    @Override
-    public Widget getWidget() {
+  /** @see com.google.gwt.user.client.ui.SimplePanel#getWidget() */
+  @Override
+  public Widget getWidget() {
 
-        return super.getWidget();
-    }
+    return super.getWidget();
+  }
 }

@@ -32,25 +32,25 @@ import com.google.gwt.user.client.ui.Widget;
 /** Dummy controller for the pattern of a single event. */
 public class CmsPatternPanelNoneController implements I_CmsSerialDatePatternController {
 
-    /** Dummy pattern view. */
-    private static final I_CmsSerialDatePatternView DUMMY_VIEW = new I_CmsSerialDatePatternView() {
+  /** Dummy pattern view. */
+  private static final I_CmsSerialDatePatternView DUMMY_VIEW =
+      new I_CmsSerialDatePatternView() {
 
         public Widget asWidget() {
 
-            return null;
+          return null;
         }
 
         public void onValueChange() {
-            // Do nothing
+          // Do nothing
         }
-    };
+      };
 
-    /**
-     * @see org.opencms.acacia.client.widgets.serialdate.I_CmsSerialDatePatternController#getView()
-     */
-    public I_CmsSerialDatePatternView getView() {
+  /**
+   * @see org.opencms.acacia.client.widgets.serialdate.I_CmsSerialDatePatternController#getView()
+   */
+  public I_CmsSerialDatePatternView getView() {
 
-        return DUMMY_VIEW;
-    }
-
+    return DUMMY_VIEW;
+  }
 }

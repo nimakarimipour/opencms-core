@@ -27,12 +27,8 @@
 
 package org.opencms.jsp.util;
 
-import org.opencms.ade.configuration.CmsADEConfigData;
-import org.opencms.file.CmsObject;
-import org.opencms.file.types.I_CmsResourceType;
-import org.opencms.workplace.CmsWorkplaceMessages;
-import org.opencms.xml.containerpage.I_CmsFormatterBean;
-
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -40,196 +36,191 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.opencms.ade.configuration.CmsADEConfigData;
+import org.opencms.file.CmsObject;
+import org.opencms.file.types.I_CmsResourceType;
+import org.opencms.workplace.CmsWorkplaceMessages;
+import org.opencms.xml.containerpage.I_CmsFormatterBean;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-
-/**
- * Wrapper for resource type information for use in JSPs.
- */
+/** Wrapper for resource type information for use in JSPs. */
 public class CmsResourceTypeInfoWrapper implements I_CmsFormatterInfo {
 
-    /** The current CMS context. */
-    private CmsObject m_cms;
+  /** The current CMS context. */
+  private CmsObject m_cms;
 
-    /** The current sitemap configuration. */
-    private CmsADEConfigData m_config;
+  /** The current sitemap configuration. */
+  private CmsADEConfigData m_config;
 
-    /** The wrapped resource type. */
-    private I_CmsResourceType m_type;
+  /** The wrapped resource type. */
+  private I_CmsResourceType m_type;
 
-    /** The active formatters. */
-    private List<I_CmsFormatterBean> m_activeFormatters = new ArrayList<>();
+  /** The active formatters. */
+  private List<I_CmsFormatterBean> m_activeFormatters = new ArrayList<>();
 
-    /** The active formatters grouped by container type. */
-    private Multimap<String, I_CmsFormatterBean> m_activeFormattersByContainerType = ArrayListMultimap.create();
+  /** The active formatters grouped by container type. */
+  private Multimap<String, I_CmsFormatterBean> m_activeFormattersByContainerType =
+      ArrayListMultimap.create();
 
-    /** Whether the type is active in the sitemap configuration. */
-    private boolean m_active;
+  /** Whether the type is active in the sitemap configuration. */
+  private boolean m_active;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param cms the current CMS context
-     * @param config the current sitemap configuration
-     * @param type the type to wrap
-     */
-    public CmsResourceTypeInfoWrapper(CmsObject cms, CmsADEConfigData config, I_CmsResourceType type) {
+  /**
+   * Creates a new instance.
+   *
+   * @param cms the current CMS context
+   * @param config the current sitemap configuration
+   * @param type the type to wrap
+   */
+  public CmsResourceTypeInfoWrapper(
+      CmsObject cms, CmsADEConfigData config, I_CmsResourceType type) {
 
-        m_cms = cms;
-        m_config = config;
-        m_type = type;
-        for (I_CmsFormatterBean formatter : config.getActiveFormatters().values()) {
-            if (!formatter.getResourceTypeNames().contains(type.getTypeName())) {
-                continue;
-            }
-            m_activeFormatters.add(formatter);
-            for (String containerType : formatter.getContainerTypes()) {
-                m_activeFormattersByContainerType.put(containerType, formatter);
-            }
-        }
-        m_active = m_config.getResourceTypes().stream().anyMatch(
-            sitemapConfigType -> m_type.getTypeName().equals(sitemapConfigType.getTypeName()));
+    m_cms = cms;
+    m_config = config;
+    m_type = type;
+    for (I_CmsFormatterBean formatter : config.getActiveFormatters().values()) {
+      if (!formatter.getResourceTypeNames().contains(type.getTypeName())) {
+        continue;
+      }
+      m_activeFormatters.add(formatter);
+      for (String containerType : formatter.getContainerTypes()) {
+        m_activeFormattersByContainerType.put(containerType, formatter);
+      }
     }
+    m_active =
+        m_config.getResourceTypes().stream()
+            .anyMatch(
+                sitemapConfigType -> m_type.getTypeName().equals(sitemapConfigType.getTypeName()));
+  }
 
-    /**
-     * Gets the description for the type in the given locale.
-     *
-     * @param locale the locale to use
-     * @return the type description
-     */
-    public String description(Locale locale) {
+  /**
+   * Gets the description for the type in the given locale.
+   *
+   * @param locale the locale to use
+   * @return the type description
+   */
+  public String description(Locale locale) {
 
-        try {
-            return CmsWorkplaceMessages.getResourceTypeDescription(locale, m_type.getTypeName());
-        } catch (Throwable e) {
-            return m_type.getTypeName();
-        }
+    try {
+      return CmsWorkplaceMessages.getResourceTypeDescription(locale, m_type.getTypeName());
+    } catch (Throwable e) {
+      return m_type.getTypeName();
     }
+  }
 
-    /**
-     * Gets the formatter information beans for a specific container type.
-     *
-     * @param containerType the container type
-     * @return the formatter information
-     */
-    public List<CmsFormatterInfoWrapper> formatterInfoForContainer(String containerType) {
+  /**
+   * Gets the formatter information beans for a specific container type.
+   *
+   * @param containerType the container type
+   * @return the formatter information
+   */
+  public List<CmsFormatterInfoWrapper> formatterInfoForContainer(String containerType) {
 
-        return wrapFormatters(m_activeFormattersByContainerType.get(containerType));
+    return wrapFormatters(m_activeFormattersByContainerType.get(containerType));
+  }
 
+  /**
+   * Gets the type description in the current locale.
+   *
+   * @return the type description
+   */
+  public String getDescription() {
+
+    return description(m_cms.getRequestContext().getLocale());
+  }
+
+  /**
+   * Gets the set of container types configured for any active formatters for this resource type.
+   *
+   * @return the set of container types for formatters
+   */
+  public Set<String> getFormatterContainerTypes() {
+
+    return Collections.unmodifiableSet(m_activeFormattersByContainerType.keySet());
+  }
+
+  /**
+   * Gets the formatter information beans for all active formatters for this type.
+   *
+   * @return the formatter information beans
+   */
+  public List<CmsFormatterInfoWrapper> getFormatterInfo() {
+
+    return wrapFormatters(m_activeFormatters);
+  }
+
+  /** @see org.opencms.jsp.util.I_CmsFormatterInfo#getIsResourceType() */
+  public boolean getIsResourceType() {
+
+    return true;
+  }
+
+  /**
+   * Gets the type name.
+   *
+   * @return the type name
+   */
+  public String getName() {
+
+    return m_type.getTypeName();
+  }
+
+  /**
+   * Gets the user-readable nice name of the type in the current locale.
+   *
+   * @return the nice name
+   */
+  public String getNiceName() {
+
+    return niceName(m_cms.getRequestContext().getLocale());
+  }
+
+  /**
+   * Returns true if the type is active in the current sitemap configuration.
+   *
+   * @return true if the type is active
+   */
+  public boolean getIsActive() {
+
+    return m_active;
+  }
+
+  /** @see org.opencms.jsp.util.I_CmsFormatterInfo#getIsFormatter() */
+  public boolean getIsFormatter() {
+
+    return false;
+  }
+
+  /** @see org.opencms.jsp.util.I_CmsFormatterInfo#getIsFunction() */
+  public boolean getIsFunction() {
+
+    return false;
+  }
+
+  /**
+   * Gets the nice name of the type in the given locale.
+   *
+   * @param locale the locale to use
+   * @return the nice name for the type
+   */
+  public String niceName(Locale locale) {
+
+    try {
+      return CmsWorkplaceMessages.getResourceTypeName(locale, m_type.getTypeName());
+    } catch (Throwable e) {
+      return m_type.getTypeName();
     }
+  }
 
-    /**
-     * Gets the type description in the current locale.
-     *
-     * @return the type description
-     */
-    public String getDescription() {
+  /**
+   * Wraps a list of formatter beans for use in JSPs.
+   *
+   * @param formatters the formatters to wrap
+   * @return the wrapped formatters
+   */
+  private List<CmsFormatterInfoWrapper> wrapFormatters(Collection<I_CmsFormatterBean> formatters) {
 
-        return description(m_cms.getRequestContext().getLocale());
-    }
-
-    /**
-     * Gets the set of container types configured for any active formatters for this resource type.
-     *
-     * @return the set of container types for formatters
-     */
-    public Set<String> getFormatterContainerTypes() {
-
-        return Collections.unmodifiableSet(m_activeFormattersByContainerType.keySet());
-    }
-
-    /**
-     * Gets the formatter information beans for all active formatters for this type.
-     *
-     * @return the formatter information beans
-     */
-    public List<CmsFormatterInfoWrapper> getFormatterInfo() {
-
-        return wrapFormatters(m_activeFormatters);
-
-    }
-
-    /**
-     * @see org.opencms.jsp.util.I_CmsFormatterInfo#getIsResourceType()
-     */
-    public boolean getIsResourceType() {
-
-        return true;
-    }
-
-    /**
-     * Gets the type name.
-     *
-     * @return the type name
-     */
-    public String getName() {
-
-        return m_type.getTypeName();
-    }
-
-    /**
-     * Gets the user-readable nice name of the type in the current locale.
-     *
-     * @return the nice name
-     */
-    public String getNiceName() {
-
-        return niceName(m_cms.getRequestContext().getLocale());
-    }
-
-    /**
-     * Returns true if the type is active in the current sitemap configuration.
-     *
-     * @return true if the type is active
-     */
-    public boolean getIsActive() {
-
-        return m_active;
-
-    }
-
-    /**
-     * @see org.opencms.jsp.util.I_CmsFormatterInfo#getIsFormatter()
-     */
-    public boolean getIsFormatter() {
-
-        return false;
-    }
-
-    /**
-     * @see org.opencms.jsp.util.I_CmsFormatterInfo#getIsFunction()
-     */
-    public boolean getIsFunction() {
-
-        return false;
-    }
-
-    /**
-     * Gets the nice name of the type in the given locale.
-     *
-     * @param locale the locale to use
-     * @return the nice name for the type
-     */
-    public String niceName(Locale locale) {
-
-        try {
-            return CmsWorkplaceMessages.getResourceTypeName(locale, m_type.getTypeName());
-        } catch (Throwable e) {
-            return m_type.getTypeName();
-        }
-    }
-
-    /**
-     * Wraps a list of formatter beans for use in JSPs.
-     *
-     * @param formatters the formatters to wrap
-     * @return the wrapped formatters
-     */
-    private List<CmsFormatterInfoWrapper> wrapFormatters(Collection<I_CmsFormatterBean> formatters) {
-
-        return formatters.stream().map(formatter -> new CmsFormatterInfoWrapper(m_cms, m_config, formatter)).collect(
-            Collectors.toList());
-    }
-
+    return formatters.stream()
+        .map(formatter -> new CmsFormatterInfoWrapper(m_cms, m_config, formatter))
+        .collect(Collectors.toList());
+  }
 }

@@ -30,49 +30,56 @@ package org.opencms.xml.content;
 import org.opencms.util.CmsUUID;
 
 /**
- * A bean class containing both a path and a UUID which should be stored in an XML file value.<p>
+ * A bean class containing both a path and a UUID which should be stored in an XML file value.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsVfsFileValueBean {
 
-    /** The UUID. */
-    private CmsUUID m_id;
+  /** The UUID. */
+  private CmsUUID m_id;
 
-    /** The path. */
-    private String m_path;
+  /** The path. */
+  private String m_path;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param path the path
-     * @param id the UUID
-     */
-    public CmsVfsFileValueBean(String path, CmsUUID id) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param path the path
+   * @param id the UUID
+   */
+  public CmsVfsFileValueBean(String path, CmsUUID id) {
 
-        super();
-        m_path = path;
-        m_id = id;
-    }
+    super();
+    m_path = path;
+    m_id = id;
+  }
 
-    /**
-     * Gets the UUID of this bean.<p>
-     *
-     * @return a UUID
-     */
-    public CmsUUID getId() {
+  /**
+   * Gets the UUID of this bean.
+   *
+   * <p>
+   *
+   * @return a UUID
+   */
+  public CmsUUID getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Gets the path of this bean.<p>
-     *
-     * @return a path
-     */
-    public String getPath() {
+  /**
+   * Gets the path of this bean.
+   *
+   * <p>
+   *
+   * @return a path
+   */
+  public String getPath() {
 
-        return m_path;
-    }
-
+    return m_path;
+  }
 }

@@ -28,14 +28,18 @@
 package org.opencms.gwt.client;
 
 /**
- * Interface for widgets that need to be resized once they are visible.<p>
+ * Interface for widgets that need to be resized once they are visible.
+ *
+ * <p>
  *
  * @since 9.5.0
  */
 public interface I_CmsHasResizeOnShow {
 
-    /**
-     * Adjusts widget's size once it's visible.<p>
-     */
-    void resizeOnShow();
+  /**
+   * Adjusts widget's size once it's visible.
+   *
+   * <p>
+   */
+  void resizeOnShow();
 }

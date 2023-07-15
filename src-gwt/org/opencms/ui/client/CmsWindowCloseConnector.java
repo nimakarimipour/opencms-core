@@ -27,56 +27,63 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.gwt.client.rpc.CmsRpcAction;
-import org.opencms.ui.components.extensions.CmsWindowCloseExtension;
-import org.opencms.ui.shared.rpc.I_CmsWindowCloseServerRpc;
-
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.Window.ClosingHandler;
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
 import com.vaadin.shared.ui.Connect;
+import org.opencms.gwt.client.rpc.CmsRpcAction;
+import org.opencms.ui.components.extensions.CmsWindowCloseExtension;
+import org.opencms.ui.shared.rpc.I_CmsWindowCloseServerRpc;
 
 /**
- * The window close connector.<p>
+ * The window close connector.
+ *
+ * <p>
  */
 @Connect(CmsWindowCloseExtension.class)
 public class CmsWindowCloseConnector extends AbstractExtensionConnector {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 190108090241764065L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 190108090241764065L;
 
-    /** The RPC proxy. */
-    private I_CmsWindowCloseServerRpc m_rpc;
+  /** The RPC proxy. */
+  private I_CmsWindowCloseServerRpc m_rpc;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsWindowCloseConnector() {
-        m_rpc = getRpcProxy(I_CmsWindowCloseServerRpc.class);
-    }
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsWindowCloseConnector() {
+    m_rpc = getRpcProxy(I_CmsWindowCloseServerRpc.class);
+  }
 
-    /**
-     * @see com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
-     */
-    @Override
-    protected void extend(ServerConnector target) {
+  /**
+   * @see
+   *     com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
+   */
+  @Override
+  protected void extend(ServerConnector target) {
 
-        Window.addWindowClosingHandler(new ClosingHandler() {
+    Window.addWindowClosingHandler(
+        new ClosingHandler() {
 
-            public void onWindowClosing(ClosingEvent event) {
+          public void onWindowClosing(ClosingEvent event) {
 
-                handleClose();
-            }
+            handleClose();
+          }
         });
-    }
+  }
 
-    /**
-     * Handles the window closing.<p>
-     */
-    void handleClose() {
+  /**
+   * Handles the window closing.
+   *
+   * <p>
+   */
+  void handleClose() {
 
-        m_rpc.windowClosed(CmsRpcAction.SYNC_TOKEN);
-    }
+    m_rpc.windowClosed(CmsRpcAction.SYNC_TOKEN);
+  }
 }

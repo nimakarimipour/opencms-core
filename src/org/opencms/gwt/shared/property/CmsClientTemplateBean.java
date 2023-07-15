@@ -30,122 +30,141 @@ package org.opencms.gwt.shared.property;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * Sitemap initialization data.<p>
+ * Sitemap initialization data.
+ *
+ * <p>
  *
  * @since 8.0
  */
 public class CmsClientTemplateBean implements IsSerializable {
 
-    /** The description. */
-    private String m_description;
+  /** The description. */
+  private String m_description;
 
-    /** The image path. */
-    private String m_imgPath;
+  /** The image path. */
+  private String m_imgPath;
 
-    /** True if the template should be displayed with weak text. */
-    private boolean m_showWeakText;
+  /** True if the template should be displayed with weak text. */
+  private boolean m_showWeakText;
 
-    /** The site path. */
-    private String m_sitePath;
+  /** The site path. */
+  private String m_sitePath;
 
-    /** The title. */
-    private String m_title;
+  /** The title. */
+  private String m_title;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsClientTemplateBean() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsClientTemplateBean() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * Constructor.<p>
-     *
-     * @param title the title
-     * @param description the description
-     * @param sitePath the site path
-     * @param imgPath the image path
-     */
-    public CmsClientTemplateBean(String title, String description, String sitePath, String imgPath) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param title the title
+   * @param description the description
+   * @param sitePath the site path
+   * @param imgPath the image path
+   */
+  public CmsClientTemplateBean(String title, String description, String sitePath, String imgPath) {
 
-        m_title = title;
-        m_description = description;
-        m_sitePath = sitePath;
-        m_imgPath = imgPath;
-    }
+    m_title = title;
+    m_description = description;
+    m_sitePath = sitePath;
+    m_imgPath = imgPath;
+  }
 
-    /**
-     * Returns a dummy template object which represents an empty selection.<p>
-     *
-     * @return a dummy template object
-     */
-    public static CmsClientTemplateBean getNullTemplate() {
+  /**
+   * Returns a dummy template object which represents an empty selection.
+   *
+   * <p>
+   *
+   * @return a dummy template object
+   */
+  public static CmsClientTemplateBean getNullTemplate() {
 
-        String imagePath = "/system/workplace/resources/commons/notemplate.png";
-        CmsClientTemplateBean result = new CmsClientTemplateBean("No template", "", "", imagePath);
-        result.setShowWeakText(true);
-        return result;
-    }
+    String imagePath = "/system/workplace/resources/commons/notemplate.png";
+    CmsClientTemplateBean result = new CmsClientTemplateBean("No template", "", "", imagePath);
+    result.setShowWeakText(true);
+    return result;
+  }
 
-    /**
-     * Returns the description.<p>
-     *
-     * @return the description
-     */
-    public String getDescription() {
+  /**
+   * Returns the description.
+   *
+   * <p>
+   *
+   * @return the description
+   */
+  public String getDescription() {
 
-        return m_description;
-    }
+    return m_description;
+  }
 
-    /**
-     * Returns the image path.<p>
-     *
-     * @return the image path
-     */
-    public String getImgPath() {
+  /**
+   * Returns the image path.
+   *
+   * <p>
+   *
+   * @return the image path
+   */
+  public String getImgPath() {
 
-        return m_imgPath;
-    }
+    return m_imgPath;
+  }
 
-    /**
-     * Returns the site path.<p>
-     *
-     * @return the site path
-     */
-    public String getSitePath() {
+  /**
+   * Returns the site path.
+   *
+   * <p>
+   *
+   * @return the site path
+   */
+  public String getSitePath() {
 
-        return m_sitePath;
-    }
+    return m_sitePath;
+  }
 
-    /**
-     * Returns the title.<p>
-     *
-     * @return the title
-     */
-    public String getTitle() {
+  /**
+   * Returns the title.
+   *
+   * <p>
+   *
+   * @return the title
+   */
+  public String getTitle() {
 
-        return m_title;
-    }
+    return m_title;
+  }
 
-    /**
-     * Returns true if the template should be shown with weak text.<p>
-     *
-     * @return true if the template should be shown with weak text
-     */
-    public boolean isShowWeakText() {
+  /**
+   * Returns true if the template should be shown with weak text.
+   *
+   * <p>
+   *
+   * @return true if the template should be shown with weak text
+   */
+  public boolean isShowWeakText() {
 
-        return m_showWeakText;
-    }
+    return m_showWeakText;
+  }
 
-    /**
-     * Sets the display of weak text to true or false.<p>
-     *
-     * @param showWeakText if true, the template should be displayed with weak text
-     */
-    public void setShowWeakText(boolean showWeakText) {
+  /**
+   * Sets the display of weak text to true or false.
+   *
+   * <p>
+   *
+   * @param showWeakText if true, the template should be displayed with weak text
+   */
+  public void setShowWeakText(boolean showWeakText) {
 
-        m_showWeakText = showWeakText;
-    }
-
+    m_showWeakText = showWeakText;
+  }
 }

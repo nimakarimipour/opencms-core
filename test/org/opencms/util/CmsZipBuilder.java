@@ -39,114 +39,125 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
- * Helper class for programmatically building zip files for test cases.<p>
+ * Helper class for programmatically building zip files for test cases.
+ *
+ * <p>
  */
 public class CmsZipBuilder {
 
-    /** The file contents, with the paths as keys. */
-    private Map<String, byte[]> m_entries = new HashMap<>();
+  /** The file contents, with the paths as keys. */
+  private Map<String, byte[]> m_entries = new HashMap<>();
 
-    /**
-     * Adds parent paths of a path to a set of paths.<p>
-     *
-     * @param path the path
-     * @param parents the set to add the parent paths to
-     */
-    private static void addParents(String path, Set<String> parents) {
+  /**
+   * Adds parent paths of a path to a set of paths.
+   *
+   * <p>
+   *
+   * @param path the path
+   * @param parents the set to add the parent paths to
+   */
+  private static void addParents(String path, Set<String> parents) {
 
-        String parent = new File(path).getParent();
-        if (parent != null) {
-            parent = normalizePath(parent);
-            if (!parents.contains(parent)) {
-                parents.add(parent);
-                addParents(parent, parents);
-            }
-        }
+    String parent = new File(path).getParent();
+    if (parent != null) {
+      parent = normalizePath(parent);
+      if (!parents.contains(parent)) {
+        parents.add(parent);
+        addParents(parent, parents);
+      }
+    }
+  }
+
+  /**
+   * Converts paths to a normal form.
+   *
+   * <p>
+   *
+   * @param path the path to normalize
+   * @return the normalized path
+   */
+  private static String normalizePath(String path) {
+
+    String result = CmsFileUtil.removeLeadingSeparator(CmsFileUtil.removeTrailingSeparator(path));
+    return result;
+  }
+
+  /**
+   * Adds a file entry.
+   *
+   * <p>
+   *
+   * @param path the file path
+   * @param content the file content
+   */
+  public void addFile(String path, byte[] content) {
+
+    path = normalizePath(path);
+    m_entries.put(path, content);
+  }
+
+  /**
+   * Adds a file entry.
+   *
+   * <p>
+   *
+   * @param path the file path
+   * @param content the file content (gets encoded as UTF-8)
+   */
+  public void addFile(String path, String content) {
+
+    try {
+      addFile(path, content.getBytes("UTF-8"));
+    } catch (UnsupportedEncodingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Writes the entry to a zip stream.
+   *
+   * <p>
+   *
+   * @param zip the stream to write the entries to
+   * @throws IOException if something goes wrong
+   */
+  public void write(ZipOutputStream zip) throws IOException {
+
+    Set<String> parents = new TreeSet<>();
+
+    for (String path : m_entries.keySet()) {
+      addParents(path, parents);
+    }
+    parents.remove("/"); // implicitly created
+    System.out.println(parents);
+
+    for (String parent : parents) {
+      ZipEntry entry = new ZipEntry(CmsStringUtil.joinPaths(parent, "/"));
+      zip.putNextEntry(entry);
     }
 
-    /**
-     * Converts paths to a normal form.<p>
-     * @param path the path to normalize
-     *
-     * @return the normalized path
-     */
-    private static String normalizePath(String path) {
-
-        String result = CmsFileUtil.removeLeadingSeparator(CmsFileUtil.removeTrailingSeparator(path));
-        return result;
-
+    for (Map.Entry<String, byte[]> entry : m_entries.entrySet()) {
+      ZipEntry zipEntry = new ZipEntry(entry.getKey());
+      zip.putNextEntry(zipEntry);
+      zip.write(entry.getValue());
     }
+  }
 
-    /**
-     * Adds a file entry.<p>
-     *
-     * @param path the file path
-     * @param content the file content
-     */
-    public void addFile(String path, byte[] content) {
+  /**
+   * Generates the zip file and returns it.
+   *
+   * <p>
+   *
+   * @return the zip file
+   * @throws IOException if something goes wrong when generating the zip file
+   */
+  public File writeZip() throws IOException {
 
-        path = normalizePath(path);
-        m_entries.put(path, content);
+    File file = File.createTempFile("CmsZipBuilderTempFile-", ".zip");
+    try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(file))) {
+      write(zos);
     }
-
-    /**
-     * Adds a file entry.<p>
-     *
-     * @param path the file path
-     * @param content the file content (gets encoded as UTF-8)
-     */
-    public void addFile(String path, String content) {
-
-        try {
-            addFile(path, content.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Writes the entry to a zip stream.<p>
-     *
-     * @param zip the stream to write the entries to
-     * @throws IOException if something goes wrong
-     */
-    public void write(ZipOutputStream zip) throws IOException {
-
-        Set<String> parents = new TreeSet<>();
-
-        for (String path : m_entries.keySet()) {
-            addParents(path, parents);
-        }
-        parents.remove("/"); // implicitly created
-        System.out.println(parents);
-
-        for (String parent : parents) {
-            ZipEntry entry = new ZipEntry(CmsStringUtil.joinPaths(parent, "/"));
-            zip.putNextEntry(entry);
-        }
-
-        for (Map.Entry<String, byte[]> entry : m_entries.entrySet()) {
-            ZipEntry zipEntry = new ZipEntry(entry.getKey());
-            zip.putNextEntry(zipEntry);
-            zip.write(entry.getValue());
-        }
-
-    }
-
-    /**
-     * Generates the zip file and returns it.<p>
-     *
-     * @return the zip file
-     * @throws IOException if something goes wrong when generating the zip file
-     */
-    public File writeZip() throws IOException {
-
-        File file = File.createTempFile("CmsZipBuilderTempFile-", ".zip");
-        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(file))) {
-            write(zos);
-        }
-        return file;
-    }
-
+    return file;
+  }
 }

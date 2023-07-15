@@ -27,50 +27,57 @@
 
 package org.opencms.xml.content;
 
-import org.opencms.xml.I_CmsXmlDocument;
-
 import java.util.List;
 import java.util.Locale;
+import org.opencms.xml.I_CmsXmlDocument;
 
 /**
- * This class represents a location in an XML content for a specific locale.<p>
+ * This class represents a location in an XML content for a specific locale.
  *
- * It is used for conveniently retrieving configuration values from an XML content without manually
- * concatenating xpath strings.<p>
+ * <p>It is used for conveniently retrieving configuration values from an XML content without
+ * manually concatenating xpath strings.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  */
 public interface I_CmsXmlContentLocation {
 
-    /**
-     * Returns the XML document.<p>
-     *
-     * @return the XML document
-     */
-    I_CmsXmlDocument getDocument();
+  /**
+   * Returns the XML document.
+   *
+   * <p>
+   *
+   * @return the XML document
+   */
+  I_CmsXmlDocument getDocument();
 
-    /**
-     * Returns the locale.<p>
-     *
-     * @return the locale
-     */
-    Locale getLocale();
+  /**
+   * Returns the locale.
+   *
+   * <p>
+   *
+   * @return the locale
+   */
+  Locale getLocale();
 
-    /**
-     * Returns the location for an xpath relative to the current location.<p>
-     *
-     * @param subPath the relative path
-     * @return the location which the relative path points to
-     */
-    I_CmsXmlContentValueLocation getSubValue(String subPath);
+  /**
+   * Returns the location for an xpath relative to the current location.
+   *
+   * <p>
+   *
+   * @param subPath the relative path
+   * @return the location which the relative path points to
+   */
+  I_CmsXmlContentValueLocation getSubValue(String subPath);
 
-    /**
-     * Returns the locations for an xpath relative to the current location.<p>
-     *
-     * @param subPath the relative path
-     * @return the locations which the relative path points to
-     */
-    List<I_CmsXmlContentValueLocation> getSubValues(String subPath);
-
+  /**
+   * Returns the locations for an xpath relative to the current location.
+   *
+   * <p>
+   *
+   * @param subPath the relative path
+   * @return the locations which the relative path points to
+   */
+  List<I_CmsXmlContentValueLocation> getSubValues(String subPath);
 }

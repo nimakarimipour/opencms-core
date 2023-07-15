@@ -27,34 +27,35 @@
 
 package org.opencms.setup.db.update6to7.mysql;
 
+import java.io.IOException;
 import org.opencms.file.CmsResource;
 
-import java.io.IOException;
-
 /**
- * This class drops all indexes of each table of the database.<p>
+ * This class drops all indexes of each table of the database.
  *
- * This is done so that the indexes can be updated to the version 7.0.x<p>
+ * <p>This is done so that the indexes can be updated to the version 7.0.x
+ *
+ * <p>
  */
-public class CmsUpdateDBDropOldIndexes extends org.opencms.setup.db.update6to7.CmsUpdateDBDropOldIndexes {
+public class CmsUpdateDBDropOldIndexes
+    extends org.opencms.setup.db.update6to7.CmsUpdateDBDropOldIndexes {
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the query properties cannot be read
-     */
-    public CmsUpdateDBDropOldIndexes()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the query properties cannot be read
+   */
+  public CmsUpdateDBDropOldIndexes() throws IOException {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation()
-     */
-    @Override
-    protected String getPropertyFileLocation() {
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation() */
+  @Override
+  protected String getPropertyFileLocation() {
 
-        return CmsResource.getParentFolder(super.getPropertyFileLocation());
-    }
+    return CmsResource.getParentFolder(super.getPropertyFileLocation());
+  }
 }

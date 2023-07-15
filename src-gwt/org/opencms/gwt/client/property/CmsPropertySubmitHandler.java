@@ -27,11 +27,6 @@
 
 package org.opencms.gwt.client.property;
 
-import org.opencms.gwt.client.ui.input.form.CmsForm;
-import org.opencms.gwt.client.ui.input.form.I_CmsFormSubmitHandler;
-import org.opencms.gwt.shared.property.CmsClientProperty;
-import org.opencms.gwt.shared.property.CmsPropertyModification;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -39,172 +34,193 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.opencms.gwt.client.ui.input.form.CmsForm;
+import org.opencms.gwt.client.ui.input.form.I_CmsFormSubmitHandler;
+import org.opencms.gwt.shared.property.CmsClientProperty;
+import org.opencms.gwt.shared.property.CmsPropertyModification;
 
 /**
- * This class handles form submits from property forms and passes the form data to a property editor handler.<p>
+ * This class handles form submits from property forms and passes the form data to a property editor
+ * handler.
+ *
+ * <p>
  */
 public class CmsPropertySubmitHandler implements I_CmsFormSubmitHandler {
 
-    /** The property editor handler. */
-    private I_CmsPropertyEditorHandler m_handler;
+  /** The property editor handler. */
+  private I_CmsPropertyEditorHandler m_handler;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param handler the property editor handler
-     */
-    public CmsPropertySubmitHandler(I_CmsPropertyEditorHandler handler) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param handler the property editor handler
+   */
+  public CmsPropertySubmitHandler(I_CmsPropertyEditorHandler handler) {
 
-        m_handler = handler;
+    m_handler = handler;
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.form.I_CmsFormSubmitHandler#onSubmitForm(org.opencms.gwt.client.ui.input.form.CmsForm,
+   *     java.util.Map, java.util.Set)
+   */
+  public void onSubmitForm(
+      CmsForm form, Map<String, String> fieldValues, Set<String> editedFields) {
+
+    CmsReloadMode reloadMode = getReloadMode(fieldValues, editedFields);
+    Map<String, String> changedPropValues = removeTabSuffixes(fieldValues);
+    Set<String> editedModels = removeTabSuffixes(editedFields);
+    changedPropValues.keySet().retainAll(editedModels);
+    List<CmsPropertyModification> propChanges = getPropertyChanges(changedPropValues);
+    if (!m_handler.hasEditableName()) {
+      // The root element's name can't be edited
+      m_handler.handleSubmit(
+          "",
+          null,
+          propChanges,
+          editedFields.contains(A_CmsPropertyEditor.FIELD_URLNAME),
+          reloadMode);
+      return;
     }
+    final String urlNameValue = getAndRemoveValue(fieldValues, A_CmsPropertyEditor.FIELD_URLNAME);
+    fieldValues.remove(A_CmsPropertyEditor.FIELD_LINK);
+    m_handler.handleSubmit(
+        urlNameValue,
+        null,
+        propChanges,
+        editedFields.contains(A_CmsPropertyEditor.FIELD_URLNAME),
+        reloadMode);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.form.I_CmsFormSubmitHandler#onSubmitForm(org.opencms.gwt.client.ui.input.form.CmsForm, java.util.Map, java.util.Set)
-     */
-    public void onSubmitForm(CmsForm form, Map<String, String> fieldValues, Set<String> editedFields) {
+  /**
+   * Helper method which retrieves a value for a given key from a map and then deletes the entry for
+   * the key.
+   *
+   * <p>
+   *
+   * @param map the map from which to retrieve the value
+   * @param key the key
+   * @return the removed value
+   */
+  protected String getAndRemoveValue(Map<String, String> map, String key) {
 
-        CmsReloadMode reloadMode = getReloadMode(fieldValues, editedFields);
-        Map<String, String> changedPropValues = removeTabSuffixes(fieldValues);
-        Set<String> editedModels = removeTabSuffixes(editedFields);
-        changedPropValues.keySet().retainAll(editedModels);
-        List<CmsPropertyModification> propChanges = getPropertyChanges(changedPropValues);
-        if (!m_handler.hasEditableName()) {
-            // The root element's name can't be edited
-            m_handler.handleSubmit(
-                "",
-                null,
-                propChanges,
-                editedFields.contains(A_CmsPropertyEditor.FIELD_URLNAME),
-                reloadMode);
-            return;
-        }
-        final String urlNameValue = getAndRemoveValue(fieldValues, A_CmsPropertyEditor.FIELD_URLNAME);
-        fieldValues.remove(A_CmsPropertyEditor.FIELD_LINK);
-        m_handler.handleSubmit(
-            urlNameValue,
-            null,
-            propChanges,
-            editedFields.contains(A_CmsPropertyEditor.FIELD_URLNAME),
-            reloadMode);
+    String value = map.get(key);
+    if (value != null) {
+      map.remove(key);
     }
+    return value;
+  }
 
-    /**
-     * Helper method which retrieves a value for a given key from a map and then deletes the entry for the key.<p>
-     *
-     * @param map the map from which to retrieve the value
-     * @param key the key
-     *
-     * @return the removed value
-     */
-    protected String getAndRemoveValue(Map<String, String> map, String key) {
+  /**
+   * Converts a map of field values to a list of property changes.
+   *
+   * <p>
+   *
+   * @param fieldValues the field values
+   * @return the property changes
+   */
+  protected List<CmsPropertyModification> getPropertyChanges(Map<String, String> fieldValues) {
 
-        String value = map.get(key);
-        if (value != null) {
-            map.remove(key);
-        }
-        return value;
+    List<CmsPropertyModification> result = new ArrayList<CmsPropertyModification>();
+    for (Map.Entry<String, String> entry : fieldValues.entrySet()) {
+      String key = entry.getKey();
+      String value = entry.getValue();
+      if (key.contains("/")) {
+        CmsPropertyModification propChange = new CmsPropertyModification(key, value);
+        result.add(propChange);
+      }
     }
+    return result;
+  }
 
-    /**
-     * Converts a map of field values to a list of property changes.<p>
-     *
-     * @param fieldValues the field values
-     * @return the property changes
-     */
-    protected List<CmsPropertyModification> getPropertyChanges(Map<String, String> fieldValues) {
+  /**
+   * Removes the tab suffix from a field id.
+   *
+   * <p>
+   *
+   * @param fieldId a field id
+   * @return the field id without the suffix
+   */
+  protected String removeTabSuffix(String fieldId) {
 
-        List<CmsPropertyModification> result = new ArrayList<CmsPropertyModification>();
-        for (Map.Entry<String, String> entry : fieldValues.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            if (key.contains("/")) {
-                CmsPropertyModification propChange = new CmsPropertyModification(key, value);
-                result.add(propChange);
-            }
-        }
-        return result;
+    return fieldId.replaceAll("#.*$", "");
+  }
+
+  /**
+   * Removes the tab suffixes from each field id of a collection.
+   *
+   * <p>
+   *
+   * @param fieldIds the field ids from which to remove the tab suffix
+   * @return a new collection of field ids without tab suffixes
+   */
+  protected Set<String> removeTabSuffixes(Collection<String> fieldIds) {
+
+    Set<String> result = new HashSet<String>();
+    for (String fieldId : fieldIds) {
+      result.add(removeTabSuffix(fieldId));
     }
+    return result;
+  }
 
-    /**
-     * Removes the tab suffix from a field id.<p>
-     *
-     * @param fieldId a field id
-     *
-     * @return the field id without the suffix
-     */
-    protected String removeTabSuffix(String fieldId) {
+  /**
+   * Removes the tab suffixes from the keys of a map.
+   *
+   * <p>
+   *
+   * @param fieldValues a map of field values
+   * @return a new map of field values, with tab suffixes removed from the keys
+   */
+  protected Map<String, String> removeTabSuffixes(Map<String, String> fieldValues) {
 
-        return fieldId.replaceAll("#.*$", "");
+    Map<String, String> result = new HashMap<String, String>();
+    for (Map.Entry<String, String> entry : fieldValues.entrySet()) {
+      String key = entry.getKey();
+      String newKey = removeTabSuffix(key);
+      result.put(newKey, entry.getValue());
     }
+    return result;
+  }
 
-    /**
-     * Removes the tab suffixes from each field id of a collection.<p>
-     *
-     * @param fieldIds the field ids from which to remove the tab suffix
-     *
-     * @return a new collection of field ids without tab suffixes
-     */
-    protected Set<String> removeTabSuffixes(Collection<String> fieldIds) {
+  /**
+   * Check if a field name belongs to one of a given list of properties.
+   *
+   * <p>
+   *
+   * @param fieldName the field name
+   * @param propNames the property names
+   * @return true if the field name matches one of the property names
+   */
+  private boolean checkContains(String fieldName, String... propNames) {
 
-        Set<String> result = new HashSet<String>();
-        for (String fieldId : fieldIds) {
-            result.add(removeTabSuffix(fieldId));
-        }
-        return result;
+    for (String propName : propNames) {
+      if (fieldName.contains("/" + propName + "/")) {
+        return true;
+      }
     }
+    return false;
+  }
 
-    /**
-     * Removes the tab suffixes from the keys of a map.<p>
-     *
-     * @param fieldValues a map of field values
-     *
-     * @return a new map of field values, with tab suffixes removed from the keys
-     */
-    protected Map<String, String> removeTabSuffixes(Map<String, String> fieldValues) {
+  /**
+   * Returns the reload mode to use for the given changes.
+   *
+   * <p>
+   *
+   * @param fieldValues the field values
+   * @param editedFields the set of edited fields
+   * @return the reload mode
+   */
+  private CmsReloadMode getReloadMode(Map<String, String> fieldValues, Set<String> editedFields) {
 
-        Map<String, String> result = new HashMap<String, String>();
-        for (Map.Entry<String, String> entry : fieldValues.entrySet()) {
-            String key = entry.getKey();
-            String newKey = removeTabSuffix(key);
-            result.put(newKey, entry.getValue());
-        }
-        return result;
+    for (String fieldName : editedFields) {
+      if (checkContains(
+          fieldName, CmsClientProperty.PROPERTY_DEFAULTFILE, CmsClientProperty.PROPERTY_NAVPOS)) {
+        return CmsReloadMode.reloadParent;
+      }
     }
-
-    /**
-     * Check if a field name belongs to one of a given list of properties.<p>
-     *
-     * @param fieldName the field name
-     * @param propNames the property names
-     *
-     * @return true if the field name matches one of the property names
-     */
-    private boolean checkContains(String fieldName, String... propNames) {
-
-        for (String propName : propNames) {
-            if (fieldName.contains("/" + propName + "/")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Returns the reload mode to use for the given changes.<p>
-     *
-     * @param fieldValues the field values
-     * @param editedFields the set of edited fields
-     *
-     * @return the reload mode
-     */
-    private CmsReloadMode getReloadMode(Map<String, String> fieldValues, Set<String> editedFields) {
-
-        for (String fieldName : editedFields) {
-            if (checkContains(fieldName, CmsClientProperty.PROPERTY_DEFAULTFILE, CmsClientProperty.PROPERTY_NAVPOS)) {
-                return CmsReloadMode.reloadParent;
-
-            }
-        }
-        return CmsReloadMode.reloadEntry;
-    }
+    return CmsReloadMode.reloadEntry;
+  }
 }

@@ -35,58 +35,66 @@ import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.HorizontalLayout;
 
 /**
- * Form row with button.<p>
+ * Form row with button.
+ *
+ * <p>
+ *
  * @param <T> T of Field
  */
 public class CmsButtonFormRow<T extends Component> extends HorizontalLayout {
 
-    /**Vaadin serial id. */
-    private static final long serialVersionUID = 7691914937148837396L;
+  /** Vaadin serial id. */
+  private static final long serialVersionUID = 7691914937148837396L;
 
-    /** The text input field. */
-    private T m_input;
+  /** The text input field. */
+  private T m_input;
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param input field
-     * @param buttonIcon icon
-     * @param buttonRun runnable
-     * @param buttonDescription description
-     */
-    public CmsButtonFormRow(T input, FontIcon buttonIcon, final Runnable buttonRun, String buttonDescription) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param input field
+   * @param buttonIcon icon
+   * @param buttonRun runnable
+   * @param buttonDescription description
+   */
+  public CmsButtonFormRow(
+      T input, FontIcon buttonIcon, final Runnable buttonRun, String buttonDescription) {
 
-        setWidth("100%");
-        m_input = input;
-        setSpacing(true);
-        input.setWidth("100%");
-        addComponent(input);
-        setExpandRatio(input, 1f);
-        Button deleteButton = new Button("");
-        deleteButton.setIcon(buttonIcon);
-        deleteButton.addStyleName(CmsRemovableFormRow.REMOVE_BUTTON_STYLE);
-        deleteButton.addStyleName(OpenCmsTheme.BUTTON_ICON);
-        deleteButton.setDescription(buttonDescription);
-        deleteButton.addClickListener(new ClickListener() {
+    setWidth("100%");
+    m_input = input;
+    setSpacing(true);
+    input.setWidth("100%");
+    addComponent(input);
+    setExpandRatio(input, 1f);
+    Button deleteButton = new Button("");
+    deleteButton.setIcon(buttonIcon);
+    deleteButton.addStyleName(CmsRemovableFormRow.REMOVE_BUTTON_STYLE);
+    deleteButton.addStyleName(OpenCmsTheme.BUTTON_ICON);
+    deleteButton.setDescription(buttonDescription);
+    deleteButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                buttonRun.run();
-            }
+            buttonRun.run();
+          }
         });
-        addComponent(deleteButton);
-    }
+    addComponent(deleteButton);
+  }
 
-    /**
-     * Gets the input field.<p>
-     *
-     * @return input field
-     */
-    public T getInput() {
+  /**
+   * Gets the input field.
+   *
+   * <p>
+   *
+   * @return input field
+   */
+  public T getInput() {
 
-        return m_input;
-    }
-
+    return m_input;
+  }
 }

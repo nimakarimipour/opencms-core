@@ -27,152 +27,177 @@
 
 package org.opencms.gwt.shared.alias;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * A class containing the data for a row of the rewrite alias table.<p>
+ * A class containing the data for a row of the rewrite alias table.
+ *
+ * <p>
  */
 public class CmsRewriteAliasTableRow implements IsSerializable {
 
-    /** The error message for this rewrite alias. */
-    private String m_error;
+  /** The error message for this rewrite alias. */
+  private String m_error;
 
-    /** The id of the alias. */
-    private CmsUUID m_id;
+  /** The id of the alias. */
+  private CmsUUID m_id;
 
-    /** The alias mode. */
-    private CmsAliasMode m_mode;
+  /** The alias mode. */
+  private CmsAliasMode m_mode;
 
-    /** The regular expression string used for matching. */
-    private String m_patternString;
+  /** The regular expression string used for matching. */
+  private String m_patternString;
 
-    /** The replacement string used when the regular expression matches. */
-    private String m_replacementString;
+  /** The replacement string used when the regular expression matches. */
+  private String m_replacementString;
 
-    /**
-     * Default constructor, used for serialization.<p>
-     */
-    public CmsRewriteAliasTableRow() {
+  /**
+   * Default constructor, used for serialization.
+   *
+   * <p>
+   */
+  public CmsRewriteAliasTableRow() {
 
-        // nothing
-    }
+    // nothing
+  }
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param id the id of the alias
-     * @param patternString the regular expression used for matching the URI
-     * @param replacementString the replacement string used when the URI is matched
-     * @param mode the alias mode for this row
-     */
-    public CmsRewriteAliasTableRow(CmsUUID id, String patternString, String replacementString, CmsAliasMode mode) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param id the id of the alias
+   * @param patternString the regular expression used for matching the URI
+   * @param replacementString the replacement string used when the URI is matched
+   * @param mode the alias mode for this row
+   */
+  public CmsRewriteAliasTableRow(
+      CmsUUID id, String patternString, String replacementString, CmsAliasMode mode) {
 
-        m_id = id;
-        m_patternString = patternString;
-        m_replacementString = replacementString;
-        m_mode = mode;
-    }
+    m_id = id;
+    m_patternString = patternString;
+    m_replacementString = replacementString;
+    m_mode = mode;
+  }
 
-    /**
-     * Gets the error message for this row.<p>
-     *
-     * @return the error message for this row
-     */
-    public String getError() {
+  /**
+   * Gets the error message for this row.
+   *
+   * <p>
+   *
+   * @return the error message for this row
+   */
+  public String getError() {
 
-        return m_error;
-    }
+    return m_error;
+  }
 
-    /**
-     * Gets the id of the alias.<p>
-     *
-     * @return the id of the alias
-     */
-    public CmsUUID getId() {
+  /**
+   * Gets the id of the alias.
+   *
+   * <p>
+   *
+   * @return the id of the alias
+   */
+  public CmsUUID getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Gets the alias mode for this row.<p>
-     *
-     * @return the alias mode for this row
-     */
-    public CmsAliasMode getMode() {
+  /**
+   * Gets the alias mode for this row.
+   *
+   * <p>
+   *
+   * @return the alias mode for this row
+   */
+  public CmsAliasMode getMode() {
 
-        return m_mode;
-    }
+    return m_mode;
+  }
 
-    /**
-     * Gets the regular expression string.<p>
-     *
-     * @return the regular expression string
-     */
-    public String getPatternString() {
+  /**
+   * Gets the regular expression string.
+   *
+   * <p>
+   *
+   * @return the regular expression string
+   */
+  public String getPatternString() {
 
-        return m_patternString;
-    }
+    return m_patternString;
+  }
 
-    /**
-     * Gets the string used to replace the string matching the regex.<p>
-     *
-     * @return the replacement string
-     */
-    public String getReplacementString() {
+  /**
+   * Gets the string used to replace the string matching the regex.
+   *
+   * <p>
+   *
+   * @return the replacement string
+   */
+  public String getReplacementString() {
 
-        return m_replacementString;
-    }
+    return m_replacementString;
+  }
 
-    /**
-     * Sets the error message for this row.<p>
-     *
-     * @param error the new error message
-     */
-    public void setError(String error) {
+  /**
+   * Sets the error message for this row.
+   *
+   * <p>
+   *
+   * @param error the new error message
+   */
+  public void setError(String error) {
 
-        m_error = error;
-    }
+    m_error = error;
+  }
 
-    /**
-     * Sets the id of this row.<p>
-     *
-     * @param id the new id
-     */
-    public void setId(CmsUUID id) {
+  /**
+   * Sets the id of this row.
+   *
+   * <p>
+   *
+   * @param id the new id
+   */
+  public void setId(CmsUUID id) {
 
-        m_id = id;
-    }
+    m_id = id;
+  }
 
-    /**
-     * Sets the mode of this row.<p>
-     *
-     * @param mode the new mode
-     */
-    public void setMode(CmsAliasMode mode) {
+  /**
+   * Sets the mode of this row.
+   *
+   * <p>
+   *
+   * @param mode the new mode
+   */
+  public void setMode(CmsAliasMode mode) {
 
-        m_mode = mode;
-    }
+    m_mode = mode;
+  }
 
-    /**
-     * Sets the pattern of this row.<p>
-     *
-     * @param patternString the new pattern
-     */
-    public void setPatternString(String patternString) {
+  /**
+   * Sets the pattern of this row.
+   *
+   * <p>
+   *
+   * @param patternString the new pattern
+   */
+  public void setPatternString(String patternString) {
 
-        m_patternString = patternString;
-    }
+    m_patternString = patternString;
+  }
 
-    /**
-     * Sets the replacement string for this row.<p>
-     *
-     * @param replacementString the new replacement string
-     */
-    public void setReplacementString(String replacementString) {
+  /**
+   * Sets the replacement string for this row.
+   *
+   * <p>
+   *
+   * @param replacementString the new replacement string
+   */
+  public void setReplacementString(String replacementString) {
 
-        m_replacementString = replacementString;
-    }
-
+    m_replacementString = replacementString;
+  }
 }

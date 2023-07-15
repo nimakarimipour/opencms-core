@@ -27,9 +27,6 @@
 
 package org.opencms.xml.containerpage;
 
-import org.opencms.util.CmsCollectionsGenericWrapper;
-import org.opencms.util.CmsUUID;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -37,145 +34,165 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.collections.Transformer;
+import org.opencms.util.CmsCollectionsGenericWrapper;
+import org.opencms.util.CmsUUID;
 
 /**
- * Describes one locale of a container page.<p>
+ * Describes one locale of a container page.
+ *
+ * <p>
  *
  * @since 8.0
  */
 public class CmsContainerPageBean {
 
-    /** The containers. */
-    private final Map<String, CmsContainerBean> m_containers;
+  /** The containers. */
+  private final Map<String, CmsContainerBean> m_containers;
 
-    /** A lazy initialized map that describes if a certain element if part of this container. */
-    private transient Map<CmsUUID, Boolean> m_containsElement;
+  /** A lazy initialized map that describes if a certain element if part of this container. */
+  private transient Map<CmsUUID, Boolean> m_containsElement;
 
-    /** The id's of of all elements in this page. */
-    private transient List<CmsUUID> m_elementIds;
+  /** The id's of of all elements in this page. */
+  private transient List<CmsUUID> m_elementIds;
 
-    /** The container elements. */
-    private transient List<CmsContainerElementBean> m_elements;
+  /** The container elements. */
+  private transient List<CmsContainerElementBean> m_elements;
 
-    /** The container names in the right order. */
-    private final List<String> m_names;
+  /** The container names in the right order. */
+  private final List<String> m_names;
 
-    /** The supported types. */
-    private final Set<String> m_types;
+  /** The supported types. */
+  private final Set<String> m_types;
 
-    /**
-     * Creates a new container page bean.<p>
-     *
-     * @param containers the containers
-     **/
-    public CmsContainerPageBean(List<CmsContainerBean> containers) {
+  /**
+   * Creates a new container page bean.
+   *
+   * <p>
+   *
+   * @param containers the containers
+   */
+  public CmsContainerPageBean(List<CmsContainerBean> containers) {
 
-        // we want to preserve container order
-        Map<String, CmsContainerBean> cnts = new LinkedHashMap<String, CmsContainerBean>();
-        Set<String> types = new HashSet<String>();
-        List<String> names = new ArrayList<String>();
-        for (CmsContainerBean container : containers) {
-            cnts.put(container.getName(), container);
-            types.add(container.getType());
-            names.add(container.getName());
-        }
-        m_containers = Collections.unmodifiableMap(cnts);
-        m_types = Collections.unmodifiableSet(types);
-        m_names = Collections.unmodifiableList(names);
+    // we want to preserve container order
+    Map<String, CmsContainerBean> cnts = new LinkedHashMap<String, CmsContainerBean>();
+    Set<String> types = new HashSet<String>();
+    List<String> names = new ArrayList<String>();
+    for (CmsContainerBean container : containers) {
+      cnts.put(container.getName(), container);
+      types.add(container.getType());
+      names.add(container.getName());
     }
+    m_containers = Collections.unmodifiableMap(cnts);
+    m_types = Collections.unmodifiableSet(types);
+    m_names = Collections.unmodifiableList(names);
+  }
 
-    /**
-     * Returns <code>true</code> if the element with the provided id is contained in this container.<p>
-     *
-     * @param elementId the element id to check
-     *
-     * @return <code>true</code> if the element with the provided id is contained in this container
-     */
-    public boolean containsElement(CmsUUID elementId) {
+  /**
+   * Returns <code>true</code> if the element with the provided id is contained in this container.
+   *
+   * <p>
+   *
+   * @param elementId the element id to check
+   * @return <code>true</code> if the element with the provided id is contained in this container
+   */
+  public boolean containsElement(CmsUUID elementId) {
 
-        return getElementIds().contains(elementId);
-    }
+    return getElementIds().contains(elementId);
+  }
 
-    /**
-     * Returns all container of this page.<p>
-     *
-     * @return all container of this page
-     */
-    public Map<String, CmsContainerBean> getContainers() {
+  /**
+   * Returns all container of this page.
+   *
+   * <p>
+   *
+   * @return all container of this page
+   */
+  public Map<String, CmsContainerBean> getContainers() {
 
-        return m_containers;
-    }
+    return m_containers;
+  }
 
-    /**
-     * Returns a lazy initialized map that describes if a certain element if part of this container.<p>
-     *
-     * @return a lazy initialized map that describes if a certain element if part of this container
-     */
-    public Map<CmsUUID, Boolean> getContainsElement() {
+  /**
+   * Returns a lazy initialized map that describes if a certain element if part of this container.
+   *
+   * <p>
+   *
+   * @return a lazy initialized map that describes if a certain element if part of this container
+   */
+  public Map<CmsUUID, Boolean> getContainsElement() {
 
-        if (m_containsElement == null) {
-            m_containsElement = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
+    if (m_containsElement == null) {
+      m_containsElement =
+          CmsCollectionsGenericWrapper.createLazyMap(
+              new Transformer() {
 
                 public Object transform(Object input) {
 
-                    return Boolean.valueOf(containsElement((CmsUUID)input));
+                  return Boolean.valueOf(containsElement((CmsUUID) input));
                 }
-            });
-        }
-        return m_containsElement;
+              });
     }
+    return m_containsElement;
+  }
 
-    /**
-     * Returns the id's of all elements in this container.<p>
-     *
-     * @return the id's of all elements in this container
-     */
-    public List<CmsUUID> getElementIds() {
+  /**
+   * Returns the id's of all elements in this container.
+   *
+   * <p>
+   *
+   * @return the id's of all elements in this container
+   */
+  public List<CmsUUID> getElementIds() {
 
-        if (m_elementIds == null) {
-            m_elementIds = new ArrayList<CmsUUID>(getElements().size());
-            for (CmsContainerElementBean element : getElements()) {
-                m_elementIds.add(element.getId());
-            }
-        }
-        return m_elementIds;
+    if (m_elementIds == null) {
+      m_elementIds = new ArrayList<CmsUUID>(getElements().size());
+      for (CmsContainerElementBean element : getElements()) {
+        m_elementIds.add(element.getId());
+      }
     }
+    return m_elementIds;
+  }
 
-    /**
-     * Returns the elements of all containers in this page.<p>
-     *
-     * @return the elements of all containers in this page
-     */
-    public List<CmsContainerElementBean> getElements() {
+  /**
+   * Returns the elements of all containers in this page.
+   *
+   * <p>
+   *
+   * @return the elements of all containers in this page
+   */
+  public List<CmsContainerElementBean> getElements() {
 
-        if (m_elements == null) {
-            m_elements = new ArrayList<CmsContainerElementBean>();
-            for (CmsContainerBean container : m_containers.values()) {
-                m_elements.addAll(container.getElements());
-            }
-        }
-        return m_elements;
+    if (m_elements == null) {
+      m_elements = new ArrayList<CmsContainerElementBean>();
+      for (CmsContainerBean container : m_containers.values()) {
+        m_elements.addAll(container.getElements());
+      }
     }
+    return m_elements;
+  }
 
-    /**
-     * Returns the list of container names.<p>
-     *
-     * @return the list of container names
-     */
-    public List<String> getNames() {
+  /**
+   * Returns the list of container names.
+   *
+   * <p>
+   *
+   * @return the list of container names
+   */
+  public List<String> getNames() {
 
-        return m_names;
-    }
+    return m_names;
+  }
 
-    /**
-     * Returns the types.<p>
-     *
-     * @return the types
-     */
-    public Set<String> getTypes() {
+  /**
+   * Returns the types.
+   *
+   * <p>
+   *
+   * @return the types
+   */
+  public Set<String> getTypes() {
 
-        return m_types;
-    }
+    return m_types;
+  }
 }

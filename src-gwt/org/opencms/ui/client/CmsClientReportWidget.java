@@ -32,55 +32,63 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 
 /**
- * Client side widget to display an OpenCms report.<p>
+ * Client side widget to display an OpenCms report.
+ *
+ * <p>
  */
 public class CmsClientReportWidget extends FlowPanel {
 
-    /** The widget containing the report content HTML. */
-    private HTML m_reportContent = new HTML();
+  /** The widget containing the report content HTML. */
+  private HTML m_reportContent = new HTML();
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsClientReportWidget() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsClientReportWidget() {
 
-        add(m_reportContent);
-        addStyleName("o-report");
-        m_reportContent.addStyleName("o-report-content");
+    add(m_reportContent);
+    addStyleName("o-report");
+    m_reportContent.addStyleName("o-report-content");
+  }
+
+  /**
+   * Appends the given HTML to the report content.
+   *
+   * <p>Also scrolls to the bottom of the
+   *
+   * @param html the HTML to append
+   */
+  public void append(String html) {
+
+    if ((html != null) && (html.length() > 0)) {
+      appendHtmlInternal(m_reportContent.getElement(), html);
+      scrollToBottom(getElement(), m_reportContent.getElement());
     }
+  }
 
-    /**
-     * Appends the given HTML to the report content.<p>
-     *
-     * Also scrolls to the bottom of the
-     *
-     * @param html the HTML to append
-     */
-    public void append(String html) {
-
-        if ((html != null) && (html.length() > 0)) {
-            appendHtmlInternal(m_reportContent.getElement(), html);
-            scrollToBottom(getElement(), m_reportContent.getElement());
-        }
-    }
-
-    /**
-     * Appends HTML to the content.<p>
-     *
-     * @param element the report content element
-     * @param html the HTML to append
-     */
-    private native void appendHtmlInternal(Element element, String html) /*-{
+  /**
+   * Appends HTML to the content.
+   *
+   * <p>
+   *
+   * @param element the report content element
+   * @param html the HTML to append
+   */
+  private native void appendHtmlInternal(Element element, String html) /*-{
         element.insertAdjacentHTML('beforeend', html);
     }-*/;
 
-    /**
-     * Scrolls to the bottom.<p>
-     *
-     * @param element the report widget element
-     * @param content the report content element
-     */
-    private native void scrollToBottom(Element element, Element content) /*-{
+  /**
+   * Scrolls to the bottom.
+   *
+   * <p>
+   *
+   * @param element the report widget element
+   * @param content the report content element
+   */
+  private native void scrollToBottom(Element element, Element content) /*-{
 
         element.scrollTop = content.offsetHeight;
 

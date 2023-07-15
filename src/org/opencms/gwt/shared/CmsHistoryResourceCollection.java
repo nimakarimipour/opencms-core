@@ -27,78 +27,91 @@
 
 package org.opencms.gwt.shared;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import java.util.List;
 
 /**
- * A collection of historical versions of a resource.<p>
+ * A collection of historical versions of a resource.
+ *
+ * <p>
  */
 public class CmsHistoryResourceCollection implements IsSerializable {
 
-    /** Info bean for the current content version. */
-    private CmsListInfoBean m_contentInfo;
+  /** Info bean for the current content version. */
+  private CmsListInfoBean m_contentInfo;
 
-    /** The list of historical versions. */
-    private List<CmsHistoryResourceBean> m_versions = Lists.newArrayList();
+  /** The list of historical versions. */
+  private List<CmsHistoryResourceBean> m_versions = Lists.newArrayList();
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsHistoryResourceCollection() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsHistoryResourceCollection() {
 
-        // do nothing
+    // do nothing
 
-    }
+  }
 
-    /**
-     * Adds the information for a historical resource version.<p>
-     *
-     * @param historyBean bean representing a historical resource version
-     */
-    public void add(CmsHistoryResourceBean historyBean) {
+  /**
+   * Adds the information for a historical resource version.
+   *
+   * <p>
+   *
+   * @param historyBean bean representing a historical resource version
+   */
+  public void add(CmsHistoryResourceBean historyBean) {
 
-        m_versions.add(historyBean);
-    }
+    m_versions.add(historyBean);
+  }
 
-    /**
-     * Gets the information bean for the current resource version.<p>
-     *
-     * @return the information bean for the current version
-     */
-    public CmsListInfoBean getContentInfo() {
+  /**
+   * Gets the information bean for the current resource version.
+   *
+   * <p>
+   *
+   * @return the information bean for the current version
+   */
+  public CmsListInfoBean getContentInfo() {
 
-        return m_contentInfo;
-    }
+    return m_contentInfo;
+  }
 
-    /**
-     * Gets the list of historical versions.<p>
-     *
-     * @return the list of historical versions
-     */
-    public List<CmsHistoryResourceBean> getResources() {
+  /**
+   * Gets the list of historical versions.
+   *
+   * <p>
+   *
+   * @return the list of historical versions
+   */
+  public List<CmsHistoryResourceBean> getResources() {
 
-        return m_versions;
-    }
+    return m_versions;
+  }
 
-    /**
-     * Returns true if there are no historical versions.<p>
-     *
-     * @return true if there are no historical versions
-     */
-    public boolean isEmpty() {
+  /**
+   * Returns true if there are no historical versions.
+   *
+   * <p>
+   *
+   * @return true if there are no historical versions
+   */
+  public boolean isEmpty() {
 
-        return m_versions.isEmpty();
-    }
+    return m_versions.isEmpty();
+  }
 
-    /**
-     * Sets the content information for the current version.<p>
-     * @param contentInfo the content information
-     */
-    public void setContentInfo(CmsListInfoBean contentInfo) {
+  /**
+   * Sets the content information for the current version.
+   *
+   * <p>
+   *
+   * @param contentInfo the content information
+   */
+  public void setContentInfo(CmsListInfoBean contentInfo) {
 
-        m_contentInfo = contentInfo;
-    }
-
+    m_contentInfo = contentInfo;
+  }
 }

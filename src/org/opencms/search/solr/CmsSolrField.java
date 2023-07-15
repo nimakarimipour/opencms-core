@@ -31,144 +31,161 @@
 
 package org.opencms.search.solr;
 
+import java.util.List;
+import java.util.Locale;
 import org.opencms.search.fields.CmsLuceneField;
 import org.opencms.search.fields.CmsSearchField;
 import org.opencms.search.fields.I_CmsSearchFieldMapping;
 
-import java.util.List;
-import java.util.Locale;
-
 /**
- * An individual field for the Solr search index.<p>
+ * An individual field for the Solr search index.
+ *
+ * <p>
  *
  * @since 8.5.0
  */
 public class CmsSolrField extends CmsSearchField {
 
-    /** The serial version UID. */
-    private static final long serialVersionUID = -3920245109164517028L;
+  /** The serial version UID. */
+  private static final long serialVersionUID = -3920245109164517028L;
 
-    /** The fields to copy the value of this field to. */
-    private List<String> m_copyFields;
+  /** The fields to copy the value of this field to. */
+  private List<String> m_copyFields;
 
-    /** The locale of this field. */
-    private Locale m_locale;
+  /** The locale of this field. */
+  private Locale m_locale;
 
-    /** The name of the field. */
-    private String m_targetField;
+  /** The name of the field. */
+  private String m_targetField;
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param luceneField the lucene field read from the configuration.
-     */
-    public CmsSolrField(CmsLuceneField luceneField) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param luceneField the lucene field read from the configuration.
+   */
+  public CmsSolrField(CmsLuceneField luceneField) {
 
-        super();
-        String name = luceneField.getName();
-        if (null != luceneField.getType()) {
-            name = name + "_" + luceneField.getType();
-        }
-        setName(name);
-        setDefaultValue(luceneField.getDefaultValue());
-
-        for (I_CmsSearchFieldMapping mapping : luceneField.getMappings()) {
-            addMapping(mapping);
-        }
+    super();
+    String name = luceneField.getName();
+    if (null != luceneField.getType()) {
+      name = name + "_" + luceneField.getType();
     }
+    setName(name);
+    setDefaultValue(luceneField.getDefaultValue());
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param targetField the target field name
-     * @param copyFields the field names to copy this field's value to
-     * @param locale the locale
-     * @param defaultValue the default value
-     */
-    public CmsSolrField(String targetField, List<String> copyFields, Locale locale, String defaultValue) {
-
-        super(targetField, defaultValue);
-        m_targetField = targetField;
-        m_copyFields = copyFields;
-        m_locale = locale;
+    for (I_CmsSearchFieldMapping mapping : luceneField.getMappings()) {
+      addMapping(mapping);
     }
+  }
 
-    /**
-     * Returns the copy fields.<p>
-     *
-     * @return the copy fields.<p>
-     */
-    public List<String> getCopyFields() {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param targetField the target field name
+   * @param copyFields the field names to copy this field's value to
+   * @param locale the locale
+   * @param defaultValue the default value
+   */
+  public CmsSolrField(
+      String targetField, List<String> copyFields, Locale locale, String defaultValue) {
 
-        return m_copyFields;
-    }
+    super(targetField, defaultValue);
+    m_targetField = targetField;
+    m_copyFields = copyFields;
+    m_locale = locale;
+  }
 
-    /**
-     * Returns the locale of this field or <code>null</code> if the field does not have a locale.<p>
-     *
-     * @return the locale of this field
-     */
-    public Locale getLocale() {
+  /**
+   * Returns the copy fields.
+   *
+   * <p>
+   *
+   * @return the copy fields.
+   *     <p>
+   */
+  public List<String> getCopyFields() {
 
-        return m_locale;
-    }
+    return m_copyFields;
+  }
 
-    /**
-     * Returns the target field name.<p>
-     *
-     * @return the target field name
-     */
-    public String getTargetField() {
+  /**
+   * Returns the locale of this field or <code>null</code> if the field does not have a locale.
+   *
+   * <p>
+   *
+   * @return the locale of this field
+   */
+  public Locale getLocale() {
 
-        return m_targetField;
-    }
+    return m_locale;
+  }
 
-    /**
-     * Sets the copy field names.<p>
-     *
-     * @param copyFields the field name to use as copy fields
-     */
-    public void setCopyFields(List<String> copyFields) {
+  /**
+   * Returns the target field name.
+   *
+   * <p>
+   *
+   * @return the target field name
+   */
+  public String getTargetField() {
 
-        m_copyFields = copyFields;
-    }
+    return m_targetField;
+  }
 
-    /**
-     * Sets the locale.<p>
-     *
-     * @param locale the locale to set
-     */
-    public void setLocale(Locale locale) {
+  /**
+   * Sets the copy field names.
+   *
+   * <p>
+   *
+   * @param copyFields the field name to use as copy fields
+   */
+  public void setCopyFields(List<String> copyFields) {
 
-        m_locale = locale;
-    }
+    m_copyFields = copyFields;
+  }
 
-    /**
-     * Sets the target field name.<p>
-     *
-     * @param targetField the name to set
-     */
-    public void setTargetField(String targetField) {
+  /**
+   * Sets the locale.
+   *
+   * <p>
+   *
+   * @param locale the locale to set
+   */
+  public void setLocale(Locale locale) {
 
-        m_targetField = targetField;
-    }
+    m_locale = locale;
+  }
 
-    /**
-     * @see org.opencms.search.fields.CmsSearchField#toString()
-     */
-    @Override
-    public String toString() {
+  /**
+   * Sets the target field name.
+   *
+   * <p>
+   *
+   * @param targetField the name to set
+   */
+  public void setTargetField(String targetField) {
 
-        return getName()
-            + "["
-            + " defaultValue:"
-            + getDefaultValue()
-            + " targetField:"
-            + getTargetField()
-            + " locale:"
-            + getLocale()
-            + " copyFields:"
-            + getCopyFields()
-            + " ]";
-    }
+    m_targetField = targetField;
+  }
+
+  /** @see org.opencms.search.fields.CmsSearchField#toString() */
+  @Override
+  public String toString() {
+
+    return getName()
+        + "["
+        + " defaultValue:"
+        + getDefaultValue()
+        + " targetField:"
+        + getTargetField()
+        + " locale:"
+        + getLocale()
+        + " copyFields:"
+        + getCopyFields()
+        + " ]";
+  }
 }

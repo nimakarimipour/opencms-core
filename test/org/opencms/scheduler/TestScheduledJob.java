@@ -27,40 +27,45 @@
 
 package org.opencms.scheduler;
 
+import java.util.Map;
 import org.opencms.file.CmsObject;
 
-import java.util.Map;
-
 /**
- * Test class for OpenCms scheduled jobs.<p>
+ * Test class for OpenCms scheduled jobs.
+ *
+ * <p>
  */
 public class TestScheduledJob implements I_CmsScheduledJob {
 
-    /** Indicates if this class was run. */
-    static int m_runCount;
+  /** Indicates if this class was run. */
+  static int m_runCount;
 
-    /** Static copy of the instance run count for easy test access. */
-    static int m_instanceCountCopy;
+  /** Static copy of the instance run count for easy test access. */
+  static int m_instanceCountCopy;
 
-    /** Instance run count. */
-    private int m_instanceRunCount;
+  /** Instance run count. */
+  private int m_instanceRunCount;
 
-    /**
-     * Default constructor.<p>
-     */
-    public TestScheduledJob() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public TestScheduledJob() {
 
-        m_instanceRunCount = 0;
-    }
+    m_instanceRunCount = 0;
+  }
 
-    /**
-     * @see org.opencms.scheduler.I_CmsScheduledJob#launch(CmsObject, Map)
-     */
-    public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  /** @see org.opencms.scheduler.I_CmsScheduledJob#launch(CmsObject, Map) */
+  public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
-        m_runCount++;
-        m_instanceRunCount++;
-        m_instanceCountCopy = m_instanceRunCount;
-        return "OpenCms scheduler test job " + m_runCount + " was run (instance count: " + m_instanceRunCount + ").";
-    }
+    m_runCount++;
+    m_instanceRunCount++;
+    m_instanceCountCopy = m_instanceRunCount;
+    return "OpenCms scheduler test job "
+        + m_runCount
+        + " was run (instance count: "
+        + m_instanceRunCount
+        + ").";
+  }
 }

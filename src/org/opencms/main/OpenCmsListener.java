@@ -31,150 +31,156 @@ import java.lang.reflect.Method;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.util.Enumeration;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-
 import org.apache.commons.logging.Log;
 
 /**
- * Provides the OpenCms system with information from the servlet context.<p>
+ * Provides the OpenCms system with information from the servlet context.
  *
- * Used for the following purposes:<ul>
- * <li>Starting up OpenCms when the servlet container is started.</li>
- * <li>Shutting down OpenCms when the servlet container is shut down.</li>
- * <li>Informing the <code>{@link org.opencms.main.CmsSessionManager}</code> if a new session is created.</li>
- * <li>Informing the <code>{@link org.opencms.main.CmsSessionManager}</code> session is destroyed or invalidated.</li>
+ * <p>Used for the following purposes:
+ *
+ * <ul>
+ *   <li>Starting up OpenCms when the servlet container is started.
+ *   <li>Shutting down OpenCms when the servlet container is shut down.
+ *   <li>Informing the <code>{@link org.opencms.main.CmsSessionManager}</code> if a new session is
+ *       created.
+ *   <li>Informing the <code>{@link org.opencms.main.CmsSessionManager}</code> session is destroyed
+ *       or invalidated.
  * </ul>
  *
  * @since 6.0.0
  */
 public class OpenCmsListener implements ServletContextListener, HttpSessionListener {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(OpenCmsListener.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(OpenCmsListener.class);
 
-    /**
-     * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
-     */
-    public void contextDestroyed(ServletContextEvent event) {
+  /**
+   * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
+   */
+  public void contextDestroyed(ServletContextEvent event) {
 
-        try {
-            // destroy the OpenCms instance
-            OpenCmsCore.getInstance().shutDown();
-            shutDownSqlDrivers();
-        } catch (CmsInitException e) {
-            if (e.isNewError()) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-        } catch (Throwable t) {
-            // make sure all other errors are displayed in the OpenCms log
-            LOG.error(Messages.get().getBundle().key(Messages.LOG_ERROR_GENERIC_0), t);
-        }
+    try {
+      // destroy the OpenCms instance
+      OpenCmsCore.getInstance().shutDown();
+      shutDownSqlDrivers();
+    } catch (CmsInitException e) {
+      if (e.isNewError()) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
+    } catch (Throwable t) {
+      // make sure all other errors are displayed in the OpenCms log
+      LOG.error(Messages.get().getBundle().key(Messages.LOG_ERROR_GENERIC_0), t);
+    }
+  }
+
+  /**
+   * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
+   */
+  public void contextInitialized(ServletContextEvent event) {
+
+    String basePath = event.getServletContext().getRealPath("/");
+    String path = basePath + "/WEB-INF/logs/startup-stacktraces.zip";
+    String summaryPath = basePath + "/WEB-INF/logs/startup-summary.xml";
+    CmsSingleThreadDumperThread dumpThread =
+        new CmsSingleThreadDumperThread(path, summaryPath, Thread.currentThread().getId());
+    boolean enableThreadDumps =
+        "true".equalsIgnoreCase(System.getProperty("opencms.profile.startup.stacktraces"));
+    try {
+      if (enableThreadDumps) {
+        dumpThread.start();
+      }
+      // upgrade the OpenCms runlevel
+      OpenCmsCore.getInstance().upgradeRunlevel(event.getServletContext());
+    } catch (CmsInitException e) {
+      if (e.isNewError()) {
+        // only log new init errors
+        LOG.error(e.getLocalizedMessage(), e);
+      }
+    } catch (Throwable t) {
+      // make sure all other errors are displayed in the OpenCms log
+      LOG.error(Messages.get().getBundle().key(Messages.LOG_ERROR_GENERIC_0), t);
+      // throw a new init Exception to make sure a "context destroyed" event is triggered
+      throw new CmsInitException(
+          Messages.get().container(Messages.ERR_CRITICAL_INIT_GENERIC_1, t.getMessage()));
+    } finally {
+      // Signal the thread to finish its business.
+      // This doesn't do anything if the thread isn't running.
+      dumpThread.interrupt();
+    }
+  }
+
+  /**
+   * @see javax.servlet.http.HttpSessionListener#sessionCreated(javax.servlet.http.HttpSessionEvent)
+   */
+  public void sessionCreated(HttpSessionEvent event) {
+
+    try {
+      // inform the OpenCms session manager
+      OpenCmsCore.getInstance().getSessionManager().sessionCreated(event);
+    } catch (CmsInitException e) {
+      if (e.isNewError()) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
+    } catch (Throwable t) {
+      // make sure all other errors are displayed in the OpenCms log
+      LOG.error(Messages.get().getBundle().key(Messages.LOG_ERROR_GENERIC_0), t);
+    }
+  }
+
+  /**
+   * @see
+   *     javax.servlet.http.HttpSessionListener#sessionDestroyed(javax.servlet.http.HttpSessionEvent)
+   */
+  public void sessionDestroyed(HttpSessionEvent event) {
+
+    try {
+      // inform the OpenCms session manager
+      OpenCmsCore.getInstance().getSessionManager().sessionDestroyed(event);
+    } catch (CmsInitException e) {
+      if (e.isNewError()) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
+    } catch (Throwable t) {
+      // make sure all other errors are displayed in the OpenCms log
+      LOG.error(Messages.get().getBundle().key(Messages.LOG_ERROR_GENERIC_0), t);
+    }
+  }
+
+  /**
+   * De-registers the SQL drivers in order to prevent potential memory leaks.
+   *
+   * <p>
+   */
+  private void shutDownSqlDrivers() {
+
+    // This manually deregisters JDBC driver, which prevents Tomcat 7 from complaining about memory
+    // leaks
+    Enumeration<Driver> drivers = DriverManager.getDrivers();
+    while (drivers.hasMoreElements()) {
+      Driver driver = drivers.nextElement();
+      try {
+        DriverManager.deregisterDriver(driver);
+      } catch (Throwable e) {
+        System.out.println(
+            Messages.get()
+                .getBundle()
+                .key(Messages.ERR_DEREGISTERING_JDBC_DRIVER_1, driver.getClass().getName()));
+        e.printStackTrace(System.out);
+      }
     }
 
-    /**
-     * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
-     */
-    public void contextInitialized(ServletContextEvent event) {
-
-        String basePath = event.getServletContext().getRealPath("/");
-        String path = basePath + "/WEB-INF/logs/startup-stacktraces.zip";
-        String summaryPath = basePath + "/WEB-INF/logs/startup-summary.xml";
-        CmsSingleThreadDumperThread dumpThread = new CmsSingleThreadDumperThread(
-            path,
-            summaryPath,
-            Thread.currentThread().getId());
-        boolean enableThreadDumps = "true".equalsIgnoreCase(System.getProperty("opencms.profile.startup.stacktraces"));
-        try {
-            if (enableThreadDumps) {
-                dumpThread.start();
-            }
-            // upgrade the OpenCms runlevel
-            OpenCmsCore.getInstance().upgradeRunlevel(event.getServletContext());
-        } catch (CmsInitException e) {
-            if (e.isNewError()) {
-                // only log new init errors
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-        } catch (Throwable t) {
-            // make sure all other errors are displayed in the OpenCms log
-            LOG.error(Messages.get().getBundle().key(Messages.LOG_ERROR_GENERIC_0), t);
-            // throw a new init Exception to make sure a "context destroyed" event is triggered
-            throw new CmsInitException(Messages.get().container(Messages.ERR_CRITICAL_INIT_GENERIC_1, t.getMessage()));
-        } finally {
-            // Signal the thread to finish its business.
-            // This doesn't do anything if the thread isn't running.
-            dumpThread.interrupt();
-        }
+    try {
+      Class<?> cls = Class.forName("com.mysql.jdbc.AbandonedConnectionCleanupThread");
+      Method shutdownMethod = (cls == null ? null : cls.getMethod("shutdown"));
+      if (shutdownMethod != null) {
+        shutdownMethod.invoke(null);
+      }
+    } catch (Throwable e) {
+      System.out.println("Failed to shutdown MySQL connection cleanup thread: " + e.getMessage());
     }
-
-    /**
-     * @see javax.servlet.http.HttpSessionListener#sessionCreated(javax.servlet.http.HttpSessionEvent)
-     */
-    public void sessionCreated(HttpSessionEvent event) {
-
-        try {
-            // inform the OpenCms session manager
-            OpenCmsCore.getInstance().getSessionManager().sessionCreated(event);
-        } catch (CmsInitException e) {
-            if (e.isNewError()) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-        } catch (Throwable t) {
-            // make sure all other errors are displayed in the OpenCms log
-            LOG.error(Messages.get().getBundle().key(Messages.LOG_ERROR_GENERIC_0), t);
-        }
-    }
-
-    /**
-     * @see javax.servlet.http.HttpSessionListener#sessionDestroyed(javax.servlet.http.HttpSessionEvent)
-     */
-    public void sessionDestroyed(HttpSessionEvent event) {
-
-        try {
-            // inform the OpenCms session manager
-            OpenCmsCore.getInstance().getSessionManager().sessionDestroyed(event);
-        } catch (CmsInitException e) {
-            if (e.isNewError()) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-        } catch (Throwable t) {
-            // make sure all other errors are displayed in the OpenCms log
-            LOG.error(Messages.get().getBundle().key(Messages.LOG_ERROR_GENERIC_0), t);
-        }
-    }
-
-    /**
-     * De-registers the SQL drivers in order to prevent potential memory leaks.<p>
-     */
-    private void shutDownSqlDrivers() {
-
-        // This manually deregisters JDBC driver, which prevents Tomcat 7 from complaining about memory leaks
-        Enumeration<Driver> drivers = DriverManager.getDrivers();
-        while (drivers.hasMoreElements()) {
-            Driver driver = drivers.nextElement();
-            try {
-                DriverManager.deregisterDriver(driver);
-            } catch (Throwable e) {
-                System.out.println(
-                    Messages.get().getBundle().key(
-                        Messages.ERR_DEREGISTERING_JDBC_DRIVER_1,
-                        driver.getClass().getName()));
-                e.printStackTrace(System.out);
-            }
-        }
-
-        try {
-            Class<?> cls = Class.forName("com.mysql.jdbc.AbandonedConnectionCleanupThread");
-            Method shutdownMethod = (cls == null ? null : cls.getMethod("shutdown"));
-            if (shutdownMethod != null) {
-                shutdownMethod.invoke(null);
-            }
-        } catch (Throwable e) {
-            System.out.println("Failed to shutdown MySQL connection cleanup thread: " + e.getMessage());
-        }
-    }
+  }
 }

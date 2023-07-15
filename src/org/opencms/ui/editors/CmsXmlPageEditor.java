@@ -31,43 +31,40 @@ import org.opencms.file.types.CmsResourceTypeXmlPage;
 import org.opencms.file.types.I_CmsResourceType;
 
 /**
- * The acacia XML content editor.<p>
+ * The acacia XML content editor.
+ *
+ * <p>
  */
 public class CmsXmlPageEditor extends A_CmsFrameEditor {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 6956310502396129228L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 6956310502396129228L;
 
-    /**
-     * @see org.opencms.ui.editors.I_CmsEditor#getPriority()
-     */
-    public int getPriority() {
+  /** @see org.opencms.ui.editors.I_CmsEditor#getPriority() */
+  public int getPriority() {
 
-        return 20;
-    }
+    return 20;
+  }
 
-    /**
-     * @see org.opencms.ui.editors.I_CmsEditor#matchesType(org.opencms.file.types.I_CmsResourceType, boolean)
-     */
-    public boolean matchesType(I_CmsResourceType type, boolean plainText) {
+  /**
+   * @see org.opencms.ui.editors.I_CmsEditor#matchesType(org.opencms.file.types.I_CmsResourceType,
+   *     boolean)
+   */
+  public boolean matchesType(I_CmsResourceType type, boolean plainText) {
 
-        return !plainText && (type instanceof CmsResourceTypeXmlPage);
-    }
+    return !plainText && (type instanceof CmsResourceTypeXmlPage);
+  }
 
-    /**
-     * @see org.opencms.ui.editors.I_CmsEditor#newInstance()
-     */
-    public I_CmsEditor newInstance() {
+  /** @see org.opencms.ui.editors.I_CmsEditor#newInstance() */
+  public I_CmsEditor newInstance() {
 
-        return new CmsXmlPageEditor();
-    }
+    return new CmsXmlPageEditor();
+  }
 
-    /**
-     * @see org.opencms.ui.editors.A_CmsFrameEditor#getEditorUri()
-     */
-    @Override
-    protected String getEditorUri() {
+  /** @see org.opencms.ui.editors.A_CmsFrameEditor#getEditorUri() */
+  @Override
+  protected String getEditorUri() {
 
-        return "/system/workplace/editors/tinymce/editor.jsp";
-    }
+    return "/system/workplace/editors/tinymce/editor.jsp";
+  }
 }

@@ -27,52 +27,39 @@
 
 package org.opencms.ui.apps.userdata;
 
-import org.opencms.ui.apps.A_CmsWorkplaceApp;
-
+import com.vaadin.ui.Component;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import org.opencms.ui.apps.A_CmsWorkplaceApp;
 
-import com.vaadin.ui.Component;
-
-/**
- * The user data app.
- */
+/** The user data app. */
 public class CmsUserDataApp extends A_CmsWorkplaceApp {
 
-    /**
-     * Creates a new instance.
-     */
-    public CmsUserDataApp() {
+  /** Creates a new instance. */
+  public CmsUserDataApp() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String)
-     */
-    @Override
-    protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String) */
+  @Override
+  protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String)
-     */
-    @Override
-    protected Component getComponentForState(String state) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String) */
+  @Override
+  protected Component getComponentForState(String state) {
 
-        return new CmsUserDataAppPanel();
-    }
+    return new CmsUserDataAppPanel();
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String)
-     */
-    @Override
-    protected List<NavEntry> getSubNavEntries(String state) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String) */
+  @Override
+  protected List<NavEntry> getSubNavEntries(String state) {
 
-        return new ArrayList<>();
-    }
-
+    return new ArrayList<>();
+  }
 }

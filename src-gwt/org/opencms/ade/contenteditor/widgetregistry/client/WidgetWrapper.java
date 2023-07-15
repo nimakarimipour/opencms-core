@@ -27,8 +27,6 @@
 
 package org.opencms.ade.contenteditor.widgetregistry.client;
 
-import org.opencms.acacia.client.widgets.I_CmsFormEditWidget;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.DomEvent;
@@ -38,156 +36,151 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
+import org.opencms.acacia.client.widgets.I_CmsFormEditWidget;
 
 /**
- * Wrapper for a native widget.<p>
+ * Wrapper for a native widget.
+ *
+ * <p>
  */
 public final class WidgetWrapper extends Widget implements I_CmsFormEditWidget {
 
-    /** The wrapped native widget. */
-    private NativeEditWidget m_nativeWidget;
+  /** The wrapped native widget. */
+  private NativeEditWidget m_nativeWidget;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param nativeWidget the native widget
-     */
-    protected WidgetWrapper(NativeEditWidget nativeWidget) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param nativeWidget the native widget
+   */
+  protected WidgetWrapper(NativeEditWidget nativeWidget) {
 
-        m_nativeWidget = nativeWidget;
-        setElement(m_nativeWidget.getElement());
-        initNativeWidget();
-    }
+    m_nativeWidget = nativeWidget;
+    setElement(m_nativeWidget.getElement());
+    initNativeWidget();
+  }
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
-     */
-    public HandlerRegistration addFocusHandler(FocusHandler handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
+   */
+  public HandlerRegistration addFocusHandler(FocusHandler handler) {
 
-        return addDomHandler(handler, FocusEvent.getType());
-    }
+    return addDomHandler(handler, FocusEvent.getType());
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
 
-        return addHandler(handler, ValueChangeEvent.getType());
-    }
+    return addHandler(handler, ValueChangeEvent.getType());
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#getValue()
-     */
-    public String getValue() {
+  /** @see com.google.gwt.user.client.ui.HasValue#getValue() */
+  public String getValue() {
 
-        return m_nativeWidget.getValue();
-    }
+    return m_nativeWidget.getValue();
+  }
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive()
-     */
-    public boolean isActive() {
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive() */
+  public boolean isActive() {
 
-        return m_nativeWidget.isActive();
-    }
+    return m_nativeWidget.isActive();
+  }
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget()
-     */
-    public void onAttachWidget() {
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget() */
+  public void onAttachWidget() {
 
-        onAttach();
-    }
+    onAttach();
+  }
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
-     */
-    public boolean owns(Element element) {
+  /**
+   * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
+   */
+  public boolean owns(Element element) {
 
-        // TODO implement this in case we want the delete behavior for optional fields
-        return false;
+    // TODO implement this in case we want the delete behavior for optional fields
+    return false;
+  }
 
-    }
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean) */
+  public void setActive(boolean active) {
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean)
-     */
-    public void setActive(boolean active) {
+    m_nativeWidget.setActive(active);
+  }
 
-        m_nativeWidget.setActive(active);
-    }
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String) */
+  public void setName(String name) {
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String)
-     */
-    public void setName(String name) {
+    // no input field so nothing to do
 
-        // no input field so nothing to do
+  }
 
-    }
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object) */
+  public void setValue(String value) {
 
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
-     */
-    public void setValue(String value) {
+    setValue(value, true);
+  }
 
-        setValue(value, true);
-    }
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setValue(java.lang.String, boolean) */
+  public void setValue(String value, boolean fireEvents) {
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setValue(java.lang.String, boolean)
-     */
-    public void setValue(String value, boolean fireEvents) {
+    m_nativeWidget.setValue(value, fireEvents);
+  }
 
-        m_nativeWidget.setValue(value, fireEvents);
-    }
+  /**
+   * @see org.opencms.acacia.client.widgets.I_CmsFormEditWidget#setWidgetInfo(java.lang.String,
+   *     java.lang.String)
+   */
+  public void setWidgetInfo(String label, String help) {
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsFormEditWidget#setWidgetInfo(java.lang.String, java.lang.String)
-     */
-    public void setWidgetInfo(String label, String help) {
+    m_nativeWidget.setWidgetInfo(label, help);
+  }
 
-        m_nativeWidget.setWidgetInfo(label, help);
-    }
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#shouldSetDefaultWhenDisabled() */
+  public boolean shouldSetDefaultWhenDisabled() {
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#shouldSetDefaultWhenDisabled()
-     */
-    public boolean shouldSetDefaultWhenDisabled() {
+    return m_nativeWidget.shouldSetDefaultWhenDisabled();
+  }
 
-        return m_nativeWidget.shouldSetDefaultWhenDisabled();
-    }
+  /**
+   * Fires the value change event.
+   *
+   * <p>
+   */
+  protected void fireChangeEvent() {
 
-    /**
-     * Fires the value change event.<p>
-     */
-    protected void fireChangeEvent() {
+    ValueChangeEvent.fire(this, getValue());
+  }
 
-        ValueChangeEvent.fire(this, getValue());
-    }
+  /**
+   * Fires the focus event.
+   *
+   * <p>
+   */
+  protected void fireFocusEvent() {
 
-    /**
-     * Fires the focus event.<p>
-     */
-    protected void fireFocusEvent() {
+    DomEvent.fireNativeEvent(Document.get().createFocusEvent(), this);
+  }
 
-        DomEvent.fireNativeEvent(Document.get().createFocusEvent(), this);
-    }
+  /** @see com.google.gwt.user.client.ui.Widget#onAttach() */
+  @Override
+  protected void onAttach() {
 
-    /**
-     * @see com.google.gwt.user.client.ui.Widget#onAttach()
-     */
-    @Override
-    protected void onAttach() {
+    super.onAttach();
+    m_nativeWidget.onAttachWidget();
+  }
 
-        super.onAttach();
-        m_nativeWidget.onAttachWidget();
-    }
-
-    /**
-     * Initializes the native widget by setting the on change and on focus functions.<p>
-     */
-    private native void initNativeWidget()/*-{
+  /**
+   * Initializes the native widget by setting the on change and on focus functions.
+   *
+   * <p>
+   */
+  private native void initNativeWidget() /*-{
         var self = this;
         var nativeWidget = this.@org.opencms.ade.contenteditor.widgetregistry.client.WidgetWrapper::m_nativeWidget;
         nativeWidget.onChangeCommand = function() {

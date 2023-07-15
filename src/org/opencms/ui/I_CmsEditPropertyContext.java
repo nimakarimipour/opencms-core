@@ -28,23 +28,28 @@
 package org.opencms.ui;
 
 /**
- * Action context that allows direct editing of single properties.<p>
+ * Action context that allows direct editing of single properties.
+ *
+ * <p>
  */
 public interface I_CmsEditPropertyContext {
 
-    /**
-     * Start the editing process.<p>
-     *
-     * @param propertyId the property to edit
-     */
-    void editProperty(Object propertyId);
+  /**
+   * Start the editing process.
+   *
+   * <p>
+   *
+   * @param propertyId the property to edit
+   */
+  void editProperty(Object propertyId);
 
-    /**
-     * Checks whether the given property is editable.<p>
-     *
-     * @param propertyId the property id
-     *
-     * @return <code>true</code> if the given property is editable
-     */
-    boolean isPropertyEditable(Object propertyId);
+  /**
+   * Checks whether the given property is editable.
+   *
+   * <p>
+   *
+   * @param propertyId the property id
+   * @return <code>true</code> if the given property is editable
+   */
+  boolean isPropertyEditable(Object propertyId);
 }

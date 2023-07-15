@@ -28,16 +28,20 @@
 package org.opencms.main;
 
 /**
- * Simple custom event manager implementation for testing purposes.<p>
+ * Simple custom event manager implementation for testing purposes.
+ *
+ * <p>
  */
 public class CmsTestEventManager extends CmsEventManager {
 
-    /**
-     * Simple constructor with an output message for testing.<p>
-     */
-    public CmsTestEventManager() {
+  /**
+   * Simple constructor with an output message for testing.
+   *
+   * <p>
+   */
+  public CmsTestEventManager() {
 
-        super();
-        System.err.println("Initializing " + getClass().getName());
-    }
+    super();
+    System.err.println("Initializing " + getClass().getName());
+  }
 }

@@ -27,6 +27,9 @@
 
 package org.opencms.ade.properties;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.ade.properties.shared.I_CmsAdePropertiesConstants;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
@@ -35,64 +38,62 @@ import org.opencms.gwt.CmsGwtActionElement;
 import org.opencms.gwt.shared.CmsCoreData;
 import org.opencms.main.OpenCms;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Action element class for opening the ADE properties dialog.<p>
+ * Action element class for opening the ADE properties dialog.
+ *
+ * <p>
  */
 public class CmsPropertiesActionElement extends CmsGwtActionElement {
 
-    /** The OpenCms module name. */
-    public static final String CMS_MODULE_NAME = "org.opencms.ade.properties";
+  /** The OpenCms module name. */
+  public static final String CMS_MODULE_NAME = "org.opencms.ade.properties";
 
-    /** The GWT module name. */
-    public static final String GWT_MODULE_NAME = CmsCoreData.ModuleKey.properties.name();
+  /** The GWT module name. */
+  public static final String GWT_MODULE_NAME = CmsCoreData.ModuleKey.properties.name();
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param context the current page context
-     * @param req the request
-     * @param res the response
-     */
-    public CmsPropertiesActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param context the current page context
+   * @param req the request
+   * @param res the response
+   */
+  public CmsPropertiesActionElement(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        super(context, req, res);
-    }
+    super(context, req, res);
+  }
 
-    /**
-     * @see org.opencms.gwt.CmsGwtActionElement#export()
-     */
-    @Override
-    public String export() throws Exception {
+  /** @see org.opencms.gwt.CmsGwtActionElement#export() */
+  @Override
+  public String export() throws Exception {
 
-        String resourcePath = getRequest().getParameter(I_CmsAdePropertiesConstants.PARAM_RESOURCE);
-        CmsObject cms = getCmsObject();
-        CmsResource resource = cms.readResource(resourcePath, CmsResourceFilter.IGNORE_EXPIRATION);
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(exportMeta(I_CmsAdePropertiesConstants.META_RESOURCE, resource.getStructureId().toString()));
-        buffer.append(
-            exportMeta(
-                I_CmsAdePropertiesConstants.META_BACKLINK,
-                OpenCms.getLinkManager().substituteLinkForUnknownTarget(
-                    cms,
-                    "/system/workplace/views/explorer/explorer_files.jsp")));
-        return buffer.toString();
-    }
+    String resourcePath = getRequest().getParameter(I_CmsAdePropertiesConstants.PARAM_RESOURCE);
+    CmsObject cms = getCmsObject();
+    CmsResource resource = cms.readResource(resourcePath, CmsResourceFilter.IGNORE_EXPIRATION);
+    StringBuffer buffer = new StringBuffer();
+    buffer.append(
+        exportMeta(
+            I_CmsAdePropertiesConstants.META_RESOURCE, resource.getStructureId().toString()));
+    buffer.append(
+        exportMeta(
+            I_CmsAdePropertiesConstants.META_BACKLINK,
+            OpenCms.getLinkManager()
+                .substituteLinkForUnknownTarget(
+                    cms, "/system/workplace/views/explorer/explorer_files.jsp")));
+    return buffer.toString();
+  }
 
-    /**
-     * @see org.opencms.gwt.CmsGwtActionElement#exportAll()
-     */
-    @Override
-    public String exportAll() throws Exception {
+  /** @see org.opencms.gwt.CmsGwtActionElement#exportAll() */
+  @Override
+  public String exportAll() throws Exception {
 
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(super.export());
-        buffer.append(export());
-        buffer.append(exportModuleScriptTag(GWT_MODULE_NAME));
-        return buffer.toString();
-    }
-
+    StringBuffer buffer = new StringBuffer();
+    buffer.append(super.export());
+    buffer.append(export());
+    buffer.append(exportModuleScriptTag(GWT_MODULE_NAME));
+    return buffer.toString();
+  }
 }

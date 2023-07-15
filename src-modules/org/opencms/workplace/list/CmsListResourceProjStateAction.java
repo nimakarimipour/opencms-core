@@ -30,64 +30,64 @@ package org.opencms.workplace.list;
 import org.opencms.i18n.CmsMessageContainer;
 
 /**
- * Displays an icon action for the project state.<p>
+ * Displays an icon action for the project state.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListResourceProjStateAction extends CmsListExplorerDirectAction {
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id the unique id
-     */
-    public CmsListResourceProjStateAction(String id) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id the unique id
+   */
+  public CmsListResourceProjStateAction(String id) {
 
-        super(id);
+    super(id);
+  }
+
+  /** @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getHelpText() */
+  @Override
+  public CmsMessageContainer getHelpText() {
+
+    if ((super.getHelpText() == null) || super.getHelpText().equals(EMPTY_MESSAGE)) {
+      return Messages.get().container(Messages.GUI_EXPLORER_LIST_ACTION_PROJECTSTATE_HELP_0);
     }
+    return super.getHelpText();
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getHelpText()
-     */
-    @Override
-    public CmsMessageContainer getHelpText() {
+  /** @see org.opencms.workplace.tools.A_CmsHtmlIconButton#getIconPath() */
+  @Override
+  public String getIconPath() {
 
-        if ((super.getHelpText() == null) || super.getHelpText().equals(EMPTY_MESSAGE)) {
-            return Messages.get().container(Messages.GUI_EXPLORER_LIST_ACTION_PROJECTSTATE_HELP_0);
-        }
-        return super.getHelpText();
+    return getResourceUtil().getIconPathProjectState();
+  }
+
+  /** @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getName() */
+  @Override
+  public CmsMessageContainer getName() {
+
+    if (super.getName() == null) {
+      if (getResourceUtil().getProjectState().isUnlocked()) {
+        return EMPTY_MESSAGE;
+      } else if (getResourceUtil().getProjectState().isModifiedInCurrentProject()) {
+        return Messages.get()
+            .container(
+                Messages.GUI_EXPLORER_LIST_ACTION_INPROJECT_NAME_1,
+                getResourceUtil().getReferenceProject().getName());
+      } else if (getResourceUtil().getProjectState().isModifiedInOtherProject()) {
+        return Messages.get()
+            .container(
+                Messages.GUI_EXPLORER_LIST_ACTION_INPROJECT_NAME_1,
+                getResourceUtil().getLockedInProjectName());
+      } else {
+        return new CmsMessageContainer(null, getResourceUtil().getSystemLockInfo(false));
+      }
     }
-
-    /**
-     * @see org.opencms.workplace.tools.A_CmsHtmlIconButton#getIconPath()
-     */
-    @Override
-    public String getIconPath() {
-
-        return getResourceUtil().getIconPathProjectState();
-    }
-
-    /**
-     * @see org.opencms.workplace.tools.I_CmsHtmlIconButton#getName()
-     */
-    @Override
-    public CmsMessageContainer getName() {
-
-        if (super.getName() == null) {
-            if (getResourceUtil().getProjectState().isUnlocked()) {
-                return EMPTY_MESSAGE;
-            } else if (getResourceUtil().getProjectState().isModifiedInCurrentProject()) {
-                return Messages.get().container(
-                    Messages.GUI_EXPLORER_LIST_ACTION_INPROJECT_NAME_1,
-                    getResourceUtil().getReferenceProject().getName());
-            } else if (getResourceUtil().getProjectState().isModifiedInOtherProject()) {
-                return Messages.get().container(
-                    Messages.GUI_EXPLORER_LIST_ACTION_INPROJECT_NAME_1,
-                    getResourceUtil().getLockedInProjectName());
-            } else {
-                return new CmsMessageContainer(null, getResourceUtil().getSystemLockInfo(false));
-            }
-        }
-        return super.getName();
-    }
+    return super.getName();
+  }
 }

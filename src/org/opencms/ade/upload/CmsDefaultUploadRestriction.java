@@ -27,6 +27,8 @@
 
 package org.opencms.ade.upload;
 
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.file.CmsObject;
 import org.opencms.gwt.shared.CmsUploadRestrictionInfo;
@@ -34,84 +36,89 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.security.CmsRole;
 
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Default implementation for upload restrictions uses restriction entries from opencms-workplace.xml.
+ * Default implementation for upload restrictions uses restriction entries from
+ * opencms-workplace.xml.
  *
- * <p>This class directly takes parameters configured via param elements in opencms-workplace.xml and interprets them as restriction
- * entries. The parameter name is interpreted as the path, and the parameter value
+ * <p>This class directly takes parameters configured via param elements in opencms-workplace.xml
+ * and interprets them as restriction entries. The parameter name is interpreted as the path, and
+ * the parameter value
  */
 public class CmsDefaultUploadRestriction implements I_CmsUploadRestriction {
 
-    /** Logger for this class. */
-    @SuppressWarnings("unused")
-    private static final Log LOG = CmsLog.getLog(CmsDefaultUploadRestriction.class);
+  /** Logger for this class. */
+  @SuppressWarnings("unused")
+  private static final Log LOG = CmsLog.getLog(CmsDefaultUploadRestriction.class);
 
-    /** The internal CmsObject. */
-    private CmsObject m_cms;
+  /** The internal CmsObject. */
+  private CmsObject m_cms;
 
-    /** The configuration. */
-    private CmsParameterConfiguration m_config = new CmsParameterConfiguration();
+  /** The configuration. */
+  private CmsParameterConfiguration m_config = new CmsParameterConfiguration();
 
-    public static I_CmsUploadRestriction unrestricted() {
+  public static I_CmsUploadRestriction unrestricted() {
 
-        CmsDefaultUploadRestriction result = new CmsDefaultUploadRestriction();
-        result.addConfigurationParameter("/", CmsUploadRestrictionInfo.UNRESTRICTED_UPLOADS);
-        return result;
-    }
+    CmsDefaultUploadRestriction result = new CmsDefaultUploadRestriction();
+    result.addConfigurationParameter("/", CmsUploadRestrictionInfo.UNRESTRICTED_UPLOADS);
+    return result;
+  }
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
-     */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+  /**
+   * @see
+   *     org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String,
+   *     java.lang.String)
+   */
+  public void addConfigurationParameter(String paramName, String paramValue) {
 
-        m_config.add(paramName, paramValue);
-    }
+    m_config.add(paramName, paramValue);
+  }
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#getConfiguration()
-     */
-    public CmsParameterConfiguration getConfiguration() {
+  /** @see org.opencms.configuration.I_CmsConfigurationParameterHandler#getConfiguration() */
+  public CmsParameterConfiguration getConfiguration() {
 
-        return m_config;
-    }
+    return m_config;
+  }
 
-    /**
-     * @see org.opencms.ade.upload.I_CmsUploadRestriction#getUploadRestrictionInfo(org.opencms.file.CmsObject)
-     */
-    public CmsUploadRestrictionInfo getUploadRestrictionInfo(CmsObject cms) {
+  /**
+   * @see
+   *     org.opencms.ade.upload.I_CmsUploadRestriction#getUploadRestrictionInfo(org.opencms.file.CmsObject)
+   */
+  public CmsUploadRestrictionInfo getUploadRestrictionInfo(CmsObject cms) {
 
-        if ((m_cms != null) && !OpenCms.getRoleManager().hasRole(cms, CmsRole.ROOT_ADMIN)) { // root admins may have to upload arbitrary files for things like updates / administration stuff
-            CmsUploadRestrictionInfo.Builder builder = new CmsUploadRestrictionInfo.Builder();
-            for (Map.Entry<String, String> entry : m_config.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                if (key.startsWith("/")) {
-                    builder.add(key, value);
-                }
-            }
-            return builder.build();
+    if ((m_cms != null)
+        && !OpenCms.getRoleManager()
+            .hasRole(
+                cms,
+                CmsRole
+                    .ROOT_ADMIN)) { // root admins may have to upload arbitrary files for things
+                                    // like updates / administration stuff
+      CmsUploadRestrictionInfo.Builder builder = new CmsUploadRestrictionInfo.Builder();
+      for (Map.Entry<String, String> entry : m_config.entrySet()) {
+        String key = entry.getKey();
+        String value = entry.getValue();
+        if (key.startsWith("/")) {
+          builder.add(key, value);
         }
-        return new CmsUploadRestrictionInfo.Builder().add("/", CmsUploadRestrictionInfo.UNRESTRICTED_UPLOADS).build();
+      }
+      return builder.build();
     }
+    return new CmsUploadRestrictionInfo.Builder()
+        .add("/", CmsUploadRestrictionInfo.UNRESTRICTED_UPLOADS)
+        .build();
+  }
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#initConfiguration()
-     */
-    public void initConfiguration() {
+  /** @see org.opencms.configuration.I_CmsConfigurationParameterHandler#initConfiguration() */
+  public void initConfiguration() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * @see org.opencms.configuration.I_CmsNeedsAdminCmsObject#setAdminCmsObject(org.opencms.file.CmsObject)
-     */
-    public void setAdminCmsObject(CmsObject adminCms) {
+  /**
+   * @see
+   *     org.opencms.configuration.I_CmsNeedsAdminCmsObject#setAdminCmsObject(org.opencms.file.CmsObject)
+   */
+  public void setAdminCmsObject(CmsObject adminCms) {
 
-        m_cms = adminCms;
-    }
-
+    m_cms = adminCms;
+  }
 }

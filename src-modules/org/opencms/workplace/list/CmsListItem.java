@@ -27,124 +27,131 @@
 
 package org.opencms.workplace.list;
 
-import org.opencms.main.CmsIllegalArgumentException;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import org.opencms.main.CmsIllegalArgumentException;
 
 /**
- * Generic list item.<p>
+ * Generic list item.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListItem {
 
-    /** Unique id for later recovery. */
-    private final String m_id;
+  /** Unique id for later recovery. */
+  private final String m_id;
 
-    /** Associated list definition. */
-    private final CmsListMetadata m_metadata;
+  /** Associated list definition. */
+  private final CmsListMetadata m_metadata;
 
-    /** Item values. */
-    private final Map<String, Object> m_values = new HashMap<String, Object>();
+  /** Item values. */
+  private final Map<String, Object> m_values = new HashMap<String, Object>();
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id the id of the item has to be unique
-     * @param metadata the corresponding list definition
-     */
-    public CmsListItem(CmsListMetadata metadata, String id) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id the id of the item has to be unique
+   * @param metadata the corresponding list definition
+   */
+  public CmsListItem(CmsListMetadata metadata, String id) {
 
-        if (id == null) {
-            throw new CmsIllegalArgumentException(Messages.get().container(Messages.ERR_LIST_INVALID_NULL_ARG_1, "id"));
-        }
-        if (metadata == null) {
-            throw new CmsIllegalArgumentException(
-                Messages.get().container(Messages.ERR_LIST_INVALID_NULL_ARG_1, "metadata"));
-        }
-        m_metadata = metadata;
-        m_id = id;
+    if (id == null) {
+      throw new CmsIllegalArgumentException(
+          Messages.get().container(Messages.ERR_LIST_INVALID_NULL_ARG_1, "id"));
     }
-
-    /**
-     * Returns the value of the column for this item.<p>
-     *
-     * @param columnId the column id
-     *
-     * @return the content, may be <code>null</code>
-     *
-     * @throws CmsIllegalArgumentException if the given <code>columnId</code> is invalid
-     */
-    public Object get(String columnId) throws CmsIllegalArgumentException {
-
-        if ((getMetadata().getColumnDefinition(columnId) == null)
-            && (getMetadata().getItemDetailDefinition(columnId) == null)) {
-            throw new CmsIllegalArgumentException(
-                Messages.get().container(Messages.ERR_LIST_INVALID_COLUMN_1, columnId));
-        }
-        return m_values.get(columnId);
+    if (metadata == null) {
+      throw new CmsIllegalArgumentException(
+          Messages.get().container(Messages.ERR_LIST_INVALID_NULL_ARG_1, "metadata"));
     }
+    m_metadata = metadata;
+    m_id = id;
+  }
 
-    /**
-     * Returns the id of the item.<p>
-     *
-     * @return the id
-     *
-     * @see CmsHtmlList#getItem(String)
-     */
-    public String getId() {
+  /**
+   * Returns the value of the column for this item.
+   *
+   * <p>
+   *
+   * @param columnId the column id
+   * @return the content, may be <code>null</code>
+   * @throws CmsIllegalArgumentException if the given <code>columnId</code> is invalid
+   */
+  public Object get(String columnId) throws CmsIllegalArgumentException {
 
-        return m_id;
+    if ((getMetadata().getColumnDefinition(columnId) == null)
+        && (getMetadata().getItemDetailDefinition(columnId) == null)) {
+      throw new CmsIllegalArgumentException(
+          Messages.get().container(Messages.ERR_LIST_INVALID_COLUMN_1, columnId));
     }
+    return m_values.get(columnId);
+  }
 
-    /**
-     * Returns the meta data.<p>
-     *
-     * @return the meta data
-     */
-    public CmsListMetadata getMetadata() {
+  /**
+   * Returns the id of the item.
+   *
+   * <p>
+   *
+   * @return the id
+   * @see CmsHtmlList#getItem(String)
+   */
+  public String getId() {
 
-        return m_metadata;
+    return m_id;
+  }
+
+  /**
+   * Returns the meta data.
+   *
+   * <p>
+   *
+   * @return the meta data
+   */
+  public CmsListMetadata getMetadata() {
+
+    return m_metadata;
+  }
+
+  /**
+   * Returns the value map of the list item.
+   *
+   * <p>
+   *
+   * @return the value map of the list item
+   */
+  public Map<String, Object> getValues() {
+
+    return Collections.unmodifiableMap(m_values);
+  }
+
+  /**
+   * Sets the object to display at the given column.
+   *
+   * <p>
+   *
+   * @param columnId the column id
+   * @param value the value to display
+   * @return the previous value, or <code>null</code> if not set
+   * @throws CmsIllegalArgumentException if the given <code>columnId</code> is invalid
+   */
+  public Object set(String columnId, Object value) throws CmsIllegalArgumentException {
+
+    if ((getMetadata().getColumnDefinition(columnId) == null)
+        && (getMetadata().getItemDetailDefinition(columnId) == null)) {
+      throw new CmsIllegalArgumentException(
+          Messages.get().container(Messages.ERR_LIST_INVALID_COLUMN_1, columnId));
     }
+    return m_values.put(columnId, value);
+  }
 
-    /**
-     * Returns the value map of the list item.<p>
-     *
-     * @return the value map of the list item
-     */
-    public Map<String, Object> getValues() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return Collections.unmodifiableMap(m_values);
-    }
-
-    /**
-     * Sets the object to display at the given column.<p>
-     *
-     * @param columnId the column id
-     * @param value the value to display
-     *
-     * @return the previous value, or <code>null</code> if not set
-     * @throws CmsIllegalArgumentException if the given <code>columnId</code> is invalid
-     *
-     */
-    public Object set(String columnId, Object value) throws CmsIllegalArgumentException {
-
-        if ((getMetadata().getColumnDefinition(columnId) == null)
-            && (getMetadata().getItemDetailDefinition(columnId) == null)) {
-            throw new CmsIllegalArgumentException(
-                Messages.get().container(Messages.ERR_LIST_INVALID_COLUMN_1, columnId));
-        }
-        return m_values.put(columnId, value);
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-
-        return m_id + ":" + m_values.toString();
-    }
+    return m_id + ":" + m_values.toString();
+  }
 }

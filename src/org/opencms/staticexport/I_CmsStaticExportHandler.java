@@ -31,29 +31,32 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsUUID;
 
 /**
- * Provides a method
- * for scrubbing files from the export folder that might have been changed,
- * so that the export is newly created after the next request to the resource.<p>
+ * Provides a method for scrubbing files from the export folder that might have been changed, so
+ * that the export is newly created after the next request to the resource.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsStaticExportHandler {
 
-    /**
-     * Returns <code>true</code> if this static export handler is currently
-     * performing a static export operation.<p>
-     *
-     * @return <code>true</code> if this static export handler is currently
-     *              performing a static export operation
-     */
-    boolean isBusy();
+  /**
+   * Returns <code>true</code> if this static export handler is currently performing a static export
+   * operation.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this static export handler is currently performing a static export
+   *     operation
+   */
+  boolean isBusy();
 
-    /**
-     * Scrubs files from the export folder that might have been changed.
-     *
-     * @param publishHistoryId the <code>{@link CmsUUID}</code> of the published project
-     * @param report an <code>{@link I_CmsReport}</code> instance to print output message,
-     *              or <code>null</code> to write messages to the log file
-     */
-    void performEventPublishProject(CmsUUID publishHistoryId, I_CmsReport report);
+  /**
+   * Scrubs files from the export folder that might have been changed.
+   *
+   * @param publishHistoryId the <code>{@link CmsUUID}</code> of the published project
+   * @param report an <code>{@link I_CmsReport}</code> instance to print output message, or <code>
+   *     null</code> to write messages to the log file
+   */
+  void performEventPublishProject(CmsUUID publishHistoryId, I_CmsReport report);
 }

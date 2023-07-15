@@ -28,111 +28,98 @@
 package org.opencms.newsletter;
 
 /**
- * Content for newsletters.<p>
+ * Content for newsletters.
+ *
+ * <p>
  */
 public class CmsNewsletterContent implements I_CmsNewsletterContent {
 
-    /** The output channel for this content. */
-    String m_channel;
+  /** The output channel for this content. */
+  String m_channel;
 
-    /** The content String. */
-    String m_content;
+  /** The content String. */
+  String m_content;
 
-    /** The order of this content. */
-    int m_order;
+  /** The order of this content. */
+  int m_order;
 
-    /** The type of this content. */
-    CmsNewsletterContentType m_type;
+  /** The type of this content. */
+  CmsNewsletterContentType m_type;
 
-    /**
-     * Creates a new CmsNewsletterContent instance.<p>
-     *
-     * @param order the order of the newsletter content
-     * @param content the content
-     * @param type the newsletter contents' type
-     */
-    public CmsNewsletterContent(int order, String content, CmsNewsletterContentType type) {
+  /**
+   * Creates a new CmsNewsletterContent instance.
+   *
+   * <p>
+   *
+   * @param order the order of the newsletter content
+   * @param content the content
+   * @param type the newsletter contents' type
+   */
+  public CmsNewsletterContent(int order, String content, CmsNewsletterContentType type) {
 
-        m_order = order;
-        m_content = content;
-        m_type = type;
-        m_channel = "";
+    m_order = order;
+    m_content = content;
+    m_type = type;
+    m_channel = "";
+  }
+
+  /** @see java.lang.Comparable#compareTo(java.lang.Object) */
+  public int compareTo(I_CmsNewsletterContent o) {
+
+    return new Integer(m_order).compareTo(new Integer(((CmsNewsletterContent) o).getOrder()));
+  }
+
+  /** @see java.lang.Object#equals(java.lang.Object) */
+  @Override
+  public boolean equals(Object obj) {
+
+    if (!(obj instanceof CmsNewsletterContent)) {
+      return false;
     }
-
-    /**
-     *
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    public int compareTo(I_CmsNewsletterContent o) {
-
-        return new Integer(m_order).compareTo(new Integer(((CmsNewsletterContent)o).getOrder()));
+    CmsNewsletterContent newsletterContent = (CmsNewsletterContent) obj;
+    if (getOrder() != newsletterContent.getOrder()) {
+      return false;
     }
-
-    /**
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-
-        if (!(obj instanceof CmsNewsletterContent)) {
-            return false;
-        }
-        CmsNewsletterContent newsletterContent = (CmsNewsletterContent)obj;
-        if (getOrder() != newsletterContent.getOrder()) {
-            return false;
-        }
-        if (!getContent().equals(newsletterContent.getContent())) {
-            return false;
-        }
-        if (!getChannel().equals(newsletterContent.getChannel())) {
-            return false;
-        }
-        if (!getType().equals(newsletterContent.getType())) {
-            return false;
-        }
-        return true;
+    if (!getContent().equals(newsletterContent.getContent())) {
+      return false;
     }
-
-    /**
-     *
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-
-        return m_channel.hashCode() + m_content.hashCode() + m_order + m_type.hashCode();
+    if (!getChannel().equals(newsletterContent.getChannel())) {
+      return false;
     }
-
-    /**
-     * @see org.opencms.newsletter.I_CmsNewsletterContent#getChannel()
-     */
-    public String getChannel() {
-
-        return m_channel;
+    if (!getType().equals(newsletterContent.getType())) {
+      return false;
     }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.newsletter.I_CmsNewsletterContent#getContent()
-     */
-    public String getContent() {
+  /** @see java.lang.Object#hashCode() */
+  @Override
+  public int hashCode() {
 
-        return m_content;
-    }
+    return m_channel.hashCode() + m_content.hashCode() + m_order + m_type.hashCode();
+  }
 
-    /**
-     * @see org.opencms.newsletter.I_CmsNewsletterContent#getOrder()
-     */
-    public int getOrder() {
+  /** @see org.opencms.newsletter.I_CmsNewsletterContent#getChannel() */
+  public String getChannel() {
 
-        return m_order;
-    }
+    return m_channel;
+  }
 
-    /**
-     * @see org.opencms.newsletter.I_CmsNewsletterContent#getType()
-     */
-    public CmsNewsletterContentType getType() {
+  /** @see org.opencms.newsletter.I_CmsNewsletterContent#getContent() */
+  public String getContent() {
 
-        return m_type;
-    }
+    return m_content;
+  }
+
+  /** @see org.opencms.newsletter.I_CmsNewsletterContent#getOrder() */
+  public int getOrder() {
+
+    return m_order;
+  }
+
+  /** @see org.opencms.newsletter.I_CmsNewsletterContent#getType() */
+  public CmsNewsletterContentType getType() {
+
+    return m_type;
+  }
 }

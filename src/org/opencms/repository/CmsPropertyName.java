@@ -27,58 +27,56 @@
 
 package org.opencms.repository;
 
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 import com.google.common.base.Objects;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class CmsPropertyName {
 
-    private String m_namespace;
+  private String m_namespace;
 
-    private String m_name;
+  private String m_name;
 
-    public CmsPropertyName(String namespace, String name) {
+  public CmsPropertyName(String namespace, String name) {
 
-        m_namespace = namespace;
-        m_name = name;
+    m_namespace = namespace;
+    m_name = name;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+
+    if (this == obj) {
+      return true;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        CmsPropertyName other = (CmsPropertyName)obj;
-        return Objects.equal(m_name, other.m_name) && Objects.equal(m_namespace, other.m_namespace);
+    if (obj == null) {
+      return false;
     }
-
-    public String getName() {
-
-        return m_name;
+    if (getClass() != obj.getClass()) {
+      return false;
     }
+    CmsPropertyName other = (CmsPropertyName) obj;
+    return Objects.equal(m_name, other.m_name) && Objects.equal(m_namespace, other.m_namespace);
+  }
 
-    public String getNamespace() {
+  public String getName() {
 
-        return m_namespace;
-    }
+    return m_name;
+  }
 
-    @Override
-    public int hashCode() {
+  public String getNamespace() {
 
-        return new HashCodeBuilder().append(m_namespace).append(m_name).toHashCode();
-    }
+    return m_namespace;
+  }
 
-    @Override
-    public String toString() {
+  @Override
+  public int hashCode() {
 
-        return "{" + m_namespace + "}" + m_name;
-    }
+    return new HashCodeBuilder().append(m_namespace).append(m_name).toHashCode();
+  }
 
+  @Override
+  public String toString() {
+
+    return "{" + m_namespace + "}" + m_name;
+  }
 }

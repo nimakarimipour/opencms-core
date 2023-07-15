@@ -31,70 +31,78 @@ import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
 /**
- * Preference for the start folder.<p>
+ * Preference for the start folder.
+ *
+ * <p>
  */
 public class CmsStartFolderPreference extends CmsBuiltinPreference {
 
-    /**
-     * The nice name.<p>
-     */
-    private static final String NICE_NAME = "%(key."
-        + org.opencms.workplace.commons.Messages.GUI_PREF_STARTUP_FOLDER_0
-        + ")";
+  /**
+   * The nice name.
+   *
+   * <p>
+   */
+  private static final String NICE_NAME =
+      "%(key." + org.opencms.workplace.commons.Messages.GUI_PREF_STARTUP_FOLDER_0 + ")";
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param name the preference name
-     */
-    public CmsStartFolderPreference(String name) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param name the preference name
+   */
+  public CmsStartFolderPreference(String name) {
 
-        super(name);
-        m_basic = true;
-    }
+    super(name);
+    m_basic = true;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.CmsBuiltinPreference#getPropertyDefinition(org.opencms.file.CmsObject)
-     */
-    @Override
-    public CmsXmlContentProperty getPropertyDefinition() {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.CmsBuiltinPreference#getPropertyDefinition(org.opencms.file.CmsObject)
+   */
+  @Override
+  public CmsXmlContentProperty getPropertyDefinition() {
 
-        CmsXmlContentProperty prop = new CmsXmlContentProperty(
-            getName(), //name
-            null, //type
-            null, //widget
-            null, //widgetconfig
-            null, //regex
-            null, //ruletype
-            null, //default
-            NICE_NAME, //nicename
-            null, //description
-            null, //error
-            null//preferfolder
-        );
-        return prop;
-    }
+    CmsXmlContentProperty prop =
+        new CmsXmlContentProperty(
+            getName(), // name
+            null, // type
+            null, // widget
+            null, // widgetconfig
+            null, // regex
+            null, // ruletype
+            null, // default
+            NICE_NAME, // nicename
+            null, // description
+            null, // error
+            null // preferfolder
+            );
+    return prop;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.CmsBuiltinPreference#getPropertyDefinition(org.opencms.file.CmsObject)
-     */
-    @Override
-    public CmsXmlContentProperty getPropertyDefinition(CmsObject cms) {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.CmsBuiltinPreference#getPropertyDefinition(org.opencms.file.CmsObject)
+   */
+  @Override
+  public CmsXmlContentProperty getPropertyDefinition(CmsObject cms) {
 
-        CmsXmlContentProperty prop = new CmsXmlContentProperty(
-            getName(), //name
-            "string", //type
-            "gallery", //widget
-            "configuration:{\"tabconfig\":\"folders\", \"gallerymode\":\"widget\"}", //widgetconfig
-            null, //regex
-            null, //ruletype
-            null, //default
-            NICE_NAME, //nicename
-            null, //description
-            null, //error
-            null//preferfolder
-        );
-        return prop;
-    }
-
+    CmsXmlContentProperty prop =
+        new CmsXmlContentProperty(
+            getName(), // name
+            "string", // type
+            "gallery", // widget
+            "configuration:{\"tabconfig\":\"folders\", \"gallerymode\":\"widget\"}", // widgetconfig
+            null, // regex
+            null, // ruletype
+            null, // default
+            NICE_NAME, // nicename
+            null, // description
+            null, // error
+            null // preferfolder
+            );
+    return prop;
+  }
 }

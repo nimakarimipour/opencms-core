@@ -27,6 +27,19 @@
 
 package org.opencms.workplace.tools.content;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
+import org.apache.commons.logging.Log;
 import org.opencms.importexport.CmsVfsImportExportHandler;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.main.CmsException;
@@ -45,194 +58,187 @@ import org.opencms.workplace.explorer.CmsNewResourceXmlPage;
 import org.opencms.workplace.tools.CmsToolDialog;
 import org.opencms.workplace.tools.CmsToolManager;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Widget dialog that sets the settings to move page elements to another Locale.<p>
+ * Widget dialog that sets the settings to move page elements to another Locale.
+ *
+ * <p>
  *
  * @since 6.0.1
  */
 public class CmsElementChangeLocaleDialog extends CmsWidgetDialog {
 
-    /** Localized message keys prefix. */
-    public static final String KEY_PREFIX = "changelocale";
+  /** Localized message keys prefix. */
+  public static final String KEY_PREFIX = "changelocale";
 
-    /** Defines which pages are valid for this dialog. */
-    public static final String[] PAGES = {"page1"};
+  /** Defines which pages are valid for this dialog. */
+  public static final String[] PAGES = {"page1"};
 
-    /** The import JSP report workplace URI. */
-    protected static final String CHANGELOCALE_ACTION_REPORT = PATH_WORKPLACE
-        + "admin/contenttools/reports/changelocale.jsp";
+  /** The import JSP report workplace URI. */
+  protected static final String CHANGELOCALE_ACTION_REPORT =
+      PATH_WORKPLACE + "admin/contenttools/reports/changelocale.jsp";
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsElementChangeLocaleDialog.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsElementChangeLocaleDialog.class);
 
-    /** The settings object that is edited on this dialog. */
-    private CmsElementChangeLocaleSettings m_settings;
+  /** The settings object that is edited on this dialog. */
+  private CmsElementChangeLocaleSettings m_settings;
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsElementChangeLocaleDialog(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsElementChangeLocaleDialog(CmsJspActionElement jsp) {
 
-        super(jsp);
+    super(jsp);
+  }
+
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsElementChangeLocaleDialog(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
+
+    this(new CmsJspActionElement(context, req, res));
+  }
+
+  /** @see org.opencms.workplace.CmsWidgetDialog#actionCommit() */
+  @Override
+  public void actionCommit() throws IOException, ServletException {
+
+    List errors = new ArrayList();
+    setDialogObject(m_settings);
+
+    try {
+
+      if (m_settings.getOldLocale().equals(m_settings.getNewLocale())) {
+        // old Locale is equals to new one, show error
+        throw new CmsIllegalArgumentException(
+            Messages.get().container(Messages.ERR_CHANGEELEMENTLOCALE_LOCALE_EQUAL_0));
+      }
+
+      Map params = new HashMap();
+      // set the name of this class to get dialog object in report
+      params.put(CmsElementChangeLocaleReport.PARAM_CLASSNAME, this.getClass().getName());
+      // set style to display report in correct layout
+      params.put(PARAM_STYLE, CmsToolDialog.STYLE_NEW);
+      // set close link to get back to overview after finishing the import
+      params.put(PARAM_CLOSELINK, CmsToolManager.linkForToolPath(getJsp(), "/contenttools"));
+      // redirect to the report output JSP
+      getToolManager().jspForwardPage(this, CHANGELOCALE_ACTION_REPORT, params);
+
+    } catch (CmsIllegalArgumentException e) {
+      errors.add(e);
+    }
+    // set the list of errors to display when saving failed
+    setCommitErrors(errors);
+  }
+
+  /**
+   * Returns the selector widget options to build a Locale selector widget.
+   *
+   * <p>
+   *
+   * @return the selector widget options to build a Locale selector widget
+   */
+  public List getLocaleConfigOptions() {
+
+    List result = new ArrayList();
+
+    List locales = OpenCms.getLocaleManager().getAvailableLocales();
+    Iterator i = locales.iterator();
+    while (i.hasNext()) {
+      Locale locale = (Locale) i.next();
+      String localeStr = locale.toString();
+      String localeDisplayStr = locale.getDisplayName(getLocale());
+
+      result.add(new CmsSelectWidgetOption(localeStr, false, localeDisplayStr));
     }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsElementChangeLocaleDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    return result;
+  }
 
-        this(new CmsJspActionElement(context, req, res));
+  /**
+   * returns the selector widget options to build a template selector widget.
+   *
+   * <p>
+   *
+   * @return the selector widget options to build a template selector widget
+   */
+  public List getTemplateConfigOptions() {
+
+    List result = new ArrayList();
+    result.add(
+        new CmsSelectWidgetOption(
+            "", true, key(Messages.GUI_CHANGEELEMENTLOCALE_DIALOG_TEMPLATE_ALL_0)));
+
+    TreeMap templates = null;
+    try {
+      // get all available templates
+      templates = CmsNewResourceXmlPage.getTemplates(getCms(), null);
+    } catch (CmsException e) {
+      // can usually be ignored
+      if (LOG.isInfoEnabled()) {
+        LOG.info(e.getLocalizedMessage(), e);
+      }
     }
-
-    /**
-     * @see org.opencms.workplace.CmsWidgetDialog#actionCommit()
-     */
-    @Override
-    public void actionCommit() throws IOException, ServletException {
-
-        List errors = new ArrayList();
-        setDialogObject(m_settings);
-
-        try {
-
-            if (m_settings.getOldLocale().equals(m_settings.getNewLocale())) {
-                // old Locale is equals to new one, show error
-                throw new CmsIllegalArgumentException(
-                    Messages.get().container(Messages.ERR_CHANGEELEMENTLOCALE_LOCALE_EQUAL_0));
-            }
-
-            Map params = new HashMap();
-            // set the name of this class to get dialog object in report
-            params.put(CmsElementChangeLocaleReport.PARAM_CLASSNAME, this.getClass().getName());
-            // set style to display report in correct layout
-            params.put(PARAM_STYLE, CmsToolDialog.STYLE_NEW);
-            // set close link to get back to overview after finishing the import
-            params.put(PARAM_CLOSELINK, CmsToolManager.linkForToolPath(getJsp(), "/contenttools"));
-            // redirect to the report output JSP
-            getToolManager().jspForwardPage(this, CHANGELOCALE_ACTION_REPORT, params);
-
-        } catch (CmsIllegalArgumentException e) {
-            errors.add(e);
-        }
-        // set the list of errors to display when saving failed
-        setCommitErrors(errors);
+    if (templates != null) {
+      // templates found, create option and value lists
+      Iterator i = templates.entrySet().iterator();
+      while (i.hasNext()) {
+        Map.Entry entry = (Map.Entry) i.next();
+        String key = (String) entry.getKey();
+        String path = (String) entry.getValue();
+        result.add(new CmsSelectWidgetOption(path, false, key));
+      }
     }
+    return result;
+  }
 
-    /**
-     * Returns the selector widget options to build a Locale selector widget.<p>
-     *
-     * @return the selector widget options to build a Locale selector widget
-     */
-    public List getLocaleConfigOptions() {
+  /** @see org.opencms.workplace.CmsWidgetDialog#createDialogHtml(java.lang.String) */
+  @Override
+  protected String createDialogHtml(String dialog) {
 
-        List result = new ArrayList();
+    StringBuffer result = new StringBuffer(1024);
 
-        List locales = OpenCms.getLocaleManager().getAvailableLocales();
-        Iterator i = locales.iterator();
-        while (i.hasNext()) {
-            Locale locale = (Locale)i.next();
-            String localeStr = locale.toString();
-            String localeDisplayStr = locale.getDisplayName(getLocale());
+    // create table
+    result.append(createWidgetTableStart());
 
-            result.add(new CmsSelectWidgetOption(localeStr, false, localeDisplayStr));
-        }
+    // show error header once if there were validation errors
+    result.append(createWidgetErrorHeader());
 
-        return result;
-    }
+    // create export file name block
+    result.append(
+        createWidgetBlockStart(key(Messages.GUI_CHANGEELEMENTLOCALE_DIALOG_BLOCK_SETTINGS_0)));
+    result.append(createDialogRowsHtml(0, 4));
+    result.append(createWidgetBlockEnd());
 
-    /**
-     * returns the selector widget options to build a template selector widget.<p>
-     *
-     * @return the selector widget options to build a template selector widget
-     */
-    public List getTemplateConfigOptions() {
+    // close table
+    result.append(createWidgetTableEnd());
 
-        List result = new ArrayList();
-        result.add(new CmsSelectWidgetOption("", true, key(Messages.GUI_CHANGEELEMENTLOCALE_DIALOG_TEMPLATE_ALL_0)));
+    return result.toString();
+  }
 
-        TreeMap templates = null;
-        try {
-            // get all available templates
-            templates = CmsNewResourceXmlPage.getTemplates(getCms(), null);
-        } catch (CmsException e) {
-            // can usually be ignored
-            if (LOG.isInfoEnabled()) {
-                LOG.info(e.getLocalizedMessage(), e);
-            }
-        }
-        if (templates != null) {
-            // templates found, create option and value lists
-            Iterator i = templates.entrySet().iterator();
-            while (i.hasNext()) {
-                Map.Entry entry = (Map.Entry)i.next();
-                String key = (String)entry.getKey();
-                String path = (String)entry.getValue();
-                result.add(new CmsSelectWidgetOption(path, false, key));
-            }
-        }
-        return result;
-    }
+  /** @see org.opencms.workplace.CmsWidgetDialog#defineWidgets() */
+  @Override
+  protected void defineWidgets() {
 
-    /**
-     * @see org.opencms.workplace.CmsWidgetDialog#createDialogHtml(java.lang.String)
-     */
-    @Override
-    protected String createDialogHtml(String dialog) {
+    // initialize the export object to use for the dialog
+    initSettingsObject();
 
-        StringBuffer result = new StringBuffer(1024);
+    // set localized key prefix
+    setKeyPrefix(KEY_PREFIX);
 
-        // create table
-        result.append(createWidgetTableStart());
-
-        // show error header once if there were validation errors
-        result.append(createWidgetErrorHeader());
-
-        // create export file name block
-        result.append(createWidgetBlockStart(key(Messages.GUI_CHANGEELEMENTLOCALE_DIALOG_BLOCK_SETTINGS_0)));
-        result.append(createDialogRowsHtml(0, 4));
-        result.append(createWidgetBlockEnd());
-
-        // close table
-        result.append(createWidgetTableEnd());
-
-        return result.toString();
-    }
-
-    /**
-     * @see org.opencms.workplace.CmsWidgetDialog#defineWidgets()
-     */
-    @Override
-    protected void defineWidgets() {
-
-        // initialize the export object to use for the dialog
-        initSettingsObject();
-
-        // set localized key prefix
-        setKeyPrefix(KEY_PREFIX);
-
-        addWidget(new CmsWidgetDialogParameter(
+    addWidget(
+        new CmsWidgetDialogParameter(
             m_settings,
             "vfsFolder",
             "/",
@@ -241,78 +247,80 @@ public class CmsElementChangeLocaleDialog extends CmsWidgetDialog {
             1,
             1));
 
-        addWidget(new CmsWidgetDialogParameter(m_settings, "includeSubFolders", PAGES[0], new CmsCheckboxWidget()));
-        addWidget(
-            new CmsWidgetDialogParameter(
-                m_settings,
-                "template",
-                PAGES[0],
-                new CmsSelectWidget(getTemplateConfigOptions())));
+    addWidget(
+        new CmsWidgetDialogParameter(
+            m_settings, "includeSubFolders", PAGES[0], new CmsCheckboxWidget()));
+    addWidget(
+        new CmsWidgetDialogParameter(
+            m_settings, "template", PAGES[0], new CmsSelectWidget(getTemplateConfigOptions())));
 
-        List localeSelections = getLocaleConfigOptions();
-        addWidget(
-            new CmsWidgetDialogParameter(m_settings, "oldLocale", PAGES[0], new CmsSelectWidget(localeSelections)));
-        addWidget(
-            new CmsWidgetDialogParameter(m_settings, "newLocale", PAGES[0], new CmsSelectWidget(localeSelections)));
+    List localeSelections = getLocaleConfigOptions();
+    addWidget(
+        new CmsWidgetDialogParameter(
+            m_settings, "oldLocale", PAGES[0], new CmsSelectWidget(localeSelections)));
+    addWidget(
+        new CmsWidgetDialogParameter(
+            m_settings, "newLocale", PAGES[0], new CmsSelectWidget(localeSelections)));
+  }
+
+  /** @see org.opencms.workplace.CmsWidgetDialog#getPageArray() */
+  @Override
+  protected String[] getPageArray() {
+
+    return PAGES;
+  }
+
+  /** @see org.opencms.workplace.CmsWorkplace#initMessages() */
+  @Override
+  protected void initMessages() {
+
+    // add specific dialog resource bundle
+    addMessages(Messages.get().getBundleName());
+    // add workplace messages
+    addMessages("org.opencms.workplace.workplace");
+    // add default resource bundles
+    super.initMessages();
+  }
+
+  /**
+   * Initializes the settings object to work with depending on the dialog state and request
+   * parameters.
+   *
+   * <p>
+   */
+  protected void initSettingsObject() {
+
+    Object o;
+
+    if (CmsStringUtil.isEmpty(getParamAction())) {
+      o = new CmsVfsImportExportHandler();
+    } else {
+      // this is not the initial call, get the job object from session
+      o = getDialogObject();
     }
 
-    /**
-     * @see org.opencms.workplace.CmsWidgetDialog#getPageArray()
-     */
-    @Override
-    protected String[] getPageArray() {
-
-        return PAGES;
+    if (!(o instanceof CmsElementChangeLocaleSettings)) {
+      // create a new export handler object
+      m_settings = new CmsElementChangeLocaleSettings();
+    } else {
+      // reuse export handler object stored in session
+      m_settings = (CmsElementChangeLocaleSettings) o;
     }
+  }
 
-    /**
-     * @see org.opencms.workplace.CmsWorkplace#initMessages()
-     */
-    @Override
-    protected void initMessages() {
+  /**
+   * @see
+   *     org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings,
+   *     javax.servlet.http.HttpServletRequest)
+   */
+  @Override
+  protected void initWorkplaceRequestValues(
+      CmsWorkplaceSettings settings, HttpServletRequest request) {
 
-        // add specific dialog resource bundle
-        addMessages(Messages.get().getBundleName());
-        // add workplace messages
-        addMessages("org.opencms.workplace.workplace");
-        // add default resource bundles
-        super.initMessages();
-    }
+    // initialize parameters and dialog actions in super implementation
+    super.initWorkplaceRequestValues(settings, request);
 
-    /**
-     * Initializes the settings object to work with depending on the dialog state and request parameters.<p>
-     */
-    protected void initSettingsObject() {
-
-        Object o;
-
-        if (CmsStringUtil.isEmpty(getParamAction())) {
-            o = new CmsVfsImportExportHandler();
-        } else {
-            // this is not the initial call, get the job object from session
-            o = getDialogObject();
-        }
-
-        if (!(o instanceof CmsElementChangeLocaleSettings)) {
-            // create a new export handler object
-            m_settings = new CmsElementChangeLocaleSettings();
-        } else {
-            // reuse export handler object stored in session
-            m_settings = (CmsElementChangeLocaleSettings)o;
-        }
-
-    }
-
-    /**
-     * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
-
-        // initialize parameters and dialog actions in super implementation
-        super.initWorkplaceRequestValues(settings, request);
-
-        // save the current state of the export handler (may be changed because of the widget values)
-        setDialogObject(m_settings);
-    }
+    // save the current state of the export handler (may be changed because of the widget values)
+    setDialogObject(m_settings);
+  }
 }

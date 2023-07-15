@@ -30,101 +30,101 @@ package org.opencms.jsp;
 import org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo;
 
 /**
- * Bean containing the data needed to call a collector.<p>
+ * Bean containing the data needed to call a collector.
+ *
+ * <p>
  */
 public class CmsContentLoadCollectorInfo implements I_CmsContentLoadCollectorInfo {
 
-    /** The collector name. */
-    private String m_collectorName;
+  /** The collector name. */
+  private String m_collectorName;
 
-    /** The collector class. */
-    private String m_collectorClass;
+  /** The collector class. */
+  private String m_collectorClass;
 
-    /** The collector parameters. */
-    private String m_collectorParams;
+  /** The collector parameters. */
+  private String m_collectorParams;
 
-    /** The contentload id. */
-    private String m_id;
+  /** The contentload id. */
+  private String m_id;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsContentLoadCollectorInfo() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsContentLoadCollectorInfo() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#getCollectorClass()
-     */
-    public String getCollectorClass() {
+  /** @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#getCollectorClass() */
+  public String getCollectorClass() {
 
-        return m_collectorClass;
-    }
+    return m_collectorClass;
+  }
 
-    /**
-     * @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#getCollectorName()
-     */
-    @Override
-    public String getCollectorName() {
+  /** @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#getCollectorName() */
+  @Override
+  public String getCollectorName() {
 
-        return m_collectorName;
-    }
+    return m_collectorName;
+  }
 
-    /**
-     * @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#getCollectorParams()
-     */
-    @Override
-    public String getCollectorParams() {
+  /** @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#getCollectorParams() */
+  @Override
+  public String getCollectorParams() {
 
-        return m_collectorParams;
-    }
+    return m_collectorParams;
+  }
 
-    /**
-     * Returns the id.<p>
-     *
-     * @return the id
-     */
-    public String getId() {
+  /**
+   * Returns the id.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  public String getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#setCollectorClass(java.lang.String)
-     */
-    public void setCollectorClass(final String className) {
+  /**
+   * @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#setCollectorClass(java.lang.String)
+   */
+  public void setCollectorClass(final String className) {
 
-        m_collectorClass = className;
+    m_collectorClass = className;
+  }
 
-    }
+  /**
+   * @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#setCollectorName(java.lang.String)
+   */
+  @Override
+  public void setCollectorName(String collectorName) {
 
-    /**
-     * @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#setCollectorName(java.lang.String)
-     */
-    @Override
-    public void setCollectorName(String collectorName) {
+    m_collectorName = collectorName;
+  }
 
-        m_collectorName = collectorName;
-    }
+  /**
+   * @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#setCollectorParams(java.lang.String)
+   */
+  @Override
+  public void setCollectorParams(String collectorParams) {
 
-    /**
-     * @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#setCollectorParams(java.lang.String)
-     */
-    @Override
-    public void setCollectorParams(String collectorParams) {
+    m_collectorParams = collectorParams;
+  }
 
-        m_collectorParams = collectorParams;
-    }
+  /**
+   * Sets the id.
+   *
+   * <p>
+   *
+   * @param id the id to set
+   */
+  public void setId(String id) {
 
-    /**
-     * Sets the id.<p>
-     *
-     * @param id the id to set
-     */
-    public void setId(String id) {
-
-        m_id = id;
-    }
-
+    m_id = id;
+  }
 }

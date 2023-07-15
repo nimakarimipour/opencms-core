@@ -33,37 +33,45 @@ import java.util.SortedSet;
 /**
  * Interface for serial date beans.
  *
- * Serial date beans allow easy access to values stored by the {@link org.opencms.widgets.CmsSerialDateWidget}.
+ * <p>Serial date beans allow easy access to values stored by the {@link
+ * org.opencms.widgets.CmsSerialDateWidget}.
  */
 public interface I_CmsSerialDateBean {
 
-    /**
-     * Returns all dates of the whole series as {@link Date} objects, sorted ascendingly.
-     * @return  all dates of the whole series as {@link Date} objects, sorted ascendingly.
-     */
-    public SortedSet<Date> getDates();
+  /**
+   * Returns all dates of the whole series as {@link Date} objects, sorted ascendingly.
+   *
+   * @return all dates of the whole series as {@link Date} objects, sorted ascendingly.
+   */
+  public SortedSet<Date> getDates();
 
-    /**
-     * Returns all dates of the whole series in milliseconds, sorted ascendingly.
-     * @return  all dates of the whole series in milliseconds, sorted ascendingly.
-     */
-    public SortedSet<Long> getDatesAsLong();
+  /**
+   * Returns all dates of the whole series in milliseconds, sorted ascendingly.
+   *
+   * @return all dates of the whole series in milliseconds, sorted ascendingly.
+   */
+  public SortedSet<Long> getDatesAsLong();
 
-    /**
-     * Returns the duration of a single event in milliseconds, or <code>null</code> if no end date is specified.
-     * @return the duration of a single event in milliseconds, or <code>null</code> if no end date is specified.
-     */
-    public Long getEventDuration();
+  /**
+   * Returns the duration of a single event in milliseconds, or <code>null</code> if no end date is
+   * specified.
+   *
+   * @return the duration of a single event in milliseconds, or <code>null</code> if no end date is
+   *     specified.
+   */
+  public Long getEventDuration();
 
-    /**
-     * Returns all exceptions from the series, sorted ascendingly.
-     * @return all exceptions from the series, sorted ascendingly.
-     */
-    public SortedSet<Date> getExceptions();
+  /**
+   * Returns all exceptions from the series, sorted ascendingly.
+   *
+   * @return all exceptions from the series, sorted ascendingly.
+   */
+  public SortedSet<Date> getExceptions();
 
-    /**
-     * Returns a flag, indicating if the series has more dates than allowed.
-     * @return a flag, indicating if the series has more dates than allowed.
-     */
-    public boolean hasTooManyDates();
+  /**
+   * Returns a flag, indicating if the series has more dates than allowed.
+   *
+   * @return a flag, indicating if the series has more dates than allowed.
+   */
+  public boolean hasTooManyDates();
 }

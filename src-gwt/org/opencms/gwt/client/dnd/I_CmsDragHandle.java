@@ -31,30 +31,38 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.HasMouseDownHandlers;
 
 /**
- * Drag and drop drag handle.<p>
+ * Drag and drop drag handle.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsDragHandle extends HasMouseDownHandlers {
 
-    /**
-     * Returns the draggable item.<p>
-     *
-     * @return the draggable item
-     */
-    I_CmsDraggable getDraggable();
+  /**
+   * Returns the draggable item.
+   *
+   * <p>
+   *
+   * @return the draggable item
+   */
+  I_CmsDraggable getDraggable();
 
-    /**
-     * Returns the handle element.<p>
-     *
-     * @return the handle element
-     */
-    Element getElement();
+  /**
+   * Returns the handle element.
+   *
+   * <p>
+   *
+   * @return the handle element
+   */
+  Element getElement();
 
-    /**
-     * Sets the title attribute.<p>
-     *
-     * @param title the title
-     */
-    void setTitle(String title);
+  /**
+   * Sets the title attribute.
+   *
+   * <p>
+   *
+   * @param title the title
+   */
+  void setTitle(String title);
 }

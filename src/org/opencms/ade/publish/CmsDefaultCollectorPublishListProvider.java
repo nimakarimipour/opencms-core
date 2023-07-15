@@ -27,6 +27,8 @@
 
 package org.opencms.ade.publish;
 
+import java.util.Set;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.collectors.I_CmsCollectorPublishListProvider;
@@ -35,29 +37,32 @@ import org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 
-import java.util.Set;
-
-import org.apache.commons.lang3.math.NumberUtils;
-
 /**
- * Default implementation of the I_CmsCollectorPublishListProvider interface.<p>
+ * Default implementation of the I_CmsCollectorPublishListProvider interface.
  *
- * Uses a CmsCollectorPublishListHelper to generate the publish list for a collector.
+ * <p>Uses a CmsCollectorPublishListHelper to generate the publish list for a collector.
  */
 public class CmsDefaultCollectorPublishListProvider implements I_CmsCollectorPublishListProvider {
 
-    /** The default limit for collector results. */
-    public static final int DEFAULT_LIMIT = 200;
+  /** The default limit for collector results. */
+  public static final int DEFAULT_LIMIT = 200;
 
-    /**
-     * @see org.opencms.file.collectors.I_CmsCollectorPublishListProvider#getPublishResources(org.opencms.file.CmsObject, org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo)
-     */
-    public Set<CmsResource> getPublishResources(CmsObject cms, I_CmsContentLoadCollectorInfo info) throws CmsException {
+  /**
+   * @see
+   *     org.opencms.file.collectors.I_CmsCollectorPublishListProvider#getPublishResources(org.opencms.file.CmsObject,
+   *     org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo)
+   */
+  public Set<CmsResource> getPublishResources(CmsObject cms, I_CmsContentLoadCollectorInfo info)
+      throws CmsException {
 
-        int collectorLimit = NumberUtils.toInt(
-            OpenCms.getADEManager().getParameters(cms).get(CmsGwtConstants.COLLECTOR_PUBLISH_LIST_LIMIT),
+    int collectorLimit =
+        NumberUtils.toInt(
+            OpenCms.getADEManager()
+                .getParameters(cms)
+                .get(CmsGwtConstants.COLLECTOR_PUBLISH_LIST_LIMIT),
             DEFAULT_LIMIT);
-        CmsCollectorPublishListHelper helper = new CmsCollectorPublishListHelper(cms, info, collectorLimit);
-        return helper.getPublishListFiles();
-    }
+    CmsCollectorPublishListHelper helper =
+        new CmsCollectorPublishListHelper(cms, info, collectorLimit);
+    return helper.getPublishListFiles();
+  }
 }

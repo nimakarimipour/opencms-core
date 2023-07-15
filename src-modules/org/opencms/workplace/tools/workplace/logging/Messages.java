@@ -31,181 +31,205 @@ import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
 
 /**
- * Hides the public constructor for this utility class.<p>
+ * Hides the public constructor for this utility class.
+ *
+ * <p>
  */
 public final class Messages extends A_CmsMessageBundle {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_CHANNELS_0 = "GUI_LOG_CHANNELS_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_CHANNELS_0 = "GUI_LOG_CHANNELS_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_FILE_CHANGE_FILE_0 = "GUI_LOG_FILE_CHANGE_FILE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_FILE_CHANGE_FILE_0 = "GUI_LOG_FILE_CHANGE_FILE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_FILE_CHANGE_FILE_HELP_0 = "GUI_LOG_FILE_CHANGE_FILE_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_FILE_CHANGE_FILE_HELP_0 = "GUI_LOG_FILE_CHANGE_FILE_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_FILE_CHANGE_FILE_HELP_ACTIVATE_0 = "GUI_LOG_FILE_CHANGE_FILE_HELP_ACTIVATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_FILE_CHANGE_FILE_HELP_ACTIVATE_0 =
+      "GUI_LOG_FILE_CHANGE_FILE_HELP_ACTIVATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_FILE_CHANGE_FILE_HELP_DEACTIVATE_0 = "GUI_LOG_FILE_CHANGE_FILE_HELP_DEACTIVATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_FILE_CHANGE_FILE_HELP_DEACTIVATE_0 =
+      "GUI_LOG_FILE_CHANGE_FILE_HELP_DEACTIVATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_FILE_SELECTED_0 = "GUI_LOG_FILE_SELECTED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_FILE_SELECTED_0 = "GUI_LOG_FILE_SELECTED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_ACTIVE_0 = "GUI_LOG_LEVEL_ACTIVE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_ACTIVE_0 = "GUI_LOG_LEVEL_ACTIVE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_CURRENT_0 = "GUI_LOG_LEVEL_CURRENT_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_CURRENT_0 = "GUI_LOG_LEVEL_CURRENT_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_DEBUG_0 = "GUI_LOG_LEVEL_DEBUG_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_DEBUG_0 = "GUI_LOG_LEVEL_DEBUG_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_DEBUG_HELP_0 = "GUI_LOG_LEVEL_DEBUG_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_DEBUG_HELP_0 = "GUI_LOG_LEVEL_DEBUG_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_DEBUG_HELP_ACTIVATE_0 = "GUI_LOG_LEVEL_DEBUG_HELP_ACTIVATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_DEBUG_HELP_ACTIVATE_0 =
+      "GUI_LOG_LEVEL_DEBUG_HELP_ACTIVATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_DEBUG_HELP_DEACTIVATE_0 = "GUI_LOG_LEVEL_DEBUG_HELP_DEACTIVATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_DEBUG_HELP_DEACTIVATE_0 =
+      "GUI_LOG_LEVEL_DEBUG_HELP_DEACTIVATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_DEBUG_MULTI_CONFIRMATION_0 = "GUI_LOG_LEVEL_DEBUG_MULTI_CONFIRMATION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_DEBUG_MULTI_CONFIRMATION_0 =
+      "GUI_LOG_LEVEL_DEBUG_MULTI_CONFIRMATION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_DEBUG_MULTI_HELP_0 = "GUI_LOG_LEVEL_DEBUG_MULTI_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_DEBUG_MULTI_HELP_0 = "GUI_LOG_LEVEL_DEBUG_MULTI_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_ERROR_0 = "GUI_LOG_LEVEL_ERROR_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_ERROR_0 = "GUI_LOG_LEVEL_ERROR_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_ERROR_HELP_0 = "GUI_LOG_LEVEL_ERROR_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_ERROR_HELP_0 = "GUI_LOG_LEVEL_ERROR_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_ERROR_HELP_ACTIVATE_0 = "GUI_LOG_LEVEL_ERROR_HELP_ACTIVATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_ERROR_HELP_ACTIVATE_0 =
+      "GUI_LOG_LEVEL_ERROR_HELP_ACTIVATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_ERROR_HELP_DEACTIVATE_0 = "GUI_LOG_LEVEL_ERROR_HELP_DEACTIVATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_ERROR_HELP_DEACTIVATE_0 =
+      "GUI_LOG_LEVEL_ERROR_HELP_DEACTIVATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_ERROR_MULTI_CONFIRMATION_0 = "GUI_LOG_LEVEL_ERROR_MULTI_CONFIRMATION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_ERROR_MULTI_CONFIRMATION_0 =
+      "GUI_LOG_LEVEL_ERROR_MULTI_CONFIRMATION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_ERROR_MULTI_HELP_0 = "GUI_LOG_LEVEL_ERROR_MULTI_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_ERROR_MULTI_HELP_0 = "GUI_LOG_LEVEL_ERROR_MULTI_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_FATAL_0 = "GUI_LOG_LEVEL_FATAL_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_FATAL_0 = "GUI_LOG_LEVEL_FATAL_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_FATAL_HELP_0 = "GUI_LOG_LEVEL_FATAL_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_FATAL_HELP_0 = "GUI_LOG_LEVEL_FATAL_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_FATAL_HELP_ACTIVATE_0 = "GUI_LOG_LEVEL_FATAL_HELP_ACTIVATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_FATAL_HELP_ACTIVATE_0 =
+      "GUI_LOG_LEVEL_FATAL_HELP_ACTIVATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_FATAL_HELP_DEACTIVATE_0 = "GUI_LOG_LEVEL_FATAL_HELP_DEACTIVATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_FATAL_HELP_DEACTIVATE_0 =
+      "GUI_LOG_LEVEL_FATAL_HELP_DEACTIVATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_FATAL_MULTI_CONFIRMATION_0 = "GUI_LOG_LEVEL_FATAL_MULTI_CONFIRMATION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_FATAL_MULTI_CONFIRMATION_0 =
+      "GUI_LOG_LEVEL_FATAL_MULTI_CONFIRMATION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_FATAL_MULTI_HELP_0 = "GUI_LOG_LEVEL_FATAL_MULTI_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_FATAL_MULTI_HELP_0 = "GUI_LOG_LEVEL_FATAL_MULTI_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_INFO_0 = "GUI_LOG_LEVEL_INFO_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_INFO_0 = "GUI_LOG_LEVEL_INFO_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_INFO_HELP_0 = "GUI_LOG_LEVEL_INFO_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_INFO_HELP_0 = "GUI_LOG_LEVEL_INFO_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_INFO_HELP_ACTIVATE_0 = "GUI_LOG_LEVEL_INFO_HELP_ACTIVATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_INFO_HELP_ACTIVATE_0 =
+      "GUI_LOG_LEVEL_INFO_HELP_ACTIVATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_INFO_HELP_DEACTIVATE_0 = "GUI_LOG_LEVEL_INFO_HELP_DEACTIVATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_INFO_HELP_DEACTIVATE_0 =
+      "GUI_LOG_LEVEL_INFO_HELP_DEACTIVATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_INFO_MULTI_CONFIRMATION_0 = "GUI_LOG_LEVEL_INFO_MULTI_CONFIRMATION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_INFO_MULTI_CONFIRMATION_0 =
+      "GUI_LOG_LEVEL_INFO_MULTI_CONFIRMATION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_INFO_MULTI_HELP_0 = "GUI_LOG_LEVEL_INFO_MULTI_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_INFO_MULTI_HELP_0 = "GUI_LOG_LEVEL_INFO_MULTI_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_OFF_0 = "GUI_LOG_LEVEL_OFF_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_OFF_0 = "GUI_LOG_LEVEL_OFF_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_OFF_HELP_0 = "GUI_LOG_LEVEL_OFF_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_OFF_HELP_0 = "GUI_LOG_LEVEL_OFF_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_OFF_HELP_ACTIVATE_0 = "GUI_LOG_LEVEL_OFF_HELP_ACTIVATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_OFF_HELP_ACTIVATE_0 =
+      "GUI_LOG_LEVEL_OFF_HELP_ACTIVATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_OFF_HELP_DEACTIVATE_0 = "GUI_LOG_LEVEL_OFF_HELP_DEACTIVATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_OFF_HELP_DEACTIVATE_0 =
+      "GUI_LOG_LEVEL_OFF_HELP_DEACTIVATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_OFF_MULTI_CONFIRMATION_0 = "GUI_LOG_LEVEL_OFF_MULTI_CONFIRMATION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_OFF_MULTI_CONFIRMATION_0 =
+      "GUI_LOG_LEVEL_OFF_MULTI_CONFIRMATION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_OFF_MULTI_HELP_0 = "GUI_LOG_LEVEL_OFF_MULTI_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_OFF_MULTI_HELP_0 = "GUI_LOG_LEVEL_OFF_MULTI_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_WARN_0 = "GUI_LOG_LEVEL_WARN_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_WARN_0 = "GUI_LOG_LEVEL_WARN_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_WARN_HELP_0 = "GUI_LOG_LEVEL_WARN_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_WARN_HELP_0 = "GUI_LOG_LEVEL_WARN_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_WARN_HELP_ACTIVATE_0 = "GUI_LOG_LEVEL_WARN_HELP_ACTIVATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_WARN_HELP_ACTIVATE_0 =
+      "GUI_LOG_LEVEL_WARN_HELP_ACTIVATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_WARN_HELP_DEACTIVATE_0 = "GUI_LOG_LEVEL_WARN_HELP_DEACTIVATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_WARN_HELP_DEACTIVATE_0 =
+      "GUI_LOG_LEVEL_WARN_HELP_DEACTIVATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_WARN_MULTI_CONFIRMATION_0 = "GUI_LOG_LEVEL_WARN_MULTI_CONFIRMATION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_WARN_MULTI_CONFIRMATION_0 =
+      "GUI_LOG_LEVEL_WARN_MULTI_CONFIRMATION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LEVEL_WARN_MULTI_HELP_0 = "GUI_LOG_LEVEL_WARN_MULTI_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LEVEL_WARN_MULTI_HELP_0 = "GUI_LOG_LEVEL_WARN_MULTI_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_LIST_NAME_0 = "GUI_LOG_LIST_NAME_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_LIST_NAME_0 = "GUI_LOG_LIST_NAME_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOG_PARENT_CHANNEL_0 = "GUI_LOG_PARENT_CHANNEL_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LOG_PARENT_CHANNEL_0 = "GUI_LOG_PARENT_CHANNEL_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_CREATING_APPENDER_0 = "LOG_CREATING_APPENDER_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_CREATING_APPENDER_0 = "LOG_CREATING_APPENDER_0";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.workplace.tools.workplace.logging.messages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME =
+      "org.opencms.workplace.tools.workplace.logging.messages";
 
-    /** Static instance member. */
-    private static final I_CmsMessageBundle INSTANCE = new Messages();
+  /** Static instance member. */
+  private static final I_CmsMessageBundle INSTANCE = new Messages();
 
-    /**
-     * Hides the public constructor for this utility class. <p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
-    }
+    // hide the constructor
+  }
 
-    /**
-     * Returns an instance of this localized message accessor. <p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static I_CmsMessageBundle get() {
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static I_CmsMessageBundle get() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * @see org.opencms.i18n.I_CmsMessageBundle#getBundleName()
-     */
-    public String getBundleName() {
+  /** @see org.opencms.i18n.I_CmsMessageBundle#getBundleName() */
+  public String getBundleName() {
 
-        return BUNDLE_NAME;
-    }
-
+    return BUNDLE_NAME;
+  }
 }

@@ -34,48 +34,49 @@ import org.opencms.ade.sitemap.client.ui.CmsCreateGalleryDialog;
 import org.opencms.ade.sitemap.shared.CmsClientSitemapEntry;
 
 /**
- * Sitemap context menu create gallery entry.<p>
+ * Sitemap context menu create gallery entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsCreateGalleryMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsCreateGalleryMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsCreateGalleryMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_GALLERIES_CREATE_0));
-        setActive(true);
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_GALLERIES_CREATE_0));
+    setActive(true);
+  }
+
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
+
+    final CmsSitemapController controller = getHoverbar().getController();
+    final CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    CmsCreateGalleryDialog dialog =
+        new CmsCreateGalleryDialog(controller, entry.getResourceTypeId(), entry.getId());
+    dialog.center();
+  }
+
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
+
+    // only gallery managers are allowed to create galleries
+    if (getHoverbar().getController().isEditable()
+        && CmsSitemapView.getInstance().isGalleryMode()
+        && getHoverbar().getController().getData().isGalleryManager()) {
+      setVisible(true);
+    } else {
+      setVisible(false);
     }
-
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
-
-        final CmsSitemapController controller = getHoverbar().getController();
-        final CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        CmsCreateGalleryDialog dialog = new CmsCreateGalleryDialog(controller, entry.getResourceTypeId(), entry.getId());
-        dialog.center();
-    }
-
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
-
-        // only gallery managers are allowed to create galleries
-        if (getHoverbar().getController().isEditable()
-            && CmsSitemapView.getInstance().isGalleryMode()
-            && getHoverbar().getController().getData().isGalleryManager()) {
-            setVisible(true);
-        } else {
-            setVisible(false);
-        }
-    }
+  }
 }

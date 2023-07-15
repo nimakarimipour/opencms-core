@@ -27,11 +27,6 @@
 
 package org.opencms.acacia.client.widgets.serialdate;
 
-import org.opencms.acacia.shared.I_CmsSerialDateValue.PatternType;
-import org.opencms.ade.contenteditor.client.Messages;
-import org.opencms.gwt.client.ui.input.CmsRadioButton;
-import org.opencms.gwt.client.ui.input.CmsRadioButtonGroup;
-
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -42,148 +37,158 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import org.opencms.acacia.shared.I_CmsSerialDateValue.PatternType;
+import org.opencms.ade.contenteditor.client.Messages;
+import org.opencms.gwt.client.ui.input.CmsRadioButton;
+import org.opencms.gwt.client.ui.input.CmsRadioButtonGroup;
 
 /**
- * The daily pattern panel.<p>
- * */
+ * The daily pattern panel.
+ *
+ * <p>
+ */
 public class CmsPatternPanelDailyView extends Composite implements I_CmsSerialDatePatternView {
 
-    /** The UI binder interface. */
-    interface I_CmsPatternPanelDailyUiBinder extends UiBinder<HTMLPanel, CmsPatternPanelDailyView> {
-        // nothing to do
-    }
+  /** The UI binder interface. */
+  interface I_CmsPatternPanelDailyUiBinder extends UiBinder<HTMLPanel, CmsPatternPanelDailyView> {
+    // nothing to do
+  }
 
-    /** Name of the "every day" radio button. */
-    private static final String EVERYDAY_RADIOBUTTON = "everyday";
+  /** Name of the "every day" radio button. */
+  private static final String EVERYDAY_RADIOBUTTON = "everyday";
 
-    /** Name of the "working day" radio button. */
-    private static final String WORKINGDAY_RADIOBUTTON = "workingday";
+  /** Name of the "working day" radio button. */
+  private static final String WORKINGDAY_RADIOBUTTON = "workingday";
 
-    /** The UI binder instance. */
-    private static I_CmsPatternPanelDailyUiBinder uiBinder = GWT.create(I_CmsPatternPanelDailyUiBinder.class);
+  /** The UI binder instance. */
+  private static I_CmsPatternPanelDailyUiBinder uiBinder =
+      GWT.create(I_CmsPatternPanelDailyUiBinder.class);
 
-    /* UI elements for "every day". */
+  /* UI elements for "every day". */
 
-    /** The every day radio button. */
-    @UiField(provided = true)
-    CmsRadioButton m_everyRadioButton;
+  /** The every day radio button. */
+  @UiField(provided = true)
+  CmsRadioButton m_everyRadioButton;
 
-    /** The text box for the date input. */
-    @UiField
-    CmsFocusAwareTextBox m_everyDay;
+  /** The text box for the date input. */
+  @UiField CmsFocusAwareTextBox m_everyDay;
 
-    /** The days label. */
-    @UiField
-    Element m_labelDays;
+  /** The days label. */
+  @UiField Element m_labelDays;
 
-    /* UI elements for "every working day" */
+  /* UI elements for "every working day" */
 
-    /** The every working day radio button. */
-    @UiField(provided = true)
-    CmsRadioButton m_workingRadioButton;
+  /** The every working day radio button. */
+  @UiField(provided = true)
+  CmsRadioButton m_workingRadioButton;
 
-    /** Group off all radio buttons. */
-    CmsRadioButtonGroup m_group;
+  /** Group off all radio buttons. */
+  CmsRadioButtonGroup m_group;
 
-    /** The model to read the data from. */
-    private final I_CmsObservableSerialDateValue m_model;
+  /** The model to read the data from. */
+  private final I_CmsObservableSerialDateValue m_model;
 
-    /** The controller to handle changes. */
-    final CmsPatternPanelDailyController m_controller;
+  /** The controller to handle changes. */
+  final CmsPatternPanelDailyController m_controller;
 
-    /** Flag, indicating if change actions should not be triggered. */
-    private boolean m_triggerChangeActions = true;
+  /** Flag, indicating if change actions should not be triggered. */
+  private boolean m_triggerChangeActions = true;
 
-    /**
-     * Constructor to create the daily pattern panel.
-     * @param controller the controller that handles value changes.
-     * @param model the model that provides the values.
-     */
-    public CmsPatternPanelDailyView(CmsPatternPanelDailyController controller, I_CmsObservableSerialDateValue model) {
-        m_controller = controller;
-        m_model = model;
-        m_model.registerValueChangeObserver(this);
+  /**
+   * Constructor to create the daily pattern panel.
+   *
+   * @param controller the controller that handles value changes.
+   * @param model the model that provides the values.
+   */
+  public CmsPatternPanelDailyView(
+      CmsPatternPanelDailyController controller, I_CmsObservableSerialDateValue model) {
+    m_controller = controller;
+    m_model = model;
+    m_model.registerValueChangeObserver(this);
 
-        // init radio buttons
-        m_group = new CmsRadioButtonGroup();
-        m_everyRadioButton = new CmsRadioButton(
-            EVERYDAY_RADIOBUTTON,
-            Messages.get().key(Messages.GUI_SERIALDATE_DAILY_EVERY_0));
+    // init radio buttons
+    m_group = new CmsRadioButtonGroup();
+    m_everyRadioButton =
+        new CmsRadioButton(
+            EVERYDAY_RADIOBUTTON, Messages.get().key(Messages.GUI_SERIALDATE_DAILY_EVERY_0));
 
-        m_everyRadioButton.setGroup(m_group);
-        m_everyRadioButton.setChecked(true);
-        m_workingRadioButton = new CmsRadioButton(
+    m_everyRadioButton.setGroup(m_group);
+    m_everyRadioButton.setChecked(true);
+    m_workingRadioButton =
+        new CmsRadioButton(
             WORKINGDAY_RADIOBUTTON,
             Messages.get().key(Messages.GUI_SERIALDATE_DAILY_EVERYWORKINGDAY_0));
-        m_workingRadioButton.setGroup(m_group);
-        m_group.addValueChangeHandler(new ValueChangeHandler<String>() {
+    m_workingRadioButton.setGroup(m_group);
+    m_group.addValueChangeHandler(
+        new ValueChangeHandler<String>() {
 
-            public void onValueChange(ValueChangeEvent<String> event) {
+          public void onValueChange(ValueChangeEvent<String> event) {
 
-                if (handleChange()) {
-                    m_controller.setEveryWorkingDay(m_workingRadioButton.isChecked());
-                }
+            if (handleChange()) {
+              m_controller.setEveryWorkingDay(m_workingRadioButton.isChecked());
             }
+          }
         });
-        initWidget(uiBinder.createAndBindUi(this));
-        m_labelDays.setInnerText(Messages.get().key(Messages.GUI_SERIALDATE_DAILY_DAYS_0));
-        m_everyDay.setFormValueAsString(m_model.getInterval() < 1 ? "" : "" + m_model.getInterval());
-        m_everyDay.setTriggerChangeOnKeyPress(true);
-    }
+    initWidget(uiBinder.createAndBindUi(this));
+    m_labelDays.setInnerText(Messages.get().key(Messages.GUI_SERIALDATE_DAILY_DAYS_0));
+    m_everyDay.setFormValueAsString(m_model.getInterval() < 1 ? "" : "" + m_model.getInterval());
+    m_everyDay.setTriggerChangeOnKeyPress(true);
+  }
 
-    /**
-     * @see org.opencms.acacia.client.widgets.serialdate.I_CmsSerialDateValueChangeObserver#onValueChange()
-     */
-    public void onValueChange() {
+  /**
+   * @see
+   *     org.opencms.acacia.client.widgets.serialdate.I_CmsSerialDateValueChangeObserver#onValueChange()
+   */
+  public void onValueChange() {
 
-        if (m_model.getPatternType().equals(PatternType.DAILY)) {
-            m_triggerChangeActions = false;
-            if (m_model.isEveryWorkingDay()) {
-                m_group.selectButton(m_workingRadioButton);
-                m_everyDay.setFormValueAsString("");
-            } else {
-                m_group.selectButton(m_everyRadioButton);
-                if (!m_everyDay.isFocused()) {
-                    m_everyDay.setFormValueAsString(String.valueOf(m_model.getInterval()));
-                }
-            }
-            m_triggerChangeActions = true;
+    if (m_model.getPatternType().equals(PatternType.DAILY)) {
+      m_triggerChangeActions = false;
+      if (m_model.isEveryWorkingDay()) {
+        m_group.selectButton(m_workingRadioButton);
+        m_everyDay.setFormValueAsString("");
+      } else {
+        m_group.selectButton(m_everyRadioButton);
+        if (!m_everyDay.isFocused()) {
+          m_everyDay.setFormValueAsString(String.valueOf(m_model.getInterval()));
         }
-
+      }
+      m_triggerChangeActions = true;
     }
+  }
 
-    /**
-     * Returns a flag, indicating if change actions should be triggered.
-     * @return a flag, indicating if change actions should be triggered.
-     */
-    boolean handleChange() {
+  /**
+   * Returns a flag, indicating if change actions should be triggered.
+   *
+   * @return a flag, indicating if change actions should be triggered.
+   */
+  boolean handleChange() {
 
-        return m_triggerChangeActions;
+    return m_triggerChangeActions;
+  }
+
+  /**
+   * Handle interval change.
+   *
+   * @param event the change event.
+   */
+  @UiHandler("m_everyDay")
+  void onEveryDayChange(ValueChangeEvent<String> event) {
+
+    if (handleChange()) {
+      m_controller.setInterval(m_everyDay.getFormValueAsString());
     }
+  }
 
-    /**
-     * Handle interval change.
-     * @param event the change event.
-     */
-    @UiHandler("m_everyDay")
-    void onEveryDayChange(ValueChangeEvent<String> event) {
+  /**
+   * Handle interval field focus.
+   *
+   * @param event the focus event.
+   */
+  @UiHandler("m_everyDay")
+  void onEveryDayFocus(FocusEvent event) {
 
-        if (handleChange()) {
-            m_controller.setInterval(m_everyDay.getFormValueAsString());
-        }
-
+    if (handleChange()) {
+      m_group.selectButton(m_everyRadioButton);
     }
-
-    /**
-     * Handle interval field focus.
-     * @param event the focus event.
-     */
-    @UiHandler("m_everyDay")
-    void onEveryDayFocus(FocusEvent event) {
-
-        if (handleChange()) {
-            m_group.selectButton(m_everyRadioButton);
-        }
-
-    }
+  }
 }

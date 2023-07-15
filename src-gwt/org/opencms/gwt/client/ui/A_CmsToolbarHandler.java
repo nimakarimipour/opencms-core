@@ -27,6 +27,8 @@
 
 package org.opencms.gwt.client.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.opencms.gwt.client.ui.contextmenu.CmsContextMenuEntry;
 import org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand;
 import org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry;
@@ -35,71 +37,71 @@ import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Abstract class which implements the common part of all toolbar handler functionality.<p>
+ * Abstract class which implements the common part of all toolbar handler functionality.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public abstract class A_CmsToolbarHandler implements I_CmsToolbarHandler {
 
-    /**
-     * Transforms a list of context menu entry beans to a list of context menu entries.<p>
-     *
-     * @param menuBeans the list of context menu entry beans
-     * @param structureId the id of the resource for which to transform the context menu entries
-     *
-     * @return a list of context menu entries
-     */
-    public List<I_CmsContextMenuEntry> transformEntries(
-        List<CmsContextMenuEntryBean> menuBeans,
-        final CmsUUID structureId) {
+  /**
+   * Transforms a list of context menu entry beans to a list of context menu entries.
+   *
+   * <p>
+   *
+   * @param menuBeans the list of context menu entry beans
+   * @param structureId the id of the resource for which to transform the context menu entries
+   * @return a list of context menu entries
+   */
+  public List<I_CmsContextMenuEntry> transformEntries(
+      List<CmsContextMenuEntryBean> menuBeans, final CmsUUID structureId) {
 
-        List<I_CmsContextMenuEntry> menuEntries = new ArrayList<I_CmsContextMenuEntry>();
-        for (CmsContextMenuEntryBean bean : menuBeans) {
-            I_CmsContextMenuEntry entry = transformSingleEntry(structureId, bean);
-            if (entry != null) {
-                menuEntries.add(entry);
-            }
-        }
-        return menuEntries;
+    List<I_CmsContextMenuEntry> menuEntries = new ArrayList<I_CmsContextMenuEntry>();
+    for (CmsContextMenuEntryBean bean : menuBeans) {
+      I_CmsContextMenuEntry entry = transformSingleEntry(structureId, bean);
+      if (entry != null) {
+        menuEntries.add(entry);
+      }
     }
+    return menuEntries;
+  }
 
-    /**
-     * Creates a single context menu entry from a context menu entry bean.<p>
-     *
-     * @param structureId the structure id of the resource
-     * @param bean the context menu entry bean
-     *
-     * @return the created context menu entry
-     */
-    protected I_CmsContextMenuEntry transformSingleEntry(final CmsUUID structureId, CmsContextMenuEntryBean bean) {
+  /**
+   * Creates a single context menu entry from a context menu entry bean.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource
+   * @param bean the context menu entry bean
+   * @return the created context menu entry
+   */
+  protected I_CmsContextMenuEntry transformSingleEntry(
+      final CmsUUID structureId, CmsContextMenuEntryBean bean) {
 
-        String name = bean.getName();
-        I_CmsContextMenuCommand command = null;
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(name)) {
-            command = getContextMenuCommands().get(name);
-        }
-        if ((command == null) && !bean.hasSubMenu()) {
-            return null;
-        }
-        if (command instanceof I_CmsValidatingContextMenuCommand) {
-            boolean ok = ((I_CmsValidatingContextMenuCommand)command).validate(bean);
-            if (!ok) {
-                return null;
-            }
-        }
-        CmsContextMenuEntry entry = new CmsContextMenuEntry(this, structureId, command);
-        entry.setBean(bean);
-        if (bean.hasSubMenu()) {
-            entry.setSubMenu(transformEntries(bean.getSubMenu(), structureId));
-            if (entry.getSubMenu().isEmpty()) {
-                return null;
-            }
-        }
-        return entry;
+    String name = bean.getName();
+    I_CmsContextMenuCommand command = null;
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(name)) {
+      command = getContextMenuCommands().get(name);
     }
-
+    if ((command == null) && !bean.hasSubMenu()) {
+      return null;
+    }
+    if (command instanceof I_CmsValidatingContextMenuCommand) {
+      boolean ok = ((I_CmsValidatingContextMenuCommand) command).validate(bean);
+      if (!ok) {
+        return null;
+      }
+    }
+    CmsContextMenuEntry entry = new CmsContextMenuEntry(this, structureId, command);
+    entry.setBean(bean);
+    if (bean.hasSubMenu()) {
+      entry.setSubMenu(transformEntries(bean.getSubMenu(), structureId));
+      if (entry.getSubMenu().isEmpty()) {
+        return null;
+      }
+    }
+    return entry;
+  }
 }

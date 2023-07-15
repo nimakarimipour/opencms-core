@@ -27,94 +27,86 @@
 
 package org.opencms.ui.client;
 
+import com.vaadin.client.ServerConnector;
+import com.vaadin.client.extensions.AbstractExtensionConnector;
+import com.vaadin.shared.ui.Connect;
 import org.opencms.gwt.client.util.CmsEmbeddedDialogFrameWrapper;
 import org.opencms.gwt.client.util.I_CmsEmbeddedDialogLoader;
 import org.opencms.ui.components.extensions.CmsEmbeddedDialogExtension;
 import org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC;
 import org.opencms.ui.shared.rpc.I_CmsEmbeddingServerRpc;
 
-import com.vaadin.client.ServerConnector;
-import com.vaadin.client.extensions.AbstractExtensionConnector;
-import com.vaadin.shared.ui.Connect;
-
 /**
- * The embedded dialog connector.<p>
+ * The embedded dialog connector.
+ *
+ * <p>
  */
 @Connect(CmsEmbeddedDialogExtension.class)
 public class CmsEmbeddedDialogConnector extends AbstractExtensionConnector
-implements I_CmsEmbeddedDialogClientRPC, I_CmsEmbeddedDialogLoader {
+    implements I_CmsEmbeddedDialogClientRPC, I_CmsEmbeddedDialogLoader {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -7984262078804717197L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -7984262078804717197L;
 
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC#finish(java.lang.String)
-     */
-    public void finish(String resourceIds) {
+  /** @see org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC#finish(java.lang.String) */
+  public void finish(String resourceIds) {
 
-        CmsEmbedWrapper.connector.finish(resourceIds);
-    }
+    CmsEmbedWrapper.connector.finish(resourceIds);
+  }
 
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC#finishForProjectOrSiteChange(java.lang.String, java.lang.String)
-     */
-    public void finishForProjectOrSiteChange(String sitePath, String serverLink) {
+  /**
+   * @see
+   *     org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC#finishForProjectOrSiteChange(java.lang.String,
+   *     java.lang.String)
+   */
+  public void finishForProjectOrSiteChange(String sitePath, String serverLink) {
 
-        CmsEmbedWrapper.connector.finishForProjectOrSiteChange(sitePath, serverLink);
-    }
+    CmsEmbedWrapper.connector.finishForProjectOrSiteChange(sitePath, serverLink);
+  }
 
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC#initServerRpc()
-     */
-    public void initServerRpc() {
+  /** @see org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC#initServerRpc() */
+  public void initServerRpc() {
 
-        // we only should get here if there *is* an embedded frame in the window
-        CmsEmbeddedDialogFrameWrapper parentWindow = CmsEmbeddedDialogFrameWrapper.parent;
-        parentWindow.embeddedDialogFrameInstance.installEmbeddedDialogLoader(this);
-    }
+    // we only should get here if there *is* an embedded frame in the window
+    CmsEmbeddedDialogFrameWrapper parentWindow = CmsEmbeddedDialogFrameWrapper.parent;
+    parentWindow.embeddedDialogFrameInstance.installEmbeddedDialogLoader(this);
+  }
 
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC#leavePage(java.lang.String)
-     */
-    public void leavePage(String targetUri) {
+  /** @see org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC#leavePage(java.lang.String) */
+  public void leavePage(String targetUri) {
 
-        CmsEmbedWrapper.connector.leavePage(targetUri);
-    }
+    CmsEmbedWrapper.connector.leavePage(targetUri);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.util.I_CmsEmbeddedDialogLoader#loadDialog(java.lang.String)
-     */
-    @Override
-    public void loadDialog(String dialogInfo) {
+  /** @see org.opencms.gwt.client.util.I_CmsEmbeddedDialogLoader#loadDialog(java.lang.String) */
+  @Override
+  public void loadDialog(String dialogInfo) {
 
-        getRpcProxy(I_CmsEmbeddingServerRpc.class).loadDialog(dialogInfo);
-        // in Chrome, the RPC request does not get sent until the user moves the mouse unless we manually trigger a heartbeat request
-        getConnection().getHeartbeat().send();
-    }
+    getRpcProxy(I_CmsEmbeddingServerRpc.class).loadDialog(dialogInfo);
+    // in Chrome, the RPC request does not get sent until the user moves the mouse unless we
+    // manually trigger a heartbeat request
+    getConnection().getHeartbeat().send();
+  }
 
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC#reloadParent()
-     */
-    public void reloadParent() {
+  /** @see org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC#reloadParent() */
+  public void reloadParent() {
 
-        CmsEmbedWrapper.connector.reload();
-    }
+    CmsEmbedWrapper.connector.reload();
+  }
 
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC#selectString(java.lang.String)
-     */
-    public void selectString(String principal) {
+  /** @see org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC#selectString(java.lang.String) */
+  public void selectString(String principal) {
 
-        CmsEmbedWrapper.connector.selectString(principal);
+    CmsEmbedWrapper.connector.selectString(principal);
+  }
 
-    }
+  /**
+   * @see
+   *     com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
+   */
+  @Override
+  protected void extend(ServerConnector target) {
 
-    /**
-     * @see com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
-     */
-    @Override
-    protected void extend(ServerConnector target) {
-
-        registerRpc(I_CmsEmbeddedDialogClientRPC.class, this);
-    }
+    registerRpc(I_CmsEmbeddedDialogClientRPC.class, this);
+  }
 }

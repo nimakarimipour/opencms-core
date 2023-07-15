@@ -27,13 +27,6 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.gwt.client.A_CmsEntryPoint;
-import org.opencms.gwt.client.CmsCoreProvider;
-import org.opencms.gwt.client.util.CmsDebugLog;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
@@ -42,116 +35,134 @@ import com.vaadin.client.ResourceLoader;
 import com.vaadin.client.ResourceLoader.ResourceLoadEvent;
 import com.vaadin.client.ResourceLoader.ResourceLoadListener;
 import com.vaadin.client.WidgetUtil;
+import java.util.HashSet;
+import java.util.Set;
+import org.opencms.gwt.client.A_CmsEntryPoint;
+import org.opencms.gwt.client.CmsCoreProvider;
+import org.opencms.gwt.client.util.CmsDebugLog;
 
 /**
- * Entry point class for the OpenCms standard widgetset.<p>
+ * Entry point class for the OpenCms standard widgetset.
+ *
+ * <p>
  */
 public class CmsWidgetSetEntryPoint extends A_CmsEntryPoint {
 
-    /**
-     * Loads JavaScript resources into the window context.<p>
-     *
-     * @param dependencies the dependencies to load
-     * @param callback the callback to execute once the resources are loaded
-     */
-    public static void loadScriptDependencies(final JsArrayString dependencies, final JavaScriptObject callback) {
+  /**
+   * Loads JavaScript resources into the window context.
+   *
+   * <p>
+   *
+   * @param dependencies the dependencies to load
+   * @param callback the callback to execute once the resources are loaded
+   */
+  public static void loadScriptDependencies(
+      final JsArrayString dependencies, final JavaScriptObject callback) {
 
-        if (dependencies.length() == 0) {
-            return;
-        }
-        final Set<String> absoluteUris = new HashSet<String>();
-        for (int i = 0; i < dependencies.length(); i++) {
-            absoluteUris.add(WidgetUtil.getAbsoluteUrl(dependencies.get(i)));
-        }
-        // Listener that loads the next when one is completed
-        ResourceLoadListener resourceLoadListener = new ResourceLoadListener() {
+    if (dependencies.length() == 0) {
+      return;
+    }
+    final Set<String> absoluteUris = new HashSet<String>();
+    for (int i = 0; i < dependencies.length(); i++) {
+      absoluteUris.add(WidgetUtil.getAbsoluteUrl(dependencies.get(i)));
+    }
+    // Listener that loads the next when one is completed
+    ResourceLoadListener resourceLoadListener =
+        new ResourceLoadListener() {
 
-            @Override
-            public void onError(ResourceLoadEvent event) {
+          @Override
+          public void onError(ResourceLoadEvent event) {
 
-                CmsDebugLog.consoleLog(event.getResourceUrl() + " could not be loaded.");
-                // The show must go on
-                absoluteUris.remove(event.getResourceUrl());
-                if (absoluteUris.isEmpty()) {
-                    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-                        public void execute() {
-
-                            callNativeFunction(callback);
-                        }
-                    });
-                }
-
-            }
-
-            @Override
-            public void onLoad(ResourceLoadEvent event) {
-
-                absoluteUris.remove(event.getResourceUrl());
-                if (absoluteUris.isEmpty()) {
-                    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+            CmsDebugLog.consoleLog(event.getResourceUrl() + " could not be loaded.");
+            // The show must go on
+            absoluteUris.remove(event.getResourceUrl());
+            if (absoluteUris.isEmpty()) {
+              Scheduler.get()
+                  .scheduleDeferred(
+                      new ScheduledCommand() {
 
                         public void execute() {
 
-                            callNativeFunction(callback);
+                          callNativeFunction(callback);
                         }
-                    });
-
-                }
+                      });
             }
+          }
+
+          @Override
+          public void onLoad(ResourceLoadEvent event) {
+
+            absoluteUris.remove(event.getResourceUrl());
+            if (absoluteUris.isEmpty()) {
+              Scheduler.get()
+                  .scheduleDeferred(
+                      new ScheduledCommand() {
+
+                        public void execute() {
+
+                          callNativeFunction(callback);
+                        }
+                      });
+            }
+          }
         };
 
-        ResourceLoader loader = ResourceLoader.get();
-        for (int i = 0; i < dependencies.length(); i++) {
-            String preloadUrl = dependencies.get(i);
-            loader.loadScript(preloadUrl, resourceLoadListener);
-        }
+    ResourceLoader loader = ResourceLoader.get();
+    for (int i = 0; i < dependencies.length(); i++) {
+      String preloadUrl = dependencies.get(i);
+      loader.loadScript(preloadUrl, resourceLoadListener);
     }
+  }
 
-    /**
-     * Calls the native function.<p>
-     *
-     * @param callback the function to call
-     */
-    static native void callNativeFunction(JavaScriptObject callback)/*-{
+  /**
+   * Calls the native function.
+   *
+   * <p>
+   *
+   * @param callback the function to call
+   */
+  static native void callNativeFunction(JavaScriptObject callback) /*-{
         callback.call();
     }-*/;
 
-    /**
-     * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
-     */
-    @Override
-    public void onModuleLoad() {
+  /** @see com.google.gwt.core.client.EntryPoint#onModuleLoad() */
+  @Override
+  public void onModuleLoad() {
 
-        super.onModuleLoad();
-        exportUtitlityFunctions();
-        try {
-            String tinyMCE = CmsCoreProvider.get().getTinymce().getLink();
-            if (tinyMCE == null) {
-                CmsDebugLog.consoleLog("tinyMCE link is null");
-            } else {
-                ResourceLoader.get().loadScript(tinyMCE, new ResourceLoadListener() {
+    super.onModuleLoad();
+    exportUtitlityFunctions();
+    try {
+      String tinyMCE = CmsCoreProvider.get().getTinymce().getLink();
+      if (tinyMCE == null) {
+        CmsDebugLog.consoleLog("tinyMCE link is null");
+      } else {
+        ResourceLoader.get()
+            .loadScript(
+                tinyMCE,
+                new ResourceLoadListener() {
 
-                    public void onError(ResourceLoadEvent event) {
+                  public void onError(ResourceLoadEvent event) {
 
-                        CmsDebugLog.consoleLog("error loading TinyMCE");
-                    }
+                    CmsDebugLog.consoleLog("error loading TinyMCE");
+                  }
 
-                    public void onLoad(ResourceLoadEvent event) {
-                        // ignore
+                  public void onLoad(ResourceLoadEvent event) {
+                    // ignore
 
-                    }
+                  }
                 });
-            }
-        } catch (Exception e) {
-            //
-        }
+      }
+    } catch (Exception e) {
+      //
     }
+  }
 
-    /**
-     * Exports utility methods to the window context.<p>
-     */
-    private native void exportUtitlityFunctions()/*-{
+  /**
+   * Exports utility methods to the window context.
+   *
+   * <p>
+   */
+  private native void exportUtitlityFunctions() /*-{
         $wnd.cmsLoadScripts = function(scriptURIs, callback) {
             @org.opencms.ui.client.CmsWidgetSetEntryPoint::loadScriptDependencies(Lcom/google/gwt/core/client/JsArrayString;Lcom/google/gwt/core/client/JavaScriptObject;)(scriptURIs, callback);
         }
@@ -164,5 +175,4 @@ public class CmsWidgetSetEntryPoint extends A_CmsEntryPoint {
             }
         }
     }-*/;
-
 }

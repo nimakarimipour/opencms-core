@@ -30,17 +30,16 @@ package org.opencms.xml.xml2json;
 import org.opencms.file.CmsObject;
 
 /**
- * Custom XML content values should implement this interface if custom JSON formatting is needed for them.
+ * Custom XML content values should implement this interface if custom JSON formatting is needed for
+ * them.
  */
 public interface I_CmsJsonFormattableValue {
 
-    /**
-     * Gets the JSON representation of the value.
-     *
-     * @param cms the CMS context
-     *
-     * @return the JSON representation of the value
-     */
-    Object toJson(CmsObject cms);
-
+  /**
+   * Gets the JSON representation of the value.
+   *
+   * @param cms the CMS context
+   * @return the JSON representation of the value
+   */
+  Object toJson(CmsObject cms);
 }

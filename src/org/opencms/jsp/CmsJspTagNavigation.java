@@ -27,6 +27,10 @@
 
 package org.opencms.jsp;
 
+import java.util.Locale;
+import javax.servlet.jsp.PageContext;
+import org.apache.commons.lang3.LocaleUtils;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.flex.CmsFlexController;
 import org.opencms.jsp.util.CmsJspNavigationBean;
@@ -34,270 +38,283 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.Locale;
-
-import javax.servlet.jsp.PageContext;
-
-import org.apache.commons.lang3.LocaleUtils;
-import org.apache.commons.logging.Log;
-
 /**
- * Implementation of the <code>&lt;cms:navigation var="..." /&gt;</code> tag,
- * used to access OpenCms VFS navigation information on a JSP with the EL.<p>
+ * Implementation of the <code>&lt;cms:navigation var="..." /&gt;</code> tag, used to access OpenCms
+ * VFS navigation information on a JSP with the EL.
+ *
+ * <p>
  *
  * @since 8.0
  */
 public class CmsJspTagNavigation extends CmsJspScopedVarBodyTagSuport {
 
-    /** Constants for <code>type</code> attribute interpretation. */
-    public enum Type {
-        /** Bread crumb navigation. */
-        breadCrumb,
-        /** Navigation for folder. */
-        forFolder,
-        /** Navigation for resource. */
-        forResource,
-        /** Navigation for a site. */
-        forSite,
-        /** Navigation tree for folder. */
-        treeForFolder;
-
-        /**
-         * Parses a string into an enumeration element.<p>
-         *
-         * @param name the name of the enumeration element
-         *
-         * @return the enumeration element with the given name
-         *
-         * @throws IllegalArgumentException in case of an invalid enumeration name
-         */
-        public static Type parse(String name) throws IllegalArgumentException {
-
-            return Enum.valueOf(Type.class, name);
-        }
-    }
-
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsJspTagNavigation.class);
-
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 8589202895748764705L;
-
-    /** The CmsObject for the current user. */
-    protected transient CmsObject m_cms;
-
-    /** The optional end level for the navigation. */
-    protected String m_endLevel;
-
-    /** The optional parameter for the navigation. */
-    protected String m_param;
-
-    /** The optional resource for the navigation. */
-    protected String m_resource;
-
-    /** The optional start level for the navigation. */
-    protected String m_startLevel;
-
-    /** The navigation type. */
-    protected Type m_type;
-
-    /** The locale for which the property should be read. */
-    protected Locale m_locale;
+  /** Constants for <code>type</code> attribute interpretation. */
+  public enum Type {
+    /** Bread crumb navigation. */
+    breadCrumb,
+    /** Navigation for folder. */
+    forFolder,
+    /** Navigation for resource. */
+    forResource,
+    /** Navigation for a site. */
+    forSite,
+    /** Navigation tree for folder. */
+    treeForFolder;
 
     /**
-     * Empty constructor, required for JSP tags.<p>
-     */
-    public CmsJspTagNavigation() {
-
-        super();
-    }
-
-    /**
-     * Constructor used for scriptlet code.<p>
+     * Parses a string into an enumeration element.
      *
-     * @param context the JSP page context
-     */
-    public CmsJspTagNavigation(PageContext context) {
-
-        setPageContext(context);
-        init();
-    }
-
-    /**
-     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-     */
-    @Override
-    public int doStartTag() throws CmsIllegalArgumentException {
-
-        // initialize the content load tag
-        init();
-        return SKIP_BODY;
-    }
-
-    /**
-     * Returns the (optional) end level for the navigation.<p>
+     * <p>
      *
-     * @return the (optional) end level for the navigation
+     * @param name the name of the enumeration element
+     * @return the enumeration element with the given name
+     * @throws IllegalArgumentException in case of an invalid enumeration name
      */
-    public String getEndLevel() {
+    public static Type parse(String name) throws IllegalArgumentException {
 
-        return m_endLevel;
+      return Enum.valueOf(Type.class, name);
     }
+  }
 
-    /**
-     * Returns the optional parameter for the navigation.<p>
-     *
-     * @return the optional parameter for the navigation
-     */
-    public String getParam() {
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsJspTagNavigation.class);
 
-        return m_param;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 8589202895748764705L;
+
+  /** The CmsObject for the current user. */
+  protected transient CmsObject m_cms;
+
+  /** The optional end level for the navigation. */
+  protected String m_endLevel;
+
+  /** The optional parameter for the navigation. */
+  protected String m_param;
+
+  /** The optional resource for the navigation. */
+  protected String m_resource;
+
+  /** The optional start level for the navigation. */
+  protected String m_startLevel;
+
+  /** The navigation type. */
+  protected Type m_type;
+
+  /** The locale for which the property should be read. */
+  protected Locale m_locale;
+
+  /**
+   * Empty constructor, required for JSP tags.
+   *
+   * <p>
+   */
+  public CmsJspTagNavigation() {
+
+    super();
+  }
+
+  /**
+   * Constructor used for scriptlet code.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   */
+  public CmsJspTagNavigation(PageContext context) {
+
+    setPageContext(context);
+    init();
+  }
+
+  /** @see javax.servlet.jsp.tagext.Tag#doStartTag() */
+  @Override
+  public int doStartTag() throws CmsIllegalArgumentException {
+
+    // initialize the content load tag
+    init();
+    return SKIP_BODY;
+  }
+
+  /**
+   * Returns the (optional) end level for the navigation.
+   *
+   * <p>
+   *
+   * @return the (optional) end level for the navigation
+   */
+  public String getEndLevel() {
+
+    return m_endLevel;
+  }
+
+  /**
+   * Returns the optional parameter for the navigation.
+   *
+   * <p>
+   *
+   * @return the optional parameter for the navigation
+   */
+  public String getParam() {
+
+    return m_param;
+  }
+
+  /**
+   * Returns the (optional) resource for the navigation.
+   *
+   * <p>
+   *
+   * @return the (optional) resource for the navigation
+   */
+  public String getResource() {
+
+    return m_resource;
+  }
+
+  /**
+   * Returns the (optional) start level for the navigation.
+   *
+   * <p>
+   *
+   * @return the (optional) start level for the navigation
+   */
+  public String getStartLevel() {
+
+    return m_startLevel;
+  }
+
+  /**
+   * Returns the selected navigation type.
+   *
+   * <p>This must match one of the elements in {@link Type}.
+   *
+   * <p>
+   *
+   * @return the selected navigation type
+   */
+  public String getType() {
+
+    return m_type == null ? null : m_type.toString();
+  }
+
+  /** @see javax.servlet.jsp.tagext.Tag#release() */
+  @Override
+  public void release() {
+
+    m_cms = null;
+    m_startLevel = null;
+    m_endLevel = null;
+    m_resource = null;
+    m_type = null;
+    super.release();
+  }
+
+  /**
+   * Sets the (optional) end level for the navigation.
+   *
+   * <p>
+   *
+   * @param endLevel the (optional) end level for the navigation
+   */
+  public void setEndLevel(String endLevel) {
+
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(endLevel)) {
+      m_endLevel = endLevel.trim();
     }
+  }
 
-    /**
-     * Returns the (optional) resource for the navigation.<p>
-     *
-     * @return the (optional) resource for the navigation
-     */
-    public String getResource() {
+  /**
+   * Sets the locale for which the property should be read.
+   *
+   * @param locale the locale for which the property should be read.
+   */
+  public void setLocale(String locale) {
 
-        return m_resource;
+    try {
+      m_locale = LocaleUtils.toLocale(locale);
+    } catch (IllegalArgumentException e) {
+      LOG.error(
+          Messages.get().getBundle().key(Messages.ERR_TAG_INVALID_LOCALE_1, "cms:navigation"), e);
+      m_locale = null;
     }
+  }
 
-    /**
-     * Returns the (optional) start level for the navigation.<p>
-     *
-     * @return the (optional) start level for the navigation
-     */
-    public String getStartLevel() {
+  /**
+   * Sets the optional parameter for the navigation.
+   *
+   * <p>
+   *
+   * @param param the optional parameter for the navigation to set
+   */
+  public void setParam(String param) {
 
-        return m_startLevel;
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(param)) {
+      m_param = param.trim();
     }
+  }
 
-    /**
-     * Returns the selected navigation type.<p>
-     *
-     * This must match one of the elements in {@link Type}.<p>
-     *
-     * @return the selected navigation type
-     */
-    public String getType() {
+  /**
+   * Sets the (optional) resource for the navigation.
+   *
+   * <p>
+   *
+   * @param resource the (optional) resource for the navigation
+   */
+  public void setResource(String resource) {
 
-        return m_type == null ? null : m_type.toString();
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(resource)) {
+      m_resource = resource.trim();
     }
+  }
 
-    /**
-     * @see javax.servlet.jsp.tagext.Tag#release()
-     */
-    @Override
-    public void release() {
+  /**
+   * Sets the (optional) start level for the navigation.
+   *
+   * <p>
+   *
+   * @param startLevel the (optional) start level for the navigation
+   */
+  public void setStartLevel(String startLevel) {
 
-        m_cms = null;
-        m_startLevel = null;
-        m_endLevel = null;
-        m_resource = null;
-        m_type = null;
-        super.release();
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(startLevel)) {
+      m_startLevel = startLevel.trim();
     }
+  }
 
-    /**
-     * Sets the (optional) end level for the navigation.<p>
-     *
-     * @param endLevel the (optional) end level for the navigation
-     */
-    public void setEndLevel(String endLevel) {
+  /**
+   * Sets the selected navigation type.
+   *
+   * <p>This must match one of the elements in {@link Type}.
+   *
+   * <p>
+   *
+   * @param type the navigation type to set
+   */
+  public void setType(String type) {
 
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(endLevel)) {
-            m_endLevel = endLevel.trim();
-        }
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(type)) {
+      m_type = Type.parse(type.trim());
     }
+  }
 
-    /**
-     * Sets the locale for which the property should be read.
-     *
-     * @param locale the locale for which the property should be read.
-     */
-    public void setLocale(String locale) {
+  /**
+   * Initializes this formatter tag.
+   *
+   * <p>
+   */
+  protected void init() {
 
-        try {
-            m_locale = LocaleUtils.toLocale(locale);
-        } catch (IllegalArgumentException e) {
-            LOG.error(Messages.get().getBundle().key(Messages.ERR_TAG_INVALID_LOCALE_1, "cms:navigation"), e);
-            m_locale = null;
-        }
-    }
+    // initialize OpenCms access objects
+    CmsFlexController controller = CmsFlexController.getController(pageContext.getRequest());
+    m_cms = controller.getCmsObject();
 
-    /**
-     * Sets the optional parameter for the navigation.<p>
-     *
-     * @param param the optional parameter for the navigation to set
-     */
-    public void setParam(String param) {
+    int startLevel = m_startLevel == null ? Integer.MIN_VALUE : Integer.parseInt(m_startLevel);
+    int endLevel = m_endLevel == null ? Integer.MIN_VALUE : Integer.parseInt(m_endLevel);
 
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(param)) {
-            m_param = param.trim();
-        }
-    }
-
-    /**
-     * Sets the (optional) resource for the navigation.<p>
-     *
-     * @param resource the (optional) resource for the navigation
-     */
-    public void setResource(String resource) {
-
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(resource)) {
-            m_resource = resource.trim();
-        }
-    }
-
-    /**
-     * Sets the (optional) start level for the navigation.<p>
-     *
-     * @param startLevel the (optional) start level for the navigation
-     */
-    public void setStartLevel(String startLevel) {
-
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(startLevel)) {
-            m_startLevel = startLevel.trim();
-        }
-    }
-
-    /**
-     * Sets the selected navigation type.<p>
-     *
-     * This must match one of the elements in {@link Type}.<p>
-     *
-     * @param type the navigation type to set
-     */
-    public void setType(String type) {
-
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(type)) {
-            m_type = Type.parse(type.trim());
-        }
-    }
-
-    /**
-     * Initializes this formatter tag.<p>
-     */
-    protected void init() {
-
-        // initialize OpenCms access objects
-        CmsFlexController controller = CmsFlexController.getController(pageContext.getRequest());
-        m_cms = controller.getCmsObject();
-
-        int startLevel = m_startLevel == null ? Integer.MIN_VALUE : Integer.parseInt(m_startLevel);
-        int endLevel = m_endLevel == null ? Integer.MIN_VALUE : Integer.parseInt(m_endLevel);
-
-        // load navigation bean in the JSP context
-        CmsJspNavigationBean bean = new CmsJspNavigationBean(
-            m_cms,
-            m_type,
-            startLevel,
-            endLevel,
-            m_resource,
-            m_param,
-            m_locale);
-        storeAttribute(getVar(), bean);
-    }
+    // load navigation bean in the JSP context
+    CmsJspNavigationBean bean =
+        new CmsJspNavigationBean(
+            m_cms, m_type, startLevel, endLevel, m_resource, m_param, m_locale);
+    storeAttribute(getVar(), bean);
+  }
 }

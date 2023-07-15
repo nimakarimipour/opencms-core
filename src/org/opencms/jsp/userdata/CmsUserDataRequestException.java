@@ -27,43 +27,40 @@
 
 package org.opencms.jsp.userdata;
 
-/**
- * Special exception for user data requests.
- */
+/** Special exception for user data requests. */
 public class CmsUserDataRequestException extends Exception {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param message the message
-     */
-    public CmsUserDataRequestException(String message) {
+  /**
+   * Creates a new instance.
+   *
+   * @param message the message
+   */
+  public CmsUserDataRequestException(String message) {
 
-        super(message);
-    }
+    super(message);
+  }
 
-    /**
-     * Creates a new instance.
-     *
-     * @param message the message
-     * @param t the cause
-     */
-    public CmsUserDataRequestException(String message, Throwable t) {
+  /**
+   * Creates a new instance.
+   *
+   * @param message the message
+   * @param t the cause
+   */
+  public CmsUserDataRequestException(String message, Throwable t) {
 
-        super(message, t);
-    }
+    super(message, t);
+  }
 
-    /**
-     * Creates a new instance.
-     *
-     * @param t the cause
-     */
-    public CmsUserDataRequestException(Throwable t) {
+  /**
+   * Creates a new instance.
+   *
+   * @param t the cause
+   */
+  public CmsUserDataRequestException(Throwable t) {
 
-        super(t);
-    }
-
+    super(t);
+  }
 }

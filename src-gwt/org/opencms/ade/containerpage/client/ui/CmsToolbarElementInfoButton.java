@@ -27,6 +27,7 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import com.google.gwt.user.client.Timer;
 import org.opencms.ade.containerpage.client.CmsContainerpageController;
 import org.opencms.ade.containerpage.client.CmsContainerpageEvent;
 import org.opencms.ade.containerpage.client.CmsContainerpageEvent.EventType;
@@ -41,142 +42,152 @@ import org.opencms.gwt.client.ui.I_CmsButton;
 import org.opencms.gwt.client.ui.css.I_CmsToolbarButtonLayoutBundle;
 import org.opencms.gwt.client.util.CmsStyleVariable;
 
-import com.google.gwt.user.client.Timer;
-
 /**
- * Class for the toolbar button to display elements information.<p>
+ * Class for the toolbar button to display elements information.
+ *
+ * <p>
  */
 public class CmsToolbarElementInfoButton extends A_CmsToolbarButton<CmsContainerpageHandler>
-implements I_CmsContainerpageEventHandler, I_CmsPublishEventHandler {
+    implements I_CmsContainerpageEventHandler, I_CmsPublishEventHandler {
 
-    /** The container page controller. */
-    CmsContainerpageController m_controller;
+  /** The container page controller. */
+  CmsContainerpageController m_controller;
 
-    /** Style variable to change the button appearance depending on whether the page or elements have been changed. */
-    private CmsStyleVariable m_changedStyleVar;
+  /**
+   * Style variable to change the button appearance depending on whether the page or elements have
+   * been changed.
+   */
+  private CmsStyleVariable m_changedStyleVar;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param handler the container-page handler
-     * @param controller the container page controller
-     */
-    public CmsToolbarElementInfoButton(CmsContainerpageHandler handler, CmsContainerpageController controller) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param handler the container-page handler
+   * @param controller the container page controller
+   */
+  public CmsToolbarElementInfoButton(
+      CmsContainerpageHandler handler, CmsContainerpageController controller) {
 
-        super(I_CmsButton.ButtonData.ELEMENT_INFO, handler);
-        m_changedStyleVar = new CmsStyleVariable(this);
-        controller.addContainerpageEventHandler(this);
-        CmsCoreProvider.get().getEventBus().addHandler(CmsPublishEvent.TYPE, this);
-        m_controller = controller;
-        setChanged(false);
+    super(I_CmsButton.ButtonData.ELEMENT_INFO, handler);
+    m_changedStyleVar = new CmsStyleVariable(this);
+    controller.addContainerpageEventHandler(this);
+    CmsCoreProvider.get().getEventBus().addHandler(CmsPublishEvent.TYPE, this);
+    m_controller = controller;
+    setChanged(false);
+  }
+
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.I_CmsContainerpageEventHandler#onContainerpageEvent(org.opencms.ade.containerpage.client.CmsContainerpageEvent)
+   */
+  public void onContainerpageEvent(CmsContainerpageEvent event) {
+
+    if ((event.getEventType() == EventType.elementEdited)
+        || (event.getEventType() == EventType.pageSaved)) {
+      asyncUpdate();
     }
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.I_CmsContainerpageEventHandler#onContainerpageEvent(org.opencms.ade.containerpage.client.CmsContainerpageEvent)
-     */
-    public void onContainerpageEvent(CmsContainerpageEvent event) {
+  /**
+   * @see
+   *     org.opencms.ade.publish.client.I_CmsPublishEventHandler#onPublish(org.opencms.ade.publish.client.CmsPublishEvent)
+   */
+  public void onPublish(CmsPublishEvent e) {
 
-        if ((event.getEventType() == EventType.elementEdited) || (event.getEventType() == EventType.pageSaved)) {
+    Timer timer =
+        new Timer() {
+
+          @Override
+          public void run() {
+
             asyncUpdate();
-        }
-    }
-
-    /**
-     * @see org.opencms.ade.publish.client.I_CmsPublishEventHandler#onPublish(org.opencms.ade.publish.client.CmsPublishEvent)
-     */
-    public void onPublish(CmsPublishEvent e) {
-
-        Timer timer = new Timer() {
-
-            @Override
-            public void run() {
-
-                asyncUpdate();
-            }
+          }
         };
-        // wait 5 seconds, which should be enough for small publish jobs
-        // (if it's not enough, the user can still reload the page)
-        timer.schedule(5000);
-    }
+    // wait 5 seconds, which should be enough for small publish jobs
+    // (if it's not enough, the user can still reload the page)
+    timer.schedule(5000);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate()
-     */
-    public void onToolbarActivate() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate() */
+  public void onToolbarActivate() {
 
-        CmsContainerpageHandler handler = getHandler();
-        handler.openElementsInfo();
-        setEnabled(false);
-    }
+    CmsContainerpageHandler handler = getHandler();
+    handler.openElementsInfo();
+    setEnabled(false);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate()
-     */
-    public void onToolbarDeactivate() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate() */
+  public void onToolbarDeactivate() {
 
-        setEnabled(true);
-    }
+    setEnabled(true);
+  }
 
-    /**
-     * Changes the "changed" state of the button.<p>
-     *
-     * @param changed the new value for the "changed" state
-     */
-    public void setChanged(boolean changed) {
+  /**
+   * Changes the "changed" state of the button.
+   *
+   * <p>
+   *
+   * @param changed the new value for the "changed" state
+   */
+  public void setChanged(boolean changed) {
 
-        m_changedStyleVar.setValue(
-            changed
+    m_changedStyleVar.setValue(
+        changed
             ? I_CmsToolbarButtonLayoutBundle.INSTANCE.toolbarButtonCss().elementInfoChanged()
             : I_CmsToolbarButtonLayoutBundle.INSTANCE.toolbarButtonCss().elementInfoUnchanged());
-    }
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.Widget#onLoad()
-     */
-    @Override
-    protected void onLoad() {
+  /** @see com.google.gwt.user.client.ui.Widget#onLoad() */
+  @Override
+  protected void onLoad() {
 
-        super.onLoad();
-        Timer timer = new Timer() {
+    super.onLoad();
+    Timer timer =
+        new Timer() {
 
-            @Override
-            public void run() {
+          @Override
+          public void run() {
 
-                asyncUpdate();
-            }
-
+            asyncUpdate();
+          }
         };
-        timer.schedule(500);
-    }
+    timer.schedule(500);
+  }
 
-    /**
-     * Fires off an RPC request to check for the elements state and then updates the button accordingly.<p>
-     */
-    void asyncUpdate() {
+  /**
+   * Fires off an RPC request to check for the elements state and then updates the button
+   * accordingly.
+   *
+   * <p>
+   */
+  void asyncUpdate() {
 
-        CmsRpcAction<Boolean> action = new CmsRpcAction<Boolean>() {
+    CmsRpcAction<Boolean> action =
+        new CmsRpcAction<Boolean>() {
 
-            @Override
-            public void execute() {
+          @Override
+          public void execute() {
 
-                start(200, false);
-                m_controller.getContainerpageService().checkContainerpageOrElementsChanged(
+            start(200, false);
+            m_controller
+                .getContainerpageService()
+                .checkContainerpageOrElementsChanged(
                     CmsCoreProvider.get().getStructureId(),
                     CmsContainerpageController.get().getData().getDetailId(),
                     CmsContainerpageController.get().getData().getLocale(),
                     this);
-            }
+          }
 
-            @Override
-            protected void onResponse(Boolean result) {
+          @Override
+          protected void onResponse(Boolean result) {
 
-                stop(false);
-                boolean changed = result.booleanValue();
-                setChanged(changed);
-            }
-
+            stop(false);
+            boolean changed = result.booleanValue();
+            setChanged(changed);
+          }
         };
-        action.execute();
-    }
-
+    action.execute();
+  }
 }

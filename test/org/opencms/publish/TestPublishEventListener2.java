@@ -33,67 +33,76 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsUUID;
 
 /**
- * Test event listener implementation, restarting the engine while a publish job is running.<p>
+ * Test event listener implementation, restarting the engine while a publish job is running.
+ *
+ * <p>
  *
  * @since 6.5.5
  */
 public class TestPublishEventListener2 implements I_CmsPublishEventListener {
 
-    /** The cms object. */
-    private CmsObject m_cms;
+  /** The cms object. */
+  private CmsObject m_cms;
 
-    /**
-     * Constructor for passing a cms object.<p>
-     *
-     * @param cms the cms object
-     */
-    public TestPublishEventListener2(CmsObject cms) {
+  /**
+   * Constructor for passing a cms object.
+   *
+   * <p>
+   *
+   * @param cms the cms object
+   */
+  public TestPublishEventListener2(CmsObject cms) {
 
-        m_cms = cms;
+    m_cms = cms;
+  }
+
+  /**
+   * @see org.opencms.publish.I_CmsPublishEventListener#onAbort(CmsUUID,
+   *     org.opencms.publish.CmsPublishJobEnqueued)
+   */
+  public void onAbort(CmsUUID userId, CmsPublishJobEnqueued publishJob) {
+
+    // noop
+  }
+
+  /**
+   * @see
+   *     org.opencms.publish.I_CmsPublishEventListener#onEnqueue(org.opencms.publish.CmsPublishJobBase)
+   */
+  public void onEnqueue(CmsPublishJobBase publishJob) {
+
+    // noop
+  }
+
+  /**
+   * @see
+   *     org.opencms.publish.I_CmsPublishEventListener#onFinish(org.opencms.publish.CmsPublishJobRunning)
+   */
+  public void onFinish(CmsPublishJobRunning publishJob) {
+
+    // noop
+  }
+
+  /**
+   * @see
+   *     org.opencms.publish.I_CmsPublishEventListener#onRemove(org.opencms.publish.CmsPublishJobFinished)
+   */
+  public void onRemove(CmsPublishJobFinished publishJob) {
+
+    // noop
+  }
+
+  /**
+   * @see
+   *     org.opencms.publish.I_CmsPublishEventListener#onStart(org.opencms.publish.CmsPublishJobEnqueued)
+   */
+  public void onStart(CmsPublishJobEnqueued publishJob) {
+
+    // leads to reloading the queue and history data from the database
+    try {
+      OpenCms.getPublishManager().initialize(m_cms);
+    } catch (CmsException exc) {
+      // noop
     }
-
-    /**
-     * @see org.opencms.publish.I_CmsPublishEventListener#onAbort(CmsUUID, org.opencms.publish.CmsPublishJobEnqueued)
-     */
-    public void onAbort(CmsUUID userId, CmsPublishJobEnqueued publishJob) {
-
-        // noop
-    }
-
-    /**
-     * @see org.opencms.publish.I_CmsPublishEventListener#onEnqueue(org.opencms.publish.CmsPublishJobBase)
-     */
-    public void onEnqueue(CmsPublishJobBase publishJob) {
-
-        // noop
-    }
-
-    /**
-     * @see org.opencms.publish.I_CmsPublishEventListener#onFinish(org.opencms.publish.CmsPublishJobRunning)
-     */
-    public void onFinish(CmsPublishJobRunning publishJob) {
-
-        // noop
-    }
-
-    /**
-     * @see org.opencms.publish.I_CmsPublishEventListener#onRemove(org.opencms.publish.CmsPublishJobFinished)
-     */
-    public void onRemove(CmsPublishJobFinished publishJob) {
-
-        // noop
-    }
-
-    /**
-     * @see org.opencms.publish.I_CmsPublishEventListener#onStart(org.opencms.publish.CmsPublishJobEnqueued)
-     */
-    public void onStart(CmsPublishJobEnqueued publishJob) {
-
-        // leads to reloading the queue and history data from the database
-        try {
-            OpenCms.getPublishManager().initialize(m_cms);
-        } catch (CmsException exc) {
-            // noop
-        }
-    }
+  }
 }

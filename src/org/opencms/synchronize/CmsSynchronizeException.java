@@ -31,45 +31,52 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Thrown by a class which implements org.opencms.file.I_CmsSyncModifications.<p>
+ * Thrown by a class which implements org.opencms.file.I_CmsSyncModifications.
  *
- * When this exeption is thrown,
- * all other implementations of I_CmsSyncModifications will not be executed.<p>
+ * <p>When this exeption is thrown, all other implementations of I_CmsSyncModifications will not be
+ * executed.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsSynchronizeException extends CmsException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -6277141990280647952L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -6277141990280647952L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsSynchronizeException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsSynchronizeException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsSynchronizeException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsSynchronizeException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsSynchronizeException(container, cause);
-    }
+    return new CmsSynchronizeException(container, cause);
+  }
 }

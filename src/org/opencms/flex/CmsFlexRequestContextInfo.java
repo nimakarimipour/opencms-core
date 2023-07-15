@@ -30,125 +30,140 @@ package org.opencms.flex;
 import org.opencms.file.CmsResource;
 
 /**
- * Contains information about the OpenCms request context required by the
- * Flex implementation.<p>
+ * Contains information about the OpenCms request context required by the Flex implementation.
  *
- * An instance of this class is attached to every <code>CmsRequestContext</code> as
- * an attribute as soon as the request context is wrapped in a flex response.
- * Information about the "last modified" and "expire" times of VFS resources are
- * stored in this Object.<p>
+ * <p>An instance of this class is attached to every <code>CmsRequestContext</code> as an attribute
+ * as soon as the request context is wrapped in a flex response. Information about the "last
+ * modified" and "expire" times of VFS resources are stored in this Object.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsFlexRequestContextInfo {
 
-    /** The currently calculated "expires" date for this request context .*/
-    private long m_dateExpires;
+  /** The currently calculated "expires" date for this request context . */
+  private long m_dateExpires;
 
-    /** The currently calculated "last modified" date for this request context.  */
-    private long m_dateLastModified;
+  /** The currently calculated "last modified" date for this request context. */
+  private long m_dateLastModified;
 
-    /**
-     * Public constructor.<p>
-     */
-    public CmsFlexRequestContextInfo() {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   */
+  public CmsFlexRequestContextInfo() {
 
-        // by default the expiration date is the max long value
-        m_dateExpires = CmsResource.DATE_EXPIRED_DEFAULT;
+    // by default the expiration date is the max long value
+    m_dateExpires = CmsResource.DATE_EXPIRED_DEFAULT;
+  }
+
+  /**
+   * Returns the "expires" date for this context.
+   *
+   * <p>
+   *
+   * @return the "expires" date for this context
+   */
+  public long getDateExpires() {
+
+    return m_dateExpires;
+  }
+
+  /**
+   * Returns the "last modified" date for this context.
+   *
+   * <p>
+   *
+   * @return the "last modified" date for this context
+   */
+  public long getDateLastModified() {
+
+    return m_dateLastModified;
+  }
+
+  /**
+   * Merges this context info with the values from the other context info.
+   *
+   * <p>
+   *
+   * @param other the context info to merge with
+   */
+  public void merge(CmsFlexRequestContextInfo other) {
+
+    updateDateLastModified(other.getDateLastModified());
+    updateDateExpires(other.getDateExpires());
+  }
+
+  /**
+   * Updates the "expires" date for this context with the given value.
+   *
+   * <p>
+   *
+   * @param dateExpires the value to update the "expires" date with
+   */
+  public void updateDateExpires(long dateExpires) {
+
+    if (dateExpires > System.currentTimeMillis()) {
+      if (dateExpires < m_dateExpires) {
+        m_dateExpires = dateExpires;
+      }
+    } else {
+      updateDateLastModified(dateExpires);
     }
+  }
 
-    /**
-     * Returns the "expires" date for this context.<p>
-     *
-     * @return the "expires" date for this context
-     */
-    public long getDateExpires() {
+  /**
+   * Updates the "last modified" date for this context with the given value.
+   *
+   * <p>The currently stored value is only updated with the new value if the new value is either
+   * larger (i.e. newer) then the stored value, or if the new value is less then zero, which
+   * indicates that the "last modified" optimization can not be used because the element is dynamic.
+   *
+   * <p>
+   *
+   * @param dateLastModified the value to update the "last modified" date with
+   */
+  public void updateDateLastModified(long dateLastModified) {
 
-        return m_dateExpires;
+    if ((m_dateLastModified > -1)
+        && ((dateLastModified > m_dateLastModified) || (dateLastModified < 0))) {
+      m_dateLastModified = dateLastModified;
     }
+  }
 
-    /**
-     * Returns the "last modified" date for this context.<p>
-     *
-     * @return the "last modified" date for this context
-     */
-    public long getDateLastModified() {
+  /**
+   * Updates both the "last modified" and the "expires" date for this context with the given values.
+   *
+   * <p>
+   *
+   * @param dateLastModified the value to update the "last modified" date with
+   * @param dateExpires the value to update the "expires" date with
+   */
+  public void updateDates(long dateLastModified, long dateExpires) {
 
-        return m_dateLastModified;
-    }
+    updateDateLastModified(dateLastModified);
+    updateDateExpires(dateExpires);
+  }
 
-    /**
-     * Merges this context info with the values from the other context info.<p>
-     *
-     * @param other the context info to merge with
-     */
-    public void merge(CmsFlexRequestContextInfo other) {
+  /**
+   * Updates the "last modified" date for this context as well as the "expires" date with the values
+   * from a given resource.
+   *
+   * <p>The "expires" date is the calculated from the given date values of resource release and
+   * expiration and also the current time.
+   *
+   * <p>
+   *
+   * @param resource the resource to use for updating the context values
+   */
+  public void updateFromResource(CmsResource resource) {
 
-        updateDateLastModified(other.getDateLastModified());
-        updateDateExpires(other.getDateExpires());
-    }
-
-    /**
-     * Updates the "expires" date for this context with the given value.<p>
-     *
-     * @param dateExpires the value to update the "expires" date with
-     */
-    public void updateDateExpires(long dateExpires) {
-
-        if (dateExpires > System.currentTimeMillis()) {
-            if (dateExpires < m_dateExpires) {
-                m_dateExpires = dateExpires;
-            }
-        } else {
-            updateDateLastModified(dateExpires);
-        }
-    }
-
-    /**
-     * Updates the "last modified" date for this context with the given value.<p>
-     *
-     * The currently stored value is only updated with the new value if
-     * the new value is either larger (i.e. newer) then the stored value,
-     * or if the new value is less then zero, which indicates that the "last modified"
-     * optimization can not be used because the element is dynamic.<p>
-     *
-     * @param dateLastModified the value to update the "last modified" date with
-     */
-    public void updateDateLastModified(long dateLastModified) {
-
-        if ((m_dateLastModified > -1) && ((dateLastModified > m_dateLastModified) || (dateLastModified < 0))) {
-            m_dateLastModified = dateLastModified;
-        }
-    }
-
-    /**
-     * Updates both the "last modified" and the "expires" date
-     * for this context with the given values.<p>
-     *
-     * @param dateLastModified the value to update the "last modified" date with
-     * @param dateExpires the value to update the "expires" date with
-     */
-    public void updateDates(long dateLastModified, long dateExpires) {
-
-        updateDateLastModified(dateLastModified);
-        updateDateExpires(dateExpires);
-    }
-
-    /**
-     * Updates the "last modified" date for this context as well as the
-     * "expires" date with the values from a given resource.<p>
-     *
-     * The "expires" date is the calculated from the given date values
-     * of resource release and expiration and also the current time.<p>
-     *
-     * @param resource the resource to use for updating the context values
-     */
-    public void updateFromResource(CmsResource resource) {
-
-        // first set the last modification date
-        updateDateLastModified(resource.getDateLastModified());
-        // now use both release and expiration date from the resource to update the expires info
-        updateDateExpires(resource.getDateReleased());
-        updateDateExpires(resource.getDateExpired());
-    }
+    // first set the last modification date
+    updateDateLastModified(resource.getDateLastModified());
+    // now use both release and expiration date from the resource to update the expires info
+    updateDateExpires(resource.getDateReleased());
+    updateDateExpires(resource.getDateExpired());
+  }
 }

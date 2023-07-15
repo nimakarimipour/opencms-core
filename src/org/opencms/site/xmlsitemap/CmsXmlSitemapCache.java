@@ -27,55 +27,61 @@
 
 package org.opencms.site.xmlsitemap;
 
+import java.util.concurrent.ConcurrentHashMap;
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Cache for XML sitemaps.<p>
+ * Cache for XML sitemaps.
+ *
+ * <p>
  */
 public class CmsXmlSitemapCache {
 
-    /** The logger for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsXmlSitemapCache.class);
+  /** The logger for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsXmlSitemapCache.class);
 
-    /** Static instance for this class. */
-    public static final CmsXmlSitemapCache INSTANCE = new CmsXmlSitemapCache();
+  /** Static instance for this class. */
+  public static final CmsXmlSitemapCache INSTANCE = new CmsXmlSitemapCache();
 
-    /** The map for storing the cached sitemaps. */
-    private ConcurrentHashMap<String, String> m_cache = new ConcurrentHashMap<String, String>();
+  /** The map for storing the cached sitemaps. */
+  private ConcurrentHashMap<String, String> m_cache = new ConcurrentHashMap<String, String>();
 
-    /**
-     * Clears the cache.<p>
-     */
-    public void clear() {
+  /**
+   * Clears the cache.
+   *
+   * <p>
+   */
+  public void clear() {
 
-        m_cache.clear();
-    }
+    m_cache.clear();
+  }
 
-    /**
-     * Gets the cached entry for the given key (the key will normally be the root path of a sitemap.xml file).<p>
-     *
-     * @param key the key
-     * @return the cached XML sitemap, or null if no cached value exists
-     */
-    public String get(String key) {
+  /**
+   * Gets the cached entry for the given key (the key will normally be the root path of a
+   * sitemap.xml file).
+   *
+   * <p>
+   *
+   * @param key the key
+   * @return the cached XML sitemap, or null if no cached value exists
+   */
+  public String get(String key) {
 
-        return m_cache.get(key);
-    }
+    return m_cache.get(key);
+  }
 
-    /**
-     * Stores an XML sitemap in the cache.<p>
-     *
-     * @param key the XML sitemap key (usually the root path of the sitemap.xml)
-     * @param value the XML sitemap content
-     */
-    public void put(String key, String value) {
+  /**
+   * Stores an XML sitemap in the cache.
+   *
+   * <p>
+   *
+   * @param key the XML sitemap key (usually the root path of the sitemap.xml)
+   * @param value the XML sitemap content
+   */
+  public void put(String key, String value) {
 
-        LOG.info("Caching sitemap for key " + key + ", size = " + value.length());
-        m_cache.put(key, value);
-    }
-
+    LOG.info("Caching sitemap for key " + key + ", size = " + value.length());
+    m_cache.put(key, value);
+  }
 }

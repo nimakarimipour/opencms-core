@@ -28,17 +28,20 @@
 package org.opencms.db;
 
 /**
- * An interface for classes which are used to generate SQL statements.<p>
+ * An interface for classes which are used to generate SQL statements.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsQueryFragment {
 
-    /**
-     * Generates the SQL and parameters and sends them to the statement builder .<p>
-     *
-     * @param builder the statement builder
-     */
-    void visit(CmsStatementBuilder builder);
-
+  /**
+   * Generates the SQL and parameters and sends them to the statement builder .
+   *
+   * <p>
+   *
+   * @param builder the statement builder
+   */
+  void visit(CmsStatementBuilder builder);
 }

@@ -30,74 +30,87 @@ package org.opencms.gwt.shared.alias;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * A bean which contains the information for creating an alias.<p>
+ * A bean which contains the information for creating an alias.
+ *
+ * <p>
  */
 public class CmsAliasBean implements IsSerializable {
 
-    /** The alias mode. */
-    private CmsAliasMode m_mode;
+  /** The alias mode. */
+  private CmsAliasMode m_mode;
 
-    /** The alias site path. */
-    private String m_sitePath;
+  /** The alias site path. */
+  private String m_sitePath;
 
-    /**
-     * Default constructor, used for serialization.<p>
-     */
-    public CmsAliasBean() {
+  /**
+   * Default constructor, used for serialization.
+   *
+   * <p>
+   */
+  public CmsAliasBean() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Creates a new alias bean.<p>
-     *
-     * @param sitePath the site path of the alias
-     * @param mode the alias mode
-     */
-    public CmsAliasBean(String sitePath, CmsAliasMode mode) {
+  /**
+   * Creates a new alias bean.
+   *
+   * <p>
+   *
+   * @param sitePath the site path of the alias
+   * @param mode the alias mode
+   */
+  public CmsAliasBean(String sitePath, CmsAliasMode mode) {
 
-        m_sitePath = sitePath;
-        m_mode = mode;
-    }
+    m_sitePath = sitePath;
+    m_mode = mode;
+  }
 
-    /**
-     * Returns the alias mode.<p>
-     *
-     * @return the alias mode
-     */
-    public CmsAliasMode getMode() {
+  /**
+   * Returns the alias mode.
+   *
+   * <p>
+   *
+   * @return the alias mode
+   */
+  public CmsAliasMode getMode() {
 
-        return m_mode;
-    }
+    return m_mode;
+  }
 
-    /**
-     * Returns the site-relative alias path.<p>
-     *
-     * @return the site relative alias path
-     */
-    public String getSitePath() {
+  /**
+   * Returns the site-relative alias path.
+   *
+   * <p>
+   *
+   * @return the site relative alias path
+   */
+  public String getSitePath() {
 
-        return m_sitePath;
-    }
+    return m_sitePath;
+  }
 
-    /**
-     * Sets the alias mode.<p>
-     *
-     * @param mode the alias mode
-     */
-    public void setMode(CmsAliasMode mode) {
+  /**
+   * Sets the alias mode.
+   *
+   * <p>
+   *
+   * @param mode the alias mode
+   */
+  public void setMode(CmsAliasMode mode) {
 
-        m_mode = mode;
-    }
+    m_mode = mode;
+  }
 
-    /**
-     * Sets the alias site path.<p>
-     *
-     * @param sitePath the alias site path
-     */
-    public void setSitePath(String sitePath) {
+  /**
+   * Sets the alias site path.
+   *
+   * <p>
+   *
+   * @param sitePath the alias site path
+   */
+  public void setSitePath(String sitePath) {
 
-        m_sitePath = sitePath;
-    }
-
+    m_sitePath = sitePath;
+  }
 }

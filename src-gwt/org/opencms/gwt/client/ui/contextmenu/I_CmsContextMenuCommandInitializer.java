@@ -30,17 +30,21 @@ package org.opencms.gwt.client.ui.contextmenu;
 import java.util.Map;
 
 /**
- * Interface for context menu command initializer.<p>
+ * Interface for context menu command initializer.
+ *
+ * <p>
  *
  * @since version 8.0.1
  */
 public interface I_CmsContextMenuCommandInitializer {
 
-    /**
-     * The method which, when called, should initialize all classes implementing the {@link I_CmsHasContextMenuCommand} interface.
-     * Returning a map of commands by class name<p>
-     *
-     * @return the initialized command map
-     */
-    Map<String, I_CmsContextMenuCommand> initCommands();
+  /**
+   * The method which, when called, should initialize all classes implementing the {@link
+   * I_CmsHasContextMenuCommand} interface. Returning a map of commands by class name
+   *
+   * <p>
+   *
+   * @return the initialized command map
+   */
+  Map<String, I_CmsContextMenuCommand> initCommands();
 }

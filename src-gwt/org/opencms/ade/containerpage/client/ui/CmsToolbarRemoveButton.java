@@ -27,45 +27,51 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.opencms.ade.containerpage.client.CmsContainerpageController;
 import org.opencms.ade.containerpage.client.CmsContainerpageHandler;
 import org.opencms.gwt.client.ui.I_CmsButton;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-
 /**
- * The remove button holding all remove related methods.<p>
+ * The remove button holding all remove related methods.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsToolbarRemoveButton extends A_CmsToolbarOptionButton {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param handler the container-page handler
-     */
-    public CmsToolbarRemoveButton(CmsContainerpageHandler handler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param handler the container-page handler
+   */
+  public CmsToolbarRemoveButton(CmsContainerpageHandler handler) {
 
-        super(I_CmsButton.ButtonData.REMOVE, handler);
-    }
+    super(I_CmsButton.ButtonData.REMOVE, handler);
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#isOptionAvailable(org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
-     */
-    @Override
-    public boolean isOptionAvailable(CmsContainerPageElementPanel element) {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#isOptionAvailable(org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
+   */
+  @Override
+  public boolean isOptionAvailable(CmsContainerPageElementPanel element) {
 
-        boolean disableButtons = CmsContainerpageController.get().isEditingDisabled();
-        return !element.getParentTarget().isDetailView() && !disableButtons;
-    }
+    boolean disableButtons = CmsContainerpageController.get().isEditingDisabled();
+    return !element.getParentTarget().isDetailView() && !disableButtons;
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#onElementClick(com.google.gwt.event.dom.client.ClickEvent, org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
-     */
-    @Override
-    public void onElementClick(ClickEvent event, CmsContainerPageElementPanel element) {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#onElementClick(com.google.gwt.event.dom.client.ClickEvent,
+   *     org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
+   */
+  @Override
+  public void onElementClick(ClickEvent event, CmsContainerPageElementPanel element) {
 
-        getHandler().removeElement(element);
-    }
+    getHandler().removeElement(element);
+  }
 }

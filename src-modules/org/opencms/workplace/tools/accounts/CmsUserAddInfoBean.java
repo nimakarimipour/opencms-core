@@ -28,72 +28,84 @@
 package org.opencms.workplace.tools.accounts;
 
 /**
- * User additional information bean.<p>
+ * User additional information bean.
+ *
+ * <p>
  *
  * @since 6.5.6
  */
 public class CmsUserAddInfoBean {
 
-    /** The name of the additional info entry. */
-    private String m_name;
+  /** The name of the additional info entry. */
+  private String m_name;
 
-    /** The type. */
-    private Class<?> m_type;
+  /** The type. */
+  private Class<?> m_type;
 
-    /** The value. */
-    private String m_value;
+  /** The value. */
+  private String m_value;
 
-    /**
-     * Default constructor.<p>
-     *
-     * @param name the name of the additional info entry
-     * @param value the value
-     * @param type the type
-     */
-    public CmsUserAddInfoBean(String name, String value, Class<?> type) {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   *
+   * @param name the name of the additional info entry
+   * @param value the value
+   * @param type the type
+   */
+  public CmsUserAddInfoBean(String name, String value, Class<?> type) {
 
-        m_name = name;
-        m_value = value;
-        m_type = type;
-    }
+    m_name = name;
+    m_value = value;
+    m_type = type;
+  }
 
-    /**
-     * Returns the name.<p>
-     *
-     * @return the name
-     */
-    public String getName() {
+  /**
+   * Returns the name.
+   *
+   * <p>
+   *
+   * @return the name
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the type.<p>
-     *
-     * @return the type
-     */
-    public Class<?> getType() {
+  /**
+   * Returns the type.
+   *
+   * <p>
+   *
+   * @return the type
+   */
+  public Class<?> getType() {
 
-        return m_type;
-    }
+    return m_type;
+  }
 
-    /**
-     * Returns the value.<p>
-     *
-     * @return the value
-     */
-    public String getValue() {
+  /**
+   * Returns the value.
+   *
+   * <p>
+   *
+   * @return the value
+   */
+  public String getValue() {
 
-        return m_value;
-    }
+    return m_value;
+  }
 
-    /**
-     * Sets the value.<p>
-     *
-     * @param value the value to set
-     */
-    public void setValue(String value) {
+  /**
+   * Sets the value.
+   *
+   * <p>
+   *
+   * @param value the value to set
+   */
+  public void setValue(String value) {
 
-        m_value = value;
-    }
+    m_value = value;
+  }
 }

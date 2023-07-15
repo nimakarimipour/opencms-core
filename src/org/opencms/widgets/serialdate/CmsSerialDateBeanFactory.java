@@ -27,139 +27,141 @@
 
 package org.opencms.widgets.serialdate;
 
+import org.apache.commons.logging.Log;
 import org.opencms.acacia.shared.I_CmsSerialDateValue;
 import org.opencms.main.CmsLog;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Wrapper for the value stored by the {@link org.opencms.widgets.CmsSerialDateWidget}
- * that provides easy access.
+ * Wrapper for the value stored by the {@link org.opencms.widgets.CmsSerialDateWidget} that provides
+ * easy access.
  */
 public class CmsSerialDateBeanFactory {
 
-    /** Logger for the class. */
-    public static final Log LOG = CmsLog.getLog(CmsSerialDateBeanFactory.class);
+  /** Logger for the class. */
+  public static final Log LOG = CmsLog.getLog(CmsSerialDateBeanFactory.class);
 
-    /**
-     * Factory method for creating a serial date bean.
-     * @param value the value for the series
-     * @return the serial date bean.
-     */
-    public static I_CmsSerialDateBean createSerialDateBean(I_CmsSerialDateValue value) {
+  /**
+   * Factory method for creating a serial date bean.
+   *
+   * @param value the value for the series
+   * @return the serial date bean.
+   */
+  public static I_CmsSerialDateBean createSerialDateBean(I_CmsSerialDateValue value) {
 
-        if ((null == value) || !value.isValid()) {
-            return null;
-        }
-        switch (value.getPatternType()) {
-            case DAILY:
-                if (value.isEveryWorkingDay()) {
-                    return new CmsSerialDateBeanWorkingDays(
-                        value.getStart(),
-                        value.getEnd(),
-                        value.isWholeDay(),
-                        value.getEndType(),
-                        value.getSeriesEndDate(),
-                        value.getOccurrences(),
-                        value.getExceptions());
-                } else {
-                    return new CmsSerialDateBeanDaily(
-                        value.getStart(),
-                        value.getEnd(),
-                        value.isWholeDay(),
-                        value.getEndType(),
-                        value.getSeriesEndDate(),
-                        value.getOccurrences(),
-                        value.getExceptions(),
-                        value.getInterval());
-                }
-            case WEEKLY:
-                return new CmsSerialDateBeanWeekly(
-                    value.getStart(),
-                    value.getEnd(),
-                    value.isWholeDay(),
-                    value.getEndType(),
-                    value.getSeriesEndDate(),
-                    value.getOccurrences(),
-                    value.getExceptions(),
-                    value.getInterval(),
-                    value.getWeekDays());
-            case MONTHLY:
-                if (null == value.getWeekDay()) {
-                    return new CmsSerialDateBeanMonthly(
-                        value.getStart(),
-                        value.getEnd(),
-                        value.isWholeDay(),
-                        value.getEndType(),
-                        value.getSeriesEndDate(),
-                        value.getOccurrences(),
-                        value.getExceptions(),
-                        value.getInterval(),
-                        value.getDayOfMonth());
-                } else {
-                    return new CmsSerialDateBeanMonthlyWeeks(
-                        value.getStart(),
-                        value.getEnd(),
-                        value.isWholeDay(),
-                        value.getEndType(),
-                        value.getSeriesEndDate(),
-                        value.getOccurrences(),
-                        value.getExceptions(),
-                        value.getInterval(),
-                        value.getWeeksOfMonth(),
-                        value.getWeekDay());
-                }
-            case YEARLY:
-                if (null == value.getWeekDay()) {
-                    return new CmsSerialDateBeanYearly(
-                        value.getStart(),
-                        value.getEnd(),
-                        value.isWholeDay(),
-                        value.getEndType(),
-                        value.getSeriesEndDate(),
-                        value.getOccurrences(),
-                        value.getExceptions(),
-                        value.getDayOfMonth(),
-                        value.getMonth());
-                } else {
-                    return new CmsSerialDateBeanYearlyWeekday(
-                        value.getStart(),
-                        value.getEnd(),
-                        value.isWholeDay(),
-                        value.getEndType(),
-                        value.getSeriesEndDate(),
-                        value.getOccurrences(),
-                        value.getExceptions(),
-                        value.getWeekOfMonth(),
-                        value.getMonth(),
-                        value.getWeekDay());
-                }
-            case INDIVIDUAL:
-                return new CmsSerialDateBeanIndividual(
-                    value.getStart(),
-                    value.getEnd(),
-                    value.isWholeDay(),
-                    value.getEndType(),
-                    value.getSeriesEndDate(),
-                    value.getOccurrences(),
-                    value.getExceptions(),
-                    value.getIndividualDates());
-            case NONE:
-                return new CmsSerialDateBeanSingle(value.getStart(), value.getEnd(), value.isWholeDay());
-            default:
-                throw new IllegalArgumentException();
-        }
+    if ((null == value) || !value.isValid()) {
+      return null;
     }
-
-    /**
-     * Factory method for creating a serial date bean.
-     * @param widgetValue the value for the series as stored by the {@link org.opencms.widgets.CmsSerialDateWidget}
-     * @return the serial date bean.
-     */
-    public static I_CmsSerialDateBean createSerialDateBean(String widgetValue) {
-
-        I_CmsSerialDateValue value;
-        value = new CmsSerialDateValue(widgetValue);
-        return createSerialDateBean(value);
+    switch (value.getPatternType()) {
+      case DAILY:
+        if (value.isEveryWorkingDay()) {
+          return new CmsSerialDateBeanWorkingDays(
+              value.getStart(),
+              value.getEnd(),
+              value.isWholeDay(),
+              value.getEndType(),
+              value.getSeriesEndDate(),
+              value.getOccurrences(),
+              value.getExceptions());
+        } else {
+          return new CmsSerialDateBeanDaily(
+              value.getStart(),
+              value.getEnd(),
+              value.isWholeDay(),
+              value.getEndType(),
+              value.getSeriesEndDate(),
+              value.getOccurrences(),
+              value.getExceptions(),
+              value.getInterval());
+        }
+      case WEEKLY:
+        return new CmsSerialDateBeanWeekly(
+            value.getStart(),
+            value.getEnd(),
+            value.isWholeDay(),
+            value.getEndType(),
+            value.getSeriesEndDate(),
+            value.getOccurrences(),
+            value.getExceptions(),
+            value.getInterval(),
+            value.getWeekDays());
+      case MONTHLY:
+        if (null == value.getWeekDay()) {
+          return new CmsSerialDateBeanMonthly(
+              value.getStart(),
+              value.getEnd(),
+              value.isWholeDay(),
+              value.getEndType(),
+              value.getSeriesEndDate(),
+              value.getOccurrences(),
+              value.getExceptions(),
+              value.getInterval(),
+              value.getDayOfMonth());
+        } else {
+          return new CmsSerialDateBeanMonthlyWeeks(
+              value.getStart(),
+              value.getEnd(),
+              value.isWholeDay(),
+              value.getEndType(),
+              value.getSeriesEndDate(),
+              value.getOccurrences(),
+              value.getExceptions(),
+              value.getInterval(),
+              value.getWeeksOfMonth(),
+              value.getWeekDay());
+        }
+      case YEARLY:
+        if (null == value.getWeekDay()) {
+          return new CmsSerialDateBeanYearly(
+              value.getStart(),
+              value.getEnd(),
+              value.isWholeDay(),
+              value.getEndType(),
+              value.getSeriesEndDate(),
+              value.getOccurrences(),
+              value.getExceptions(),
+              value.getDayOfMonth(),
+              value.getMonth());
+        } else {
+          return new CmsSerialDateBeanYearlyWeekday(
+              value.getStart(),
+              value.getEnd(),
+              value.isWholeDay(),
+              value.getEndType(),
+              value.getSeriesEndDate(),
+              value.getOccurrences(),
+              value.getExceptions(),
+              value.getWeekOfMonth(),
+              value.getMonth(),
+              value.getWeekDay());
+        }
+      case INDIVIDUAL:
+        return new CmsSerialDateBeanIndividual(
+            value.getStart(),
+            value.getEnd(),
+            value.isWholeDay(),
+            value.getEndType(),
+            value.getSeriesEndDate(),
+            value.getOccurrences(),
+            value.getExceptions(),
+            value.getIndividualDates());
+      case NONE:
+        return new CmsSerialDateBeanSingle(value.getStart(), value.getEnd(), value.isWholeDay());
+      default:
+        throw new IllegalArgumentException();
     }
+  }
+
+  /**
+   * Factory method for creating a serial date bean.
+   *
+   * @param widgetValue the value for the series as stored by the {@link
+   *     org.opencms.widgets.CmsSerialDateWidget}
+   * @return the serial date bean.
+   */
+  public static I_CmsSerialDateBean createSerialDateBean(String widgetValue) {
+
+    I_CmsSerialDateValue value;
+    value = new CmsSerialDateValue(widgetValue);
+    return createSerialDateBean(value);
+  }
 }

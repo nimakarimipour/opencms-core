@@ -27,74 +27,72 @@
 
 package org.opencms.setup.db;
 
+import java.io.PrintStream;
 import org.opencms.setup.CmsUpdateBean;
 import org.opencms.ui.report.CmsStreamReportWidget;
 
-import java.io.PrintStream;
-
 public class CmsVaadinUpdateDBThread extends Thread {
 
-    /** Saves the System.err stream so it can be restored. */
-    public PrintStream m_tempErr;
+  /** Saves the System.err stream so it can be restored. */
+  public PrintStream m_tempErr;
 
-    /** System.out and System.err are redirected to this stream. */
-    private PrintStream m_out;
+  /** System.out and System.err are redirected to this stream. */
+  private PrintStream m_out;
 
-    /** The additional shell commands, i.e. the update bean. */
-    private CmsUpdateBean m_updateBean;
+  /** The additional shell commands, i.e. the update bean. */
+  private CmsUpdateBean m_updateBean;
 
-    /** Saves the System.out stream so it can be restored. */
-    private PrintStream m_tempOut;
+  /** Saves the System.out stream so it can be restored. */
+  private PrintStream m_tempOut;
 
-    private CmsStreamReportWidget m_reportWidget;
+  private CmsStreamReportWidget m_reportWidget;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param updateBean the initialized update bean
-     */
-    public CmsVaadinUpdateDBThread(CmsUpdateBean updateBean, CmsStreamReportWidget reportWidget) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param updateBean the initialized update bean
+   */
+  public CmsVaadinUpdateDBThread(CmsUpdateBean updateBean, CmsStreamReportWidget reportWidget) {
 
-        super("OpenCms: Database Update");
+    super("OpenCms: Database Update");
 
-        // store setup bean
-        m_updateBean = updateBean;
-        // init stream and logging thread
-        m_out = reportWidget.getStream();
-        m_reportWidget = reportWidget;
+    // store setup bean
+    m_updateBean = updateBean;
+    // init stream and logging thread
+    m_out = reportWidget.getStream();
+    m_reportWidget = reportWidget;
+  }
+
+  /** @see java.lang.Runnable#run() */
+  @Override
+  public void run() {
+
+    // save the original out and err stream
+    m_tempOut = System.out;
+    m_tempErr = System.err;
+    try {
+      // redirect the streams
+      System.setOut(m_out);
+      System.setErr(m_out);
+
+      System.out.println("Starting DB Update... ");
+
+      CmsUpdateDBManager dbMan = new CmsUpdateDBManager();
+      try {
+        dbMan.initialize(m_updateBean);
+        dbMan.run();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+
+      System.out.println("... DB Update finished.");
+    } finally {
+      // restore to the old streams
+      System.setOut(m_tempOut);
+      System.setErr(m_tempErr);
+      m_reportWidget.finish();
     }
-
-    /**
-     * @see java.lang.Runnable#run()
-     */
-    @Override
-    public void run() {
-
-        // save the original out and err stream
-        m_tempOut = System.out;
-        m_tempErr = System.err;
-        try {
-            // redirect the streams
-            System.setOut(m_out);
-            System.setErr(m_out);
-
-            System.out.println("Starting DB Update... ");
-
-            CmsUpdateDBManager dbMan = new CmsUpdateDBManager();
-            try {
-                dbMan.initialize(m_updateBean);
-                dbMan.run();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("... DB Update finished.");
-        } finally {
-            // restore to the old streams
-            System.setOut(m_tempOut);
-            System.setErr(m_tempErr);
-            m_reportWidget.finish();
-        }
-    }
-
+  }
 }

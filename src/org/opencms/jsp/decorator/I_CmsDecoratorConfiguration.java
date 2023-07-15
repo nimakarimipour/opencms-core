@@ -27,80 +27,96 @@
 
 package org.opencms.jsp.decorator;
 
+import java.util.Locale;
+import org.htmlparser.Tag;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.xml.content.CmsXmlContent;
 
-import java.util.Locale;
-
-import org.htmlparser.Tag;
-
 /**
- * Interface for a CmsDecoratorConfiguration.<p>
+ * Interface for a CmsDecoratorConfiguration.
  *
- * This interface describes a CmsDecoratorConfiguration which provides methods to
- * get a filled CmsDecorationBundle. A decoration bundle contains a datastructure
- * of text decorations which can be used in the current request context.
- *
+ * <p>This interface describes a CmsDecoratorConfiguration which provides methods to get a filled
+ * CmsDecorationBundle. A decoration bundle contains a datastructure of text decorations which can
+ * be used in the current request context.
  */
 public interface I_CmsDecoratorConfiguration {
 
-    /**
-     * Builds a CmsDecorationDefintion from a given configuration file.<p>
-     *
-     * @param configuration the configuration file
-     * @param i the number of the decoration definition to create
-     * @return CmsDecorationDefintion created form configuration file
-     */
-    CmsDecorationDefintion getDecorationDefinition(CmsXmlContent configuration, int i);
+  /**
+   * Builds a CmsDecorationDefintion from a given configuration file.
+   *
+   * <p>
+   *
+   * @param configuration the configuration file
+   * @param i the number of the decoration definition to create
+   * @return CmsDecorationDefintion created form configuration file
+   */
+  CmsDecorationDefintion getDecorationDefinition(CmsXmlContent configuration, int i);
 
-    /**
-     * Gets the decoration bundle.<p>
-     *@return the decoration bundle to be used
-     */
-    CmsDecorationBundle getDecorations();
+  /**
+   * Gets the decoration bundle.
+   *
+   * <p>
+   *
+   * @return the decoration bundle to be used
+   */
+  CmsDecorationBundle getDecorations();
 
-    /**
-     * Tests if a decoration key was used before in this configuration.<p>
-     * @param key the key to look for
-     * @return true if this key was already used
-     */
-    boolean hasUsed(String key);
+  /**
+   * Tests if a decoration key was used before in this configuration.
+   *
+   * <p>
+   *
+   * @param key the key to look for
+   * @return true if this key was already used
+   */
+  boolean hasUsed(String key);
 
-    /**
-     * Initialises the configuration.<p>
-     *
-     *@param cms the CmsObject
-     * @param configFile the configuration file
-     * @param locale to locale to build this configuration for
-     * @throws CmsException if something goes wrong
-     */
-    void init(CmsObject cms, String configFile, Locale locale) throws CmsException;
+  /**
+   * Initialises the configuration.
+   *
+   * <p>
+   *
+   * @param cms the CmsObject
+   * @param configFile the configuration file
+   * @param locale to locale to build this configuration for
+   * @throws CmsException if something goes wrong
+   */
+  void init(CmsObject cms, String configFile, Locale locale) throws CmsException;
 
-    /**
-     * Tests if a tag is contained in the exclude list of the decorator.<p>
-     *
-     * @param tag the tag to test
-     * @return true if the tag is in the exclude list, false otherwise.
-     */
-    boolean isExcluded(String tag);
+  /**
+   * Tests if a tag is contained in the exclude list of the decorator.
+   *
+   * <p>
+   *
+   * @param tag the tag to test
+   * @return true if the tag is in the exclude list, false otherwise.
+   */
+  boolean isExcluded(String tag);
 
-    /**
-     * Tests if a tag has an attribute thatis contained in the exclude list of the decorator.<p>
-     *
-     * @param tag the tag to test
-     * @return true if the tag is in the exclude list, false otherwise.
-     */
-    boolean isExcludedAttr(Tag tag);
+  /**
+   * Tests if a tag has an attribute thatis contained in the exclude list of the decorator.
+   *
+   * <p>
+   *
+   * @param tag the tag to test
+   * @return true if the tag is in the exclude list, false otherwise.
+   */
+  boolean isExcludedAttr(Tag tag);
 
-    /**
-     * Mark a decoration key as already used.<p>
-     * @param key the key to mark
-     */
-    void markAsUsed(String key);
+  /**
+   * Mark a decoration key as already used.
+   *
+   * <p>
+   *
+   * @param key the key to mark
+   */
+  void markAsUsed(String key);
 
-    /**
-     * Resets the used decoration keys.<p>
-     */
-    void resetMarkedDecorations();
+  /**
+   * Resets the used decoration keys.
+   *
+   * <p>
+   */
+  void resetMarkedDecorations();
 }

@@ -27,6 +27,10 @@
 
 package org.opencms.xml.content;
 
+import java.util.Locale;
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.file.CmsObject;
 import org.opencms.i18n.CmsEncoder;
 import org.opencms.i18n.CmsMessages;
@@ -36,94 +40,98 @@ import org.opencms.util.CmsFileUtil;
 import org.opencms.xml.CmsXmlContentDefinition;
 import org.opencms.xml.CmsXmlEntityResolver;
 
-import java.util.Locale;
-
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Test cases for resource bundles in schemas with a different configured default locale.<p>
+ * Test cases for resource bundles in schemas with a different configured default locale.
+ *
+ * <p>
  */
 public class TestCmsXmlContentResourceBundlesGerman extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestCmsXmlContentResourceBundlesGerman(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestCmsXmlContentResourceBundlesGerman(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestCmsXmlContentResourceBundlesGerman.class.getName());
-        suite.addTest(new TestCmsXmlContentResourceBundlesGerman("testReadBundleMessages"));
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSuite suite = new TestSuite();
+    suite.setName(TestCmsXmlContentResourceBundlesGerman.class.getName());
+    suite.addTest(new TestCmsXmlContentResourceBundlesGerman("testReadBundleMessages"));
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms(
-                    "simpletest",
-                    "/",
-                    getTestDataPath("WEB-INF/config." + getDbProduct() + "/"),
-                    getTestDataPath("WEB-INF/config.de/"),
-                    TestCmsXmlContentResourceBundlesGerman.class.getName(),
-                    true);
-            }
+            setupOpenCms(
+                "simpletest",
+                "/",
+                getTestDataPath("WEB-INF/config." + getDbProduct() + "/"),
+                getTestDataPath("WEB-INF/config.de/"),
+                TestCmsXmlContentResourceBundlesGerman.class.getName(),
+                true);
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
-        return wrapper;
-    }
+    return wrapper;
+  }
 
-    /**
-     * Tests whether the bundle messages are correct.<p>
-     *
-     * @throws Exception
-     */
-    public void testReadBundleMessages() throws Exception {
+  /**
+   * Tests whether the bundle messages are correct.
+   *
+   * <p>
+   *
+   * @throws Exception
+   */
+  public void testReadBundleMessages() throws Exception {
 
-        CmsObject cms = getCmsObject();
-        CmsXmlEntityResolver resolver = new CmsXmlEntityResolver(cms);
-        String content;
-        CmsXmlContentDefinition definition;
-        I_CmsXmlContentHandler contentHandler;
+    CmsObject cms = getCmsObject();
+    CmsXmlEntityResolver resolver = new CmsXmlEntityResolver(cms);
+    String content;
+    CmsXmlContentDefinition definition;
+    I_CmsXmlContentHandler contentHandler;
 
-        // unmarshal content definition with localization in properties and XML
-        content = CmsFileUtil.readFile(
+    // unmarshal content definition with localization in properties and XML
+    content =
+        CmsFileUtil.readFile(
             "org/opencms/xml/content/xmlcontent-definition-1_localized2.xsd",
             CmsEncoder.ENCODING_UTF_8);
-        definition = CmsXmlContentDefinition.unmarshal(
-            content,
-            TestCmsXmlContentWithVfs.SCHEMA_SYSTEM_ID_1L1,
-            resolver);
+    definition =
+        CmsXmlContentDefinition.unmarshal(
+            content, TestCmsXmlContentWithVfs.SCHEMA_SYSTEM_ID_1L1, resolver);
 
-        contentHandler = definition.getContentHandler();
-        assertSame(definition.getContentHandler().getClass().getName(), CmsDefaultXmlContentHandler.class.getName());
+    contentHandler = definition.getContentHandler();
+    assertSame(
+        definition.getContentHandler().getClass().getName(),
+        CmsDefaultXmlContentHandler.class.getName());
 
-        CmsMessages messagesDe = contentHandler.getMessages(Locale.GERMAN);
-        String messageText = messagesDe.key("label.author");
-        assertContains(messageText, "JETZT");
+    CmsMessages messagesDe = contentHandler.getMessages(Locale.GERMAN);
+    String messageText = messagesDe.key("label.author");
+    assertContains(messageText, "JETZT");
 
-        CmsMessages messagesEn = contentHandler.getMessages(Locale.ENGLISH);
-        messageText = messagesEn.key("label.author");
-        assertContains(messageText, "NOW");
-    }
-
+    CmsMessages messagesEn = contentHandler.getMessages(Locale.ENGLISH);
+    messageText = messagesEn.key("label.author");
+    assertContains(messageText, "NOW");
+  }
 }

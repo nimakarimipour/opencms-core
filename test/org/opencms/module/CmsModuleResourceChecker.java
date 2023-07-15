@@ -27,118 +27,124 @@
 
 package org.opencms.module;
 
-import org.opencms.util.CmsFileUtil;
-import org.opencms.util.CmsFileUtil.FileWalkState;
-import org.opencms.util.CmsStringUtil;
-
 import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.apache.commons.collections.Closure;
-
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.opencms.util.CmsFileUtil;
+import org.opencms.util.CmsFileUtil.FileWalkState;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * Helper class to list files in modules which are missing from the modules' manifests.<p>
+ * Helper class to list files in modules which are missing from the modules' manifests.
+ *
+ * <p>
  */
 public class CmsModuleResourceChecker {
 
-    /** Default module path . */
-    public static final String DEFAULT_MODULE_PATH = "C:/dev/workspace/opencms/modules";
+  /** Default module path . */
+  public static final String DEFAULT_MODULE_PATH = "C:/dev/workspace/opencms/modules";
 
-    /**
-     * Main method.<p>
-     * @param args first argument should be the path of the modules folder
-     *
-     * @throws Exception if something goes wrong
-     */
-    public static void main(String[] args) throws Exception {
+  /**
+   * Main method.
+   *
+   * <p>
+   *
+   * @param args first argument should be the path of the modules folder
+   * @throws Exception if something goes wrong
+   */
+  public static void main(String[] args) throws Exception {
 
-        String path = args.length > 0 ? args[0] : DEFAULT_MODULE_PATH;
-        (new CmsModuleResourceChecker()).checkAllModules(path);
+    String path = args.length > 0 ? args[0] : DEFAULT_MODULE_PATH;
+    (new CmsModuleResourceChecker()).checkAllModules(path);
+  }
 
+  /**
+   * Checks all modules for missing manifest entries.
+   *
+   * <p>
+   *
+   * @param modulesPath the path of the module folder
+   * @throws Exception if something goes wrong
+   */
+  public void checkAllModules(String modulesPath) throws Exception {
+
+    File modules = new File(modulesPath);
+    for (File file : modules.listFiles()) {
+      if (file.isDirectory()) {
+        checkModule(modules.getAbsolutePath(), file.getName());
+      }
     }
+  }
 
-    /**
-     * Checks all modules for missing manifest entries.<p>
-     *
-     * @param modulesPath the path of the module folder
-     * @throws Exception if something goes wrong
-     */
-    public void checkAllModules(String modulesPath) throws Exception {
+  /**
+   * Checks a single module for missing manifest entries.
+   *
+   * <p>
+   *
+   * @param basePath the modules folder path
+   * @param module the module name
+   * @throws Exception
+   */
+  public void checkModule(String basePath, String module) throws Exception {
 
-        File modules = new File(modulesPath);
-        for (File file : modules.listFiles()) {
-            if (file.isDirectory()) {
-                checkModule(modules.getAbsolutePath(), file.getName());
-            }
-        }
+    String manifest = CmsStringUtil.joinPaths(basePath, module, "resources/manifest.xml");
+    String resourcePath = CmsStringUtil.joinPaths(basePath, module, "/resources");
+    Set<String> missing = getMissingPaths(manifest, resourcePath);
+    if (!missing.isEmpty()) {
+      System.out.println(module + " lacks manifest entries for: ");
+      for (String path : missing) {
+        System.out.println("     " + path);
+      }
     }
+  }
 
-    /**
-     * Checks a single module for missing manifest entries.<p>
-     *
-     * @param basePath the modules folder path
-     * @param module the module name
-     * @throws Exception
-     */
-    public void checkModule(String basePath, String module) throws Exception {
+  /**
+   * Finds the missing paths for a single module.
+   *
+   * <p>
+   *
+   * @param manifest the path of the manifest
+   * @param baseFolder the path of the module resources folder
+   * @return the set of missing paths
+   * @throws Exception if something goes wrong
+   */
+  public Set<String> getMissingPaths(String manifest, final String baseFolder) throws Exception {
 
-        String manifest = CmsStringUtil.joinPaths(basePath, module, "resources/manifest.xml");
-        String resourcePath = CmsStringUtil.joinPaths(basePath, module, "/resources");
-        Set<String> missing = getMissingPaths(manifest, resourcePath);
-        if (!missing.isEmpty()) {
-            System.out.println(module + " lacks manifest entries for: ");
-            for (String path : missing) {
-                System.out.println("     " + path);
-            }
-        }
+    final Set<String> manifestPaths = new HashSet<String>();
+    final Set<String> filePaths = new HashSet<String>();
+    final String basePath = new File(baseFolder).getAbsolutePath();
+
+    SAXReader reader = new SAXReader();
+    Document doc = reader.read(new File(manifest));
+    List<?> nodes = doc.selectNodes("//export/files/file/source");
+    for (Object node : nodes) {
+      Element elem = (Element) node;
+      String path = elem.getText().trim();
+      path = CmsStringUtil.joinPaths("/", path);
+      manifestPaths.add(path);
     }
+    CmsFileUtil.walkFileSystem(
+        new File(baseFolder),
+        new Closure() {
 
-    /**
-     * Finds the missing paths for a single module.<p>
-     *
-     * @param manifest the path of the manifest
-     * @param baseFolder the path of the module resources folder
-     * @return the set of missing paths
-     *
-     * @throws Exception if something goes wrong
-     */
-    public Set<String> getMissingPaths(String manifest, final String baseFolder) throws Exception {
+          public void execute(Object obj) {
 
-        final Set<String> manifestPaths = new HashSet<String>();
-        final Set<String> filePaths = new HashSet<String>();
-        final String basePath = new File(baseFolder).getAbsolutePath();
-
-        SAXReader reader = new SAXReader();
-        Document doc = reader.read(new File(manifest));
-        List<?> nodes = doc.selectNodes("//export/files/file/source");
-        for (Object node : nodes) {
-            Element elem = (Element)node;
-            String path = elem.getText().trim();
-            path = CmsStringUtil.joinPaths("/", path);
-            manifestPaths.add(path);
-        }
-        CmsFileUtil.walkFileSystem(new File(baseFolder), new Closure() {
-
-            public void execute(Object obj) {
-
-                FileWalkState state = (FileWalkState)obj;
-                for (File file : state.getFiles()) {
-                    String path = file.getAbsolutePath().substring(basePath.length());
-                    path = path.replace('\\', '/');
-                    filePaths.add(path);
-                }
+            FileWalkState state = (FileWalkState) obj;
+            for (File file : state.getFiles()) {
+              String path = file.getAbsolutePath().substring(basePath.length());
+              path = path.replace('\\', '/');
+              filePaths.add(path);
             }
+          }
         });
-        Set<String> diff = new HashSet<String>(filePaths);
-        diff.removeAll(manifestPaths);
-        diff.remove("/manifest.xml");
-        return diff;
-    }
-
+    Set<String> diff = new HashSet<String>(filePaths);
+    diff.removeAll(manifestPaths);
+    diff.remove("/manifest.xml");
+    return diff;
+  }
 }

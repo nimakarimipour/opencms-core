@@ -27,6 +27,9 @@
 
 package org.opencms.ade.galleries.client.ui;
 
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 import org.opencms.ade.galleries.client.CmsGalleryController;
 import org.opencms.ade.galleries.client.CmsGalleryControllerHandler;
 import org.opencms.ade.galleries.client.I_CmsGalleryHandler;
@@ -38,120 +41,124 @@ import org.opencms.gwt.client.ui.CmsPopup;
 import org.opencms.gwt.client.ui.CmsToolbarPopup;
 import org.opencms.gwt.client.ui.I_CmsAutoHider;
 
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * The gallery dialog popup.<p>
+ * The gallery dialog popup.
+ *
+ * <p>
  */
 public class CmsGalleryPopup extends CmsPopup implements I_CmsGalleryHandler {
 
-    /** The main panel. */
-    private SimplePanel m_container;
+  /** The main panel. */
+  private SimplePanel m_container;
 
-    /** The gallery controller. */
-    private CmsGalleryController m_controller;
+  /** The gallery controller. */
+  private CmsGalleryController m_controller;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param handler the widget handler, used to set the widgets value
-     * @param conf the gallery configuration
-     */
-    public CmsGalleryPopup(I_CmsGalleryWidgetHandler handler, I_CmsGalleryConfiguration conf) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param handler the widget handler, used to set the widgets value
+   * @param conf the gallery configuration
+   */
+  public CmsGalleryPopup(I_CmsGalleryWidgetHandler handler, I_CmsGalleryConfiguration conf) {
 
-        this();
-        int dialogHeight = CmsToolbarPopup.getAvailableHeight();
-        int dialogWidth = CmsToolbarPopup.getAvailableWidth();
-        setWidth(dialogWidth);
-        CmsGalleryDialog galleryDialog = new CmsGalleryDialog(this);
-        galleryDialog.setDialogSize(dialogWidth, dialogHeight);
-        m_controller = new CmsGalleryController(new CmsGalleryControllerHandler(galleryDialog), conf);
-        galleryDialog.setWidgetHandler(handler);
-        m_container.setWidget(galleryDialog);
-    }
+    this();
+    int dialogHeight = CmsToolbarPopup.getAvailableHeight();
+    int dialogWidth = CmsToolbarPopup.getAvailableWidth();
+    setWidth(dialogWidth);
+    CmsGalleryDialog galleryDialog = new CmsGalleryDialog(this);
+    galleryDialog.setDialogSize(dialogWidth, dialogHeight);
+    m_controller = new CmsGalleryController(new CmsGalleryControllerHandler(galleryDialog), conf);
+    galleryDialog.setWidgetHandler(handler);
+    m_container.setWidget(galleryDialog);
+  }
 
-    /**
-     * Constructor.<p>
-     */
-    private CmsGalleryPopup() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  private CmsGalleryPopup() {
 
-        super(650);
-        setGlassEnabled(true);
-        catchNotifications();
-        removePadding();
-        m_container = new SimplePanel();
-        setMainContent(m_container);
-        addDialogClose(null);
-    }
+    super(650);
+    setGlassEnabled(true);
+    catchNotifications();
+    removePadding();
+    m_container = new SimplePanel();
+    setMainContent(m_container);
+    addDialogClose(null);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.I_CmsGalleryHandler#filterDnd(org.opencms.ade.galleries.shared.CmsResultItemBean)
-     */
-    public boolean filterDnd(CmsResultItemBean resultBean) {
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.I_CmsGalleryHandler#filterDnd(org.opencms.ade.galleries.shared.CmsResultItemBean)
+   */
+  public boolean filterDnd(CmsResultItemBean resultBean) {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.I_CmsGalleryHandler#getAdditionalTypeTabControl()
-     */
-    public Widget getAdditionalTypeTabControl() {
+  /** @see org.opencms.ade.galleries.client.I_CmsGalleryHandler#getAdditionalTypeTabControl() */
+  public Widget getAdditionalTypeTabControl() {
 
-        // TODO Auto-generated method stub
-        return null;
-    }
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.I_CmsGalleryHandler#getAutoHideParent()
-     */
-    public I_CmsAutoHider getAutoHideParent() {
+  /** @see org.opencms.ade.galleries.client.I_CmsGalleryHandler#getAutoHideParent() */
+  public I_CmsAutoHider getAutoHideParent() {
 
-        return this;
-    }
+    return this;
+  }
 
-    /**
-     * Returns the popup content.<p>
-     *
-     * @return the popup content
-     */
-    public Panel getContainer() {
+  /**
+   * Returns the popup content.
+   *
+   * <p>
+   *
+   * @return the popup content
+   */
+  public Panel getContainer() {
 
-        return m_container;
-    }
+    return m_container;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.I_CmsGalleryHandler#getDndHandler()
-     */
-    public CmsDNDHandler getDndHandler() {
+  /** @see org.opencms.ade.galleries.client.I_CmsGalleryHandler#getDndHandler() */
+  public CmsDNDHandler getDndHandler() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.I_CmsGalleryHandler#processResultItem(org.opencms.ade.galleries.client.ui.CmsResultListItem)
-     */
-    public void processResultItem(CmsResultListItem item) {
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.I_CmsGalleryHandler#processResultItem(org.opencms.ade.galleries.client.ui.CmsResultListItem)
+   */
+  public void processResultItem(CmsResultListItem item) {
 
-        // do nothing
+    // do nothing
 
-    }
+  }
 
-    /**
-     * Searches for a specific element and opens it's preview if found.<p>
-     *
-     * @param path the element path
-     */
-    public void searchElement(String path) {
+  /**
+   * Searches for a specific element and opens it's preview if found.
+   *
+   * <p>
+   *
+   * @param path the element path
+   */
+  public void searchElement(String path) {
 
-        //center();
-        m_controller.searchElement(path, new Runnable() {
+    // center();
+    m_controller.searchElement(
+        path,
+        new Runnable() {
 
-            public void run() {
+          public void run() {
 
-                center();
-            }
+            center();
+          }
         });
-    }
+  }
 }

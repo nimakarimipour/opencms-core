@@ -31,88 +31,97 @@
 
 package org.opencms.ade.containerpage.inherited;
 
+import java.util.Locale;
+import java.util.Map;
 import org.opencms.file.CmsResource;
 import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.util.CmsUUID;
 
-import java.util.Locale;
-import java.util.Map;
-
 /**
- * A class which represents all the configuration entries which have been read from an inherited container
- * configuration file.<p>
+ * A class which represents all the configuration entries which have been read from an inherited
+ * container configuration file.
  *
+ * <p>
  */
 public class CmsContainerConfigurationGroup {
 
-    /** The configurations grouped by locales. */
-    private Map<Locale, Map<String, CmsContainerConfiguration>> m_configurations;
+  /** The configurations grouped by locales. */
+  private Map<Locale, Map<String, CmsContainerConfiguration>> m_configurations;
 
-    /** Root path of the file from which this configuration was read. */
-    private String m_rootPath;
+  /** Root path of the file from which this configuration was read. */
+  private String m_rootPath;
 
-    /** Structure id of the file from which this configuration was read. */
-    private CmsUUID m_structureId;
+  /** Structure id of the file from which this configuration was read. */
+  private CmsUUID m_structureId;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param configurations the data contained by this configuration group
-     */
-    public CmsContainerConfigurationGroup(Map<Locale, Map<String, CmsContainerConfiguration>> configurations) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param configurations the data contained by this configuration group
+   */
+  public CmsContainerConfigurationGroup(
+      Map<Locale, Map<String, CmsContainerConfiguration>> configurations) {
 
-        m_configurations = configurations;
+    m_configurations = configurations;
+  }
+
+  /**
+   * Gets the configuration for a given name and locale.
+   *
+   * <p>
+   *
+   * @param name the configuration name
+   * @return the configuration for the name and locale
+   */
+  public CmsContainerConfiguration getConfiguration(String name) {
+
+    Map<String, CmsContainerConfiguration> configurationsForLocale = null;
+    if (m_configurations.containsKey(CmsLocaleManager.MASTER_LOCALE)) {
+      configurationsForLocale = m_configurations.get(CmsLocaleManager.MASTER_LOCALE);
+    } else if (!m_configurations.isEmpty()) {
+      configurationsForLocale = m_configurations.values().iterator().next();
+    } else {
+      return null;
     }
+    return configurationsForLocale.get(name);
+  }
 
-    /**
-     * Gets the configuration for a given name and locale.<p>
-     *
-     * @param name the configuration name
-     *
-     * @return the configuration for the name and locale
-     */
-    public CmsContainerConfiguration getConfiguration(String name) {
+  /**
+   * Gets the root path of the file from which this configuration was read.
+   *
+   * <p>
+   *
+   * @return the root path of the configuration resource
+   */
+  public String getRootPath() {
 
-        Map<String, CmsContainerConfiguration> configurationsForLocale = null;
-        if (m_configurations.containsKey(CmsLocaleManager.MASTER_LOCALE)) {
-            configurationsForLocale = m_configurations.get(CmsLocaleManager.MASTER_LOCALE);
-        } else if (!m_configurations.isEmpty()) {
-            configurationsForLocale = m_configurations.values().iterator().next();
-        } else {
-            return null;
-        }
-        return configurationsForLocale.get(name);
-    }
+    return m_rootPath;
+  }
 
-    /**
-     * Gets the root path of the file from which this configuration was read.<p>
-     *
-     * @return the root path of the configuration resource
-     */
-    public String getRootPath() {
+  /**
+   * Gets the structure id of the file from which this configuration was read.
+   *
+   * <p>
+   *
+   * @return the structure id of the configuration file
+   */
+  public CmsUUID getStructureId() {
 
-        return m_rootPath;
+    return m_structureId;
+  }
 
-    }
+  /**
+   * Initializes the information about the resource from which this configuration was read.
+   *
+   * <p>
+   *
+   * @param configResource the configuration file
+   */
+  public void setResource(CmsResource configResource) {
 
-    /**
-     * Gets the structure id of the file from which this configuration was read.<p>
-     *
-     * @return the structure id of the configuration file
-     */
-    public CmsUUID getStructureId() {
-
-        return m_structureId;
-    }
-
-    /**
-     * Initializes the information about the resource from which this configuration was read.<p>
-     *
-     * @param configResource the configuration file
-     */
-    public void setResource(CmsResource configResource) {
-
-        m_structureId = configResource.getStructureId();
-        m_rootPath = configResource.getRootPath();
-    }
+    m_structureId = configResource.getStructureId();
+    m_rootPath = configResource.getRootPath();
+  }
 }

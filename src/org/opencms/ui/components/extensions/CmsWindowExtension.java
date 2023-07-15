@@ -27,83 +27,88 @@
 
 package org.opencms.ui.components.extensions;
 
-import org.opencms.ui.shared.rpc.I_CmsWindowClientRpc;
-import org.opencms.ui.shared.rpc.I_CmsWindowServerRpc;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.commons.lang3.RandomStringUtils;
-
 import com.google.common.util.concurrent.FutureCallback;
 import com.vaadin.server.AbstractExtension;
 import com.vaadin.ui.UI;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.opencms.ui.shared.rpc.I_CmsWindowClientRpc;
+import org.opencms.ui.shared.rpc.I_CmsWindowServerRpc;
 
 /**
- * Extension used to open new browser windows.<p>
- * While Page.open() can also be used to open new windows, it doesn't give you any feedback on whether
- * opening the window was successful. Using this extension, it is possible to pass a callback which gets called
- * with a parameter indicating whether opening the window succeeded or not.
+ * Extension used to open new browser windows.
+ *
+ * <p>While Page.open() can also be used to open new windows, it doesn't give you any feedback on
+ * whether opening the window was successful. Using this extension, it is possible to pass a
+ * callback which gets called with a parameter indicating whether opening the window succeeded or
+ * not.
  */
 public class CmsWindowExtension extends AbstractExtension {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** Map of callbacks which have not yet been called. */
-    private Map<String, FutureCallback<Boolean>> m_callbackMap = new ConcurrentHashMap<String, FutureCallback<Boolean>>();
+  /** Map of callbacks which have not yet been called. */
+  private Map<String, FutureCallback<Boolean>> m_callbackMap =
+      new ConcurrentHashMap<String, FutureCallback<Boolean>>();
 
-    /**
-     * Creates a new instance and binds it to the given UI.<p>
-     *
-     * @param ui the UI
-     */
-    public CmsWindowExtension(UI ui) {
-        super(ui);
-        registerRpc(new I_CmsWindowServerRpc() {
+  /**
+   * Creates a new instance and binds it to the given UI.
+   *
+   * <p>
+   *
+   * @param ui the UI
+   */
+  public CmsWindowExtension(UI ui) {
+    super(ui);
+    registerRpc(
+        new I_CmsWindowServerRpc() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            @SuppressWarnings("synthetic-access")
-            public void handleOpenResult(String id, boolean ok) {
+          @SuppressWarnings("synthetic-access")
+          public void handleOpenResult(String id, boolean ok) {
 
-                FutureCallback<Boolean> callback = m_callbackMap.get(id);
-                if (callback != null) {
-                    callback.onSuccess(Boolean.valueOf(ok));
-                }
-                m_callbackMap.remove(id);
+            FutureCallback<Boolean> callback = m_callbackMap.get(id);
+            if (callback != null) {
+              callback.onSuccess(Boolean.valueOf(ok));
             }
+            m_callbackMap.remove(id);
+          }
+        },
+        I_CmsWindowServerRpc.class);
+  }
 
-        }, I_CmsWindowServerRpc.class);
-    }
+  /**
+   * Tries to open a new browser window.
+   *
+   * <p>If openning the window fails, the given callback is called.
+   *
+   * <p>
+   *
+   * @param location the URL to open in the new window
+   * @param target the target window name
+   * @param onFailure the callback to call if opening the window fails
+   */
+  public void open(String location, String target, final Runnable onFailure) {
 
-    /**
-     * Tries to open a new browser window.<p>
-     *
-     * If openning the window fails, the given callback is called.<p>
-     *
-     * @param location the URL to open in the new window
-     * @param target the target window name
-     *
-     * @param onFailure the callback to call if opening the window fails
-     */
-    public void open(String location, String target, final Runnable onFailure) {
+    String id = RandomStringUtils.randomAlphanumeric(16);
+    m_callbackMap.put(
+        id,
+        new FutureCallback<Boolean>() {
 
-        String id = RandomStringUtils.randomAlphanumeric(16);
-        m_callbackMap.put(id, new FutureCallback<Boolean>() {
+          public void onFailure(Throwable t) {
+            //
+          }
 
-            public void onFailure(Throwable t) {
-                //
+          public void onSuccess(Boolean result) {
+
+            if (!result.booleanValue()) {
+              onFailure.run();
             }
-
-            public void onSuccess(Boolean result) {
-
-                if (!result.booleanValue()) {
-                    onFailure.run();
-                }
-            }
+          }
         });
-        getRpcProxy(I_CmsWindowClientRpc.class).open(location, target, id);
-    }
-
+    getRpcProxy(I_CmsWindowClientRpc.class).open(location, target, id);
+  }
 }

@@ -27,131 +27,124 @@
 
 package org.opencms.setup.ui;
 
-import org.opencms.module.CmsModule;
-import org.opencms.setup.CmsSetupBean;
-import org.opencms.setup.CmsSetupComponent;
-import org.opencms.ui.CmsVaadinUtils;
-import org.opencms.util.CmsStringUtil;
-
+import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.FormLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.opencms.module.CmsModule;
+import org.opencms.setup.CmsSetupBean;
+import org.opencms.setup.CmsSetupComponent;
+import org.opencms.ui.CmsVaadinUtils;
+import org.opencms.util.CmsStringUtil;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.FormLayout;
-
-/**
- * Setup step: Selecting components (= module groups).
- */
+/** Setup step: Selecting components (= module groups). */
 public class CmsSetupStep04Modules extends A_CmsSetupStep {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** Back button. */
-    private Button m_backButton;
+  /** Back button. */
+  private Button m_backButton;
 
-    /** The list of check boxes for the components. */
-    private List<CheckBox> m_componentCheckboxes = new ArrayList<>();
+  /** The list of check boxes for the components. */
+  private List<CheckBox> m_componentCheckboxes = new ArrayList<>();
 
-    /** The map of components, with their ids as keys. */
-    private Map<String, CmsSetupComponent> m_componentMap = new HashMap<>();
+  /** The map of components, with their ids as keys. */
+  private Map<String, CmsSetupComponent> m_componentMap = new HashMap<>();
 
-    /** Panel for components. */
-    private FormLayout m_components;
+  /** Panel for components. */
+  private FormLayout m_components;
 
-    /** The forward button. */
-    private Button m_forwardButton;
+  /** The forward button. */
+  private Button m_forwardButton;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param context the setup context
-     */
-    public CmsSetupStep04Modules(I_SetupUiContext context) {
+  /**
+   * Creates a new instance.
+   *
+   * @param context the setup context
+   */
+  public CmsSetupStep04Modules(I_SetupUiContext context) {
 
-        super(context);
+    super(context);
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
-        CmsSetupBean bean = context.getSetupBean();
-        bean.getAvailableModules();
-        initComponents(bean.getComponents().elementList());
-        m_forwardButton.addClickListener(evt -> forward());
-        m_backButton.addClickListener(evt -> m_context.stepBack());
+    CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
+    CmsSetupBean bean = context.getSetupBean();
+    bean.getAvailableModules();
+    initComponents(bean.getComponents().elementList());
+    m_forwardButton.addClickListener(evt -> forward());
+    m_backButton.addClickListener(evt -> m_context.stepBack());
+  }
+
+  /** Moves to the next step. */
+  private void forward() {
+
+    Set<String> selected = new HashSet<>();
+
+    for (CheckBox checkbox : m_componentCheckboxes) {
+      CmsSetupComponent component = (CmsSetupComponent) (checkbox.getData());
+      if (checkbox.getValue().booleanValue()) {
+        selected.add(component.getId());
+      }
     }
-
-    /**
-     * Moves to the next step.
-     */
-    private void forward() {
-
-        Set<String> selected = new HashSet<>();
-
-        for (CheckBox checkbox : m_componentCheckboxes) {
-            CmsSetupComponent component = (CmsSetupComponent)(checkbox.getData());
-            if (checkbox.getValue().booleanValue()) {
-                selected.add(component.getId());
-            }
+    String error = null;
+    for (String compId : selected) {
+      CmsSetupComponent component = m_componentMap.get(compId);
+      for (String dep : component.getDependencies()) {
+        if (!selected.contains(dep)) {
+          error =
+              "Unfulfilled dependency: The component "
+                  + component.getName()
+                  + " can not be installed because its dependency "
+                  + m_componentMap.get(dep).getName()
+                  + " is not selected";
+          break;
         }
-        String error = null;
-        for (String compId : selected) {
-            CmsSetupComponent component = m_componentMap.get(compId);
-            for (String dep : component.getDependencies()) {
-                if (!selected.contains(dep)) {
-                    error = "Unfulfilled dependency: The component "
-                        + component.getName()
-                        + " can not be installed because its dependency "
-                        + m_componentMap.get(dep).getName()
-                        + " is not selected";
-                    break;
-                }
-            }
-        }
-        if (error == null) {
-            Set<String> modules = new HashSet<>();
-
-            for (CmsSetupComponent component : m_componentMap.values()) {
-
-                if (selected.contains(component.getId())) {
-
-                    for (CmsModule module : m_context.getSetupBean().getAvailableModules().values()) {
-                        if (component.match(module.getName())) {
-                            modules.add(module.getName());
-                        }
-                    }
-                }
-            }
-            List<String> moduleList = new ArrayList<>(modules);
-            m_context.getSetupBean().setInstallModules(CmsStringUtil.listAsString(moduleList, "|"));
-            m_context.stepForward();
-        } else {
-            CmsSetupErrorDialog.showErrorDialog(error, error);
-        }
+      }
     }
+    if (error == null) {
+      Set<String> modules = new HashSet<>();
 
-    /**
-     * Initializes the components.
-     *
-     * @param components the components
-     */
-    private void initComponents(List<CmsSetupComponent> components) {
+      for (CmsSetupComponent component : m_componentMap.values()) {
 
-        for (CmsSetupComponent component : components) {
-            CheckBox checkbox = new CheckBox();
-            checkbox.setValue(component.isChecked());
-            checkbox.setCaption(component.getName() + " - " + component.getDescription());
-            checkbox.setDescription(component.getDescription());
-            checkbox.setData(component);
-            checkbox.setWidth("100%");
-            m_components.addComponent(checkbox);
-            m_componentCheckboxes.add(checkbox);
-            m_componentMap.put(component.getId(), component);
+        if (selected.contains(component.getId())) {
 
+          for (CmsModule module : m_context.getSetupBean().getAvailableModules().values()) {
+            if (component.match(module.getName())) {
+              modules.add(module.getName());
+            }
+          }
         }
+      }
+      List<String> moduleList = new ArrayList<>(modules);
+      m_context.getSetupBean().setInstallModules(CmsStringUtil.listAsString(moduleList, "|"));
+      m_context.stepForward();
+    } else {
+      CmsSetupErrorDialog.showErrorDialog(error, error);
     }
+  }
 
+  /**
+   * Initializes the components.
+   *
+   * @param components the components
+   */
+  private void initComponents(List<CmsSetupComponent> components) {
+
+    for (CmsSetupComponent component : components) {
+      CheckBox checkbox = new CheckBox();
+      checkbox.setValue(component.isChecked());
+      checkbox.setCaption(component.getName() + " - " + component.getDescription());
+      checkbox.setDescription(component.getDescription());
+      checkbox.setData(component);
+      checkbox.setWidth("100%");
+      m_components.addComponent(checkbox);
+      m_componentCheckboxes.add(checkbox);
+      m_componentMap.put(component.getId(), component);
+    }
+  }
 }

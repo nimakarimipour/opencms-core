@@ -27,6 +27,9 @@
 
 package org.opencms.site.xmlsitemap;
 
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResourceFilter;
@@ -35,64 +38,64 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.scheduler.I_CmsScheduledJob;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Scheduled job for updating the XML sitemap cache.<p>
+ * Scheduled job for updating the XML sitemap cache.
+ *
+ * <p>
  */
 public class CmsUpdateXmlSitemapCacheJob implements I_CmsScheduledJob {
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsUpdateXmlSitemapCacheJob.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsUpdateXmlSitemapCacheJob.class);
 
-    /**
-     * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
-     */
-    public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  /**
+   * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
+   */
+  public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
-        long start = System.currentTimeMillis();
-        LOG.info("Starting job " + getClass().getName());
+    long start = System.currentTimeMillis();
+    LOG.info("Starting job " + getClass().getName());
 
-        String parentFolder = parameters.get("folder");
-        if (parentFolder == null) {
-            parentFolder = "/";
-        }
-        I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(CmsXmlSeoConfiguration.SEO_FILE_TYPE);
-        List<CmsResource> resources = cms.readResources(
-            parentFolder,
-            CmsResourceFilter.DEFAULT_FILES.addRequireType(type));
-        LOG.info("Starting to process individual XML sitemap files...");
-        int i = 0;
-        for (CmsResource res : resources) {
-            i += 1;
-            try {
-                LOG.info("Processing file " + res.getRootPath() + " [" + i + "/" + resources.size() + "]");
-                String name = res.getName();
-                if (name.contains("robots") || name.contains("test")) {
-                    LOG.info("Ignoring file " + res.getRootPath());
-                    continue;
-                }
-                CmsXmlSeoConfiguration config = new CmsXmlSeoConfiguration();
-                config.load(cms, res);
-                CmsXmlSitemapGenerator generator = null;
-                if (config.usesCache()) {
-                    generator = CmsXmlSitemapActionElement.prepareSitemapGenerator(res, config);
-                }
-                if (generator != null) {
-                    String xml = generator.renderSitemap();
-                    CmsXmlSitemapCache.INSTANCE.put(res.getRootPath(), xml);
-                } else {
-                    LOG.info("Ignoring file " + res.getRootPath());
-                }
-            } catch (Exception e) {
-                LOG.error("Error processing file " + res.getRootPath() + ": " + e.getLocalizedMessage(), e);
-            }
-        }
-        long end = System.currentTimeMillis();
-        LOG.info("Finished processing XML sitemap files. Elapsed time: " + ((end - start) / 1000) + " seconds");
-        return "";
+    String parentFolder = parameters.get("folder");
+    if (parentFolder == null) {
+      parentFolder = "/";
     }
+    I_CmsResourceType type =
+        OpenCms.getResourceManager().getResourceType(CmsXmlSeoConfiguration.SEO_FILE_TYPE);
+    List<CmsResource> resources =
+        cms.readResources(parentFolder, CmsResourceFilter.DEFAULT_FILES.addRequireType(type));
+    LOG.info("Starting to process individual XML sitemap files...");
+    int i = 0;
+    for (CmsResource res : resources) {
+      i += 1;
+      try {
+        LOG.info("Processing file " + res.getRootPath() + " [" + i + "/" + resources.size() + "]");
+        String name = res.getName();
+        if (name.contains("robots") || name.contains("test")) {
+          LOG.info("Ignoring file " + res.getRootPath());
+          continue;
+        }
+        CmsXmlSeoConfiguration config = new CmsXmlSeoConfiguration();
+        config.load(cms, res);
+        CmsXmlSitemapGenerator generator = null;
+        if (config.usesCache()) {
+          generator = CmsXmlSitemapActionElement.prepareSitemapGenerator(res, config);
+        }
+        if (generator != null) {
+          String xml = generator.renderSitemap();
+          CmsXmlSitemapCache.INSTANCE.put(res.getRootPath(), xml);
+        } else {
+          LOG.info("Ignoring file " + res.getRootPath());
+        }
+      } catch (Exception e) {
+        LOG.error("Error processing file " + res.getRootPath() + ": " + e.getLocalizedMessage(), e);
+      }
+    }
+    long end = System.currentTimeMillis();
+    LOG.info(
+        "Finished processing XML sitemap files. Elapsed time: "
+            + ((end - start) / 1000)
+            + " seconds");
+    return "";
+  }
 }

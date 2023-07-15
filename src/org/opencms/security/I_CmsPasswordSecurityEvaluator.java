@@ -30,37 +30,42 @@ package org.opencms.security;
 import java.util.Locale;
 
 /**
- * Password handler implementing this interface allow the password security to be evaluated.<p>
+ * Password handler implementing this interface allow the password security to be evaluated.
+ *
+ * <p>
  */
 public interface I_CmsPasswordSecurityEvaluator {
 
-    /** Password security levels. */
-    public enum SecurityLevel {
-        /** Invalid. */
-        invalid,
+  /** Password security levels. */
+  public enum SecurityLevel {
+    /** Invalid. */
+    invalid,
 
-        /** Strong. */
-        strong,
+    /** Strong. */
+    strong,
 
-        /** Weak. */
-        weak
-    }
+    /** Weak. */
+    weak
+  }
 
-    /**
-     * Evaluates the given password security.<p>
-     *
-     * @param password the password
-     *
-     * @return the security level as a number between 0 and 1, 0 meaning a low security and 1 a strong security
-     */
-    SecurityLevel evaluatePasswordSecurity(String password);
+  /**
+   * Evaluates the given password security.
+   *
+   * <p>
+   *
+   * @param password the password
+   * @return the security level as a number between 0 and 1, 0 meaning a low security and 1 a strong
+   *     security
+   */
+  SecurityLevel evaluatePasswordSecurity(String password);
 
-    /**
-     * Returns a hint describing how to set a secure password.<p>
-     *
-     * @param locale the locale
-     *
-     * @return the password security hint
-     */
-    String getPasswordSecurityHint(Locale locale);
+  /**
+   * Returns a hint describing how to set a secure password.
+   *
+   * <p>
+   *
+   * @param locale the locale
+   * @return the password security hint
+   */
+  String getPasswordSecurityHint(Locale locale);
 }

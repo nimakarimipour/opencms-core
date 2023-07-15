@@ -31,77 +31,86 @@ import org.opencms.file.CmsObject;
 import org.opencms.workplace.list.CmsListDefaultAction;
 
 /**
- * Show different states depending on the name of the resource.<p>
+ * Show different states depending on the name of the resource.
+ *
+ * <p>
  */
 public class CmsRestoreStateAction extends CmsListDefaultAction {
 
-    /** Cms context. */
-    private CmsObject m_cms;
+  /** Cms context. */
+  private CmsObject m_cms;
 
-    /** The name of the actual resource. */
-    private String m_resource;
+  /** The name of the actual resource. */
+  private String m_resource;
 
-    /**
-     * Default constructor.<p>
-     *
-     * @param id the id of the action
-     * @param cms the cms context
-     */
-    public CmsRestoreStateAction(String id, CmsObject cms) {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   *
+   * @param id the id of the action
+   * @param cms the cms context
+   */
+  public CmsRestoreStateAction(String id, CmsObject cms) {
 
-        super(id);
-        m_cms = cms;
+    super(id);
+    m_cms = cms;
+  }
+
+  /**
+   * Returns the cms context.
+   *
+   * <p>
+   *
+   * @return the cms context
+   */
+  public CmsObject getCms() {
+
+    return m_cms;
+  }
+
+  /**
+   * Returns the resource.
+   *
+   * <p>
+   *
+   * @return the resource
+   */
+  public String getResource() {
+
+    return m_resource;
+  }
+
+  /** @see org.opencms.workplace.tools.A_CmsHtmlIconButton#isVisible() */
+  @Override
+  public boolean isVisible() {
+
+    String paramResource = getResource();
+    if (paramResource == null) {
+      return false;
     }
 
-    /**
-     * Returns the cms context.<p>
-     *
-     * @return the cms context
-     */
-    public CmsObject getCms() {
-
-        return m_cms;
+    // not for offline entries
+    if ("-1".equals(getItem().getId())) {
+      return false;
     }
 
-    /**
-     * Returns the resource.<p>
-     *
-     * @return the resource
-     */
-    public String getResource() {
+    String itemResource =
+        getCms()
+            .getRequestContext()
+            .removeSiteRoot((String) getItem().get(CmsHistoryList.LIST_COLUMN_RESOURCE_PATH));
+    return paramResource.equals(itemResource);
+  }
 
-        return m_resource;
-    }
+  /**
+   * Sets the resource.
+   *
+   * <p>
+   *
+   * @param resource the resource to set
+   */
+  public void setResource(String resource) {
 
-    /**
-     * @see org.opencms.workplace.tools.A_CmsHtmlIconButton#isVisible()
-     */
-    @Override
-    public boolean isVisible() {
-
-        String paramResource = getResource();
-        if (paramResource == null) {
-            return false;
-        }
-
-        // not for offline entries
-        if ("-1".equals(getItem().getId())) {
-            return false;
-        }
-
-        String itemResource = getCms().getRequestContext().removeSiteRoot(
-            (String)getItem().get(CmsHistoryList.LIST_COLUMN_RESOURCE_PATH));
-        return paramResource.equals(itemResource);
-    }
-
-    /**
-     * Sets the resource.<p>
-     *
-     * @param resource the resource to set
-     */
-    public void setResource(String resource) {
-
-        m_resource = resource;
-    }
-
+    m_resource = resource;
+  }
 }

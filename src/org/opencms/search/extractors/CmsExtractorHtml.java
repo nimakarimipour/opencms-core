@@ -27,64 +27,69 @@
 
 package org.opencms.search.extractors;
 
+import java.io.InputStream;
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsHtmlExtractor;
 import org.opencms.util.CmsStringUtil;
 
-import java.io.InputStream;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Extracts the text from an HTML document.<p>
+ * Extracts the text from an HTML document.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public final class CmsExtractorHtml extends A_CmsTextExtractor {
 
-    /** Static member instance of the extractor. */
-    private static final CmsExtractorHtml INSTANCE = new CmsExtractorHtml();
+  /** Static member instance of the extractor. */
+  private static final CmsExtractorHtml INSTANCE = new CmsExtractorHtml();
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsExtractorHtml.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsExtractorHtml.class);
 
-    /**
-     * Hide the public constructor.<p>
-     */
-    private CmsExtractorHtml() {
+  /**
+   * Hide the public constructor.
+   *
+   * <p>
+   */
+  private CmsExtractorHtml() {
 
-        // noop
+    // noop
+  }
+
+  /**
+   * Returns an instance of this text extractor.
+   *
+   * <p>
+   *
+   * @return an instance of this text extractor
+   */
+  public static I_CmsTextExtractor getExtractor() {
+
+    return INSTANCE;
+  }
+
+  /**
+   * @see org.opencms.search.extractors.I_CmsTextExtractor#extractText(java.io.InputStream,
+   *     java.lang.String)
+   */
+  @Override
+  public I_CmsExtractionResult extractText(InputStream in, String encoding) throws Exception {
+
+    String result = "";
+    try {
+      if (CmsStringUtil.isEmpty(encoding)) {
+        encoding = OpenCms.getSystemInfo().getDefaultEncoding();
+      }
+      result = CmsHtmlExtractor.extractText(in, encoding);
+      result = removeControlChars(result);
+    } catch (Exception e) {
+      if (LOG.isErrorEnabled()) {
+        LOG.error(Messages.get().container(Messages.LOG_EXTRACT_TEXT_ERROR_0), e);
+      }
     }
-
-    /**
-     * Returns an instance of this text extractor.<p>
-     *
-     * @return an instance of this text extractor
-     */
-    public static I_CmsTextExtractor getExtractor() {
-
-        return INSTANCE;
-    }
-
-    /**
-     * @see org.opencms.search.extractors.I_CmsTextExtractor#extractText(java.io.InputStream, java.lang.String)
-     */
-    @Override
-    public I_CmsExtractionResult extractText(InputStream in, String encoding) throws Exception {
-
-        String result = "";
-        try {
-            if (CmsStringUtil.isEmpty(encoding)) {
-                encoding = OpenCms.getSystemInfo().getDefaultEncoding();
-            }
-            result = CmsHtmlExtractor.extractText(in, encoding);
-            result = removeControlChars(result);
-        } catch (Exception e) {
-            if (LOG.isErrorEnabled()) {
-                LOG.error(Messages.get().container(Messages.LOG_EXTRACT_TEXT_ERROR_0), e);
-            }
-        }
-        return new CmsExtractionResult(result);
-    }
+    return new CmsExtractionResult(result);
+  }
 }

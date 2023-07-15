@@ -27,57 +27,53 @@
 
 package org.opencms.jsp.search.state;
 
+import java.util.Map;
+import org.apache.commons.collections.Transformer;
 import org.opencms.jsp.search.config.I_CmsSearchConfigurationSortOption;
 import org.opencms.util.CmsCollectionsGenericWrapper;
-
-import java.util.Map;
-
-import org.apache.commons.collections.Transformer;
 
 /** Class for keeping the state of the sorting options. */
 public class CmsSearchStateSorting implements I_CmsSearchStateSorting {
 
-    /** The selected sort option. */
-    I_CmsSearchConfigurationSortOption m_selected;
-    /** Lazy map, to check, if a sort option is selected. */
-    Map<I_CmsSearchConfigurationSortOption, Boolean> m_selectedMap;
+  /** The selected sort option. */
+  I_CmsSearchConfigurationSortOption m_selected;
+  /** Lazy map, to check, if a sort option is selected. */
+  Map<I_CmsSearchConfigurationSortOption, Boolean> m_selectedMap;
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateSorting#getCheckSelected()
-     */
-    @Override
-    public Map<I_CmsSearchConfigurationSortOption, Boolean> getCheckSelected() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateSorting#getCheckSelected() */
+  @Override
+  public Map<I_CmsSearchConfigurationSortOption, Boolean> getCheckSelected() {
 
-        if (m_selectedMap == null) {
-            m_selectedMap = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
+    if (m_selectedMap == null) {
+      m_selectedMap =
+          CmsCollectionsGenericWrapper.createLazyMap(
+              new Transformer() {
 
                 @Override
                 public Object transform(final Object option) {
 
-                    return Boolean.valueOf(((I_CmsSearchConfigurationSortOption)option).equals(m_selected));
+                  return Boolean.valueOf(
+                      ((I_CmsSearchConfigurationSortOption) option).equals(m_selected));
                 }
-            });
-        }
-        return m_selectedMap;
+              });
     }
+    return m_selectedMap;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateSorting#getSelected()
-     */
-    @Override
-    public I_CmsSearchConfigurationSortOption getSelected() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateSorting#getSelected() */
+  @Override
+  public I_CmsSearchConfigurationSortOption getSelected() {
 
-        return m_selected;
-    }
+    return m_selected;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateSorting#setSelectedOption(org.opencms.jsp.search.config.I_CmsSearchConfigurationSortOption)
-     */
-    @Override
-    public void setSelectedOption(final I_CmsSearchConfigurationSortOption option) {
+  /**
+   * @see
+   *     org.opencms.jsp.search.state.I_CmsSearchStateSorting#setSelectedOption(org.opencms.jsp.search.config.I_CmsSearchConfigurationSortOption)
+   */
+  @Override
+  public void setSelectedOption(final I_CmsSearchConfigurationSortOption option) {
 
-        m_selected = option;
-
-    }
-
+    m_selected = option;
+  }
 }

@@ -27,115 +27,127 @@
 
 package org.opencms.jsp.util;
 
+import java.util.Collections;
+import java.util.Map;
+import org.apache.commons.collections.Transformer;
 import org.opencms.file.CmsObject;
 import org.opencms.util.CmsCollectionsGenericWrapper;
 import org.opencms.xml.containerpage.CmsDynamicFunctionBean;
 import org.opencms.xml.containerpage.CmsDynamicFunctionBean.Format;
 
-import java.util.Collections;
-import java.util.Map;
-
-import org.apache.commons.collections.Transformer;
-
 /**
- * A wrapper class for using dynamic function beans inside JSPs via the EL.<p>
+ * A wrapper class for using dynamic function beans inside JSPs via the EL.
+ *
+ * <p>
  */
 public class CmsDynamicFunctionBeanWrapper {
 
-    /** The internal CMS object to use. */
-    protected CmsObject m_cms;
+  /** The internal CMS object to use. */
+  protected CmsObject m_cms;
 
-    /** The dynamic function bean which is being wrapped. */
-    protected CmsDynamicFunctionBean m_functionBean;
+  /** The dynamic function bean which is being wrapped. */
+  protected CmsDynamicFunctionBean m_functionBean;
 
-    /**
-     * Creates a new wrapper instance.<p>
-     *
-     * @param cms the CMS context to use
-     * @param functionBean the dynamic function bean to wrap
-     */
-    public CmsDynamicFunctionBeanWrapper(CmsObject cms, CmsDynamicFunctionBean functionBean) {
+  /**
+   * Creates a new wrapper instance.
+   *
+   * <p>
+   *
+   * @param cms the CMS context to use
+   * @param functionBean the dynamic function bean to wrap
+   */
+  public CmsDynamicFunctionBeanWrapper(CmsObject cms, CmsDynamicFunctionBean functionBean) {
 
-        m_cms = cms;
-        m_functionBean = functionBean;
-    }
+    m_cms = cms;
+    m_functionBean = functionBean;
+  }
 
-    /**
-     * Gets the lazy map for accessing the various function formats.<p>
-     *
-     * @return a map which allows access to the various function formats
-     */
-    public Object getFormatFor() {
+  /**
+   * Gets the lazy map for accessing the various function formats.
+   *
+   * <p>
+   *
+   * @return a map which allows access to the various function formats
+   */
+  public Object getFormatFor() {
 
-        Transformer mapFunction = new Transformer() {
+    Transformer mapFunction =
+        new Transformer() {
 
-            public Object transform(Object param) {
+          public Object transform(Object param) {
 
-                if (m_functionBean == null) {
-                    return new CmsDynamicFunctionFormatWrapper(m_cms, null);
-                }
-                int width = -1;
-                String type = null;
-                boolean isWidth = false;
-                if (param instanceof Long) {
-                    width = (int)((Long)param).longValue();
-                    isWidth = true;
-                } else if (param instanceof Integer) {
-                    width = ((Integer)param).intValue();
-                    isWidth = true;
-                } else {
-                    type = param.toString();
-                }
-                Format format;
-                if (isWidth) {
-                    format = m_functionBean.getFormatForContainer(m_cms, "", width);
-                } else {
-                    format = m_functionBean.getFormatForContainer(m_cms, type, -1);
-                }
-                CmsDynamicFunctionFormatWrapper wrapper = new CmsDynamicFunctionFormatWrapper(m_cms, format);
-                return wrapper;
+            if (m_functionBean == null) {
+              return new CmsDynamicFunctionFormatWrapper(m_cms, null);
             }
+            int width = -1;
+            String type = null;
+            boolean isWidth = false;
+            if (param instanceof Long) {
+              width = (int) ((Long) param).longValue();
+              isWidth = true;
+            } else if (param instanceof Integer) {
+              width = ((Integer) param).intValue();
+              isWidth = true;
+            } else {
+              type = param.toString();
+            }
+            Format format;
+            if (isWidth) {
+              format = m_functionBean.getFormatForContainer(m_cms, "", width);
+            } else {
+              format = m_functionBean.getFormatForContainer(m_cms, type, -1);
+            }
+            CmsDynamicFunctionFormatWrapper wrapper =
+                new CmsDynamicFunctionFormatWrapper(m_cms, format);
+            return wrapper;
+          }
         };
-        return CmsCollectionsGenericWrapper.createLazyMap(mapFunction);
+    return CmsCollectionsGenericWrapper.createLazyMap(mapFunction);
+  }
+
+  /**
+   * Gets the JSP file name of the wrapped dynamic function bean's main format.
+   *
+   * <p>
+   *
+   * @return a jsp file name
+   */
+  public String getJsp() {
+
+    if (m_functionBean == null) {
+      return "";
     }
+    Format format = m_functionBean.getMainFormat();
+    CmsDynamicFunctionFormatWrapper wrapper = new CmsDynamicFunctionFormatWrapper(m_cms, format);
+    return wrapper.getJsp();
+  }
 
-    /**
-     * Gets the JSP file name of the wrapped dynamic function bean's main format.<p>
-     *
-     * @return a jsp file name
-     */
-    public String getJsp() {
+  /**
+   * Gets the parameters of the wrapped dynamic function bean's main format.
+   *
+   * <p>
+   *
+   * @return the map of parameters
+   */
+  public Map<String, String> getParam() {
 
-        if (m_functionBean == null) {
-            return "";
-        }
-        Format format = m_functionBean.getMainFormat();
-        CmsDynamicFunctionFormatWrapper wrapper = new CmsDynamicFunctionFormatWrapper(m_cms, format);
-        return wrapper.getJsp();
+    return getParameters();
+  }
+
+  /**
+   * Gets the parameters of the wrapped dynamic function bean's main format.
+   *
+   * <p>
+   *
+   * @return the map of parameters
+   */
+  public Map<String, String> getParameters() {
+
+    if (m_functionBean == null) {
+      return Collections.emptyMap();
     }
-
-    /**
-     * Gets the parameters of the wrapped dynamic function bean's main format.<p>
-     *
-     * @return the map of parameters
-     */
-    public Map<String, String> getParam() {
-
-        return getParameters();
-    }
-
-    /**
-     * Gets the parameters of the wrapped dynamic function bean's main format.<p>
-     *
-     * @return the map of parameters
-     */
-    public Map<String, String> getParameters() {
-
-        if (m_functionBean == null) {
-            return Collections.emptyMap();
-        }
-        Format format = m_functionBean.getMainFormat();
-        CmsDynamicFunctionFormatWrapper wrapper = new CmsDynamicFunctionFormatWrapper(m_cms, format);
-        return wrapper.getParameters();
-    }
+    Format format = m_functionBean.getMainFormat();
+    CmsDynamicFunctionFormatWrapper wrapper = new CmsDynamicFunctionFormatWrapper(m_cms, format);
+    return wrapper.getParameters();
+  }
 }

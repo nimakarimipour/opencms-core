@@ -27,271 +27,300 @@
 
 package org.opencms.ade.galleries.shared;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.opencms.gwt.shared.CmsIconBean;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * A sitemap entry bean.<p>
+ * A sitemap entry bean.
+ *
+ * <p>
  */
-public class CmsSitemapEntryBean extends CmsIconBean implements I_CmsGalleryTreeEntry<CmsSitemapEntryBean> {
+public class CmsSitemapEntryBean extends CmsIconBean
+    implements I_CmsGalleryTreeEntry<CmsSitemapEntryBean> {
 
-    /** The entry children. */
-    private List<CmsSitemapEntryBean> m_children;
+  /** The entry children. */
+  private List<CmsSitemapEntryBean> m_children;
 
-    /** The is folder flag. */
-    private boolean m_isFolder;
+  /** The is folder flag. */
+  private boolean m_isFolder;
 
-    /** The hidden entry flag. */
-    private boolean m_isHiddenEntry;
+  /** The hidden entry flag. */
+  private boolean m_isHiddenEntry;
 
-    /** Flag indicating whether this is entry should be displayed at the top level of the tree. */
-    private boolean m_isRoot;
+  /** Flag indicating whether this is entry should be displayed at the top level of the tree. */
+  private boolean m_isRoot;
 
-    /** True if this is a search match. */
-    private boolean m_isSearchMatch;
+  /** True if this is a search match. */
+  private boolean m_isSearchMatch;
 
-    /** The root path. */
-    private String m_rootPath;
+  /** The root path. */
+  private String m_rootPath;
 
-    /** The site path of this VFS entry. */
-    private String m_sitePath;
+  /** The site path of this VFS entry. */
+  private String m_sitePath;
 
-    /** The site root of the site to which this entry bean belongs. */
-    private String m_siteRoot;
+  /** The site root of the site to which this entry bean belongs. */
+  private String m_siteRoot;
 
-    /** The entry id. */
-    private CmsUUID m_structureId;
+  /** The entry id. */
+  private CmsUUID m_structureId;
 
-    /** The folder title. */
-    private String m_title;
+  /** The folder title. */
+  private String m_title;
 
-    /** The resource type. */
-    private String m_type;
+  /** The resource type. */
+  private String m_type;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param rootPath the root path
-     * @param sitePath the site path
-     * @param structureId the entry id
-     * @param title the title
-     * @param type the resource type
-     * @param isFolder <code>true</code> if this entry represents a folder
-     * @param isRoot <code>true</code> if this is a site root entry
-     * @param isHiddenEntry <code>true</code> if this is a hidden entry
-     */
-    public CmsSitemapEntryBean(
-        String rootPath,
-        String sitePath,
-        CmsUUID structureId,
-        String title,
-        String type,
-        boolean isFolder,
-        boolean isRoot,
-        boolean isHiddenEntry) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param rootPath the root path
+   * @param sitePath the site path
+   * @param structureId the entry id
+   * @param title the title
+   * @param type the resource type
+   * @param isFolder <code>true</code> if this entry represents a folder
+   * @param isRoot <code>true</code> if this is a site root entry
+   * @param isHiddenEntry <code>true</code> if this is a hidden entry
+   */
+  public CmsSitemapEntryBean(
+      String rootPath,
+      String sitePath,
+      CmsUUID structureId,
+      String title,
+      String type,
+      boolean isFolder,
+      boolean isRoot,
+      boolean isHiddenEntry) {
 
-        m_rootPath = rootPath;
-        m_sitePath = sitePath;
-        m_structureId = structureId;
-        m_title = title;
-        m_type = type;
-        m_isFolder = isFolder;
-        m_isRoot = isRoot;
-        m_isHiddenEntry = isHiddenEntry;
+    m_rootPath = rootPath;
+    m_sitePath = sitePath;
+    m_structureId = structureId;
+    m_title = title;
+    m_type = type;
+    m_isFolder = isFolder;
+    m_isRoot = isRoot;
+    m_isHiddenEntry = isHiddenEntry;
+  }
+
+  /**
+   * Constructor for serialization only.
+   *
+   * <p>
+   */
+  protected CmsSitemapEntryBean() {
+
+    // nothing to do
+  }
+
+  /** @see org.opencms.ade.galleries.shared.I_CmsGalleryTreeEntry#addChild(java.lang.Object) */
+  public void addChild(CmsSitemapEntryBean child) {
+
+    if (m_children == null) {
+      m_children = new ArrayList<CmsSitemapEntryBean>();
     }
+    m_children.add(child);
+  }
 
-    /**
-     * Constructor for serialization only.<p>
-     */
-    protected CmsSitemapEntryBean() {
+  /**
+   * Returns the children of this entry or <code>null</code> if not loaded.
+   *
+   * <p>
+   *
+   * @return the children of the entry
+   */
+  public List<CmsSitemapEntryBean> getChildren() {
 
-        // nothing to do
+    return m_children;
+  }
+
+  /**
+   * Gets the name which should be displayed in the widget representing this VFS entry.
+   *
+   * <p>
+   *
+   * @return the name to display
+   */
+  public String getDisplayName() {
+
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_title)) {
+      return m_title;
     }
-
-    /**
-     * @see org.opencms.ade.galleries.shared.I_CmsGalleryTreeEntry#addChild(java.lang.Object)
-     */
-    public void addChild(CmsSitemapEntryBean child) {
-
-        if (m_children == null) {
-            m_children = new ArrayList<CmsSitemapEntryBean>();
-        }
-        m_children.add(child);
+    if (m_isRoot) {
+      return m_sitePath;
+    } else {
+      String fixedPath = m_sitePath.replaceFirst("/$", "");
+      int lastSlash = fixedPath.lastIndexOf('/');
+      if (lastSlash == -1) {
+        return fixedPath;
+      }
+      return fixedPath.substring(lastSlash + 1);
     }
+  }
 
-    /**
-     * Returns the children of this entry or <code>null</code> if not loaded.<p>
-     *
-     * @return the children of the entry
-     */
-    public List<CmsSitemapEntryBean> getChildren() {
+  /**
+   * Gets the root path of the sitemap entry.
+   *
+   * <p>
+   *
+   * @return the root path of the sitemap entry
+   */
+  public String getRootPath() {
 
-        return m_children;
-    }
+    return m_rootPath;
+  }
 
-    /**
-     * Gets the name which should be displayed in the widget representing this VFS entry.<p>
-     *
-     * @return the name to display
-     */
-    public String getDisplayName() {
+  /**
+   * Returns the site path of this VFS tree.
+   *
+   * @return the site path
+   */
+  public String getSitePath() {
 
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_title)) {
-            return m_title;
-        }
-        if (m_isRoot) {
-            return m_sitePath;
-        } else {
-            String fixedPath = m_sitePath.replaceFirst("/$", "");
-            int lastSlash = fixedPath.lastIndexOf('/');
-            if (lastSlash == -1) {
-                return fixedPath;
-            }
-            return fixedPath.substring(lastSlash + 1);
-        }
-    }
+    return m_sitePath;
+  }
 
-    /**
-     * Gets the root path of the sitemap entry.<p>
-     *
-     * @return the root path of the sitemap entry
-     */
-    public String getRootPath() {
+  /**
+   * Gets the site root.
+   *
+   * <p>
+   *
+   * @return the site root
+   */
+  public String getSiteRoot() {
 
-        return m_rootPath;
-    }
+    return m_siteRoot;
+  }
 
-    /**
-     * Returns the site path of this VFS tree.
-     *
-     * @return the site path
-     */
-    public String getSitePath() {
+  /**
+   * Returns the entry structure id.
+   *
+   * <p>
+   *
+   * @return the entry structure id
+   */
+  public CmsUUID getStructureId() {
 
-        return m_sitePath;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * Gets the site root.<p>
-     *
-     * @return the site root
-     */
-    public String getSiteRoot() {
+  /**
+   * Returns the type.
+   *
+   * <p>
+   *
+   * @return the type
+   */
+  public String getType() {
 
-        return m_siteRoot;
-    }
+    return m_type;
+  }
 
-    /**
-     * Returns the entry structure id.<p>
-     *
-     * @return the entry structure id
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Returns if the children of this entry have been loaded.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the children of this entry have been loaded
+   */
+  public boolean hasChildren() {
 
-        return m_structureId;
-    }
+    return m_children != null;
+  }
 
-    /**
-     * Returns the type.<p>
-     *
-     * @return the type
-     */
-    public String getType() {
+  /**
+   * Returns the isFolder.
+   *
+   * <p>
+   *
+   * @return the isFolder
+   */
+  public boolean isFolder() {
 
-        return m_type;
-    }
+    return m_isFolder;
+  }
 
-    /**
-     * Returns if the children of this entry have been loaded.<p>
-     *
-     * @return <code>true</code> if the children of this entry have been loaded
-     */
-    public boolean hasChildren() {
+  /**
+   * Returns if this is a hidden entry.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this is a hidden entry
+   */
+  public boolean isHiddenEntry() {
 
-        return m_children != null;
-    }
+    return m_isHiddenEntry;
+  }
 
-    /**
-     * Returns the isFolder.<p>
-     *
-     * @return the isFolder
-     */
-    public boolean isFolder() {
+  /**
+   * Returns true if this entry is a top-level entry.
+   *
+   * <p>
+   *
+   * @return true if this is a top-level entry
+   */
+  public boolean isRoot() {
 
-        return m_isFolder;
-    }
+    return m_isRoot;
+  }
 
-    /**
-     * Returns if this is a hidden entry.<p>
-     *
-     * @return <code>true</code> if this is a hidden entry
-     */
-    public boolean isHiddenEntry() {
+  /**
+   * Returns true if this is a search match.
+   *
+   * <p>
+   *
+   * @return true if this is a search match
+   */
+  public boolean isSearchMatch() {
 
-        return m_isHiddenEntry;
-    }
+    return m_isSearchMatch;
+  }
 
-    /**
-     * Returns true if this entry is a top-level entry.<p>
-     *
-     * @return true if this is a top-level entry
-     */
-    public boolean isRoot() {
+  /**
+   * Sets the children of this entry.
+   *
+   * <p>
+   *
+   * @param children the children
+   */
+  public void setChildren(List<CmsSitemapEntryBean> children) {
 
-        return m_isRoot;
-    }
+    m_children = children;
+  }
 
-    /**
-     * Returns true if this is a search match.<p>
-     *
-     * @return true if this is a search match
-     */
-    public boolean isSearchMatch() {
+  /**
+   * Marks this entry as a search match.
+   *
+   * <p>
+   *
+   * @param isSearchMatch true if this is a search match
+   */
+  public void setSearchMatch(boolean isSearchMatch) {
 
-        return m_isSearchMatch;
-    }
+    m_isSearchMatch = isSearchMatch;
+  }
 
-    /**
-     * Sets the children of this entry.<p>
-     *
-     * @param children the children
-     */
-    public void setChildren(List<CmsSitemapEntryBean> children) {
+  /**
+   * Sets the site root for this bean.
+   *
+   * <p>
+   *
+   * @param siteRoot the site root
+   */
+  public void setSiteRoot(String siteRoot) {
 
-        m_children = children;
-    }
+    m_siteRoot = siteRoot;
+  }
 
-    /**
-     * Marks this entry as a search match.<p>
-     *
-     * @param isSearchMatch true if this is a search match
-     */
-    public void setSearchMatch(boolean isSearchMatch) {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        m_isSearchMatch = isSearchMatch;
-    }
-
-    /**
-     * Sets the site root for this bean.<p>
-     *
-     * @param siteRoot the site root
-     */
-    public void setSiteRoot(String siteRoot) {
-
-        m_siteRoot = siteRoot;
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-
-        return "CmsSitemapEntryBean(rootpath=" + m_rootPath + ",sitepath=" + m_sitePath + ")";
-    }
-
+    return "CmsSitemapEntryBean(rootpath=" + m_rootPath + ",sitepath=" + m_sitePath + ")";
+  }
 }

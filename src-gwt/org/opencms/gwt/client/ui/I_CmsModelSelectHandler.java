@@ -30,14 +30,18 @@ package org.opencms.gwt.client.ui;
 import org.opencms.util.CmsUUID;
 
 /**
- * Interface for handling model selections.<p>
+ * Interface for handling model selections.
+ *
+ * <p>
  */
 public interface I_CmsModelSelectHandler {
 
-    /**
-     * This method is called when a model is selected.<p>
-     *
-     * @param modelStructureId the structure id of the model
-     */
-    void onModelSelect(CmsUUID modelStructureId);
+  /**
+   * This method is called when a model is selected.
+   *
+   * <p>
+   *
+   * @param modelStructureId the structure id of the model
+   */
+  void onModelSelect(CmsUUID modelStructureId);
 }

@@ -27,59 +27,72 @@
 
 package org.opencms.setup.db.update6to7.mysql;
 
-import org.opencms.setup.CmsSetupDb;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Map;
+import org.opencms.setup.CmsSetupDb;
 
 /**
- * This class inserts formerly deleted users/groups in the CMS_HISTORY_PRINCIPALS table.<p>
+ * This class inserts formerly deleted users/groups in the CMS_HISTORY_PRINCIPALS table.
  *
- * These users/groups are read out of the following tables:
+ * <p>These users/groups are read out of the following tables:
+ *
  * <ul>
- * <li>CMS_BACKUP_RESOURCES</li>
- * <li>CMS_BACKUP_PROJECTS</li>
+ *   <li>CMS_BACKUP_RESOURCES
+ *   <li>CMS_BACKUP_PROJECTS
  * </ul>
  */
-public class CmsUpdateDBHistoryPrincipals extends org.opencms.setup.db.update6to7.CmsUpdateDBHistoryPrincipals {
+public class CmsUpdateDBHistoryPrincipals
+    extends org.opencms.setup.db.update6to7.CmsUpdateDBHistoryPrincipals {
 
-    /** Constant for sql query to create the history principals table.<p> */
-    private static final String QUERY_HISTORY_PRINCIPALS_CREATE_TABLE_MYSQL = "Q_HISTORY_PRINCIPALS_CREATE_TABLE_MYSQL";
+  /**
+   * Constant for sql query to create the history principals table.
+   *
+   * <p>
+   */
+  private static final String QUERY_HISTORY_PRINCIPALS_CREATE_TABLE_MYSQL =
+      "Q_HISTORY_PRINCIPALS_CREATE_TABLE_MYSQL";
 
-    /** Constant for the SQL query properties.<p> */
-    private static final String QUERY_PROPERTY_FILE = "cms_history_principals_queries.properties";
+  /**
+   * Constant for the SQL query properties.
+   *
+   * <p>
+   */
+  private static final String QUERY_PROPERTY_FILE = "cms_history_principals_queries.properties";
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the sql queries properties file could not be read
-     */
-    public CmsUpdateDBHistoryPrincipals()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the sql queries properties file could not be read
+   */
+  public CmsUpdateDBHistoryPrincipals() throws IOException {
 
-        super();
-        loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+    super();
+    loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+  }
+
+  /**
+   * Creates the CMS_HISTORY_PRINCIPALS table if it does not exist yet.
+   *
+   * <p>
+   *
+   * @param dbCon the db connection interface
+   * @throws SQLException if something goes wrong
+   */
+  @Override
+  protected void createHistPrincipalsTable(CmsSetupDb dbCon) throws SQLException {
+
+    System.out.println(new Exception().getStackTrace()[0].toString());
+    if (!dbCon.hasTableOrColumn(TABLE_CMS_HISTORY_PRINCIPALS, null)) {
+      String createStatement = readQuery(QUERY_HISTORY_PRINCIPALS_CREATE_TABLE_MYSQL);
+      Map<String, String> replacer =
+          Collections.singletonMap("${tableEngine}", m_poolData.get("engine"));
+      dbCon.updateSqlStatement(createStatement, replacer, null);
+    } else {
+      System.out.println("table " + TABLE_CMS_HISTORY_PRINCIPALS + " already exists");
     }
-
-    /**
-     * Creates the CMS_HISTORY_PRINCIPALS table if it does not exist yet.<p>
-     *
-     * @param dbCon the db connection interface
-     *
-     * @throws SQLException if something goes wrong
-     */
-    @Override
-    protected void createHistPrincipalsTable(CmsSetupDb dbCon) throws SQLException {
-
-        System.out.println(new Exception().getStackTrace()[0].toString());
-        if (!dbCon.hasTableOrColumn(TABLE_CMS_HISTORY_PRINCIPALS, null)) {
-            String createStatement = readQuery(QUERY_HISTORY_PRINCIPALS_CREATE_TABLE_MYSQL);
-            Map<String, String> replacer = Collections.singletonMap("${tableEngine}", m_poolData.get("engine"));
-            dbCon.updateSqlStatement(createStatement, replacer, null);
-        } else {
-            System.out.println("table " + TABLE_CMS_HISTORY_PRINCIPALS + " already exists");
-        }
-    }
+  }
 }

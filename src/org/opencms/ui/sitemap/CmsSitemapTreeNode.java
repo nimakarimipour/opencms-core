@@ -27,120 +27,131 @@
 
 package org.opencms.ui.sitemap;
 
-import org.opencms.ui.CmsVaadinUtils;
-import org.opencms.ui.components.OpenCmsTheme;
-
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.Label;
+import org.opencms.ui.CmsVaadinUtils;
+import org.opencms.ui.components.OpenCmsTheme;
 
 /**
- * Widget displaying a sitemap tree node, with an openable area for its children.<p>
+ * Widget displaying a sitemap tree node, with an openable area for its children.
+ *
+ * <p>
  */
 public class CmsSitemapTreeNode extends CssLayout {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The container for the children. */
-    protected ComponentContainer m_children;
+  /** The container for the children. */
+  protected ComponentContainer m_children;
 
-    /** The container for the content widget (usually a resource box). */
-    protected CssLayout m_contentContainer;
+  /** The container for the content widget (usually a resource box). */
+  protected CssLayout m_contentContainer;
 
-    /** True if the child area is opened. */
-    private boolean m_isOpen;
+  /** True if the child area is opened. */
+  private boolean m_isOpen;
 
-    /** The button to open/close the llst of children. */
-    private CmsSitemapTreeNodeOpener m_opener;
+  /** The button to open/close the llst of children. */
+  private CmsSitemapTreeNodeOpener m_opener;
 
-    /** Creates a new instance. */
-    public CmsSitemapTreeNode() {
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        setOpen(false);
-        setContent(new Label("[content not set]"));
+  /** Creates a new instance. */
+  public CmsSitemapTreeNode() {
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    setOpen(false);
+    setContent(new Label("[content not set]"));
+  }
+
+  /**
+   * Gets the container for the children.
+   *
+   * <p>
+   *
+   * @return the container for the children
+   */
+  public ComponentContainer getChildren() {
+
+    return m_children;
+  }
+
+  /**
+   * Gets the opener button.
+   *
+   * <p>
+   *
+   * @return the opener button
+   */
+  public CmsSitemapTreeNodeOpener getOpener() {
+
+    return m_opener;
+  }
+
+  /**
+   * Returns true if the child list is opened.
+   *
+   * <p>
+   *
+   * @return true if the child list is opened
+   */
+  public boolean isOpen() {
+
+    return m_isOpen;
+  }
+
+  /**
+   * Sets additional styles.
+   *
+   * <p>Useful for declarative layouts.
+   *
+   * <p>TODO: check if this is actually used anywhere
+   *
+   * @param additionalStyles the additional styles to set
+   */
+  public void setAdditionalStyles(String additionalStyles) {
+
+    addStyleName(additionalStyles);
+  }
+
+  /**
+   * Sets the content widget.
+   *
+   * <p>
+   *
+   * @param content the content widget
+   */
+  public void setContent(Component content) {
+
+    m_contentContainer.removeAllComponents();
+    m_contentContainer.addComponent(content);
+  }
+
+  /**
+   * Opens / closes the list of children.<p<
+   *
+   * @param isOpen true if the children should be opened, false if they should be closed
+   */
+  public void setOpen(boolean isOpen) {
+
+    m_opener.setStyleOpen(isOpen);
+    m_children.setVisible(isOpen);
+    m_isOpen = isOpen;
+  }
+
+  /**
+   * Shows or hides the opener button.
+   *
+   * <p>
+   *
+   * @param visible true if the opener should be shown, else false
+   */
+  public void setOpenerVisible(boolean visible) {
+
+    if (visible) {
+      m_opener.removeStyleName(OpenCmsTheme.BUTTON_INVISIBLE);
+    } else {
+      m_opener.addStyleName(OpenCmsTheme.BUTTON_INVISIBLE);
     }
-
-    /**
-     * Gets the container for the children.<p>
-     *
-     * @return the container for the children
-     */
-    public ComponentContainer getChildren() {
-
-        return m_children;
-    }
-
-    /**
-     * Gets the opener button.<p>
-     *
-     * @return the opener button
-     */
-    public CmsSitemapTreeNodeOpener getOpener() {
-
-        return m_opener;
-    }
-
-    /**
-     * Returns true if the child list is opened.<p>
-     *
-     * @return true if the child list is opened
-     */
-    public boolean isOpen() {
-
-        return m_isOpen;
-    }
-
-    /**
-     * Sets additional styles.<p>
-     *
-     * Useful for declarative layouts.
-     *
-     * TODO: check if this is actually used anywhere
-     *
-     * @param additionalStyles the additional styles to set
-     */
-    public void setAdditionalStyles(String additionalStyles) {
-
-        addStyleName(additionalStyles);
-    }
-
-    /**
-     * Sets the content widget.<p>
-     *
-     * @param content the content widget
-     */
-    public void setContent(Component content) {
-
-        m_contentContainer.removeAllComponents();
-        m_contentContainer.addComponent(content);
-    }
-
-    /**
-     * Opens / closes the list of children.<p<
-     *
-     * @param isOpen true if the children should be opened, false if they should be closed
-     */
-    public void setOpen(boolean isOpen) {
-
-        m_opener.setStyleOpen(isOpen);
-        m_children.setVisible(isOpen);
-        m_isOpen = isOpen;
-    }
-
-    /**
-     * Shows or hides the opener button.<p>
-     *
-     * @param visible true if the opener should be shown, else false
-     */
-    public void setOpenerVisible(boolean visible) {
-
-        if (visible) {
-            m_opener.removeStyleName(OpenCmsTheme.BUTTON_INVISIBLE);
-        } else {
-            m_opener.addStyleName(OpenCmsTheme.BUTTON_INVISIBLE);
-        }
-    }
-
+  }
 }

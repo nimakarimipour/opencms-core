@@ -31,61 +31,69 @@ import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
 
 /**
- * Convenience class to access the localized messages of this OpenCms package.<p>
+ * Convenience class to access the localized messages of this OpenCms package.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public final class Messages extends A_CmsMessageBundle {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_NOT_FOUND_1 = "ERR_FILE_NOT_FOUND_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_FILE_NOT_FOUND_1 = "ERR_FILE_NOT_FOUND_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_NOT_SPECIFIED_0 = "ERR_FILE_NOT_SPECIFIED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_FILE_NOT_SPECIFIED_0 = "ERR_FILE_NOT_SPECIFIED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_NOT_WRITTEN_0 = "ERR_FILE_NOT_WRITTEN_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_FILE_NOT_WRITTEN_0 = "ERR_FILE_NOT_WRITTEN_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_FOLDER_NOT_CREATED_0 = "ERR_FOLDER_NOT_CREATED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_FOLDER_NOT_CREATED_0 = "ERR_FOLDER_NOT_CREATED_0";
 
-    /** Static instance member. */
-    public static final String GUI_ADMIN_MENU_HELP_GROUP_0 = "GUI_ADMIN_MENU_HELP_GROUP_0";
+  /** Static instance member. */
+  public static final String GUI_ADMIN_MENU_HELP_GROUP_0 = "GUI_ADMIN_MENU_HELP_GROUP_0";
 
-    /** Static instance member. */
-    public static final String GUI_ADMIN_NAME_0 = "GUI_ADMIN_NAME_0";
+  /** Static instance member. */
+  public static final String GUI_ADMIN_NAME_0 = "GUI_ADMIN_NAME_0";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.workplace.administration.messages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME = "org.opencms.workplace.administration.messages";
 
-    /** Static instance member. */
-    private static final I_CmsMessageBundle INSTANCE = new Messages();
+  /** Static instance member. */
+  private static final I_CmsMessageBundle INSTANCE = new Messages();
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
-    }
+    // hide the constructor
+  }
 
-    /**
-     * Returns an instance of this localized message accessor.<p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static I_CmsMessageBundle get() {
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static I_CmsMessageBundle get() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the bundle name for this OpenCms package.<p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
 
-        return BUNDLE_NAME;
-    }
+    return BUNDLE_NAME;
+  }
 }

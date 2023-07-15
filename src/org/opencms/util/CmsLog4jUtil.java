@@ -31,64 +31,67 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 
 /**
- * Utilities for dealing with log4j loggers.<p>
+ * Utilities for dealing with log4j loggers.
+ *
+ * <p>
  */
 public final class CmsLog4jUtil {
 
-    /**
-     * Hidden default constructor.<P>
-     */
-    private CmsLog4jUtil() {
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  private CmsLog4jUtil() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Gets the list of all loggers.<p>
-     *
-     * @return the list of all loggers
-     */
-    @SuppressWarnings("resource")
-    public static List<Logger> getAllLoggers() {
+  /**
+   * Gets the list of all loggers.
+   *
+   * <p>
+   *
+   * @return the list of all loggers
+   */
+  @SuppressWarnings("resource")
+  public static List<Logger> getAllLoggers() {
 
-        LoggerContext context = (LoggerContext)(LogManager.getContext(false));
-        Map<String, Logger> loggersByName = new TreeMap<String, Logger>();
-        for (Logger logger : context.getLoggers()) {
-            String loggerName = logger.getName();
-            while (loggerName != null) {
-                if (!loggersByName.containsKey(loggerName)) {
-                    Logger currentLogger = (Logger)(LogManager.getLogger(loggerName));
-                    loggersByName.put(loggerName, currentLogger);
-                }
-                loggerName = getParentLoggerName(loggerName);
-
-            }
+    LoggerContext context = (LoggerContext) (LogManager.getContext(false));
+    Map<String, Logger> loggersByName = new TreeMap<String, Logger>();
+    for (Logger logger : context.getLoggers()) {
+      String loggerName = logger.getName();
+      while (loggerName != null) {
+        if (!loggersByName.containsKey(loggerName)) {
+          Logger currentLogger = (Logger) (LogManager.getLogger(loggerName));
+          loggersByName.put(loggerName, currentLogger);
         }
-        return new ArrayList<Logger>(loggersByName.values());
-
+        loggerName = getParentLoggerName(loggerName);
+      }
     }
+    return new ArrayList<Logger>(loggersByName.values());
+  }
 
-    /**
-     * Gets the parent logger name for a given logger name, or null if there is no parent logger name.<p>
-     *
-     * @param loggerName the name of a logger
-     * @return the parent name of the logger, or null if the logger name has no parent
-     */
-    public static String getParentLoggerName(String loggerName) {
+  /**
+   * Gets the parent logger name for a given logger name, or null if there is no parent logger name.
+   *
+   * <p>
+   *
+   * @param loggerName the name of a logger
+   * @return the parent name of the logger, or null if the logger name has no parent
+   */
+  public static String getParentLoggerName(String loggerName) {
 
-        int dotIndex = loggerName.lastIndexOf(".");
-        if (dotIndex < 0) {
-            return null;
-        } else {
-            return loggerName.substring(0, dotIndex);
-        }
-
+    int dotIndex = loggerName.lastIndexOf(".");
+    if (dotIndex < 0) {
+      return null;
+    } else {
+      return loggerName.substring(0, dotIndex);
     }
-
+  }
 }

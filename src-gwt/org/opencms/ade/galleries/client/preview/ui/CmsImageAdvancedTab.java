@@ -27,6 +27,7 @@
 
 package org.opencms.ade.galleries.client.preview.ui;
 
+import java.util.Map;
 import org.opencms.ade.galleries.client.preview.CmsImagePreviewHandler;
 import org.opencms.ade.galleries.client.preview.CmsImagePreviewHandler.Attribute;
 import org.opencms.ade.galleries.client.preview.CmsPreviewUtil;
@@ -35,77 +36,81 @@ import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryMod
 import org.opencms.gwt.client.util.CmsJSONMap;
 import org.opencms.gwt.client.util.I_CmsSimpleCallback;
 
-import java.util.Map;
-
 /**
- * Advanced image tag properties tab, use in editor mode only.<p>
+ * Advanced image tag properties tab, use in editor mode only.
+ *
+ * <p>
  *
  * @since 8.0.
  */
 public class CmsImageAdvancedTab extends A_CmsPreviewDetailTab {
 
-    /** The form. */
-    private CmsImageAdvancedForm m_form;
+  /** The form. */
+  private CmsImageAdvancedForm m_form;
 
-    /** The preview handler. */
-    private CmsImagePreviewHandler m_handler;
+  /** The preview handler. */
+  private CmsImagePreviewHandler m_handler;
 
-    /**
-     * The constructor.<p>
-     *
-     * @param dialogMode the mode of the gallery
-     * @param height the height of the tab
-     * @param width the width of the height
-     * @param handler the preview handler
-     */
-    public CmsImageAdvancedTab(GalleryMode dialogMode, int height, int width, CmsImagePreviewHandler handler) {
+  /**
+   * The constructor.
+   *
+   * <p>
+   *
+   * @param dialogMode the mode of the gallery
+   * @param height the height of the tab
+   * @param width the width of the height
+   * @param handler the preview handler
+   */
+  public CmsImageAdvancedTab(
+      GalleryMode dialogMode, int height, int width, CmsImagePreviewHandler handler) {
 
-        super(dialogMode, height, width);
-        m_handler = handler;
-        m_form = new CmsImageAdvancedForm();
-        m_main.insert(m_form, 0);
+    super(dialogMode, height, width);
+    m_handler = handler;
+    m_form = new CmsImageAdvancedForm();
+    m_main.insert(m_form, 0);
+  }
+
+  /**
+   * Displays the provided image information.
+   *
+   * <p>
+   *
+   * @param imageInfo the image information
+   */
+  public void fillContent(CmsImageInfoBean imageInfo) {
+
+    CmsJSONMap imageAttributes = CmsPreviewUtil.getImageAttributes();
+    boolean inititalFill = false;
+    // checking if selected image resource is the same as previewed resource
+    if (imageAttributes.containsKey(Attribute.emptySelection.name())
+        || (imageAttributes.containsKey(Attribute.hash.name())
+            && !imageAttributes
+                .getString(Attribute.hash.name())
+                .equals(String.valueOf(m_handler.getImageIdHash())))) {
+      imageAttributes = CmsJSONMap.createJSONMap();
+      inititalFill = true;
     }
+    m_form.fillContent(imageInfo, imageAttributes, inititalFill);
+  }
 
-    /**
-     * Displays the provided image information.<p>
-     *
-     * @param imageInfo the image information
-     */
-    public void fillContent(CmsImageInfoBean imageInfo) {
+  /**
+   * Adds necessary attributes to the map.
+   *
+   * <p>
+   *
+   * @param attributes the attribute map
+   * @param callback the callback to execute
+   */
+  public void getImageAttributes(
+      Map<String, String> attributes, final I_CmsSimpleCallback<Map<String, String>> callback) {
 
-        CmsJSONMap imageAttributes = CmsPreviewUtil.getImageAttributes();
-        boolean inititalFill = false;
-        // checking if selected image resource is the same as previewed resource
-        if (imageAttributes.containsKey(Attribute.emptySelection.name())
-            || (imageAttributes.containsKey(Attribute.hash.name())
-                && !imageAttributes.getString(Attribute.hash.name()).equals(
-                    String.valueOf(m_handler.getImageIdHash())))) {
-            imageAttributes = CmsJSONMap.createJSONMap();
-            inititalFill = true;
-        }
-        m_form.fillContent(imageInfo, imageAttributes, inititalFill);
-    }
+    m_form.getImageAttributes(attributes, callback);
+  }
 
-    /**
-     * Adds necessary attributes to the map.<p>
-     *
-     * @param attributes the attribute map
-     * @param callback the callback to execute
-     */
-    public void getImageAttributes(
-        Map<String, String> attributes,
-        final I_CmsSimpleCallback<Map<String, String>> callback) {
+  /** @see org.opencms.ade.galleries.client.preview.ui.A_CmsPreviewDetailTab#getHandler() */
+  @Override
+  protected CmsImagePreviewHandler getHandler() {
 
-        m_form.getImageAttributes(attributes, callback);
-    }
-
-    /**
-     * @see org.opencms.ade.galleries.client.preview.ui.A_CmsPreviewDetailTab#getHandler()
-     */
-    @Override
-    protected CmsImagePreviewHandler getHandler() {
-
-        return m_handler;
-    }
-
+    return m_handler;
+  }
 }

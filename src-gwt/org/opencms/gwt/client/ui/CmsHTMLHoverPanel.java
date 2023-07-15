@@ -37,59 +37,67 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
 /**
- * A HTML Panel implementation toggles the I_CmsStateCss.cmsHovering CSS class on mouse over.<p>
+ * A HTML Panel implementation toggles the I_CmsStateCss.cmsHovering CSS class on mouse over.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
-public class CmsHTMLHoverPanel extends HTMLPanel implements HasMouseOutHandlers, HasMouseOverHandlers {
+public class CmsHTMLHoverPanel extends HTMLPanel
+    implements HasMouseOutHandlers, HasMouseOverHandlers {
 
-    /**
-     * Creates an HTML hover panel with the specified HTML contents inside a DIV element. Any element within this HTML that has a specified id can contain a child widget.
-     *
-     * @param html the panel's HTML
-     */
-    public CmsHTMLHoverPanel(String html) {
+  /**
+   * Creates an HTML hover panel with the specified HTML contents inside a DIV element. Any element
+   * within this HTML that has a specified id can contain a child widget.
+   *
+   * @param html the panel's HTML
+   */
+  public CmsHTMLHoverPanel(String html) {
 
-        super(html);
-        setHandler();
-    }
+    super(html);
+    setHandler();
+  }
 
-    /**
-     * Creates an HTML hover panel whose root element has the given tag, and with the specified HTML contents. Any element within this HTML that has a specified id can contain a child widget.
-     *
-     * @param tag the tag of the root element
-     * @param html the panel's HTML
-     */
-    public CmsHTMLHoverPanel(String tag, String html) {
+  /**
+   * Creates an HTML hover panel whose root element has the given tag, and with the specified HTML
+   * contents. Any element within this HTML that has a specified id can contain a child widget.
+   *
+   * @param tag the tag of the root element
+   * @param html the panel's HTML
+   */
+  public CmsHTMLHoverPanel(String tag, String html) {
 
-        super(tag, html);
-        setHandler();
-    }
+    super(tag, html);
+    setHandler();
+  }
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasMouseOutHandlers#addMouseOutHandler(com.google.gwt.event.dom.client.MouseOutHandler)
-     */
-    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasMouseOutHandlers#addMouseOutHandler(com.google.gwt.event.dom.client.MouseOutHandler)
+   */
+  public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
 
-        return addDomHandler(handler, MouseOutEvent.getType());
+    return addDomHandler(handler, MouseOutEvent.getType());
+  }
 
-    }
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasMouseOverHandlers#addMouseOverHandler(com.google.gwt.event.dom.client.MouseOverHandler)
+   */
+  public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasMouseOverHandlers#addMouseOverHandler(com.google.gwt.event.dom.client.MouseOverHandler)
-     */
-    public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+    return addDomHandler(handler, MouseOverEvent.getType());
+  }
 
-        return addDomHandler(handler, MouseOverEvent.getType());
-    }
+  /**
+   * Sets the hover handler.
+   *
+   * <p>
+   */
+  private void setHandler() {
 
-    /**
-     * Sets the hover handler.<p>
-     */
-    private void setHandler() {
-
-        A_CmsHoverHandler handler = new CmsClassHoverHandler(getElement());
-        addMouseOutHandler(handler);
-        addMouseOverHandler(handler);
-    }
+    A_CmsHoverHandler handler = new CmsClassHoverHandler(getElement());
+    addMouseOutHandler(handler);
+    addMouseOverHandler(handler);
+  }
 }

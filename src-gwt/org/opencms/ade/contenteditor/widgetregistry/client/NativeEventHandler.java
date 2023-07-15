@@ -33,37 +33,43 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 
 /**
- * Handler to delegate events to a native java script connector.<p>
+ * Handler to delegate events to a native java script connector.
+ *
+ * <p>
  */
 public class NativeEventHandler implements ValueChangeHandler<String>, FocusHandler {
 
-    /** The native connector. */
-    NativeEditWidget m_connector;
+  /** The native connector. */
+  NativeEditWidget m_connector;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param connector the native connector object that needs to provide an onChange method
-     */
-    public NativeEventHandler(NativeEditWidget connector) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param connector the native connector object that needs to provide an onChange method
+   */
+  public NativeEventHandler(NativeEditWidget connector) {
 
-        m_connector = connector;
-    }
+    m_connector = connector;
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)
-     */
-    public native void onValueChange(ValueChangeEvent<String> event) /*-{
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)
+   */
+  public native void onValueChange(ValueChangeEvent<String> event) /*-{
                                                                      var connector = this.@org.opencms.ade.contenteditor.widgetregistry.client.NativeEventHandler::m_connector;
                                                                      if (connector.onChange != null) {
                                                                      connector.onChange();
                                                                      }
                                                                      }-*/;
 
-    /**
-     * @see com.google.gwt.event.dom.client.FocusHandler#onFocus(com.google.gwt.event.dom.client.FocusEvent)
-     */
-    public native void onFocus(FocusEvent event) /*-{
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.FocusHandler#onFocus(com.google.gwt.event.dom.client.FocusEvent)
+   */
+  public native void onFocus(FocusEvent event) /*-{
 
                                                  var connector = this.@org.opencms.ade.contenteditor.widgetregistry.client.NativeEventHandler::m_connector;
                                                  if (connector.onFocus != null) {

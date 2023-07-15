@@ -27,9 +27,6 @@
 
 package org.opencms.ui.apps.logfile;
 
-import org.opencms.main.CmsLog;
-import org.opencms.ui.apps.logfile.CmsLogDownloadDialog.ZipGenerator;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,106 +35,94 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.apache.commons.logging.Log;
+import org.opencms.main.CmsLog;
+import org.opencms.ui.apps.logfile.CmsLogDownloadDialog.ZipGenerator;
 
-/**
- * Default implementation for the log download functionality.
- */
+/** Default implementation for the log download functionality. */
 public class CmsDefaultLogDownloadProvider implements I_CmsLogDownloadProvider {
 
-    /** Logger instance for the class. */
-    private static final Log LOG = CmsLog.getLog(CmsDefaultLogDownloadProvider.class);
+  /** Logger instance for the class. */
+  private static final Log LOG = CmsLog.getLog(CmsDefaultLogDownloadProvider.class);
 
-    /** Path to zip file.*/
-    private static final String ZIP_PATH = CmsLogFileApp.LOG_FOLDER + "logs.zip";
+  /** Path to zip file. */
+  private static final String ZIP_PATH = CmsLogFileApp.LOG_FOLDER + "logs.zip";
 
-    /**
-     * @see org.opencms.ui.apps.logfile.I_CmsLogDownloadProvider#canDownloadAllLogs()
-     */
-    public boolean canDownloadAllLogs() {
+  /** @see org.opencms.ui.apps.logfile.I_CmsLogDownloadProvider#canDownloadAllLogs() */
+  public boolean canDownloadAllLogs() {
 
-        return true;
+    return true;
+  }
+
+  /** @see org.opencms.ui.apps.logfile.I_CmsLogDownloadProvider#getDownloadPrefix() */
+  public String getDownloadPrefix() {
+
+    return "";
+  }
+
+  /** @see org.opencms.ui.apps.logfile.I_CmsLogDownloadProvider#getLogFiles() */
+  public Set<String> getLogFiles() {
+
+    Set<String> result = new HashSet<>();
+    for (File file : CmsLogFileOptionProvider.getLogFiles()) {
+      String path = file.getAbsolutePath();
+      if (!path.endsWith(".zip") && !path.endsWith(".gz")) {
+        result.add(file.getAbsolutePath());
+      }
     }
+    return result;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.logfile.I_CmsLogDownloadProvider#getDownloadPrefix()
-     */
-    public String getDownloadPrefix() {
+  /** @see org.opencms.ui.apps.logfile.I_CmsLogDownloadProvider#readAllLogs() */
+  public InputStream readAllLogs() {
 
-        return "";
-    }
-
-    /**
-     * @see org.opencms.ui.apps.logfile.I_CmsLogDownloadProvider#getLogFiles()
-     */
-    public Set<String> getLogFiles() {
-
-        Set<String> result = new HashSet<>();
-        for (File file : CmsLogFileOptionProvider.getLogFiles()) {
-            String path = file.getAbsolutePath();
-            if (!path.endsWith(".zip") && !path.endsWith(".gz")) {
-                result.add(file.getAbsolutePath());
-            }
+    FileOutputStream fos = null;
+    ZipGenerator zipGen = null;
+    try {
+      fos = new FileOutputStream(ZIP_PATH);
+      zipGen = new ZipGenerator(fos);
+      for (File file : CmsLogFileOptionProvider.getLogFiles()) {
+        if (!file.isDirectory() & !ZIP_PATH.equals(file.getAbsolutePath())) {
+          zipGen.addToZip(new File(CmsLogFileApp.LOG_FOLDER), file);
         }
-        return result;
-    }
+      }
+      zipGen.close();
+      fos.close();
+      return new FileInputStream(ZIP_PATH);
 
-    /**
-     * @see org.opencms.ui.apps.logfile.I_CmsLogDownloadProvider#readAllLogs()
-     */
-    public InputStream readAllLogs() {
-
-        FileOutputStream fos = null;
-        ZipGenerator zipGen = null;
+    } catch (IOException e) {
+      LOG.error("unable to build zip file", e);
+      return null;
+    } finally {
+      if (zipGen != null) {
         try {
-            fos = new FileOutputStream(ZIP_PATH);
-            zipGen = new ZipGenerator(fos);
-            for (File file : CmsLogFileOptionProvider.getLogFiles()) {
-                if (!file.isDirectory() & !ZIP_PATH.equals(file.getAbsolutePath())) {
-                    zipGen.addToZip(new File(CmsLogFileApp.LOG_FOLDER), file);
-                }
-            }
-            zipGen.close();
-            fos.close();
-            return new FileInputStream(ZIP_PATH);
-
-        } catch (IOException e) {
-            LOG.error("unable to build zip file", e);
-            return null;
-        } finally {
-            if (zipGen != null) {
-                try {
-                    zipGen.close();
-                } catch (Exception e) {
-                    LOG.info(e.getLocalizedMessage(), e);
-                }
-            }
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (Exception e) {
-                    LOG.info(e.getLocalizedMessage(), e);
-                }
-            }
+          zipGen.close();
+        } catch (Exception e) {
+          LOG.info(e.getLocalizedMessage(), e);
         }
-    }
-
-    /**
-     * @see org.opencms.ui.apps.logfile.I_CmsLogDownloadProvider#readLog(java.lang.String)
-     */
-    public InputStream readLog(String path) {
-
-        Set<String> files = getLogFiles();
-        if (files.contains(path)) {
-            try {
-                return new FileInputStream(path);
-            } catch (FileNotFoundException e) {
-                return null;
-            }
-        } else {
-            return null;
+      }
+      if (fos != null) {
+        try {
+          fos.close();
+        } catch (Exception e) {
+          LOG.info(e.getLocalizedMessage(), e);
         }
+      }
     }
+  }
 
+  /** @see org.opencms.ui.apps.logfile.I_CmsLogDownloadProvider#readLog(java.lang.String) */
+  public InputStream readLog(String path) {
+
+    Set<String> files = getLogFiles();
+    if (files.contains(path)) {
+      try {
+        return new FileInputStream(path);
+      } catch (FileNotFoundException e) {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
 }

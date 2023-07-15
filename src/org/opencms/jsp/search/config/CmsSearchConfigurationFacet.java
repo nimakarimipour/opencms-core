@@ -34,147 +34,138 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Configuration that is common for all facets. Used as base class for special facet configurations, e.g. for the field facet configuration.
+ * Configuration that is common for all facets. Used as base class for special facet configurations,
+ * e.g. for the field facet configuration.
  */
 public class CmsSearchConfigurationFacet implements I_CmsSearchConfigurationFacet {
 
-    /** The minimal number of hits required to add an entry to a facet. */
-    protected Integer m_minCount;
-    /** A name used to identify the facet when showing it in the search form. */
-    protected String m_name;
-    /** A label that can be displayed in the form, e.g., at top of the facet. */
-    protected String m_label;
-    /** The sorting of facet entries. */
-    protected List<String> m_preselection;
-    /** A flag, indicating if facet filter queries should be concatenated by AND. */
-    protected boolean m_isAndFacet;
-    /** A flag, indicating if checked entries from other facets should influence the facet or not. */
-    protected boolean m_ignoreFacetFilters;
-    /** Tags of filter-queries that should not be applied to the facet. */
-    protected Set<String> m_ignoreTags;
-    /** Tags of filter-queries that should not be applied to the facet, explicitly configured. */
-    protected Set<String> m_explicitExcludeTags;
+  /** The minimal number of hits required to add an entry to a facet. */
+  protected Integer m_minCount;
+  /** A name used to identify the facet when showing it in the search form. */
+  protected String m_name;
+  /** A label that can be displayed in the form, e.g., at top of the facet. */
+  protected String m_label;
+  /** The sorting of facet entries. */
+  protected List<String> m_preselection;
+  /** A flag, indicating if facet filter queries should be concatenated by AND. */
+  protected boolean m_isAndFacet;
+  /** A flag, indicating if checked entries from other facets should influence the facet or not. */
+  protected boolean m_ignoreFacetFilters;
+  /** Tags of filter-queries that should not be applied to the facet. */
+  protected Set<String> m_ignoreTags;
+  /** Tags of filter-queries that should not be applied to the facet, explicitly configured. */
+  protected Set<String> m_explicitExcludeTags;
 
-    /** The constructor setting all configuration options.
-     * @param minCount The minimal number of hits required to add an entry to a facet.
-     * @param label A label that can be displayed in the form, e.g., at top of the facet.
-     * @param name An optional name for the facet
-     * @param isAndFacet If set to true, the facets filters for results containing all checked entries. Otherwise it filters for results containing at least one checked entry.
-     * @param preselection A list with entries that should be preselected in the facet, when the search page is called the first time.
-     * @param ignoreFiltersFromFacets A flag, indicating if filters from other facets should be ignored or not.
-     * @param excludeTags The tags (keys) of (filter) queries to be not taken into account for the facet. If "ignoreFiltersFromFacets" is true, the according tags for facets and queries will be added.
-     */
-    public CmsSearchConfigurationFacet(
-        final Integer minCount,
-        final String label,
-        final String name,
-        final Boolean isAndFacet,
-        final List<String> preselection,
-        final Boolean ignoreFiltersFromFacets,
-        final Collection<String> excludeTags) {
+  /**
+   * The constructor setting all configuration options.
+   *
+   * @param minCount The minimal number of hits required to add an entry to a facet.
+   * @param label A label that can be displayed in the form, e.g., at top of the facet.
+   * @param name An optional name for the facet
+   * @param isAndFacet If set to true, the facets filters for results containing all checked
+   *     entries. Otherwise it filters for results containing at least one checked entry.
+   * @param preselection A list with entries that should be preselected in the facet, when the
+   *     search page is called the first time.
+   * @param ignoreFiltersFromFacets A flag, indicating if filters from other facets should be
+   *     ignored or not.
+   * @param excludeTags The tags (keys) of (filter) queries to be not taken into account for the
+   *     facet. If "ignoreFiltersFromFacets" is true, the according tags for facets and queries will
+   *     be added.
+   */
+  public CmsSearchConfigurationFacet(
+      final Integer minCount,
+      final String label,
+      final String name,
+      final Boolean isAndFacet,
+      final List<String> preselection,
+      final Boolean ignoreFiltersFromFacets,
+      final Collection<String> excludeTags) {
 
-        m_minCount = minCount;
-        m_label = label == null ? name : label;
-        if (isAndFacet != null) {
-            m_isAndFacet = isAndFacet.booleanValue();
-        }
-        m_name = name;
-        m_preselection = preselection == null ? new ArrayList<String>() : preselection;
-        m_ignoreFacetFilters = ignoreFiltersFromFacets == null ? false : ignoreFiltersFromFacets.booleanValue();
-        m_ignoreTags = new HashSet<>();
-        if (!m_isAndFacet) {
-            m_ignoreTags.add(getName());
-        }
-        if (null != excludeTags) {
-            m_ignoreTags.addAll(excludeTags);
-        }
+    m_minCount = minCount;
+    m_label = label == null ? name : label;
+    if (isAndFacet != null) {
+      m_isAndFacet = isAndFacet.booleanValue();
     }
-
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getIgnoreAllFacetFilters()
-     */
-    public boolean getIgnoreAllFacetFilters() {
-
-        return m_ignoreFacetFilters;
+    m_name = name;
+    m_preselection = preselection == null ? new ArrayList<String>() : preselection;
+    m_ignoreFacetFilters =
+        ignoreFiltersFromFacets == null ? false : ignoreFiltersFromFacets.booleanValue();
+    m_ignoreTags = new HashSet<>();
+    if (!m_isAndFacet) {
+      m_ignoreTags.add(getName());
     }
-
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getIgnoreMaxParamKey()
-     */
-    public String getIgnoreMaxParamKey() {
-
-        return getParamKey() + "_ignoremax";
+    if (null != excludeTags) {
+      m_ignoreTags.addAll(excludeTags);
     }
+  }
 
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getIgnoreTags()
-     */
-    public String getIgnoreTags() {
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getIgnoreAllFacetFilters() */
+  public boolean getIgnoreAllFacetFilters() {
 
-        return String.join(",", m_ignoreTags);
+    return m_ignoreFacetFilters;
+  }
+
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getIgnoreMaxParamKey() */
+  public String getIgnoreMaxParamKey() {
+
+    return getParamKey() + "_ignoremax";
+  }
+
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getIgnoreTags() */
+  public String getIgnoreTags() {
+
+    return String.join(",", m_ignoreTags);
+  }
+
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getIsAndFacet() */
+  public boolean getIsAndFacet() {
+
+    return m_isAndFacet;
+  }
+
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getLabel() */
+  @Override
+  public String getLabel() {
+
+    return m_label;
+  }
+
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getMinCount() */
+  @Override
+  public Integer getMinCount() {
+
+    return m_minCount;
+  }
+
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getName() */
+  @Override
+  public String getName() {
+
+    return m_name;
+  }
+
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getParamKey() */
+  @Override
+  public String getParamKey() {
+
+    return "facet_" + getName();
+  }
+
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getPreSelection() */
+  public List<String> getPreSelection() {
+
+    return m_preselection;
+  }
+
+  /**
+   * @see
+   *     org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#propagateAllFacetNames(java.util.Collection)
+   */
+  public void propagateAllFacetNames(Collection<String> names) {
+
+    if (m_ignoreFacetFilters) {
+      m_ignoreTags.addAll(names);
+      m_ignoreTags.add("q"); // tag for the query
     }
-
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getIsAndFacet()
-     */
-    public boolean getIsAndFacet() {
-
-        return m_isAndFacet;
-    }
-
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getLabel()
-     */
-    @Override
-    public String getLabel() {
-
-        return m_label;
-    }
-
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getMinCount()
-     */
-    @Override
-    public Integer getMinCount() {
-
-        return m_minCount;
-    }
-
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getName()
-     */
-    @Override
-    public String getName() {
-
-        return m_name;
-    }
-
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getParamKey()
-     */
-    @Override
-    public String getParamKey() {
-
-        return "facet_" + getName();
-    }
-
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#getPreSelection()
-     */
-    public List<String> getPreSelection() {
-
-        return m_preselection;
-    }
-
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacet#propagateAllFacetNames(java.util.Collection)
-     */
-    public void propagateAllFacetNames(Collection<String> names) {
-
-        if (m_ignoreFacetFilters) {
-            m_ignoreTags.addAll(names);
-            m_ignoreTags.add("q"); //tag for the query
-        }
-    }
-
+  }
 }

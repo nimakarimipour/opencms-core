@@ -27,55 +27,52 @@
 
 package org.opencms.acacia.client.widgets;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
+import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import org.opencms.acacia.client.I_CmsWidgetFactory;
 import org.opencms.ade.contenteditor.widgetregistry.client.WidgetRegistry;
 import org.opencms.gwt.client.I_CmsHasInit;
 import org.opencms.gwt.shared.attributeselect.I_CmsAttributeSelectData;
 import org.opencms.gwt.shared.attributeselect.I_CmsAttributeSelectFactory;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
-import com.google.web.bindery.autobean.shared.AutoBeanCodex;
-
-/**
- * Widget factory for creating attribute select widgets.
- */
+/** Widget factory for creating attribute select widgets. */
 public class CmsAttributeSelectWidgetFactory implements I_CmsWidgetFactory, I_CmsHasInit {
 
-    /** The factory used to encode/decode data related to the attribute select widget. */
-    public static final I_CmsAttributeSelectFactory DATA_FACTORY = GWT.create(I_CmsAttributeSelectFactory.class);
+  /** The factory used to encode/decode data related to the attribute select widget. */
+  public static final I_CmsAttributeSelectFactory DATA_FACTORY =
+      GWT.create(I_CmsAttributeSelectFactory.class);
 
-    /** The widget name under which the factory is registered. */
-    public static final String WIDGET_NAME = "org.opencms.widgets.CmsAttributeSelectWidget";
+  /** The widget name under which the factory is registered. */
+  public static final String WIDGET_NAME = "org.opencms.widgets.CmsAttributeSelectWidget";
 
-    /**
-     * Initializes this class.<p>
-     */
-    public static void initClass() {
+  /**
+   * Initializes this class.
+   *
+   * <p>
+   */
+  public static void initClass() {
 
-        WidgetRegistry.getInstance().registerWidgetFactory(WIDGET_NAME, new CmsAttributeSelectWidgetFactory());
-    }
+    WidgetRegistry.getInstance()
+        .registerWidgetFactory(WIDGET_NAME, new CmsAttributeSelectWidgetFactory());
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetFactory#createFormWidget(java.lang.String)
-     */
-    public I_CmsFormEditWidget createFormWidget(String configuration) {
+  /** @see org.opencms.acacia.client.I_CmsWidgetFactory#createFormWidget(java.lang.String) */
+  public I_CmsFormEditWidget createFormWidget(String configuration) {
 
-        I_CmsAttributeSelectData data = AutoBeanCodex.decode(
-            DATA_FACTORY,
-            I_CmsAttributeSelectData.class,
-            configuration).as();
+    I_CmsAttributeSelectData data =
+        AutoBeanCodex.decode(DATA_FACTORY, I_CmsAttributeSelectData.class, configuration).as();
 
-        return new CmsFormWidgetWrapper(new CmsAttributeSelectWidget(data));
-    }
+    return new CmsFormWidgetWrapper(new CmsAttributeSelectWidget(data));
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetFactory#createInlineWidget(java.lang.String, com.google.gwt.dom.client.Element)
-     */
-    public I_CmsEditWidget createInlineWidget(String configuration, Element element) {
+  /**
+   * @see org.opencms.acacia.client.I_CmsWidgetFactory#createInlineWidget(java.lang.String,
+   *     com.google.gwt.dom.client.Element)
+   */
+  public I_CmsEditWidget createInlineWidget(String configuration, Element element) {
 
-        // unsupported
-        return null;
-    }
-
+    // unsupported
+    return null;
+  }
 }

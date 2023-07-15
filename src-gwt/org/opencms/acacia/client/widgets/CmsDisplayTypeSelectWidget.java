@@ -27,19 +27,6 @@
 
 package org.opencms.acacia.client.widgets;
 
-import org.opencms.acacia.client.css.I_CmsWidgetsLayoutBundle;
-import org.opencms.acacia.shared.CmsEntity;
-import org.opencms.ade.contenteditor.client.CmsContentEditor;
-import org.opencms.ade.contenteditor.client.I_CmsEntityChangeListener;
-import org.opencms.ade.contenteditor.client.css.I_CmsLayoutBundle;
-import org.opencms.gwt.client.ui.input.CmsSelectBox;
-import org.opencms.util.CmsPair;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -53,277 +40,283 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RootPanel;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import org.opencms.acacia.client.css.I_CmsWidgetsLayoutBundle;
+import org.opencms.acacia.shared.CmsEntity;
+import org.opencms.ade.contenteditor.client.CmsContentEditor;
+import org.opencms.ade.contenteditor.client.I_CmsEntityChangeListener;
+import org.opencms.ade.contenteditor.client.css.I_CmsLayoutBundle;
+import org.opencms.gwt.client.ui.input.CmsSelectBox;
+import org.opencms.util.CmsPair;
 
 /**
- * Select widget for display types.
- * In case the widget is configured to match display types, only formatters of a specific type may be selected at the same time.<p>
+ * Select widget for display types. In case the widget is configured to match display types, only
+ * formatters of a specific type may be selected at the same time.
+ *
+ * <p>
  */
-public class CmsDisplayTypeSelectWidget extends Composite implements I_CmsEditWidget, I_CmsHasDisplayDirection {
+public class CmsDisplayTypeSelectWidget extends Composite
+    implements I_CmsEditWidget, I_CmsHasDisplayDirection {
 
-    /** The no filter string. */
-    private static final String NO_FILTER = "###no-filter###";
+  /** The no filter string. */
+  private static final String NO_FILTER = "###no-filter###";
 
-    /** The global select box. */
-    protected CmsSelectBox m_selectBox = new CmsSelectBox();
+  /** The global select box. */
+  protected CmsSelectBox m_selectBox = new CmsSelectBox();
 
-    /** Flag indicating the widget is configured to match types. */
-    boolean m_matchTypes;
+  /** Flag indicating the widget is configured to match types. */
+  boolean m_matchTypes;
 
-    /** The available select options, un-filtered. */
-    Map<String, CmsPair<String, String>> m_options;
+  /** The available select options, un-filtered. */
+  Map<String, CmsPair<String, String>> m_options;
 
-    /** Value of the activation. */
-    private boolean m_active = true;
+  /** Value of the activation. */
+  private boolean m_active = true;
 
-    /** The current filter type. */
-    private String m_filterType;
+  /** The current filter type. */
+  private String m_filterType;
 
-    /** Path components of the path used to select the option value. */
-    private String[] m_valuePath;
+  /** Path components of the path used to select the option value. */
+  private String[] m_valuePath;
 
-    /** The empty option label. */
-    private String m_emptyLabel;
+  /** The empty option label. */
+  private String m_emptyLabel;
 
-    /**
-     * Creates a new widget instance.<p>
-     *
-     * @param configuration the widget configuration
-     */
-    public CmsDisplayTypeSelectWidget(String configuration) {
+  /**
+   * Creates a new widget instance.
+   *
+   * <p>
+   *
+   * @param configuration the widget configuration
+   */
+  public CmsDisplayTypeSelectWidget(String configuration) {
 
-        JSONObject config = (JSONObject)JSONParser.parseStrict(configuration);
-        String path = ((JSONString)config.get("valuePath")).stringValue();
-        m_valuePath = splitPath(path);
-        m_matchTypes = ((JSONBoolean)config.get("matchTypes")).booleanValue();
-        m_emptyLabel = ((JSONString)config.get("emptyLabel")).stringValue();
-        JSONArray opts = (JSONArray)config.get("options");
-        m_options = new LinkedHashMap<String, CmsPair<String, String>>();
-        for (int i = 0; i < opts.size(); i++) {
-            JSONObject opt = (JSONObject)opts.get(i);
-            String value = ((JSONString)opt.get("value")).stringValue();
-            String label = ((JSONString)opt.get("label")).stringValue();
-            String displayType = ((JSONString)opt.get("displayType")).stringValue();
-            m_options.put(value, new CmsPair<String, String>(label, displayType));
-        }
+    JSONObject config = (JSONObject) JSONParser.parseStrict(configuration);
+    String path = ((JSONString) config.get("valuePath")).stringValue();
+    m_valuePath = splitPath(path);
+    m_matchTypes = ((JSONBoolean) config.get("matchTypes")).booleanValue();
+    m_emptyLabel = ((JSONString) config.get("emptyLabel")).stringValue();
+    JSONArray opts = (JSONArray) config.get("options");
+    m_options = new LinkedHashMap<String, CmsPair<String, String>>();
+    for (int i = 0; i < opts.size(); i++) {
+      JSONObject opt = (JSONObject) opts.get(i);
+      String value = ((JSONString) opt.get("value")).stringValue();
+      String label = ((JSONString) opt.get("label")).stringValue();
+      String displayType = ((JSONString) opt.get("displayType")).stringValue();
+      m_options.put(value, new CmsPair<String, String>(label, displayType));
+    }
 
-        // Place the check above the box using a vertical panel.
-        m_selectBox.addStyleName(I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().selectBoxPanel());
-        m_selectBox.setPopupResize(false);
-        // add some styles to parts of the selectbox.
-        m_selectBox.getOpener().addStyleName(I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().selectBoxSelected());
-        m_selectBox.getSelectorPopup().addStyleName(I_CmsLayoutBundle.INSTANCE.globalWidgetCss().selectBoxPopup());
-        m_selectBox.addValueChangeHandler(new ValueChangeHandler<String>() {
+    // Place the check above the box using a vertical panel.
+    m_selectBox.addStyleName(I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().selectBoxPanel());
+    m_selectBox.setPopupResize(false);
+    // add some styles to parts of the selectbox.
+    m_selectBox
+        .getOpener()
+        .addStyleName(I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().selectBoxSelected());
+    m_selectBox
+        .getSelectorPopup()
+        .addStyleName(I_CmsLayoutBundle.INSTANCE.globalWidgetCss().selectBoxPopup());
+    m_selectBox.addValueChangeHandler(
+        new ValueChangeHandler<String>() {
 
-            public void onValueChange(ValueChangeEvent<String> event) {
+          public void onValueChange(ValueChangeEvent<String> event) {
 
-                fireChangeEvent();
-
-            }
-
+            fireChangeEvent();
+          }
         });
 
-        update(CmsContentEditor.getEntity());
-        initWidget(m_selectBox);
-    }
+    update(CmsContentEditor.getEntity());
+    initWidget(m_selectBox);
+  }
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
-     */
-    public HandlerRegistration addFocusHandler(FocusHandler handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
+   */
+  public HandlerRegistration addFocusHandler(FocusHandler handler) {
 
-        return addDomHandler(handler, FocusEvent.getType());
-    }
+    return addDomHandler(handler, FocusEvent.getType());
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
 
-        return addHandler(handler, ValueChangeEvent.getType());
-    }
+    return addHandler(handler, ValueChangeEvent.getType());
+  }
 
-    /**
-     * Represents a value change event.<p>
-     * Please edit the blog entry text.
-     */
-    public void fireChangeEvent() {
+  /**
+   * Represents a value change event.
+   *
+   * <p>Please edit the blog entry text.
+   */
+  public void fireChangeEvent() {
 
-        ValueChangeEvent.fire(this, m_selectBox.getFormValueAsString());
+    ValueChangeEvent.fire(this, m_selectBox.getFormValueAsString());
+  }
 
-    }
+  /** @see org.opencms.acacia.client.widgets.I_CmsHasDisplayDirection#getDisplayingDirection() */
+  public Direction getDisplayingDirection() {
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsHasDisplayDirection#getDisplayingDirection()
-     */
-    public Direction getDisplayingDirection() {
+    return m_selectBox.displayingAbove() ? Direction.above : Direction.below;
+  }
 
-        return m_selectBox.displayingAbove() ? Direction.above : Direction.below;
-    }
+  /** @see com.google.gwt.user.client.ui.HasValue#getValue() */
+  public String getValue() {
 
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#getValue()
-     */
-    public String getValue() {
+    return m_selectBox.getFormValueAsString();
+  }
 
-        return m_selectBox.getFormValueAsString();
-    }
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive() */
+  public boolean isActive() {
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive()
-     */
-    public boolean isActive() {
+    return m_active;
+  }
 
-        return m_active;
-    }
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget() */
+  public void onAttachWidget() {
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget()
-     */
-    public void onAttachWidget() {
+    super.onAttach();
+  }
 
-        super.onAttach();
-    }
+  /** @see com.google.gwt.user.client.ui.Widget#onLoad() */
+  @Override
+  public void onLoad() {
 
-    /**
-     * @see com.google.gwt.user.client.ui.Widget#onLoad()
-     */
-    @Override
-    public void onLoad() {
+    if (m_matchTypes) {
+      update(CmsContentEditor.getEntity());
 
-        if (m_matchTypes) {
-            update(CmsContentEditor.getEntity());
+      CmsContentEditor.addEntityChangeListener(
+          new I_CmsEntityChangeListener() {
 
-            CmsContentEditor.addEntityChangeListener(new I_CmsEntityChangeListener() {
+            public void onEntityChange(CmsEntity entity) {
 
-                public void onEntityChange(CmsEntity entity) {
-
-                    boolean attached = RootPanel.getBodyElement().isOrHasChild(getElement());
-                    if (attached) {
-                        update(CmsContentEditor.getEntity());
-                    }
-                }
-            }, null);
-        }
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
-     */
-    public boolean owns(Element element) {
-
-        return getElement().isOrHasChild(element);
-
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean)
-     */
-    public void setActive(boolean active) {
-
-        // check if value change. If not do nothing.
-        if (m_active == active) {
-            return;
-        }
-        // set new value.
-        m_active = active;
-        // set the new value to the selectbox.
-        m_selectBox.setEnabled(active);
-        // fire change event if necessary.
-        if (active) {
-            fireChangeEvent();
-        }
-
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String)
-     */
-    public void setName(String name) {
-
-        // no input field so nothing to do
-
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
-     */
-    public void setValue(String value) {
-
-        setValue(value, false);
-
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
-     */
-    public void setValue(String value, boolean fireEvents) {
-
-        m_selectBox.setFormValueAsString(value);
-        if (fireEvents) {
-            fireChangeEvent();
-        }
-
-    }
-
-    /**
-     * Updates the select options from the given entity.<p>
-     *
-     * @param entity a top-level content entity
-     */
-    public void update(CmsEntity entity) {
-
-        String filterType = NO_FILTER;
-        if (m_matchTypes) {
-            List<Object> values = CmsEntity.getValuesForPath(entity, m_valuePath);
-            if (values.size() > 1) {
-                String firstValue = (String)values.get(0);
-                CmsPair<String, String> val = m_options.get(firstValue);
-                if (val != null) {
-                    filterType = val.getSecond();
-                }
+              boolean attached = RootPanel.getBodyElement().isOrHasChild(getElement());
+              if (attached) {
+                update(CmsContentEditor.getEntity());
+              }
             }
-        }
+          },
+          null);
+    }
+  }
 
-        if (!filterType.equals(m_filterType)) {
-            boolean noFilter = NO_FILTER.equals(filterType);
-            Map<String, String> items = new LinkedHashMap<String, String>();
-            // add empty option
-            items.put("", m_emptyLabel);
-            for (Entry<String, CmsPair<String, String>> optEntry : m_options.entrySet()) {
-                if (noFilter || filterType.equals(optEntry.getValue().getSecond())) {
-                    items.put(optEntry.getKey(), optEntry.getValue().getFirst());
-                }
-            }
-            replaceItems(items);
+  /**
+   * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
+   */
+  public boolean owns(Element element) {
+
+    return getElement().isOrHasChild(element);
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean) */
+  public void setActive(boolean active) {
+
+    // check if value change. If not do nothing.
+    if (m_active == active) {
+      return;
+    }
+    // set new value.
+    m_active = active;
+    // set the new value to the selectbox.
+    m_selectBox.setEnabled(active);
+    // fire change event if necessary.
+    if (active) {
+      fireChangeEvent();
+    }
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String) */
+  public void setName(String name) {
+
+    // no input field so nothing to do
+
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object) */
+  public void setValue(String value) {
+
+    setValue(value, false);
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean) */
+  public void setValue(String value, boolean fireEvents) {
+
+    m_selectBox.setFormValueAsString(value);
+    if (fireEvents) {
+      fireChangeEvent();
+    }
+  }
+
+  /**
+   * Updates the select options from the given entity.
+   *
+   * <p>
+   *
+   * @param entity a top-level content entity
+   */
+  public void update(CmsEntity entity) {
+
+    String filterType = NO_FILTER;
+    if (m_matchTypes) {
+      List<Object> values = CmsEntity.getValuesForPath(entity, m_valuePath);
+      if (values.size() > 1) {
+        String firstValue = (String) values.get(0);
+        CmsPair<String, String> val = m_options.get(firstValue);
+        if (val != null) {
+          filterType = val.getSecond();
         }
-        m_filterType = filterType;
+      }
     }
 
-    /**
-     * Replaces the select items with the given items.<p>
-     *
-     * @param items the select items
-     */
-    private void replaceItems(Map<String, String> items) {
-
-        String oldValue = m_selectBox.getFormValueAsString();
-        //set value and option to the combo box.
-        m_selectBox.setItems(items);
-        if (items.containsKey(oldValue)) {
-            m_selectBox.setFormValueAsString(oldValue);
+    if (!filterType.equals(m_filterType)) {
+      boolean noFilter = NO_FILTER.equals(filterType);
+      Map<String, String> items = new LinkedHashMap<String, String>();
+      // add empty option
+      items.put("", m_emptyLabel);
+      for (Entry<String, CmsPair<String, String>> optEntry : m_options.entrySet()) {
+        if (noFilter || filterType.equals(optEntry.getValue().getSecond())) {
+          items.put(optEntry.getKey(), optEntry.getValue().getFirst());
         }
+      }
+      replaceItems(items);
     }
+    m_filterType = filterType;
+  }
 
-    /**
-     * Splits a path into components.<p>
-     *
-     * @param path the path to split
-     * @return the path components
-     */
-    private String[] splitPath(String path) {
+  /**
+   * Replaces the select items with the given items.
+   *
+   * <p>
+   *
+   * @param items the select items
+   */
+  private void replaceItems(Map<String, String> items) {
 
-        path = path.replaceAll("^/", "").replaceAll("/$", "");
-        return path.split("/");
+    String oldValue = m_selectBox.getFormValueAsString();
+    // set value and option to the combo box.
+    m_selectBox.setItems(items);
+    if (items.containsKey(oldValue)) {
+      m_selectBox.setFormValueAsString(oldValue);
     }
+  }
 
+  /**
+   * Splits a path into components.
+   *
+   * <p>
+   *
+   * @param path the path to split
+   * @return the path components
+   */
+  private String[] splitPath(String path) {
+
+    path = path.replaceAll("^/", "").replaceAll("/$", "");
+    return path.split("/");
+  }
 }

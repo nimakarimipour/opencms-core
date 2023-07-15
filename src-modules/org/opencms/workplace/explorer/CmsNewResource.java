@@ -27,6 +27,13 @@
 
 package org.opencms.workplace.explorer;
 
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
 import org.opencms.file.CmsPropertyDefinition;
@@ -38,225 +45,232 @@ import org.opencms.main.CmsRuntimeException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
-import org.apache.commons.logging.Log;
-
 /**
- * The new resource entry dialog which displays the possible "new actions" for the current user.<p>
+ * The new resource entry dialog which displays the possible "new actions" for the current user.
  *
- * It handles the creation of "simple" resource types like plain or JSP resources.<p>
+ * <p>It handles the creation of "simple" resource types like plain or JSP resources.
  *
- * The following files use this class:
+ * <p>The following files use this class:
+ *
  * <ul>
- * <li>/commons/newresource.jsp
+ *   <li>/commons/newresource.jsp
  * </ul>
+ *
  * <p>
  *
  * @since 6.0.0
  */
 public class CmsNewResource {
 
-    /** The value for the resource name form action. */
-    public static final int ACTION_NEWFORM = 100;
+  /** The value for the resource name form action. */
+  public static final int ACTION_NEWFORM = 100;
 
-    /** The value for the resource name form submission action. */
-    public static final int ACTION_SUBMITFORM = 110;
+  /** The value for the resource name form submission action. */
+  public static final int ACTION_SUBMITFORM = 110;
 
-    /** Constant for the "Next" button in the build button methods. */
-    public static final int BUTTON_NEXT = 20;
+  /** Constant for the "Next" button in the build button methods. */
+  public static final int BUTTON_NEXT = 20;
 
-    /** The default suffix. */
-    public static final String DEFAULT_SUFFIX = ".html";
+  /** The default suffix. */
+  public static final String DEFAULT_SUFFIX = ".html";
 
-    /** Delimiter for property values, e.g. for available resource types or template sites. */
-    public static final char DELIM_PROPERTYVALUES = ',';
+  /** Delimiter for property values, e.g. for available resource types or template sites. */
+  public static final char DELIM_PROPERTYVALUES = ',';
 
-    /** The name for the advanced resource form action. */
-    public static final String DIALOG_ADVANCED = "advanced";
+  /** The name for the advanced resource form action. */
+  public static final String DIALOG_ADVANCED = "advanced";
 
-    /** The name for the resource form action. */
-    public static final String DIALOG_NEWFORM = "newform";
+  /** The name for the resource form action. */
+  public static final String DIALOG_NEWFORM = "newform";
 
-    /** The name for the resource form submission action. */
-    public static final String DIALOG_SUBMITFORM = "submitform";
+  /** The name for the resource form submission action. */
+  public static final String DIALOG_SUBMITFORM = "submitform";
 
-    /** The dialog type. */
-    public static final String DIALOG_TYPE = "newresource";
+  /** The dialog type. */
+  public static final String DIALOG_TYPE = "newresource";
 
-    /** List column id constant. */
-    public static final String LIST_COLUMN_URI = "nrcu";
+  /** List column id constant. */
+  public static final String LIST_COLUMN_URI = "nrcu";
 
-    /** Request parameter name for the append html suffix checkbox. */
-    public static final String PARAM_APPENDSUFFIXHTML = "appendsuffixhtml";
+  /** Request parameter name for the append html suffix checkbox. */
+  public static final String PARAM_APPENDSUFFIXHTML = "appendsuffixhtml";
 
-    /** Request parameter name for the current folder name. */
-    public static final String PARAM_CURRENTFOLDER = "currentfolder";
+  /** Request parameter name for the current folder name. */
+  public static final String PARAM_CURRENTFOLDER = "currentfolder";
 
-    /** Request parameter name for the new form uri. */
-    public static final String PARAM_NEWFORMURI = "newformuri";
+  /** Request parameter name for the new form uri. */
+  public static final String PARAM_NEWFORMURI = "newformuri";
 
-    /** Request parameter name for the new resource edit properties flag. */
-    public static final String PARAM_NEWRESOURCEEDITPROPS = "newresourceeditprops";
+  /** Request parameter name for the new resource edit properties flag. */
+  public static final String PARAM_NEWRESOURCEEDITPROPS = "newresourceeditprops";
 
-    /** Request parameter name for the new resource type. */
-    public static final String PARAM_NEWRESOURCETYPE = "newresourcetype";
+  /** Request parameter name for the new resource type. */
+  public static final String PARAM_NEWRESOURCETYPE = "newresourcetype";
 
-    /** Request parameter name for the new resource uri. */
-    public static final String PARAM_NEWRESOURCEURI = "newresourceuri";
+  /** Request parameter name for the new resource uri. */
+  public static final String PARAM_NEWRESOURCEURI = "newresourceuri";
 
-    /** Session attribute to store advanced mode. */
-    public static final String SESSION_ATTR_ADVANCED = "ocms_newres_adv";
+  /** Session attribute to store advanced mode. */
+  public static final String SESSION_ATTR_ADVANCED = "ocms_newres_adv";
 
-    /** Session attribute to store current page. */
-    public static final String SESSION_ATTR_PAGE = "ocms_newres_page";
+  /** Session attribute to store current page. */
+  public static final String SESSION_ATTR_PAGE = "ocms_newres_page";
 
-    /** The property value for available resource to reset behaviour to default dialog. */
-    public static final String VALUE_DEFAULT = "default";
+  /** The property value for available resource to reset behaviour to default dialog. */
+  public static final String VALUE_DEFAULT = "default";
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsNewResource.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsNewResource.class);
 
-    /**
-     * Returns the value for the Title property from the given resource name.<p>
-     *
-     * @param name the name of the resource
-     *
-     * @return the value for the Title property from the given resource name
-     */
-    public static String computeNewTitleProperty(String name) {
+  /**
+   * Returns the value for the Title property from the given resource name.
+   *
+   * <p>
+   *
+   * @param name the name of the resource
+   * @return the value for the Title property from the given resource name
+   */
+  public static String computeNewTitleProperty(String name) {
 
-        String title = name;
-        int lastDot = title.lastIndexOf('.');
-        // check the mime type for the file extension
-        if ((lastDot > 0) && (lastDot < (title.length() - 1))) {
-            // remove suffix for Title and NavPos property
-            title = title.substring(0, lastDot);
-        }
-        return title;
+    String title = name;
+    int lastDot = title.lastIndexOf('.');
+    // check the mime type for the file extension
+    if ((lastDot > 0) && (lastDot < (title.length() - 1))) {
+      // remove suffix for Title and NavPos property
+      title = title.substring(0, lastDot);
+    }
+    return title;
+  }
+
+  /**
+   * A factory to return handlers to create new resources.
+   *
+   * <p>
+   *
+   * @param type the resource type name to get a new resource handler for, as specified in the
+   *     explorer type settings
+   * @param defaultClassName a default handler class name, to be used if the handler class specified
+   *     in the explorer type settings cannot be found
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   * @return a new instance of the handler class
+   * @throws CmsRuntimeException if something goes wrong
+   */
+  public static Object getNewResourceHandler(
+      String type,
+      String defaultClassName,
+      PageContext context,
+      HttpServletRequest req,
+      HttpServletResponse res)
+      throws CmsRuntimeException {
+
+    if (CmsStringUtil.isEmpty(type)) {
+      // it's not possible to hardwire the resource type name on the JSP for Xml content types
+      type = req.getParameter(PARAM_NEWRESOURCETYPE);
     }
 
-    /**
-     * A factory to return handlers to create new resources.<p>
-     *
-     * @param type the resource type name to get a new resource handler for, as specified in the explorer type settings
-     * @param defaultClassName a default handler class name, to be used if the handler class specified in the explorer type settings cannot be found
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     * @return a new instance of the handler class
-     * @throws CmsRuntimeException if something goes wrong
-     */
-    public static Object getNewResourceHandler(
-        String type,
-        String defaultClassName,
-        PageContext context,
-        HttpServletRequest req,
-        HttpServletResponse res)
-    throws CmsRuntimeException {
+    String className = defaultClassName;
+    CmsExplorerTypeSettings settings = OpenCms.getWorkplaceManager().getExplorerTypeSetting(type);
 
-        if (CmsStringUtil.isEmpty(type)) {
-            // it's not possible to hardwire the resource type name on the JSP for Xml content types
-            type = req.getParameter(PARAM_NEWRESOURCETYPE);
-        }
+    Class<?> clazz = null;
+    try {
+      clazz = Class.forName(className);
+    } catch (ClassNotFoundException e) {
 
-        String className = defaultClassName;
-        CmsExplorerTypeSettings settings = OpenCms.getWorkplaceManager().getExplorerTypeSetting(type);
-
-        Class<?> clazz = null;
-        try {
-            clazz = Class.forName(className);
-        } catch (ClassNotFoundException e) {
-
-            if (LOG.isErrorEnabled()) {
-                LOG.error(Messages.get().getBundle().key(Messages.ERR_NEW_RES_HANDLER_CLASS_NOT_FOUND_1, className), e);
-            }
-            throw new CmsIllegalArgumentException(
-                Messages.get().container(Messages.ERR_NEW_RES_HANDLER_CLASS_NOT_FOUND_1, className));
-        }
-
-        Object handler = null;
-        try {
-            Constructor<?> constructor = clazz.getConstructor(
-                new Class[] {PageContext.class, HttpServletRequest.class, HttpServletResponse.class});
-            handler = constructor.newInstance(new Object[] {context, req, res});
-        } catch (Exception e) {
-
-            throw new CmsIllegalArgumentException(
-                Messages.get().container(Messages.ERR_NEW_RES_CONSTRUCTOR_NOT_FOUND_1, className));
-        }
-
-        return handler;
+      if (LOG.isErrorEnabled()) {
+        LOG.error(
+            Messages.get()
+                .getBundle()
+                .key(Messages.ERR_NEW_RES_HANDLER_CLASS_NOT_FOUND_1, className),
+            e);
+      }
+      throw new CmsIllegalArgumentException(
+          Messages.get().container(Messages.ERR_NEW_RES_HANDLER_CLASS_NOT_FOUND_1, className));
     }
 
-    /**
-     * Creates a single property object and sets the value individual or shared depending on the OpenCms settings.<p>
-     *
-     * @param name the name of the property
-     * @param value the value to set
-     * @return an initialized property object
-     */
-    protected static CmsProperty createPropertyObject(String name, String value) {
+    Object handler = null;
+    try {
+      Constructor<?> constructor =
+          clazz.getConstructor(
+              new Class[] {PageContext.class, HttpServletRequest.class, HttpServletResponse.class});
+      handler = constructor.newInstance(new Object[] {context, req, res});
+    } catch (Exception e) {
 
-        CmsProperty prop = new CmsProperty();
-        prop.setAutoCreatePropertyDefinition(true);
-        prop.setName(name);
-        if (OpenCms.getWorkplaceManager().isDefaultPropertiesOnStructure()) {
-            prop.setValue(value, CmsProperty.TYPE_INDIVIDUAL);
-        } else {
-            prop.setValue(value, CmsProperty.TYPE_SHARED);
-        }
-        return prop;
+      throw new CmsIllegalArgumentException(
+          Messages.get().container(Messages.ERR_NEW_RES_CONSTRUCTOR_NOT_FOUND_1, className));
     }
 
-    /**
-     * Returns the properties to create automatically with the new VFS resource.<p>
-     *
-     * If configured, the Title and Navigation properties are set on resource creation.<p>
-     *
-     * @param cms the initialized CmsObject
-     * @param resourceName the full resource name
-     * @param resTypeName the name of the resource type
-     * @param title the Title String to use for the property values
-     * @return the List of initialized property objects
-     */
-    protected static List<CmsProperty> createResourceProperties(
-        CmsObject cms,
-        String resourceName,
-        String resTypeName,
-        String title) {
+    return handler;
+  }
 
-        // create property values
-        List<CmsProperty> properties = new ArrayList<CmsProperty>(3);
+  /**
+   * Creates a single property object and sets the value individual or shared depending on the
+   * OpenCms settings.
+   *
+   * <p>
+   *
+   * @param name the name of the property
+   * @param value the value to set
+   * @return an initialized property object
+   */
+  protected static CmsProperty createPropertyObject(String name, String value) {
 
-        // get explorer type settings for the resource type
-        CmsExplorerTypeSettings settings = OpenCms.getWorkplaceManager().getExplorerTypeSetting(resTypeName);
-        if (settings.isAutoSetTitle()) {
-
-            // add the Title property
-            properties.add(createPropertyObject(CmsPropertyDefinition.PROPERTY_TITLE, title));
-        }
-        if (settings.isAutoSetNavigation()) {
-
-            // add the NavText property
-            properties.add(createPropertyObject(CmsPropertyDefinition.PROPERTY_NAVTEXT, title));
-
-            // calculate the new navigation position for the resource
-            List<CmsJspNavElement> navList = new CmsJspNavBuilder(cms).getNavigationForFolder(resourceName);
-            float navPos = 1;
-            if (navList.size() > 0) {
-                CmsJspNavElement nav = navList.get(navList.size() - 1);
-                navPos = nav.getNavPosition() + 1;
-            }
-            // add the NavPos property
-            properties.add(createPropertyObject(CmsPropertyDefinition.PROPERTY_NAVPOS, String.valueOf(navPos)));
-        }
-        return properties;
+    CmsProperty prop = new CmsProperty();
+    prop.setAutoCreatePropertyDefinition(true);
+    prop.setName(name);
+    if (OpenCms.getWorkplaceManager().isDefaultPropertiesOnStructure()) {
+      prop.setValue(value, CmsProperty.TYPE_INDIVIDUAL);
+    } else {
+      prop.setValue(value, CmsProperty.TYPE_SHARED);
     }
+    return prop;
+  }
+
+  /**
+   * Returns the properties to create automatically with the new VFS resource.
+   *
+   * <p>If configured, the Title and Navigation properties are set on resource creation.
+   *
+   * <p>
+   *
+   * @param cms the initialized CmsObject
+   * @param resourceName the full resource name
+   * @param resTypeName the name of the resource type
+   * @param title the Title String to use for the property values
+   * @return the List of initialized property objects
+   */
+  protected static List<CmsProperty> createResourceProperties(
+      CmsObject cms, String resourceName, String resTypeName, String title) {
+
+    // create property values
+    List<CmsProperty> properties = new ArrayList<CmsProperty>(3);
+
+    // get explorer type settings for the resource type
+    CmsExplorerTypeSettings settings =
+        OpenCms.getWorkplaceManager().getExplorerTypeSetting(resTypeName);
+    if (settings.isAutoSetTitle()) {
+
+      // add the Title property
+      properties.add(createPropertyObject(CmsPropertyDefinition.PROPERTY_TITLE, title));
+    }
+    if (settings.isAutoSetNavigation()) {
+
+      // add the NavText property
+      properties.add(createPropertyObject(CmsPropertyDefinition.PROPERTY_NAVTEXT, title));
+
+      // calculate the new navigation position for the resource
+      List<CmsJspNavElement> navList =
+          new CmsJspNavBuilder(cms).getNavigationForFolder(resourceName);
+      float navPos = 1;
+      if (navList.size() > 0) {
+        CmsJspNavElement nav = navList.get(navList.size() - 1);
+        navPos = nav.getNavPosition() + 1;
+      }
+      // add the NavPos property
+      properties.add(
+          createPropertyObject(CmsPropertyDefinition.PROPERTY_NAVPOS, String.valueOf(navPos)));
+    }
+    return properties;
+  }
 }

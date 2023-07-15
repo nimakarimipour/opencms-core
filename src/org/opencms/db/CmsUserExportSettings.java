@@ -31,85 +31,101 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Provides the user export settings.<p>
+ * Provides the user export settings.
+ *
+ * <p>
  *
  * @since 6.5.6
  */
 public class CmsUserExportSettings {
 
-    /** The list of export values. */
-    private List<String> m_columns;
+  /** The list of export values. */
+  private List<String> m_columns;
 
-    /** The separator used in export file. */
-    private String m_separator;
+  /** The separator used in export file. */
+  private String m_separator;
 
-    /**
-     * Public constructor.<p>
-     */
-    public CmsUserExportSettings() {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   */
+  public CmsUserExportSettings() {
 
-        m_columns = new ArrayList<String>();
-    }
+    m_columns = new ArrayList<String>();
+  }
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param separator the seperator to use during import
-     * @param columns the columns to export
-     */
-    public CmsUserExportSettings(String separator, List<String> columns) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param separator the seperator to use during import
+   * @param columns the columns to export
+   */
+  public CmsUserExportSettings(String separator, List<String> columns) {
 
-        m_separator = separator;
-        m_columns = columns;
-    }
+    m_separator = separator;
+    m_columns = columns;
+  }
 
-    /**
-     * Adds a column to the list of export columns.<p>
-     *
-     * @param column column to add to export columns list
-     */
-    public void addColumn(String column) {
+  /**
+   * Adds a column to the list of export columns.
+   *
+   * <p>
+   *
+   * @param column column to add to export columns list
+   */
+  public void addColumn(String column) {
 
-        m_columns.add(column);
-    }
+    m_columns.add(column);
+  }
 
-    /**
-     * Returns the list of export columns.<p>
-     *
-     * @return the list of export columns
-     */
-    public List<String> getColumns() {
+  /**
+   * Returns the list of export columns.
+   *
+   * <p>
+   *
+   * @return the list of export columns
+   */
+  public List<String> getColumns() {
 
-        return m_columns;
-    }
+    return m_columns;
+  }
 
-    /**
-     * Returns the export separator.<p>
-     *
-     * @return the export separator
-     */
-    public String getSeparator() {
+  /**
+   * Returns the export separator.
+   *
+   * <p>
+   *
+   * @return the export separator
+   */
+  public String getSeparator() {
 
-        return m_separator;
-    }
+    return m_separator;
+  }
 
-    /**
-     * Sets the export columns.<p>
-     *
-     * @param columns the export columns to set
-     */
-    public void setColumns(List<String> columns) {
+  /**
+   * Sets the export columns.
+   *
+   * <p>
+   *
+   * @param columns the export columns to set
+   */
+  public void setColumns(List<String> columns) {
 
-        m_columns = columns;
-    }
+    m_columns = columns;
+  }
 
-    /**
-     * Sets the export separator.<p>
-     *
-     * @param separator the export separator to set
-     */
-    public void setSeparator(String separator) {
+  /**
+   * Sets the export separator.
+   *
+   * <p>
+   *
+   * @param separator the export separator to set
+   */
+  public void setSeparator(String separator) {
 
-        m_separator = separator;
-    }
+    m_separator = separator;
+  }
 }

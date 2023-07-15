@@ -27,142 +27,153 @@
 
 package org.opencms.ui.util;
 
-import java.util.IdentityHashMap;
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.vaadin.ui.Component;
 import com.vaadin.v7.data.Property.ValueChangeEvent;
 import com.vaadin.v7.data.Property.ValueChangeListener;
 import com.vaadin.v7.ui.CheckBox;
-import com.vaadin.ui.Component;
+import java.util.IdentityHashMap;
+import java.util.List;
 
 /**
- * Ensures that among a set of check boxes, at most one of them is checked, without imposing constraints on the location of the checkboxes
- * in the UI.
+ * Ensures that among a set of check boxes, at most one of them is checked, without imposing
+ * constraints on the location of the checkboxes in the UI.
  */
 public class CmsLogicalCheckboxGroup {
 
-    /**
-     * Listener interface.<p>
-     */
-    public static interface I_ChangeListener {
-
-        /**
-         * Gets called when the selected check box changes.<p>
-         *
-         * @param box the selected check box, or null if deselected
-         */
-        void onSelect(CheckBox box);
-    }
-
-    /** The check boxes of this group. */
-    private List<CheckBox> m_checkboxes = Lists.newArrayList();
-
-    /** The change listener. */
-    private I_ChangeListener m_listener;
-
-    /** Value change listeners for the check boxes. */
-    private IdentityHashMap<Component, ValueChangeListener> m_listeners = Maps.newIdentityHashMap();
-
-    /** True if we are currently processing an event, used to prevent infinite recursion. */
-    private boolean m_runningEvent;
-
-    /** The currently selected check box, or null if none is selected. */
-    private CheckBox m_selected;
+  /**
+   * Listener interface.
+   *
+   * <p>
+   */
+  public static interface I_ChangeListener {
 
     /**
-     * Adds a check box to the group.<p>
+     * Gets called when the selected check box changes.
      *
-     * @param checkBox the check box to add
+     * <p>
+     *
+     * @param box the selected check box, or null if deselected
      */
-    public void add(final CheckBox checkBox) {
+    void onSelect(CheckBox box);
+  }
 
-        checkBox.setValue(Boolean.FALSE);
-        m_checkboxes.add(checkBox);
-        ValueChangeListener listener = new ValueChangeListener() {
+  /** The check boxes of this group. */
+  private List<CheckBox> m_checkboxes = Lists.newArrayList();
 
-            private static final long serialVersionUID = 1L;
+  /** The change listener. */
+  private I_ChangeListener m_listener;
 
-            @SuppressWarnings("synthetic-access")
-            public void valueChange(ValueChangeEvent event) {
+  /** Value change listeners for the check boxes. */
+  private IdentityHashMap<Component, ValueChangeListener> m_listeners = Maps.newIdentityHashMap();
 
-                if (m_runningEvent) {
-                    return;
+  /** True if we are currently processing an event, used to prevent infinite recursion. */
+  private boolean m_runningEvent;
+
+  /** The currently selected check box, or null if none is selected. */
+  private CheckBox m_selected;
+
+  /**
+   * Adds a check box to the group.
+   *
+   * <p>
+   *
+   * @param checkBox the check box to add
+   */
+  public void add(final CheckBox checkBox) {
+
+    checkBox.setValue(Boolean.FALSE);
+    m_checkboxes.add(checkBox);
+    ValueChangeListener listener =
+        new ValueChangeListener() {
+
+          private static final long serialVersionUID = 1L;
+
+          @SuppressWarnings("synthetic-access")
+          public void valueChange(ValueChangeEvent event) {
+
+            if (m_runningEvent) {
+              return;
+            } else {
+              try {
+                m_runningEvent = true;
+                if (((Boolean) event.getProperty().getValue()).booleanValue()) {
+                  if ((m_selected != null) && (m_selected != checkBox)) {
+                    m_selected.setValue(Boolean.FALSE);
+                  }
+                  setActiveCheckBox(checkBox);
                 } else {
-                    try {
-                        m_runningEvent = true;
-                        if (((Boolean)event.getProperty().getValue()).booleanValue()) {
-                            if ((m_selected != null) && (m_selected != checkBox)) {
-                                m_selected.setValue(Boolean.FALSE);
-                            }
-                            setActiveCheckBox(checkBox);
-                        } else {
-                            setActiveCheckBox(null);
-                            m_selected = null;
-                        }
-
-                        // TODO Auto-generated method stub
-                    } finally {
-                        m_runningEvent = false;
-
-                    }
+                  setActiveCheckBox(null);
+                  m_selected = null;
                 }
 
+                // TODO Auto-generated method stub
+              } finally {
+                m_runningEvent = false;
+              }
             }
+          }
         };
-        checkBox.addValueChangeListener(listener);
-        m_listeners.put(checkBox, listener);
+    checkBox.addValueChangeListener(listener);
+    m_listeners.put(checkBox, listener);
+  }
+
+  /**
+   * Gets the currently selected check box.
+   *
+   * <p>
+   *
+   * @return the check box
+   */
+  public CheckBox getSelected() {
+
+    return m_selected;
+  }
+
+  /**
+   * Removes a check box from the group.
+   *
+   * <p>
+   *
+   * @param checkBox the check box
+   */
+  public void remove(CheckBox checkBox) {
+
+    m_checkboxes.remove(checkBox);
+    if (m_selected == checkBox) {
+      m_selected = null;
     }
-
-    /**
-     * Gets the currently selected check box.<p>
-     *
-     * @return the check box
-     */
-    public CheckBox getSelected() {
-
-        return m_selected;
+    ValueChangeListener listener = m_listeners.get(checkBox);
+    if (listener != null) {
+      checkBox.removeValueChangeListener(m_listeners.get(checkBox));
     }
+  }
 
-    /**
-     * Removes a check box from the group.<p>
-     *
-     * @param checkBox the check box
-     */
-    public void remove(CheckBox checkBox) {
+  /**
+   * Sets the change listener.
+   *
+   * <p>
+   *
+   * @param listener the change listener
+   */
+  public void setChangeListener(I_ChangeListener listener) {
 
-        m_checkboxes.remove(checkBox);
-        if (m_selected == checkBox) {
-            m_selected = null;
-        }
-        ValueChangeListener listener = m_listeners.get(checkBox);
-        if (listener != null) {
-            checkBox.removeValueChangeListener(m_listeners.get(checkBox));
-        }
+    m_listener = listener;
+  }
+
+  /**
+   * Sets the active check box.
+   *
+   * <p>
+   *
+   * @param box the active check box
+   */
+  protected void setActiveCheckBox(CheckBox box) {
+
+    m_selected = box;
+    if (m_listener != null) {
+      m_listener.onSelect(box);
     }
-
-    /**
-     * Sets the change listener.<p>
-     *
-     * @param listener the change listener
-     */
-    public void setChangeListener(I_ChangeListener listener) {
-
-        m_listener = listener;
-    }
-
-    /**
-     * Sets the active check box.<p>
-     *
-     * @param box the active check box
-     */
-    protected void setActiveCheckBox(CheckBox box) {
-
-        m_selected = box;
-        if (m_listener != null) {
-            m_listener.onSelect(box);
-        }
-    }
-
+  }
 }

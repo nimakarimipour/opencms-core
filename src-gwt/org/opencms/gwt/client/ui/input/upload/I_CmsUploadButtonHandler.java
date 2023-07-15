@@ -28,29 +28,37 @@
 package org.opencms.gwt.client.ui.input.upload;
 
 /**
- * Handler interface for upload buttons which is mainly used to perform actions when the selected file
- * in a file input has been changed.<p>
+ * Handler interface for upload buttons which is mainly used to perform actions when the selected
+ * file in a file input has been changed.
+ *
+ * <p>
  */
 public interface I_CmsUploadButtonHandler {
 
-    /**
-     * Custom setup method for newly created file inputs.<p>
-     *
-     * @param fileInput the new file input
-     */
-    void initializeFileInput(CmsFileInput fileInput);
+  /**
+   * Custom setup method for newly created file inputs.
+   *
+   * <p>
+   *
+   * @param fileInput the new file input
+   */
+  void initializeFileInput(CmsFileInput fileInput);
 
-    /**
-     * Notifies the button handler that the file input field's value has changed.<p>
-     *
-     * @param fileInput the file input
-     */
-    void onChange(CmsFileInput fileInput);
+  /**
+   * Notifies the button handler that the file input field's value has changed.
+   *
+   * <p>
+   *
+   * @param fileInput the file input
+   */
+  void onChange(CmsFileInput fileInput);
 
-    /**
-     * This method should be called when the handler is set on a button.<p>
-     *
-     * @param button the button for which the handler instance has been set
-     */
-    void setButton(I_CmsUploadButton button);
+  /**
+   * This method should be called when the handler is set on a button.
+   *
+   * <p>
+   *
+   * @param button the button for which the handler instance has been set
+   */
+  void setButton(I_CmsUploadButton button);
 }

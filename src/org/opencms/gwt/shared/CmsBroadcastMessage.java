@@ -30,80 +30,92 @@ package org.opencms.gwt.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * Contains the broadcast message data.<p>
+ * Contains the broadcast message data.
+ *
+ * <p>
  *
  * @since 9.5.0
  */
 public class CmsBroadcastMessage implements IsSerializable {
 
-    /** The user. */
-    private String m_user;
+  /** The user. */
+  private String m_user;
 
-    /** The date. */
-    private String m_time;
+  /** The date. */
+  private String m_time;
 
-    /** The message. */
-    private String m_message;
+  /** The message. */
+  private String m_message;
 
-    /**The user icon path.*/
-    private String m_iconPath;
+  /** The user icon path. */
+  private String m_iconPath;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param user the user
-     * @param time the time
-     * @param message the message
-     * @param iconPath the path of the user icon
-     */
-    public CmsBroadcastMessage(String user, String iconPath, String time, String message) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param user the user
+   * @param time the time
+   * @param message the message
+   * @param iconPath the path of the user icon
+   */
+  public CmsBroadcastMessage(String user, String iconPath, String time, String message) {
 
-        m_user = user;
-        m_time = time;
-        m_message = message;
-        m_iconPath = iconPath;
-    }
+    m_user = user;
+    m_time = time;
+    m_message = message;
+    m_iconPath = iconPath;
+  }
 
-    /**
-     * Constructor.<p>
-     */
-    protected CmsBroadcastMessage() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  protected CmsBroadcastMessage() {
 
-        // for serialization only
-    }
+    // for serialization only
+  }
 
-    public String getIcon() {
+  public String getIcon() {
 
-        return m_iconPath;
-    }
+    return m_iconPath;
+  }
 
-    /**
-     * Returns the message.<p>
-     *
-     * @return the message
-     */
-    public String getMessage() {
+  /**
+   * Returns the message.
+   *
+   * <p>
+   *
+   * @return the message
+   */
+  public String getMessage() {
 
-        return m_message;
-    }
+    return m_message;
+  }
 
-    /**
-     * Returns the time.<p>
-     *
-     * @return the time
-     */
-    public String getTime() {
+  /**
+   * Returns the time.
+   *
+   * <p>
+   *
+   * @return the time
+   */
+  public String getTime() {
 
-        return m_time;
-    }
+    return m_time;
+  }
 
-    /**
-     * Returns the user.<p>
-     *
-     * @return the user
-     */
-    public String getUser() {
+  /**
+   * Returns the user.
+   *
+   * <p>
+   *
+   * @return the user
+   */
+  public String getUser() {
 
-        return m_user;
-    }
+    return m_user;
+  }
 }

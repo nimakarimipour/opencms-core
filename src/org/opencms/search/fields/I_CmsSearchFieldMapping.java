@@ -31,107 +31,125 @@
 
 package org.opencms.search.fields;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
 import org.opencms.file.CmsResource;
 import org.opencms.search.extractors.I_CmsExtractionResult;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Locale;
-
 /**
- * Describes a mapping of a piece of content from an OpenCms VFS
- * resource to a field of a search index.<p>
+ * Describes a mapping of a piece of content from an OpenCms VFS resource to a field of a search
+ * index.
+ *
+ * <p>
  *
  * @since 8.5.0
  */
 public interface I_CmsSearchFieldMapping extends Serializable {
 
-    /**
-     * Returns the default value used for this field mapping in case no content is available.<p>
-     *
-     * @return the default value used for this field mapping in case no content is available
-     */
-    String getDefaultValue();
+  /**
+   * Returns the default value used for this field mapping in case no content is available.
+   *
+   * <p>
+   *
+   * @return the default value used for this field mapping in case no content is available
+   */
+  String getDefaultValue();
 
-    /**
-     * Returns the mapping parameter.<p>
-     *
-     * The parameter is used depending on the implementation of the rules of
-     * the selected {@link CmsSearchFieldMappingType}.<p>
-     *
-     * @return the mapping parameter
-     */
-    String getParam();
+  /**
+   * Returns the mapping parameter.
+   *
+   * <p>The parameter is used depending on the implementation of the rules of the selected {@link
+   * CmsSearchFieldMappingType}.
+   *
+   * <p>
+   *
+   * @return the mapping parameter
+   */
+  String getParam();
 
-    /**
-     * Returns the String value extracted form the provided data according to the rules of this mapping type.<p>
-     *
-     * @param cms the OpenCms context used for building the search index
-     * @param res the resource that is indexed
-     * @param extractionResult the plain text extraction result from the resource
-     * @param properties the list of all properties directly attached to the resource (not searched)
-     * @param propertiesSearched the list of all searched properties of the resource
-     *
-     * @return the String value extracted form the provided data according to the rules of this mapping type
-     */
-    String getStringValue(
-        CmsObject cms,
-        CmsResource res,
-        I_CmsExtractionResult extractionResult,
-        List<CmsProperty> properties,
-        List<CmsProperty> propertiesSearched);
+  /**
+   * Returns the String value extracted form the provided data according to the rules of this
+   * mapping type.
+   *
+   * <p>
+   *
+   * @param cms the OpenCms context used for building the search index
+   * @param res the resource that is indexed
+   * @param extractionResult the plain text extraction result from the resource
+   * @param properties the list of all properties directly attached to the resource (not searched)
+   * @param propertiesSearched the list of all searched properties of the resource
+   * @return the String value extracted form the provided data according to the rules of this
+   *     mapping type
+   */
+  String getStringValue(
+      CmsObject cms,
+      CmsResource res,
+      I_CmsExtractionResult extractionResult,
+      List<CmsProperty> properties,
+      List<CmsProperty> propertiesSearched);
 
-    /**
-     * Returns the mapping type.<p>
-     *
-     * @return the mapping type
-     */
-    CmsSearchFieldMappingType getType();
+  /**
+   * Returns the mapping type.
+   *
+   * <p>
+   *
+   * @return the mapping type
+   */
+  CmsSearchFieldMappingType getType();
 
-    /**
-     * Sets the default value for this field mapping in case no content is available.<p>
-     *
-     * @param defaultValue the default value to set
-     */
-    void setDefaultValue(String defaultValue);
+  /**
+   * Sets the default value for this field mapping in case no content is available.
+   *
+   * <p>
+   *
+   * @param defaultValue the default value to set
+   */
+  void setDefaultValue(String defaultValue);
 
-    /**
-     * Sets the locale, the mapping can examine when extracting the content.
-     *
-     * NOTE: This method is called by {@link org.opencms.xml.content.CmsDefaultXmlContentHandler}
-     *  when dynamic search field mappings are created.
-     *  Overwrite this default implementation if you need to map locale specific in your dynamic mapping.
-     *
-     * @param locale the locale of the index field that is filled by the mapping.
-     */
-    default void setLocale(Locale locale) {
+  /**
+   * Sets the locale, the mapping can examine when extracting the content.
+   *
+   * <p>NOTE: This method is called by {@link org.opencms.xml.content.CmsDefaultXmlContentHandler}
+   * when dynamic search field mappings are created. Overwrite this default implementation if you
+   * need to map locale specific in your dynamic mapping.
+   *
+   * @param locale the locale of the index field that is filled by the mapping.
+   */
+  default void setLocale(Locale locale) {
 
-        return;
-    }
+    return;
+  }
 
-    /**
-     * Sets the mapping parameter.<p>
-     *
-     * The parameter is used depending on the implementation of the rules of
-     * the selected {@link CmsSearchFieldMappingType}.<p>
-     *
-     * @param param the parameter to set
-     */
-    void setParam(String param);
+  /**
+   * Sets the mapping parameter.
+   *
+   * <p>The parameter is used depending on the implementation of the rules of the selected {@link
+   * CmsSearchFieldMappingType}.
+   *
+   * <p>
+   *
+   * @param param the parameter to set
+   */
+  void setParam(String param);
 
-    /**
-     * Sets the mapping type.<p>
-     *
-     * @param type the type to set
-     */
-    void setType(CmsSearchFieldMappingType type);
+  /**
+   * Sets the mapping type.
+   *
+   * <p>
+   *
+   * @param type the type to set
+   */
+  void setType(CmsSearchFieldMappingType type);
 
-    /**
-     * Sets the mapping type as a String.<p>
-     *
-     * @param type the name of the type to set
-     */
-    void setType(String type);
+  /**
+   * Sets the mapping type as a String.
+   *
+   * <p>
+   *
+   * @param type the name of the type to set
+   */
+  void setType(String type);
 }

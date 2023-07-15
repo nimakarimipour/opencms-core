@@ -27,111 +27,117 @@
 
 package org.opencms.workplace.tools.projects;
 
-import org.opencms.main.CmsIllegalArgumentException;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import org.opencms.main.CmsIllegalArgumentException;
 
 /**
- * Wrapper class for
- * the different types of project files view.<p>
+ * Wrapper class for the different types of project files view.
  *
- * The possibles values are:<br>
+ * <p>The possibles values are:<br>
+ *
  * <ul>
- *   <li>{@link #ALL_CHANGES}</li>
- *   <li>{@link #NEW_FILES}</li>
- *   <li>{@link #DELETED_FILES}</li>
- *   <li>{@link #MODIFIED_FILES}</li>
+ *   <li>{@link #ALL_CHANGES}
+ *   <li>{@link #NEW_FILES}
+ *   <li>{@link #DELETED_FILES}
+ *   <li>{@link #MODIFIED_FILES}
  * </ul>
+ *
  * <p>
  *
  * @since 6.0.0
  */
 public final class CmsProjectResourcesDisplayMode implements Serializable {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 923124162399716633L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 923124162399716633L;
 
-    /** Constant for the all changes view. */
-    public static final CmsProjectResourcesDisplayMode ALL_CHANGES = new CmsProjectResourcesDisplayMode("all");
+  /** Constant for the all changes view. */
+  public static final CmsProjectResourcesDisplayMode ALL_CHANGES =
+      new CmsProjectResourcesDisplayMode("all");
 
-    /** Constant for the deleted files only view.  */
-    public static final CmsProjectResourcesDisplayMode DELETED_FILES = new CmsProjectResourcesDisplayMode("deleted");
+  /** Constant for the deleted files only view. */
+  public static final CmsProjectResourcesDisplayMode DELETED_FILES =
+      new CmsProjectResourcesDisplayMode("deleted");
 
-    /** Constant for the modified files only view.     */
-    public static final CmsProjectResourcesDisplayMode MODIFIED_FILES = new CmsProjectResourcesDisplayMode("changed");
+  /** Constant for the modified files only view. */
+  public static final CmsProjectResourcesDisplayMode MODIFIED_FILES =
+      new CmsProjectResourcesDisplayMode("changed");
 
-    /** Constant for the new files only view. */
-    public static final CmsProjectResourcesDisplayMode NEW_FILES = new CmsProjectResourcesDisplayMode("new");
+  /** Constant for the new files only view. */
+  public static final CmsProjectResourcesDisplayMode NEW_FILES =
+      new CmsProjectResourcesDisplayMode("new");
 
-    /** Array constant for all available align types. */
-    private static final CmsProjectResourcesDisplayMode[] VALUE_ARRAY = {
-        ALL_CHANGES,
-        NEW_FILES,
-        DELETED_FILES,
-        MODIFIED_FILES};
+  /** Array constant for all available align types. */
+  private static final CmsProjectResourcesDisplayMode[] VALUE_ARRAY = {
+    ALL_CHANGES, NEW_FILES, DELETED_FILES, MODIFIED_FILES
+  };
 
-    /** List of mode constants. */
-    public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUE_ARRAY));
+  /** List of mode constants. */
+  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUE_ARRAY));
 
-    /** Internal representation. */
-    private final String m_mode;
+  /** Internal representation. */
+  private final String m_mode;
 
-    /**
-     * Private constructor.<p>
-     *
-     * @param mode the view mode
-     */
-    private CmsProjectResourcesDisplayMode(String mode) {
+  /**
+   * Private constructor.
+   *
+   * <p>
+   *
+   * @param mode the view mode
+   */
+  private CmsProjectResourcesDisplayMode(String mode) {
 
-        m_mode = mode;
+    m_mode = mode;
+  }
+
+  /**
+   * Parses an string into an element of this enumeration.
+   *
+   * <p>
+   *
+   * @param value the mode to parse
+   * @return the enumeration element
+   * @throws CmsIllegalArgumentException if the given value could not be matched against a <code>
+   *     CmsListColumnAlignEnum</code> type.
+   */
+  public static CmsProjectResourcesDisplayMode valueOf(String value)
+      throws CmsIllegalArgumentException {
+
+    Iterator iter = VALUES.iterator();
+    while (iter.hasNext()) {
+      CmsProjectResourcesDisplayMode target = (CmsProjectResourcesDisplayMode) iter.next();
+      if (value.equals(target.getMode())) {
+        return target;
+      }
     }
-
-    /**
-     * Parses an string into an element of this enumeration.<p>
-     *
-     * @param value the mode to parse
-     *
-     * @return the enumeration element
-     *
-     * @throws CmsIllegalArgumentException if the given value could not be matched against a
-     *         <code>CmsListColumnAlignEnum</code> type.
-     */
-    public static CmsProjectResourcesDisplayMode valueOf(String value) throws CmsIllegalArgumentException {
-
-        Iterator iter = VALUES.iterator();
-        while (iter.hasNext()) {
-            CmsProjectResourcesDisplayMode target = (CmsProjectResourcesDisplayMode)iter.next();
-            if (value.equals(target.getMode())) {
-                return target;
-            }
-        }
-        throw new CmsIllegalArgumentException(
-            org.opencms.db.Messages.get().container(
+    throw new CmsIllegalArgumentException(
+        org.opencms.db.Messages.get()
+            .container(
                 org.opencms.db.Messages.ERR_MODE_ENUM_PARSE_2,
                 value,
                 CmsProjectResourcesDisplayMode.class.getName()));
-    }
+  }
 
-    /**
-     * Returns the mode string.<p>
-     *
-     * @return the mode string
-     */
-    public String getMode() {
+  /**
+   * Returns the mode string.
+   *
+   * <p>
+   *
+   * @return the mode string
+   */
+  public String getMode() {
 
-        return m_mode;
-    }
+    return m_mode;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_mode;
-    }
+    return m_mode;
+  }
 }

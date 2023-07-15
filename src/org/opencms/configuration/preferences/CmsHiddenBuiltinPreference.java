@@ -28,27 +28,28 @@
 package org.opencms.configuration.preferences;
 
 /**
- * Class for preferences that are not meant to be displayed in the preference dialog.<p>
+ * Class for preferences that are not meant to be displayed in the preference dialog.
+ *
+ * <p>
  */
 public class CmsHiddenBuiltinPreference extends CmsBuiltinPreference {
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param name the preference property name
-     */
-    public CmsHiddenBuiltinPreference(String name) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param name the preference property name
+   */
+  public CmsHiddenBuiltinPreference(String name) {
 
-        super(name);
-    }
+    super(name);
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.CmsBuiltinPreference#getTab()
-     */
-    @Override
-    public String getTab() {
+  /** @see org.opencms.configuration.preferences.CmsBuiltinPreference#getTab() */
+  @Override
+  public String getTab() {
 
-        return "hidden";
-    }
-
+    return "hidden";
+  }
 }

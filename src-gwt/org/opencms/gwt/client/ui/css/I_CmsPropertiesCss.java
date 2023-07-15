@@ -31,39 +31,55 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.CssResource.ImportedWithPrefix;
 
 /**
- * Property editor CSS.<p>
+ * Property editor CSS.
+ *
+ * <p>
  */
 @ImportedWithPrefix("properties")
 public interface I_CmsPropertiesCss extends CssResource {
 
-    /** Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String navModePropertiesBox();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String navModePropertiesBox();
 
-    /** Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String propertyDefinitionButton();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String propertyDefinitionButton();
 
-    /** Access method.<p>
-    *
-    * @return the CSS class name
-    */
-    String propertyPanel();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String propertyPanel();
 
-    /** Access method.<p>
-    *
-    * @return the CSS class name
-    */
-    String propertyParentLoading();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String propertyParentLoading();
 
-    /** Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String vfsModeSimplePropertiesBox();
-
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String vfsModeSimplePropertiesBox();
 }

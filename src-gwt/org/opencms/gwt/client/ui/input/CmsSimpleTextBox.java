@@ -33,44 +33,50 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
- * A simple text box firing change events whenever a key is pressed and the value has changed.<p>
+ * A simple text box firing change events whenever a key is pressed and the value has changed.
+ *
+ * <p>
  */
 public class CmsSimpleTextBox extends TextBox {
 
-    /** The previous value. */
-    private String m_previousValue;
+  /** The previous value. */
+  private String m_previousValue;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsSimpleTextBox() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsSimpleTextBox() {
 
-        super();
-        addDomHandler(new KeyUpHandler() {
+    super();
+    addDomHandler(
+        new KeyUpHandler() {
 
-            public void onKeyUp(KeyUpEvent event) {
+          public void onKeyUp(KeyUpEvent event) {
 
-                fireChange();
-            }
-        }, KeyUpEvent.getType());
-    }
+            fireChange();
+          }
+        },
+        KeyUpEvent.getType());
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.ValueBoxBase#setValue(java.lang.Object, boolean)
-     */
-    @Override
-    public void setValue(String value, boolean fireEvents) {
+  /** @see com.google.gwt.user.client.ui.ValueBoxBase#setValue(java.lang.Object, boolean) */
+  @Override
+  public void setValue(String value, boolean fireEvents) {
 
-        m_previousValue = value;
-        super.setValue(value, fireEvents);
-    }
+    m_previousValue = value;
+    super.setValue(value, fireEvents);
+  }
 
-    /**
-     * Triggered on key press to fire event if the value changed.<p>
-     */
-    void fireChange() {
+  /**
+   * Triggered on key press to fire event if the value changed.
+   *
+   * <p>
+   */
+  void fireChange() {
 
-        ValueChangeEvent.fireIfNotEqual(this, m_previousValue, getValue());
-        m_previousValue = getValue();
-    }
+    ValueChangeEvent.fireIfNotEqual(this, m_previousValue, getValue());
+    m_previousValue = getValue();
+  }
 }

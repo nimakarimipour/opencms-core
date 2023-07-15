@@ -27,18 +27,6 @@
 
 package org.opencms.ui.apps.user;
 
-import org.opencms.file.CmsGroup;
-import org.opencms.file.CmsObject;
-import org.opencms.main.CmsException;
-import org.opencms.main.CmsLog;
-import org.opencms.ui.CmsVaadinUtils;
-import org.opencms.ui.components.CmsBasicDialog;
-import org.opencms.util.CmsUUID;
-
-import java.util.Collections;
-
-import org.apache.commons.logging.Log;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -49,168 +37,183 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
+import java.util.Collections;
+import org.apache.commons.logging.Log;
+import org.opencms.file.CmsGroup;
+import org.opencms.file.CmsObject;
+import org.opencms.main.CmsException;
+import org.opencms.main.CmsLog;
+import org.opencms.ui.CmsVaadinUtils;
+import org.opencms.ui.components.CmsBasicDialog;
+import org.opencms.util.CmsUUID;
 
 /**
- * Class for the dialog to edit or create a CmsGroup.<p>
+ * Class for the dialog to edit or create a CmsGroup.
+ *
+ * <p>
  */
 public class CmsGroupEditDialog extends CmsBasicDialog {
 
-    /** The logger for this class. */
-    static Log LOG = CmsLog.getLog(CmsGroupEditDialog.class.getName());
+  /** The logger for this class. */
+  static Log LOG = CmsLog.getLog(CmsGroupEditDialog.class.getName());
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = 6633733627052633351L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 6633733627052633351L;
 
-    /**vaadin component.*/
-    Button m_ok;
+  /** vaadin component. */
+  Button m_ok;
 
-    /** The app instance. */
-    private CmsAccountsApp m_app;
+  /** The app instance. */
+  private CmsAccountsApp m_app;
 
-    /**vaadin component.*/
-    private Button m_cancel;
+  /** vaadin component. */
+  private Button m_cancel;
 
-    /**CmsObject.*/
-    private CmsObject m_cms;
+  /** CmsObject. */
+  private CmsObject m_cms;
 
-    /**vaadin component.*/
-    private TextArea m_description;
+  /** vaadin component. */
+  private TextArea m_description;
 
-    /**vaadin component.*/
-    private CheckBox m_enabled;
+  /** vaadin component. */
+  private CheckBox m_enabled;
 
-    /**CmsGroup.*/
-    private CmsGroup m_group;
+  /** CmsGroup. */
+  private CmsGroup m_group;
 
-    /** The group edit parameters. */
-    private CmsGroupEditParameters m_groupEditParameters = new CmsGroupEditParameters();
+  /** The group edit parameters. */
+  private CmsGroupEditParameters m_groupEditParameters = new CmsGroupEditParameters();
 
-    /**vaadin component.*/
-    private TextField m_name;
+  /** vaadin component. */
+  private TextField m_name;
 
-    /**vaadin component.*/
-    private Label m_ou;
+  /** vaadin component. */
+  private Label m_ou;
 
-    /**
-     * public constructor.<p>
-     *
-     * @param cms CmsObject
-     * @param groupId id of group edit, null if groud should be created
-     * @param window window holding the dialog
-     * @param app the app instance
-     */
-    public CmsGroupEditDialog(CmsObject cms, CmsUUID groupId, final Window window, final CmsAccountsApp app) {
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param cms CmsObject
+   * @param groupId id of group edit, null if groud should be created
+   * @param window window holding the dialog
+   * @param app the app instance
+   */
+  public CmsGroupEditDialog(
+      CmsObject cms, CmsUUID groupId, final Window window, final CmsAccountsApp app) {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        m_cms = cms;
-        m_app = app;
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    m_cms = cms;
+    m_app = app;
 
-        try {
-            if (groupId != null) {
-                m_group = m_cms.readGroup(groupId);
-                m_groupEditParameters = m_app.getGroupEditParameters(m_group);
-                displayResourceInfoDirectly(Collections.singletonList(CmsAccountsApp.getPrincipalInfo(m_group)));
-                m_ou.setValue(m_group.getOuFqn());
-                m_name.setValue(m_group.getSimpleName());
-                m_name.setEnabled(false);
+    try {
+      if (groupId != null) {
+        m_group = m_cms.readGroup(groupId);
+        m_groupEditParameters = m_app.getGroupEditParameters(m_group);
+        displayResourceInfoDirectly(
+            Collections.singletonList(CmsAccountsApp.getPrincipalInfo(m_group)));
+        m_ou.setValue(m_group.getOuFqn());
+        m_name.setValue(m_group.getSimpleName());
+        m_name.setEnabled(false);
 
-                m_description.setValue(m_group.getDescription());
+        m_description.setValue(m_group.getDescription());
 
-                m_enabled.setValue(new Boolean(m_group.isEnabled()));
+        m_enabled.setValue(new Boolean(m_group.isEnabled()));
+      }
 
-            }
+    } catch (CmsException e) {
+      LOG.error("unable to read group", e);
+    }
+    m_ok.setEnabled(false);
+    m_ok.addClickListener(
+        new ClickListener() {
 
-        } catch (CmsException e) {
-            LOG.error("unable to read group", e);
-        }
-        m_ok.setEnabled(false);
-        m_ok.addClickListener(new ClickListener() {
+          private static final long serialVersionUID = 2337532424806798793L;
 
-            private static final long serialVersionUID = 2337532424806798793L;
+          public void buttonClick(ClickEvent event) {
 
-            public void buttonClick(ClickEvent event) {
-
-                saveGroup();
-                window.close();
-                app.reload();
-
-            }
+            saveGroup();
+            window.close();
+            app.reload();
+          }
         });
 
-        m_cancel.addClickListener(new ClickListener() {
+    m_cancel.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = -6389260624197980323L;
+          private static final long serialVersionUID = -6389260624197980323L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                window.close();
-
-            }
+            window.close();
+          }
         });
 
-        ValueChangeListener listener = new ValueChangeListener() {
+    ValueChangeListener listener =
+        new ValueChangeListener() {
 
-            private static final long serialVersionUID = -7480617292190495288L;
+          private static final long serialVersionUID = -7480617292190495288L;
 
-            public void valueChange(ValueChangeEvent event) {
+          public void valueChange(ValueChangeEvent event) {
 
-                m_ok.setEnabled(true);
-
-            }
-
+            m_ok.setEnabled(true);
+          }
         };
 
-        m_enabled.addValueChangeListener(listener);
-        m_description.addValueChangeListener(listener);
-        m_name.addValueChangeListener(listener);
-        if (!m_groupEditParameters.isEditable()) {
-            m_description.setEnabled(false);
-            m_enabled.setEnabled(false);
-        }
+    m_enabled.addValueChangeListener(listener);
+    m_description.addValueChangeListener(listener);
+    m_name.addValueChangeListener(listener);
+    if (!m_groupEditParameters.isEditable()) {
+      m_description.setEnabled(false);
+      m_enabled.setEnabled(false);
+    }
+  }
 
+  /**
+   * Constructor for dialog for new groups.
+   *
+   * @param cms CmsObject
+   * @param window window holding dialog
+   * @param ou to create group in
+   * @param app the app instance
+   */
+  public CmsGroupEditDialog(CmsObject cms, Window window, String ou, CmsAccountsApp app) {
+
+    this(cms, null, window, app);
+    m_ou.setValue(ou);
+    m_enabled.setValue(new Boolean(true));
+  }
+
+  /**
+   * Save group.
+   *
+   * <p>
+   */
+  protected void saveGroup() {
+
+    if (m_group == null) {
+      m_group = new CmsGroup();
+      String ou = m_ou.getValue();
+      if (!ou.endsWith("/")) {
+        ou += "/";
+      }
+      m_group.setName(m_name.getValue());
+      try {
+        m_cms.createGroup(ou + m_name.getValue(), m_description.getValue(), 0, null);
+      } catch (CmsException e) {
+        //
+      }
     }
 
-    /**
-     * Constructor for dialog for new groups.
-     *
-     * @param cms CmsObject
-     * @param window window holding dialog
-     * @param ou to create group in
-     * @param app the app instance
-     */
-    public CmsGroupEditDialog(CmsObject cms, Window window, String ou, CmsAccountsApp app) {
+    m_group.setDescription(m_description.getValue());
+    m_group.setEnabled(m_enabled.getValue().booleanValue());
 
-        this(cms, null, window, app);
-        m_ou.setValue(ou);
-        m_enabled.setValue(new Boolean(true));
+    try {
+      m_cms.writeGroup(m_group);
+    } catch (CmsException e) {
+      //
     }
-
-    /**
-     * Save group.<p>
-     */
-    protected void saveGroup() {
-
-        if (m_group == null) {
-            m_group = new CmsGroup();
-            String ou = m_ou.getValue();
-            if (!ou.endsWith("/")) {
-                ou += "/";
-            }
-            m_group.setName(m_name.getValue());
-            try {
-                m_cms.createGroup(ou + m_name.getValue(), m_description.getValue(), 0, null);
-            } catch (CmsException e) {
-                //
-            }
-        }
-
-        m_group.setDescription(m_description.getValue());
-        m_group.setEnabled(m_enabled.getValue().booleanValue());
-
-        try {
-            m_cms.writeGroup(m_group);
-        } catch (CmsException e) {
-            //
-        }
-    }
+  }
 }

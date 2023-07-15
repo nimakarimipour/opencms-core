@@ -27,117 +27,98 @@
 
 package org.opencms.ade.sitemap.client.toolbar;
 
+import java.util.List;
 import org.opencms.gwt.client.ui.contextmenu.A_CmsContextMenuItem;
 import org.opencms.gwt.client.ui.contextmenu.CmsContextMenuItem;
 import org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry;
 
-import java.util.List;
-
 /**
- * Common super class for all sitemap context menu entries.<p>
+ * Common super class for all sitemap context menu entries.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public abstract class A_CmsSitemapModeEntry implements I_CmsContextMenuEntry {
 
-    /** The label (text) for the menu entry. */
-    private String m_label;
+  /** The label (text) for the menu entry. */
+  private String m_label;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param label the label
-     */
-    public A_CmsSitemapModeEntry(String label) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param label the label
+   */
+  public A_CmsSitemapModeEntry(String label) {
 
-        m_label = label;
-    }
+    m_label = label;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#generateMenuItem()
-     */
-    public A_CmsContextMenuItem generateMenuItem() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#generateMenuItem() */
+  public A_CmsContextMenuItem generateMenuItem() {
 
-        return new CmsContextMenuItem(this);
-    }
+    return new CmsContextMenuItem(this);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getIconClass()
-     */
-    public String getIconClass() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getIconClass() */
+  public String getIconClass() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getJspPath()
-     */
-    public String getJspPath() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getJspPath() */
+  public String getJspPath() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getLabel()
-     */
-    public String getLabel() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getLabel() */
+  public String getLabel() {
 
-        return m_label;
-    }
+    return m_label;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getName()
-     */
-    public String getName() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getName() */
+  public String getName() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getReason()
-     */
-    public String getReason() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getReason() */
+  public String getReason() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getSubMenu()
-     */
-    public List<I_CmsContextMenuEntry> getSubMenu() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getSubMenu() */
+  public List<I_CmsContextMenuEntry> getSubMenu() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#hasSubMenu()
-     */
-    public boolean hasSubMenu() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#hasSubMenu() */
+  public boolean hasSubMenu() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isActive()
-     */
-    public boolean isActive() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isActive() */
+  public boolean isActive() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isSeparator()
-     */
-    public boolean isSeparator() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isSeparator() */
+  public boolean isSeparator() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isVisible()
-     */
-    public boolean isVisible() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isVisible() */
+  public boolean isVisible() {
 
-        return true;
-    }
+    return true;
+  }
 }

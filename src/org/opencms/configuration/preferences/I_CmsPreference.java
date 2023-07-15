@@ -32,69 +32,85 @@ import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
 /**
- * Interface describing a single preference value which can possibly be edited by the user.<p>
+ * Interface describing a single preference value which can possibly be edited by the user.
+ *
+ * <p>
  */
 public interface I_CmsPreference {
 
-    /**
-     * Creates the configuration for this preference.<p>
-     *
-     * @return the configuration for this preference
-     */
-    org.dom4j.Element createConfigurationItem();
+  /**
+   * Creates the configuration for this preference.
+   *
+   * <p>
+   *
+   * @return the configuration for this preference
+   */
+  org.dom4j.Element createConfigurationItem();
 
-    /**
-     * Gets the default value for the preference.<p>
-     *
-     * @return the default value
-     */
-    String getDefaultValue();
+  /**
+   * Gets the default value for the preference.
+   *
+   * <p>
+   *
+   * @return the default value
+   */
+  String getDefaultValue();
 
-    /**
-     * Gets the preference name.<p>
-     *
-     * @return the preference name
-     */
-    String getName();
+  /**
+   * Gets the preference name.
+   *
+   * <p>
+   *
+   * @return the preference name
+   */
+  String getName();
 
-    /**
-     * Gets the metadata describing how the setting should be edited.<p>
-     *
-     * @param cms the current CMS context
-     *
-     * @return the metadata for the client which describes how the setting should be edited
-     */
-    CmsXmlContentProperty getPropertyDefinition(CmsObject cms);
+  /**
+   * Gets the metadata describing how the setting should be edited.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @return the metadata for the client which describes how the setting should be edited
+   */
+  CmsXmlContentProperty getPropertyDefinition(CmsObject cms);
 
-    /**
-     * Gets the preference tab.<p>
-     *
-     * @return the preference tab
-     */
-    String getTab();
+  /**
+   * Gets the preference tab.
+   *
+   * <p>
+   *
+   * @return the preference tab
+   */
+  String getTab();
 
-    /**
-     * Reads the value of the preference from a CmsDefaultUserSettings instance .<p>
-     *
-     * @param userSettings the user settings from which to read the preference value
-     *
-     * @return the preference value
-     */
-    String getValue(CmsDefaultUserSettings userSettings);
+  /**
+   * Reads the value of the preference from a CmsDefaultUserSettings instance .
+   *
+   * <p>
+   *
+   * @param userSettings the user settings from which to read the preference value
+   * @return the preference value
+   */
+  String getValue(CmsDefaultUserSettings userSettings);
 
-    /**
-     * Returns true if the preference is disabled.<p>
-     * @param cms the current CMS context
-     *
-     * @return true if the preference is disabled
-     */
-    boolean isDisabled(CmsObject cms);
+  /**
+   * Returns true if the preference is disabled.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @return true if the preference is disabled
+   */
+  boolean isDisabled(CmsObject cms);
 
-    /**
-     * Sets the value of the preference in a CmsDefaultUserSettings instance.<p>
-     *
-     * @param settings the settings used to store the preference value
-     * @param value the new value
-     */
-    void setValue(CmsDefaultUserSettings settings, String value);
+  /**
+   * Sets the value of the preference in a CmsDefaultUserSettings instance.
+   *
+   * <p>
+   *
+   * @param settings the settings used to store the preference value
+   * @param value the new value
+   */
+  void setValue(CmsDefaultUserSettings settings, String value);
 }

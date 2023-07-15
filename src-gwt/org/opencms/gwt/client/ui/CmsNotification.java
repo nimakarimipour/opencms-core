@@ -27,230 +27,259 @@
 
 package org.opencms.gwt.client.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Timer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * User feedback provider.<p>
+ * User feedback provider.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public final class CmsNotification {
 
-    /**
-     * Notification Mode.<p>
-     */
-    public static enum Mode {
+  /**
+   * Notification Mode.
+   *
+   * <p>
+   */
+  public static enum Mode {
 
-        /** Alert mode. */
-        BROADCAST,
+    /** Alert mode. */
+    BROADCAST,
 
-        /** Blocking mode. */
-        BUSY,
+    /** Blocking mode. */
+    BUSY,
 
-        /** Normal mode. */
-        NORMAL,
+    /** Normal mode. */
+    NORMAL,
 
-        /** Sticky mode. */
-        STICKY;
+    /** Sticky mode. */
+    STICKY;
+  }
+
+  /**
+   * Notification Type.
+   *
+   * <p>
+   */
+  public static enum Type {
+
+    /** Error Notification. */
+    ERROR,
+
+    /** Normal Notification. */
+    NORMAL,
+
+    /** Warning Notification. */
+    WARNING;
+  }
+
+  /** The duration of the animations. */
+  public static final int ANIMATION_DURATION = 200;
+
+  /** The singleton instance. */
+  private static CmsNotification INSTANCE;
+
+  /** The widget. */
+  private I_CmsNotificationWidget m_widget;
+
+  /** The current notifications. */
+  private List<CmsNotificationMessage> m_messages;
+
+  /**
+   * Hide constructor.
+   *
+   * <p>
+   */
+  private CmsNotification() {
+
+    m_messages = new ArrayList<CmsNotificationMessage>();
+  }
+
+  /**
+   * Returns the singleton instance.
+   *
+   * <p>
+   *
+   * @return the singleton instance
+   */
+  public static CmsNotification get() {
+
+    if (INSTANCE == null) {
+      INSTANCE = new CmsNotification();
     }
+    return INSTANCE;
+  }
 
-    /**
-     * Notification Type.<p>
-     */
-    public static enum Type {
+  /**
+   * Returns the widget.
+   *
+   * <p>
+   *
+   * @return the widget
+   */
+  public I_CmsNotificationWidget getWidget() {
 
-        /** Error Notification. */
-        ERROR,
+    return m_widget;
+  }
 
-        /** Normal Notification. */
-        NORMAL,
+  /**
+   * Returns if the notification widget is set. Only if the widget is set, notifications can be
+   * shown.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the notification widget is set
+   */
+  public boolean hasWidget() {
 
-        /** Warning Notification. */
-        WARNING;
+    return m_widget != null;
+  }
+
+  /**
+   * Removes the given notification message.
+   *
+   * <p>
+   *
+   * @param message the message to remove
+   */
+  public void removeMessage(CmsNotificationMessage message) {
+
+    m_messages.remove(message);
+    if (hasWidget()) {
+      m_widget.removeMessage(message);
     }
+  }
 
-    /** The duration of the animations. */
-    public static final int ANIMATION_DURATION = 200;
+  /**
+   * Sends a new notification, that will be removed automatically.
+   *
+   * <p>
+   *
+   * @param type the notification type
+   * @param message the message
+   */
+  public void send(Type type, final String message) {
 
-    /** The singleton instance. */
-    private static CmsNotification INSTANCE;
-
-    /** The widget. */
-    private I_CmsNotificationWidget m_widget;
-
-    /** The current notifications. */
-    private List<CmsNotificationMessage> m_messages;
-
-    /**
-     * Hide constructor.<p>
-     */
-    private CmsNotification() {
-
-        m_messages = new ArrayList<CmsNotificationMessage>();
+    final CmsNotificationMessage notificationMessage =
+        new CmsNotificationMessage(Mode.NORMAL, type, message);
+    m_messages.add(notificationMessage);
+    if (hasWidget()) {
+      m_widget.addMessage(notificationMessage);
     }
+    Timer timer =
+        new Timer() {
 
-    /**
-     * Returns the singleton instance.<p>
-     *
-     * @return the singleton instance
-     */
-    public static CmsNotification get() {
+          @Override
+          public void run() {
 
-        if (INSTANCE == null) {
-            INSTANCE = new CmsNotification();
-        }
-        return INSTANCE;
-    }
-
-    /**
-     * Returns the widget.<p>
-     *
-     * @return the widget
-     */
-    public I_CmsNotificationWidget getWidget() {
-
-        return m_widget;
-    }
-
-    /**
-     * Returns if the notification widget is set. Only if the widget is set, notifications can be shown.<p>
-     *
-     * @return <code>true</code> if the notification widget is set
-     */
-    public boolean hasWidget() {
-
-        return m_widget != null;
-    }
-
-    /**
-     * Removes the given notification message.<p>
-     *
-     * @param message the message to remove
-     */
-    public void removeMessage(CmsNotificationMessage message) {
-
-        m_messages.remove(message);
-        if (hasWidget()) {
-            m_widget.removeMessage(message);
-        }
-    }
-
-    /**
-     * Sends a new notification, that will be removed automatically.<p>
-     *
-     * @param type the notification type
-     * @param message the message
-     */
-    public void send(Type type, final String message) {
-
-        final CmsNotificationMessage notificationMessage = new CmsNotificationMessage(Mode.NORMAL, type, message);
-        m_messages.add(notificationMessage);
-        if (hasWidget()) {
-            m_widget.addMessage(notificationMessage);
-        }
-        Timer timer = new Timer() {
-
-            @Override
-            public void run() {
-
-                removeMessage(notificationMessage);
-            }
+            removeMessage(notificationMessage);
+          }
         };
-        timer.schedule(4000 * (type == Type.NORMAL ? 1 : 2));
+    timer.schedule(4000 * (type == Type.NORMAL ? 1 : 2));
+  }
 
+  /**
+   * Sends a new blocking alert notification that can be closed by the user.
+   *
+   * <p>
+   *
+   * @param type the notification type
+   * @param message the message
+   */
+  public void sendAlert(Type type, String message) {
+
+    CmsNotificationMessage notificationMessage =
+        new CmsNotificationMessage(Mode.BROADCAST, type, message);
+    m_messages.add(notificationMessage);
+    if (hasWidget()) {
+      m_widget.addMessage(notificationMessage);
     }
+  }
 
-    /**
-     * Sends a new blocking alert notification that can be closed by the user.<p>
-     *
-     * @param type the notification type
-     * @param message the message
-     */
-    public void sendAlert(Type type, String message) {
+  /**
+   * Sends a new blocking notification that can not be removed by the user.
+   *
+   * <p>
+   *
+   * @param type the notification type
+   * @param message the message
+   * @return the message, use to hide the message
+   */
+  public CmsNotificationMessage sendBusy(Type type, final String message) {
 
-        CmsNotificationMessage notificationMessage = new CmsNotificationMessage(Mode.BROADCAST, type, message);
-        m_messages.add(notificationMessage);
-        if (hasWidget()) {
-            m_widget.addMessage(notificationMessage);
-        }
+    CmsNotificationMessage notificationMessage =
+        new CmsNotificationMessage(Mode.BUSY, type, message);
+    m_messages.add(notificationMessage);
+    if (hasWidget()) {
+      m_widget.addMessage(notificationMessage);
     }
+    return notificationMessage;
+  }
 
-    /**
-     * Sends a new blocking notification that can not be removed by the user.<p>
-     *
-     * @param type the notification type
-     * @param message the message
-     *
-     * @return the message, use to hide the message
-     */
-    public CmsNotificationMessage sendBusy(Type type, final String message) {
+  /**
+   * Sends a new notification after all other events have been processed.
+   *
+   * <p>
+   *
+   * @param type the notification type
+   * @param message the message
+   */
+  public void sendDeferred(final Type type, final String message) {
 
-        CmsNotificationMessage notificationMessage = new CmsNotificationMessage(Mode.BUSY, type, message);
-        m_messages.add(notificationMessage);
-        if (hasWidget()) {
-            m_widget.addMessage(notificationMessage);
-        }
-        return notificationMessage;
-    }
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
 
-    /**
-     * Sends a new notification after all other events have been processed.<p>
-     *
-     * @param type the notification type
-     * @param message the message
-     */
-    public void sendDeferred(final Type type, final String message) {
-
-        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-            /**
-             * @see com.google.gwt.core.client.Scheduler.ScheduledCommand#execute()
-             */
-            public void execute() {
+              /** @see com.google.gwt.core.client.Scheduler.ScheduledCommand#execute() */
+              public void execute() {
 
                 send(type, message);
-            }
-        });
+              }
+            });
+  }
 
+  /**
+   * Sends a new sticky notification that can not be removed by the user.
+   *
+   * <p>
+   *
+   * @param type the notification type
+   * @param message the message
+   * @return the message, use to hide the message
+   */
+  public CmsNotificationMessage sendSticky(Type type, String message) {
+
+    CmsNotificationMessage notificationMessage =
+        new CmsNotificationMessage(Mode.STICKY, type, message);
+    m_messages.add(notificationMessage);
+    if (hasWidget()) {
+      m_widget.addMessage(notificationMessage);
     }
+    return notificationMessage;
+  }
 
-    /**
-     * Sends a new sticky notification that can not be removed by the user.<p>
-     *
-     * @param type the notification type
-     * @param message the message
-     *
-     *  @return the message, use to hide the message
-     */
-    public CmsNotificationMessage sendSticky(Type type, String message) {
+  /**
+   * Sets the widget.
+   *
+   * <p>
+   *
+   * @param widget the widget to set
+   */
+  public void setWidget(I_CmsNotificationWidget widget) {
 
-        CmsNotificationMessage notificationMessage = new CmsNotificationMessage(Mode.STICKY, type, message);
-        m_messages.add(notificationMessage);
-        if (hasWidget()) {
-            m_widget.addMessage(notificationMessage);
-        }
-        return notificationMessage;
+    if (m_widget != null) {
+      m_widget.clearMessages();
     }
-
-    /**
-     * Sets the widget.<p>
-     *
-     * @param widget the widget to set
-     */
-    public void setWidget(I_CmsNotificationWidget widget) {
-
-        if (m_widget != null) {
-            m_widget.clearMessages();
-        }
-        m_widget = widget;
-        m_widget.clearMessages();
-        for (CmsNotificationMessage message : m_messages) {
-            m_widget.addMessage(message);
-        }
+    m_widget = widget;
+    m_widget.clearMessages();
+    for (CmsNotificationMessage message : m_messages) {
+      m_widget.addMessage(message);
     }
+  }
 }

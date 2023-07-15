@@ -27,6 +27,8 @@
 
 package org.opencms.ade.galleries.client;
 
+import com.google.gwt.user.client.rpc.SerializationException;
+import com.google.gwt.user.client.ui.Widget;
 import org.opencms.ade.galleries.client.ui.CmsGalleryDialog;
 import org.opencms.ade.galleries.client.ui.CmsGalleryPopup;
 import org.opencms.ade.galleries.client.ui.CmsResultListItem;
@@ -41,133 +43,141 @@ import org.opencms.gwt.client.ui.CmsPopup;
 import org.opencms.gwt.client.ui.CmsTabbedPanel.CmsTabbedPanelStyle;
 import org.opencms.gwt.client.ui.I_CmsAutoHider;
 
-import com.google.gwt.user.client.rpc.SerializationException;
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * Factory class to create gallery dialog with or without parameter.<p>
+ * Factory class to create gallery dialog with or without parameter.
+ *
+ * <p>
  *
  * @since 8.0.
  */
 public final class CmsGalleryFactory {
 
-    /**
-     * Prevent instantiation.<p>
-     */
-    private CmsGalleryFactory() {
+  /**
+   * Prevent instantiation.
+   *
+   * <p>
+   */
+  private CmsGalleryFactory() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * Returns a gallery dialog object.<p>
-     *
-     * @param popup the parent popup widget
-     *
-     * @return gallery dialog
-     */
-    @SuppressWarnings("unused")
-    public static CmsGalleryDialog createDialog(final CmsPopup popup) {
+  /**
+   * Returns a gallery dialog object.
+   *
+   * <p>
+   *
+   * @param popup the parent popup widget
+   * @return gallery dialog
+   */
+  @SuppressWarnings("unused")
+  public static CmsGalleryDialog createDialog(final CmsPopup popup) {
 
-        CmsGalleryDialog galleryDialog = new CmsGalleryDialog(new I_CmsGalleryHandler() {
+    CmsGalleryDialog galleryDialog =
+        new CmsGalleryDialog(
+            new I_CmsGalleryHandler() {
 
-            public boolean filterDnd(CmsResultItemBean resultBean) {
+              public boolean filterDnd(CmsResultItemBean resultBean) {
 
                 // TODO: Auto-generated method stub
                 return true;
-            }
+              }
 
-            public Widget getAdditionalTypeTabControl() {
+              public Widget getAdditionalTypeTabControl() {
 
                 return null;
-            }
+              }
 
-            public I_CmsAutoHider getAutoHideParent() {
+              public I_CmsAutoHider getAutoHideParent() {
 
                 return popup;
-            }
+              }
 
-            public CmsDNDHandler getDndHandler() {
+              public CmsDNDHandler getDndHandler() {
 
                 return null;
-            }
+              }
 
-            public void processResultItem(CmsResultListItem item) {
+              public void processResultItem(CmsResultListItem item) {
 
                 // do nothing
-            }
-
-        }, CmsTabbedPanelStyle.buttonTabs);
-        try {
-            CmsGalleryDataBean data = getGalleryDataFromDict();
-            CmsGallerySearchBean search = getSearchBeanFromDict();
-            new CmsGalleryController(new CmsGalleryControllerHandler(galleryDialog), data, search);
-        } catch (SerializationException e) {
-            CmsErrorDialog.handleException(
-                new Exception(
-                    "Deserialization of gallery data failed. This may be caused by expired java-script resources, please clear your browser cache and try again.",
-                    e));
-        }
-
-        return galleryDialog;
+              }
+            },
+            CmsTabbedPanelStyle.buttonTabs);
+    try {
+      CmsGalleryDataBean data = getGalleryDataFromDict();
+      CmsGallerySearchBean search = getSearchBeanFromDict();
+      new CmsGalleryController(new CmsGalleryControllerHandler(galleryDialog), data, search);
+    } catch (SerializationException e) {
+      CmsErrorDialog.handleException(
+          new Exception(
+              "Deserialization of gallery data failed. This may be caused by expired java-script resources, please clear your browser cache and try again.",
+              e));
     }
 
-    /**
-     * Creates a new gallery dialog.<p>
-     *
-     * @param galleryHandler the gallery handler
-     * @param data the gallery data
-     *
-     * @return the gallery dialog instance
-     */
-    @SuppressWarnings("unused")
-    public static CmsGalleryDialog createDialog(I_CmsGalleryHandler galleryHandler, CmsGalleryDataBean data) {
+    return galleryDialog;
+  }
 
-        CmsGalleryDialog galleryDialog = new CmsGalleryDialog(galleryHandler);
-        new CmsGalleryController(new CmsGalleryControllerHandler(galleryDialog), data, null);
-        return galleryDialog;
-    }
+  /**
+   * Creates a new gallery dialog.
+   *
+   * <p>
+   *
+   * @param galleryHandler the gallery handler
+   * @param data the gallery data
+   * @return the gallery dialog instance
+   */
+  @SuppressWarnings("unused")
+  public static CmsGalleryDialog createDialog(
+      I_CmsGalleryHandler galleryHandler, CmsGalleryDataBean data) {
 
-    /**
-     * Creates a gallery widget pop-up.<p>
-     *
-     * @param handler the widget handler, used to set the widgets value
-     * @param conf the gallery configuration
-     *
-     * @return the generated pop-up
-     */
-    public static CmsGalleryPopup createGalleryPopup(
-        I_CmsGalleryWidgetHandler handler,
-        I_CmsGalleryConfiguration conf) {
+    CmsGalleryDialog galleryDialog = new CmsGalleryDialog(galleryHandler);
+    new CmsGalleryController(new CmsGalleryControllerHandler(galleryDialog), data, null);
+    return galleryDialog;
+  }
 
-        return new CmsGalleryPopup(handler, conf);
-    }
+  /**
+   * Creates a gallery widget pop-up.
+   *
+   * <p>
+   *
+   * @param handler the widget handler, used to set the widgets value
+   * @param conf the gallery configuration
+   * @return the generated pop-up
+   */
+  public static CmsGalleryPopup createGalleryPopup(
+      I_CmsGalleryWidgetHandler handler, I_CmsGalleryConfiguration conf) {
 
-    /**
-     * Deserializes the prefetched gallery data.<p>
-     *
-     * @return the gallery data
-     *
-     * @throws SerializationException in case deserialization fails
-     */
-    private static CmsGalleryDataBean getGalleryDataFromDict() throws SerializationException {
+    return new CmsGalleryPopup(handler, conf);
+  }
 
-        return (CmsGalleryDataBean)CmsRpcPrefetcher.getSerializedObjectFromDictionary(
-            CmsGalleryController.getGalleryService(),
-            CmsGalleryDataBean.DICT_NAME);
-    }
+  /**
+   * Deserializes the prefetched gallery data.
+   *
+   * <p>
+   *
+   * @return the gallery data
+   * @throws SerializationException in case deserialization fails
+   */
+  private static CmsGalleryDataBean getGalleryDataFromDict() throws SerializationException {
 
-    /**
-     * Deserializes the prefetched gallery search.<p>
-     *
-     * @return the gallery data
-     *
-     * @throws SerializationException in case deserialization fails
-     */
-    private static CmsGallerySearchBean getSearchBeanFromDict() throws SerializationException {
+    return (CmsGalleryDataBean)
+        CmsRpcPrefetcher.getSerializedObjectFromDictionary(
+            CmsGalleryController.getGalleryService(), CmsGalleryDataBean.DICT_NAME);
+  }
 
-        return (CmsGallerySearchBean)CmsRpcPrefetcher.getSerializedObjectFromDictionary(
-            CmsGalleryController.getGalleryService(),
-            CmsGallerySearchBean.DICT_NAME);
-    }
+  /**
+   * Deserializes the prefetched gallery search.
+   *
+   * <p>
+   *
+   * @return the gallery data
+   * @throws SerializationException in case deserialization fails
+   */
+  private static CmsGallerySearchBean getSearchBeanFromDict() throws SerializationException {
+
+    return (CmsGallerySearchBean)
+        CmsRpcPrefetcher.getSerializedObjectFromDictionary(
+            CmsGalleryController.getGalleryService(), CmsGallerySearchBean.DICT_NAME);
+  }
 }

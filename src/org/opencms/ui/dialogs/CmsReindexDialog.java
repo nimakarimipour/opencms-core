@@ -27,6 +27,15 @@
 
 package org.opencms.ui.dialogs;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.Label;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.CmsEvent;
@@ -42,139 +51,137 @@ import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsOkCancelActionHandler;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.v7.ui.CheckBox;
-import com.vaadin.v7.ui.Label;
-
 /**
- * Dialog used to change resource modification times.<p>
+ * Dialog used to change resource modification times.
+ *
+ * <p>
  */
 public class CmsReindexDialog extends CmsBasicDialog {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsReindexDialog.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsReindexDialog.class);
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The dialog context. */
-    protected I_CmsDialogContext m_context;
+  /** The dialog context. */
+  protected I_CmsDialogContext m_context;
 
-    /** The Cancel button. */
-    private Button m_cancelButton;
+  /** The Cancel button. */
+  private Button m_cancelButton;
 
-    /** The OK  button. */
-    private Button m_okButton;
+  /** The OK button. */
+  private Button m_okButton;
 
-    /** Label with info text. */
-    private Label m_infoText;
+  /** Label with info text. */
+  private Label m_infoText;
 
-    /** The checkbox, telling if related should be reindexed as well. */
-    private CheckBox m_reindexRelated;
+  /** The checkbox, telling if related should be reindexed as well. */
+  private CheckBox m_reindexRelated;
 
-    /** Flag, indicating if we are in the online project. */
-    private boolean m_isOnline;
+  /** Flag, indicating if we are in the online project. */
+  private boolean m_isOnline;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param context the dialog context
-     */
-    public CmsReindexDialog(I_CmsDialogContext context) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param context the dialog context
+   */
+  public CmsReindexDialog(I_CmsDialogContext context) {
 
-        m_context = context;
-        m_isOnline = context.getCms().getRequestContext().getCurrentProject().isOnlineProject();
-        CmsVaadinUtils.readAndLocalizeDesign(
-            this,
-            OpenCms.getWorkplaceManager().getMessages(A_CmsUI.get().getLocale()),
-            null);
-        String indexType = CmsVaadinUtils.getMessageText(
+    m_context = context;
+    m_isOnline = context.getCms().getRequestContext().getCurrentProject().isOnlineProject();
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, OpenCms.getWorkplaceManager().getMessages(A_CmsUI.get().getLocale()), null);
+    String indexType =
+        CmsVaadinUtils.getMessageText(
             m_isOnline
-            ? org.opencms.workplace.commons.Messages.GUI_REINDEX_INDEX_TYPE_ONLINE_0
-            : org.opencms.workplace.commons.Messages.GUI_REINDEX_INDEX_TYPE_OFFLINE_0);
-        m_infoText.setValue(
-            CmsVaadinUtils.getMessageText(
-                org.opencms.workplace.commons.Messages.GUI_REINDEX_CONFIRMATION_1,
-                indexType));
-        m_cancelButton.addClickListener(new ClickListener() {
+                ? org.opencms.workplace.commons.Messages.GUI_REINDEX_INDEX_TYPE_ONLINE_0
+                : org.opencms.workplace.commons.Messages.GUI_REINDEX_INDEX_TYPE_OFFLINE_0);
+    m_infoText.setValue(
+        CmsVaadinUtils.getMessageText(
+            org.opencms.workplace.commons.Messages.GUI_REINDEX_CONFIRMATION_1, indexType));
+    m_cancelButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                cancel();
-            }
-
+            cancel();
+          }
         });
 
-        m_okButton.addClickListener(new ClickListener() {
+    m_okButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                reindex();
-                m_context.finish(new ArrayList<CmsUUID>());
-
-            }
+            reindex();
+            m_context.finish(new ArrayList<CmsUUID>());
+          }
         });
-        displayResourceInfo(m_context.getResources());
+    displayResourceInfo(m_context.getResources());
 
-        setActionHandler(new CmsOkCancelActionHandler() {
+    setActionHandler(
+        new CmsOkCancelActionHandler() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            @Override
-            protected void cancel() {
+          @Override
+          protected void cancel() {
 
-                CmsReindexDialog.this.cancel();
-            }
+            CmsReindexDialog.this.cancel();
+          }
 
-            @Override
-            protected void ok() {
+          @Override
+          protected void ok() {
 
-                reindex();
-            }
+            reindex();
+          }
         });
+  }
+
+  /**
+   * Triggers reindexing.
+   *
+   * <p>
+   */
+  protected void reindex() {
+
+    CmsObject cms = A_CmsUI.getCmsObject();
+    Map<String, Object> eventData = new HashMap<>(3);
+    if (!m_isOnline) {
+      eventData.put(
+          I_CmsEventListener.KEY_PROJECTID, cms.getRequestContext().getCurrentProject().getId());
     }
-
-    /**
-     * Triggers reindexing.<p>
-     */
-    protected void reindex() {
-
-        CmsObject cms = A_CmsUI.getCmsObject();
-        Map<String, Object> eventData = new HashMap<>(3);
-        if (!m_isOnline) {
-            eventData.put(I_CmsEventListener.KEY_PROJECTID, cms.getRequestContext().getCurrentProject().getId());
-        }
-        eventData.put(I_CmsEventListener.KEY_RESOURCES, m_context.getResources());
-        eventData.put(
-            I_CmsEventListener.KEY_REPORT,
-            new CmsLogReport(CmsLocaleManager.getDefaultLocale(), CmsReindexDialogAction.class));
-        eventData.put(I_CmsEventListener.KEY_USER_ID, cms.getRequestContext().getCurrentUser().getId());
-        Boolean reindexRelated = m_reindexRelated.getValue();
-        eventData.put(I_CmsEventListener.KEY_REINDEX_RELATED, reindexRelated);
-        CmsEvent reindexEvent = new CmsEvent(
-            m_isOnline ? I_CmsEventListener.EVENT_REINDEX_ONLINE : I_CmsEventListener.EVENT_REINDEX_OFFLINE,
+    eventData.put(I_CmsEventListener.KEY_RESOURCES, m_context.getResources());
+    eventData.put(
+        I_CmsEventListener.KEY_REPORT,
+        new CmsLogReport(CmsLocaleManager.getDefaultLocale(), CmsReindexDialogAction.class));
+    eventData.put(I_CmsEventListener.KEY_USER_ID, cms.getRequestContext().getCurrentUser().getId());
+    Boolean reindexRelated = m_reindexRelated.getValue();
+    eventData.put(I_CmsEventListener.KEY_REINDEX_RELATED, reindexRelated);
+    CmsEvent reindexEvent =
+        new CmsEvent(
+            m_isOnline
+                ? I_CmsEventListener.EVENT_REINDEX_ONLINE
+                : I_CmsEventListener.EVENT_REINDEX_OFFLINE,
             eventData);
-        OpenCms.fireCmsEvent(reindexEvent);
+    OpenCms.fireCmsEvent(reindexEvent);
+  }
 
-    }
+  /**
+   * Cancels the dialog.
+   *
+   * <p>
+   */
+  void cancel() {
 
-    /**
-     * Cancels the dialog.<p>
-     */
-    void cancel() {
-
-        m_context.finish(new ArrayList<CmsUUID>());
-    }
+    m_context.finish(new ArrayList<CmsUUID>());
+  }
 }

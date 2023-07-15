@@ -27,9 +27,6 @@
 
 package org.opencms.gwt.client.ui;
 
-import org.opencms.gwt.client.Messages;
-import org.opencms.util.CmsStringUtil;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Element;
@@ -42,85 +39,86 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.opencms.gwt.client.Messages;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * Header info widget.<p>
+ * Header info widget.
+ *
+ * <p>
  */
 public class CmsInfoHeader extends Composite {
 
-    /**
-     * @see com.google.gwt.uibinder.client.UiBinder
-     */
-    protected interface I_CmsInfoHeaderUiBinder extends UiBinder<HTMLPanel, CmsInfoHeader> {
-        // GWT interface, nothing to do here
+  /** @see com.google.gwt.uibinder.client.UiBinder */
+  protected interface I_CmsInfoHeaderUiBinder extends UiBinder<HTMLPanel, CmsInfoHeader> {
+    // GWT interface, nothing to do here
+  }
+
+  /** The ui-binder instance for this class. */
+  private static I_CmsInfoHeaderUiBinder uiBinder = GWT.create(I_CmsInfoHeaderUiBinder.class);
+
+  /** The description element. */
+  @UiField protected ParagraphElement m_description;
+
+  /** The locale cell. */
+  @UiField protected SpanElement m_locale;
+
+  /** The site host element. */
+  @UiField protected SpanElement m_siteHost;
+
+  /** The title element. */
+  @UiField protected HeadingElement m_title;
+
+  /** The type icon element. */
+  @UiField protected DivElement m_typeIcon;
+
+  /** The button bar. */
+  @UiField protected Element m_buttonBar;
+
+  /** The main panel. */
+  private HTMLPanel m_main;
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param title the title
+   * @param description the description
+   * @param path the path
+   * @param locale the locale
+   * @param typeIcon the type icon CSS class
+   */
+  public CmsInfoHeader(
+      String title, String description, String path, String locale, String typeIcon) {
+
+    m_main = uiBinder.createAndBindUi(this);
+    initWidget(m_main);
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(title)) {
+      title = Messages.get().key(Messages.GUI_NO_TITLE_0);
     }
-
-    /** The ui-binder instance for this class. */
-    private static I_CmsInfoHeaderUiBinder uiBinder = GWT.create(I_CmsInfoHeaderUiBinder.class);
-
-    /** The description element. */
-    @UiField
-    protected ParagraphElement m_description;
-
-    /** The locale cell. */
-    @UiField
-    protected SpanElement m_locale;
-
-    /** The site host element. */
-    @UiField
-    protected SpanElement m_siteHost;
-
-    /** The title element. */
-    @UiField
-    protected HeadingElement m_title;
-
-    /** The type icon element. */
-    @UiField
-    protected DivElement m_typeIcon;
-
-    /** The button bar. */
-    @UiField
-    protected Element m_buttonBar;
-
-    /** The main panel. */
-    private HTMLPanel m_main;
-
-    /**
-     * Constructor.<p>
-     *
-     * @param title the title
-     * @param description the description
-     * @param path the path
-     * @param locale the locale
-     * @param typeIcon the type icon CSS class
-     */
-    public CmsInfoHeader(String title, String description, String path, String locale, String typeIcon) {
-
-        m_main = uiBinder.createAndBindUi(this);
-        initWidget(m_main);
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(title)) {
-            title = Messages.get().key(Messages.GUI_NO_TITLE_0);
-        }
-        m_title.setInnerText(title);
-        m_description.setInnerText(description);
-        m_siteHost.setInnerText(path);
-        m_locale.setInnerText("[" + locale + "]");
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(typeIcon)) {
-            m_typeIcon.addClassName(typeIcon);
-            m_typeIcon.getStyle().setWidth(24, Unit.PX);
-            m_typeIcon.getStyle().setHeight(24, Unit.PX);
-        } else {
-            m_typeIcon.removeFromParent();
-        }
+    m_title.setInnerText(title);
+    m_description.setInnerText(description);
+    m_siteHost.setInnerText(path);
+    m_locale.setInnerText("[" + locale + "]");
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(typeIcon)) {
+      m_typeIcon.addClassName(typeIcon);
+      m_typeIcon.getStyle().setWidth(24, Unit.PX);
+      m_typeIcon.getStyle().setHeight(24, Unit.PX);
+    } else {
+      m_typeIcon.removeFromParent();
     }
+  }
 
-    /**
-     * Adds a button to the top right of the info header.<p>
-     *
-     * @param button the button to add
-     */
-    public void addButtonTopRight(Widget button) {
+  /**
+   * Adds a button to the top right of the info header.
+   *
+   * <p>
+   *
+   * @param button the button to add
+   */
+  public void addButtonTopRight(Widget button) {
 
-        m_main.add(button, m_buttonBar);
-    }
+    m_main.add(button, m_buttonBar);
+  }
 }

@@ -30,70 +30,82 @@ package org.opencms.gwt.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * A simple bean class which represents a validation request for a single form field.<p>
+ * A simple bean class which represents a validation request for a single form field.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsValidationQuery implements IsSerializable {
 
-    /** The configuration string for the server-side validator. */
-    private String m_config;
+  /** The configuration string for the server-side validator. */
+  private String m_config;
 
-    /** The class name of the server-side validator. */
-    private String m_validatorId;
+  /** The class name of the server-side validator. */
+  private String m_validatorId;
 
-    /** The value which should be validated. */
-    private String m_value;
+  /** The value which should be validated. */
+  private String m_value;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param validator the server-side validator class name
-     * @param value the value to validate
-     * @param config the configuration string for the server-side validator
-     */
-    public CmsValidationQuery(String validator, String value, String config) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param validator the server-side validator class name
+   * @param value the value to validate
+   * @param config the configuration string for the server-side validator
+   */
+  public CmsValidationQuery(String validator, String value, String config) {
 
-        m_validatorId = validator;
-        m_value = value;
-        m_config = config;
-    }
+    m_validatorId = validator;
+    m_value = value;
+    m_config = config;
+  }
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    protected CmsValidationQuery() {
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  protected CmsValidationQuery() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Gets the configuration string for the server-side validator.<p>
-     *
-     * @return a configuration string
-     */
-    public String getConfig() {
+  /**
+   * Gets the configuration string for the server-side validator.
+   *
+   * <p>
+   *
+   * @return a configuration string
+   */
+  public String getConfig() {
 
-        return m_config;
-    }
+    return m_config;
+  }
 
-    /**
-     * Gets the class name of the server-side validator.<p>
-     *
-     * @return  the class name of the server-side validator
-     */
-    public String getValidatorId() {
+  /**
+   * Gets the class name of the server-side validator.
+   *
+   * <p>
+   *
+   * @return the class name of the server-side validator
+   */
+  public String getValidatorId() {
 
-        return m_validatorId;
-    }
+    return m_validatorId;
+  }
 
-    /**
-     * Returns the value to validate.<p>
-     *
-     * @return the value which should be validated
-     */
-    public String getValue() {
+  /**
+   * Returns the value to validate.
+   *
+   * <p>
+   *
+   * @return the value which should be validated
+   */
+  public String getValue() {
 
-        return m_value;
-    }
+    return m_value;
+  }
 }

@@ -27,6 +27,12 @@
 
 package org.opencms.widgets;
 
+import com.google.common.collect.Lists;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import org.opencms.ade.configuration.CmsADEConfigData;
 import org.opencms.ade.configuration.CmsConfigurationReader;
 import org.opencms.file.CmsObject;
@@ -37,143 +43,131 @@ import org.opencms.xml.containerpage.I_CmsFormatterBean;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentRootLocation;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import com.google.common.collect.Lists;
-
 /**
- * Widget used to select a formatter to remove.<p>
+ * Widget used to select a formatter to remove.
  *
- * Please note that this widget assumes the resource being edited is a sitemap configuration, and will not work correctly in a different context.
+ * <p>Please note that this widget assumes the resource being edited is a sitemap configuration, and
+ * will not work correctly in a different context.
  */
 public class CmsRemoveFormatterWidget extends A_CmsFormatterWidget {
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsRemoveFormatterWidget() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsRemoveFormatterWidget() {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * Constructor with a configuration parameter.<p>
-     * @param config the configuration string
-     */
-    public CmsRemoveFormatterWidget(String config) {
+  /**
+   * Constructor with a configuration parameter.
+   *
+   * <p>
+   *
+   * @param config the configuration string
+   */
+  public CmsRemoveFormatterWidget(String config) {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getCssResourceLinks(org.opencms.file.CmsObject)
-     */
-    @Override
-    public List<String> getCssResourceLinks(CmsObject cms) {
+  /** @see org.opencms.widgets.I_CmsADEWidget#getCssResourceLinks(org.opencms.file.CmsObject) */
+  @Override
+  public List<String> getCssResourceLinks(CmsObject cms) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getInitCall()
-     */
-    @Override
-    public String getInitCall() {
+  /** @see org.opencms.widgets.I_CmsADEWidget#getInitCall() */
+  @Override
+  public String getInitCall() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getJavaScriptResourceLinks(org.opencms.file.CmsObject)
-     */
-    @Override
-    public List<String> getJavaScriptResourceLinks(CmsObject cms) {
+  /**
+   * @see org.opencms.widgets.I_CmsADEWidget#getJavaScriptResourceLinks(org.opencms.file.CmsObject)
+   */
+  @Override
+  public List<String> getJavaScriptResourceLinks(CmsObject cms) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#isInternal()
-     */
-    @Override
-    public boolean isInternal() {
+  /** @see org.opencms.widgets.I_CmsADEWidget#isInternal() */
+  @Override
+  public boolean isInternal() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.widgets.CmsSelectWidget#newInstance()
-     */
-    @Override
-    public I_CmsWidget newInstance() {
+  /** @see org.opencms.widgets.CmsSelectWidget#newInstance() */
+  @Override
+  public I_CmsWidget newInstance() {
 
-        return new CmsRemoveFormatterWidget();
-    }
+    return new CmsRemoveFormatterWidget();
+  }
 
-    /**
-     * @see org.opencms.widgets.A_CmsFormatterWidget#getFormatterOptions(org.opencms.file.CmsObject, org.opencms.ade.configuration.CmsADEConfigData, java.lang.String, boolean)
-     */
-    @Override
-    protected List<CmsSelectWidgetOption> getFormatterOptions(
-        CmsObject cms,
-        CmsADEConfigData config,
-        String rootPath,
-        boolean allRemoved) {
+  /**
+   * @see org.opencms.widgets.A_CmsFormatterWidget#getFormatterOptions(org.opencms.file.CmsObject,
+   *     org.opencms.ade.configuration.CmsADEConfigData, java.lang.String, boolean)
+   */
+  @Override
+  protected List<CmsSelectWidgetOption> getFormatterOptions(
+      CmsObject cms, CmsADEConfigData config, String rootPath, boolean allRemoved) {
 
-        List<CmsSelectWidgetOption> result = Lists.newArrayList();
-        if (!allRemoved) {
-            Map<CmsUUID, I_CmsFormatterBean> activeFormatters = config.getActiveFormatters();
-            List<I_CmsFormatterBean> formatters = Lists.newArrayList(activeFormatters.values());
-            Collections.sort(formatters, new A_CmsFormatterWidget.FormatterSelectComparator());
-            for (I_CmsFormatterBean formatterBean : formatters) {
-                if ((formatterBean instanceof CmsFunctionFormatterBean)
-                    || (formatterBean instanceof CmsSchemaFormatterBeanWrapper)) {
-                    continue;
-                }
-                try {
-                    CmsSelectWidgetOption option = getWidgetOptionForFormatter(cms, formatterBean);
-                    result.add(option);
-                } catch (Exception e) {
-                    LOG.error(e.getLocalizedMessage(), e);
-                }
-            }
+    List<CmsSelectWidgetOption> result = Lists.newArrayList();
+    if (!allRemoved) {
+      Map<CmsUUID, I_CmsFormatterBean> activeFormatters = config.getActiveFormatters();
+      List<I_CmsFormatterBean> formatters = Lists.newArrayList(activeFormatters.values());
+      Collections.sort(formatters, new A_CmsFormatterWidget.FormatterSelectComparator());
+      for (I_CmsFormatterBean formatterBean : formatters) {
+        if ((formatterBean instanceof CmsFunctionFormatterBean)
+            || (formatterBean instanceof CmsSchemaFormatterBeanWrapper)) {
+          continue;
         }
-        return result;
-    }
-
-    /**
-     * @see org.opencms.widgets.A_CmsFormatterWidget#getSelectedInFile(org.opencms.ade.configuration.CmsConfigurationReader, org.opencms.xml.content.CmsXmlContent)
-     */
-    @Override
-    protected Set<String> getSelectedInFile(CmsConfigurationReader reader, CmsXmlContent content) {
-
-        CmsXmlContentRootLocation root = new CmsXmlContentRootLocation(content, Locale.ENGLISH);
-        Set<String> addFormatters = reader.parseRemoveFormatters(root);
-        return addFormatters;
-    }
-
-    /**
-     * @see org.opencms.widgets.A_CmsFormatterWidget#getTypeOptions(org.opencms.file.CmsObject, org.opencms.ade.configuration.CmsADEConfigData, boolean)
-     */
-    @Override
-    protected List<CmsSelectWidgetOption> getTypeOptions(
-        CmsObject cms,
-        CmsADEConfigData adeConfig,
-        boolean allRemoved) {
-
-        List<CmsSelectWidgetOption> result = Lists.newArrayList();
-        if (!allRemoved) {
-            Set<String> activeTypes = adeConfig.getTypesWithActiveSchemaFormatters();
-            for (String activeType : activeTypes) {
-                CmsSelectWidgetOption option = getWidgetOptionForType(cms, activeType);
-                result.add(option);
-            }
+        try {
+          CmsSelectWidgetOption option = getWidgetOptionForFormatter(cms, formatterBean);
+          result.add(option);
+        } catch (Exception e) {
+          LOG.error(e.getLocalizedMessage(), e);
         }
-        return result;
+      }
     }
+    return result;
+  }
 
+  /**
+   * @see
+   *     org.opencms.widgets.A_CmsFormatterWidget#getSelectedInFile(org.opencms.ade.configuration.CmsConfigurationReader,
+   *     org.opencms.xml.content.CmsXmlContent)
+   */
+  @Override
+  protected Set<String> getSelectedInFile(CmsConfigurationReader reader, CmsXmlContent content) {
+
+    CmsXmlContentRootLocation root = new CmsXmlContentRootLocation(content, Locale.ENGLISH);
+    Set<String> addFormatters = reader.parseRemoveFormatters(root);
+    return addFormatters;
+  }
+
+  /**
+   * @see org.opencms.widgets.A_CmsFormatterWidget#getTypeOptions(org.opencms.file.CmsObject,
+   *     org.opencms.ade.configuration.CmsADEConfigData, boolean)
+   */
+  @Override
+  protected List<CmsSelectWidgetOption> getTypeOptions(
+      CmsObject cms, CmsADEConfigData adeConfig, boolean allRemoved) {
+
+    List<CmsSelectWidgetOption> result = Lists.newArrayList();
+    if (!allRemoved) {
+      Set<String> activeTypes = adeConfig.getTypesWithActiveSchemaFormatters();
+      for (String activeType : activeTypes) {
+        CmsSelectWidgetOption option = getWidgetOptionForType(cms, activeType);
+        result.add(option);
+      }
+    }
+    return result;
+  }
 }

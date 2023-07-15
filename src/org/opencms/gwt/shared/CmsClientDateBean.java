@@ -31,63 +31,69 @@ import com.google.common.collect.ComparisonChain;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * A bean containing a date, both as a 'long' value and a user-readable string representation.<p>
+ * A bean containing a date, both as a 'long' value and a user-readable string representation.
+ *
+ * <p>
  */
 public class CmsClientDateBean implements IsSerializable, Comparable<Object> {
 
-    /** The actual date value. */
-    protected long m_date;
+  /** The actual date value. */
+  protected long m_date;
 
-    /** The user-readable date string. */
-    protected String m_dateText;
+  /** The user-readable date string. */
+  protected String m_dateText;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param date the date value
-     * @param dateText the user-readable date string
-     */
-    public CmsClientDateBean(long date, String dateText) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param date the date value
+   * @param dateText the user-readable date string
+   */
+  public CmsClientDateBean(long date, String dateText) {
 
-        m_dateText = dateText;
-        m_date = date;
+    m_dateText = dateText;
+    m_date = date;
+  }
+
+  /**
+   * Empty default constructor.
+   *
+   * <p>
+   */
+  protected CmsClientDateBean() {}
+
+  /** @see java.lang.Comparable#compareTo(java.lang.Object) */
+  public int compareTo(Object other) {
+
+    if (!(other instanceof CmsClientDateBean)) {
+      return -1;
     }
+    return ComparisonChain.start().compare(m_date, ((CmsClientDateBean) other).m_date).result();
+  }
 
-    /**
-     * Empty default constructor.<p>
-     */
-    protected CmsClientDateBean() {
+  /**
+   * Returns the date.
+   *
+   * <p>
+   *
+   * @return the date
+   */
+  public long getDate() {
 
-    }
+    return m_date;
+  }
 
-    /**
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    public int compareTo(Object other) {
+  /**
+   * Returns the dateText.
+   *
+   * <p>
+   *
+   * @return the dateText
+   */
+  public String getDateText() {
 
-        if (!(other instanceof CmsClientDateBean)) {
-            return -1;
-        }
-        return ComparisonChain.start().compare(m_date, ((CmsClientDateBean)other).m_date).result();
-    }
-
-    /**
-     * Returns the date.<p>
-     *
-     * @return the date
-     */
-    public long getDate() {
-
-        return m_date;
-    }
-
-    /**
-     * Returns the dateText.<p>
-     *
-     * @return the dateText
-     */
-    public String getDateText() {
-
-        return m_dateText;
-    }
+    return m_dateText;
+  }
 }

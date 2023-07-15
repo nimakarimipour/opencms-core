@@ -27,6 +27,8 @@
 
 package org.opencms.ui.actions;
 
+import java.util.List;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.ui.I_CmsDialogContext;
@@ -36,84 +38,74 @@ import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 import org.opencms.ui.dialogs.CmsUndoDialog;
 import org.opencms.workplace.explorer.Messages;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * The undo dialog action.<p>
+ * The undo dialog action.
+ *
+ * <p>
  */
 public class CmsUndoDialogAction extends A_CmsWorkplaceAction implements I_CmsADEAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "undo";
+  /** The action id. */
+  public static final String ACTION_ID = "undo";
 
-    /** The action visibility. */
-    public static final I_CmsHasMenuItemVisibility VISIBILITY = CmsStandardVisibilityCheck.UNDO;
+  /** The action visibility. */
+  public static final I_CmsHasMenuItemVisibility VISIBILITY = CmsStandardVisibilityCheck.UNDO;
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        if (!hasBlockingLocks(context)) {
-            openDialog(new CmsUndoDialog(context), context);
-        }
+    if (!hasBlockingLocks(context)) {
+      openDialog(new CmsUndoDialog(context), context);
     }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName()
-     */
-    public String getCommandClassName() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName() */
+  public String getCommandClassName() {
 
-        return "org.opencms.gwt.client.ui.contextmenu.CmsRestore";
-    }
+    return "org.opencms.gwt.client.ui.contextmenu.CmsRestore";
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
-    }
+    return ACTION_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
-     */
-    public String getJspPath() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getJspPath() */
+  public String getJspPath() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
-     */
-    public Map<String, String> getParams() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getParams() */
+  public Map<String, String> getParams() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
 
-        return VISIBILITY.getVisibility(cms, resources);
-    }
+    return VISIBILITY.getVisibility(cms, resources);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported()
-     */
-    public boolean isAdeSupported() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported() */
+  public boolean isAdeSupported() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return Messages.GUI_EXPLORER_CONTEXT_UNDOCHANGES_0;
-    }
+    return Messages.GUI_EXPLORER_CONTEXT_UNDOCHANGES_0;
+  }
 }

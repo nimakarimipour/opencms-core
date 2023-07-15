@@ -30,15 +30,18 @@ package org.opencms.ade.publish.client;
 import com.google.gwt.event.shared.EventHandler;
 
 /**
- * Event handler interface for publish events.<p>
+ * Event handler interface for publish events.
+ *
+ * <p>
  */
 public interface I_CmsPublishEventHandler extends EventHandler {
 
-    /**
-     * Method which is called for received publish events.<p>
-     *
-     * @param e the publish event
-     */
-    void onPublish(CmsPublishEvent e);
-
+  /**
+   * Method which is called for received publish events.
+   *
+   * <p>
+   *
+   * @param e the publish event
+   */
+  void onPublish(CmsPublishEvent e);
 }

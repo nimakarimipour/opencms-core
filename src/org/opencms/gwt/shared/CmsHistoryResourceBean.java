@@ -27,228 +27,269 @@
 
 package org.opencms.gwt.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * A bean representing the data to be displayed in the history dialog for a single resource version.<p>
+ * A bean representing the data to be displayed in the history dialog for a single resource version.
+ *
+ * <p>
  */
 public class CmsHistoryResourceBean implements IsSerializable {
 
-    /** The description. */
-    private String m_description;
+  /** The description. */
+  private String m_description;
 
-    /** The modification date. */
-    private CmsClientDateBean m_modificationDate;
+  /** The modification date. */
+  private CmsClientDateBean m_modificationDate;
 
-    /** The publish date. */
-    private CmsClientDateBean m_publishDate;
+  /** The publish date. */
+  private CmsClientDateBean m_publishDate;
 
-    /** The root path.<p> */
-    private String m_rootPath;
+  /**
+   * The root path.
+   *
+   * <p>
+   */
+  private String m_rootPath;
 
-    /** The size. */
-    private int m_size;
+  /** The size. */
+  private int m_size;
 
-    /** The structure id. */
-    private CmsUUID m_structureId;
+  /** The structure id. */
+  private CmsUUID m_structureId;
 
-    /** The title. */
-    private String m_title;
+  /** The title. */
+  private String m_title;
 
-    /**
-     * The user who last modified the resource.<p>
-     */
-    private String m_userLastModified;
+  /**
+   * The user who last modified the resource.
+   *
+   * <p>
+   */
+  private String m_userLastModified;
 
-    /** The version. */
-    private CmsHistoryVersion m_version;
+  /** The version. */
+  private CmsHistoryVersion m_version;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsHistoryResourceBean() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsHistoryResourceBean() {}
 
-    }
+  /**
+   * Returns the description.
+   *
+   * <p>
+   *
+   * @return the description
+   */
+  public String getDescription() {
 
-    /**
-     * Returns the description.<p>
-     *
-     * @return the description
-     */
-    public String getDescription() {
+    return m_description;
+  }
 
-        return m_description;
-    }
+  /**
+   * Gets the modification date.
+   *
+   * <p>
+   *
+   * @return the modification date
+   */
+  public CmsClientDateBean getModificationDate() {
 
-    /**
-     * Gets the modification date.<p>
-     *
-     * @return the modification date
-     */
-    public CmsClientDateBean getModificationDate() {
+    return m_modificationDate;
+  }
 
-        return m_modificationDate;
-    }
+  /**
+   * Gets the publish date.
+   *
+   * <p>
+   *
+   * @return the publish date
+   */
+  public CmsClientDateBean getPublishDate() {
 
-    /**
-     * Gets the publish date.<p>
-     *
-     * @return the publish date
-     */
-    public CmsClientDateBean getPublishDate() {
+    return m_publishDate;
+  }
 
-        return m_publishDate;
-    }
+  /**
+   * Returns the rootPath.
+   *
+   * <p>
+   *
+   * @return the rootPath
+   */
+  public String getRootPath() {
 
-    /**
-     * Returns the rootPath.<p>
-     *
-     * @return the rootPath
-     */
-    public String getRootPath() {
+    return m_rootPath;
+  }
 
-        return m_rootPath;
-    }
+  /**
+   * Gets the size.
+   *
+   * <p>
+   *
+   * @return the size
+   */
+  public int getSize() {
 
-    /**
-     * Gets the size.<p>
-     *
-     * @return the size
-     */
-    public int getSize() {
+    return m_size;
+  }
 
-        return m_size;
-    }
+  /**
+   * Returns the structureId.
+   *
+   * <p>
+   *
+   * @return the structureId
+   */
+  public CmsUUID getStructureId() {
 
-    /**
-     * Returns the structureId.<p>
-     *
-     * @return the structureId
-     */
-    public CmsUUID getStructureId() {
+    return m_structureId;
+  }
 
-        return m_structureId;
-    }
+  /**
+   * Returns the title.
+   *
+   * <p>
+   *
+   * @return the title
+   */
+  public String getTitle() {
 
-    /**
-     * Returns the title.<p>
-     *
-     * @return the title
-     */
-    public String getTitle() {
+    return m_title;
+  }
 
-        return m_title;
-    }
+  /**
+   * Gets the user who last modified the history version.
+   *
+   * <p>+
+   *
+   * @return the user who last modified the resource
+   */
+  public String getUserLastModified() {
 
-    /**
-     * Gets the user who last modified the history version.<p>+
-     *
-     * @return the user who last modified the resource
-     */
-    public String getUserLastModified() {
+    return m_userLastModified;
+  }
 
-        return m_userLastModified;
-    }
+  /**
+   * Returns the version.
+   *
+   * <p>
+   *
+   * @return the version
+   */
+  public CmsHistoryVersion getVersion() {
 
-    /**
-     * Returns the version.<p>
-     *
-     * @return the version
-     */
-    public CmsHistoryVersion getVersion() {
+    return m_version;
+  }
 
-        return m_version;
-    }
+  /**
+   * Sets the modification date.
+   *
+   * <p>
+   *
+   * @param formatDate the modification date
+   */
+  public void setDateLastModified(CmsClientDateBean formatDate) {
 
-    /**
-     * Sets the modification date.<p>
-     *
-     * @param formatDate the modification date
-     */
-    public void setDateLastModified(CmsClientDateBean formatDate) {
+    m_modificationDate = formatDate;
+  }
 
-        m_modificationDate = formatDate;
-    }
+  /**
+   * Sets the publish date.
+   *
+   * <p>
+   *
+   * @param formatDate the publish date
+   */
+  public void setDatePublished(CmsClientDateBean formatDate) {
 
-    /**
-     * Sets the publish date.<p>
-     *
-     * @param formatDate the publish date
-     */
-    public void setDatePublished(CmsClientDateBean formatDate) {
+    m_publishDate = formatDate;
+  }
 
-        m_publishDate = formatDate;
-    }
+  /**
+   * Sets the description.
+   *
+   * <p>
+   *
+   * @param description the description
+   */
+  public void setDescription(String description) {
 
-    /**
-     * Sets the description.<p>
-     *
-     * @param description the description
-     */
-    public void setDescription(String description) {
+    m_description = description;
+  }
 
-        m_description = description;
-    }
+  /**
+   * Sets the rootPath.
+   *
+   * <p>
+   *
+   * @param rootPath the rootPath to set
+   */
+  public void setRootPath(String rootPath) {
 
-    /**
-     * Sets the rootPath.<p>
-     *
-     * @param rootPath the rootPath to set
-     */
-    public void setRootPath(String rootPath) {
+    m_rootPath = rootPath;
+  }
 
-        m_rootPath = rootPath;
-    }
+  /**
+   * Sets the size.
+   *
+   * <p>
+   *
+   * @param size the size
+   */
+  public void setSize(int size) {
 
-    /**
-     * Sets the size.<p>
-     *
-     * @param size the size
-     */
-    public void setSize(int size) {
+    m_size = size;
+  }
 
-        m_size = size;
-    }
+  /**
+   * Sets the structure id
+   *
+   * @param structureId the structure id to set
+   */
+  public void setStructureId(CmsUUID structureId) {
 
-    /**
-     * Sets the structure id
-     * @param structureId the structure id to set
-     */
-    public void setStructureId(CmsUUID structureId) {
+    m_structureId = structureId;
+  }
 
-        m_structureId = structureId;
-    }
+  /**
+   * Sets the title.
+   *
+   * <p>
+   *
+   * @param title the title to set
+   */
+  public void setTitle(String title) {
 
-    /**
-     * Sets the title.<p>
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
+    m_title = title;
+  }
 
-        m_title = title;
+  /**
+   * Sets the name of the user who last modified the resource.
+   *
+   * <p>
+   *
+   * @param userName the name of the user
+   */
+  public void setUserLastModified(String userName) {
 
-    }
+    m_userLastModified = userName;
+  }
 
-    /**
-     * Sets the name of the user who last modified the resource.<p>
-     *
-     * @param userName the name of the user
-     */
-    public void setUserLastModified(String userName) {
+  /**
+   * Sets the version.
+   *
+   * <p>
+   *
+   * @param version the version to set
+   */
+  public void setVersion(CmsHistoryVersion version) {
 
-        m_userLastModified = userName;
-    }
-
-    /**
-     * Sets the version.<p>
-     *
-     * @param version the version to set
-     */
-    public void setVersion(CmsHistoryVersion version) {
-
-        m_version = version;
-    }
-
+    m_version = version;
+  }
 }

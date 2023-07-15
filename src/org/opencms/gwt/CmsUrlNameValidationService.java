@@ -27,6 +27,7 @@
 
 package org.opencms.gwt;
 
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsVfsResourceNotFoundException;
@@ -37,46 +38,46 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.Map;
-
 /**
- * Validation class which both translates a sitemap URL name and checks whether it already exists in a '|'-separated
- * list of URL names which is passed as a configuration parameter.<p>
+ * Validation class which both translates a sitemap URL name and checks whether it already exists in
+ * a '|'-separated list of URL names which is passed as a configuration parameter.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsUrlNameValidationService implements I_CmsValidationService {
 
-    /**
-     * @see org.opencms.gwt.I_CmsValidationService#validate(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
-     */
-    public CmsValidationResult validate(CmsObject cms, String value, String config) {
+  /**
+   * @see org.opencms.gwt.I_CmsValidationService#validate(org.opencms.file.CmsObject,
+   *     java.lang.String, java.lang.String)
+   */
+  public CmsValidationResult validate(CmsObject cms, String value, String config) {
 
-        String name = cms.getRequestContext().getFileTranslator().translateResource(value);
-        name = name.replace('/', '_');
+    String name = cms.getRequestContext().getFileTranslator().translateResource(value);
+    name = name.replace('/', '_');
 
-        Map<String, String> configMap = CmsStringUtil.splitAsMap(config, "|", ":");
-        String parentPath = configMap.get("parent");
-        String id = configMap.get("id");
-        try {
-            CmsResource res = cms.readResource(CmsStringUtil.joinPaths(parentPath, name));
-            // file already exists
-            if (!CmsUUID.isValidUUID(id) || res.getStructureId().toString().equals(id)) {
-                // no problem, it's the same resource
-                return new CmsValidationResult(null, name);
-            } else {
-                // it's a different resource, so we fail
-                return new CmsValidationResult(
-                    org.opencms.gwt.Messages.get().getBundle(OpenCms.getWorkplaceManager().getWorkplaceLocale(cms)).key(
-                        org.opencms.gwt.Messages.ERR_URL_NAME_ALREADY_EXISTS_1,
-                        name));
-            }
-        } catch (CmsVfsResourceNotFoundException e) {
-            // ok, the resource was not found
-            return new CmsValidationResult(null, name);
-        } catch (CmsException e) {
-            throw new CmsRuntimeException(e.getMessageContainer());
-
-        }
+    Map<String, String> configMap = CmsStringUtil.splitAsMap(config, "|", ":");
+    String parentPath = configMap.get("parent");
+    String id = configMap.get("id");
+    try {
+      CmsResource res = cms.readResource(CmsStringUtil.joinPaths(parentPath, name));
+      // file already exists
+      if (!CmsUUID.isValidUUID(id) || res.getStructureId().toString().equals(id)) {
+        // no problem, it's the same resource
+        return new CmsValidationResult(null, name);
+      } else {
+        // it's a different resource, so we fail
+        return new CmsValidationResult(
+            org.opencms.gwt.Messages.get()
+                .getBundle(OpenCms.getWorkplaceManager().getWorkplaceLocale(cms))
+                .key(org.opencms.gwt.Messages.ERR_URL_NAME_ALREADY_EXISTS_1, name));
+      }
+    } catch (CmsVfsResourceNotFoundException e) {
+      // ok, the resource was not found
+      return new CmsValidationResult(null, name);
+    } catch (CmsException e) {
+      throw new CmsRuntimeException(e.getMessageContainer());
     }
+  }
 }

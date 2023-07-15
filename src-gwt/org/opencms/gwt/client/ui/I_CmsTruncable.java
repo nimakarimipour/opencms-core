@@ -28,17 +28,21 @@
 package org.opencms.gwt.client.ui;
 
 /**
- * Interface for truncable UI elements.<p>
+ * Interface for truncable UI elements.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsTruncable {
 
-    /**
-     * Truncates long text and sets the original text to the title attribute.<p>
-     *
-     * @param textMetricsKey the key identifying the text metrics to use
-     * @param clientWidth the width to use in pixels
-     */
-    void truncate(String textMetricsKey, int clientWidth);
+  /**
+   * Truncates long text and sets the original text to the title attribute.
+   *
+   * <p>
+   *
+   * @param textMetricsKey the key identifying the text metrics to use
+   * @param clientWidth the width to use in pixels
+   */
+  void truncate(String textMetricsKey, int clientWidth);
 }

@@ -27,19 +27,6 @@
 
 package org.opencms.ui.apps.modules;
 
-import org.opencms.file.CmsResource;
-import org.opencms.main.CmsLog;
-import org.opencms.module.CmsModuleImportExportHandler;
-import org.opencms.report.A_CmsReportThread;
-import org.opencms.ui.CmsVaadinUtils;
-import org.opencms.ui.components.CmsBasicDialog;
-import org.opencms.ui.report.CmsReportWidget;
-
-import java.io.FileInputStream;
-import java.io.InputStream;
-
-import org.apache.commons.logging.Log;
-
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.Resource;
 import com.vaadin.server.StreamResource;
@@ -48,81 +35,96 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import org.apache.commons.logging.Log;
+import org.opencms.file.CmsResource;
+import org.opencms.main.CmsLog;
+import org.opencms.module.CmsModuleImportExportHandler;
+import org.opencms.report.A_CmsReportThread;
+import org.opencms.ui.CmsVaadinUtils;
+import org.opencms.ui.components.CmsBasicDialog;
+import org.opencms.ui.report.CmsReportWidget;
 
 /**
- * The module export dialog.<p>
+ * The module export dialog.
+ *
+ * <p>
  */
 public class CmsModuleExportDialog extends CmsBasicDialog {
 
-    /** Log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsModuleExportDialog.class);
+  /** Log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsModuleExportDialog.class);
 
-    /** Vaadin serial id.*/
-    private static final long serialVersionUID = 1L;
+  /** Vaadin serial id. */
+  private static final long serialVersionUID = 1L;
 
-    private CmsModuleImportExportHandler m_exportHandler;
+  private CmsModuleImportExportHandler m_exportHandler;
 
-    /**
-     * public constructor.<p>
-     *
-     * @param thread to be run
-     * @param window holds the dialog
-     */
-    public CmsModuleExportDialog(
-        CmsModuleImportExportHandler exportHandler,
-        A_CmsReportThread thread,
-        final Window window) {
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param thread to be run
+   * @param window holds the dialog
+   */
+  public CmsModuleExportDialog(
+      CmsModuleImportExportHandler exportHandler, A_CmsReportThread thread, final Window window) {
 
-        m_exportHandler = exportHandler;
-        Button close = createButtonClose();
-        Button download = new Button(CmsVaadinUtils.getMessageText(org.opencms.ui.Messages.GUI_BUTTON_DOWNLOAD_0));
-        close.addClickListener(new ClickListener() {
+    m_exportHandler = exportHandler;
+    Button close = createButtonClose();
+    Button download =
+        new Button(CmsVaadinUtils.getMessageText(org.opencms.ui.Messages.GUI_BUTTON_DOWNLOAD_0));
+    close.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                window.close();
-            }
-
+            window.close();
+          }
         });
-        FileDownloader downloadContext = new FileDownloader(getDownloadResource());
+    FileDownloader downloadContext = new FileDownloader(getDownloadResource());
 
-        download.setEnabled(false);
-        downloadContext.extend(download);
-        addButton(download, true);
-        addButton(close, true);
+    download.setEnabled(false);
+    downloadContext.extend(download);
+    addButton(download, true);
+    addButton(close, true);
 
-        final CmsReportWidget report = new CmsReportWidget(thread);
-        report.addReportFinishedHandler(() -> {
-            download.setEnabled(thread.getErrors().size() == 0);
+    final CmsReportWidget report = new CmsReportWidget(thread);
+    report.addReportFinishedHandler(
+        () -> {
+          download.setEnabled(thread.getErrors().size() == 0);
         });
-        setHeight("100%");
-        report.setWidth("100%");
-        report.setHeight("100%");
-        VerticalLayout container = new VerticalLayout();
-        container.setHeight("100%");
-        container.addComponent(report);
-        setContent(container);
-        thread.start();
-    }
+    setHeight("100%");
+    report.setWidth("100%");
+    report.setHeight("100%");
+    VerticalLayout container = new VerticalLayout();
+    container.setHeight("100%");
+    container.addComponent(report);
+    setContent(container);
+    thread.start();
+  }
 
-    /**
-     * Gets the download resource.
-     *
-     * @return the download resource
-     */
-    private Resource getDownloadResource() {
+  /**
+   * Gets the download resource.
+   *
+   * @return the download resource
+   */
+  private Resource getDownloadResource() {
 
-        return new StreamResource(() -> {
-            try {
-                InputStream stream = new FileInputStream(m_exportHandler.getFileName() + ".zip");
-                return stream;
-            } catch (Exception e) {
-                LOG.error(e.getLocalizedMessage(), e);
-                return null;
-            }
-        }, CmsResource.getName(m_exportHandler.getFileName() + ".zip"));
-
-    }
+    return new StreamResource(
+        () -> {
+          try {
+            InputStream stream = new FileInputStream(m_exportHandler.getFileName() + ".zip");
+            return stream;
+          } catch (Exception e) {
+            LOG.error(e.getLocalizedMessage(), e);
+            return null;
+          }
+        },
+        CmsResource.getName(m_exportHandler.getFileName() + ".zip"));
+  }
 }

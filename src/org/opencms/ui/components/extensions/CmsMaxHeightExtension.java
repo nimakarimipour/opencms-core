@@ -27,109 +27,115 @@
 
 package org.opencms.ui.components.extensions;
 
-import org.opencms.ui.shared.components.CmsMaxHeightState;
-import org.opencms.ui.shared.rpc.I_CmsMaxHeightServerRpc;
-
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.vaadin.server.AbstractExtension;
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.AbstractComponent;
+import java.util.List;
+import org.opencms.ui.shared.components.CmsMaxHeightState;
+import org.opencms.ui.shared.rpc.I_CmsMaxHeightServerRpc;
 
 /**
- * Allows the use of max height in combination with vaadin layout components.<p>
+ * Allows the use of max height in combination with vaadin layout components.
+ *
+ * <p>
  */
 public class CmsMaxHeightExtension extends AbstractExtension implements I_CmsMaxHeightServerRpc {
 
-    /**
-     * Callback interfaces for height change notifications.<p>
-     */
-    public interface I_HeightChangeHandler {
-
-        /**
-         * Called when the fixHeight RPC call is received.<p>
-         *
-         * @param height the height from the RPC call
-         */
-        void onChangeHeight(int height);
-    }
-
-    /** The serial version id. */
-    private static final long serialVersionUID = 3978957151754705873L;
-
-    /** The extended component. */
-    private AbstractComponent m_component;
-
-    /** The list of height change handlers. */
-    private List<I_HeightChangeHandler> m_heightChangeHandlers = Lists.newArrayList();
+  /**
+   * Callback interfaces for height change notifications.
+   *
+   * <p>
+   */
+  public interface I_HeightChangeHandler {
 
     /**
-     * Constructor.<p>
+     * Called when the fixHeight RPC call is received.
      *
-     * @param component the component to extend
-     * @param maxHeight the max height
-     */
-    public CmsMaxHeightExtension(AbstractComponent component, int maxHeight) {
-        m_component = component;
-        extend(component);
-        registerRpc(this);
-        getState().setMaxHeight(maxHeight);
-
-    }
-
-    /**
-     * Adds an action to execute when the height is changed.<p>
+     * <p>
      *
-     * @param action the action
+     * @param height the height from the RPC call
      */
-    public void addHeightChangeHandler(I_HeightChangeHandler action) {
+    void onChangeHeight(int height);
+  }
 
-        m_heightChangeHandlers.add(action);
+  /** The serial version id. */
+  private static final long serialVersionUID = 3978957151754705873L;
+
+  /** The extended component. */
+  private AbstractComponent m_component;
+
+  /** The list of height change handlers. */
+  private List<I_HeightChangeHandler> m_heightChangeHandlers = Lists.newArrayList();
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param component the component to extend
+   * @param maxHeight the max height
+   */
+  public CmsMaxHeightExtension(AbstractComponent component, int maxHeight) {
+    m_component = component;
+    extend(component);
+    registerRpc(this);
+    getState().setMaxHeight(maxHeight);
+  }
+
+  /**
+   * Adds an action to execute when the height is changed.
+   *
+   * <p>
+   *
+   * @param action the action
+   */
+  public void addHeightChangeHandler(I_HeightChangeHandler action) {
+
+    m_heightChangeHandlers.add(action);
+  }
+
+  /** @see org.opencms.ui.shared.rpc.I_CmsMaxHeightServerRpc#fixHeight(int) */
+  public void fixHeight(int height) {
+
+    if (height < 1) {
+      m_component.setHeightUndefined();
+    } else {
+      m_component.setHeight(height, Unit.PIXELS);
     }
-
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsMaxHeightServerRpc#fixHeight(int)
-     */
-    public void fixHeight(int height) {
-
-        if (height < 1) {
-            m_component.setHeightUndefined();
-        } else {
-            m_component.setHeight(height, Unit.PIXELS);
-        }
-        for (I_HeightChangeHandler handler : m_heightChangeHandlers) {
-            handler.onChangeHeight(height);
-        }
+    for (I_HeightChangeHandler handler : m_heightChangeHandlers) {
+      handler.onChangeHeight(height);
     }
+  }
 
-    /**
-     * Removes a height change handler.<p>
-     *
-     * @param action the handler to remove
-     */
-    public void removeHeightChangeHandler(Runnable action) {
+  /**
+   * Removes a height change handler.
+   *
+   * <p>
+   *
+   * @param action the handler to remove
+   */
+  public void removeHeightChangeHandler(Runnable action) {
 
-        m_heightChangeHandlers.remove(action);
-    }
+    m_heightChangeHandlers.remove(action);
+  }
 
-    /**
-     * Updates the maximum height.<p>
-     *
-     * @param maxHeight the new value for the maximum height
-     */
-    public void updateMaxHeight(int maxHeight) {
+  /**
+   * Updates the maximum height.
+   *
+   * <p>
+   *
+   * @param maxHeight the new value for the maximum height
+   */
+  public void updateMaxHeight(int maxHeight) {
 
-        getState().setMaxHeight(maxHeight);
-    }
+    getState().setMaxHeight(maxHeight);
+  }
 
-    /**
-     * @see com.vaadin.server.AbstractClientConnector#getState()
-     */
-    @Override
-    protected CmsMaxHeightState getState() {
+  /** @see com.vaadin.server.AbstractClientConnector#getState() */
+  @Override
+  protected CmsMaxHeightState getState() {
 
-        return (CmsMaxHeightState)super.getState();
-    }
-
+    return (CmsMaxHeightState) super.getState();
+  }
 }

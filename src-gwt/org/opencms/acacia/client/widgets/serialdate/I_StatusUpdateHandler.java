@@ -30,9 +30,6 @@ package org.opencms.acacia.client.widgets.serialdate;
 /** Interface for status update handlers. */
 public interface I_StatusUpdateHandler {
 
-    /**
-     * Method called when a status update is triggered.
-     */
-    void updateStatus();
-
+  /** Method called when a status update is triggered. */
+  void updateStatus();
 }

@@ -37,6 +37,5 @@ import java.lang.annotation.Target;
 @Target(METHOD)
 public @interface ProvidesAppAttribute {
 
-    String name();
-
+  String name();
 }

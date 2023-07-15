@@ -27,134 +27,155 @@
 
 package org.opencms.gwt.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * A bean that holds the upload file infos.<p>
+ * A bean that holds the upload file infos.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsUploadFileBean implements IsSerializable {
 
-    /** The active upload flag. */
-    private boolean m_active;
+  /** The active upload flag. */
+  private boolean m_active;
 
-    /** The list of resource names that already exist on the VFS. */
-    private List<String> m_existingFileNames;
+  /** The list of resource names that already exist on the VFS. */
+  private List<String> m_existingFileNames;
 
-    /** The list of filenames that are invalid. */
-    private List<String> m_invalidFileNames;
+  /** The list of filenames that are invalid. */
+  private List<String> m_invalidFileNames;
 
-    /** The list of filenames that point to existing but deleted files. */
-    private List<String> m_existingDeletedFileNames;
+  /** The list of filenames that point to existing but deleted files. */
+  private List<String> m_existingDeletedFileNames;
 
-    /**
-     * The default constructor.<p>
-     */
-    public CmsUploadFileBean() {
+  /**
+   * The default constructor.
+   *
+   * <p>
+   */
+  public CmsUploadFileBean() {
 
-        // noop
-    }
+    // noop
+  }
 
-    /**
-     * The constructor with parameters.<p>
-     *
-     * @param existingFileNames list of filenames that already exist on the VFS
-     * @param invalidFileNames list of filenames that are invalid
-     * @param existingDeleted the list of filenames that point to existing but deleted files
-     * @param active the upload active flag
-     */
-    public CmsUploadFileBean(
-        List<String> existingFileNames,
-        List<String> invalidFileNames,
-        List<String> existingDeleted,
-        boolean active) {
+  /**
+   * The constructor with parameters.
+   *
+   * <p>
+   *
+   * @param existingFileNames list of filenames that already exist on the VFS
+   * @param invalidFileNames list of filenames that are invalid
+   * @param existingDeleted the list of filenames that point to existing but deleted files
+   * @param active the upload active flag
+   */
+  public CmsUploadFileBean(
+      List<String> existingFileNames,
+      List<String> invalidFileNames,
+      List<String> existingDeleted,
+      boolean active) {
 
-        m_existingFileNames = existingFileNames;
-        m_invalidFileNames = invalidFileNames;
-        m_existingDeletedFileNames = existingDeleted;
-        m_active = active;
-    }
+    m_existingFileNames = existingFileNames;
+    m_invalidFileNames = invalidFileNames;
+    m_existingDeletedFileNames = existingDeleted;
+    m_active = active;
+  }
 
-    /**
-     * Returns the list of filenames that point to existing but deleted files.<p>
-     *
-     * @return the list of filenames that point to existing but deleted files
-     */
-    public List<String> getExistingDeletedFileNames() {
+  /**
+   * Returns the list of filenames that point to existing but deleted files.
+   *
+   * <p>
+   *
+   * @return the list of filenames that point to existing but deleted files
+   */
+  public List<String> getExistingDeletedFileNames() {
 
-        return m_existingDeletedFileNames;
-    }
+    return m_existingDeletedFileNames;
+  }
 
-    /**
-     * Returns the list of resource names that already exist on the VFS.<p>
-     *
-     * @return the list of resource names that already exist on the VFS
-     */
-    public List<String> getExistingResourceNames() {
+  /**
+   * Returns the list of resource names that already exist on the VFS.
+   *
+   * <p>
+   *
+   * @return the list of resource names that already exist on the VFS
+   */
+  public List<String> getExistingResourceNames() {
 
-        return m_existingFileNames;
-    }
+    return m_existingFileNames;
+  }
 
-    /**
-     * Returns the list of filenames that are invalid.<p>
-     *
-     * @return the list of filenames that are invalid
-     */
-    public List<String> getInvalidFileNames() {
+  /**
+   * Returns the list of filenames that are invalid.
+   *
+   * <p>
+   *
+   * @return the list of filenames that are invalid
+   */
+  public List<String> getInvalidFileNames() {
 
-        return m_invalidFileNames;
-    }
+    return m_invalidFileNames;
+  }
 
-    /**
-     * Returns the active.<p>
-     *
-     * @return the active
-     */
-    public boolean isActive() {
+  /**
+   * Returns the active.
+   *
+   * <p>
+   *
+   * @return the active
+   */
+  public boolean isActive() {
 
-        return m_active;
-    }
+    return m_active;
+  }
 
-    /**
-     * Sets the active.<p>
-     *
-     * @param active the active to set
-     */
-    public void setActive(boolean active) {
+  /**
+   * Sets the active.
+   *
+   * <p>
+   *
+   * @param active the active to set
+   */
+  public void setActive(boolean active) {
 
-        m_active = active;
-    }
+    m_active = active;
+  }
 
-    /**
-     * Sets the list of filenames that point to existing but deleted files.<p>
-     *
-     * @param existingDeletedFileNames list of filenames that point to existing but deleted files
-     */
-    public void setExistingDeletedFileNames(List<String> existingDeletedFileNames) {
+  /**
+   * Sets the list of filenames that point to existing but deleted files.
+   *
+   * <p>
+   *
+   * @param existingDeletedFileNames list of filenames that point to existing but deleted files
+   */
+  public void setExistingDeletedFileNames(List<String> existingDeletedFileNames) {
 
-        m_existingDeletedFileNames = existingDeletedFileNames;
-    }
+    m_existingDeletedFileNames = existingDeletedFileNames;
+  }
 
-    /**
-     * Sets the list of resource names that already exist on the VFS.<p>
-     *
-     * @param existingResourceNames the list of resource names that already exist on the VFS to set
-     */
-    public void setExistingResourceNames(List<String> existingResourceNames) {
+  /**
+   * Sets the list of resource names that already exist on the VFS.
+   *
+   * <p>
+   *
+   * @param existingResourceNames the list of resource names that already exist on the VFS to set
+   */
+  public void setExistingResourceNames(List<String> existingResourceNames) {
 
-        m_existingFileNames = existingResourceNames;
-    }
+    m_existingFileNames = existingResourceNames;
+  }
 
-    /**
-     * Sets the list of filenames that are invalid.<p>
-     *
-     * @param invalidFileNames the list of filenames that are invalid to set
-     */
-    public void setInvalidFileNames(List<String> invalidFileNames) {
+  /**
+   * Sets the list of filenames that are invalid.
+   *
+   * <p>
+   *
+   * @param invalidFileNames the list of filenames that are invalid to set
+   */
+  public void setInvalidFileNames(List<String> invalidFileNames) {
 
-        m_invalidFileNames = invalidFileNames;
-    }
+    m_invalidFileNames = invalidFileNames;
+  }
 }

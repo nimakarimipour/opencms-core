@@ -28,13 +28,17 @@
 package org.opencms.gwt.client.property;
 
 /**
- * An enum specifying whose values specify whether an entry or its parent need to be reloaded.<p>
+ * An enum specifying whose values specify whether an entry or its parent need to be reloaded.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public enum CmsReloadMode {
-    /** This value means that neither the entry nor its parent should be reloaded. */
-    none, /** This value means the entry should be reloaded. */
-    reloadEntry, /** This value means the entry's parent should be reloaded. */
-    reloadParent;
+  /** This value means that neither the entry nor its parent should be reloaded. */
+  none,
+  /** This value means the entry should be reloaded. */
+  reloadEntry,
+  /** This value means the entry's parent should be reloaded. */
+  reloadParent;
 }

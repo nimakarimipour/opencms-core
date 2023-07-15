@@ -27,6 +27,11 @@
 
 package org.opencms.workplace.editors;
 
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResourceFilter;
 import org.opencms.file.types.I_CmsResourceType;
@@ -41,155 +46,167 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsDialog;
 import org.opencms.workplace.CmsWorkplace;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Handles the actions that should be performed before opening the editor frameset.<p>
+ * Handles the actions that should be performed before opening the editor frameset.
  *
- * For each resource type, a pre editor action class can be defined that is triggered in the workplace JSP
- * <code>/system/workplace/editors/editor.jsp</code> before the editor is initially opened.
- * If an action was performed, be sure to use the static method {@link #sendForwardToEditor(CmsDialog, Map)}
- * to open the editor after the action.<p>
+ * <p>For each resource type, a pre editor action class can be defined that is triggered in the
+ * workplace JSP <code>/system/workplace/editors/editor.jsp</code> before the editor is initially
+ * opened. If an action was performed, be sure to use the static method {@link
+ * #sendForwardToEditor(CmsDialog, Map)} to open the editor after the action.
+ *
+ * <p>
  *
  * @since 6.5.4
  */
 public class CmsPreEditorAction extends CmsDialog {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsPreEditorAction.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsPreEditorAction.class);
 
-    /** The original request parameters passed to the editor. */
-    private String m_originalParams;
+  /** The original request parameters passed to the editor. */
+  private String m_originalParams;
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsPreEditorAction(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsPreEditorAction(CmsJspActionElement jsp) {
 
-        super(jsp);
+    super(jsp);
+  }
+
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsPreEditorAction(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+
+    super(context, req, res);
+  }
+
+  /**
+   * Returns if the dialog is currently running in pre editor action mode, depending on the presence
+   * of the original request parameters.
+   *
+   * <p>
+   *
+   * @param dialog the dialog instance currently used
+   * @return true if the dialog is currently running in pre editor action mode, otherwise false
+   */
+  public static boolean isPreEditorMode(CmsDialog dialog) {
+
+    return CmsStringUtil.isNotEmpty(dialog.getParamOriginalParams());
+  }
+
+  /**
+   * Forwards to the editor and opens it after the action was performed.
+   *
+   * <p>
+   *
+   * @param dialog the dialog instance forwarding to the editor
+   */
+  public static void sendForwardToEditor(CmsDialog dialog) {
+
+    sendForwardToEditor(dialog, null);
+  }
+
+  /**
+   * Forwards to the editor and opens it after the action was performed.
+   *
+   * <p>
+   *
+   * @param dialog the dialog instance forwarding to the editor
+   * @param additionalParams eventual additional request parameters for the editor to use
+   */
+  public static void sendForwardToEditor(CmsDialog dialog, Map<String, String[]> additionalParams) {
+
+    // create the Map of original request parameters
+    Map<String, String[]> params =
+        CmsRequestUtil.createParameterMap(dialog.getParamOriginalParams());
+    // put the parameter indicating that the pre editor action was executed
+    params.put(PARAM_PREACTIONDONE, new String[] {CmsStringUtil.TRUE});
+    if (additionalParams != null) {
+      // put the additional parameters to the Map
+      params.putAll(additionalParams);
     }
-
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsPreEditorAction(PageContext context, HttpServletRequest req, HttpServletResponse res) {
-
-        super(context, req, res);
+    try {
+      // now forward to the editor frameset
+      dialog.sendForward(CmsWorkplace.VFS_PATH_EDITORS + "editor.jsp", params);
+    } catch (Exception e) {
+      // error forwarding, log the exception as error
+      if (LOG.isErrorEnabled()) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
     }
+  }
 
-    /**
-     * Returns if the dialog is currently running in pre editor action mode,
-     * depending on the presence of the original request parameters.<p>
-     * @param dialog the dialog instance currently used
-     * @return true if the dialog is currently running in pre editor action mode, otherwise false
-     */
-    public static boolean isPreEditorMode(CmsDialog dialog) {
+  /**
+   * Returns if an action has to be performed before opening the editor depending on the resource to
+   * edit and request parameter values.
+   *
+   * <p>
+   *
+   * @return true if an action has to be performed, then the editor frameset is not generated
+   */
+  public boolean doPreAction() {
 
-        return CmsStringUtil.isNotEmpty(dialog.getParamOriginalParams());
-    }
-
-    /**
-     * Forwards to the editor and opens it after the action was performed.<p>
-     *
-     * @param dialog the dialog instance forwarding to the editor
-     */
-    public static void sendForwardToEditor(CmsDialog dialog) {
-
-        sendForwardToEditor(dialog, null);
-    }
-
-    /**
-     * Forwards to the editor and opens it after the action was performed.<p>
-     *
-     * @param dialog the dialog instance forwarding to the editor
-     * @param additionalParams eventual additional request parameters for the editor to use
-     */
-    public static void sendForwardToEditor(CmsDialog dialog, Map<String, String[]> additionalParams) {
-
-        // create the Map of original request parameters
-        Map<String, String[]> params = CmsRequestUtil.createParameterMap(dialog.getParamOriginalParams());
-        // put the parameter indicating that the pre editor action was executed
-        params.put(PARAM_PREACTIONDONE, new String[] {CmsStringUtil.TRUE});
-        if (additionalParams != null) {
-            // put the additional parameters to the Map
-            params.putAll(additionalParams);
+    String resourceName = getParamResource();
+    try {
+      boolean preActionDone = Boolean.valueOf(getParamPreActionDone()).booleanValue();
+      if (!preActionDone) {
+        // pre editor action not executed yet now check if a pre action class is given for the
+        // resource type
+        CmsResource resource = getCms().readResource(resourceName, CmsResourceFilter.ALL);
+        I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(resource.getTypeId());
+        I_CmsPreEditorActionDefinition preAction =
+            OpenCms.getWorkplaceManager().getPreEditorConditionDefinition(type);
+        if (preAction != null) {
+          return preAction.doPreAction(resource, this, getOriginalParams());
         }
-        try {
-            // now forward to the editor frameset
-            dialog.sendForward(CmsWorkplace.VFS_PATH_EDITORS + "editor.jsp", params);
-        } catch (Exception e) {
-            // error forwarding, log the exception as error
-            if (LOG.isErrorEnabled()) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-        }
+      }
+    } catch (Exception e) {
+      // log error
+      if (LOG.isErrorEnabled()) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
     }
+    // nothing to be done as pre action, open the editor
+    return false;
+  }
 
-    /**
-     * Returns if an action has to be performed before opening the editor depending on the resource to edit
-     * and request parameter values.<p>
-     *
-     * @return true if an action has to be performed, then the editor frameset is not generated
-     */
-    public boolean doPreAction() {
+  /**
+   * Returns the original request parameters for the editor to pass to the pre editor action dialog.
+   *
+   * <p>
+   *
+   * @return the original request parameters for the editor
+   */
+  public String getOriginalParams() {
 
-        String resourceName = getParamResource();
-        try {
-            boolean preActionDone = Boolean.valueOf(getParamPreActionDone()).booleanValue();
-            if (!preActionDone) {
-                // pre editor action not executed yet now check if a pre action class is given for the resource type
-                CmsResource resource = getCms().readResource(resourceName, CmsResourceFilter.ALL);
-                I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(resource.getTypeId());
-                I_CmsPreEditorActionDefinition preAction = OpenCms.getWorkplaceManager().getPreEditorConditionDefinition(
-                    type);
-                if (preAction != null) {
-                    return preAction.doPreAction(resource, this, getOriginalParams());
-                }
-            }
-        } catch (Exception e) {
-            // log error
-            if (LOG.isErrorEnabled()) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-        }
-        // nothing to be done as pre action, open the editor
-        return false;
+    if (m_originalParams == null) {
+      m_originalParams = CmsEncoder.decode(CmsRequestUtil.encodeParams(getJsp().getRequest()));
     }
+    return m_originalParams;
+  }
 
-    /**
-     * Returns the original request parameters for the editor to pass to the pre editor action dialog.<p>
-     *
-     * @return the original request parameters for the editor
-     */
-    public String getOriginalParams() {
+  /**
+   * Checks that the current user is a workplace user.
+   *
+   * <p>
+   *
+   * @throws CmsRoleViolationException if the user does not have the required role
+   */
+  @Override
+  protected void checkRole() throws CmsRoleViolationException {
 
-        if (m_originalParams == null) {
-            m_originalParams = CmsEncoder.decode(CmsRequestUtil.encodeParams(getJsp().getRequest()));
-        }
-        return m_originalParams;
-    }
-
-    /**
-     * Checks that the current user is a workplace user.<p>
-     *
-     * @throws CmsRoleViolationException if the user does not have the required role
-     */
-    @Override
-    protected void checkRole() throws CmsRoleViolationException {
-
-        OpenCms.getRoleManager().checkRole(getCms(), CmsRole.EDITOR);
-    }
-
+    OpenCms.getRoleManager().checkRole(getCms(), CmsRole.EDITOR);
+  }
 }

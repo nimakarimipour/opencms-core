@@ -27,135 +27,157 @@
 
 package org.opencms.ade.galleries.client.ui;
 
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasText;
+import java.util.List;
 import org.opencms.ade.galleries.client.A_CmsTabHandler;
 import org.opencms.ade.galleries.shared.CmsGallerySearchBean;
 
-import java.util.List;
-
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
-
 /**
- * A tab for the gallery dialog.<p>
+ * A tab for the gallery dialog.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public abstract class A_CmsTab extends Composite {
 
-    /** The tab text accessor. */
-    protected HasText m_tabTextAccessor;
+  /** The tab text accessor. */
+  protected HasText m_tabTextAccessor;
 
-    /** Flag indicating that the tab is currently selected. */
-    private boolean m_isSelected;
+  /** Flag indicating that the tab is currently selected. */
+  private boolean m_isSelected;
 
-    /** The tab id. */
-    private String m_tabId;
+  /** The tab id. */
+  private String m_tabId;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param tabId the tab id
-     */
-    protected A_CmsTab(String tabId) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param tabId the tab id
+   */
+  protected A_CmsTab(String tabId) {
 
-        m_tabId = tabId;
-    }
+    m_tabId = tabId;
+  }
 
-    /**
-     * Clears the selected search parameters on this tab.<p>
-     */
-    public void clearParams() {
+  /**
+   * Clears the selected search parameters on this tab.
+   *
+   * <p>
+   */
+  public void clearParams() {
 
-        getTabHandler().clearParams();
-    }
+    getTabHandler().clearParams();
+  }
 
-    /**
-     * Returns the search parameters to display within the result tab.<p>
-     *
-     * @param searchObj the current search object
-     *
-     * @return the parameter panel
-     */
-    public abstract List<CmsSearchParamPanel> getParamPanels(CmsGallerySearchBean searchObj);
+  /**
+   * Returns the search parameters to display within the result tab.
+   *
+   * <p>
+   *
+   * @param searchObj the current search object
+   * @return the parameter panel
+   */
+  public abstract List<CmsSearchParamPanel> getParamPanels(CmsGallerySearchBean searchObj);
 
-    /**
-     * Returns the height required by this tab.<p>
-     *
-     * @return the height
-     */
-    public abstract int getRequiredHeight();
+  /**
+   * Returns the height required by this tab.
+   *
+   * <p>
+   *
+   * @return the height
+   */
+  public abstract int getRequiredHeight();
 
-    /**
-     * Returns the tab id.<p>
-     *
-     * @return the tab id
-     */
-    public String getTabId() {
+  /**
+   * Returns the tab id.
+   *
+   * <p>
+   *
+   * @return the tab id
+   */
+  public String getTabId() {
 
-        return m_tabId;
-    }
+    return m_tabId;
+  }
 
-    /**
-     * Returns if the tab is currently selected.<p>
-     *
-     * @return <code>true</code> if the tab is currently selected
-     */
-    public boolean isSelected() {
+  /**
+   * Returns if the tab is currently selected.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the tab is currently selected
+   */
+  public boolean isSelected() {
 
-        return m_isSelected;
-    }
+    return m_isSelected;
+  }
 
-    /**
-     * Will be triggered when a tab is deselected.<p>
-     */
-    public void onDeselection() {
+  /**
+   * Will be triggered when a tab is deselected.
+   *
+   * <p>
+   */
+  public void onDeselection() {
 
-        getTabHandler().onDeselection();
-        m_isSelected = false;
-    }
+    getTabHandler().onDeselection();
+    m_isSelected = false;
+  }
 
-    /**
-     * Adjust content when outer dimensions are changed.<p>
-     */
-    public void onResize() {
+  /**
+   * Adjust content when outer dimensions are changed.
+   *
+   * <p>
+   */
+  public void onResize() {
 
-        // implement if required
-    }
+    // implement if required
+  }
 
-    /**
-     * Will be triggered when a tab is selected.<p>
-     */
-    public void onSelection() {
+  /**
+   * Will be triggered when a tab is selected.
+   *
+   * <p>
+   */
+  public void onSelection() {
 
-        getTabHandler().onSelection();
-        m_isSelected = true;
-    }
+    getTabHandler().onSelection();
+    m_isSelected = true;
+  }
 
-    /**
-     * Removes the parameter with the given key from the tab.<p>
-     *
-     * @param paramKey the parameter key
-     */
-    public void removeParam(String paramKey) {
+  /**
+   * Removes the parameter with the given key from the tab.
+   *
+   * <p>
+   *
+   * @param paramKey the parameter key
+   */
+  public void removeParam(String paramKey) {
 
-        getTabHandler().removeParam(paramKey);
-    }
+    getTabHandler().removeParam(paramKey);
+  }
 
-    /**
-     * Sets the tab text accessor for this tab.<p>
-     *
-     * @param tabText the tab text accessor
-     */
-    public void setTabTextAccessor(HasText tabText) {
+  /**
+   * Sets the tab text accessor for this tab.
+   *
+   * <p>
+   *
+   * @param tabText the tab text accessor
+   */
+  public void setTabTextAccessor(HasText tabText) {
 
-        m_tabTextAccessor = tabText;
-    }
+    m_tabTextAccessor = tabText;
+  }
 
-    /**
-     * Returns the tab handler.<p>
-     *
-     * @return the tab handler
-     */
-    protected abstract A_CmsTabHandler getTabHandler();
-
+  /**
+   * Returns the tab handler.
+   *
+   * <p>
+   *
+   * @return the tab handler
+   */
+  protected abstract A_CmsTabHandler getTabHandler();
 }

@@ -27,101 +27,102 @@
 
 package org.opencms.jsp.search.controller;
 
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.jsp.search.config.I_CmsSearchConfigurationHighlighting;
 import org.opencms.search.solr.CmsSolrQuery;
 
-import java.util.Map;
-
 /** Controller for highlighting options. */
 public class CmsSearchControllerHighlighting implements I_CmsSearchControllerHighlighting {
 
-    /** The highlighting configuration. */
-    private final I_CmsSearchConfigurationHighlighting m_config;
+  /** The highlighting configuration. */
+  private final I_CmsSearchConfigurationHighlighting m_config;
 
-    /** Constructor taking a highlighting configuration.
-     * @param config The highlighting configuration.
-     */
-    public CmsSearchControllerHighlighting(final I_CmsSearchConfigurationHighlighting config) {
+  /**
+   * Constructor taking a highlighting configuration.
+   *
+   * @param config The highlighting configuration.
+   */
+  public CmsSearchControllerHighlighting(final I_CmsSearchConfigurationHighlighting config) {
 
-        m_config = config;
+    m_config = config;
+  }
 
+  /**
+   * @see
+   *     org.opencms.jsp.search.controller.I_CmsSearchController#addParametersForCurrentState(java.util.Map)
+   */
+  @Override
+  public void addParametersForCurrentState(final Map<String, String[]> parameters) {
+
+    // Here's nothing to do, since highlighting has no state.
+
+  }
+
+  /**
+   * @see org.opencms.jsp.search.controller.I_CmsSearchController#addQueryParts(CmsSolrQuery,
+   *     CmsObject)
+   */
+  @Override
+  public void addQueryParts(CmsSolrQuery query, CmsObject cms) {
+
+    query.set("hl", "true");
+    query.set("hl.fl", m_config.getHightlightField());
+    if (m_config.getSnippetsCount() != null) {
+      query.set("hl.snippets", m_config.getSnippetsCount().toString());
     }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#addParametersForCurrentState(java.util.Map)
-     */
-    @Override
-    public void addParametersForCurrentState(final Map<String, String[]> parameters) {
-
-        // Here's nothing to do, since highlighting has no state.
-
+    if (m_config.getFragSize() != null) {
+      query.set("hl.fragsize", m_config.getFragSize().toString());
     }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#addQueryParts(CmsSolrQuery, CmsObject)
-     */
-    @Override
-    public void addQueryParts(CmsSolrQuery query, CmsObject cms) {
-
-        query.set("hl", "true");
-        query.set("hl.fl", m_config.getHightlightField());
-        if (m_config.getSnippetsCount() != null) {
-            query.set("hl.snippets", m_config.getSnippetsCount().toString());
-        }
-        if (m_config.getFragSize() != null) {
-            query.set("hl.fragsize", m_config.getFragSize().toString());
-        }
-        if (m_config.getAlternateHighlightField() != null) {
-            query.set("hl.alternateField", m_config.getAlternateHighlightField());
-        }
-        if (m_config.getMaxAlternateHighlightFieldLength() != null) {
-            query.set("hl.maxAlternateFieldLength", m_config.getMaxAlternateHighlightFieldLength().toString());
-        }
-        if (m_config.getSimplePre() != null) {
-            query.set("hl.simple.pre", m_config.getSimplePre());
-        }
-        if (m_config.getSimplePost() != null) {
-            query.set("hl.simple.post", m_config.getSimplePost());
-        }
-        if (m_config.getFormatter() != null) {
-            query.set("hl.formatter", m_config.getFormatter());
-        }
-        if (m_config.getFragmenter() != null) {
-            query.set("hl.fragmenter", m_config.getFragmenter());
-        }
-        if (m_config.getUseFastVectorHighlighting() != null) {
-            query.set("hl.useFastVectorHighlighting", m_config.getUseFastVectorHighlighting().toString());
-        }
+    if (m_config.getAlternateHighlightField() != null) {
+      query.set("hl.alternateField", m_config.getAlternateHighlightField());
     }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchControllerHighlighting#getConfig()
-     */
-    @Override
-    public I_CmsSearchConfigurationHighlighting getConfig() {
-
-        return m_config;
+    if (m_config.getMaxAlternateHighlightFieldLength() != null) {
+      query.set(
+          "hl.maxAlternateFieldLength", m_config.getMaxAlternateHighlightFieldLength().toString());
     }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#updateForQueryChange()
-     */
-    @Override
-    public void updateForQueryChange() {
-
-        // Here's nothing to do, since highlighting has no state.
-
+    if (m_config.getSimplePre() != null) {
+      query.set("hl.simple.pre", m_config.getSimplePre());
     }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#updateFromRequestParameters(java.util.Map, boolean)
-     */
-    @Override
-    public void updateFromRequestParameters(final Map<String, String[]> parameters, boolean isReloaded) {
-
-        // Here's nothing to do, since highlighting has no state.
-
+    if (m_config.getSimplePost() != null) {
+      query.set("hl.simple.post", m_config.getSimplePost());
     }
+    if (m_config.getFormatter() != null) {
+      query.set("hl.formatter", m_config.getFormatter());
+    }
+    if (m_config.getFragmenter() != null) {
+      query.set("hl.fragmenter", m_config.getFragmenter());
+    }
+    if (m_config.getUseFastVectorHighlighting() != null) {
+      query.set("hl.useFastVectorHighlighting", m_config.getUseFastVectorHighlighting().toString());
+    }
+  }
 
+  /** @see org.opencms.jsp.search.controller.I_CmsSearchControllerHighlighting#getConfig() */
+  @Override
+  public I_CmsSearchConfigurationHighlighting getConfig() {
+
+    return m_config;
+  }
+
+  /** @see org.opencms.jsp.search.controller.I_CmsSearchController#updateForQueryChange() */
+  @Override
+  public void updateForQueryChange() {
+
+    // Here's nothing to do, since highlighting has no state.
+
+  }
+
+  /**
+   * @see
+   *     org.opencms.jsp.search.controller.I_CmsSearchController#updateFromRequestParameters(java.util.Map,
+   *     boolean)
+   */
+  @Override
+  public void updateFromRequestParameters(
+      final Map<String, String[]> parameters, boolean isReloaded) {
+
+    // Here's nothing to do, since highlighting has no state.
+
+  }
 }

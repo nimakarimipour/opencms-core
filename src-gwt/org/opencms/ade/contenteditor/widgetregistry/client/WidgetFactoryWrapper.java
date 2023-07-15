@@ -27,70 +27,75 @@
 
 package org.opencms.ade.contenteditor.widgetregistry.client;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 import org.opencms.acacia.client.I_CmsWidgetFactory;
 import org.opencms.acacia.client.widgets.I_CmsEditWidget;
 import org.opencms.acacia.client.widgets.I_CmsFormEditWidget;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
-
 /**
- * A widget factory for native java script widgets.<p>
+ * A widget factory for native java script widgets.
+ *
+ * <p>
  */
 public final class WidgetFactoryWrapper extends JavaScriptObject implements I_CmsWidgetFactory {
 
-    /**
-     * Constructor.<p>
-     */
-    protected WidgetFactoryWrapper() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  protected WidgetFactoryWrapper() {}
 
-    }
+  /** @see org.opencms.acacia.client.I_CmsWidgetFactory#createFormWidget(java.lang.String) */
+  public I_CmsFormEditWidget createFormWidget(String configuration) {
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetFactory#createFormWidget(java.lang.String)
-     */
-    public I_CmsFormEditWidget createFormWidget(String configuration) {
+    return new WidgetWrapper(createNativeWidget(configuration));
+  }
 
-        return new WidgetWrapper(createNativeWidget(configuration));
-    }
+  /**
+   * @see org.opencms.acacia.client.I_CmsWidgetFactory#createInlineWidget(java.lang.String,
+   *     com.google.gwt.dom.client.Element)
+   */
+  public I_CmsEditWidget createInlineWidget(String configuration, Element element) {
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetFactory#createInlineWidget(java.lang.String, com.google.gwt.dom.client.Element)
-     */
-    public I_CmsEditWidget createInlineWidget(String configuration, Element element) {
+    return new WidgetWrapper(createNativeWrapedElement(configuration, element));
+  }
 
-        return new WidgetWrapper(createNativeWrapedElement(configuration, element));
-    }
-
-    /**
-     * Returns the widget name.<p>
-     *
-     * @return the widget name
-     */
-    public native String getName()/*-{
+  /**
+   * Returns the widget name.
+   *
+   * <p>
+   *
+   * @return the widget name
+   */
+  public native String getName() /*-{
                                   return this.widgetName;
                                   }-*/;
 
-    /**
-     * Creates a native java script widget.<p>
-     *
-     * @param configuration the widget configuration
-     *
-     * @return the created widget
-     */
-    private native NativeEditWidget createNativeWidget(String configuration)/*-{
+  /**
+   * Creates a native java script widget.
+   *
+   * <p>
+   *
+   * @param configuration the widget configuration
+   * @return the created widget
+   */
+  private native NativeEditWidget createNativeWidget(String configuration) /*-{
                                                                             return this.createNativeWidget(configuration);
                                                                             }-*/;
 
-    /**
-     * Creates a native java script widget wrapping an existing DOM element.<p>
-     *
-     * @param configuration the configuration
-     * @param element the element to wrap
-     *
-     * @return the native widget
-     */
-    private native NativeEditWidget createNativeWrapedElement(String configuration, Element element)/*-{
+  /**
+   * Creates a native java script widget wrapping an existing DOM element.
+   *
+   * <p>
+   *
+   * @param configuration the configuration
+   * @param element the element to wrap
+   * @return the native widget
+   */
+  private native NativeEditWidget createNativeWrapedElement(
+      String configuration, Element element) /*-{
                                                                                                     return this.createNativeWrapedElement(configuration, element);
                                                                                                     }-*/;
 }

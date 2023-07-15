@@ -32,34 +32,40 @@ import org.opencms.util.CmsUUID;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 
 /**
- * Interface representing an XML content location which corresponds to an actual content value.<p>
+ * Interface representing an XML content location which corresponds to an actual content value.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsXmlContentValueLocation extends I_CmsXmlContentLocation {
 
-    /**
-     * Returns the structure id of the content value (only valid for VfsFile values!).<p>
-     *
-     * @param cms the CMS context
-     * @return the structure id of the content value
-     */
-    CmsUUID asId(CmsObject cms);
+  /**
+   * Returns the structure id of the content value (only valid for VfsFile values!).
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @return the structure id of the content value
+   */
+  CmsUUID asId(CmsObject cms);
 
-    /**
-     * Returns the string value of the content value.<p>
-     *
-     * @param cms the CMS context
-     *
-     * @return the string value of the content value
-     */
-    String asString(CmsObject cms);
+  /**
+   * Returns the string value of the content value.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @return the string value of the content value
+   */
+  String asString(CmsObject cms);
 
-    /**
-     * Returns the content value at the given location.<p>
-     *
-     * @return the content value at the given location
-     */
-    I_CmsXmlContentValue getValue();
-
+  /**
+   * Returns the content value at the given location.
+   *
+   * <p>
+   *
+   * @return the content value at the given location
+   */
+  I_CmsXmlContentValue getValue();
 }

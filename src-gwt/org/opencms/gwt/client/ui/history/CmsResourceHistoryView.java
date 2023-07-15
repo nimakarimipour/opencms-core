@@ -27,61 +27,64 @@
 
 package org.opencms.gwt.client.ui.history;
 
-import org.opencms.gwt.client.ui.CmsListItemWidget;
-import org.opencms.gwt.shared.CmsHistoryResourceCollection;
-import org.opencms.gwt.shared.CmsListInfoBean;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.opencms.gwt.client.ui.CmsListItemWidget;
+import org.opencms.gwt.shared.CmsHistoryResourceCollection;
+import org.opencms.gwt.shared.CmsListInfoBean;
 
 /**
- * Widget which is used as the container for the table which displays historical versions.<p>
+ * Widget which is used as the container for the table which displays historical versions.
+ *
+ * <p>
  */
 public class CmsResourceHistoryView extends Composite {
 
-    /**
-     * The uiBinder interface for this class.<p>
-     */
-    interface CmsResourceHistoryViewUiBinder extends UiBinder<Widget, CmsResourceHistoryView> {
-        // empty
+  /**
+   * The uiBinder interface for this class.
+   *
+   * <p>
+   */
+  interface CmsResourceHistoryViewUiBinder extends UiBinder<Widget, CmsResourceHistoryView> {
+    // empty
+  }
+
+  /** The uiBinder instance for this widget. */
+  private static CmsResourceHistoryViewUiBinder uiBinder =
+      GWT.create(CmsResourceHistoryViewUiBinder.class);
+
+  /** The box containing the historical version table. */
+  @UiField protected FlowPanel m_box;
+
+  /** A box containing the file information widget. */
+  @UiField protected FlowPanel m_infoBox;
+
+  /** Widget used to show that there are no historical versions. */
+  @UiField protected Widget m_noVersions;
+
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param historyResources the resource history bean
+   * @param handler the handler class used to perform the list actions
+   */
+  public CmsResourceHistoryView(
+      CmsHistoryResourceCollection historyResources, I_CmsHistoryActionHandler handler) {
+
+    initWidget(uiBinder.createAndBindUi(this));
+    CmsListInfoBean contentInfo = historyResources.getContentInfo();
+    CmsListItemWidget infoWidget = new CmsListItemWidget(contentInfo);
+    m_infoBox.add(infoWidget);
+    if (historyResources.isEmpty()) {
+      m_noVersions.setVisible(true);
+    } else {
+      m_box.add(new CmsResourceHistoryTable(historyResources, handler));
     }
-
-    /** The uiBinder instance for this widget. */
-    private static CmsResourceHistoryViewUiBinder uiBinder = GWT.create(CmsResourceHistoryViewUiBinder.class);
-
-    /** The box containing the historical version table. */
-    @UiField
-    protected FlowPanel m_box;
-
-    /** A box containing the file information widget. */
-    @UiField
-    protected FlowPanel m_infoBox;
-
-    /** Widget used to show that there are no historical versions. */
-    @UiField
-    protected Widget m_noVersions;
-
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param historyResources the resource history bean
-     *
-     * @param handler the handler class used to perform the list actions
-     */
-    public CmsResourceHistoryView(CmsHistoryResourceCollection historyResources, I_CmsHistoryActionHandler handler) {
-
-        initWidget(uiBinder.createAndBindUi(this));
-        CmsListInfoBean contentInfo = historyResources.getContentInfo();
-        CmsListItemWidget infoWidget = new CmsListItemWidget(contentInfo);
-        m_infoBox.add(infoWidget);
-        if (historyResources.isEmpty()) {
-            m_noVersions.setVisible(true);
-        } else {
-            m_box.add(new CmsResourceHistoryTable(historyResources, handler));
-        }
-    }
+  }
 }

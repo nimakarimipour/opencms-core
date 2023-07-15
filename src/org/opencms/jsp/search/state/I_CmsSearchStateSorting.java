@@ -27,25 +27,30 @@
 
 package org.opencms.jsp.search.state;
 
-import org.opencms.jsp.search.config.I_CmsSearchConfigurationSortOption;
-
 import java.util.Map;
+import org.opencms.jsp.search.config.I_CmsSearchConfigurationSortOption;
 
 /** Interface for sorting states. */
 public interface I_CmsSearchStateSorting {
 
-    /** Returns a map from search options to their check state.
-     * @return A map from search options to their check state.
-     */
-    Map<I_CmsSearchConfigurationSortOption, Boolean> getCheckSelected();
+  /**
+   * Returns a map from search options to their check state.
+   *
+   * @return A map from search options to their check state.
+   */
+  Map<I_CmsSearchConfigurationSortOption, Boolean> getCheckSelected();
 
-    /** Returns the selected search option.
-     * @return The selected search option.
-     */
-    I_CmsSearchConfigurationSortOption getSelected();
+  /**
+   * Returns the selected search option.
+   *
+   * @return The selected search option.
+   */
+  I_CmsSearchConfigurationSortOption getSelected();
 
-    /** Setter for the selected search option.
-     * @param option The selected search option to set.
-     */
-    void setSelectedOption(I_CmsSearchConfigurationSortOption option);
+  /**
+   * Setter for the selected search option.
+   *
+   * @param option The selected search option to set.
+   */
+  void setSelectedOption(I_CmsSearchConfigurationSortOption option);
 }

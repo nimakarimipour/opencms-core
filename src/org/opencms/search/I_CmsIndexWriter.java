@@ -27,9 +27,8 @@
 
 package org.opencms.search;
 
-import org.opencms.db.CmsPublishedResource;
-
 import java.io.IOException;
+import org.opencms.db.CmsPublishedResource;
 
 /**
  * Abstracts the index writer implementation for the most important index manipulation operations.
@@ -38,47 +37,55 @@ import java.io.IOException;
  */
 public interface I_CmsIndexWriter {
 
-    /**
-     * Close this IndexWriter.<p>
-     *
-     * @throws IOException thrown if the close action fails.
-     */
-    void close() throws IOException;
+  /**
+   * Close this IndexWriter.
+   *
+   * <p>
+   *
+   * @throws IOException thrown if the close action fails.
+   */
+  void close() throws IOException;
 
-    /**
-     * Commit all previous operations.<p>
-     *
-     * @throws IOException thrown if the commit action fails.
-     */
-    void commit() throws IOException;
+  /**
+   * Commit all previous operations.
+   *
+   * <p>
+   *
+   * @throws IOException thrown if the commit action fails.
+   */
+  void commit() throws IOException;
 
-    /**
-     * Delete a document from the index.<p>
-     *
-     * @param resource the resource to delete
-     *
-     * @throws IOException in case something goes wrong
-     */
-    void deleteDocument(CmsPublishedResource resource) throws IOException;
+  /**
+   * Delete a document from the index.
+   *
+   * <p>
+   *
+   * @param resource the resource to delete
+   * @throws IOException in case something goes wrong
+   */
+  void deleteDocument(CmsPublishedResource resource) throws IOException;
 
-    /**
-     * Optimizes the index.<p>
-     *
-     * Please note that as of Lucene 3.5, the direct use of optimize is discouraged
-     * as Lucene apparently is now able to manage the file structure so efficiently that
-     * frequent optimizations are not longer required.<p>
-     *
-     * @throws IOException thrown if the optimization fails.
-     */
-    void optimize() throws IOException;
+  /**
+   * Optimizes the index.
+   *
+   * <p>Please note that as of Lucene 3.5, the direct use of optimize is discouraged as Lucene
+   * apparently is now able to manage the file structure so efficiently that frequent optimizations
+   * are not longer required.
+   *
+   * <p>
+   *
+   * @throws IOException thrown if the optimization fails.
+   */
+  void optimize() throws IOException;
 
-    /**
-     * Update a document in the index.<p>
-     *
-     * @param rootPath the root path of the document to update
-     * @param document the document to update
-     *
-     * @throws IOException in case something goes wrong
-     */
-    void updateDocument(String rootPath, I_CmsSearchDocument document) throws IOException;
+  /**
+   * Update a document in the index.
+   *
+   * <p>
+   *
+   * @param rootPath the root path of the document to update
+   * @param document the document to update
+   * @throws IOException in case something goes wrong
+   */
+  void updateDocument(String rootPath, I_CmsSearchDocument document) throws IOException;
 }

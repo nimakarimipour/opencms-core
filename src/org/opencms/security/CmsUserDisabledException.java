@@ -31,46 +31,50 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Signals that an attempt to authenticate (login) a user has failed because the user had to many invalid logins.<p>
+ * Signals that an attempt to authenticate (login) a user has failed because the user had to many
+ * invalid logins.
  *
- *
+ * <p>
  *
  * @since 7.5.0
- *
  */
 public class CmsUserDisabledException extends CmsAuthentificationException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 8675541203342229828L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 8675541203342229828L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsUserDisabledException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsUserDisabledException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsUserDisabledException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsUserDisabledException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsUserDisabledException(container, cause);
-    }
-
+    return new CmsUserDisabledException(container, cause);
+  }
 }

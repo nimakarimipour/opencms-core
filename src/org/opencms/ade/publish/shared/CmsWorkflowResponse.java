@@ -27,110 +27,125 @@
 
 package org.opencms.ade.publish.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+import java.util.List;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * The result of a workflow action.<p>
+ * The result of a workflow action.
+ *
+ * <p>
  */
 public class CmsWorkflowResponse implements IsSerializable {
 
-    /** An internal workflow id. */
-    private CmsUUID m_workflowId;
+  /** An internal workflow id. */
+  private CmsUUID m_workflowId;
 
-    /** The list of workflow actions which should be available next in case of failure. */
-    private List<CmsWorkflowAction> m_availableActions;
+  /** The list of workflow actions which should be available next in case of failure. */
+  private List<CmsWorkflowAction> m_availableActions;
 
-    /** A flag indicating whether the workflow action was successful. */
-    private boolean m_success;
+  /** A flag indicating whether the workflow action was successful. */
+  private boolean m_success;
 
-    /** The message text which should be displayed to the user in case of failure. */
-    private String m_message;
+  /** The message text which should be displayed to the user in case of failure. */
+  private String m_message;
 
-    /** A list of resources which should be presented to the user in case of failure. */
-    private List<CmsPublishResource> m_resources;
+  /** A list of resources which should be presented to the user in case of failure. */
+  private List<CmsPublishResource> m_resources;
 
-    /**
-     * Creates a new workflow response object.<p>
-     *
-     * @param isSuccess a flag indicating whether the workflow action was successful
-     * @param message the message which should be displayed to the user in case of failure
-     * @param resources the resources which should be presented to the user in case of  failure
-     * @param availableActions the actions which should be possible for the user in case of failure
-     * @param workflowId the internal workflow id
-     */
-    public CmsWorkflowResponse(
-        boolean isSuccess,
-        String message,
-        List<CmsPublishResource> resources,
-        List<CmsWorkflowAction> availableActions,
-        CmsUUID workflowId) {
+  /**
+   * Creates a new workflow response object.
+   *
+   * <p>
+   *
+   * @param isSuccess a flag indicating whether the workflow action was successful
+   * @param message the message which should be displayed to the user in case of failure
+   * @param resources the resources which should be presented to the user in case of failure
+   * @param availableActions the actions which should be possible for the user in case of failure
+   * @param workflowId the internal workflow id
+   */
+  public CmsWorkflowResponse(
+      boolean isSuccess,
+      String message,
+      List<CmsPublishResource> resources,
+      List<CmsWorkflowAction> availableActions,
+      CmsUUID workflowId) {
 
-        m_success = isSuccess;
-        m_message = message;
-        m_resources = resources;
-        m_availableActions = availableActions;
-        m_workflowId = workflowId;
-    }
+    m_success = isSuccess;
+    m_message = message;
+    m_resources = resources;
+    m_availableActions = availableActions;
+    m_workflowId = workflowId;
+  }
 
-    /**
-     * Constructor needed for serialization only.<p>
-     */
-    protected CmsWorkflowResponse() {
+  /**
+   * Constructor needed for serialization only.
+   *
+   * <p>
+   */
+  protected CmsWorkflowResponse() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Returns the list of actions which are available next.<p>
-     *
-     * @return a list of beans representing the next possible workflow actions
-     */
-    public List<CmsWorkflowAction> getAvailableActions() {
+  /**
+   * Returns the list of actions which are available next.
+   *
+   * <p>
+   *
+   * @return a list of beans representing the next possible workflow actions
+   */
+  public List<CmsWorkflowAction> getAvailableActions() {
 
-        return m_availableActions;
-    }
+    return m_availableActions;
+  }
 
-    /**
-     * Gets the message which should be displayed to the user in case of failure.<p>
-     *
-     * @return the message which should be displayed to the user in case of failure
-     */
-    public String getMessage() {
+  /**
+   * Gets the message which should be displayed to the user in case of failure.
+   *
+   * <p>
+   *
+   * @return the message which should be displayed to the user in case of failure
+   */
+  public String getMessage() {
 
-        return m_message;
-    }
+    return m_message;
+  }
 
-    /**
-     * Gets the list of resources which should be presented to the user in case of failure.<p>
-     *
-     * @return a list of resources
-     */
-    public List<CmsPublishResource> getResources() {
+  /**
+   * Gets the list of resources which should be presented to the user in case of failure.
+   *
+   * <p>
+   *
+   * @return a list of resources
+   */
+  public List<CmsPublishResource> getResources() {
 
-        return m_resources;
-    }
+    return m_resources;
+  }
 
-    /**
-     * Gets the internal workflow id.<p>
-     *
-     * @return the internal workflow id
-     */
-    public CmsUUID getWorkflowId() {
+  /**
+   * Gets the internal workflow id.
+   *
+   * <p>
+   *
+   * @return the internal workflow id
+   */
+  public CmsUUID getWorkflowId() {
 
-        return m_workflowId;
-    }
+    return m_workflowId;
+  }
 
-    /**
-     * Returns true if the action for which this object is the workflow response was successful or not.<p>
-     *
-     * @return true if the workflow action was successful
-     */
-    public boolean isSuccess() {
+  /**
+   * Returns true if the action for which this object is the workflow response was successful or
+   * not.
+   *
+   * <p>
+   *
+   * @return true if the workflow action was successful
+   */
+  public boolean isSuccess() {
 
-        return m_success;
-    }
+    return m_success;
+  }
 }

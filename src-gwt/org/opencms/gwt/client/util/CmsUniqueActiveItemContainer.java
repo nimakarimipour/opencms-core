@@ -28,51 +28,56 @@
 package org.opencms.gwt.client.util;
 
 /**
- * Container which contains at most one {@link org.opencms.gwt.client.util.I_CmsUniqueActiveItem}.<p>
+ * Container which contains at most one {@link org.opencms.gwt.client.util.I_CmsUniqueActiveItem}.
  *
- * If a new value is set while this container already contains an item, the previous item is removed and notified of that removal.<p>
+ * <p>If a new value is set while this container already contains an item, the previous item is
+ * removed and notified of that removal.
+ *
+ * <p>
  */
 public class CmsUniqueActiveItemContainer {
 
-    /** The current item. */
-    private I_CmsUniqueActiveItem m_activeItem;
+  /** The current item. */
+  private I_CmsUniqueActiveItem m_activeItem;
 
-    /**
-     * Removes the current item.
-     */
-    public void clear() {
+  /** Removes the current item. */
+  public void clear() {
 
-        if (m_activeItem != null) {
-            m_activeItem.onDeactivate();
-            m_activeItem = null;
-        }
+    if (m_activeItem != null) {
+      m_activeItem.onDeactivate();
+      m_activeItem = null;
     }
+  }
 
-    /**
-     * Removes the current item only if it is the same object as the given parameter.<p>
-     *
-     * @param item the item to match
-     */
-    public void clearIfMatches(I_CmsUniqueActiveItem item) {
+  /**
+   * Removes the current item only if it is the same object as the given parameter.
+   *
+   * <p>
+   *
+   * @param item the item to match
+   */
+  public void clearIfMatches(I_CmsUniqueActiveItem item) {
 
-        if (item == m_activeItem) {
-            clear();
-        }
+    if (item == m_activeItem) {
+      clear();
     }
+  }
 
-    /**
-     * Sets the active item.<p>
-     *
-     * If this container already contains an item, it is replaced with the given item, and its onDeactivate() method is called.<p>
-     *
-     * @param item the new item
-     */
-    public void setActiveItem(I_CmsUniqueActiveItem item) {
+  /**
+   * Sets the active item.
+   *
+   * <p>If this container already contains an item, it is replaced with the given item, and its
+   * onDeactivate() method is called.
+   *
+   * <p>
+   *
+   * @param item the new item
+   */
+  public void setActiveItem(I_CmsUniqueActiveItem item) {
 
-        clear();
-        if (item != null) {
-            m_activeItem = item;
-        }
+    clear();
+    if (item != null) {
+      m_activeItem = item;
     }
-
+  }
 }

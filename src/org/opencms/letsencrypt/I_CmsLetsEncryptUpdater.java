@@ -28,18 +28,17 @@
 package org.opencms.letsencrypt;
 
 /**
- * Interface for classes which should handle an updated certificate configuration.<p>
+ * Interface for classes which should handle an updated certificate configuration.
  *
+ * <p>
  */
 public interface I_CmsLetsEncryptUpdater {
 
-    /**
-     * Called when the certificate configuration is updated.
-     *
-     * @param certConfig the new certificate configuration data
-     *
-     * @return true if the update was successful from OpenCms' point of view
-     */
-    boolean update(String certConfig);
-
+  /**
+   * Called when the certificate configuration is updated.
+   *
+   * @param certConfig the new certificate configuration data
+   * @return true if the update was successful from OpenCms' point of view
+   */
+  boolean update(String certConfig);
 }

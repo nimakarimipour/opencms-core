@@ -27,6 +27,8 @@
 
 package org.opencms.jsp.search.controller;
 
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.jsp.search.config.I_CmsSearchConfigurationGeoFilter;
 import org.opencms.jsp.search.state.CmsSearchStateGeoFilter;
@@ -35,124 +37,119 @@ import org.opencms.main.CmsLog;
 import org.opencms.search.solr.CmsSolrQuery;
 import org.opencms.util.CmsGeoUtil;
 
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
-/**
- * Search controller for the Geo filter.
- */
+/** Search controller for the Geo filter. */
 public class CmsSearchControllerGeoFilter implements I_CmsSearchControllerGeoFilter {
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsSearchControllerGeoFilter.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsSearchControllerGeoFilter.class);
 
-    /** Configuration of the Geo filter. */
-    private final I_CmsSearchConfigurationGeoFilter m_config;
+  /** Configuration of the Geo filter. */
+  private final I_CmsSearchConfigurationGeoFilter m_config;
 
-    /** State of the Geo filter. */
-    private final I_CmsSearchStateGeoFilter m_state;
+  /** State of the Geo filter. */
+  private final I_CmsSearchStateGeoFilter m_state;
 
-    /**
-     * Constructor taking the managed configuration.
-     * @param config the configuration managed by the controller
-     */
-    public CmsSearchControllerGeoFilter(final I_CmsSearchConfigurationGeoFilter config) {
+  /**
+   * Constructor taking the managed configuration.
+   *
+   * @param config the configuration managed by the controller
+   */
+  public CmsSearchControllerGeoFilter(final I_CmsSearchConfigurationGeoFilter config) {
 
-        m_config = config;
-        m_state = new CmsSearchStateGeoFilter();
+    m_config = config;
+    m_state = new CmsSearchStateGeoFilter();
+  }
+
+  /**
+   * @see
+   *     org.opencms.jsp.search.controller.I_CmsSearchController#addParametersForCurrentState(java.util.Map)
+   */
+  @Override
+  public void addParametersForCurrentState(Map<String, String[]> parameters) {
+
+    if (m_state.hasGeoFilter()) {
+      parameters.put(m_config.getCoordinatesParam(), new String[] {m_state.getCoordinates()});
+      parameters.put(m_config.getRadiusParam(), new String[] {m_state.getRadius()});
+      parameters.put(m_config.getUnitsParam(), new String[] {m_state.getUnits()});
     }
+  }
 
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#addParametersForCurrentState(java.util.Map)
-     */
-    @Override
-    public void addParametersForCurrentState(Map<String, String[]> parameters) {
+  /**
+   * @see
+   *     org.opencms.jsp.search.controller.I_CmsSearchController#addQueryParts(org.opencms.search.solr.CmsSolrQuery,
+   *     org.opencms.file.CmsObject)
+   */
+  @Override
+  public void addQueryParts(CmsSolrQuery query, CmsObject cms) {
 
-        if (m_state.hasGeoFilter()) {
-            parameters.put(m_config.getCoordinatesParam(), new String[] {m_state.getCoordinates()});
-            parameters.put(m_config.getRadiusParam(), new String[] {m_state.getRadius()});
-            parameters.put(m_config.getUnitsParam(), new String[] {m_state.getUnits()});
-        }
+    String fieldName = m_config.getFieldName();
+    if (m_state.hasGeoFilter()) {
+      String coordinates = m_state.getCoordinates();
+      String radius = m_state.getRadius();
+      String units = m_state.getUnits();
+      query.setGeoFilterQuery(fieldName, coordinates, radius, units);
     }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#addQueryParts(org.opencms.search.solr.CmsSolrQuery, org.opencms.file.CmsObject)
-     */
-    @Override
-    public void addQueryParts(CmsSolrQuery query, CmsObject cms) {
-
-        String fieldName = m_config.getFieldName();
-        if (m_state.hasGeoFilter()) {
-            String coordinates = m_state.getCoordinates();
-            String radius = m_state.getRadius();
-            String units = m_state.getUnits();
-            query.setGeoFilterQuery(fieldName, coordinates, radius, units);
-        }
-        if (m_config.hasGeoFilter()) {
-            String coordinates = m_config.getCoordinates();
-            String radius = m_config.getRadius();
-            String units = m_config.getUnits();
-            query.setGeoFilterQuery(fieldName, coordinates, radius, units);
-        }
+    if (m_config.hasGeoFilter()) {
+      String coordinates = m_config.getCoordinates();
+      String radius = m_config.getRadius();
+      String units = m_config.getUnits();
+      query.setGeoFilterQuery(fieldName, coordinates, radius, units);
     }
+  }
 
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchControllerGeoFilter#getConfig()
-     */
-    @Override
-    public I_CmsSearchConfigurationGeoFilter getConfig() {
+  /** @see org.opencms.jsp.search.controller.I_CmsSearchControllerGeoFilter#getConfig() */
+  @Override
+  public I_CmsSearchConfigurationGeoFilter getConfig() {
 
-        return m_config;
+    return m_config;
+  }
+
+  /** @see org.opencms.jsp.search.controller.I_CmsSearchControllerGeoFilter#getState() */
+  @Override
+  public I_CmsSearchStateGeoFilter getState() {
+
+    return m_state;
+  }
+
+  /** @see org.opencms.jsp.search.controller.I_CmsSearchController#updateForQueryChange() */
+  @Override
+  public void updateForQueryChange() {
+
+    // Nothing to do
+  }
+
+  /**
+   * @see
+   *     org.opencms.jsp.search.controller.I_CmsSearchController#updateFromRequestParameters(java.util.Map,
+   *     boolean)
+   */
+  @Override
+  public void updateFromRequestParameters(Map<String, String[]> parameters, boolean isRepeated) {
+
+    if (parameters.containsKey(m_config.getCoordinatesParam())) {
+      String[] coordinates = parameters.get(m_config.getCoordinatesParam());
+      if (((coordinates != null) && (coordinates.length > 0))
+          && CmsGeoUtil.validateCoordinates(coordinates[0])) {
+        m_state.setCoordinates(coordinates[0]);
+      } else {
+        m_state.setCoordinates(null);
+      }
     }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchControllerGeoFilter#getState()
-     */
-    @Override
-    public I_CmsSearchStateGeoFilter getState() {
-
-        return m_state;
+    if (parameters.containsKey(m_config.getRadiusParam())) {
+      String[] radius = parameters.get(m_config.getRadiusParam());
+      if (((radius != null) && (radius.length > 0)) && CmsGeoUtil.validateRadius(radius[0])) {
+        m_state.setRadius(radius[0]);
+      } else {
+        m_state.setRadius(null);
+      }
     }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#updateForQueryChange()
-     */
-    @Override
-    public void updateForQueryChange() {
-
-        // Nothing to do
+    if (parameters.containsKey(m_config.getUnitsParam())) {
+      String[] units = parameters.get(m_config.getUnitsParam());
+      if ((units != null) && (units.length > 0) && CmsGeoUtil.validateUnits(units[0])) {
+        m_state.setUnits(units[0]);
+      } else {
+        m_state.setUnits(null);
+      }
     }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#updateFromRequestParameters(java.util.Map, boolean)
-     */
-    @Override
-    public void updateFromRequestParameters(Map<String, String[]> parameters, boolean isRepeated) {
-
-        if (parameters.containsKey(m_config.getCoordinatesParam())) {
-            String[] coordinates = parameters.get(m_config.getCoordinatesParam());
-            if (((coordinates != null) && (coordinates.length > 0)) && CmsGeoUtil.validateCoordinates(coordinates[0])) {
-                m_state.setCoordinates(coordinates[0]);
-            } else {
-                m_state.setCoordinates(null);
-            }
-        }
-        if (parameters.containsKey(m_config.getRadiusParam())) {
-            String[] radius = parameters.get(m_config.getRadiusParam());
-            if (((radius != null) && (radius.length > 0)) && CmsGeoUtil.validateRadius(radius[0])) {
-                m_state.setRadius(radius[0]);
-            } else {
-                m_state.setRadius(null);
-            }
-        }
-        if (parameters.containsKey(m_config.getUnitsParam())) {
-            String[] units = parameters.get(m_config.getUnitsParam());
-            if ((units != null) && (units.length > 0) && CmsGeoUtil.validateUnits(units[0])) {
-                m_state.setUnits(units[0]);
-            } else {
-                m_state.setUnits(null);
-            }
-        }
-    }
+  }
 }

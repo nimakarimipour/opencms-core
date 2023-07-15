@@ -27,10 +27,6 @@
 
 package org.opencms.gwt.rebind;
 
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.GeneratorContext;
 import com.google.gwt.core.ext.TreeLogger;
@@ -42,80 +38,90 @@ import com.google.gwt.core.ext.typeinfo.NotFoundException;
 import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This generator class generates a class with a method which calls all static initClass()
- * methods of classes that implement the {@link org.opencms.gwt.client.I_CmsHasInit} marker interface.<p>
+ * This generator class generates a class with a method which calls all static initClass() methods
+ * of classes that implement the {@link org.opencms.gwt.client.I_CmsHasInit} marker interface.
  *
- *  @since 8.0.0
+ * <p>
+ *
+ * @since 8.0.0
  */
 public class CmsClassInitGenerator extends Generator {
 
-    /** The name of the class to generate. */
-    private static final String CLASS_NAME = "CmsClassInitializerImpl";
+  /** The name of the class to generate. */
+  private static final String CLASS_NAME = "CmsClassInitializerImpl";
 
-    /** The name of the interface passed into GWT.create(). */
-    private static final String INIT_INTERFACE_NAME = "org.opencms.gwt.client.I_CmsClassInitializer";
+  /** The name of the interface passed into GWT.create(). */
+  private static final String INIT_INTERFACE_NAME = "org.opencms.gwt.client.I_CmsClassInitializer";
 
-    /** The name of the marker interface for the generator. */
-    private static final String MARKER_INTERFACE_NAME = "org.opencms.gwt.client.I_CmsHasInit";
+  /** The name of the marker interface for the generator. */
+  private static final String MARKER_INTERFACE_NAME = "org.opencms.gwt.client.I_CmsHasInit";
 
-    /** The package of the class to generate. */
-    private static final String PACKAGE_NAME = "org.opencms.gwt.client";
+  /** The package of the class to generate. */
+  private static final String PACKAGE_NAME = "org.opencms.gwt.client";
 
-    /**
-     * @see com.google.gwt.core.ext.Generator#generate(com.google.gwt.core.ext.TreeLogger, com.google.gwt.core.ext.GeneratorContext, java.lang.String)
-     */
-    @Override
-    public String generate(TreeLogger logger, GeneratorContext context, String typeName)
-    throws UnableToCompleteException {
+  /**
+   * @see com.google.gwt.core.ext.Generator#generate(com.google.gwt.core.ext.TreeLogger,
+   *     com.google.gwt.core.ext.GeneratorContext, java.lang.String)
+   */
+  @Override
+  public String generate(TreeLogger logger, GeneratorContext context, String typeName)
+      throws UnableToCompleteException {
 
-        TypeOracle oracle = context.getTypeOracle();
-        JClassType initClass = oracle.findType(MARKER_INTERFACE_NAME);
-        List<JClassType> initTypes = new ArrayList<JClassType>();
-        for (JClassType subtype : initClass.getSubtypes()) {
-            try {
-                JMethod method = subtype.getMethod("initClass", new JType[] {});
-                if (!method.isStatic()) {
-                    throw new NotFoundException();
-                }
-                initTypes.add(subtype);
-            } catch (NotFoundException e) {
-                logger.log(
-                    TreeLogger.ERROR,
-                    "Could not find initClass() method in class " + subtype.getQualifiedSourceName());
-                throw new UnableToCompleteException();
-            }
+    TypeOracle oracle = context.getTypeOracle();
+    JClassType initClass = oracle.findType(MARKER_INTERFACE_NAME);
+    List<JClassType> initTypes = new ArrayList<JClassType>();
+    for (JClassType subtype : initClass.getSubtypes()) {
+      try {
+        JMethod method = subtype.getMethod("initClass", new JType[] {});
+        if (!method.isStatic()) {
+          throw new NotFoundException();
         }
-        generateClass(logger, context, initTypes);
-        return PACKAGE_NAME + "." + CLASS_NAME;
+        initTypes.add(subtype);
+      } catch (NotFoundException e) {
+        logger.log(
+            TreeLogger.ERROR,
+            "Could not find initClass() method in class " + subtype.getQualifiedSourceName());
+        throw new UnableToCompleteException();
+      }
     }
+    generateClass(logger, context, initTypes);
+    return PACKAGE_NAME + "." + CLASS_NAME;
+  }
 
-    /**
-     * This method generates the source code for the class initializer class.<p>
-     *
-     * @param logger the logger to be used
-     * @param context the generator context
-     * @param subclasses the classes for which the generated code should the initClass() method
-     */
-    public void generateClass(TreeLogger logger, GeneratorContext context, List<JClassType> subclasses) {
+  /**
+   * This method generates the source code for the class initializer class.
+   *
+   * <p>
+   *
+   * @param logger the logger to be used
+   * @param context the generator context
+   * @param subclasses the classes for which the generated code should the initClass() method
+   */
+  public void generateClass(
+      TreeLogger logger, GeneratorContext context, List<JClassType> subclasses) {
 
-        PrintWriter printWriter = context.tryCreate(logger, PACKAGE_NAME, CLASS_NAME);
-        if (printWriter == null) {
-            return;
-        }
-        ClassSourceFileComposerFactory composer = new ClassSourceFileComposerFactory(PACKAGE_NAME, CLASS_NAME);
-        composer.addImplementedInterface(INIT_INTERFACE_NAME);
-        SourceWriter sourceWriter = composer.createSourceWriter(context, printWriter);
-        sourceWriter.println("public void initClasses() {");
-        sourceWriter.indent();
-        for (JClassType type : subclasses) {
-            sourceWriter.println(type.getQualifiedSourceName() + ".initClass();");
-        }
-        sourceWriter.outdent();
-        sourceWriter.println("}");
-        sourceWriter.outdent();
-        sourceWriter.println("}");
-        context.commit(logger, printWriter);
+    PrintWriter printWriter = context.tryCreate(logger, PACKAGE_NAME, CLASS_NAME);
+    if (printWriter == null) {
+      return;
     }
+    ClassSourceFileComposerFactory composer =
+        new ClassSourceFileComposerFactory(PACKAGE_NAME, CLASS_NAME);
+    composer.addImplementedInterface(INIT_INTERFACE_NAME);
+    SourceWriter sourceWriter = composer.createSourceWriter(context, printWriter);
+    sourceWriter.println("public void initClasses() {");
+    sourceWriter.indent();
+    for (JClassType type : subclasses) {
+      sourceWriter.println(type.getQualifiedSourceName() + ".initClass();");
+    }
+    sourceWriter.outdent();
+    sourceWriter.println("}");
+    sourceWriter.outdent();
+    sourceWriter.println("}");
+    context.commit(logger, printWriter);
+  }
 }

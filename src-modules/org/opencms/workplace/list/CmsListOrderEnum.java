@@ -27,100 +27,105 @@
 
 package org.opencms.workplace.list;
 
-import org.opencms.main.CmsIllegalArgumentException;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import org.opencms.main.CmsIllegalArgumentException;
 
 /**
- * Wrapper class for
- * the different types of table cell horizontal alignments.<p>
+ * Wrapper class for the different types of table cell horizontal alignments.
  *
- * The possibles values are:<br>
+ * <p>The possibles values are:<br>
+ *
  * <ul>
- *   <li>AscendingOrder</li>
- *   <li>DescendingOrder</li>
- *   <li>NoneOrder</li>
+ *   <li>AscendingOrder
+ *   <li>DescendingOrder
+ *   <li>NoneOrder
  * </ul>
+ *
  * <p>
  *
  * @since 6.0.0
  */
 public final class CmsListOrderEnum {
 
-    /** Constant for ascending ordering. */
-    public static final CmsListOrderEnum ORDER_ASCENDING = new CmsListOrderEnum("asc");
+  /** Constant for ascending ordering. */
+  public static final CmsListOrderEnum ORDER_ASCENDING = new CmsListOrderEnum("asc");
 
-    /** Constant for descending ordering. */
-    public static final CmsListOrderEnum ORDER_DESCENDING = new CmsListOrderEnum("des");
+  /** Constant for descending ordering. */
+  public static final CmsListOrderEnum ORDER_DESCENDING = new CmsListOrderEnum("des");
 
-    /** Constant for none ordering. */
-    public static final CmsListOrderEnum ORDER_NONE = new CmsListOrderEnum("none");
+  /** Constant for none ordering. */
+  public static final CmsListOrderEnum ORDER_NONE = new CmsListOrderEnum("none");
 
-    /** Array constant for column sorting. */
-    private static final CmsListOrderEnum[] VALUE_ARRAY = {ORDER_ASCENDING, ORDER_DESCENDING, ORDER_NONE};
+  /** Array constant for column sorting. */
+  private static final CmsListOrderEnum[] VALUE_ARRAY = {
+    ORDER_ASCENDING, ORDER_DESCENDING, ORDER_NONE
+  };
 
-    /** List of ordering constants.     */
-    public static final List<CmsListOrderEnum> VALUES = Collections.unmodifiableList(Arrays.asList(VALUE_ARRAY));
+  /** List of ordering constants. */
+  public static final List<CmsListOrderEnum> VALUES =
+      Collections.unmodifiableList(Arrays.asList(VALUE_ARRAY));
 
-    /** Internal representation. */
-    private final String m_order;
+  /** Internal representation. */
+  private final String m_order;
 
-    /**
-     * Private constructor.<p>
-     *
-     * @param order internal representation
-     */
-    private CmsListOrderEnum(String order) {
+  /**
+   * Private constructor.
+   *
+   * <p>
+   *
+   * @param order internal representation
+   */
+  private CmsListOrderEnum(String order) {
 
-        m_order = order;
+    m_order = order;
+  }
+
+  /**
+   * Parses an string into an element of this enumeration.
+   *
+   * <p>
+   *
+   * @param value the align to parse
+   * @return the enumeration element
+   * @throws CmsIllegalArgumentException if the given value could not be matched against a <code>
+   *     CmsListColumnAlignEnum</code> type.
+   */
+  public static CmsListOrderEnum valueOf(String value) throws CmsIllegalArgumentException {
+
+    Iterator<CmsListOrderEnum> iter = VALUES.iterator();
+    while (iter.hasNext()) {
+      CmsListOrderEnum target = iter.next();
+      if (value.equals(target.getOrder())) {
+        return target;
+      }
     }
-
-    /**
-     * Parses an string into an element of this enumeration.<p>
-     *
-     * @param value the align to parse
-     *
-     * @return the enumeration element
-     *
-     * @throws CmsIllegalArgumentException if the given value could not be matched against a
-     *         <code>CmsListColumnAlignEnum</code> type.
-     */
-    public static CmsListOrderEnum valueOf(String value) throws CmsIllegalArgumentException {
-
-        Iterator<CmsListOrderEnum> iter = VALUES.iterator();
-        while (iter.hasNext()) {
-            CmsListOrderEnum target = iter.next();
-            if (value.equals(target.getOrder())) {
-                return target;
-            }
-        }
-        throw new CmsIllegalArgumentException(
-            Messages.get().container(
+    throw new CmsIllegalArgumentException(
+        Messages.get()
+            .container(
                 Messages.ERR_LIST_ENUM_PARSE_2,
                 new Integer(value),
                 CmsListOrderEnum.class.getName()));
-    }
+  }
 
-    /**
-     * Returns the order string.<p>
-     *
-     * @return the order string
-     */
-    public String getOrder() {
+  /**
+   * Returns the order string.
+   *
+   * <p>
+   *
+   * @return the order string
+   */
+  public String getOrder() {
 
-        return m_order;
-    }
+    return m_order;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_order;
-    }
-
+    return m_order;
+  }
 }

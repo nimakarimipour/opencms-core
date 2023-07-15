@@ -27,194 +27,178 @@
 
 package org.opencms.gwt.client.ui.contextmenu;
 
+import java.util.List;
 import org.opencms.gwt.client.util.CmsClientCollectionUtil;
 import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-
 /**
- * Implementation for a context menu entry.<p>
+ * Implementation for a context menu entry.
+ *
+ * <p>
  *
  * @since version 8.0.0
  */
 public class CmsContextMenuEntry implements I_CmsContextMenuEntry {
 
-    /** The server bean for this menu entry. */
-    private CmsContextMenuEntryBean m_bean;
+  /** The server bean for this menu entry. */
+  private CmsContextMenuEntryBean m_bean;
 
-    /** The context menu handler. */
-    private I_CmsContextMenuHandler m_handler;
+  /** The context menu handler. */
+  private I_CmsContextMenuHandler m_handler;
 
-    /** The command for this entry. */
-    private I_CmsContextMenuCommand m_menuCommand;
+  /** The command for this entry. */
+  private I_CmsContextMenuCommand m_menuCommand;
 
-    /** The structure id of the resource to execute the command on. */
-    private CmsUUID m_structureId;
+  /** The structure id of the resource to execute the command on. */
+  private CmsUUID m_structureId;
 
-    /** The sub menu entries as list. */
-    private List<I_CmsContextMenuEntry> m_subMenu;
+  /** The sub menu entries as list. */
+  private List<I_CmsContextMenuEntry> m_subMenu;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param handler the context menu handler
-     * @param structureId the structure id
-     * @param menuCommand the menu command
-     */
-    public CmsContextMenuEntry(
-        I_CmsContextMenuHandler handler,
-        CmsUUID structureId,
-        I_CmsContextMenuCommand menuCommand) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param handler the context menu handler
+   * @param structureId the structure id
+   * @param menuCommand the menu command
+   */
+  public CmsContextMenuEntry(
+      I_CmsContextMenuHandler handler, CmsUUID structureId, I_CmsContextMenuCommand menuCommand) {
 
-        m_menuCommand = menuCommand;
-        m_handler = handler;
-        m_structureId = structureId;
+    m_menuCommand = menuCommand;
+    m_handler = handler;
+    m_structureId = structureId;
+  }
+
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
+
+    if (m_menuCommand != null) {
+      m_menuCommand.execute(m_structureId, m_handler, m_bean);
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#generateMenuItem() */
+  public A_CmsContextMenuItem generateMenuItem() {
 
-        if (m_menuCommand != null) {
-            m_menuCommand.execute(m_structureId, m_handler, m_bean);
-        }
+    if ((m_menuCommand != null) && m_menuCommand.hasItemWidget() && m_bean.isActive()) {
+      return m_menuCommand.getItemWidget(m_structureId, m_handler, m_bean);
+    } else {
+      return new CmsContextMenuItem(this);
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#generateMenuItem()
-     */
-    public A_CmsContextMenuItem generateMenuItem() {
+  /**
+   * Returns the bean.
+   *
+   * <p>
+   *
+   * @return the bean
+   */
+  public CmsContextMenuEntryBean getBean() {
 
-        if ((m_menuCommand != null) && m_menuCommand.hasItemWidget() && m_bean.isActive()) {
-            return m_menuCommand.getItemWidget(m_structureId, m_handler, m_bean);
-        } else {
-            return new CmsContextMenuItem(this);
-        }
+    return m_bean;
+  }
+
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getIconClass() */
+  public String getIconClass() {
+
+    return m_bean.getIconClass();
+  }
+
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getJspPath() */
+  public String getJspPath() {
+
+    return m_bean.getJspPath();
+  }
+
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getLabel() */
+  public String getLabel() {
+
+    return m_bean.getLabel();
+  }
+
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getName() */
+  public String getName() {
+
+    return m_bean.getName();
+  }
+
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getReason() */
+  public String getReason() {
+
+    return m_bean.getReason();
+  }
+
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getSubMenu() */
+  public List<I_CmsContextMenuEntry> getSubMenu() {
+
+    return m_subMenu;
+  }
+
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#hasSubMenu() */
+  public boolean hasSubMenu() {
+
+    if (!CmsClientCollectionUtil.isEmptyOrNull(getSubMenu())) {
+      return true;
     }
+    return false;
+  }
 
-    /**
-     * Returns the bean.<p>
-     *
-     * @return the bean
-     */
-    public CmsContextMenuEntryBean getBean() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isActive() */
+  public boolean isActive() {
 
-        return m_bean;
-    }
+    return m_bean.isActive();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getIconClass()
-     */
-    public String getIconClass() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isSeparator() */
+  public boolean isSeparator() {
 
-        return m_bean.getIconClass();
+    return m_bean.isSeparator();
+  }
 
-    }
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isVisible() */
+  public boolean isVisible() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getJspPath()
-     */
-    public String getJspPath() {
+    return m_bean.isVisible();
+  }
 
-        return m_bean.getJspPath();
-    }
+  /**
+   * Sets the bean.
+   *
+   * <p>
+   *
+   * @param bean the bean to set
+   */
+  public void setBean(CmsContextMenuEntryBean bean) {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getLabel()
-     */
-    public String getLabel() {
+    m_bean = bean;
+  }
 
-        return m_bean.getLabel();
-    }
+  /**
+   * Sets the command.
+   *
+   * <p>
+   *
+   * @param command the command to set
+   */
+  public void setMenuCommand(I_CmsContextMenuCommand command) {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getName()
-     */
-    public String getName() {
+    m_menuCommand = command;
+  }
 
-        return m_bean.getName();
-    }
+  /**
+   * Sets the sub menu.
+   *
+   * <p>
+   *
+   * @param subMenu the sub menu to set
+   */
+  public void setSubMenu(List<I_CmsContextMenuEntry> subMenu) {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getReason()
-     */
-    public String getReason() {
-
-        return m_bean.getReason();
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#getSubMenu()
-     */
-    public List<I_CmsContextMenuEntry> getSubMenu() {
-
-        return m_subMenu;
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#hasSubMenu()
-     */
-    public boolean hasSubMenu() {
-
-        if (!CmsClientCollectionUtil.isEmptyOrNull(getSubMenu())) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isActive()
-     */
-    public boolean isActive() {
-
-        return m_bean.isActive();
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isSeparator()
-     */
-    public boolean isSeparator() {
-
-        return m_bean.isSeparator();
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#isVisible()
-     */
-    public boolean isVisible() {
-
-        return m_bean.isVisible();
-    }
-
-    /**
-     * Sets the bean.<p>
-     *
-     * @param bean the bean to set
-     */
-    public void setBean(CmsContextMenuEntryBean bean) {
-
-        m_bean = bean;
-    }
-
-    /**
-     * Sets the command.<p>
-     *
-     * @param command the command to set
-     */
-    public void setMenuCommand(I_CmsContextMenuCommand command) {
-
-        m_menuCommand = command;
-    }
-
-    /**
-     * Sets the sub menu.<p>
-     *
-     * @param subMenu the sub menu to set
-     */
-    public void setSubMenu(List<I_CmsContextMenuEntry> subMenu) {
-
-        m_subMenu = subMenu;
-    }
+    m_subMenu = subMenu;
+  }
 }

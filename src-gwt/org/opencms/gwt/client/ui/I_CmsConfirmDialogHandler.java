@@ -28,14 +28,19 @@
 package org.opencms.gwt.client.ui;
 
 /**
- * Handles the clicks on the 'OK' and 'Cancel' buttons of the dialog.<p>
+ * Handles the clicks on the 'OK' and 'Cancel' buttons of the dialog.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsConfirmDialogHandler extends I_CmsCloseDialogHandler {
 
-    /**
-     * Function to be called on click on the 'OK' button of the dialog. The dialog will be closed afterwards.<p>
-     */
-    void onOk();
+  /**
+   * Function to be called on click on the 'OK' button of the dialog. The dialog will be closed
+   * afterwards.
+   *
+   * <p>
+   */
+  void onOk();
 }

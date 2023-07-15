@@ -27,6 +27,9 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
+import java.util.function.Consumer;
 import org.opencms.ade.containerpage.client.Messages;
 import org.opencms.gwt.client.ui.CmsListItem;
 import org.opencms.gwt.client.ui.CmsListItemWidget;
@@ -40,66 +43,61 @@ import org.opencms.gwt.shared.CmsListElementCreationOption;
 import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.util.CmsUUID;
 
-import java.util.function.Consumer;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-
-/**
- * Dialog that allows the user to choose the resource type of a new content to be created.
- */
+/** Dialog that allows the user to choose the resource type of a new content to be created. */
 public class CmsListAddDialog extends CmsPopup {
 
-    /**
-     * Creates a new instance.
-     *
-     * @param elementId the container element id
-     * @param listAddData the data about the creatable resource types
-     * @param optionHandler the handler to call with the selected option
-     */
-    public CmsListAddDialog(
-        CmsUUID elementId,
-        CmsListElementCreationDialogData listAddData,
-        Consumer<CmsListElementCreationOption> optionHandler) {
+  /**
+   * Creates a new instance.
+   *
+   * @param elementId the container element id
+   * @param listAddData the data about the creatable resource types
+   * @param optionHandler the handler to call with the selected option
+   */
+  public CmsListAddDialog(
+      CmsUUID elementId,
+      CmsListElementCreationDialogData listAddData,
+      Consumer<CmsListElementCreationOption> optionHandler) {
 
-        super();
-        setCaption(listAddData.getCaption());
-        setGlassEnabled(true);
-        addDialogClose(() -> {});
-        CmsPushButton cancel = new CmsPushButton();
-        cancel.setUseMinWidth(true);
-        cancel.setText(Messages.get().key(Messages.GUI_BUTTON_CANCEL_TEXT_0));
-        cancel.addClickHandler(event -> CmsListAddDialog.this.hide());
-        addButton(cancel);
-        CmsListItemWidget listConfigInfoWidget = new CmsListItemWidget(listAddData.getListInfo());
-        add(listConfigInfoWidget);
-        if (listAddData.getOptions().size() == 0) {
-            FlowPanel labelContainer = new FlowPanel();
-            labelContainer.addStyleName(I_CmsLayoutBundle.INSTANCE.listAddCss().labelContainer());
-            Label label = new Label(listAddData.getMessage());
-            labelContainer.add(label);
-            add(labelContainer);
-        } else {
-            final FlowPanel optionContainer = new FlowPanel();
-            add(optionContainer);
+    super();
+    setCaption(listAddData.getCaption());
+    setGlassEnabled(true);
+    addDialogClose(() -> {});
+    CmsPushButton cancel = new CmsPushButton();
+    cancel.setUseMinWidth(true);
+    cancel.setText(Messages.get().key(Messages.GUI_BUTTON_CANCEL_TEXT_0));
+    cancel.addClickHandler(event -> CmsListAddDialog.this.hide());
+    addButton(cancel);
+    CmsListItemWidget listConfigInfoWidget = new CmsListItemWidget(listAddData.getListInfo());
+    add(listConfigInfoWidget);
+    if (listAddData.getOptions().size() == 0) {
+      FlowPanel labelContainer = new FlowPanel();
+      labelContainer.addStyleName(I_CmsLayoutBundle.INSTANCE.listAddCss().labelContainer());
+      Label label = new Label(listAddData.getMessage());
+      labelContainer.add(label);
+      add(labelContainer);
+    } else {
+      final FlowPanel optionContainer = new FlowPanel();
+      add(optionContainer);
 
-            optionContainer.addStyleName(I_CmsLayoutBundle.INSTANCE.listAddCss().optionContainer());
+      optionContainer.addStyleName(I_CmsLayoutBundle.INSTANCE.listAddCss().optionContainer());
 
-            listAddData.getOptions().stream().forEach(option -> {
+      listAddData.getOptions().stream()
+          .forEach(
+              option -> {
                 CmsListInfoBean listInfo = option.getInfo();
                 CmsListItemWidget itemWidget = new CmsListItemWidget(listInfo);
-                itemWidget.addClickHandler(evt -> {
-                    CmsListAddDialog.this.hide();
-                    optionHandler.accept(option);
-                });
+                itemWidget.addClickHandler(
+                    evt -> {
+                      CmsListAddDialog.this.hide();
+                      optionHandler.accept(option);
+                    });
                 CmsPushButton plusButton = new CmsPushButton();
                 plusButton.setImageClass(I_CmsButton.ADD_SMALL);
                 plusButton.setButtonStyle(ButtonStyle.FONT_ICON, null);
                 itemWidget.getButtonPanel().add(plusButton);
                 CmsListItem item = new CmsListItem(itemWidget);
                 optionContainer.add(item);
-            });
-        }
+              });
     }
-
+  }
 }

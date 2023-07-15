@@ -27,6 +27,10 @@
 
 package org.opencms.gwt.client.ui.contextmenu;
 
+import com.google.gwt.dom.client.FormElement;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.RootPanel;
+import java.util.Map;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.client.I_CmsEditableData;
 import org.opencms.gwt.client.rpc.CmsRpcAction;
@@ -41,250 +45,263 @@ import org.opencms.gwt.shared.CmsPrepareEditResponse;
 import org.opencms.gwt.shared.I_CmsEditableDataExtensions;
 import org.opencms.util.CmsUUID;
 
-import java.util.Map;
-
-import com.google.gwt.dom.client.FormElement;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.RootPanel;
-
 /**
- * A context menu command for editing an XML content. <p>
+ * A context menu command for editing an XML content.
+ *
+ * <p>
  */
-public final class CmsEditFile implements I_CmsHasContextMenuCommand, I_CmsValidatingContextMenuCommand {
+public final class CmsEditFile
+    implements I_CmsHasContextMenuCommand, I_CmsValidatingContextMenuCommand {
 
-    /** The context menu handler for this command instance. */
-    protected I_CmsContextMenuHandler m_menuHandler;
+  /** The context menu handler for this command instance. */
+  protected I_CmsContextMenuHandler m_menuHandler;
 
-    /** A flag which indicates whether the window should be reloaded after editing. */
-    protected boolean m_reload;
+  /** A flag which indicates whether the window should be reloaded after editing. */
+  protected boolean m_reload;
 
-    /** Flag controlling whether window should be immediately reloaded after finishing. */
-    private boolean m_immediateReload;
+  /** Flag controlling whether window should be immediately reloaded after finishing. */
+  private boolean m_immediateReload;
 
-    /** A flag indicating if the editor should open in the same window, not using any overlays and iFrames. */
-    private boolean m_useSelf;
+  /**
+   * A flag indicating if the editor should open in the same window, not using any overlays and
+   * iFrames.
+   */
+  private boolean m_useSelf;
 
-    /**
-     * Hidden utility class constructor.<p>
-     */
-    private CmsEditFile() {
+  /**
+   * Hidden utility class constructor.
+   *
+   * <p>
+   */
+  private CmsEditFile() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Returns the context menu command according to
-     * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new CmsEditFile();
-    }
+    return new CmsEditFile();
+  }
 
-    /**
-     * Actually starts the XML content editor for a given file name.<p>
-     *
-     * @param filename the file name
-     * @param structureId the file structure id
-     */
-    public void doEdit(final String filename, final CmsUUID structureId) {
+  /**
+   * Actually starts the XML content editor for a given file name.
+   *
+   * <p>
+   *
+   * @param filename the file name
+   * @param structureId the file structure id
+   */
+  public void doEdit(final String filename, final CmsUUID structureId) {
 
-        I_CmsEditableData editData = new I_CmsEditableData() {
+    I_CmsEditableData editData =
+        new I_CmsEditableData() {
 
-            public String getContextId() {
+          public String getContextId() {
 
-                return "";
-            }
+            return "";
+          }
 
-            public String getEditId() {
+          public String getEditId() {
 
-                return null;
-            }
+            return null;
+          }
 
-            public String getElementId() {
+          public String getElementId() {
 
-                // TODO Auto-generated method stub
-                return null;
-            }
+            // TODO Auto-generated method stub
+            return null;
+          }
 
-            public String getElementLanguage() {
+          public String getElementLanguage() {
 
-                return null;
-            }
+            return null;
+          }
 
-            public String getElementName() {
+          public String getElementName() {
 
-                return null;
-            }
+            return null;
+          }
 
-            public I_CmsEditableDataExtensions getExtensions() {
+          public I_CmsEditableDataExtensions getExtensions() {
 
-                return CmsEditableDataUtil.parseExtensions("{}");
-            }
+            return CmsEditableDataUtil.parseExtensions("{}");
+          }
 
-            public String getNewLink() {
+          public String getNewLink() {
 
-                return null;
-            }
+            return null;
+          }
 
-            public String getNewTitle() {
+          public String getNewTitle() {
 
-                return null;
-            }
+            return null;
+          }
 
-            public String getNoEditReason() {
+          public String getNoEditReason() {
 
-                return null;
-            }
+            return null;
+          }
 
-            public String getPostCreateHandler() {
+          public String getPostCreateHandler() {
 
-                return null;
-            }
+            return null;
+          }
 
-            public String getSitePath() {
+          public String getSitePath() {
 
-                return filename;
-            }
+            return filename;
+          }
 
-            public CmsUUID getStructureId() {
+          public CmsUUID getStructureId() {
 
-                return structureId;
-            }
+            return structureId;
+          }
 
-            public boolean hasEditHandler() {
+          public boolean hasEditHandler() {
 
-                return false;
-            }
+            return false;
+          }
 
-            public boolean hasResource() {
+          public boolean hasResource() {
 
-                return true;
-            }
+            return true;
+          }
 
-            public boolean isUnreleasedOrExpired() {
+          public boolean isUnreleasedOrExpired() {
 
-                return false;
-            }
+            return false;
+          }
 
-            public void setSitePath(String sitePath) {
+          public void setSitePath(String sitePath) {
 
-                // nothing to do
-            }
+            // nothing to do
+          }
         };
-        if (m_useSelf) {
-            FormElement form = CmsContentEditorDialog.generateForm(editData, false, "_self", null);
-            RootPanel.getBodyElement().appendChild(form);
-            form.submit();
-        } else {
+    if (m_useSelf) {
+      FormElement form = CmsContentEditorDialog.generateForm(editData, false, "_self", null);
+      RootPanel.getBodyElement().appendChild(form);
+      form.submit();
+    } else {
 
-            I_CmsContentEditorHandler handler = new I_CmsContentEditorHandler() {
+      I_CmsContentEditorHandler handler =
+          new I_CmsContentEditorHandler() {
 
-                @SuppressWarnings("synthetic-access")
-                public void onClose(
-                    String sitePath,
-                    CmsUUID id,
-                    boolean isNew,
-                    boolean hasChangedSettings,
-                    boolean usedPublishDialog) {
+            @SuppressWarnings("synthetic-access")
+            public void onClose(
+                String sitePath,
+                CmsUUID id,
+                boolean isNew,
+                boolean hasChangedSettings,
+                boolean usedPublishDialog) {
 
-                    if (!m_reload) {
-                        return;
+              if (!m_reload) {
+                return;
+              }
+
+              if (m_immediateReload) {
+                reloadTop();
+              }
+
+              // defer the window.location.reload until after the editor window has closed
+              // so we don't get another confirmation dialog
+              Timer timer =
+                  new Timer() {
+
+                    @Override
+                    public void run() {
+
+                      reloadTop();
                     }
-
-                    if (m_immediateReload) {
-                        reloadTop();
-                    }
-
-                    // defer the window.location.reload until after the editor window has closed
-                    // so we don't get another confirmation dialog
-                    Timer timer = new Timer() {
-
-                        @Override
-                        public void run() {
-
-                            reloadTop();
-
-                        }
-
-                    };
-                    timer.schedule(10);
-                }
-            };
-            CmsContentEditorDialog.get().openEditDialog(editData, false, null, new DialogOptions(), handler);
-        }
+                  };
+              timer.schedule(10);
+            }
+          };
+      CmsContentEditorDialog.get()
+          .openEditDialog(editData, false, null, new DialogOptions(), handler);
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public void execute(
-        final CmsUUID structureId,
-        final I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public void execute(
+      final CmsUUID structureId,
+      final I_CmsContextMenuHandler handler,
+      CmsContextMenuEntryBean bean) {
 
-        m_menuHandler = handler;
-        Map<String, String> params = bean.getParams();
-        final String fileName = params.get(CmsMenuCommandParameters.PARAM_FILENAME);
-        if (fileName == null) {
-            return;
-        }
-        String reloadStr = params.get(CmsMenuCommandParameters.PARAM_RELOAD);
-        m_reload = Boolean.parseBoolean(reloadStr);
-        String useSelfStr = params.get(CmsMenuCommandParameters.PARAM_USE_SELF);
-        m_useSelf = Boolean.parseBoolean(useSelfStr);
+    m_menuHandler = handler;
+    Map<String, String> params = bean.getParams();
+    final String fileName = params.get(CmsMenuCommandParameters.PARAM_FILENAME);
+    if (fileName == null) {
+      return;
+    }
+    String reloadStr = params.get(CmsMenuCommandParameters.PARAM_RELOAD);
+    m_reload = Boolean.parseBoolean(reloadStr);
+    String useSelfStr = params.get(CmsMenuCommandParameters.PARAM_USE_SELF);
+    m_useSelf = Boolean.parseBoolean(useSelfStr);
 
-        m_immediateReload = Boolean.parseBoolean(params.get("immediateReload"));
+    m_immediateReload = Boolean.parseBoolean(params.get("immediateReload"));
 
-        if (handler instanceof I_CmsToolbarHandler) {
-            ((I_CmsToolbarHandler)handler).deactivateCurrentButton();
-        }
-        CmsRpcAction<CmsPrepareEditResponse> prepareEdit = new CmsRpcAction<CmsPrepareEditResponse>() {
+    if (handler instanceof I_CmsToolbarHandler) {
+      ((I_CmsToolbarHandler) handler).deactivateCurrentButton();
+    }
+    CmsRpcAction<CmsPrepareEditResponse> prepareEdit =
+        new CmsRpcAction<CmsPrepareEditResponse>() {
 
-            @Override
-            public void execute() {
+          @Override
+          public void execute() {
 
-                start(0, true);
-                CmsCoreProvider.getVfsService().prepareEdit(structureId, fileName, this);
-            }
+            start(0, true);
+            CmsCoreProvider.getVfsService().prepareEdit(structureId, fileName, this);
+          }
 
-            @Override
-            public void onResponse(CmsPrepareEditResponse response) {
+          @Override
+          public void onResponse(CmsPrepareEditResponse response) {
 
-                stop(false);
-                doEdit(response.getSitePath(), response.getStructureId());
-            }
+            stop(false);
+            doEdit(response.getSitePath(), response.getStructureId());
+          }
         };
-        prepareEdit.execute();
-    }
+    prepareEdit.execute();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget()
-     */
-    public boolean hasItemWidget() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget() */
+  public boolean hasItemWidget() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * Checks if we currently have an editor open somewhere.<p>
-     *
-     * @return true if there is an open editor
-     */
-    public native boolean isEditorOpen() /*-{
+  /**
+   * Checks if we currently have an editor open somewhere.
+   *
+   * <p>
+   *
+   * @return true if there is an open editor
+   */
+  public native boolean isEditorOpen() /*-{
         var windowStack = [ $wnd.top ];
         var allWindows = [];
         while (windowStack.length > 0) {
@@ -323,26 +340,29 @@ public final class CmsEditFile implements I_CmsHasContextMenuCommand, I_CmsValid
 
     }-*/;
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsValidatingContextMenuCommand#validate(org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public boolean validate(CmsContextMenuEntryBean entry) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsValidatingContextMenuCommand#validate(org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public boolean validate(CmsContextMenuEntryBean entry) {
 
-        try {
-            if (isEditorOpen()) {
-                return false;
-            }
-        } catch (Exception e) {
-            return false;
-        }
-
-        return true;
+    try {
+      if (isEditorOpen()) {
+        return false;
+      }
+    } catch (Exception e) {
+      return false;
     }
 
-    /**
-     * Reloads top frame.<p>
-     */
-    private native void reloadTop() /*-{
+    return true;
+  }
+
+  /**
+   * Reloads top frame.
+   *
+   * <p>
+   */
+  private native void reloadTop() /*-{
         $wnd.top.location.reload();
     }-*/;
 }

@@ -31,27 +31,33 @@ import org.opencms.publish.CmsPublishJobBase;
 import org.opencms.publish.CmsPublishJobInfoBean;
 
 /**
- * Wrapper class to access publish job internal data.<p>
+ * Wrapper class to access publish job internal data.
+ *
+ * <p>
  */
 public class OpenCmsTestPublishJobBase extends CmsPublishJobBase {
 
-    /**
-     * Constructor using the passed data.<p>
-     *
-     * @param job the job used to initialize
-     */
-    public OpenCmsTestPublishJobBase(CmsPublishJobBase job) {
+  /**
+   * Constructor using the passed data.
+   *
+   * <p>
+   *
+   * @param job the job used to initialize
+   */
+  public OpenCmsTestPublishJobBase(CmsPublishJobBase job) {
 
-        super(job);
-    }
+    super(job);
+  }
 
-    /**
-     * Returns the internal publish job info bean.<p>
-     *
-     * @return the internal publish job info bean
-     */
-    public CmsPublishJobInfoBean getInfoBean() {
+  /**
+   * Returns the internal publish job info bean.
+   *
+   * <p>
+   *
+   * @return the internal publish job info bean
+   */
+  public CmsPublishJobInfoBean getInfoBean() {
 
-        return m_publishJob;
-    }
+    return m_publishJob;
+  }
 }

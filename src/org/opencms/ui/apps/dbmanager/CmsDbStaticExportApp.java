@@ -27,54 +27,49 @@
 
 package org.opencms.ui.apps.dbmanager;
 
+import com.vaadin.ui.Component;
+import java.util.LinkedHashMap;
+import java.util.List;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.A_CmsAttributeAwareApp;
 import org.opencms.ui.apps.Messages;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import com.vaadin.ui.Component;
-
 /**
- * Class for the database static export app.<p>
+ * Class for the database static export app.
+ *
+ * <p>
  */
 public class CmsDbStaticExportApp extends A_CmsAttributeAwareApp {
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String)
-     */
-    @Override
-    protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String) */
+  @Override
+  protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
 
-        LinkedHashMap<String, String> crumbs = new LinkedHashMap<String, String>();
+    LinkedHashMap<String, String> crumbs = new LinkedHashMap<String, String>();
 
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
-            crumbs.put("", CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_STATEXP_ADMIN_TOOL_NAME_0));
-            return crumbs;
-        }
-        return new LinkedHashMap<String, String>();
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
+      crumbs.put(
+          "", CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_STATEXP_ADMIN_TOOL_NAME_0));
+      return crumbs;
     }
+    return new LinkedHashMap<String, String>();
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String)
-     */
-    @Override
-    protected Component getComponentForState(String state) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String) */
+  @Override
+  protected Component getComponentForState(String state) {
 
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
-            return new CmsDbStaticExportView();
-        }
-        return null;
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
+      return new CmsDbStaticExportView();
     }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String)
-     */
-    @Override
-    protected List<NavEntry> getSubNavEntries(String state) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String) */
+  @Override
+  protected List<NavEntry> getSubNavEntries(String state) {
 
-        return null;
-    }
+    return null;
+  }
 }

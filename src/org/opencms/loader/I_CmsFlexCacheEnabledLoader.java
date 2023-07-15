@@ -30,16 +30,20 @@ package org.opencms.loader;
 import org.opencms.flex.CmsFlexCache;
 
 /**
- * Resource loaders that implement this interface are flex cache enabled.<p>
+ * Resource loaders that implement this interface are flex cache enabled.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsFlexCacheEnabledLoader {
 
-    /**
-     * Will be called after the resource manager was initialized.<p>
-     *
-     * @param cache the (optional) flex cache instance to use
-     */
-    void setFlexCache(CmsFlexCache cache);
+  /**
+   * Will be called after the resource manager was initialized.
+   *
+   * <p>
+   *
+   * @param cache the (optional) flex cache instance to use
+   */
+  void setFlexCache(CmsFlexCache cache);
 }

@@ -30,35 +30,33 @@ package org.opencms.workplace;
 import java.util.Arrays;
 import java.util.Collection;
 
-/**
- * Message bundle names for legacy tools which don't correspond to an existing module anymore.
- */
-public class CmsLegacyWorkplaceMessageBundleProvider implements I_CmsWorkplaceMessageBundleProvider {
+/** Message bundle names for legacy tools which don't correspond to an existing module anymore. */
+public class CmsLegacyWorkplaceMessageBundleProvider
+    implements I_CmsWorkplaceMessageBundleProvider {
 
-    public Collection<String> getMessageBundleNames() {
+  public Collection<String> getMessageBundleNames() {
 
-        return Arrays.asList(
-            "org.opencms.editors.codemirror",
-            "org.opencms.editors.tinymce",
-            "org.opencms.ugc",
-            "org.opencms.workplace",
-            "org.opencms.workplace.administration",
-            "org.opencms.workplace.explorer",
-            "org.opencms.workplace.spellcheck",
-            "org.opencms.workplace.tools.accounts",
-            "org.opencms.workplace.tools.cache",
-            "org.opencms.workplace.tools.content",
-            "org.opencms.workplace.tools.database",
-            "org.opencms.workplace.tools.galleryoverview",
-            "org.opencms.workplace.tools.history",
-            "org.opencms.workplace.tools.link",
-            "org.opencms.workplace.tools.modules",
-            "org.opencms.workplace.tools.projects",
-            "org.opencms.workplace.tools.scheduler",
-            "org.opencms.workplace.tools.searchindex",
-            "org.opencms.workplace.tools.sites",
-            "org.opencms.workplace.tools.workplace",
-            "org.opencms.workplace.traditional");
-    }
-
+    return Arrays.asList(
+        "org.opencms.editors.codemirror",
+        "org.opencms.editors.tinymce",
+        "org.opencms.ugc",
+        "org.opencms.workplace",
+        "org.opencms.workplace.administration",
+        "org.opencms.workplace.explorer",
+        "org.opencms.workplace.spellcheck",
+        "org.opencms.workplace.tools.accounts",
+        "org.opencms.workplace.tools.cache",
+        "org.opencms.workplace.tools.content",
+        "org.opencms.workplace.tools.database",
+        "org.opencms.workplace.tools.galleryoverview",
+        "org.opencms.workplace.tools.history",
+        "org.opencms.workplace.tools.link",
+        "org.opencms.workplace.tools.modules",
+        "org.opencms.workplace.tools.projects",
+        "org.opencms.workplace.tools.scheduler",
+        "org.opencms.workplace.tools.searchindex",
+        "org.opencms.workplace.tools.sites",
+        "org.opencms.workplace.tools.workplace",
+        "org.opencms.workplace.traditional");
+  }
 }

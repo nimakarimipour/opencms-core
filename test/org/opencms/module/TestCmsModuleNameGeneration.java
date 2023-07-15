@@ -30,23 +30,29 @@ package org.opencms.module;
 import org.opencms.test.OpenCmsTestCase;
 
 /**
- * Tests the module name generation.<p>
+ * Tests the module name generation.
+ *
+ * <p>
  */
 public class TestCmsModuleNameGeneration extends OpenCmsTestCase {
 
-    /**
-     * Tests version increment.<p>
-     */
-    public void testNameGeneration() {
+  /**
+   * Tests version increment.
+   *
+   * <p>
+   */
+  public void testNameGeneration() {
 
-        String name;
-        name = CmsModuleXmlHandler.makeValidJavaClassName("org.opencms.welcome");
-        assertEquals("org.opencms.welcome", name);
+    String name;
+    name = CmsModuleXmlHandler.makeValidJavaClassName("org.opencms.welcome");
+    assertEquals("org.opencms.welcome", name);
 
-        name = CmsModuleXmlHandler.makeValidJavaClassName("com.alkacon.documentation.howto-httpd-modproxy");
-        assertEquals("com.alkacon.documentation.howto_httpd_modproxy", name);
+    name =
+        CmsModuleXmlHandler.makeValidJavaClassName(
+            "com.alkacon.documentation.howto-httpd-modproxy");
+    assertEquals("com.alkacon.documentation.howto_httpd_modproxy", name);
 
-        name = CmsModuleXmlHandler.makeValidJavaClassName("com.alkacon.documentation.examples-flex-1");
-        assertEquals("com.alkacon.documentation.examples_flex_1", name);
-    }
+    name = CmsModuleXmlHandler.makeValidJavaClassName("com.alkacon.documentation.examples-flex-1");
+    assertEquals("com.alkacon.documentation.examples_flex_1", name);
+  }
 }

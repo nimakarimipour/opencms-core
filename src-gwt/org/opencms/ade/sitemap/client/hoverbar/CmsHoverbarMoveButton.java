@@ -27,6 +27,7 @@
 
 package org.opencms.ade.sitemap.client.hoverbar;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
@@ -39,94 +40,98 @@ import org.opencms.gwt.client.ui.I_CmsButton;
 import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
 import org.opencms.util.CmsStringUtil;
 
-import com.google.gwt.event.shared.HandlerRegistration;
-
 /**
- * Sitemap hoverbar move button.<p>
+ * Sitemap hoverbar move button.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsHoverbarMoveButton extends CmsPushButton implements I_CmsDragHandle {
 
-    /** The mouse down handler registration. */
-    protected HandlerRegistration m_mouseDownHandlerReg;
+  /** The mouse down handler registration. */
+  protected HandlerRegistration m_mouseDownHandlerReg;
 
-    /** The current site path. */
-    protected String m_sitePath;
+  /** The current site path. */
+  protected String m_sitePath;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsHoverbarMoveButton(final CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsHoverbarMoveButton(final CmsSitemapHoverbar hoverbar) {
 
-        addStyleName(CmsListItem.MOVE_HANDLE_MARKER_CLASS);
-        setImageClass(I_CmsButton.MOVE_SMALL);
-        setButtonStyle(ButtonStyle.FONT_ICON, null);
-        setTitle(Messages.get().key(Messages.GUI_HOVERBAR_MOVE_0));
-        hoverbar.addShowHandler(new I_CmsHoverbarShowHandler() {
+    addStyleName(CmsListItem.MOVE_HANDLE_MARKER_CLASS);
+    setImageClass(I_CmsButton.MOVE_SMALL);
+    setButtonStyle(ButtonStyle.FONT_ICON, null);
+    setTitle(Messages.get().key(Messages.GUI_HOVERBAR_MOVE_0));
+    hoverbar.addShowHandler(
+        new I_CmsHoverbarShowHandler() {
 
-            /**
-             * @see org.opencms.ade.sitemap.client.hoverbar.I_CmsHoverbarShowHandler#onShow(org.opencms.ade.sitemap.client.hoverbar.CmsHoverbarShowEvent)
-             */
-            public void onShow(CmsHoverbarShowEvent event) {
+          /**
+           * @see
+           *     org.opencms.ade.sitemap.client.hoverbar.I_CmsHoverbarShowHandler#onShow(org.opencms.ade.sitemap.client.hoverbar.CmsHoverbarShowEvent)
+           */
+          public void onShow(CmsHoverbarShowEvent event) {
 
-                if (hoverbar.getEntry() == null) {
-                    // Can sometimes happen after deleting an element
-                    return;
-                }
-
-                m_sitePath = hoverbar.getEntry().getSitePath();
-                final CmsSitemapController controller = hoverbar.getController();
-                CmsClientSitemapEntry entry = hoverbar.getEntry();
-                if (CmsSitemapView.getInstance().isNavigationMode() && (entry != null)) {
-
-                    if (!entry.isInNavigation()) {
-                        CmsHoverbarMoveButton.this.setVisible(false);
-                    } else if (controller.isRoot(m_sitePath)) {
-                        disable(Messages.get().key(Messages.GUI_DISABLED_ROOT_ITEM_0));
-                        CmsHoverbarMoveButton.this.setVisible(true);
-                    } else if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(entry.getNoEditReason())) {
-                        disable(entry.getNoEditReason());
-                        CmsHoverbarMoveButton.this.setVisible(true);
-                    } else if (entry.hasForeignFolderLock()) {
-                        disable(Messages.get().key(Messages.GUI_DISABLED_PARENT_LOCK_0));
-                        CmsHoverbarMoveButton.this.setVisible(true);
-                    } else if (entry.hasBlockingLockedChildren()) {
-                        disable(Messages.get().key(Messages.GUI_DISABLED_BLOCKING_LOCKED_CHILDREN_0));
-                        CmsHoverbarMoveButton.this.setVisible(true);
-                    } else {
-                        enable();
-                        m_mouseDownHandlerReg = addMouseDownHandler(
-                            CmsSitemapView.getInstance().getTree().getDnDHandler());
-                        CmsHoverbarMoveButton.this.setVisible(true);
-                    }
-                } else {
-                    CmsHoverbarMoveButton.this.setVisible(false);
-                }
+            if (hoverbar.getEntry() == null) {
+              // Can sometimes happen after deleting an element
+              return;
             }
-        });
-        hoverbar.addHideHandler(new I_CmsHoverbarHideHandler() {
 
-            /**
-             * @see org.opencms.ade.sitemap.client.hoverbar.I_CmsHoverbarHideHandler#onHide(org.opencms.ade.sitemap.client.hoverbar.CmsHoverbarHideEvent)
-             */
-            public void onHide(CmsHoverbarHideEvent event) {
+            m_sitePath = hoverbar.getEntry().getSitePath();
+            final CmsSitemapController controller = hoverbar.getController();
+            CmsClientSitemapEntry entry = hoverbar.getEntry();
+            if (CmsSitemapView.getInstance().isNavigationMode() && (entry != null)) {
 
-                if (m_mouseDownHandlerReg != null) {
-                    m_mouseDownHandlerReg.removeHandler();
-                    m_mouseDownHandlerReg = null;
-                }
+              if (!entry.isInNavigation()) {
+                CmsHoverbarMoveButton.this.setVisible(false);
+              } else if (controller.isRoot(m_sitePath)) {
+                disable(Messages.get().key(Messages.GUI_DISABLED_ROOT_ITEM_0));
+                CmsHoverbarMoveButton.this.setVisible(true);
+              } else if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(entry.getNoEditReason())) {
+                disable(entry.getNoEditReason());
+                CmsHoverbarMoveButton.this.setVisible(true);
+              } else if (entry.hasForeignFolderLock()) {
+                disable(Messages.get().key(Messages.GUI_DISABLED_PARENT_LOCK_0));
+                CmsHoverbarMoveButton.this.setVisible(true);
+              } else if (entry.hasBlockingLockedChildren()) {
+                disable(Messages.get().key(Messages.GUI_DISABLED_BLOCKING_LOCKED_CHILDREN_0));
+                CmsHoverbarMoveButton.this.setVisible(true);
+              } else {
+                enable();
+                m_mouseDownHandlerReg =
+                    addMouseDownHandler(CmsSitemapView.getInstance().getTree().getDnDHandler());
+                CmsHoverbarMoveButton.this.setVisible(true);
+              }
+            } else {
+              CmsHoverbarMoveButton.this.setVisible(false);
             }
+          }
         });
-    }
+    hoverbar.addHideHandler(
+        new I_CmsHoverbarHideHandler() {
 
-    /**
-     * @see org.opencms.gwt.client.dnd.I_CmsDragHandle#getDraggable()
-     */
-    public I_CmsDraggable getDraggable() {
+          /**
+           * @see
+           *     org.opencms.ade.sitemap.client.hoverbar.I_CmsHoverbarHideHandler#onHide(org.opencms.ade.sitemap.client.hoverbar.CmsHoverbarHideEvent)
+           */
+          public void onHide(CmsHoverbarHideEvent event) {
 
-        return CmsSitemapView.getInstance().getTreeItem(m_sitePath);
-    }
+            if (m_mouseDownHandlerReg != null) {
+              m_mouseDownHandlerReg.removeHandler();
+              m_mouseDownHandlerReg = null;
+            }
+          }
+        });
+  }
+
+  /** @see org.opencms.gwt.client.dnd.I_CmsDragHandle#getDraggable() */
+  public I_CmsDraggable getDraggable() {
+
+    return CmsSitemapView.getInstance().getTreeItem(m_sitePath);
+  }
 }

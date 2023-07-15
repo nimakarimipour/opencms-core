@@ -32,10 +32,12 @@ import com.vaadin.shared.communication.ServerRpc;
 /** The max height server interface. */
 public interface I_CmsMaxHeightServerRpc extends ServerRpc {
 
-    /**
-     * Called in case the widget content exceeds the max height.<p>
-     *
-     * @param height the height to set
-     */
-    public void fixHeight(int height);
+  /**
+   * Called in case the widget content exceeds the max height.
+   *
+   * <p>
+   *
+   * @param height the height to set
+   */
+  public void fixHeight(int height);
 }

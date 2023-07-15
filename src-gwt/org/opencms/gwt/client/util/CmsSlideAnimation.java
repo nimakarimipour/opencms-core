@@ -27,143 +27,146 @@
 
 package org.opencms.gwt.client.util;
 
-import org.opencms.util.CmsStringUtil;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * Slide animation. Sliding the element into view or sliding it out.<p>
- * Uses the in-line CSS display property, clear after completion if appropriate.<p>
+ * Slide animation. Sliding the element into view or sliding it out.
+ *
+ * <p>Uses the in-line CSS display property, clear after completion if appropriate.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsSlideAnimation extends A_CmsAnimation {
 
-    /** The animated element. */
-    private Element m_element;
+  /** The animated element. */
+  private Element m_element;
 
-    /** The element style. */
-    private Style m_elementStyle;
+  /** The element style. */
+  private Style m_elementStyle;
 
-    /** The height of the fully visible element. */
-    private int m_height;
+  /** The height of the fully visible element. */
+  private int m_height;
 
-    /** Show or hide flag. */
-    private boolean m_show;
+  /** Show or hide flag. */
+  private boolean m_show;
 
-    /** Flag to indicate if the animation has already started. */
-    private boolean m_started;
+  /** Flag to indicate if the animation has already started. */
+  private boolean m_started;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param element the element to animate
-     * @param show <code>true</code> to show the element, <code>false</code> to hide it away
-     * @param callback the callback executed after the animation is completed
-     */
-    public CmsSlideAnimation(Element element, boolean show, Command callback) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param element the element to animate
+   * @param show <code>true</code> to show the element, <code>false</code> to hide it away
+   * @param callback the callback executed after the animation is completed
+   */
+  public CmsSlideAnimation(Element element, boolean show, Command callback) {
 
-        super(callback);
-        m_show = show;
-        m_element = element;
-        m_elementStyle = m_element.getStyle();
+    super(callback);
+    m_show = show;
+    m_element = element;
+    m_elementStyle = m_element.getStyle();
+  }
+
+  /**
+   * Slides the given element into view executing the callback afterwards.
+   *
+   * <p>
+   *
+   * @param element the element to slide in
+   * @param callback the callback
+   * @param duration the animation duration
+   * @return the running animation object
+   */
+  public static CmsSlideAnimation slideIn(Element element, Command callback, int duration) {
+
+    CmsSlideAnimation animation = new CmsSlideAnimation(element, true, callback);
+    animation.run(duration);
+    return animation;
+  }
+
+  /**
+   * Slides the given element out of view executing the callback afterwards.
+   *
+   * <p>
+   *
+   * @param element the element to slide out
+   * @param callback the callback
+   * @param duration the animation duration
+   * @return the running animation object
+   */
+  public static CmsSlideAnimation slideOut(Element element, Command callback, int duration) {
+
+    CmsSlideAnimation animation = new CmsSlideAnimation(element, false, callback);
+    animation.run(duration);
+    return animation;
+  }
+
+  /** @see com.google.gwt.animation.client.Animation#run(int, double) */
+  @Override
+  public void run(int duration, double startTime) {
+
+    if (m_show) {
+      String heightProperty = m_elementStyle.getHeight();
+      if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(heightProperty)
+          && heightProperty.contains("px")) {
+        m_height = CmsClientStringUtil.parseInt(heightProperty);
+      }
+      if (m_height == 0) {
+        String display = m_elementStyle.getDisplay();
+        m_elementStyle.setDisplay(Display.BLOCK);
+        m_height = m_element.getOffsetHeight();
+        m_elementStyle.setProperty("display", display);
+      }
+    } else {
+      m_height =
+          CmsDomUtil.getCurrentStyleInt(
+              m_element, org.opencms.gwt.client.util.CmsDomUtil.Style.height);
     }
+    super.run(duration, startTime);
+  }
 
-    /**
-     * Slides the given element into view executing the callback afterwards.<p>
-     *
-     * @param element the element to slide in
-     * @param callback the callback
-     * @param duration the animation duration
-     *
-     * @return the running animation object
-     */
-    public static CmsSlideAnimation slideIn(Element element, Command callback, int duration) {
+  /** @see com.google.gwt.animation.client.Animation#onComplete() */
+  @Override
+  protected void onComplete() {
 
-        CmsSlideAnimation animation = new CmsSlideAnimation(element, true, callback);
-        animation.run(duration);
-        return animation;
+    onUpdate(1.0);
+    if (!m_show) {
+      m_elementStyle.setDisplay(Display.NONE);
     }
-
-    /**
-     * Slides the given element out of view executing the callback afterwards.<p>
-     *
-     * @param element the element to slide out
-     * @param callback the callback
-     * @param duration the animation duration
-     *
-     * @return the running animation object
-     */
-    public static CmsSlideAnimation slideOut(Element element, Command callback, int duration) {
-
-        CmsSlideAnimation animation = new CmsSlideAnimation(element, false, callback);
-        animation.run(duration);
-        return animation;
+    m_elementStyle.clearHeight();
+    m_elementStyle.clearOverflow();
+    m_height = 0;
+    m_started = false;
+    if (m_callback != null) {
+      m_callback.execute();
     }
+  }
 
-    /**
-     * @see com.google.gwt.animation.client.Animation#run(int, double)
-     */
-    @Override
-    public void run(int duration, double startTime) {
+  /** @see com.google.gwt.animation.client.Animation#onUpdate(double) */
+  @Override
+  protected void onUpdate(double progress) {
 
-        if (m_show) {
-            String heightProperty = m_elementStyle.getHeight();
-            if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(heightProperty) && heightProperty.contains("px")) {
-                m_height = CmsClientStringUtil.parseInt(heightProperty);
-            }
-            if (m_height == 0) {
-                String display = m_elementStyle.getDisplay();
-                m_elementStyle.setDisplay(Display.BLOCK);
-                m_height = m_element.getOffsetHeight();
-                m_elementStyle.setProperty("display", display);
-            }
-        } else {
-            m_height = CmsDomUtil.getCurrentStyleInt(m_element, org.opencms.gwt.client.util.CmsDomUtil.Style.height);
-        }
-        super.run(duration, startTime);
+    if (!m_started) {
+      m_started = true;
+      m_elementStyle.setOverflow(Overflow.HIDDEN);
+      m_elementStyle.setDisplay(Display.BLOCK);
     }
-
-    /**
-     * @see com.google.gwt.animation.client.Animation#onComplete()
-     */
-    @Override
-    protected void onComplete() {
-
-        onUpdate(1.0);
-        if (!m_show) {
-            m_elementStyle.setDisplay(Display.NONE);
-        }
-        m_elementStyle.clearHeight();
-        m_elementStyle.clearOverflow();
-        m_height = 0;
-        m_started = false;
-        if (m_callback != null) {
-            m_callback.execute();
-        }
+    progress = progress * progress;
+    if (m_show) {
+      m_elementStyle.setHeight(progress * m_height, Unit.PX);
+    } else {
+      m_elementStyle.setHeight((-progress + 1) * m_height, Unit.PX);
     }
-
-    /**
-     * @see com.google.gwt.animation.client.Animation#onUpdate(double)
-     */
-    @Override
-    protected void onUpdate(double progress) {
-
-        if (!m_started) {
-            m_started = true;
-            m_elementStyle.setOverflow(Overflow.HIDDEN);
-            m_elementStyle.setDisplay(Display.BLOCK);
-        }
-        progress = progress * progress;
-        if (m_show) {
-            m_elementStyle.setHeight(progress * m_height, Unit.PX);
-        } else {
-            m_elementStyle.setHeight((-progress + 1) * m_height, Unit.PX);
-        }
-    }
+  }
 }

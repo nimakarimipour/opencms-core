@@ -30,42 +30,48 @@ package org.opencms.configuration.preferences;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
 /**
- * Preference for the timewarp widget.<p>
+ * Preference for the timewarp widget.
  *
+ * <p>
  */
 public class CmsTimeWarpPreference extends CmsBuiltinPreference {
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param name the preference name
-     */
-    public CmsTimeWarpPreference(String name) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param name the preference name
+   */
+  public CmsTimeWarpPreference(String name) {
 
-        super(name);
-        m_basic = false;
-    }
+    super(name);
+    m_basic = false;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.CmsBuiltinPreference#getPropertyDefinition(org.opencms.file.CmsObject)
-     */
-    @Override
-    public CmsXmlContentProperty getPropertyDefinition() {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.CmsBuiltinPreference#getPropertyDefinition(org.opencms.file.CmsObject)
+   */
+  @Override
+  public CmsXmlContentProperty getPropertyDefinition() {
 
-        CmsXmlContentProperty prop = new CmsXmlContentProperty(
-            getName(), //name
-            "string", //type
-            "datebox", //widget
-            null, //widgetconfig
-            null, //regex
-            null, //ruletype
-            null, //default
-            "%(key." + org.opencms.workplace.commons.Messages.GUI_LABEL_TIMEWARP_0 + ")", //nicename
-            null, //description
-            null, //error
-            null//preferfolder
-        );
-        return prop;
-    }
-
+    CmsXmlContentProperty prop =
+        new CmsXmlContentProperty(
+            getName(), // name
+            "string", // type
+            "datebox", // widget
+            null, // widgetconfig
+            null, // regex
+            null, // ruletype
+            null, // default
+            "%(key."
+                + org.opencms.workplace.commons.Messages.GUI_LABEL_TIMEWARP_0
+                + ")", // nicename
+            null, // description
+            null, // error
+            null // preferfolder
+            );
+    return prop;
+  }
 }

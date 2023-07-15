@@ -28,16 +28,18 @@
 package org.opencms.ade.publish.client;
 
 /**
- * Interface for objects which should handle changes in the selection of resources to publish.<p>
+ * Interface for objects which should handle changes in the selection of resources to publish.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  */
 public interface I_CmsPublishSelectionChangeHandler {
 
-    /**
-     * The method that will be called when the publish resource selection has changed.<p>
-     */
-    void onChangePublishSelection();
-
+  /**
+   * The method that will be called when the publish resource selection has changed.
+   *
+   * <p>
+   */
+  void onChangePublishSelection();
 }

@@ -31,51 +31,56 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Default profiling handler which only has a single instance and delegates method calls to its
- * registered child handlers.<p>
+ * registered child handlers.
+ *
+ * <p>
  */
 public class CmsDefaultProfilingHandler implements I_CmsProfilingHandler {
 
-    /** The singleton instance. */
-    public static final CmsDefaultProfilingHandler INSTANCE = new CmsDefaultProfilingHandler();
+  /** The singleton instance. */
+  public static final CmsDefaultProfilingHandler INSTANCE = new CmsDefaultProfilingHandler();
 
-    /** The list of child handlers. */
-    private CopyOnWriteArrayList<I_CmsProfilingHandler> m_handlers = new CopyOnWriteArrayList<>();
+  /** The list of child handlers. */
+  private CopyOnWriteArrayList<I_CmsProfilingHandler> m_handlers = new CopyOnWriteArrayList<>();
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    protected CmsDefaultProfilingHandler() {
-        // do nothing
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  protected CmsDefaultProfilingHandler() {
+    // do nothing
+  }
+
+  /**
+   * Adds a handler.
+   *
+   * <p>
+   *
+   * @param handler the handler to add
+   */
+  public void addHandler(I_CmsProfilingHandler handler) {
+
+    m_handlers.add(handler);
+  }
+
+  /** @see org.opencms.db.timing.I_CmsProfilingHandler#putTime(java.lang.String, long) */
+  public void putTime(String key, long nanos) {
+
+    for (I_CmsProfilingHandler handler : m_handlers) {
+      handler.putTime(key, nanos);
     }
+  }
 
-    /**
-     * Adds a handler.<p>
-     *
-     * @param handler the handler to add
-     */
-    public void addHandler(I_CmsProfilingHandler handler) {
+  /**
+   * Removes a handler.
+   *
+   * <p>
+   *
+   * @param handler the handler to remove
+   */
+  public void removeHandler(I_CmsProfilingHandler handler) {
 
-        m_handlers.add(handler);
-    }
-
-    /**
-     * @see org.opencms.db.timing.I_CmsProfilingHandler#putTime(java.lang.String, long)
-     */
-    public void putTime(String key, long nanos) {
-
-        for (I_CmsProfilingHandler handler : m_handlers) {
-            handler.putTime(key, nanos);
-        }
-    }
-
-    /**
-     * Removes a handler.<p>
-     *
-     * @param handler the handler to remove
-     */
-    public void removeHandler(I_CmsProfilingHandler handler) {
-
-        m_handlers.remove(handler);
-    }
-
+    m_handlers.remove(handler);
+  }
 }

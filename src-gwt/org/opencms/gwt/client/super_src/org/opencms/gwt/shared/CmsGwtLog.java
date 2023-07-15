@@ -19,41 +19,40 @@
  *
  * For further information about OpenCms, please see the
  * project website: http://www.opencms.org
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
- 
+
 package org.opencms.gwt.shared;
 
-/** 
- * Client-side log implementation.
- */
+/** Client-side log implementation. */
 public class CmsGwtLog {
 
-    /**
-     * Logs a message to the browser console if possible.<p>
-     *
-     * @param message the message to log
-     */
-    public static native void log(String message) /*-{
+  /**
+   * Logs a message to the browser console if possible.
+   *
+   * <p>
+   *
+   * @param message the message to log
+   */
+  public static native void log(String message) /*-{
         var cns = $wnd.top.console;
         if (cns && cns.log) {
             cns.log(message);
         }
     }-*/;
 
-    /**
-     * Logs a message with the current stack trace to the browser console if possible.
-     * 
-     * @param message the message to log
-     */
-    public static native void trace(String message) /*-{
+  /**
+   * Logs a message with the current stack trace to the browser console if possible.
+   *
+   * @param message the message to log
+   */
+  public static native void trace(String message) /*-{
         var cns = $wnd.top.console;
         if (cns && cns.trace) {
             cns.trace(message);
         }
     }-*/;
-
 }

@@ -32,89 +32,86 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Helper class to ease implementation of CMIS service methods which support paging.<p>
+ * Helper class to ease implementation of CMIS service methods which support paging.
  *
- * This class works as an iterator for a given list, and limits the number of iterations based on skip/max parameters
- * which are usually passed to the service methods.<p>
+ * <p>This class works as an iterator for a given list, and limits the number of iterations based on
+ * skip/max parameters which are usually passed to the service methods.
+ *
+ * <p>
  *
  * @param <A> the content type of the list
  */
 public class CmsObjectListLimiter<A> implements Iterable<A>, Iterator<A> {
 
-    /** The list for which this object acts as an iterator. */
-    private List<A> m_baseList;
+  /** The list for which this object acts as an iterator. */
+  private List<A> m_baseList;
 
-    /** The maximum number of objects which can still be returned. */
-    private int m_max;
+  /** The maximum number of objects which can still be returned. */
+  private int m_max;
 
-    /** The index of the next object to return. */
-    private int m_next;
+  /** The index of the next object to return. */
+  private int m_next;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param baseList the list over which we want to iterate
-     * @param maxItems the maximum number of items
-     * @param skipCount the number of items to skip
-     */
-    public CmsObjectListLimiter(List<A> baseList, BigInteger maxItems, BigInteger skipCount) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param baseList the list over which we want to iterate
+   * @param maxItems the maximum number of items
+   * @param skipCount the number of items to skip
+   */
+  public CmsObjectListLimiter(List<A> baseList, BigInteger maxItems, BigInteger skipCount) {
 
-        // skip and max
-        m_baseList = baseList;
-        m_next = (skipCount == null ? 0 : skipCount.intValue());
-        if (m_next < 0) {
-            m_next = 0;
-        }
-
-        m_max = (maxItems == null ? Integer.MAX_VALUE : maxItems.intValue());
-        if (m_max < 0) {
-            m_max = Integer.MAX_VALUE;
-        }
-
+    // skip and max
+    m_baseList = baseList;
+    m_next = (skipCount == null ? 0 : skipCount.intValue());
+    if (m_next < 0) {
+      m_next = 0;
     }
 
-    /**
-     * Checks if there are more items left in the base list which were not returned.<p>
-     *
-     * @return true if there are more items left in the base list which were not returned
-     */
-    public boolean hasMore() {
-
-        return m_next < m_baseList.size();
+    m_max = (maxItems == null ? Integer.MAX_VALUE : maxItems.intValue());
+    if (m_max < 0) {
+      m_max = Integer.MAX_VALUE;
     }
+  }
 
-    /**
-     * @see java.util.Iterator#hasNext()
-     */
-    public boolean hasNext() {
+  /**
+   * Checks if there are more items left in the base list which were not returned.
+   *
+   * <p>
+   *
+   * @return true if there are more items left in the base list which were not returned
+   */
+  public boolean hasMore() {
 
-        return (m_next < m_baseList.size()) && (m_max > 0);
-    }
+    return m_next < m_baseList.size();
+  }
 
-    /**
-     * @see java.lang.Iterable#iterator()
-     */
-    public Iterator<A> iterator() {
+  /** @see java.util.Iterator#hasNext() */
+  public boolean hasNext() {
 
-        return this;
-    }
+    return (m_next < m_baseList.size()) && (m_max > 0);
+  }
 
-    /**
-     * @see java.util.Iterator#next()
-     */
-    public A next() {
+  /** @see java.lang.Iterable#iterator() */
+  public Iterator<A> iterator() {
 
-        A result = m_baseList.get(m_next);
-        m_next += 1;
-        m_max -= 1;
-        return result;
-    }
+    return this;
+  }
 
-    /**
-     * @see java.util.Iterator#remove()
-     */
-    public void remove() {
+  /** @see java.util.Iterator#next() */
+  public A next() {
 
-        throw new UnsupportedOperationException();
-    }
+    A result = m_baseList.get(m_next);
+    m_next += 1;
+    m_max -= 1;
+    return result;
+  }
+
+  /** @see java.util.Iterator#remove() */
+  public void remove() {
+
+    throw new UnsupportedOperationException();
+  }
 }

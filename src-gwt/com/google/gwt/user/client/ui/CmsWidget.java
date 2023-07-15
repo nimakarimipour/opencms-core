@@ -28,18 +28,22 @@
 package com.google.gwt.user.client.ui;
 
 /**
- * Extending Widget to allow for a different method visibility.<p>
+ * Extending Widget to allow for a different method visibility.
+ *
+ * <p>
  */
 public class CmsWidget extends Widget {
 
-    /**
-     * Overriding to increase method visibility.<p>
-     *
-     * @see com.google.gwt.user.client.ui.Widget#setParent(com.google.gwt.user.client.ui.Widget)
-     */
-    @Override
-    protected void setParent(Widget parent) {
+  /**
+   * Overriding to increase method visibility.
+   *
+   * <p>
+   *
+   * @see com.google.gwt.user.client.ui.Widget#setParent(com.google.gwt.user.client.ui.Widget)
+   */
+  @Override
+  protected void setParent(Widget parent) {
 
-        super.setParent(parent);
-    }
+    super.setParent(parent);
+  }
 }

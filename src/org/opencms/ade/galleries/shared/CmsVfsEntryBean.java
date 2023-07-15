@@ -27,234 +27,251 @@
 
 package org.opencms.ade.galleries.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+import java.util.ArrayList;
+import java.util.List;
 import org.opencms.gwt.shared.I_CmsHasIconClasses;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Represents a single VFS resource entry for use by the VFS tab of the galleries.<p>
+ * Represents a single VFS resource entry for use by the VFS tab of the galleries.
+ *
+ * <p>
  */
-public class CmsVfsEntryBean implements IsSerializable, I_CmsGalleryTreeEntry<CmsVfsEntryBean>, I_CmsHasIconClasses {
+public class CmsVfsEntryBean
+    implements IsSerializable, I_CmsGalleryTreeEntry<CmsVfsEntryBean>, I_CmsHasIconClasses {
 
-    /** Flag to indicate if the user has write permissions to the folder. */
-    private boolean m_editable;
+  /** Flag to indicate if the user has write permissions to the folder. */
+  private boolean m_editable;
 
-    /** The small folder icon classes. */
-    private String m_iconClasses;
+  /** The small folder icon classes. */
+  private String m_iconClasses;
 
-    /** Flag indicating whether this is entry should be displayed at the top level of the tree. */
-    private boolean m_isRoot;
+  /** Flag indicating whether this is entry should be displayed at the top level of the tree. */
+  private boolean m_isRoot;
 
-    /** True if this is a filter search match. */
-    private boolean m_isSearchMatch;
+  /** True if this is a filter search match. */
+  private boolean m_isSearchMatch;
 
-    /** The list of children. */
-    private List<CmsVfsEntryBean> m_preloadedChildren;
+  /** The list of children. */
+  private List<CmsVfsEntryBean> m_preloadedChildren;
 
-    /** The root path of the VFS entry. */
-    private String m_rootPath;
+  /** The root path of the VFS entry. */
+  private String m_rootPath;
 
-    /** The site root of the entry. */
-    private String m_siteRoot;
+  /** The site root of the entry. */
+  private String m_siteRoot;
 
-    /** The structure id. */
-    private CmsUUID m_structureId;
+  /** The structure id. */
+  private CmsUUID m_structureId;
 
-    /** The folder title. */
-    private String m_title;
+  /** The folder title. */
+  private String m_title;
 
-    /**
-     * Creates a new VFS entry bean.<p>
-     *
-     * @param rootPath the root path
-     * @param structureId the structure id
-     * @param title the folder title
-     * @param iconClasses the resource icon classes
-     * @param isRoot flag indicating whether this is entry should be displayed at the top level of the tree
-     * @param editable <code>true</code> if the user has write permissions to the folder
-     * @param preloadedChildren the preloaded child nodes
-     * @param isMatch true if this entry bean is a search match for the filter string the user entered
-     */
-    public CmsVfsEntryBean(
-        String rootPath,
-        CmsUUID structureId,
-        String title,
-        String iconClasses,
-        boolean isRoot,
-        boolean editable,
-        List<CmsVfsEntryBean> preloadedChildren,
-        boolean isMatch) {
+  /**
+   * Creates a new VFS entry bean.
+   *
+   * <p>
+   *
+   * @param rootPath the root path
+   * @param structureId the structure id
+   * @param title the folder title
+   * @param iconClasses the resource icon classes
+   * @param isRoot flag indicating whether this is entry should be displayed at the top level of the
+   *     tree
+   * @param editable <code>true</code> if the user has write permissions to the folder
+   * @param preloadedChildren the preloaded child nodes
+   * @param isMatch true if this entry bean is a search match for the filter string the user entered
+   */
+  public CmsVfsEntryBean(
+      String rootPath,
+      CmsUUID structureId,
+      String title,
+      String iconClasses,
+      boolean isRoot,
+      boolean editable,
+      List<CmsVfsEntryBean> preloadedChildren,
+      boolean isMatch) {
 
-        m_rootPath = rootPath;
+    m_rootPath = rootPath;
 
-        m_structureId = structureId;
-        m_isRoot = isRoot;
-        m_editable = editable;
-        m_title = title;
-        m_iconClasses = iconClasses;
-        m_isSearchMatch = isMatch;
-        m_preloadedChildren = preloadedChildren;
+    m_structureId = structureId;
+    m_isRoot = isRoot;
+    m_editable = editable;
+    m_title = title;
+    m_iconClasses = iconClasses;
+    m_isSearchMatch = isMatch;
+    m_preloadedChildren = preloadedChildren;
+  }
+
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  protected CmsVfsEntryBean() {
+
+    // do nothing
+  }
+
+  /** @see org.opencms.ade.galleries.shared.I_CmsGalleryTreeEntry#addChild(java.lang.Object) */
+  public void addChild(CmsVfsEntryBean child) {
+
+    if (m_preloadedChildren == null) {
+      m_preloadedChildren = new ArrayList<CmsVfsEntryBean>();
     }
+    m_preloadedChildren.add(child);
+  }
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    protected CmsVfsEntryBean() {
+  /** @see org.opencms.gwt.shared.I_CmsHasIconClasses#getBigIconClasses() */
+  public String getBigIconClasses() {
 
-        // do nothing
+    // not needed
+    return null;
+  }
+
+  /** @see org.opencms.ade.galleries.shared.I_CmsGalleryTreeEntry#getChildren() */
+  public List<CmsVfsEntryBean> getChildren() {
+
+    return m_preloadedChildren;
+  }
+
+  /**
+   * Gets the name which should be displayed in the widget representing this VFS entry.
+   *
+   * <p>
+   *
+   * @return the name to display
+   */
+  public String getDisplayName() {
+
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_title)) {
+      return m_title;
     }
-
-    /**
-     * @see org.opencms.ade.galleries.shared.I_CmsGalleryTreeEntry#addChild(java.lang.Object)
-     */
-    public void addChild(CmsVfsEntryBean child) {
-
-        if (m_preloadedChildren == null) {
-            m_preloadedChildren = new ArrayList<CmsVfsEntryBean>();
-        }
-        m_preloadedChildren.add(child);
+    if (m_isRoot) {
+      return getRootPath();
+    } else {
+      String fixedPath = getRootPath().replaceFirst("/$", "");
+      int lastSlash = fixedPath.lastIndexOf('/');
+      if (lastSlash == -1) {
+        return fixedPath;
+      }
+      return fixedPath.substring(lastSlash + 1);
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.shared.I_CmsHasIconClasses#getBigIconClasses()
-     */
-    public String getBigIconClasses() {
+  /**
+   * Gets the root path of the VFS entry.
+   *
+   * <p>
+   *
+   * @return the root path of the VFS entry
+   */
+  public String getRootPath() {
 
-        // not needed
-        return null;
-    }
+    return m_rootPath;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.shared.I_CmsGalleryTreeEntry#getChildren()
-     */
-    public List<CmsVfsEntryBean> getChildren() {
+  /**
+   * Gets the site root of this tree entry.
+   *
+   * <p>
+   *
+   * @return the site root of this entry
+   */
+  public String getSiteRoot() {
 
-        return m_preloadedChildren;
-    }
+    return m_siteRoot;
+  }
 
-    /**
-     * Gets the name which should be displayed in the widget representing this VFS entry.<p>
-     *
-     * @return the name to display
-     */
-    public String getDisplayName() {
+  /** @see org.opencms.gwt.shared.I_CmsHasIconClasses#getSmallIconClasses() */
+  public String getSmallIconClasses() {
 
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_title)) {
-            return m_title;
-        }
-        if (m_isRoot) {
-            return getRootPath();
-        } else {
-            String fixedPath = getRootPath().replaceFirst("/$", "");
-            int lastSlash = fixedPath.lastIndexOf('/');
-            if (lastSlash == -1) {
-                return fixedPath;
-            }
-            return fixedPath.substring(lastSlash + 1);
-        }
-    }
+    return m_iconClasses;
+  }
 
-    /**
-     * Gets the root path of the VFS entry.<p>
-     *
-     * @return the root path of the VFS entry
-     */
-    public String getRootPath() {
+  /**
+   * Returns the structure id.
+   *
+   * <p>
+   *
+   * @return the structure id
+   */
+  public CmsUUID getStructureId() {
 
-        return m_rootPath;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * Gets the site root of this tree entry.<p>
-     *
-     * @return the site root of this entry
-     */
-    public String getSiteRoot() {
+  /**
+   * Returns the editable flag. Indicate if the user has write permissions to the folder.
+   *
+   * <p>
+   *
+   * @return the editable flag
+   */
+  public boolean isEditable() {
 
-        return m_siteRoot;
-    }
+    return m_editable;
+  }
 
-    /**
-     * @see org.opencms.gwt.shared.I_CmsHasIconClasses#getSmallIconClasses()
-     */
-    public String getSmallIconClasses() {
+  /**
+   * Returns true if this entry is a top-level entry.
+   *
+   * <p>
+   *
+   * @return true if this is a top-level entry
+   */
+  public boolean isRoot() {
 
-        return m_iconClasses;
-    }
+    return m_isRoot;
+  }
 
-    /**
-     * Returns the structure id.<p>
-     *
-     * @return the structure id
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Returns true if this entry bean is a search match.
+   *
+   * <p>
+   *
+   * @return true if this is a search match
+   */
+  public boolean isSearchMatch() {
 
-        return m_structureId;
-    }
+    return m_isSearchMatch;
+  }
 
-    /**
-     * Returns the editable flag. Indicate if the user has write permissions to the folder.<p>
-     *
-     * @return the editable flag
-     */
-    public boolean isEditable() {
+  /**
+   * Sets the list of children.
+   *
+   * <p>
+   *
+   * @param children the list of children
+   */
+  public void setChildren(List<CmsVfsEntryBean> children) {
 
-        return m_editable;
-    }
+    m_preloadedChildren = children;
+  }
 
-    /**
-     * Returns true if this entry is a top-level entry.<p>
-     *
-     * @return true if this is a top-level entry
-     */
-    public boolean isRoot() {
+  /**
+   * Sets if the user has write permissions to the folder.
+   *
+   * <p>
+   *
+   * @param editable <code>true</code> if the user has write permissions to the folder
+   */
+  public void setEditable(boolean editable) {
 
-        return m_isRoot;
-    }
+    m_editable = editable;
+  }
 
-    /**
-     * Returns true if this entry bean is a search match.<p>
-     *
-     * @return true if this is a search match
-     */
-    public boolean isSearchMatch() {
+  /**
+   * Sets the site root of this tree entry.
+   *
+   * <p>
+   *
+   * @param siteRoot the site root of this tree entry
+   */
+  public void setSiteRoot(String siteRoot) {
 
-        return m_isSearchMatch;
-    }
-
-    /**
-     * Sets the list of children.<p>
-     *
-     * @param children the list of children
-     */
-    public void setChildren(List<CmsVfsEntryBean> children) {
-
-        m_preloadedChildren = children;
-    }
-
-    /**
-     * Sets if the user has write permissions to the folder.<p>
-     *
-     * @param editable <code>true</code> if the user has write permissions to the folder
-     */
-    public void setEditable(boolean editable) {
-
-        m_editable = editable;
-    }
-
-    /**
-     * Sets the site root of this tree entry.<p>
-     *
-     * @param siteRoot the site root of this tree entry
-     */
-    public void setSiteRoot(String siteRoot) {
-
-        m_siteRoot = siteRoot;
-    }
-
+    m_siteRoot = siteRoot;
+  }
 }

@@ -32,25 +32,31 @@ import java.util.List;
 /** Interface for the query facet configuration. */
 public interface I_CmsSearchConfigurationFacetQuery extends I_CmsSearchConfigurationFacet {
 
-    /** The interface of a single query facet item. */
-    public interface I_CmsFacetQueryItem {
+  /** The interface of a single query facet item. */
+  public interface I_CmsFacetQueryItem {
 
-        /** Returns the label of the item, useful to show it.
-         * @return the label of the item.
-         */
-        String getLabel();
-
-        /** Returns the query of the item.
-         * @return the query of the item.
-         */
-        String getQuery();
-    }
-
-    /** The name of the range facet. */
-    String NAME = "query_query";
-
-    /** Returns the list of queries that belong to the facet.
-     * @return The list of queries that belong to the facet.
+    /**
+     * Returns the label of the item, useful to show it.
+     *
+     * @return the label of the item.
      */
-    List<I_CmsFacetQueryItem> getQueryList();
+    String getLabel();
+
+    /**
+     * Returns the query of the item.
+     *
+     * @return the query of the item.
+     */
+    String getQuery();
+  }
+
+  /** The name of the range facet. */
+  String NAME = "query_query";
+
+  /**
+   * Returns the list of queries that belong to the facet.
+   *
+   * @return The list of queries that belong to the facet.
+   */
+  List<I_CmsFacetQueryItem> getQueryList();
 }

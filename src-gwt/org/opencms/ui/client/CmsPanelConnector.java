@@ -27,62 +27,63 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.ui.components.CmsPanel;
-
 import com.google.gwt.user.client.Timer;
 import com.vaadin.client.ApplicationConnection;
 import com.vaadin.client.UIDL;
 import com.vaadin.client.ui.panel.PanelConnector;
 import com.vaadin.shared.ui.Connect;
+import org.opencms.ui.components.CmsPanel;
 
 /**
- * Connector for the CmsPanel widget.<p>
+ * Connector for the CmsPanel widget.
  *
- * Contains a workaround for a glitch where the scroll position is sometimes reset after an RPC call.<p>
+ * <p>Contains a workaround for a glitch where the scroll position is sometimes reset after an RPC
+ * call.
+ *
+ * <p>
  */
 @Connect(CmsPanel.class)
 public class CmsPanelConnector extends PanelConnector {
 
-    /** Version id. */
-    private static final long serialVersionUID = 1L;
+  /** Version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** Saved scrollTop value. */
-    Integer m_scrollTop;
+  /** Saved scrollTop value. */
+  Integer m_scrollTop;
 
-    /**
-     * @see com.vaadin.client.ui.panel.PanelConnector#postLayout()
-     */
-    @Override
-    public void postLayout() {
+  /** @see com.vaadin.client.ui.panel.PanelConnector#postLayout() */
+  @Override
+  public void postLayout() {
 
-        super.postLayout();
+    super.postLayout();
 
-        if (m_scrollTop != null) {
-            final int newScrollTop = m_scrollTop.intValue();
-            Timer timer = new Timer() {
+    if (m_scrollTop != null) {
+      final int newScrollTop = m_scrollTop.intValue();
+      Timer timer =
+          new Timer() {
 
-                @Override
-                public void run() {
+            @Override
+            public void run() {
 
-                    getWidget().contentNode.setScrollTop(newScrollTop);
-                    m_scrollTop = null;
-                }
-            };
-            timer.schedule(50);
-        }
+              getWidget().contentNode.setScrollTop(newScrollTop);
+              m_scrollTop = null;
+            }
+          };
+      timer.schedule(50);
     }
+  }
 
-    /**
-     * @see com.vaadin.client.ui.panel.PanelConnector#updateFromUIDL(com.vaadin.client.UIDL, com.vaadin.client.ApplicationConnection)
-     */
-    @SuppressWarnings("deprecation")
-    @Override
-    public void updateFromUIDL(UIDL uidl, ApplicationConnection client) {
+  /**
+   * @see com.vaadin.client.ui.panel.PanelConnector#updateFromUIDL(com.vaadin.client.UIDL,
+   *     com.vaadin.client.ApplicationConnection)
+   */
+  @SuppressWarnings("deprecation")
+  @Override
+  public void updateFromUIDL(UIDL uidl, ApplicationConnection client) {
 
-        super.updateFromUIDL(uidl, client);
-        if (isRealUpdate(uidl)) {
-            m_scrollTop = new Integer(getState().scrollTop);
-        }
+    super.updateFromUIDL(uidl, client);
+    if (isRealUpdate(uidl)) {
+      m_scrollTop = new Integer(getState().scrollTop);
     }
-
+  }
 }

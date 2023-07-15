@@ -27,6 +27,8 @@
 
 package org.opencms.xml.content;
 
+import java.util.Locale;
+import org.apache.commons.logging.Log;
 import org.opencms.i18n.CmsEncoder;
 import org.opencms.main.CmsLog;
 import org.opencms.test.OpenCmsTestCase;
@@ -40,187 +42,201 @@ import org.opencms.xml.types.CmsXmlLocaleValue;
 import org.opencms.xml.types.CmsXmlStringValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Tests for generating an XML content.<p>
+ * Tests for generating an XML content.
  *
+ * <p>
  */
 public class TestCmsXmlContent extends OpenCmsTestCase {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(TestCmsXmlContent.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(TestCmsXmlContent.class);
 
-    /** The schema id. */
-    private static final String SCHEMA_SYSTEM_ID_1 = "http://www.opencms.org/test1.xsd";
+  /** The schema id. */
+  private static final String SCHEMA_SYSTEM_ID_1 = "http://www.opencms.org/test1.xsd";
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestCmsXmlContent(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestCmsXmlContent(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test that reading a schema containing ampersands in the appinfo section doesn't cause errors.
-     *
-     * @throws Exception in case something goes wrong
-     */
-    public void testAppInfoWithSpecialChars() throws Exception {
+  /**
+   * Test that reading a schema containing ampersands in the appinfo section doesn't cause errors.
+   *
+   * @throws Exception in case something goes wrong
+   */
+  public void testAppInfoWithSpecialChars() throws Exception {
 
-        CmsXmlEntityResolver resolver = new CmsXmlEntityResolver(null);
+    CmsXmlEntityResolver resolver = new CmsXmlEntityResolver(null);
 
-        String content;
-        // unmarshal content definition
-        content = CmsFileUtil.readFile(
+    String content;
+    // unmarshal content definition
+    content =
+        CmsFileUtil.readFile(
             "org/opencms/xml/content/xmlcontent-definition-specialchars.xsd",
             CmsEncoder.ENCODING_UTF_8);
-        CmsXmlContentDefinition definition = CmsXmlContentDefinition.unmarshal(
-            content,
-            "dummy://xmlcontent-definition-specialchars.xsd",
-            resolver);
+    CmsXmlContentDefinition definition =
+        CmsXmlContentDefinition.unmarshal(
+            content, "dummy://xmlcontent-definition-specialchars.xsd", resolver);
+  }
+
+  /**
+   * Tests moving elements up and down in the XML content.
+   *
+   * <p>
+   *
+   * @throws Exception in case the test fails
+   */
+  public void testMoveUpDown() throws Exception {
+
+    CmsXmlEntityResolver resolver = new CmsXmlEntityResolver(null);
+
+    String content;
+    // unmarshal content definition
+    content =
+        CmsFileUtil.readFile(
+            "org/opencms/xml/content/xmlcontent-definition-1.xsd", CmsEncoder.ENCODING_UTF_8);
+    CmsXmlContentDefinition definition =
+        CmsXmlContentDefinition.unmarshal(content, SCHEMA_SYSTEM_ID_1, resolver);
+    // store content definition in entitiy resolver
+    content =
+        CmsFileUtil.readFile("org/opencms/xml/content/xmlcontent-1.xml", CmsEncoder.ENCODING_UTF_8);
+    CmsXmlEntityResolver.cacheSystemId(
+        SCHEMA_SYSTEM_ID_1, definition.getSchema().asXML().getBytes(CmsEncoder.ENCODING_UTF_8));
+    // now create the XML content
+    CmsXmlContent xmlcontent =
+        CmsXmlContentFactory.unmarshal(content, CmsEncoder.ENCODING_UTF_8, resolver);
+
+    // this content comes from the file that has been read
+    String nn = "String";
+    CmsXmlStringValue stringValue = (CmsXmlStringValue) xmlcontent.getValue(nn, Locale.ENGLISH, 0);
+    assertEquals("Multitest 1", stringValue.getStringValue(null));
+
+    // add some more nodes to the content
+    I_CmsXmlContentValue value = xmlcontent.addValue(null, nn, Locale.ENGLISH, 1);
+    value.setStringValue(null, "Node 2");
+    value = xmlcontent.addValue(null, nn, Locale.ENGLISH, 2);
+    value.setStringValue(null, "Node 3");
+    value = xmlcontent.addValue(null, nn, Locale.ENGLISH, 3);
+    String node4 = "Node 4";
+    value.setStringValue(null, node4);
+
+    // we must have 4 "String" nodes now
+    int maxIndex = xmlcontent.getValue(nn, Locale.ENGLISH).getMaxIndex();
+    assertEquals(4, maxIndex);
+
+    // now we have 4 nodes, check the last node
+    I_CmsXmlContentValue checkValue = xmlcontent.getValue(nn, Locale.ENGLISH, maxIndex - 1);
+    assertEquals(node4, checkValue.getStringValue(null));
+
+    // move the node down 3 times, then it must be at the first position
+    value.moveDown();
+    value.moveDown();
+    value.moveDown();
+    System.out.println(xmlcontent.toString());
+    checkValue = xmlcontent.getValue(nn, Locale.ENGLISH, 0);
+    assertEquals(node4, checkValue.getStringValue(null));
+
+    // one more move down should have no effect
+    value.moveDown();
+    checkValue = xmlcontent.getValue(nn, Locale.ENGLISH, 0);
+    assertEquals(node4, checkValue.getStringValue(null));
+
+    // now move the node up again
+    value.moveUp();
+    value.moveUp();
+    value.moveUp();
+    System.out.println(xmlcontent.toString());
+    checkValue = xmlcontent.getValue(nn, Locale.ENGLISH, maxIndex - 1);
+    assertEquals(node4, checkValue.getStringValue(null));
+
+    // one more move up should have no effect
+    value.moveUp();
+    checkValue = xmlcontent.getValue(nn, Locale.ENGLISH, maxIndex - 1);
+    assertEquals(node4, checkValue.getStringValue(null));
+  }
+
+  /**
+   * Test unmarshalling an XML content from a String.
+   *
+   * <p>
+   *
+   * @throws Exception in case something goes wrong
+   */
+  public void testUnmarshalFromString() throws Exception {
+
+    CmsXmlEntityResolver resolver = new CmsXmlEntityResolver(null);
+
+    String content;
+    // unmarshal content definition
+    content =
+        CmsFileUtil.readFile(
+            "org/opencms/xml/content/xmlcontent-definition-1.xsd", CmsEncoder.ENCODING_UTF_8);
+    CmsXmlContentDefinition definition =
+        CmsXmlContentDefinition.unmarshal(content, SCHEMA_SYSTEM_ID_1, resolver);
+    // store content definition in entitiy resolver
+    content =
+        CmsFileUtil.readFile("org/opencms/xml/content/xmlcontent-1.xml", CmsEncoder.ENCODING_UTF_8);
+    CmsXmlEntityResolver.cacheSystemId(
+        SCHEMA_SYSTEM_ID_1, definition.getSchema().asXML().getBytes(CmsEncoder.ENCODING_UTF_8));
+    // now create the XML content
+    CmsXmlContent xmlcontent =
+        CmsXmlContentFactory.unmarshal(content, CmsEncoder.ENCODING_UTF_8, resolver);
+
+    assertTrue(xmlcontent.hasValue("String", Locale.ENGLISH));
+    assertTrue(xmlcontent.hasValue("DateTime", Locale.ENGLISH));
+    assertTrue(xmlcontent.hasValue("Html", Locale.ENGLISH));
+    assertTrue(xmlcontent.hasValue("Locale", Locale.ENGLISH));
+
+    assertSame(
+        definition.getContentHandler().getClass().getName(),
+        CmsDefaultXmlContentHandler.class.getName());
+
+    CmsXmlStringValue stringValue =
+        (CmsXmlStringValue) xmlcontent.getValue("String", Locale.ENGLISH);
+    CmsXmlDateTimeValue dateTimeValue =
+        (CmsXmlDateTimeValue) xmlcontent.getValue("DateTime", Locale.ENGLISH);
+    CmsXmlHtmlValue htmlValue = (CmsXmlHtmlValue) xmlcontent.getValue("Html", Locale.ENGLISH);
+    CmsXmlLocaleValue localeValue =
+        (CmsXmlLocaleValue) xmlcontent.getValue("Locale", Locale.ENGLISH);
+
+    assertEquals("Multitest 1", stringValue.getStringValue(null));
+    assertEquals("-58254180000", dateTimeValue.getStringValue(null));
+    assertEquals("<p>This is some Html</p>", htmlValue.getStringValue(null));
+    assertEquals("en_EN", localeValue.getStringValue(null));
+  }
+
+  /**
+   * Unmarshalling of xsds that includes invalid nested elements must fail with an exception
+   *
+   * @throws Exception in case something goes wrong
+   */
+  public void testUnmarshalXsdWithInvalidNestedSchema() throws Exception {
+
+    CmsXmlEntityResolver resolver = new CmsXmlEntityResolver(null);
+
+    final String SCHEMA_PATH = "org/opencms/xml/content/xmlcontent-definition-1.invalid-nested.xsd";
+    final String SCHEMA_LOCATION = "http://opencms.org/invalid-nested.xsd";
+    // unmarshal schema
+    String schemaAsString = CmsFileUtil.readFile(SCHEMA_PATH, CmsEncoder.ENCODING_UTF_8);
+    try {
+      CmsXmlContentDefinition.unmarshal(schemaAsString, SCHEMA_LOCATION, resolver);
+      fail("Shouldn't have marshaled a xsd with invalid nested elements");
+    } catch (CmsXmlException e) {
+      assertTrue(e.getMessage().contains("schemaLocation: '" + SCHEMA_LOCATION + "'"));
+      assertTrue(
+          e.getCause()
+              .getMessage()
+              .contains("Unable to resolve included schema \"opencms://invalid.xsd\""));
+      LOG.info("Expected exception detected.");
+      LOG.debug("", e);
     }
-
-    /**
-     * Tests moving elements up and down in the XML content.<p>
-     *
-     * @throws Exception in case the test fails
-     */
-    public void testMoveUpDown() throws Exception {
-
-        CmsXmlEntityResolver resolver = new CmsXmlEntityResolver(null);
-
-        String content;
-        // unmarshal content definition
-        content = CmsFileUtil.readFile(
-            "org/opencms/xml/content/xmlcontent-definition-1.xsd",
-            CmsEncoder.ENCODING_UTF_8);
-        CmsXmlContentDefinition definition = CmsXmlContentDefinition.unmarshal(content, SCHEMA_SYSTEM_ID_1, resolver);
-        // store content definition in entitiy resolver
-        content = CmsFileUtil.readFile("org/opencms/xml/content/xmlcontent-1.xml", CmsEncoder.ENCODING_UTF_8);
-        CmsXmlEntityResolver.cacheSystemId(
-            SCHEMA_SYSTEM_ID_1,
-            definition.getSchema().asXML().getBytes(CmsEncoder.ENCODING_UTF_8));
-        // now create the XML content
-        CmsXmlContent xmlcontent = CmsXmlContentFactory.unmarshal(content, CmsEncoder.ENCODING_UTF_8, resolver);
-
-        // this content comes from the file that has been read
-        String nn = "String";
-        CmsXmlStringValue stringValue = (CmsXmlStringValue)xmlcontent.getValue(nn, Locale.ENGLISH, 0);
-        assertEquals("Multitest 1", stringValue.getStringValue(null));
-
-        // add some more nodes to the content
-        I_CmsXmlContentValue value = xmlcontent.addValue(null, nn, Locale.ENGLISH, 1);
-        value.setStringValue(null, "Node 2");
-        value = xmlcontent.addValue(null, nn, Locale.ENGLISH, 2);
-        value.setStringValue(null, "Node 3");
-        value = xmlcontent.addValue(null, nn, Locale.ENGLISH, 3);
-        String node4 = "Node 4";
-        value.setStringValue(null, node4);
-
-        // we must have 4 "String" nodes now
-        int maxIndex = xmlcontent.getValue(nn, Locale.ENGLISH).getMaxIndex();
-        assertEquals(4, maxIndex);
-
-        // now we have 4 nodes, check the last node
-        I_CmsXmlContentValue checkValue = xmlcontent.getValue(nn, Locale.ENGLISH, maxIndex - 1);
-        assertEquals(node4, checkValue.getStringValue(null));
-
-        // move the node down 3 times, then it must be at the first position
-        value.moveDown();
-        value.moveDown();
-        value.moveDown();
-        System.out.println(xmlcontent.toString());
-        checkValue = xmlcontent.getValue(nn, Locale.ENGLISH, 0);
-        assertEquals(node4, checkValue.getStringValue(null));
-
-        // one more move down should have no effect
-        value.moveDown();
-        checkValue = xmlcontent.getValue(nn, Locale.ENGLISH, 0);
-        assertEquals(node4, checkValue.getStringValue(null));
-
-        // now move the node up again
-        value.moveUp();
-        value.moveUp();
-        value.moveUp();
-        System.out.println(xmlcontent.toString());
-        checkValue = xmlcontent.getValue(nn, Locale.ENGLISH, maxIndex - 1);
-        assertEquals(node4, checkValue.getStringValue(null));
-
-        // one more move up should have no effect
-        value.moveUp();
-        checkValue = xmlcontent.getValue(nn, Locale.ENGLISH, maxIndex - 1);
-        assertEquals(node4, checkValue.getStringValue(null));
-    }
-
-    /**
-     * Test unmarshalling an XML content from a String.<p>
-     *
-     * @throws Exception in case something goes wrong
-     */
-    public void testUnmarshalFromString() throws Exception {
-
-        CmsXmlEntityResolver resolver = new CmsXmlEntityResolver(null);
-
-        String content;
-        // unmarshal content definition
-        content = CmsFileUtil.readFile(
-            "org/opencms/xml/content/xmlcontent-definition-1.xsd",
-            CmsEncoder.ENCODING_UTF_8);
-        CmsXmlContentDefinition definition = CmsXmlContentDefinition.unmarshal(content, SCHEMA_SYSTEM_ID_1, resolver);
-        // store content definition in entitiy resolver
-        content = CmsFileUtil.readFile("org/opencms/xml/content/xmlcontent-1.xml", CmsEncoder.ENCODING_UTF_8);
-        CmsXmlEntityResolver.cacheSystemId(
-            SCHEMA_SYSTEM_ID_1,
-            definition.getSchema().asXML().getBytes(CmsEncoder.ENCODING_UTF_8));
-        // now create the XML content
-        CmsXmlContent xmlcontent = CmsXmlContentFactory.unmarshal(content, CmsEncoder.ENCODING_UTF_8, resolver);
-
-        assertTrue(xmlcontent.hasValue("String", Locale.ENGLISH));
-        assertTrue(xmlcontent.hasValue("DateTime", Locale.ENGLISH));
-        assertTrue(xmlcontent.hasValue("Html", Locale.ENGLISH));
-        assertTrue(xmlcontent.hasValue("Locale", Locale.ENGLISH));
-
-        assertSame(definition.getContentHandler().getClass().getName(), CmsDefaultXmlContentHandler.class.getName());
-
-        CmsXmlStringValue stringValue = (CmsXmlStringValue)xmlcontent.getValue("String", Locale.ENGLISH);
-        CmsXmlDateTimeValue dateTimeValue = (CmsXmlDateTimeValue)xmlcontent.getValue("DateTime", Locale.ENGLISH);
-        CmsXmlHtmlValue htmlValue = (CmsXmlHtmlValue)xmlcontent.getValue("Html", Locale.ENGLISH);
-        CmsXmlLocaleValue localeValue = (CmsXmlLocaleValue)xmlcontent.getValue("Locale", Locale.ENGLISH);
-
-        assertEquals("Multitest 1", stringValue.getStringValue(null));
-        assertEquals("-58254180000", dateTimeValue.getStringValue(null));
-        assertEquals("<p>This is some Html</p>", htmlValue.getStringValue(null));
-        assertEquals("en_EN", localeValue.getStringValue(null));
-    }
-
-    /**
-     * Unmarshalling of xsds that includes invalid nested elements must fail with an exception
-     *
-     * @throws Exception in case something goes wrong
-     */
-    public void testUnmarshalXsdWithInvalidNestedSchema() throws Exception {
-
-        CmsXmlEntityResolver resolver = new CmsXmlEntityResolver(null);
-
-        final String SCHEMA_PATH = "org/opencms/xml/content/xmlcontent-definition-1.invalid-nested.xsd";
-        final String SCHEMA_LOCATION = "http://opencms.org/invalid-nested.xsd";
-        // unmarshal schema
-        String schemaAsString = CmsFileUtil.readFile(SCHEMA_PATH, CmsEncoder.ENCODING_UTF_8);
-        try {
-            CmsXmlContentDefinition.unmarshal(schemaAsString, SCHEMA_LOCATION, resolver);
-            fail("Shouldn't have marshaled a xsd with invalid nested elements");
-        } catch (CmsXmlException e) {
-            assertTrue(e.getMessage().contains("schemaLocation: '" + SCHEMA_LOCATION + "'"));
-            assertTrue(
-                e.getCause().getMessage().contains("Unable to resolve included schema \"opencms://invalid.xsd\""));
-            LOG.info("Expected exception detected.");
-            LOG.debug("", e);
-        }
-    }
+  }
 }

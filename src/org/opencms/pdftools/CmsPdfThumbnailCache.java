@@ -34,33 +34,37 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsFileUtil;
 
 /**
- * Cache for PDF thumbnails.<p>
+ * Cache for PDF thumbnails.
+ *
+ * <p>
  */
 public class CmsPdfThumbnailCache extends CmsVfsNameBasedDiskCache {
 
-    /** The folder name for the cache folder. */
-    public static final String PDF_CACHE_FOLDER = "imagecache/pdfthumbnails";
+  /** The folder name for the cache folder. */
+  public static final String PDF_CACHE_FOLDER = "imagecache/pdfthumbnails";
 
-    /**
-     * Creates a new cache instance.<p>
-     */
-    public CmsPdfThumbnailCache() {
+  /**
+   * Creates a new cache instance.
+   *
+   * <p>
+   */
+  public CmsPdfThumbnailCache() {
 
-        super(OpenCms.getSystemInfo().getWebInfRfsPath(), PDF_CACHE_FOLDER);
-    }
+    super(OpenCms.getSystemInfo().getWebInfRfsPath(), PDF_CACHE_FOLDER);
+  }
 
-    /**
-     * @see org.opencms.cache.CmsVfsNameBasedDiskCache#getCacheName(org.opencms.file.CmsResource, java.lang.String)
-     */
-    @Override
-    public String getCacheName(CmsResource resource, String parameters) {
+  /**
+   * @see org.opencms.cache.CmsVfsNameBasedDiskCache#getCacheName(org.opencms.file.CmsResource,
+   *     java.lang.String)
+   */
+  @Override
+  public String getCacheName(CmsResource resource, String parameters) {
 
-        String extension = CmsFileUtil.getExtension(resource.getRootPath());
-        CmsWrappedResource wrapper = new CmsWrappedResource(resource);
-        String fakePath = "/thumbnail_" + resource.getStructureId() + extension;
-        wrapper.setRootPath(fakePath);
-        CmsResource fakeResource = wrapper.getResource();
-        return super.getCacheName(fakeResource, parameters);
-    }
-
+    String extension = CmsFileUtil.getExtension(resource.getRootPath());
+    CmsWrappedResource wrapper = new CmsWrappedResource(resource);
+    String fakePath = "/thumbnail_" + resource.getStructureId() + extension;
+    wrapper.setRootPath(fakePath);
+    CmsResource fakeResource = wrapper.getResource();
+    return super.getCacheName(fakeResource, parameters);
+  }
 }

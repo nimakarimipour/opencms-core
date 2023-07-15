@@ -29,68 +29,63 @@ package org.opencms.gwt.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-/**
- * Represents a single option (type) that can be selected in the list element creation dialog.
- */
+/** Represents a single option (type) that can be selected in the list element creation dialog. */
 public class CmsListElementCreationOption implements IsSerializable {
 
-    /** The list info bean describing the type. */
-    private CmsListInfoBean m_info;
+  /** The list info bean describing the type. */
+  private CmsListInfoBean m_info;
 
-    /** The string used to create the new resource by the content editor. */
-    private String m_newLink;
+  /** The string used to create the new resource by the content editor. */
+  private String m_newLink;
 
-    /** The type name. */
-    private String m_type;
+  /** The type name. */
+  private String m_type;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param type the type name
-     * @param info the list info bean describing the type
-     * @param newLink the string used by the content editor to create the new resource
-     */
-    public CmsListElementCreationOption(String type, CmsListInfoBean info, String newLink) {
+  /**
+   * Creates a new instance.
+   *
+   * @param type the type name
+   * @param info the list info bean describing the type
+   * @param newLink the string used by the content editor to create the new resource
+   */
+  public CmsListElementCreationOption(String type, CmsListInfoBean info, String newLink) {
 
-        super();
-        m_type = type;
-        m_info = info;
-        m_newLink = newLink;
-    }
+    super();
+    m_type = type;
+    m_info = info;
+    m_newLink = newLink;
+  }
 
-    /**
-     * Hidden default constructor.
-     */
-    protected CmsListElementCreationOption() {}
+  /** Hidden default constructor. */
+  protected CmsListElementCreationOption() {}
 
-    /**
-     * Gets the list info bean representing the type.
-     *
-     * @return the list info bean for the type
-     */
-    public CmsListInfoBean getInfo() {
+  /**
+   * Gets the list info bean representing the type.
+   *
+   * @return the list info bean for the type
+   */
+  public CmsListInfoBean getInfo() {
 
-        return m_info;
-    }
+    return m_info;
+  }
 
-    /**
-     * Gets the string used by the content editor to create the new resource.
-     *
-     * @return the string used by the content editor to create the new resource
-     */
-    public String getNewLink() {
+  /**
+   * Gets the string used by the content editor to create the new resource.
+   *
+   * @return the string used by the content editor to create the new resource
+   */
+  public String getNewLink() {
 
-        return m_newLink;
-    }
+    return m_newLink;
+  }
 
-    /**
-     * Gets the resource type name.
-     *
-     * @return the type name
-     */
-    public String getType() {
+  /**
+   * Gets the resource type name.
+   *
+   * @return the type name
+   */
+  public String getType() {
 
-        return m_type;
-    }
-
+    return m_type;
+  }
 }

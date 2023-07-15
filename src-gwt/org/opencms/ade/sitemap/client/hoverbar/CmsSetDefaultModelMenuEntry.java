@@ -35,65 +35,67 @@ import org.opencms.gwt.client.rpc.CmsRpcAction;
 import org.opencms.util.CmsUUID;
 
 /**
- * Context menu entry for copying a model page.<p>
+ * Context menu entry for copying a model page.
+ *
+ * <p>
  */
 public class CmsSetDefaultModelMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Creates a new model page menu entry.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsSetDefaultModelMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Creates a new model page menu entry.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsSetDefaultModelMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_SET_AS_DEFAULT_0));
-        setActive(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_SET_AS_DEFAULT_0));
+    setActive(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        final CmsUUID id = entry.getId();
-        CmsRpcAction<CmsModelInfo> action = new CmsRpcAction<CmsModelInfo>() {
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    final CmsUUID id = entry.getId();
+    CmsRpcAction<CmsModelInfo> action =
+        new CmsRpcAction<CmsModelInfo>() {
 
-            @Override
-            public void execute() {
+          @Override
+          public void execute() {
 
-                start(0, true);
-                getHoverbar().getController().getService().setDefaultModel(
-                    getHoverbar().getController().getData().getRoot().getId(),
-                    id,
-                    this);
-            }
+            start(0, true);
+            getHoverbar()
+                .getController()
+                .getService()
+                .setDefaultModel(
+                    getHoverbar().getController().getData().getRoot().getId(), id, this);
+          }
 
-            @Override
-            protected void onResponse(CmsModelInfo result) {
+          @Override
+          protected void onResponse(CmsModelInfo result) {
 
-                stop(false);
-                CmsSitemapView.getInstance().displayModelPages(result);
-                getHoverbar().getController().loadNewElementInfo(null);
-            }
-
+            stop(false);
+            CmsSitemapView.getInstance().displayModelPages(result);
+            getHoverbar().getController().loadNewElementInfo(null);
+          }
         };
-        action.execute();
-    }
+    action.execute();
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        final CmsUUID id = entry.getId();
-        boolean show = getHoverbar().getController().isEditable()
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    final CmsUUID id = entry.getId();
+    boolean show =
+        getHoverbar().getController().isEditable()
             && CmsSitemapView.getInstance().isModelPageMode()
             && (CmsSitemapView.getInstance().getModelPageEntry(id) != null)
             && !CmsSitemapView.getInstance().getModelPageEntry(id).isDefault();
-        setVisible(show);
-    }
+    setVisible(show);
+  }
 }

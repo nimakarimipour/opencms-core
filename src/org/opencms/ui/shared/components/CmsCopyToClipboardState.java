@@ -30,33 +30,39 @@ package org.opencms.ui.shared.components;
 import com.vaadin.shared.ui.button.ButtonState;
 
 /**
- * The copy to clip-board/select text button shared state.<p>
+ * The copy to clip-board/select text button shared state.
+ *
+ * <p>
  */
 public class CmsCopyToClipboardState extends ButtonState {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 5756156529345274883L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 5756156529345274883L;
 
-    /** The element selector. */
-    private String m_selector;
+  /** The element selector. */
+  private String m_selector;
 
-    /**
-     * Returns the element selector.<p>
-     *
-     * @return the element selector
-     */
-    public String getSelector() {
+  /**
+   * Returns the element selector.
+   *
+   * <p>
+   *
+   * @return the element selector
+   */
+  public String getSelector() {
 
-        return m_selector;
-    }
+    return m_selector;
+  }
 
-    /**
-     * Sets the element selector.<p>
-     *
-     * @param selector the element selector
-     */
-    public void setSelector(String selector) {
+  /**
+   * Sets the element selector.
+   *
+   * <p>
+   *
+   * @param selector the element selector
+   */
+  public void setSelector(String selector) {
 
-        m_selector = selector;
-    }
+    m_selector = selector;
+  }
 }

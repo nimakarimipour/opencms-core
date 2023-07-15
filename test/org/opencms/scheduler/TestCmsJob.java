@@ -31,43 +31,55 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
 /**
- * Class that implements the Job interface.<p>
+ * Class that implements the Job interface.
+ *
+ * <p>
  */
 public class TestCmsJob implements Job {
 
-    /** Count of individual thread. */
-    private int m_myCount;
+  /** Count of individual thread. */
+  private int m_myCount;
 
-    /** Current count. */
-    static int m_count;
+  /** Current count. */
+  static int m_count;
 
-    /** Currently running instances. */
-    static int m_running;
+  /** Currently running instances. */
+  static int m_running;
 
-    /**
-     * Default constructor.<p>
-     */
-    public TestCmsJob() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public TestCmsJob() {
 
-        TestCmsJob.m_count++;
-        m_myCount = TestCmsJob.m_count;
+    TestCmsJob.m_count++;
+    m_myCount = TestCmsJob.m_count;
+  }
+
+  /** @see org.quartz.Job#execute(org.quartz.JobExecutionContext) */
+  public void execute(JobExecutionContext context) {
+
+    System.out.println(
+        getClass().getName()
+            + " "
+            + m_myCount
+            + " is starting (running: "
+            + TestCmsJob.m_running
+            + ").");
+    TestCmsJob.m_running++;
+    try {
+      Thread.sleep(1000 + (long) (4000.0 * Math.random()));
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
-
-    /**
-     * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
-     */
-    public void execute(JobExecutionContext context) {
-
-        System.out.println(
-            getClass().getName() + " " + m_myCount + " is starting (running: " + TestCmsJob.m_running + ").");
-        TestCmsJob.m_running++;
-        try {
-            Thread.sleep(1000 + (long)(4000.0 * Math.random()));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        TestCmsJob.m_running--;
-        System.out.println(
-            getClass().getName() + " " + m_myCount + " is finished (running: " + TestCmsJob.m_running + ").");
-    }
+    TestCmsJob.m_running--;
+    System.out.println(
+        getClass().getName()
+            + " "
+            + m_myCount
+            + " is finished (running: "
+            + TestCmsJob.m_running
+            + ").");
+  }
 }

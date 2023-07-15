@@ -27,6 +27,11 @@
 
 package org.opencms.notification;
 
+import java.util.HashSet;
+import java.util.Set;
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.file.CmsGroup;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsUser;
@@ -36,126 +41,120 @@ import org.opencms.security.I_CmsPrincipal;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Unit test for the "readResponsibleUsers" method of the CmsObject.<p>
+ * Unit test for the "readResponsibleUsers" method of the CmsObject.
  *
+ * <p>
  */
 public class TestResponsibles extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestResponsibles(String arg0) {
-        super(arg0);
-    }
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestResponsibles(String arg0) {
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestResponsibles.class.getName());
+    TestSuite suite = new TestSuite();
+    suite.setName(TestResponsibles.class.getName());
 
-        suite.addTest(new TestResponsibles("testResponsibles"));
+    suite.addTest(new TestResponsibles("testResponsibles"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
-    }
+    return wrapper;
+  }
 
-    /**
-     * Sets responsibles to a file and then tests the readResponsibleUsers method of CmsObject .<p>
-     *
-     * @throws Throwable if something goes wrong
-     */
-    public void testResponsibles() throws Throwable {
+  /**
+   * Sets responsibles to a file and then tests the readResponsibleUsers method of CmsObject .
+   *
+   * <p>
+   *
+   * @throws Throwable if something goes wrong
+   */
+  public void testResponsibles() throws Throwable {
 
-        echo("Testing responsibles of resources");
+    echo("Testing responsibles of resources");
 
-        // create three users, two of them belonging to a group
-        CmsObject cms = getCmsObject();
-        CmsGroup tastycrats = cms.createGroup("tastycrats", "A test group", 0, null);
-        CmsUser fry = cms.createUser("fry", "password", "First test user", null);
-        CmsUser bender = cms.createUser(
-            "bender",
-            "password",
-            "Second test user, belonging to the tastycrats group.",
-            null);
-        CmsUser leela = cms.createUser(
-            "leela",
-            "password",
-            "Third test user, belonging to the tastycrats group.",
-            null);
-        CmsUser farnsworth = cms.createUser(
-            "farnsworth",
-            "password",
-            "Another test user, which is not responsible.",
-            null);
-        cms.addUserToGroup("bender", "tastycrats");
-        cms.addUserToGroup("leela", "tastycrats");
+    // create three users, two of them belonging to a group
+    CmsObject cms = getCmsObject();
+    CmsGroup tastycrats = cms.createGroup("tastycrats", "A test group", 0, null);
+    CmsUser fry = cms.createUser("fry", "password", "First test user", null);
+    CmsUser bender =
+        cms.createUser(
+            "bender", "password", "Second test user, belonging to the tastycrats group.", null);
+    CmsUser leela =
+        cms.createUser(
+            "leela", "password", "Third test user, belonging to the tastycrats group.", null);
+    CmsUser farnsworth =
+        cms.createUser(
+            "farnsworth", "password", "Another test user, which is not responsible.", null);
+    cms.addUserToGroup("bender", "tastycrats");
+    cms.addUserToGroup("leela", "tastycrats");
 
-        // make group and user responsible for the group
-        String resource1 = "/folder1/index.html";
-        CmsPermissionSet permissions = new CmsPermissionSet(
-            CmsPermissionSet.PERMISSION_WRITE,
-            CmsPermissionSet.PERMISSION_READ);
-        cms.lockResource(resource1);
-        cms.chacc(
-            resource1,
-            I_CmsPrincipal.PRINCIPAL_USER,
-            fry.getName(),
-            permissions.getAllowedPermissions(),
-            permissions.getDeniedPermissions(),
-            CmsAccessControlEntry.ACCESS_FLAGS_RESPONSIBLE);
-        cms.chacc(
-            resource1,
-            I_CmsPrincipal.PRINCIPAL_GROUP,
-            tastycrats.getName(),
-            permissions.getAllowedPermissions(),
-            permissions.getDeniedPermissions(),
-            CmsAccessControlEntry.ACCESS_FLAGS_RESPONSIBLE);
-        cms.chacc(
-            resource1,
-            I_CmsPrincipal.PRINCIPAL_USER,
-            farnsworth.getName(),
-            permissions.getAllowedPermissions(),
-            permissions.getDeniedPermissions(),
-            0);
-        cms.unlockResource(resource1);
+    // make group and user responsible for the group
+    String resource1 = "/folder1/index.html";
+    CmsPermissionSet permissions =
+        new CmsPermissionSet(CmsPermissionSet.PERMISSION_WRITE, CmsPermissionSet.PERMISSION_READ);
+    cms.lockResource(resource1);
+    cms.chacc(
+        resource1,
+        I_CmsPrincipal.PRINCIPAL_USER,
+        fry.getName(),
+        permissions.getAllowedPermissions(),
+        permissions.getDeniedPermissions(),
+        CmsAccessControlEntry.ACCESS_FLAGS_RESPONSIBLE);
+    cms.chacc(
+        resource1,
+        I_CmsPrincipal.PRINCIPAL_GROUP,
+        tastycrats.getName(),
+        permissions.getAllowedPermissions(),
+        permissions.getDeniedPermissions(),
+        CmsAccessControlEntry.ACCESS_FLAGS_RESPONSIBLE);
+    cms.chacc(
+        resource1,
+        I_CmsPrincipal.PRINCIPAL_USER,
+        farnsworth.getName(),
+        permissions.getAllowedPermissions(),
+        permissions.getDeniedPermissions(),
+        0);
+    cms.unlockResource(resource1);
 
-        // check, if the three users are indeed responsible for the resource.
-        Set responsibles = cms.readResponsibleUsers(cms.readResource(resource1));
-        Set expectedResponsibles = new HashSet();
-        expectedResponsibles.add(fry);
-        expectedResponsibles.add(leela);
-        expectedResponsibles.add(bender);
-        assertEquals(responsibles, expectedResponsibles);
-    }
+    // check, if the three users are indeed responsible for the resource.
+    Set responsibles = cms.readResponsibleUsers(cms.readResource(resource1));
+    Set expectedResponsibles = new HashSet();
+    expectedResponsibles.add(fry);
+    expectedResponsibles.add(leela);
+    expectedResponsibles.add(bender);
+    assertEquals(responsibles, expectedResponsibles);
+  }
 }

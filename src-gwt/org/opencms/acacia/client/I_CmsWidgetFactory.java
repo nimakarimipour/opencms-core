@@ -27,32 +27,35 @@
 
 package org.opencms.acacia.client;
 
+import com.google.gwt.dom.client.Element;
 import org.opencms.acacia.client.widgets.I_CmsEditWidget;
 import org.opencms.acacia.client.widgets.I_CmsFormEditWidget;
 
-import com.google.gwt.dom.client.Element;
-
 /**
- * Generates an editing widget with the given configuration.<p>
+ * Generates an editing widget with the given configuration.
+ *
+ * <p>
  */
 public interface I_CmsWidgetFactory {
 
-    /**
-     * Creates the from editing widget.<p>
-     *
-     * @param configuration the widget configuration
-     *
-     * @return the widget
-     */
-    I_CmsFormEditWidget createFormWidget(String configuration);
+  /**
+   * Creates the from editing widget.
+   *
+   * <p>
+   *
+   * @param configuration the widget configuration
+   * @return the widget
+   */
+  I_CmsFormEditWidget createFormWidget(String configuration);
 
-    /**
-     * Wraps an existing DOM element to create an inline editing widget.<p>
-     *
-     * @param configuration the widget configuration
-     * @param element the element to wrap
-     *
-     * @return the widget
-     */
-    I_CmsEditWidget createInlineWidget(String configuration, Element element);
+  /**
+   * Wraps an existing DOM element to create an inline editing widget.
+   *
+   * <p>
+   *
+   * @param configuration the widget configuration
+   * @param element the element to wrap
+   * @return the widget
+   */
+  I_CmsEditWidget createInlineWidget(String configuration, Element element);
 }

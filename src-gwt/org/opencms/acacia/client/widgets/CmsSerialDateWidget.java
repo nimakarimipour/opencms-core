@@ -27,159 +27,151 @@
 
 package org.opencms.acacia.client.widgets;
 
-import org.opencms.acacia.client.widgets.serialdate.CmsSerialDateController;
-import org.opencms.acacia.client.widgets.serialdate.I_CmsLayoutBundle;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
+import org.opencms.acacia.client.widgets.serialdate.CmsSerialDateController;
+import org.opencms.acacia.client.widgets.serialdate.I_CmsLayoutBundle;
 
 /**
- * Provides a DHTML calendar widget, for use on a widget dialog.<p>
+ * Provides a DHTML calendar widget, for use on a widget dialog.
  *
- * */
+ * <p>
+ */
 public class CmsSerialDateWidget extends Composite implements I_CmsEditWidget {
 
-    /** Value of the activation. */
-    private boolean m_active = true;
+  /** Value of the activation. */
+  private boolean m_active = true;
 
-    /** The global select box. */
-    private CmsSerialDateController m_serialDate;
+  /** The global select box. */
+  private CmsSerialDateController m_serialDate;
 
-    /**
-     * Constructs an CmsComboWidget with the in XSD schema declared configuration.<p>
-     */
-    public CmsSerialDateWidget() {
+  /**
+   * Constructs an CmsComboWidget with the in XSD schema declared configuration.
+   *
+   * <p>
+   */
+  public CmsSerialDateWidget() {
 
-        m_serialDate = new CmsSerialDateController();
-        // All composites must call initWidget() in their constructors.
-        initWidget(m_serialDate);
+    m_serialDate = new CmsSerialDateController();
+    // All composites must call initWidget() in their constructors.
+    initWidget(m_serialDate);
 
-        ValueChangeHandler<String> handler = new ValueChangeHandler<String>() {
+    ValueChangeHandler<String> handler =
+        new ValueChangeHandler<String>() {
 
-            public void onValueChange(ValueChangeEvent<String> arg0) {
+          public void onValueChange(ValueChangeEvent<String> arg0) {
 
-                fireChangeEvent();
-
-            }
-
+            fireChangeEvent();
+          }
         };
-        I_CmsLayoutBundle.INSTANCE.widgetCss().ensureInjected();
-        m_serialDate.addStyleName(
-            org.opencms.ade.contenteditor.client.css.I_CmsLayoutBundle.INSTANCE.generalCss().cornerAll());
-        m_serialDate.addStyleName(I_CmsLayoutBundle.INSTANCE.widgetCss().serialDateWidget());
-        m_serialDate.addValueChangeHandler(handler);
+    I_CmsLayoutBundle.INSTANCE.widgetCss().ensureInjected();
+    m_serialDate.addStyleName(
+        org.opencms.ade.contenteditor.client.css.I_CmsLayoutBundle.INSTANCE
+            .generalCss()
+            .cornerAll());
+    m_serialDate.addStyleName(I_CmsLayoutBundle.INSTANCE.widgetCss().serialDateWidget());
+    m_serialDate.addValueChangeHandler(handler);
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
+   */
+  public HandlerRegistration addFocusHandler(FocusHandler handler) {
+
+    return null;
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+
+    return addHandler(handler, ValueChangeEvent.getType());
+  }
+
+  /**
+   * Represents a value change event.
+   *
+   * <p>
+   */
+  public void fireChangeEvent() {
+
+    ValueChangeEvent.fire(this, getValue());
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#getValue() */
+  public String getValue() {
+
+    return m_serialDate.getValue();
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive() */
+  public boolean isActive() {
+
+    return m_active;
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget() */
+  public void onAttachWidget() {
+
+    super.onAttach();
+  }
+
+  /**
+   * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
+   */
+  public boolean owns(Element element) {
+
+    return getElement().isOrHasChild(element);
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean) */
+  public void setActive(boolean active) {
+
+    if (active == m_active) {
+      return;
     }
+    m_active = active;
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
-     */
-    public HandlerRegistration addFocusHandler(FocusHandler handler) {
-
-        return null;
+    if (m_active) {
+      getElement()
+          .removeClassName(
+              org.opencms.acacia.client.css.I_CmsLayoutBundle.INSTANCE.form().inActive());
+      getElement().focus();
+    } else {
+      getElement()
+          .addClassName(org.opencms.acacia.client.css.I_CmsLayoutBundle.INSTANCE.form().inActive());
     }
-
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
-
-        return addHandler(handler, ValueChangeEvent.getType());
+    m_serialDate.setActive(m_active);
+    if (active) {
+      fireChangeEvent();
     }
+  }
 
-    /**
-     * Represents a value change event.<p>
-     *
-     */
-    public void fireChangeEvent() {
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String) */
+  public void setName(String name) {
 
-        ValueChangeEvent.fire(this, getValue());
+    // not necessary to implement
+  }
 
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object) */
+  public void setValue(String value) {
+
+    setValue(value, false);
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean) */
+  public void setValue(String value, boolean fireEvents) {
+
+    m_serialDate.setValue(value);
+    if (fireEvents) {
+      fireChangeEvent();
     }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#getValue()
-     */
-    public String getValue() {
-
-        return m_serialDate.getValue();
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive()
-     */
-    public boolean isActive() {
-
-        return m_active;
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget()
-     */
-    public void onAttachWidget() {
-
-        super.onAttach();
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
-     */
-    public boolean owns(Element element) {
-
-        return getElement().isOrHasChild(element);
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean)
-     */
-    public void setActive(boolean active) {
-
-        if (active == m_active) {
-            return;
-        }
-        m_active = active;
-
-        if (m_active) {
-            getElement().removeClassName(org.opencms.acacia.client.css.I_CmsLayoutBundle.INSTANCE.form().inActive());
-            getElement().focus();
-        } else {
-            getElement().addClassName(org.opencms.acacia.client.css.I_CmsLayoutBundle.INSTANCE.form().inActive());
-        }
-        m_serialDate.setActive(m_active);
-        if (active) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String)
-     */
-    public void setName(String name) {
-
-        //not necessary to implement
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
-     */
-    public void setValue(String value) {
-
-        setValue(value, false);
-
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
-     */
-    public void setValue(String value, boolean fireEvents) {
-
-        m_serialDate.setValue(value);
-        if (fireEvents) {
-            fireChangeEvent();
-        }
-
-    }
+  }
 }

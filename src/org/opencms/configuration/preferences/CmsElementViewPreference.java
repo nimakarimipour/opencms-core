@@ -27,107 +27,112 @@
 
 package org.opencms.configuration.preferences;
 
+import java.util.Collection;
+import java.util.Locale;
 import org.opencms.ade.configuration.CmsElementView;
 import org.opencms.file.CmsObject;
 import org.opencms.main.OpenCms;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
-import java.util.Collection;
-import java.util.Locale;
-
 /**
- * Element view preference configuration.<p>
+ * Element view preference configuration.
+ *
+ * <p>
  */
 public class CmsElementViewPreference extends CmsBuiltinPreference {
 
-    /** The preference name. */
-    public static final String PREFERENCE_NAME = "elementView";
+  /** The preference name. */
+  public static final String PREFERENCE_NAME = "elementView";
 
-    /** The nice name. */
-    private static final String NICE_NAME = "%(key."
-        + org.opencms.workplace.commons.Messages.GUI_PREF_ELEMENT_VIEW_0
-        + ")";
+  /** The nice name. */
+  private static final String NICE_NAME =
+      "%(key." + org.opencms.workplace.commons.Messages.GUI_PREF_ELEMENT_VIEW_0 + ")";
 
-    /** Preference name for the explorer. */
-    public static final String EXPLORER_PREFERENCE_NAME = "explorerElementView";
+  /** Preference name for the explorer. */
+  public static final String EXPLORER_PREFERENCE_NAME = "explorerElementView";
 
-    /**
-     * Constructor.<p>
-     *
-     * @param propName the name of the bean property used to access this preference
-     */
-    public CmsElementViewPreference(String propName) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param propName the name of the bean property used to access this preference
+   */
+  public CmsElementViewPreference(String propName) {
 
-        super(propName);
-        m_basic = false;
-    }
+    super(propName);
+    m_basic = false;
+  }
 
-    /**
-     * Gets the nice name key.<p>
-     *
-     * @return the nice name key
-     */
-    public String getNiceName() {
+  /**
+   * Gets the nice name key.
+   *
+   * <p>
+   *
+   * @return the nice name key
+   */
+  public String getNiceName() {
 
-        return NICE_NAME;
-    }
+    return NICE_NAME;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.CmsBuiltinPreference#getPropertyDefinition()
-     */
-    @Override
-    public CmsXmlContentProperty getPropertyDefinition() {
+  /** @see org.opencms.configuration.preferences.CmsBuiltinPreference#getPropertyDefinition() */
+  @Override
+  public CmsXmlContentProperty getPropertyDefinition() {
 
-        CmsXmlContentProperty prop = new CmsXmlContentProperty(
-            getName(), //name
-            "string", //type
-            null, //widget
-            null, //widgetconfig
-            null, //regex
-            null, //ruletype
-            getDefaultValue(), //default
-            getNiceName(), //nicename
-            null, //description
-            null, //error
-            null //preferfolder
-        );
-        return prop;
-    }
+    CmsXmlContentProperty prop =
+        new CmsXmlContentProperty(
+            getName(), // name
+            "string", // type
+            null, // widget
+            null, // widgetconfig
+            null, // regex
+            null, // ruletype
+            getDefaultValue(), // default
+            getNiceName(), // nicename
+            null, // description
+            null, // error
+            null // preferfolder
+            );
+    return prop;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.A_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
-     */
-    @Override
-    public CmsXmlContentProperty getPropertyDefinition(CmsObject cms) {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.A_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
+   */
+  @Override
+  public CmsXmlContentProperty getPropertyDefinition(CmsObject cms) {
 
-        Collection<CmsElementView> views = OpenCms.getADEManager().getElementViews(cms).values();
-        Locale wpLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
-        StringBuffer resultBuffer = new StringBuffer();
-        boolean first = true;
-        for (CmsElementView view : views) {
-            if (view.hasPermission(cms, null) && !view.isOther()) {
-                if (!first) {
-                    resultBuffer.append("|");
-                }
-                first = false;
-                resultBuffer.append(view.getId().toString());
-                resultBuffer.append(":");
-                resultBuffer.append(view.getTitle(cms, wpLocale));
-            }
+    Collection<CmsElementView> views = OpenCms.getADEManager().getElementViews(cms).values();
+    Locale wpLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
+    StringBuffer resultBuffer = new StringBuffer();
+    boolean first = true;
+    for (CmsElementView view : views) {
+      if (view.hasPermission(cms, null) && !view.isOther()) {
+        if (!first) {
+          resultBuffer.append("|");
         }
-        CmsXmlContentProperty prop = new CmsXmlContentProperty(
-            getName(), //name
-            "string", //type
-            "select_notnull", //widget
-            resultBuffer.toString(), //widgetconfig
-            null, //regex
-            null, //ruletype
-            getDefaultValue(), //default
-            getNiceName(), //nicename
-            null, //description
-            null, //error
-            null //preferfolder
-        );
-        return prop;
+        first = false;
+        resultBuffer.append(view.getId().toString());
+        resultBuffer.append(":");
+        resultBuffer.append(view.getTitle(cms, wpLocale));
+      }
     }
+    CmsXmlContentProperty prop =
+        new CmsXmlContentProperty(
+            getName(), // name
+            "string", // type
+            "select_notnull", // widget
+            resultBuffer.toString(), // widgetconfig
+            null, // regex
+            null, // ruletype
+            getDefaultValue(), // default
+            getNiceName(), // nicename
+            null, // description
+            null, // error
+            null // preferfolder
+            );
+    return prop;
+  }
 }

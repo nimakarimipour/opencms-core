@@ -27,6 +27,11 @@
 
 package org.opencms.ui.actions;
 
+import com.google.common.collect.Lists;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
@@ -41,141 +46,148 @@ import org.opencms.ui.components.CmsLockedResourcesList;
 import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.util.CmsUUID;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-
-import com.google.common.collect.Lists;
-
 /**
- * Abstract workplace actions class providing helper methods.<p>
+ * Abstract workplace actions class providing helper methods.
+ *
+ * <p>
  */
 public abstract class A_CmsWorkplaceAction implements I_CmsWorkplaceAction {
 
-    /** Log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(A_CmsWorkplaceAction.class);
+  /** Log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(A_CmsWorkplaceAction.class);
 
-    /**
-     * Gets the title to use for the dialog.<p>
-     *
-     * @return the title to use for the dialog
-     */
-    public String getDialogTitle() {
+  /**
+   * Gets the title to use for the dialog.
+   *
+   * <p>
+   *
+   * @return the title to use for the dialog
+   */
+  public String getDialogTitle() {
 
-        return OpenCms.getWorkplaceManager().getMessages(A_CmsUI.get().getLocale()).key(getDialogTitleKey());
+    return OpenCms.getWorkplaceManager()
+        .getMessages(A_CmsUI.get().getLocale())
+        .key(getDialogTitleKey());
+  }
+
+  /**
+   * Returns the workplace message bundle key of the action dialog title.
+   *
+   * <p>
+   *
+   * @return the dialog title message bundle key
+   */
+  protected String getDialogTitleKey() {
+
+    return getTitleKey();
+  }
+
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getTitle(java.util.Locale) */
+  public String getTitle(Locale locale) {
+
+    return OpenCms.getWorkplaceManager().getMessages(locale).key(getTitleKey());
+  }
+
+  /**
+   * Returns the workplace message bundle key of the action title.
+   *
+   * <p>
+   *
+   * @return the title message bundle key
+   */
+  protected abstract String getTitleKey();
+
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.ui.I_CmsDialogContext)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
+
+    return getVisibility(context.getCms(), context.getResources());
+  }
+
+  /**
+   * Returns if there are any blocking locks within the context resources.
+   *
+   * <p>Will open the blocking locks dialog if required.
+   *
+   * <p>
+   *
+   * @param context the dialog context
+   * @return <code>true</code> in case of blocking locks
+   */
+  protected boolean hasBlockingLocks(final I_CmsDialogContext context) {
+
+    CmsObject cms = context.getCms();
+    List<CmsResource> resources = context.getResources();
+    List<CmsResource> blocked = Lists.newArrayList();
+    for (CmsResource resource : resources) {
+      try {
+        blocked.addAll(cms.getBlockingLockedResources(resource));
+      } catch (CmsException e) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
     }
+    if (blocked.isEmpty()) {
+      return false;
+    } else {
 
-    /**
-     * Returns the workplace message bundle key of the action dialog title.<p>
-     *
-     * @return the dialog title message bundle key
-     */
-    protected String getDialogTitleKey() {
+      CmsLockedResourcesList dialog =
+          new CmsLockedResourcesList(
+              cms,
+              blocked,
+              CmsVaadinUtils.getMessageText(
+                  Messages.GUI_CANT_PERFORM_OPERATION_BECAUSE_OF_LOCKED_RESOURCES_0),
+              new Runnable() {
 
-        return getTitleKey();
+                public void run() {
+
+                  List<CmsUUID> noStructureIds = Collections.emptyList();
+                  context.finish(noStructureIds);
+                }
+              },
+              null);
+      context.start(
+          CmsVaadinUtils.getMessageText(
+              org.opencms.workplace.explorer.Messages.GUI_EXPLORER_CONTEXT_LOCKS_0),
+          dialog);
+      return true;
     }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getTitle(java.util.Locale)
-     */
-    public String getTitle(Locale locale) {
+  /**
+   * @see org.opencms.ui.actions.I_CmsWorkplaceAction#isActive(org.opencms.ui.I_CmsDialogContext)
+   */
+  public boolean isActive(I_CmsDialogContext context) {
 
-        return OpenCms.getWorkplaceManager().getMessages(locale).key(getTitleKey());
-    }
+    return getVisibility(context).isActive();
+  }
 
-    /**
-     * Returns the workplace message bundle key of the action title.<p>
-     *
-     * @return the title message bundle key
-     */
-    protected abstract String getTitleKey();
+  /**
+   * Opens the given dialog in a new overlay window.
+   *
+   * <p>
+   *
+   * @param dialog the dialog
+   * @param context the dialog context
+   */
+  protected void openDialog(CmsBasicDialog dialog, I_CmsDialogContext context) {
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.ui.I_CmsDialogContext)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
+    context.start(getDialogTitle(), dialog);
+  }
 
-        return getVisibility(context.getCms(), context.getResources());
-    }
+  /**
+   * Opens the given dialog in a new overlay window.
+   *
+   * <p>
+   *
+   * @param dialog the dialog
+   * @param context the dialog context
+   * @param dialogWidth The dialog width
+   */
+  protected void openDialog(
+      CmsBasicDialog dialog, I_CmsDialogContext context, CmsBasicDialog.DialogWidth dialogWidth) {
 
-    /**
-     * Returns if there are any blocking locks within the context resources.<p>
-     * Will open the blocking locks dialog if required.<p>
-     *
-     * @param context the dialog context
-     *
-     * @return <code>true</code> in case of blocking locks
-     */
-    protected boolean hasBlockingLocks(final I_CmsDialogContext context) {
-
-        CmsObject cms = context.getCms();
-        List<CmsResource> resources = context.getResources();
-        List<CmsResource> blocked = Lists.newArrayList();
-        for (CmsResource resource : resources) {
-            try {
-                blocked.addAll(cms.getBlockingLockedResources(resource));
-            } catch (CmsException e) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-        }
-        if (blocked.isEmpty()) {
-            return false;
-        } else {
-
-            CmsLockedResourcesList dialog = new CmsLockedResourcesList(
-                cms,
-                blocked,
-                CmsVaadinUtils.getMessageText(Messages.GUI_CANT_PERFORM_OPERATION_BECAUSE_OF_LOCKED_RESOURCES_0),
-                new Runnable() {
-
-                    public void run() {
-
-                        List<CmsUUID> noStructureIds = Collections.emptyList();
-                        context.finish(noStructureIds);
-                    }
-
-                },
-                null);
-            context.start(
-                CmsVaadinUtils.getMessageText(org.opencms.workplace.explorer.Messages.GUI_EXPLORER_CONTEXT_LOCKS_0),
-                dialog);
-            return true;
-        }
-    }
-
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#isActive(org.opencms.ui.I_CmsDialogContext)
-     */
-    public boolean isActive(I_CmsDialogContext context) {
-
-        return getVisibility(context).isActive();
-    }
-
-    /**
-     * Opens the given dialog in a new overlay window.<p>
-     *
-     * @param dialog the dialog
-     * @param context the dialog context
-     */
-    protected void openDialog(CmsBasicDialog dialog, I_CmsDialogContext context) {
-
-        context.start(getDialogTitle(), dialog);
-    }
-
-    /**
-     * Opens the given dialog in a new overlay window.<p>
-     *
-     * @param dialog the dialog
-     * @param context the dialog context
-     * @param dialogWidth The dialog width
-     */
-    protected void openDialog(
-        CmsBasicDialog dialog,
-        I_CmsDialogContext context,
-        CmsBasicDialog.DialogWidth dialogWidth) {
-
-        context.start(getDialogTitle(), dialog, dialogWidth);
-    }
+    context.start(getDialogTitle(), dialog, dialogWidth);
+  }
 }

@@ -30,17 +30,20 @@ package org.opencms.ade.sitemap.client.hoverbar;
 import java.util.List;
 
 /**
- * Interface implemented by classes that provide menu items for a context menu on a tree item in the sitemap editor.<p>
+ * Interface implemented by classes that provide menu items for a context menu on a tree item in the
+ * sitemap editor.
+ *
+ * <p>
  */
 public interface I_CmsContextMenuItemProvider {
 
-    /**
-     * Returns the list of menu entries for the hoverbar.<p>
-     *
-     * @param hoverbar the hoverbar
-     *
-     * @return the list of menu entries
-     */
-    List<A_CmsSitemapMenuEntry> createContextMenu(CmsSitemapHoverbar hoverbar);
-
+  /**
+   * Returns the list of menu entries for the hoverbar.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   * @return the list of menu entries
+   */
+  List<A_CmsSitemapMenuEntry> createContextMenu(CmsSitemapHoverbar hoverbar);
 }

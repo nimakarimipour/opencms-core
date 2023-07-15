@@ -27,29 +27,36 @@
 
 package org.opencms.gwt.client.ui.input.form;
 
-import org.opencms.gwt.client.ui.css.I_CmsInputCss;
-import org.opencms.gwt.client.ui.css.I_CmsInputLayoutBundle;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
+import org.opencms.gwt.client.ui.css.I_CmsInputCss;
+import org.opencms.gwt.client.ui.css.I_CmsInputLayoutBundle;
 
 /**
- * A widget representing a horizontal line used as a separator, e.g. in forms.<p>
+ * A widget representing a horizontal line used as a separator, e.g. in forms.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsSeparator extends Widget {
 
-    /** The CSS bundle for this widget.<p> */
-    private static final I_CmsInputCss CSS = I_CmsInputLayoutBundle.INSTANCE.inputCss();
+  /**
+   * The CSS bundle for this widget.
+   *
+   * <p>
+   */
+  private static final I_CmsInputCss CSS = I_CmsInputLayoutBundle.INSTANCE.inputCss();
 
-    /**
-     * The default constructor.<p>
-     */
-    public CmsSeparator() {
+  /**
+   * The default constructor.
+   *
+   * <p>
+   */
+  public CmsSeparator() {
 
-        setElement((Element)DOM.createDiv());
-        setStyleName(CSS.separator());
-    }
+    setElement((Element) DOM.createDiv());
+    setStyleName(CSS.separator());
+  }
 }

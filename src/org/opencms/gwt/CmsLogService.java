@@ -27,42 +27,41 @@
 
 package org.opencms.gwt;
 
+import org.apache.commons.logging.Log;
 import org.opencms.gwt.shared.rpc.I_CmsLogService;
 import org.opencms.main.CmsLog;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Handles client side logging.<p>
+ * Handles client side logging.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.gwt.CmsLogService
  * @see org.opencms.gwt.shared.rpc.I_CmsLogService
  * @see org.opencms.gwt.shared.rpc.I_CmsLogServiceAsync
  */
 public class CmsLogService extends CmsGwtService implements I_CmsLogService {
 
-    /** Serialization uid. */
-    private static final long serialVersionUID = -7136544324371767330L;
+  /** Serialization uid. */
+  private static final long serialVersionUID = -7136544324371767330L;
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsLogService.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsLogService.class);
 
-    /**
-     * @see org.opencms.gwt.shared.rpc.I_CmsLogService#log(java.lang.String, java.lang.String)
-     */
-    public void log(String ticket, String message) {
+  /** @see org.opencms.gwt.shared.rpc.I_CmsLogService#log(java.lang.String, java.lang.String) */
+  public void log(String ticket, String message) {
 
-        String[] args = new String[3 + (ticket == null ? 0 : 1)];
-        args[0] = getRequest().getRemoteHost();
-        args[1] = getRequest().getRemoteAddr();
-        args[2] = message;
-        if (ticket != null) {
-            args[3] = ticket;
-        }
-        String key = (ticket == null ? Messages.LOG_CLIENT_WITHOUT_TICKET_3 : Messages.LOG_CLIENT_WITH_TICKET_4);
-        String logMsg = Messages.get().getBundle().key(key, args);
-        LOG.error(logMsg);
+    String[] args = new String[3 + (ticket == null ? 0 : 1)];
+    args[0] = getRequest().getRemoteHost();
+    args[1] = getRequest().getRemoteAddr();
+    args[2] = message;
+    if (ticket != null) {
+      args[3] = ticket;
     }
+    String key =
+        (ticket == null ? Messages.LOG_CLIENT_WITHOUT_TICKET_3 : Messages.LOG_CLIENT_WITH_TICKET_4);
+    String logMsg = Messages.get().getBundle().key(key, args);
+    LOG.error(logMsg);
+  }
 }

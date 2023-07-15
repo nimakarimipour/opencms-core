@@ -27,52 +27,57 @@
 
 package org.opencms.scheduler.jobs;
 
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.main.OpenCms;
 import org.opencms.scheduler.I_CmsScheduledJob;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.Map;
-
 /**
- * A scheduled OpenCms job to unsubscribe deleted resources.<p>
+ * A scheduled OpenCms job to unsubscribe deleted resources.
  *
- * Job parameters:<p>
+ * <p>Job parameters:
+ *
+ * <p>
+ *
  * <dl>
- * <dt><code>deleteddays={Number/Integer}</code></dt>
- * <dd>Amount of days a resource has to be deleted to be unsubscribed (defaults to 30).</dd>
+ *   <dt><code>deleteddays={Number/Integer}</code>
+ *   <dd>Amount of days a resource has to be deleted to be unsubscribed (defaults to 30).
  * </dl>
+ *
  * <p>
  *
  * @since 8.0.0
  */
 public class CmsUnsubscribeDeletedResourcesJob implements I_CmsScheduledJob {
 
-    /** Name of the parameter where to configure the amount of days a resource has to be expired before deletion. */
-    public static final String PARAM_DELETEDDAYS = "deleteddays";
+  /**
+   * Name of the parameter where to configure the amount of days a resource has to be expired before
+   * deletion.
+   */
+  public static final String PARAM_DELETEDDAYS = "deleteddays";
 
-    /** Constant for calculation. */
-    private static final long MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
+  /** Constant for calculation. */
+  private static final long MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
 
-    /**
-     * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
-     */
-    public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  /**
+   * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
+   */
+  public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
-        // read the parameter for the deleted days
-        int deletedDays = 30;
-        String deleteddaysParam = parameters.get(PARAM_DELETEDDAYS);
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(deleteddaysParam)) {
-            try {
-                deletedDays = Integer.parseInt(deleteddaysParam);
-            } catch (NumberFormatException nfe) {
-                // don't care
-            }
-        }
-        long deletedTo = System.currentTimeMillis() - (MILLIS_PER_DAY * deletedDays);
-        OpenCms.getSubscriptionManager().unsubscribeAllDeletedResources(cms, deletedTo);
-
-        return null;
+    // read the parameter for the deleted days
+    int deletedDays = 30;
+    String deleteddaysParam = parameters.get(PARAM_DELETEDDAYS);
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(deleteddaysParam)) {
+      try {
+        deletedDays = Integer.parseInt(deleteddaysParam);
+      } catch (NumberFormatException nfe) {
+        // don't care
+      }
     }
+    long deletedTo = System.currentTimeMillis() - (MILLIS_PER_DAY * deletedDays);
+    OpenCms.getSubscriptionManager().unsubscribeAllDeletedResources(cms, deletedTo);
 
+    return null;
+  }
 }

@@ -28,19 +28,25 @@
 package org.opencms.gwt.client.ui;
 
 /**
- * Handles the clicks on the 'Yes', 'No' and 'Cancel' buttons of the dialog.<p>
+ * Handles the clicks on the 'Yes', 'No' and 'Cancel' buttons of the dialog.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsAcceptDeclineCancelHandler extends I_CmsCloseDialogHandler {
 
-    /**
-     * Executed on accept click.<p>
-     */
-    void onAccept();
+  /**
+   * Executed on accept click.
+   *
+   * <p>
+   */
+  void onAccept();
 
-    /**
-     * Executed on decline click.<p>
-     */
-    void onDecline();
+  /**
+   * Executed on decline click.
+   *
+   * <p>
+   */
+  void onDecline();
 }

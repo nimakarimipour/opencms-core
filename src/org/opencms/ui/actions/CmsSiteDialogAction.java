@@ -27,6 +27,8 @@
 
 package org.opencms.ui.actions;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.opencms.gwt.shared.CmsGwtConstants;
 import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.I_CmsDialogContext.ContextType;
@@ -35,85 +37,73 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.dialogs.CmsEmbeddedDialogContext;
 import org.opencms.ui.dialogs.CmsSiteSelectDialog;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * The switch site dialog action.<p>
+ * The switch site dialog action.
+ *
+ * <p>
  */
 public class CmsSiteDialogAction extends A_CmsToolbarAction implements I_CmsADEAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "setsite";
+  /** The action id. */
+  public static final String ACTION_ID = "setsite";
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        openDialog(new CmsSiteSelectDialog((CmsEmbeddedDialogContext)context), context);
-    }
+    openDialog(new CmsSiteSelectDialog((CmsEmbeddedDialogContext) context), context);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName()
-     */
-    public String getCommandClassName() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName() */
+  public String getCommandClassName() {
 
-        return "org.opencms.gwt.client.ui.contextmenu.CmsEmbeddedAction";
-    }
+    return "org.opencms.gwt.client.ui.contextmenu.CmsEmbeddedAction";
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
-    }
+    return ACTION_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
-     */
-    public String getJspPath() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getJspPath() */
+  public String getJspPath() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
-     */
-    public Map<String, String> getParams() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getParams() */
+  public Map<String, String> getParams() {
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(CmsGwtConstants.ACTION_PARAM_DIALOG_ID, this.getClass().getName());
-        return params;
-    }
+    Map<String, String> params = new HashMap<String, String>();
+    params.put(CmsGwtConstants.ACTION_PARAM_DIALOG_ID, this.getClass().getName());
+    return params;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsToolbarAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
-     */
-    @Override
-    public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
+  /**
+   * @see org.opencms.ui.actions.A_CmsToolbarAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
+   */
+  @Override
+  public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
 
-        return ContextType.containerpageToolbar.equals(context.getContextType())
+    return ContextType.containerpageToolbar.equals(context.getContextType())
             || ContextType.sitemapToolbar.equals(context.getContextType())
-            ? CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE
-            : CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-    }
+        ? CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE
+        : CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported()
-     */
-    public boolean isAdeSupported() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported() */
+  public boolean isAdeSupported() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return Messages.GUI_ACTION_SWITCH_SITE_0;
-    }
+    return Messages.GUI_ACTION_SWITCH_SITE_0;
+  }
 }

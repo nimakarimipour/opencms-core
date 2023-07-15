@@ -27,100 +27,98 @@
 
 package org.opencms.db.generic;
 
-import org.opencms.util.CmsUUID;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.opencms.util.CmsUUID;
 
-/**
- * Filter object that describes what to clean up in a publish history cleanup operation.
- */
+/** Filter object that describes what to clean up in a publish history cleanup operation. */
 public class CmsPublishHistoryCleanupFilter {
 
-    /** Mode of operation for publish history cleanup. */
-    public enum Mode {
-
-        /** Removes all publish history entries unreferenced by publish jobs, with a fixed set of exceptions */
-        allUnreferenced,
-
-        /** Remove entries for single publish history id. */
-        single;
-    }
-
-    /** List of history ids for which the entries should not be deleted. */
-    private List<CmsUUID> m_exceptions = new ArrayList<>();
-
-    /** History id for which entries should be deleted. */
-    private CmsUUID m_historyId = null;
-
-    /** The mode. */
-    private Mode m_mode;
+  /** Mode of operation for publish history cleanup. */
+  public enum Mode {
 
     /**
-     * Hidden constructor.
+     * Removes all publish history entries unreferenced by publish jobs, with a fixed set of
+     * exceptions
      */
-    private CmsPublishHistoryCleanupFilter() {
+    allUnreferenced,
 
-        // do nothing
-    }
+    /** Remove entries for single publish history id. */
+    single;
+  }
 
-    /**
-     * Creates a new filter for removing all unreferenced publish history entries, except the ones with the given history ids.
-     *
-     * @param exceptions the history ids for which entries should not be deleted
-     * @return the filter
-     */
-    public static CmsPublishHistoryCleanupFilter allUnreferencedExcept(List<CmsUUID> exceptions) {
+  /** List of history ids for which the entries should not be deleted. */
+  private List<CmsUUID> m_exceptions = new ArrayList<>();
 
-        CmsPublishHistoryCleanupFilter result = new CmsPublishHistoryCleanupFilter();
-        result.m_mode = Mode.allUnreferenced;
-        result.m_exceptions.addAll(exceptions);
-        return result;
-    }
+  /** History id for which entries should be deleted. */
+  private CmsUUID m_historyId = null;
 
-    /**
-     * Creates a filter for removing the publish history entries for a single history id.
-     *
-     * @param publishJobId the history id
-     * @return the filter
-     */
-    public static CmsPublishHistoryCleanupFilter forHistoryId(CmsUUID publishJobId) {
+  /** The mode. */
+  private Mode m_mode;
 
-        CmsPublishHistoryCleanupFilter result = new CmsPublishHistoryCleanupFilter();
-        result.m_mode = Mode.single;
-        result.m_historyId = publishJobId;
-        return result;
-    }
+  /** Hidden constructor. */
+  private CmsPublishHistoryCleanupFilter() {
 
-    /**
-     * Gets the list of history ids for which entries should not be deleted.
-     *
-     * @return the list of history ids for which entries should not be deleted
-     */
-    public List<CmsUUID> getExceptions() {
+    // do nothing
+  }
 
-        return Collections.unmodifiableList(m_exceptions);
-    }
+  /**
+   * Creates a new filter for removing all unreferenced publish history entries, except the ones
+   * with the given history ids.
+   *
+   * @param exceptions the history ids for which entries should not be deleted
+   * @return the filter
+   */
+  public static CmsPublishHistoryCleanupFilter allUnreferencedExcept(List<CmsUUID> exceptions) {
 
-    /**
-     * Gets the history id.
-     *
-     * @return the history id
-     */
-    public CmsUUID getHistoryId() {
+    CmsPublishHistoryCleanupFilter result = new CmsPublishHistoryCleanupFilter();
+    result.m_mode = Mode.allUnreferenced;
+    result.m_exceptions.addAll(exceptions);
+    return result;
+  }
 
-        return m_historyId;
-    }
+  /**
+   * Creates a filter for removing the publish history entries for a single history id.
+   *
+   * @param publishJobId the history id
+   * @return the filter
+   */
+  public static CmsPublishHistoryCleanupFilter forHistoryId(CmsUUID publishJobId) {
 
-    /**
-     * Gets the mode.
-     *
-     * @return the mode
-     */
-    public Mode getMode() {
+    CmsPublishHistoryCleanupFilter result = new CmsPublishHistoryCleanupFilter();
+    result.m_mode = Mode.single;
+    result.m_historyId = publishJobId;
+    return result;
+  }
 
-        return m_mode;
-    }
+  /**
+   * Gets the list of history ids for which entries should not be deleted.
+   *
+   * @return the list of history ids for which entries should not be deleted
+   */
+  public List<CmsUUID> getExceptions() {
 
+    return Collections.unmodifiableList(m_exceptions);
+  }
+
+  /**
+   * Gets the history id.
+   *
+   * @return the history id
+   */
+  public CmsUUID getHistoryId() {
+
+    return m_historyId;
+  }
+
+  /**
+   * Gets the mode.
+   *
+   * @return the mode
+   */
+  public Mode getMode() {
+
+    return m_mode;
+  }
 }

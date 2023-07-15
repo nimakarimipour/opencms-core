@@ -30,38 +30,45 @@ package org.opencms.gwt.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * Data for TinyMCE editor.<p>
+ * Data for TinyMCE editor.
+ *
+ * <p>
  */
 public class CmsTinyMCEData implements IsSerializable {
 
-    /** The script link. */
-    private String m_link;
+  /** The script link. */
+  private String m_link;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsTinyMCEData() {
-        // do nothing
-    }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsTinyMCEData() {
+    // do nothing
+  }
 
-    /**
-     * Gets the script link.<p>
-     *
-     * @return the script link
-     */
-    public String getLink() {
+  /**
+   * Gets the script link.
+   *
+   * <p>
+   *
+   * @return the script link
+   */
+  public String getLink() {
 
-        return m_link;
-    }
+    return m_link;
+  }
 
-    /**
-     * Sets the script link.<p>
-     *
-     * @param link the script link
-     */
-    public void setLink(String link) {
+  /**
+   * Sets the script link.
+   *
+   * <p>
+   *
+   * @param link the script link
+   */
+  public void setLink(String link) {
 
-        m_link = link;
-    }
-
+    m_link = link;
+  }
 }

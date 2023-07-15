@@ -33,18 +33,21 @@ import org.timepedia.exporter.client.ExportPackage;
 import org.timepedia.exporter.client.Exportable;
 
 /**
- * Callback interface for functions taking a CmsClientFormSession as a parameter.<p>
+ * Callback interface for functions taking a CmsClientFormSession as a parameter.
+ *
+ * <p>
  */
 @Export
 @ExportClosure
 @ExportPackage("opencmsugc")
 public interface I_CmsClientCmsUgcSessionCallback extends Exportable {
 
-    /**
-     * Calls the callback with the given session as a parameter.<p>
-     *
-     * @param session the parameter
-     */
-    void call(CmsClientUgcSession session);
-
+  /**
+   * Calls the callback with the given session as a parameter.
+   *
+   * <p>
+   *
+   * @param session the parameter
+   */
+  void call(CmsClientUgcSession session);
 }

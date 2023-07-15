@@ -29,59 +29,57 @@ package org.opencms.widgets;
 
 import java.util.List;
 
-/**
- * Select box widget that can transform into a combo box by clicking an edit icon.
- */
+/** Select box widget that can transform into a combo box by clicking an edit icon. */
 public class CmsSelectComboWidget extends CmsComboWidget {
 
-    /**
-     * Creates a new combo widget.<p>
-     */
-    public CmsSelectComboWidget() {
+  /**
+   * Creates a new combo widget.
+   *
+   * <p>
+   */
+  public CmsSelectComboWidget() {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * Creates a combo widget with the select options specified in the given configuration List.<p>
-     *
-     * The list elements must be of type <code>{@link CmsSelectWidgetOption}</code>.<p>
-     *
-     * @param configuration the configuration (possible options) for the select widget
-     *
-     * @see CmsSelectWidgetOption
-     */
-    public CmsSelectComboWidget(List<CmsSelectWidgetOption> configuration) {
+  /**
+   * Creates a combo widget with the select options specified in the given configuration List.
+   *
+   * <p>The list elements must be of type <code>{@link CmsSelectWidgetOption}</code>.
+   *
+   * <p>
+   *
+   * @param configuration the configuration (possible options) for the select widget
+   * @see CmsSelectWidgetOption
+   */
+  public CmsSelectComboWidget(List<CmsSelectWidgetOption> configuration) {
 
-        super(configuration);
-    }
+    super(configuration);
+  }
 
-    /**
-     * Creates a combo widget with the specified combo options.<p>
-     *
-     * @param configuration the configuration (possible options) for the combo box
-     */
-    public CmsSelectComboWidget(String configuration) {
+  /**
+   * Creates a combo widget with the specified combo options.
+   *
+   * <p>
+   *
+   * @param configuration the configuration (possible options) for the combo box
+   */
+  public CmsSelectComboWidget(String configuration) {
 
-        super(configuration);
-    }
+    super(configuration);
+  }
 
-    /**
-     * @see org.opencms.widgets.A_CmsSelectWidget#getWidgetName()
-     */
-    @Override
-    public String getWidgetName() {
+  /** @see org.opencms.widgets.A_CmsSelectWidget#getWidgetName() */
+  @Override
+  public String getWidgetName() {
 
-        return CmsSelectComboWidget.class.getName();
-    }
+    return CmsSelectComboWidget.class.getName();
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsWidget#newInstance()
-     */
-    @Override
-    public I_CmsWidget newInstance() {
+  /** @see org.opencms.widgets.I_CmsWidget#newInstance() */
+  @Override
+  public I_CmsWidget newInstance() {
 
-        return new CmsSelectComboWidget(getConfiguration());
-    }
-
+    return new CmsSelectComboWidget(getConfiguration());
+  }
 }

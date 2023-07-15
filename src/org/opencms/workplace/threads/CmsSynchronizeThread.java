@@ -35,67 +35,69 @@ import org.opencms.synchronize.CmsSynchronize;
 import org.opencms.synchronize.CmsSynchronizeSettings;
 
 /**
- * Synchronizes a VFS folder with a folder form the "real" file system.<p>
+ * Synchronizes a VFS folder with a folder form the "real" file system.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsSynchronizeThread extends A_CmsReportThread {
 
-    /** An error that occurred during the report. */
-    private Throwable m_error;
+  /** An error that occurred during the report. */
+  private Throwable m_error;
 
-    /** The current users synchonize settings. */
-    private CmsSynchronizeSettings m_settings;
+  /** The current users synchonize settings. */
+  private CmsSynchronizeSettings m_settings;
 
-    /**
-     * Creates the synchronize Thread.<p>
-     *
-     * @param cms the current OpenCms context object
-     */
-    public CmsSynchronizeThread(CmsObject cms) {
+  /**
+   * Creates the synchronize Thread.
+   *
+   * <p>
+   *
+   * @param cms the current OpenCms context object
+   */
+  public CmsSynchronizeThread(CmsObject cms) {
 
-        super(
-            cms,
-            Messages.get().getBundle().key(
+    super(
+        cms,
+        Messages.get()
+            .getBundle()
+            .key(
                 Messages.GUI_SYNCHRONIZE_THREAD_NAME_1,
                 cms.getRequestContext().getCurrentProject().getName()));
-        initHtmlReport(cms.getRequestContext().getLocale());
-        m_settings = new CmsUserSettings(cms).getSynchronizeSettings();
+    initHtmlReport(cms.getRequestContext().getLocale());
+    m_settings = new CmsUserSettings(cms).getSynchronizeSettings();
+  }
+
+  /** @see org.opencms.report.A_CmsReportThread#getError() */
+  @Override
+  public Throwable getError() {
+
+    return m_error;
+  }
+
+  /** @see org.opencms.report.A_CmsReportThread#getReportUpdate() */
+  @Override
+  public String getReportUpdate() {
+
+    return getReport().getReportUpdate();
+  }
+
+  /** @see java.lang.Runnable#run() */
+  @Override
+  public void run() {
+
+    I_CmsReport report = getReport();
+
+    report.println(
+        Messages.get().container(Messages.RPT_SYNCHRONIZE_BEGIN_0), I_CmsReport.FORMAT_HEADLINE);
+    try {
+      new CmsSynchronize(getCms(), m_settings, getReport());
+    } catch (Throwable e) {
+      m_error = e;
+      report.println(e);
     }
-
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getError()
-     */
-    @Override
-    public Throwable getError() {
-
-        return m_error;
-    }
-
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
-
-        return getReport().getReportUpdate();
-    }
-
-    /**
-     * @see java.lang.Runnable#run()
-     */
-    @Override
-    public void run() {
-
-        I_CmsReport report = getReport();
-
-        report.println(Messages.get().container(Messages.RPT_SYNCHRONIZE_BEGIN_0), I_CmsReport.FORMAT_HEADLINE);
-        try {
-            new CmsSynchronize(getCms(), m_settings, getReport());
-        } catch (Throwable e) {
-            m_error = e;
-            report.println(e);
-        }
-        report.println(Messages.get().container(Messages.RPT_SYNCHRONIZE_END_0), I_CmsReport.FORMAT_HEADLINE);
-    }
+    report.println(
+        Messages.get().container(Messages.RPT_SYNCHRONIZE_END_0), I_CmsReport.FORMAT_HEADLINE);
+  }
 }

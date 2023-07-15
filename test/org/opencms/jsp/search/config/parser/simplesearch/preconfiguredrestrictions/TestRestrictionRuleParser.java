@@ -27,127 +27,130 @@
 
 package org.opencms.jsp.search.config.parser.simplesearch.preconfiguredrestrictions;
 
+import java.util.Locale;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.jsp.search.config.parser.simplesearch.CmsConfigurationBean.CombinationMode;
 import org.opencms.jsp.search.config.parser.simplesearch.preconfiguredrestrictions.CmsRestrictionRule.MatchType;
 import org.opencms.main.CmsException;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 
-import java.util.Locale;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /** Test cases for the restriction rule parser. */
 public class TestRestrictionRuleParser extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestRestrictionRuleParser(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestRestrictionRuleParser(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.addTest(new TestRestrictionRuleParser("testComplexRules"));
-        suite.addTest(new TestRestrictionRuleParser("testLocalePlaceholder"));
-        suite.addTest(new TestRestrictionRuleParser("testSimpleRule"));
+    TestSuite suite = new TestSuite();
+    suite.addTest(new TestRestrictionRuleParser("testComplexRules"));
+    suite.addTest(new TestRestrictionRuleParser("testLocalePlaceholder"));
+    suite.addTest(new TestRestrictionRuleParser("testSimpleRule"));
 
-        return suite;
-    }
+    return suite;
+  }
 
-    /**
-     * Tests complex rule
-     * @throws CmsException thrown when rule parsing fails
-     */
-    @org.junit.Test
-    public void testComplexRules() throws CmsException {
+  /**
+   * Tests complex rule
+   *
+   * @throws CmsException thrown when rule parsing fails
+   */
+  @org.junit.Test
+  public void testComplexRules() throws CmsException {
 
-        // Only field
-        CmsRestrictionRule rule = CmsRestrictionRuleParser.parseRule("field=test");
-        assertEquals(CombinationMode.OR, rule.getCombinationModeBetweenFields());
-        assertEquals(CombinationMode.OR, rule.getCombinationModeInField());
-        assertNull(rule.getType());
-        assertEquals(MatchType.DEFAULT, rule.getMatchType());
-        assertEquals("test", rule.getRawField());
+    // Only field
+    CmsRestrictionRule rule = CmsRestrictionRuleParser.parseRule("field=test");
+    assertEquals(CombinationMode.OR, rule.getCombinationModeBetweenFields());
+    assertEquals(CombinationMode.OR, rule.getCombinationModeInField());
+    assertNull(rule.getType());
+    assertEquals(MatchType.DEFAULT, rule.getMatchType());
+    assertEquals("test", rule.getRawField());
 
-        // all possible combinations
-        rule = CmsRestrictionRuleParser.parseRule("field=test,type=type,match=exact,combine=AND");
-        assertEquals(CombinationMode.AND, rule.getCombinationModeBetweenFields());
-        assertEquals(CombinationMode.AND, rule.getCombinationModeInField());
-        assertEquals("type", rule.getType());
-        assertEquals(MatchType.EXACT, rule.getMatchType());
-        assertEquals("test", rule.getRawField());
-        assertEquals("test", rule.getFieldForLocale(Locale.ENGLISH));
+    // all possible combinations
+    rule = CmsRestrictionRuleParser.parseRule("field=test,type=type,match=exact,combine=AND");
+    assertEquals(CombinationMode.AND, rule.getCombinationModeBetweenFields());
+    assertEquals(CombinationMode.AND, rule.getCombinationModeInField());
+    assertEquals("type", rule.getType());
+    assertEquals(MatchType.EXACT, rule.getMatchType());
+    assertEquals("test", rule.getRawField());
+    assertEquals("test", rule.getFieldForLocale(Locale.ENGLISH));
 
-        // different combination modes
-        rule = CmsRestrictionRuleParser.parseRule("field=test,type=type,match=exact,combine=AND-or");
-        assertEquals(CombinationMode.AND, rule.getCombinationModeBetweenFields());
-        assertEquals(CombinationMode.OR, rule.getCombinationModeInField());
-        assertEquals("type", rule.getType());
-        assertEquals(MatchType.EXACT, rule.getMatchType());
-        assertEquals("test", rule.getRawField());
-        assertEquals("test", rule.getFieldForLocale(Locale.ENGLISH));
+    // different combination modes
+    rule = CmsRestrictionRuleParser.parseRule("field=test,type=type,match=exact,combine=AND-or");
+    assertEquals(CombinationMode.AND, rule.getCombinationModeBetweenFields());
+    assertEquals(CombinationMode.OR, rule.getCombinationModeInField());
+    assertEquals("type", rule.getType());
+    assertEquals(MatchType.EXACT, rule.getMatchType());
+    assertEquals("test", rule.getRawField());
+    assertEquals("test", rule.getFieldForLocale(Locale.ENGLISH));
 
-        // different order
-        rule = CmsRestrictionRuleParser.parseRule("type=type,match=PREFIX,field=test,combine=or");
-        assertEquals(CombinationMode.OR, rule.getCombinationModeBetweenFields());
-        assertEquals(CombinationMode.OR, rule.getCombinationModeInField());
-        assertEquals("type", rule.getType());
-        assertEquals(MatchType.PREFIX, rule.getMatchType());
-        assertEquals("test", rule.getRawField());
-        assertEquals("test", rule.getFieldForLocale(Locale.ENGLISH));
+    // different order
+    rule = CmsRestrictionRuleParser.parseRule("type=type,match=PREFIX,field=test,combine=or");
+    assertEquals(CombinationMode.OR, rule.getCombinationModeBetweenFields());
+    assertEquals(CombinationMode.OR, rule.getCombinationModeInField());
+    assertEquals("type", rule.getType());
+    assertEquals(MatchType.PREFIX, rule.getMatchType());
+    assertEquals("test", rule.getRawField());
+    assertEquals("test", rule.getFieldForLocale(Locale.ENGLISH));
 
-        // invalid with defaults as fallback
-        rule = CmsRestrictionRuleParser.parseRule("type=type,match=InValiD,combine=UnKnown,field=test");
-        assertEquals(CombinationMode.OR, rule.getCombinationModeBetweenFields());
-        assertEquals(CombinationMode.OR, rule.getCombinationModeInField());
-        assertEquals("type", rule.getType());
-        assertEquals(MatchType.DEFAULT, rule.getMatchType());
-        assertEquals("test", rule.getRawField());
-        assertEquals("test", rule.getFieldForLocale(Locale.ENGLISH));
+    // invalid with defaults as fallback
+    rule = CmsRestrictionRuleParser.parseRule("type=type,match=InValiD,combine=UnKnown,field=test");
+    assertEquals(CombinationMode.OR, rule.getCombinationModeBetweenFields());
+    assertEquals(CombinationMode.OR, rule.getCombinationModeInField());
+    assertEquals("type", rule.getType());
+    assertEquals(MatchType.DEFAULT, rule.getMatchType());
+    assertEquals("test", rule.getRawField());
+    assertEquals("test", rule.getFieldForLocale(Locale.ENGLISH));
+  }
 
-    }
+  /**
+   * Tests locale placeholder
+   *
+   * @throws CmsException thrown when rule parsing fails
+   */
+  @org.junit.Test
+  public void testLocalePlaceholder() throws CmsException {
 
-    /**
-     * Tests locale placeholder
-     * @throws CmsException thrown when rule parsing fails
-     */
-    @org.junit.Test
-    public void testLocalePlaceholder() throws CmsException {
+    CmsRestrictionRule rule = CmsRestrictionRuleParser.parseRule("test_#");
+    assertEquals("test_de", rule.getFieldForLocale(Locale.GERMAN));
+    assertEquals("test_de_DE", rule.getFieldForLocale(Locale.GERMANY));
+    assertEquals("test_en", rule.getFieldForLocale(Locale.ENGLISH));
+  }
 
-        CmsRestrictionRule rule = CmsRestrictionRuleParser.parseRule("test_#");
-        assertEquals("test_de", rule.getFieldForLocale(Locale.GERMAN));
-        assertEquals("test_de_DE", rule.getFieldForLocale(Locale.GERMANY));
-        assertEquals("test_en", rule.getFieldForLocale(Locale.ENGLISH));
-    }
+  /**
+   * Tests simple rule
+   *
+   * @throws CmsException thrown when rule parsing fails
+   */
+  @org.junit.Test
+  public void testSimpleRule() throws CmsException {
 
-    /**
-     * Tests simple rule
-     * @throws CmsException thrown when rule parsing fails
-     */
-    @org.junit.Test
-    public void testSimpleRule() throws CmsException {
-
-        CmsRestrictionRule rule = CmsRestrictionRuleParser.parseRule("test");
-        assertEquals(CombinationMode.OR, rule.getCombinationModeBetweenFields());
-        assertEquals(CombinationMode.OR, rule.getCombinationModeInField());
-        assertNull(rule.getType());
-        assertEquals(MatchType.DEFAULT, rule.getMatchType());
-        assertEquals("test", rule.getRawField());
-        assertEquals("test", rule.getFieldForLocale(Locale.ENGLISH));
-
-    }
+    CmsRestrictionRule rule = CmsRestrictionRuleParser.parseRule("test");
+    assertEquals(CombinationMode.OR, rule.getCombinationModeBetweenFields());
+    assertEquals(CombinationMode.OR, rule.getCombinationModeInField());
+    assertNull(rule.getType());
+    assertEquals(MatchType.DEFAULT, rule.getMatchType());
+    assertEquals("test", rule.getRawField());
+    assertEquals("test", rule.getFieldForLocale(Locale.ENGLISH));
+  }
 }

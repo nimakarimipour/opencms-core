@@ -34,53 +34,49 @@ import org.opencms.ui.dialogs.CmsGalleryOptimizeDialog;
 import org.opencms.workplace.explorer.Messages;
 
 /**
- * The gallery optimize dialog action.<p>
+ * The gallery optimize dialog action.
+ *
+ * <p>
  */
 public class CmsGalleryOptimizeDialogAction extends A_CmsGalleryDialogAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "galleryoptimize";
+  /** The action id. */
+  public static final String ACTION_ID = "galleryoptimize";
 
-    /** The folder types this action is available for. */
-    private static final String[] GALLERY_TYPES = new String[] {"imagegallery", "downloadgallery"};
+  /** The folder types this action is available for. */
+  private static final String[] GALLERY_TYPES = new String[] {"imagegallery", "downloadgallery"};
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        if (!hasBlockingLocks(context)) {
-            CmsResource gallery = getGallery(context);
-            CmsGalleryOptimizeDialog galleryOptimizeDialog = new CmsGalleryOptimizeDialog(context, gallery);
-            openDialog(galleryOptimizeDialog, context, CmsBasicDialog.DialogWidth.max);
-        }
-
+    if (!hasBlockingLocks(context)) {
+      CmsResource gallery = getGallery(context);
+      CmsGalleryOptimizeDialog galleryOptimizeDialog =
+          new CmsGalleryOptimizeDialog(context, gallery);
+      openDialog(galleryOptimizeDialog, context, CmsBasicDialog.DialogWidth.max);
     }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
-    }
+    return ACTION_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsGalleryDialogAction#getSupportedGalleryTypes()
-     */
-    @Override
-    protected String[] getSupportedGalleryTypes() {
+  /** @see org.opencms.ui.actions.A_CmsGalleryDialogAction#getSupportedGalleryTypes() */
+  @Override
+  protected String[] getSupportedGalleryTypes() {
 
-        return GALLERY_TYPES;
-    }
+    return GALLERY_TYPES;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return Messages.GUI_EXPLORER_CONTEXT_OPTIMIZEGALLERY_0;
-    }
-
+    return Messages.GUI_EXPLORER_CONTEXT_OPTIMIZEGALLERY_0;
+  }
 }

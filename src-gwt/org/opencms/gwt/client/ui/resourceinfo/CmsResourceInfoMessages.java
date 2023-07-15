@@ -30,196 +30,235 @@ package org.opencms.gwt.client.ui.resourceinfo;
 import org.opencms.gwt.client.Messages;
 
 /**
- * Message accessor class for use in uibinder templates.<p>
+ * Message accessor class for use in uibinder templates.
+ *
+ * <p>
  */
 public final class CmsResourceInfoMessages {
 
-    /**
-     * Hidden constructor.<p>
-     */
-    protected CmsResourceInfoMessages() {
+  /**
+   * Hidden constructor.
+   *
+   * <p>
+   */
+  protected CmsResourceInfoMessages() {
 
-        // hidden constructor
-    }
+    // hidden constructor
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageDialogTitle() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageDialogTitle() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_DIALOG_TITLE_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_DIALOG_TITLE_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageFieldsetTitle() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageFieldsetTitle() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_FIELDSET_TITLE_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_FIELDSET_TITLE_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelDateCreated() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelDateCreated() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_DATECREATED_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_DATECREATED_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelDateExpired() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelDateExpired() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_DATEEXPIRED_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_DATEEXPIRED_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelDateModified() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelDateModified() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_DATEMODIFIED_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_DATEMODIFIED_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelDateReleased() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelDateReleased() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_DATERELEASED_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_DATERELEASED_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelLastProject() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelLastProject() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_LASTPROJECT_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_LASTPROJECT_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelLocales() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelLocales() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_LOCALES_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_LOCALES_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelLockOwner() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelLockOwner() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_LOCKOWNER_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_LOCKOWNER_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelLockState() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelLockState() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_LOCKSTATE_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_LOCKSTATE_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelNavText() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelNavText() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_NAVTEXT_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_NAVTEXT_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelPermissions() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelPermissions() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_PERMISSIONS_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_PERMISSIONS_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelSize() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelSize() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_SIZE_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_SIZE_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelState() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelState() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_STATE_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_STATE_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelTitle() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelTitle() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_TITLE_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_TITLE_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelType() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelType() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_TYPE_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_TYPE_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelUserCreated() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelUserCreated() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_USERCREATED_0);
-    }
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_USERCREATED_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public static String messageLabelUserModified() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public static String messageLabelUserModified() {
 
-        return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_USERMODIFIED_0);
-    }
-
+    return Messages.get().key(Messages.GUI_RESOURCEINFO_LABEL_USERMODIFIED_0);
+  }
 }

@@ -27,128 +27,138 @@
 
 package org.opencms.workplace.tools.accounts;
 
+import java.util.List;
 import org.opencms.file.CmsGroup;
 import org.opencms.file.CmsObject;
 import org.opencms.workplace.list.A_CmsListDialog;
 import org.opencms.workplace.list.CmsListDefaultAction;
 
-import java.util.List;
-
 /**
- * Show diferent states depending on user direct/indirect group assignment.<p>
+ * Show diferent states depending on user direct/indirect group assignment.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsGroupStateAction extends CmsListDefaultAction {
 
-    /** The cms context. */
-    private CmsObject m_cms;
+  /** The cms context. */
+  private CmsObject m_cms;
 
-    /** Direct group flag. */
-    private final boolean m_direct;
+  /** Direct group flag. */
+  private final boolean m_direct;
 
-    /** Current user name. */
-    private String m_userName;
+  /** Current user name. */
+  private String m_userName;
 
-    /**
-     * Default constructor.<p>
-     *
-     * @param id the id of the action
-     * @param direct the direct group flag
-     */
-    public CmsGroupStateAction(String id, boolean direct) {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   *
+   * @param id the id of the action
+   * @param direct the direct group flag
+   */
+  public CmsGroupStateAction(String id, boolean direct) {
 
-        super(id);
-        m_direct = direct;
+    super(id);
+    m_direct = direct;
+  }
+
+  /**
+   * Default constructor.
+   *
+   * <p>
+   *
+   * @param id the id of the action
+   * @param cms the cms context
+   * @param direct the direct group flag @Deprecated cms object no longer needed
+   */
+  public CmsGroupStateAction(String id, CmsObject cms, boolean direct) {
+
+    super(id);
+    m_cms = cms;
+    m_direct = direct;
+  }
+
+  /**
+   * Returns the cms context.
+   *
+   * <p>
+   *
+   * @return the cms context
+   */
+  public CmsObject getCms() {
+
+    return m_cms;
+  }
+
+  /**
+   * Returns the user Name.
+   *
+   * <p>
+   *
+   * @return the user Name
+   */
+  public String getUserName() {
+
+    if (m_userName == null) {
+      m_userName = ((A_CmsUserGroupsList) getWp()).getParamUsername();
     }
+    return m_userName;
+  }
 
-    /**
-     * Default constructor.<p>
-     *
-     * @param id the id of the action
-     * @param cms the cms context
-     * @param direct the direct group flag
-     *
-     * @Deprecated cms object no longer needed
-     */
-    public CmsGroupStateAction(String id, CmsObject cms, boolean direct) {
+  /**
+   * Returns the direct group flag.
+   *
+   * <p>
+   *
+   * @return the direct group flag
+   */
+  public boolean isDirect() {
 
-        super(id);
-        m_cms = cms;
-        m_direct = direct;
+    return m_direct;
+  }
+
+  /** @see org.opencms.workplace.tools.A_CmsHtmlIconButton#isVisible() */
+  @Override
+  public boolean isVisible() {
+
+    try {
+      String groupName = (String) getItem().get(A_CmsUserGroupsList.LIST_COLUMN_NAME);
+      List<CmsGroup> dGroups = getCms().getGroupsOfUser(getUserName(), true);
+      CmsGroup group = getCms().readGroup(groupName);
+      if (isDirect()) {
+        return dGroups.contains(group);
+      } else {
+        return !dGroups.contains(group);
+      }
+    } catch (Exception e) {
+      return false;
     }
+  }
 
-    /**
-     * Returns the cms context.<p>
-     *
-     * @return the cms context
-     */
-    public CmsObject getCms() {
+  /**
+   * Sets the user Name.
+   *
+   * <p>
+   *
+   * @param userName the user Name to set
+   */
+  public void setUserName(String userName) {
 
-        return m_cms;
-    }
+    m_userName = userName;
+  }
 
-    /**
-     * Returns the user Name.<p>
-     *
-     * @return the user Name
-     */
-    public String getUserName() {
+  /**
+   * @see
+   *     org.opencms.workplace.list.I_CmsListAction#setWp(org.opencms.workplace.list.A_CmsListDialog)
+   */
+  @Override
+  public void setWp(A_CmsListDialog wp) {
 
-        if (m_userName == null) {
-            m_userName = ((A_CmsUserGroupsList)getWp()).getParamUsername();
-        }
-        return m_userName;
-    }
-
-    /**
-     * Returns the direct group flag.<p>
-     *
-     * @return the direct group flag
-     */
-    public boolean isDirect() {
-
-        return m_direct;
-    }
-
-    /**
-     * @see org.opencms.workplace.tools.A_CmsHtmlIconButton#isVisible()
-     */
-    @Override
-    public boolean isVisible() {
-
-        try {
-            String groupName = (String)getItem().get(A_CmsUserGroupsList.LIST_COLUMN_NAME);
-            List<CmsGroup> dGroups = getCms().getGroupsOfUser(getUserName(), true);
-            CmsGroup group = getCms().readGroup(groupName);
-            if (isDirect()) {
-                return dGroups.contains(group);
-            } else {
-                return !dGroups.contains(group);
-            }
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
-     * Sets the user Name.<p>
-     *
-     * @param userName the user Name to set
-     */
-    public void setUserName(String userName) {
-
-        m_userName = userName;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.I_CmsListAction#setWp(org.opencms.workplace.list.A_CmsListDialog)
-     */
-    @Override
-    public void setWp(A_CmsListDialog wp) {
-
-        super.setWp(wp);
-        m_cms = wp.getCms();
-        m_userName = null;
-    }
+    super.setWp(wp);
+    m_cms = wp.getCms();
+    m_userName = null;
+  }
 }

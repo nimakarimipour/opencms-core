@@ -27,86 +27,95 @@
 
 package org.opencms.search;
 
+import java.util.Locale;
 import org.opencms.i18n.CmsLocaleManager;
 
-import java.util.Locale;
-
 /**
- * An analyzer class is used by Lucene to reduce the content to be indexed
- * with trimmed endings etc.<p>
+ * An analyzer class is used by Lucene to reduce the content to be indexed with trimmed endings etc.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsSearchAnalyzer {
 
-    /** The class name of the analyzer. */
-    private String m_className;
+  /** The class name of the analyzer. */
+  private String m_className;
 
-    /** A locale as a key to select the analyzer. */
-    private Locale m_locale;
+  /** A locale as a key to select the analyzer. */
+  private Locale m_locale;
 
-    /**
-     * Returns the className.<p>
-     *
-     * @return the className
-     */
-    public String getClassName() {
+  /**
+   * Returns the className.
+   *
+   * <p>
+   *
+   * @return the className
+   */
+  public String getClassName() {
 
-        return m_className;
-    }
+    return m_className;
+  }
 
-    /**
-     * Returns the locale.<p>
-     *
-     * @return the locale
-     */
-    public Locale getLocale() {
+  /**
+   * Returns the locale.
+   *
+   * <p>
+   *
+   * @return the locale
+   */
+  public Locale getLocale() {
 
-        return m_locale;
-    }
+    return m_locale;
+  }
 
-    /**
-     * Returns the locale as a String.<p>
-     *
-     * @return the locale as a String
-     *
-     * @see #getLocale()
-     */
-    public String getLocaleString() {
+  /**
+   * Returns the locale as a String.
+   *
+   * <p>
+   *
+   * @return the locale as a String
+   * @see #getLocale()
+   */
+  public String getLocaleString() {
 
-        return getLocale().toString();
-    }
+    return getLocale().toString();
+  }
 
-    /**
-     * Sets the class name.<p>
-     *
-     * @param className the class name
-     */
-    public void setClassName(String className) {
+  /**
+   * Sets the class name.
+   *
+   * <p>
+   *
+   * @param className the class name
+   */
+  public void setClassName(String className) {
 
-        m_className = className;
-    }
+    m_className = className;
+  }
 
-    /**
-     * Sets the locale.<p>
-     *
-     * @param locale the locale
-     */
-    public void setLocale(Locale locale) {
+  /**
+   * Sets the locale.
+   *
+   * <p>
+   *
+   * @param locale the locale
+   */
+  public void setLocale(Locale locale) {
 
-        m_locale = locale;
-    }
+    m_locale = locale;
+  }
 
-    /**
-     * Sets the locale as a String.<p>
-     *
-     * @param locale the locale
-     *
-     * @see #setLocale(Locale)
-     */
-    public void setLocaleString(String locale) {
+  /**
+   * Sets the locale as a String.
+   *
+   * <p>
+   *
+   * @param locale the locale
+   * @see #setLocale(Locale)
+   */
+  public void setLocaleString(String locale) {
 
-        setLocale(CmsLocaleManager.getLocale(locale));
-    }
-
+    setLocale(CmsLocaleManager.getLocale(locale));
+  }
 }

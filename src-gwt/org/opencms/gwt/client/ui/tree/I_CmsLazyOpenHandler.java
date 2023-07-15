@@ -31,26 +31,29 @@ import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 
 /**
- * Lazy tree open handler interface.<p>
+ * Lazy tree open handler interface.
+ *
+ * <p>
  *
  * @param <I> the specific lazy tree item implementation
- *
  * @since 8.0.0
- *
  * @see org.opencms.gwt.client.ui.tree.CmsLazyTreeItem
  */
 public interface I_CmsLazyOpenHandler<I extends CmsLazyTreeItem> extends OpenHandler<I> {
 
-    /**
-     * Load the children of the given tree item.<p>
-     *
-     * @param target the tree item to be loaded
-     * @param callback the callback to execute after loading
-     */
-    void load(I target, Runnable callback);
+  /**
+   * Load the children of the given tree item.
+   *
+   * <p>
+   *
+   * @param target the tree item to be loaded
+   * @param callback the callback to execute after loading
+   */
+  void load(I target, Runnable callback);
 
-    /**
-     * @see com.google.gwt.event.logical.shared.OpenHandler#onOpen(com.google.gwt.event.logical.shared.OpenEvent)
-     */
-    void onOpen(OpenEvent<I> event);
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.OpenHandler#onOpen(com.google.gwt.event.logical.shared.OpenEvent)
+   */
+  void onOpen(OpenEvent<I> event);
 }

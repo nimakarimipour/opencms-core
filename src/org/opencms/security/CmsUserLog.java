@@ -27,187 +27,185 @@
 
 package org.opencms.security;
 
+import java.util.TreeMap;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsRequestContext;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsFileUtil;
 
-import java.util.TreeMap;
-
-import org.apache.commons.logging.Log;
-
-/**
- * Class with static methods for logging user-related operations in a centralized manner.
- */
+/** Class with static methods for logging user-related operations in a centralized manner. */
 public class CmsUserLog {
 
-    /** The logger to be used. */
-    private static final Log LOG = CmsLog.getLog(CmsUserLog.class);
+  /** The logger to be used. */
+  private static final Log LOG = CmsLog.getLog(CmsUserLog.class);
 
-    /**
-     * Logs a successful login.
-     *
-     * @param cms the CMS context
-     * @param user the name of the user
-     */
-    public static void logLogin(CmsObject cms, String user) {
+  /**
+   * Logs a successful login.
+   *
+   * @param cms the CMS context
+   * @param user the name of the user
+   */
+  public static void logLogin(CmsObject cms, String user) {
 
-        LOG.info("login successful: " + formatUser(user) + " " + context(cms));
-    }
+    LOG.info("login successful: " + formatUser(user) + " " + context(cms));
+  }
 
-    /**
-     * Logs a login failure.
-     *
-     * @param cms the CMS context
-     * @param user the name of the user
-     */
-    public static void logLoginFailure(CmsObject cms, String user) {
+  /**
+   * Logs a login failure.
+   *
+   * @param cms the CMS context
+   * @param user the name of the user
+   */
+  public static void logLoginFailure(CmsObject cms, String user) {
 
-        LOG.info("login failed: " + formatUser(user) + " " + context(cms));
-    }
+    LOG.info("login failed: " + formatUser(user) + " " + context(cms));
+  }
 
-    /**
-     * Logs a successful logout.
-     *
-     * @param cms the CMS context
-     */
-    public static void logLogout(CmsObject cms) {
+  /**
+   * Logs a successful logout.
+   *
+   * @param cms the CMS context
+   */
+  public static void logLogout(CmsObject cms) {
 
-        LOG.info("logout: " + formatUser(cms.getRequestContext().getCurrentUser().getName()) + " " + context(cms));
+    LOG.info(
+        "logout: "
+            + formatUser(cms.getRequestContext().getCurrentUser().getName())
+            + " "
+            + context(cms));
+  }
 
-    }
+  /**
+   * Logs a password change.
+   *
+   * @param cms the CMS context
+   * @param user the user name
+   */
+  public static void logPasswordChange(CmsObject cms, String user) {
 
-    /**
-     * Logs a password change.
-     *
-     * @param cms the CMS context
-     * @param user the user name
-     */
-    public static void logPasswordChange(CmsObject cms, String user) {
+    LOG.info("password changed: " + formatUser(user) + " " + context(cms));
+  }
 
-        LOG.info("password changed: " + formatUser(user) + " " + context(cms));
-    }
+  /**
+   * Logs a password change originally requested through the 'reset password' button.
+   *
+   * @param cms the CMS context
+   * @param user the user name
+   */
+  public static void logPasswordChangeForRequestedReset(CmsObject cms, String user) {
 
-    /**
-     * Logs a password change originally requested through the 'reset password' button.
-     *
-     * @param cms the CMS context
-     * @param user the user name
-     */
-    public static void logPasswordChangeForRequestedReset(CmsObject cms, String user) {
+    LOG.info("password changed (reset requested): " + formatUser(user) + " " + context(cms));
+  }
 
-        LOG.info("password changed (reset requested): " + formatUser(user) + " " + context(cms));
+  /**
+   * Logs a password reset request.
+   *
+   * @param cms the CMS context
+   * @param user the user name
+   */
+  public static void logPasswordResetRequest(CmsObject cms, String user) {
 
-    }
+    LOG.info("password reset request: " + user + " " + context(cms));
+  }
 
-    /**
-     * Logs a password reset request.
-     *
-     * @param cms the CMS context
-     * @param user the user name
-     */
-    public static void logPasswordResetRequest(CmsObject cms, String user) {
+  /**
+   * Logs when a second factor was added.
+   *
+   * @param requestContext the request context
+   * @param name the user name
+   */
+  public static void logSecondFactorAdded(CmsRequestContext requestContext, String name) {
 
-        LOG.info("password reset request: " + user + " " + context(cms));
-    }
+    LOG.info("second factor added: " + formatUser(name) + " " + context(requestContext));
+  }
 
-    /**
-     * Logs when a second factor was added.
-     *
-     * @param requestContext the request context
-     * @param name the user name
-     */
-    public static void logSecondFactorAdded(CmsRequestContext requestContext, String name) {
+  /**
+   * Logs when a second factor was modified.
+   *
+   * @param requestContext the request context
+   * @param name the user name
+   */
+  public static void logSecondFactorInfoModified(CmsRequestContext requestContext, String name) {
 
-        LOG.info("second factor added: " + formatUser(name) + " " + context(requestContext));
-    }
+    LOG.info(
+        "second factor information modified: " + formatUser(name) + " " + context(requestContext));
+  }
 
-    /**
-     * Logs when a second factor was modified.
-     *
-     * @param requestContext the request context
-     * @param name the user name
-     */
-    public static void logSecondFactorInfoModified(CmsRequestContext requestContext, String name) {
+  /**
+   * Logs when a second factor was removed.
+   *
+   * @param requestContext the request context
+   * @param name the user name
+   */
+  public static void logSecondFactorReset(CmsRequestContext requestContext, String name) {
 
-        LOG.info("second factor information modified: " + formatUser(name) + " " + context(requestContext));
-    }
+    LOG.info("second factor reset: " + formatUser(name) + " " + context(requestContext));
+  }
 
-    /**
-     * Logs when a second factor was removed.
-     *
-     * @param requestContext the request context
-     * @param name the user name
-     */
-    public static void logSecondFactorReset(CmsRequestContext requestContext, String name) {
+  /**
+   * Logs that the 'force reset password' status was set on a user.
+   *
+   * @param cms the CMS context
+   * @param user the user name
+   */
+  public static void logSetForceResetPassword(CmsObject cms, String user) {
 
-        LOG.info("second factor reset: " + formatUser(name) + " " + context(requestContext));
-    }
+    LOG.info("forcing password reset on next login: " + user + " " + context(cms));
+  }
 
-    /**
-     * Logs that the 'force reset password' status was set on a user.
-     *
-     * @param cms the CMS context
-     * @param user the user name
-     */
-    public static void logSetForceResetPassword(CmsObject cms, String user) {
+  /**
+   * Logs a user switch.
+   *
+   * @param cms the current CMS context
+   * @param name the name of the user to switch to
+   */
+  public static void logSwitchUser(CmsObject cms, String name) {
 
-        LOG.info("forcing password reset on next login: " + user + " " + context(cms));
-    }
+    LOG.info(
+        "user switch: "
+            + formatUser(cms.getRequestContext().getCurrentUser().getName())
+            + " => "
+            + formatUser(name)
+            + " "
+            + context(cms));
 
-    /**
-     * Logs a user switch.
-     *
-     * @param cms the current CMS context
-     * @param name the name of the user to switch to
-     */
-    public static void logSwitchUser(CmsObject cms, String name) {
+    // TODO Auto-generated method stub
+  }
 
-        LOG.info(
-            "user switch: "
-                + formatUser(cms.getRequestContext().getCurrentUser().getName())
-                + " => "
-                + formatUser(name)
-                + " "
-                + context(cms));
+  /**
+   * Helper method for formatting context information.
+   *
+   * @param cms the CMS context
+   * @return the context information
+   */
+  private static TreeMap<String, String> context(CmsObject cms) {
 
-        // TODO Auto-generated method stub
-    }
+    return context(cms.getRequestContext());
+  }
 
-    /**
-     * Helper method for formatting context information.
-     *
-     * @param cms the CMS context
-     * @return the context information
-     */
-    private static TreeMap<String, String> context(CmsObject cms) {
+  /**
+   * Helper method for formatting context information.
+   *
+   * @param requestContext the request context
+   * @return the context information
+   */
+  private static TreeMap<String, String> context(CmsRequestContext requestContext) {
 
-        return context(cms.getRequestContext());
-    }
+    TreeMap<String, String> result = new TreeMap<>();
+    result.put("remote_address", requestContext.getRemoteAddress());
+    result.put("current_user", requestContext.getCurrentUser().getName());
+    return result;
+  }
 
-    /**
-     * Helper method for formatting context information.
-     *
-     * @param requestContext the request context
-     * @return the context information
-     */
-    private static TreeMap<String, String> context(CmsRequestContext requestContext) {
+  /**
+   * Formats a user name.
+   *
+   * @param userName the user nam
+   * @return the formatted user name
+   */
+  private static String formatUser(String userName) {
 
-        TreeMap<String, String> result = new TreeMap<>();
-        result.put("remote_address", requestContext.getRemoteAddress());
-        result.put("current_user", requestContext.getCurrentUser().getName());
-        return result;
-    }
-
-    /**
-     * Formats a user name.
-     *
-     * @param userName the user nam
-     * @return the formatted user name
-     */
-    private static String formatUser(String userName) {
-
-        return CmsFileUtil.removeLeadingSeparator(userName);
-    }
-
+    return CmsFileUtil.removeLeadingSeparator(userName);
+  }
 }

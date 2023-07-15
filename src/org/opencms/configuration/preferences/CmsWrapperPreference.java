@@ -27,131 +27,131 @@
 
 package org.opencms.configuration.preferences;
 
+import org.dom4j.Element;
 import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
-import org.dom4j.Element;
-
 /**
- * Wrapper used for built-in preferene which have also been configured in opencms-workplace.xml.<p>
+ * Wrapper used for built-in preferene which have also been configured in opencms-workplace.xml.
+ *
+ * <p>
  */
 public class CmsWrapperPreference implements I_CmsPreference {
 
-    /** The configured preference data. */
-    private CmsPreferenceData m_prefData;
+  /** The configured preference data. */
+  private CmsPreferenceData m_prefData;
 
-    /** The preference being wrapped. */
-    private I_CmsPreference m_wrappedPreference;
+  /** The preference being wrapped. */
+  private I_CmsPreference m_wrappedPreference;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param prefData the configured preference data
-     *
-     * @param wrappedPref the preference being wrapped
-     */
-    public CmsWrapperPreference(CmsPreferenceData prefData, I_CmsPreference wrappedPref) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param prefData the configured preference data
+   * @param wrappedPref the preference being wrapped
+   */
+  public CmsWrapperPreference(CmsPreferenceData prefData, I_CmsPreference wrappedPref) {
 
-        m_prefData = prefData;
-        m_wrappedPreference = wrappedPref;
-    }
+    m_prefData = prefData;
+    m_wrappedPreference = wrappedPref;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#createConfigurationItem()
-     */
-    public Element createConfigurationItem() {
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#createConfigurationItem() */
+  public Element createConfigurationItem() {
 
-        Element elem = m_wrappedPreference.createConfigurationItem();
-        CmsUserDefinedPreference.fillAttributes(m_prefData, elem);
-        return elem;
-    }
+    Element elem = m_wrappedPreference.createConfigurationItem();
+    CmsUserDefinedPreference.fillAttributes(m_prefData, elem);
+    return elem;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue()
-     */
-    public String getDefaultValue() {
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue() */
+  public String getDefaultValue() {
 
-        return firstNotNull(m_prefData.getDefaultValue(), m_wrappedPreference.getDefaultValue());
-    }
+    return firstNotNull(m_prefData.getDefaultValue(), m_wrappedPreference.getDefaultValue());
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getName()
-     */
-    public String getName() {
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#getName() */
+  public String getName() {
 
-        return m_wrappedPreference.getName();
-    }
+    return m_wrappedPreference.getName();
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
-     */
-    @Override
-    public CmsXmlContentProperty getPropertyDefinition(CmsObject cms) {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.I_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
+   */
+  @Override
+  public CmsXmlContentProperty getPropertyDefinition(CmsObject cms) {
 
-        CmsXmlContentProperty configProp = m_prefData.getPropertyDefinition();
-        CmsXmlContentProperty wrappedProp = m_wrappedPreference.getPropertyDefinition(cms);
+    CmsXmlContentProperty configProp = m_prefData.getPropertyDefinition();
+    CmsXmlContentProperty wrappedProp = m_wrappedPreference.getPropertyDefinition(cms);
 
-        CmsXmlContentProperty prop = new CmsXmlContentProperty(
-            getName(), //name
-            "string", //type
-            firstNotNull(configProp.getConfiguredWidget(), wrappedProp.getConfiguredWidget()), //widget
-            firstNotNull(configProp.getWidgetConfiguration(), wrappedProp.getWidgetConfiguration()), //widgetconfig
-            firstNotNull(configProp.getRuleRegex(), wrappedProp.getRuleRegex()), //regex
-            firstNotNull(configProp.getRuleType(), wrappedProp.getRuleType()), //ruletype
+    CmsXmlContentProperty prop =
+        new CmsXmlContentProperty(
+            getName(), // name
+            "string", // type
+            firstNotNull(
+                configProp.getConfiguredWidget(), wrappedProp.getConfiguredWidget()), // widget
+            firstNotNull(
+                configProp.getWidgetConfiguration(),
+                wrappedProp.getWidgetConfiguration()), // widgetconfig
+            firstNotNull(configProp.getRuleRegex(), wrappedProp.getRuleRegex()), // regex
+            firstNotNull(configProp.getRuleType(), wrappedProp.getRuleType()), // ruletype
             firstNotNull(configProp.getDefault(), wrappedProp.getDefault()),
-            firstNotNull(configProp.getNiceName(), wrappedProp.getNiceName()), //nicename
-            firstNotNull(configProp.getDescription(), wrappedProp.getDescription()), //description
-            firstNotNull(configProp.getError(), wrappedProp.getError()), //error
-            null//preferfolder
-        );
+            firstNotNull(configProp.getNiceName(), wrappedProp.getNiceName()), // nicename
+            firstNotNull(configProp.getDescription(), wrappedProp.getDescription()), // description
+            firstNotNull(configProp.getError(), wrappedProp.getError()), // error
+            null // preferfolder
+            );
 
-        return prop;
-    }
+    return prop;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getTab()
-     */
-    public String getTab() {
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#getTab() */
+  public String getTab() {
 
-        return firstNotNull(m_prefData.getTab(), m_wrappedPreference.getTab());
-    }
+    return firstNotNull(m_prefData.getTab(), m_wrappedPreference.getTab());
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getValue(org.opencms.configuration.CmsDefaultUserSettings)
-     */
-    public String getValue(CmsDefaultUserSettings userSettings) {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.I_CmsPreference#getValue(org.opencms.configuration.CmsDefaultUserSettings)
+   */
+  public String getValue(CmsDefaultUserSettings userSettings) {
 
-        return m_wrappedPreference.getValue(userSettings);
-    }
+    return m_wrappedPreference.getValue(userSettings);
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#isDisabled(CmsObject)
-     */
-    public boolean isDisabled(CmsObject cms) {
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#isDisabled(CmsObject) */
+  public boolean isDisabled(CmsObject cms) {
 
-        return m_wrappedPreference.isDisabled(cms);
-    }
+    return m_wrappedPreference.isDisabled(cms);
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#setValue(org.opencms.configuration.CmsDefaultUserSettings, java.lang.String)
-     */
-    public void setValue(CmsDefaultUserSettings settings, String value) {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.I_CmsPreference#setValue(org.opencms.configuration.CmsDefaultUserSettings,
+   *     java.lang.String)
+   */
+  public void setValue(CmsDefaultUserSettings settings, String value) {
 
-        m_wrappedPreference.setValue(settings, value);
-    }
+    m_wrappedPreference.setValue(settings, value);
+  }
 
-    /**
-     * Returns the first non-null value.<p>
-     *
-     * @param a a value
-     * @param b another value
-     *
-     * @return the first non-null value
-     */
-    String firstNotNull(String a, String b) {
+  /**
+   * Returns the first non-null value.
+   *
+   * <p>
+   *
+   * @param a a value
+   * @param b another value
+   * @return the first non-null value
+   */
+  String firstNotNull(String a, String b) {
 
-        return a != null ? a : b;
-    }
-
+    return a != null ? a : b;
+  }
 }

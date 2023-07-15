@@ -27,155 +27,164 @@
 
 package org.opencms.repository;
 
-import org.opencms.main.CmsException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import org.opencms.main.CmsException;
 
 /**
- * A repository session which provides basic file and folder operations
- * to the resources in the VFS of OpenCms.<p>
+ * A repository session which provides basic file and folder operations to the resources in the VFS
+ * of OpenCms.
+ *
+ * <p>
  *
  * @since 6.2.4
  */
 public interface I_CmsRepositorySession {
 
-    /**
-     * Copies the item found at the source path to the destination path.<p>
-     *
-     * @param src the path of the item which should be copied
-     * @param dest the destination path where to copy to
-     * @param overwrite should any existing item be overwritten
-     * @param shallow if true, when copying a folder, only the folder will be copied and not its contents
-     *
-     * @throws CmsException if something goes wrong
-     */
-    void copy(String src, String dest, boolean overwrite, boolean shallow) throws CmsException;
+  /**
+   * Copies the item found at the source path to the destination path.
+   *
+   * <p>
+   *
+   * @param src the path of the item which should be copied
+   * @param dest the destination path where to copy to
+   * @param overwrite should any existing item be overwritten
+   * @param shallow if true, when copying a folder, only the folder will be copied and not its
+   *     contents
+   * @throws CmsException if something goes wrong
+   */
+  void copy(String src, String dest, boolean overwrite, boolean shallow) throws CmsException;
 
-    /**
-     * Creates a new item at the given path.<p>
-     *
-     * In this case this should be a collection (directory).<p>
-     *
-     * @param path the complete path of the new collection
-     *
-     * @throws CmsException if something goes wrong
-     */
-    void create(String path) throws CmsException;
+  /**
+   * Creates a new item at the given path.
+   *
+   * <p>In this case this should be a collection (directory).
+   *
+   * <p>
+   *
+   * @param path the complete path of the new collection
+   * @throws CmsException if something goes wrong
+   */
+  void create(String path) throws CmsException;
 
-    /**
-     * Deletes the item at the given path.<p>
-     *
-     * @param path the complete path of the item to delete
-     *
-     * @throws CmsException if something goes wrong
-     */
-    void delete(String path) throws CmsException;
+  /**
+   * Deletes the item at the given path.
+   *
+   * <p>
+   *
+   * @param path the complete path of the item to delete
+   * @throws CmsException if something goes wrong
+   */
+  void delete(String path) throws CmsException;
 
-    /**
-     * Returns if an item exists at the given path.<p>
-     *
-     * @param path the complete path of the item to check existance
-     *
-     * @return true if the item exists otherwise false
-     */
-    boolean exists(String path);
+  /**
+   * Returns if an item exists at the given path.
+   *
+   * <p>
+   *
+   * @param path the complete path of the item to check existance
+   * @return true if the item exists otherwise false
+   */
+  boolean exists(String path);
 
-    /**
-     * Returns the item found at the given path.<p>
-     *
-     * @param path the complete path of the item to return
-     *
-     * @return the item found at the path
-     *
-     * @throws CmsException if something goes wrong
-     */
-    I_CmsRepositoryItem getItem(String path) throws CmsException;
+  /**
+   * Returns the item found at the given path.
+   *
+   * <p>
+   *
+   * @param path the complete path of the item to return
+   * @return the item found at the path
+   * @throws CmsException if something goes wrong
+   */
+  I_CmsRepositoryItem getItem(String path) throws CmsException;
 
-    /**
-     * Returns the lock for the resource at the given path.<p>
-     *
-     * @param path the complete path where to return the lock for
-     *
-     * @return the found lock as CmsWebdavLockInfo or null if not found
-     */
-    CmsRepositoryLockInfo getLock(String path);
+  /**
+   * Returns the lock for the resource at the given path.
+   *
+   * <p>
+   *
+   * @param path the complete path where to return the lock for
+   * @return the found lock as CmsWebdavLockInfo or null if not found
+   */
+  CmsRepositoryLockInfo getLock(String path);
 
-    /**
-     * Gets the properties for the given path.
-     *
-     * @param path the path
-     * @return the properties for the path
-     *
-     * @throws CmsException if something goes wrong
-     */
-    Map<CmsPropertyName, String> getProperties(String path) throws CmsException;
+  /**
+   * Gets the properties for the given path.
+   *
+   * @param path the path
+   * @return the properties for the path
+   * @throws CmsException if something goes wrong
+   */
+  Map<CmsPropertyName, String> getProperties(String path) throws CmsException;
 
-    /**
-     * Returns a list with all items found directly in the given path.<p>
-     *
-     * @param path the complete path from which to return the items
-     *
-     * @return a list with {@link I_CmsRepositoryItem} found in the path
-     *
-     * @throws CmsException if something goes wrong
-     */
-    List<I_CmsRepositoryItem> list(String path) throws CmsException;
+  /**
+   * Returns a list with all items found directly in the given path.
+   *
+   * <p>
+   *
+   * @param path the complete path from which to return the items
+   * @return a list with {@link I_CmsRepositoryItem} found in the path
+   * @throws CmsException if something goes wrong
+   */
+  List<I_CmsRepositoryItem> list(String path) throws CmsException;
 
-    /**
-     * Creates a new lock on the item at the path with the given information
-     * in the lock info.<p>
-     *
-     * @param path the complete path of the item
-     * @param lock the information about the lock to create
-     *
-     * @return if the lock was successfully
-     *
-     * @throws CmsException if something goes wrong
-     */
-    boolean lock(String path, CmsRepositoryLockInfo lock) throws CmsException;
+  /**
+   * Creates a new lock on the item at the path with the given information in the lock info.
+   *
+   * <p>
+   *
+   * @param path the complete path of the item
+   * @param lock the information about the lock to create
+   * @return if the lock was successfully
+   * @throws CmsException if something goes wrong
+   */
+  boolean lock(String path, CmsRepositoryLockInfo lock) throws CmsException;
 
-    /**
-     * Moves an item from a source path to a destination path.<p>
-     *
-     * @param src the complete path to the item which should be copied
-     * @param dest the complete destination path where to copy to
-     * @param overwrite should any existing item should be overwritten
-     *
-     * @throws CmsException if something goes wrong
-     */
-    void move(String src, String dest, boolean overwrite) throws CmsException;
+  /**
+   * Moves an item from a source path to a destination path.
+   *
+   * <p>
+   *
+   * @param src the complete path to the item which should be copied
+   * @param dest the complete destination path where to copy to
+   * @param overwrite should any existing item should be overwritten
+   * @throws CmsException if something goes wrong
+   */
+  void move(String src, String dest, boolean overwrite) throws CmsException;
 
-    /**
-     * Saves an item at the given path.<p>
-     *
-     * This creates a new single item (file) if it does not exist.<p>
-     *
-     * @param path the complete path of the new item
-     * @param inputStream the content of the item
-     * @param overwrite should an existing item at the path be overwritten
-     *
-     * @throws CmsException if something goes wrong
-     * @throws IOException if a write error occurs
-     */
-    void save(String path, InputStream inputStream, boolean overwrite) throws CmsException, IOException;
+  /**
+   * Saves an item at the given path.
+   *
+   * <p>This creates a new single item (file) if it does not exist.
+   *
+   * <p>
+   *
+   * @param path the complete path of the new item
+   * @param inputStream the content of the item
+   * @param overwrite should an existing item at the path be overwritten
+   * @throws CmsException if something goes wrong
+   * @throws IOException if a write error occurs
+   */
+  void save(String path, InputStream inputStream, boolean overwrite)
+      throws CmsException, IOException;
 
-    /**
-     * Unlocks the item found at the path.<p>
-     *
-     * @param path The complete path of the item to unlock
-     */
-    void unlock(String path);
+  /**
+   * Unlocks the item found at the path.
+   *
+   * <p>
+   *
+   * @param path The complete path of the item to unlock
+   */
+  void unlock(String path);
 
-    /**
-     * Updates the properties for the given path.
-     *
-     * @param path the path
-     * @param properties the properties
-     *
-     * @throws CmsException if something goes wrong
-     */
-    void updateProperties(String path, Map<CmsPropertyName, String> properties) throws CmsException;
+  /**
+   * Updates the properties for the given path.
+   *
+   * @param path the path
+   * @param properties the properties
+   * @throws CmsException if something goes wrong
+   */
+  void updateProperties(String path, Map<CmsPropertyName, String> properties) throws CmsException;
 }

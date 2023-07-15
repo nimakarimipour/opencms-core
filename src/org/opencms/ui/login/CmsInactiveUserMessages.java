@@ -27,79 +27,84 @@
 
 package org.opencms.ui.login;
 
-import org.opencms.i18n.CmsResourceBundleLoader;
-import org.opencms.main.CmsLog;
-
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-
 import org.apache.commons.logging.Log;
+import org.opencms.i18n.CmsResourceBundleLoader;
+import org.opencms.main.CmsLog;
 
 /**
- * Helper class for getting localized messages for the 'lock inactive users' feature.<p>
+ * Helper class for getting localized messages for the 'lock inactive users' feature.
  *
- * We are not just using the standard Messages class here because the messages are supposed to be customizable,
- * and we do not want to lose the customizations if e.g. we install a new opencms.jar.<p>
+ * <p>We are not just using the standard Messages class here because the messages are supposed to be
+ * customizable, and we do not want to lose the customizations if e.g. we install a new opencms.jar.
+ *
+ * <p>
  */
 public class CmsInactiveUserMessages {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsInactiveUserMessages.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsInactiveUserMessages.class);
 
-    /**
-     * Text to display for the lockout screen.<p>
-     *
-     * @param locale the locale
-     *
-     * @return the localized text
-     */
-    public static String getLockoutText(Locale locale) {
+  /**
+   * Text to display for the lockout screen.
+   *
+   * <p>
+   *
+   * @param locale the locale
+   * @return the localized text
+   */
+  public static String getLockoutText(Locale locale) {
 
-        return getMessage("inactiveusers.lockout.text", locale);
+    return getMessage("inactiveusers.lockout.text", locale);
+  }
+
+  /**
+   * Gets the message for the given key and locale.
+   *
+   * <p>
+   *
+   * @param key the key
+   * @param locale the locale
+   * @return the localized text
+   */
+  public static String getMessage(String key, Locale locale) {
+
+    ResourceBundle bundle = null;
+    try {
+      bundle = CmsResourceBundleLoader.getBundle("org.opencms.inactiveusers.custom", locale);
+      return bundle.getString(key);
+    } catch (MissingResourceException e) {
+      LOG.info("Customization bundle not found: org.opencms.inactiveusers.custom", e);
+      bundle = CmsResourceBundleLoader.getBundle("org.opencms.ui.messages", locale);
+      return bundle.getString(key);
     }
+  }
 
-    /**
-     * Gets the message for the given key and locale.<p>
-     *
-     * @param key the key
-     * @param locale the locale
-     * @return the localized text
-     */
-    public static String getMessage(String key, Locale locale) {
+  /**
+   * Gets the header text for the report mail.
+   *
+   * <p>
+   *
+   * @param locale the locale
+   * @return the localized text
+   */
+  public static String getReportHeader(Locale locale) {
 
-        ResourceBundle bundle = null;
-        try {
-            bundle = CmsResourceBundleLoader.getBundle("org.opencms.inactiveusers.custom", locale);
-            return bundle.getString(key);
-        } catch (MissingResourceException e) {
-            LOG.info("Customization bundle not found: org.opencms.inactiveusers.custom", e);
-            bundle = CmsResourceBundleLoader.getBundle("org.opencms.ui.messages", locale);
-            return bundle.getString(key);
-        }
-    }
+    return getMessage("inactiveusers.report.header", locale);
+  }
 
-    /**
-     * Gets the header text for the report mail.<p>
-     *
-     * @param locale the locale
-     * @return the localized text
-     */
-    public static String getReportHeader(Locale locale) {
+  /**
+   * Gets the subject for the report mail.
+   *
+   * <p>
+   *
+   * @param locale the locale
+   * @return the localized text
+   */
+  public static String getReportSubject(Locale locale) {
 
-        return getMessage("inactiveusers.report.header", locale);
-    }
-
-    /**
-     * Gets the subject for the report mail.<p>
-     *
-     * @param locale the locale
-     *
-     * @return the localized text
-     */
-    public static String getReportSubject(Locale locale) {
-
-        return getMessage("inactiveusers.report.subject", locale);
-    }
-
+    return getMessage("inactiveusers.report.subject", locale);
+  }
 }

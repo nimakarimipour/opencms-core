@@ -27,57 +27,55 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.gwt.client.util.CmsDomUtil;
-import org.opencms.ui.components.CmsCopyToClipboardButton;
-import org.opencms.ui.shared.components.CmsCopyToClipboardState;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.vaadin.client.ui.ConnectorFocusAndBlurHandler;
 import com.vaadin.client.ui.VButton;
 import com.vaadin.client.ui.button.ButtonConnector;
 import com.vaadin.shared.ui.Connect;
+import org.opencms.gwt.client.util.CmsDomUtil;
+import org.opencms.ui.components.CmsCopyToClipboardButton;
+import org.opencms.ui.shared.components.CmsCopyToClipboardState;
 
 /**
- * The copy to clip-board/select text button client connector.<p>
+ * The copy to clip-board/select text button client connector.
+ *
+ * <p>
  */
 @Connect(CmsCopyToClipboardButton.class)
 public class CmsCopyToClipboardButtonConnector extends ButtonConnector {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -5124036048815760156L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -5124036048815760156L;
 
-    /**
-     * @see com.vaadin.client.ui.AbstractConnector#getState()
-     */
-    @Override
-    public CmsCopyToClipboardState getState() {
+  /** @see com.vaadin.client.ui.AbstractConnector#getState() */
+  @Override
+  public CmsCopyToClipboardState getState() {
 
-        return (CmsCopyToClipboardState)super.getState();
+    return (CmsCopyToClipboardState) super.getState();
+  }
+
+  /** @see com.vaadin.client.ui.button.ButtonConnector#init() */
+  @Override
+  public void init() {
+
+    VButton button = getWidget();
+    button.client = getConnection();
+    ConnectorFocusAndBlurHandler.addHandlers(this);
+
+    if (CmsDomUtil.isCopyToClipboardSupported()) {
+      button.addClickHandler(
+          new ClickHandler() {
+
+            public void onClick(ClickEvent event) {
+
+              event.preventDefault();
+              event.stopPropagation();
+              CmsDomUtil.copyToClipboard(getState().getSelector());
+            }
+          });
+    } else {
+      button.setVisible(false);
     }
-
-    /**
-     * @see com.vaadin.client.ui.button.ButtonConnector#init()
-     */
-    @Override
-    public void init() {
-
-        VButton button = getWidget();
-        button.client = getConnection();
-        ConnectorFocusAndBlurHandler.addHandlers(this);
-
-        if (CmsDomUtil.isCopyToClipboardSupported()) {
-            button.addClickHandler(new ClickHandler() {
-
-                public void onClick(ClickEvent event) {
-
-                    event.preventDefault();
-                    event.stopPropagation();
-                    CmsDomUtil.copyToClipboard(getState().getSelector());
-                }
-            });
-        } else {
-            button.setVisible(false);
-        }
-    }
+  }
 }

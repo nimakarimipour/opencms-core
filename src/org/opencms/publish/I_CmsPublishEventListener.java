@@ -30,9 +30,10 @@ package org.opencms.publish;
 import org.opencms.util.CmsUUID;
 
 /**
- * This interface listens to events for a specific publish job.<p>
+ * This interface listens to events for a specific publish job.
  *
- * The life cycle of publish is following:
+ * <p>The life cycle of publish is following:
+ *
  * <ul>
  *   <li>created, getting immediatly
  *   <li>enqueued, getting the state waiting
@@ -42,46 +43,58 @@ import org.opencms.util.CmsUUID;
  *   <li>removed
  * </ul>
  *
- * During the waiting state a publish job can be aborted for shutdown.<p>
+ * During the waiting state a publish job can be aborted for shutdown.
+ *
+ * <p>
  *
  * @since 6.5.5
  */
 public interface I_CmsPublishEventListener {
 
-    /**
-     * Called when the job is going to be aborted, this may happen during the shutdown
-     * And can only happen if the job is waiting.<p>
-     *
-     * @param userId the id of the user that aborted the job
-     * @param publishJob the publish job that is going to be aborted
-     */
-    void onAbort(CmsUUID userId, CmsPublishJobEnqueued publishJob);
+  /**
+   * Called when the job is going to be aborted, this may happen during the shutdown And can only
+   * happen if the job is waiting.
+   *
+   * <p>
+   *
+   * @param userId the id of the user that aborted the job
+   * @param publishJob the publish job that is going to be aborted
+   */
+  void onAbort(CmsUUID userId, CmsPublishJobEnqueued publishJob);
 
-    /**
-     * Called once the job is going to be enqueued.<p>
-     *
-     * @param publishJob the publish job that is going to be enqueued
-     */
-    void onEnqueue(CmsPublishJobBase publishJob);
+  /**
+   * Called once the job is going to be enqueued.
+   *
+   * <p>
+   *
+   * @param publishJob the publish job that is going to be enqueued
+   */
+  void onEnqueue(CmsPublishJobBase publishJob);
 
-    /**
-     * Called once the job has finished.<p>
-     *
-     * @param publishJob the publish job that has finished
-     */
-    void onFinish(CmsPublishJobRunning publishJob);
+  /**
+   * Called once the job has finished.
+   *
+   * <p>
+   *
+   * @param publishJob the publish job that has finished
+   */
+  void onFinish(CmsPublishJobRunning publishJob);
 
-    /**
-     * Called once the job is going to be removed from the history.<p>
-     *
-     * @param publishJob the publish job that is going to be removed from the history
-     */
-    void onRemove(CmsPublishJobFinished publishJob);
+  /**
+   * Called once the job is going to be removed from the history.
+   *
+   * <p>
+   *
+   * @param publishJob the publish job that is going to be removed from the history
+   */
+  void onRemove(CmsPublishJobFinished publishJob);
 
-    /**
-     * Called once the job is going to start.<p>
-     *
-     * @param publishJob the publish job that is going to start
-     */
-    void onStart(CmsPublishJobEnqueued publishJob);
+  /**
+   * Called once the job is going to start.
+   *
+   * <p>
+   *
+   * @param publishJob the publish job that is going to start
+   */
+  void onStart(CmsPublishJobEnqueued publishJob);
 }

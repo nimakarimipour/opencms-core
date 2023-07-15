@@ -27,66 +27,53 @@
 
 package org.opencms.ui.components.editablegroup;
 
-/**
- * Default action handler for group buttons.
- */
+/** Default action handler for group buttons. */
 public class CmsDefaultActionHandler implements I_CmsEditableGroupActionHandler {
 
-    /** The editable group. */
-    protected CmsEditableGroup m_group;
+  /** The editable group. */
+  protected CmsEditableGroup m_group;
 
-    /** The row. */
-    protected I_CmsEditableGroupRow m_row;
+  /** The row. */
+  protected I_CmsEditableGroupRow m_row;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param group the group
-     * @param row the row
-     */
-    public CmsDefaultActionHandler(CmsEditableGroup group, I_CmsEditableGroupRow row) {
+  /**
+   * Creates a new instance.
+   *
+   * @param group the group
+   * @param row the row
+   */
+  public CmsDefaultActionHandler(CmsEditableGroup group, I_CmsEditableGroupRow row) {
 
-        m_group = group;
-        m_row = row;
-    }
+    m_group = group;
+    m_row = row;
+  }
 
-    /**
-     * @see org.opencms.ui.components.editablegroup.I_CmsEditableGroupActionHandler#onAdd()
-     */
-    public void onAdd() {
+  /** @see org.opencms.ui.components.editablegroup.I_CmsEditableGroupActionHandler#onAdd() */
+  public void onAdd() {
 
-        m_group.addRowAfter(m_row);
-    }
+    m_group.addRowAfter(m_row);
+  }
 
-    /**
-     * @see org.opencms.ui.components.editablegroup.I_CmsEditableGroupActionHandler#onDelete()
-     */
-    public void onDelete() {
+  /** @see org.opencms.ui.components.editablegroup.I_CmsEditableGroupActionHandler#onDelete() */
+  public void onDelete() {
 
-        m_group.remove(m_row);
-    }
+    m_group.remove(m_row);
+  }
 
-    /**
-     * @see org.opencms.ui.components.editablegroup.I_CmsEditableGroupActionHandler#onDown()
-     */
-    public void onDown() {
+  /** @see org.opencms.ui.components.editablegroup.I_CmsEditableGroupActionHandler#onDown() */
+  public void onDown() {
 
-        m_group.moveDown(m_row);
-    }
+    m_group.moveDown(m_row);
+  }
 
-    /**
-     * @see org.opencms.ui.components.editablegroup.I_CmsEditableGroupActionHandler#onEdit()
-     */
-    public void onEdit() {
-        // nop
-    }
+  /** @see org.opencms.ui.components.editablegroup.I_CmsEditableGroupActionHandler#onEdit() */
+  public void onEdit() {
+    // nop
+  }
 
-    /**
-     * @see org.opencms.ui.components.editablegroup.I_CmsEditableGroupActionHandler#onUp()
-     */
-    public void onUp() {
+  /** @see org.opencms.ui.components.editablegroup.I_CmsEditableGroupActionHandler#onUp() */
+  public void onUp() {
 
-        m_group.moveUp(m_row);
-    }
-
+    m_group.moveUp(m_row);
+  }
 }

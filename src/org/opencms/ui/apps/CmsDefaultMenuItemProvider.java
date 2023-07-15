@@ -27,6 +27,10 @@
 
 package org.opencms.ui.apps;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 import org.opencms.ui.actions.CmsAboutDialogAction;
 import org.opencms.ui.actions.CmsAvailabilityDialogAction;
@@ -91,31 +95,29 @@ import org.opencms.ui.contextmenu.I_CmsContextMenuItem;
 import org.opencms.ui.contextmenu.I_CmsContextMenuItemProvider;
 import org.opencms.xml.templatemapper.CmsTemplateMapperAction;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Default implementation of menu item provider.<p>
+ * Default implementation of menu item provider.
+ *
+ * <p>
  */
 public class CmsDefaultMenuItemProvider implements I_CmsContextMenuItemProvider {
 
-    /** The advanced menu id. */
-    public static final String ADVANCED_MENU_ID = "advanced";
+  /** The advanced menu id. */
+  public static final String ADVANCED_MENU_ID = "advanced";
 
-    /** Logger instance for this class. */
-    static final Log LOG = CmsLog.getLog(CmsDefaultMenuItemProvider.class);
+  /** Logger instance for this class. */
+  static final Log LOG = CmsLog.getLog(CmsDefaultMenuItemProvider.class);
 
-    /** The menu items. */
-    private static final List<I_CmsContextMenuItem> MENU_ITEMS;
+  /** The menu items. */
+  private static final List<I_CmsContextMenuItem> MENU_ITEMS;
 
-    static {
-        CmsSubmenu advanced = new CmsSubmenu(ADVANCED_MENU_ID, null, "%(key.GUI_EXPLORER_CONTEXT_ADVANCED_0)", 2410, 0);
-        // the entries in this list will be sorted by there order property
-        // for better readability please place additional entries  according to this sort order
-        List<I_CmsContextMenuItem> items = Arrays.<I_CmsContextMenuItem> asList(
+  static {
+    CmsSubmenu advanced =
+        new CmsSubmenu(ADVANCED_MENU_ID, null, "%(key.GUI_EXPLORER_CONTEXT_ADVANCED_0)", 2410, 0);
+    // the entries in this list will be sorted by there order property
+    // for better readability please place additional entries  according to this sort order
+    List<I_CmsContextMenuItem> items =
+        Arrays.<I_CmsContextMenuItem>asList(
             new CmsContextMenuActionItem(new CmsSiteDialogAction(), null, 10, 0),
             new CmsContextMenuActionItem(new CmsEditPageAction(), null, 10, 0),
             new CmsContextMenuActionItem(new CmsEditDialogAction(), null, 50, 0),
@@ -157,27 +159,29 @@ public class CmsDefaultMenuItemProvider implements I_CmsContextMenuItemProvider 
             new CmsContextMenuActionItem(new CmsResourceInfoAction(), null, 2200, 0),
             new CmsContextMenuActionItem(new CmsCategoriesDialogAction(), null, 2300, 0),
             new CmsContextMenuActionItem(new CmsPermissionDialogAction(), null, 2400, 0),
-
             advanced,
             new CmsContextMenuActionItem(new CmsTouchDialogAction(), advanced.getId(), 170, 0),
-            new CmsContextMenuActionItem(new CmsAvailabilityDialogAction(), advanced.getId(), 300, 0),
-            new CmsContextMenuActionItem(new CmsSecureExportDialogAction(), advanced.getId(), 500, 0),
+            new CmsContextMenuActionItem(
+                new CmsAvailabilityDialogAction(), advanced.getId(), 300, 0),
+            new CmsContextMenuActionItem(
+                new CmsSecureExportDialogAction(), advanced.getId(), 500, 0),
             new CmsContextMenuActionItem(new CmsChangeTypeDialogAction(), advanced.getId(), 700, 0),
             new CmsContextMenuActionItem(new CmsFormEditDialogAction(), advanced.getId(), 800, 0),
             new CmsContextMenuActionItem(new CmsEditCodeDialogAction(), advanced.getId(), 900, 0),
             new CmsContextMenuActionItem(new CmsReindexDialogAction(), advanced.getId(), 950, 0),
             new CmsContextMenuActionItem(new CmsRestoreDeletedAction(), advanced.getId(), 1000, 0),
-
-            new CmsContextMenuActionItem(new CmsLinkLocaleVariantAction(), advanced.getId(), 1100, 0),
-            new CmsContextMenuActionItem(new CmsUnlinkLocaleVariantAction(), advanced.getId(), 1150, 0),
+            new CmsContextMenuActionItem(
+                new CmsLinkLocaleVariantAction(), advanced.getId(), 1100, 0),
+            new CmsContextMenuActionItem(
+                new CmsUnlinkLocaleVariantAction(), advanced.getId(), 1150, 0),
             new CmsContextMenuActionItem(new CmsSeoAction(), advanced.getId(), 1200, 0),
             new CmsContextMenuActionItem(new CmsWorkplaceAction(), advanced.getId(), 1300, 0),
-
-            new CmsContextMenuActionItem(new CmsSitemapAttributeEditorAction(), advanced.getId(), 1500, 0),
-            new CmsContextMenuActionItem(new CmsSitemapEditConfigAction(), advanced.getId(), 1520, 0),
+            new CmsContextMenuActionItem(
+                new CmsSitemapAttributeEditorAction(), advanced.getId(), 1500, 0),
+            new CmsContextMenuActionItem(
+                new CmsSitemapEditConfigAction(), advanced.getId(), 1520, 0),
             new CmsContextMenuActionItem(new CmsSitemapAliasAction(), advanced.getId(), 1600, 0),
             new CmsContextMenuActionItem(new CmsTemplateMapperAction(), advanced.getId(), 1700, 0),
-
             new CmsContextMenuActionItem(new CmsHistoryDialogAction(), null, 2450, 0),
             new CmsContextMenuActionItem(new CmsPropertiesDialogAction(), null, 2500, 0),
 
@@ -186,22 +190,22 @@ public class CmsDefaultMenuItemProvider implements I_CmsContextMenuItemProvider 
             new CmsContextMenuActionItem(new CmsPublishQueueDialogAction(), null, 3500, 0),
             new CmsContextMenuActionItem(new CmsAboutDialogAction(), null, 3900, 0),
             new CmsContextMenuActionItem(new CmsLogoutAction(), null, 4100, 0));
-        MENU_ITEMS = Collections.unmodifiableList(items);
-    }
+    MENU_ITEMS = Collections.unmodifiableList(items);
+  }
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsDefaultMenuItemProvider() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsDefaultMenuItemProvider() {
 
-        // default constructor, do nothing
-    }
+    // default constructor, do nothing
+  }
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsContextMenuItemProvider#getMenuItems()
-     */
-    public List<I_CmsContextMenuItem> getMenuItems() {
+  /** @see org.opencms.ui.contextmenu.I_CmsContextMenuItemProvider#getMenuItems() */
+  public List<I_CmsContextMenuItem> getMenuItems() {
 
-        return MENU_ITEMS;
-    }
+    return MENU_ITEMS;
+  }
 }

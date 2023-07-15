@@ -27,11 +27,6 @@
 
 package org.opencms.xml;
 
-import org.opencms.file.CmsResource;
-import org.opencms.main.CmsLog;
-import org.opencms.util.CmsStringUtil;
-import org.opencms.xml.content.CmsXmlContent;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -43,12 +38,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.xml.parsers.SAXParserFactory;
-
 import org.apache.commons.logging.Log;
 import org.apache.xerces.parsers.SAXParser;
-
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -59,6 +51,10 @@ import org.dom4j.io.DOMWriter;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.opencms.file.CmsResource;
+import org.opencms.main.CmsLog;
+import org.opencms.util.CmsStringUtil;
+import org.opencms.xml.content.CmsXmlContent;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -68,948 +64,1010 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
- * Provides some basic XML handling utilities.<p>
+ * Provides some basic XML handling utilities.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public final class CmsXmlUtils {
 
-    /**
-     * This class is only used to expose the XML parser configuration implementation name.<p>
-     */
-    private static class ParserImpl extends SAXParser {
-
-        /**
-         * Constructor.<p>
-         */
-        ParserImpl() {
-
-            super();
-        }
-
-        /**
-         * Returns the implementation name of the used XML parser configuration.<p>
-         *
-         * @return the implementation name
-         */
-        String getConfigImplName() {
-
-            if (fConfiguration != null) {
-                return fConfiguration.getClass().getName();
-            } else {
-                return null;
-            }
-        }
-    }
-
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsXmlUtils.class);
-
-    /** Key of the SAX parser configuration system property. */
-    private static final String SAX_PARSER_CONFIG_KEY = "org.apache.xerces.xni.parser.XMLParserConfiguration";
-
-    /** Key of the SAX parser factory system property. */
-    private static final String SAX_PARSER_FACTORY_KEY = "javax.xml.parsers.SAXParserFactory";
-
-    /** Key of the XML reader system property. */
-    private static final String XML_READER_KEY = "org.xml.sax.driver";
+  /**
+   * This class is only used to expose the XML parser configuration implementation name.
+   *
+   * <p>
+   */
+  private static class ParserImpl extends SAXParser {
 
     /**
-     * Prevents instances of this class from being generated.<p>
+     * Constructor.
+     *
+     * <p>
      */
-    private CmsXmlUtils() {
+    ParserImpl() {
 
-        // noop
+      super();
     }
 
     /**
-     * Concatenates two Xpath expressions, ensuring that exactly one slash "/" is between them.<p>
+     * Returns the implementation name of the used XML parser configuration.
      *
-     * Use this method if it's uncertain if the given arguments are starting or ending with
-     * a slash "/".<p>
+     * <p>
      *
-     * Examples:<br>
-     * <code>"title", "subtitle"</code> becomes <code>title/subtitle</code><br>
-     * <code>"title[1]/", "subtitle"</code> becomes <code>title[1]/subtitle</code><br>
-     * <code>"title[1]/", "/subtitle[1]"</code> becomes <code>title[1]/subtitle[1]</code><p>
-     *
-     * @param prefix the prefix Xpath
-     * @param suffix the suffix Xpath
-     *
-     * @return the concatenated Xpath build from prefix and suffix
+     * @return the implementation name
      */
-    public static String concatXpath(String prefix, String suffix) {
+    String getConfigImplName() {
 
-        if (suffix == null) {
-            // ensure suffix is not null
-            suffix = "";
-        } else {
-            if ((suffix.length() > 0) && (suffix.charAt(0) == '/')) {
-                // remove leading '/' form suffix
-                suffix = suffix.substring(1);
-            }
+      if (fConfiguration != null) {
+        return fConfiguration.getClass().getName();
+      } else {
+        return null;
+      }
+    }
+  }
+
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsXmlUtils.class);
+
+  /** Key of the SAX parser configuration system property. */
+  private static final String SAX_PARSER_CONFIG_KEY =
+      "org.apache.xerces.xni.parser.XMLParserConfiguration";
+
+  /** Key of the SAX parser factory system property. */
+  private static final String SAX_PARSER_FACTORY_KEY = "javax.xml.parsers.SAXParserFactory";
+
+  /** Key of the XML reader system property. */
+  private static final String XML_READER_KEY = "org.xml.sax.driver";
+
+  /**
+   * Prevents instances of this class from being generated.
+   *
+   * <p>
+   */
+  private CmsXmlUtils() {
+
+    // noop
+  }
+
+  /**
+   * Concatenates two Xpath expressions, ensuring that exactly one slash "/" is between them.
+   *
+   * <p>Use this method if it's uncertain if the given arguments are starting or ending with a slash
+   * "/".
+   *
+   * <p>Examples:<br>
+   * <code>"title", "subtitle"</code> becomes <code>title/subtitle</code><br>
+   * <code>"title[1]/", "subtitle"</code> becomes <code>title[1]/subtitle</code><br>
+   * <code>"title[1]/", "/subtitle[1]"</code> becomes <code>title[1]/subtitle[1]</code>
+   *
+   * <p>
+   *
+   * @param prefix the prefix Xpath
+   * @param suffix the suffix Xpath
+   * @return the concatenated Xpath build from prefix and suffix
+   */
+  public static String concatXpath(String prefix, String suffix) {
+
+    if (suffix == null) {
+      // ensure suffix is not null
+      suffix = "";
+    } else {
+      if ((suffix.length() > 0) && (suffix.charAt(0) == '/')) {
+        // remove leading '/' form suffix
+        suffix = suffix.substring(1);
+      }
+    }
+    if (prefix != null) {
+      StringBuffer result = new StringBuffer(32);
+      result.append(prefix);
+      if (!CmsResource.isFolder(prefix) && (suffix.length() > 0)) {
+        result.append('/');
+      }
+      result.append(suffix);
+      return result.toString();
+    }
+    return suffix;
+  }
+
+  /**
+   * Converts an org.dom4j.Document to a org.w3c.dom.Document.
+   *
+   * @param doc the document to convert
+   * @return the converted document
+   */
+  public static org.w3c.dom.Document convertDocumentFromDom4jToW3C(Document doc)
+      throws DocumentException {
+
+    return new DOMWriter().write(doc);
+  }
+
+  /**
+   * Converts an org.w3c.dom.Document to an org.dom4j.Document.
+   *
+   * @param doc the document to convert
+   * @return the converted document
+   */
+  public static Document convertDocumentFromW3CToDom4j(org.w3c.dom.Document doc) {
+
+    org.dom4j.io.DOMReader reader = new DOMReader();
+    return reader.read(doc);
+  }
+
+  /**
+   * Translates a simple lookup path to the simplified Xpath format used for the internal bookmarks.
+   *
+   * <p>Examples:<br>
+   * <code>title</code> becomes <code>title[1]</code><br>
+   * <code>title[1]</code> is left untouched<br>
+   * <code>title/subtitle</code> becomes <code>title[1]/subtitle[1]</code><br>
+   * <code>title/subtitle[1]</code> becomes <code>title[1]/subtitle[1]</code>
+   *
+   * <p>Note: If the name already has the format <code>title[1]</code> then provided index parameter
+   * is ignored.
+   *
+   * <p>
+   *
+   * @param path the path to get the simplified Xpath for
+   * @param index the index to append (if required)
+   * @return the simplified Xpath for the given name
+   */
+  public static String createXpath(String path, int index) {
+
+    if (path.indexOf('/') > -1) {
+      // this is a complex path over more then 1 node
+      StringBuffer result = new StringBuffer(path.length() + 32);
+
+      // split the path into sub elements
+      List<String> elements = CmsStringUtil.splitAsList(path, '/');
+      int end = elements.size() - 1;
+      for (int i = 0; i <= end; i++) {
+        // append [i] to path element if required
+        result.append(createXpathElementCheck(elements.get(i), (i == end) ? index : 1));
+        if (i < end) {
+          // append path delimiter if not final path element
+          result.append('/');
         }
-        if (prefix != null) {
-            StringBuffer result = new StringBuffer(32);
-            result.append(prefix);
-            if (!CmsResource.isFolder(prefix) && (suffix.length() > 0)) {
-                result.append('/');
-            }
-            result.append(suffix);
-            return result.toString();
-        }
-        return suffix;
+      }
+      return result.toString();
     }
 
-    /**
-     * Converts an org.dom4j.Document to a org.w3c.dom.Document.
-     *
-     * @param doc the document to convert
-     * @return the converted document
-     */
-    public static org.w3c.dom.Document convertDocumentFromDom4jToW3C(Document doc) throws DocumentException {
+    // this path has only 1 node, append [index] if required
+    return createXpathElementCheck(path, index);
+  }
 
-        return new DOMWriter().write(doc);
+  /**
+   * Appends the provided index parameter in square brackets to the given name, like <code>
+   * path[index]</code>.
+   *
+   * <p>This method is used if it's clear that some path does not have a square bracket already
+   * appended.
+   *
+   * <p>
+   *
+   * @param path the path append the index to
+   * @param index the index to append
+   * @return the simplified Xpath for the given name
+   */
+  public static String createXpathElement(String path, int index) {
+
+    StringBuffer result = new StringBuffer(path.length() + 5);
+    result.append(path);
+    result.append('[');
+    result.append(index);
+    result.append(']');
+    return result.toString();
+  }
+
+  /**
+   * Ensures that a provided simplified Xpath has the format <code>title[1]</code>.
+   *
+   * <p>This method is used if it's uncertain if some path does have a square bracket already
+   * appended or not.
+   *
+   * <p>Note: If the name already has the format <code>title[1]</code>, then provided index
+   * parameter is ignored.
+   *
+   * <p>
+   *
+   * @param path the path to get the simplified Xpath for
+   * @param index the index to append (if required)
+   * @return the simplified Xpath for the given name
+   */
+  public static String createXpathElementCheck(String path, int index) {
+
+    if (path.charAt(path.length() - 1) == ']') {
+      // path is already in the form "title[1]"
+      // ignore provided index and return the path "as is"
+      return path;
     }
 
-    /**
-     * Converts an org.w3c.dom.Document to an org.dom4j.Document.
-     *
-     * @param doc the document to convert
-     * @return the converted document
-     */
-    public static Document convertDocumentFromW3CToDom4j(org.w3c.dom.Document doc) {
+    // append index in square brackets
+    return createXpathElement(path, index);
+  }
 
-        org.dom4j.io.DOMReader reader = new DOMReader();
-        return reader.read(doc);
+  /**
+   * Returns the first Xpath element from the provided path, without the index value.
+   *
+   * <p>Examples:<br>
+   * <code>title</code> is left untouched<br>
+   * <code>title[1]</code> becomes <code>title</code><br>
+   * <code>title/subtitle</code> becomes <code>title</code><br>
+   * <code>title[1]/subtitle[1]</code> becomes <code>title</code>
+   *
+   * <p>
+   *
+   * @param path the path to get the first Xpath element from
+   * @return the first Xpath element from the provided path
+   */
+  public static String getFirstXpathElement(String path) {
+
+    int pos = path.indexOf('/');
+    if (pos >= 0) {
+      path = path.substring(0, pos);
     }
 
-    /**
-     * Translates a simple lookup path to the simplified Xpath format used for
-     * the internal bookmarks.<p>
-     *
-     * Examples:<br>
-     * <code>title</code> becomes <code>title[1]</code><br>
-     * <code>title[1]</code> is left untouched<br>
-     * <code>title/subtitle</code> becomes <code>title[1]/subtitle[1]</code><br>
-     * <code>title/subtitle[1]</code> becomes <code>title[1]/subtitle[1]</code><p>
-     *
-     * Note: If the name already has the format <code>title[1]</code> then provided index parameter
-     * is ignored.<p>
-     *
-     * @param path the path to get the simplified Xpath for
-     * @param index the index to append (if required)
-     *
-     * @return the simplified Xpath for the given name
-     */
-    public static String createXpath(String path, int index) {
+    return CmsXmlUtils.removeXpathIndex(path);
+  }
 
-        if (path.indexOf('/') > -1) {
-            // this is a complex path over more then 1 node
-            StringBuffer result = new StringBuffer(path.length() + 32);
+  /**
+   * Returns the last Xpath element from the provided path, without the index value.
+   *
+   * <p>Examples:<br>
+   * <code>title</code> is left untouched<br>
+   * <code>title[1]</code> becomes <code>title</code><br>
+   * <code>title/subtitle</code> becomes <code>subtitle</code><br>
+   * <code>title[1]/subtitle[1]</code> becomes <code>subtitle</code>
+   *
+   * <p>
+   *
+   * @param path the path to get the last Xpath element from
+   * @return the last Xpath element from the provided path
+   */
+  public static String getLastXpathElement(String path) {
 
-            // split the path into sub elements
-            List<String> elements = CmsStringUtil.splitAsList(path, '/');
-            int end = elements.size() - 1;
-            for (int i = 0; i <= end; i++) {
-                // append [i] to path element if required
-                result.append(createXpathElementCheck(elements.get(i), (i == end) ? index : 1));
-                if (i < end) {
-                    // append path delimiter if not final path element
-                    result.append('/');
-                }
-            }
-            return result.toString();
-        }
-
-        // this path has only 1 node, append [index] if required
-        return createXpathElementCheck(path, index);
+    int pos = path.lastIndexOf('/');
+    if (pos >= 0) {
+      path = path.substring(pos + 1);
     }
 
-    /**
-     * Appends the provided index parameter in square brackets to the given name,
-     * like <code>path[index]</code>.<p>
-     *
-     * This method is used if it's clear that some path does not have
-     * a square bracket already appended.<p>
-     *
-     * @param path the path append the index to
-     * @param index the index to append
-     *
-     * @return the simplified Xpath for the given name
-     */
-    public static String createXpathElement(String path, int index) {
+    return CmsXmlUtils.removeXpathIndex(path);
+  }
 
-        StringBuffer result = new StringBuffer(path.length() + 5);
-        result.append(path);
-        result.append('[');
-        result.append(index);
-        result.append(']');
-        return result.toString();
+  /**
+   * Returns the last Xpath element from the provided path.
+   *
+   * <p>Examples:<br>
+   * <code>title</code> is left untouched<br>
+   * <code>title[1]/subtitle[1]</code> becomes <code>subtitle[1]</code>
+   *
+   * <p>
+   *
+   * @param path the path to get the last Xpath element from
+   * @return the last Xpath element from the provided path
+   */
+  public static String getLastXpathElementWithIndex(String path) {
+
+    int pos = path.lastIndexOf('/');
+    if (pos >= 0) {
+      path = path.substring(pos + 1);
+    }
+    return path;
+  }
+
+  /**
+   * Helper method to get the version number from a schema's/content's XML document.
+   *
+   * @param doc the document
+   * @return the version (returns 0 if no version is set)
+   */
+  public static int getSchemaVersion(Document doc) {
+
+    if (doc == null) {
+      LOG.info("getSchemaVersion called with null document");
+      return 0;
+    }
+    Element root = doc.getRootElement();
+    Attribute versionAttr = root.attribute(CmsXmlContent.A_VERSION);
+    if (versionAttr != null) {
+      try {
+        return Integer.parseInt(versionAttr.getValue());
+      } catch (Exception e) {
+        LOG.error(e.getLocalizedMessage(), e);
+      }
+    }
+    return 0;
+  }
+
+  /**
+   * Returns the last Xpath index from the given path.
+   *
+   * <p>Examples:<br>
+   * <code>title</code> returns the empty String
+   *
+   * <p><code>title[1]</code> returns <code>[1]</code>
+   *
+   * <p><code>title/subtitle</code> returns them empty String
+   *
+   * <p><code>title[1]/subtitle[1]</code> returns <code>[1]</code>
+   *
+   * <p>
+   *
+   * @param path the path to extract the Xpath index from
+   * @return the last Xpath index from the given path
+   */
+  public static String getXpathIndex(String path) {
+
+    int pos1 = path.lastIndexOf('/');
+    int pos2 = path.lastIndexOf('[');
+    if ((pos2 < 0) || (pos1 > pos2)) {
+      return "";
     }
 
-    /**
-     * Ensures that a provided simplified Xpath has the format <code>title[1]</code>.<p>
-     *
-     * This method is used if it's uncertain if some path does have
-     * a square bracket already appended or not.<p>
-     *
-     * Note: If the name already has the format <code>title[1]</code>, then provided index parameter
-     * is ignored.<p>
-     *
-     * @param path the path to get the simplified Xpath for
-     * @param index the index to append (if required)
-     *
-     * @return the simplified Xpath for the given name
-     */
-    public static String createXpathElementCheck(String path, int index) {
+    return path.substring(pos2);
+  }
 
-        if (path.charAt(path.length() - 1) == ']') {
-            // path is already in the form "title[1]"
-            // ignore provided index and return the path "as is"
-            return path;
-        }
+  /**
+   * Returns the last Xpath index from the given path as integer.
+   *
+   * <p>Examples:<br>
+   * <code>title</code> returns 1
+   *
+   * <p><code>title[1]</code> returns 1
+   *
+   * <p><code>title/subtitle</code> returns 1
+   *
+   * <p><code>title[1]/subtitle[2]</code> returns 2
+   *
+   * <p>
+   *
+   * @param path the path to extract the Xpath index from
+   * @return the last Xpath index from the given path as integer
+   */
+  public static int getXpathIndexInt(String path) {
 
-        // append index in square brackets
-        return createXpathElement(path, index);
+    int pos1 = path.lastIndexOf('/');
+    int pos2 = path.lastIndexOf('[');
+    if ((pos2 < 0) || (pos1 > pos2)) {
+      return 1;
     }
 
-    /**
-     * Returns the first Xpath element from the provided path,
-     * without the index value.<p>
-     *
-     * Examples:<br>
-     * <code>title</code> is left untouched<br>
-     * <code>title[1]</code> becomes <code>title</code><br>
-     * <code>title/subtitle</code> becomes <code>title</code><br>
-     * <code>title[1]/subtitle[1]</code> becomes <code>title</code><p>
-     *
-     * @param path the path to get the first Xpath element from
-     *
-     * @return the first Xpath element from the provided path
-     */
-    public static String getFirstXpathElement(String path) {
+    String idxStr = path.substring(pos2 + 1, path.lastIndexOf(']'));
+    try {
+      return Integer.parseInt(idxStr);
+    } catch (NumberFormatException e) {
+      // NOOP
+    }
+    return 1;
+  }
 
-        int pos = path.indexOf('/');
-        if (pos >= 0) {
-            path = path.substring(0, pos);
-        }
+  /**
+   * Initializes XML processing system properties to avoid evaluating the XML parser and reader
+   * implementation each time an XML document is read.
+   *
+   * <p>This is done for performance improvements only.
+   *
+   * <p>
+   */
+  public static void initSystemProperties() {
 
-        return CmsXmlUtils.removeXpathIndex(path);
+    String implName;
+    // initialize system properties
+    if (System.getProperty(SAX_PARSER_FACTORY_KEY) == null) {
+      implName = SAXParserFactory.newInstance().getClass().getName();
+      LOG.info("Setting sax parser factory impl property to " + implName);
+      System.setProperty(SAX_PARSER_FACTORY_KEY, implName);
+    }
+    if (System.getProperty(XML_READER_KEY) == null) {
+      SAXReader reader = new SAXReader();
+      try {
+        implName = reader.getXMLReader().getClass().getName();
+        LOG.info("Setting xml reader impl property to " + implName);
+        System.setProperty(XML_READER_KEY, implName);
+      } catch (SAXException e) {
+        LOG.error("Error evaluating XMLReader impl.", e);
+      }
+    }
+    if (System.getProperty(SAX_PARSER_CONFIG_KEY) == null) {
+      ParserImpl saxParser = new ParserImpl();
+      implName = saxParser.getConfigImplName();
+      if (implName != null) {
+        LOG.info("Setting xml parser configuration impl property to " + implName);
+        System.setProperty(SAX_PARSER_CONFIG_KEY, implName);
+      }
+    }
+  }
+
+  /**
+   * Returns <code>true</code> if the given path is a Xpath with at least 2 elements.
+   *
+   * <p>Examples:<br>
+   * <code>title</code> returns <code>false</code><br>
+   * <code>title[1]</code> returns <code>false</code><br>
+   * <code>title/subtitle</code> returns <code>true</code><br>
+   * <code>title[1]/subtitle[1]</code> returns <code>true</code>
+   *
+   * <p>
+   *
+   * @param path the path to check
+   * @return true if the given path is a Xpath with at least 2 elements
+   */
+  public static boolean isDeepXpath(String path) {
+
+    return path.indexOf('/') > 0;
+  }
+
+  /**
+   * Marshals (writes) an XML document into an output stream using XML pretty-print formatting.
+   *
+   * <p>
+   *
+   * @param document the XML document to marshal
+   * @param out the output stream to write to
+   * @param encoding the encoding to use
+   * @return the output stream with the xml content
+   * @throws CmsXmlException if something goes wrong
+   */
+  public static OutputStream marshal(Document document, OutputStream out, String encoding)
+      throws CmsXmlException {
+
+    try {
+      OutputFormat format = OutputFormat.createPrettyPrint();
+      format.setEncoding(encoding);
+
+      XMLWriter writer = new XMLWriter(out, format);
+
+      writer.write(document);
+      writer.close();
+
+    } catch (Exception e) {
+      throw new CmsXmlException(Messages.get().container(Messages.ERR_MARSHALLING_XML_DOC_0), e);
     }
 
-    /**
-     * Returns the last Xpath element from the provided path,
-     * without the index value.<p>
-     *
-     * Examples:<br>
-     * <code>title</code> is left untouched<br>
-     * <code>title[1]</code> becomes <code>title</code><br>
-     * <code>title/subtitle</code> becomes <code>subtitle</code><br>
-     * <code>title[1]/subtitle[1]</code> becomes <code>subtitle</code><p>
-     *
-     * @param path the path to get the last Xpath element from
-     *
-     * @return the last Xpath element from the provided path
-     */
-    public static String getLastXpathElement(String path) {
+    return out;
+  }
 
-        int pos = path.lastIndexOf('/');
-        if (pos >= 0) {
-            path = path.substring(pos + 1);
-        }
+  /**
+   * Marshals (writes) an XML document to a String using XML pretty-print formatting.
+   *
+   * <p>
+   *
+   * @param document the XML document to marshal
+   * @param encoding the encoding to use
+   * @return the marshalled XML document
+   * @throws CmsXmlException if something goes wrong
+   */
+  public static String marshal(Document document, String encoding) throws CmsXmlException {
 
-        return CmsXmlUtils.removeXpathIndex(path);
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    marshal(document, out, encoding);
+    try {
+      return out.toString(encoding);
+    } catch (UnsupportedEncodingException e) {
+      throw new CmsXmlException(
+          Messages.get().container(Messages.ERR_MARSHALLING_XML_DOC_TO_STRING_0), e);
+    }
+  }
+
+  /**
+   * Marshals (writes) an XML node into an output stream using XML pretty-print formatting.
+   *
+   * <p>
+   *
+   * @param node the XML node to marshal
+   * @param encoding the encoding to use
+   * @return the string with the xml content
+   * @throws CmsXmlException if something goes wrong
+   */
+  public static String marshal(Node node, String encoding) throws CmsXmlException {
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    try {
+      OutputFormat format = OutputFormat.createPrettyPrint();
+      format.setEncoding(encoding);
+      format.setSuppressDeclaration(true);
+
+      XMLWriter writer = new XMLWriter(out, format);
+      writer.setEscapeText(false);
+
+      writer.write(node);
+      writer.close();
+    } catch (Exception e) {
+      throw new CmsXmlException(Messages.get().container(Messages.ERR_MARSHALLING_XML_DOC_0), e);
+    }
+    return new String(out.toByteArray());
+  }
+
+  /**
+   * Removes all Xpath indices from the given path.
+   *
+   * <p>Example:<br>
+   * <code>title</code> is left untouched<br>
+   * <code>title[1]</code> becomes <code>title</code><br>
+   * <code>title/subtitle</code> is left untouched<br>
+   * <code>title[1]/subtitle[1]</code> becomes <code>title/subtitle</code>
+   *
+   * <p>
+   *
+   * @param path the path to remove the Xpath index from
+   * @return the path with all Xpath indices removed
+   */
+  public static String removeAllXpathIndices(String path) {
+
+    return path.replaceAll("\\[[0-9]+\\]", "");
+  }
+
+  /**
+   * Removes the first Xpath element from the path.
+   *
+   * <p>If the provided path does not contain a "/" character, it is returned unchanged.
+   *
+   * <p>
+   *
+   * <p>Examples:<br>
+   * <code>title</code> is left untouched<br>
+   * <code>title[1]</code> is left untouched<br>
+   * <code>title/subtitle</code> becomes <code>subtitle</code><br>
+   * <code>title[1]/subtitle[1]</code> becomes <code>subtitle[1]</code>
+   *
+   * <p>
+   *
+   * @param path the Xpath to remove the first element from
+   * @return the path with the first element removed
+   */
+  public static String removeFirstXpathElement(String path) {
+
+    int pos = path.indexOf('/');
+    if (pos < 0) {
+      return path;
     }
 
-    /**
-     * Returns the last Xpath element from the provided path.
-     *
-     *
-     * Examples:<br>
-     * <code>title</code> is left untouched<br>
-     * <code>title[1]/subtitle[1]</code> becomes <code>subtitle[1]</code><p>
-     *
-     * @param path the path to get the last Xpath element from
-     *
-     * @return the last Xpath element from the provided path
-     */
-    public static String getLastXpathElementWithIndex(String path) {
+    return path.substring(pos + 1);
+  }
 
-        int pos = path.lastIndexOf('/');
-        if (pos >= 0) {
-            path = path.substring(pos + 1);
-        }
-        return path;
+  /**
+   * Removes the last complex Xpath element from the path.
+   *
+   * <p>The same as {@link #removeLastXpathElement(String)} both it works with more complex xpaths.
+   *
+   * <p>Example:<br>
+   * <code>system/backup[@date='23/10/2003']/resource[path='/a/b/c']</code> becomes <code>
+   * system/backup[@date='23/10/2003']</code>
+   *
+   * <p>
+   *
+   * @param path the Xpath to remove the last element from
+   * @return the path with the last element removed
+   */
+  public static String removeLastComplexXpathElement(String path) {
+
+    int pos = path.lastIndexOf('/');
+    if (pos < 0) {
+      return path;
+    }
+    // count ' chars
+    int p = pos;
+    int count = -1;
+    while (p > 0) {
+      count++;
+      p = path.indexOf("\'", p + 1);
+    }
+    String parentPath = path.substring(0, pos);
+    if ((count % 2) == 0) {
+      // if substring is complete
+      return parentPath;
+    }
+    // if not complete
+    p = parentPath.lastIndexOf("'");
+    if (p >= 0) {
+      // complete it if possible
+      return removeLastComplexXpathElement(parentPath.substring(0, p));
+    }
+    return parentPath;
+  }
+
+  /**
+   * Removes the last Xpath element from the path.
+   *
+   * <p>If the provided path does not contain a "/" character, it is returned unchanged.
+   *
+   * <p>
+   *
+   * <p>Examples:<br>
+   * <code>title</code> is left untouched<br>
+   * <code>title[1]</code> is left untouched<br>
+   * <code>title/subtitle</code> becomes <code>title</code><br>
+   * <code>title[1]/subtitle[1]</code> becomes <code>title[1]</code>
+   *
+   * <p>
+   *
+   * @param path the Xpath to remove the last element from
+   * @return the path with the last element removed
+   */
+  public static String removeLastXpathElement(String path) {
+
+    int pos = path.lastIndexOf('/');
+    if (pos < 0) {
+      return path;
     }
 
-    /**
-     * Helper method to get the version number from a schema's/content's XML document.
-     *
-     * @param doc the document
-     * @return the version (returns 0 if no version is set)
-     */
-    public static int getSchemaVersion(Document doc) {
+    return path.substring(0, pos);
+  }
 
-        if (doc == null) {
-            LOG.info("getSchemaVersion called with null document");
-            return 0;
+  /**
+   * Removes all Xpath index information from the given input path.
+   *
+   * <p>Examples:<br>
+   * <code>title</code> is left untouched<br>
+   * <code>title[1]</code> becomes <code>title</code><br>
+   * <code>title/subtitle</code> is left untouched<br>
+   * <code>title[1]/subtitle[1]</code> becomes <code>title/subtitle</code>
+   *
+   * <p>
+   *
+   * @param path the path to remove the Xpath index information from
+   * @return the simplified Xpath for the given name
+   */
+  public static String removeXpath(String path) {
+
+    if (path.indexOf('/') > -1) {
+      // this is a complex path over more then 1 node
+      StringBuffer result = new StringBuffer(path.length() + 32);
+
+      // split the path into sub-elements
+      List<String> elements = CmsStringUtil.splitAsList(path, '/');
+      int end = elements.size() - 1;
+      for (int i = 0; i <= end; i++) {
+        // remove [i] from path element if required
+        result.append(removeXpathIndex(elements.get(i)));
+        if (i < end) {
+          // append path delimiter if not final path element
+          result.append('/');
         }
-        Element root = doc.getRootElement();
-        Attribute versionAttr = root.attribute(CmsXmlContent.A_VERSION);
-        if (versionAttr != null) {
-            try {
-                return Integer.parseInt(versionAttr.getValue());
-            } catch (Exception e) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-        }
-        return 0;
+      }
+      return result.toString();
     }
 
-    /**
-     * Returns the last Xpath index from the given path.<p>
-     *
-     * Examples:<br>
-     * <code>title</code> returns the empty String<p>
-     * <code>title[1]</code> returns <code>[1]</code><p>
-     * <code>title/subtitle</code> returns them empty String<p>
-     * <code>title[1]/subtitle[1]</code> returns <code>[1]</code><p>
-     *
-     * @param path the path to extract the Xpath index from
-     *
-     * @return  the last Xpath index from the given path
-     */
-    public static String getXpathIndex(String path) {
+    // this path has only 1 node, remove last index if required
+    return removeXpathIndex(path);
+  }
 
-        int pos1 = path.lastIndexOf('/');
-        int pos2 = path.lastIndexOf('[');
-        if ((pos2 < 0) || (pos1 > pos2)) {
-            return "";
-        }
+  /**
+   * Removes the last Xpath index from the given path.
+   *
+   * <p>Examples:<br>
+   * <code>title</code> is left untouched<br>
+   * <code>title[1]</code> becomes <code>title</code><br>
+   * <code>title/subtitle</code> is left untouched<br>
+   * <code>title[1]/subtitle[1]</code> becomes <code>title[1]/subtitle</code>
+   *
+   * <p>
+   *
+   * @param path the path to remove the Xpath index from
+   * @return the path with the last Xpath index removed
+   */
+  public static String removeXpathIndex(String path) {
 
-        return path.substring(pos2);
+    int pos1 = path.lastIndexOf('/');
+    int pos2 = path.lastIndexOf('[');
+    if ((pos2 < 0) || (pos1 > pos2)) {
+      return path;
     }
 
-    /**
-     * Returns the last Xpath index from the given path as integer.<p>
-     *
-     * Examples:<br>
-     * <code>title</code> returns 1<p>
-     * <code>title[1]</code> returns 1<p>
-     * <code>title/subtitle</code> returns 1<p>
-     * <code>title[1]/subtitle[2]</code> returns 2<p>
-     *
-     * @param path the path to extract the Xpath index from
-     *
-     * @return the last Xpath index from the given path as integer
-     */
-    public static int getXpathIndexInt(String path) {
+    return path.substring(0, pos2);
+  }
 
-        int pos1 = path.lastIndexOf('/');
-        int pos2 = path.lastIndexOf('[');
-        if ((pos2 < 0) || (pos1 > pos2)) {
-            return 1;
-        }
+  /**
+   * Simplifies an Xpath by removing a leading and a trailing slash from the given path.
+   *
+   * <p>Examples:<br>
+   * <code>title/</code> becomes <code>title</code><br>
+   * <code>/title[1]/</code> becomes <code>title[1]</code><br>
+   * <code>/title/subtitle/</code> becomes <code>title/subtitle</code><br>
+   * <code>/title/subtitle[1]/</code> becomes <code>title/subtitle[1]</code>
+   *
+   * <p>
+   *
+   * @param path the path to process
+   * @return the input with a leading and a trailing slash removed
+   */
+  public static String simplifyXpath(String path) {
 
-        String idxStr = path.substring(pos2 + 1, path.lastIndexOf(']'));
-        try {
-            return Integer.parseInt(idxStr);
-        } catch (NumberFormatException e) {
-            // NOOP
-        }
-        return 1;
+    StringBuffer result = new StringBuffer(path);
+    if (result.charAt(0) == '/') {
+      result.deleteCharAt(0);
+    }
+    int pos = result.length() - 1;
+    if (result.charAt(pos) == '/') {
+      result.deleteCharAt(pos);
+    }
+    return result.toString();
+  }
+
+  /**
+   * Splits a content value path into its components, ignoring leading or trailing slashes.
+   *
+   * <p>Note: this does not work for XPaths in general, only for the paths used to identify values
+   * in OpenCms contents.
+   *
+   * <p>
+   *
+   * @param xpath the xpath
+   * @return the path components
+   */
+  public static List<String> splitXpath(String xpath) {
+
+    return Arrays.stream(xpath.split("/")).filter(s -> !s.isEmpty()).collect(Collectors.toList());
+  }
+
+  /**
+   * Helper to unmarshal (read) xml contents from a byte array into a document.
+   *
+   * <p>Using this method ensures that the OpenCms XML entity resolver is used.
+   *
+   * <p>
+   *
+   * @param xmlData the XML data in a byte array
+   * @param resolver the XML entity resolver to use
+   * @return the base object initialized with the unmarshalled XML document
+   * @throws CmsXmlException if something goes wrong
+   * @see CmsXmlUtils#unmarshalHelper(InputSource, EntityResolver)
+   */
+  public static Document unmarshalHelper(byte[] xmlData, EntityResolver resolver)
+      throws CmsXmlException {
+
+    return CmsXmlUtils.unmarshalHelper(
+        new InputSource(new ByteArrayInputStream(xmlData)), resolver);
+  }
+
+  /**
+   * Helper to unmarshal (read) xml contents from a byte array into a document.
+   *
+   * <p>Using this method ensures that the OpenCms XML entity resolver is used.
+   *
+   * <p>
+   *
+   * @param xmlData the XML data in a byte array
+   * @param resolver the XML entity resolver to use
+   * @param validate if the reader should try to validate the xml code
+   * @return the base object initialized with the unmarshalled XML document
+   * @throws CmsXmlException if something goes wrong
+   * @see CmsXmlUtils#unmarshalHelper(InputSource, EntityResolver)
+   */
+  public static Document unmarshalHelper(byte[] xmlData, EntityResolver resolver, boolean validate)
+      throws CmsXmlException {
+
+    return CmsXmlUtils.unmarshalHelper(
+        new InputSource(new ByteArrayInputStream(xmlData)), resolver, validate);
+  }
+
+  /**
+   * Helper to unmarshal (read) xml contents from an input source into a document.
+   *
+   * <p>Using this method ensures that the OpenCms XML entity resolver is used.
+   *
+   * <p>Important: The encoding provided will NOT be used during unmarshalling, the XML parser will
+   * do this on the base of the information in the source String. The encoding is used for
+   * initializing the created instance of the document, which means it will be used when marshalling
+   * the document again later.
+   *
+   * <p>
+   *
+   * @param source the XML input source to use
+   * @param resolver the XML entity resolver to use
+   * @return the unmarshalled XML document
+   * @throws CmsXmlException if something goes wrong
+   */
+  public static Document unmarshalHelper(InputSource source, EntityResolver resolver)
+      throws CmsXmlException {
+
+    return unmarshalHelper(source, resolver, false);
+  }
+
+  /**
+   * Helper to unmarshal (read) xml contents from an input source into a document.
+   *
+   * <p>Using this method ensures that the OpenCms XML entity resolver is used.
+   *
+   * <p>Important: The encoding provided will NOT be used during unmarshalling, the XML parser will
+   * do this on the base of the information in the source String. The encoding is used for
+   * initializing the created instance of the document, which means it will be used when marshalling
+   * the document again later.
+   *
+   * <p>
+   *
+   * @param source the XML input source to use
+   * @param resolver the XML entity resolver to use
+   * @param validate if the reader should try to validate the xml code
+   * @return the unmarshalled XML document
+   * @throws CmsXmlException if something goes wrong
+   */
+  public static Document unmarshalHelper(
+      InputSource source, EntityResolver resolver, boolean validate) throws CmsXmlException {
+
+    if (null == source) {
+      throw new CmsXmlException(
+          Messages.get().container(Messages.ERR_UNMARSHALLING_XML_DOC_1, "source==null!"));
     }
 
-    /**
-     * Initializes XML processing system properties to avoid evaluating the XML parser and reader implementation each time an XML document is read.<p>
-     * This is done for performance improvements only.<p>
-     */
-    public static void initSystemProperties() {
+    try {
+      SAXReader reader = new SAXReader();
+      if (resolver != null) {
+        reader.setEntityResolver(resolver);
+      }
+      reader.setMergeAdjacentText(true);
+      reader.setStripWhitespaceText(true);
+      if (!validate) {
+        reader.setValidation(false);
+        reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+      } else {
+        reader.setValidation(true);
+      }
+      return reader.read(source);
+    } catch (DocumentException e) {
+      String systemId = source != null ? source.getSystemId() : "???";
+      throw new CmsXmlException(
+          Messages.get()
+              .container(Messages.ERR_UNMARSHALLING_XML_DOC_1, "(systemId = " + systemId + ")"),
+          e);
+    } catch (SAXException e) {
+      String systemId = source != null ? source.getSystemId() : "???";
+      throw new CmsXmlException(
+          Messages.get()
+              .container(Messages.ERR_UNMARSHALLING_XML_DOC_1, "(systemId = " + systemId + ")"),
+          e);
+    }
+  }
 
-        String implName;
-        // initialize system properties
-        if (System.getProperty(SAX_PARSER_FACTORY_KEY) == null) {
-            implName = SAXParserFactory.newInstance().getClass().getName();
-            LOG.info("Setting sax parser factory impl property to " + implName);
-            System.setProperty(SAX_PARSER_FACTORY_KEY, implName);
-        }
-        if (System.getProperty(XML_READER_KEY) == null) {
-            SAXReader reader = new SAXReader();
-            try {
-                implName = reader.getXMLReader().getClass().getName();
-                LOG.info("Setting xml reader impl property to " + implName);
-                System.setProperty(XML_READER_KEY, implName);
-            } catch (SAXException e) {
-                LOG.error("Error evaluating XMLReader impl.", e);
-            }
-        }
-        if (System.getProperty(SAX_PARSER_CONFIG_KEY) == null) {
-            ParserImpl saxParser = new ParserImpl();
-            implName = saxParser.getConfigImplName();
-            if (implName != null) {
-                LOG.info("Setting xml parser configuration impl property to " + implName);
-                System.setProperty(SAX_PARSER_CONFIG_KEY, implName);
-            }
-        }
+  /**
+   * Helper to unmarshal (read) xml contents from a String into a document.
+   *
+   * <p>Using this method ensures that the OpenCms XML entitiy resolver is used.
+   *
+   * <p>
+   *
+   * @param xmlData the xml data in a String
+   * @param resolver the XML entity resolver to use
+   * @return the base object initialized with the unmarshalled XML document
+   * @throws CmsXmlException if something goes wrong
+   * @see CmsXmlUtils#unmarshalHelper(InputSource, EntityResolver)
+   */
+  public static Document unmarshalHelper(String xmlData, EntityResolver resolver)
+      throws CmsXmlException {
+
+    return CmsXmlUtils.unmarshalHelper(new InputSource(new StringReader(xmlData)), resolver);
+  }
+
+  /**
+   * Validates the structure of a XML document contained in a byte array with the DTD or XML schema
+   * used by the document.
+   *
+   * <p>
+   *
+   * @param xmlData a byte array containing a XML document that should be validated
+   * @param resolver the XML entity resolver to use
+   * @throws CmsXmlException if the validation fails
+   */
+  public static void validateXmlStructure(byte[] xmlData, EntityResolver resolver)
+      throws CmsXmlException {
+
+    validateXmlStructure(new ByteArrayInputStream(xmlData), resolver);
+  }
+
+  /**
+   * Validates the structure of a XML document with the DTD or XML schema used by the document.
+   *
+   * <p>
+   *
+   * @param document a XML document that should be validated
+   * @param encoding the encoding to use when marshalling the XML document (required)
+   * @param resolver the XML entity resolver to use
+   * @throws CmsXmlException if the validation fails
+   */
+  public static void validateXmlStructure(
+      Document document, String encoding, EntityResolver resolver) throws CmsXmlException {
+
+    // generate bytes from document
+    byte[] xmlData =
+        ((ByteArrayOutputStream) marshal(document, new ByteArrayOutputStream(512), encoding))
+            .toByteArray();
+    validateXmlStructure(xmlData, resolver);
+  }
+
+  /**
+   * Validates the structure of a XML document contained in a byte array with the DTD or XML schema
+   * used by the document.
+   *
+   * <p>
+   *
+   * @param xmlStream a source providing a XML document that should be validated
+   * @param resolver the XML entity resolver to use
+   * @throws CmsXmlException if the validation fails
+   */
+  public static void validateXmlStructure(InputStream xmlStream, EntityResolver resolver)
+      throws CmsXmlException {
+
+    XMLReader reader;
+    try {
+      reader = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
+    } catch (SAXException e) {
+      // xerces parser not available - no schema validation possible
+      if (LOG.isWarnEnabled()) {
+        LOG.warn(
+            Messages.get().getBundle().key(Messages.LOG_VALIDATION_INIT_XERXES_SAX_READER_FAILED_0),
+            e);
+      }
+      // no validation of the content is possible
+      return;
+    }
+    // turn on validation
+    try {
+      reader.setFeature("http://xml.org/sax/features/validation", true);
+      // turn on schema validation
+      reader.setFeature("http://apache.org/xml/features/validation/schema", true);
+      // configure namespace support
+      reader.setFeature("http://xml.org/sax/features/namespaces", true);
+      reader.setFeature("http://xml.org/sax/features/namespace-prefixes", false);
+    } catch (SAXNotRecognizedException e) {
+      // should not happen as Xerces 2 support this feature
+      if (LOG.isWarnEnabled()) {
+        LOG.warn(
+            Messages.get().getBundle().key(Messages.LOG_SAX_READER_FEATURE_NOT_RECOGNIZED_0), e);
+      }
+      // no validation of the content is possible
+      return;
+    } catch (SAXNotSupportedException e) {
+      // should not happen as Xerces 2 support this feature
+      if (LOG.isWarnEnabled()) {
+        LOG.warn(
+            Messages.get().getBundle().key(Messages.LOG_SAX_READER_FEATURE_NOT_SUPPORTED_0), e);
+      }
+      // no validation of the content is possible
+      return;
     }
 
-    /**
-     * Returns <code>true</code> if the given path is a Xpath with
-     * at least 2 elements.<p>
-     *
-     * Examples:<br>
-     * <code>title</code> returns <code>false</code><br>
-     * <code>title[1]</code> returns <code>false</code><br>
-     * <code>title/subtitle</code> returns <code>true</code><br>
-     * <code>title[1]/subtitle[1]</code> returns <code>true</code><p>
-     *
-     * @param path the path to check
-     * @return true if the given path is a Xpath with at least 2 elements
-     */
-    public static boolean isDeepXpath(String path) {
+    // add an error handler which turns any errors into XML
+    CmsXmlValidationErrorHandler errorHandler = new CmsXmlValidationErrorHandler();
+    reader.setErrorHandler(errorHandler);
 
-        return path.indexOf('/') > 0;
+    if (resolver != null) {
+      // set the resolver for the "opencms://" URIs
+      reader.setEntityResolver(resolver);
     }
 
-    /**
-     * Marshals (writes) an XML document into an output stream using XML pretty-print formatting.<p>
-     *
-     * @param document the XML document to marshal
-     * @param out the output stream to write to
-     * @param encoding the encoding to use
-     * @return the output stream with the xml content
-     * @throws CmsXmlException if something goes wrong
-     */
-    public static OutputStream marshal(Document document, OutputStream out, String encoding) throws CmsXmlException {
-
-        try {
-            OutputFormat format = OutputFormat.createPrettyPrint();
-            format.setEncoding(encoding);
-
-            XMLWriter writer = new XMLWriter(out, format);
-
-            writer.write(document);
-            writer.close();
-
-        } catch (Exception e) {
-            throw new CmsXmlException(Messages.get().container(Messages.ERR_MARSHALLING_XML_DOC_0), e);
-        }
-
-        return out;
+    try {
+      reader.parse(new InputSource(xmlStream));
+    } catch (IOException e) {
+      // should not happen since we read form a byte array
+      if (LOG.isErrorEnabled()) {
+        LOG.error(Messages.get().getBundle().key(Messages.LOG_READ_XML_FROM_BYTE_ARR_FAILED_0), e);
+      }
+      return;
+    } catch (SAXException e) {
+      // should not happen since all errors are handled in the XML error handler
+      if (LOG.isErrorEnabled()) {
+        LOG.error(Messages.get().getBundle().key(Messages.LOG_PARSE_SAX_EXC_0), e);
+      }
+      return;
     }
 
-    /**
-     * Marshals (writes) an XML document to a String using XML pretty-print formatting.<p>
-     *
-     * @param document the XML document to marshal
-     * @param encoding the encoding to use
-     * @return the marshalled XML document
-     * @throws CmsXmlException if something goes wrong
-     */
-    public static String marshal(Document document, String encoding) throws CmsXmlException {
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        marshal(document, out, encoding);
-        try {
-            return out.toString(encoding);
-        } catch (UnsupportedEncodingException e) {
-            throw new CmsXmlException(Messages.get().container(Messages.ERR_MARSHALLING_XML_DOC_TO_STRING_0), e);
+    if (errorHandler.getErrors().elements().size() > 0) {
+      // there was at last one validation error, so throw an exception
+      StringWriter out = new StringWriter(256);
+      OutputFormat format = OutputFormat.createPrettyPrint();
+      XMLWriter writer = new XMLWriter(out, format);
+      try {
+        writer.write(errorHandler.getErrors());
+        writer.write(errorHandler.getWarnings());
+        writer.close();
+      } catch (IOException e) {
+        // should not happen since we write to a StringWriter
+        if (LOG.isErrorEnabled()) {
+          LOG.error(Messages.get().getBundle().key(Messages.LOG_STRINGWRITER_IO_EXC_0), e);
         }
+      }
+      // generate String from XML for display of document in error message
+      throw new CmsXmlException(
+          Messages.get().container(Messages.ERR_XML_VALIDATION_1, out.toString()));
     }
-
-    /**
-     * Marshals (writes) an XML node into an output stream using XML pretty-print formatting.<p>
-     *
-     * @param node the XML node to marshal
-     * @param encoding the encoding to use
-     *
-     * @return the string with the xml content
-     *
-     * @throws CmsXmlException if something goes wrong
-     */
-    public static String marshal(Node node, String encoding) throws CmsXmlException {
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            OutputFormat format = OutputFormat.createPrettyPrint();
-            format.setEncoding(encoding);
-            format.setSuppressDeclaration(true);
-
-            XMLWriter writer = new XMLWriter(out, format);
-            writer.setEscapeText(false);
-
-            writer.write(node);
-            writer.close();
-        } catch (Exception e) {
-            throw new CmsXmlException(Messages.get().container(Messages.ERR_MARSHALLING_XML_DOC_0), e);
-        }
-        return new String(out.toByteArray());
-    }
-
-    /**
-     * Removes all Xpath indices from the given path.<p>
-     *
-     * Example:<br>
-     * <code>title</code> is left untouched<br>
-     * <code>title[1]</code> becomes <code>title</code><br>
-     * <code>title/subtitle</code> is left untouched<br>
-     * <code>title[1]/subtitle[1]</code> becomes <code>title/subtitle</code><p>
-     *
-     * @param path the path to remove the Xpath index from
-     *
-     * @return the path with all Xpath indices removed
-     */
-    public static String removeAllXpathIndices(String path) {
-
-        return path.replaceAll("\\[[0-9]+\\]", "");
-    }
-
-    /**
-     * Removes the first Xpath element from the path.<p>
-     *
-     * If the provided path does not contain a "/" character,
-     * it is returned unchanged.<p>
-     *
-     * <p>Examples:<br>
-     * <code>title</code> is left untouched<br>
-     * <code>title[1]</code> is left untouched<br>
-     * <code>title/subtitle</code> becomes <code>subtitle</code><br>
-     * <code>title[1]/subtitle[1]</code> becomes <code>subtitle[1]</code><p>
-     *
-     * @param path the Xpath to remove the first element from
-     *
-     * @return the path with the first element removed
-     */
-    public static String removeFirstXpathElement(String path) {
-
-        int pos = path.indexOf('/');
-        if (pos < 0) {
-            return path;
-        }
-
-        return path.substring(pos + 1);
-    }
-
-    /**
-     * Removes the last complex Xpath element from the path.<p>
-     *
-     * The same as {@link #removeLastXpathElement(String)} both it works with more complex xpaths.
-     *
-     * <p>Example:<br>
-     * <code>system/backup[@date='23/10/2003']/resource[path='/a/b/c']</code> becomes <code>system/backup[@date='23/10/2003']</code><p>
-     *
-     * @param path the Xpath to remove the last element from
-     *
-     * @return the path with the last element removed
-     */
-    public static String removeLastComplexXpathElement(String path) {
-
-        int pos = path.lastIndexOf('/');
-        if (pos < 0) {
-            return path;
-        }
-        // count ' chars
-        int p = pos;
-        int count = -1;
-        while (p > 0) {
-            count++;
-            p = path.indexOf("\'", p + 1);
-        }
-        String parentPath = path.substring(0, pos);
-        if ((count % 2) == 0) {
-            // if substring is complete
-            return parentPath;
-        }
-        // if not complete
-        p = parentPath.lastIndexOf("'");
-        if (p >= 0) {
-            // complete it if possible
-            return removeLastComplexXpathElement(parentPath.substring(0, p));
-        }
-        return parentPath;
-    }
-
-    /**
-     * Removes the last Xpath element from the path.<p>
-     *
-     * If the provided path does not contain a "/" character,
-     * it is returned unchanged.<p>
-     *
-     * <p>Examples:<br>
-     * <code>title</code> is left untouched<br>
-     * <code>title[1]</code> is left untouched<br>
-     * <code>title/subtitle</code> becomes <code>title</code><br>
-     * <code>title[1]/subtitle[1]</code> becomes <code>title[1]</code><p>
-     *
-     * @param path the Xpath to remove the last element from
-     *
-     * @return the path with the last element removed
-     */
-    public static String removeLastXpathElement(String path) {
-
-        int pos = path.lastIndexOf('/');
-        if (pos < 0) {
-            return path;
-        }
-
-        return path.substring(0, pos);
-    }
-
-    /**
-     * Removes all Xpath index information from the given input path.<p>
-     *
-     * Examples:<br>
-     * <code>title</code> is left untouched<br>
-     * <code>title[1]</code> becomes <code>title</code><br>
-     * <code>title/subtitle</code> is left untouched<br>
-     * <code>title[1]/subtitle[1]</code> becomes <code>title/subtitle</code><p>
-     *
-     * @param path the path to remove the Xpath index information from
-     *
-     * @return the simplified Xpath for the given name
-     */
-    public static String removeXpath(String path) {
-
-        if (path.indexOf('/') > -1) {
-            // this is a complex path over more then 1 node
-            StringBuffer result = new StringBuffer(path.length() + 32);
-
-            // split the path into sub-elements
-            List<String> elements = CmsStringUtil.splitAsList(path, '/');
-            int end = elements.size() - 1;
-            for (int i = 0; i <= end; i++) {
-                // remove [i] from path element if required
-                result.append(removeXpathIndex(elements.get(i)));
-                if (i < end) {
-                    // append path delimiter if not final path element
-                    result.append('/');
-                }
-            }
-            return result.toString();
-        }
-
-        // this path has only 1 node, remove last index if required
-        return removeXpathIndex(path);
-    }
-
-    /**
-     * Removes the last Xpath index from the given path.<p>
-     *
-     * Examples:<br>
-     * <code>title</code> is left untouched<br>
-     * <code>title[1]</code> becomes <code>title</code><br>
-     * <code>title/subtitle</code> is left untouched<br>
-     * <code>title[1]/subtitle[1]</code> becomes <code>title[1]/subtitle</code><p>
-     *
-     * @param path the path to remove the Xpath index from
-     *
-     * @return the path with the last Xpath index removed
-     */
-    public static String removeXpathIndex(String path) {
-
-        int pos1 = path.lastIndexOf('/');
-        int pos2 = path.lastIndexOf('[');
-        if ((pos2 < 0) || (pos1 > pos2)) {
-            return path;
-        }
-
-        return path.substring(0, pos2);
-    }
-
-    /**
-     * Simplifies an Xpath by removing a leading and a trailing slash from the given path.<p>
-     *
-     * Examples:<br>
-     * <code>title/</code> becomes <code>title</code><br>
-     * <code>/title[1]/</code> becomes <code>title[1]</code><br>
-     * <code>/title/subtitle/</code> becomes <code>title/subtitle</code><br>
-     * <code>/title/subtitle[1]/</code> becomes <code>title/subtitle[1]</code><p>
-     *
-     * @param path the path to process
-     * @return the input with a leading and a trailing slash removed
-     */
-    public static String simplifyXpath(String path) {
-
-        StringBuffer result = new StringBuffer(path);
-        if (result.charAt(0) == '/') {
-            result.deleteCharAt(0);
-        }
-        int pos = result.length() - 1;
-        if (result.charAt(pos) == '/') {
-            result.deleteCharAt(pos);
-        }
-        return result.toString();
-    }
-
-    /**
-     * Splits a content value path into its components, ignoring leading or trailing slashes.<p>
-     *
-     * Note: this does not work for XPaths in general, only for the paths used to identify values in OpenCms contents.<p>
-     *
-     * @param xpath the xpath
-     *
-     * @return the path components
-     */
-    public static List<String> splitXpath(String xpath) {
-
-        return Arrays.stream(xpath.split("/")).filter(s -> !s.isEmpty()).collect(Collectors.toList());
-
-    }
-
-    /**
-     * Helper to unmarshal (read) xml contents from a byte array into a document.<p>
-     *
-     * Using this method ensures that the OpenCms XML entity resolver is used.<p>
-     *
-     * @param xmlData the XML data in a byte array
-     * @param resolver the XML entity resolver to use
-     *
-     * @return the base object initialized with the unmarshalled XML document
-     *
-     * @throws CmsXmlException if something goes wrong
-     *
-     * @see CmsXmlUtils#unmarshalHelper(InputSource, EntityResolver)
-     */
-    public static Document unmarshalHelper(byte[] xmlData, EntityResolver resolver) throws CmsXmlException {
-
-        return CmsXmlUtils.unmarshalHelper(new InputSource(new ByteArrayInputStream(xmlData)), resolver);
-    }
-
-    /**
-     * Helper to unmarshal (read) xml contents from a byte array into a document.<p>
-     *
-     * Using this method ensures that the OpenCms XML entity resolver is used.<p>
-     *
-     * @param xmlData the XML data in a byte array
-     * @param resolver the XML entity resolver to use
-     * @param validate if the reader should try to validate the xml code
-     *
-     * @return the base object initialized with the unmarshalled XML document
-     *
-     * @throws CmsXmlException if something goes wrong
-     *
-     * @see CmsXmlUtils#unmarshalHelper(InputSource, EntityResolver)
-     */
-    public static Document unmarshalHelper(byte[] xmlData, EntityResolver resolver, boolean validate)
-    throws CmsXmlException {
-
-        return CmsXmlUtils.unmarshalHelper(new InputSource(new ByteArrayInputStream(xmlData)), resolver, validate);
-    }
-
-    /**
-     * Helper to unmarshal (read) xml contents from an input source into a document.<p>
-     *
-     * Using this method ensures that the OpenCms XML entity resolver is used.<p>
-     *
-     * Important: The encoding provided will NOT be used during unmarshalling,
-     * the XML parser will do this on the base of the information in the source String.
-     * The encoding is used for initializing the created instance of the document,
-     * which means it will be used when marshalling the document again later.<p>
-     *
-     * @param source the XML input source to use
-     * @param resolver the XML entity resolver to use
-     *
-     * @return the unmarshalled XML document
-     *
-     * @throws CmsXmlException if something goes wrong
-     */
-    public static Document unmarshalHelper(InputSource source, EntityResolver resolver) throws CmsXmlException {
-
-        return unmarshalHelper(source, resolver, false);
-    }
-
-    /**
-     * Helper to unmarshal (read) xml contents from an input source into a document.<p>
-     *
-     * Using this method ensures that the OpenCms XML entity resolver is used.<p>
-     *
-     * Important: The encoding provided will NOT be used during unmarshalling,
-     * the XML parser will do this on the base of the information in the source String.
-     * The encoding is used for initializing the created instance of the document,
-     * which means it will be used when marshalling the document again later.<p>
-     *
-     * @param source the XML input source to use
-     * @param resolver the XML entity resolver to use
-     * @param validate if the reader should try to validate the xml code
-     *
-     * @return the unmarshalled XML document
-     *
-     * @throws CmsXmlException if something goes wrong
-     */
-    public static Document unmarshalHelper(InputSource source, EntityResolver resolver, boolean validate)
-    throws CmsXmlException {
-
-        if (null == source) {
-            throw new CmsXmlException(Messages.get().container(Messages.ERR_UNMARSHALLING_XML_DOC_1, "source==null!"));
-        }
-
-        try {
-            SAXReader reader = new SAXReader();
-            if (resolver != null) {
-                reader.setEntityResolver(resolver);
-            }
-            reader.setMergeAdjacentText(true);
-            reader.setStripWhitespaceText(true);
-            if (!validate) {
-                reader.setValidation(false);
-                reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-            } else {
-                reader.setValidation(true);
-            }
-            return reader.read(source);
-        } catch (DocumentException e) {
-            String systemId = source != null ? source.getSystemId() : "???";
-            throw new CmsXmlException(
-                Messages.get().container(Messages.ERR_UNMARSHALLING_XML_DOC_1, "(systemId = " + systemId + ")"),
-                e);
-        } catch (SAXException e) {
-            String systemId = source != null ? source.getSystemId() : "???";
-            throw new CmsXmlException(
-                Messages.get().container(Messages.ERR_UNMARSHALLING_XML_DOC_1, "(systemId = " + systemId + ")"),
-                e);
-        }
-    }
-
-    /**
-     * Helper to unmarshal (read) xml contents from a String into a document.<p>
-     *
-     * Using this method ensures that the OpenCms XML entitiy resolver is used.<p>
-     *
-     * @param xmlData the xml data in a String
-     * @param resolver the XML entity resolver to use
-     * @return the base object initialized with the unmarshalled XML document
-     * @throws CmsXmlException if something goes wrong
-     * @see CmsXmlUtils#unmarshalHelper(InputSource, EntityResolver)
-     */
-    public static Document unmarshalHelper(String xmlData, EntityResolver resolver) throws CmsXmlException {
-
-        return CmsXmlUtils.unmarshalHelper(new InputSource(new StringReader(xmlData)), resolver);
-    }
-
-    /**
-     * Validates the structure of a XML document contained in a byte array
-     * with the DTD or XML schema used by the document.<p>
-     *
-     * @param xmlData a byte array containing a XML document that should be validated
-     * @param resolver the XML entity resolver to use
-     *
-     * @throws CmsXmlException if the validation fails
-     */
-    public static void validateXmlStructure(byte[] xmlData, EntityResolver resolver) throws CmsXmlException {
-
-        validateXmlStructure(new ByteArrayInputStream(xmlData), resolver);
-    }
-
-    /**
-     * Validates the structure of a XML document with the DTD or XML schema used
-     * by the document.<p>
-     *
-     * @param document a XML document that should be validated
-     * @param encoding the encoding to use when marshalling the XML document (required)
-     * @param resolver the XML entity resolver to use
-     *
-     * @throws CmsXmlException if the validation fails
-     */
-    public static void validateXmlStructure(Document document, String encoding, EntityResolver resolver)
-    throws CmsXmlException {
-
-        // generate bytes from document
-        byte[] xmlData = ((ByteArrayOutputStream)marshal(
-            document,
-            new ByteArrayOutputStream(512),
-            encoding)).toByteArray();
-        validateXmlStructure(xmlData, resolver);
-    }
-
-    /**
-     * Validates the structure of a XML document contained in a byte array
-     * with the DTD or XML schema used by the document.<p>
-     *
-     * @param xmlStream a source providing a XML document that should be validated
-     * @param resolver the XML entity resolver to use
-     *
-     * @throws CmsXmlException if the validation fails
-     */
-    public static void validateXmlStructure(InputStream xmlStream, EntityResolver resolver) throws CmsXmlException {
-
-        XMLReader reader;
-        try {
-            reader = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
-        } catch (SAXException e) {
-            // xerces parser not available - no schema validation possible
-            if (LOG.isWarnEnabled()) {
-                LOG.warn(Messages.get().getBundle().key(Messages.LOG_VALIDATION_INIT_XERXES_SAX_READER_FAILED_0), e);
-            }
-            // no validation of the content is possible
-            return;
-        }
-        // turn on validation
-        try {
-            reader.setFeature("http://xml.org/sax/features/validation", true);
-            // turn on schema validation
-            reader.setFeature("http://apache.org/xml/features/validation/schema", true);
-            // configure namespace support
-            reader.setFeature("http://xml.org/sax/features/namespaces", true);
-            reader.setFeature("http://xml.org/sax/features/namespace-prefixes", false);
-        } catch (SAXNotRecognizedException e) {
-            // should not happen as Xerces 2 support this feature
-            if (LOG.isWarnEnabled()) {
-                LOG.warn(Messages.get().getBundle().key(Messages.LOG_SAX_READER_FEATURE_NOT_RECOGNIZED_0), e);
-            }
-            // no validation of the content is possible
-            return;
-        } catch (SAXNotSupportedException e) {
-            // should not happen as Xerces 2 support this feature
-            if (LOG.isWarnEnabled()) {
-                LOG.warn(Messages.get().getBundle().key(Messages.LOG_SAX_READER_FEATURE_NOT_SUPPORTED_0), e);
-            }
-            // no validation of the content is possible
-            return;
-        }
-
-        // add an error handler which turns any errors into XML
-        CmsXmlValidationErrorHandler errorHandler = new CmsXmlValidationErrorHandler();
-        reader.setErrorHandler(errorHandler);
-
-        if (resolver != null) {
-            // set the resolver for the "opencms://" URIs
-            reader.setEntityResolver(resolver);
-        }
-
-        try {
-            reader.parse(new InputSource(xmlStream));
-        } catch (IOException e) {
-            // should not happen since we read form a byte array
-            if (LOG.isErrorEnabled()) {
-                LOG.error(Messages.get().getBundle().key(Messages.LOG_READ_XML_FROM_BYTE_ARR_FAILED_0), e);
-            }
-            return;
-        } catch (SAXException e) {
-            // should not happen since all errors are handled in the XML error handler
-            if (LOG.isErrorEnabled()) {
-                LOG.error(Messages.get().getBundle().key(Messages.LOG_PARSE_SAX_EXC_0), e);
-            }
-            return;
-        }
-
-        if (errorHandler.getErrors().elements().size() > 0) {
-            // there was at last one validation error, so throw an exception
-            StringWriter out = new StringWriter(256);
-            OutputFormat format = OutputFormat.createPrettyPrint();
-            XMLWriter writer = new XMLWriter(out, format);
-            try {
-                writer.write(errorHandler.getErrors());
-                writer.write(errorHandler.getWarnings());
-                writer.close();
-            } catch (IOException e) {
-                // should not happen since we write to a StringWriter
-                if (LOG.isErrorEnabled()) {
-                    LOG.error(Messages.get().getBundle().key(Messages.LOG_STRINGWRITER_IO_EXC_0), e);
-                }
-            }
-            // generate String from XML for display of document in error message
-            throw new CmsXmlException(Messages.get().container(Messages.ERR_XML_VALIDATION_1, out.toString()));
-        }
-    }
+  }
 }

@@ -27,52 +27,57 @@
 
 package org.opencms.gwt.shared.rpc;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.List;
 import org.opencms.gwt.shared.CmsUploadFileBean;
 import org.opencms.gwt.shared.CmsUploadProgessInfo;
 
-import java.util.List;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * Handles all RPC services related to the upload dialog.<p>
+ * Handles all RPC services related to the upload dialog.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.ade.upload.CmsUploadService
  * @see org.opencms.gwt.shared.rpc.I_CmsUploadService
  * @see org.opencms.gwt.shared.rpc.I_CmsUploadServiceAsync
  */
 public interface I_CmsUploadServiceAsync {
 
-    /**
-     * Cancels the upload.<p>
-     *
-     * @param callback the asynchronous callback
-     */
-    void cancelUpload(AsyncCallback<Boolean> callback);
+  /**
+   * Cancels the upload.
+   *
+   * <p>
+   *
+   * @param callback the asynchronous callback
+   */
+  void cancelUpload(AsyncCallback<Boolean> callback);
 
-    /**
-     * Checks the availability of a resource in the VFS, using the
-     * {@link org.opencms.file.CmsResourceFilter#IGNORE_EXPIRATION} filter.<p>
-     *
-     * Calculates the VFS path for each filename in the given list and checks its availability.<p>
-     *
-     * @param fileNames the filenames to check
-     * @param targetFolder the folder to check
-     * @param isRootPath <code>true</code> in case the target folder path is a root path
-     * @param callback the async callback
-     */
-    void checkUploadFiles(
-        List<String> fileNames,
-        String targetFolder,
-        boolean isRootPath,
-        AsyncCallback<CmsUploadFileBean> callback);
+  /**
+   * Checks the availability of a resource in the VFS, using the {@link
+   * org.opencms.file.CmsResourceFilter#IGNORE_EXPIRATION} filter.
+   *
+   * <p>Calculates the VFS path for each filename in the given list and checks its availability.
+   *
+   * <p>
+   *
+   * @param fileNames the filenames to check
+   * @param targetFolder the folder to check
+   * @param isRootPath <code>true</code> in case the target folder path is a root path
+   * @param callback the async callback
+   */
+  void checkUploadFiles(
+      List<String> fileNames,
+      String targetFolder,
+      boolean isRootPath,
+      AsyncCallback<CmsUploadFileBean> callback);
 
-    /**
-     * Returns the upload progress information.<p>
-     *
-     * @param callback the asynchronous callback
-     */
-    void getUploadProgressInfo(AsyncCallback<CmsUploadProgessInfo> callback);
+  /**
+   * Returns the upload progress information.
+   *
+   * <p>
+   *
+   * @param callback the asynchronous callback
+   */
+  void getUploadProgressInfo(AsyncCallback<CmsUploadProgessInfo> callback);
 }

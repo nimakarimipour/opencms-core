@@ -29,11 +29,13 @@ package org.opencms.jsp.search.controller;
 
 import org.opencms.jsp.search.config.I_CmsSearchConfigurationHighlighting;
 
-/** Interface to get controllers configuration - version for highlighting.*/
+/** Interface to get controllers configuration - version for highlighting. */
 public interface I_CmsSearchControllerHighlighting extends I_CmsSearchController {
 
-    /** Returns the configuration.
-     * @return The configuration.
-     */
-    I_CmsSearchConfigurationHighlighting getConfig();
+  /**
+   * Returns the configuration.
+   *
+   * @return The configuration.
+   */
+  I_CmsSearchConfigurationHighlighting getConfig();
 }

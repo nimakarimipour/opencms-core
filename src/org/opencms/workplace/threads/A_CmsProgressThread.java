@@ -28,21 +28,27 @@
 package org.opencms.workplace.threads;
 
 /**
- * Abstract thread to keep track of operation progress.<p>
+ * Abstract thread to keep track of operation progress.
+ *
+ * <p>
  */
 public abstract class A_CmsProgressThread extends Thread {
 
-    /**
-     * Sets the description to show for the progress.<p>
-     *
-     * @param description the description to show for the progress to set
-     */
-    public abstract void setDescription(String description);
+  /**
+   * Sets the description to show for the progress.
+   *
+   * <p>
+   *
+   * @param description the description to show for the progress to set
+   */
+  public abstract void setDescription(String description);
 
-    /**
-     * Sets the progress.<p>
-     *
-     * @param progress the progress to set
-     */
-    public abstract void setProgress(int progress);
+  /**
+   * Sets the progress.
+   *
+   * <p>
+   *
+   * @param progress the progress to set
+   */
+  public abstract void setProgress(int progress);
 }

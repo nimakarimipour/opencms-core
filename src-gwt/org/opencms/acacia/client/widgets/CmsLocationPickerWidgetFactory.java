@@ -27,41 +27,44 @@
 
 package org.opencms.acacia.client.widgets;
 
+import com.google.gwt.dom.client.Element;
 import org.opencms.acacia.client.I_CmsWidgetFactory;
 import org.opencms.ade.contenteditor.widgetregistry.client.WidgetRegistry;
 import org.opencms.gwt.client.I_CmsHasInit;
 
-import com.google.gwt.dom.client.Element;
-
 /**
- * Factory to generate a location picker widget.<p>
+ * Factory to generate a location picker widget.
+ *
+ * <p>
  */
 public class CmsLocationPickerWidgetFactory implements I_CmsWidgetFactory, I_CmsHasInit {
 
-    /** The widget name. */
-    private static final String WIDGET_NAME = "org.opencms.widgets.CmsLocationPickerWidget";
+  /** The widget name. */
+  private static final String WIDGET_NAME = "org.opencms.widgets.CmsLocationPickerWidget";
 
-    /**
-     * Initializes this class.<p>
-     */
-    public static void initClass() {
+  /**
+   * Initializes this class.
+   *
+   * <p>
+   */
+  public static void initClass() {
 
-        WidgetRegistry.getInstance().registerWidgetFactory(WIDGET_NAME, new CmsLocationPickerWidgetFactory());
-    }
+    WidgetRegistry.getInstance()
+        .registerWidgetFactory(WIDGET_NAME, new CmsLocationPickerWidgetFactory());
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetFactory#createFormWidget(java.lang.String)
-     */
-    public I_CmsFormEditWidget createFormWidget(String configuration) {
+  /** @see org.opencms.acacia.client.I_CmsWidgetFactory#createFormWidget(java.lang.String) */
+  public I_CmsFormEditWidget createFormWidget(String configuration) {
 
-        return new CmsFormWidgetWrapper(new CmsLocationPickerWidget(configuration));
-    }
+    return new CmsFormWidgetWrapper(new CmsLocationPickerWidget(configuration));
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetFactory#createInlineWidget(java.lang.String, com.google.gwt.dom.client.Element)
-     */
-    public I_CmsEditWidget createInlineWidget(String configuration, Element element) {
+  /**
+   * @see org.opencms.acacia.client.I_CmsWidgetFactory#createInlineWidget(java.lang.String,
+   *     com.google.gwt.dom.client.Element)
+   */
+  public I_CmsEditWidget createInlineWidget(String configuration, Element element) {
 
-        return null;
-    }
+    return null;
+  }
 }

@@ -27,28 +27,29 @@
 
 package org.opencms.gwt.client.ui.input.form;
 
+import com.google.common.base.Optional;
+import java.util.Map;
 import org.opencms.gwt.client.ui.input.I_CmsFormWidget;
 
-import java.util.Map;
-
-import com.google.common.base.Optional;
-
 /**
- * Interface for creating different types of widgets depending on a key.<p>
+ * Interface for creating different types of widgets depending on a key.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsFormWidgetMultiFactory {
 
-    /**
-     * Creates a new form widget.<p>
-     *
-     * @param key the key identifying the widget type
-     *
-     * @param widgetParams the widget initialization parameters
-     * @param defaultValue an optional default value
-     * @return the created form widget
-     */
-    I_CmsFormWidget createFormWidget(String key, Map<String, String> widgetParams, Optional<String> defaultValue);
-
+  /**
+   * Creates a new form widget.
+   *
+   * <p>
+   *
+   * @param key the key identifying the widget type
+   * @param widgetParams the widget initialization parameters
+   * @param defaultValue an optional default value
+   * @return the created form widget
+   */
+  I_CmsFormWidget createFormWidget(
+      String key, Map<String, String> widgetParams, Optional<String> defaultValue);
 }

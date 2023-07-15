@@ -28,21 +28,18 @@
 package org.opencms.gwt.client;
 
 /**
- * Common interface for enabling/disabling different types of toolbars when using the touch-only mode of the page editor.
+ * Common interface for enabling/disabling different types of toolbars when using the touch-only
+ * mode of the page editor.
  */
 public interface I_CmsElementToolbarContext {
 
-    /** The CSS class to be assigned to each option bar. */
-    public static final String ELEMENT_OPTION_BAR_CSS_CLASS = org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.directEditCss().optionBar();
+  /** The CSS class to be assigned to each option bar. */
+  public static final String ELEMENT_OPTION_BAR_CSS_CLASS =
+      org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.directEditCss().optionBar();
 
-    /**
-     * Show the toolbar.
-     */
-    void activateToolbarContext();
+  /** Show the toolbar. */
+  void activateToolbarContext();
 
-    /**
-     * Hide the toolbar.
-     */
-    void deactivateToolbarContext();
-
+  /** Hide the toolbar. */
+  void deactivateToolbarContext();
 }

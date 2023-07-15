@@ -27,59 +27,54 @@
 
 package org.opencms.xml.xml2json.handler;
 
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
 import org.opencms.json.JSONObject;
 import org.opencms.main.CmsLog;
 import org.opencms.xml.xml2json.CmsJsonRequest;
 import org.opencms.xml.xml2json.CmsJsonResult;
 import org.opencms.xml.xml2json.document.CmsJsonDocumentResource;
 
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-
-/**
- * JSON handler for rendering a resource as JSON.
- */
+/** JSON handler for rendering a resource as JSON. */
 public class CmsJsonHandlerResource implements I_CmsJsonHandler {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsJsonHandlerResource.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsJsonHandlerResource.class);
 
-    /**
-     * @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#getOrder()
-     */
-    public double getOrder() {
+  /** @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#getOrder() */
+  public double getOrder() {
 
-        return 600;
+    return 600;
+  }
+
+  /**
+   * @see
+   *     org.opencms.xml.xml2json.handler.I_CmsJsonHandler#matches(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
+   */
+  public boolean matches(CmsJsonHandlerContext context) {
+
+    return true;
+  }
+
+  /**
+   * @see
+   *     org.opencms.xml.xml2json.handler.I_CmsJsonHandler#renderJson(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
+   */
+  public CmsJsonResult renderJson(CmsJsonHandlerContext context) {
+
+    try {
+      CmsJsonRequest jsonRequest = new CmsJsonRequest(context, this);
+      jsonRequest.validate();
+      if (jsonRequest.hasErrors()) {
+        return new CmsJsonResult(jsonRequest.getErrorsAsJson(), HttpServletResponse.SC_BAD_REQUEST);
+      }
+      CmsJsonDocumentResource jsonDocument =
+          new CmsJsonDocumentResource(jsonRequest, context.getResource());
+      return new CmsJsonResult(jsonDocument.getJson(), HttpServletResponse.SC_OK);
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      return new CmsJsonResult(
+          JSONObject.quote(e.getLocalizedMessage()), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
-
-    /**
-     * @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#matches(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
-     */
-    public boolean matches(CmsJsonHandlerContext context) {
-
-        return true;
-    }
-
-    /**
-     * @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#renderJson(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
-     */
-    public CmsJsonResult renderJson(CmsJsonHandlerContext context) {
-
-        try {
-            CmsJsonRequest jsonRequest = new CmsJsonRequest(context, this);
-            jsonRequest.validate();
-            if (jsonRequest.hasErrors()) {
-                return new CmsJsonResult(jsonRequest.getErrorsAsJson(), HttpServletResponse.SC_BAD_REQUEST);
-            }
-            CmsJsonDocumentResource jsonDocument = new CmsJsonDocumentResource(jsonRequest, context.getResource());
-            return new CmsJsonResult(jsonDocument.getJson(), HttpServletResponse.SC_OK);
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            return new CmsJsonResult(
-                JSONObject.quote(e.getLocalizedMessage()),
-                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
-    }
-
+  }
 }

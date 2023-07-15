@@ -27,95 +27,104 @@
 
 package org.opencms.ade.containerpage.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+import java.util.ArrayList;
 import org.opencms.db.CmsResourceState;
 import org.opencms.gwt.shared.CmsAdditionalInfoBean;
 
-import java.util.ArrayList;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Represents the setting configuration for a container element.<p>
+ * Represents the setting configuration for a container element.
+ *
+ * <p>
  */
 public class CmsElementSettingsConfig implements IsSerializable {
 
-    /** The additional infos to display. */
-    private ArrayList<CmsAdditionalInfoBean> m_additionalInfo;
+  /** The additional infos to display. */
+  private ArrayList<CmsAdditionalInfoBean> m_additionalInfo;
 
-    /** The data for the container element. */
-    private CmsContainerElementData m_elementData;
+  /** The data for the container element. */
+  private CmsContainerElementData m_elementData;
 
-    /** Schema path for element. **/
-    private String m_schema;
+  /** Schema path for element. * */
+  private String m_schema;
 
-    /** The resource state. */
-    private CmsResourceState m_state;
+  /** The resource state. */
+  private CmsResourceState m_state;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param elementData the element data
-     * @param state the resource state
-     * @param additionalInfo the additional infos
-     */
-    public CmsElementSettingsConfig(
-        CmsContainerElementData elementData,
-        CmsResourceState state,
-        ArrayList<CmsAdditionalInfoBean> additionalInfo,
-        String schema) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param elementData the element data
+   * @param state the resource state
+   * @param additionalInfo the additional infos
+   */
+  public CmsElementSettingsConfig(
+      CmsContainerElementData elementData,
+      CmsResourceState state,
+      ArrayList<CmsAdditionalInfoBean> additionalInfo,
+      String schema) {
 
-        m_elementData = elementData;
-        m_additionalInfo = additionalInfo;
-        m_state = state;
-        m_schema = schema;
-    }
+    m_elementData = elementData;
+    m_additionalInfo = additionalInfo;
+    m_state = state;
+    m_schema = schema;
+  }
 
-    /**
-     * Default constructor for serialization.<p>
-     */
-    protected CmsElementSettingsConfig() {
-        // do nothing
+  /**
+   * Default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsElementSettingsConfig() {
+    // do nothing
 
-    }
+  }
 
-    /**
-     * Gets the additional info items.<p>
-     *
-     * @return the additional info items
-     */
-    public ArrayList<CmsAdditionalInfoBean> getAdditionalInfo() {
+  /**
+   * Gets the additional info items.
+   *
+   * <p>
+   *
+   * @return the additional info items
+   */
+  public ArrayList<CmsAdditionalInfoBean> getAdditionalInfo() {
 
-        return m_additionalInfo;
-    }
+    return m_additionalInfo;
+  }
 
-    /**
-     * Gets the element data.<p>
-     *
-     * @return the element data
-     */
-    public CmsContainerElementData getElementData() {
+  /**
+   * Gets the element data.
+   *
+   * <p>
+   *
+   * @return the element data
+   */
+  public CmsContainerElementData getElementData() {
 
-        return m_elementData;
-    }
+    return m_elementData;
+  }
 
-    /**
-     * Gets the schema path.
-     *
-     * @return the schema path
-     */
-    public String getSchema() {
+  /**
+   * Gets the schema path.
+   *
+   * @return the schema path
+   */
+  public String getSchema() {
 
-        return m_schema;
-    }
+    return m_schema;
+  }
 
-    /**
-     * The state.<p>
-     *
-     * @return the resource state
-     */
-    public CmsResourceState getState() {
+  /**
+   * The state.
+   *
+   * <p>
+   *
+   * @return the resource state
+   */
+  public CmsResourceState getState() {
 
-        return m_state;
-    }
-
+    return m_state;
+  }
 }

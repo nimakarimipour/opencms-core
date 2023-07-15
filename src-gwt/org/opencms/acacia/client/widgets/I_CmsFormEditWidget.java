@@ -28,16 +28,19 @@
 package org.opencms.acacia.client.widgets;
 
 /**
- * An editing widget including the label. To be used for form based editing only.<p>
+ * An editing widget including the label. To be used for form based editing only.
+ *
+ * <p>
  */
 public interface I_CmsFormEditWidget extends I_CmsEditWidget {
 
-    /**
-     * Sets the widget label and help text.<p>
-     *
-     * @param label the widget label text
-     * @param help the widget help text
-     */
-    void setWidgetInfo(String label, String help);
-
+  /**
+   * Sets the widget label and help text.
+   *
+   * <p>
+   *
+   * @param label the widget label text
+   * @param help the widget help text
+   */
+  void setWidgetInfo(String label, String help);
 }

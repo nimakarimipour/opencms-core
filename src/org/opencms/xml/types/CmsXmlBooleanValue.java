@@ -27,6 +27,9 @@
 
 package org.opencms.xml.types;
 
+import java.util.Locale;
+import java.util.regex.Pattern;
+import org.dom4j.Element;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.util.CmsStringUtil;
@@ -34,191 +37,191 @@ import org.opencms.widgets.I_CmsWidgetParameter;
 import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.xml2json.I_CmsJsonFormattableValue;
 
-import java.util.Locale;
-import java.util.regex.Pattern;
-
-import org.dom4j.Element;
-
 /**
- * Describes the XML content type "OpenCmsBoolean".<p>
+ * Describes the XML content type "OpenCmsBoolean".
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJsonFormattableValue {
 
-    /** The name of this type as used in the XML schema. */
-    public static final String TYPE_NAME = "OpenCmsBoolean";
+  /** The name of this type as used in the XML schema. */
+  public static final String TYPE_NAME = "OpenCmsBoolean";
 
-    /** The validation rule used for this schema type. */
-    public static final String TYPE_RULE = "true|false|1|0";
+  /** The validation rule used for this schema type. */
+  public static final String TYPE_RULE = "true|false|1|0";
 
-    /** Pre-compiled regular expression pattern for this rule. */
-    private static final Pattern TYPE_PATTERN = Pattern.compile(TYPE_RULE);
+  /** Pre-compiled regular expression pattern for this rule. */
+  private static final Pattern TYPE_PATTERN = Pattern.compile(TYPE_RULE);
 
-    /** The boolean value of the element node. */
-    private boolean m_boolean;
+  /** The boolean value of the element node. */
+  private boolean m_boolean;
 
-    /**
-     * Creates a new, empty schema type descriptor of type "OpenCmsBoolean".<p>
-     */
-    public CmsXmlBooleanValue() {
+  /**
+   * Creates a new, empty schema type descriptor of type "OpenCmsBoolean".
+   *
+   * <p>
+   */
+  public CmsXmlBooleanValue() {
 
-        // empty constructor is required for class registration
+    // empty constructor is required for class registration
+  }
+
+  /**
+   * Creates a new XML content value of type "OpenCmsBoolean".
+   *
+   * <p>
+   *
+   * @param document the XML content instance this value belongs to
+   * @param element the XML element that contains this value
+   * @param locale the locale this value is created for
+   * @param type the type instance to create the value for
+   */
+  public CmsXmlBooleanValue(
+      I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+
+    super(document, element, locale, type);
+    m_boolean = getBooleanValue(m_stringValue);
+  }
+
+  /**
+   * Creates a new schema type descriptor for the type "OpenCmsBoolean".
+   *
+   * <p>
+   *
+   * @param name the name of the XML node containing the value according to the XML schema
+   * @param minOccurs minimum number of occurrences of this type according to the XML schema
+   * @param maxOccurs maximum number of occurrences of this type according to the XML schema
+   */
+  public CmsXmlBooleanValue(String name, String minOccurs, String maxOccurs) {
+
+    super(name, minOccurs, maxOccurs);
+  }
+
+  /**
+   * Returns the boolean value of the given widget parameter.
+   *
+   * <p>
+   *
+   * @param cms an initialized instance of a CmsObject
+   * @param value the XML content value to get the boolean value of
+   * @return the boolean value of the given widget parameter
+   */
+  public static boolean getBooleanValue(CmsObject cms, I_CmsWidgetParameter value) {
+
+    boolean result;
+    if (value instanceof CmsXmlBooleanValue) {
+      // this is a "native" boolean type
+      result = ((CmsXmlBooleanValue) value).getBooleanValue();
+    } else {
+      // get the boolean value from the String value
+      result = getBooleanValue(value.getStringValue(cms));
     }
+    return result;
+  }
 
-    /**
-     * Creates a new XML content value of type "OpenCmsBoolean".<p>
-     *
-     * @param document the XML content instance this value belongs to
-     * @param element the XML element that contains this value
-     * @param locale the locale this value is created for
-     * @param type the type instance to create the value for
-     */
-    public CmsXmlBooleanValue(I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+  /**
+   * Special boolean value generation method since XML schema allows for "1" as possible value for
+   * <code>true</code>, while Java only allows <code>"true"</code>.
+   *
+   * @param value the String to get the boolean value for
+   * @return the boolean value of the String according to the XML schema rules
+   */
+  private static boolean getBooleanValue(String value) {
 
-        super(document, element, locale, type);
-        m_boolean = getBooleanValue(m_stringValue);
+    if ("1".equals(value)) {
+      // XML schema allows for "1" as value for "true"
+      return true;
     }
+    return Boolean.valueOf(value).booleanValue();
+  }
 
-    /**
-     * Creates a new schema type descriptor for the type "OpenCmsBoolean".<p>
-     *
-     * @param name the name of the XML node containing the value according to the XML schema
-     * @param minOccurs minimum number of occurrences of this type according to the XML schema
-     * @param maxOccurs maximum number of occurrences of this type according to the XML schema
-     */
-    public CmsXmlBooleanValue(String name, String minOccurs, String maxOccurs) {
+  /**
+   * @see org.opencms.xml.types.A_CmsXmlContentValue#createValue(I_CmsXmlDocument,
+   *     org.dom4j.Element, Locale)
+   */
+  public I_CmsXmlContentValue createValue(
+      I_CmsXmlDocument document, Element element, Locale locale) {
 
-        super(name, minOccurs, maxOccurs);
+    return new CmsXmlBooleanValue(document, element, locale, this);
+  }
+
+  /**
+   * Returns the boolean value as a boolean type.
+   *
+   * <p>
+   *
+   * @return the boolean value as a boolean type
+   */
+  public boolean getBooleanValue() {
+
+    return m_boolean;
+  }
+
+  /** @see org.opencms.xml.types.A_CmsXmlContentValue#getDefault(Locale) */
+  @Override
+  public String getDefault(Locale locale) {
+
+    if (m_defaultValue != null) {
+      return m_defaultValue;
     }
+    return CmsStringUtil.FALSE;
+  }
 
-    /**
-     * Returns the boolean value of the given widget parameter.<p>
-     *
-     * @param cms an initialized instance of a CmsObject
-     * @param value the XML content value to get the boolean value of
-     *
-     * @return the boolean value of the given widget parameter
-     */
-    public static boolean getBooleanValue(CmsObject cms, I_CmsWidgetParameter value) {
+  /** @see org.opencms.xml.types.I_CmsXmlSchemaType#getSchemaDefinition() */
+  public String getSchemaDefinition() {
 
-        boolean result;
-        if (value instanceof CmsXmlBooleanValue) {
-            // this is a "native" boolean type
-            result = ((CmsXmlBooleanValue)value).getBooleanValue();
-        } else {
-            // get the boolean value from the String value
-            result = getBooleanValue(value.getStringValue(cms));
-        }
-        return result;
-    }
+    return "<xsd:simpleType name=\""
+        + TYPE_NAME
+        + "\"><xsd:restriction base=\"xsd:boolean\" /></xsd:simpleType>";
+  }
 
-    /**
-     * Special boolean value generation method since XML schema allows for
-     * "1" as possible value for <code>true</code>, while Java only allows <code>"true"</code>.
-     *
-     * @param value the String to get the boolean value for
-     *
-     * @return the boolean value of the String according to the XML schema rules
-     */
-    private static boolean getBooleanValue(String value) {
+  /** @see org.opencms.xml.types.A_CmsXmlContentValue#getTypeName() */
+  public String getTypeName() {
 
-        if ("1".equals(value)) {
-            // XML schema allows for "1" as value for "true"
-            return true;
-        }
-        return Boolean.valueOf(value).booleanValue();
-    }
+    return TYPE_NAME;
+  }
 
-    /**
-     * @see org.opencms.xml.types.A_CmsXmlContentValue#createValue(I_CmsXmlDocument, org.dom4j.Element, Locale)
-     */
-    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, Element element, Locale locale) {
+  /** @see org.opencms.xml.types.A_CmsXmlContentValue#isSearchable() */
+  @Override
+  public boolean isSearchable() {
 
-        return new CmsXmlBooleanValue(document, element, locale, this);
-    }
+    // there is no point in searching boolean values
+    return false;
+  }
 
-    /**
-     * Returns the boolean value as a boolean type.<p>
-     *
-     * @return the boolean value as a boolean type
-     */
-    public boolean getBooleanValue() {
+  /**
+   * @see org.opencms.xml.types.A_CmsXmlContentValue#newInstance(java.lang.String, java.lang.String,
+   *     java.lang.String)
+   */
+  public I_CmsXmlSchemaType newInstance(String name, String minOccurs, String maxOccurs) {
 
-        return m_boolean;
-    }
+    return new CmsXmlBooleanValue(name, minOccurs, maxOccurs);
+  }
 
-    /**
-     * @see org.opencms.xml.types.A_CmsXmlContentValue#getDefault(Locale)
-     */
-    @Override
-    public String getDefault(Locale locale) {
+  /**
+   * @see org.opencms.xml.types.A_CmsXmlValueTextBase#setStringValue(org.opencms.file.CmsObject,
+   *     java.lang.String)
+   */
+  @Override
+  public void setStringValue(CmsObject cms, String value) throws CmsIllegalArgumentException {
 
-        if (m_defaultValue != null) {
-            return m_defaultValue;
-        }
-        return CmsStringUtil.FALSE;
-    }
+    m_boolean = getBooleanValue(value);
+    super.setStringValue(cms, String.valueOf(m_boolean));
+  }
 
-    /**
-     * @see org.opencms.xml.types.I_CmsXmlSchemaType#getSchemaDefinition()
-     */
-    public String getSchemaDefinition() {
+  /** @see org.opencms.xml.xml2json.I_CmsJsonFormattableValue#toJson(org.opencms.file.CmsObject) */
+  public Object toJson(CmsObject cms) {
 
-        return "<xsd:simpleType name=\"" + TYPE_NAME + "\"><xsd:restriction base=\"xsd:boolean\" /></xsd:simpleType>";
-    }
+    Boolean result = Boolean.valueOf(getBooleanValue());
+    return result;
+  }
 
-    /**
-     * @see org.opencms.xml.types.A_CmsXmlContentValue#getTypeName()
-     */
-    public String getTypeName() {
+  /** @see org.opencms.xml.types.I_CmsXmlSchemaType#validateValue(java.lang.String) */
+  @Override
+  public boolean validateValue(String value) {
 
-        return TYPE_NAME;
-    }
-
-    /**
-     * @see org.opencms.xml.types.A_CmsXmlContentValue#isSearchable()
-     */
-    @Override
-    public boolean isSearchable() {
-
-        // there is no point in searching boolean values
-        return false;
-    }
-
-    /**
-     * @see org.opencms.xml.types.A_CmsXmlContentValue#newInstance(java.lang.String, java.lang.String, java.lang.String)
-     */
-    public I_CmsXmlSchemaType newInstance(String name, String minOccurs, String maxOccurs) {
-
-        return new CmsXmlBooleanValue(name, minOccurs, maxOccurs);
-    }
-
-    /**
-     * @see org.opencms.xml.types.A_CmsXmlValueTextBase#setStringValue(org.opencms.file.CmsObject, java.lang.String)
-     */
-    @Override
-    public void setStringValue(CmsObject cms, String value) throws CmsIllegalArgumentException {
-
-        m_boolean = getBooleanValue(value);
-        super.setStringValue(cms, String.valueOf(m_boolean));
-    }
-
-    /**
-     * @see org.opencms.xml.xml2json.I_CmsJsonFormattableValue#toJson(org.opencms.file.CmsObject)
-     */
-    public Object toJson(CmsObject cms) {
-
-        Boolean result = Boolean.valueOf(getBooleanValue());
-        return result;
-    }
-
-    /**
-     * @see org.opencms.xml.types.I_CmsXmlSchemaType#validateValue(java.lang.String)
-     */
-    @Override
-    public boolean validateValue(String value) {
-
-        return TYPE_PATTERN.matcher(value).matches();
-    }
+    return TYPE_PATTERN.matcher(value).matches();
+  }
 }

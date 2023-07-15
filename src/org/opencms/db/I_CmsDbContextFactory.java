@@ -30,32 +30,39 @@ package org.opencms.db;
 import org.opencms.file.CmsRequestContext;
 
 /**
- * This interface defines a factory to create runtime info objects.<p>
+ * This interface defines a factory to create runtime info objects.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsDbContextFactory {
 
-    /**
-     * Initializes the runtime info factory with the OpenCms driver manager.<p>
-     *
-     * @param driverManager the initialized OpenCms driver manager
-     */
-    void initialize(CmsDriverManager driverManager);
+  /**
+   * Initializes the runtime info factory with the OpenCms driver manager.
+   *
+   * <p>
+   *
+   * @param driverManager the initialized OpenCms driver manager
+   */
+  void initialize(CmsDriverManager driverManager);
 
-    /**
-     * Returns a new database context based on the given user request context.<p>
-     *
-     * @param context the user request context to initialize the database context with
-     *
-     * @return a new database context based on the given user request context
-     */
-    CmsDbContext getDbContext(CmsRequestContext context);
+  /**
+   * Returns a new database context based on the given user request context.
+   *
+   * <p>
+   *
+   * @param context the user request context to initialize the database context with
+   * @return a new database context based on the given user request context
+   */
+  CmsDbContext getDbContext(CmsRequestContext context);
 
-    /**
-     * Returns a new database context.<p>
-     *
-     * @return a new database context
-     */
-    CmsDbContext getDbContext();
+  /**
+   * Returns a new database context.
+   *
+   * <p>
+   *
+   * @return a new database context
+   */
+  CmsDbContext getDbContext();
 }

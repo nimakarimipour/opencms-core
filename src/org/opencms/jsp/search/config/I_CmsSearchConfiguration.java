@@ -29,53 +29,72 @@ package org.opencms.jsp.search.config;
 
 import java.util.Map;
 
-/** Interface the main search configuration must implement.
- * It basically allows to access the various configuration parts.
+/**
+ * Interface the main search configuration must implement. It basically allows to access the various
+ * configuration parts.
  */
 public interface I_CmsSearchConfiguration {
 
-    /** Returns the configuration for "Did you mean ...?".
-     * @return The configuration for "Did you mean ...?".
-     */
-    I_CmsSearchConfigurationDidYouMean getDidYouMeanConfig();
+  /**
+   * Returns the configuration for "Did you mean ...?".
+   *
+   * @return The configuration for "Did you mean ...?".
+   */
+  I_CmsSearchConfigurationDidYouMean getDidYouMeanConfig();
 
-    /** Returns the configuration for field facets.
-     * @return The configuration for field facets.
-     */
-    Map<String, I_CmsSearchConfigurationFacetField> getFieldFacetConfigs();
+  /**
+   * Returns the configuration for field facets.
+   *
+   * @return The configuration for field facets.
+   */
+  Map<String, I_CmsSearchConfigurationFacetField> getFieldFacetConfigs();
 
-    /** Returns the common search (form) configuration.
-     * @return The common search (form) configuration.
-     */
-    I_CmsSearchConfigurationCommon getGeneralConfig();
+  /**
+   * Returns the common search (form) configuration.
+   *
+   * @return The common search (form) configuration.
+   */
+  I_CmsSearchConfigurationCommon getGeneralConfig();
 
-    /** Returns the Geo filter configuration.
-     * @return The Geo filter configuration.
-     */
-    I_CmsSearchConfigurationGeoFilter getGeoFilterConfig();
+  /**
+   * Returns the Geo filter configuration.
+   *
+   * @return The Geo filter configuration.
+   */
+  I_CmsSearchConfigurationGeoFilter getGeoFilterConfig();
 
-    /** Returns the configuration for highlighting.
-     * @return The configuration for highlighting.
-     */
-    I_CmsSearchConfigurationHighlighting getHighlighterConfig();
+  /**
+   * Returns the configuration for highlighting.
+   *
+   * @return The configuration for highlighting.
+   */
+  I_CmsSearchConfigurationHighlighting getHighlighterConfig();
 
-    /** Returns the configuration for pagination.
-     * @return The configuration for pagination.
-     */
-    I_CmsSearchConfigurationPagination getPaginationConfig();
+  /**
+   * Returns the configuration for pagination.
+   *
+   * @return The configuration for pagination.
+   */
+  I_CmsSearchConfigurationPagination getPaginationConfig();
 
-    /** Returns the configuration for field facets.
-     * @return The configuration for field facets.
-     */
-    I_CmsSearchConfigurationFacetQuery getQueryFacetConfig();
+  /**
+   * Returns the configuration for field facets.
+   *
+   * @return The configuration for field facets.
+   */
+  I_CmsSearchConfigurationFacetQuery getQueryFacetConfig();
 
-    /** Returns the configuration for range facets.
-     * @return The configuration for range facets.
-     */
-    Map<String, I_CmsSearchConfigurationFacetRange> getRangeFacetConfigs();
+  /**
+   * Returns the configuration for range facets.
+   *
+   * @return The configuration for range facets.
+   */
+  Map<String, I_CmsSearchConfigurationFacetRange> getRangeFacetConfigs();
 
-    /** Returns the configuration for sorting.
-     * @return The configuration for sorting.
-     */
-    I_CmsSearchConfigurationSorting getSortConfig();
+  /**
+   * Returns the configuration for sorting.
+   *
+   * @return The configuration for sorting.
+   */
+  I_CmsSearchConfigurationSorting getSortConfig();
 }

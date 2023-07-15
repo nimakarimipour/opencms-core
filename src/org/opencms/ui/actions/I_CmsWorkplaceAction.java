@@ -27,45 +27,53 @@
 
 package org.opencms.ui.actions;
 
+import java.util.Locale;
 import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 
-import java.util.Locale;
-
 /**
- * Workplace action interface.<p>
+ * Workplace action interface.
+ *
+ * <p>
  */
 public interface I_CmsWorkplaceAction extends I_CmsHasMenuItemVisibility {
 
-    /**
-     * Executes the action.<p>
-     *
-     * @param context the current dialog context.<p>
-     */
-    void executeAction(I_CmsDialogContext context);
+  /**
+   * Executes the action.
+   *
+   * <p>
+   *
+   * @param context the current dialog context.
+   *     <p>
+   */
+  void executeAction(I_CmsDialogContext context);
 
-    /**
-     * The action id.<p>
-     *
-     * @return the action id
-     */
-    String getId();
+  /**
+   * The action id.
+   *
+   * <p>
+   *
+   * @return the action id
+   */
+  String getId();
 
-    /**
-     * Returns the localized action title.<p>
-     *
-     * @param locale the user's workplace locale
-     *
-     * @return the action title
-     */
-    String getTitle(Locale locale);
+  /**
+   * Returns the localized action title.
+   *
+   * <p>
+   *
+   * @param locale the user's workplace locale
+   * @return the action title
+   */
+  String getTitle(Locale locale);
 
-    /**
-     * Checks whether this action should be active in the given dialog context.<p>
-     *
-     * @param context the dialog context
-     *
-     * @return <code>true</code> if this action should be active in the given dialog context
-     */
-    boolean isActive(I_CmsDialogContext context);
+  /**
+   * Checks whether this action should be active in the given dialog context.
+   *
+   * <p>
+   *
+   * @param context the dialog context
+   * @return <code>true</code> if this action should be active in the given dialog context
+   */
+  boolean isActive(I_CmsDialogContext context);
 }

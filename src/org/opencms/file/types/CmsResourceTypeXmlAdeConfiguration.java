@@ -27,35 +27,40 @@
 
 package org.opencms.file.types;
 
+import java.util.List;
+import java.util.Locale;
 import org.opencms.db.CmsSecurityManager;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
 import org.opencms.i18n.CmsLocaleManager;
 
-import java.util.List;
-import java.util.Locale;
-
 /**
- * Custom resource type for ADE configurations.<p>
+ * Custom resource type for ADE configurations.
+ *
+ * <p>
  */
 public class CmsResourceTypeXmlAdeConfiguration extends CmsResourceTypeXmlContent {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -1526417534440614766L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -1526417534440614766L;
 
-    /**
-     * This overridden method ensures that configurations will always be created with an english locale node.<p>
-     *
-     * @see org.opencms.file.types.CmsResourceTypeXmlContent#getLocaleForNewContent(org.opencms.file.CmsObject, org.opencms.db.CmsSecurityManager, java.lang.String, java.util.List)
-     */
-    @Override
-    protected Locale getLocaleForNewContent(
-        CmsObject cms,
-        CmsSecurityManager securityManager,
-        String resourcename,
-        List<CmsProperty> properties) {
+  /**
+   * This overridden method ensures that configurations will always be created with an english
+   * locale node.
+   *
+   * <p>
+   *
+   * @see
+   *     org.opencms.file.types.CmsResourceTypeXmlContent#getLocaleForNewContent(org.opencms.file.CmsObject,
+   *     org.opencms.db.CmsSecurityManager, java.lang.String, java.util.List)
+   */
+  @Override
+  protected Locale getLocaleForNewContent(
+      CmsObject cms,
+      CmsSecurityManager securityManager,
+      String resourcename,
+      List<CmsProperty> properties) {
 
-        return CmsLocaleManager.MASTER_LOCALE;
-    }
-
+    return CmsLocaleManager.MASTER_LOCALE;
+  }
 }

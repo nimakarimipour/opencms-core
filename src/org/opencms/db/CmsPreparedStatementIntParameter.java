@@ -31,30 +31,36 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * A prepared statement parameter of type 'int'.<p>
+ * A prepared statement parameter of type 'int'.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsPreparedStatementIntParameter implements I_CmsPreparedStatementParameter {
 
-    /** The value of the parameter. */
-    private int m_param;
+  /** The value of the parameter. */
+  private int m_param;
 
-    /**
-     * Creates a new parameter value.<p>
-     *
-     * @param param the int value to use for this parameter
-     */
-    public CmsPreparedStatementIntParameter(int param) {
+  /**
+   * Creates a new parameter value.
+   *
+   * <p>
+   *
+   * @param param the int value to use for this parameter
+   */
+  public CmsPreparedStatementIntParameter(int param) {
 
-        m_param = param;
-    }
+    m_param = param;
+  }
 
-    /**
-     * @see org.opencms.db.I_CmsPreparedStatementParameter#insertIntoStatement(java.sql.PreparedStatement, int)
-     */
-    public void insertIntoStatement(PreparedStatement stmt, int index) throws SQLException {
+  /**
+   * @see
+   *     org.opencms.db.I_CmsPreparedStatementParameter#insertIntoStatement(java.sql.PreparedStatement,
+   *     int)
+   */
+  public void insertIntoStatement(PreparedStatement stmt, int index) throws SQLException {
 
-        stmt.setInt(index, m_param);
-    }
+    stmt.setInt(index, m_param);
+  }
 }

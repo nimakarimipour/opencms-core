@@ -27,35 +27,42 @@
 
 package org.opencms.gwt.client.ui;
 
+import com.google.gwt.user.client.ui.Widget;
 import org.opencms.gwt.client.dnd.I_CmsDraggable;
 
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * Provides a UI list item.<p>
+ * Provides a UI list item.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsListItem extends I_CmsTruncable, I_CmsDraggable {
 
-    /**
-     * Adds a widget to this list item.<p>
-     *
-     * @param w the widget to add
-     */
-    void add(Widget w);
+  /**
+   * Adds a widget to this list item.
+   *
+   * <p>
+   *
+   * @param w the widget to add
+   */
+  void add(Widget w);
 
-    /**
-     * Returns the logical id, it is not the HTML id.<p>
-     *
-     * @return the id
-     */
-    String getId();
+  /**
+   * Returns the logical id, it is not the HTML id.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  String getId();
 
-    /**
-     * Sets the logical id, it is not the HTML id.<p>
-     *
-     * @param id the id to set
-     */
-    void setId(String id);
+  /**
+   * Sets the logical id, it is not the HTML id.
+   *
+   * <p>
+   *
+   * @param id the id to set
+   */
+  void setId(String id);
 }

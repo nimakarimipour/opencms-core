@@ -27,19 +27,22 @@
 
 package org.opencms.ui;
 
+import com.vaadin.ui.Button;
 import java.util.List;
 
-import com.vaadin.ui.Button;
-
 /**
- * Provides buttons for a dialog.<p>
+ * Provides buttons for a dialog.
+ *
+ * <p>
  */
 public interface I_CmsHasButtons {
 
-    /**
-     * Gets the buttons to display.<p>
-     *
-     * @return the buttons
-     */
-    List<Button> getButtons();
+  /**
+   * Gets the buttons to display.
+   *
+   * <p>
+   *
+   * @return the buttons
+   */
+  List<Button> getButtons();
 }

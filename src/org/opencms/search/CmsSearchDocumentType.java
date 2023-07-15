@@ -31,135 +31,159 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A document type specifies which document factory class is used to pull the
- * content of an OpenCms document into a Lucene index document.<p>
+ * A document type specifies which document factory class is used to pull the content of an OpenCms
+ * document into a Lucene index document.
  *
- * The appropriate document factory class gets triggerd while the search index is built
- * for OpenCms documents matching the specified resource type and/or mimetype combination
- * in a document factory class instance.<p>
+ * <p>The appropriate document factory class gets triggerd while the search index is built for
+ * OpenCms documents matching the specified resource type and/or mimetype combination in a document
+ * factory class instance.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsSearchDocumentType {
 
-    /** The name of the document factory class. */
-    private String m_className;
+  /** The name of the document factory class. */
+  private String m_className;
 
-    /** The mimetype to trigger the document factory class. */
-    private List<String> m_mimeTypes;
+  /** The mimetype to trigger the document factory class. */
+  private List<String> m_mimeTypes;
 
-    /** The logical key/name of this document type. */
-    private String m_name;
+  /** The logical key/name of this document type. */
+  private String m_name;
 
-    /** A list of Cms resource types to trigger the document factory. */
-    private List<String> m_resourceTypes;
+  /** A list of Cms resource types to trigger the document factory. */
+  private List<String> m_resourceTypes;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsSearchDocumentType() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsSearchDocumentType() {
 
-        m_resourceTypes = new ArrayList<String>();
-        m_mimeTypes = new ArrayList<String>();
-    }
+    m_resourceTypes = new ArrayList<String>();
+    m_mimeTypes = new ArrayList<String>();
+  }
 
-    /**
-     * Adds a mimetype.<p>
-     *
-     * @param mimeType a mimetype
-     */
-    public void addMimeType(String mimeType) {
+  /**
+   * Adds a mimetype.
+   *
+   * <p>
+   *
+   * @param mimeType a mimetype
+   */
+  public void addMimeType(String mimeType) {
 
-        m_mimeTypes.add(mimeType);
-    }
+    m_mimeTypes.add(mimeType);
+  }
 
-    /**
-     * Adds the class name of a resource type.<p>
-     *
-     * @param resourceType the class name of a resource type
-     */
-    public void addResourceType(String resourceType) {
+  /**
+   * Adds the class name of a resource type.
+   *
+   * <p>
+   *
+   * @param resourceType the class name of a resource type
+   */
+  public void addResourceType(String resourceType) {
 
-        m_resourceTypes.add(resourceType);
-    }
+    m_resourceTypes.add(resourceType);
+  }
 
-    /**
-     * Returns the name of the document factory class.<p>
-     *
-     * @return the name of the document factory class
-     */
-    public String getClassName() {
+  /**
+   * Returns the name of the document factory class.
+   *
+   * <p>
+   *
+   * @return the name of the document factory class
+   */
+  public String getClassName() {
 
-        return m_className;
-    }
+    return m_className;
+  }
 
-    /**
-     * Returns the mimetypes to trigger the document factory class.<p>
-     *
-     * @return the mimetypes to trigger the document factory class
-     */
-    public List<String> getMimeTypes() {
+  /**
+   * Returns the mimetypes to trigger the document factory class.
+   *
+   * <p>
+   *
+   * @return the mimetypes to trigger the document factory class
+   */
+  public List<String> getMimeTypes() {
 
-        return m_mimeTypes;
-    }
+    return m_mimeTypes;
+  }
 
-    /**
-     * Returns the logical key/name of this document type.<p>
-     *
-     * @return the logical key/name of this document type
-     */
-    public String getName() {
+  /**
+   * Returns the logical key/name of this document type.
+   *
+   * <p>
+   *
+   * @return the logical key/name of this document type
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the list of Cms resource types to trigger the document factory.<p>
-     *
-     * @return the list of Cms resource types to trigger the document factory
-     */
-    public List<String> getResourceTypes() {
+  /**
+   * Returns the list of Cms resource types to trigger the document factory.
+   *
+   * <p>
+   *
+   * @return the list of Cms resource types to trigger the document factory
+   */
+  public List<String> getResourceTypes() {
 
-        return m_resourceTypes;
-    }
+    return m_resourceTypes;
+  }
 
-    /**
-     * Sets the name of the document factory class.<p>
-     *
-     * @param className the name of the document factory class
-     */
-    public void setClassName(String className) {
+  /**
+   * Sets the name of the document factory class.
+   *
+   * <p>
+   *
+   * @param className the name of the document factory class
+   */
+  public void setClassName(String className) {
 
-        m_className = className;
-    }
+    m_className = className;
+  }
 
-    /**
-     * Sets the mimetypes to trigger the document factory class.<p>
-     *
-     * @param mimetypes the mimetypes to trigger the document factory class
-     */
-    public void setMimeTypes(List<String> mimetypes) {
+  /**
+   * Sets the mimetypes to trigger the document factory class.
+   *
+   * <p>
+   *
+   * @param mimetypes the mimetypes to trigger the document factory class
+   */
+  public void setMimeTypes(List<String> mimetypes) {
 
-        m_mimeTypes = mimetypes;
-    }
+    m_mimeTypes = mimetypes;
+  }
 
-    /**
-     * Sets the logical key/name of this document type.<p>
-     *
-     * @param name the logical key/name of this document type
-     */
-    public void setName(String name) {
+  /**
+   * Sets the logical key/name of this document type.
+   *
+   * <p>
+   *
+   * @param name the logical key/name of this document type
+   */
+  public void setName(String name) {
 
-        m_name = name;
-    }
+    m_name = name;
+  }
 
-    /**
-     * Sets the list of Cms resource types to trigger the document factory.<p>
-     *
-     * @param resourceTypes the list of Cms resource types to trigger the document factory
-     */
-    public void setResourceTypes(List<String> resourceTypes) {
+  /**
+   * Sets the list of Cms resource types to trigger the document factory.
+   *
+   * <p>
+   *
+   * @param resourceTypes the list of Cms resource types to trigger the document factory
+   */
+  public void setResourceTypes(List<String> resourceTypes) {
 
-        m_resourceTypes = resourceTypes;
-    }
+    m_resourceTypes = resourceTypes;
+  }
 }

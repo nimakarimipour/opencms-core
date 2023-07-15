@@ -27,37 +27,41 @@
 
 package org.opencms.repository;
 
-import org.opencms.test.OpenCmsTestProperties;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.opencms.test.OpenCmsTestProperties;
 
 /**
- * Test suite for this package.<p>
+ * Test suite for this package.
+ *
+ * <p>
  */
 public final class AllTests {
 
-    /**
-     * Hidden constructor.<p>
-     */
-    private AllTests() {
+  /**
+   * Hidden constructor.
+   *
+   * <p>
+   */
+  private AllTests() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Returns the JUnit test suite for this package.<p>
-     *
-     * @return the JUnit test suite for this package
-     */
-    public static Test suite() {
+  /**
+   * Returns the JUnit test suite for this package.
+   *
+   * <p>
+   *
+   * @return the JUnit test suite for this package
+   */
+  public static Test suite() {
 
-        TestSuite suite = new TestSuite("Tests for package " + AllTests.class.getPackage().getName());
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
-        //$JUnit-BEGIN$
-        suite.addTest(TestRepository.suite());
-        //$JUnit-END$
-        return suite;
-    }
-
+    TestSuite suite = new TestSuite("Tests for package " + AllTests.class.getPackage().getName());
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    // $JUnit-BEGIN$
+    suite.addTest(TestRepository.suite());
+    // $JUnit-END$
+    return suite;
+  }
 }

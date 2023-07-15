@@ -27,65 +27,74 @@
 
 package org.opencms.db;
 
+import com.google.common.collect.Lists;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 /**
- * A helper class used to accumulate SQL fragments together with the corresponding query parameters.<p>
+ * A helper class used to accumulate SQL fragments together with the corresponding query parameters.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsStatementBuilder {
 
-    /** The buffer containing the SQL. */
-    private StringBuffer m_buffer = new StringBuffer();
+  /** The buffer containing the SQL. */
+  private StringBuffer m_buffer = new StringBuffer();
 
-    /** The list containing the query parameters. */
-    private List<Object> m_params = Lists.newArrayList();
+  /** The list containing the query parameters. */
+  private List<Object> m_params = Lists.newArrayList();
 
-    /**
-     * Adds an SQL fragment and zero or more query parameters.<p>
-     *
-     * @param fragment the SQL fragment
-     * @param params the query parameters
-     */
-    public void add(String fragment, List<Object> params) {
+  /**
+   * Adds an SQL fragment and zero or more query parameters.
+   *
+   * <p>
+   *
+   * @param fragment the SQL fragment
+   * @param params the query parameters
+   */
+  public void add(String fragment, List<Object> params) {
 
-        m_buffer.append(fragment);
-        m_params.addAll(params);
-    }
+    m_buffer.append(fragment);
+    m_params.addAll(params);
+  }
 
-    /**
-     * Adds an SQL fragment and zero or more query parameters.<p>
-     *
-     * @param fragment the SQL fragment
-     * @param params the query parameters
-     */
-    public void add(String fragment, Object... params) {
+  /**
+   * Adds an SQL fragment and zero or more query parameters.
+   *
+   * <p>
+   *
+   * @param fragment the SQL fragment
+   * @param params the query parameters
+   */
+  public void add(String fragment, Object... params) {
 
-        m_buffer.append(fragment);
-        m_params.addAll(Arrays.asList(params));
-    }
+    m_buffer.append(fragment);
+    m_params.addAll(Arrays.asList(params));
+  }
 
-    /**
-     * Returns the list of accumulated query parameters.<p>
-     *
-     * @return the list of accumulated query parameters
-     */
-    public List<Object> getParameters() {
+  /**
+   * Returns the list of accumulated query parameters.
+   *
+   * <p>
+   *
+   * @return the list of accumulated query parameters
+   */
+  public List<Object> getParameters() {
 
-        return m_params;
-    }
+    return m_params;
+  }
 
-    /**
-     * Returns the accumulated query string.<p>
-     *
-     * @return the accumulated query string
-     */
-    public String getQuery() {
+  /**
+   * Returns the accumulated query string.
+   *
+   * <p>
+   *
+   * @return the accumulated query string
+   */
+  public String getQuery() {
 
-        return m_buffer.toString();
-    }
+    return m_buffer.toString();
+  }
 }

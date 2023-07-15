@@ -28,21 +28,27 @@
 package org.opencms.ui.apps.user;
 
 /**
- * Interface for toggable tables.<p>
+ * Interface for toggable tables.
+ *
+ * <p>
  */
 public interface I_CmsToggleTable {
 
-    /**
-     * Gets the current size of data in table.<p>
-     *
-     * @return size
-     */
-    public int getCurrentSize();
+  /**
+   * Gets the current size of data in table.
+   *
+   * <p>
+   *
+   * @return size
+   */
+  public int getCurrentSize();
 
-    /**
-     * Toggles the table.<p>
-     *
-     * @param active boolean
-     */
-    public void toggle(boolean active);
+  /**
+   * Toggles the table.
+   *
+   * <p>
+   *
+   * @param active boolean
+   */
+  public void toggle(boolean active);
 }

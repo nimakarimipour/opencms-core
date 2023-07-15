@@ -27,61 +27,64 @@
 
 package org.opencms.ui.components;
 
+import com.vaadin.ui.RichTextArea;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Safelist;
 
-import com.vaadin.ui.RichTextArea;
-
 /**
- * Helper class for using rich text area in OpenCms.<p>
+ * Helper class for using rich text area in OpenCms.
  *
- * <p>The client side implementation of this widget adds some special styles, see CmsRichTextAreaConnector
+ * <p>
+ *
+ * <p>The client side implementation of this widget adds some special styles, see
+ * CmsRichTextAreaConnector
  */
 public class CmsRichTextArea extends RichTextArea {
 
-    /**vaadin serial id. */
-    private static final long serialVersionUID = 1L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 1L;
 
-    /**CSS class name. */
-    private static final String CSS_CLASSNAME = "richopensans";
+  /** CSS class name. */
+  private static final String CSS_CLASSNAME = "richopensans";
 
-    /**Style name. */
-    private String m_styleName = "";
+  /** Style name. */
+  private String m_styleName = "";
 
-    /**
-     * Public constructor.<p>
-     */
-    public CmsRichTextArea() {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   */
+  public CmsRichTextArea() {
 
-        addStyleName("o-richtextarea-reduced");
+    addStyleName("o-richtextarea-reduced");
+  }
+
+  /**
+   * Cleans up the given HTML such that only elements which can be normally entered in the widget
+   * are left.
+   *
+   * @param html the HTML
+   * @param allowLinks true if anchor elements / links should be kept
+   * @return the cleaned up HTML
+   */
+  public static String cleanHtml(String html, boolean allowLinks) {
+
+    if (html == null) {
+      return null;
     }
-
-    /**
-     * Cleans up the given HTML such that only elements which can be normally entered in the widget are left.
-     *
-     * @param html the HTML
-     * @param allowLinks true if anchor elements / links  should be kept
-     *
-     * @return the cleaned up HTML
-     */
-    public static String cleanHtml(String html, boolean allowLinks) {
-
-        if (html == null) {
-            return null;
-        }
-        Safelist whitelist = new Safelist();
-        whitelist.addTags("font", "b", "span", "i", "strong", "br", "u", "ul", "ol", "li", "div");
-        whitelist.addAttributes("font", "size", "color", "face");
-        if (allowLinks) {
-            whitelist.addTags("a");
-            whitelist.addAttributes("a", "href");
-        }
-        Cleaner cleaner = new Cleaner(whitelist);
-        Document doc = Jsoup.parseBodyFragment(html);
-        Document cleaned = cleaner.clean(doc);
-        return cleaned.body().html();
+    Safelist whitelist = new Safelist();
+    whitelist.addTags("font", "b", "span", "i", "strong", "br", "u", "ul", "ol", "li", "div");
+    whitelist.addAttributes("font", "size", "color", "face");
+    if (allowLinks) {
+      whitelist.addTags("a");
+      whitelist.addAttributes("a", "href");
     }
-
+    Cleaner cleaner = new Cleaner(whitelist);
+    Document doc = Jsoup.parseBodyFragment(html);
+    Document cleaned = cleaner.clean(doc);
+    return cleaned.body().html();
+  }
 }

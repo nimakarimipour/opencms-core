@@ -28,139 +28,165 @@
 package org.opencms.gwt.client.seo;
 
 /**
- * Message accessor class for the alias dialog.<p>
+ * Message accessor class for the alias dialog.
+ *
+ * <p>
  */
 public class CmsAliasMessages {
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public String addAlias() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public String addAlias() {
 
-        return Messages.get().key(Messages.GUI_ADD_ALIAS_0);
-    }
+    return Messages.get().key(Messages.GUI_ADD_ALIAS_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public String aliases() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public String aliases() {
 
-        return Messages.get().key(Messages.GUI_ALIASES_0);
-    }
+    return Messages.get().key(Messages.GUI_ALIASES_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public String enterAlias() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public String enterAlias() {
 
-        return Messages.get().key(Messages.GUI_ENTER_ALIAS_0);
-    }
+    return Messages.get().key(Messages.GUI_ENTER_ALIAS_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public String existingAliases() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public String existingAliases() {
 
-        return Messages.get().key(Messages.GUI_EXISTING_ALIASES_0);
-    }
+    return Messages.get().key(Messages.GUI_EXISTING_ALIASES_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public String movedDescription() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public String movedDescription() {
 
-        return Messages.get().key(Messages.GUI_ALIAS_MOVED_DESCRIPTION_0);
-    }
+    return Messages.get().key(Messages.GUI_ALIAS_MOVED_DESCRIPTION_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public String newAlias() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public String newAlias() {
 
-        return Messages.get().key(Messages.GUI_NEW_ALIAS_0);
-    }
+    return Messages.get().key(Messages.GUI_NEW_ALIAS_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public String optionMoved() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public String optionMoved() {
 
-        return Messages.get().key(Messages.GUI_ALIAS_MOVED_0);
-    }
+    return Messages.get().key(Messages.GUI_ALIAS_MOVED_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public String optionPage() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public String optionPage() {
 
-        return Messages.get().key(Messages.GUI_ALIAS_PAGE_0);
+    return Messages.get().key(Messages.GUI_ALIAS_PAGE_0);
+  }
 
-    }
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public String optionRedirect() {
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public String optionRedirect() {
+    return Messages.get().key(Messages.GUI_ALIAS_REDIRECT_0);
+  }
 
-        return Messages.get().key(Messages.GUI_ALIAS_REDIRECT_0);
-    }
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public String pageDescription() {
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public String pageDescription() {
+    return Messages.get().key(Messages.GUI_ALIAS_PAGE_DESCRIPTION_0);
+  }
 
-        return Messages.get().key(Messages.GUI_ALIAS_PAGE_DESCRIPTION_0);
-    }
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public String redirectDescription() {
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public String redirectDescription() {
+    return Messages.get().key(Messages.GUI_ALIAS_REDIRECT_DESCRIPTION_0);
+  }
 
-        return Messages.get().key(Messages.GUI_ALIAS_REDIRECT_DESCRIPTION_0);
-    }
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public String removeAlias() {
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public String removeAlias() {
+    return Messages.get().key(Messages.GUI_REMOVE_ALIAS_0);
+  }
 
-        return Messages.get().key(Messages.GUI_REMOVE_ALIAS_0);
-    }
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message string
+   */
+  public String seoOptions() {
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message string
-     */
-    public String seoOptions() {
-
-        return Messages.get().key(Messages.GUI_SEO_OPTIONS_0);
-    }
-
+    return Messages.get().key(Messages.GUI_SEO_OPTIONS_0);
+  }
 }

@@ -30,18 +30,18 @@ package org.opencms.db.as400;
 import org.opencms.db.generic.CmsSqlManager;
 
 /**
- * AS400 implementation of the history driver methods.<p>
+ * AS400 implementation of the history driver methods.
+ *
+ * <p>
  *
  * @since 7.0.4
  */
 public class CmsHistoryDriver extends org.opencms.db.generic.CmsHistoryDriver {
 
-    /**
-     * @see org.opencms.db.I_CmsHistoryDriver#initSqlManager(String)
-     */
-    @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  /** @see org.opencms.db.I_CmsHistoryDriver#initSqlManager(String) */
+  @Override
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
 
-        return CmsSqlManager.getInstance(classname);
-    }
+    return CmsSqlManager.getInstance(classname);
+  }
 }

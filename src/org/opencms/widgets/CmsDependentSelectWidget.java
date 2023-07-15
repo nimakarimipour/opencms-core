@@ -27,56 +27,52 @@
 
 package org.opencms.widgets;
 
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.i18n.CmsMessages;
 import org.opencms.xml.types.A_CmsXmlContentValue;
 
-import java.util.Locale;
-
 /**
- * Server-side part of the dependent select box widget.<p>
- * Select widget which uses other values from the content as select options.<p>
+ * Server-side part of the dependent select box widget.
  *
- * This works as follows: The widget is given a configuration consisting of three pipe-separated OpenCms content value paths.
- * The first path is used to select a set of nested content values. The second and third paths are relative to the first path
- * and are used to select a select option and a select option display text from the nested contents matching the first path.
- * Note that if you omit indexes on a component of the first path, all indexes will be matched.
+ * <p>Select widget which uses other values from the content as select options.
  *
- *
+ * <p>This works as follows: The widget is given a configuration consisting of three pipe-separated
+ * OpenCms content value paths. The first path is used to select a set of nested content values. The
+ * second and third paths are relative to the first path and are used to select a select option and
+ * a select option display text from the nested contents matching the first path. Note that if you
+ * omit indexes on a component of the first path, all indexes will be matched.
  */
 public class CmsDependentSelectWidget extends CmsSelectWidget {
 
-    /**
-     * @see org.opencms.widgets.A_CmsSelectWidget#getConfiguration(org.opencms.file.CmsObject, org.opencms.xml.types.A_CmsXmlContentValue, org.opencms.i18n.CmsMessages, org.opencms.file.CmsResource, java.util.Locale)
-     */
-    @Override
-    public String getConfiguration(
-        CmsObject cms,
-        A_CmsXmlContentValue schemaType,
-        CmsMessages messages,
-        CmsResource resource,
-        Locale contentLocale) {
+  /**
+   * @see org.opencms.widgets.A_CmsSelectWidget#getConfiguration(org.opencms.file.CmsObject,
+   *     org.opencms.xml.types.A_CmsXmlContentValue, org.opencms.i18n.CmsMessages,
+   *     org.opencms.file.CmsResource, java.util.Locale)
+   */
+  @Override
+  public String getConfiguration(
+      CmsObject cms,
+      A_CmsXmlContentValue schemaType,
+      CmsMessages messages,
+      CmsResource resource,
+      Locale contentLocale) {
 
-        return getConfiguration();
-    }
+    return getConfiguration();
+  }
 
-    /**
-     * @see org.opencms.widgets.CmsSelectWidget#getWidgetName()
-     */
-    @Override
-    public String getWidgetName() {
+  /** @see org.opencms.widgets.CmsSelectWidget#getWidgetName() */
+  @Override
+  public String getWidgetName() {
 
-        return CmsDependentSelectWidget.class.getName();
-    }
+    return CmsDependentSelectWidget.class.getName();
+  }
 
-    /**
-     * @see org.opencms.widgets.CmsSelectWidget#newInstance()
-     */
-    @Override
-    public I_CmsWidget newInstance() {
+  /** @see org.opencms.widgets.CmsSelectWidget#newInstance() */
+  @Override
+  public I_CmsWidget newInstance() {
 
-        return new CmsDependentSelectWidget();
-    }
-
+    return new CmsDependentSelectWidget();
+  }
 }

@@ -30,74 +30,87 @@ package org.opencms.gwt.client.ui.rename;
 import org.opencms.gwt.client.Messages;
 
 /**
- * Message accessor class for the Rename dialog.<p>
+ * Message accessor class for the Rename dialog.
+ *
+ * <p>
  */
 public final class CmsRenameMessages {
 
-    /** Hidden constructor to prevent instantiation. */
-    protected CmsRenameMessages() {
+  /** Hidden constructor to prevent instantiation. */
+  protected CmsRenameMessages() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message text
-     */
-    public static String messageCancel() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message text
+   */
+  public static String messageCancel() {
 
-        return org.opencms.gwt.client.Messages.get().key(org.opencms.gwt.client.Messages.GUI_CANCEL_0);
-    }
+    return org.opencms.gwt.client.Messages.get().key(org.opencms.gwt.client.Messages.GUI_CANCEL_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message text
-     */
-    public static String messageDialogTitle() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message text
+   */
+  public static String messageDialogTitle() {
 
-        return Messages.get().key(Messages.GUI_RENAME_DIALOG_TITLE_0);
-    }
+    return Messages.get().key(Messages.GUI_RENAME_DIALOG_TITLE_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message text
-     */
-    public static String messageNewNameLabel() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message text
+   */
+  public static String messageNewNameLabel() {
 
-        return Messages.get().key(Messages.GUI_RENAME_DIALOG_NEW_NAME_LABEL_0);
-    }
+    return Messages.get().key(Messages.GUI_RENAME_DIALOG_NEW_NAME_LABEL_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message text
-     */
-    public static String messageOk() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message text
+   */
+  public static String messageOk() {
 
-        return org.opencms.gwt.client.Messages.get().key(org.opencms.gwt.client.Messages.GUI_OK_0);
-    }
+    return org.opencms.gwt.client.Messages.get().key(org.opencms.gwt.client.Messages.GUI_OK_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message text
-     */
-    public static String messageOldNameLabel() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message text
+   */
+  public static String messageOldNameLabel() {
 
-        return Messages.get().key(Messages.GUI_RENAME_DIALOG_OLD_NAME_LABEL_0);
-    }
+    return Messages.get().key(Messages.GUI_RENAME_DIALOG_OLD_NAME_LABEL_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message text
-     */
-    public static String messageRenameMenuText() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message text
+   */
+  public static String messageRenameMenuText() {
 
-        return Messages.get().key(Messages.GUI_RENAME_DIALOG_MENU_TEXT_0);
-    }
-
+    return Messages.get().key(Messages.GUI_RENAME_DIALOG_MENU_TEXT_0);
+  }
 }

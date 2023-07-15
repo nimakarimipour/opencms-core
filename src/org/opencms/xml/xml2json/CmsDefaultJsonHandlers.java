@@ -27,18 +27,17 @@
 
 package org.opencms.xml.xml2json;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerContainerPage;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerFolder;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerJsp;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerList;
+import org.opencms.xml.xml2json.handler.CmsJsonHandlerOnlineCachingWrapper;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerResource;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerXmlContent;
-import org.opencms.xml.xml2json.handler.CmsJsonHandlerOnlineCachingWrapper;
 import org.opencms.xml.xml2json.handler.I_CmsJsonHandler;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Provides default JSON handlers.
@@ -47,41 +46,41 @@ import java.util.List;
  */
 public class CmsDefaultJsonHandlers {
 
-    /** The folder handler instance. */
-    private static CmsJsonHandlerFolder m_folderHandler = new CmsJsonHandlerFolder();
+  /** The folder handler instance. */
+  private static CmsJsonHandlerFolder m_folderHandler = new CmsJsonHandlerFolder();
 
-    /** The XML handler instance. */
-    private static I_CmsJsonHandler m_xmlContentHandler = new CmsJsonHandlerOnlineCachingWrapper(
-        new CmsJsonHandlerXmlContent(),
-        "concurrencyLevel=4,maximumSize=10000");
+  /** The XML handler instance. */
+  private static I_CmsJsonHandler m_xmlContentHandler =
+      new CmsJsonHandlerOnlineCachingWrapper(
+          new CmsJsonHandlerXmlContent(), "concurrencyLevel=4,maximumSize=10000");
 
-    /** The JSP handler instance. */
-    private static CmsJsonHandlerJsp m_jspHandler = new CmsJsonHandlerJsp();
+  /** The JSP handler instance. */
+  private static CmsJsonHandlerJsp m_jspHandler = new CmsJsonHandlerJsp();
 
-    /** The container page handler instance. */
-    private static CmsJsonHandlerContainerPage m_containerPageHandler = new CmsJsonHandlerContainerPage();
+  /** The container page handler instance. */
+  private static CmsJsonHandlerContainerPage m_containerPageHandler =
+      new CmsJsonHandlerContainerPage();
 
-    /** The list handler instance. */
-    private static CmsJsonHandlerList m_listJsonHandler = new CmsJsonHandlerList();
+  /** The list handler instance. */
+  private static CmsJsonHandlerList m_listJsonHandler = new CmsJsonHandlerList();
 
-    /** The resource handler instance. */
-    private static CmsJsonHandlerResource m_resourceJsonHandler = new CmsJsonHandlerResource();
+  /** The resource handler instance. */
+  private static CmsJsonHandlerResource m_resourceJsonHandler = new CmsJsonHandlerResource();
 
-    /**
-     * Gets the default JSON handlers.
-     *
-     * @return the list of default JSON handlers
-     */
-    public static List<I_CmsJsonHandler> getHandlers() {
+  /**
+   * Gets the default JSON handlers.
+   *
+   * @return the list of default JSON handlers
+   */
+  public static List<I_CmsJsonHandler> getHandlers() {
 
-        return new ArrayList<>(
-            Arrays.asList(
-                m_folderHandler,
-                m_xmlContentHandler,
-                m_jspHandler,
-                m_containerPageHandler,
-                m_listJsonHandler,
-                m_resourceJsonHandler));
-    }
-
+    return new ArrayList<>(
+        Arrays.asList(
+            m_folderHandler,
+            m_xmlContentHandler,
+            m_jspHandler,
+            m_containerPageHandler,
+            m_listJsonHandler,
+            m_resourceJsonHandler));
+  }
 }

@@ -27,163 +27,168 @@
 
 package org.opencms.ui.apps.user;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.security.CmsRole;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-/**
- * Ou Handler.
- */
+/** Ou Handler. */
 public class CmsOUHandler {
 
-    /**List of all managable OUs for current user. */
-    private List<String> m_managableOU;
+  /** List of all managable OUs for current user. */
+  private List<String> m_managableOU;
 
-    /**CmsObject. */
-    private CmsObject m_cms;
+  /** CmsObject. */
+  private CmsObject m_cms;
 
-    /**Is Root account manager (or higher). */
-    private boolean m_isRootAccountManager;
+  /** Is Root account manager (or higher). */
+  private boolean m_isRootAccountManager;
 
-    /**Maps ou names to boolean if they are parents of managable ou. */
-    private Map<String, Boolean> m_isParentOfOU = new HashMap<String, Boolean>();
+  /** Maps ou names to boolean if they are parents of managable ou. */
+  private Map<String, Boolean> m_isParentOfOU = new HashMap<String, Boolean>();
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param cms CmsObject
-     */
-    public CmsOUHandler(CmsObject cms) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param cms CmsObject
+   */
+  public CmsOUHandler(CmsObject cms) {
 
-        m_cms = cms;
-        m_isRootAccountManager = OpenCms.getRoleManager().hasRole(m_cms, CmsRole.ACCOUNT_MANAGER.forOrgUnit(""));
-        if (!m_isRootAccountManager) {
-            m_managableOU = getManagableOUs(cms);
+    m_cms = cms;
+    m_isRootAccountManager =
+        OpenCms.getRoleManager().hasRole(m_cms, CmsRole.ACCOUNT_MANAGER.forOrgUnit(""));
+    if (!m_isRootAccountManager) {
+      m_managableOU = getManagableOUs(cms);
+    }
+  }
+
+  /**
+   * Gets List of managable OU names for the current user.
+   *
+   * <p>
+   *
+   * @param cms CmsObject
+   * @return List of String
+   */
+  public static List<String> getManagableOUs(CmsObject cms) {
+
+    List<String> ous = new ArrayList<String>();
+    try {
+      for (CmsRole role :
+          OpenCms.getRoleManager()
+              .getRolesOfUser(
+                  cms, cms.getRequestContext().getCurrentUser().getName(), "", true, false, true)) {
+        if (role.getRoleName().equals(CmsRole.ACCOUNT_MANAGER.getRoleName())) {
+          if (role.getOuFqn().equals("")) {
+            ous.add(0, role.getOuFqn());
+          } else {
+            ous.add(role.getOuFqn());
+          }
         }
+      }
+    } catch (CmsException e) {
+      //
+    }
+    return ous;
+  }
+
+  /**
+   * Get base ou for given manageable ous.
+   *
+   * <p>
+   *
+   * @return Base ou (may be outside of given ou)
+   */
+  public String getBaseOU() {
+
+    if (m_isRootAccountManager) {
+      return "";
     }
 
-    /**
-     * Gets List of managable OU names for the current user.<p>
-     *
-     * @param cms CmsObject
-     * @return List of String
-     */
-    public static List<String> getManagableOUs(CmsObject cms) {
-
-        List<String> ous = new ArrayList<String>();
-        try {
-            for (CmsRole role : OpenCms.getRoleManager().getRolesOfUser(
-                cms,
-                cms.getRequestContext().getCurrentUser().getName(),
-                "",
-                true,
-                false,
-                true)) {
-                if (role.getRoleName().equals(CmsRole.ACCOUNT_MANAGER.getRoleName())) {
-                    if (role.getOuFqn().equals("")) {
-                        ous.add(0, role.getOuFqn());
-                    } else {
-                        ous.add(role.getOuFqn());
-                    }
-                }
-            }
-        } catch (CmsException e) {
-            //
+    if (m_managableOU.contains("")) {
+      return "";
+    }
+    String base = m_managableOU.get(0);
+    for (String ou : m_managableOU) {
+      while (!ou.startsWith(base)) {
+        base = base.substring(0, base.length() - 1);
+        if (base.lastIndexOf("/") > -1) {
+          base = base.substring(0, base.lastIndexOf("/"));
+        } else {
+          return "";
         }
-        return ous;
+      }
+    }
+    return base;
+  }
+
+  /**
+   * Checks if given ou is manageable.
+   *
+   * <p>
+   *
+   * @param ou to check
+   * @return true is it is manageable
+   */
+  public boolean isOUManagable(String ou) {
+
+    if (m_isRootAccountManager) {
+      return true;
     }
 
-    /**
-     * Get base ou for given manageable ous.<p>
-     *
-     * @return Base ou (may be outside of given ou)
-     */
-    public String getBaseOU() {
-
-        if (m_isRootAccountManager) {
-            return "";
-        }
-
-        if (m_managableOU.contains("")) {
-            return "";
-        }
-        String base = m_managableOU.get(0);
-        for (String ou : m_managableOU) {
-            while (!ou.startsWith(base)) {
-                base = base.substring(0, base.length() - 1);
-                if (base.lastIndexOf("/") > -1) {
-                    base = base.substring(0, base.lastIndexOf("/"));
-                } else {
-                    return "";
-                }
-            }
-        }
-        return base;
+    if (OpenCms.getRoleManager().hasRole(m_cms, CmsRole.ACCOUNT_MANAGER.forOrgUnit(""))) {
+      return true;
     }
 
-    /**
-     * Checks if given ou is manageable.<p>
-     *
-     * @param ou to check
-     * @return true is it is manageable
-     */
-    public boolean isOUManagable(String ou) {
+    return m_managableOU.contains(assureOUString(ou));
+  }
 
-        if (m_isRootAccountManager) {
-            return true;
-        }
+  /**
+   * Checks if given ou is parent of a managable ou.
+   *
+   * <p>
+   *
+   * @param name to check
+   * @return boolean
+   */
+  public boolean isParentOfManagableOU(String name) {
 
-        if (OpenCms.getRoleManager().hasRole(m_cms, CmsRole.ACCOUNT_MANAGER.forOrgUnit(""))) {
-            return true;
-        }
-
-        return m_managableOU.contains(assureOUString(ou));
+    if (m_isRootAccountManager) {
+      return true;
     }
 
-    /**
-     * Checks if given ou is parent of a managable ou.<p>
-     *
-     * @param name to check
-     * @return boolean
-     */
-    public boolean isParentOfManagableOU(String name) {
-
-        if (m_isRootAccountManager) {
-            return true;
-        }
-
-        if (m_isParentOfOU.containsKey(name)) {
-            return m_isParentOfOU.get(name).booleanValue();
-        }
-        for (String ou : m_managableOU) {
-            if (ou.startsWith(name)) {
-                m_isParentOfOU.put(name, new Boolean(true));
-                return true;
-            }
-        }
-        m_isParentOfOU.put(name, new Boolean(false));
-        return false;
+    if (m_isParentOfOU.containsKey(name)) {
+      return m_isParentOfOU.get(name).booleanValue();
     }
-
-    /**
-     *
-     * Returns valid ou name.<p>
-     *
-     * @param ou name
-     * @return valid ou name with "/" at the end
-     */
-    private String assureOUString(String ou) {
-
-        if (ou.equals("") | ou.endsWith("/")) {
-            return ou;
-        }
-        return ou + "/";
+    for (String ou : m_managableOU) {
+      if (ou.startsWith(name)) {
+        m_isParentOfOU.put(name, new Boolean(true));
+        return true;
+      }
     }
+    m_isParentOfOU.put(name, new Boolean(false));
+    return false;
+  }
 
+  /**
+   * Returns valid ou name.
+   *
+   * <p>
+   *
+   * @param ou name
+   * @return valid ou name with "/" at the end
+   */
+  private String assureOUString(String ou) {
+
+    if (ou.equals("") | ou.endsWith("/")) {
+      return ou;
+    }
+    return ou + "/";
+  }
 }

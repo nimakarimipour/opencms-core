@@ -27,9 +27,6 @@
 
 package org.opencms.site.xmlsitemap;
 
-import org.opencms.util.CmsFileUtil;
-import org.opencms.util.CmsStringUtil;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -37,107 +34,120 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import org.opencms.util.CmsFileUtil;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * A helper class used for calculating which paths need to be included or excluded from the XML sitemap generation.<p>
+ * A helper class used for calculating which paths need to be included or excluded from the XML
+ * sitemap generation.
  *
+ * <p>
  */
 public class CmsPathIncludeExcludeSet {
 
-    /** The set of all paths of includes or excludes. */
-    private Set<String> m_allPaths = new TreeSet<String>();
+  /** The set of all paths of includes or excludes. */
+  private Set<String> m_allPaths = new TreeSet<String>();
 
-    /** The set of excluded paths. */
-    private Set<String> m_excludes = new HashSet<String>();
+  /** The set of excluded paths. */
+  private Set<String> m_excludes = new HashSet<String>();
 
-    /** The set of included paths. */
-    private Set<String> m_includes = new HashSet<String>();
+  /** The set of included paths. */
+  private Set<String> m_includes = new HashSet<String>();
 
-    /**
-     * Adds an excluded path.<p>
-     *
-     * @param exclude the path to add
-     */
-    public void addExclude(String exclude) {
+  /**
+   * Adds an excluded path.
+   *
+   * <p>
+   *
+   * @param exclude the path to add
+   */
+  public void addExclude(String exclude) {
 
-        exclude = normalizePath(exclude);
-        m_excludes.add(exclude);
-        m_allPaths.add(exclude);
-    }
+    exclude = normalizePath(exclude);
+    m_excludes.add(exclude);
+    m_allPaths.add(exclude);
+  }
 
-    /**
-     * Adds an included path.<p>
-     *
-     * @param include the path to add
-     */
-    public void addInclude(String include) {
+  /**
+   * Adds an included path.
+   *
+   * <p>
+   *
+   * @param include the path to add
+   */
+  public void addInclude(String include) {
 
-        include = normalizePath(include);
-        m_includes.add(include);
-        m_allPaths.add(include);
-    }
+    include = normalizePath(include);
+    m_includes.add(include);
+    m_allPaths.add(include);
+  }
 
-    /**
-     * Gets the root include paths, i.e. those include paths which don't have an ancestor path which is also an include path.<p>
-     *
-     * @return the list of root include paths
-     */
-    public Set<String> getIncludeRoots() {
+  /**
+   * Gets the root include paths, i.e. those include paths which don't have an ancestor path which
+   * is also an include path.
+   *
+   * <p>
+   *
+   * @return the list of root include paths
+   */
+  public Set<String> getIncludeRoots() {
 
-        List<String> pathList = new ArrayList<String>(m_includes);
-        Set<String> includeRoots = new HashSet<String>();
-        Collections.sort(pathList);
-        while (!pathList.isEmpty()) {
-            Iterator<String> iterator = pathList.iterator();
-            String firstPath = iterator.next();
-            includeRoots.add(firstPath);
-            iterator.remove();
-            while (iterator.hasNext()) {
-                String currentPath = iterator.next();
-                if (CmsStringUtil.isPrefixPath(firstPath, currentPath)) {
-                    iterator.remove();
-                }
-            }
+    List<String> pathList = new ArrayList<String>(m_includes);
+    Set<String> includeRoots = new HashSet<String>();
+    Collections.sort(pathList);
+    while (!pathList.isEmpty()) {
+      Iterator<String> iterator = pathList.iterator();
+      String firstPath = iterator.next();
+      includeRoots.add(firstPath);
+      iterator.remove();
+      while (iterator.hasNext()) {
+        String currentPath = iterator.next();
+        if (CmsStringUtil.isPrefixPath(firstPath, currentPath)) {
+          iterator.remove();
         }
-        return includeRoots;
+      }
     }
+    return includeRoots;
+  }
 
-    /**
-     * Checks if the given path is excluded by the include/exclude configuration.<p>
-     *
-     * @param path the path to check
-     *
-     * @return true if the path is excluded
-     */
-    public boolean isExcluded(String path) {
+  /**
+   * Checks if the given path is excluded by the include/exclude configuration.
+   *
+   * <p>
+   *
+   * @param path the path to check
+   * @return true if the path is excluded
+   */
+  public boolean isExcluded(String path) {
 
-        path = normalizePath(path);
-        List<String> pathList = new ArrayList<String>(m_allPaths);
-        // m_allPaths is already sorted, we need the reverse ordering so children come before their parents
-        // (we want to find the deepest parent folder of 'path' that is marked as include/exclude)
-        Collections.reverse(pathList);
-        for (String pathInList : pathList) {
-            if (CmsStringUtil.isPrefixPath(pathInList, path)) {
-                return m_excludes.contains(pathInList);
-            }
-        }
-        return false;
+    path = normalizePath(path);
+    List<String> pathList = new ArrayList<String>(m_allPaths);
+    // m_allPaths is already sorted, we need the reverse ordering so children come before their
+    // parents
+    // (we want to find the deepest parent folder of 'path' that is marked as include/exclude)
+    Collections.reverse(pathList);
+    for (String pathInList : pathList) {
+      if (CmsStringUtil.isPrefixPath(pathInList, path)) {
+        return m_excludes.contains(pathInList);
+      }
     }
+    return false;
+  }
 
-    /**
-     * Converts a path to a normalized form.<p>
-     *
-     * @param path the path to normalize
-     *
-     * @return the normalized path
-     */
-    protected String normalizePath(String path) {
+  /**
+   * Converts a path to a normalized form.
+   *
+   * <p>
+   *
+   * @param path the path to normalize
+   * @return the normalized path
+   */
+  protected String normalizePath(String path) {
 
-        if (path.equals("/")) {
-            return path;
-        } else {
-            return CmsFileUtil.removeTrailingSeparator(path);
-        }
-
+    if (path.equals("/")) {
+      return path;
+    } else {
+      return CmsFileUtil.removeTrailingSeparator(path);
     }
+  }
 }

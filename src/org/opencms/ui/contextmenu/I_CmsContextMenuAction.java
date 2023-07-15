@@ -30,14 +30,19 @@ package org.opencms.ui.contextmenu;
 import org.opencms.ui.I_CmsDialogContext;
 
 /**
- * Action to perform when a context menu item is clicked.<p>
+ * Action to perform when a context menu item is clicked.
+ *
+ * <p>
  */
 public interface I_CmsContextMenuAction {
 
-    /**
-     * Executes this action.<p>
-     *
-     * @param context a context object which provides both a CmsObject as well as information about the context in which the menu item was selected
-     */
-    void executeAction(I_CmsDialogContext context);
+  /**
+   * Executes this action.
+   *
+   * <p>
+   *
+   * @param context a context object which provides both a CmsObject as well as information about
+   *     the context in which the menu item was selected
+   */
+  void executeAction(I_CmsDialogContext context);
 }

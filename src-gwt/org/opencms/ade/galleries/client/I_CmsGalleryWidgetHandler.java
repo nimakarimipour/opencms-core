@@ -31,16 +31,21 @@ import org.opencms.ade.galleries.client.preview.CmsCroppingParamBean;
 import org.opencms.util.CmsUUID;
 
 /**
- * A handler to set the selected resource within an editing widget.<p>
+ * A handler to set the selected resource within an editing widget.
+ *
+ * <p>
  */
 public interface I_CmsGalleryWidgetHandler {
 
-    /**
-     * Sets the widget value.<p>
-     *
-     * @param resourcePath the resource path
-     * @param structureId the structure id
-     * @param croppingParameter the cropping parameter in case of an image resource
-     */
-    void setWidgetValue(String resourcePath, CmsUUID structureId, CmsCroppingParamBean croppingParameter);
+  /**
+   * Sets the widget value.
+   *
+   * <p>
+   *
+   * @param resourcePath the resource path
+   * @param structureId the structure id
+   * @param croppingParameter the cropping parameter in case of an image resource
+   */
+  void setWidgetValue(
+      String resourcePath, CmsUUID structureId, CmsCroppingParamBean croppingParameter);
 }

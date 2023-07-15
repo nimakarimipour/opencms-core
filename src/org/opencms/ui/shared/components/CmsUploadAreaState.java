@@ -30,33 +30,39 @@ package org.opencms.ui.shared.components;
 import com.vaadin.shared.communication.SharedState;
 
 /**
- * The upload button state.<p>
+ * The upload button state.
+ *
+ * <p>
  */
 public class CmsUploadAreaState extends SharedState {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = -763395505975462778L;
+  /** Serial version id. */
+  private static final long serialVersionUID = -763395505975462778L;
 
-    /** The upload target folder root path. */
-    private String m_targetFolderRootPath;
+  /** The upload target folder root path. */
+  private String m_targetFolderRootPath;
 
-    /**
-     * Returns the targetFolderRootPath.<p>
-     *
-     * @return the targetFolderRootPath
-     */
-    public String getTargetFolderRootPath() {
+  /**
+   * Returns the targetFolderRootPath.
+   *
+   * <p>
+   *
+   * @return the targetFolderRootPath
+   */
+  public String getTargetFolderRootPath() {
 
-        return m_targetFolderRootPath;
-    }
+    return m_targetFolderRootPath;
+  }
 
-    /**
-     * Sets the targetFolderRootPath.<p>
-     *
-     * @param targetFolderRootPath the targetFolderRootPath to set
-     */
-    public void setTargetFolderRootPath(String targetFolderRootPath) {
+  /**
+   * Sets the targetFolderRootPath.
+   *
+   * <p>
+   *
+   * @param targetFolderRootPath the targetFolderRootPath to set
+   */
+  public void setTargetFolderRootPath(String targetFolderRootPath) {
 
-        m_targetFolderRootPath = targetFolderRootPath;
-    }
+    m_targetFolderRootPath = targetFolderRootPath;
+  }
 }

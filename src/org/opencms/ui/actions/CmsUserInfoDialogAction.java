@@ -27,6 +27,10 @@
 
 package org.opencms.ui.actions;
 
+import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
+import java.util.List;
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.OpenCms;
@@ -38,117 +42,116 @@ import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.dialogs.CmsEmbeddedDialogContext;
 
-import java.util.List;
-import java.util.Locale;
-
-import com.vaadin.ui.UI;
-import com.vaadin.ui.Window;
-
 /**
- * User info dialog action, used only for sitemap and page editor toolbar.<p>
+ * User info dialog action, used only for sitemap and page editor toolbar.
+ *
+ * <p>
  */
 public class CmsUserInfoDialogAction extends A_CmsWorkplaceAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "userInfo";
+  /** The action id. */
+  public static final String ACTION_ID = "userInfo";
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(final I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(final I_CmsDialogContext context) {
 
-        CmsUserInfo dialog = new CmsUserInfo(new I_UploadListener() {
+    CmsUserInfo dialog =
+        new CmsUserInfo(
+            new I_UploadListener() {
 
-            public void onUploadFinished(List<String> uploadedFiles) {
+              public void onUploadFinished(List<String> uploadedFiles) {
 
                 handleUpload(uploadedFiles, context);
-            }
-        }, context);
-        int top = 55;
-        int left = 0;
-        if (context.getParameters().get("left") != null) {
-            String buttonLeft = context.getParameters().get("left");
-            left = Integer.parseInt(buttonLeft) - 290;
-        }
-        final Window window = new Window();
-        window.setModal(false);
-        window.setClosable(true);
-        window.setResizable(false);
-        window.setContent(dialog);
-        context.setWindow(window);
-        window.addStyleName(OpenCmsTheme.DROPDOWN);
-        UI.getCurrent().addWindow(window);
-        window.setPosition(left, top);
+              }
+            },
+            context);
+    int top = 55;
+    int left = 0;
+    if (context.getParameters().get("left") != null) {
+      String buttonLeft = context.getParameters().get("left");
+      left = Integer.parseInt(buttonLeft) - 290;
     }
+    final Window window = new Window();
+    window.setModal(false);
+    window.setClosable(true);
+    window.setResizable(false);
+    window.setContent(dialog);
+    context.setWindow(window);
+    window.addStyleName(OpenCmsTheme.DROPDOWN);
+    UI.getCurrent().addWindow(window);
+    window.setPosition(left, top);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getDialogTitle()
-     */
-    @Override
-    public String getDialogTitle() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getDialogTitle() */
+  @Override
+  public String getDialogTitle() {
 
-        return "";
+    return "";
+  }
+
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
+
+    return ACTION_ID;
+  }
+
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitle(java.util.Locale) */
+  @Override
+  public String getTitle(Locale locale) {
+
+    return "";
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+
+    return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.ui.I_CmsDialogContext)
+   */
+  @Override
+  public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
+
+    if ((context instanceof CmsEmbeddedDialogContext)
+        && (ContextType.appToolbar == context.getContextType())) {
+      return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
+    } else {
+      return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
     }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return ACTION_ID;
+    return "";
+  }
+
+  /**
+   * Handles the user image file upload.
+   *
+   * <p>
+   *
+   * @param uploadedFiles the uploaded file names
+   * @param context the dialog context
+   */
+  void handleUpload(List<String> uploadedFiles, I_CmsDialogContext context) {
+
+    CmsObject cms = context.getCms();
+    boolean success =
+        OpenCms.getWorkplaceAppManager().getUserIconHelper().handleImageUpload(cms, uploadedFiles);
+    if (success) {
+      context.reload();
     }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitle(java.util.Locale)
-     */
-    @Override
-    public String getTitle(Locale locale) {
-
-        return "";
-    }
-
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
-
-        return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-    }
-
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.ui.I_CmsDialogContext)
-     */
-    @Override
-    public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
-
-        if ((context instanceof CmsEmbeddedDialogContext) && (ContextType.appToolbar == context.getContextType())) {
-            return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
-        } else {
-            return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-        }
-    }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
-
-        return "";
-    }
-
-    /**
-     * Handles the user image file upload.<p>
-     *
-     * @param uploadedFiles the uploaded file names
-     * @param context the dialog context
-     */
-    void handleUpload(List<String> uploadedFiles, I_CmsDialogContext context) {
-
-        CmsObject cms = context.getCms();
-        boolean success = OpenCms.getWorkplaceAppManager().getUserIconHelper().handleImageUpload(cms, uploadedFiles);
-        if (success) {
-            context.reload();
-        }
-    }
+  }
 }

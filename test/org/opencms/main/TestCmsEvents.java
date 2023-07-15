@@ -27,105 +27,116 @@
 
 package org.opencms.main;
 
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProject;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Unit tests for OpenCms events.<p>
+ * Unit tests for OpenCms events.
+ *
+ * <p>
  */
 public class TestCmsEvents extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestCmsEvents(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestCmsEvents(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestCmsEvents.class.getName());
+    TestSuite suite = new TestSuite();
+    suite.setName(TestCmsEvents.class.getName());
 
-        suite.addTest(new TestCmsEvents("testBeforeAfterPublishEvent"));
+    suite.addTest(new TestCmsEvents("testBeforeAfterPublishEvent"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
+    return wrapper;
+  }
+
+  /**
+   * Test the before and after publish event.
+   *
+   * <p>
+   *
+   * @throws Throwable if the test fails
+   */
+  public void testBeforeAfterPublishEvent() throws Throwable {
+
+    CmsObject cms = getCmsObject();
+
+    echo("Testing to event before / after publish project");
+
+    String projectName = "PublishEventTest";
+
+    String storedSiteRoot = cms.getRequestContext().getSiteRoot();
+    try {
+      cms.getRequestContext().setSiteRoot("/");
+      CmsProject project =
+          cms.createProject(
+              projectName,
+              "Unit test project for publish events",
+              OpenCms.getDefaultUsers().getGroupUsers(),
+              OpenCms.getDefaultUsers().getGroupAdministrators(),
+              CmsProject.PROJECT_TYPE_NORMAL);
+      cms.getRequestContext().setCurrentProject(project);
+      cms.copyResourceToProject("/sites/default/");
+    } finally {
+      cms.getRequestContext().setSiteRoot(storedSiteRoot);
     }
 
-    /**
-     * Test the before and after publish event.<p>
-     *
-     * @throws Throwable if the test fails
-     */
-    public void testBeforeAfterPublishEvent() throws Throwable {
+    // create and register the event listener
+    CmsTestEventListener handler = new CmsTestEventListener();
+    OpenCms.addCmsEventListener(
+        handler,
+        new int[] {
+          I_CmsEventListener.EVENT_BEFORE_PUBLISH_PROJECT, I_CmsEventListener.EVENT_PUBLISH_PROJECT
+        });
 
-        CmsObject cms = getCmsObject();
+    CmsProject current = cms.readProject(projectName);
+    cms.getRequestContext().setCurrentProject(current);
 
-        echo("Testing to event before / after publish project");
+    OpenCms.getPublishManager().publishProject(cms);
+    OpenCms.getPublishManager().waitWhileRunning();
 
-        String projectName = "PublishEventTest";
-
-        String storedSiteRoot = cms.getRequestContext().getSiteRoot();
-        try {
-            cms.getRequestContext().setSiteRoot("/");
-            CmsProject project = cms.createProject(
-                projectName,
-                "Unit test project for publish events",
-                OpenCms.getDefaultUsers().getGroupUsers(),
-                OpenCms.getDefaultUsers().getGroupAdministrators(),
-                CmsProject.PROJECT_TYPE_NORMAL);
-            cms.getRequestContext().setCurrentProject(project);
-            cms.copyResourceToProject("/sites/default/");
-        } finally {
-            cms.getRequestContext().setSiteRoot(storedSiteRoot);
-        }
-
-        // create and register the event listener
-        CmsTestEventListener handler = new CmsTestEventListener();
-        OpenCms.addCmsEventListener(
-            handler,
-            new int[] {I_CmsEventListener.EVENT_BEFORE_PUBLISH_PROJECT, I_CmsEventListener.EVENT_PUBLISH_PROJECT});
-
-        CmsProject current = cms.readProject(projectName);
-        cms.getRequestContext().setCurrentProject(current);
-
-        OpenCms.getPublishManager().publishProject(cms);
-        OpenCms.getPublishManager().waitWhileRunning();
-
-        assertTrue(handler.hasRecievedEvent(I_CmsEventListener.EVENT_BEFORE_PUBLISH_PROJECT));
-        assertTrue(handler.hasRecievedEvent(I_CmsEventListener.EVENT_PUBLISH_PROJECT));
-        // only 2 events should be been recieved
-        assertEquals(2, handler.getEvents().size());
-    }
+    assertTrue(handler.hasRecievedEvent(I_CmsEventListener.EVENT_BEFORE_PUBLISH_PROJECT));
+    assertTrue(handler.hasRecievedEvent(I_CmsEventListener.EVENT_PUBLISH_PROJECT));
+    // only 2 events should be been recieved
+    assertEquals(2, handler.getEvents().size());
+  }
 }

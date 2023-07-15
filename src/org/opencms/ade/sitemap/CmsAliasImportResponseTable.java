@@ -27,48 +27,48 @@
 
 package org.opencms.ade.sitemap;
 
-import org.opencms.gwt.shared.alias.CmsAliasImportResult;
-import org.opencms.util.CmsUUID;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.opencms.gwt.shared.alias.CmsAliasImportResult;
+import org.opencms.util.CmsUUID;
 
-/**
- * A class used for storing alias import results by key.
- */
+/** A class used for storing alias import results by key. */
 public class CmsAliasImportResponseTable {
 
-    /** A map of alias import results. */
-    private Map<String, List<CmsAliasImportResult>> m_entries = new HashMap<String, List<CmsAliasImportResult>>();
+  /** A map of alias import results. */
+  private Map<String, List<CmsAliasImportResult>> m_entries =
+      new HashMap<String, List<CmsAliasImportResult>>();
 
-    /**
-     * Adds a list of alias import results, and returns the key under which they were stored.<p>
-     *
-     * @param importResults the alias import results
-     *
-     * @return the key under which the alias import results were stored
-     */
-    public synchronized String addImportResult(List<CmsAliasImportResult> importResults) {
+  /**
+   * Adds a list of alias import results, and returns the key under which they were stored.
+   *
+   * <p>
+   *
+   * @param importResults the alias import results
+   * @return the key under which the alias import results were stored
+   */
+  public synchronized String addImportResult(List<CmsAliasImportResult> importResults) {
 
-        String key = (new CmsUUID()).toString();
-        m_entries.put(key, importResults);
-        return key;
+    String key = (new CmsUUID()).toString();
+    m_entries.put(key, importResults);
+    return key;
+  }
+
+  /**
+   * Removes the list of alias import results for the given key and returns it.
+   *
+   * <p>
+   *
+   * @param key the alias import result key
+   * @return the list of alias import results
+   */
+  public synchronized List<CmsAliasImportResult> getAndRemove(String key) {
+
+    List<CmsAliasImportResult> result = m_entries.get(key);
+    if (result != null) {
+      m_entries.remove(key);
     }
-
-    /**
-     * Removes the list of alias import results for the given key and returns it.<p>
-     *
-     * @param key the alias import result key
-     *
-     * @return the list of alias import results
-     */
-    public synchronized List<CmsAliasImportResult> getAndRemove(String key) {
-
-        List<CmsAliasImportResult> result = m_entries.get(key);
-        if (result != null) {
-            m_entries.remove(key);
-        }
-        return result;
-    }
+    return result;
+  }
 }

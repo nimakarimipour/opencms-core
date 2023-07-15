@@ -27,6 +27,11 @@
 
 package org.opencms.jsp;
 
+import java.util.Locale;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
 import org.opencms.ade.configuration.CmsADEConfigData;
 import org.opencms.ade.configuration.CmsResourceTypeConfig;
 import org.opencms.ade.contenteditor.shared.CmsEditorConstants;
@@ -49,319 +54,335 @@ import org.opencms.util.CmsUUID;
 import org.opencms.workplace.editors.directedit.CmsDirectEditButtonSelection;
 import org.opencms.workplace.editors.directedit.CmsDirectEditParams;
 
-import java.util.Locale;
-
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-
 /** This tag is used to attach an edit provider to a snippet of HTML. */
 public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
 
-    /** Identifier to indicate that the new link should be handled by this tag - not by a {@link org.opencms.file.collectors.I_CmsResourceCollector}. */
-    public static final String NEW_LINK_IDENTIFIER = "__edit__";
+  /**
+   * Identifier to indicate that the new link should be handled by this tag - not by a {@link
+   * org.opencms.file.collectors.I_CmsResourceCollector}.
+   */
+  public static final String NEW_LINK_IDENTIFIER = "__edit__";
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsJspTagEdit.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsJspTagEdit.class);
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -3781368910893187306L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -3781368910893187306L;
 
-    /** Flag, indicating if the create option should be displayed. */
-    private boolean m_canCreate;
+  /** Flag, indicating if the create option should be displayed. */
+  private boolean m_canCreate;
 
-    /** Flag, indicating if the delete option should be displayed. */
-    private boolean m_canDelete;
+  /** Flag, indicating if the delete option should be displayed. */
+  private boolean m_canDelete;
 
-    /** The type of the resource that should be created. */
-    private String m_createType;
+  /** The type of the resource that should be created. */
+  private String m_createType;
 
-    /** The tag attribute's value, specifying the path to the (sub)sitemap where new content should be created. */
-    private String m_creationSiteMap;
+  /**
+   * The tag attribute's value, specifying the path to the (sub)sitemap where new content should be
+   * created.
+   */
+  private String m_creationSiteMap;
 
-    /** Flag, indicating if during rendering the "startDirectEdit" part has been rendered, but not the "endDirectEdit" part. */
-    private boolean m_isEditOpen;
+  /**
+   * Flag, indicating if during rendering the "startDirectEdit" part has been rendered, but not the
+   * "endDirectEdit" part.
+   */
+  private boolean m_isEditOpen;
 
-    /** The fully qualified class name of the post create handler to use. */
-    private String m_postCreateHandler;
+  /** The fully qualified class name of the post create handler to use. */
+  private String m_postCreateHandler;
 
-    /** The upload folder. */
-    private String m_uploadFolder;
+  /** The upload folder. */
+  private String m_uploadFolder;
 
-    /** UUID of the content to edit. */
-    private String m_uuid;
+  /** UUID of the content to edit. */
+  private String m_uuid;
 
-    /** Creates a new resource.
-     * @param cmsObject The CmsObject of the current request context.
-     * @param newLink A string, specifying where which new content should be created.
-     * @param locale The locale for which the
-     * @param sitePath site path of the currently edited content.
-     * @param modelFileName not used.
-     * @param mode optional creation mode
-     * @param postCreateHandler optional class name of an {@link I_CmsCollectorPostCreateHandler} which is invoked after the content has been created.
-     *      The fully qualified class name can be followed by a "|" symbol and a handler specific configuration string.
-     * @return The site-path of the newly created resource.
-     * @throws CmsException if something goes wrong
-     */
-    public static String createResource(
-        CmsObject cmsObject,
-        String newLink,
-        Locale locale,
-        String sitePath,
-        String modelFileName,
-        String mode,
-        String postCreateHandler)
-    throws CmsException {
+  /**
+   * Creates a new resource.
+   *
+   * @param cmsObject The CmsObject of the current request context.
+   * @param newLink A string, specifying where which new content should be created.
+   * @param locale The locale for which the
+   * @param sitePath site path of the currently edited content.
+   * @param modelFileName not used.
+   * @param mode optional creation mode
+   * @param postCreateHandler optional class name of an {@link I_CmsCollectorPostCreateHandler}
+   *     which is invoked after the content has been created. The fully qualified class name can be
+   *     followed by a "|" symbol and a handler specific configuration string.
+   * @return The site-path of the newly created resource.
+   * @throws CmsException if something goes wrong
+   */
+  public static String createResource(
+      CmsObject cmsObject,
+      String newLink,
+      Locale locale,
+      String sitePath,
+      String modelFileName,
+      String mode,
+      String postCreateHandler)
+      throws CmsException {
 
-        String[] newLinkParts = newLink.split("\\|");
-        String rootPath = newLinkParts[1];
-        String typeName = newLinkParts[2];
-        CmsFile modelFile = null;
-        if (StringUtils.equalsIgnoreCase(mode, CmsEditorConstants.MODE_COPY)) {
-            try {
-                modelFile = cmsObject.readFile(sitePath);
-            } catch (CmsException e) {
-                LOG.warn(
-                    "The resource at path" + sitePath + "could not be read. Thus it can not be used as model file.",
-                    e);
-            }
-        }
-        CmsADEConfigData adeConfig = OpenCms.getADEManager().lookupConfiguration(cmsObject, rootPath);
-        CmsResourceTypeConfig typeConfig = adeConfig.getResourceType(typeName);
-        CmsResource newElement = null;
+    String[] newLinkParts = newLink.split("\\|");
+    String rootPath = newLinkParts[1];
+    String typeName = newLinkParts[2];
+    CmsFile modelFile = null;
+    if (StringUtils.equalsIgnoreCase(mode, CmsEditorConstants.MODE_COPY)) {
+      try {
+        modelFile = cmsObject.readFile(sitePath);
+      } catch (CmsException e) {
+        LOG.warn(
+            "The resource at path"
+                + sitePath
+                + "could not be read. Thus it can not be used as model file.",
+            e);
+      }
+    }
+    CmsADEConfigData adeConfig = OpenCms.getADEManager().lookupConfiguration(cmsObject, rootPath);
+    CmsResourceTypeConfig typeConfig = adeConfig.getResourceType(typeName);
+    CmsResource newElement = null;
 
-        CmsObject cmsClone = cmsObject;
-        if ((locale != null) && !cmsObject.getRequestContext().getLocale().equals(locale)) {
-            // in case the content locale does not match the request context locale, use a clone cms with the appropriate locale
-            cmsClone = OpenCms.initCmsObject(cmsObject);
-            cmsClone.getRequestContext().setLocale(locale);
-        }
-        newElement = typeConfig.createNewElement(cmsClone, modelFile, rootPath);
-        CmsPair<String, String> handlerParameter = I_CmsCollectorPostCreateHandler.splitClassAndConfig(
-            postCreateHandler);
-        I_CmsCollectorPostCreateHandler handler = A_CmsResourceCollector.getPostCreateHandler(
-            handlerParameter.getFirst());
-        handler.onCreate(cmsClone, cmsClone.readFile(newElement), modelFile != null, handlerParameter.getSecond());
-        return newElement == null ? null : cmsObject.getSitePath(newElement);
+    CmsObject cmsClone = cmsObject;
+    if ((locale != null) && !cmsObject.getRequestContext().getLocale().equals(locale)) {
+      // in case the content locale does not match the request context locale, use a clone cms with
+      // the appropriate locale
+      cmsClone = OpenCms.initCmsObject(cmsObject);
+      cmsClone.getRequestContext().setLocale(locale);
+    }
+    newElement = typeConfig.createNewElement(cmsClone, modelFile, rootPath);
+    CmsPair<String, String> handlerParameter =
+        I_CmsCollectorPostCreateHandler.splitClassAndConfig(postCreateHandler);
+    I_CmsCollectorPostCreateHandler handler =
+        A_CmsResourceCollector.getPostCreateHandler(handlerParameter.getFirst());
+    handler.onCreate(
+        cmsClone, cmsClone.readFile(newElement), modelFile != null, handlerParameter.getSecond());
+    return newElement == null ? null : cmsObject.getSitePath(newElement);
+  }
+
+  /**
+   * Creates the String specifying where which type of resource has to be created.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @param resType the resource type to create
+   * @param creationSitemap the creation sitemap parameter
+   * @return The String identifying which type of resource has to be created where.
+   *     <p>
+   * @see #createResource(CmsObject, String, Locale, String, String, String, String)
+   */
+  public static String getNewLink(
+      CmsObject cms, I_CmsResourceType resType, String creationSitemap) {
+
+    String contextPath = getContextRootPath(cms, creationSitemap);
+    StringBuffer newLink = new StringBuffer(NEW_LINK_IDENTIFIER);
+    newLink.append('|');
+    newLink.append(contextPath);
+    newLink.append('|');
+    newLink.append(resType.getTypeName());
+
+    return newLink.toString();
+  }
+
+  /**
+   * Returns the resource type name contained in the newLink parameter.
+   *
+   * <p>
+   *
+   * @param newLink the newLink parameter
+   * @return the resource type name
+   */
+  public static String getRootPathFromNewLink(String newLink) {
+
+    String result = null;
+    if (newLink.startsWith(NEW_LINK_IDENTIFIER) && newLink.contains("|")) {
+      result = newLink.substring(newLink.indexOf("|") + 1, newLink.lastIndexOf("|"));
+    }
+    return result;
+  }
+
+  /**
+   * Returns the resource type name contained in the newLink parameter.
+   *
+   * <p>
+   *
+   * @param newLink the newLink parameter
+   * @return the resource type name
+   */
+  public static String getTypeFromNewLink(String newLink) {
+
+    String result = null;
+    if (newLink.startsWith(NEW_LINK_IDENTIFIER) && newLink.contains("|")) {
+      result = newLink.substring(newLink.lastIndexOf("|") + 1);
     }
 
-    /**
-     * Creates the String specifying where which type of resource has to be created.<p>
-     *
-     * @param cms the CMS context
-     * @param resType the resource type to create
-     * @param creationSitemap the creation sitemap parameter
-     *
-     * @return The String identifying which type of resource has to be created where.<p>
-     *
-     * @see #createResource(CmsObject, String, Locale, String, String, String, String)
-     */
-    public static String getNewLink(CmsObject cms, I_CmsResourceType resType, String creationSitemap) {
+    return result;
+  }
 
-        String contextPath = getContextRootPath(cms, creationSitemap);
-        StringBuffer newLink = new StringBuffer(NEW_LINK_IDENTIFIER);
-        newLink.append('|');
-        newLink.append(contextPath);
-        newLink.append('|');
-        newLink.append(resType.getTypeName());
+  /**
+   * Inserts the closing direct edit tag.
+   *
+   * <p>
+   *
+   * @param pageContext the page context
+   */
+  public static void insertDirectEditEnd(PageContext pageContext) {
 
-        return newLink.toString();
+    try {
+      CmsJspTagEditable.endDirectEdit(pageContext);
+    } catch (JspException e) {
+      LOG.error("Could not print closing direct edit tag.", e);
+    }
+  }
+
+  /**
+   * Inserts the opening direct edit tag.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @param pageContext the page context
+   * @param resource the resource to edit
+   * @param canCreate if resource creation is allowed
+   * @param canDelete if resource deletion is allowed
+   * @param createType the resource type to create, default to the type of the edited resource
+   * @param creationSitemap the sitemap context to create the resource in, default to the current
+   *     requested URI
+   * @param postCreateHandler the post create handler if required
+   * @param binaryUploadFolder the upload folder for binary files
+   * @return <code>true</code> if an opening direct edit tag was inserted
+   */
+  public static boolean insertDirectEditStart(
+      CmsObject cms,
+      PageContext pageContext,
+      CmsResource resource,
+      boolean canCreate,
+      boolean canDelete,
+      String createType,
+      String creationSitemap,
+      String postCreateHandler,
+      String binaryUploadFolder) {
+
+    boolean result = false;
+    CmsDirectEditParams editParams = null;
+    if (resource != null) {
+
+      String newLink = null;
+      // reconstruct create type from the edit-resource if necessary
+      if (canCreate) {
+        I_CmsResourceType resType = getResourceType(resource, createType);
+        if (resType != null) {
+          newLink = getNewLink(cms, resType, creationSitemap);
+        }
+      }
+      CmsDirectEditButtonSelection buttons = null;
+      if (canDelete) {
+        if (newLink != null) {
+          buttons = CmsDirectEditButtonSelection.EDIT_DELETE_NEW;
+        } else {
+          buttons = CmsDirectEditButtonSelection.EDIT_DELETE;
+        }
+      } else if (newLink != null) {
+        buttons = CmsDirectEditButtonSelection.EDIT_NEW;
+      } else {
+        buttons = CmsDirectEditButtonSelection.EDIT;
+      }
+      editParams = new CmsDirectEditParams(cms.getSitePath(resource), buttons, null, newLink);
+    } else if (canCreate) {
+      I_CmsResourceType resType = getResourceType(null, createType);
+      if (resType != null) {
+        editParams =
+            new CmsDirectEditParams(
+                cms.getRequestContext().getFolderUri(),
+                CmsDirectEditButtonSelection.NEW,
+                null,
+                getNewLink(cms, resType, creationSitemap));
+      }
     }
 
-    /**
-     * Returns the resource type name contained in the newLink parameter.<p>
-     *
-     * @param newLink the newLink parameter
-     *
-     * @return the resource type name
-     */
-    public static String getRootPathFromNewLink(String newLink) {
+    if (editParams != null) {
+      editParams.setPostCreateHandler(postCreateHandler);
+      editParams.setUploadFolder(binaryUploadFolder);
+      try {
+        CmsJspTagEditable.startDirectEdit(pageContext, editParams);
+        result = true;
+      } catch (JspException e) {
+        // TODO: Localize and improve error message.
+        LOG.error("Could not create direct edit start.", e);
+      }
+    }
+    return result;
+  }
 
-        String result = null;
-        if (newLink.startsWith(NEW_LINK_IDENTIFIER) && newLink.contains("|")) {
-            result = newLink.substring(newLink.indexOf("|") + 1, newLink.lastIndexOf("|"));
-        }
-        return result;
+  /**
+   * Returns the context root path.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @param creationSitemap the creation sitemap parameter
+   * @return the context root path
+   */
+  private static String getContextRootPath(CmsObject cms, String creationSitemap) {
+
+    String path = null;
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(creationSitemap)) {
+      try {
+        path = cms.readFolder(creationSitemap).getRootPath();
+      } catch (CmsException e) {
+        LOG.warn("The provided creation sitemap " + creationSitemap + " is not a VFS folder.", e);
+      }
+    }
+    if (path == null) {
+      path = cms.addSiteRoot(cms.getRequestContext().getFolderUri());
     }
 
-    /**
-     * Returns the resource type name contained in the newLink parameter.<p>
-     *
-     * @param newLink the newLink parameter
-     *
-     * @return the resource type name
-     */
-    public static String getTypeFromNewLink(String newLink) {
+    return path;
+  }
 
-        String result = null;
-        if (newLink.startsWith(NEW_LINK_IDENTIFIER) && newLink.contains("|")) {
-            result = newLink.substring(newLink.lastIndexOf("|") + 1);
-        }
+  /**
+   * Returns the resource type to create, or <code>null</code> if not available.
+   *
+   * <p>
+   *
+   * @param resource the edit resource
+   * @param createType the create type parameter
+   * @return the resource type
+   */
+  private static I_CmsResourceType getResourceType(CmsResource resource, String createType) {
 
-        return result;
+    I_CmsResourceType resType = null;
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(createType)) {
+      try {
+        resType = OpenCms.getResourceManager().getResourceType(createType);
+      } catch (CmsLoaderException e) {
+        LOG.error("Could not read resource type '" + createType + "' for resource creation.", e);
+      }
+    } else if (resource != null) {
+      resType = OpenCms.getResourceManager().getResourceType(resource);
     }
+    return resType;
+  }
 
-    /**
-     * Inserts the closing direct edit tag.<p>
-     *
-     * @param pageContext the page context
-     */
-    public static void insertDirectEditEnd(PageContext pageContext) {
+  /** @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag() */
+  @Override
+  public int doEndTag() throws JspException {
 
-        try {
-            CmsJspTagEditable.endDirectEdit(pageContext);
-        } catch (JspException e) {
-            LOG.error("Could not print closing direct edit tag.", e);
-        }
+    if (m_isEditOpen) {
+      CmsJspTagEditable.endDirectEdit(pageContext);
     }
+    release();
+    return EVAL_PAGE;
+  }
 
-    /**
-     * Inserts the opening direct edit tag.<p>
-     *
-     * @param cms the CMS context
-     * @param pageContext the page context
-     * @param resource the resource to edit
-     * @param canCreate if resource creation is allowed
-     * @param canDelete if resource deletion is allowed
-     * @param createType the resource type to create, default to the type of the edited resource
-     * @param creationSitemap the sitemap context to create the resource in, default to the current requested URI
-     * @param postCreateHandler the post create handler if required
-     * @param binaryUploadFolder the upload folder for binary files
-     *
-     * @return <code>true</code> if an opening direct edit tag was inserted
-     */
-    public static boolean insertDirectEditStart(
-        CmsObject cms,
-        PageContext pageContext,
-        CmsResource resource,
-        boolean canCreate,
-        boolean canDelete,
-        String createType,
-        String creationSitemap,
-        String postCreateHandler,
-        String binaryUploadFolder) {
+  /** @see javax.servlet.jsp.tagext.Tag#doStartTag() */
+  @Override
+  public int doStartTag() throws CmsIllegalArgumentException {
 
-        boolean result = false;
-        CmsDirectEditParams editParams = null;
-        if (resource != null) {
-
-            String newLink = null;
-            // reconstruct create type from the edit-resource if necessary
-            if (canCreate) {
-                I_CmsResourceType resType = getResourceType(resource, createType);
-                if (resType != null) {
-                    newLink = getNewLink(cms, resType, creationSitemap);
-                }
-            }
-            CmsDirectEditButtonSelection buttons = null;
-            if (canDelete) {
-                if (newLink != null) {
-                    buttons = CmsDirectEditButtonSelection.EDIT_DELETE_NEW;
-                } else {
-                    buttons = CmsDirectEditButtonSelection.EDIT_DELETE;
-                }
-            } else if (newLink != null) {
-                buttons = CmsDirectEditButtonSelection.EDIT_NEW;
-            } else {
-                buttons = CmsDirectEditButtonSelection.EDIT;
-            }
-            editParams = new CmsDirectEditParams(cms.getSitePath(resource), buttons, null, newLink);
-        } else if (canCreate) {
-            I_CmsResourceType resType = getResourceType(null, createType);
-            if (resType != null) {
-                editParams = new CmsDirectEditParams(
-                    cms.getRequestContext().getFolderUri(),
-                    CmsDirectEditButtonSelection.NEW,
-                    null,
-                    getNewLink(cms, resType, creationSitemap));
-            }
-        }
-
-        if (editParams != null) {
-            editParams.setPostCreateHandler(postCreateHandler);
-            editParams.setUploadFolder(binaryUploadFolder);
-            try {
-                CmsJspTagEditable.startDirectEdit(pageContext, editParams);
-                result = true;
-            } catch (JspException e) {
-                // TODO: Localize and improve error message.
-                LOG.error("Could not create direct edit start.", e);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Returns the context root path.<p>
-     *
-     * @param cms the CMS context
-     * @param creationSitemap the creation sitemap parameter
-     *
-     * @return the context root path
-     */
-    private static String getContextRootPath(CmsObject cms, String creationSitemap) {
-
-        String path = null;
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(creationSitemap)) {
-            try {
-                path = cms.readFolder(creationSitemap).getRootPath();
-            } catch (CmsException e) {
-                LOG.warn("The provided creation sitemap " + creationSitemap + " is not a VFS folder.", e);
-            }
-        }
-        if (path == null) {
-            path = cms.addSiteRoot(cms.getRequestContext().getFolderUri());
-        }
-
-        return path;
-    }
-
-    /**
-     * Returns the resource type to create, or <code>null</code> if not available.<p>
-     *
-     * @param resource the edit resource
-     * @param createType the create type parameter
-     *
-     * @return the resource type
-     */
-    private static I_CmsResourceType getResourceType(CmsResource resource, String createType) {
-
-        I_CmsResourceType resType = null;
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(createType)) {
-            try {
-                resType = OpenCms.getResourceManager().getResourceType(createType);
-            } catch (CmsLoaderException e) {
-                LOG.error("Could not read resource type '" + createType + "' for resource creation.", e);
-            }
-        } else if (resource != null) {
-            resType = OpenCms.getResourceManager().getResourceType(resource);
-        }
-        return resType;
-    }
-
-    /**
-     * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
-     */
-    @Override
-    public int doEndTag() throws JspException {
-
-        if (m_isEditOpen) {
-            CmsJspTagEditable.endDirectEdit(pageContext);
-        }
-        release();
-        return EVAL_PAGE;
-    }
-
-    /**
-     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-     */
-    @Override
-    public int doStartTag() throws CmsIllegalArgumentException {
-
-        CmsObject cms = getCmsObject();
-        m_isEditOpen = insertDirectEditStart(
+    CmsObject cms = getCmsObject();
+    m_isEditOpen =
+        insertDirectEditStart(
             cms,
             pageContext,
             getResourceToEdit(cms),
@@ -371,116 +392,130 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
             m_creationSiteMap,
             m_postCreateHandler,
             m_uploadFolder);
-        return EVAL_BODY_INCLUDE;
+    return EVAL_BODY_INCLUDE;
+  }
+
+  /** @see org.opencms.jsp.CmsJspScopedVarBodyTagSuport#release() */
+  @Override
+  public void release() {
+
+    m_canCreate = false;
+    m_canDelete = false;
+    m_creationSiteMap = null;
+    m_createType = null;
+    m_isEditOpen = false;
+    m_uuid = null;
+    super.release();
+  }
+
+  /**
+   * Setter for the "create" attribute of the tag.
+   *
+   * @param canCreate value of the tag's attribute "create".
+   */
+  public void setCreate(final Boolean canCreate) {
+
+    m_canCreate = canCreate == null ? false : canCreate.booleanValue();
+  }
+
+  /**
+   * Setter for the "createType" attribute of the tag.
+   *
+   * <p>
+   *
+   * @param typeName value of the "createType" attribute of the tag.
+   */
+  public void setCreateType(final String typeName) {
+
+    m_createType = typeName;
+  }
+
+  /**
+   * Setter for the "creationSiteMap" attribute of the tag.
+   *
+   * @param sitePath value of the "creationSiteMap" attribute of the tag.
+   */
+  public void setCreationSiteMap(final String sitePath) {
+
+    m_creationSiteMap = sitePath;
+  }
+
+  /**
+   * Setter for the "delete" attribute of the tag.
+   *
+   * @param canDelete value of the "delete" attribute of the tag.
+   */
+  public void setDelete(final Boolean canDelete) {
+
+    m_canDelete = canDelete == null ? false : canDelete.booleanValue();
+  }
+
+  /**
+   * Setter for the "postCreateHandler" attribute of the tag.
+   *
+   * @param postCreateHandler fully qualified class name of the {@link
+   *     I_CmsCollectorPostCreateHandler} to use.
+   */
+  public void setPostCreateHandler(final String postCreateHandler) {
+
+    m_postCreateHandler = postCreateHandler;
+  }
+
+  /**
+   * Sets the upload folder.
+   *
+   * @param uploadFolder the upload folder
+   */
+  public void setUploadFolder(String uploadFolder) {
+
+    m_uploadFolder = uploadFolder;
+  }
+
+  /**
+   * Setter for the uuid attribute of the tag, providing the uuid of content that should be edited.
+   * If no valid uuid of an existing resource is given, it is assumed the tag is only used for
+   * creating new contents.
+   *
+   * @param uuid the uuid of the content that should be edited.
+   */
+  public void setUuid(final String uuid) {
+
+    m_uuid = uuid;
+  }
+
+  /**
+   * Returns the current CMS context.
+   *
+   * <p>
+   *
+   * @return the CMS context
+   */
+  private CmsObject getCmsObject() {
+
+    CmsFlexController controller = CmsFlexController.getController(pageContext.getRequest());
+    return controller.getCmsObject();
+  }
+
+  /**
+   * Returns the resource to edit according to the uuid provided via the tag's attribute "uuid".
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @return the resource
+   */
+  private CmsResource getResourceToEdit(CmsObject cms) {
+
+    CmsResource resource = null;
+    if (m_uuid != null) {
+      try {
+        CmsUUID uuid = new CmsUUID(m_uuid);
+        resource = cms.readResource(uuid, CmsResourceFilter.ignoreExpirationOffline(cms));
+
+      } catch (NumberFormatException | CmsException e) {
+        LOG.warn("UUID was not valid or there is no resource with the given UUID.", e);
+      }
     }
-
-    /**
-     * @see org.opencms.jsp.CmsJspScopedVarBodyTagSuport#release()
-     */
-    @Override
-    public void release() {
-
-        m_canCreate = false;
-        m_canDelete = false;
-        m_creationSiteMap = null;
-        m_createType = null;
-        m_isEditOpen = false;
-        m_uuid = null;
-        super.release();
-    }
-
-    /** Setter for the "create" attribute of the tag.
-     * @param canCreate value of the tag's attribute "create".
-     */
-    public void setCreate(final Boolean canCreate) {
-
-        m_canCreate = canCreate == null ? false : canCreate.booleanValue();
-    }
-
-    /** Setter for the "createType" attribute of the tag.<p>
-     *
-     * @param typeName value of the "createType" attribute of the tag.
-     */
-    public void setCreateType(final String typeName) {
-
-        m_createType = typeName;
-    }
-
-    /** Setter for the "creationSiteMap" attribute of the tag.
-     *
-     * @param sitePath value of the "creationSiteMap" attribute of the tag.
-     */
-    public void setCreationSiteMap(final String sitePath) {
-
-        m_creationSiteMap = sitePath;
-    }
-
-    /**Setter for the "delete" attribute of the tag.
-     * @param canDelete value of the "delete" attribute of the tag.
-     */
-    public void setDelete(final Boolean canDelete) {
-
-        m_canDelete = canDelete == null ? false : canDelete.booleanValue();
-    }
-
-    /** Setter for the "postCreateHandler" attribute of the tag.
-     * @param postCreateHandler fully qualified class name of the {@link I_CmsCollectorPostCreateHandler} to use.
-     */
-    public void setPostCreateHandler(final String postCreateHandler) {
-
-        m_postCreateHandler = postCreateHandler;
-    }
-
-    /**
-     * Sets the upload folder.
-     *
-     * @param uploadFolder the upload folder
-     */
-    public void setUploadFolder(String uploadFolder) {
-
-        m_uploadFolder = uploadFolder;
-    }
-
-    /** Setter for the uuid attribute of the tag, providing the uuid of content that should be edited.
-     * If no valid uuid of an existing resource is given, it is assumed the tag is only used for creating new contents.
-     * @param uuid the uuid of the content that should be edited.
-     */
-    public void setUuid(final String uuid) {
-
-        m_uuid = uuid;
-    }
-
-    /**
-     * Returns the current CMS context.<p>
-     *
-     * @return the CMS context
-     */
-    private CmsObject getCmsObject() {
-
-        CmsFlexController controller = CmsFlexController.getController(pageContext.getRequest());
-        return controller.getCmsObject();
-
-    }
-
-    /**
-     * Returns the resource to edit according to the uuid provided via the tag's attribute "uuid".<p>
-     *
-     * @param cms the CMS context
-     *
-     * @return the resource
-     */
-    private CmsResource getResourceToEdit(CmsObject cms) {
-
-        CmsResource resource = null;
-        if (m_uuid != null) {
-            try {
-                CmsUUID uuid = new CmsUUID(m_uuid);
-                resource = cms.readResource(uuid, CmsResourceFilter.ignoreExpirationOffline(cms));
-
-            } catch (NumberFormatException | CmsException e) {
-                LOG.warn("UUID was not valid or there is no resource with the given UUID.", e);
-            }
-        }
-        return resource;
-    }
+    return resource;
+  }
 }

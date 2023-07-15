@@ -28,16 +28,20 @@
 package org.opencms.ui.components.fileselect;
 
 /**
- * Handles selection of a generic type T.<p>
+ * Handles selection of a generic type T.
+ *
+ * <p>
  *
  * @param <T> the generic type of the selection
  */
 public interface I_CmsSelectionHandler<T> {
 
-    /**
-     * Called when an element is selected.<p>
-     *
-     * @param selected the selected element
-     */
-    public void onSelection(T selected);
+  /**
+   * Called when an element is selected.
+   *
+   * <p>
+   *
+   * @param selected the selected element
+   */
+  public void onSelection(T selected);
 }

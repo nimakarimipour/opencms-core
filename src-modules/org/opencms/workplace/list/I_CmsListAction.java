@@ -31,62 +31,77 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.workplace.tools.I_CmsHtmlIconButton;
 
 /**
- * Interface for list actions.<p>
+ * Interface for list actions.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsListAction extends I_CmsHtmlIconButton {
 
-    /**
-     * The same using {@link #getWp()}.<p>
-     *
-     * @return the buttons html code
-     *
-     * @see I_CmsHtmlIconButton#buttonHtml(org.opencms.workplace.CmsWorkplace)
-     */
-    String buttonHtml();
+  /**
+   * The same using {@link #getWp()}.
+   *
+   * <p>
+   *
+   * @return the buttons html code
+   * @see I_CmsHtmlIconButton#buttonHtml(org.opencms.workplace.CmsWorkplace)
+   */
+  String buttonHtml();
 
-    /**
-     * Returns an optional confirmation message for the action.<p>
-     *
-     * It will be escaped for usage in java script code.<p>
-     *
-     * @return confirmation message
-     */
-    CmsMessageContainer getConfirmationMessage();
+  /**
+   * Returns an optional confirmation message for the action.
+   *
+   * <p>It will be escaped for usage in java script code.
+   *
+   * <p>
+   *
+   * @return confirmation message
+   */
+  CmsMessageContainer getConfirmationMessage();
 
-    /**
-     * Returns the id of the associated list.<p>
-     *
-     * @return the id of the associated list
-     */
-    String getListId();
+  /**
+   * Returns the id of the associated list.
+   *
+   * <p>
+   *
+   * @return the id of the associated list
+   */
+  String getListId();
 
-    /**
-     * Returns the related workplace dialog object, to be able to access dynamic data.<p>
-     *
-     * @return the related workplace dialog object
-     */
-    A_CmsListDialog getWp();
+  /**
+   * Returns the related workplace dialog object, to be able to access dynamic data.
+   *
+   * <p>
+   *
+   * @return the related workplace dialog object
+   */
+  A_CmsListDialog getWp();
 
-    /**
-     * Sets the confirmation message.<p>
-     *
-     * @param confirmationMsg the confirmation message to set
-     */
-    void setConfirmationMessage(CmsMessageContainer confirmationMsg);
+  /**
+   * Sets the confirmation message.
+   *
+   * <p>
+   *
+   * @param confirmationMsg the confirmation message to set
+   */
+  void setConfirmationMessage(CmsMessageContainer confirmationMsg);
 
-    /**
-     * Sets the list id.<p>
-     *
-     * @param listId the id of the list to set
-     */
-    void setListId(String listId);
+  /**
+   * Sets the list id.
+   *
+   * <p>
+   *
+   * @param listId the id of the list to set
+   */
+  void setListId(String listId);
 
-    /**
-     * Sets the workplace dialog object.<p>
-     *
-     * @param wp the workplace dialog object
-     */
-    void setWp(A_CmsListDialog wp);
+  /**
+   * Sets the workplace dialog object.
+   *
+   * <p>
+   *
+   * @param wp the workplace dialog object
+   */
+  void setWp(A_CmsListDialog wp);
 }

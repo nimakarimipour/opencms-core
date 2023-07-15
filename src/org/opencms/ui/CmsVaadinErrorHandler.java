@@ -27,58 +27,58 @@
 
 package org.opencms.ui;
 
+import com.vaadin.server.DefaultErrorHandler;
+import com.vaadin.server.ErrorEvent;
+import java.net.SocketException;
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 import org.opencms.ui.apps.CmsAppWorkplaceUi;
 
-import java.net.SocketException;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.server.DefaultErrorHandler;
-import com.vaadin.server.ErrorEvent;
-
 /**
- * Error handler for uncaught Vaadin exceptions.<p>
+ * Error handler for uncaught Vaadin exceptions.
+ *
+ * <p>
  */
 public class CmsVaadinErrorHandler extends DefaultErrorHandler {
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsVaadinErrorHandler.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsVaadinErrorHandler.class);
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The workplace UI instance. */
-    private CmsAppWorkplaceUi m_ui;
+  /** The workplace UI instance. */
+  private CmsAppWorkplaceUi m_ui;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsVaadinErrorHandler() {}
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsVaadinErrorHandler() {}
 
-    /**
-     * Constructor.<p>
-     *
-     * @param ui the workplace UI
-     */
-    public CmsVaadinErrorHandler(CmsAppWorkplaceUi ui) {
-        m_ui = ui;
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param ui the workplace UI
+   */
+  public CmsVaadinErrorHandler(CmsAppWorkplaceUi ui) {
+    m_ui = ui;
+  }
+
+  /** @see com.vaadin.server.DefaultErrorHandler#error(com.vaadin.server.ErrorEvent) */
+  @Override
+  public void error(ErrorEvent event) {
+
+    super.error(event);
+    if (m_ui != null) {
+      m_ui.onError();
     }
-
-    /**
-     * @see com.vaadin.server.DefaultErrorHandler#error(com.vaadin.server.ErrorEvent)
-     */
-    @Override
-    public void error(ErrorEvent event) {
-
-        super.error(event);
-        if (m_ui != null) {
-            m_ui.onError();
-        }
-        Throwable throwable = event.getThrowable();
-        if (!(throwable instanceof SocketException)) {
-            LOG.error(throwable.getLocalizedMessage(), throwable);
-        }
+    Throwable throwable = event.getThrowable();
+    if (!(throwable instanceof SocketException)) {
+      LOG.error(throwable.getLocalizedMessage(), throwable);
     }
-
+  }
 }

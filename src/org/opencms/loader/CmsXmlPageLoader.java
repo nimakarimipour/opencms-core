@@ -27,6 +27,7 @@
 
 package org.opencms.loader;
 
+import javax.servlet.ServletRequest;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsPropertyDefinition;
 import org.opencms.file.CmsResource;
@@ -34,53 +35,53 @@ import org.opencms.main.CmsException;
 import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.page.CmsXmlPageFactory;
 
-import javax.servlet.ServletRequest;
-
 /**
- * OpenCms loader for resources of type <code>{@link org.opencms.file.types.CmsResourceTypeXmlPage}</code>.<p>
+ * OpenCms loader for resources of type <code>{@link org.opencms.file.types.CmsResourceTypeXmlPage}
+ * </code>.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsXmlPageLoader extends A_CmsXmlDocumentLoader {
 
-    /** The id of this loader. */
-    public static final int RESOURCE_LOADER_ID = 9;
+  /** The id of this loader. */
+  public static final int RESOURCE_LOADER_ID = 9;
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#getLoaderId()
-     */
-    public int getLoaderId() {
+  /** @see org.opencms.loader.I_CmsResourceLoader#getLoaderId() */
+  public int getLoaderId() {
 
-        return RESOURCE_LOADER_ID;
-    }
+    return RESOURCE_LOADER_ID;
+  }
 
-    /**
-     * Returns a String describing this resource loader, which is (localized to the system default locale)
-     * <code>"The OpenCms default resource loader for xml pages"</code>.<p>
-     *
-     * @return a describing String for the ResourceLoader
-     */
-    public String getResourceLoaderInfo() {
+  /**
+   * Returns a String describing this resource loader, which is (localized to the system default
+   * locale) <code>"The OpenCms default resource loader for xml pages"</code>.
+   *
+   * <p>
+   *
+   * @return a describing String for the ResourceLoader
+   */
+  public String getResourceLoaderInfo() {
 
-        return Messages.get().getBundle().key(Messages.GUI_LOADER_XMLPAGE_DEFAULT_DESC_0);
-    }
+    return Messages.get().getBundle().key(Messages.GUI_LOADER_XMLPAGE_DEFAULT_DESC_0);
+  }
 
-    /**
-     * @see org.opencms.loader.A_CmsXmlDocumentLoader#unmarshalXmlDocument(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.ServletRequest)
-     */
-    @Override
-    protected I_CmsXmlDocument unmarshalXmlDocument(CmsObject cms, CmsResource resource, ServletRequest req)
-    throws CmsException {
+  /**
+   * @see org.opencms.loader.A_CmsXmlDocumentLoader#unmarshalXmlDocument(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, javax.servlet.ServletRequest)
+   */
+  @Override
+  protected I_CmsXmlDocument unmarshalXmlDocument(
+      CmsObject cms, CmsResource resource, ServletRequest req) throws CmsException {
 
-        return CmsXmlPageFactory.unmarshal(cms, resource, req);
-    }
+    return CmsXmlPageFactory.unmarshal(cms, resource, req);
+  }
 
-    /**
-     * @see org.opencms.loader.A_CmsXmlDocumentLoader#getTemplatePropertyDefinition()
-     */
-    @Override
-    protected String getTemplatePropertyDefinition() {
+  /** @see org.opencms.loader.A_CmsXmlDocumentLoader#getTemplatePropertyDefinition() */
+  @Override
+  protected String getTemplatePropertyDefinition() {
 
-        return CmsPropertyDefinition.PROPERTY_TEMPLATE;
-    }
+    return CmsPropertyDefinition.PROPERTY_TEMPLATE;
+  }
 }

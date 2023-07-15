@@ -27,6 +27,13 @@
 
 package org.opencms.search;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+import org.apache.lucene.document.Document;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
 import org.opencms.file.CmsPropertyDefinition;
@@ -39,173 +46,180 @@ import org.opencms.search.fields.CmsSearchField;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.lucene.document.Document;
-
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Unit test for special search features added for OpenCms 7.5.<p>
+ * Unit test for special search features added for OpenCms 7.5.
+ *
+ * <p>
  */
 public class TestCmsSearchSpecialFeatures extends OpenCmsTestCase {
 
-    /** Name of the search index created using API. */
-    public static final String INDEX_SPECIAL = "Special Test Index";
+  /** Name of the search index created using API. */
+  public static final String INDEX_SPECIAL = "Special Test Index";
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestCmsSearchSpecialFeatures(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestCmsSearchSpecialFeatures(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestCmsSearchSpecialFeatures.class.getName());
+    TestSuite suite = new TestSuite();
+    suite.setName(TestCmsSearchSpecialFeatures.class.getName());
 
-        suite.addTest(new TestCmsSearchSpecialFeatures("testSearchIndexSetup"));
-        suite.addTest(new TestCmsSearchSpecialFeatures("testIncrementalIndexUpdate"));
-        suite.addTest(new TestCmsSearchSpecialFeatures("testLazyContentFields"));
+    suite.addTest(new TestCmsSearchSpecialFeatures("testSearchIndexSetup"));
+    suite.addTest(new TestCmsSearchSpecialFeatures("testIncrementalIndexUpdate"));
+    suite.addTest(new TestCmsSearchSpecialFeatures("testLazyContentFields"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
+    return wrapper;
+  }
+
+  /**
+   * Tests incremental index updates with the new content blob feature.
+   *
+   * <p>
+   *
+   * @throws Exception in case the test fails
+   */
+  public void testIncrementalIndexUpdate() throws Exception {
+
+    CmsObject cms = getCmsObject();
+    echo("Testing search incremental index update - new content blob feature");
+
+    // create test folder
+    cms.createResource("/test/", CmsResourceTypeFolder.RESOURCE_TYPE_ID, null, null);
+    cms.unlockResource("/test/");
+
+    String fileName = "/test/master.pdf";
+
+    // create master resource
+    importTestResource(
+        cms,
+        "org/opencms/search/extractors/test1.pdf",
+        fileName,
+        CmsResourceTypeBinary.getStaticTypeId(),
+        Collections.<CmsProperty>emptyList());
+
+    // create 5 siblings
+    for (int i = 0; i < 5; i++) {
+      cms.createSibling(fileName, "/test/sibling" + i + ".pdf", null);
     }
 
-    /**
-     * Tests incremental index updates with the new content blob feature.<p>
-     *
-     * @throws Exception in case the test fails
-     */
-    public void testIncrementalIndexUpdate() throws Exception {
+    // publish the project and update the search index
+    I_CmsReport report = new CmsShellReport(cms.getRequestContext().getLocale());
+    OpenCms.getPublishManager().publishProject(cms, report);
+    OpenCms.getPublishManager().waitWhileRunning();
 
-        CmsObject cms = getCmsObject();
-        echo("Testing search incremental index update - new content blob feature");
+    cms.lockResource(fileName);
+    cms.writePropertyObject(
+        fileName, new CmsProperty(CmsPropertyDefinition.PROPERTY_TITLE, "Title of the PDF", null));
 
-        // create test folder
-        cms.createResource("/test/", CmsResourceTypeFolder.RESOURCE_TYPE_ID, null, null);
-        cms.unlockResource("/test/");
+    // publish the project and update the search index
+    report = new CmsShellReport(cms.getRequestContext().getLocale());
+    OpenCms.getPublishManager().publishProject(cms, report);
+    OpenCms.getPublishManager().waitWhileRunning();
+  }
 
-        String fileName = "/test/master.pdf";
+  /**
+   * Ensures the content and content blob fields are loaded lazy.
+   *
+   * <p>
+   *
+   * @throws Exception in case the test fails
+   */
+  public void testLazyContentFields() throws Exception {
 
-        // create master resource
-        importTestResource(
-            cms,
-            "org/opencms/search/extractors/test1.pdf",
-            fileName,
-            CmsResourceTypeBinary.getStaticTypeId(),
-            Collections.<CmsProperty> emptyList());
+    echo("Testing lazy status of content fields in search index");
 
-        // create 5 siblings
-        for (int i = 0; i < 5; i++) {
-            cms.createSibling(fileName, "/test/sibling" + i + ".pdf", null);
-        }
+    String fileName = "/sites/default/test/master.pdf";
 
-        // publish the project and update the search index
-        I_CmsReport report = new CmsShellReport(cms.getRequestContext().getLocale());
-        OpenCms.getPublishManager().publishProject(cms, report);
-        OpenCms.getPublishManager().waitWhileRunning();
+    CmsSearchIndex searchIndex =
+        (CmsSearchIndex) OpenCms.getSearchManager().getIndex(INDEX_SPECIAL);
+    Document doc =
+        (Document) searchIndex.getDocument(CmsSearchField.FIELD_PATH, fileName).getDocument();
 
-        cms.lockResource(fileName);
-        cms.writePropertyObject(
-            fileName,
-            new CmsProperty(CmsPropertyDefinition.PROPERTY_TITLE, "Title of the PDF", null));
+    assertNotNull("Document '" + fileName + "' not found", doc);
+    assertNotNull("No 'title' field available", doc.getField(CmsSearchField.FIELD_TITLE));
+    // assertFalse("title must not be lazy loaded", doc.getField(CmsSearchField.FIELD_TITLE).
+    // isLazy());
+    assertNotNull("No 'content' field available", doc.getField(CmsSearchField.FIELD_CONTENT));
+    // assertTrue("Content field not lazy", doc.getField(CmsSearchField.FIELD_CONTENT).isLazy());
+    assertNotNull(
+        "No 'content blob' field available", doc.getField(CmsSearchField.FIELD_CONTENT_BLOB));
+    // assertTrue("Content blob field not lazy",
+    // doc.getField(CmsSearchField.FIELD_CONTENT_BLOB).isLazy());
+  }
 
-        // publish the project and update the search index
-        report = new CmsShellReport(cms.getRequestContext().getLocale());
-        OpenCms.getPublishManager().publishProject(cms, report);
-        OpenCms.getPublishManager().waitWhileRunning();
-    }
+  /**
+   * Creates a new search index setup for this test.
+   *
+   * <p>
+   *
+   * @throws Exception in case the test fails
+   */
+  public void testSearchIndexSetup() throws Exception {
 
-    /**
-     * Ensures the content and content blob fields are loaded lazy.<p>
-     *
-     * @throws Exception in case the test fails
-     */
-    public void testLazyContentFields() throws Exception {
+    CmsSearchIndex searchIndex = new CmsSearchIndex(INDEX_SPECIAL);
+    searchIndex.setProject("Online");
+    searchIndex.setLocale(Locale.ENGLISH);
+    searchIndex.setRebuildMode(CmsSearchIndex.REBUILD_MODE_AUTO);
+    // available pre-configured in the test configuration files opencms-search.xml
+    searchIndex.addSourceName("source1");
+    searchIndex.addConfigurationParameter(CmsSearchIndex.BACKUP_REINDEXING, "true");
 
-        echo("Testing lazy status of content fields in search index");
+    // initialize the new index
+    searchIndex.initialize();
 
-        String fileName = "/sites/default/test/master.pdf";
+    // add the search index to the manager
+    OpenCms.getSearchManager().addSearchIndex(searchIndex);
 
-        CmsSearchIndex searchIndex = (CmsSearchIndex)OpenCms.getSearchManager().getIndex(INDEX_SPECIAL);
-        Document doc = (Document)searchIndex.getDocument(CmsSearchField.FIELD_PATH, fileName).getDocument();
+    I_CmsReport report = new CmsShellReport(Locale.ENGLISH);
+    // this call does not throws the rebuild index event
+    OpenCms.getSearchManager().rebuildIndex(INDEX_SPECIAL, report);
+    OpenCms.getSearchManager().rebuildIndex(INDEX_SPECIAL, report);
 
-        assertNotNull("Document '" + fileName + "' not found", doc);
-        assertNotNull("No 'title' field available", doc.getField(CmsSearchField.FIELD_TITLE));
-        // assertFalse("title must not be lazy loaded", doc.getField(CmsSearchField.FIELD_TITLE). isLazy());
-        assertNotNull("No 'content' field available", doc.getField(CmsSearchField.FIELD_CONTENT));
-        // assertTrue("Content field not lazy", doc.getField(CmsSearchField.FIELD_CONTENT).isLazy());
-        assertNotNull("No 'content blob' field available", doc.getField(CmsSearchField.FIELD_CONTENT_BLOB));
-        // assertTrue("Content blob field not lazy", doc.getField(CmsSearchField.FIELD_CONTENT_BLOB).isLazy());
-    }
+    // perform a search on the newly generated index
+    CmsSearch searchBean = new CmsSearch();
+    List<CmsSearchResult> searchResult;
 
-    /**
-     * Creates a new search index setup for this test.<p>
-     *
-     * @throws Exception in case the test fails
-     */
-    public void testSearchIndexSetup() throws Exception {
+    searchBean.init(getCmsObject());
+    searchBean.setIndex(INDEX_SPECIAL);
+    searchBean.setQuery(">>SearchEgg1<<");
 
-        CmsSearchIndex searchIndex = new CmsSearchIndex(INDEX_SPECIAL);
-        searchIndex.setProject("Online");
-        searchIndex.setLocale(Locale.ENGLISH);
-        searchIndex.setRebuildMode(CmsSearchIndex.REBUILD_MODE_AUTO);
-        // available pre-configured in the test configuration files opencms-search.xml
-        searchIndex.addSourceName("source1");
-        searchIndex.addConfigurationParameter(CmsSearchIndex.BACKUP_REINDEXING, "true");
-
-        // initialize the new index
-        searchIndex.initialize();
-
-        // add the search index to the manager
-        OpenCms.getSearchManager().addSearchIndex(searchIndex);
-
-        I_CmsReport report = new CmsShellReport(Locale.ENGLISH);
-        // this call does not throws the rebuild index event
-        OpenCms.getSearchManager().rebuildIndex(INDEX_SPECIAL, report);
-        OpenCms.getSearchManager().rebuildIndex(INDEX_SPECIAL, report);
-
-        // perform a search on the newly generated index
-        CmsSearch searchBean = new CmsSearch();
-        List<CmsSearchResult> searchResult;
-
-        searchBean.init(getCmsObject());
-        searchBean.setIndex(INDEX_SPECIAL);
-        searchBean.setQuery(">>SearchEgg1<<");
-
-        // assert one file is found in the default site
-        searchResult = searchBean.getSearchResult();
-        assertEquals(1, searchResult.size());
-        assertEquals("/sites/default/xmlcontent/article_0001.html", (searchResult.get(0)).getPath());
-    }
+    // assert one file is found in the default site
+    searchResult = searchBean.getSearchResult();
+    assertEquals(1, searchResult.size());
+    assertEquals("/sites/default/xmlcontent/article_0001.html", (searchResult.get(0)).getPath());
+  }
 }

@@ -27,6 +27,9 @@
 
 package org.opencms.ui.actions;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.gwt.shared.CmsCoreData.AdeContext;
@@ -35,102 +38,93 @@ import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.workplace.explorer.Messages;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
- * Action to refresh the sitemap.<p>
- * Used within the ADE sitemap context only.<p>
+ * Action to refresh the sitemap.
+ *
+ * <p>Used within the ADE sitemap context only.
+ *
+ * <p>
  */
 public class CmsSitemapEditConfigAction extends A_CmsWorkplaceAction implements I_CmsADEAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "editsitemapconfig";
+  /** The action id. */
+  public static final String ACTION_ID = "editsitemapconfig";
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        // not supported
-    }
+    // not supported
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName()
-     */
-    public String getCommandClassName() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName() */
+  public String getCommandClassName() {
 
-        return "org.opencms.gwt.client.ui.contextmenu.CmsEditFile";
-    }
+    return "org.opencms.gwt.client.ui.contextmenu.CmsEditFile";
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
-    }
+    return ACTION_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
-     */
-    public String getJspPath() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getJspPath() */
+  public String getJspPath() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
-     */
-    public Map<String, String> getParams() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getParams() */
+  public Map<String, String> getParams() {
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("reload", Boolean.TRUE.toString());
-        params.put("filename", "%(subsite)/.content/.config");
-        return params;
-    }
+    Map<String, String> params = new HashMap<String, String>();
+    params.put("reload", Boolean.TRUE.toString());
+    params.put("filename", "%(subsite)/.content/.config");
+    return params;
+  }
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
 
+    return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.actions.A_CmsWorkplaceAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
+   */
+  @Override
+  public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
+
+    if (AdeContext.sitemapeditor.name().equals(context.getAppId())) {
+      if (OpenCms.getADEManager().canEditSitemapConfiguration(context.getCms())) {
+        return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
+      } else {
         return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
+      }
+
+    } else {
+      return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
     }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
-     */
-    @Override
-    public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported() */
+  public boolean isAdeSupported() {
 
-        if (AdeContext.sitemapeditor.name().equals(context.getAppId())) {
-            if (OpenCms.getADEManager().canEditSitemapConfiguration(context.getCms())) {
-                return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
-            } else {
-                return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-            }
+    return true;
+  }
 
-        } else {
-            return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-        }
-    }
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported()
-     */
-    public boolean isAdeSupported() {
-
-        return true;
-    }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
-
-        return Messages.GUI_EXPLORER_CONTEXT_EDIT_SITE_CONFIG_0;
-    }
+    return Messages.GUI_EXPLORER_CONTEXT_EDIT_SITE_CONFIG_0;
+  }
 }

@@ -27,34 +27,36 @@
 
 package org.opencms.workflow;
 
+import java.util.List;
 import org.opencms.ade.publish.CmsPublishRelationFinder.ResourceMap;
 import org.opencms.ade.publish.shared.CmsPublishOptions;
 import org.opencms.ade.publish.shared.CmsPublishResource;
 import org.opencms.main.CmsException;
 
-import java.util.List;
-
 /**
- * 'Formats' a ResourceMap containing resources for publishing by creating a list of CmsPublishResource
- * beans with the appropriate status informations to display.
+ * 'Formats' a ResourceMap containing resources for publishing by creating a list of
+ * CmsPublishResource beans with the appropriate status informations to display.
  */
 public interface I_CmsPublishResourceFormatter {
 
-    /**
-     * Gets the publish resource beans created by this formatter.<p>
-     *
-     * @return the publish resource beans
-     * @throws CmsException if something goes wrong
-     */
-    List<CmsPublishResource> getPublishResources() throws CmsException;
+  /**
+   * Gets the publish resource beans created by this formatter.
+   *
+   * <p>
+   *
+   * @return the publish resource beans
+   * @throws CmsException if something goes wrong
+   */
+  List<CmsPublishResource> getPublishResources() throws CmsException;
 
-    /**
-     * Initializes the formatter.<p>
-     *
-     * @param options the publish options
-     * @param resources the publish resources
-     *
-     * @throws CmsException in case something goes wrong
-     */
-    void initialize(CmsPublishOptions options, ResourceMap resources) throws CmsException;
+  /**
+   * Initializes the formatter.
+   *
+   * <p>
+   *
+   * @param options the publish options
+   * @param resources the publish resources
+   * @throws CmsException in case something goes wrong
+   */
+  void initialize(CmsPublishOptions options, ResourceMap resources) throws CmsException;
 }

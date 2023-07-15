@@ -27,114 +27,127 @@
 
 package org.opencms.workplace.tools.database;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.main.OpenCms;
 import org.opencms.report.I_CmsReportThread;
 import org.opencms.workplace.list.A_CmsListReport;
 import org.opencms.workplace.threads.CmsDatabaseImportThread;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Provides a report for importing zipped files or folder to the OpenCms VFS.<p>
+ * Provides a report for importing zipped files or folder to the OpenCms VFS.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDatabaseImportReport extends A_CmsListReport {
 
-    /** The keep permissions flag. */
-    private String m_keepPermissions;
+  /** The keep permissions flag. */
+  private String m_keepPermissions;
 
-    /** Request parameter for the file name to import. */
-    private String m_paramFile;
+  /** Request parameter for the file name to import. */
+  private String m_paramFile;
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsDatabaseImportReport(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsDatabaseImportReport(CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsDatabaseImportReport(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsDatabaseImportReport(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-    /**
-     * Returns the keepPermissions parameter.<p>
-     *
-     * @return the keepPermissions parameter
-     */
-    public String getKeepPermissions() {
+  /**
+   * Returns the keepPermissions parameter.
+   *
+   * <p>
+   *
+   * @return the keepPermissions parameter
+   */
+  public String getKeepPermissions() {
 
-        return m_keepPermissions;
-    }
+    return m_keepPermissions;
+  }
 
-    /**
-     * Returns the request parameter value for the file name to import.<p>
-     *
-     * @return the request parameter value for the file name to import
-     */
-    public String getParamFile() {
+  /**
+   * Returns the request parameter value for the file name to import.
+   *
+   * <p>
+   *
+   * @return the request parameter value for the file name to import
+   */
+  public String getParamFile() {
 
-        return m_paramFile;
-    }
+    return m_paramFile;
+  }
 
-    /**
-     *
-     * @see org.opencms.workplace.list.A_CmsListReport#initializeThread()
-     */
-    @Override
-    public I_CmsReportThread initializeThread() {
+  /** @see org.opencms.workplace.list.A_CmsListReport#initializeThread() */
+  @Override
+  public I_CmsReportThread initializeThread() {
 
-        String importFile = OpenCms.getSystemInfo().getPackagesRfsPath() + getParamFile();
-        boolean keepPermissions = Boolean.valueOf(getKeepPermissions()).booleanValue();
+    String importFile = OpenCms.getSystemInfo().getPackagesRfsPath() + getParamFile();
+    boolean keepPermissions = Boolean.valueOf(getKeepPermissions()).booleanValue();
 
-        I_CmsReportThread importThread = new CmsDatabaseImportThread(getCms(), importFile, keepPermissions);
+    I_CmsReportThread importThread =
+        new CmsDatabaseImportThread(getCms(), importFile, keepPermissions);
 
-        return importThread;
-    }
+    return importThread;
+  }
 
-    /**
-     * Sets the keepPermissions parameter.<p>
-     *
-     * @param keepPermissions the keepPermissions parameter
-     */
-    public void setKeepPermissions(String keepPermissions) {
+  /**
+   * Sets the keepPermissions parameter.
+   *
+   * <p>
+   *
+   * @param keepPermissions the keepPermissions parameter
+   */
+  public void setKeepPermissions(String keepPermissions) {
 
-        m_keepPermissions = keepPermissions;
-    }
+    m_keepPermissions = keepPermissions;
+  }
 
-    /**
-     * Sets the request parameter value for the file name to import.<p>
-     *
-     * @param file the request parameter value for the file name to import
-     */
-    public void setParamFile(String file) {
+  /**
+   * Sets the request parameter value for the file name to import.
+   *
+   * <p>
+   *
+   * @param file the request parameter value for the file name to import
+   */
+  public void setParamFile(String file) {
 
-        m_paramFile = file;
-    }
+    m_paramFile = file;
+  }
 
-    /**
-     * Sets the keepPermissions parameter.<p>
-     *
-     * @param keepPermissions the keepPermissions parameter
-     */
-    public void setParamKeepPermissions(String keepPermissions) {
+  /**
+   * Sets the keepPermissions parameter.
+   *
+   * <p>
+   *
+   * @param keepPermissions the keepPermissions parameter
+   */
+  public void setParamKeepPermissions(String keepPermissions) {
 
-        setKeepPermissions(keepPermissions);
-    }
-
+    setKeepPermissions(keepPermissions);
+  }
 }

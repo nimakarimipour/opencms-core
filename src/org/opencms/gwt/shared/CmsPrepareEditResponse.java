@@ -27,93 +27,108 @@
 
 package org.opencms.gwt.shared;
 
+import java.io.Serializable;
 import org.opencms.util.CmsUUID;
 
-import java.io.Serializable;
-
 /**
- * Response bean class for the 'prepareEdit' RPC method.<p>
+ * Response bean class for the 'prepareEdit' RPC method.
+ *
+ * <p>
  */
 public class CmsPrepareEditResponse implements Serializable {
 
-    /** Generated serial version id. */
-    private static final long serialVersionUID = 6147076596551311120L;
+  /** Generated serial version id. */
+  private static final long serialVersionUID = 6147076596551311120L;
 
-    /** The resource root path. */
-    private String m_rootPath;
+  /** The resource root path. */
+  private String m_rootPath;
 
-    /** The resource site path. */
-    private String m_sitePath;
+  /** The resource site path. */
+  private String m_sitePath;
 
-    /** The resource structure id. */
-    private CmsUUID m_structureId;
+  /** The resource structure id. */
+  private CmsUUID m_structureId;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsPrepareEditResponse() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsPrepareEditResponse() {
 
-        // do nothing
+    // do nothing
 
-    }
+  }
 
-    /**
-     * Gets the resource root path.<p>
-     *
-     * @return the resource root path
-     */
-    public String getRootPath() {
+  /**
+   * Gets the resource root path.
+   *
+   * <p>
+   *
+   * @return the resource root path
+   */
+  public String getRootPath() {
 
-        return m_rootPath;
-    }
+    return m_rootPath;
+  }
 
-    /**
-     * Gets the resource site path.<p>
-     *
-     * @return the resource site path
-     */
-    public String getSitePath() {
+  /**
+   * Gets the resource site path.
+   *
+   * <p>
+   *
+   * @return the resource site path
+   */
+  public String getSitePath() {
 
-        return m_sitePath;
-    }
+    return m_sitePath;
+  }
 
-    /**
-     * Gets the resource structure id.<p>
-     *
-     * @return the resource structure id
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Gets the resource structure id.
+   *
+   * <p>
+   *
+   * @return the resource structure id
+   */
+  public CmsUUID getStructureId() {
 
-        return m_structureId;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * Sets the resource root path.<p>
-     *
-     * @param rootPath the resource root path
-     */
-    public void setRootPath(String rootPath) {
+  /**
+   * Sets the resource root path.
+   *
+   * <p>
+   *
+   * @param rootPath the resource root path
+   */
+  public void setRootPath(String rootPath) {
 
-        m_rootPath = rootPath;
-    }
+    m_rootPath = rootPath;
+  }
 
-    /**
-     * Sets the resource site path.<p>
-     *
-     * @param sitePath the resource site path
-     */
-    public void setSitePath(String sitePath) {
+  /**
+   * Sets the resource site path.
+   *
+   * <p>
+   *
+   * @param sitePath the resource site path
+   */
+  public void setSitePath(String sitePath) {
 
-        m_sitePath = sitePath;
-    }
+    m_sitePath = sitePath;
+  }
 
-    /**
-     * Sets the resource structure id.<p>
-     *
-     * @param structureId the resource structure id
-     */
-    public void setStructureId(CmsUUID structureId) {
+  /**
+   * Sets the resource structure id.
+   *
+   * <p>
+   *
+   * @param structureId the resource structure id
+   */
+  public void setStructureId(CmsUUID structureId) {
 
-        m_structureId = structureId;
-    }
+    m_structureId = structureId;
+  }
 }

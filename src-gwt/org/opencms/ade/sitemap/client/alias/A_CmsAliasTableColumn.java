@@ -33,7 +33,9 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 
 /**
- * Abstract column class for the alias cell table columns.<p>
+ * Abstract column class for the alias cell table columns.
+ *
+ * <p>
  *
  * @param <R> the row type
  * @param <V> the cell value type
@@ -41,31 +43,36 @@ import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
  */
 public abstract class A_CmsAliasTableColumn<R, V, T extends CellTable<R>> extends Column<R, V> {
 
-    /**
-     * Delegates to the superclass constructor.<p>
-     *
-     * @param cell the cell for this column
-     */
-    public A_CmsAliasTableColumn(Cell<V> cell) {
+  /**
+   * Delegates to the superclass constructor.
+   *
+   * <p>
+   *
+   * @param cell the cell for this column
+   */
+  public A_CmsAliasTableColumn(Cell<V> cell) {
 
-        super(cell);
-    }
+    super(cell);
+  }
 
-    /**
-     * Adds the column to the table.<p>
-     *
-     * Subclasses can override this to also set e.g. the column width
-     * @param table
-     */
-    public abstract void addToTable(T table);
+  /**
+   * Adds the column to the table.
+   *
+   * <p>Subclasses can override this to also set e.g. the column width
+   *
+   * @param table
+   */
+  public abstract void addToTable(T table);
 
-    /**
-     * Initializes the sort handler to use this column.<p>
-     *
-     * @param sortHandler the sort handler
-     */
-    public void initSortHandler(ListHandler<R> sortHandler) {
+  /**
+   * Initializes the sort handler to use this column.
+   *
+   * <p>
+   *
+   * @param sortHandler the sort handler
+   */
+  public void initSortHandler(ListHandler<R> sortHandler) {
 
-        // do nothing by default
-    }
+    // do nothing by default
+  }
 }

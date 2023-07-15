@@ -37,59 +37,63 @@ import org.opencms.search.extractors.CmsExtractorMsOfficeOLE2;
 import org.opencms.search.extractors.I_CmsExtractionResult;
 
 /**
- * Lucene document factory class to extract text data from a VFS resource that is an OLE 2 MS Office document.<p>
+ * Lucene document factory class to extract text data from a VFS resource that is an OLE 2 MS Office
+ * document.
  *
- * Supported formats are MS Word (.doc), MS PowerPoint (.ppt) and MS Excel (.xls).<p>
+ * <p>Supported formats are MS Word (.doc), MS PowerPoint (.ppt) and MS Excel (.xls).
  *
- * The OLE 2 format was introduced in Microsoft Office version 97 and was the default format until Office version 2007
- * and the new XML-based OOXML format.<p>
+ * <p>The OLE 2 format was introduced in Microsoft Office version 97 and was the default format
+ * until Office version 2007 and the new XML-based OOXML format.
+ *
+ * <p>
  *
  * @since 8.0.1
  */
 public class CmsDocumentMsOfficeOLE2 extends A_CmsVfsDocument {
 
-    /**
-     * Creates a new instance of this lucene document factory.<p>
-     *
-     * @param name name of the documenttype
-     */
-    public CmsDocumentMsOfficeOLE2(String name) {
+  /**
+   * Creates a new instance of this lucene document factory.
+   *
+   * <p>
+   *
+   * @param name name of the documenttype
+   */
+  public CmsDocumentMsOfficeOLE2(String name) {
 
-        super(name);
+    super(name);
+  }
+
+  /**
+   * Returns the raw text content of a given vfs resource containing MS Word data.
+   *
+   * <p>
+   *
+   * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource,
+   *     I_CmsSearchIndex)
+   */
+  public I_CmsExtractionResult extractContent(
+      CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+      throws CmsIndexException, CmsException {
+
+    logContentExtraction(resource, index);
+    CmsFile file = readFile(cms, resource);
+    try {
+      return CmsExtractorMsOfficeOLE2.getExtractor().extractText(file.getContents());
+    } catch (Throwable e) {
+      throw new CmsIndexException(
+          Messages.get().container(Messages.ERR_TEXT_EXTRACTION_1, resource.getRootPath()), e);
     }
+  }
 
-    /**
-     * Returns the raw text content of a given vfs resource containing MS Word data.<p>
-     *
-     * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
-     */
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
-    throws CmsIndexException, CmsException {
+  /** @see org.opencms.search.documents.I_CmsDocumentFactory#isLocaleDependend() */
+  public boolean isLocaleDependend() {
 
-        logContentExtraction(resource, index);
-        CmsFile file = readFile(cms, resource);
-        try {
-            return CmsExtractorMsOfficeOLE2.getExtractor().extractText(file.getContents());
-        } catch (Throwable e) {
-            throw new CmsIndexException(
-                Messages.get().container(Messages.ERR_TEXT_EXTRACTION_1, resource.getRootPath()),
-                e);
-        }
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.search.documents.I_CmsDocumentFactory#isLocaleDependend()
-     */
-    public boolean isLocaleDependend() {
+  /** @see org.opencms.search.documents.I_CmsDocumentFactory#isUsingCache() */
+  public boolean isUsingCache() {
 
-        return false;
-    }
-
-    /**
-     * @see org.opencms.search.documents.I_CmsDocumentFactory#isUsingCache()
-     */
-    public boolean isUsingCache() {
-
-        return true;
-    }
+    return true;
+  }
 }

@@ -30,59 +30,67 @@ package org.opencms.db;
 import org.opencms.util.CmsUUID;
 
 /**
- * Filter class used for selecting rewrite aliases from the database.<p>
+ * Filter class used for selecting rewrite aliases from the database.
+ *
+ * <p>
  */
 public class CmsRewriteAliasFilter {
 
-    /** The id to use for filtering. */
-    private CmsUUID m_id;
+  /** The id to use for filtering. */
+  private CmsUUID m_id;
 
-    /** The site root to filter with. */
-    private String m_siteRoot;
+  /** The site root to filter with. */
+  private String m_siteRoot;
 
-    /**
-     * Gets the id to filter with.<p>
-     *
-     * @return the id to filter with
-     */
-    public CmsUUID getId() {
+  /**
+   * Gets the id to filter with.
+   *
+   * <p>
+   *
+   * @return the id to filter with
+   */
+  public CmsUUID getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Gets the site root used for filtering.<p>
-     *
-     * @return the site root used for filtering
-     */
-    public String getSiteRoot() {
+  /**
+   * Gets the site root used for filtering.
+   *
+   * <p>
+   *
+   * @return the site root used for filtering
+   */
+  public String getSiteRoot() {
 
-        return m_siteRoot;
-    }
+    return m_siteRoot;
+  }
 
-    /**
-     * Sets the id of the rewrite alias we want.<p>
-     *
-     * @param id a rewrite alias id
-     *
-     * @return this filter
-     */
-    public CmsRewriteAliasFilter setId(CmsUUID id) {
+  /**
+   * Sets the id of the rewrite alias we want.
+   *
+   * <p>
+   *
+   * @param id a rewrite alias id
+   * @return this filter
+   */
+  public CmsRewriteAliasFilter setId(CmsUUID id) {
 
-        m_id = id;
-        return this;
-    }
+    m_id = id;
+    return this;
+  }
 
-    /**
-     * Sets the site root to use for filtering.<p>
-     *
-     * @param siteRoot the site root
-     *
-     * @return this filter
-     */
-    public CmsRewriteAliasFilter setSiteRoot(String siteRoot) {
+  /**
+   * Sets the site root to use for filtering.
+   *
+   * <p>
+   *
+   * @param siteRoot the site root
+   * @return this filter
+   */
+  public CmsRewriteAliasFilter setSiteRoot(String siteRoot) {
 
-        m_siteRoot = siteRoot;
-        return this;
-    }
+    m_siteRoot = siteRoot;
+    return this;
+  }
 }

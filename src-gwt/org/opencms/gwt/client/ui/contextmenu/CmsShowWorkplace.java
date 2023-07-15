@@ -34,80 +34,84 @@ import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsUUID;
 
 /**
- * Provides a method to open the workplace.<p>
+ * Provides a method to open the workplace.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public final class CmsShowWorkplace implements I_CmsHasContextMenuCommand {
 
-    /**
-     * Hidden utility class constructor.<p>
-     */
-    private CmsShowWorkplace() {
+  /**
+   * Hidden utility class constructor.
+   *
+   * <p>
+   */
+  private CmsShowWorkplace() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Returns the context menu command according to
-     * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new I_CmsContextMenuCommand() {
+    return new I_CmsContextMenuCommand() {
 
-            public void execute(CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
+      public void execute(
+          CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-                openWorkplace(structureId, false);
-            }
+        openWorkplace(structureId, false);
+      }
 
-            public A_CmsContextMenuItem getItemWidget(
-                CmsUUID structureId,
-                I_CmsContextMenuHandler handler,
-                CmsContextMenuEntryBean bean) {
+      public A_CmsContextMenuItem getItemWidget(
+          CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-                return null;
-            }
+        return null;
+      }
 
-            public boolean hasItemWidget() {
+      public boolean hasItemWidget() {
 
-                return false;
-            }
+        return false;
+      }
+    };
+  }
+
+  /**
+   * Opens the workplace.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource for which the workplace should be opened
+   * @param classic if true, opens the old workplace, else the new workplace
+   */
+  public static void openWorkplace(final CmsUUID structureId, final boolean classic) {
+
+    CmsRpcAction<String> callback =
+        new CmsRpcAction<String>() {
+
+          /** @see org.opencms.gwt.client.rpc.CmsRpcAction#execute() */
+          @Override
+          public void execute() {
+
+            start(0, true);
+            CmsCoreProvider.getService().getWorkplaceLink(structureId, this);
+          }
+
+          /** @see org.opencms.gwt.client.rpc.CmsRpcAction#onResponse(java.lang.Object) */
+          @Override
+          protected void onResponse(String result) {
+
+            stop(false);
+            CmsJsUtil.forceLoadUri(result);
+          }
         };
-    }
-
-    /**
-     * Opens the workplace.<p>
-     *
-     * @param structureId the structure id of the resource for which the workplace should be opened
-     * @param classic if true, opens the old workplace, else the new workplace
-     */
-    public static void openWorkplace(final CmsUUID structureId, final boolean classic) {
-
-        CmsRpcAction<String> callback = new CmsRpcAction<String>() {
-
-            /**
-             * @see org.opencms.gwt.client.rpc.CmsRpcAction#execute()
-             */
-            @Override
-            public void execute() {
-
-                start(0, true);
-                CmsCoreProvider.getService().getWorkplaceLink(structureId, this);
-            }
-
-            /**
-             * @see org.opencms.gwt.client.rpc.CmsRpcAction#onResponse(java.lang.Object)
-             */
-            @Override
-            protected void onResponse(String result) {
-
-                stop(false);
-                CmsJsUtil.forceLoadUri(result);
-            }
-        };
-        callback.execute();
-    }
+    callback.execute();
+  }
 }

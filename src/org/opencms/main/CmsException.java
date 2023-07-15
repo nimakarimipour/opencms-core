@@ -27,149 +27,149 @@
 
 package org.opencms.main;
 
-import org.opencms.i18n.CmsEncoder;
-import org.opencms.i18n.CmsMessageContainer;
-import org.opencms.util.CmsStringUtil;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.Locale;
+import org.opencms.i18n.CmsEncoder;
+import org.opencms.i18n.CmsMessageContainer;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * Master exception type for all exceptions caused in OpenCms.<p>
+ * Master exception type for all exceptions caused in OpenCms.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsException extends Exception implements I_CmsThrowable {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -1372556209321406104L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -1372556209321406104L;
 
-    /** The container for the localized message.  */
-    protected CmsMessageContainer m_message;
+  /** The container for the localized message. */
+  protected CmsMessageContainer m_message;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param message the localized message container to use
-     */
-    public CmsException(CmsMessageContainer message) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param message the localized message container to use
+   */
+  public CmsException(CmsMessageContainer message) {
 
-        super(message.getKey());
-        m_message = message;
+    super(message.getKey());
+    m_message = message;
+  }
+
+  /**
+   * Creates a new localized Exception that also containers a root cause.
+   *
+   * <p>
+   *
+   * @param message the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsException(CmsMessageContainer message, Throwable cause) {
+
+    super(message.getKey(), cause);
+    m_message = message;
+  }
+
+  /**
+   * Returns the HTML formatted error stack of a Throwable.
+   *
+   * <p>The error stack is used by the common error screen that is displayed if an error occurs.
+   *
+   * <p>
+   *
+   * @param t the throwable to get the errorstack from
+   * @return the formatted value of the errorstack parameter
+   */
+  public static String getFormattedErrorstack(Throwable t) {
+
+    String stacktrace = CmsException.getStackTraceAsString(t);
+    if (CmsStringUtil.isEmpty(stacktrace)) {
+      return "";
+    } else {
+      stacktrace = CmsStringUtil.escapeJavaScript(stacktrace);
+      stacktrace = CmsEncoder.escapeXml(stacktrace);
+      StringBuffer result = new StringBuffer(256);
+      result.append(
+          "<html><body style='background-color: /*begin-color Window*/#ffffff/*end-color*/; overflow: scroll;'><pre>");
+      result.append(stacktrace);
+      result.append("</pre></body></html>");
+      return result.toString();
     }
+  }
 
-    /**
-     * Creates a new localized Exception that also containers a root cause.<p>
-     *
-     * @param message the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsException(CmsMessageContainer message, Throwable cause) {
+  /**
+   * Returns the stack trace (including the message) of an exception as a String.
+   *
+   * <p>If the exception is a CmsException, also writes the root cause to the String.
+   *
+   * <p>
+   *
+   * @param e the exception to get the stack trace from
+   * @return the stack trace of an exception as a String
+   */
+  public static String getStackTraceAsString(Throwable e) {
 
-        super(message.getKey(), cause);
-        m_message = message;
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter printWriter = new PrintWriter(stringWriter);
+    e.printStackTrace(printWriter);
+    if (e instanceof CmsMultiException) {
+      CmsMultiException me = (CmsMultiException) e;
+      Iterator<CmsException> it = me.getExceptions().iterator();
+      while (it.hasNext()) {
+        Throwable t = it.next();
+        t.printStackTrace(printWriter);
+      }
     }
+    return stringWriter.toString();
+  }
 
-    /**
-     * Returns the HTML formatted error stack of a Throwable.<p>
-     *
-     * The error stack is used by the common error screen
-     * that is displayed if an error occurs.<p>
-     *
-     * @param t the throwable to get the errorstack from
-     * @return the formatted value of the errorstack parameter
-     */
-    public static String getFormattedErrorstack(Throwable t) {
+  /**
+   * Creates a copied instance of this localized exception.
+   *
+   * <p>
+   *
+   * @param container the message container
+   * @param cause the root cause
+   * @return a copied instance of this localized exception
+   */
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        String stacktrace = CmsException.getStackTraceAsString(t);
-        if (CmsStringUtil.isEmpty(stacktrace)) {
-            return "";
-        } else {
-            stacktrace = CmsStringUtil.escapeJavaScript(stacktrace);
-            stacktrace = CmsEncoder.escapeXml(stacktrace);
-            StringBuffer result = new StringBuffer(256);
-            result.append(
-                "<html><body style='background-color: /*begin-color Window*/#ffffff/*end-color*/; overflow: scroll;'><pre>");
-            result.append(stacktrace);
-            result.append("</pre></body></html>");
-            return result.toString();
-        }
+    return new CmsException(container, cause);
+  }
+
+  /** @see org.opencms.main.I_CmsThrowable#getLocalizedMessage() */
+  @Override
+  public String getLocalizedMessage() {
+
+    if (m_message == null) {
+      return super.getLocalizedMessage();
     }
+    return m_message.key();
+  }
 
-    /**
-     * Returns the stack trace (including the message) of an exception as a String.<p>
-     *
-     * If the exception is a CmsException,
-     * also writes the root cause to the String.<p>
-     *
-     * @param e the exception to get the stack trace from
-     * @return the stack trace of an exception as a String
-     */
-    public static String getStackTraceAsString(Throwable e) {
+  /** @see org.opencms.main.I_CmsThrowable#getLocalizedMessage(Locale) */
+  public String getLocalizedMessage(Locale locale) {
 
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(stringWriter);
-        e.printStackTrace(printWriter);
-        if (e instanceof CmsMultiException) {
-            CmsMultiException me = (CmsMultiException)e;
-            Iterator<CmsException> it = me.getExceptions().iterator();
-            while (it.hasNext()) {
-                Throwable t = it.next();
-                t.printStackTrace(printWriter);
-            }
-        }
-        return stringWriter.toString();
-    }
+    return m_message.key(locale);
+  }
 
-    /**
-     * Creates a copied instance of this localized exception.<p>
-     *
-     * @param container the message container
-     * @param cause the root cause
-     *
-     * @return a copied instance of this localized exception
-     */
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /** @see java.lang.Throwable#getMessage() */
+  @Override
+  public String getMessage() {
 
-        return new CmsException(container, cause);
-    }
+    return getLocalizedMessage();
+  }
 
-    /**
-     * @see org.opencms.main.I_CmsThrowable#getLocalizedMessage()
-     */
-    @Override
-    public String getLocalizedMessage() {
+  /** @see org.opencms.main.I_CmsThrowable#getMessageContainer() */
+  public CmsMessageContainer getMessageContainer() {
 
-        if (m_message == null) {
-            return super.getLocalizedMessage();
-        }
-        return m_message.key();
-    }
-
-    /**
-     * @see org.opencms.main.I_CmsThrowable#getLocalizedMessage(Locale)
-     */
-    public String getLocalizedMessage(Locale locale) {
-
-        return m_message.key(locale);
-    }
-
-    /**
-     * @see java.lang.Throwable#getMessage()
-     */
-    @Override
-    public String getMessage() {
-
-        return getLocalizedMessage();
-    }
-
-    /**
-     * @see org.opencms.main.I_CmsThrowable#getMessageContainer()
-     */
-    public CmsMessageContainer getMessageContainer() {
-
-        return m_message;
-    }
+    return m_message;
+  }
 }

@@ -27,85 +27,89 @@
 
 package org.opencms.ui.components.extensions;
 
+import com.vaadin.server.AbstractExtension;
+import com.vaadin.ui.AbstractComponent;
+import java.util.ArrayList;
+import java.util.List;
 import org.opencms.ui.components.CmsUploadButton.I_UploadListener;
 import org.opencms.ui.shared.components.CmsUploadAreaState;
 import org.opencms.ui.shared.rpc.I_CmsUploadRpc;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.vaadin.server.AbstractExtension;
-import com.vaadin.ui.AbstractComponent;
-
 /**
- * Extends the given component to be an upload drop area.<p>
+ * Extends the given component to be an upload drop area.
+ *
+ * <p>
  */
 public class CmsUploadAreaExtension extends AbstractExtension implements I_CmsUploadRpc {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 3978957151754705873L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 3978957151754705873L;
 
-    /** The registered window close listeners. */
-    private List<I_UploadListener> m_listeners;
+  /** The registered window close listeners. */
+  private List<I_UploadListener> m_listeners;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param component the component to extend
-     */
-    public CmsUploadAreaExtension(AbstractComponent component) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param component the component to extend
+   */
+  public CmsUploadAreaExtension(AbstractComponent component) {
 
-        extend(component);
-        registerRpc(this);
-        m_listeners = new ArrayList<I_UploadListener>();
+    extend(component);
+    registerRpc(this);
+    m_listeners = new ArrayList<I_UploadListener>();
+  }
+
+  /**
+   * Adds a window close listener.
+   *
+   * <p>
+   *
+   * @param listener the listener to add
+   */
+  public void addUploadListener(I_UploadListener listener) {
+
+    m_listeners.add(listener);
+  }
+
+  /** @see org.opencms.ui.shared.rpc.I_CmsUploadRpc#onUploadFinished(java.util.List) */
+  public void onUploadFinished(List<String> files) {
+
+    for (I_UploadListener listener : m_listeners) {
+      listener.onUploadFinished(files);
     }
+  }
 
-    /**
-     * Adds a window close listener.<p>
-     *
-     * @param listener the listener to add
-     */
-    public void addUploadListener(I_UploadListener listener) {
+  /**
+   * Removes the given window close listener.
+   *
+   * <p>
+   *
+   * @param listener the listener to remove
+   */
+  public void removeUploadListener(I_UploadListener listener) {
 
-        m_listeners.add(listener);
-    }
+    m_listeners.remove(listener);
+  }
 
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsUploadRpc#onUploadFinished(java.util.List)
-     */
-    public void onUploadFinished(List<String> files) {
+  /**
+   * Sets the upload target folder.
+   *
+   * <p>
+   *
+   * @param targetFolder the folder root path
+   */
+  public void setTargetFolder(String targetFolder) {
 
-        for (I_UploadListener listener : m_listeners) {
-            listener.onUploadFinished(files);
-        }
-    }
+    getState().setTargetFolderRootPath(targetFolder);
+  }
 
-    /**
-     * Removes the given window close listener.<p>
-     *
-     * @param listener the listener to remove
-     */
-    public void removeUploadListener(I_UploadListener listener) {
+  /** @see com.vaadin.server.AbstractClientConnector#getState() */
+  @Override
+  protected CmsUploadAreaState getState() {
 
-        m_listeners.remove(listener);
-    }
-
-    /**
-     * Sets the upload target folder.<p>
-     *
-     * @param targetFolder the folder root path
-     */
-    public void setTargetFolder(String targetFolder) {
-
-        getState().setTargetFolderRootPath(targetFolder);
-    }
-
-    /**
-     * @see com.vaadin.server.AbstractClientConnector#getState()
-     */
-    @Override
-    protected CmsUploadAreaState getState() {
-
-        return (CmsUploadAreaState)super.getState();
-    }
+    return (CmsUploadAreaState) super.getState();
+  }
 }

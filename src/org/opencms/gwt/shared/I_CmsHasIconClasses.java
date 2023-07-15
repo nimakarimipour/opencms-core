@@ -28,21 +28,27 @@
 package org.opencms.gwt.shared;
 
 /**
- * Interface for elements with icons.<p>
+ * Interface for elements with icons.
+ *
+ * <p>
  */
 public interface I_CmsHasIconClasses {
 
-    /**
-     * Returns the big icon CSS classes.<p>
-     *
-     * @return the big icon CSS classes
-     */
-    String getBigIconClasses();
+  /**
+   * Returns the big icon CSS classes.
+   *
+   * <p>
+   *
+   * @return the big icon CSS classes
+   */
+  String getBigIconClasses();
 
-    /**
-     * Returns the small icon CSS classes.<p>
-     *
-     * @return the small icon CSS classes
-     */
-    String getSmallIconClasses();
+  /**
+   * Returns the small icon CSS classes.
+   *
+   * <p>
+   *
+   * @return the small icon CSS classes
+   */
+  String getSmallIconClasses();
 }

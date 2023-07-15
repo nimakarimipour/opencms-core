@@ -27,92 +27,93 @@
 
 package org.opencms.xml.content;
 
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 
-import org.apache.commons.logging.Log;
-
 /**
- * A configuration bean representing a &lt;ChangeHandler&gt; element configured in an XSD's field settings.
+ * A configuration bean representing a &lt;ChangeHandler&gt; element configured in an XSD's field
+ * settings.
  */
 public class CmsChangeHandlerConfig {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsChangeHandlerConfig.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsChangeHandlerConfig.class);
 
-    /** Name of the field for which this is configured. */
-    private String m_field;
+  /** Name of the field for which this is configured. */
+  private String m_field;
 
-    /** The class name for the change handler. */
-    private String m_className;
+  /** The class name for the change handler. */
+  private String m_className;
 
-    /** The configuration string for the change handler. */
-    private String m_config;
+  /** The configuration string for the change handler. */
+  private String m_config;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param field the field name
-     * @param className the handler class name
-     * @param config the configuration string
-     */
-    public CmsChangeHandlerConfig(String field, String className, String config) {
+  /**
+   * Creates a new instance.
+   *
+   * @param field the field name
+   * @param className the handler class name
+   * @param config the configuration string
+   */
+  public CmsChangeHandlerConfig(String field, String className, String config) {
 
-        m_field = field;
-        m_className = className.trim();
-        m_config = config;
+    m_field = field;
+    m_className = className.trim();
+    m_config = config;
+  }
+
+  /**
+   * Gets the class name for the handler.
+   *
+   * @return the class name
+   */
+  public String getClassName() {
+
+    return m_className;
+  }
+
+  /**
+   * Gets the configuration string for the handler.
+   *
+   * @return the configuration string
+   */
+  public String getConfig() {
+
+    return m_config;
+  }
+
+  /**
+   * Gets the field name for which the handler is configured.
+   *
+   * @return the field name for which the handler is configured
+   */
+  public String getField() {
+
+    return m_field;
+  }
+
+  /**
+   * Creates a new handler instance using this configuration and the given scope.
+   *
+   * @param scope the scope
+   * @return the new handler instance
+   */
+  public java.util.Optional<I_CmsXmlContentEditorChangeHandler> newHandler(String scope) {
+
+    try {
+      Class<?> cls = Class.forName(m_className, false, getClass().getClassLoader());
+      if (I_CmsXmlContentEditorChangeHandler.class.isAssignableFrom(cls)) {
+        I_CmsXmlContentEditorChangeHandler handler =
+            (I_CmsXmlContentEditorChangeHandler) (cls.newInstance());
+        handler.setConfiguration(m_config);
+        handler.setScope(scope);
+        return java.util.Optional.of(handler);
+      } else {
+        throw new Exception("Incompatible class for editor change handler: " + m_className);
+      }
+    } catch (Exception e) {
+      LOG.error("Could not create editor change handler: " + e.getLocalizedMessage(), e);
+      return java.util.Optional.empty();
     }
-
-    /**
-     * Gets the class name for the handler.
-     *
-     * @return the class name
-     */
-    public String getClassName() {
-
-        return m_className;
-    }
-
-    /**
-     * Gets the configuration string for the handler.
-     *
-     * @return the configuration string
-     */
-    public String getConfig() {
-
-        return m_config;
-    }
-
-    /**
-     * Gets the field name for which the handler is configured.
-     *
-     * @return the field name for which the handler is configured
-     */
-    public String getField() {
-
-        return m_field;
-    }
-
-    /**
-     * Creates a new handler instance using this configuration and the given scope.
-     *
-     * @param scope the scope
-     * @return the new handler instance
-     */
-    public java.util.Optional<I_CmsXmlContentEditorChangeHandler> newHandler(String scope) {
-
-        try {
-            Class<?> cls = Class.forName(m_className, false, getClass().getClassLoader());
-            if (I_CmsXmlContentEditorChangeHandler.class.isAssignableFrom(cls)) {
-                I_CmsXmlContentEditorChangeHandler handler = (I_CmsXmlContentEditorChangeHandler)(cls.newInstance());
-                handler.setConfiguration(m_config);
-                handler.setScope(scope);
-                return java.util.Optional.of(handler);
-            } else {
-                throw new Exception("Incompatible class for editor change handler: " + m_className);
-            }
-        } catch (Exception e) {
-            LOG.error("Could not create editor change handler: " + e.getLocalizedMessage(), e);
-            return java.util.Optional.empty();
-        }
-    }
+  }
 }

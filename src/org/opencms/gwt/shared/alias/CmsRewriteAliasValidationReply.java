@@ -27,47 +27,53 @@
 
 package org.opencms.gwt.shared.alias;
 
-import org.opencms.util.CmsUUID;
-
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
+import org.opencms.util.CmsUUID;
 
 /**
- * This class represents the result of a validation of rewrite aliases.<p>
+ * This class represents the result of a validation of rewrite aliases.
+ *
+ * <p>
  */
 public class CmsRewriteAliasValidationReply implements IsSerializable {
 
-    /** A map from the rewrite alias IDs to the corresponding error messages. */
-    private Map<CmsUUID, String> m_errors = new HashMap<CmsUUID, String>();
+  /** A map from the rewrite alias IDs to the corresponding error messages. */
+  private Map<CmsUUID, String> m_errors = new HashMap<CmsUUID, String>();
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsRewriteAliasValidationReply() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsRewriteAliasValidationReply() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Adds a validation error to this object.<p>
-     *
-     * @param id the id of a rewrite alias for which the validation failed
-     * @param error the validation error message
-     */
-    public void addError(CmsUUID id, String error) {
+  /**
+   * Adds a validation error to this object.
+   *
+   * <p>
+   *
+   * @param id the id of a rewrite alias for which the validation failed
+   * @param error the validation error message
+   */
+  public void addError(CmsUUID id, String error) {
 
-        m_errors.put(id, error);
-    }
+    m_errors.put(id, error);
+  }
 
-    /**
-     * Gets the map of error messages by rewrite alias id.<p>
-     *
-     * @return the map of error messages
-     */
-    public Map<CmsUUID, String> getErrors() {
+  /**
+   * Gets the map of error messages by rewrite alias id.
+   *
+   * <p>
+   *
+   * @return the map of error messages
+   */
+  public Map<CmsUUID, String> getErrors() {
 
-        return m_errors;
-    }
+    return m_errors;
+  }
 }

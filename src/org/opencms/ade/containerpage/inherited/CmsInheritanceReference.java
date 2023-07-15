@@ -31,97 +31,109 @@
 
 package org.opencms.ade.containerpage.inherited;
 
+import java.util.Locale;
 import org.opencms.file.CmsResource;
 
-import java.util.Locale;
-
 /**
- * Reference to an container inheritance configuration.<p>
+ * Reference to an container inheritance configuration.
  *
+ * <p>
  */
 public class CmsInheritanceReference {
 
-    /** The description. */
-    private String m_description;
+  /** The description. */
+  private String m_description;
 
-    /** The locale. */
-    private Locale m_locale;
+  /** The locale. */
+  private Locale m_locale;
 
-    /** The container configuration name. */
-    private String m_name;
+  /** The container configuration name. */
+  private String m_name;
 
-    /** The resource from which this reference has been read. */
-    private CmsResource m_resource;
+  /** The resource from which this reference has been read. */
+  private CmsResource m_resource;
 
-    /** The title. */
-    private String m_title;
+  /** The title. */
+  private String m_title;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param name the container configuration name
-     * @param title the title
-     * @param description the description
-     * @param res the resource
-     * @param locale the locale
-     */
-    public CmsInheritanceReference(String name, String title, String description, CmsResource res, Locale locale) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param name the container configuration name
+   * @param title the title
+   * @param description the description
+   * @param res the resource
+   * @param locale the locale
+   */
+  public CmsInheritanceReference(
+      String name, String title, String description, CmsResource res, Locale locale) {
 
-        m_title = title;
-        m_name = name;
-        m_description = description;
-        m_resource = res;
-        m_locale = locale;
-    }
+    m_title = title;
+    m_name = name;
+    m_description = description;
+    m_resource = res;
+    m_locale = locale;
+  }
 
-    /**
-     * Returns the description.<p>
-     *
-     * @return the description
-     */
-    public String getDescription() {
+  /**
+   * Returns the description.
+   *
+   * <p>
+   *
+   * @return the description
+   */
+  public String getDescription() {
 
-        return m_description;
-    }
+    return m_description;
+  }
 
-    /**
-     * Gets the locale.<p>
-     *
-     * @return the locale
-     */
-    public Locale getLocale() {
+  /**
+   * Gets the locale.
+   *
+   * <p>
+   *
+   * @return the locale
+   */
+  public Locale getLocale() {
 
-        return m_locale;
-    }
+    return m_locale;
+  }
 
-    /**
-     * Gets the configuration name.<p>
-     *
-     * @return the configuration name
-     */
-    public String getName() {
+  /**
+   * Gets the configuration name.
+   *
+   * <p>
+   *
+   * @return the configuration name
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Gets the reference resource.<p>
-     *
-     * @return the reference resource
-     */
-    public CmsResource getResource() {
+  /**
+   * Gets the reference resource.
+   *
+   * <p>
+   *
+   * @return the reference resource
+   */
+  public CmsResource getResource() {
 
-        return m_resource;
-    }
+    return m_resource;
+  }
 
-    /**
-     * Gets the title.<p>
-     *
-     * @return the title
-     */
-    public String getTitle() {
+  /**
+   * Gets the title.
+   *
+   * <p>
+   *
+   * @return the title
+   */
+  public String getTitle() {
 
-        return m_title;
-    }
-
+    return m_title;
+  }
 }

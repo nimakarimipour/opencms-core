@@ -37,96 +37,94 @@ import org.opencms.json.JSONObject;
 import org.opencms.main.OpenCms;
 
 /**
- * ADE download gallery widget implementations.<p>
+ * ADE download gallery widget implementations.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsAdeDownloadGalleryWidget extends A_CmsAdeGalleryWidget {
 
-    /** The gallery name. */
-    private static final String GALLERY_NAME = "download";
+  /** The gallery name. */
+  private static final String GALLERY_NAME = "download";
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsAdeDownloadGalleryWidget() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsAdeDownloadGalleryWidget() {
 
-        this("");
+    this("");
+  }
+
+  /**
+   * Creates a new gallery widget with the given configuration.
+   *
+   * <p>
+   *
+   * @param configuration the configuration to use
+   */
+  protected CmsAdeDownloadGalleryWidget(String configuration) {
+
+    super(configuration);
+  }
+
+  /** @see org.opencms.widgets.A_CmsAdeGalleryWidget#getGalleryName() */
+  @Override
+  public String getGalleryName() {
+
+    return GALLERY_NAME;
+  }
+
+  /** @see org.opencms.widgets.I_CmsADEWidget#getWidgetName() */
+  @Override
+  public String getWidgetName() {
+
+    return CmsAdeDownloadGalleryWidget.class.getName();
+  }
+
+  /** @see org.opencms.widgets.I_CmsWidget#newInstance() */
+  public I_CmsWidget newInstance() {
+
+    return new CmsAdeDownloadGalleryWidget(getConfiguration());
+  }
+
+  /**
+   * @see
+   *     org.opencms.widgets.A_CmsAdeGalleryWidget#getAdditionalGalleryInfo(org.opencms.file.CmsObject,
+   *     java.lang.String, org.opencms.i18n.CmsMessages, org.opencms.widgets.I_CmsWidgetParameter)
+   */
+  @Override
+  protected JSONObject getAdditionalGalleryInfo(
+      CmsObject cms, String resource, CmsMessages messages, I_CmsWidgetParameter param)
+      throws JSONException {
+
+    JSONObject result = new JSONObject();
+    result.put(I_CmsGalleryProviderConstants.CONFIG_TAB_CONFIG, "selectDoc");
+    String uploadFolder =
+        OpenCms.getWorkplaceManager()
+            .getRepositoryFolderHandler()
+            .getRepositoryFolder(cms, resource, GALLERY_NAME + "gallery");
+    if (uploadFolder != null) {
+      result.put(I_CmsGalleryProviderConstants.CONFIG_UPLOAD_FOLDER, uploadFolder);
     }
+    return result;
+  }
 
-    /**
-     * Creates a new gallery widget with the given configuration.<p>
-     *
-     * @param configuration the configuration to use
-     */
-    protected CmsAdeDownloadGalleryWidget(String configuration) {
+  /** @see org.opencms.widgets.A_CmsAdeGalleryWidget#getGalleryStoragePrefix() */
+  @Override
+  protected String getGalleryStoragePrefix() {
 
-        super(configuration);
-    }
+    return "binary";
+  }
 
-    /**
-     * @see org.opencms.widgets.A_CmsAdeGalleryWidget#getGalleryName()
-     */
-    @Override
-    public String getGalleryName() {
+  /** @see org.opencms.widgets.A_CmsAdeGalleryWidget#getGalleryTypes() */
+  @Override
+  protected String getGalleryTypes() {
 
-        return GALLERY_NAME;
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
-     */
-    @Override
-    public String getWidgetName() {
-
-        return CmsAdeDownloadGalleryWidget.class.getName();
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsWidget#newInstance()
-     */
-    public I_CmsWidget newInstance() {
-
-        return new CmsAdeDownloadGalleryWidget(getConfiguration());
-    }
-
-    /**
-     * @see org.opencms.widgets.A_CmsAdeGalleryWidget#getAdditionalGalleryInfo(org.opencms.file.CmsObject, java.lang.String, org.opencms.i18n.CmsMessages, org.opencms.widgets.I_CmsWidgetParameter)
-     */
-    @Override
-    protected JSONObject getAdditionalGalleryInfo(
-        CmsObject cms,
-        String resource,
-        CmsMessages messages,
-        I_CmsWidgetParameter param) throws JSONException {
-
-        JSONObject result = new JSONObject();
-        result.put(I_CmsGalleryProviderConstants.CONFIG_TAB_CONFIG, "selectDoc");
-        String uploadFolder = OpenCms.getWorkplaceManager().getRepositoryFolderHandler().getRepositoryFolder(
-            cms,
-            resource,
-            GALLERY_NAME + "gallery");
-        if (uploadFolder != null) {
-            result.put(I_CmsGalleryProviderConstants.CONFIG_UPLOAD_FOLDER, uploadFolder);
-        }
-        return result;
-    }
-
-    /**
-     * @see org.opencms.widgets.A_CmsAdeGalleryWidget#getGalleryStoragePrefix()
-     */
-    @Override
-    protected String getGalleryStoragePrefix() {
-
-        return "binary";
-    }
-
-    /**
-     * @see org.opencms.widgets.A_CmsAdeGalleryWidget#getGalleryTypes()
-     */
-    @Override
-    protected String getGalleryTypes() {
-
-        return CmsResourceTypeBinary.getStaticTypeName() + "," + CmsResourceTypeImage.getStaticTypeName();
-    }
+    return CmsResourceTypeBinary.getStaticTypeName()
+        + ","
+        + CmsResourceTypeImage.getStaticTypeName();
+  }
 }

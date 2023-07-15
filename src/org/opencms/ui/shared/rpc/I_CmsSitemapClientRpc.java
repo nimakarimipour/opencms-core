@@ -30,36 +30,42 @@ package org.opencms.ui.shared.rpc;
 import com.vaadin.shared.communication.ClientRpc;
 
 /**
- * Interface for the server-to-client RPC calls used by the sitemap extension.<p>
+ * Interface for the server-to-client RPC calls used by the sitemap extension.
  *
+ * <p>
  */
 public interface I_CmsSitemapClientRpc extends ClientRpc {
 
-    /**
-     * Signals to the client that the page copy dialog has finished.<p>
-     *
-     * @param callId the call id which was initially used to open the dialog
-     * @param response a string representing the result code of the page copy dialog
-     */
-    void finishPageCopyDialog(String callId, String response);
+  /**
+   * Signals to the client that the page copy dialog has finished.
+   *
+   * <p>
+   *
+   * @param callId the call id which was initially used to open the dialog
+   * @param response a string representing the result code of the page copy dialog
+   */
+  void finishPageCopyDialog(String callId, String response);
 
-    /**
-     * Opens the property dialog in the locale comparison view.<p>
-     *
-     * @param structureId the structure id of the resource for which to open the property dialog
-     * @param rootId the root structure id of the locale comparison tree
-     */
-    void openPropertyDialog(String structureId, String rootId);
+  /**
+   * Opens the property dialog in the locale comparison view.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource for which to open the property dialog
+   * @param rootId the root structure id of the locale comparison tree
+   */
+  void openPropertyDialog(String structureId, String rootId);
 
-    /**
-     * Displays the header for a sub-sitemap in the locale comparison view.<p>
-     *
-     * @param title the title
-     * @param description the description
-     * @param path the path
-     * @param locale the locale
-     * @param icon the CSS classes for the icon
-     */
-    void showInfoHeader(String title, String description, String path, String locale, String icon);
-
+  /**
+   * Displays the header for a sub-sitemap in the locale comparison view.
+   *
+   * <p>
+   *
+   * @param title the title
+   * @param description the description
+   * @param path the path
+   * @param locale the locale
+   * @param icon the CSS classes for the icon
+   */
+  void showInfoHeader(String title, String description, String path, String locale, String icon);
 }

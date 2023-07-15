@@ -28,44 +28,49 @@
 package org.opencms.configuration;
 
 /**
- * Used for classes that are configurable using
- * <code>&lt;param name="name"&gt;value&lt;/param&gt;</code>
- * in the XML configuration.<p>
+ * Used for classes that are configurable using <code>&lt;param name="name"&gt;value&lt;/param&gt;
+ * </code> in the XML configuration.
  *
- * Such "param" nodes can be used to add some arbitrary names
- * parameters to classes that otherwise share the same XML configuration.
+ * <p>Such "param" nodes can be used to add some arbitrary names parameters to classes that
+ * otherwise share the same XML configuration.
  *
  * @since 6.0.0
  */
 public interface I_CmsConfigurationParameterHandler {
 
-    /** The name of the addConfigurationParameter() method. */
-    String ADD_PARAMETER_METHOD = "addConfigurationParameter";
+  /** The name of the addConfigurationParameter() method. */
+  String ADD_PARAMETER_METHOD = "addConfigurationParameter";
 
-    /** The name of the initConfiguration() method. */
-    String INIT_CONFIGURATION_METHOD = "initConfiguration";
+  /** The name of the initConfiguration() method. */
+  String INIT_CONFIGURATION_METHOD = "initConfiguration";
 
-    /**
-     * Adds a configuration parameter to this parameter configurable class instance.<p>
-     *
-     * @param paramName the name of the parameter
-     * @param paramValue the value for the parameter
-     */
-    void addConfigurationParameter(String paramName, String paramValue);
+  /**
+   * Adds a configuration parameter to this parameter configurable class instance.
+   *
+   * <p>
+   *
+   * @param paramName the name of the parameter
+   * @param paramValue the value for the parameter
+   */
+  void addConfigurationParameter(String paramName, String paramValue);
 
-    /**
-     * Returns the parameters of this configurable class instance,
-     * or <code>null</code> if the class does not need any parameters.<p>
-     *
-     * @return the parameters of this configurable class instance,
-     *      or <code>null</code> if the class does not need any parameters
-     */
-    CmsParameterConfiguration getConfiguration();
+  /**
+   * Returns the parameters of this configurable class instance, or <code>null</code> if the class
+   * does not need any parameters.
+   *
+   * <p>
+   *
+   * @return the parameters of this configurable class instance, or <code>null</code> if the class
+   *     does not need any parameters
+   */
+  CmsParameterConfiguration getConfiguration();
 
-    /**
-     * Initializes a configuration after all parameters have been added.<p>
-     *
-     * @throws CmsConfigurationException if something goes wrong
-     */
-    void initConfiguration() throws CmsConfigurationException;
+  /**
+   * Initializes a configuration after all parameters have been added.
+   *
+   * <p>
+   *
+   * @throws CmsConfigurationException if something goes wrong
+   */
+  void initConfiguration() throws CmsConfigurationException;
 }

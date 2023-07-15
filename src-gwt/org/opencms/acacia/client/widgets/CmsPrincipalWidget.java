@@ -27,10 +27,6 @@
 
 package org.opencms.acacia.client.widgets;
 
-import org.opencms.acacia.client.css.I_CmsWidgetsLayoutBundle;
-import org.opencms.gwt.client.ui.input.CmsPrincipalSelection;
-import org.opencms.gwt.client.util.CmsDomUtil;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -38,144 +34,143 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
+import org.opencms.acacia.client.css.I_CmsWidgetsLayoutBundle;
+import org.opencms.gwt.client.ui.input.CmsPrincipalSelection;
+import org.opencms.gwt.client.util.CmsDomUtil;
 
 /**
- * The principal select widget.<p>
- **/
+ * The principal select widget.
+ *
+ * <p>
+ */
 public class CmsPrincipalWidget extends Composite implements I_CmsEditWidget {
 
-    /** Value of the activation. */
-    private boolean m_active = true;
+  /** Value of the activation. */
+  private boolean m_active = true;
 
-    /** The principal selector. */
-    private CmsPrincipalSelection m_principalSelect;
+  /** The principal selector. */
+  private CmsPrincipalSelection m_principalSelect;
 
-    /**
-     * Constructs an CmsComboWidget with the in XSD schema declared configuration.<p>
-     * @param config the configuration string given from OpenCms XSD
-     * @param icon the icon image CSS class
-     */
-    public CmsPrincipalWidget(String config, String icon) {
+  /**
+   * Constructs an CmsComboWidget with the in XSD schema declared configuration.
+   *
+   * <p>
+   *
+   * @param config the configuration string given from OpenCms XSD
+   * @param icon the icon image CSS class
+   */
+  public CmsPrincipalWidget(String config, String icon) {
 
-        m_principalSelect = new CmsPrincipalSelection(config);
-        m_principalSelect.getTextAreaContainer().addStyleName(
-            I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().vfsInputBox());
-        m_principalSelect.addValueChangeHandler(new ValueChangeHandler<String>() {
+    m_principalSelect = new CmsPrincipalSelection(config);
+    m_principalSelect
+        .getTextAreaContainer()
+        .addStyleName(I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().vfsInputBox());
+    m_principalSelect.addValueChangeHandler(
+        new ValueChangeHandler<String>() {
 
-            public void onValueChange(ValueChangeEvent<String> event) {
+          public void onValueChange(ValueChangeEvent<String> event) {
 
-                fireChangeEvent();
-
-            }
+            fireChangeEvent();
+          }
         });
-        m_principalSelect.getTextAreaContainer().getTextBox().addFocusHandler(new FocusHandler() {
+    m_principalSelect
+        .getTextAreaContainer()
+        .getTextBox()
+        .addFocusHandler(
+            new FocusHandler() {
 
-            public void onFocus(FocusEvent event) {
+              public void onFocus(FocusEvent event) {
 
                 CmsDomUtil.fireFocusEvent(CmsPrincipalWidget.this);
-            }
-        });
-        initWidget(m_principalSelect);
+              }
+            });
+    initWidget(m_principalSelect);
+  }
 
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
+   */
+  public HandlerRegistration addFocusHandler(FocusHandler handler) {
+
+    return addDomHandler(handler, FocusEvent.getType());
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+
+    return addHandler(handler, ValueChangeEvent.getType());
+  }
+
+  /**
+   * Represents a value change event.
+   *
+   * <p>
+   */
+  public void fireChangeEvent() {
+
+    ValueChangeEvent.fire(this, m_principalSelect.getFormValueAsString());
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#getValue() */
+  public String getValue() {
+
+    return m_principalSelect.getFormValueAsString();
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive() */
+  public boolean isActive() {
+
+    return m_active;
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget() */
+  public void onAttachWidget() {
+
+    super.onAttach();
+  }
+
+  /**
+   * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
+   */
+  public boolean owns(Element element) {
+
+    return getElement().isOrHasChild(element);
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean) */
+  public void setActive(boolean active) {
+
+    if (m_active == active) {
+      return;
     }
-
-    /**
-     * @see com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
-     */
-    public HandlerRegistration addFocusHandler(FocusHandler handler) {
-
-        return addDomHandler(handler, FocusEvent.getType());
+    m_active = active;
+    if (active) {
+      fireChangeEvent();
     }
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String) */
+  public void setName(String name) {
 
-        return addHandler(handler, ValueChangeEvent.getType());
+    m_principalSelect.setName(name);
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object) */
+  public void setValue(String value) {
+
+    setValue(value, false);
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean) */
+  public void setValue(String value, boolean fireEvents) {
+
+    m_principalSelect.setFormValueAsString(value);
+    if (fireEvents) {
+      fireChangeEvent();
     }
-
-    /**
-     * Represents a value change event.<p>
-     *
-     */
-    public void fireChangeEvent() {
-
-        ValueChangeEvent.fire(this, m_principalSelect.getFormValueAsString());
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#getValue()
-     */
-    public String getValue() {
-
-        return m_principalSelect.getFormValueAsString();
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive()
-     */
-    public boolean isActive() {
-
-        return m_active;
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget()
-     */
-    public void onAttachWidget() {
-
-        super.onAttach();
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
-     */
-    public boolean owns(Element element) {
-
-        return getElement().isOrHasChild(element);
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean)
-     */
-    public void setActive(boolean active) {
-
-        if (m_active == active) {
-            return;
-        }
-        m_active = active;
-        if (active) {
-            fireChangeEvent();
-        }
-
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String)
-     */
-    public void setName(String name) {
-
-        m_principalSelect.setName(name);
-
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
-     */
-    public void setValue(String value) {
-
-        setValue(value, false);
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
-     */
-    public void setValue(String value, boolean fireEvents) {
-
-        m_principalSelect.setFormValueAsString(value);
-        if (fireEvents) {
-            fireChangeEvent();
-        }
-    }
+  }
 }

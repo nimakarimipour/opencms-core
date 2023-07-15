@@ -27,28 +27,29 @@
 
 package org.opencms.file.collectors;
 
+import java.util.Set;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo;
 import org.opencms.main.CmsException;
 
-import java.util.Set;
-
 /**
- * Interface which should be used for collectors which can provide their own publish list.<p>
+ * Interface which should be used for collectors which can provide their own publish list.
+ *
+ * <p>
  */
 public interface I_CmsCollectorPublishListProvider {
 
-    /**
-     * Gets the publish list for the collector.<p>
-     *
-     * @param cms  the CMS context to use
-     * @param info the collector information
-     *
-     * @return  the resources to include in the publish list
-     *
-     * @throws CmsException if soemthing goes wrong
-     */
-    Set<CmsResource> getPublishResources(CmsObject cms, I_CmsContentLoadCollectorInfo info) throws CmsException;
-
+  /**
+   * Gets the publish list for the collector.
+   *
+   * <p>
+   *
+   * @param cms the CMS context to use
+   * @param info the collector information
+   * @return the resources to include in the publish list
+   * @throws CmsException if soemthing goes wrong
+   */
+  Set<CmsResource> getPublishResources(CmsObject cms, I_CmsContentLoadCollectorInfo info)
+      throws CmsException;
 }

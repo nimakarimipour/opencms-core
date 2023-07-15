@@ -35,68 +35,67 @@ import org.opencms.gwt.client.ui.CmsConfirmDialog;
 import org.opencms.gwt.client.ui.I_CmsConfirmDialogHandler;
 
 /**
- * Sitemap context menu merge entry.<p>
+ * Sitemap context menu merge entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsMergeMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsMergeMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsMergeMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_MERGE_SUB_0));
-        setActive(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_MERGE_SUB_0));
+    setActive(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-        final CmsSitemapController controller = getHoverbar().getController();
-        final CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        String confirmTitle = Messages.get().key(Messages.GUI_MERGE_SITEMAP_CONFIRM_TITLE_0);
-        String confirmMessage = Messages.get().key(Messages.GUI_MERGE_SITEMAP_CONFIRM_TEXT_0);
-        CmsConfirmDialog confirmDialog = new CmsConfirmDialog(confirmTitle, confirmMessage);
-        confirmDialog.setHandler(new I_CmsConfirmDialogHandler() {
+    final CmsSitemapController controller = getHoverbar().getController();
+    final CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    String confirmTitle = Messages.get().key(Messages.GUI_MERGE_SITEMAP_CONFIRM_TITLE_0);
+    String confirmMessage = Messages.get().key(Messages.GUI_MERGE_SITEMAP_CONFIRM_TEXT_0);
+    CmsConfirmDialog confirmDialog = new CmsConfirmDialog(confirmTitle, confirmMessage);
+    confirmDialog.setHandler(
+        new I_CmsConfirmDialogHandler() {
 
-            /**
-             * @see org.opencms.gwt.client.ui.I_CmsCloseDialogHandler#onClose()
-             */
-            public void onClose() {
+          /** @see org.opencms.gwt.client.ui.I_CmsCloseDialogHandler#onClose() */
+          public void onClose() {
 
-                // do nothing
-            }
+            // do nothing
+          }
 
-            /**
-             * @see org.opencms.gwt.client.ui.I_CmsConfirmDialogHandler#onOk()
-             */
-            public void onOk() {
+          /** @see org.opencms.gwt.client.ui.I_CmsConfirmDialogHandler#onOk() */
+          public void onOk() {
 
-                controller.mergeSubSitemap(entry.getId());
-            }
+            controller.mergeSubSitemap(entry.getId());
+          }
         });
-        confirmDialog.center();
-    }
+    confirmDialog.center();
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        if (getHoverbar().getController().isEditable() && CmsSitemapView.getInstance().isNavigationMode()) {
-            CmsSitemapController controller = getHoverbar().getController();
-            CmsClientSitemapEntry entry = getHoverbar().getEntry();
-            boolean show = (entry != null) && entry.isSubSitemapType() && !controller.isRoot(entry.getSitePath());
-            setVisible(show);
-        } else {
-            setVisible(false);
-        }
+    if (getHoverbar().getController().isEditable()
+        && CmsSitemapView.getInstance().isNavigationMode()) {
+      CmsSitemapController controller = getHoverbar().getController();
+      CmsClientSitemapEntry entry = getHoverbar().getEntry();
+      boolean show =
+          (entry != null) && entry.isSubSitemapType() && !controller.isRoot(entry.getSitePath());
+      setVisible(show);
+    } else {
+      setVisible(false);
     }
+  }
 }

@@ -27,47 +27,52 @@
 
 package org.opencms.ui.apps.modules.edit;
 
+import com.vaadin.v7.data.Container;
+import java.util.Arrays;
 import org.opencms.ui.components.CmsAutoItemCreatingComboBox;
 import org.opencms.util.CmsFileUtil;
 
-import java.util.Arrays;
-
-import com.vaadin.v7.data.Container;
-
 /**
- * Helper class used when new options are automatically added to a site selector combo box.<p>
+ * Helper class used when new options are automatically added to a site selector combo box.
+ *
+ * <p>
  */
-public class CmsSiteSelectorNewValueHandler implements CmsAutoItemCreatingComboBox.I_NewValueHandler {
+public class CmsSiteSelectorNewValueHandler
+    implements CmsAutoItemCreatingComboBox.I_NewValueHandler {
 
-    /** The property containing the caption. */
-    private String m_captionPropertyId;
+  /** The property containing the caption. */
+  private String m_captionPropertyId;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param captionPropertyId the item property containing the caption
-     */
-    public CmsSiteSelectorNewValueHandler(String captionPropertyId) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param captionPropertyId the item property containing the caption
+   */
+  public CmsSiteSelectorNewValueHandler(String captionPropertyId) {
 
-        m_captionPropertyId = captionPropertyId;
+    m_captionPropertyId = captionPropertyId;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.components.CmsAutoItemCreatingComboBox.I_NewValueHandler#ensureItem(com.vaadin.v7.data.Container,
+   *     java.lang.Object)
+   */
+  public Object ensureItem(Container cnt, Object id) {
+
+    if (id == null) {
+      return null;
     }
-
-    /**
-     * @see org.opencms.ui.components.CmsAutoItemCreatingComboBox.I_NewValueHandler#ensureItem(com.vaadin.v7.data.Container, java.lang.Object)
-     */
-    public Object ensureItem(Container cnt, Object id) {
-
-        if (id == null) {
-            return null;
-        }
-        String idStr = (String)id;
-        for (String path : Arrays.asList(idStr, CmsFileUtil.toggleTrailingSeparator(idStr))) {
-            if (cnt.containsId(path)) {
-                return path;
-            }
-        }
-        idStr = CmsFileUtil.addTrailingSeparator(idStr);
-        cnt.addItem(idStr).getItemProperty(m_captionPropertyId).setValue(idStr);
-        return idStr;
+    String idStr = (String) id;
+    for (String path : Arrays.asList(idStr, CmsFileUtil.toggleTrailingSeparator(idStr))) {
+      if (cnt.containsId(path)) {
+        return path;
+      }
     }
+    idStr = CmsFileUtil.addTrailingSeparator(idStr);
+    cnt.addItem(idStr).getItemProperty(m_captionPropertyId).setValue(idStr);
+    return idStr;
+  }
 }

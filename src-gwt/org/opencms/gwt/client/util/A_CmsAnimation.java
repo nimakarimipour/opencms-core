@@ -31,35 +31,36 @@ import com.google.gwt.animation.client.Animation;
 import com.google.gwt.user.client.Command;
 
 /**
- * Abstract animation class.<p>
+ * Abstract animation class.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public abstract class A_CmsAnimation extends Animation {
 
-    /** The call-back function to execute on animation complete. */
-    protected Command m_callback;
+  /** The call-back function to execute on animation complete. */
+  protected Command m_callback;
 
-    /**
-     * Constructor. Setting the call-back to be executed on animation complete.<p>
-     *
-     * @param callback the call-back function
-     */
-    public A_CmsAnimation(Command callback) {
+  /**
+   * Constructor. Setting the call-back to be executed on animation complete.
+   *
+   * <p>
+   *
+   * @param callback the call-back function
+   */
+  public A_CmsAnimation(Command callback) {
 
-        m_callback = callback;
+    m_callback = callback;
+  }
+
+  /** @see com.google.gwt.animation.client.Animation#onComplete() */
+  @Override
+  protected void onComplete() {
+
+    super.onComplete();
+    if (m_callback != null) {
+      m_callback.execute();
     }
-
-    /**
-     * @see com.google.gwt.animation.client.Animation#onComplete()
-     */
-    @Override
-    protected void onComplete() {
-
-        super.onComplete();
-        if (m_callback != null) {
-            m_callback.execute();
-        }
-    }
-
+  }
 }

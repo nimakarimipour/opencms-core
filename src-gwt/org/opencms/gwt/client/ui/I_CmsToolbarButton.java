@@ -30,53 +30,68 @@ package org.opencms.gwt.client.ui;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 
 /**
- * Interface for all tool-bar buttons.<p>
+ * Interface for all tool-bar buttons.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsToolbarButton extends HasClickHandlers {
 
-    /**
-     * Returns the localized button title. Will show in tool-tip.<p>
-     *
-     * @return the button title
-     */
-    String getTitle();
+  /**
+   * Returns the localized button title. Will show in tool-tip.
+   *
+   * <p>
+   *
+   * @return the button title
+   */
+  String getTitle();
 
-    /**
-     * Returns whether this button is active (pushed, not disabled).<p>
-     *
-     * @return <code>true</code> if the button is active
-     */
-    boolean isActive();
+  /**
+   * Returns whether this button is active (pushed, not disabled).
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the button is active
+   */
+  boolean isActive();
 
-    /**
-     * Method executed when the button is activated.<p>
-     */
-    void onToolbarActivate();
+  /**
+   * Method executed when the button is activated.
+   *
+   * <p>
+   */
+  void onToolbarActivate();
 
-    /**
-     * Executed when the tool-bar button is clicked.<p>
-     */
-    void onToolbarClick();
+  /**
+   * Executed when the tool-bar button is clicked.
+   *
+   * <p>
+   */
+  void onToolbarClick();
 
-    /**
-     * Method executed when the button is deactivated.<p>
-     */
-    void onToolbarDeactivate();
+  /**
+   * Method executed when the button is deactivated.
+   *
+   * <p>
+   */
+  void onToolbarDeactivate();
 
-    /**
-     * Sets the button to active (pushed, not disabled).<p>
-     *
-     *
-     * @param active <code>true</code> if active
-     */
-    void setActive(boolean active);
+  /**
+   * Sets the button to active (pushed, not disabled).
+   *
+   * <p>
+   *
+   * @param active <code>true</code> if active
+   */
+  void setActive(boolean active);
 
-    /**
-     * Enables or disables the button.<p>
-     *
-     * @param enabled if true, enable the button, else disable it
-     */
-    void setEnabled(boolean enabled);
+  /**
+   * Enables or disables the button.
+   *
+   * <p>
+   *
+   * @param enabled if true, enable the button, else disable it
+   */
+  void setEnabled(boolean enabled);
 }

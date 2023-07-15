@@ -27,47 +27,45 @@
 
 package org.opencms.setup.comptest;
 
-import org.opencms.setup.CmsSetupBean;
-
 import org.apache.commons.lang3.JavaVersion;
 import org.apache.commons.lang3.SystemUtils;
+import org.opencms.setup.CmsSetupBean;
 
 /**
- * Tests the version of the JDK.<p>
+ * Tests the version of the JDK.
+ *
+ * <p>
  *
  * @since 6.1.8
  */
 public class CmsSetupTestJdkVersion implements I_CmsSetupTest {
 
-    /** The test name. */
-    public static final String TEST_NAME = "JDK Version";
+  /** The test name. */
+  public static final String TEST_NAME = "JDK Version";
 
-    /**
-     * @see org.opencms.setup.comptest.I_CmsSetupTest#execute(org.opencms.setup.CmsSetupBean)
-     */
-    public CmsSetupTestResult execute(CmsSetupBean setupBean) {
+  /** @see org.opencms.setup.comptest.I_CmsSetupTest#execute(org.opencms.setup.CmsSetupBean) */
+  public CmsSetupTestResult execute(CmsSetupBean setupBean) {
 
-        CmsSetupTestResult testResult = new CmsSetupTestResult(this);
+    CmsSetupTestResult testResult = new CmsSetupTestResult(this);
 
-        testResult.setResult(SystemUtils.JAVA_VERSION);
-        boolean supportedJDK = SystemUtils.isJavaVersionAtLeast(JavaVersion.JAVA_1_8);
+    testResult.setResult(SystemUtils.JAVA_VERSION);
+    boolean supportedJDK = SystemUtils.isJavaVersionAtLeast(JavaVersion.JAVA_1_8);
 
-        if (!supportedJDK) {
-            testResult.setRed();
-            testResult.setHelp(
-                "OpenCms requires at least Java version " + JavaVersion.JAVA_1_8 + " to run. Please update your JDK");
-        } else {
-            testResult.setGreen();
-        }
-        return testResult;
+    if (!supportedJDK) {
+      testResult.setRed();
+      testResult.setHelp(
+          "OpenCms requires at least Java version "
+              + JavaVersion.JAVA_1_8
+              + " to run. Please update your JDK");
+    } else {
+      testResult.setGreen();
     }
+    return testResult;
+  }
 
-    /**
-     * @see org.opencms.setup.comptest.I_CmsSetupTest#getName()
-     */
-    public String getName() {
+  /** @see org.opencms.setup.comptest.I_CmsSetupTest#getName() */
+  public String getName() {
 
-        return TEST_NAME;
-    }
-
+    return TEST_NAME;
+  }
 }

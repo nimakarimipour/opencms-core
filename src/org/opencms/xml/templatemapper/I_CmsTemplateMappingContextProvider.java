@@ -28,16 +28,19 @@
 package org.opencms.xml.templatemapper;
 
 /**
- * Interface for a mapping template context providers.<p>
+ * Interface for a mapping template context providers.
+ *
+ * <p>
  */
 public interface I_CmsTemplateMappingContextProvider {
 
-    /**
-     * Returns the absolute VFS path where the mapping configuration file is stored.<p>
-     *
-     * @param version the template version to get the configuration file for
-     *
-     * @return the absolute VFS path where the mapping configuration file is stored
-     */
-    String getMappingConfigurationPath(String version);
+  /**
+   * Returns the absolute VFS path where the mapping configuration file is stored.
+   *
+   * <p>
+   *
+   * @param version the template version to get the configuration file for
+   * @return the absolute VFS path where the mapping configuration file is stored
+   */
+  String getMappingConfigurationPath(String version);
 }

@@ -28,39 +28,47 @@
 package org.opencms.newsletter;
 
 /**
- * Every {@link I_CmsNewsletter} contains a list of I_CmsNewsletterContent objects. <p>
+ * Every {@link I_CmsNewsletter} contains a list of I_CmsNewsletterContent objects.
  *
- * These objects have an order, by which the newsletter content is sorted, the type either
- * {@link org.opencms.newsletter.CmsNewsletterContentType#TYPE_HTML} or
- * {@link org.opencms.newsletter.CmsNewsletterContentType#TYPE_TEXT}.
+ * <p>These objects have an order, by which the newsletter content is sorted, the type either {@link
+ * org.opencms.newsletter.CmsNewsletterContentType#TYPE_HTML} or {@link
+ * org.opencms.newsletter.CmsNewsletterContentType#TYPE_TEXT}.
  */
 public interface I_CmsNewsletterContent extends Comparable<I_CmsNewsletterContent> {
 
-    /**
-     * Returns the channel.<p>
-     *
-     * @return the channel
-     */
-    String getChannel();
+  /**
+   * Returns the channel.
+   *
+   * <p>
+   *
+   * @return the channel
+   */
+  String getChannel();
 
-    /**
-     * Returns the content.<p>
-     *
-     * @return the content
-     */
-    String getContent();
+  /**
+   * Returns the content.
+   *
+   * <p>
+   *
+   * @return the content
+   */
+  String getContent();
 
-    /**
-     * Returns the order of this content in it's channel.<p>
-     *
-     * @return the order of this content in it's channel
-     */
-    int getOrder();
+  /**
+   * Returns the order of this content in it's channel.
+   *
+   * <p>
+   *
+   * @return the order of this content in it's channel
+   */
+  int getOrder();
 
-    /**
-     * Returns the type.<p>
-     *
-     * @return the type
-     */
-    CmsNewsletterContentType getType();
+  /**
+   * Returns the type.
+   *
+   * <p>
+   *
+   * @return the type
+   */
+  CmsNewsletterContentType getType();
 }

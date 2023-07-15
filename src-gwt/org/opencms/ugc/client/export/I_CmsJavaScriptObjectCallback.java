@@ -27,26 +27,28 @@
 
 package org.opencms.ugc.client.export;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.ExportClosure;
 import org.timepedia.exporter.client.ExportPackage;
 import org.timepedia.exporter.client.Exportable;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 /**
- * Callback interface for functions taking a JavaScriptObject as a parameter.<p>
+ * Callback interface for functions taking a JavaScriptObject as a parameter.
+ *
+ * <p>
  */
 @Export
 @ExportClosure
 @ExportPackage("opencmsugc")
 public interface I_CmsJavaScriptObjectCallback extends Exportable {
 
-    /**
-     * Calls the function with the given Javascript object.<p>
-     *
-     * @param jso the Javascript object parameter
-     */
-    void call(JavaScriptObject jso);
-
+  /**
+   * Calls the function with the given Javascript object.
+   *
+   * <p>
+   *
+   * @param jso the Javascript object parameter
+   */
+  void call(JavaScriptObject jso);
 }

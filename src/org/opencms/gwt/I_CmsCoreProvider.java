@@ -27,48 +27,48 @@
 
 package org.opencms.gwt;
 
+import javax.servlet.http.HttpServletRequest;
 import org.opencms.json.JSONObject;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
- * Convenience interface to provide core server-side data to the client.<p>
+ * Convenience interface to provide core server-side data to the client.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.gwt.client.CmsCoreProvider
  */
 public interface I_CmsCoreProvider {
 
-    /**
-     * Returns the JSON code for the core provider and the given message bundle.<p>
-     *
-     * @param request the current request
-     *
-     * @return the JSON code
-     *
-     * @throws Exception
-     */
-    String export(HttpServletRequest request) throws Exception;
+  /**
+   * Returns the JSON code for the core provider and the given message bundle.
+   *
+   * <p>
+   *
+   * @param request the current request
+   * @return the JSON code
+   * @throws Exception
+   */
+  String export(HttpServletRequest request) throws Exception;
 
-    /**
-     * Returns the JSON code for the provider with dependencies.<p>
-     *
-     * @param request the current request
-     *
-     * @return the JSON code
-     *
-     * @throws Exception
-     */
-    String exportAll(HttpServletRequest request) throws Exception;
+  /**
+   * Returns the JSON code for the provider with dependencies.
+   *
+   * <p>
+   *
+   * @param request the current request
+   * @return the JSON code
+   * @throws Exception
+   */
+  String exportAll(HttpServletRequest request) throws Exception;
 
-    /**
-     * Returns the provided json data.<p>
-     *
-     * @param request the current request
-     *
-     * @return the provided json data
-     */
-    JSONObject getData(HttpServletRequest request);
-
+  /**
+   * Returns the provided json data.
+   *
+   * <p>
+   *
+   * @param request the current request
+   * @return the provided json data
+   */
+  JSONObject getData(HttpServletRequest request);
 }

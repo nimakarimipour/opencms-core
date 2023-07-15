@@ -27,6 +27,11 @@
 
 package org.opencms.ui.apps.publishqueue;
 
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.List;
+import org.apache.commons.logging.Log;
 import org.opencms.db.CmsPublishedResource;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
@@ -39,99 +44,97 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.v7.shared.ui.label.ContentMode;
-import com.vaadin.v7.ui.Label;
-import com.vaadin.v7.ui.VerticalLayout;
-
 /**
- * Class for the published resources dialog.<p>
+ * Class for the published resources dialog.
+ *
+ * <p>
  */
 public class CmsPublishResources extends VerticalLayout {
 
-    /** The logger for this class. */
-    private static Log LOG = CmsLog.getLog(CmsPublishResources.class.getName());
+  /** The logger for this class. */
+  private static Log LOG = CmsLog.getLog(CmsPublishResources.class.getName());
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = -3197777771233458574L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -3197777771233458574L;
 
-    /**Caption of dialog.*/
-    private String m_caption;
+  /** Caption of dialog. */
+  private String m_caption;
 
-    /**vaadin component.*/
-    private VerticalLayout m_panel;
+  /** vaadin component. */
+  private VerticalLayout m_panel;
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param id job-id
-     */
-    public CmsPublishResources(String id) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param id job-id
+   */
+  public CmsPublishResources(String id) {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
-        final CmsPublishJobBase job = OpenCms.getPublishManager().getJobByPublishHistoryId(new CmsUUID(id));
+    final CmsPublishJobBase job =
+        OpenCms.getPublishManager().getJobByPublishHistoryId(new CmsUUID(id));
 
-        m_caption = CmsVaadinUtils.getMessageText(
+    m_caption =
+        CmsVaadinUtils.getMessageText(
             Messages.GUI_PQUEUE_RESOURCES_2,
             job.getProjectName(),
             job.getUserName(A_CmsUI.getCmsObject()));
 
-        String resourcesHTML = "";
+    String resourcesHTML = "";
 
-        try {
-            resourcesHTML = getResourcesHTML(job);
-        } catch (NumberFormatException | CmsException e) {
-            LOG.error("Error reading publish resources", e);
-        }
-
-        Label label = new Label();
-        label.setValue(resourcesHTML);
-        label.setContentMode(ContentMode.HTML);
-        label.setHeight("700px");
-        label.addStyleName("v-scrollable");
-        label.addStyleName("o-report");
-        m_panel.addComponent(label);
-
+    try {
+      resourcesHTML = getResourcesHTML(job);
+    } catch (NumberFormatException | CmsException e) {
+      LOG.error("Error reading publish resources", e);
     }
 
-    /**
-     * @see com.vaadin.ui.AbstractComponent#getCaption()
-     */
-    @Override
-    public String getCaption() {
+    Label label = new Label();
+    label.setValue(resourcesHTML);
+    label.setContentMode(ContentMode.HTML);
+    label.setHeight("700px");
+    label.addStyleName("v-scrollable");
+    label.addStyleName("o-report");
+    m_panel.addComponent(label);
+  }
 
-        return m_caption;
+  /** @see com.vaadin.ui.AbstractComponent#getCaption() */
+  @Override
+  public String getCaption() {
+
+    return m_caption;
+  }
+
+  /**
+   * Get String with list of resources from given job formatted in HTML.
+   *
+   * <p>
+   *
+   * @param job CmsPublishJobBase
+   * @return String
+   * @throws CmsException exception
+   */
+  private String getResourcesHTML(CmsPublishJobBase job) throws CmsException {
+
+    String ret = "";
+    if (job instanceof CmsPublishJobEnqueued) {
+      // job is enqueued ->go over publish list
+      List<CmsResource> resources =
+          ((CmsPublishJobEnqueued) job).getPublishList().getAllResources();
+      for (CmsResource res : resources) {
+        ret += res.getRootPath() + "<br/>";
+      }
+    } else {
+      // job is running or finished
+      List<CmsPublishedResource> resources =
+          A_CmsUI.getCmsObject().readPublishedResources(job.getPublishHistoryId());
+      for (CmsPublishedResource res : resources) {
+        ret += res.getRootPath() + "<br/>";
+      }
     }
-
-    /**
-     * Get String with list of resources from given job formatted in HTML.<p>
-     *
-     * @param job CmsPublishJobBase
-     * @return String
-     * @throws CmsException exception
-     */
-    private String getResourcesHTML(CmsPublishJobBase job) throws CmsException {
-
-        String ret = "";
-        if (job instanceof CmsPublishJobEnqueued) {
-            //job is enqueued ->go over publish list
-            List<CmsResource> resources = ((CmsPublishJobEnqueued)job).getPublishList().getAllResources();
-            for (CmsResource res : resources) {
-                ret += res.getRootPath() + "<br/>";
-            }
-        } else {
-            //job is running or finished
-            List<CmsPublishedResource> resources = A_CmsUI.getCmsObject().readPublishedResources(
-                job.getPublishHistoryId());
-            for (CmsPublishedResource res : resources) {
-                ret += res.getRootPath() + "<br/>";
-            }
-        }
-        return ret;
-    }
-
+    return ret;
+  }
 }

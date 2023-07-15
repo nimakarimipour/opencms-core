@@ -32,84 +32,98 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsUUID;
 
 /**
- * Defines a read-only publish job that is being published.<p>
+ * Defines a read-only publish job that is being published.
+ *
+ * <p>
  *
  * @since 6.5.5
  */
 public class CmsPublishJobRunning extends CmsPublishJobBase {
 
-    /**
-     * Default constructor.<p>
-     *
-     * @param publishJob the delegate publish job
-     */
-    protected CmsPublishJobRunning(CmsPublishJobInfoBean publishJob) {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   *
+   * @param publishJob the delegate publish job
+   */
+  protected CmsPublishJobRunning(CmsPublishJobInfoBean publishJob) {
 
-        super(publishJob);
-    }
+    super(publishJob);
+  }
 
-    /**
-     * Returns the time this object has been created.<p>
-     *
-     * @return the time this object has been created
-     */
-    public long getEnqueueTime() {
+  /**
+   * Returns the time this object has been created.
+   *
+   * <p>
+   *
+   * @return the time this object has been created
+   */
+  public long getEnqueueTime() {
 
-        return m_publishJob.getEnqueueTime();
-    }
+    return m_publishJob.getEnqueueTime();
+  }
 
-    /**
-     * Returns the list of resources to publish.<p>
-     *
-     * @return the list of resources to publish
-     */
-    public CmsPublishList getOriginalPublishList() {
+  /**
+   * Returns the list of resources to publish.
+   *
+   * <p>
+   *
+   * @return the list of resources to publish
+   */
+  public CmsPublishList getOriginalPublishList() {
 
-        return m_publishJob.getOriginalPublishList();
-    }
+    return m_publishJob.getOriginalPublishList();
+  }
 
-    /**
-     * Returns the list of resources to publish.<p>
-     *
-     * @return the list of resources to publish
-     */
-    public CmsPublishList getPublishList() {
+  /**
+   * Returns the list of resources to publish.
+   *
+   * <p>
+   *
+   * @return the list of resources to publish
+   */
+  public CmsPublishList getPublishList() {
 
-        return m_publishJob.getPublishList();
-    }
+    return m_publishJob.getPublishList();
+  }
 
-    /**
-     * Returns the report for this publish job.<p>
-     *
-     * This is not the original report, it is wrapper that
-     * also writes to a temporary file.<p>
-     *
-     * @return the report for this publish job
-     *
-     * @see CmsPublishJobEnqueued#getReport()
-     */
-    public I_CmsReport getReport() {
+  /**
+   * Returns the report for this publish job.
+   *
+   * <p>This is not the original report, it is wrapper that also writes to a temporary file.
+   *
+   * <p>
+   *
+   * @return the report for this publish job
+   * @see CmsPublishJobEnqueued#getReport()
+   */
+  public I_CmsReport getReport() {
 
-        return m_publishJob.getPublishReport();
-    }
+    return m_publishJob.getPublishReport();
+  }
 
-    /**
-     * Returns the time the publish job did actually start.<p>
-     *
-     * @return the time the publish job did actually start
-     */
-    public long getStartTime() {
+  /**
+   * Returns the time the publish job did actually start.
+   *
+   * <p>
+   *
+   * @return the time the publish job did actually start
+   */
+  public long getStartTime() {
 
-        return m_publishJob.getStartTime();
-    }
+    return m_publishJob.getStartTime();
+  }
 
-    /**
-     * Returns the UUID of the running publish thread.<p>
-     *
-     * @return the UUID of the running publish thread
-     */
-    public CmsUUID getThreadUUID() {
+  /**
+   * Returns the UUID of the running publish thread.
+   *
+   * <p>
+   *
+   * @return the UUID of the running publish thread
+   */
+  public CmsUUID getThreadUUID() {
 
-        return m_publishJob.getThreadUUID();
-    }
+    return m_publishJob.getThreadUUID();
+  }
 }

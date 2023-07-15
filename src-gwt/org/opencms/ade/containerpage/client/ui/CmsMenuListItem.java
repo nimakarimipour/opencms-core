@@ -27,6 +27,9 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import org.opencms.ade.containerpage.client.Messages;
 import org.opencms.ade.containerpage.shared.CmsContainerElementData;
 import org.opencms.gwt.client.dnd.I_CmsDropTarget;
@@ -39,175 +42,196 @@ import org.opencms.gwt.client.util.CmsDomUtil;
 import org.opencms.gwt.shared.CmsAdditionalInfoBean;
 import org.opencms.gwt.shared.CmsListInfoBean;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-
 /**
- * Draggable menu element. Needed for favorite list.<p>
+ * Draggable menu element. Needed for favorite list.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsMenuListItem extends CmsListItem {
 
-    /** The element edit button. */
-    protected CmsPushButton m_editButton;
+  /** The element edit button. */
+  protected CmsPushButton m_editButton;
 
-    /** The edit click handler registration. */
-    private HandlerRegistration m_editHandlerRegistration;
+  /** The edit click handler registration. */
+  private HandlerRegistration m_editHandlerRegistration;
 
-    /** The element delete button. */
-    private CmsPushButton m_removeButton;
+  /** The element delete button. */
+  private CmsPushButton m_removeButton;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param element the element data
-     */
-    public CmsMenuListItem(CmsContainerElementData element) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param element the element data
+   */
+  public CmsMenuListItem(CmsContainerElementData element) {
 
-        super(new CmsListItemWidget(new CmsListInfoBean(element.getTitle(), element.getSitePath(), null)));
-        if (!m_listItemWidget.hasAdditionalInfo()) {
-            m_listItemWidget.addAdditionalInfo(
-                new CmsAdditionalInfoBean("", Messages.get().key(Messages.GUI_NO_SETTINGS_TITLE_0), null));
-        }
-        setId(element.getClientId());
-        getListItemWidget().setIcon(element.getBigIconClasses());
+    super(
+        new CmsListItemWidget(
+            new CmsListInfoBean(element.getTitle(), element.getSitePath(), null)));
+    if (!m_listItemWidget.hasAdditionalInfo()) {
+      m_listItemWidget.addAdditionalInfo(
+          new CmsAdditionalInfoBean(
+              "", Messages.get().key(Messages.GUI_NO_SETTINGS_TITLE_0), null));
+    }
+    setId(element.getClientId());
+    getListItemWidget().setIcon(element.getBigIconClasses());
 
-        m_removeButton = new CmsPushButton();
-        m_removeButton.setImageClass(I_CmsButton.CUT_SMALL);
-        m_removeButton.setButtonStyle(ButtonStyle.FONT_ICON, null);
-        m_removeButton.setTitle(Messages.get().key(Messages.GUI_BUTTON_REMOVE_TEXT_0));
-        m_removeButton.addClickHandler(new ClickHandler() {
+    m_removeButton = new CmsPushButton();
+    m_removeButton.setImageClass(I_CmsButton.CUT_SMALL);
+    m_removeButton.setButtonStyle(ButtonStyle.FONT_ICON, null);
+    m_removeButton.setTitle(Messages.get().key(Messages.GUI_BUTTON_REMOVE_TEXT_0));
+    m_removeButton.addClickHandler(
+        new ClickHandler() {
 
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          public void onClick(ClickEvent event) {
 
-                deleteElement();
-
-            }
+            deleteElement();
+          }
         });
-        m_editButton = new CmsPushButton();
-        m_editButton.setImageClass(I_CmsButton.ButtonData.EDIT.getSmallIconClass());
-        m_editButton.setButtonStyle(ButtonStyle.FONT_ICON, null);
-        m_editButton.setTitle(
-            org.opencms.gwt.client.Messages.get().key(org.opencms.gwt.client.Messages.GUI_BUTTON_ELEMENT_EDIT_0));
-        m_editButton.setEnabled(false);
-        getListItemWidget().addButton(m_editButton);
+    m_editButton = new CmsPushButton();
+    m_editButton.setImageClass(I_CmsButton.ButtonData.EDIT.getSmallIconClass());
+    m_editButton.setButtonStyle(ButtonStyle.FONT_ICON, null);
+    m_editButton.setTitle(
+        org.opencms.gwt.client.Messages.get()
+            .key(org.opencms.gwt.client.Messages.GUI_BUTTON_ELEMENT_EDIT_0));
+    m_editButton.setEnabled(false);
+    getListItemWidget().addButton(m_editButton);
+  }
+
+  /**
+   * Removes the element from it's parent widget.
+   *
+   * <p>
+   */
+  public void deleteElement() {
+
+    removeFromParent();
+  }
+
+  /**
+   * Disables the edit button with the given reason.
+   *
+   * <p>
+   *
+   * @param reason the disable reason
+   * @param locked <code>true</code> if the resource is locked
+   */
+  public void disableEdit(String reason, boolean locked) {
+
+    m_editButton.disable(reason);
+    if (locked) {
+      m_editButton.setImageClass("opencms-icon-lock-20");
     }
+  }
 
-    /**
-     * Removes the element from it's parent widget.<p>
-     */
-    public void deleteElement() {
+  /**
+   * Enables the edit button with the given click handler.
+   *
+   * <p>
+   *
+   * @param editClickHandler the edit click handler
+   */
+  public void enableEdit(ClickHandler editClickHandler) {
 
-        removeFromParent();
+    if (m_editHandlerRegistration != null) {
+      m_editHandlerRegistration.removeHandler();
     }
+    m_editHandlerRegistration = m_editButton.addClickHandler(editClickHandler);
+    m_editButton.enable();
+  }
 
-    /**
-     * Disables the edit button with the given reason.<p>
-     *
-     * @param reason the disable reason
-     * @param locked <code>true</code> if the resource is locked
-     */
-    public void disableEdit(String reason, boolean locked) {
+  /**
+   * Hides the edit button.
+   *
+   * <p>
+   */
+  public void hideEditButton() {
 
-        m_editButton.disable(reason);
-        if (locked) {
-            m_editButton.setImageClass("opencms-icon-lock-20");
-        }
+    if (m_editButton != null) {
+      getListItemWidget().removeButton(m_editButton);
     }
+  }
 
-    /**
-     * Enables the edit button with the given click handler.<p>
-     *
-     * @param editClickHandler the edit click handler
-     */
-    public void enableEdit(ClickHandler editClickHandler) {
+  /**
+   * Hides the element delete button.
+   *
+   * <p>
+   */
+  public void hideRemoveButton() {
 
-        if (m_editHandlerRegistration != null) {
-            m_editHandlerRegistration.removeHandler();
-        }
-        m_editHandlerRegistration = m_editButton.addClickHandler(editClickHandler);
-        m_editButton.enable();
+    getListItemWidget().removeButton(m_removeButton);
+  }
+
+  /** @see org.opencms.gwt.client.dnd.I_CmsDraggable#onDragCancel() */
+  @Override
+  public void onDragCancel() {
+
+    super.onDragCancel();
+    clearDrag();
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.dnd.I_CmsDraggable#onDrop(org.opencms.gwt.client.dnd.I_CmsDropTarget)
+   */
+  @Override
+  public void onDrop(I_CmsDropTarget target) {
+
+    super.onDrop(target);
+    clearDrag();
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.dnd.I_CmsDraggable#onStartDrag(org.opencms.gwt.client.dnd.I_CmsDropTarget)
+   */
+  @Override
+  public void onStartDrag(I_CmsDropTarget target) {
+
+    super.onStartDrag(target);
+    getElement().getStyle().setOpacity(0.7);
+  }
+
+  /**
+   * Shows the element edit button.
+   *
+   * <p>
+   */
+  public void showEditButton() {
+
+    if (m_editButton != null) {
+      getListItemWidget().addButton(m_editButton);
     }
+  }
 
-    /**
-     * Hides the edit button.<p>
-     */
-    public void hideEditButton() {
+  /**
+   * Shows the element delete button.
+   *
+   * <p>
+   */
+  public void showRemoveButton() {
 
-        if (m_editButton != null) {
-            getListItemWidget().removeButton(m_editButton);
-        }
-    }
+    getListItemWidget().addButton(m_removeButton);
+  }
 
-    /**
-     * Hides the element delete button.<p>
-     */
-    public void hideRemoveButton() {
+  /**
+   * Removes all styling done during drag and drop.
+   *
+   * <p>
+   */
+  private void clearDrag() {
 
-        getListItemWidget().removeButton(m_removeButton);
-    }
+    // using own implementation as GWT won't do it properly on IE7-8
+    CmsDomUtil.clearOpacity(getElement());
 
-    /**
-     * @see org.opencms.gwt.client.dnd.I_CmsDraggable#onDragCancel()
-     */
-    @Override
-    public void onDragCancel() {
-
-        super.onDragCancel();
-        clearDrag();
-    }
-
-    /**
-     * @see org.opencms.gwt.client.dnd.I_CmsDraggable#onDrop(org.opencms.gwt.client.dnd.I_CmsDropTarget)
-     */
-    @Override
-    public void onDrop(I_CmsDropTarget target) {
-
-        super.onDrop(target);
-        clearDrag();
-    }
-
-    /**
-     * @see org.opencms.gwt.client.dnd.I_CmsDraggable#onStartDrag(org.opencms.gwt.client.dnd.I_CmsDropTarget)
-     */
-    @Override
-    public void onStartDrag(I_CmsDropTarget target) {
-
-        super.onStartDrag(target);
-        getElement().getStyle().setOpacity(0.7);
-    }
-
-    /**
-     * Shows the element edit button.<p>
-     */
-    public void showEditButton() {
-
-        if (m_editButton != null) {
-            getListItemWidget().addButton(m_editButton);
-        }
-    }
-
-    /**
-     * Shows the element delete button.<p>
-     */
-    public void showRemoveButton() {
-
-        getListItemWidget().addButton(m_removeButton);
-    }
-
-    /**
-     * Removes all styling done during drag and drop.<p>
-     */
-    private void clearDrag() {
-
-        // using own implementation as GWT won't do it properly on IE7-8
-        CmsDomUtil.clearOpacity(getElement());
-
-        getElement().getStyle().clearDisplay();
-    }
+    getElement().getStyle().clearDisplay();
+  }
 }

@@ -27,89 +27,92 @@
 
 package org.opencms.ui.components.fileselect;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Item;
+import java.util.List;
+import java.util.Set;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsPropertyDefinition;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 
-import java.util.List;
-import java.util.Set;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.vaadin.v7.data.Container;
-import com.vaadin.v7.data.Item;
-
 /**
- * Filter used to hide folder tree items which are not either navigation items themselves or are required to navigate
- * from the site root to a navigation item.<p>
+ * Filter used to hide folder tree items which are not either navigation items themselves or are
+ * required to navigate from the site root to a navigation item.
+ *
+ * <p>
  */
 public class CmsNavigationFilter implements Container.Filter {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** Paths included by the filter. */
-    private List<String> m_navigationPaths = Lists.newArrayList();
+  /** Paths included by the filter. */
+  private List<String> m_navigationPaths = Lists.newArrayList();
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param cms the CMS context
-     * @param root the root folder
-     * @throws CmsException if something goes wrong
-     */
-    public CmsNavigationFilter(CmsObject cms, CmsResource root)
-    throws CmsException {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @param root the root folder
+   * @throws CmsException if something goes wrong
+   */
+  public CmsNavigationFilter(CmsObject cms, CmsResource root) throws CmsException {
 
-        CmsObject rootCms = OpenCms.initCmsObject(cms);
-        rootCms.getRequestContext().setSiteRoot("");
-        Set<CmsResource> navResources = Sets.newHashSet(
-            rootCms.readResourcesWithProperty(CmsPropertyDefinition.PROPERTY_NAVTEXT));
-        navResources.addAll(rootCms.readResourcesWithProperty(CmsPropertyDefinition.PROPERTY_NAVPOS));
-        for (CmsResource res : navResources) {
-            if (!res.getRootPath().startsWith("/system/workplace")) {
-                // navigation properties are used for configuration on some workplace resources, so don't include those
-                m_navigationPaths.addAll(getAncestorPaths(res.getRootPath()));
-            }
-        }
+    CmsObject rootCms = OpenCms.initCmsObject(cms);
+    rootCms.getRequestContext().setSiteRoot("");
+    Set<CmsResource> navResources =
+        Sets.newHashSet(rootCms.readResourcesWithProperty(CmsPropertyDefinition.PROPERTY_NAVTEXT));
+    navResources.addAll(rootCms.readResourcesWithProperty(CmsPropertyDefinition.PROPERTY_NAVPOS));
+    for (CmsResource res : navResources) {
+      if (!res.getRootPath().startsWith("/system/workplace")) {
+        // navigation properties are used for configuration on some workplace resources, so don't
+        // include those
+        m_navigationPaths.addAll(getAncestorPaths(res.getRootPath()));
+      }
     }
+  }
 
-    /**
-     * @see com.vaadin.v7.data.Container.Filter#appliesToProperty(java.lang.Object)
-     */
-    public boolean appliesToProperty(Object propertyId) {
+  /** @see com.vaadin.v7.data.Container.Filter#appliesToProperty(java.lang.Object) */
+  public boolean appliesToProperty(Object propertyId) {
 
-        return false;
+    return false;
+  }
+
+  /**
+   * @see com.vaadin.v7.data.Container.Filter#passesFilter(java.lang.Object,
+   *     com.vaadin.v7.data.Item)
+   */
+  public boolean passesFilter(Object itemId, Item item) throws UnsupportedOperationException {
+
+    CmsResource res =
+        (CmsResource) item.getItemProperty(CmsResourceTreeContainer.PROPERTY_RESOURCE).getValue();
+    if (res == null) {
+      return true;
     }
+    return m_navigationPaths.contains(res.getRootPath());
+  }
 
-    /**
-     * @see com.vaadin.v7.data.Container.Filter#passesFilter(java.lang.Object, com.vaadin.v7.data.Item)
-     */
-    public boolean passesFilter(Object itemId, Item item) throws UnsupportedOperationException {
+  /**
+   * Calculates all ancestor paths for a given path.
+   *
+   * <p>
+   *
+   * @param path the path
+   * @return the list of ancestor paths
+   */
+  List<String> getAncestorPaths(String path) {
 
-        CmsResource res = (CmsResource)item.getItemProperty(CmsResourceTreeContainer.PROPERTY_RESOURCE).getValue();
-        if (res == null) {
-            return true;
-        }
-        return m_navigationPaths.contains(res.getRootPath());
+    List<String> result = Lists.newArrayList();
+    while (path != null) {
+      result.add(path);
+      path = CmsResource.getParentFolder(path);
     }
-
-    /**
-     * Calculates all ancestor paths for a given path.<p>
-     *
-     * @param path the path
-     * @return the list of ancestor paths
-     */
-    List<String> getAncestorPaths(String path) {
-
-        List<String> result = Lists.newArrayList();
-        while (path != null) {
-            result.add(path);
-            path = CmsResource.getParentFolder(path);
-        }
-        return result;
-    }
-
+    return result;
+  }
 }

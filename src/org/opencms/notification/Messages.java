@@ -31,121 +31,129 @@ import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
 
 /**
- * Convenience class to access the localized messages of this OpenCms package.<p>
+ * Convenience class to access the localized messages of this OpenCms package.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public final class Messages extends A_CmsMessageBundle {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_CONFIRM_RESOURCE_1 = "ERR_CONFIRM_RESOURCE_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_CONFIRM_RESOURCE_1 = "ERR_CONFIRM_RESOURCE_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_CONFIRM_0 = "GUI_CONFIRM_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_CONFIRM_0 = "GUI_CONFIRM_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_DATE_0 = "GUI_DATE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_DATE_0 = "GUI_DATE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_DAYS_NOT_MODIFIED_0 = "GUI_DAYS_NOT_MODIFIED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_DAYS_NOT_MODIFIED_0 = "GUI_DAYS_NOT_MODIFIED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_DISPLAY_0 = "GUI_DISPLAY_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_DISPLAY_0 = "GUI_DISPLAY_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_EDIT_0 = "GUI_EDIT_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_EDIT_0 = "GUI_EDIT_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_EVENT_0 = "GUI_EVENT_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_EVENT_0 = "GUI_EVENT_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_EXPIRES_AT_1 = "GUI_EXPIRES_AT_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_EXPIRES_AT_1 = "GUI_EXPIRES_AT_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_FILES_NOT_UPDATED_1 = "GUI_FILES_NOT_UPDATED_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_FILES_NOT_UPDATED_1 = "GUI_FILES_NOT_UPDATED_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_ISSUE_0 = "GUI_ISSUE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_ISSUE_0 = "GUI_ISSUE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_MAIL_CHARSET_0 = "GUI_MAIL_CHARSET_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_MAIL_CHARSET_0 = "GUI_MAIL_CHARSET_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_MODIFY_0 = "GUI_MODIFY_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_MODIFY_0 = "GUI_MODIFY_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_PUBLISH_ERROR_HEADER_0 = "GUI_PUBLISH_ERROR_HEADER_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_PUBLISH_ERROR_HEADER_0 = "GUI_PUBLISH_ERROR_HEADER_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_PUBLISH_WARNING_HEADER_0 = "GUI_PUBLISH_WARNING_HEADER_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_PUBLISH_WARNING_HEADER_0 = "GUI_PUBLISH_WARNING_HEADER_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_RELEASE_AT_1 = "GUI_RELEASE_AT_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_RELEASE_AT_1 = "GUI_RELEASE_AT_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_RESOURCE_0 = "GUI_RESOURCE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_RESOURCE_0 = "GUI_RESOURCE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_SITE_0 = "GUI_SITE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_SITE_0 = "GUI_SITE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_UNCHANGED_SINCE_1 = "GUI_UNCHANGED_SINCE_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_UNCHANGED_SINCE_1 = "GUI_UNCHANGED_SINCE_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_UPDATE_REQUIRED_1 = "GUI_UPDATE_REQUIRED_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_UPDATE_REQUIRED_1 = "GUI_UPDATE_REQUIRED_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_WITHIN_NEXT_DAY_0 = "GUI_WITHIN_NEXT_DAY_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_WITHIN_NEXT_DAY_0 = "GUI_WITHIN_NEXT_DAY_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_WITHIN_NEXT_WEEK_0 = "GUI_WITHIN_NEXT_WEEK_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_WITHIN_NEXT_WEEK_0 = "GUI_WITHIN_NEXT_WEEK_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_NO_NOTIFICATIONS_SENT_0 = "LOG_NO_NOTIFICATIONS_SENT_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_NO_NOTIFICATIONS_SENT_0 = "LOG_NO_NOTIFICATIONS_SENT_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_NOTIFICATION_NO_ADDRESS_1 = "LOG_NOTIFICATION_NO_ADDRESS_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_NOTIFICATION_NO_ADDRESS_1 = "LOG_NOTIFICATION_NO_ADDRESS_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_NOTIFICATION_SEND_1 = "LOG_NOTIFICATION_SEND_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_NOTIFICATION_SEND_1 = "LOG_NOTIFICATION_SEND_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_NOTIFICATION_SEND_ERROR_0 = "LOG_NOTIFICATION_SEND_ERROR_0";
-    
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_NOTIFICATIONS_SENT_TO_0 = "LOG_NOTIFICATIONS_SENT_TO_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_NOTIFICATION_SEND_ERROR_0 = "LOG_NOTIFICATION_SEND_ERROR_0";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.notification.messages";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_NOTIFICATIONS_SENT_TO_0 = "LOG_NOTIFICATIONS_SENT_TO_0";
 
-    /** Static instance member. */
-    private static final I_CmsMessageBundle INSTANCE = new Messages();
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME = "org.opencms.notification.messages";
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private Messages() {
+  /** Static instance member. */
+  private static final I_CmsMessageBundle INSTANCE = new Messages();
 
-        // hide the constructor
-    }
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-    /**
-     * Returns an instance of this localized message accessor.<p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static I_CmsMessageBundle get() {
+    // hide the constructor
+  }
 
-        return INSTANCE;
-    }
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static I_CmsMessageBundle get() {
 
-    /**
-     * Returns the bundle name for this OpenCms package.<p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
+    return INSTANCE;
+  }
 
-        return BUNDLE_NAME;
-    }
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
+
+    return BUNDLE_NAME;
+  }
 }

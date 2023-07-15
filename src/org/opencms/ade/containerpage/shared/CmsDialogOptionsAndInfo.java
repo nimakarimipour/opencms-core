@@ -27,59 +27,68 @@
 
 package org.opencms.ade.containerpage.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import org.opencms.gwt.shared.CmsListInfoBean;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Holds both a bean containing edit handler dialog options and a resource info bean for a selected resource.<p>
+ * Holds both a bean containing edit handler dialog options and a resource info bean for a selected
+ * resource.
+ *
+ * <p>
  */
 public class CmsDialogOptionsAndInfo implements IsSerializable {
 
-    /** The list info bean for the selected resource. */
-    private CmsListInfoBean m_info;
+  /** The list info bean for the selected resource. */
+  private CmsListInfoBean m_info;
 
-    /** The dialog option bean. */
-    private CmsDialogOptions m_options;
+  /** The dialog option bean. */
+  private CmsDialogOptions m_options;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param options the dialog option bean
-     * @param info the list info bean for the selected resource
-     */
-    public CmsDialogOptionsAndInfo(CmsDialogOptions options, CmsListInfoBean info) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param options the dialog option bean
+   * @param info the list info bean for the selected resource
+   */
+  public CmsDialogOptionsAndInfo(CmsDialogOptions options, CmsListInfoBean info) {
 
-        super();
-        m_options = options;
-        m_info = info;
-    }
+    super();
+    m_options = options;
+    m_info = info;
+  }
 
-    /**
-     * Default constructor for serialization.<p>
-     */
-    protected CmsDialogOptionsAndInfo() {
-        // hidden default constructor for serialization
-    }
+  /**
+   * Default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsDialogOptionsAndInfo() {
+    // hidden default constructor for serialization
+  }
 
-    /**
-     * Gets the list info bean for the selected resource.<p>
-     *
-     * @return the list info bean
-     */
-    public CmsListInfoBean getInfo() {
+  /**
+   * Gets the list info bean for the selected resource.
+   *
+   * <p>
+   *
+   * @return the list info bean
+   */
+  public CmsListInfoBean getInfo() {
 
-        return m_info;
-    }
+    return m_info;
+  }
 
-    /**
-     * Gets the dialog option bean.<p>
-     *
-     * @return the dialog option bean
-     */
-    public CmsDialogOptions getOptions() {
+  /**
+   * Gets the dialog option bean.
+   *
+   * <p>
+   *
+   * @return the dialog option bean
+   */
+  public CmsDialogOptions getOptions() {
 
-        return m_options;
-    }
-
+    return m_options;
+  }
 }

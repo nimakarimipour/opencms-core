@@ -32,160 +32,149 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 import org.apache.solr.uninverting.UninvertingReader.Type;
 
 /**
- * Base class for a typical field configuration. Basically handles name and description
- * and provides defaults for interface methods typically not of interest for most implementations.
+ * Base class for a typical field configuration. Basically handles name and description and provides
+ * defaults for interface methods typically not of interest for most implementations.
  */
 public abstract class A_CmsSearchFieldConfiguration implements I_CmsSearchFieldConfiguration {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 7948072454782743591L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 7948072454782743591L;
 
-    /** Description of the field configuration. */
-    private String m_description;
-    /** Name of the field configuration. */
-    private String m_name;
+  /** Description of the field configuration. */
+  private String m_description;
+  /** Name of the field configuration. */
+  private String m_name;
 
-    /** Map to lookup the configured {@link CmsSearchField} instances by name. */
-    private Map<String, CmsSearchField> m_fields;
+  /** Map to lookup the configured {@link CmsSearchField} instances by name. */
+  private Map<String, CmsSearchField> m_fields;
 
-    /**
-     * Creates a new empty field configuration.
-     */
-    public A_CmsSearchFieldConfiguration() {
+  /** Creates a new empty field configuration. */
+  public A_CmsSearchFieldConfiguration() {
 
-        m_fields = new LinkedHashMap<String, CmsSearchField>();
+    m_fields = new LinkedHashMap<String, CmsSearchField>();
+  }
+
+  /**
+   * Adds a field to this search field configuration.
+   *
+   * <p>
+   *
+   * @param field the field to add
+   */
+  public void addField(CmsSearchField field) {
+
+    if ((field != null) && (field.getName() != null)) {
+      m_fields.put(field.getName(), field);
     }
+  }
 
-    /**
-     * Adds a field to this search field configuration.<p>
-     *
-     * @param field the field to add
-     */
-    public void addField(CmsSearchField field) {
+  /**
+   * @see
+   *     org.opencms.search.fields.I_CmsSearchFieldConfiguration#addUninvertingMappings(java.util.Map)
+   */
+  public void addUninvertingMappings(Map<String, Type> uninvertingMap) {
 
-        if ((field != null) && (field.getName() != null)) {
-            m_fields.put(field.getName(), field);
-        }
+    // Do nothing by default
+  }
+
+  /** @see java.lang.Comparable#compareTo(java.lang.Object) */
+  public int compareTo(I_CmsSearchFieldConfiguration o) {
+
+    return m_name.compareTo(o.getName());
+  }
+
+  /** @see java.lang.Object#equals(java.lang.Object) */
+  @Override
+  public boolean equals(Object obj) {
+
+    if (obj == this) {
+      return true;
     }
-
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldConfiguration#addUninvertingMappings(java.util.Map)
-     */
-    public void addUninvertingMappings(Map<String, Type> uninvertingMap) {
-
-        // Do nothing by default
+    if (obj.getClass().getName().equals(obj.getClass().getName())) {
+      return Objects.equals(((CmsSearchFieldConfiguration) obj).getName(), getName());
     }
+    return false;
+  }
 
-    /**
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    public int compareTo(I_CmsSearchFieldConfiguration o) {
+  /** @see org.opencms.search.fields.I_CmsSearchFieldConfiguration#getDescription() */
+  public String getDescription() {
 
-        return m_name.compareTo(o.getName());
-    }
+    return m_description;
+  }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
+  /**
+   * Returns the configured {@link CmsSearchField} instance with the given name.
+   *
+   * <p>
+   *
+   * @param name the search field name to look up
+   * @return the configured {@link CmsSearchField} instance with the given name
+   */
+  public CmsSearchField getField(String name) {
 
-        if (obj == this) {
-            return true;
-        }
-        if (obj.getClass().getName().equals(obj.getClass().getName())) {
-            return Objects.equals(((CmsSearchFieldConfiguration)obj).getName(), getName());
-        }
-        return false;
-    }
+    return m_fields.get(name);
+  }
 
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldConfiguration#getDescription()
-     */
-    public String getDescription() {
+  /**
+   * Returns the list of configured field names (Strings).
+   *
+   * <p>
+   *
+   * @return the list of configured field names (Strings)
+   */
+  public List<String> getFieldNames() {
 
-        return m_description;
-    }
+    // create a copy of the list to prevent changes in other classes
+    return new ArrayList<String>(m_fields.keySet());
+  }
 
-    /**
-     * Returns the configured {@link CmsSearchField} instance with the given name.<p>
-     *
-     * @param name the search field name to look up
-     *
-     * @return the configured {@link CmsSearchField} instance with the given name
-     */
-    public CmsSearchField getField(String name) {
+  /**
+   * Returns the list of configured {@link CmsSearchField} instances.
+   *
+   * <p>
+   *
+   * @return the list of configured {@link CmsSearchField} instances
+   */
+  @Override
+  public List<CmsSearchField> getFields() {
 
-        return m_fields.get(name);
-    }
+    return new ArrayList<>(m_fields.values());
+  }
 
-    /**
-     * Returns the list of configured field names (Strings).<p>
-     *
-     * @return the list of configured field names (Strings)
-     */
-    public List<String> getFieldNames() {
+  /** @see org.opencms.search.fields.I_CmsSearchFieldConfiguration#getName() */
+  public String getName() {
 
-        // create a copy of the list to prevent changes in other classes
-        return new ArrayList<String>(m_fields.keySet());
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the list of configured {@link CmsSearchField} instances.<p>
-     *
-     * @return the list of configured {@link CmsSearchField} instances
-     */
-    @Override
-    public List<CmsSearchField> getFields() {
+  /** @see java.lang.Object#hashCode() */
+  @Override
+  public int hashCode() {
 
-        return new ArrayList<>(m_fields.values());
-    }
+    return null == m_name ? 0 : m_name.hashCode();
+  }
 
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldConfiguration#getName()
-     */
-    public String getName() {
+  /** @see org.opencms.search.fields.I_CmsSearchFieldConfiguration#init() */
+  public void init() {
 
-        return m_name;
-    }
+    // By default do nothing
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
+  }
 
-        return null == m_name ? 0 : m_name.hashCode();
-    }
+  /**
+   * @see org.opencms.search.fields.I_CmsSearchFieldConfiguration#setDescription(java.lang.String)
+   */
+  public void setDescription(String description) {
 
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldConfiguration#init()
-     */
-    public void init() {
+    m_description = description;
+  }
 
-        // By default do nothing
+  /** @see org.opencms.search.fields.I_CmsSearchFieldConfiguration#setName(java.lang.String) */
+  public void setName(String name) {
 
-    }
-
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldConfiguration#setDescription(java.lang.String)
-     */
-    public void setDescription(String description) {
-
-        m_description = description;
-
-    }
-
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldConfiguration#setName(java.lang.String)
-     */
-    public void setName(String name) {
-
-        m_name = name;
-
-    }
+    m_name = name;
+  }
 }

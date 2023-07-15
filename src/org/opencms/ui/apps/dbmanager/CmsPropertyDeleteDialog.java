@@ -27,6 +27,21 @@
 
 package org.opencms.ui.apps.dbmanager;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Property.ValueChangeEvent;
+import com.vaadin.v7.data.Property.ValueChangeListener;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.Collections;
+import java.util.List;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
@@ -42,169 +57,159 @@ import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.ui.report.CmsReportWidget;
 import org.opencms.workplace.Messages;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.v7.data.Property.ValueChangeEvent;
-import com.vaadin.v7.data.Property.ValueChangeListener;
-import com.vaadin.v7.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.v7.ui.CheckBox;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.v7.ui.Label;
-import com.vaadin.ui.Panel;
-import com.vaadin.v7.ui.VerticalLayout;
-import com.vaadin.ui.Window;
-
 /**
- * Dialog to delete property definitions.<p>
+ * Dialog to delete property definitions.
+ *
+ * <p>
  */
 public class CmsPropertyDeleteDialog extends CmsBasicDialog {
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = -3397853426667893254L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -3397853426667893254L;
 
-    /** The logger for this class. */
-    static Log LOG = CmsLog.getLog(CmsPropertyDeleteDialog.class.getName());
+  /** The logger for this class. */
+  static Log LOG = CmsLog.getLog(CmsPropertyDeleteDialog.class.getName());
 
-    /**List of resources having the property to be deleted.*/
-    protected List<CmsResource> m_resources;
+  /** List of resources having the property to be deleted. */
+  protected List<CmsResource> m_resources;
 
-    /**Vaadin component.*/
-    private VerticalLayout m_forceDeleteLayout;
+  /** Vaadin component. */
+  private VerticalLayout m_forceDeleteLayout;
 
-    /**Vaadin component.*/
-    protected VerticalLayout m_start;
+  /** Vaadin component. */
+  protected VerticalLayout m_start;
 
-    /**Vaadin component.*/
-    private Label m_icon;
+  /** Vaadin component. */
+  private Label m_icon;
 
-    /**Vaadin component.*/
-    protected Button m_cancelButton;
+  /** Vaadin component. */
+  protected Button m_cancelButton;
 
-    /**Vaadin component.*/
-    protected Button m_okButton;
+  /** Vaadin component. */
+  protected Button m_okButton;
 
-    /**Vaadin component.*/
-    protected CheckBox m_forceDelete;
+  /** Vaadin component. */
+  protected CheckBox m_forceDelete;
 
-    /**Vaadin component.*/
-    protected FormLayout m_threadReport;
+  /** Vaadin component. */
+  protected FormLayout m_threadReport;
 
-    /**Vaadin component.*/
-    protected Panel m_report;
+  /** Vaadin component. */
+  protected Panel m_report;
 
-    /**CmsObject.*/
-    private CmsObject m_cms;
+  /** CmsObject. */
+  private CmsObject m_cms;
 
-    /**
-     * public constructor.<p>
-     *
-     * @param propName name of property
-     * @param window to be closed
-     * @param runnable to update table
-     */
-    public CmsPropertyDeleteDialog(final String propName, final Window window, final Runnable runnable) {
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param propName name of property
+   * @param window to be closed
+   * @param runnable to update table
+   */
+  public CmsPropertyDeleteDialog(
+      final String propName, final Window window, final Runnable runnable) {
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
-        displayResourceInfoDirectly(
-            Collections.singletonList(new CmsResourceInfo(propName, "", new CmsCssIcon(OpenCmsTheme.ICON_DATABASE))));
+    displayResourceInfoDirectly(
+        Collections.singletonList(
+            new CmsResourceInfo(propName, "", new CmsCssIcon(OpenCmsTheme.ICON_DATABASE))));
 
-        //Setup icon
-        m_icon.setContentMode(ContentMode.HTML);
-        m_icon.setValue(FontOpenCms.WARNING.getHtml());
+    // Setup icon
+    m_icon.setContentMode(ContentMode.HTML);
+    m_icon.setValue(FontOpenCms.WARNING.getHtml());
 
-        m_report.setVisible(false);
+    m_report.setVisible(false);
 
-        try {
-            m_resources = getCms().readResourcesWithProperty(propName);
-            m_forceDeleteLayout.setVisible(!m_resources.isEmpty());
-            m_okButton.setEnabled(m_resources.isEmpty());
-        } catch (CmsException e) {
-            //
-        }
-        m_cancelButton.addClickListener(new ClickListener() {
-
-            private static final long serialVersionUID = 4788359189538313935L;
-
-            public void buttonClick(ClickEvent event) {
-
-                window.close();
-            }
-        });
-
-        m_forceDelete.addValueChangeListener(new ValueChangeListener() {
-
-            private static final long serialVersionUID = 7482690600008082762L;
-
-            public void valueChange(ValueChangeEvent event) {
-
-                m_okButton.setEnabled(m_forceDelete.getValue().booleanValue());
-
-            }
-
-        });
-
-        m_okButton.addClickListener(new ClickListener() {
-
-            private static final long serialVersionUID = -7861406021237202016L;
-
-            public void buttonClick(ClickEvent event) {
-
-                if (!m_resources.isEmpty()) {
-                    m_start.setVisible(false);
-                    m_report.setVisible(true);
-                    m_okButton.setEnabled(false);
-
-                    CmsRemovePropertyFromResourcesThread thread = new CmsRemovePropertyFromResourcesThread(
-                        getCms(),
-                        propName);
-                    m_threadReport.addComponent(new CmsReportWidget(thread));
-
-                    thread.start();
-                    m_cancelButton.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_DIALOG_BUTTON_CLOSE_0));
-                    m_cancelButton.addClickListener(new ClickListener() {
-
-                        public void buttonClick(ClickEvent event) {
-
-                            runnable.run();
-
-                        }
-
-                    });
-                    return;
-                }
-                try {
-                    getCms().deletePropertyDefinition(propName);
-                    runnable.run();
-                } catch (CmsException e) {
-                    LOG.error("Unable to delete property definition", e);
-                }
-                window.close();
-            }
-
-        });
+    try {
+      m_resources = getCms().readResourcesWithProperty(propName);
+      m_forceDeleteLayout.setVisible(!m_resources.isEmpty());
+      m_okButton.setEnabled(m_resources.isEmpty());
+    } catch (CmsException e) {
+      //
     }
+    m_cancelButton.addClickListener(
+        new ClickListener() {
 
-    /**
-     * Gets a copy of the cms object set to root site.<p>
-     *
-     * @return CmsObject
-     */
-    protected CmsObject getCms() {
+          private static final long serialVersionUID = 4788359189538313935L;
 
-        if (m_cms == null) {
+          public void buttonClick(ClickEvent event) {
+
+            window.close();
+          }
+        });
+
+    m_forceDelete.addValueChangeListener(
+        new ValueChangeListener() {
+
+          private static final long serialVersionUID = 7482690600008082762L;
+
+          public void valueChange(ValueChangeEvent event) {
+
+            m_okButton.setEnabled(m_forceDelete.getValue().booleanValue());
+          }
+        });
+
+    m_okButton.addClickListener(
+        new ClickListener() {
+
+          private static final long serialVersionUID = -7861406021237202016L;
+
+          public void buttonClick(ClickEvent event) {
+
+            if (!m_resources.isEmpty()) {
+              m_start.setVisible(false);
+              m_report.setVisible(true);
+              m_okButton.setEnabled(false);
+
+              CmsRemovePropertyFromResourcesThread thread =
+                  new CmsRemovePropertyFromResourcesThread(getCms(), propName);
+              m_threadReport.addComponent(new CmsReportWidget(thread));
+
+              thread.start();
+              m_cancelButton.setCaption(
+                  CmsVaadinUtils.getMessageText(Messages.GUI_DIALOG_BUTTON_CLOSE_0));
+              m_cancelButton.addClickListener(
+                  new ClickListener() {
+
+                    public void buttonClick(ClickEvent event) {
+
+                      runnable.run();
+                    }
+                  });
+              return;
+            }
             try {
-                m_cms = OpenCms.initCmsObject(A_CmsUI.getCmsObject());
-                m_cms.getRequestContext().setSiteRoot("");
+              getCms().deletePropertyDefinition(propName);
+              runnable.run();
             } catch (CmsException e) {
-                return null;
+              LOG.error("Unable to delete property definition", e);
             }
-        }
-        return m_cms;
+            window.close();
+          }
+        });
+  }
+
+  /**
+   * Gets a copy of the cms object set to root site.
+   *
+   * <p>
+   *
+   * @return CmsObject
+   */
+  protected CmsObject getCms() {
+
+    if (m_cms == null) {
+      try {
+        m_cms = OpenCms.initCmsObject(A_CmsUI.getCmsObject());
+        m_cms.getRequestContext().setSiteRoot("");
+      } catch (CmsException e) {
+        return null;
+      }
     }
+    return m_cms;
+  }
 }

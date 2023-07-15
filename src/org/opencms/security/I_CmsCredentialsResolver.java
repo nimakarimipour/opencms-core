@@ -28,30 +28,34 @@
 package org.opencms.security;
 
 /**
- * This interface can be used to override or replace user names or passwords which occur in the OpenCms configuration,
- * for example to hide passwords from users who can read the configuration files.
+ * This interface can be used to override or replace user names or passwords which occur in the
+ * OpenCms configuration, for example to hide passwords from users who can read the configuration
+ * files.
  */
 public interface I_CmsCredentialsResolver {
 
-    /** Credential type for database pool passwords. */
-    String DB_PASSWORD = "db_password";
+  /** Credential type for database pool passwords. */
+  String DB_PASSWORD = "db_password";
 
-    /** Credential type for database pool user names. */
-    String DB_USER = "db_user";
+  /** Credential type for database pool user names. */
+  String DB_USER = "db_user";
 
-    /** Credential type for LDAP passwords. */
-    String LDAP_PASSWORD = "ldap_password";
+  /** Credential type for LDAP passwords. */
+  String LDAP_PASSWORD = "ldap_password";
 
-    /** Credential type for LDAP users. */
-    String LDAP_USER = "ldap_user";
+  /** Credential type for LDAP users. */
+  String LDAP_USER = "ldap_user";
 
-    /**
-     * Translates user names or passwords for authentication.<p>
-     *
-     * @param credentialType the type of credential to resolve (this is equal to one of the constants defined in this interface)
-     * @param valueFromConfiguration the original value which was read from the configuration file (may be null)
-     *
-     * @return the credential value that should be used for authentication
-     */
-    String resolveCredential(String credentialType, String valueFromConfiguration);
+  /**
+   * Translates user names or passwords for authentication.
+   *
+   * <p>
+   *
+   * @param credentialType the type of credential to resolve (this is equal to one of the constants
+   *     defined in this interface)
+   * @param valueFromConfiguration the original value which was read from the configuration file
+   *     (may be null)
+   * @return the credential value that should be used for authentication
+   */
+  String resolveCredential(String credentialType, String valueFromConfiguration);
 }

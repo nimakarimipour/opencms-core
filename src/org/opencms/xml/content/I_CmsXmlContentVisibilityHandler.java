@@ -27,34 +27,37 @@
 
 package org.opencms.xml.content;
 
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.xml.types.I_CmsXmlSchemaType;
 
-import java.util.Locale;
-
 /**
- * Handles the visibility of fields in the XML content editor.<p>
+ * Handles the visibility of fields in the XML content editor.
+ *
+ * <p>
  */
 public interface I_CmsXmlContentVisibilityHandler {
 
-    /**
-     * Returns if the given content value field should be visible to the current user.<p>
-     *
-     * @param cms the cms context
-     * @param value the content value
-     * @param elementPath the path to the element
-     * @param params configuration parameters
-     * @param resource the edited resource
-     * @param contentLocale the locale being edited
-     *
-     * @return <code>true</code> if the given content value field should be visible to the current user
-     */
-    boolean isValueVisible(
-        CmsObject cms,
-        I_CmsXmlSchemaType value,
-        String elementPath,
-        String params,
-        CmsResource resource,
-        Locale contentLocale);
+  /**
+   * Returns if the given content value field should be visible to the current user.
+   *
+   * <p>
+   *
+   * @param cms the cms context
+   * @param value the content value
+   * @param elementPath the path to the element
+   * @param params configuration parameters
+   * @param resource the edited resource
+   * @param contentLocale the locale being edited
+   * @return <code>true</code> if the given content value field should be visible to the current
+   *     user
+   */
+  boolean isValueVisible(
+      CmsObject cms,
+      I_CmsXmlSchemaType value,
+      String elementPath,
+      String params,
+      CmsResource resource,
+      Locale contentLocale);
 }

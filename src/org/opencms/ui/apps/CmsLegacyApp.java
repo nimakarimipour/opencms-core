@@ -27,92 +27,96 @@
 
 package org.opencms.ui.apps;
 
+import com.vaadin.server.ExternalResource;
+import com.vaadin.ui.BrowserFrame;
+import com.vaadin.ui.JavaScript;
+import javax.servlet.http.HttpServletRequest;
 import org.opencms.main.OpenCms;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.CmsWorkplaceSettings;
 import org.opencms.workplace.tools.I_CmsToolHandler;
 
-import javax.servlet.http.HttpServletRequest;
-
-import com.vaadin.server.ExternalResource;
-import com.vaadin.ui.BrowserFrame;
-import com.vaadin.ui.JavaScript;
-
 /**
- * App for legacy admin tools. Renders the tool in an iframe.<p>
+ * App for legacy admin tools. Renders the tool in an iframe.
+ *
+ * <p>
  */
 public class CmsLegacyApp extends BrowserFrame implements I_CmsWorkplaceApp {
 
-    /** Name of Javascript variable used to indicate whether we are currently showing a legacy app. */
-    public static final String VAR_IS_LEGACY_APP = "cmsIsLegacyApp";
+  /** Name of Javascript variable used to indicate whether we are currently showing a legacy app. */
+  public static final String VAR_IS_LEGACY_APP = "cmsIsLegacyApp";
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -2857100593142358027L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -2857100593142358027L;
 
-    /** The tool handler. */
-    private I_CmsToolHandler m_toolHandler;
+  /** The tool handler. */
+  private I_CmsToolHandler m_toolHandler;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param toolHandler the tool handler
-     */
-    public CmsLegacyApp(I_CmsToolHandler toolHandler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param toolHandler the tool handler
+   */
+  public CmsLegacyApp(I_CmsToolHandler toolHandler) {
 
-        m_toolHandler = toolHandler;
-        addAttachListener(new AttachListener() {
+    m_toolHandler = toolHandler;
+    addAttachListener(
+        new AttachListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void attach(AttachEvent event) {
+          public void attach(AttachEvent event) {
 
-                JavaScript.eval(VAR_IS_LEGACY_APP + " = true;");
-
-            }
+            JavaScript.eval(VAR_IS_LEGACY_APP + " = true;");
+          }
         });
-        addDetachListener(new DetachListener() {
+    addDetachListener(
+        new DetachListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void detach(DetachEvent event) {
+          public void detach(DetachEvent event) {
 
-                JavaScript.eval(VAR_IS_LEGACY_APP + " = false;");
-            }
+            JavaScript.eval(VAR_IS_LEGACY_APP + " = false;");
+          }
         });
-        setSizeFull();
+    setSizeFull();
+  }
+
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceApp#initUI(org.opencms.ui.apps.I_CmsAppUIContext) */
+  public void initUI(I_CmsAppUIContext context) {
+
+    context.setAppContent(this);
+    context.showInfoArea(false);
+  }
+
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceApp#onStateChange(java.lang.String) */
+  public void onStateChange(String state) {
+
+    // only act on initial state change
+    if (getSource() == null) {
+      CmsWorkplace wp =
+          new CmsWorkplace(A_CmsUI.getCmsObject(), CmsAppWorkplaceUi.get().getHttpSession()) {
+
+            @Override
+            protected void initWorkplaceRequestValues(
+                CmsWorkplaceSettings settings, HttpServletRequest request) {
+
+              // nothing to do
+            }
+          };
+
+      OpenCms.getWorkplaceManager()
+          .getToolManager()
+          .setCurrentToolPath(wp, m_toolHandler.getPath());
+
+      String url =
+          OpenCms.getLinkManager().substituteLink(A_CmsUI.getCmsObject(), m_toolHandler.getLink());
+      setSource(new ExternalResource(url));
+      setSizeFull();
     }
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceApp#initUI(org.opencms.ui.apps.I_CmsAppUIContext)
-     */
-    public void initUI(I_CmsAppUIContext context) {
-
-        context.setAppContent(this);
-        context.showInfoArea(false);
-    }
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceApp#onStateChange(java.lang.String)
-     */
-    public void onStateChange(String state) {
-
-        // only act on initial state change
-        if (getSource() == null) {
-            CmsWorkplace wp = new CmsWorkplace(A_CmsUI.getCmsObject(), CmsAppWorkplaceUi.get().getHttpSession()) {
-
-                @Override
-                protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
-
-                    // nothing to do
-                }
-            };
-
-            OpenCms.getWorkplaceManager().getToolManager().setCurrentToolPath(wp, m_toolHandler.getPath());
-
-            String url = OpenCms.getLinkManager().substituteLink(A_CmsUI.getCmsObject(), m_toolHandler.getLink());
-            setSource(new ExternalResource(url));
-            setSizeFull();
-        }
-    }
+  }
 }

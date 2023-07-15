@@ -27,45 +27,44 @@
 
 package org.opencms.ui.apps.dbmanager;
 
-import org.opencms.ui.CmsVaadinUtils;
-import org.opencms.ui.components.CmsBasicDialog;
-
-import java.util.function.Consumer;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TextArea;
+import java.util.function.Consumer;
+import org.opencms.ui.CmsVaadinUtils;
+import org.opencms.ui.components.CmsBasicDialog;
 
 /**
  * Dialog used to enter a list of paths to be added to the resources in the database export dialog.
  */
 public class CmsAddExportResourcesDialog extends CmsBasicDialog {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The text area for entering the paths. */
-    protected TextArea m_textArea;
+  /** The text area for entering the paths. */
+  protected TextArea m_textArea;
 
-    /** The OK button. */
-    protected Button m_okButton;
+  /** The OK button. */
+  protected Button m_okButton;
 
-    /** The cancel button. */
-    protected Button m_cancelButton;
+  /** The cancel button. */
+  protected Button m_cancelButton;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param pathListHandler will be called with the entered text if OK is clicked
-     */
-    public CmsAddExportResourcesDialog(Consumer<String> pathListHandler) {
+  /**
+   * Creates a new instance.
+   *
+   * @param pathListHandler will be called with the entered text if OK is clicked
+   */
+  public CmsAddExportResourcesDialog(Consumer<String> pathListHandler) {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        m_okButton.addClickListener(e -> {
-            pathListHandler.accept(m_textArea.getValue());
-            CmsVaadinUtils.closeWindow(CmsAddExportResourcesDialog.this);
-
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    m_okButton.addClickListener(
+        e -> {
+          pathListHandler.accept(m_textArea.getValue());
+          CmsVaadinUtils.closeWindow(CmsAddExportResourcesDialog.this);
         });
-        m_cancelButton.addClickListener(e -> CmsVaadinUtils.closeWindow(CmsAddExportResourcesDialog.this));
-    }
-
+    m_cancelButton.addClickListener(
+        e -> CmsVaadinUtils.closeWindow(CmsAddExportResourcesDialog.this));
+  }
 }

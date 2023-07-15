@@ -27,6 +27,17 @@
 
 package org.opencms.ui.dialogs;
 
+import com.google.common.collect.Lists;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CheckBox;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsFile;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
@@ -47,229 +58,224 @@ import org.opencms.ui.components.CmsOkCancelActionHandler;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.content.CmsXmlContent;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
-import com.google.common.collect.Lists;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.CheckBox;
-
 /**
- * Dialog used to change resource modification times.<p>
+ * Dialog used to change resource modification times.
+ *
+ * <p>
  */
 public class CmsTouchDialog extends CmsBasicDialog {
 
-    /** Logger for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsTouchDialog.class);
+  /** Logger for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsTouchDialog.class);
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The dialog context. */
-    protected I_CmsDialogContext m_context;
+  /** The dialog context. */
+  protected I_CmsDialogContext m_context;
 
-    /** The Cancel button. */
-    private Button m_cancelButton;
+  /** The Cancel button. */
+  private Button m_cancelButton;
 
-    /** The date selection field. */
-    private CmsDateField m_dateField;
+  /** The date selection field. */
+  private CmsDateField m_dateField;
 
-    /** Check box to enable/disable modification of children. */
-    private CheckBox m_modifySubresourcesField;
+  /** Check box to enable/disable modification of children. */
+  private CheckBox m_modifySubresourcesField;
 
-    /** The OK  button. */
-    private Button m_okButton;
+  /** The OK button. */
+  private Button m_okButton;
 
-    /** Checkbox to enable/disable rewriting of contents. */
-    private CheckBox m_rewriteContentField;
+  /** Checkbox to enable/disable rewriting of contents. */
+  private CheckBox m_rewriteContentField;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param context the dialog context
-     */
-    public CmsTouchDialog(I_CmsDialogContext context) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param context the dialog context
+   */
+  public CmsTouchDialog(I_CmsDialogContext context) {
 
-        m_context = context;
-        boolean hasFolders = false;
+    m_context = context;
+    boolean hasFolders = false;
 
-        for (CmsResource resource : context.getResources()) {
-            if (resource.isFolder()) {
-                hasFolders = true;
-                break;
-            }
-        }
+    for (CmsResource resource : context.getResources()) {
+      if (resource.isFolder()) {
+        hasFolders = true;
+        break;
+      }
+    }
 
-        CmsVaadinUtils.readAndLocalizeDesign(
-            this,
-            OpenCms.getWorkplaceManager().getMessages(A_CmsUI.get().getLocale()),
-            null);
-        m_modifySubresourcesField.setVisible(hasFolders);
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, OpenCms.getWorkplaceManager().getMessages(A_CmsUI.get().getLocale()), null);
+    m_modifySubresourcesField.setVisible(hasFolders);
 
-        m_cancelButton.addClickListener(new ClickListener() {
+    m_cancelButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                cancel();
-            }
-
+            cancel();
+          }
         });
 
-        m_okButton.addClickListener(new ClickListener() {
+    m_okButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                submit();
-            }
+            submit();
+          }
         });
-        m_dateField.setValue(LocalDateTime.now());
-        displayResourceInfo(m_context.getResources());
-        setActionHandler(new CmsOkCancelActionHandler() {
+    m_dateField.setValue(LocalDateTime.now());
+    displayResourceInfo(m_context.getResources());
+    setActionHandler(
+        new CmsOkCancelActionHandler() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            @Override
-            protected void cancel() {
+          @Override
+          protected void cancel() {
 
-                CmsTouchDialog.this.cancel();
-            }
+            CmsTouchDialog.this.cancel();
+          }
 
-            @Override
-            protected void ok() {
+          @Override
+          protected void ok() {
 
-                submit();
-            }
+            submit();
+          }
         });
-    }
+  }
 
-    /**
-     * Touches the selected files.<p>
-     *
-     * @throws CmsException if something goes wrong
-     */
-    protected void touchFiles() throws CmsException {
+  /**
+   * Touches the selected files.
+   *
+   * <p>
+   *
+   * @throws CmsException if something goes wrong
+   */
+  protected void touchFiles() throws CmsException {
 
-        Date touchDate = m_dateField.getDate();
-        boolean validDate = touchDate != null;
-        long touchTime = touchDate != null ? touchDate.getTime() : 0;
-        boolean recursive = m_modifySubresourcesField.getValue().booleanValue();
-        boolean rewriteContent = m_rewriteContentField.getValue().booleanValue();
-        List<CmsUUID> changedIds = Lists.newArrayList();
-        for (CmsResource resource : m_context.getResources()) {
-            CmsLockActionRecord actionRecord = null;
-            try {
-                actionRecord = CmsLockUtil.ensureLock(m_context.getCms(), resource);
-                touchSingleResource(
-                    m_context.getCms().getSitePath(resource),
-                    touchTime,
-                    recursive,
-                    validDate,
-                    rewriteContent);
-                changedIds.add(resource.getStructureId());
-            } finally {
-                if ((actionRecord != null) && (actionRecord.getChange() == LockChange.locked)) {
-                    try {
-                        m_context.getCms().unlockResource(resource);
-                    } catch (CmsLockException e) {
-                        LOG.warn(e.getLocalizedMessage(), e);
-                    }
-                }
-
-            }
-
+    Date touchDate = m_dateField.getDate();
+    boolean validDate = touchDate != null;
+    long touchTime = touchDate != null ? touchDate.getTime() : 0;
+    boolean recursive = m_modifySubresourcesField.getValue().booleanValue();
+    boolean rewriteContent = m_rewriteContentField.getValue().booleanValue();
+    List<CmsUUID> changedIds = Lists.newArrayList();
+    for (CmsResource resource : m_context.getResources()) {
+      CmsLockActionRecord actionRecord = null;
+      try {
+        actionRecord = CmsLockUtil.ensureLock(m_context.getCms(), resource);
+        touchSingleResource(
+            m_context.getCms().getSitePath(resource),
+            touchTime,
+            recursive,
+            validDate,
+            rewriteContent);
+        changedIds.add(resource.getStructureId());
+      } finally {
+        if ((actionRecord != null) && (actionRecord.getChange() == LockChange.locked)) {
+          try {
+            m_context.getCms().unlockResource(resource);
+          } catch (CmsLockException e) {
+            LOG.warn(e.getLocalizedMessage(), e);
+          }
         }
-        m_context.finish(changedIds);
+      }
+    }
+    m_context.finish(changedIds);
+  }
 
+  /**
+   * Cancels the dialog.
+   *
+   * <p>
+   */
+  void cancel() {
+
+    m_context.finish(new ArrayList<CmsUUID>());
+  }
+
+  /**
+   * Submits the dialog.
+   *
+   * <p>
+   */
+  void submit() {
+
+    try {
+      touchFiles();
+    } catch (Exception e) {
+      m_context.error(e);
+    }
+  }
+
+  /**
+   * Rewrites the content of the given file.
+   *
+   * <p>
+   *
+   * @param resource the resource to rewrite the content for
+   * @throws CmsException if something goes wrong
+   */
+  private void hardTouch(CmsResource resource) throws CmsException {
+
+    CmsFile file = m_context.getCms().readFile(resource);
+    CmsObject cms = OpenCms.initCmsObject(m_context.getCms());
+    cms.getRequestContext().setAttribute(CmsXmlContent.AUTO_CORRECTION_ATTRIBUTE, Boolean.TRUE);
+    file.setContents(file.getContents());
+    cms.writeFile(file);
+  }
+
+  /**
+   * Performs a touch operation for a single resource.
+   *
+   * <p>
+   *
+   * @param resourceName the resource name of the resource to touch
+   * @param timeStamp the new time stamp
+   * @param recursive the flag if the touch operation is recursive
+   * @param correctDate the flag if the new time stamp is a correct date
+   * @param touchContent if the content has to be rewritten
+   * @throws CmsException if touching the resource fails
+   */
+  private void touchSingleResource(
+      String resourceName,
+      long timeStamp,
+      boolean recursive,
+      boolean correctDate,
+      boolean touchContent)
+      throws CmsException {
+
+    CmsObject cms = m_context.getCms();
+    CmsResource sourceRes = cms.readResource(resourceName, CmsResourceFilter.ALL);
+    if (!correctDate) {
+      // no date value entered, use current resource modification date
+      timeStamp = sourceRes.getDateLastModified();
     }
 
-    /**
-     * Cancels the dialog.<p>
-     */
-    void cancel() {
-
-        m_context.finish(new ArrayList<CmsUUID>());
-    }
-
-    /**
-     * Submits the dialog.<p>
-     */
-    void submit() {
-
-        try {
-            touchFiles();
-        } catch (Exception e) {
-            m_context.error(e);
+    if (touchContent) {
+      if (sourceRes.isFile()) {
+        hardTouch(sourceRes);
+      } else if (recursive) {
+        Iterator<CmsResource> it =
+            cms.readResources(resourceName, CmsResourceFilter.ALL, true).iterator();
+        while (it.hasNext()) {
+          CmsResource subRes = it.next();
+          if (subRes.isFile()) {
+            hardTouch(subRes);
+          }
         }
+      }
     }
 
-    /**
-     * Rewrites the content of the given file.<p>
-     *
-     * @param resource the resource to rewrite the content for
-     *
-     * @throws CmsException if something goes wrong
-     */
-    private void hardTouch(CmsResource resource) throws CmsException {
-
-        CmsFile file = m_context.getCms().readFile(resource);
-        CmsObject cms = OpenCms.initCmsObject(m_context.getCms());
-        cms.getRequestContext().setAttribute(CmsXmlContent.AUTO_CORRECTION_ATTRIBUTE, Boolean.TRUE);
-        file.setContents(file.getContents());
-        cms.writeFile(file);
-    }
-
-    /**
-     * Performs a touch operation for a single resource.<p>
-     *
-     * @param resourceName the resource name of the resource to touch
-     * @param timeStamp the new time stamp
-     * @param recursive the flag if the touch operation is recursive
-     * @param correctDate the flag if the new time stamp is a correct date
-     * @param touchContent if the content has to be rewritten
-     *
-     * @throws CmsException if touching the resource fails
-     */
-    private void touchSingleResource(
-        String resourceName,
-        long timeStamp,
-        boolean recursive,
-        boolean correctDate,
-        boolean touchContent)
-    throws CmsException {
-
-        CmsObject cms = m_context.getCms();
-        CmsResource sourceRes = cms.readResource(resourceName, CmsResourceFilter.ALL);
-        if (!correctDate) {
-            // no date value entered, use current resource modification date
-            timeStamp = sourceRes.getDateLastModified();
-        }
-
-        if (touchContent) {
-            if (sourceRes.isFile()) {
-                hardTouch(sourceRes);
-            } else if (recursive) {
-                Iterator<CmsResource> it = cms.readResources(resourceName, CmsResourceFilter.ALL, true).iterator();
-                while (it.hasNext()) {
-                    CmsResource subRes = it.next();
-                    if (subRes.isFile()) {
-                        hardTouch(subRes);
-                    }
-                }
-            }
-        }
-
-        cms.setDateLastModified(resourceName, timeStamp, recursive);
-
-    }
+    cms.setDateLastModified(resourceName, timeStamp, recursive);
+  }
 }

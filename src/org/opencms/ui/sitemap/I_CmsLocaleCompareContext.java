@@ -27,47 +27,51 @@
 
 package org.opencms.ui.sitemap;
 
+import java.util.Locale;
 import org.opencms.file.CmsResource;
 import org.opencms.i18n.CmsLocaleGroup;
 
-import java.util.Locale;
-
 /**
- * Provides information about the current state of the locale comparison editor.<p>
+ * Provides information about the current state of the locale comparison editor.
+ *
+ * <p>
  */
 public interface I_CmsLocaleCompareContext {
 
-    /**
-     * Gets the comparison locale.<p>
-     *
-     * @return the comparison locale
-     */
-    Locale getComparisonLocale();
+  /**
+   * Gets the comparison locale.
+   *
+   * <p>
+   *
+   * @return the comparison locale
+   */
+  Locale getComparisonLocale();
 
-    /**
-     * Gets the locale group of the root resource.
-     *
-     * @return the locale group of the root resource
-     */
-    CmsLocaleGroup getLocaleGroup();
+  /**
+   * Gets the locale group of the root resource.
+   *
+   * @return the locale group of the root resource
+   */
+  CmsLocaleGroup getLocaleGroup();
 
-    /**
-     * Gets the root resource.<p>
-     *
-     * @return the root resource
-     */
-    CmsResource getRoot();
+  /**
+   * Gets the root resource.
+   *
+   * <p>
+   *
+   * @return the root resource
+   */
+  CmsResource getRoot();
 
-    /**
-     * Gets the root locale.<p>
-     *
-     * @return the root locale
-     */
-    Locale getRootLocale();
+  /**
+   * Gets the root locale.
+   *
+   * <p>
+   *
+   * @return the root locale
+   */
+  Locale getRootLocale();
 
-    /**
-     * Refreshes everything.
-     */
-    void refreshAll();
-
+  /** Refreshes everything. */
+  void refreshAll();
 }

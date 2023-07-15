@@ -27,9 +27,6 @@
 
 package org.opencms.acacia.client.widgets;
 
-import org.opencms.acacia.client.css.I_CmsLayoutBundle;
-import org.opencms.gwt.client.I_CmsHasResizeOnShow;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.HasResizeHandlers;
@@ -40,229 +37,229 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import org.opencms.acacia.client.css.I_CmsLayoutBundle;
+import org.opencms.gwt.client.I_CmsHasResizeOnShow;
 
 /**
- * Wraps an edit widget to supply a widget label.<p>
- **/
+ * Wraps an edit widget to supply a widget label.
+ *
+ * <p>
+ */
 public class CmsFormWidgetWrapper extends Composite
-implements I_CmsFormEditWidget, HasResizeHandlers, I_CmsHasResizeOnShow, I_CmsHasDisplayDirection {
+    implements I_CmsFormEditWidget,
+        HasResizeHandlers,
+        I_CmsHasResizeOnShow,
+        I_CmsHasDisplayDirection {
 
-    /** The edit widget. */
-    private I_CmsEditWidget m_editWidget;
+  /** The edit widget. */
+  private I_CmsEditWidget m_editWidget;
 
-    /** The label. */
-    private HTML m_label;
+  /** The label. */
+  private HTML m_label;
 
-    /** The main panel. */
-    private FlowPanel m_mainPanel;
+  /** The main panel. */
+  private FlowPanel m_mainPanel;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsFormWidgetWrapper() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsFormWidgetWrapper() {
 
-        m_mainPanel = new FlowPanel();
-        m_label = new HTML();
-        m_label.setStyleName(I_CmsLayoutBundle.INSTANCE.form().label());
-        m_mainPanel.add(m_label);
-        initWidget(m_mainPanel);
+    m_mainPanel = new FlowPanel();
+    m_label = new HTML();
+    m_label.setStyleName(I_CmsLayoutBundle.INSTANCE.form().label());
+    m_mainPanel.add(m_label);
+    initWidget(m_mainPanel);
+  }
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param editWidget the edit widget to wrap
+   */
+  public CmsFormWidgetWrapper(I_CmsEditWidget editWidget) {
+
+    this();
+    setEditWidget(editWidget);
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
+   */
+  public HandlerRegistration addFocusHandler(FocusHandler handler) {
+
+    // make sure the widget has been initialized
+    assert m_editWidget != null;
+    return m_editWidget.addFocusHandler(handler);
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasResizeHandlers#addResizeHandler(com.google.gwt.event.logical.shared.ResizeHandler)
+   */
+  public HandlerRegistration addResizeHandler(ResizeHandler handler) {
+
+    // make sure the widget has been initialized
+    assert m_editWidget != null;
+    if (m_editWidget instanceof HasResizeHandlers) {
+      return ((HasResizeHandlers) m_editWidget).addResizeHandler(handler);
     }
+    return null;
+  }
 
-    /**
-     * Constructor.<p>
-     *
-     * @param editWidget the edit widget to wrap
-     */
-    public CmsFormWidgetWrapper(I_CmsEditWidget editWidget) {
+  /**
+   * @see
+   *     org.opencms.acacia.client.widgets.I_CmsEditWidget#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
 
-        this();
-        setEditWidget(editWidget);
-    }
+    // make sure the widget has been initialized
+    assert m_editWidget != null;
+    return m_editWidget.addValueChangeHandler(handler);
+  }
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
-     */
-    public HandlerRegistration addFocusHandler(FocusHandler handler) {
+  /** @see org.opencms.acacia.client.widgets.I_CmsHasDisplayDirection#getDisplayingDirection() */
+  public Direction getDisplayingDirection() {
 
-        // make sure the widget has been initialized
-        assert m_editWidget != null;
-        return m_editWidget.addFocusHandler(handler);
-    }
-
-    /**
-     * @see com.google.gwt.event.logical.shared.HasResizeHandlers#addResizeHandler(com.google.gwt.event.logical.shared.ResizeHandler)
-     */
-    public HandlerRegistration addResizeHandler(ResizeHandler handler) {
-
-        // make sure the widget has been initialized
-        assert m_editWidget != null;
-        if (m_editWidget instanceof HasResizeHandlers) {
-            return ((HasResizeHandlers)m_editWidget).addResizeHandler(handler);
-        }
-        return null;
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
-
-        // make sure the widget has been initialized
-        assert m_editWidget != null;
-        return m_editWidget.addValueChangeHandler(handler);
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsHasDisplayDirection#getDisplayingDirection()
-     */
-    public Direction getDisplayingDirection() {
-
-        return (m_editWidget instanceof I_CmsHasDisplayDirection)
-        ? ((I_CmsHasDisplayDirection)m_editWidget).getDisplayingDirection()
+    return (m_editWidget instanceof I_CmsHasDisplayDirection)
+        ? ((I_CmsHasDisplayDirection) m_editWidget).getDisplayingDirection()
         : Direction.none;
+  }
+
+  /**
+   * Gets the wrapped widget.
+   *
+   * <p>
+   *
+   * @return the wrapped widget
+   */
+  public I_CmsEditWidget getEditWidget() {
+
+    // make sure the widget has been initialized
+    assert m_editWidget != null;
+    return m_editWidget;
+  }
+
+  /**
+   * Returns the label widget.
+   *
+   * <p>
+   *
+   * @return the label widget
+   */
+  public Label getLabel() {
+
+    return m_label;
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#getValue() */
+  public String getValue() {
+
+    // make sure the widget has been initialized
+    assert m_editWidget != null;
+    return m_editWidget.getValue();
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive() */
+  public boolean isActive() {
+
+    // make sure the widget has been initialized
+    assert m_editWidget != null;
+    return m_editWidget.isActive();
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget() */
+  public void onAttachWidget() {
+
+    super.onAttach();
+  }
+
+  /**
+   * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
+   */
+  public boolean owns(Element element) {
+
+    // make sure the widget has been initialized
+    assert m_editWidget != null;
+    return (m_editWidget != null) && m_editWidget.owns(element);
+  }
+
+  /** @see org.opencms.gwt.client.I_CmsHasResizeOnShow#resizeOnShow() */
+  public void resizeOnShow() {
+
+    // make sure the widget has been initialized
+    assert m_editWidget != null;
+    if (m_editWidget instanceof I_CmsHasResizeOnShow) {
+      ((I_CmsHasResizeOnShow) m_editWidget).resizeOnShow();
     }
+  }
 
-    /**
-     * Gets the wrapped widget.<p>
-     *
-     * @return the wrapped widget
-     */
-    public I_CmsEditWidget getEditWidget() {
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean) */
+  public void setActive(boolean active) {
 
-        // make sure the widget has been initialized
-        assert m_editWidget != null;
-        return m_editWidget;
-    }
+    // make sure the widget has been initialized
+    assert m_editWidget != null;
+    m_editWidget.setActive(active);
+  }
 
-    /**
-     * Returns the label widget.<p>
-     *
-     * @return the label widget
-     */
-    public Label getLabel() {
+  /**
+   * The edit widget needs to set, before the widget may be used.
+   *
+   * <p>
+   *
+   * @param editWidget the edit widget to wrap
+   */
+  public void setEditWidget(I_CmsEditWidget editWidget) {
 
-        return m_label;
-    }
+    // the edit widget may be set only once
+    assert m_editWidget == null;
+    m_editWidget = editWidget;
+    m_mainPanel.add(m_editWidget);
+    m_editWidget.asWidget().addStyleName(I_CmsLayoutBundle.INSTANCE.form().widget());
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#getValue()
-     */
-    public String getValue() {
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String) */
+  public void setName(String name) {
 
-        // make sure the widget has been initialized
-        assert m_editWidget != null;
-        return m_editWidget.getValue();
-    }
+    // make sure the widget has been initialized
+    assert m_editWidget != null;
+    m_editWidget.setName(name);
+  }
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive()
-     */
-    public boolean isActive() {
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object) */
+  public void setValue(String value) {
 
-        // make sure the widget has been initialized
-        assert m_editWidget != null;
-        return m_editWidget.isActive();
-    }
+    // make sure the widget has been initialized
+    assert m_editWidget != null;
+    m_editWidget.setValue(value);
+  }
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget()
-     */
-    public void onAttachWidget() {
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setValue(java.lang.String, boolean) */
+  public void setValue(String value, boolean fireEvent) {
 
-        super.onAttach();
-    }
+    // make sure the widget has been initialized
+    assert m_editWidget != null;
+    m_editWidget.setValue(value, fireEvent);
+  }
 
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
-     */
-    public boolean owns(Element element) {
+  /**
+   * @see org.opencms.acacia.client.widgets.I_CmsFormEditWidget#setWidgetInfo(java.lang.String,
+   *     java.lang.String)
+   */
+  public void setWidgetInfo(String label, String help) {
 
-        // make sure the widget has been initialized
-        assert m_editWidget != null;
-        return (m_editWidget != null) && m_editWidget.owns(element);
-    }
+    m_label.setHTML(label);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.I_CmsHasResizeOnShow#resizeOnShow()
-     */
-    public void resizeOnShow() {
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#shouldSetDefaultWhenDisabled() */
+  public boolean shouldSetDefaultWhenDisabled() {
 
-        // make sure the widget has been initialized
-        assert m_editWidget != null;
-        if (m_editWidget instanceof I_CmsHasResizeOnShow) {
-            ((I_CmsHasResizeOnShow)m_editWidget).resizeOnShow();
-        }
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean)
-     */
-    public void setActive(boolean active) {
-
-        // make sure the widget has been initialized
-        assert m_editWidget != null;
-        m_editWidget.setActive(active);
-    }
-
-    /**
-     * The edit widget needs to set, before the widget may be used.<p>
-     *
-     * @param editWidget the edit widget to wrap
-     */
-    public void setEditWidget(I_CmsEditWidget editWidget) {
-
-        // the edit widget may be set only once
-        assert m_editWidget == null;
-        m_editWidget = editWidget;
-        m_mainPanel.add(m_editWidget);
-        m_editWidget.asWidget().addStyleName(I_CmsLayoutBundle.INSTANCE.form().widget());
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String)
-     */
-    public void setName(String name) {
-
-        // make sure the widget has been initialized
-        assert m_editWidget != null;
-        m_editWidget.setName(name);
-
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
-     */
-    public void setValue(String value) {
-
-        // make sure the widget has been initialized
-        assert m_editWidget != null;
-        m_editWidget.setValue(value);
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setValue(java.lang.String, boolean)
-     */
-    public void setValue(String value, boolean fireEvent) {
-
-        // make sure the widget has been initialized
-        assert m_editWidget != null;
-        m_editWidget.setValue(value, fireEvent);
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsFormEditWidget#setWidgetInfo(java.lang.String, java.lang.String)
-     */
-    public void setWidgetInfo(String label, String help) {
-
-        m_label.setHTML(label);
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#shouldSetDefaultWhenDisabled()
-     */
-    public boolean shouldSetDefaultWhenDisabled() {
-
-        assert m_editWidget != null;
-        return m_editWidget.shouldSetDefaultWhenDisabled();
-    }
+    assert m_editWidget != null;
+    return m_editWidget.shouldSetDefaultWhenDisabled();
+  }
 }

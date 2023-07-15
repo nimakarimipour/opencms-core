@@ -27,6 +27,11 @@
 
 package org.opencms.workplace.tools.searchindex.sourcesearch;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResourceFilter;
@@ -37,104 +42,104 @@ import org.opencms.workplace.explorer.CmsResourceUtil;
 import org.opencms.workplace.list.A_CmsListResourceCollector;
 import org.opencms.workplace.list.CmsListItem;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Collector for {@link org.opencms.file.CmsResource} resources to do source search in.<p>
+ * Collector for {@link org.opencms.file.CmsResource} resources to do source search in.
+ *
+ * <p>
  *
  * @since 7.5.3
  */
 public class CmsSourceSearchCollector extends A_CmsListResourceCollector {
 
-    /** Parameter of the default collector name. */
-    public static final String COLLECTOR_NAME = "sourcesearchresources";
+  /** Parameter of the default collector name. */
+  public static final String COLLECTOR_NAME = "sourcesearchresources";
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsSourceSearchCollector.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsSourceSearchCollector.class);
 
-    /** The source search files dialog. */
-    private CmsSourceSearchFilesDialog m_wp;
+  /** The source search files dialog. */
+  private CmsSourceSearchFilesDialog m_wp;
 
-    /**
-     * Constructor, creates a new instance.<p>
-     *
-     * @param wp the workplace object
-     */
-    public CmsSourceSearchCollector(CmsSourceSearchFilesDialog wp) {
+  /**
+   * Constructor, creates a new instance.
+   *
+   * <p>
+   *
+   * @param wp the workplace object
+   */
+  public CmsSourceSearchCollector(CmsSourceSearchFilesDialog wp) {
 
-        super(wp);
-        m_wp = wp;
-    }
+    super(wp);
+    m_wp = wp;
+  }
 
-    /**
-     * @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames()
-     */
-    public List<String> getCollectorNames() {
+  /** @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames() */
+  public List<String> getCollectorNames() {
 
-        List<String> names = new ArrayList<String>();
-        names.add(COLLECTOR_NAME);
-        return names;
-    }
+    List<String> names = new ArrayList<String>();
+    names.add(COLLECTOR_NAME);
+    return names;
+  }
 
-    /**
-     * Returns the resource for the given item.<p>
-     *
-     * @param cms the cms object
-     * @param item the item
-     *
-     * @return the resource
-     */
-    @Override
-    public CmsResource getResource(CmsObject cms, CmsListItem item) {
+  /**
+   * Returns the resource for the given item.
+   *
+   * <p>
+   *
+   * @param cms the cms object
+   * @param item the item
+   * @return the resource
+   */
+  @Override
+  public CmsResource getResource(CmsObject cms, CmsListItem item) {
 
-        CmsResource res = null;
+    CmsResource res = null;
 
-        CmsUUID id = new CmsUUID(item.getId());
-        if (!id.isNullUUID()) {
-            try {
-                res = cms.readResource(id, CmsResourceFilter.ALL);
-            } catch (CmsException e) {
-                // should never happen
-                if (LOG.isErrorEnabled()) {
-                    LOG.error(e.getLocalizedMessage(), e);
-                }
-            }
+    CmsUUID id = new CmsUUID(item.getId());
+    if (!id.isNullUUID()) {
+      try {
+        res = cms.readResource(id, CmsResourceFilter.ALL);
+      } catch (CmsException e) {
+        // should never happen
+        if (LOG.isErrorEnabled()) {
+          LOG.error(e.getLocalizedMessage(), e);
         }
-
-        return res;
+      }
     }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListResourceCollector#getResources(org.opencms.file.CmsObject, java.util.Map)
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    public List<CmsResource> getResources(CmsObject cms, Map params) throws CmsException {
+    return res;
+  }
 
-        ArrayList<CmsResource> files = new ArrayList<CmsResource>();
-        // read the files again, because they can be changed
-        if (m_wp.getFiles() != null) {
-            Iterator<CmsResource> iter = m_wp.getFiles().iterator();
-            while (iter.hasNext()) {
-                CmsResource oldResource = iter.next();
-                CmsResource newResource = cms.readResource(cms.getSitePath(oldResource));
-                files.add(newResource);
-            }
-        }
-        return files;
+  /**
+   * @see
+   *     org.opencms.workplace.list.A_CmsListResourceCollector#getResources(org.opencms.file.CmsObject,
+   *     java.util.Map)
+   */
+  @SuppressWarnings("rawtypes")
+  @Override
+  public List<CmsResource> getResources(CmsObject cms, Map params) throws CmsException {
+
+    ArrayList<CmsResource> files = new ArrayList<CmsResource>();
+    // read the files again, because they can be changed
+    if (m_wp.getFiles() != null) {
+      Iterator<CmsResource> iter = m_wp.getFiles().iterator();
+      while (iter.hasNext()) {
+        CmsResource oldResource = iter.next();
+        CmsResource newResource = cms.readResource(cms.getSitePath(oldResource));
+        files.add(newResource);
+      }
     }
+    return files;
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListResourceCollector#setAdditionalColumns(org.opencms.workplace.list.CmsListItem, org.opencms.workplace.explorer.CmsResourceUtil)
-     */
-    @Override
-    protected void setAdditionalColumns(CmsListItem item, CmsResourceUtil resUtil) {
+  /**
+   * @see
+   *     org.opencms.workplace.list.A_CmsListResourceCollector#setAdditionalColumns(org.opencms.workplace.list.CmsListItem,
+   *     org.opencms.workplace.explorer.CmsResourceUtil)
+   */
+  @Override
+  protected void setAdditionalColumns(CmsListItem item, CmsResourceUtil resUtil) {
 
-        // no-op
-    }
+    // no-op
+  }
 }

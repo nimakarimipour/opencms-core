@@ -30,22 +30,23 @@ package org.opencms.ade.galleries.client.preview;
 import org.opencms.ade.galleries.shared.CmsResourceInfoBean;
 
 /**
- * Binary preview dialog controller handler.<p>
+ * Binary preview dialog controller handler.
  *
- * Delegates the actions of the preview controller to the preview dialog.
+ * <p>Delegates the actions of the preview controller to the preview dialog.
  *
  * @since 8.0.0
  */
 public class CmsBinaryPreviewHandler extends A_CmsPreviewHandler<CmsResourceInfoBean> {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param resourcePreview the resource preview instance
-     */
-    public CmsBinaryPreviewHandler(CmsBinaryResourcePreview resourcePreview) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param resourcePreview the resource preview instance
+   */
+  public CmsBinaryPreviewHandler(CmsBinaryResourcePreview resourcePreview) {
 
-        super(resourcePreview);
-
-    }
+    super(resourcePreview);
+  }
 }

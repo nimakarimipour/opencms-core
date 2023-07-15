@@ -31,19 +31,23 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * An interface which represents a parameter value which is going to be used in an SQL prepared statement.<p>
+ * An interface which represents a parameter value which is going to be used in an SQL prepared
+ * statement.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsPreparedStatementParameter {
 
-    /**
-     * Implementations of this interface should set the index-th parameter of the prepared statement.<p>
-     *
-     * @param stmt the prepared statement in which to set the value of a bind variable
-     * @param index the index of a bind variable
-     * @throws SQLException if something goes wrong
-     */
-    void insertIntoStatement(PreparedStatement stmt, int index) throws SQLException;
-
+  /**
+   * Implementations of this interface should set the index-th parameter of the prepared statement.
+   *
+   * <p>
+   *
+   * @param stmt the prepared statement in which to set the value of a bind variable
+   * @param index the index of a bind variable
+   * @throws SQLException if something goes wrong
+   */
+  void insertIntoStatement(PreparedStatement stmt, int index) throws SQLException;
 }

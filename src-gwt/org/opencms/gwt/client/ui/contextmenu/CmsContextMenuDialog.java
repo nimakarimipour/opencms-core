@@ -27,6 +27,11 @@
 
 package org.opencms.gwt.client.ui.contextmenu;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.Window;
+import java.util.HashMap;
+import java.util.Map;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.client.ui.CmsFrameDialog;
 import org.opencms.gwt.client.ui.CmsPopup;
@@ -35,125 +40,138 @@ import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.gwt.shared.CmsMenuCommandParameters;
 import org.opencms.util.CmsUUID;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.Window;
-
 /**
- * A context menu entry command to open any dialog within an iFrame.<p>
+ * A context menu entry command to open any dialog within an iFrame.
  *
- * The dialog will be called with the parameter {@link #PARAM_CONTENT_STRUCTURE_ID}
- * containing the structure id of the currently edited content if available.<p>
+ * <p>The dialog will be called with the parameter {@link #PARAM_CONTENT_STRUCTURE_ID} containing
+ * the structure id of the currently edited content if available.
  *
- * To close the dialog call from within the dialog frame context
- * window.parent[{@link #CLOSING_METHOD_NAME}](boolean reload).<p>
+ * <p>To close the dialog call from within the dialog frame context window.parent[{@link
+ * #CLOSING_METHOD_NAME}](boolean reload).
+ *
+ * <p>
  */
-public final class CmsContextMenuDialog implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand {
+public final class CmsContextMenuDialog
+    implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand {
 
-    /** The name of the dialog close method exported to the window context. */
-    public static final String CLOSING_METHOD_NAME = "closeContextMenuDialog";
+  /** The name of the dialog close method exported to the window context. */
+  public static final String CLOSING_METHOD_NAME = "closeContextMenuDialog";
 
-    /** The parameter name for the content structure id. */
-    public static final String PARAM_CONTENT_STRUCTURE_ID = "contentStructureId";
+  /** The parameter name for the content structure id. */
+  public static final String PARAM_CONTENT_STRUCTURE_ID = "contentStructureId";
 
-    /** The context menu handler for this command instance. */
-    protected I_CmsContextMenuHandler m_menuHandler;
+  /** The context menu handler for this command instance. */
+  protected I_CmsContextMenuHandler m_menuHandler;
 
-    /**
-     * Constructor.<p>
-     */
-    private CmsContextMenuDialog() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  private CmsContextMenuDialog() {
 
-        // nothing to do
+    // nothing to do
+  }
+
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
+
+    return new CmsContextMenuDialog();
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public void execute(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean menuEntryBean) {
+
+    m_menuHandler = handler;
+    int height = 400;
+    int width = CmsPopup.DEFAULT_WIDTH;
+    if (menuEntryBean.getParams().containsKey(CmsMenuCommandParameters.PARAM_DIALOG_HEIGHT)) {
+      height =
+          CmsClientStringUtil.parseInt(
+              menuEntryBean.getParams().get(CmsMenuCommandParameters.PARAM_DIALOG_HEIGHT));
     }
-
-    /**
-     * Returns the context menu command according to
-     * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
-
-        return new CmsContextMenuDialog();
+    if (menuEntryBean.getParams().containsKey(CmsMenuCommandParameters.PARAM_DIALOG_WIDTH)) {
+      width =
+          CmsClientStringUtil.parseInt(
+              menuEntryBean.getParams().get(CmsMenuCommandParameters.PARAM_DIALOG_WIDTH));
     }
-
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public void execute(CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean menuEntryBean) {
-
-        m_menuHandler = handler;
-        int height = 400;
-        int width = CmsPopup.DEFAULT_WIDTH;
-        if (menuEntryBean.getParams().containsKey(CmsMenuCommandParameters.PARAM_DIALOG_HEIGHT)) {
-            height = CmsClientStringUtil.parseInt(
-                menuEntryBean.getParams().get(CmsMenuCommandParameters.PARAM_DIALOG_HEIGHT));
-        }
-        if (menuEntryBean.getParams().containsKey(CmsMenuCommandParameters.PARAM_DIALOG_WIDTH)) {
-            width = CmsClientStringUtil.parseInt(
-                menuEntryBean.getParams().get(CmsMenuCommandParameters.PARAM_DIALOG_WIDTH));
-        }
-        String fileName = menuEntryBean.getParams().get(CmsMenuCommandParameters.PARAM_DIALOG_URI);
-        CmsPopup popup = CmsFrameDialog.showFrameDialog(
+    String fileName = menuEntryBean.getParams().get(CmsMenuCommandParameters.PARAM_DIALOG_URI);
+    CmsPopup popup =
+        CmsFrameDialog.showFrameDialog(
             menuEntryBean.getLabel(),
             CmsCoreProvider.get().link(fileName),
             getDialogParameters(structureId, menuEntryBean),
             null);
-        popup.setHeight(height);
-        popup.setWidth(width);
-        popup.addDialogClose(null);
-        popup.center();
-        exportClosingMethod(popup);
-    }
+    popup.setHeight(height);
+    popup.setWidth(width);
+    popup.addDialogClose(null);
+    popup.center();
+    exportClosingMethod(popup);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget()
-     */
-    public boolean hasItemWidget() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget() */
+  public boolean hasItemWidget() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * Executed on dialog close.<p>
-     * @param reload <code>true</code> if the page should be reloaded
-     */
-    protected void onClose(boolean reload) {
+  /**
+   * Executed on dialog close.
+   *
+   * <p>
+   *
+   * @param reload <code>true</code> if the page should be reloaded
+   */
+  protected void onClose(boolean reload) {
 
-        if (reload) {
-            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+    if (reload) {
+      Scheduler.get()
+          .scheduleDeferred(
+              new ScheduledCommand() {
 
                 public void execute() {
 
-                    String url = Window.Location.getHref();
-                    m_menuHandler.leavePage(url);
-
+                  String url = Window.Location.getHref();
+                  m_menuHandler.leavePage(url);
                 }
-            });
-        }
+              });
     }
+  }
 
-    /**
-     * Exports the close method to the window object, so it can be accessed from within the content editor iFrame.<p>
-     *
-     * @param popup the popup instance
-     */
-    private native void exportClosingMethod(final CmsPopup popup) /*-{
+  /**
+   * Exports the close method to the window object, so it can be accessed from within the content
+   * editor iFrame.
+   *
+   * <p>
+   *
+   * @param popup the popup instance
+   */
+  private native void exportClosingMethod(final CmsPopup popup) /*-{
         var self = this;
         $wnd[@org.opencms.gwt.client.ui.contextmenu.CmsContextMenuDialog::CLOSING_METHOD_NAME] = function(reload) {
             popup.@org.opencms.gwt.client.ui.CmsPopup::hide()();
@@ -162,20 +180,23 @@ public final class CmsContextMenuDialog implements I_CmsHasContextMenuCommand, I
         };
     }-*/;
 
-    /**
-     * Generates the dialog parameters.<p>
-     *
-     * @param structureId the structure id of the current content
-     * @param menuEntryBean the context menu entry bean
-     * @return the dialog parameters
-     */
-    private Map<String, String> getDialogParameters(CmsUUID structureId, CmsContextMenuEntryBean menuEntryBean) {
+  /**
+   * Generates the dialog parameters.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the current content
+   * @param menuEntryBean the context menu entry bean
+   * @return the dialog parameters
+   */
+  private Map<String, String> getDialogParameters(
+      CmsUUID structureId, CmsContextMenuEntryBean menuEntryBean) {
 
-        HashMap<String, String> parameters = new HashMap<String, String>();
-        if (structureId != null) {
-            parameters.put(PARAM_CONTENT_STRUCTURE_ID, structureId.toString());
-        }
-        parameters.putAll(menuEntryBean.getParams());
-        return parameters;
+    HashMap<String, String> parameters = new HashMap<String, String>();
+    if (structureId != null) {
+      parameters.put(PARAM_CONTENT_STRUCTURE_ID, structureId.toString());
     }
+    parameters.putAll(menuEntryBean.getParams());
+    return parameters;
+  }
 }

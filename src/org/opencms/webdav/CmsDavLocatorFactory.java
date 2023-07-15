@@ -29,36 +29,32 @@ package org.opencms.webdav;
 
 import org.apache.jackrabbit.webdav.AbstractLocatorFactory;
 
-/**
- * The locator factory for the WebDAV implementation..
- */
+/** The locator factory for the WebDAV implementation.. */
 public class CmsDavLocatorFactory extends AbstractLocatorFactory {
 
-    /**
-     * Creates a new instance.
-     */
-    public CmsDavLocatorFactory() {
+  /** Creates a new instance. */
+  public CmsDavLocatorFactory() {
 
-        super(null);
+    super(null);
+  }
 
-    }
+  /**
+   * @see org.apache.jackrabbit.webdav.AbstractLocatorFactory#getRepositoryPath(java.lang.String,
+   *     java.lang.String)
+   */
+  @Override
+  protected String getRepositoryPath(String resourcePath, String wspPath) {
 
-    /**
-     * @see org.apache.jackrabbit.webdav.AbstractLocatorFactory#getRepositoryPath(java.lang.String, java.lang.String)
-     */
-    @Override
-    protected String getRepositoryPath(String resourcePath, String wspPath) {
+    return resourcePath;
+  }
 
-        return resourcePath;
-    }
+  /**
+   * @see org.apache.jackrabbit.webdav.AbstractLocatorFactory#getResourcePath(java.lang.String,
+   *     java.lang.String)
+   */
+  @Override
+  protected String getResourcePath(String repositoryPath, String wspPath) {
 
-    /**
-     * @see org.apache.jackrabbit.webdav.AbstractLocatorFactory#getResourcePath(java.lang.String, java.lang.String)
-     */
-    @Override
-    protected String getResourcePath(String repositoryPath, String wspPath) {
-
-        return repositoryPath;
-    }
-
+    return repositoryPath;
+  }
 }

@@ -27,77 +27,87 @@
 
 package org.opencms.ade.sitemap.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Wraps the model page and model group info into one object.<p>
+ * Wraps the model page and model group info into one object.
+ *
+ * <p>
  */
 public class CmsModelInfo implements IsSerializable {
 
-    /** The model group info. */
-    private List<CmsModelPageEntry> m_modelGroups;
+  /** The model group info. */
+  private List<CmsModelPageEntry> m_modelGroups;
 
-    /** The model page info. */
-    private List<CmsModelPageEntry> m_modelPages;
+  /** The model page info. */
+  private List<CmsModelPageEntry> m_modelPages;
 
-    /** The parent model pages. */
-    private List<CmsModelPageEntry> m_parentModelPages;
+  /** The parent model pages. */
+  private List<CmsModelPageEntry> m_parentModelPages;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param modelPages the model pages
-     * @param parentModelPages the global model pages
-     * @param modelGroups the model groups
-     */
-    public CmsModelInfo(
-        List<CmsModelPageEntry> modelPages,
-        List<CmsModelPageEntry> parentModelPages,
-        List<CmsModelPageEntry> modelGroups) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param modelPages the model pages
+   * @param parentModelPages the global model pages
+   * @param modelGroups the model groups
+   */
+  public CmsModelInfo(
+      List<CmsModelPageEntry> modelPages,
+      List<CmsModelPageEntry> parentModelPages,
+      List<CmsModelPageEntry> modelGroups) {
 
-        m_modelPages = modelPages;
-        m_parentModelPages = parentModelPages;
-        m_modelGroups = modelGroups;
-    }
+    m_modelPages = modelPages;
+    m_parentModelPages = parentModelPages;
+    m_modelGroups = modelGroups;
+  }
 
-    /**
-     * Constructor required for serialization.<p>
-     */
-    protected CmsModelInfo() {
+  /**
+   * Constructor required for serialization.
+   *
+   * <p>
+   */
+  protected CmsModelInfo() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Returns the model group info.<p>
-     *
-     * @return the model group info
-     */
-    public List<CmsModelPageEntry> getModelGroups() {
+  /**
+   * Returns the model group info.
+   *
+   * <p>
+   *
+   * @return the model group info
+   */
+  public List<CmsModelPageEntry> getModelGroups() {
 
-        return m_modelGroups;
-    }
+    return m_modelGroups;
+  }
 
-    /**
-     * Returns the model page info.<p>
-     *
-     * @return the model page info
-     */
-    public List<CmsModelPageEntry> getModelPages() {
+  /**
+   * Returns the model page info.
+   *
+   * <p>
+   *
+   * @return the model page info
+   */
+  public List<CmsModelPageEntry> getModelPages() {
 
-        return m_modelPages;
-    }
+    return m_modelPages;
+  }
 
-    /**
-     * Returns the parent model pages.<p>
-     *
-     * @return the parent model pages
-     */
-    public List<CmsModelPageEntry> getParentModelPages() {
+  /**
+   * Returns the parent model pages.
+   *
+   * <p>
+   *
+   * @return the parent model pages
+   */
+  public List<CmsModelPageEntry> getParentModelPages() {
 
-        return m_parentModelPages;
-    }
-
+    return m_parentModelPages;
+  }
 }

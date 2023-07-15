@@ -27,47 +27,44 @@
 
 package org.opencms.security.twofactor;
 
-/**
- * The data needed to set up two-factor authentication for a user.
- */
+/** The data needed to set up two-factor authentication for a user. */
 public class CmsSecondFactorSetupInfo {
 
-    /** A data URL with the QR code to scan with authenticator apps. */
-    private String m_qrCodeImageUrl;
+  /** A data URL with the QR code to scan with authenticator apps. */
+  private String m_qrCodeImageUrl;
 
-    /** The shared secret. */
-    private String m_secret;
+  /** The shared secret. */
+  private String m_secret;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param secret the shared secret
-     * @param qrCodeImageUrl the QR code data URL
-     */
-    public CmsSecondFactorSetupInfo(String secret, String qrCodeImageUrl) {
+  /**
+   * Creates a new instance.
+   *
+   * @param secret the shared secret
+   * @param qrCodeImageUrl the QR code data URL
+   */
+  public CmsSecondFactorSetupInfo(String secret, String qrCodeImageUrl) {
 
-        m_secret = secret;
-        m_qrCodeImageUrl = qrCodeImageUrl;
-    }
+    m_secret = secret;
+    m_qrCodeImageUrl = qrCodeImageUrl;
+  }
 
-    /**
-     * Gets the data URL with the QR code image that the user should scan.
-     *
-     * @return the QR code data URL
-     */
-    public String getQrCodeImageUrl() {
+  /**
+   * Gets the data URL with the QR code image that the user should scan.
+   *
+   * @return the QR code data URL
+   */
+  public String getQrCodeImageUrl() {
 
-        return m_qrCodeImageUrl;
-    }
+    return m_qrCodeImageUrl;
+  }
 
-    /**
-     * Gets the shared secret in text form.
-     *
-     * @return the shared secret
-     */
-    public String getSecret() {
+  /**
+   * Gets the shared secret in text form.
+   *
+   * @return the shared secret
+   */
+  public String getSecret() {
 
-        return m_secret;
-    }
-
+    return m_secret;
+  }
 }

@@ -27,38 +27,31 @@
 
 package org.opencms.ui.components;
 
+import com.vaadin.ui.AbstractComponent;
 import org.opencms.ui.shared.components.CmsGwtContextMenuButtonState;
 import org.opencms.ui.shared.rpc.I_CmsGwtContextMenuServerRpc;
 import org.opencms.util.CmsUUID;
 
-import com.vaadin.ui.AbstractComponent;
-
-/**
- * Vaadin widget for using the GWT based context menu button.
- */
+/** Vaadin widget for using the GWT based context menu button. */
 public class CmsGwtContextMenuButton extends AbstractComponent {
 
-    /**
-     * Creates a new instance.
-     *
-     * @param id the structure id of the content for which the context menu should be displayed
-     * @param rpc the RPC which should handle calls from the client
-     */
-    public CmsGwtContextMenuButton(CmsUUID id, I_CmsGwtContextMenuServerRpc rpc) {
+  /**
+   * Creates a new instance.
+   *
+   * @param id the structure id of the content for which the context menu should be displayed
+   * @param rpc the RPC which should handle calls from the client
+   */
+  public CmsGwtContextMenuButton(CmsUUID id, I_CmsGwtContextMenuServerRpc rpc) {
 
-        getState().setStructureId("" + id);
-        addStyleName("o-gwt-contextmenu-button");
-        registerRpc(rpc);
+    getState().setStructureId("" + id);
+    addStyleName("o-gwt-contextmenu-button");
+    registerRpc(rpc);
+  }
 
-    }
+  /** @see com.vaadin.ui.AbstractComponent#getState() */
+  @Override
+  public CmsGwtContextMenuButtonState getState() {
 
-    /**
-     * @see com.vaadin.ui.AbstractComponent#getState()
-     */
-    @Override
-    public CmsGwtContextMenuButtonState getState() {
-
-        return (CmsGwtContextMenuButtonState)super.getState();
-    }
-
+    return (CmsGwtContextMenuButtonState) super.getState();
+  }
 }

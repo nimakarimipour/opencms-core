@@ -27,27 +27,32 @@
 
 package org.opencms.ui.shared.components;
 
+import com.vaadin.shared.communication.ServerRpc;
 import java.util.List;
 
-import com.vaadin.shared.communication.ServerRpc;
-
 /**
- * Client-to-server rpc interface for the GWT dialog extension.<p>
+ * Client-to-server rpc interface for the GWT dialog extension.
+ *
+ * <p>
  */
 public interface I_CmsGwtDialogServerRpc extends ServerRpc {
 
-    /**
-     *  Disposes of the extension and tells the server whether to re-init the UI.<p>
-     *
-     * @param reinitUI <code>true</code> to reinit the UI
-     */
-    void onClose(boolean reinitUI);
+  /**
+   * Disposes of the extension and tells the server whether to re-init the UI.
+   *
+   * <p>
+   *
+   * @param reinitUI <code>true</code> to reinit the UI
+   */
+  void onClose(boolean reinitUI);
 
-    /**
-     * Disposes of the extension, and tells the server which resources have changed.<p>
-     *
-     * @param changedStructureIds the structure ids of changed resources, as strings
-     * @param delayMillis time to delay the RPC (for allowing short background operations to finish)
-     */
-    void onClose(List<String> changedStructureIds, long delayMillis);
+  /**
+   * Disposes of the extension, and tells the server which resources have changed.
+   *
+   * <p>
+   *
+   * @param changedStructureIds the structure ids of changed resources, as strings
+   * @param delayMillis time to delay the RPC (for allowing short background operations to finish)
+   */
+  void onClose(List<String> changedStructureIds, long delayMillis);
 }

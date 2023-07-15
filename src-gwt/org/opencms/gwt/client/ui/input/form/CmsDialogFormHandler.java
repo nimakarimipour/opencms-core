@@ -28,75 +28,89 @@
 package org.opencms.gwt.client.ui.input.form;
 
 /**
- * Abstract handler superclass for forms which have their own dialog.<p>
+ * Abstract handler superclass for forms which have their own dialog.
+ *
+ * <p>
  */
 public class CmsDialogFormHandler implements I_CmsFormHandler {
 
-    /** The form dialog. */
-    protected CmsFormDialog m_dialog;
+  /** The form dialog. */
+  protected CmsFormDialog m_dialog;
 
-    /** The form submit handler. */
-    protected I_CmsFormSubmitHandler m_submitHandler;
+  /** The form submit handler. */
+  protected I_CmsFormSubmitHandler m_submitHandler;
 
-    /** Flag indicating whether we are currently submitting the form results. */
-    private boolean m_submitting = false;
+  /** Flag indicating whether we are currently submitting the form results. */
+  private boolean m_submitting = false;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsDialogFormHandler() {
-        // empty default constructor
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsDialogFormHandler() {
+    // empty default constructor
+  }
+
+  /**
+   * Returns true if the form results are currently being submitted.
+   *
+   * <p>
+   *
+   * @return true if the form results are submitted
+   */
+  public boolean isSubmitting() {
+
+    return m_submitting;
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.form.I_CmsFormHandler#onSubmitValidationResult(org.opencms.gwt.client.ui.input.form.CmsForm,
+   *     boolean)
+   */
+  public void onSubmitValidationResult(CmsForm form, boolean ok) {
+
+    if (ok) {
+      m_submitting = true;
+      m_dialog.hide();
+      form.handleSubmit(m_submitHandler);
+    } else {
+      m_dialog.setOkButtonEnabled(form.noFieldsInvalid());
     }
+  }
 
-    /**
-     * Returns true if the form results are currently being submitted.<p>
-     *
-     * @return true if the form results are submitted
-     */
-    public boolean isSubmitting() {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.form.I_CmsFormHandler#onValidationResult(org.opencms.gwt.client.ui.input.form.CmsForm,
+   *     boolean)
+   */
+  public void onValidationResult(CmsForm form, boolean ok) {
 
-        return m_submitting;
-    }
+    m_dialog.setOkButtonEnabled(ok);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.form.I_CmsFormHandler#onSubmitValidationResult(org.opencms.gwt.client.ui.input.form.CmsForm, boolean)
-     */
-    public void onSubmitValidationResult(CmsForm form, boolean ok) {
+  /**
+   * Sets the dialog.
+   *
+   * <p>
+   *
+   * @param dialog the form dialog
+   */
+  public void setDialog(CmsFormDialog dialog) {
 
-        if (ok) {
-            m_submitting = true;
-            m_dialog.hide();
-            form.handleSubmit(m_submitHandler);
-        } else {
-            m_dialog.setOkButtonEnabled(form.noFieldsInvalid());
-        }
-    }
+    m_dialog = dialog;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.form.I_CmsFormHandler#onValidationResult(org.opencms.gwt.client.ui.input.form.CmsForm, boolean)
-     */
-    public void onValidationResult(CmsForm form, boolean ok) {
+  /**
+   * Sets the form submit handler.
+   *
+   * <p>
+   *
+   * @param submitHandler the new form submit handler
+   */
+  public void setSubmitHandler(I_CmsFormSubmitHandler submitHandler) {
 
-        m_dialog.setOkButtonEnabled(ok);
-    }
-
-    /**
-     * Sets the dialog.<p>
-     *
-     * @param dialog the form dialog
-     */
-    public void setDialog(CmsFormDialog dialog) {
-
-        m_dialog = dialog;
-    }
-
-    /**
-     * Sets the form submit handler.<p>
-     *
-     * @param submitHandler the new form submit handler
-     */
-    public void setSubmitHandler(I_CmsFormSubmitHandler submitHandler) {
-
-        m_submitHandler = submitHandler;
-    }
+    m_submitHandler = submitHandler;
+  }
 }

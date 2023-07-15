@@ -27,44 +27,40 @@
 
 package org.opencms.gwt.shared.attributeselect;
 
+import com.google.web.bindery.autobean.shared.AutoBean;
+import com.google.web.bindery.autobean.shared.AutoBeanFactory;
 import org.opencms.gwt.shared.attributeselect.I_CmsAttributeSelectData.AttributeDefinition;
 import org.opencms.gwt.shared.attributeselect.I_CmsAttributeSelectData.Option;
 import org.opencms.gwt.shared.attributeselect.I_CmsAttributeSelectData.OptionWithAttributes;
 
-import com.google.web.bindery.autobean.shared.AutoBean;
-import com.google.web.bindery.autobean.shared.AutoBeanFactory;
-
-/**
- * AutoBean factory for creating beans related to attribute select widgets.
- */
+/** AutoBean factory for creating beans related to attribute select widgets. */
 public interface I_CmsAttributeSelectFactory extends AutoBeanFactory {
 
-    /**
-     * Creates a new attribute definition.
-     *
-     * @return the new object
-     */
-    AutoBean<AttributeDefinition> createAttributeDefinition();
+  /**
+   * Creates a new attribute definition.
+   *
+   * @return the new object
+   */
+  AutoBean<AttributeDefinition> createAttributeDefinition();
 
-    /**
-     * Creates new attribute select data.
-     *
-     * @return the new object
-     */
-    AutoBean<I_CmsAttributeSelectData> createAttributeSelectData();
+  /**
+   * Creates new attribute select data.
+   *
+   * @return the new object
+   */
+  AutoBean<I_CmsAttributeSelectData> createAttributeSelectData();
 
-    /**
-     * Creates a new option
-     *
-     * @return the new object
-     */
-    AutoBean<Option> createOption();
+  /**
+   * Creates a new option
+   *
+   * @return the new object
+   */
+  AutoBean<Option> createOption();
 
-    /**
-     * Creates a new option with attributes.
-     *
-     * @return the new object
-     */
-    AutoBean<OptionWithAttributes> createOptionWithAttributes();
-
+  /**
+   * Creates a new option with attributes.
+   *
+   * @return the new object
+   */
+  AutoBean<OptionWithAttributes> createOptionWithAttributes();
 }

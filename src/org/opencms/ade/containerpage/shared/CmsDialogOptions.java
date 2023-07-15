@@ -31,157 +31,181 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Option dialog data.<p>
+ * Option dialog data.
+ *
+ * <p>
  */
 public class CmsDialogOptions implements Serializable {
 
-    /**
-     * Describes a dialog option.<p>
-     */
-    public static class Option implements Serializable {
-
-        /** The serial version id. */
-        private static final long serialVersionUID = -3919401021902116204L;
-
-        /** The description. */
-        private String m_description;
-
-        /** In case the option is disabled. */
-        private boolean m_disabled;
-
-        /** The option label. */
-        private String m_label;
-
-        /** The option value. */
-        private String m_value;
-
-        /**
-         * Constructor.<p>
-         *
-         * @param value the value
-         * @param label the label
-         * @param description the description
-         * @param disabled if disabled
-         */
-        public Option(String value, String label, String description, boolean disabled) {
-            m_value = value;
-            m_label = label;
-            m_description = description;
-            m_disabled = disabled;
-        }
-
-        /**
-         * Constructor used for serialization.<p>
-         */
-        protected Option() {
-            // nothing to do
-        }
-
-        /**
-         * Returns the description.<p>
-         *
-         * @return the description
-         */
-        public String getDescription() {
-
-            return m_description;
-        }
-
-        /**
-         * Returns the label.<p>
-         *
-         * @return the label
-         */
-        public String getLabel() {
-
-            return m_label;
-        }
-
-        /**
-         * Returns the value.<p>
-         *
-         * @return the value
-         */
-        public String getValue() {
-
-            return m_value;
-        }
-
-        /**
-         * Returns if the option is disabled.<p>
-         *
-         * @return if the option is disabled
-         */
-        public boolean isDisabled() {
-
-            return m_disabled;
-        }
-
-    }
-
-    /** Key to trigger a regular delete action. */
-    public static final String REGULAR_DELETE = "regular_delete";
+  /**
+   * Describes a dialog option.
+   *
+   * <p>
+   */
+  public static class Option implements Serializable {
 
     /** The serial version id. */
-    private static final long serialVersionUID = 4758296036064643532L;
+    private static final long serialVersionUID = -3919401021902116204L;
 
-    /** The dialog info text. */
-    private String m_info;
+    /** The description. */
+    private String m_description;
 
-    /** The dialog options. */
-    private List<Option> m_options;
+    /** In case the option is disabled. */
+    private boolean m_disabled;
 
-    /** The dialog title. */
-    private String m_title;
+    /** The option label. */
+    private String m_label;
+
+    /** The option value. */
+    private String m_value;
 
     /**
-     * Constructor.<p>
+     * Constructor.
      *
-     * @param title the dialog title
-     * @param info the dialog info text
-     * @param options the options
-     */
-    public CmsDialogOptions(String title, String info, List<Option> options) {
-        m_title = title;
-        m_info = info;
-        m_options = options;
-    }
-
-    /**
-     * Constructor used for serialization.<p>
-     */
-    protected CmsDialogOptions() {
-        // nothing to do
-    }
-
-    /**
-     * Returns the info.<p>
+     * <p>
      *
-     * @return the info
+     * @param value the value
+     * @param label the label
+     * @param description the description
+     * @param disabled if disabled
      */
-    public String getInfo() {
-
-        return m_info;
+    public Option(String value, String label, String description, boolean disabled) {
+      m_value = value;
+      m_label = label;
+      m_description = description;
+      m_disabled = disabled;
     }
 
     /**
-     * Returns the options.<p>
+     * Constructor used for serialization.
      *
-     * @return the options
+     * <p>
      */
-    public List<Option> getOptions() {
-
-        return m_options;
+    protected Option() {
+      // nothing to do
     }
 
     /**
-     * Returns the dialog title.<p>
+     * Returns the description.
      *
-     * @return the dialog title
+     * <p>
+     *
+     * @return the description
      */
-    public String getTitle() {
+    public String getDescription() {
 
-        return m_title;
+      return m_description;
     }
 
+    /**
+     * Returns the label.
+     *
+     * <p>
+     *
+     * @return the label
+     */
+    public String getLabel() {
+
+      return m_label;
+    }
+
+    /**
+     * Returns the value.
+     *
+     * <p>
+     *
+     * @return the value
+     */
+    public String getValue() {
+
+      return m_value;
+    }
+
+    /**
+     * Returns if the option is disabled.
+     *
+     * <p>
+     *
+     * @return if the option is disabled
+     */
+    public boolean isDisabled() {
+
+      return m_disabled;
+    }
+  }
+
+  /** Key to trigger a regular delete action. */
+  public static final String REGULAR_DELETE = "regular_delete";
+
+  /** The serial version id. */
+  private static final long serialVersionUID = 4758296036064643532L;
+
+  /** The dialog info text. */
+  private String m_info;
+
+  /** The dialog options. */
+  private List<Option> m_options;
+
+  /** The dialog title. */
+  private String m_title;
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param title the dialog title
+   * @param info the dialog info text
+   * @param options the options
+   */
+  public CmsDialogOptions(String title, String info, List<Option> options) {
+    m_title = title;
+    m_info = info;
+    m_options = options;
+  }
+
+  /**
+   * Constructor used for serialization.
+   *
+   * <p>
+   */
+  protected CmsDialogOptions() {
+    // nothing to do
+  }
+
+  /**
+   * Returns the info.
+   *
+   * <p>
+   *
+   * @return the info
+   */
+  public String getInfo() {
+
+    return m_info;
+  }
+
+  /**
+   * Returns the options.
+   *
+   * <p>
+   *
+   * @return the options
+   */
+  public List<Option> getOptions() {
+
+    return m_options;
+  }
+
+  /**
+   * Returns the dialog title.
+   *
+   * <p>
+   *
+   * @return the dialog title
+   */
+  public String getTitle() {
+
+    return m_title;
+  }
 }

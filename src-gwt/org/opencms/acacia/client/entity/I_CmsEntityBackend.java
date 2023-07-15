@@ -27,122 +27,138 @@
 
 package org.opencms.acacia.client.entity;
 
+import com.google.gwt.dom.client.Element;
+import java.util.List;
+import java.util.Map;
 import org.opencms.acacia.shared.CmsEntity;
 import org.opencms.acacia.shared.CmsType;
 
-import java.util.List;
-import java.util.Map;
-
-import com.google.gwt.dom.client.Element;
-
 /**
- * The interface for VIE implementations.<p>
+ * The interface for VIE implementations.
+ *
+ * <p>
  */
 public interface I_CmsEntityBackend {
 
-    /**
-     * Changes the original entities content to the given new content.<p>
-     *
-     * @param original the original entity to change
-     * @param newContent the new content entity
-     */
-    void changeEntityContentValues(CmsEntity original, CmsEntity newContent);
+  /**
+   * Changes the original entities content to the given new content.
+   *
+   * <p>
+   *
+   * @param original the original entity to change
+   * @param newContent the new content entity
+   */
+  void changeEntityContentValues(CmsEntity original, CmsEntity newContent);
 
-    /**
-     * Clears all entities from VIE.<p>
-     */
-    void clearEntities();
+  /**
+   * Clears all entities from VIE.
+   *
+   * <p>
+   */
+  void clearEntities();
 
-    /**
-     * Creates a new entity registering it within VIE.<p>
-     *
-     * @param entityId the entity id
-     * @param entityType the entity type
-     *
-     * @return the new entity
-     */
-    CmsEntity createEntity(String entityId, String entityType);
+  /**
+   * Creates a new entity registering it within VIE.
+   *
+   * <p>
+   *
+   * @param entityId the entity id
+   * @param entityType the entity type
+   * @return the new entity
+   */
+  CmsEntity createEntity(String entityId, String entityType);
 
-    /**
-     * Creates a new type.<p>
-     *
-     * @param id the type id/name
-     *
-     * @return the new type
-     */
-    CmsType createType(String id);
+  /**
+   * Creates a new type.
+   *
+   * <p>
+   *
+   * @param id the type id/name
+   * @return the new type
+   */
+  CmsType createType(String id);
 
-    /**
-     * Returns DOM elements displaying the given attribute's value.<p>
-     *
-     * @param entity the entity
-     * @param attributeName the attribute name
-     * @param context the context to search within
-     *
-     * @return the elements
-     */
-    List<Element> getAttributeElements(CmsEntity entity, String attributeName, Element context);
+  /**
+   * Returns DOM elements displaying the given attribute's value.
+   *
+   * <p>
+   *
+   * @param entity the entity
+   * @param attributeName the attribute name
+   * @param context the context to search within
+   * @return the elements
+   */
+  List<Element> getAttributeElements(CmsEntity entity, String attributeName, Element context);
 
-    /**
-     * Returns DOM elements displaying the given attribute's value.<p>
-     *
-     * @param entityId the entity id/subject
-     * @param attributeName the attribute name
-     * @param context the context to search within
-     *
-     * @return the elements
-     */
-    List<Element> getAttributeElements(String entityId, String attributeName, Element context);
+  /**
+   * Returns DOM elements displaying the given attribute's value.
+   *
+   * <p>
+   *
+   * @param entityId the entity id/subject
+   * @param attributeName the attribute name
+   * @param context the context to search within
+   * @return the elements
+   */
+  List<Element> getAttributeElements(String entityId, String attributeName, Element context);
 
-    /**
-     * Returns the entity with the given id.<p>
-     *
-     * @param entityId the entity id
-     *
-     * @return the entity
-     */
-    CmsEntity getEntity(String entityId);
+  /**
+   * Returns the entity with the given id.
+   *
+   * <p>
+   *
+   * @param entityId the entity id
+   * @return the entity
+   */
+  CmsEntity getEntity(String entityId);
 
-    /**
-     * Returns the type with the given id/name.<p>
-     *
-     * @param id the type id/name
-     *
-     * @return the type
-     */
-    CmsType getType(String id);
+  /**
+   * Returns the type with the given id/name.
+   *
+   * <p>
+   *
+   * @param id the type id/name
+   * @return the type
+   */
+  CmsType getType(String id);
 
-    /**
-     * Registers the given entity within the VIE model.<p>
-     *
-     * @param entity the entity to register
-     *
-     * @return the new registered entity object
-     */
-    CmsEntity registerEntity(CmsEntity entity);
+  /**
+   * Registers the given entity within the VIE model.
+   *
+   * <p>
+   *
+   * @param entity the entity to register
+   * @return the new registered entity object
+   */
+  CmsEntity registerEntity(CmsEntity entity);
 
-    /**
-     * Registers the given entity within the VIE model.<p>
-     *
-     * @param entity the entity to register
-     * @param discardIds <code>true</code> to discard the entity ids and generate ids
-     *
-     * @return the new registered entity object
-     */
-    CmsEntity registerEntity(CmsEntity entity, boolean discardIds);
+  /**
+   * Registers the given entity within the VIE model.
+   *
+   * <p>
+   *
+   * @param entity the entity to register
+   * @param discardIds <code>true</code> to discard the entity ids and generate ids
+   * @return the new registered entity object
+   */
+  CmsEntity registerEntity(CmsEntity entity, boolean discardIds);
 
-    /**
-     * Registers the type and it's sub-types.<p>
-     *
-     * @param type the type to register
-     * @param types the available types
-     */
-    void registerTypes(CmsType type, Map<String, CmsType> types);
+  /**
+   * Registers the type and it's sub-types.
+   *
+   * <p>
+   *
+   * @param type the type to register
+   * @param types the available types
+   */
+  void registerTypes(CmsType type, Map<String, CmsType> types);
 
-    /**
-     * Removes the given entity from VIE.<p>
-     *
-     * @param entityId the entity id
-     */
-    void removeEntity(String entityId);
+  /**
+   * Removes the given entity from VIE.
+   *
+   * <p>
+   *
+   * @param entityId the entity id
+   */
+  void removeEntity(String entityId);
 }

@@ -30,36 +30,46 @@ package org.opencms.ui.shared.rpc;
 import com.vaadin.shared.communication.ClientRpc;
 
 /**
- * Server-to-client Interface for the GWT dialog extension.<p>
+ * Server-to-client Interface for the GWT dialog extension.
+ *
+ * <p>
  */
 public interface I_CmsPropertyClientRpc extends ClientRpc {
 
-    /**
-     * Send a confirmation to the client that the properties for a new resource have been saved.<p>
-     */
-    void confirmSaveForNew();
+  /**
+   * Send a confirmation to the client that the properties for a new resource have been saved.
+   *
+   * <p>
+   */
+  void confirmSaveForNew();
 
-    /**
-     * Tells the client to open the property editing dialog for the resource with the given structure id.<p>
-     *
-     * @param structureId the structure id of a resource, as a string
-     * @param editName if true, makes the file name editable
-     * @param disablePrevNext if true, disables the prev/next button
-     */
-    void editProperties(String structureId, boolean editName, boolean disablePrevNext);
+  /**
+   * Tells the client to open the property editing dialog for the resource with the given structure
+   * id.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of a resource, as a string
+   * @param editName if true, makes the file name editable
+   * @param disablePrevNext if true, disables the prev/next button
+   */
+  void editProperties(String structureId, boolean editName, boolean disablePrevNext);
 
-    /**
-     * Opens the property editor for a new resource.<p>
-     *
-     * @param propertyData the property data serialized using GWT serialization
-     */
-    void editPropertiesForNewResource(String propertyData);
+  /**
+   * Opens the property editor for a new resource.
+   *
+   * <p>
+   *
+   * @param propertyData the property data serialized using GWT serialization
+   */
+  void editPropertiesForNewResource(String propertyData);
 
-    /**
-     * Sends next structure id to the client.<p>
-     *
-     * @param id the next structure id
-     */
-    void sendNextId(String id);
-
+  /**
+   * Sends next structure id to the client.
+   *
+   * <p>
+   *
+   * @param id the next structure id
+   */
+  void sendNextId(String id);
 }

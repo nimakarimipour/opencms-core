@@ -30,64 +30,62 @@ package org.opencms.gwt.shared;
 import java.util.List;
 import java.util.Map;
 
-/**
- * AutoBean interface for the data needed to open an embedded Vaadin dialog from GWT.
- */
+/** AutoBean interface for the data needed to open an embedded Vaadin dialog from GWT. */
 public interface I_CmsEmbeddedDialogInfo {
 
-    /**
-     * Gets the context type.
-     *
-     * @return the context type
-     */
-    public String getContextType();
+  /**
+   * Gets the context type.
+   *
+   * @return the context type
+   */
+  public String getContextType();
 
-    /**
-     * Gets the dialog id.
-     *
-     * @return the dialog id
-     */
-    public String getDialogId();
+  /**
+   * Gets the dialog id.
+   *
+   * @return the dialog id
+   */
+  public String getDialogId();
 
-    /**
-     * Gets the parameters.
-     *
-     * @return the parameters
-     */
-    public Map<String, String> getParameters();
+  /**
+   * Gets the parameters.
+   *
+   * @return the parameters
+   */
+  public Map<String, String> getParameters();
 
-    /**
-     * Gets the structure ids.
-     *
-     * @return the structure ids
-     */
-    public List<String> getStructureIds();
+  /**
+   * Gets the structure ids.
+   *
+   * @return the structure ids
+   */
+  public List<String> getStructureIds();
 
-    /**
-     * Sets the context type.
-     *
-     * @param contextType the new context type
-     */
-    public void setContextType(String contextType);
+  /**
+   * Sets the context type.
+   *
+   * @param contextType the new context type
+   */
+  public void setContextType(String contextType);
 
-    /**
-     * Sets the dialog id.
-     *
-     * @param dialogId the new dialog id
-     */
-    public void setDialogId(String dialogId);
+  /**
+   * Sets the dialog id.
+   *
+   * @param dialogId the new dialog id
+   */
+  public void setDialogId(String dialogId);
 
-    /**
-     * Sets the parameters.
-     *
-     * @param parameters the parameters
-     */
-    public void setParameters(Map<String, String> parameters);
+  /**
+   * Sets the parameters.
+   *
+   * @param parameters the parameters
+   */
+  public void setParameters(Map<String, String> parameters);
 
-    /**
-     * Sets the structure ids.
-     *
-     * @param structureIds the structure ids
-     */
-    public void setStructureIds(List<String> structureIds);
+  /**
+   * Sets the structure ids.
+   *
+   * @param structureIds the structure ids
+   */
+  public void setStructureIds(List<String> structureIds);
 }

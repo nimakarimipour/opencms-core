@@ -27,78 +27,82 @@
 
 package org.opencms.widgets;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.htmlparser.util.ParserException;
 import org.opencms.file.CmsObject;
 import org.opencms.i18n.CmsEncoder;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsHtmlExtractor;
 import org.opencms.util.CmsStringUtil;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
-import org.htmlparser.util.ParserException;
-
 /**
- * {@link org.opencms.widgets.CmsInputWidget} that strips HTML Tags from the input before storing values.<p>
+ * {@link org.opencms.widgets.CmsInputWidget} that strips HTML Tags from the input before storing
+ * values.
+ *
+ * <p>
  *
  * @since 6.3.0
- *
  */
 public final class CmsInputWidgetPlaintext extends CmsInputWidget {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsInputWidgetPlaintext.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsInputWidgetPlaintext.class);
 
-    /**
-     * Defcon.<p>
-     */
-    public CmsInputWidgetPlaintext() {
+  /**
+   * Defcon.
+   *
+   * <p>
+   */
+  public CmsInputWidgetPlaintext() {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * @see org.opencms.widgets.CmsInputWidget#newInstance()
-     */
-    @Override
-    public I_CmsWidget newInstance() {
+  /** @see org.opencms.widgets.CmsInputWidget#newInstance() */
+  @Override
+  public I_CmsWidget newInstance() {
 
-        return new CmsInputWidgetPlaintext();
-    }
+    return new CmsInputWidgetPlaintext();
+  }
 
-    /**
-     * @see org.opencms.widgets.A_CmsWidget#setEditorValue(org.opencms.file.CmsObject, java.util.Map, org.opencms.widgets.I_CmsWidgetDialog, org.opencms.widgets.I_CmsWidgetParameter)
-     */
-    @Override
-    public void setEditorValue(
-        CmsObject cms,
-        Map<String, String[]> formParameters,
-        I_CmsWidgetDialog widgetDialog,
-        I_CmsWidgetParameter param) {
+  /**
+   * @see org.opencms.widgets.A_CmsWidget#setEditorValue(org.opencms.file.CmsObject, java.util.Map,
+   *     org.opencms.widgets.I_CmsWidgetDialog, org.opencms.widgets.I_CmsWidgetParameter)
+   */
+  @Override
+  public void setEditorValue(
+      CmsObject cms,
+      Map<String, String[]> formParameters,
+      I_CmsWidgetDialog widgetDialog,
+      I_CmsWidgetParameter param) {
 
-        String[] values = formParameters.get(param.getId());
-        if ((values != null) && (values.length > 0)) {
-            String value = values[0];
-            if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value)) {
-                try {
-                    value = CmsHtmlExtractor.extractText(value, CmsEncoder.ENCODING_UTF_8);
-                } catch (ParserException e) {
-                    if (LOG.isErrorEnabled()) {
-                        LOG.error(
-                            Messages.get().getBundle().key(Messages.LOG_ERR_WIDGET_PLAINTEXT_EXTRACT_HTML_1, value));
-                    }
-                } catch (UnsupportedEncodingException e) {
-                    if (LOG.isErrorEnabled()) {
-                        LOG.error(
-                            Messages.get().getBundle().key(Messages.LOG_ERR_WIDGET_PLAINTEXT_EXTRACT_HTML_1, value));
-                    }
-                }
-            } else {
-                value = "";
-            }
-            param.setStringValue(cms, value);
+    String[] values = formParameters.get(param.getId());
+    if ((values != null) && (values.length > 0)) {
+      String value = values[0];
+      if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value)) {
+        try {
+          value = CmsHtmlExtractor.extractText(value, CmsEncoder.ENCODING_UTF_8);
+        } catch (ParserException e) {
+          if (LOG.isErrorEnabled()) {
+            LOG.error(
+                Messages.get()
+                    .getBundle()
+                    .key(Messages.LOG_ERR_WIDGET_PLAINTEXT_EXTRACT_HTML_1, value));
+          }
+        } catch (UnsupportedEncodingException e) {
+          if (LOG.isErrorEnabled()) {
+            LOG.error(
+                Messages.get()
+                    .getBundle()
+                    .key(Messages.LOG_ERR_WIDGET_PLAINTEXT_EXTRACT_HTML_1, value));
+          }
         }
+      } else {
+        value = "";
+      }
+      param.setStringValue(cms, value);
     }
+  }
 }

@@ -30,194 +30,218 @@ package org.opencms.security;
 import java.util.StringTokenizer;
 
 /**
- * A custom permission set that can be modified during runtime and contains both allowed and denied permissions as bitsets.<p>
+ * A custom permission set that can be modified during runtime and contains both allowed and denied
+ * permissions as bitsets.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsPermissionSetCustom extends CmsPermissionSet {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -8537313517987611085L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -8537313517987611085L;
 
-    /**
-     * Constructor to create an empty permission set.<p>
-     */
-    public CmsPermissionSetCustom() {
+  /**
+   * Constructor to create an empty permission set.
+   *
+   * <p>
+   */
+  public CmsPermissionSetCustom() {
 
-        super();
+    super();
+  }
+
+  /**
+   * Constructor to create a permission set with preset allowed and denied permissions from another
+   * permission set.
+   *
+   * <p>The permissions are read from a string representation of permissions in the format <code>
+   * {{+|-}{r|w|v|c|d}}*</code>.
+   *
+   * <p>
+   *
+   * @param permissions the set of allowed and denied permissions
+   */
+  public CmsPermissionSetCustom(CmsPermissionSet permissions) {
+
+    m_allowed = permissions.m_allowed;
+    m_denied = permissions.m_denied;
+  }
+
+  /**
+   * Constructor to create a permission set with preset allowed permissions.
+   *
+   * <p>
+   *
+   * @param allowedPermissions bitset of allowed permissions
+   */
+  public CmsPermissionSetCustom(int allowedPermissions) {
+
+    super(allowedPermissions);
+  }
+
+  /**
+   * Constructor to create a permission set with preset allowed and denied permissions.
+   *
+   * <p>
+   *
+   * @param allowedPermissions the set of permissions to allow
+   * @param deniedPermissions the set of permissions to deny
+   */
+  public CmsPermissionSetCustom(int allowedPermissions, int deniedPermissions) {
+
+    super(allowedPermissions, deniedPermissions);
+  }
+
+  /**
+   * Constructor to create a permission set with preset allowed and denied permissions from a
+   * String.
+   *
+   * <p>The permissions are read from a string representation of permissions in the format <code>
+   * {{+|-}{r|w|v|c|d}}*</code>.
+   *
+   * <p>
+   *
+   * @param permissionString the string representation of allowed and denied permissions
+   */
+  public CmsPermissionSetCustom(String permissionString) {
+
+    StringTokenizer tok = new StringTokenizer(permissionString, "+-", true);
+    m_allowed = 0;
+    m_denied = 0;
+
+    while (tok.hasMoreElements()) {
+      String prefix = tok.nextToken();
+      String suffix = tok.nextToken();
+      switch (suffix.charAt(0)) {
+        case 'R':
+        case 'r':
+          if (prefix.charAt(0) == '+') {
+            m_allowed |= CmsPermissionSet.PERMISSION_READ;
+          }
+          if (prefix.charAt(0) == '-') {
+            m_denied |= CmsPermissionSet.PERMISSION_READ;
+          }
+          break;
+        case 'W':
+        case 'w':
+          if (prefix.charAt(0) == '+') {
+            m_allowed |= CmsPermissionSet.PERMISSION_WRITE;
+          }
+          if (prefix.charAt(0) == '-') {
+            m_denied |= CmsPermissionSet.PERMISSION_WRITE;
+          }
+          break;
+        case 'V':
+        case 'v':
+          if (prefix.charAt(0) == '+') {
+            m_allowed |= CmsPermissionSet.PERMISSION_VIEW;
+          }
+          if (prefix.charAt(0) == '-') {
+            m_denied |= CmsPermissionSet.PERMISSION_VIEW;
+          }
+          break;
+        case 'C':
+        case 'c':
+          if (prefix.charAt(0) == '+') {
+            m_allowed |= CmsPermissionSet.PERMISSION_CONTROL;
+          }
+          if (prefix.charAt(0) == '-') {
+            m_denied |= CmsPermissionSet.PERMISSION_CONTROL;
+          }
+          break;
+        case 'D':
+        case 'd':
+          if (prefix.charAt(0) == '+') {
+            m_allowed |= CmsPermissionSet.PERMISSION_DIRECT_PUBLISH;
+          }
+          if (prefix.charAt(0) == '-') {
+            m_denied |= CmsPermissionSet.PERMISSION_DIRECT_PUBLISH;
+          }
+          break;
+        default:
+          // ignore
+          break;
+      }
     }
+  }
 
-    /**
-     * Constructor to create a permission set with preset allowed and denied permissions from another permission set.<p>
-     *
-     * The permissions are read from a string representation of permissions
-     * in the format <code>{{+|-}{r|w|v|c|d}}*</code>.<p>
-     *
-     * @param permissions the set of allowed and denied permissions
-     */
-    public CmsPermissionSetCustom(CmsPermissionSet permissions) {
+  /**
+   * Sets permissions from another permission set additionally both as allowed and denied
+   * permissions.
+   *
+   * <p>
+   *
+   * @param permissionSet the set of permissions to set additionally.
+   */
+  public void addPermissions(CmsPermissionSet permissionSet) {
 
-        m_allowed = permissions.m_allowed;
-        m_denied = permissions.m_denied;
-    }
+    m_allowed |= permissionSet.m_allowed;
+    m_denied |= permissionSet.m_denied;
+  }
 
-    /**
-     * Constructor to create a permission set with preset allowed permissions.<p>
-     *
-     * @param allowedPermissions bitset of allowed permissions
-     */
-    public CmsPermissionSetCustom(int allowedPermissions) {
+  /**
+   * Returns a clone of this Objects instance.
+   *
+   * <p>
+   *
+   * @return a clone of this instance
+   */
+  @Override
+  public Object clone() {
 
-        super(allowedPermissions);
+    return new CmsPermissionSetCustom(m_allowed, m_denied);
+  }
 
-    }
+  /**
+   * Sets permissions additionally as denied permissions.
+   *
+   * <p>
+   *
+   * @param permissions bitset of permissions to deny
+   */
+  public void denyPermissions(int permissions) {
 
-    /**
-     * Constructor to create a permission set with preset allowed and denied permissions.<p>
-     *
-     * @param allowedPermissions the set of permissions to allow
-     * @param deniedPermissions the set of permissions to deny
-     */
-    public CmsPermissionSetCustom(int allowedPermissions, int deniedPermissions) {
+    m_denied |= permissions;
+  }
 
-        super(allowedPermissions, deniedPermissions);
-    }
+  /**
+   * Sets permissions additionally as allowed permissions.
+   *
+   * <p>
+   *
+   * @param permissions bitset of permissions to allow
+   */
+  public void grantPermissions(int permissions) {
 
-    /**
-     * Constructor to create a permission set with preset allowed and denied permissions from a String.<p>
-     *
-     * The permissions are read from a string representation of permissions
-     * in the format <code>{{+|-}{r|w|v|c|d}}*</code>.<p>
-     *
-     * @param permissionString the string representation of allowed and denied permissions
-     */
-    public CmsPermissionSetCustom(String permissionString) {
+    m_allowed |= permissions;
+  }
 
-        StringTokenizer tok = new StringTokenizer(permissionString, "+-", true);
-        m_allowed = 0;
-        m_denied = 0;
+  /**
+   * Set permissions from another permission set both as allowed and denied permissions.
+   *
+   * <p>Permissions formerly set are overwritten.
+   *
+   * @param permissionSet the set of permissions
+   */
+  public void setPermissions(CmsPermissionSet permissionSet) {
 
-        while (tok.hasMoreElements()) {
-            String prefix = tok.nextToken();
-            String suffix = tok.nextToken();
-            switch (suffix.charAt(0)) {
-                case 'R':
-                case 'r':
-                    if (prefix.charAt(0) == '+') {
-                        m_allowed |= CmsPermissionSet.PERMISSION_READ;
-                    }
-                    if (prefix.charAt(0) == '-') {
-                        m_denied |= CmsPermissionSet.PERMISSION_READ;
-                    }
-                    break;
-                case 'W':
-                case 'w':
-                    if (prefix.charAt(0) == '+') {
-                        m_allowed |= CmsPermissionSet.PERMISSION_WRITE;
-                    }
-                    if (prefix.charAt(0) == '-') {
-                        m_denied |= CmsPermissionSet.PERMISSION_WRITE;
-                    }
-                    break;
-                case 'V':
-                case 'v':
-                    if (prefix.charAt(0) == '+') {
-                        m_allowed |= CmsPermissionSet.PERMISSION_VIEW;
-                    }
-                    if (prefix.charAt(0) == '-') {
-                        m_denied |= CmsPermissionSet.PERMISSION_VIEW;
-                    }
-                    break;
-                case 'C':
-                case 'c':
-                    if (prefix.charAt(0) == '+') {
-                        m_allowed |= CmsPermissionSet.PERMISSION_CONTROL;
-                    }
-                    if (prefix.charAt(0) == '-') {
-                        m_denied |= CmsPermissionSet.PERMISSION_CONTROL;
-                    }
-                    break;
-                case 'D':
-                case 'd':
-                    if (prefix.charAt(0) == '+') {
-                        m_allowed |= CmsPermissionSet.PERMISSION_DIRECT_PUBLISH;
-                    }
-                    if (prefix.charAt(0) == '-') {
-                        m_denied |= CmsPermissionSet.PERMISSION_DIRECT_PUBLISH;
-                    }
-                    break;
-                default:
-                    // ignore
-                    break;
-            }
-        }
-    }
+    m_allowed = permissionSet.m_allowed;
+    m_denied = permissionSet.m_denied;
+  }
 
-    /**
-     * Sets permissions from another permission set additionally both as allowed and denied permissions.<p>
-     *
-     * @param permissionSet the set of permissions to set additionally.
-     */
-    public void addPermissions(CmsPermissionSet permissionSet) {
+  /**
+   * Sets permissions as allowed and denied permissions in the permission set.
+   *
+   * <p>Permissions formerly set are overwritten.
+   *
+   * @param allowedPermissions bitset of permissions to allow
+   * @param deniedPermissions bitset of permissions to deny
+   */
+  public void setPermissions(int allowedPermissions, int deniedPermissions) {
 
-        m_allowed |= permissionSet.m_allowed;
-        m_denied |= permissionSet.m_denied;
-    }
-
-    /**
-     * Returns a clone of this Objects instance.<p>
-     *
-     * @return a clone of this instance
-     */
-    @Override
-    public Object clone() {
-
-        return new CmsPermissionSetCustom(m_allowed, m_denied);
-    }
-
-    /**
-     * Sets permissions additionally as denied permissions.<p>
-     *
-     * @param permissions bitset of permissions to deny
-     */
-    public void denyPermissions(int permissions) {
-
-        m_denied |= permissions;
-    }
-
-    /**
-     * Sets permissions additionally as allowed permissions.<p>
-     *
-     * @param permissions bitset of permissions to allow
-     */
-    public void grantPermissions(int permissions) {
-
-        m_allowed |= permissions;
-    }
-
-    /**
-     * Set permissions from another permission set both as allowed and denied permissions.<p>
-     * Permissions formerly set are overwritten.
-     *
-     * @param permissionSet the set of permissions
-     */
-    public void setPermissions(CmsPermissionSet permissionSet) {
-
-        m_allowed = permissionSet.m_allowed;
-        m_denied = permissionSet.m_denied;
-    }
-
-    /**
-     * Sets permissions as allowed and denied permissions in the permission set.<p>
-     * Permissions formerly set are overwritten.
-     *
-     * @param allowedPermissions bitset of permissions to allow
-     * @param deniedPermissions  bitset of permissions to deny
-     */
-    public void setPermissions(int allowedPermissions, int deniedPermissions) {
-
-        m_allowed = allowedPermissions;
-        m_denied = deniedPermissions;
-    }
-
+    m_allowed = allowedPermissions;
+    m_denied = deniedPermissions;
+  }
 }

@@ -27,142 +27,149 @@
 
 package org.opencms.setup.db;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PipedOutputStream;
+import java.io.PrintStream;
 import org.opencms.main.CmsLog;
 import org.opencms.main.CmsSystemInfo;
 import org.opencms.setup.CmsSetupLoggingThread;
 import org.opencms.setup.CmsUpdateBean;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PipedOutputStream;
-import java.io.PrintStream;
-
 /**
- * Used for the workplace setup in the OpenCms setup wizard.<p>
+ * Used for the workplace setup in the OpenCms setup wizard.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsUpdateDBThread extends Thread {
 
-    /** Saves the System.err stream so it can be restored. */
-    public PrintStream m_tempErr;
+  /** Saves the System.err stream so it can be restored. */
+  public PrintStream m_tempErr;
 
-    /** Logging thread. */
-    private CmsSetupLoggingThread m_loggingThread;
+  /** Logging thread. */
+  private CmsSetupLoggingThread m_loggingThread;
 
-    /** System.out and System.err are redirected to this stream. */
-    private PipedOutputStream m_pipedOut;
+  /** System.out and System.err are redirected to this stream. */
+  private PipedOutputStream m_pipedOut;
 
-    /** The additional shell commands, i.e. the update bean. */
-    private CmsUpdateBean m_updateBean;
+  /** The additional shell commands, i.e. the update bean. */
+  private CmsUpdateBean m_updateBean;
 
-    /** Saves the System.out stream so it can be restored. */
-    private PrintStream m_tempOut;
+  /** Saves the System.out stream so it can be restored. */
+  private PrintStream m_tempOut;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param updateBean the initialized update bean
-     */
-    public CmsUpdateDBThread(CmsUpdateBean updateBean) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param updateBean the initialized update bean
+   */
+  public CmsUpdateDBThread(CmsUpdateBean updateBean) {
 
-        super("OpenCms: Database Update");
+    super("OpenCms: Database Update");
 
-        // store setup bean
-        m_updateBean = updateBean;
-        // init stream and logging thread
-        m_pipedOut = new PipedOutputStream();
-        m_loggingThread = new CmsSetupLoggingThread(
+    // store setup bean
+    m_updateBean = updateBean;
+    // init stream and logging thread
+    m_pipedOut = new PipedOutputStream();
+    m_loggingThread =
+        new CmsSetupLoggingThread(
             m_pipedOut,
-            m_updateBean.getWebAppRfsPath() + CmsSystemInfo.FOLDER_WEBINF + CmsLog.FOLDER_LOGS + "db-update.log");
+            m_updateBean.getWebAppRfsPath()
+                + CmsSystemInfo.FOLDER_WEBINF
+                + CmsLog.FOLDER_LOGS
+                + "db-update.log");
+  }
+
+  /**
+   * Returns the logging thread.
+   *
+   * <p>
+   *
+   * @return the logging thread
+   */
+  public CmsSetupLoggingThread getLoggingThread() {
+
+    return m_loggingThread;
+  }
+
+  public OutputStream getOut() {
+
+    return m_pipedOut;
+  }
+
+  /**
+   * Returns the status of the logging thread.
+   *
+   * <p>
+   *
+   * @return the status of the logging thread
+   */
+  public boolean isFinished() {
+
+    return m_loggingThread.isFinished();
+  }
+
+  /**
+   * Kills this Thread as well as the included logging Thread.
+   *
+   * <p>
+   */
+  public void kill() {
+
+    if (m_loggingThread != null) {
+      m_loggingThread.stopThread();
     }
+    m_updateBean = null;
+  }
 
-    /**
-     * Returns the logging thread.<p>
-     *
-     * @return the logging thread
-     */
-    public CmsSetupLoggingThread getLoggingThread() {
+  /** @see java.lang.Runnable#run() */
+  @Override
+  public void run() {
 
-        return m_loggingThread;
-    }
+    run(new PrintStream(m_pipedOut));
+  }
 
-    public OutputStream getOut() {
+  /** @see java.lang.Runnable#run() */
+  public void run(PrintStream out) {
 
-        return m_pipedOut;
-    }
+    // save the original out and err stream
+    m_tempOut = System.out;
+    m_tempErr = System.err;
+    try {
+      // redirect the streams
+      System.setOut(out);
+      System.setErr(out);
 
-    /**
-     * Returns the status of the logging thread.<p>
-     *
-     * @return the status of the logging thread
-     */
-    public boolean isFinished() {
+      // start the logging thread
+      m_loggingThread.start();
 
-        return m_loggingThread.isFinished();
-    }
+      System.out.println("Starting DB Update... ");
 
-    /**
-     * Kills this Thread as well as the included logging Thread.<p>
-     */
-    public void kill() {
+      CmsUpdateDBManager dbMan = new CmsUpdateDBManager();
+      try {
+        dbMan.initialize(m_updateBean);
+        dbMan.run();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
 
-        if (m_loggingThread != null) {
-            m_loggingThread.stopThread();
-        }
-        m_updateBean = null;
-    }
-
-    /**
-     * @see java.lang.Runnable#run()
-     */
-    @Override
-    public void run() {
-
-        run(new PrintStream(m_pipedOut));
-    }
-
-    /**
-     * @see java.lang.Runnable#run()
-     */
-
-    public void run(PrintStream out) {
-
-        // save the original out and err stream
-        m_tempOut = System.out;
-        m_tempErr = System.err;
+      System.out.println("... DB Update finished.");
+    } finally {
+      kill();
+      if (m_pipedOut != null) {
         try {
-            // redirect the streams
-            System.setOut(out);
-            System.setErr(out);
-
-            // start the logging thread
-            m_loggingThread.start();
-
-            System.out.println("Starting DB Update... ");
-
-            CmsUpdateDBManager dbMan = new CmsUpdateDBManager();
-            try {
-                dbMan.initialize(m_updateBean);
-                dbMan.run();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("... DB Update finished.");
-        } finally {
-            kill();
-            if (m_pipedOut != null) {
-                try {
-                    m_pipedOut.close();
-                } catch (IOException e) {
-                    // ignore
-                }
-            }
-            // restore to the old streams
-            System.setOut(m_tempOut);
-            System.setErr(m_tempErr);
+          m_pipedOut.close();
+        } catch (IOException e) {
+          // ignore
         }
+      }
+      // restore to the old streams
+      System.setOut(m_tempOut);
+      System.setErr(m_tempErr);
     }
-
+  }
 }

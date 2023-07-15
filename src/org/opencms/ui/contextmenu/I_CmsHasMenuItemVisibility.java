@@ -27,33 +27,36 @@
 
 package org.opencms.ui.contextmenu;
 
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.ui.I_CmsDialogContext;
 
-import java.util.List;
-
 /**
- * Interface used to check menu item visibility for context menus.<p>
+ * Interface used to check menu item visibility for context menus.
+ *
+ * <p>
  */
 public interface I_CmsHasMenuItemVisibility {
 
-    /**
-     * Gets the visibility for the current resource and CMS context.<p>
-     *
-     * @param cms the CMS context to use
-     * @param resources the list of resources to check
-     *
-     * @return the visibility
-     */
-    CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources);
+  /**
+   * Gets the visibility for the current resource and CMS context.
+   *
+   * <p>
+   *
+   * @param cms the CMS context to use
+   * @param resources the list of resources to check
+   * @return the visibility
+   */
+  CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources);
 
-    /**
-     * Gets the visibility for the current dialog context.<p>
-     *
-     * @param context the dialog context
-     *
-     * @return the visibility
-     */
-    CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context);
+  /**
+   * Gets the visibility for the current dialog context.
+   *
+   * <p>
+   *
+   * @param context the dialog context
+   * @return the visibility
+   */
+  CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context);
 }

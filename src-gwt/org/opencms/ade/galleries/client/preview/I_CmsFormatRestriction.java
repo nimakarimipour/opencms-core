@@ -28,91 +28,111 @@
 package org.opencms.ade.galleries.client.preview;
 
 /**
- * Image format restriction. To be used within the image format tab of the image preview.<p>
+ * Image format restriction. To be used within the image format tab of the image preview.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsFormatRestriction {
 
-    /** Value to indicate this dimension is not set. */
-    int DIMENSION_NOT_SET = -1;
+  /** Value to indicate this dimension is not set. */
+  int DIMENSION_NOT_SET = -1;
 
-    /**
-     * Adjust the given cropping parameter bean to this format restriction.<p>
-     * Execute on selection of this restriction.<p>
-     *
-     * @param croppingParam the cropping parameter bean to adjust
-     */
-    void adjustCroppingParam(CmsCroppingParamBean croppingParam);
+  /**
+   * Adjust the given cropping parameter bean to this format restriction.
+   *
+   * <p>Execute on selection of this restriction.
+   *
+   * <p>
+   *
+   * @param croppingParam the cropping parameter bean to adjust
+   */
+  void adjustCroppingParam(CmsCroppingParamBean croppingParam);
 
-    /**
-     * Returns the preset height for this format restriction.<p>
-     *
-     * @param orgHeight the original image height
-     * @param orgWidth the original image width
-     *
-     * @return the height
-     */
-    int getHeight(int orgHeight, int orgWidth);
+  /**
+   * Returns the preset height for this format restriction.
+   *
+   * <p>
+   *
+   * @param orgHeight the original image height
+   * @param orgWidth the original image width
+   * @return the height
+   */
+  int getHeight(int orgHeight, int orgWidth);
 
-    /**
-     * Returns the label for the format.<p>
-     *
-     * @return the label
-     */
-    String getLabel();
+  /**
+   * Returns the label for the format.
+   *
+   * <p>
+   *
+   * @return the label
+   */
+  String getLabel();
 
-    /**
-     * Returns the format name.<p>
-     *
-     * @return the format name
-     */
-    String getName();
+  /**
+   * Returns the format name.
+   *
+   * <p>
+   *
+   * @return the format name
+   */
+  String getName();
 
-    /**
-     * Returns the preset width for this format restriction.<p>
-     *
-     * @param orgHeight the original image height
-     * @param orgWidth the original image width
-     *
-     * @return the width
-     */
-    int getWidth(int orgHeight, int orgWidth);
+  /**
+   * Returns the preset width for this format restriction.
+   *
+   * <p>
+   *
+   * @param orgHeight the original image height
+   * @param orgWidth the original image width
+   * @return the width
+   */
+  int getWidth(int orgHeight, int orgWidth);
 
-    /**
-     * Returns if this format allows cropping.<p>
-     *
-     * @return <code>true</code> if cropping is allowed
-     */
-    boolean isCroppingEnabled();
+  /**
+   * Returns if this format allows cropping.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if cropping is allowed
+   */
+  boolean isCroppingEnabled();
 
-    /**
-     * Returns if this format has a fixed height/width ratio.<p>
-     *
-     * @return <code>true</code> if the ratio is fixed
-     */
-    boolean isFixedRatio();
+  /**
+   * Returns if this format has a fixed height/width ratio.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the ratio is fixed
+   */
+  boolean isFixedRatio();
 
-    /**
-     * Returns if height is editable.<p>
-     *
-     * @return <code>true</code> if height is editable
-     */
-    boolean isHeightEditable();
+  /**
+   * Returns if height is editable.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if height is editable
+   */
+  boolean isHeightEditable();
 
-    /**
-     * Returns if width is editable.<p>
-     *
-     * @return <code>true</code> if width is editable
-     */
-    boolean isWidthEditable();
+  /**
+   * Returns if width is editable.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if width is editable
+   */
+  boolean isWidthEditable();
 
-    /**
-     * Checks whether the given cropping parameter matches these restrictions.<p>
-     *
-     * @param croppingParam the cropping parameter to match
-     *
-     * @return <code>true</code> if the restrictions are matched by the given cropping parameter
-     */
-    boolean matchesCroppingParam(CmsCroppingParamBean croppingParam);
+  /**
+   * Checks whether the given cropping parameter matches these restrictions.
+   *
+   * <p>
+   *
+   * @param croppingParam the cropping parameter to match
+   * @return <code>true</code> if the restrictions are matched by the given cropping parameter
+   */
+  boolean matchesCroppingParam(CmsCroppingParamBean croppingParam);
 }

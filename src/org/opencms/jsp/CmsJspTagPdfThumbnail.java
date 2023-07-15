@@ -27,119 +27,127 @@
 
 package org.opencms.jsp;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.jsp.tagext.TagSupport;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.flex.CmsFlexController;
 import org.opencms.main.CmsException;
 import org.opencms.pdftools.CmsPdfThumbnailLink;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.jsp.tagext.TagSupport;
-
 /**
- * JSP tag to generate a link to a PDF produced from a given XML content.<p>
+ * JSP tag to generate a link to a PDF produced from a given XML content.
+ *
+ * <p>
  */
 public class CmsJspTagPdfThumbnail extends TagSupport {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The path of the content resource for which the PDF link should be generated. */
-    private String m_file;
+  /** The path of the content resource for which the PDF link should be generated. */
+  private String m_file;
 
-    /** The image format. */
-    private String m_format = "png";
+  /** The image format. */
+  private String m_format = "png";
 
-    /** The image height. */
-    private int m_height = -1;
+  /** The image height. */
+  private int m_height = -1;
 
-    /** The image width. */
-    private int m_width = -1;
+  /** The image width. */
+  private int m_width = -1;
 
-    /**
-     * The implementation of the tag.<p>
-     *
-     * @param request the current request
-     * @param file the path to the PDF
-     * @param width the thumbnail width
-     * @param height the thumbnail height
-     * @param format the image format
-     *
-     * @throws CmsException if something goes wrong
-     *
-     * @return the link to the PDF thumbnail
-     */
-    public static String pdfTagAction(ServletRequest request, String file, int width, int height, String format)
-    throws CmsException {
+  /**
+   * The implementation of the tag.
+   *
+   * <p>
+   *
+   * @param request the current request
+   * @param file the path to the PDF
+   * @param width the thumbnail width
+   * @param height the thumbnail height
+   * @param format the image format
+   * @throws CmsException if something goes wrong
+   * @return the link to the PDF thumbnail
+   */
+  public static String pdfTagAction(
+      ServletRequest request, String file, int width, int height, String format)
+      throws CmsException {
 
-        CmsFlexController controller = CmsFlexController.getController(request);
-        CmsObject cms = controller.getCmsObject();
-        CmsResource pdfRes = cms.readResource(file);
-        CmsPdfThumbnailLink linkObj = new CmsPdfThumbnailLink(cms, pdfRes, width, height, format);
-        return linkObj.getLinkWithOptions();
+    CmsFlexController controller = CmsFlexController.getController(request);
+    CmsObject cms = controller.getCmsObject();
+    CmsResource pdfRes = cms.readResource(file);
+    CmsPdfThumbnailLink linkObj = new CmsPdfThumbnailLink(cms, pdfRes, width, height, format);
+    return linkObj.getLinkWithOptions();
+  }
+
+  /** @see javax.servlet.jsp.tagext.Tag#doStartTag() */
+  @Override
+  public int doStartTag() {
+
+    try {
+      pageContext
+          .getOut()
+          .print(pdfTagAction(pageContext.getRequest(), m_file, m_width, m_height, m_format));
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
+    return SKIP_BODY;
+  }
 
-    /**
-     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-     */
-    @Override
-    public int doStartTag() {
+  /**
+   * Sets the path to the PDF.
+   *
+   * <p>
+   *
+   * @param file the PDF path
+   */
+  public void setFile(String file) {
 
-        try {
-            pageContext.getOut().print(pdfTagAction(pageContext.getRequest(), m_file, m_width, m_height, m_format));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return SKIP_BODY;
+    m_file = file;
+  }
+
+  /**
+   * Setter for the format path.
+   *
+   * <p>
+   *
+   * @param format the format path
+   */
+  public void setFormat(String format) {
+
+    m_format = format;
+  }
+
+  /**
+   * Sets the height.
+   *
+   * <p>
+   *
+   * @param height the height to set
+   */
+  public void setHeight(String height) {
+
+    try {
+      m_height = Integer.parseInt(height);
+    } catch (NumberFormatException e) {
+      m_height = -1;
     }
+  }
 
-    /**
-     * Sets the path to the PDF.<p>
-     *
-     * @param file the PDF path
-     */
-    public void setFile(String file) {
+  /**
+   * Sets the width.
+   *
+   * <p>
+   *
+   * @param width the width to set
+   */
+  public void setWidth(String width) {
 
-        m_file = file;
+    try {
+      m_width = Integer.parseInt(width);
+    } catch (NumberFormatException e) {
+      m_width = -1;
     }
-
-    /**
-     * Setter for the format path.<p>
-     *
-     * @param format the format path
-     */
-    public void setFormat(String format) {
-
-        m_format = format;
-    }
-
-    /**
-     * Sets the height.<p>
-     *
-     * @param height the height to set
-     */
-    public void setHeight(String height) {
-
-        try {
-            m_height = Integer.parseInt(height);
-        } catch (NumberFormatException e) {
-            m_height = -1;
-        }
-
-    }
-
-    /**
-     * Sets the width.<p>
-     *
-     * @param width the width to set
-     */
-    public void setWidth(String width) {
-
-        try {
-            m_width = Integer.parseInt(width);
-        } catch (NumberFormatException e) {
-            m_width = -1;
-        }
-    }
-
+  }
 }

@@ -30,17 +30,20 @@ package org.opencms.gwt.client.ui;
 import com.google.gwt.event.shared.EventHandler;
 
 /**
- * Interface for on toggle event handler.<p>
+ * Interface for on toggle event handler.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  */
 public interface I_CmsToggleHandler extends EventHandler {
 
-    /**
-     * Handle the toggle event.<p>
-     *
-     * @param event the event
-     */
-    void onToggle(CmsToggleEvent event);
+  /**
+   * Handle the toggle event.
+   *
+   * <p>
+   *
+   * @param event the event
+   */
+  void onToggle(CmsToggleEvent event);
 }

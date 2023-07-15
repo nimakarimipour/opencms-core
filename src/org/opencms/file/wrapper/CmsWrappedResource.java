@@ -31,190 +31,214 @@ import org.opencms.file.CmsFile;
 import org.opencms.file.CmsResource;
 
 /**
- * Helper class to create "virtual" resources not existing in the vfs which are
- * based on existing resources.<p>
+ * Helper class to create "virtual" resources not existing in the vfs which are based on existing
+ * resources.
  *
- * It is not possible to change a {@link CmsResource} instance. This helper class
- * clones a <code>CmsResource</code> and can change some attributes of the
- * <code>CmsResource</code> like the path, the typeId or the length.<p>
+ * <p>It is not possible to change a {@link CmsResource} instance. This helper class clones a <code>
+ * CmsResource</code> and can change some attributes of the <code>CmsResource</code> like the path,
+ * the typeId or the length.
+ *
+ * <p>
  *
  * @since 6.2.4
  */
 public class CmsWrappedResource {
 
-    /** The resource this virtual resources is based on. */
-    private CmsResource m_base;
+  /** The resource this virtual resources is based on. */
+  private CmsResource m_base;
 
-    /** Indicates if the virtual resource is a folder or not. */
-    private boolean m_isFolder;
+  /** Indicates if the virtual resource is a folder or not. */
+  private boolean m_isFolder;
 
-    /** The size of the content of the virtual resource. */
-    private int m_length;
+  /** The size of the content of the virtual resource. */
+  private int m_length;
 
-    /** The root path of the virtual resource. */
-    private String m_rootPath;
+  /** The root path of the virtual resource. */
+  private String m_rootPath;
 
-    /** The type id of the virtual resource. */
-    private int m_typeId;
+  /** The type id of the virtual resource. */
+  private int m_typeId;
 
-    /**
-     * Creates a new virtual resource.<p>
-     *
-     * @param res the resource this virtual resource is based on
-     */
-    public CmsWrappedResource(CmsResource res) {
+  /**
+   * Creates a new virtual resource.
+   *
+   * <p>
+   *
+   * @param res the resource this virtual resource is based on
+   */
+  public CmsWrappedResource(CmsResource res) {
 
-        m_base = res;
+    m_base = res;
 
-        m_rootPath = res.getRootPath();
-        m_typeId = res.getTypeId();
-        m_isFolder = res.isFolder();
-        m_length = res.getLength();
+    m_rootPath = res.getRootPath();
+    m_typeId = res.getTypeId();
+    m_isFolder = res.isFolder();
+    m_length = res.getLength();
+  }
+
+  /**
+   * Returns the virtual resource as a file.
+   *
+   * <p>
+   *
+   * @return the virtual resource as a file
+   */
+  public CmsFile getFile() {
+
+    if (m_base instanceof CmsFile) {
+      CmsFile file = (CmsFile) m_base;
+
+      return new CmsFile(
+          file.getStructureId(),
+          file.getResourceId(),
+          m_rootPath,
+          m_typeId,
+          file.getFlags(),
+          file.getProjectLastModified(),
+          file.getState(),
+          file.getDateCreated(),
+          file.getUserCreated(),
+          file.getDateLastModified(),
+          file.getUserLastModified(),
+          file.getDateReleased(),
+          file.getDateExpired(),
+          file.getSiblingCount(),
+          file.getLength(),
+          file.getDateContent(),
+          file.getVersion(),
+          file.getContents());
     }
 
-    /**
-     * Returns the virtual resource as a file.<p>
-     *
-     * @return the virtual resource as a file
-     */
-    public CmsFile getFile() {
+    return new CmsFile(getResource());
+  }
 
-        if (m_base instanceof CmsFile) {
-            CmsFile file = (CmsFile)m_base;
+  /**
+   * Returns the length.
+   *
+   * <p>
+   *
+   * @return the length
+   */
+  public int getLength() {
 
-            return new CmsFile(
-                file.getStructureId(),
-                file.getResourceId(),
-                m_rootPath,
-                m_typeId,
-                file.getFlags(),
-                file.getProjectLastModified(),
-                file.getState(),
-                file.getDateCreated(),
-                file.getUserCreated(),
-                file.getDateLastModified(),
-                file.getUserLastModified(),
-                file.getDateReleased(),
-                file.getDateExpired(),
-                file.getSiblingCount(),
-                file.getLength(),
-                file.getDateContent(),
-                file.getVersion(),
-                file.getContents());
-        }
+    return m_length;
+  }
 
-        return new CmsFile(getResource());
+  /**
+   * Returns the virtual resource.
+   *
+   * <p>
+   *
+   * @return the virtual resource
+   */
+  public CmsResource getResource() {
+
+    return new CmsResource(
+        m_base.getStructureId(),
+        m_base.getResourceId(),
+        m_rootPath,
+        m_typeId,
+        m_isFolder,
+        m_base.getFlags(),
+        m_base.getProjectLastModified(),
+        m_base.getState(),
+        m_base.getDateCreated(),
+        m_base.getUserCreated(),
+        m_base.getDateLastModified(),
+        m_base.getUserLastModified(),
+        m_base.getDateReleased(),
+        m_base.getDateExpired(),
+        m_base.getSiblingCount(),
+        m_length,
+        m_base.getDateContent(),
+        m_base.getVersion());
+  }
+
+  /**
+   * Returns the rootPath.
+   *
+   * <p>
+   *
+   * @return the rootPath
+   */
+  public String getRootPath() {
+
+    return m_rootPath;
+  }
+
+  /**
+   * Returns the typeId.
+   *
+   * <p>
+   *
+   * @return the typeId
+   */
+  public int getTypeId() {
+
+    return m_typeId;
+  }
+
+  /**
+   * Returns the isFolder.
+   *
+   * <p>
+   *
+   * @return the isFolder
+   */
+  public boolean isFolder() {
+
+    return m_isFolder;
+  }
+
+  /**
+   * Sets the isFolder.
+   *
+   * <p>
+   *
+   * @param isFolder the isFolder to set
+   */
+  public void setFolder(boolean isFolder) {
+
+    m_isFolder = isFolder;
+
+    if ((m_isFolder) && (!m_rootPath.endsWith("/"))) {
+      m_rootPath += "/";
     }
+  }
 
-    /**
-     * Returns the length.<p>
-     *
-     * @return the length
-     */
-    public int getLength() {
+  /**
+   * Sets the length.
+   *
+   * <p>
+   *
+   * @param length the length to set
+   */
+  public void setLength(int length) {
 
-        return m_length;
-    }
+    m_length = length;
+  }
 
-    /**
-     * Returns the virtual resource.<p>
-     *
-     * @return the virtual resource
-     */
-    public CmsResource getResource() {
+  /**
+   * Sets the rootPath.
+   *
+   * <p>
+   *
+   * @param rootPath the rootPath to set
+   */
+  public void setRootPath(String rootPath) {
 
-        return new CmsResource(
-            m_base.getStructureId(),
-            m_base.getResourceId(),
-            m_rootPath,
-            m_typeId,
-            m_isFolder,
-            m_base.getFlags(),
-            m_base.getProjectLastModified(),
-            m_base.getState(),
-            m_base.getDateCreated(),
-            m_base.getUserCreated(),
-            m_base.getDateLastModified(),
-            m_base.getUserLastModified(),
-            m_base.getDateReleased(),
-            m_base.getDateExpired(),
-            m_base.getSiblingCount(),
-            m_length,
-            m_base.getDateContent(),
-            m_base.getVersion());
-    }
+    m_rootPath = rootPath;
+  }
 
-    /**
-     * Returns the rootPath.<p>
-     *
-     * @return the rootPath
-     */
-    public String getRootPath() {
+  /**
+   * Sets the typeId.
+   *
+   * <p>
+   *
+   * @param typeId the typeId to set
+   */
+  public void setTypeId(int typeId) {
 
-        return m_rootPath;
-    }
-
-    /**
-     * Returns the typeId.<p>
-     *
-     * @return the typeId
-     */
-    public int getTypeId() {
-
-        return m_typeId;
-    }
-
-    /**
-     * Returns the isFolder.<p>
-     *
-     * @return the isFolder
-     */
-    public boolean isFolder() {
-
-        return m_isFolder;
-    }
-
-    /**
-     * Sets the isFolder.<p>
-     *
-     * @param isFolder the isFolder to set
-     */
-    public void setFolder(boolean isFolder) {
-
-        m_isFolder = isFolder;
-
-        if ((m_isFolder) && (!m_rootPath.endsWith("/"))) {
-            m_rootPath += "/";
-        }
-    }
-
-    /**
-     * Sets the length.<p>
-     *
-     * @param length the length to set
-     */
-    public void setLength(int length) {
-
-        m_length = length;
-    }
-
-    /**
-     * Sets the rootPath.<p>
-     *
-     * @param rootPath the rootPath to set
-     */
-    public void setRootPath(String rootPath) {
-
-        m_rootPath = rootPath;
-    }
-
-    /**
-     * Sets the typeId.<p>
-     *
-     * @param typeId the typeId to set
-     */
-    public void setTypeId(int typeId) {
-
-        m_typeId = typeId;
-    }
+    m_typeId = typeId;
+  }
 }

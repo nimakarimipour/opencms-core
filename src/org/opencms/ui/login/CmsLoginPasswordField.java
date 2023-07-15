@@ -27,68 +27,65 @@
 
 package org.opencms.ui.login;
 
+import com.vaadin.v7.ui.TextField;
 import org.opencms.ui.shared.components.CmsPasswordFieldState;
 
-import com.vaadin.v7.ui.TextField;
-
 /**
- * Password field for the login dialog.<p>
+ * Password field for the login dialog.
+ *
+ * <p>
  */
 public class CmsLoginPasswordField extends TextField {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsLoginPasswordField() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsLoginPasswordField() {
 
-        super();
-        setImmediate(false);
-        setWidth("100%");
-    }
+    super();
+    setImmediate(false);
+    setWidth("100%");
+  }
 
-    /**
-     * Checks if the password is visible.
-     *
-     * @return true if the password is visible
-     */
-    public boolean isPasswordVisible() {
+  /**
+   * Checks if the password is visible.
+   *
+   * @return true if the password is visible
+   */
+  public boolean isPasswordVisible() {
 
-        return getState(false).isPasswordVisible();
-    }
+    return getState(false).isPasswordVisible();
+  }
 
-    /**
-     * Sets the visibility of the password.
-     *
-     * <p>If false, show the password field as a standard password field,
-     * and if true, just as a text field.
-     *
-     * @param visible the password visibility
-     */
-    public void setPasswordVisible(boolean visible) {
+  /**
+   * Sets the visibility of the password.
+   *
+   * <p>If false, show the password field as a standard password field, and if true, just as a text
+   * field.
+   *
+   * @param visible the password visibility
+   */
+  public void setPasswordVisible(boolean visible) {
 
-        getState().setPasswordVisible(visible);
+    getState().setPasswordVisible(visible);
+  }
 
-    }
+  /** @see com.vaadin.v7.ui.AbstractTextField#getState() */
+  @Override
+  protected CmsPasswordFieldState getState() {
 
-    /**
-     * @see com.vaadin.v7.ui.AbstractTextField#getState()
-     */
-    @Override
-    protected CmsPasswordFieldState getState() {
+    return (CmsPasswordFieldState) (super.getState());
+  }
 
-        return (CmsPasswordFieldState)(super.getState());
-    }
+  /** @see com.vaadin.v7.ui.AbstractTextField#getState(boolean) */
+  @Override
+  protected CmsPasswordFieldState getState(boolean dirty) {
 
-    /**
-     * @see com.vaadin.v7.ui.AbstractTextField#getState(boolean)
-     */
-    @Override
-    protected CmsPasswordFieldState getState(boolean dirty) {
-
-        return (CmsPasswordFieldState)(super.getState(dirty));
-    }
-
+    return (CmsPasswordFieldState) (super.getState(dirty));
+  }
 }

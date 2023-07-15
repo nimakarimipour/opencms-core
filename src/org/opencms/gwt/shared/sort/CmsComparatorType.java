@@ -30,33 +30,34 @@ package org.opencms.gwt.shared.sort;
 import java.util.Comparator;
 
 /**
- * Comparator for objects with a type property.<p>
+ * Comparator for objects with a type property.
+ *
+ * <p>
  *
  * @see I_CmsHasType
- *
  * @since 8.0.0
  */
 public class CmsComparatorType implements Comparator<I_CmsHasType> {
 
-    /** Sort order flag. */
-    private boolean m_ascending;
+  /** Sort order flag. */
+  private boolean m_ascending;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param ascending if <code>true</code> order is ascending
-     */
-    public CmsComparatorType(boolean ascending) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param ascending if <code>true</code> order is ascending
+   */
+  public CmsComparatorType(boolean ascending) {
 
-        m_ascending = ascending;
-    }
+    m_ascending = ascending;
+  }
 
-    /**
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */
-    public int compare(I_CmsHasType o1, I_CmsHasType o2) {
+  /** @see java.util.Comparator#compare(java.lang.Object, java.lang.Object) */
+  public int compare(I_CmsHasType o1, I_CmsHasType o2) {
 
-        int result = o1.getType().compareTo(o2.getType());
-        return m_ascending ? result : -result;
-    }
+    int result = o1.getType().compareTo(o2.getType());
+    return m_ascending ? result : -result;
+  }
 }

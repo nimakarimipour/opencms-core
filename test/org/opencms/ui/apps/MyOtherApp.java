@@ -27,102 +27,97 @@
 
 package org.opencms.ui.apps;
 
-import org.opencms.file.CmsObject;
-import org.opencms.security.CmsRole;
-
-import java.util.Locale;
-
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.v7.ui.Label;
+import java.util.Locale;
+import org.opencms.file.CmsObject;
+import org.opencms.security.CmsRole;
 
 public class MyOtherApp implements I_CmsWorkplaceAppConfiguration {
 
-    public static class MyOtherAppComponent extends Label implements I_CmsWorkplaceApp {
+  public static class MyOtherAppComponent extends Label implements I_CmsWorkplaceApp {
 
-        public MyOtherAppComponent() {
+    public MyOtherAppComponent() {
 
-            super("MyOtherApp");
-        }
-
-        public void initUI(I_CmsAppUIContext context) {
-
-            context.setAppContent(this);
-        }
-
-        public void onStateChange(String state) {
-
-            // TODO Auto-generated method stub
-
-        }
+      super("MyOtherApp");
     }
 
-    public String getAppCategory() {
+    public void initUI(I_CmsAppUIContext context) {
 
-        // TODO Auto-generated method stub
-        return null;
+      context.setAppContent(this);
     }
 
-    public I_CmsWorkplaceApp getAppInstance() {
+    public void onStateChange(String state) {
 
-        return new MyOtherAppComponent();
+      // TODO Auto-generated method stub
+
     }
+  }
 
-    public String getButtonStyle() {
+  public String getAppCategory() {
 
-        // TODO Auto-generated method stub
-        return I_CmsAppButtonProvider.BUTTON_STYLE_TRANSPARENT;
-    }
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-    public String getHelpText(Locale locale) {
+  public I_CmsWorkplaceApp getAppInstance() {
 
-        return null;
-    }
+    return new MyOtherAppComponent();
+  }
 
-    public Resource getIcon() {
+  public String getButtonStyle() {
 
-        return FontAwesome.AMBULANCE;
-    }
+    // TODO Auto-generated method stub
+    return I_CmsAppButtonProvider.BUTTON_STYLE_TRANSPARENT;
+  }
 
-    public String getId() {
+  public String getHelpText(Locale locale) {
 
-        return "myotherapp";
-    }
+    return null;
+  }
 
-    public String getName() {
+  public Resource getIcon() {
 
-        // TODO Auto-generated method stub
-        return null;
-    }
+    return FontAwesome.AMBULANCE;
+  }
 
-    public String getName(Locale locale) {
+  public String getId() {
 
-        return "myotherapp";
-    }
+    return "myotherapp";
+  }
 
-    public int getOrder() {
+  public String getName() {
 
-        // TODO Auto-generated method stub
-        return 0;
-    }
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getPriority()
-     */
-    public int getPriority() {
+  public String getName(Locale locale) {
 
-        return I_CmsWorkplaceAppConfiguration.DEFAULT_PRIORIY;
-    }
+    return "myotherapp";
+  }
 
-    public CmsRole getRequiredRole() {
+  public int getOrder() {
 
-        // TODO Auto-generated method stub
-        return null;
-    }
+    // TODO Auto-generated method stub
+    return 0;
+  }
 
-    public CmsAppVisibilityStatus getVisibility(CmsObject cms) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getPriority() */
+  public int getPriority() {
 
-        return new CmsAppVisibilityStatus(true, true, "");
-    }
+    return I_CmsWorkplaceAppConfiguration.DEFAULT_PRIORIY;
+  }
 
+  public CmsRole getRequiredRole() {
+
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public CmsAppVisibilityStatus getVisibility(CmsObject cms) {
+
+    return new CmsAppVisibilityStatus(true, true, "");
+  }
 }

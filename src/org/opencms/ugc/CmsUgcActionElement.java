@@ -27,47 +27,49 @@
 
 package org.opencms.ugc;
 
-import org.opencms.jsp.CmsJspActionElement;
-import org.opencms.ugc.shared.CmsUgcException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import org.opencms.jsp.CmsJspActionElement;
+import org.opencms.ugc.shared.CmsUgcException;
 
 /**
- * Form action element class for use in rendering user-generated content forms.<p>
+ * Form action element class for use in rendering user-generated content forms.
+ *
+ * <p>
  */
 public class CmsUgcActionElement extends CmsJspActionElement {
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param pageContext the JSP page context
-     * @param request the current request
-     * @param response the current response
-     */
-    public CmsUgcActionElement(PageContext pageContext, HttpServletRequest request, HttpServletResponse response) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param pageContext the JSP page context
+   * @param request the current request
+   * @param response the current response
+   */
+  public CmsUgcActionElement(
+      PageContext pageContext, HttpServletRequest request, HttpServletResponse response) {
 
-        super(pageContext, request, response);
-    }
+    super(pageContext, request, response);
+  }
 
-    /**
-     * Creates a new form session to edit the file with the given name using the given form configuration.
-     *
-     * @param configPath the site path of the form configuration
-     * @param fileName the name (not path) of the XML content to edit
-     * @return the id of the newly created form session
-     *
-     * @throws CmsUgcException if something goes wrong
-     */
-    public String createSessionForResource(String configPath, String fileName) throws CmsUgcException {
+  /**
+   * Creates a new form session to edit the file with the given name using the given form
+   * configuration.
+   *
+   * @param configPath the site path of the form configuration
+   * @param fileName the name (not path) of the XML content to edit
+   * @return the id of the newly created form session
+   * @throws CmsUgcException if something goes wrong
+   */
+  public String createSessionForResource(String configPath, String fileName)
+      throws CmsUgcException {
 
-        CmsUgcSession formSession = CmsUgcSessionFactory.getInstance().createSessionForFile(
-            getCmsObject(),
-            getRequest(),
-            configPath,
-            fileName);
-        return "" + formSession.getId();
-    }
-
+    CmsUgcSession formSession =
+        CmsUgcSessionFactory.getInstance()
+            .createSessionForFile(getCmsObject(), getRequest(), configPath, fileName);
+    return "" + formSession.getId();
+  }
 }

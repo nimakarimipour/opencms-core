@@ -30,14 +30,16 @@ package org.opencms.ui.shared.rpc;
 import com.vaadin.shared.communication.ServerRpc;
 
 /**
- * Editor state RPCs<p>
+ * Editor state RPCs
+ *
+ * <p>
  */
 public interface I_CmsEditorStateRPC extends ServerRpc {
 
-    /**
-     * Sets the editor changed state
-     *
-     * @param hasChanges the editor changed state
-     */
-    void setHasChanges(boolean hasChanges);
+  /**
+   * Sets the editor changed state
+   *
+   * @param hasChanges the editor changed state
+   */
+  void setHasChanges(boolean hasChanges);
 }

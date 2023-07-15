@@ -33,56 +33,60 @@ import com.google.gwt.dom.client.Element;
 import com.vaadin.v7.client.ui.VTextField;
 
 /**
- * Abstract superclass for the user name and password fields of the login dialog.<p>
+ * Abstract superclass for the user name and password fields of the login dialog.
  *
- * Since these fields may be pre-filled by the browser password manager and not by the server side
- * component, they require some special handling.<p>
+ * <p>Since these fields may be pre-filled by the browser password manager and not by the server
+ * side component, they require some special handling.
+ *
+ * <p>
  */
 public class A_CmsLoginField extends VTextField {
 
-    /** True if the intial call to updateFieldContent has already occured. */
-    private boolean m_initialUpdateCalled;
+  /** True if the intial call to updateFieldContent has already occured. */
+  private boolean m_initialUpdateCalled;
 
-    /**
-     * Creates a new instance based on an existing dom input element.<p>
-     *
-     * @param element the input element to use for the widget
-     */
-    protected A_CmsLoginField(Element element) {
+  /**
+   * Creates a new instance based on an existing dom input element.
+   *
+   * <p>
+   *
+   * @param element the input element to use for the widget
+   */
+  protected A_CmsLoginField(Element element) {
 
-        super(element);
-    }
+    super(element);
+  }
 
-    /**
-     * @see com.vaadin.client.ui.VTextField#updateFieldContent(java.lang.String)
-     *
-     * We have to override this method to prevent its value being overwritten by Vaadin and to make
-     * sure that the real value is sent to the server.
-     */
-    @Override
-    public void updateFieldContent(String text) {
+  /**
+   * @see com.vaadin.client.ui.VTextField#updateFieldContent(java.lang.String)
+   *     <p>We have to override this method to prevent its value being overwritten by Vaadin and to
+   *     make sure that the real value is sent to the server.
+   */
+  @Override
+  public void updateFieldContent(String text) {
 
-        if (!m_initialUpdateCalled) {
-            m_initialUpdateCalled = true;
-            if ("".equals(text)) {
-                valueChange(false);
-                Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+    if (!m_initialUpdateCalled) {
+      m_initialUpdateCalled = true;
+      if ("".equals(text)) {
+        valueChange(false);
+        Scheduler.get()
+            .scheduleFixedDelay(
+                new RepeatingCommand() {
 
-                    public boolean execute() {
+                  public boolean execute() {
 
-                        if (isAttached()) {
-                            valueChange(false);
-                            return true;
-                        } else {
-                            return false;
-                        }
+                    if (isAttached()) {
+                      valueChange(false);
+                      return true;
+                    } else {
+                      return false;
                     }
-                }, 100);
-                return;
-            }
-
-        }
-        super.updateFieldContent(text);
+                  }
+                },
+                100);
+        return;
+      }
     }
-
+    super.updateFieldContent(text);
+  }
 }

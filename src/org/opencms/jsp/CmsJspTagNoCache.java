@@ -27,34 +27,33 @@
 
 package org.opencms.jsp;
 
-import org.opencms.util.CmsRequestUtil;
-
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.tagext.TagSupport;
+import org.opencms.util.CmsRequestUtil;
 
 /**
- * A tag to prevent caching by the browser.<p>
+ * A tag to prevent caching by the browser.
  *
- * This tag must be used before any other output is written by a JSP.<p>
+ * <p>This tag must be used before any other output is written by a JSP.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsJspTagNoCache extends TagSupport {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = -3571347942237415254L;
+  /** Serial version id. */
+  private static final long serialVersionUID = -3571347942237415254L;
 
-    /**
-     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-     */
-    @Override
-    public int doStartTag() {
+  /** @see javax.servlet.jsp.tagext.Tag#doStartTag() */
+  @Override
+  public int doStartTag() {
 
-        ServletResponse res = pageContext.getResponse();
-        if (res instanceof HttpServletResponse) {
-            CmsRequestUtil.setNoCacheHeaders((HttpServletResponse)pageContext.getResponse());
-        }
-        return SKIP_BODY;
+    ServletResponse res = pageContext.getResponse();
+    if (res instanceof HttpServletResponse) {
+      CmsRequestUtil.setNoCacheHeaders((HttpServletResponse) pageContext.getResponse());
     }
+    return SKIP_BODY;
+  }
 }

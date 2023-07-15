@@ -27,64 +27,60 @@
 
 package org.opencms.setup.updater.dialogs;
 
-import org.opencms.setup.CmsUpdateUI;
-import org.opencms.ui.CmsVaadinUtils;
-
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.opencms.setup.CmsUpdateUI;
+import org.opencms.ui.CmsVaadinUtils;
 
 /**
- * Finish dialog.<p>
+ * Finish dialog.
+ *
+ * <p>
  */
 public class CmsUpdateStep06FinishDialog extends A_CmsUpdateDialog {
 
-    /**vaadin serial id. */
-    private static final long serialVersionUID = 1L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 1L;
 
-    /**vaadin component. */
-    private Label m_icon;
+  /** vaadin component. */
+  private Label m_icon;
 
-    /**Container for the notes element. */
-    private VerticalLayout m_notesContainer;
+  /** Container for the notes element. */
+  private VerticalLayout m_notesContainer;
 
-    /**
-     * @see org.opencms.setup.updater.dialogs.A_CmsUpdateDialog#init(org.opencms.setup.CmsUpdateUI)
-     */
-    @Override
-    public boolean init(CmsUpdateUI ui) {
+  /**
+   * @see org.opencms.setup.updater.dialogs.A_CmsUpdateDialog#init(org.opencms.setup.CmsUpdateUI)
+   */
+  @Override
+  public boolean init(CmsUpdateUI ui) {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
-        super.init(ui, false, false);
-        //Lock the wizard
-        ui.getUpdateBean().prepareUpdateStep6();
-        setCaption("Finished");
-        m_icon.setContentMode(ContentMode.HTML);
-        m_icon.setValue(FontAwesome.CHECK_CIRCLE_O.getHtml());
-        String name = "browser_config.html";
-        Label label = htmlLabel(readSnippet(name));
-        label.setWidth("100%");
-        m_notesContainer.addComponent(label);
-        return true;
-    }
+    CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
+    super.init(ui, false, false);
+    // Lock the wizard
+    ui.getUpdateBean().prepareUpdateStep6();
+    setCaption("Finished");
+    m_icon.setContentMode(ContentMode.HTML);
+    m_icon.setValue(FontAwesome.CHECK_CIRCLE_O.getHtml());
+    String name = "browser_config.html";
+    Label label = htmlLabel(readSnippet(name));
+    label.setWidth("100%");
+    m_notesContainer.addComponent(label);
+    return true;
+  }
 
-    /**
-     * @see org.opencms.setup.updater.dialogs.A_CmsUpdateDialog#getNextDialog()
-     */
-    @Override
-    A_CmsUpdateDialog getNextDialog() {
+  /** @see org.opencms.setup.updater.dialogs.A_CmsUpdateDialog#getNextDialog() */
+  @Override
+  A_CmsUpdateDialog getNextDialog() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.setup.updater.dialogs.A_CmsUpdateDialog#getPreviousDialog()
-     */
-    @Override
-    A_CmsUpdateDialog getPreviousDialog() {
+  /** @see org.opencms.setup.updater.dialogs.A_CmsUpdateDialog#getPreviousDialog() */
+  @Override
+  A_CmsUpdateDialog getPreviousDialog() {
 
-        return null;
-    }
-
+    return null;
+  }
 }

@@ -30,31 +30,27 @@ package org.opencms.xml.xml2json.document;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.xml2json.CmsJsonRequest;
 
-/**
- * Class representing a JSON document for an embedded XML content.
- */
+/** Class representing a JSON document for an embedded XML content. */
 public class CmsJsonDocumentEmbeddedXmlContent extends CmsJsonDocumentXmlContent {
 
-    /**
-     * Creates a new JSON document.
-     *
-     * @param jsonRequest the JSON request
-     * @param xmlContent the XML content
-     * @throws Exception if something goes wrong
-     */
-    public CmsJsonDocumentEmbeddedXmlContent(CmsJsonRequest jsonRequest, CmsXmlContent xmlContent)
-    throws Exception {
+  /**
+   * Creates a new JSON document.
+   *
+   * @param jsonRequest the JSON request
+   * @param xmlContent the XML content
+   * @throws Exception if something goes wrong
+   */
+  public CmsJsonDocumentEmbeddedXmlContent(CmsJsonRequest jsonRequest, CmsXmlContent xmlContent)
+      throws Exception {
 
-        super(jsonRequest, xmlContent);
-        m_throwException = false;
-    }
+    super(jsonRequest, xmlContent);
+    m_throwException = false;
+  }
 
-    /**
-     * @see org.opencms.xml.xml2json.document.CmsJsonDocumentXmlContent#isShowWrapperRequest()
-     */
-    @Override
-    protected boolean isShowWrapperRequest() {
+  /** @see org.opencms.xml.xml2json.document.CmsJsonDocumentXmlContent#isShowWrapperRequest() */
+  @Override
+  protected boolean isShowWrapperRequest() {
 
-        return m_jsonRequest.getParamWrapper(true).booleanValue();
-    }
+    return m_jsonRequest.getParamWrapper(true).booleanValue();
+  }
 }

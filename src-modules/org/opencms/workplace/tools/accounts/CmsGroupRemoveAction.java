@@ -27,65 +27,69 @@
 
 package org.opencms.workplace.tools.accounts;
 
+import java.util.List;
 import org.opencms.file.CmsGroup;
 import org.opencms.workplace.list.CmsListDefaultAction;
 
-import java.util.List;
-
 /**
- * Shows direct/indirect assigned groups and enabled/disabled a remove action.<p>
+ * Shows direct/indirect assigned groups and enabled/disabled a remove action.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsGroupRemoveAction extends CmsListDefaultAction {
 
-    /** The direct group flag. */
-    private final boolean m_direct;
+  /** The direct group flag. */
+  private final boolean m_direct;
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id the unique id
-     * @param direct the direct group flag
-     */
-    public CmsGroupRemoveAction(String id, boolean direct) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id the unique id
+   * @param direct the direct group flag
+   */
+  public CmsGroupRemoveAction(String id, boolean direct) {
 
-        super(id);
-        m_direct = direct;
-    }
+    super(id);
+    m_direct = direct;
+  }
 
-    /**
-     * Returns the direct group flag.<p>
-     *
-     * @return the direct group flag
-     */
-    public boolean isDirect() {
+  /**
+   * Returns the direct group flag.
+   *
+   * <p>
+   *
+   * @return the direct group flag
+   */
+  public boolean isDirect() {
 
-        return m_direct;
-    }
+    return m_direct;
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsHtmlIconButton#isVisible()
-     */
-    @Override
-    public boolean isVisible() {
+  /** @see org.opencms.workplace.tools.I_CmsHtmlIconButton#isVisible() */
+  @Override
+  public boolean isVisible() {
 
-        if (getItem() != null) {
-            String groupName = (String)getItem().get(A_CmsUserGroupsList.LIST_COLUMN_NAME);
-            try {
-                List<CmsGroup> dGroups = getWp().getCms().getGroupsOfUser(
-                    ((A_CmsUserGroupsList)getWp()).getParamUsername(),
-                    true);
-                CmsGroup group = getWp().getCms().readGroup(groupName);
-                if (isDirect()) {
-                    return dGroups.contains(group);
-                } else {
-                    return !dGroups.contains(group);
-                }
-            } catch (Exception e) {
-                return false;
-            }
+    if (getItem() != null) {
+      String groupName = (String) getItem().get(A_CmsUserGroupsList.LIST_COLUMN_NAME);
+      try {
+        List<CmsGroup> dGroups =
+            getWp()
+                .getCms()
+                .getGroupsOfUser(((A_CmsUserGroupsList) getWp()).getParamUsername(), true);
+        CmsGroup group = getWp().getCms().readGroup(groupName);
+        if (isDirect()) {
+          return dGroups.contains(group);
+        } else {
+          return !dGroups.contains(group);
         }
-        return super.isVisible();
+      } catch (Exception e) {
+        return false;
+      }
     }
+    return super.isVisible();
+  }
 }

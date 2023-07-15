@@ -28,46 +28,50 @@
 package org.opencms.acacia.client.export;
 
 import org.opencms.acacia.client.entity.CmsEntityBackend;
-
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.ExportPackage;
 import org.timepedia.exporter.client.Exportable;
 
 /**
- * Exportable wrapper class for the VIE instance.<p>
+ * Exportable wrapper class for the VIE instance.
+ *
+ * <p>
  */
 @Export
 @ExportPackage(value = "acacia")
 public class CmsEntityBackendWrapper implements Exportable {
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsEntityBackendWrapper() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsEntityBackendWrapper() {}
 
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param id parameter for the wrapped method
+   * @param typeName parameter for the wrapped method
+   * @return the result of the wrapped method
+   */
+  public CmsEntityWrapper createEntity(String id, String typeName) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param id parameter for the wrapped method
-     * @param typeName parameter for the wrapped method
-     *
-     * @return the result of the wrapped method
-     */
-    public CmsEntityWrapper createEntity(String id, String typeName) {
+    return new CmsEntityWrapper(CmsEntityBackend.getInstance().createEntity(id, typeName));
+  }
 
-        return new CmsEntityWrapper(CmsEntityBackend.getInstance().createEntity(id, typeName));
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param id parameter for the wrapped method
+   * @return the result of the wrapped method
+   */
+  public CmsTypeWrapper getType(String id) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param id parameter for the wrapped method
-     * @return the result of the wrapped method
-     */
-    public CmsTypeWrapper getType(String id) {
-
-        return new CmsTypeWrapper(CmsEntityBackend.getInstance().getType(id));
-    }
+    return new CmsTypeWrapper(CmsEntityBackend.getInstance().getType(id));
+  }
 }

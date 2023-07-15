@@ -30,49 +30,51 @@ package org.opencms.gwt.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * A bean carrying icon CSS class information.<p>
+ * A bean carrying icon CSS class information.
+ *
+ * <p>
  */
 public class CmsIconBean implements I_CmsHasIconClasses, IsSerializable {
 
-    /** The big icon rules. */
-    private String m_bigIconClasses;
+  /** The big icon rules. */
+  private String m_bigIconClasses;
 
-    /** The small icon rules. */
-    private String m_smallIconClasses;
+  /** The small icon rules. */
+  private String m_smallIconClasses;
 
-    /**
-     * @see org.opencms.gwt.shared.I_CmsHasIconClasses#getBigIconClasses()
-     */
-    public String getBigIconClasses() {
+  /** @see org.opencms.gwt.shared.I_CmsHasIconClasses#getBigIconClasses() */
+  public String getBigIconClasses() {
 
-        return m_bigIconClasses;
-    }
+    return m_bigIconClasses;
+  }
 
-    /**
-     * @see org.opencms.gwt.shared.I_CmsHasIconClasses#getSmallIconClasses()
-     */
-    public String getSmallIconClasses() {
+  /** @see org.opencms.gwt.shared.I_CmsHasIconClasses#getSmallIconClasses() */
+  public String getSmallIconClasses() {
 
-        return m_smallIconClasses;
-    }
+    return m_smallIconClasses;
+  }
 
-    /**
-     * Sets the big icon CSS classes.<p>
-     *
-     * @param bigIconClasses the big icon CSS classes to set
-     */
-    public void setBigIconClasses(String bigIconClasses) {
+  /**
+   * Sets the big icon CSS classes.
+   *
+   * <p>
+   *
+   * @param bigIconClasses the big icon CSS classes to set
+   */
+  public void setBigIconClasses(String bigIconClasses) {
 
-        m_bigIconClasses = bigIconClasses;
-    }
+    m_bigIconClasses = bigIconClasses;
+  }
 
-    /**
-     * Sets the small icon CSS classes.<p>
-     *
-     * @param smallIconClasses the small icon CSS classes to set
-     */
-    public void setSmallIconClasses(String smallIconClasses) {
+  /**
+   * Sets the small icon CSS classes.
+   *
+   * <p>
+   *
+   * @param smallIconClasses the small icon CSS classes to set
+   */
+  public void setSmallIconClasses(String smallIconClasses) {
 
-        m_smallIconClasses = smallIconClasses;
-    }
+    m_smallIconClasses = smallIconClasses;
+  }
 }

@@ -30,14 +30,18 @@ package org.opencms.ui.apps.linkvalidation;
 import java.util.List;
 
 /**
- * Interface with method to update a vaadin table.<p>
+ * Interface with method to update a vaadin table.
+ *
+ * <p>
  */
 public interface I_CmsUpdatableComponent {
 
-    /**
-     * Updates a component depending on given list of resources.<p>
-     *
-     * @param resources to be displayed in table
-     */
-    void update(List<String> resources);
+  /**
+   * Updates a component depending on given list of resources.
+   *
+   * <p>
+   *
+   * @param resources to be displayed in table
+   */
+  void update(List<String> resources);
 }

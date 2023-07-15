@@ -27,122 +27,145 @@
 
 package org.opencms.ade.publish.shared;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import java.util.List;
 
 /**
- * A class which represents a list of publish groups to display to the user for selection.<p>
+ * A class which represents a list of publish groups to display to the user for selection.
  *
- * It may be the case that there are too many resources to display. In this case, the instance
- * will not contain the publish groups, but instead a publish list token which can be used later
- * to reconstruct the publish list.<p>
+ * <p>It may be the case that there are too many resources to display. In this case, the instance
+ * will not contain the publish groups, but instead a publish list token which can be used later to
+ * reconstruct the publish list.
  *
+ * <p>
  */
 public class CmsPublishGroupList implements IsSerializable {
 
-    /** The list of publish groups. */
-    private List<CmsPublishGroup> m_groups = Lists.newArrayList();
+  /** The list of publish groups. */
+  private List<CmsPublishGroup> m_groups = Lists.newArrayList();
 
-    /** Workflow ID which, if not null, is used to override the workflow selected by default in the publish dialog. */
-    private String m_overrideWorkflowId;
+  /**
+   * Workflow ID which, if not null, is used to override the workflow selected by default in the
+   * publish dialog.
+   */
+  private String m_overrideWorkflowId;
 
-    /** The publish token which can be used to reconstruct the publish list. */
-    private CmsPublishListToken m_token;
+  /** The publish token which can be used to reconstruct the publish list. */
+  private CmsPublishListToken m_token;
 
-    /** The message to display if the publish list token is being used instead of the publish groups list. */
-    private String m_tooManyResourcesMessage = "";
+  /**
+   * The message to display if the publish list token is being used instead of the publish groups
+   * list.
+   */
+  private String m_tooManyResourcesMessage = "";
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsPublishGroupList() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsPublishGroupList() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Constructs a new instance with a publish list token and an empty group list.<p<
-     *      *
-     * @param token the publish list token to use
-     */
-    public CmsPublishGroupList(CmsPublishListToken token) {
+  /**
+   * Constructs a new instance with a publish list token and an empty group list.<p< *
+   *
+   * @param token the publish list token to use
+   */
+  public CmsPublishGroupList(CmsPublishListToken token) {
 
-        m_token = token;
-    }
+    m_token = token;
+  }
 
-    /**
-     * Gets the list of publish groups.<p>
-     *
-     * @return the publish groups
-     */
-    public List<CmsPublishGroup> getGroups() {
+  /**
+   * Gets the list of publish groups.
+   *
+   * <p>
+   *
+   * @return the publish groups
+   */
+  public List<CmsPublishGroup> getGroups() {
 
-        return m_groups;
-    }
+    return m_groups;
+  }
 
-    /**
-     * Gets the override workflow id.<p>
-     *
-     * If this is not null, this indicates that the publish groups were fetched for a different workflow than that selected by default
-     * in the publish dialog, and that the publish dialog should change its selected workflow accordingly.<p>
-     *
-     * @return the override workflow id
-     */
-    public String getOverrideWorkflowId() {
+  /**
+   * Gets the override workflow id.
+   *
+   * <p>If this is not null, this indicates that the publish groups were fetched for a different
+   * workflow than that selected by default in the publish dialog, and that the publish dialog
+   * should change its selected workflow accordingly.
+   *
+   * <p>
+   *
+   * @return the override workflow id
+   */
+  public String getOverrideWorkflowId() {
 
-        return m_overrideWorkflowId;
-    }
+    return m_overrideWorkflowId;
+  }
 
-    /**
-     * Returns the token.<p>
-     *
-     * @return the token
-     */
-    public CmsPublishListToken getToken() {
+  /**
+   * Returns the token.
+   *
+   * <p>
+   *
+   * @return the token
+   */
+  public CmsPublishListToken getToken() {
 
-        return m_token;
-    }
+    return m_token;
+  }
 
-    /**
-     * Gets the message which should be displayed if the token is being used instead of the list of publish groups.<p>
-     *
-     * @return the message
-     */
-    public String getTooManyResourcesMessage() {
+  /**
+   * Gets the message which should be displayed if the token is being used instead of the list of
+   * publish groups.
+   *
+   * <p>
+   *
+   * @return the message
+   */
+  public String getTooManyResourcesMessage() {
 
-        return m_tooManyResourcesMessage;
-    }
+    return m_tooManyResourcesMessage;
+  }
 
-    /**
-     * Sets the publish groups.<p>
-     *
-     * @param groups the list of publish groups
-     */
-    public void setGroups(List<CmsPublishGroup> groups) {
+  /**
+   * Sets the publish groups.
+   *
+   * <p>
+   *
+   * @param groups the list of publish groups
+   */
+  public void setGroups(List<CmsPublishGroup> groups) {
 
-        m_groups = groups;
-    }
+    m_groups = groups;
+  }
 
-    /**
-     * Sets the Override workflow.<p>
-     *
-     * @param id the id of the override workflow
-     */
-    public void setOverrideWorkflowId(String id) {
+  /**
+   * Sets the Override workflow.
+   *
+   * <p>
+   *
+   * @param id the id of the override workflow
+   */
+  public void setOverrideWorkflowId(String id) {
 
-        m_overrideWorkflowId = id;
-    }
+    m_overrideWorkflowId = id;
+  }
 
-    /**
-     * Sets the tooManyResourcesMessage.<p>
-     *
-     * @param tooManyResourcesMessage the tooManyResourcesMessage to set
-     */
-    public void setTooManyResourcesMessage(String tooManyResourcesMessage) {
+  /**
+   * Sets the tooManyResourcesMessage.
+   *
+   * <p>
+   *
+   * @param tooManyResourcesMessage the tooManyResourcesMessage to set
+   */
+  public void setTooManyResourcesMessage(String tooManyResourcesMessage) {
 
-        m_tooManyResourcesMessage = tooManyResourcesMessage;
-    }
-
+    m_tooManyResourcesMessage = tooManyResourcesMessage;
+  }
 }

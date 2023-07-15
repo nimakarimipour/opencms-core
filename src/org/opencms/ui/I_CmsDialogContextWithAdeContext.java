@@ -30,15 +30,18 @@ package org.opencms.ui;
 import org.opencms.gwt.shared.CmsCoreData.AdeContext;
 
 /**
- * Interface for a dialog context which also has access to the ADE context for which it is used.<p>
+ * Interface for a dialog context which also has access to the ADE context for which it is used.
+ *
+ * <p>
  */
 public interface I_CmsDialogContextWithAdeContext extends I_CmsDialogContext {
 
-    /**
-     * Gets the ADE context.<p>
-     *
-     * @return the ADE context
-     */
-    AdeContext getAdeContext();
-
+  /**
+   * Gets the ADE context.
+   *
+   * <p>
+   *
+   * @return the ADE context
+   */
+  AdeContext getAdeContext();
 }

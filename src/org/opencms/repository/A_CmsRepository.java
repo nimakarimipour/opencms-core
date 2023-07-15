@@ -33,145 +33,144 @@ import org.opencms.main.CmsException;
 import org.opencms.util.CmsResourceTranslator;
 
 /**
- * Abstract implementation of the repository interface {@link I_CmsRepository}.<p>
+ * Abstract implementation of the repository interface {@link I_CmsRepository}.
  *
- * Get a {@link I_CmsRepositorySession} through login in with the
- * username and password ({@link #login(String, String)}).<p>
+ * <p>Get a {@link I_CmsRepositorySession} through login in with the username and password ({@link
+ * #login(String, String)}).
  *
- * Handles the functionality of basic configuration. This is actually the configuration
- * of param/values and the filters ({@link CmsRepositoryFilter}) to use of the repository.<p>
+ * <p>Handles the functionality of basic configuration. This is actually the configuration of
+ * param/values and the filters ({@link CmsRepositoryFilter}) to use of the repository.
+ *
+ * <p>
  *
  * @since 6.2.4
  */
 public abstract class A_CmsRepository implements I_CmsRepository {
 
-    /** The repository configuration. */
-    private CmsParameterConfiguration m_configuration;
+  /** The repository configuration. */
+  private CmsParameterConfiguration m_configuration;
 
-    /** The filter to use for the repository. */
-    private CmsRepositoryFilter m_filter;
+  /** The filter to use for the repository. */
+  private CmsRepositoryFilter m_filter;
 
-    /** The name of the repository. */
-    private String m_name;
+  /** The name of the repository. */
+  private String m_name;
 
-    /** The resource translation. */
-    private CmsResourceTranslator m_translation;
+  /** The resource translation. */
+  private CmsResourceTranslator m_translation;
 
-    /** True if resource translation is enabled. */
-    private boolean m_translationEnabled;
+  /** True if resource translation is enabled. */
+  private boolean m_translationEnabled;
 
-    /**
-     * Default constructor initializing member variables.<p>
-     */
-    public A_CmsRepository() {
+  /**
+   * Default constructor initializing member variables.
+   *
+   * <p>
+   */
+  public A_CmsRepository() {
 
-        m_configuration = new CmsParameterConfiguration();
-        m_filter = null;
+    m_configuration = new CmsParameterConfiguration();
+    m_filter = null;
+  }
+
+  /**
+   * @see
+   *     org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String,
+   *     java.lang.String)
+   */
+  public void addConfigurationParameter(String paramName, String paramValue) {
+
+    m_configuration.add(paramName, paramValue);
+  }
+
+  /** @see org.opencms.configuration.I_CmsConfigurationParameterHandler#getConfiguration() */
+  public CmsParameterConfiguration getConfiguration() {
+
+    return m_configuration;
+  }
+
+  /**
+   * Returns the filter.
+   *
+   * <p>
+   *
+   * @return the filter
+   */
+  public CmsRepositoryFilter getFilter() {
+
+    return m_filter;
+  }
+
+  /** @see org.opencms.repository.I_CmsRepository#getName() */
+  public String getName() {
+
+    return m_name;
+  }
+
+  /** @see org.opencms.repository.I_CmsRepository#getTranslation() */
+  public CmsResourceTranslator getTranslation() {
+
+    return m_translation;
+  }
+
+  /** @see org.opencms.configuration.I_CmsConfigurationParameterHandler#initConfiguration() */
+  public void initConfiguration() throws CmsConfigurationException {
+
+    if (m_filter != null) {
+      m_filter.initConfiguration();
     }
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
-     */
-    public void addConfigurationParameter(String paramName, String paramValue) {
-
-        m_configuration.add(paramName, paramValue);
+    // suppress the compiler warning, this is never true
+    if (m_configuration == null) {
+      throw new CmsConfigurationException(null);
     }
+  }
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#getConfiguration()
-     */
-    public CmsParameterConfiguration getConfiguration() {
+  /** @see org.opencms.repository.I_CmsRepository#isTranslationEnabled() */
+  public boolean isTranslationEnabled() {
 
-        return m_configuration;
-    }
+    return m_translationEnabled;
+  }
 
-    /**
-     * Returns the filter.<p>
-     *
-     * @return the filter
-     */
-    public CmsRepositoryFilter getFilter() {
+  /**
+   * Login a user given the username and the password.
+   *
+   * <p>
+   *
+   * @param userName the user name
+   * @param password the user's password
+   * @return the authenticated session
+   * @throws CmsException if the login was not succesful
+   */
+  public abstract I_CmsRepositorySession login(String userName, String password)
+      throws CmsException;
 
-        return m_filter;
-    }
+  /**
+   * Sets the filter.
+   *
+   * <p>
+   *
+   * @param filter the filter to set
+   */
+  public void setFilter(CmsRepositoryFilter filter) {
 
-    /**
-     * @see org.opencms.repository.I_CmsRepository#getName()
-     */
-    public String getName() {
+    m_filter = filter;
+  }
 
-        return m_name;
-    }
+  /** @see org.opencms.repository.I_CmsRepository#setName(String) */
+  public void setName(String name) {
 
-    /**
-     * @see org.opencms.repository.I_CmsRepository#getTranslation()
-     */
-    public CmsResourceTranslator getTranslation() {
+    m_name = name;
+  }
 
-        return m_translation;
-    }
+  /**
+   * @see
+   *     org.opencms.repository.I_CmsRepository#setTranslation(org.opencms.util.CmsResourceTranslator,
+   *     boolean)
+   */
+  public void setTranslation(CmsResourceTranslator translator, boolean enabled) {
 
-    /**
-     * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#initConfiguration()
-     */
-    public void initConfiguration() throws CmsConfigurationException {
-
-        if (m_filter != null) {
-            m_filter.initConfiguration();
-        }
-
-        // suppress the compiler warning, this is never true
-        if (m_configuration == null) {
-            throw new CmsConfigurationException(null);
-        }
-
-    }
-
-    /**
-     * @see org.opencms.repository.I_CmsRepository#isTranslationEnabled()
-     */
-    public boolean isTranslationEnabled() {
-
-        return m_translationEnabled;
-    }
-
-    /**
-     * Login a user given the username and the password.<p>
-     *
-     * @param userName the user name
-     * @param password the user's password
-     *
-     * @return the authenticated session
-     *
-     * @throws CmsException if the login was not succesful
-     */
-    public abstract I_CmsRepositorySession login(String userName, String password) throws CmsException;
-
-    /**
-     * Sets the filter.<p>
-     *
-     * @param filter the filter to set
-     */
-    public void setFilter(CmsRepositoryFilter filter) {
-
-        m_filter = filter;
-    }
-
-    /**
-     * @see org.opencms.repository.I_CmsRepository#setName(String)
-     */
-    public void setName(String name) {
-
-        m_name = name;
-    }
-
-    /**
-     * @see org.opencms.repository.I_CmsRepository#setTranslation(org.opencms.util.CmsResourceTranslator, boolean)
-     */
-    public void setTranslation(CmsResourceTranslator translator, boolean enabled) {
-
-        m_translation = translator;
-        m_translationEnabled = enabled;
-    }
-
+    m_translation = translator;
+    m_translationEnabled = enabled;
+  }
 }

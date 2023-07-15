@@ -30,22 +30,24 @@ package org.opencms.workplace.list;
 import java.util.Locale;
 
 /**
- * Provides an interface for list data formatting.<p>
+ * Provides an interface for list data formatting.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsListFormatter {
 
-    /**
-     * Returns a formatted string for the specified data.<p>
-     *
-     * Take care of <code>null</code> data.<p>
-     *
-     * @param data the data to format
-     * @param locale the locale for formatting
-     *
-     * @return formatted data
-     */
-    String format(Object data, Locale locale);
-
+  /**
+   * Returns a formatted string for the specified data.
+   *
+   * <p>Take care of <code>null</code> data.
+   *
+   * <p>
+   *
+   * @param data the data to format
+   * @param locale the locale for formatting
+   * @return formatted data
+   */
+  String format(Object data, Locale locale);
 }

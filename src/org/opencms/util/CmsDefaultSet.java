@@ -27,104 +27,117 @@
 
 package org.opencms.util;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * A utility class used for keeping track of a set of objects. You can explicitly include or exclude objects,
- * and define a default membership value for those objects whose membership hasn't been explicitly set.<p>
+ * A utility class used for keeping track of a set of objects. You can explicitly include or exclude
+ * objects, and define a default membership value for those objects whose membership hasn't been
+ * explicitly set.
+ *
+ * <p>
  *
  * @param <T> the element type
  */
 public class CmsDefaultSet<T> implements IsSerializable {
 
-    /** The default membership value for objects. */
-    private boolean m_defaultMembership;
+  /** The default membership value for objects. */
+  private boolean m_defaultMembership;
 
-    /** The map for keeping track of the explicitly set memberships. */
-    private HashMap<T, Boolean> m_membershipMap = new HashMap<T, Boolean>();
+  /** The map for keeping track of the explicitly set memberships. */
+  private HashMap<T, Boolean> m_membershipMap = new HashMap<T, Boolean>();
 
-    /** Flag which controls whether this object can be modified. */
-    private boolean m_frozen;
+  /** Flag which controls whether this object can be modified. */
+  private boolean m_frozen;
 
-    /**
-     * Checks that this object isn't frozen.<p>
-     */
-    public void checkNotFrozen() {
+  /**
+   * Checks that this object isn't frozen.
+   *
+   * <p>
+   */
+  public void checkNotFrozen() {
 
-        if (m_frozen) {
-            throw new IllegalStateException("Can't modify frozen default set.");
-        }
+    if (m_frozen) {
+      throw new IllegalStateException("Can't modify frozen default set.");
     }
+  }
 
-    /**
-     * Returns true if the given object is a member of this set.<p>
-     *
-     * @param value the value to check
-     *
-     * @return true  if the value is a member
-     */
-    public boolean contains(T value) {
+  /**
+   * Returns true if the given object is a member of this set.
+   *
+   * <p>
+   *
+   * @param value the value to check
+   * @return true if the value is a member
+   */
+  public boolean contains(T value) {
 
-        Boolean isMember = m_membershipMap.get(value);
-        if (isMember != null) {
-            return isMember.booleanValue();
-        } else {
-            return m_defaultMembership;
-        }
+    Boolean isMember = m_membershipMap.get(value);
+    if (isMember != null) {
+      return isMember.booleanValue();
+    } else {
+      return m_defaultMembership;
     }
+  }
 
-    /**
-     * Makes the object unmodifiable.<p>
-     */
-    public void freeze() {
+  /**
+   * Makes the object unmodifiable.
+   *
+   * <p>
+   */
+  public void freeze() {
 
-        m_frozen = true;
-    }
+    m_frozen = true;
+  }
 
-    /**
-     * Gets the map internally used for storing the membership statuses.<p>
-     *
-     * @return the membership map
-     */
-    public Map<T, Boolean> getBaseMap() {
+  /**
+   * Gets the map internally used for storing the membership statuses.
+   *
+   * <p>
+   *
+   * @return the membership map
+   */
+  public Map<T, Boolean> getBaseMap() {
 
-        return Collections.unmodifiableMap(m_membershipMap);
-    }
+    return Collections.unmodifiableMap(m_membershipMap);
+  }
 
-    /**
-     * Gets the default membership value.<p>
-     *
-     * @return the default membership value
-     */
-    public boolean getDefaultMembership() {
+  /**
+   * Gets the default membership value.
+   *
+   * <p>
+   *
+   * @return the default membership value
+   */
+  public boolean getDefaultMembership() {
 
-        return m_defaultMembership;
-    }
+    return m_defaultMembership;
+  }
 
-    /***
-     * Sets the membership of an object.<p>
-     *
-     * @param value the object
-     * @param isMember true if the object should be a member, otherwise false
-     */
-    public void setContains(T value, boolean isMember) {
+  /***
+   * Sets the membership of an object.<p>
+   *
+   * @param value the object
+   * @param isMember true if the object should be a member, otherwise false
+   */
+  public void setContains(T value, boolean isMember) {
 
-        checkNotFrozen();
-        m_membershipMap.put(value, new Boolean(isMember));
-    }
+    checkNotFrozen();
+    m_membershipMap.put(value, new Boolean(isMember));
+  }
 
-    /**
-     * Sets the default membership value.<p>
-     *
-     * @param defaultMembership the new value
-     */
-    public void setDefaultMembership(boolean defaultMembership) {
+  /**
+   * Sets the default membership value.
+   *
+   * <p>
+   *
+   * @param defaultMembership the new value
+   */
+  public void setDefaultMembership(boolean defaultMembership) {
 
-        checkNotFrozen();
-        m_defaultMembership = defaultMembership;
-    }
+    checkNotFrozen();
+    m_defaultMembership = defaultMembership;
+  }
 }

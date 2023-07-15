@@ -33,14 +33,17 @@ import org.opencms.jsp.search.state.I_CmsSearchStateFacet;
 /** Interface to get controllers state and configuration - version for the query facet. */
 public interface I_CmsSearchControllerFacetQuery extends I_CmsSearchController {
 
-    /** Returns the configuration.
-     * @return The configuration.
-     */
-    I_CmsSearchConfigurationFacetQuery getConfig();
+  /**
+   * Returns the configuration.
+   *
+   * @return The configuration.
+   */
+  I_CmsSearchConfigurationFacetQuery getConfig();
 
-    /** Returns the state.
-     * @return The state.
-     */
-    I_CmsSearchStateFacet getState();
-
+  /**
+   * Returns the state.
+   *
+   * @return The state.
+   */
+  I_CmsSearchStateFacet getState();
 }

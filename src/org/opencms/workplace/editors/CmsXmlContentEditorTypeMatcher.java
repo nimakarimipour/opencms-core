@@ -27,42 +27,42 @@
 
 package org.opencms.workplace.editors;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.opencms.file.types.CmsResourceTypeXmlContent;
 import org.opencms.main.OpenCms;
 import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 /**
- * Implementation of an additionional editor resource type matcher for xmlcontent resources.<p>
+ * Implementation of an additionional editor resource type matcher for xmlcontent resources.
  *
- * All resourcetypes refering to xmlcontent will be found by this class.<p>
+ * <p>All resourcetypes refering to xmlcontent will be found by this class.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsXmlContentEditorTypeMatcher implements I_CmsEditorTypeMatcher {
 
-    /**
-     * @see org.opencms.workplace.editors.I_CmsEditorTypeMatcher#getAdditionalResourceTypes()
-     */
-    public List<String> getAdditionalResourceTypes() {
+  /** @see org.opencms.workplace.editors.I_CmsEditorTypeMatcher#getAdditionalResourceTypes() */
+  public List<String> getAdditionalResourceTypes() {
 
-        ArrayList<String> additionalTypes = new ArrayList<String>();
-        // get all explorerTypes
-        List<CmsExplorerTypeSettings> explorerTypes = OpenCms.getWorkplaceManager().getExplorerTypeSettings();
-        Iterator<CmsExplorerTypeSettings> i = explorerTypes.iterator();
-        // loop through all types and select those with reference to the type xmlcontent
-        while (i.hasNext()) {
-            CmsExplorerTypeSettings type = i.next();
-            if ((type.getName().equalsIgnoreCase(CmsResourceTypeXmlContent.getStaticTypeName()))
-                || ((type.getReference() != null)
-                    && type.getReference().equalsIgnoreCase(CmsResourceTypeXmlContent.getStaticTypeName()))) {
-                additionalTypes.add(type.getName());
-            }
-        }
-        return additionalTypes;
+    ArrayList<String> additionalTypes = new ArrayList<String>();
+    // get all explorerTypes
+    List<CmsExplorerTypeSettings> explorerTypes =
+        OpenCms.getWorkplaceManager().getExplorerTypeSettings();
+    Iterator<CmsExplorerTypeSettings> i = explorerTypes.iterator();
+    // loop through all types and select those with reference to the type xmlcontent
+    while (i.hasNext()) {
+      CmsExplorerTypeSettings type = i.next();
+      if ((type.getName().equalsIgnoreCase(CmsResourceTypeXmlContent.getStaticTypeName()))
+          || ((type.getReference() != null)
+              && type.getReference()
+                  .equalsIgnoreCase(CmsResourceTypeXmlContent.getStaticTypeName()))) {
+        additionalTypes.add(type.getName());
+      }
     }
-
+    return additionalTypes;
+  }
 }

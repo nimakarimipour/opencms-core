@@ -28,23 +28,22 @@
 package org.opencms.db.db2;
 
 /**
- * DB2 implementation of the SQL Manager.<p>
+ * DB2 implementation of the SQL Manager.
+ *
+ * <p>
  *
  * @see org.opencms.db.CmsSqlManager
- *
  * @since 7.0.3
  */
 public class CmsSqlManager extends org.opencms.db.generic.CmsSqlManager {
 
-    /** The filename/path of the SQL query properties. */
-    private static final String QUERY_PROPERTIES = "org/opencms/db/db2/query.properties";
+  /** The filename/path of the SQL query properties. */
+  private static final String QUERY_PROPERTIES = "org/opencms/db/db2/query.properties";
 
-    /**
-     * @see org.opencms.db.generic.CmsSqlManager#CmsSqlManager()
-     */
-    public CmsSqlManager() {
+  /** @see org.opencms.db.generic.CmsSqlManager#CmsSqlManager() */
+  public CmsSqlManager() {
 
-        super();
-        loadQueryProperties(QUERY_PROPERTIES);
-    }
+    super();
+    loadQueryProperties(QUERY_PROPERTIES);
+  }
 }

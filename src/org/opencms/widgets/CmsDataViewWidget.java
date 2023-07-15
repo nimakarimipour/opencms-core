@@ -27,6 +27,7 @@
 
 package org.opencms.widgets;
 
+import org.apache.commons.logging.Log;
 import org.opencms.ade.contenteditor.shared.CmsComplexWidgetData;
 import org.opencms.file.CmsObject;
 import org.opencms.gwt.shared.CmsDataViewConstants;
@@ -35,95 +36,92 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.widgets.dataview.I_CmsDataView;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Complex widget for opening selecting data from a data source implementing the I_CmsDataView interface.<p>
+ * Complex widget for opening selecting data from a data source implementing the I_CmsDataView
+ * interface.
  *
- * This widget can only be used
+ * <p>This widget can only be used
  */
 public class CmsDataViewWidget implements I_CmsComplexWidget {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsDataViewWidget.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsDataViewWidget.class);
 
-    /** The widget configuration. */
-    private String m_config;
+  /** The widget configuration. */
+  private String m_config;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsDataViewWidget() {
-        this("");
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsDataViewWidget() {
+    this("");
+  }
+
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param config the widget configuration
+   */
+  public CmsDataViewWidget(String config) {
+    m_config = config;
+  }
+
+  /** @see org.opencms.widgets.I_CmsComplexWidget#configure(java.lang.String) */
+  public I_CmsComplexWidget configure(String configuration) {
+
+    validateConfiguration(configuration);
+    return new CmsDataViewWidget(configuration);
+  }
+
+  /** @see org.opencms.widgets.I_CmsComplexWidget#getName() */
+  public String getName() {
+
+    return "dataview";
+  }
+
+  /** @see org.opencms.widgets.I_CmsComplexWidget#getWidgetData(org.opencms.file.CmsObject) */
+  public CmsComplexWidgetData getWidgetData(CmsObject cms) {
+
+    String configToUse = m_config;
+    try {
+      JSONObject json = new JSONObject(m_config);
+      String icon = json.optString(CmsDataViewConstants.CONFIG_ICON);
+      if (icon != null) {
+        String iconLink = OpenCms.getLinkManager().substituteLinkForUnknownTarget(cms, icon);
+        json.put(CmsDataViewConstants.CONFIG_ICON, iconLink);
+        configToUse = json.toString();
+      }
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage(), e);
     }
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param config the widget configuration
-     */
-    public CmsDataViewWidget(String config) {
-        m_config = config;
+    return new CmsComplexWidgetData(CmsDataViewConstants.RENDERER_ID, configToUse, null);
+  }
+
+  /**
+   * Validates the configuration.
+   *
+   * <p>
+   *
+   * @param configuration the configuration
+   */
+  public void validateConfiguration(String configuration) {
+
+    try {
+      JSONObject json = new JSONObject(configuration);
+      String className = json.optString(CmsDataViewConstants.CONFIG_VIEW_CLASS);
+
+      Class<?> cls = Class.forName(className, false, getClass().getClassLoader());
+      if (!I_CmsDataView.class.isAssignableFrom(cls)) {
+        throw new IllegalArgumentException(
+            "Class " + cls.getName() + " does not implement " + I_CmsDataView.class.getName());
+      }
+    } catch (Exception e) {
+      throw new CmsWidgetConfigurationException(e);
     }
-
-    /**
-     * @see org.opencms.widgets.I_CmsComplexWidget#configure(java.lang.String)
-     */
-    public I_CmsComplexWidget configure(String configuration) {
-
-        validateConfiguration(configuration);
-        return new CmsDataViewWidget(configuration);
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsComplexWidget#getName()
-     */
-    public String getName() {
-
-        return "dataview";
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsComplexWidget#getWidgetData(org.opencms.file.CmsObject)
-     */
-    public CmsComplexWidgetData getWidgetData(CmsObject cms) {
-
-        String configToUse = m_config;
-        try {
-            JSONObject json = new JSONObject(m_config);
-            String icon = json.optString(CmsDataViewConstants.CONFIG_ICON);
-            if (icon != null) {
-                String iconLink = OpenCms.getLinkManager().substituteLinkForUnknownTarget(cms, icon);
-                json.put(CmsDataViewConstants.CONFIG_ICON, iconLink);
-                configToUse = json.toString();
-            }
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
-        }
-
-        return new CmsComplexWidgetData(CmsDataViewConstants.RENDERER_ID, configToUse, null);
-    }
-
-    /**
-     * Validates the configuration.<p>
-     *
-     * @param configuration the configuration
-     */
-    public void validateConfiguration(String configuration) {
-
-        try {
-            JSONObject json = new JSONObject(configuration);
-            String className = json.optString(CmsDataViewConstants.CONFIG_VIEW_CLASS);
-
-            Class<?> cls = Class.forName(className, false, getClass().getClassLoader());
-            if (!I_CmsDataView.class.isAssignableFrom(cls)) {
-                throw new IllegalArgumentException(
-                    "Class " + cls.getName() + " does not implement " + I_CmsDataView.class.getName());
-            }
-        } catch (Exception e) {
-            throw new CmsWidgetConfigurationException(e);
-        }
-
-    }
-
+  }
 }

@@ -27,6 +27,7 @@
 
 package org.opencms.search.documents;
 
+import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 import org.opencms.file.CmsFile;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
@@ -36,69 +37,69 @@ import org.opencms.search.I_CmsSearchIndex;
 import org.opencms.search.extractors.CmsExtractorPdf;
 import org.opencms.search.extractors.I_CmsExtractionResult;
 
-import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
-
 /**
- * Lucene document factory class to extract index data from a cms resource
- * containing Adobe pdf data.<p>
+ * Lucene document factory class to extract index data from a cms resource containing Adobe pdf
+ * data.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDocumentPdf extends A_CmsVfsDocument {
 
-    /**
-     * Creates a new instance of this lucene document factory.<p>
-     *
-     * @param name name of the documenttype
-     */
-    public CmsDocumentPdf(String name) {
+  /**
+   * Creates a new instance of this lucene document factory.
+   *
+   * <p>
+   *
+   * @param name name of the documenttype
+   */
+  public CmsDocumentPdf(String name) {
 
-        super(name);
+    super(name);
+  }
+
+  /**
+   * Returns the raw text content of a given vfs resource containing Adobe PDF data.
+   *
+   * <p>
+   *
+   * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource,
+   *     I_CmsSearchIndex)
+   */
+  public I_CmsExtractionResult extractContent(
+      CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+      throws CmsIndexException, CmsException {
+
+    logContentExtraction(resource, index);
+    CmsFile file = readFile(cms, resource);
+    try {
+      return CmsExtractorPdf.getExtractor().extractText(file.getContents());
+    } catch (Exception e) {
+      if (e.getClass().getSimpleName().equals("EncryptedDocumentException")) {
+        throw new CmsIndexException(
+            Messages.get().container(Messages.ERR_DECRYPTING_RESOURCE_1, resource.getRootPath()),
+            e);
+      }
+      if (e instanceof InvalidPasswordException) {
+        // default password "" was wrong.
+        throw new CmsIndexException(
+            Messages.get().container(Messages.ERR_PWD_PROTECTED_1, resource.getRootPath()), e);
+      }
+      throw new CmsIndexException(
+          Messages.get().container(Messages.ERR_TEXT_EXTRACTION_1, resource.getRootPath()), e);
     }
+  }
 
-    /**
-     * Returns the raw text content of a given vfs resource containing Adobe PDF data.<p>
-     *
-     * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
-     */
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
-    throws CmsIndexException, CmsException {
+  /** @see org.opencms.search.documents.I_CmsDocumentFactory#isLocaleDependend() */
+  public boolean isLocaleDependend() {
 
-        logContentExtraction(resource, index);
-        CmsFile file = readFile(cms, resource);
-        try {
-            return CmsExtractorPdf.getExtractor().extractText(file.getContents());
-        } catch (Exception e) {
-            if (e.getClass().getSimpleName().equals("EncryptedDocumentException")) {
-                throw new CmsIndexException(
-                    Messages.get().container(Messages.ERR_DECRYPTING_RESOURCE_1, resource.getRootPath()),
-                    e);
-            }
-            if (e instanceof InvalidPasswordException) {
-                // default password "" was wrong.
-                throw new CmsIndexException(
-                    Messages.get().container(Messages.ERR_PWD_PROTECTED_1, resource.getRootPath()),
-                    e);
-            }
-            throw new CmsIndexException(
-                Messages.get().container(Messages.ERR_TEXT_EXTRACTION_1, resource.getRootPath()),
-                e);
-        }
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.search.documents.I_CmsDocumentFactory#isLocaleDependend()
-     */
-    public boolean isLocaleDependend() {
+  /** @see org.opencms.search.documents.I_CmsDocumentFactory#isUsingCache() */
+  public boolean isUsingCache() {
 
-        return false;
-    }
-
-    /**
-     * @see org.opencms.search.documents.I_CmsDocumentFactory#isUsingCache()
-     */
-    public boolean isUsingCache() {
-
-        return true;
-    }
+    return true;
+  }
 }

@@ -27,46 +27,47 @@
 
 package org.opencms.ui.apps.git;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.Label;
+import java.util.List;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.OpenCmsTheme;
 
-import java.util.List;
-
-import com.vaadin.v7.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.v7.ui.Label;
-import com.vaadin.ui.themes.ValoTheme;
-
 /** Dialog that prints the result of the execution of a git action. */
 public class CmsGitActionResultPanel extends CmsBasicDialog {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** Label showing the result message. */
-    private Label m_messageLabel;
-    /** Label showing the log output. */
-    private Label m_logLabel;
+  /** Label showing the result message. */
+  private Label m_messageLabel;
+  /** Label showing the log output. */
+  private Label m_logLabel;
 
-    /**
-     * Creates a dialog window with the git action result.
-     * @param message the message written at top.
-     * @param log the log output
-     * @param isError flag, indicating if an error occurred.
-     * @param buttons the buttons to show at the bottom of the dialog.
-     */
-    public CmsGitActionResultPanel(String message, String log, boolean isError, List<Button> buttons) {
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        m_logLabel.setContentMode(ContentMode.PREFORMATTED);
-        if (isError) {
-            m_messageLabel.addStyleName(OpenCmsTheme.LABEL_ERROR);
-        }
-        m_messageLabel.setValue(message);
-        m_logLabel.setValue(log);
-        for (Button button : buttons) {
-            addButton(button);
-        }
-        m_messageLabel.addStyleName(ValoTheme.LABEL_H2);
+  /**
+   * Creates a dialog window with the git action result.
+   *
+   * @param message the message written at top.
+   * @param log the log output
+   * @param isError flag, indicating if an error occurred.
+   * @param buttons the buttons to show at the bottom of the dialog.
+   */
+  public CmsGitActionResultPanel(
+      String message, String log, boolean isError, List<Button> buttons) {
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    m_logLabel.setContentMode(ContentMode.PREFORMATTED);
+    if (isError) {
+      m_messageLabel.addStyleName(OpenCmsTheme.LABEL_ERROR);
     }
+    m_messageLabel.setValue(message);
+    m_logLabel.setValue(log);
+    for (Button button : buttons) {
+      addButton(button);
+    }
+    m_messageLabel.addStyleName(ValoTheme.LABEL_H2);
+  }
 }

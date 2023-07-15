@@ -27,57 +27,66 @@
 
 package org.opencms.cmis;
 
+import org.apache.chemistry.opencmis.commons.data.RenditionData;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 
-import org.apache.chemistry.opencmis.commons.data.RenditionData;
-
 /**
- * Rendition provider interface used to generate alternative renditions for resources.<p>
+ * Rendition provider interface used to generate alternative renditions for resources.
+ *
+ * <p>
  */
 public interface I_CmsCmisRenditionProvider {
 
-    /**
-     * Gets the rendition content stream for the resource.<p>
-     *
-     * @param cms the CMS context
-     * @param resource the resource
-     *
-     * @return the content stream for the rendition of the resource
-     */
-    byte[] getContent(CmsObject cms, CmsResource resource);
+  /**
+   * Gets the rendition content stream for the resource.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @param resource the resource
+   * @return the content stream for the rendition of the resource
+   */
+  byte[] getContent(CmsObject cms, CmsResource resource);
 
-    /**
-     * Gets the rendition stream id.<p>
-     *
-     * @return the rendition stream id
-     */
-    String getId();
+  /**
+   * Gets the rendition stream id.
+   *
+   * <p>
+   *
+   * @return the rendition stream id
+   */
+  String getId();
 
-    /**
-     * Gets the rendition kind.<p>
-     *
-     * @return the rendition kind
-     */
-    String getKind();
+  /**
+   * Gets the rendition kind.
+   *
+   * <p>
+   *
+   * @return the rendition kind
+   */
+  String getKind();
 
-    /**
-     * Gets the rendition mimetype.<p>
-     *
-     * @return the rendition mimetype
-     */
-    String getMimeType();
+  /**
+   * Gets the rendition mimetype.
+   *
+   * <p>
+   *
+   * @return the rendition mimetype
+   */
+  String getMimeType();
 
-    /**
-     * Gets the rendition data for a resource.<p>
-     *
-     * This method may return null to signal that a rendition can not be generated for the resource.<p>
-     *
-     * @param cms the current CMS context
-     * @param resource the resource
-     *
-     * @return the rendition data for the resource
-     */
-    RenditionData getRendition(CmsObject cms, CmsResource resource);
-
+  /**
+   * Gets the rendition data for a resource.
+   *
+   * <p>This method may return null to signal that a rendition can not be generated for the
+   * resource.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param resource the resource
+   * @return the rendition data for the resource
+   */
+  RenditionData getRendition(CmsObject cms, CmsResource resource);
 }

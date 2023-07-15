@@ -35,62 +35,70 @@ import org.opencms.module.A_CmsModuleAction;
 import org.opencms.module.CmsModule;
 
 /**
- * The workplace manager class to get the admin CmsObject.<p>
+ * The workplace manager class to get the admin CmsObject.
+ *
+ * <p>
  *
  * @since 7.5.0
  */
 public class CmsWorkplaceAction extends A_CmsModuleAction {
 
-    /** The initialized singleton login manager instance. */
-    private static CmsWorkplaceAction m_instance;
+  /** The initialized singleton login manager instance. */
+  private static CmsWorkplaceAction m_instance;
 
-    /** The CmsObject initialized as an administrator during startup. */
-    private CmsObject m_cmsAdmin;
+  /** The CmsObject initialized as an administrator during startup. */
+  private CmsObject m_cmsAdmin;
 
-    /**
-     * Constructor for a photo album manager object.<p>
-     *
-     */
-    public CmsWorkplaceAction() {
+  /**
+   * Constructor for a photo album manager object.
+   *
+   * <p>
+   */
+  public CmsWorkplaceAction() {
 
-        // nothing has to be done here
+    // nothing has to be done here
+  }
+
+  /**
+   * Returns the instance of the login manager to use.
+   *
+   * <p>
+   *
+   * @return the instance of the login manager to use
+   */
+  public static synchronized CmsWorkplaceAction getInstance() {
+
+    if (m_instance == null) {
+      m_instance = new CmsWorkplaceAction();
     }
+    return m_instance;
+  }
 
-    /**
-     * Returns the instance of the login manager to use.<p>
-     *
-     * @return the instance of the login manager to use
-     */
-    public static synchronized CmsWorkplaceAction getInstance() {
+  /**
+   * Gets the admin cmsObject.
+   *
+   * <p>
+   *
+   * @return Admin cmsObject
+   * @throws CmsException is something goes wrong
+   */
+  public CmsObject getCmsAdminObject() throws CmsException {
 
-        if (m_instance == null) {
-            m_instance = new CmsWorkplaceAction();
-        }
-        return m_instance;
-    }
+    return OpenCms.initCmsObject(m_cmsAdmin);
+  }
 
-    /**
-     * Gets the admin cmsObject.<p>
-     *
-     * @return Admin cmsObject
-     *
-     * @throws CmsException is something goes wrong
-     */
-    public CmsObject getCmsAdminObject() throws CmsException {
+  /**
+   * @see org.opencms.module.A_CmsModuleAction#initialize(org.opencms.file.CmsObject,
+   *     org.opencms.configuration.CmsConfigurationManager, org.opencms.module.CmsModule)
+   */
+  @Override
+  public void initialize(
+      CmsObject adminCms, CmsConfigurationManager configurationManager, CmsModule module) {
 
-        return OpenCms.initCmsObject(m_cmsAdmin);
-    }
+    super.initialize(adminCms, configurationManager, module);
 
-    /**
-     * @see org.opencms.module.A_CmsModuleAction#initialize(org.opencms.file.CmsObject, org.opencms.configuration.CmsConfigurationManager, org.opencms.module.CmsModule)
-     */
-    @Override
-    public void initialize(CmsObject adminCms, CmsConfigurationManager configurationManager, CmsModule module) {
-
-        super.initialize(adminCms, configurationManager, module);
-
-        // set the CmsObject initialized as an administrator at the only existing instance
-        m_cmsAdmin = adminCms;
-        m_instance = this;
-    }
+    // set the CmsObject initialized as an administrator at the only existing instance
+    m_cmsAdmin = adminCms;
+    m_instance = this;
+  }
 }

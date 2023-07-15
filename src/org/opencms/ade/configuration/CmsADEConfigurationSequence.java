@@ -27,92 +27,96 @@
 
 package org.opencms.ade.configuration;
 
-import org.opencms.file.CmsResource;
-
+import com.google.common.base.Optional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.google.common.base.Optional;
+import org.opencms.file.CmsResource;
 
 /**
- * Represents a sequence of inherited module/sitemap configurations, together with an index into that list.<p>
+ * Represents a sequence of inherited module/sitemap configurations, together with an index into
+ * that list.
  *
- * Used for computing the configuration inheritance.
- *
+ * <p>Used for computing the configuration inheritance.
  */
 public class CmsADEConfigurationSequence {
 
-    /** The list of configuration data. */
-    private List<CmsADEConfigDataInternal> m_configDatas;
+  /** The list of configuration data. */
+  private List<CmsADEConfigDataInternal> m_configDatas;
 
-    /** The index for the current configuration. */
-    private int m_configIndex;
+  /** The index for the current configuration. */
+  private int m_configIndex;
 
-    /**
-     * Creates a new instance for the given list of configuration data, with the index pointing to the last element.<p>
-     *
-     * @param configDatas the config data list
-     */
-    public CmsADEConfigurationSequence(List<CmsADEConfigDataInternal> configDatas) {
+  /**
+   * Creates a new instance for the given list of configuration data, with the index pointing to the
+   * last element.
+   *
+   * <p>
+   *
+   * @param configDatas the config data list
+   */
+  public CmsADEConfigurationSequence(List<CmsADEConfigDataInternal> configDatas) {
 
-        this(configDatas, configDatas.size() - 1);
+    this(configDatas, configDatas.size() - 1);
+  }
+
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param configDatas the configuration data list
+   * @param index the index into the list
+   */
+  protected CmsADEConfigurationSequence(List<CmsADEConfigDataInternal> configDatas, int index) {
+
+    assert (0 <= index) && (index < configDatas.size());
+    m_configDatas = configDatas;
+    m_configIndex = index;
+  }
+
+  /**
+   * Gets the current configuration data.
+   *
+   * <p>
+   *
+   * @return the current configuration data
+   */
+  public CmsADEConfigDataInternal getConfig() {
+
+    return m_configDatas.get(m_configIndex);
+  }
+
+  /**
+   * Gets the list of configuration file paths in inheritance order, not including the module
+   * configuration.
+   *
+   * @return the list of configuration file paths
+   */
+  public List<String> getConfigPaths() {
+
+    List<String> result = new ArrayList<>();
+    for (int i = 0; i <= m_configIndex; i++) {
+      CmsResource res = m_configDatas.get(i).getResource();
+      if (res != null) {
+        result.add(res.getRootPath());
+      }
     }
+    return Collections.unmodifiableList(result);
+  }
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param configDatas the configuration data list
-     * @param index the index into the list
-     */
-    protected CmsADEConfigurationSequence(List<CmsADEConfigDataInternal> configDatas, int index) {
+  /**
+   * Returns a sequence which only differs from this instance in that its index is one less.
+   *
+   * <p>However, if the index of this instance is already 0, Optional.absent will be returned.
+   *
+   * @return the parent sequence, or Optional.absent if we are already at the start of the sequence
+   */
+  public Optional<CmsADEConfigurationSequence> getParent() {
 
-        assert (0 <= index) && (index < configDatas.size());
-        m_configDatas = configDatas;
-        m_configIndex = index;
-
+    if (m_configIndex <= 0) {
+      return Optional.absent();
     }
-
-    /**
-     * Gets the current configuration data.<p>
-     *
-     * @return the current configuration data
-     */
-    public CmsADEConfigDataInternal getConfig() {
-
-        return m_configDatas.get(m_configIndex);
-    }
-
-    /**
-     * Gets the list of configuration file paths in inheritance order, not including the module configuration.
-     *
-     * @return the list of configuration file paths
-     */
-    public List<String> getConfigPaths() {
-
-        List<String> result = new ArrayList<>();
-        for (int i = 0; i <= m_configIndex; i++) {
-            CmsResource res = m_configDatas.get(i).getResource();
-            if (res != null) {
-                result.add(res.getRootPath());
-            }
-        }
-        return Collections.unmodifiableList(result);
-    }
-
-    /**
-     * Returns a sequence which only differs from this instance in that its index is one less.<p>
-     *
-     * However, if the index of this instance is already 0, Optional.absent will be returned.
-     *
-     * @return the parent sequence, or Optional.absent if we are already at the start of the sequence
-     */
-    public Optional<CmsADEConfigurationSequence> getParent() {
-
-        if (m_configIndex <= 0) {
-            return Optional.absent();
-        }
-        return Optional.fromNullable(new CmsADEConfigurationSequence(m_configDatas, m_configIndex - 1));
-    }
-
+    return Optional.fromNullable(new CmsADEConfigurationSequence(m_configDatas, m_configIndex - 1));
+  }
 }

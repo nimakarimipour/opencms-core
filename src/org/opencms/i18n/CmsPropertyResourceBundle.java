@@ -34,62 +34,56 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 /**
- * A property based resource bundle with increased visibility of some key methods.<p>
+ * A property based resource bundle with increased visibility of some key methods.
+ *
+ * <p>
  *
  * @since 6.2.0
- *
  * @see org.opencms.i18n.CmsResourceBundleLoader
  */
-public class CmsPropertyResourceBundle extends PropertyResourceBundle implements I_CmsResourceBundle {
+public class CmsPropertyResourceBundle extends PropertyResourceBundle
+    implements I_CmsResourceBundle {
 
-    /** The locale to use. */
-    protected Locale m_locale;
+  /** The locale to use. */
+  protected Locale m_locale;
 
-    /**
-     * Default constructor from parent class.<p>
-     *
-     * @param stream property file to read from
-     *
-     * @throws IOException in case the file could not be read from
-     */
-    public CmsPropertyResourceBundle(InputStream stream)
-    throws IOException {
+  /**
+   * Default constructor from parent class.
+   *
+   * <p>
+   *
+   * @param stream property file to read from
+   * @throws IOException in case the file could not be read from
+   */
+  public CmsPropertyResourceBundle(InputStream stream) throws IOException {
 
-        super(stream);
-    }
+    super(stream);
+  }
 
-    /**
-     * @see org.opencms.i18n.I_CmsResourceBundle#getClone()
-     */
-    public I_CmsResourceBundle getClone() {
+  /** @see org.opencms.i18n.I_CmsResourceBundle#getClone() */
+  public I_CmsResourceBundle getClone() {
 
-        // doesn't need to be cloned
-        return this;
-    }
+    // doesn't need to be cloned
+    return this;
+  }
 
-    /**
-     * @see java.util.ResourceBundle#getLocale()
-     */
-    @Override
-    public Locale getLocale() {
+  /** @see java.util.ResourceBundle#getLocale() */
+  @Override
+  public Locale getLocale() {
 
-        return m_locale;
-    }
+    return m_locale;
+  }
 
-    /**
-     * @see org.opencms.i18n.I_CmsResourceBundle#setLocale(java.util.Locale)
-     */
-    public void setLocale(Locale l) {
+  /** @see org.opencms.i18n.I_CmsResourceBundle#setLocale(java.util.Locale) */
+  public void setLocale(Locale l) {
 
-        m_locale = l;
-    }
+    m_locale = l;
+  }
 
-    /**
-     * @see org.opencms.i18n.I_CmsResourceBundle#setParent(java.util.ResourceBundle)
-     */
-    @Override
-    public void setParent(ResourceBundle p) {
+  /** @see org.opencms.i18n.I_CmsResourceBundle#setParent(java.util.ResourceBundle) */
+  @Override
+  public void setParent(ResourceBundle p) {
 
-        super.setParent(p);
-    }
+    super.setParent(p);
+  }
 }

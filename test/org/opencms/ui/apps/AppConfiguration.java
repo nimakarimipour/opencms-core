@@ -27,79 +27,74 @@
 
 package org.opencms.ui.apps;
 
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Resource;
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.security.CmsRole;
 
-import java.util.Locale;
-
-import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Resource;
-
 public class AppConfiguration implements I_CmsWorkplaceAppConfiguration {
 
-    public String getAppCategory() {
+  public String getAppCategory() {
 
-        // TODO Auto-generated method stub
-        return null;
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-    }
+  public I_CmsWorkplaceApp getAppInstance() {
 
-    public I_CmsWorkplaceApp getAppInstance() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-        // TODO Auto-generated method stub
-        return null;
-    }
+  public String getButtonStyle() {
 
-    public String getButtonStyle() {
+    // TODO Auto-generated method stub
+    return I_CmsAppButtonProvider.BUTTON_STYLE_TRANSPARENT;
+  }
 
-        // TODO Auto-generated method stub
-        return I_CmsAppButtonProvider.BUTTON_STYLE_TRANSPARENT;
-    }
+  public String getHelpText(Locale locale) {
 
-    public String getHelpText(Locale locale) {
+    return null;
+  }
 
-        return null;
-    }
+  public Resource getIcon() {
 
-    public Resource getIcon() {
+    return FontAwesome.AMBULANCE;
+  }
 
-        return FontAwesome.AMBULANCE;
-    }
+  public String getId() {
 
-    public String getId() {
+    return "/";
+  }
 
-        return "/";
-    }
+  public String getName(Locale locale) {
 
-    public String getName(Locale locale) {
+    // TODO Auto-generated method stub
+    return "testApp1";
+  }
 
-        // TODO Auto-generated method stub
-        return "testApp1";
-    }
+  public int getOrder() {
 
-    public int getOrder() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 
-        // TODO Auto-generated method stub
-        return 0;
-    }
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getPriority() */
+  public int getPriority() {
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getPriority()
-     */
-    public int getPriority() {
+    return I_CmsWorkplaceAppConfiguration.DEFAULT_PRIORIY;
+  }
 
-        return I_CmsWorkplaceAppConfiguration.DEFAULT_PRIORIY;
-    }
+  public CmsRole getRequiredRole() {
 
-    public CmsRole getRequiredRole() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-        // TODO Auto-generated method stub
-        return null;
-    }
+  public CmsAppVisibilityStatus getVisibility(CmsObject cms) {
 
-    public CmsAppVisibilityStatus getVisibility(CmsObject cms) {
-
-        // TODO Auto-generated method stub
-        return new CmsAppVisibilityStatus(false, false, "visible");
-    }
+    // TODO Auto-generated method stub
+    return new CmsAppVisibilityStatus(false, false, "visible");
+  }
 }

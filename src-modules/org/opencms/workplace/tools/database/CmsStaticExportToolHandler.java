@@ -31,19 +31,18 @@ import org.opencms.file.CmsObject;
 import org.opencms.main.OpenCms;
 
 /**
- * Static export tool handler that hides the tool if the current user
- * has not the needed privileges.<p>
+ * Static export tool handler that hides the tool if the current user has not the needed privileges.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsStaticExportToolHandler extends CmsDatabaseToolHandler {
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject)
-     */
-    @Override
-    public boolean isEnabled(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject) */
+  @Override
+  public boolean isEnabled(CmsObject cms) {
 
-        return OpenCms.getStaticExportManager().isStaticExportEnabled() && super.isEnabled(cms);
-    }
+    return OpenCms.getStaticExportManager().isStaticExportEnabled() && super.isEnabled(cms);
+  }
 }

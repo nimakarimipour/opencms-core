@@ -27,16 +27,6 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.ade.upload.client.I_CmsUploadContext;
-import org.opencms.ade.upload.client.ui.CmsDialogUploadButtonHandler;
-import org.opencms.gwt.client.ui.input.upload.CmsFileInfo;
-import org.opencms.ui.components.extensions.CmsUploadAreaExtension;
-import org.opencms.ui.shared.components.CmsUploadAreaState;
-import org.opencms.ui.shared.rpc.I_CmsUploadRpc;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.base.Supplier;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -45,82 +35,101 @@ import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
 import com.vaadin.shared.ui.Connect;
+import java.util.ArrayList;
+import java.util.List;
+import org.opencms.ade.upload.client.I_CmsUploadContext;
+import org.opencms.ade.upload.client.ui.CmsDialogUploadButtonHandler;
+import org.opencms.gwt.client.ui.input.upload.CmsFileInfo;
+import org.opencms.ui.components.extensions.CmsUploadAreaExtension;
+import org.opencms.ui.shared.components.CmsUploadAreaState;
+import org.opencms.ui.shared.rpc.I_CmsUploadRpc;
 
 /**
- * The upload area connector.<p>
+ * The upload area connector.
+ *
+ * <p>
  */
 @Connect(CmsUploadAreaExtension.class)
 public class CmsUploadAreaConnector extends AbstractExtensionConnector {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 190108090241764065L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 190108090241764065L;
 
-    /** The RPC proxy. */
-    private I_CmsUploadRpc m_rpc;
+  /** The RPC proxy. */
+  private I_CmsUploadRpc m_rpc;
 
-    /** The widget to enhance. */
-    private Widget m_widget;
+  /** The widget to enhance. */
+  private Widget m_widget;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsUploadAreaConnector() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsUploadAreaConnector() {
 
-        m_rpc = getRpcProxy(I_CmsUploadRpc.class);
-    }
+    m_rpc = getRpcProxy(I_CmsUploadRpc.class);
+  }
 
-    /**
-     * @see com.vaadin.client.ui.AbstractConnector#getState()
-     */
-    @Override
-    public CmsUploadAreaState getState() {
+  /** @see com.vaadin.client.ui.AbstractConnector#getState() */
+  @Override
+  public CmsUploadAreaState getState() {
 
-        return (CmsUploadAreaState)super.getState();
-    }
+    return (CmsUploadAreaState) super.getState();
+  }
 
-    /**
-     * @see com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
-     */
-    @Override
-    protected void extend(ServerConnector target) {
+  /**
+   * @see
+   *     com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
+   */
+  @Override
+  protected void extend(ServerConnector target) {
 
-        // Get the extended widget
-        m_widget = ((ComponentConnector)target).getWidget();
-        initUploadZone(m_widget.getElement());
-    }
+    // Get the extended widget
+    m_widget = ((ComponentConnector) target).getWidget();
+    initUploadZone(m_widget.getElement());
+  }
 
-    /**
-     * Called on drag out.<p>
-     */
-    void dragOut() {
+  /**
+   * Called on drag out.
+   *
+   * <p>
+   */
+  void dragOut() {
 
-        m_widget.removeStyleName("o-upload-drop");
-    }
+    m_widget.removeStyleName("o-upload-drop");
+  }
 
-    /**
-     * Called on drag over.<p>
-     */
-    void dragOver() {
+  /**
+   * Called on drag over.
+   *
+   * <p>
+   */
+  void dragOver() {
 
-        m_widget.addStyleName("o-upload-drop");
-    }
+    m_widget.addStyleName("o-upload-drop");
+  }
 
-    /**
-     * Called once the upload is finished<p>
-     *
-     * @param files the uploaded files
-     */
-    void uploadFinished(List<String> files) {
+  /**
+   * Called once the upload is finished
+   *
+   * <p>
+   *
+   * @param files the uploaded files
+   */
+  void uploadFinished(List<String> files) {
 
-        m_rpc.onUploadFinished(files);
-    }
+    m_rpc.onUploadFinished(files);
+  }
 
-    /**
-     * Initializes the upload drop zone event handlers.<p>
-     *
-     * @param element the drop zone element
-     */
-    private native void initUploadZone(JavaScriptObject element)/*-{
+  /**
+   * Initializes the upload drop zone event handlers.
+   *
+   * <p>
+   *
+   * @param element the drop zone element
+   */
+  private native void initUploadZone(JavaScriptObject element) /*-{
         // check for file api support
         if ((typeof FileReader == 'function' || typeof FileReader == 'object')
                 && (typeof FormData == 'function' || typeof FormData == 'object')) {
@@ -174,41 +183,41 @@ public class CmsUploadAreaConnector extends AbstractExtensionConnector {
         }
     }-*/;
 
-    /**
-     * Opens the upload dialog with the given file references to upload.<p>
-     *
-     * @param files the file references
-     */
-    private void openUploadWithFiles(JavaScriptObject files) {
+  /**
+   * Opens the upload dialog with the given file references to upload.
+   *
+   * <p>
+   *
+   * @param files the file references
+   */
+  private void openUploadWithFiles(JavaScriptObject files) {
 
-        if (getState().getTargetFolderRootPath() == null) {
-            return;
-        }
-        JsArray<CmsFileInfo> cmsFiles = files.cast();
-        List<CmsFileInfo> fileObjects = new ArrayList<CmsFileInfo>();
-        for (int i = 0; i < cmsFiles.length(); ++i) {
-            fileObjects.add(cmsFiles.get(i));
-        }
-        CmsDialogUploadButtonHandler buttonHandler = new CmsDialogUploadButtonHandler(
+    if (getState().getTargetFolderRootPath() == null) {
+      return;
+    }
+    JsArray<CmsFileInfo> cmsFiles = files.cast();
+    List<CmsFileInfo> fileObjects = new ArrayList<CmsFileInfo>();
+    for (int i = 0; i < cmsFiles.length(); ++i) {
+      fileObjects.add(cmsFiles.get(i));
+    }
+    CmsDialogUploadButtonHandler buttonHandler =
+        new CmsDialogUploadButtonHandler(
             new Supplier<I_CmsUploadContext>() {
 
-                /**
-                 * @see com.google.common.base.Supplier#get()
-                 */
-                public I_CmsUploadContext get() {
+              /** @see com.google.common.base.Supplier#get() */
+              public I_CmsUploadContext get() {
 
-                    return new I_CmsUploadContext() {
+                return new I_CmsUploadContext() {
 
-                        public void onUploadFinished(List<String> uploadedFiles) {
+                  public void onUploadFinished(List<String> uploadedFiles) {
 
-                            uploadFinished(uploadedFiles);
-                        }
-
-                    };
-                }
+                    uploadFinished(uploadedFiles);
+                  }
+                };
+              }
             });
-        buttonHandler.setIsTargetRootPath(true);
-        buttonHandler.setTargetFolder(getState().getTargetFolderRootPath());
-        buttonHandler.openDialogWithFiles(fileObjects);
-    }
+    buttonHandler.setIsTargetRootPath(true);
+    buttonHandler.setTargetFolder(getState().getTargetFolderRootPath());
+    buttonHandler.openDialogWithFiles(fileObjects);
+  }
 }

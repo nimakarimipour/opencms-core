@@ -37,37 +37,44 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
- * A {@link com.google.gwt.user.client.ui.FlowPanel} implementation toggles the {@link org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsStateCss#cmsHovering()} CSS class on mouse over.<p>
+ * A {@link com.google.gwt.user.client.ui.FlowPanel} implementation toggles the {@link
+ * org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsStateCss#cmsHovering()} CSS class on mouse
+ * over.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsHoverPanel extends FlowPanel implements HasMouseOutHandlers, HasMouseOverHandlers {
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsHoverPanel() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsHoverPanel() {
 
-        super();
-        A_CmsHoverHandler handler = new CmsClassHoverHandler(getElement());
-        addMouseOutHandler(handler);
-        addMouseOverHandler(handler);
-    }
+    super();
+    A_CmsHoverHandler handler = new CmsClassHoverHandler(getElement());
+    addMouseOutHandler(handler);
+    addMouseOverHandler(handler);
+  }
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasMouseOutHandlers#addMouseOutHandler(com.google.gwt.event.dom.client.MouseOutHandler)
-     */
-    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasMouseOutHandlers#addMouseOutHandler(com.google.gwt.event.dom.client.MouseOutHandler)
+   */
+  public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
 
-        return addDomHandler(handler, MouseOutEvent.getType());
+    return addDomHandler(handler, MouseOutEvent.getType());
+  }
 
-    }
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasMouseOverHandlers#addMouseOverHandler(com.google.gwt.event.dom.client.MouseOverHandler)
+   */
+  public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasMouseOverHandlers#addMouseOverHandler(com.google.gwt.event.dom.client.MouseOverHandler)
-     */
-    public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
-
-        return addDomHandler(handler, MouseOverEvent.getType());
-    }
+    return addDomHandler(handler, MouseOverEvent.getType());
+  }
 }

@@ -33,35 +33,38 @@ import java.util.Set;
 /**
  * Helper class which keeps track of a set of updates to be performed in a different thread.
  *
- * New updates can be added, and all updates can be fetched and removed at the same time.
+ * <p>New updates can be added, and all updates can be fetched and removed at the same time.
  *
  * @param <U> the type representing the updates
  */
 public class CmsSynchronizedUpdateSet<U> {
 
-    /** The set of updates to perform. */
-    private Set<U> m_set = new HashSet<U>();
+  /** The set of updates to perform. */
+  private Set<U> m_set = new HashSet<U>();
 
-    /**
-     * Adds a new update.<p>
-     *
-     * @param update the update
-     */
-    public synchronized void add(U update) {
+  /**
+   * Adds a new update.
+   *
+   * <p>
+   *
+   * @param update the update
+   */
+  public synchronized void add(U update) {
 
-        m_set.add(update);
-    }
+    m_set.add(update);
+  }
 
-    /**
-     * Removes all updates from the internal set and returns a new set containing the removed updates.<p>
-     *
-     * @return the removed updates
-     */
-    public synchronized Set<U> removeAll() {
+  /**
+   * Removes all updates from the internal set and returns a new set containing the removed updates.
+   *
+   * <p>
+   *
+   * @return the removed updates
+   */
+  public synchronized Set<U> removeAll() {
 
-        Set<U> result = new HashSet<U>(m_set);
-        m_set.clear();
-        return result;
-    }
-
+    Set<U> result = new HashSet<U>(m_set);
+    m_set.clear();
+    return result;
+  }
 }

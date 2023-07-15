@@ -27,54 +27,53 @@
 
 package org.opencms.ade.publish;
 
+import java.util.List;
+import java.util.Locale;
 import org.opencms.ade.publish.shared.CmsPublishGroup;
 import org.opencms.ade.publish.shared.CmsPublishResource;
 
-import java.util.List;
-import java.util.Locale;
-
 /**
- * Default implementation of the publish group helper which operates on {@link CmsPublishResource} objects.<p>
+ * Default implementation of the publish group helper which operates on {@link CmsPublishResource}
+ * objects.
+ *
+ * <p>
  */
-public class CmsDefaultPublishGroupHelper extends A_CmsPublishGroupHelper<CmsPublishResource, CmsPublishGroup> {
+public class CmsDefaultPublishGroupHelper
+    extends A_CmsPublishGroupHelper<CmsPublishResource, CmsPublishGroup> {
 
-    /**
-     * Creates a new publish group helper.<p>
-     *
-     * @param locale the locale to use
-     */
-    public CmsDefaultPublishGroupHelper(Locale locale) {
+  /**
+   * Creates a new publish group helper.
+   *
+   * <p>
+   *
+   * @param locale the locale to use
+   */
+  public CmsDefaultPublishGroupHelper(Locale locale) {
 
-        super(locale);
+    super(locale);
+  }
 
-    }
+  /**
+   * @see org.opencms.ade.publish.A_CmsPublishGroupHelper#createGroup(java.lang.String,
+   *     java.util.List)
+   */
+  @Override
+  protected CmsPublishGroup createGroup(String name, List<CmsPublishResource> resources) {
 
-    /**
-     * @see org.opencms.ade.publish.A_CmsPublishGroupHelper#createGroup(java.lang.String, java.util.List)
-     */
-    @Override
-    protected CmsPublishGroup createGroup(String name, List<CmsPublishResource> resources) {
+    return new CmsPublishGroup(name, resources);
+  }
 
-        return new CmsPublishGroup(name, resources);
-    }
+  /** @see org.opencms.ade.publish.A_CmsPublishGroupHelper#getDateLastModified(java.lang.Object) */
+  @Override
+  protected long getDateLastModified(CmsPublishResource res) {
 
-    /**
-     * @see org.opencms.ade.publish.A_CmsPublishGroupHelper#getDateLastModified(java.lang.Object)
-     */
-    @Override
-    protected long getDateLastModified(CmsPublishResource res) {
+    return res.getSortDate();
+  }
 
-        return res.getSortDate();
-    }
+  /** @see org.opencms.ade.publish.A_CmsPublishGroupHelper#getRootPath(java.lang.Object) */
+  @Override
+  protected String getRootPath(CmsPublishResource res) {
 
-    /**
-     *
-     * @see org.opencms.ade.publish.A_CmsPublishGroupHelper#getRootPath(java.lang.Object)
-     */
-    @Override
-    protected String getRootPath(CmsPublishResource res) {
-
-        return res.getName();
-    }
-
+    return res.getName();
+  }
 }

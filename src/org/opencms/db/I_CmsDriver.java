@@ -27,57 +27,61 @@
 
 package org.opencms.db;
 
+import java.util.List;
 import org.opencms.configuration.CmsConfigurationManager;
 import org.opencms.main.CmsException;
 
-import java.util.List;
-
 /**
- * Generic base driver interface.<p>
+ * Generic base driver interface.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsDriver {
 
-    /** Operator to concatenate or conditions. */
-    String AND_CONDITION = " AND ";
+  /** Operator to concatenate or conditions. */
+  String AND_CONDITION = " AND ";
 
-    /** String to start a single condition. */
-    String BEGIN_CONDITION = " (";
+  /** String to start a single condition. */
+  String BEGIN_CONDITION = " (";
 
-    /** Operator to concatenate exclude conditions. */
-    String BEGIN_EXCLUDE_CONDITION = " AND NOT (";
+  /** Operator to concatenate exclude conditions. */
+  String BEGIN_EXCLUDE_CONDITION = " AND NOT (";
 
-    /** Operator to concatenate include conditions. */
-    String BEGIN_INCLUDE_CONDITION = " AND (";
+  /** Operator to concatenate include conditions. */
+  String BEGIN_INCLUDE_CONDITION = " AND (";
 
-    /** String to end a single condition. */
-    String END_CONDITION = ") ";
+  /** String to end a single condition. */
+  String END_CONDITION = ") ";
 
-    /** Operator to concatenate or conditions. */
-    String OR_CONDITION = " OR ";
+  /** Operator to concatenate or conditions. */
+  String OR_CONDITION = " OR ";
 
-    /**
-     * Initializes the driver.<p>
-     *
-     * @param dbc the current database context
-     * @param configurationManager the configuration manager
-     * @param successiveDrivers a list of successive drivers to be initialized
-     * @param driverManager the initialized OpenCms driver manager
-     *
-     * @throws CmsException if something goes wrong
-     */
-    void init(
-        CmsDbContext dbc,
-        CmsConfigurationManager configurationManager,
-        List<String> successiveDrivers,
-        CmsDriverManager driverManager) throws CmsException;
+  /**
+   * Initializes the driver.
+   *
+   * <p>
+   *
+   * @param dbc the current database context
+   * @param configurationManager the configuration manager
+   * @param successiveDrivers a list of successive drivers to be initialized
+   * @param driverManager the initialized OpenCms driver manager
+   * @throws CmsException if something goes wrong
+   */
+  void init(
+      CmsDbContext dbc,
+      CmsConfigurationManager configurationManager,
+      List<String> successiveDrivers,
+      CmsDriverManager driverManager)
+      throws CmsException;
 
-    /**
-     * Returns information about the driver.<p>
-     *
-     * @return an information string
-     */
-    String toString();
-
+  /**
+   * Returns information about the driver.
+   *
+   * <p>
+   *
+   * @return an information string
+   */
+  String toString();
 }

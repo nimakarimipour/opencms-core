@@ -40,156 +40,166 @@ import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * A file input field.<p>
+ * A file input field.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsFileInput extends CmsWidget implements HasName, HasChangeHandlers {
 
-    /** The concrete file input implementation. */
-    private I_CmsFileInputService m_impl;
+  /** The concrete file input implementation. */
+  private I_CmsFileInputService m_impl;
 
-    /** The input element. */
-    private InputElement m_inputElement;
+  /** The input element. */
+  private InputElement m_inputElement;
 
-    /**
-     * The default constructor.<p>
-     */
-    public CmsFileInput() {
+  /**
+   * The default constructor.
+   *
+   * <p>
+   */
+  public CmsFileInput() {
 
-        m_inputElement = Document.get().createFileInputElement();
-        setElement(m_inputElement);
-        setStyleName("gwt-FileUpload");
-        m_impl = GWT.create(CmsFileInputImpl.class);
+    m_inputElement = Document.get().createFileInputElement();
+    setElement(m_inputElement);
+    setStyleName("gwt-FileUpload");
+    m_impl = GWT.create(CmsFileInputImpl.class);
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasChangeHandlers#addChangeHandler(com.google.gwt.event.dom.client.ChangeHandler)
+   */
+  @Override
+  public HandlerRegistration addChangeHandler(ChangeHandler handler) {
+
+    return addDomHandler(handler, ChangeEvent.getType());
+  }
+
+  /**
+   * Returns an array of CmsFile objects.
+   *
+   * <p>
+   *
+   * @return an array of CmsFile objects
+   */
+  public CmsFileInfo[] getFiles() {
+
+    JsArray<CmsFileInfo> files = m_impl.getFiles(m_inputElement);
+    CmsFileInfo[] result = new CmsFileInfo[files.length()];
+    for (int i = 0; i < files.length(); ++i) {
+      result[i] = files.get(i);
     }
+    return result;
+  }
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasChangeHandlers#addChangeHandler(com.google.gwt.event.dom.client.ChangeHandler)
-     */
-    @Override
-    public HandlerRegistration addChangeHandler(ChangeHandler handler) {
+  /** @see com.google.gwt.user.client.ui.HasName#getName() */
+  @Override
+  public String getName() {
 
-        return addDomHandler(handler, ChangeEvent.getType());
-    }
+    return m_inputElement.getName();
+  }
 
-    /**
-     * Returns an array of CmsFile objects.<p>
-     *
-     * @return an array of CmsFile objects
-     */
-    public CmsFileInfo[] getFiles() {
+  /**
+   * Returns <code>true</code> if multiple file selection is allowed, <code>false</code> otherwise.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if multiple file selection is allowed, <code>false</code> otherwise
+   */
+  public boolean isAllowedMultipleFiles() {
 
-        JsArray<CmsFileInfo> files = m_impl.getFiles(m_inputElement);
-        CmsFileInfo[] result = new CmsFileInfo[files.length()];
-        for (int i = 0; i < files.length(); ++i) {
-            result[i] = files.get(i);
-        }
-        return result;
-    }
+    return m_impl.isAllowMultipleFiles(m_inputElement);
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.HasName#getName()
-     */
-    @Override
-    public String getName() {
+  /**
+   * Returns <code>true</code> if the input field is disabled <code>false</code> otherwise.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the input field is disabled <code>false</code> otherwise
+   */
+  public boolean isDisabled() {
 
-        return m_inputElement.getName();
-    }
+    return m_inputElement.isDisabled();
+  }
 
-    /**
-     * Returns <code>true</code> if multiple file selection is allowed, <code>false</code> otherwise.<p>
-     *
-     * @return <code>true</code> if multiple file selection is allowed, <code>false</code> otherwise
-     */
-    public boolean isAllowedMultipleFiles() {
+  /** @see com.google.gwt.user.client.ui.Widget#onAttach() */
+  @Override
+  public void onAttach() {
 
-        return m_impl.isAllowMultipleFiles(m_inputElement);
-    }
+    super.onAttach();
+  }
 
-    /**
-     * Returns <code>true</code> if the input field is disabled <code>false</code> otherwise.<p>
-     *
-     * @return <code>true</code> if the input field is disabled <code>false</code> otherwise
-     */
-    public boolean isDisabled() {
+  /** @see com.google.gwt.user.client.ui.Widget#onDetach() */
+  @Override
+  public void onDetach() {
 
-        return m_inputElement.isDisabled();
-    }
+    super.onDetach();
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.Widget#onAttach()
-     */
-    @Override
-    public void onAttach() {
+  /**
+   * Sets the 'accept' attribute.
+   *
+   * @param acceptAttribute the new value for the 'accept' attribute
+   */
+  public void setAccept(String acceptAttribute) {
 
-        super.onAttach();
-    }
+    m_inputElement.setAttribute("accept", acceptAttribute);
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.Widget#onDetach()
-     */
-    @Override
-    public void onDetach() {
+  /**
+   * Sets the the flag for allowing multiple file selection.
+   *
+   * <p>
+   *
+   * @param allow <code>true</code> if the multiple file selection should be allowed
+   */
+  public void setAllowMultipleFiles(boolean allow) {
 
-        super.onDetach();
-    }
+    m_impl.setAllowMultipleFiles(m_inputElement, allow);
+  }
 
-    /**
-     * Sets the 'accept' attribute.
-     *
-     * @param acceptAttribute the new value for the 'accept' attribute
-     */
-    public void setAccept(String acceptAttribute) {
+  /**
+   * Sets the disabled flag.
+   *
+   * <p>
+   *
+   * @param disabled <code>true</code> if the input field should be disabled
+   */
+  public void setDisabled(boolean disabled) {
 
-        m_inputElement.setAttribute("accept", acceptAttribute);
-    }
+    m_inputElement.setDisabled(disabled);
+  }
 
-    /**
-     * Sets the the flag for allowing multiple file selection.<p>
-     *
-     * @param allow <code>true</code> if the multiple file selection should be allowed
-     */
-    public void setAllowMultipleFiles(boolean allow) {
+  /** @see com.google.gwt.user.client.ui.HasName#setName(java.lang.String) */
+  @Override
+  public void setName(String name) {
 
-        m_impl.setAllowMultipleFiles(m_inputElement, allow);
-    }
+    m_inputElement.setName(name);
+  }
 
-    /**
-     * Sets the disabled flag.<p>
-     *
-     * @param disabled <code>true</code> if the input field should be disabled
-     */
-    public void setDisabled(boolean disabled) {
+  /**
+   * @see com.google.gwt.user.client.ui.CmsWidget#setParent(com.google.gwt.user.client.ui.Widget)
+   */
+  @Override
+  public void setParent(Widget parent) {
 
-        m_inputElement.setDisabled(disabled);
-    }
+    super.setParent(parent);
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.HasName#setName(java.lang.String)
-     */
-    @Override
-    public void setName(String name) {
+  /**
+   * Returns <code>true</code> if the control supports the HTML5 FileAPI and <code>false</code>
+   * otherwise.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the control supports the HTML5 FileAPI and <code>false</code>
+   *     otherwise
+   */
+  public boolean supportsFileAPI() {
 
-        m_inputElement.setName(name);
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.CmsWidget#setParent(com.google.gwt.user.client.ui.Widget)
-     */
-    @Override
-    public void setParent(Widget parent) {
-
-        super.setParent(parent);
-    }
-
-    /**
-     * Returns <code>true</code> if the control supports the HTML5 FileAPI and <code>false</code> otherwise.<p>
-     *
-     * @return <code>true</code> if the control supports the HTML5 FileAPI and <code>false</code> otherwise
-     */
-    public boolean supportsFileAPI() {
-
-        return m_impl.supportsFileAPI();
-    }
-
+    return m_impl.supportsFileAPI();
+  }
 }

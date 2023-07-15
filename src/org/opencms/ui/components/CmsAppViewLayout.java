@@ -27,6 +27,17 @@
 
 package org.opencms.ui.components;
 
+import com.vaadin.server.Page.BrowserWindowResizeEvent;
+import com.vaadin.server.Page.BrowserWindowResizeListener;
+import com.vaadin.server.Responsive;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.declarative.Design;
+import java.util.HashMap;
+import java.util.Map;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.FontOpenCms;
@@ -37,257 +48,228 @@ import org.opencms.ui.apps.I_CmsAppUIContext;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.extensions.CmsGwtDialogExtension;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.vaadin.server.Page.BrowserWindowResizeEvent;
-import com.vaadin.server.Page.BrowserWindowResizeListener;
-import com.vaadin.server.Responsive;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.declarative.Design;
-
 /**
- * The layout used within the app view.<p>
+ * The layout used within the app view.
+ *
+ * <p>
  */
-public class CmsAppViewLayout extends CssLayout implements I_CmsAppUIContext, BrowserWindowResizeListener {
+public class CmsAppViewLayout extends CssLayout
+    implements I_CmsAppUIContext, BrowserWindowResizeListener {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -290796815149968830L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -290796815149968830L;
 
-    /** The app area. */
-    private CssLayout m_appArea;
+  /** The app area. */
+  private CssLayout m_appArea;
 
-    /** The app id. */
-    private String m_appId;
+  /** The app id. */
+  private String m_appId;
 
-    private Map<String, Object> m_attributes = new HashMap<>();
+  private Map<String, Object> m_attributes = new HashMap<>();
 
-    /** The info area grid. */
-    private CssLayout m_infoArea;
+  /** The info area grid. */
+  private CssLayout m_infoArea;
 
-    /** The toolbar. */
-    private CmsToolBar m_toolbar;
+  /** The toolbar. */
+  private CmsToolBar m_toolbar;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param appId the app id
-     */
-    public CmsAppViewLayout(String appId) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param appId the app id
+   */
+  public CmsAppViewLayout(String appId) {
 
-        m_appId = appId;
-        Design.read("CmsAppView.html", this);
-        Responsive.makeResponsive(this);
-        // setting the width to 100% within the java code is required by the responsive resize listeners
-        setWidth("100%");
-        m_toolbar.init(m_appId, this);
-    }
+    m_appId = appId;
+    Design.read("CmsAppView.html", this);
+    Responsive.makeResponsive(this);
+    // setting the width to 100% within the java code is required by the responsive resize listeners
+    setWidth("100%");
+    m_toolbar.init(m_appId, this);
+  }
 
-    /**
-     * Creates the publish button.
-     *
-     * @param updateListener the update listener
-     * @return the publish button
-     */
-    public static Button createPublishButton(final I_CmsUpdateListener<String> updateListener) {
+  /**
+   * Creates the publish button.
+   *
+   * @param updateListener the update listener
+   * @return the publish button
+   */
+  public static Button createPublishButton(final I_CmsUpdateListener<String> updateListener) {
 
-        Button publishButton = CmsToolBar.createButton(
+    Button publishButton =
+        CmsToolBar.createButton(
             FontOpenCms.PUBLISH,
             CmsVaadinUtils.getMessageText(Messages.GUI_PUBLISH_BUTTON_TITLE_0));
-        if (CmsAppWorkplaceUi.isOnlineProject()) {
-            // disable publishing in online project
-            publishButton.setEnabled(false);
-            publishButton.setDescription(CmsVaadinUtils.getMessageText(Messages.GUI_TOOLBAR_NOT_AVAILABLE_ONLINE_0));
-        }
-        publishButton.addClickListener(new ClickListener() {
+    if (CmsAppWorkplaceUi.isOnlineProject()) {
+      // disable publishing in online project
+      publishButton.setEnabled(false);
+      publishButton.setDescription(
+          CmsVaadinUtils.getMessageText(Messages.GUI_TOOLBAR_NOT_AVAILABLE_ONLINE_0));
+    }
+    publishButton.addClickListener(
+        new ClickListener() {
 
-            /** Serial version id. */
-            private static final long serialVersionUID = 1L;
+          /** Serial version id. */
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                CmsAppWorkplaceUi.get().disableGlobalShortcuts();
-                CmsGwtDialogExtension extension = new CmsGwtDialogExtension(A_CmsUI.get(), updateListener);
-                extension.openPublishDialog();
-            }
+            CmsAppWorkplaceUi.get().disableGlobalShortcuts();
+            CmsGwtDialogExtension extension =
+                new CmsGwtDialogExtension(A_CmsUI.get(), updateListener);
+            extension.openPublishDialog();
+          }
         });
-        return publishButton;
+    return publishButton;
+  }
+
+  /**
+   * @see org.opencms.ui.apps.I_CmsAppUIContext#addPublishButton(org.opencms.ui.I_CmsUpdateListener)
+   */
+  public Button addPublishButton(final I_CmsUpdateListener<String> updateListener) {
+
+    Button publishButton = createPublishButton(updateListener);
+
+    addToolbarButton(publishButton);
+    return publishButton;
+  }
+
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#addToolbarButton(com.vaadin.ui.Component) */
+  public void addToolbarButton(Component button) {
+
+    m_toolbar.addButtonLeft(button);
+  }
+
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#addToolbarButtonRight(com.vaadin.ui.Component) */
+  public void addToolbarButtonRight(Component button) {
+
+    m_toolbar.addButtonRight(button);
+  }
+
+  /**
+   * @see
+   *     com.vaadin.server.Page.BrowserWindowResizeListener#browserWindowResized(com.vaadin.server.Page.BrowserWindowResizeEvent)
+   */
+  public void browserWindowResized(BrowserWindowResizeEvent event) {
+
+    m_toolbar.browserWindowResized(event);
+  }
+
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#clearToolbarButtons() */
+  public void clearToolbarButtons() {
+
+    m_toolbar.clearButtonsLeft();
+  }
+
+  /**
+   * Closes the toolbar popup views.
+   *
+   * <p>
+   */
+  public void closePopupViews() {
+
+    m_toolbar.closePopupViews();
+  }
+
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#enableDefaultToolbarButtons(boolean) */
+  public void enableDefaultToolbarButtons(boolean enabled) {
+
+    m_toolbar.enableDefaultButtons(enabled);
+  }
+
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#getAppId() */
+  public String getAppId() {
+
+    return m_appId;
+  }
+
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#getAttribute(java.lang.String) */
+  public Object getAttribute(String key) {
+
+    return m_attributes.get(key);
+  }
+
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#hideToolbar() */
+  public void hideToolbar() {
+
+    addStyleName(OpenCmsTheme.HIDDEN_TOOLBAR);
+    m_toolbar.setVisible(false);
+  }
+
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#removeToolbarButton(com.vaadin.ui.Component) */
+  public void removeToolbarButton(Component button) {
+
+    m_toolbar.removeButton(button);
+  }
+
+  /**
+   * Sets the app content component.
+   *
+   * <p>
+   *
+   * @param appContent the app content
+   */
+  public void setAppContent(Component appContent) {
+
+    m_appArea.removeAllComponents();
+    if (appContent != null) {
+      m_appArea.addComponent(appContent);
     }
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#addPublishButton(org.opencms.ui.I_CmsUpdateListener)
-     */
-    public Button addPublishButton(final I_CmsUpdateListener<String> updateListener) {
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#setAppInfo(com.vaadin.ui.Component) */
+  public void setAppInfo(Component infoContent) {
 
-        Button publishButton = createPublishButton(updateListener);
+    m_infoArea.removeAllComponents();
+    m_infoArea.addComponent(infoContent);
+  }
 
-        addToolbarButton(publishButton);
-        return publishButton;
-    }
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#setAppTitle(java.lang.String) */
+  public void setAppTitle(String title) {
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#addToolbarButton(com.vaadin.ui.Component)
-     */
-    public void addToolbarButton(Component button) {
+    CmsAppWorkplaceUi.setWindowTitle(title);
+    m_toolbar.setAppTitle(title);
+  }
 
-        m_toolbar.addButtonLeft(button);
-    }
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#setAttribute(java.lang.String, java.lang.Object) */
+  public void setAttribute(String key, Object value) {
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#addToolbarButtonRight(com.vaadin.ui.Component)
-     */
-    public void addToolbarButtonRight(Component button) {
+    m_attributes.put(key, value);
+  }
 
-        m_toolbar.addButtonRight(button);
-    }
+  /**
+   * @see
+   *     org.opencms.ui.apps.I_CmsAppUIContext#setMenuDialogContext(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void setMenuDialogContext(I_CmsDialogContext context) {
 
-    /**
-     * @see com.vaadin.server.Page.BrowserWindowResizeListener#browserWindowResized(com.vaadin.server.Page.BrowserWindowResizeEvent)
-     */
-    public void browserWindowResized(BrowserWindowResizeEvent event) {
+    m_toolbar.setDialogContext(context);
+  }
 
-        m_toolbar.browserWindowResized(event);
-    }
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#showInfoArea(boolean) */
+  public void showInfoArea(boolean show) {
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#clearToolbarButtons()
-     */
-    public void clearToolbarButtons() {
+    m_infoArea.setVisible(show);
+  }
 
-        m_toolbar.clearButtonsLeft();
-    }
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#showToolbar() */
+  public void showToolbar() {
 
-    /**
-     * Closes the toolbar popup views.<p>
-     */
-    public void closePopupViews() {
+    removeStyleName(OpenCmsTheme.HIDDEN_TOOLBAR);
+    m_toolbar.setVisible(false);
+  }
 
-        m_toolbar.closePopupViews();
-    }
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#updateOnChange() */
+  public void updateOnChange() {
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#enableDefaultToolbarButtons(boolean)
-     */
-    public void enableDefaultToolbarButtons(boolean enabled) {
+    m_toolbar.updateAppIndicator();
+  }
 
-        m_toolbar.enableDefaultButtons(enabled);
-    }
+  /** @see org.opencms.ui.apps.I_CmsAppUIContext#updateUserInfo() */
+  public void updateUserInfo() {
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#getAppId()
-     */
-    public String getAppId() {
-
-        return m_appId;
-    }
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#getAttribute(java.lang.String)
-     */
-    public Object getAttribute(String key) {
-
-        return m_attributes.get(key);
-    }
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#hideToolbar()
-     */
-    public void hideToolbar() {
-
-        addStyleName(OpenCmsTheme.HIDDEN_TOOLBAR);
-        m_toolbar.setVisible(false);
-    }
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#removeToolbarButton(com.vaadin.ui.Component)
-     */
-    public void removeToolbarButton(Component button) {
-
-        m_toolbar.removeButton(button);
-    }
-
-    /**
-     * Sets the app content component.<p>
-     *
-     * @param appContent the app content
-     */
-    public void setAppContent(Component appContent) {
-
-        m_appArea.removeAllComponents();
-        if (appContent != null) {
-            m_appArea.addComponent(appContent);
-        }
-    }
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#setAppInfo(com.vaadin.ui.Component)
-     */
-    public void setAppInfo(Component infoContent) {
-
-        m_infoArea.removeAllComponents();
-        m_infoArea.addComponent(infoContent);
-    }
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#setAppTitle(java.lang.String)
-     */
-    public void setAppTitle(String title) {
-
-        CmsAppWorkplaceUi.setWindowTitle(title);
-        m_toolbar.setAppTitle(title);
-    }
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#setAttribute(java.lang.String, java.lang.Object)
-     */
-    public void setAttribute(String key, Object value) {
-
-        m_attributes.put(key, value);
-
-    }
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#setMenuDialogContext(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void setMenuDialogContext(I_CmsDialogContext context) {
-
-        m_toolbar.setDialogContext(context);
-    }
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#showInfoArea(boolean)
-     */
-    public void showInfoArea(boolean show) {
-
-        m_infoArea.setVisible(show);
-    }
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#showToolbar()
-     */
-    public void showToolbar() {
-
-        removeStyleName(OpenCmsTheme.HIDDEN_TOOLBAR);
-        m_toolbar.setVisible(false);
-    }
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#updateOnChange()
-     */
-    public void updateOnChange() {
-
-        m_toolbar.updateAppIndicator();
-    }
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppUIContext#updateUserInfo()
-     */
-    public void updateUserInfo() {
-
-        m_toolbar.refreshUserInfoDropDown();
-    }
+    m_toolbar.refreshUserInfoDropDown();
+  }
 }

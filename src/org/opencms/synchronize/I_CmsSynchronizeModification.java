@@ -27,53 +27,54 @@
 
 package org.opencms.synchronize;
 
+import java.io.File;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 
-import java.io.File;
-
 /**
- * Defines methods which can be pluged into the syncronisation process between VFS and "real" FS.<p>
+ * Defines methods which can be pluged into the syncronisation process between VFS and "real" FS.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsSynchronizeModification {
 
-    /**
-     * Possibility to modify a resource after it has benn exported or updated
-     * to the FS.<p>
-     *
-     * @param cms the current CmsObject
-     * @param vfsRes the resource in the VFS
-     * @param fsFile the resource in the FS
-     * @throws CmsSynchronizeException if something goes wrong
-     */
-    void modifyFs(CmsObject cms, CmsResource vfsRes, File fsFile) throws CmsSynchronizeException;
+  /**
+   * Possibility to modify a resource after it has benn exported or updated to the FS.
+   *
+   * <p>
+   *
+   * @param cms the current CmsObject
+   * @param vfsRes the resource in the VFS
+   * @param fsFile the resource in the FS
+   * @throws CmsSynchronizeException if something goes wrong
+   */
+  void modifyFs(CmsObject cms, CmsResource vfsRes, File fsFile) throws CmsSynchronizeException;
 
-    /**
-     * Possibility to modify a resource after it has been imported or updated
-     * into the VFS.<p>
-     *
-     * @param cms the current CmsObject
-     * @param vfsRes the resource in the VFS
-     * @param fsFile the resource in the FS
-     * @throws CmsSynchronizeException if something goes wrong
-     */
-    void modifyVfs(CmsObject cms, CmsResource vfsRes, File fsFile) throws CmsSynchronizeException;
+  /**
+   * Possibility to modify a resource after it has been imported or updated into the VFS.
+   *
+   * <p>
+   *
+   * @param cms the current CmsObject
+   * @param vfsRes the resource in the VFS
+   * @param fsFile the resource in the FS
+   * @throws CmsSynchronizeException if something goes wrong
+   */
+  void modifyVfs(CmsObject cms, CmsResource vfsRes, File fsFile) throws CmsSynchronizeException;
 
-    /**
-     * Translates the resource name.<p>
-     *
-     * This is nescessary since the server FS does allow different naming
-     * conventions than the VFS.
-     * If no special translation is required and the default OpenCms FS-VFS
-     * translation should be used,
-     * null must be returned.
-     *
-     * @param cms the current CmsObject
-     * @param resName the resource name to be translated
-     * @return the translated resource name or null
-     * @throws CmsSynchronizeException if something goes wrong
-     */
-    String translate(CmsObject cms, String resName) throws CmsSynchronizeException;
+  /**
+   * Translates the resource name.
+   *
+   * <p>This is nescessary since the server FS does allow different naming conventions than the VFS.
+   * If no special translation is required and the default OpenCms FS-VFS translation should be
+   * used, null must be returned.
+   *
+   * @param cms the current CmsObject
+   * @param resName the resource name to be translated
+   * @return the translated resource name or null
+   * @throws CmsSynchronizeException if something goes wrong
+   */
+  String translate(CmsObject cms, String resName) throws CmsSynchronizeException;
 }

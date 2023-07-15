@@ -27,250 +27,277 @@
 
 package org.opencms.gwt.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import org.opencms.gwt.shared.sort.I_CmsHasPath;
 import org.opencms.gwt.shared.sort.I_CmsHasTitle;
 import org.opencms.relations.CmsCategory;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * A specific bean holding all info to be displayed in the categories tab.<p>
+ * A specific bean holding all info to be displayed in the categories tab.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
-public class CmsCategoryBean implements I_CmsHasTitle, I_CmsHasPath, IsSerializable, I_CmsHasIconClasses {
+public class CmsCategoryBean
+    implements I_CmsHasTitle, I_CmsHasPath, IsSerializable, I_CmsHasIconClasses {
 
-    /** The big category type icon classes. */
-    public static final String BIG_ICON_CLASSES = CmsGwtConstants.TYPE_ICON_CLASS + "  oc-icon-24-category";
+  /** The big category type icon classes. */
+  public static final String BIG_ICON_CLASSES =
+      CmsGwtConstants.TYPE_ICON_CLASS + "  oc-icon-24-category";
 
-    /** The small category type icon classes. */
-    public static final String SMALL_ICON_CLASSES = CmsGwtConstants.TYPE_ICON_CLASS + "  oc-icon-16-category";
+  /** The small category type icon classes. */
+  public static final String SMALL_ICON_CLASSES =
+      CmsGwtConstants.TYPE_ICON_CLASS + "  oc-icon-16-category";
 
-    /** The category's base path. */
-    private String m_basePath;
+  /** The category's base path. */
+  private String m_basePath;
 
-    /** The category description. */
-    private String m_description;
+  /** The category description. */
+  private String m_description;
 
-    /** The category id. */
-    private CmsUUID m_id;
+  /** The category id. */
+  private CmsUUID m_id;
 
-    /** The category path. */
-    private String m_path;
+  /** The category path. */
+  private String m_path;
 
-    /** The category's root path. */
-    private String m_rootPath;
+  /** The category's root path. */
+  private String m_rootPath;
 
-    /** The category's site path. */
-    private String m_sitePath;
+  /** The category's site path. */
+  private String m_sitePath;
 
-    /** The category title. */
-    private String m_title;
+  /** The category title. */
+  private String m_title;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param category the server-side category
-     */
-    public CmsCategoryBean(CmsCategory category) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param category the server-side category
+   */
+  public CmsCategoryBean(CmsCategory category) {
 
-        this(
-            category.getId(),
-            category.getTitle(),
-            category.getDescription(),
-            category.getPath(),
-            category.getBasePath(),
-            category.getRootPath());
-    }
+    this(
+        category.getId(),
+        category.getTitle(),
+        category.getDescription(),
+        category.getPath(),
+        category.getBasePath(),
+        category.getRootPath());
+  }
 
-    /**
-     * Constructor.<p>
-     *
-     * @param categoryTreeEntry the category tree entry to copy
-     */
-    public CmsCategoryBean(CmsCategoryTreeEntry categoryTreeEntry) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param categoryTreeEntry the category tree entry to copy
+   */
+  public CmsCategoryBean(CmsCategoryTreeEntry categoryTreeEntry) {
 
-        this(
-            categoryTreeEntry.getId(),
-            categoryTreeEntry.getTitle(),
-            categoryTreeEntry.getDescription(),
-            categoryTreeEntry.getPath(),
-            categoryTreeEntry.getBasePath(),
-            categoryTreeEntry.getRootPath());
-        m_sitePath = categoryTreeEntry.getSitePath();
-    }
+    this(
+        categoryTreeEntry.getId(),
+        categoryTreeEntry.getTitle(),
+        categoryTreeEntry.getDescription(),
+        categoryTreeEntry.getPath(),
+        categoryTreeEntry.getBasePath(),
+        categoryTreeEntry.getRootPath());
+    m_sitePath = categoryTreeEntry.getSitePath();
+  }
 
-    /**
-     * The constructor.<p>
-     *
-     * @param id the category id
-     * @param title the title to set
-     * @param description the subtitle to set
-     * @param path the category path
-     * @param basePath the category base path
-     * @param rootPath the category root path
-     */
-    public CmsCategoryBean(
-        CmsUUID id,
-        String title,
-        String description,
-        String path,
-        String basePath,
-        String rootPath) {
+  /**
+   * The constructor.
+   *
+   * <p>
+   *
+   * @param id the category id
+   * @param title the title to set
+   * @param description the subtitle to set
+   * @param path the category path
+   * @param basePath the category base path
+   * @param rootPath the category root path
+   */
+  public CmsCategoryBean(
+      CmsUUID id, String title, String description, String path, String basePath, String rootPath) {
 
-        m_id = id;
-        m_title = title;
-        m_description = description;
-        m_path = path;
-        m_basePath = basePath;
-        m_rootPath = rootPath;
-    }
+    m_id = id;
+    m_title = title;
+    m_description = description;
+    m_path = path;
+    m_basePath = basePath;
+    m_rootPath = rootPath;
+  }
 
-    /**
-     * Constructor for serialization only.<p>
-     */
-    protected CmsCategoryBean() {
+  /**
+   * Constructor for serialization only.
+   *
+   * <p>
+   */
+  protected CmsCategoryBean() {
 
-        // noting to do
-    }
+    // noting to do
+  }
 
-    /**
-     * Returns the base path.<p>
-     *
-     * @return the base path
-     */
-    public String getBasePath() {
+  /**
+   * Returns the base path.
+   *
+   * <p>
+   *
+   * @return the base path
+   */
+  public String getBasePath() {
 
-        return m_basePath;
-    }
+    return m_basePath;
+  }
 
-    /**
-     * @see org.opencms.gwt.shared.I_CmsHasIconClasses#getBigIconClasses()
-     */
-    public String getBigIconClasses() {
+  /** @see org.opencms.gwt.shared.I_CmsHasIconClasses#getBigIconClasses() */
+  public String getBigIconClasses() {
 
-        return BIG_ICON_CLASSES;
-    }
+    return BIG_ICON_CLASSES;
+  }
 
-    /**
-     * Returns the description.<p>
-     *
-     * @return the description
-     */
-    public String getDescription() {
+  /**
+   * Returns the description.
+   *
+   * <p>
+   *
+   * @return the description
+   */
+  public String getDescription() {
 
-        return m_description;
-    }
+    return m_description;
+  }
 
-    /**
-     * Returns the id.<p>
-     *
-     * @return the id
-     */
-    public CmsUUID getId() {
+  /**
+   * Returns the id.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  public CmsUUID getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Returns the category path.<p>
-     *
-     * @return the category path
-     */
-    public String getPath() {
+  /**
+   * Returns the category path.
+   *
+   * <p>
+   *
+   * @return the category path
+   */
+  public String getPath() {
 
-        return m_path;
-    }
+    return m_path;
+  }
 
-    /**
-     * Returns the root path.<p>
-     *
-     * @return the root path
-     */
-    public String getRootPath() {
+  /**
+   * Returns the root path.
+   *
+   * <p>
+   *
+   * @return the root path
+   */
+  public String getRootPath() {
 
-        return m_rootPath;
-    }
+    return m_rootPath;
+  }
 
-    /**
-     * Returns the category site path.<p>
-     *
-     * @return the category site path
-     */
-    public String getSitePath() {
+  /**
+   * Returns the category site path.
+   *
+   * <p>
+   *
+   * @return the category site path
+   */
+  public String getSitePath() {
 
-        return m_sitePath;
-    }
+    return m_sitePath;
+  }
 
-    /**
-     * @see org.opencms.gwt.shared.I_CmsHasIconClasses#getSmallIconClasses()
-     */
-    public String getSmallIconClasses() {
+  /** @see org.opencms.gwt.shared.I_CmsHasIconClasses#getSmallIconClasses() */
+  public String getSmallIconClasses() {
 
-        return SMALL_ICON_CLASSES;
-    }
+    return SMALL_ICON_CLASSES;
+  }
 
-    /**
-     * Returns the title.<p>
-     *
-     * @return the title
-     */
-    public String getTitle() {
+  /**
+   * Returns the title.
+   *
+   * <p>
+   *
+   * @return the title
+   */
+  public String getTitle() {
 
-        return m_title;
-    }
+    return m_title;
+  }
 
-    /**
-     * Returns if the category matches the given filter.<p>
-     *
-     * @param filter the filter to match
-     *
-     * @return <code>true</code> if the gallery matches the given filter.<p>
-     */
-    public boolean matchesFilter(String filter) {
+  /**
+   * Returns if the category matches the given filter.
+   *
+   * <p>
+   *
+   * @param filter the filter to match
+   * @return <code>true</code> if the gallery matches the given filter.
+   *     <p>
+   */
+  public boolean matchesFilter(String filter) {
 
-        filter = filter.toLowerCase();
-        return m_title.toLowerCase().contains(filter) || m_path.toLowerCase().contains(filter);
-    }
+    filter = filter.toLowerCase();
+    return m_title.toLowerCase().contains(filter) || m_path.toLowerCase().contains(filter);
+  }
 
-    /**
-     * Sets the description.<p>
-     *
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
+  /**
+   * Sets the description.
+   *
+   * <p>
+   *
+   * @param description the description to set
+   */
+  public void setDescription(String description) {
 
-        m_description = description;
-    }
+    m_description = description;
+  }
 
-    /**
-     * Sets the category path.<p>
-     *
-     * @param path the category path to set
-     */
-    public void setPath(String path) {
+  /**
+   * Sets the category path.
+   *
+   * <p>
+   *
+   * @param path the category path to set
+   */
+  public void setPath(String path) {
 
-        m_path = path;
-    }
+    m_path = path;
+  }
 
-    /**
-     * Sets the category site path.<p>
-     *
-     * @param sitePath category site path
-     */
-    public void setSitePath(String sitePath) {
+  /**
+   * Sets the category site path.
+   *
+   * <p>
+   *
+   * @param sitePath category site path
+   */
+  public void setSitePath(String sitePath) {
 
-        m_sitePath = sitePath;
-    }
+    m_sitePath = sitePath;
+  }
 
-    /**
-     * Sets the title.<p>
-     *
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
+  /**
+   * Sets the title.
+   *
+   * <p>
+   *
+   * @param title the title to set
+   */
+  public void setTitle(String title) {
 
-        m_title = title;
-    }
+    m_title = title;
+  }
 }

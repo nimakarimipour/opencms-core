@@ -30,22 +30,27 @@ package org.opencms.gwt.client.dnd;
 import java.util.List;
 
 /**
- * Provides methods for nested drop targets.<p>
+ * Provides methods for nested drop targets.
+ *
+ * <p>
  */
 public interface I_CmsNestedDropTarget extends I_CmsDropTarget {
 
-    /**
-     * Returns the list of child drop targets.<p>
-     *
-     * @return the child drop targets
-     */
-    List<I_CmsDropTarget> getDnDChildren();
+  /**
+   * Returns the list of child drop targets.
+   *
+   * <p>
+   *
+   * @return the child drop targets
+   */
+  List<I_CmsDropTarget> getDnDChildren();
 
-    /**
-     * Checks whether this drop target has any children.<p>
-     *
-     * @return <code>true</code> if this drop target has any children
-     */
-    boolean hasDnDChildren();
-
+  /**
+   * Checks whether this drop target has any children.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this drop target has any children
+   */
+  boolean hasDnDChildren();
 }

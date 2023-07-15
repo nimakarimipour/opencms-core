@@ -31,14 +31,13 @@ import java.io.PrintStream;
 
 public class CmsSplitPrintStream extends PrintStream {
 
-    private PrintStream m_stream1;
-    private PrintStream m_stream2;
+  private PrintStream m_stream1;
+  private PrintStream m_stream2;
 
-    public CmsSplitPrintStream(PrintStream stream1, PrintStream stream2) {
+  public CmsSplitPrintStream(PrintStream stream1, PrintStream stream2) {
 
-        super(stream1);
-        m_stream1 = stream1;
-        m_stream2 = stream2;
-    }
-
+    super(stream1);
+    m_stream1 = stream1;
+    m_stream2 = stream2;
+  }
 }

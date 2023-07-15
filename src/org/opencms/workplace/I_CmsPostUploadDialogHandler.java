@@ -29,18 +29,17 @@ package org.opencms.workplace;
 
 import org.opencms.file.CmsObject;
 
-/**
- * An interface which provides a hook which can be called after uploading files.
- */
+/** An interface which provides a hook which can be called after uploading files. */
 public interface I_CmsPostUploadDialogHandler {
 
-    /**
-     * Gets the upload hook URI.<p>
-     *
-     * @param cms the current CMS context
-     * @param uploadFolderSitePath  the upload target folder
-     *
-     * @return the upload hook URI for the given path, or null
-     */
-    String getUploadHook(CmsObject cms, String uploadFolderSitePath);
+  /**
+   * Gets the upload hook URI.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param uploadFolderSitePath the upload target folder
+   * @return the upload hook URI for the given path, or null
+   */
+  String getUploadHook(CmsObject cms, String uploadFolderSitePath);
 }

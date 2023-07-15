@@ -27,71 +27,77 @@
 
 package org.opencms.ui.apps.dbmanager;
 
-import org.opencms.main.OpenCms;
-
-import java.io.File;
-
 import com.vaadin.v7.data.Property.ValueChangeEvent;
 import com.vaadin.v7.data.Property.ValueChangeListener;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.v7.ui.ComboBox;
+import java.io.File;
+import org.opencms.main.OpenCms;
 
 /**
- * Abstract class for the import from a folder on the server.<p>
+ * Abstract class for the import from a folder on the server.
+ *
+ * <p>
  */
 public abstract class A_CmsServerImportForm extends A_CmsImportForm {
 
-    /**Vaadin serial id.*/
-    private static final long serialVersionUID = 5493880295543227220L;
+  /** Vaadin serial id. */
+  private static final long serialVersionUID = 5493880295543227220L;
 
-    /**
-     * public constructor.<p>
-     *
-     * @param app which uses this form
-     * @param pathToServer path where the files should be read
-     * @param validate indicates if file gets validated (only possible for modules)
-     */
-    public A_CmsServerImportForm(I_CmsReportApp app, String pathToServer, final boolean validate) {
-        super(app);
-        IndexedContainer options = new IndexedContainer();
-        options.addContainerProperty("label", String.class, "");
-        getImportSelect().setContainerDataSource(options);
-        getImportSelect().setItemCaptionMode(ItemCaptionMode.PROPERTY);
-        getImportSelect().setItemCaptionPropertyId("label");
-        getImportSelect().setNullSelectionAllowed(false);
-        String moduleDir = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(pathToServer);
-        File moduleDirFile = new File(moduleDir);
-        if (moduleDirFile.exists()) {
-            for (File file : moduleDirFile.listFiles()) {
-                String path = file.getAbsolutePath();
-                String name = file.getName();
-                options.addItem(path).getItemProperty("label").setValue(name);
-            }
-        }
-
-        getImportSelect().addValueChangeListener(new ValueChangeListener() {
-
-            private static final long serialVersionUID = -8550460711407604364L;
-
-            public void valueChange(ValueChangeEvent event) {
-
-                String path = (String)(event.getProperty().getValue());
-                m_importFile = new CmsImportFile(path);
-                if (validate) {
-                    getOkButton().setEnabled(false);
-                    validateModuleFile();
-                    return;
-                }
-                getOkButton().setEnabled(true);
-            }
-        });
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param app which uses this form
+   * @param pathToServer path where the files should be read
+   * @param validate indicates if file gets validated (only possible for modules)
+   */
+  public A_CmsServerImportForm(I_CmsReportApp app, String pathToServer, final boolean validate) {
+    super(app);
+    IndexedContainer options = new IndexedContainer();
+    options.addContainerProperty("label", String.class, "");
+    getImportSelect().setContainerDataSource(options);
+    getImportSelect().setItemCaptionMode(ItemCaptionMode.PROPERTY);
+    getImportSelect().setItemCaptionPropertyId("label");
+    getImportSelect().setNullSelectionAllowed(false);
+    String moduleDir = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(pathToServer);
+    File moduleDirFile = new File(moduleDir);
+    if (moduleDirFile.exists()) {
+      for (File file : moduleDirFile.listFiles()) {
+        String path = file.getAbsolutePath();
+        String name = file.getName();
+        options.addItem(path).getItemProperty("label").setValue(name);
+      }
     }
 
-    /**
-     * Gets a combo box for selecting the file on server.<p>
-     *
-     * @return a vaadin combo box
-     */
-    public abstract ComboBox getImportSelect();
+    getImportSelect()
+        .addValueChangeListener(
+            new ValueChangeListener() {
+
+              private static final long serialVersionUID = -8550460711407604364L;
+
+              public void valueChange(ValueChangeEvent event) {
+
+                String path = (String) (event.getProperty().getValue());
+                m_importFile = new CmsImportFile(path);
+                if (validate) {
+                  getOkButton().setEnabled(false);
+                  validateModuleFile();
+                  return;
+                }
+                getOkButton().setEnabled(true);
+              }
+            });
+  }
+
+  /**
+   * Gets a combo box for selecting the file on server.
+   *
+   * <p>
+   *
+   * @return a vaadin combo box
+   */
+  public abstract ComboBox getImportSelect();
 }

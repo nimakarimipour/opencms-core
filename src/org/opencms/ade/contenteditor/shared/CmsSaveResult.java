@@ -27,65 +27,76 @@
 
 package org.opencms.ade.contenteditor.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import org.opencms.acacia.shared.CmsValidationResult;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Stores the editor save result information.<p>
+ * Stores the editor save result information.
+ *
+ * <p>
  */
 public class CmsSaveResult implements IsSerializable {
 
-    /** If container element settings where changed. */
-    private boolean m_hasChangedSettings;
+  /** If container element settings where changed. */
+  private boolean m_hasChangedSettings;
 
-    /** The validation result. */
-    private CmsValidationResult m_validationResult;
+  /** The validation result. */
+  private CmsValidationResult m_validationResult;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hasChangedSettings if container element settings where changed
-     * @param validationResult the validation result
-     */
-    public CmsSaveResult(boolean hasChangedSettings, CmsValidationResult validationResult) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hasChangedSettings if container element settings where changed
+   * @param validationResult the validation result
+   */
+  public CmsSaveResult(boolean hasChangedSettings, CmsValidationResult validationResult) {
 
-        m_hasChangedSettings = hasChangedSettings;
-        m_validationResult = validationResult;
-    }
+    m_hasChangedSettings = hasChangedSettings;
+    m_validationResult = validationResult;
+  }
 
-    /**
-     * Constructor for serialization only.<p>
-     */
-    protected CmsSaveResult() {}
+  /**
+   * Constructor for serialization only.
+   *
+   * <p>
+   */
+  protected CmsSaveResult() {}
 
-    /**
-     * Returns the validation result.<p>
-     *
-     * @return the validation result
-     */
-    public CmsValidationResult getValidationResult() {
+  /**
+   * Returns the validation result.
+   *
+   * <p>
+   *
+   * @return the validation result
+   */
+  public CmsValidationResult getValidationResult() {
 
-        return m_validationResult;
-    }
+    return m_validationResult;
+  }
 
-    /**
-     * Returns whether the validation result has errors.<p>
-     *
-     * @return <code>true</code> in case the validation result has errors
-     */
-    public boolean hasErrors() {
+  /**
+   * Returns whether the validation result has errors.
+   *
+   * <p>
+   *
+   * @return <code>true</code> in case the validation result has errors
+   */
+  public boolean hasErrors() {
 
-        return (m_validationResult != null) && m_validationResult.hasErrors();
-    }
+    return (m_validationResult != null) && m_validationResult.hasErrors();
+  }
 
-    /**
-     * Returns whether container element settings where changed.<p>
-     *
-     * @return <ode>true</code> in case container element settings where changed
-     */
-    public boolean isHasChangedSettings() {
+  /**
+   * Returns whether container element settings where changed.
+   *
+   * <p>
+   *
+   * @return <ode>true</code> in case container element settings where changed
+   */
+  public boolean isHasChangedSettings() {
 
-        return m_hasChangedSettings;
-    }
+    return m_hasChangedSettings;
+  }
 }

@@ -27,6 +27,10 @@
 
 package org.opencms.ui.apps.publishqueue;
 
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.VerticalLayout;
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
@@ -40,89 +44,87 @@ import org.opencms.ui.apps.Messages;
 import org.opencms.ui.report.CmsReportWidget;
 import org.opencms.util.CmsUUID;
 
-import org.apache.commons.logging.Log;
-
-import com.vaadin.v7.shared.ui.label.ContentMode;
-import com.vaadin.v7.ui.Label;
-import com.vaadin.v7.ui.VerticalLayout;
-
 /**
- * Vertical Layout showing a publish report of a publish job.<p>
+ * Vertical Layout showing a publish report of a publish job.
+ *
+ * <p>
  */
-
 public class CmsPublishReport extends VerticalLayout {
 
-    /** The logger for this class. */
-    private static Log LOG = CmsLog.getLog(CmsPublishReport.class.getName());
+  /** The logger for this class. */
+  private static Log LOG = CmsLog.getLog(CmsPublishReport.class.getName());
 
-    /**vaadin serial id. */
-    private static final long serialVersionUID = -1630983150603283505L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -1630983150603283505L;
 
-    /**object which calls table.*/
-    CmsPublishQueue m_manager;
+  /** object which calls table. */
+  CmsPublishQueue m_manager;
 
-    /**job id.*/
-    private CmsUUID m_jobId;
+  /** job id. */
+  private CmsUUID m_jobId;
 
-    /**vaadin component.*/
-    private VerticalLayout m_panel;
+  /** vaadin component. */
+  private VerticalLayout m_panel;
 
-    /**Caption of layout.*/
-    private String m_caption;
+  /** Caption of layout. */
+  private String m_caption;
 
-    /**
-     * public constructor.<p>
-     *
-     * @param jobId of chosen job
-     */
-    public CmsPublishReport(String jobId) {
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param jobId of chosen job
+   */
+  public CmsPublishReport(String jobId) {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
-        m_jobId = new CmsUUID(jobId);
+    m_jobId = new CmsUUID(jobId);
 
-        //Obtain job and fill panel with CmsReportWidget
-        final CmsPublishJobBase job = OpenCms.getPublishManager().getJobByPublishHistoryId(m_jobId);
+    // Obtain job and fill panel with CmsReportWidget
+    final CmsPublishJobBase job = OpenCms.getPublishManager().getJobByPublishHistoryId(m_jobId);
 
-        m_caption = CmsVaadinUtils.getMessageText(
+    m_caption =
+        CmsVaadinUtils.getMessageText(
             Messages.GUI_PQUEUE_REPORT_2,
             job.getProjectName(),
             job.getUserName(A_CmsUI.getCmsObject()));
-        //switch for job type
-        if (job instanceof CmsPublishJobRunning) {
-            //Running job
-            A_CmsReportThread thread = OpenCms.getThreadStore().retrieveThread(
-                ((CmsPublishJobRunning)job).getThreadUUID());
-            CmsReportWidget report = new CmsReportWidget(thread);
+    // switch for job type
+    if (job instanceof CmsPublishJobRunning) {
+      // Running job
+      A_CmsReportThread thread =
+          OpenCms.getThreadStore().retrieveThread(((CmsPublishJobRunning) job).getThreadUUID());
+      CmsReportWidget report = new CmsReportWidget(thread);
 
-            report.setWidth("100%");
-            report.setHeight("700px");
-            m_panel.addComponent(report);
+      report.setWidth("100%");
+      report.setHeight("700px");
+      m_panel.addComponent(report);
 
-        } else {
-            //finished job
-            String reportHTML = "";
-            try {
-                reportHTML = new String(OpenCms.getPublishManager().getReportContents((CmsPublishJobFinished)job));
-            } catch (CmsException e) {
-                LOG.error("Error reading Report content of publish job.", e);
-            }
-            Label label = new Label();
-            label.setValue(reportHTML);
-            label.setContentMode(ContentMode.HTML);
-            label.setHeight("700px");
-            label.addStyleName("v-scrollable");
-            label.addStyleName("o-report");
-            m_panel.addComponent(label);
-        }
+    } else {
+      // finished job
+      String reportHTML = "";
+      try {
+        reportHTML =
+            new String(OpenCms.getPublishManager().getReportContents((CmsPublishJobFinished) job));
+      } catch (CmsException e) {
+        LOG.error("Error reading Report content of publish job.", e);
+      }
+      Label label = new Label();
+      label.setValue(reportHTML);
+      label.setContentMode(ContentMode.HTML);
+      label.setHeight("700px");
+      label.addStyleName("v-scrollable");
+      label.addStyleName("o-report");
+      m_panel.addComponent(label);
     }
+  }
 
-    /**
-     * @see com.vaadin.ui.AbstractComponent#getCaption()
-     */
-    @Override
-    public String getCaption() {
+  /** @see com.vaadin.ui.AbstractComponent#getCaption() */
+  @Override
+  public String getCaption() {
 
-        return m_caption;
-    }
+    return m_caption;
+  }
 }

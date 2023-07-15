@@ -27,6 +27,10 @@
 
 package org.opencms.search.documents;
 
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
 import org.opencms.file.CmsFile;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
@@ -40,79 +44,77 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.page.CmsXmlPage;
 import org.opencms.xml.page.CmsXmlPageFactory;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-
 /**
- * Lucene document factory class to extract index data from a cms resource
- * of type <code>CmsResourceTypeXmlPage</code>.<p>
+ * Lucene document factory class to extract index data from a cms resource of type <code>
+ * CmsResourceTypeXmlPage</code>.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDocumentXmlPage extends A_CmsVfsDocument {
 
-    /**
-     * Creates a new instance of this lucene document factory.<p>
-     *
-     * @param name name of the documenttype
-     */
-    public CmsDocumentXmlPage(String name) {
+  /**
+   * Creates a new instance of this lucene document factory.
+   *
+   * <p>
+   *
+   * @param name name of the documenttype
+   */
+  public CmsDocumentXmlPage(String name) {
 
-        super(name);
-    }
+    super(name);
+  }
 
-    /**
-     * Returns the raw text content of a given vfs resource of type <code>CmsResourceTypeXmlPage</code>.<p>
-     *
-     * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
-     */
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
-    throws CmsException {
+  /**
+   * Returns the raw text content of a given vfs resource of type <code>CmsResourceTypeXmlPage
+   * </code>.
+   *
+   * <p>
+   *
+   * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource,
+   *     I_CmsSearchIndex)
+   */
+  public I_CmsExtractionResult extractContent(
+      CmsObject cms, CmsResource resource, I_CmsSearchIndex index) throws CmsException {
 
-        logContentExtraction(resource, index);
-        try {
-            CmsFile file = readFile(cms, resource);
-            CmsXmlPage page = CmsXmlPageFactory.unmarshal(cms, file);
-            Locale locale = index.getLocaleForResource(cms, resource, page.getLocales());
+    logContentExtraction(resource, index);
+    try {
+      CmsFile file = readFile(cms, resource);
+      CmsXmlPage page = CmsXmlPageFactory.unmarshal(cms, file);
+      Locale locale = index.getLocaleForResource(cms, resource, page.getLocales());
 
-            List<String> elements = page.getNames(locale);
-            StringBuffer content = new StringBuffer();
-            LinkedHashMap<String, String> items = new LinkedHashMap<String, String>();
-            for (Iterator<String> i = elements.iterator(); i.hasNext();) {
-                String elementName = i.next();
-                String value = page.getStringValue(cms, elementName, locale);
-                String extracted = CmsHtmlExtractor.extractText(value, page.getEncoding());
-                if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(extracted)) {
-                    items.put(elementName, extracted);
-                    content.append(extracted);
-                    content.append('\n');
-                }
-            }
-
-            return new CmsExtractionResult(content.toString(), items);
-
-        } catch (Exception e) {
-            throw new CmsIndexException(
-                Messages.get().container(Messages.ERR_TEXT_EXTRACTION_1, resource.getRootPath()),
-                e);
+      List<String> elements = page.getNames(locale);
+      StringBuffer content = new StringBuffer();
+      LinkedHashMap<String, String> items = new LinkedHashMap<String, String>();
+      for (Iterator<String> i = elements.iterator(); i.hasNext(); ) {
+        String elementName = i.next();
+        String value = page.getStringValue(cms, elementName, locale);
+        String extracted = CmsHtmlExtractor.extractText(value, page.getEncoding());
+        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(extracted)) {
+          items.put(elementName, extracted);
+          content.append(extracted);
+          content.append('\n');
         }
+      }
+
+      return new CmsExtractionResult(content.toString(), items);
+
+    } catch (Exception e) {
+      throw new CmsIndexException(
+          Messages.get().container(Messages.ERR_TEXT_EXTRACTION_1, resource.getRootPath()), e);
     }
+  }
 
-    /**
-     * @see org.opencms.search.documents.I_CmsDocumentFactory#isLocaleDependend()
-     */
-    public boolean isLocaleDependend() {
+  /** @see org.opencms.search.documents.I_CmsDocumentFactory#isLocaleDependend() */
+  public boolean isLocaleDependend() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.search.documents.I_CmsDocumentFactory#isUsingCache()
-     */
-    public boolean isUsingCache() {
+  /** @see org.opencms.search.documents.I_CmsDocumentFactory#isUsingCache() */
+  public boolean isUsingCache() {
 
-        return true;
-    }
+    return true;
+  }
 }

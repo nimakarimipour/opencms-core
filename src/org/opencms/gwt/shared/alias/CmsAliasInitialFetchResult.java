@@ -27,109 +27,124 @@
 
 package org.opencms.gwt.shared.alias;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * The class used to transmit the original alias list when the alias editor dialog is first loaded.<p>
+ * The class used to transmit the original alias list when the alias editor dialog is first loaded.
+ *
+ * <p>
  */
 public class CmsAliasInitialFetchResult implements IsSerializable {
 
-    /** The alias lock owner name (null if the current user is lock owner). */
-    private String m_aliasLockOwner;
+  /** The alias lock owner name (null if the current user is lock owner). */
+  private String m_aliasLockOwner;
 
-    /** The list of aliases. */
-    private List<CmsAliasTableRow> m_aliasRows;
+  /** The list of aliases. */
+  private List<CmsAliasTableRow> m_aliasRows;
 
-    /** The alias download URL. */
-    private String m_downloadUrl;
+  /** The alias download URL. */
+  private String m_downloadUrl;
 
-    /** The initial list of rewrite aliases. */
-    private List<CmsRewriteAliasTableRow> m_rewriteAliases = new ArrayList<CmsRewriteAliasTableRow>();
+  /** The initial list of rewrite aliases. */
+  private List<CmsRewriteAliasTableRow> m_rewriteAliases = new ArrayList<CmsRewriteAliasTableRow>();
 
-    /**
-     * Gets the alias lock owner.<p>
-     *
-     * This will return null if the current user is the lock owner.<p>
-     *
-     * @return the alias lock owner
-     */
-    public String getAliasTableLockOwner() {
+  /**
+   * Gets the alias lock owner.
+   *
+   * <p>This will return null if the current user is the lock owner.
+   *
+   * <p>
+   *
+   * @return the alias lock owner
+   */
+  public String getAliasTableLockOwner() {
 
-        return m_aliasLockOwner;
-    }
+    return m_aliasLockOwner;
+  }
 
-    /**
-     * Gets the alias download URL.<p>
-     *
-     * @return the alias download URL
-     */
-    public String getDownloadUrl() {
+  /**
+   * Gets the alias download URL.
+   *
+   * <p>
+   *
+   * @return the alias download URL
+   */
+  public String getDownloadUrl() {
 
-        return m_downloadUrl;
-    }
+    return m_downloadUrl;
+  }
 
-    /**
-     * Gets the list of rewrite aliases.<p>
-     *
-     * @return the list of rewrite aliases
-     */
-    public List<CmsRewriteAliasTableRow> getRewriteAliases() {
+  /**
+   * Gets the list of rewrite aliases.
+   *
+   * <p>
+   *
+   * @return the list of rewrite aliases
+   */
+  public List<CmsRewriteAliasTableRow> getRewriteAliases() {
 
-        return m_rewriteAliases;
-    }
+    return m_rewriteAliases;
+  }
 
-    /**
-     * Gets the alias table rows.<p>
-     *
-     * @return the alias table rows
-     */
-    public List<CmsAliasTableRow> getRows() {
+  /**
+   * Gets the alias table rows.
+   *
+   * <p>
+   *
+   * @return the alias table rows
+   */
+  public List<CmsAliasTableRow> getRows() {
 
-        return m_aliasRows;
-    }
+    return m_aliasRows;
+  }
 
-    /**
-     * Sets the alias lock owner name.<p>
-     *
-     * @param name the alias lock owner name
-     */
-    public void setAliasLockOwner(String name) {
+  /**
+   * Sets the alias lock owner name.
+   *
+   * <p>
+   *
+   * @param name the alias lock owner name
+   */
+  public void setAliasLockOwner(String name) {
 
-        m_aliasLockOwner = name;
-    }
+    m_aliasLockOwner = name;
+  }
 
-    /**
-     * Sets the download URL for aliases.<p>
-     *
-     * @param downloadUrl the download URL for aliases
-     */
-    public void setDownloadUrl(String downloadUrl) {
+  /**
+   * Sets the download URL for aliases.
+   *
+   * <p>
+   *
+   * @param downloadUrl the download URL for aliases
+   */
+  public void setDownloadUrl(String downloadUrl) {
 
-        m_downloadUrl = downloadUrl;
+    m_downloadUrl = downloadUrl;
+  }
 
-    }
+  /**
+   * Sets the initial list of rewrite aliases.
+   *
+   * <p>
+   *
+   * @param rows the list of rewrite aliases
+   */
+  public void setRewriteRows(List<CmsRewriteAliasTableRow> rows) {
 
-    /**
-     * Sets the initial list of rewrite aliases.<p>
-     *
-     * @param rows the list of rewrite aliases
-     */
-    public void setRewriteRows(List<CmsRewriteAliasTableRow> rows) {
+    m_rewriteAliases = rows;
+  }
 
-        m_rewriteAliases = rows;
-    }
+  /**
+   * Sets the alias table rows.
+   *
+   * <p>
+   *
+   * @param rows the alias table rows
+   */
+  public void setRows(List<CmsAliasTableRow> rows) {
 
-    /**
-     * Sets the alias table rows.<p>
-     *
-     * @param rows the alias table rows
-     */
-    public void setRows(List<CmsAliasTableRow> rows) {
-
-        m_aliasRows = rows;
-    }
-
+    m_aliasRows = rows;
+  }
 }

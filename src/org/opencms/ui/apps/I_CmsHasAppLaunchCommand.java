@@ -28,14 +28,18 @@
 package org.opencms.ui.apps;
 
 /**
- * Implement this interface for apps that require special app launch actions.<p>
+ * Implement this interface for apps that require special app launch actions.
+ *
+ * <p>
  */
 public interface I_CmsHasAppLaunchCommand {
 
-    /**
-     * The runnable to launch this app.<p>
-     *
-     * @return the app launch runnable
-     */
-    Runnable getAppLaunchCommand();
+  /**
+   * The runnable to launch this app.
+   *
+   * <p>
+   *
+   * @return the app launch runnable
+   */
+  Runnable getAppLaunchCommand();
 }

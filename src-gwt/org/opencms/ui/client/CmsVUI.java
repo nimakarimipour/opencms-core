@@ -27,74 +27,70 @@
 
 package org.opencms.ui.client;
 
+import com.vaadin.client.ui.VUI;
 import org.opencms.gwt.client.util.CmsDebugLog;
 
-import com.vaadin.client.ui.VUI;
-
 /**
- * UI widget overriding some functionality from the Vaadin implementation.<p>
+ * UI widget overriding some functionality from the Vaadin implementation.
+ *
+ * <p>
  */
 public class CmsVUI extends VUI {
 
-    /** The current instance. */
-    public static CmsVUI INSTANCE;
+  /** The current instance. */
+  public static CmsVUI INSTANCE;
 
-    /** Boolean flag which indicates whether the stored focus should be cleared. */
-    private boolean m_clearedStoredFocus;
+  /** Boolean flag which indicates whether the stored focus should be cleared. */
+  private boolean m_clearedStoredFocus;
 
-    /**
-     * Clears the stored focus for the current UI instance.<p>
-     *
-     * Useful when you want more explicit control over the focus after closing a window.<p>
-     */
-    public static void clearStoredFocusForCurrentInstance() {
+  /**
+   * Clears the stored focus for the current UI instance.
+   *
+   * <p>Useful when you want more explicit control over the focus after closing a window.
+   *
+   * <p>
+   */
+  public static void clearStoredFocusForCurrentInstance() {
 
-        if (INSTANCE != null) {
-            INSTANCE.clearStoredFocus();
-        } else {
-            CmsDebugLog.consoleLog("clearStoredFocus called, but UI instance not set.");
-        }
-
+    if (INSTANCE != null) {
+      INSTANCE.clearStoredFocus();
+    } else {
+      CmsDebugLog.consoleLog("clearStoredFocus called, but UI instance not set.");
     }
+  }
 
-    /**
-     * Clears the stored focus.<p>
-     *
-     * Use this when you want to set the focus explicitly after closing a Vaadin window.
-     */
-    public void clearStoredFocus() {
+  /**
+   * Clears the stored focus.
+   *
+   * <p>Use this when you want to set the focus explicitly after closing a Vaadin window.
+   */
+  public void clearStoredFocus() {
 
-        m_clearedStoredFocus = true;
+    m_clearedStoredFocus = true;
+  }
+
+  /** @see com.vaadin.client.ui.VUI#focusStoredElement() */
+  @Override
+  public void focusStoredElement() {
+
+    if (!m_clearedStoredFocus) {
+      super.focusStoredElement();
     }
+  }
 
-    /**
-     * @see com.vaadin.client.ui.VUI#focusStoredElement()
-     */
-    @Override
-    public void focusStoredElement() {
+  /** @see com.vaadin.client.ui.VUI#storeFocus() */
+  @Override
+  public void storeFocus() {
 
-        if (!m_clearedStoredFocus) {
-            super.focusStoredElement();
-        }
-    }
+    m_clearedStoredFocus = false;
+    super.storeFocus();
+  }
 
-    /**
-     * @see com.vaadin.client.ui.VUI#storeFocus()
-     */
-    @Override
-    public void storeFocus() {
+  /** @see com.vaadin.client.ui.VUI#onLoad() */
+  @Override
+  protected void onLoad() {
 
-        m_clearedStoredFocus = false;
-        super.storeFocus();
-    }
-
-    /**
-     * @see com.vaadin.client.ui.VUI#onLoad()
-     */
-    @Override
-    protected void onLoad() {
-
-        super.onLoad();
-        INSTANCE = this;
-    }
+    super.onLoad();
+    INSTANCE = this;
+  }
 }

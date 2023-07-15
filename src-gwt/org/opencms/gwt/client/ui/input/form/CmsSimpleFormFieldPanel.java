@@ -27,55 +27,55 @@
 
 package org.opencms.gwt.client.ui.input.form;
 
-import org.opencms.gwt.client.ui.input.I_CmsFormField;
-
+import com.google.gwt.user.client.ui.FlowPanel;
 import java.util.Collection;
 import java.util.List;
-
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.opencms.gwt.client.ui.input.I_CmsFormField;
 
 /**
- * A simple form field container widget.<p>
+ * A simple form field container widget.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsSimpleFormFieldPanel extends A_CmsFormFieldPanel {
 
-    /** The list of form fields. */
-    protected List<I_CmsFormField> m_fields;
+  /** The list of form fields. */
+  protected List<I_CmsFormField> m_fields;
 
-    /** The main panel .*/
-    private FlowPanel m_panel;
+  /** The main panel . */
+  private FlowPanel m_panel;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsSimpleFormFieldPanel() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsSimpleFormFieldPanel() {
 
-        m_panel = new FlowPanel();
-        initWidget(m_panel);
+    m_panel = new FlowPanel();
+    initWidget(m_panel);
+  }
+
+  /** @see org.opencms.gwt.client.ui.input.form.A_CmsFormFieldPanel#getDefaultGroup() */
+  @Override
+  public String getDefaultGroup() {
+
+    return "";
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.form.A_CmsFormFieldPanel#renderFields(java.util.Collection)
+   */
+  @Override
+  public void renderFields(Collection<I_CmsFormField> fields) {
+
+    m_panel.clear();
+    for (I_CmsFormField field : fields) {
+      CmsFormRow row = createRow(field);
+      m_panel.add(row);
     }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.form.A_CmsFormFieldPanel#getDefaultGroup()
-     */
-    @Override
-    public String getDefaultGroup() {
-
-        return "";
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.input.form.A_CmsFormFieldPanel#renderFields(java.util.Collection)
-     */
-    @Override
-    public void renderFields(Collection<I_CmsFormField> fields) {
-
-        m_panel.clear();
-        for (I_CmsFormField field : fields) {
-            CmsFormRow row = createRow(field);
-            m_panel.add(row);
-        }
-    }
-
+  }
 }

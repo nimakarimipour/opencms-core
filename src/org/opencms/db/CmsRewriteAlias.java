@@ -31,97 +31,110 @@ import org.opencms.gwt.shared.alias.CmsAliasMode;
 import org.opencms.util.CmsUUID;
 
 /**
- * This class represents an alias which does not just map a fixed path to a fixed resource, but instead uses
- * a regular expression substitution to determine the target path.<p>
+ * This class represents an alias which does not just map a fixed path to a fixed resource, but
+ * instead uses a regular expression substitution to determine the target path.
+ *
+ * <p>
  */
 public class CmsRewriteAlias {
 
-    /** The id of the alias. */
-    private CmsUUID m_id;
+  /** The id of the alias. */
+  private CmsUUID m_id;
 
-    /** The alias mode. */
-    private CmsAliasMode m_mode;
+  /** The alias mode. */
+  private CmsAliasMode m_mode;
 
-    /** The regular expression string used for matching. */
-    private String m_patternString;
+  /** The regular expression string used for matching. */
+  private String m_patternString;
 
-    /** The replacement string used when the regular expression matches. */
-    private String m_replacementString;
+  /** The replacement string used when the regular expression matches. */
+  private String m_replacementString;
 
-    /** The site root inside which this alias should be valid. */
-    private String m_siteRoot;
+  /** The site root inside which this alias should be valid. */
+  private String m_siteRoot;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param id the id of the alias
-     * @param siteRoot the site root inside which the alias is valid
-     * @param patternString the regular expression used for matching the URI
-     * @param replacementString the replacement string used when the URI is matched
-     * @param mode the alias mode
-     */
-    public CmsRewriteAlias(
-        CmsUUID id,
-        String siteRoot,
-        String patternString,
-        String replacementString,
-        CmsAliasMode mode) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param id the id of the alias
+   * @param siteRoot the site root inside which the alias is valid
+   * @param patternString the regular expression used for matching the URI
+   * @param replacementString the replacement string used when the URI is matched
+   * @param mode the alias mode
+   */
+  public CmsRewriteAlias(
+      CmsUUID id,
+      String siteRoot,
+      String patternString,
+      String replacementString,
+      CmsAliasMode mode) {
 
-        m_id = id;
-        m_patternString = patternString;
-        m_replacementString = replacementString;
-        m_siteRoot = siteRoot;
-        m_mode = mode;
-    }
+    m_id = id;
+    m_patternString = patternString;
+    m_replacementString = replacementString;
+    m_siteRoot = siteRoot;
+    m_mode = mode;
+  }
 
-    /**
-     * Gets the id of the alias.<p>
-     *
-     * @return the id of the alias
-     */
-    public CmsUUID getId() {
+  /**
+   * Gets the id of the alias.
+   *
+   * <p>
+   *
+   * @return the id of the alias
+   */
+  public CmsUUID getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Gets the alias mode.<p>
-     *
-     * @return the alias mode
-     */
-    public CmsAliasMode getMode() {
+  /**
+   * Gets the alias mode.
+   *
+   * <p>
+   *
+   * @return the alias mode
+   */
+  public CmsAliasMode getMode() {
 
-        return m_mode;
-    }
+    return m_mode;
+  }
 
-    /**
-     * Gets the regular expression string.<p>
-     *
-     * @return the regular expression string
-     */
-    public String getPatternString() {
+  /**
+   * Gets the regular expression string.
+   *
+   * <p>
+   *
+   * @return the regular expression string
+   */
+  public String getPatternString() {
 
-        return m_patternString;
-    }
+    return m_patternString;
+  }
 
-    /**
-     * Gets the string used to replace the string matching the regex.<p>
-     *
-     * @return the replacement string
-     */
-    public String getReplacementString() {
+  /**
+   * Gets the string used to replace the string matching the regex.
+   *
+   * <p>
+   *
+   * @return the replacement string
+   */
+  public String getReplacementString() {
 
-        return m_replacementString;
-    }
+    return m_replacementString;
+  }
 
-    /**
-     * Gets the root of the site in which this alias is valid.<p>
-     *
-     * @return the site root
-     */
-    public String getSiteRoot() {
+  /**
+   * Gets the root of the site in which this alias is valid.
+   *
+   * <p>
+   *
+   * @return the site root
+   */
+  public String getSiteRoot() {
 
-        return m_siteRoot;
-    }
-
+    return m_siteRoot;
+  }
 }

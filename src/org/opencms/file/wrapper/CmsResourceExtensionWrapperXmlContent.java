@@ -33,40 +33,38 @@ import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 
 /**
- * A resource type wrapper for xml content files, which adds the correct file extension "xml"
- * to the resources.<p>
+ * A resource type wrapper for xml content files, which adds the correct file extension "xml" to the
+ * resources.
+ *
+ * <p>
  *
  * @since 6.5.6
  */
 public class CmsResourceExtensionWrapperXmlContent extends A_CmsResourceExtensionWrapper {
 
-    /** The extension used for this resource type wrapper. */
-    private static final String RESOURCE_TYPE_EXTENSION = "xml";
+  /** The extension used for this resource type wrapper. */
+  private static final String RESOURCE_TYPE_EXTENSION = "xml";
 
-    /**
-     * @see org.opencms.file.wrapper.A_CmsResourceExtensionWrapper#checkTypeId(int)
-     */
-    @Override
-    protected boolean checkTypeId(int typeId) {
+  /** @see org.opencms.file.wrapper.A_CmsResourceExtensionWrapper#checkTypeId(int) */
+  @Override
+  protected boolean checkTypeId(int typeId) {
 
-        try {
-            I_CmsResourceType resType = OpenCms.getResourceManager().getResourceType(typeId);
-            if (resType instanceof CmsResourceTypeXmlContent) {
-                return true;
-            }
-        } catch (CmsException ex) {
-            // noop
-        }
-
-        return false;
+    try {
+      I_CmsResourceType resType = OpenCms.getResourceManager().getResourceType(typeId);
+      if (resType instanceof CmsResourceTypeXmlContent) {
+        return true;
+      }
+    } catch (CmsException ex) {
+      // noop
     }
 
-    /**
-     * @see org.opencms.file.wrapper.A_CmsResourceExtensionWrapper#getExtension()
-     */
-    @Override
-    protected String getExtension() {
+    return false;
+  }
 
-        return RESOURCE_TYPE_EXTENSION;
-    }
+  /** @see org.opencms.file.wrapper.A_CmsResourceExtensionWrapper#getExtension() */
+  @Override
+  protected String getExtension() {
+
+    return RESOURCE_TYPE_EXTENSION;
+  }
 }

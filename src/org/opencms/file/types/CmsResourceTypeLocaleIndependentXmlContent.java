@@ -27,54 +27,59 @@
 
 package org.opencms.file.types;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import org.opencms.db.CmsSecurityManager;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
 import org.opencms.file.CmsPropertyDefinition;
 import org.opencms.i18n.CmsLocaleManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 /**
- * Special resource type for locale independent XML contents.<p>
+ * Special resource type for locale independent XML contents.
+ *
+ * <p>
  */
 public class CmsResourceTypeLocaleIndependentXmlContent extends CmsResourceTypeXmlContent {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 412954667403869580L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 412954667403869580L;
 
-    /**
-     * @see org.opencms.file.types.A_CmsResourceType#getConfiguredDefaultProperties()
-     */
-    @Override
-    public List<CmsProperty> getConfiguredDefaultProperties() {
+  /** @see org.opencms.file.types.A_CmsResourceType#getConfiguredDefaultProperties() */
+  @Override
+  public List<CmsProperty> getConfiguredDefaultProperties() {
 
-        Map<String, CmsProperty> propertyMap = CmsProperty.toObjectMap(super.getConfiguredDefaultProperties());
-        String localeStr = CmsLocaleManager.MASTER_LOCALE.toString();
-        for (String propName : new String[] {
-            CmsPropertyDefinition.PROPERTY_AVAILABLE_LOCALES,
-            CmsPropertyDefinition.PROPERTY_LOCALE}) {
-            propertyMap.put(propName, new CmsProperty(propName, localeStr, localeStr, true));
-        }
-        return new ArrayList<CmsProperty>(propertyMap.values());
+    Map<String, CmsProperty> propertyMap =
+        CmsProperty.toObjectMap(super.getConfiguredDefaultProperties());
+    String localeStr = CmsLocaleManager.MASTER_LOCALE.toString();
+    for (String propName :
+        new String[] {
+          CmsPropertyDefinition.PROPERTY_AVAILABLE_LOCALES, CmsPropertyDefinition.PROPERTY_LOCALE
+        }) {
+      propertyMap.put(propName, new CmsProperty(propName, localeStr, localeStr, true));
     }
+    return new ArrayList<CmsProperty>(propertyMap.values());
+  }
 
-    /**
-     * This overridden method ensures that configurations will always be created with an english locale node.<p>
-     *
-     * @see org.opencms.file.types.CmsResourceTypeXmlContent#getLocaleForNewContent(org.opencms.file.CmsObject, org.opencms.db.CmsSecurityManager, java.lang.String, java.util.List)
-     */
-    @Override
-    protected Locale getLocaleForNewContent(
-        CmsObject cms,
-        CmsSecurityManager securityManager,
-        String resourcename,
-        List<CmsProperty> properties) {
+  /**
+   * This overridden method ensures that configurations will always be created with an english
+   * locale node.
+   *
+   * <p>
+   *
+   * @see
+   *     org.opencms.file.types.CmsResourceTypeXmlContent#getLocaleForNewContent(org.opencms.file.CmsObject,
+   *     org.opencms.db.CmsSecurityManager, java.lang.String, java.util.List)
+   */
+  @Override
+  protected Locale getLocaleForNewContent(
+      CmsObject cms,
+      CmsSecurityManager securityManager,
+      String resourcename,
+      List<CmsProperty> properties) {
 
-        return CmsLocaleManager.MASTER_LOCALE;
-    }
-
+    return CmsLocaleManager.MASTER_LOCALE;
+  }
 }

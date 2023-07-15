@@ -27,82 +27,90 @@
 
 package org.opencms.ade.upload.client.ui;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.opencms.ade.upload.client.Messages;
 import org.opencms.gwt.client.ui.input.upload.CmsFileInfo;
 import org.opencms.gwt.client.ui.input.upload.CmsFileInput;
 import org.opencms.gwt.shared.CmsListInfoBean;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * Provides the default upload dialog without multiple file selection.<p>
+ * Provides the default upload dialog without multiple file selection.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsUploadDialogImpl extends A_CmsUploadDialog {
 
-    /** The input file input fields. */
-    private Map<String, CmsFileInput> m_inputsToUpload = new HashMap<String, CmsFileInput>();
+  /** The input file input fields. */
+  private Map<String, CmsFileInput> m_inputsToUpload = new HashMap<String, CmsFileInput>();
 
-    /**
-     * @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#createInfoBean(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
-     */
-    @Override
-    public CmsListInfoBean createInfoBean(CmsFileInfo file) {
+  /**
+   * @see
+   *     org.opencms.ade.upload.client.ui.A_CmsUploadDialog#createInfoBean(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
+   */
+  @Override
+  public CmsListInfoBean createInfoBean(CmsFileInfo file) {
 
-        return new CmsListInfoBean(file.getFileName(), getResourceType(file), null);
-    }
+    return new CmsListInfoBean(file.getFileName(), getResourceType(file), null);
+  }
 
-    /**
-     * @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#getFileSizeTooLargeMessage(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
-     */
-    @Override
-    public String getFileSizeTooLargeMessage(CmsFileInfo file) {
+  /**
+   * @see
+   *     org.opencms.ade.upload.client.ui.A_CmsUploadDialog#getFileSizeTooLargeMessage(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
+   */
+  @Override
+  public String getFileSizeTooLargeMessage(CmsFileInfo file) {
 
-        return "";
-    }
+    return "";
+  }
 
-    /**
-     * @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#isTooLarge(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
-     */
-    @Override
-    public boolean isTooLarge(CmsFileInfo cmsFileInfo) {
+  /**
+   * @see
+   *     org.opencms.ade.upload.client.ui.A_CmsUploadDialog#isTooLarge(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
+   */
+  @Override
+  public boolean isTooLarge(CmsFileInfo cmsFileInfo) {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#updateSummary()
-     */
-    @Override
-    public void updateSummary() {
+  /** @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#updateSummary() */
+  @Override
+  public void updateSummary() {
 
-        StringBuffer buffer = new StringBuffer(64);
-        buffer.append("<p class=\"").append(
-            org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.uploadButton().dialogMessage()).append("\">");
-        buffer.append("<b>" + Messages.get().key(Messages.GUI_UPLOAD_SUMMARY_FILES_0) + "</b> ");
-        buffer.append(
-            Messages.get().key(
+    StringBuffer buffer = new StringBuffer(64);
+    buffer
+        .append("<p class=\"")
+        .append(
+            org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.uploadButton().dialogMessage())
+        .append("\">");
+    buffer.append("<b>" + Messages.get().key(Messages.GUI_UPLOAD_SUMMARY_FILES_0) + "</b> ");
+    buffer.append(
+        Messages.get()
+            .key(
                 Messages.GUI_UPLOAD_SUMMARY_FILES_VALUE_2,
                 new Integer(getFilesToUpload().size()),
                 getFileText()));
-        buffer.append("</p>");
-        setSummaryHTML(buffer.toString());
-    }
+    buffer.append("</p>");
+    setSummaryHTML(buffer.toString());
+  }
 
-    /**
-     * Adds the given file input field to this dialog.<p>
-     *
-     * @param fileInput the file input field to add
-     */
-    @Override
-    protected void addFileInput(CmsFileInput fileInput) {
+  /**
+   * Adds the given file input field to this dialog.
+   *
+   * <p>
+   *
+   * @param fileInput the file input field to add
+   */
+  @Override
+  protected void addFileInput(CmsFileInput fileInput) {
 
-        // add the files selected by the user to the list of files to upload
-        if (fileInput != null) {
-            m_inputsToUpload.put(fileInput.getFiles()[0].getFileName(), fileInput);
-        }
-        super.addFileInput(fileInput);
+    // add the files selected by the user to the list of files to upload
+    if (fileInput != null) {
+      m_inputsToUpload.put(fileInput.getFiles()[0].getFileName(), fileInput);
     }
+    super.addFileInput(fileInput);
+  }
 }

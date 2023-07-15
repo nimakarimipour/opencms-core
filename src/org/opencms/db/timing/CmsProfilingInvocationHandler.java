@@ -32,53 +32,57 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * Invocation handler used to measure method calls durations.<p>
+ * Invocation handler used to measure method calls durations.
+ *
+ * <p>
  */
 public class CmsProfilingInvocationHandler implements InvocationHandler {
 
-    /** The profiling handler to which we send the data. */
-    private I_CmsProfilingHandler m_profilingHandler;
+  /** The profiling handler to which we send the data. */
+  private I_CmsProfilingHandler m_profilingHandler;
 
-    /** The target object which we are proxying. */
-    private Object m_target;
+  /** The target object which we are proxying. */
+  private Object m_target;
 
-    /**
-     * Creates a new handler instance.<p>
-     *
-     * @param target the object we are proxying
-     * @param timingConsumer the handler to which we send the measured data
-     */
-    public CmsProfilingInvocationHandler(Object target, I_CmsProfilingHandler timingConsumer) {
+  /**
+   * Creates a new handler instance.
+   *
+   * <p>
+   *
+   * @param target the object we are proxying
+   * @param timingConsumer the handler to which we send the measured data
+   */
+  public CmsProfilingInvocationHandler(Object target, I_CmsProfilingHandler timingConsumer) {
 
-        m_target = target;
-        m_profilingHandler = timingConsumer;
+    m_target = target;
+    m_profilingHandler = timingConsumer;
+  }
+
+  /**
+   * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method,
+   *     java.lang.Object[])
+   */
+  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+
+    long start = 0;
+    long end = 0;
+    try {
+      start = System.nanoTime();
+      return method.invoke(m_target, args);
+    } catch (InvocationTargetException e) {
+      Throwable cause = e.getCause();
+      if (cause != null) {
+        throw cause;
+      } else {
+        throw new RuntimeException(e);
+      }
+    } catch (Throwable e) {
+      throw e;
+    } finally {
+      end = System.nanoTime();
+      long nanos = end - start;
+      String key = method.toString();
+      m_profilingHandler.putTime(key, nanos);
     }
-
-    /**
-     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-     */
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
-        long start = 0;
-        long end = 0;
-        try {
-            start = System.nanoTime();
-            return method.invoke(m_target, args);
-        } catch (InvocationTargetException e) {
-            Throwable cause = e.getCause();
-            if (cause != null) {
-                throw cause;
-            } else {
-                throw new RuntimeException(e);
-            }
-        } catch (Throwable e) {
-            throw e;
-        } finally {
-            end = System.nanoTime();
-            long nanos = end - start;
-            String key = method.toString();
-            m_profilingHandler.putTime(key, nanos);
-        }
-    }
-
+  }
 }

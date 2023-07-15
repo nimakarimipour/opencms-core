@@ -30,99 +30,118 @@ package org.opencms.gwt.client.ui.restore;
 import org.opencms.gwt.client.Messages;
 
 /**
- * Message accessor class for the 'Undo changes' dialog.<p>
+ * Message accessor class for the 'Undo changes' dialog.
+ *
+ * <p>
  */
 public final class CmsRestoreMessages {
 
-    /**
-     * Hide default constructor.<p>
-     */
-    private CmsRestoreMessages() {
+  /**
+   * Hide default constructor.
+   *
+   * <p>
+   */
+  private CmsRestoreMessages() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message text
-     */
-    public static String messageConfirmRestore() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message text
+   */
+  public static String messageConfirmRestore() {
 
-        return Messages.get().key(Messages.GUI_RESTORE_CONFIRM_MESSAGE_0);
-        //return "Do you really want to undo all changes that were not published?";
-    }
+    return Messages.get().key(Messages.GUI_RESTORE_CONFIRM_MESSAGE_0);
+    // return "Do you really want to undo all changes that were not published?";
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message text
-     */
-    public static String messageDateModified() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message text
+   */
+  public static String messageDateModified() {
 
-        return Messages.get().key(Messages.GUI_RESTORE_INFO_OFFLINE_DATE_0);
-    }
+    return Messages.get().key(Messages.GUI_RESTORE_INFO_OFFLINE_DATE_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message text
-     */
-    public static String messageDateModifiedOnline() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message text
+   */
+  public static String messageDateModifiedOnline() {
 
-        return Messages.get().key(Messages.GUI_RESTORE_INFO_ONLINE_DATE_0);
-    }
+    return Messages.get().key(Messages.GUI_RESTORE_INFO_ONLINE_DATE_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @param onlinePath the path of the resource in the online project
-     * @param offlinePath the path of the resource in the offline path
-     *
-     * @return the message text
-     */
-    public static String messageMoved(String onlinePath, String offlinePath) {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @param onlinePath the path of the resource in the online project
+   * @param offlinePath the path of the resource in the offline path
+   * @return the message text
+   */
+  public static String messageMoved(String onlinePath, String offlinePath) {
 
-        return Messages.get().key(Messages.GUI_RESTORE_RESOURCE_MOVED_2, onlinePath, offlinePath);
-    }
+    return Messages.get().key(Messages.GUI_RESTORE_RESOURCE_MOVED_2, onlinePath, offlinePath);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message text
-     */
-    public static String messageRestoreCancel() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message text
+   */
+  public static String messageRestoreCancel() {
 
-        return Messages.get().key(Messages.GUI_CANCEL_0);
-    }
+    return Messages.get().key(Messages.GUI_CANCEL_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message text
-     */
-    public static String messageRestoreDialogTitle() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message text
+   */
+  public static String messageRestoreDialogTitle() {
 
-        return Messages.get().key(Messages.GUI_RESTORE_DIALOG_TITLE_0);
-    }
+    return Messages.get().key(Messages.GUI_RESTORE_DIALOG_TITLE_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message text
-     */
-    public static String messageRestoreOk() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message text
+   */
+  public static String messageRestoreOk() {
 
-        return Messages.get().key(Messages.GUI_OK_0);
-    }
+    return Messages.get().key(Messages.GUI_OK_0);
+  }
 
-    /**
-     * Message accessor.<p>
-     *
-     * @return the message text
-     */
-    public static String messageUndoMove() {
+  /**
+   * Message accessor.
+   *
+   * <p>
+   *
+   * @return the message text
+   */
+  public static String messageUndoMove() {
 
-        return Messages.get().key(Messages.GUI_RESTORE_CHECKBOX_UNDO_MOVE_0);
-    }
+    return Messages.get().key(Messages.GUI_RESTORE_CHECKBOX_UNDO_MOVE_0);
+  }
 }

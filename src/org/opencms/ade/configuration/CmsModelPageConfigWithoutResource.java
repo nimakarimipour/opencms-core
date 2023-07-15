@@ -30,61 +30,68 @@ package org.opencms.ade.configuration;
 import org.opencms.util.CmsUUID;
 
 /**
- * This class contains the model page configuration for a sitemap region, without the actual resource.
+ * This class contains the model page configuration for a sitemap region, without the actual
+ * resource.
  */
 public class CmsModelPageConfigWithoutResource {
 
-    /** The structure id. */
-    private CmsUUID m_structureId;
+  /** The structure id. */
+  private CmsUUID m_structureId;
 
-    /** True if this is a default model page. */
-    private boolean m_isDefault;
+  /** True if this is a default model page. */
+  private boolean m_isDefault;
 
-    /** True if this bean disables a model page rather than adding one.*/
-    private boolean m_isDisabled;
+  /** True if this bean disables a model page rather than adding one. */
+  private boolean m_isDisabled;
 
-    /**
-     * Creates a new model page configuration bean.<p>
-     *
-     * @param structureId the model page structure id
-     * @param isDefault true if this is a default model page
-     * @param isDisabled true if this is a disabled model page
-     */
-    public CmsModelPageConfigWithoutResource(CmsUUID structureId, boolean isDefault, boolean isDisabled) {
+  /**
+   * Creates a new model page configuration bean.
+   *
+   * <p>
+   *
+   * @param structureId the model page structure id
+   * @param isDefault true if this is a default model page
+   * @param isDisabled true if this is a disabled model page
+   */
+  public CmsModelPageConfigWithoutResource(
+      CmsUUID structureId, boolean isDefault, boolean isDisabled) {
 
-        m_structureId = structureId;
-        m_isDefault = isDefault;
-        m_isDisabled = isDisabled;
-    }
+    m_structureId = structureId;
+    m_isDefault = isDefault;
+    m_isDisabled = isDisabled;
+  }
 
-    /**
-     * Gets the structure id.
-     *
-     * @return the structure id
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Gets the structure id.
+   *
+   * @return the structure id
+   */
+  public CmsUUID getStructureId() {
 
-        return m_structureId;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * Returns true if this is a default model page.<p>
-     *
-     * @return true if this is a default model page
-     */
-    public boolean isDefault() {
+  /**
+   * Returns true if this is a default model page.
+   *
+   * <p>
+   *
+   * @return true if this is a default model page
+   */
+  public boolean isDefault() {
 
-        return m_isDefault;
-    }
+    return m_isDefault;
+  }
 
-    /**
-     * Returns true if this entry disables the model page.<p>
-     *
-     * @return true if this entry disables the model page
-     */
-    public boolean isDisabled() {
+  /**
+   * Returns true if this entry disables the model page.
+   *
+   * <p>
+   *
+   * @return true if this entry disables the model page
+   */
+  public boolean isDisabled() {
 
-        return m_isDisabled;
-    }
-
+    return m_isDisabled;
+  }
 }

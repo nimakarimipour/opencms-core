@@ -27,9 +27,6 @@
 
 package org.opencms.gwt.client.ui;
 
-import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
-import org.opencms.gwt.client.util.CmsFadeAnimation;
-
 import com.google.gwt.animation.client.Animation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -40,220 +37,249 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
+import org.opencms.gwt.client.util.CmsFadeAnimation;
 
 /**
- * The toolbar notification widget.<p>
+ * The toolbar notification widget.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsNotificationWidget extends Composite implements I_CmsNotificationWidget {
 
-    /**
-     * @see com.google.gwt.uibinder.client.UiBinder
-     */
-    protected interface I_CmsNotificationWidgetUiBinder extends UiBinder<Widget, CmsNotificationWidget> {
-        // GWT interface, nothing to do here
+  /** @see com.google.gwt.uibinder.client.UiBinder */
+  protected interface I_CmsNotificationWidgetUiBinder
+      extends UiBinder<Widget, CmsNotificationWidget> {
+    // GWT interface, nothing to do here
+  }
+
+  /** The ui-binder instance for this class. */
+  private static I_CmsNotificationWidgetUiBinder uiBinder =
+      GWT.create(I_CmsNotificationWidgetUiBinder.class);
+
+  /** The message. */
+  @UiField FlowPanel m_messages;
+
+  /** The current animation. */
+  private Animation m_animation;
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsNotificationWidget() {
+
+    initWidget(uiBinder.createAndBindUi(this));
+    restore();
+    CmsNotification.get().setWidget(this);
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.I_CmsNotificationWidget#addMessage(org.opencms.gwt.client.ui.CmsNotificationMessage)
+   */
+  public void addMessage(CmsNotificationMessage message) {
+
+    clearAnimation();
+    if (m_messages.getWidgetCount() == 0) {
+      animateShow();
     }
-
-    /** The ui-binder instance for this class. */
-    private static I_CmsNotificationWidgetUiBinder uiBinder = GWT.create(I_CmsNotificationWidgetUiBinder.class);
-
-    /** The message. */
-    @UiField
-    FlowPanel m_messages;
-
-    /** The current animation. */
-    private Animation m_animation;
-
-    /**
-     * Constructor.<p>
-     */
-    public CmsNotificationWidget() {
-
-        initWidget(uiBinder.createAndBindUi(this));
-        restore();
-        CmsNotification.get().setWidget(this);
+    m_messages.add(message);
+    if (message.isBlockingMode()) {
+      setBlocking(true);
     }
-
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsNotificationWidget#addMessage(org.opencms.gwt.client.ui.CmsNotificationMessage)
-     */
-    public void addMessage(CmsNotificationMessage message) {
-
-        clearAnimation();
-        if (m_messages.getWidgetCount() == 0) {
-            animateShow();
-        }
-        m_messages.add(message);
-        if (message.isBlockingMode()) {
-            setBlocking(true);
-        }
-        if (message.isBusyMode()) {
-            setBusy(true);
-        }
+    if (message.isBusyMode()) {
+      setBusy(true);
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsNotificationWidget#clearMessages()
-     */
-    public void clearMessages() {
+  /** @see org.opencms.gwt.client.ui.I_CmsNotificationWidget#clearMessages() */
+  public void clearMessages() {
 
-        animateHide();
+    animateHide();
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.I_CmsNotificationWidget#removeMessage(org.opencms.gwt.client.ui.CmsNotificationMessage)
+   */
+  public void removeMessage(CmsNotificationMessage message) {
+
+    clearAnimation();
+    if ((m_messages.getWidgetCount() == 1) && (m_messages.getWidgetIndex(message) != -1)) {
+      animateHide();
+    } else {
+      m_messages.remove(message);
+      setBlocking(requiresBlocking());
+      setBusy(requiresBusy());
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsNotificationWidget#removeMessage(org.opencms.gwt.client.ui.CmsNotificationMessage)
-     */
-    public void removeMessage(CmsNotificationMessage message) {
+  /**
+   * Clears the messages once the hide animation is completed.
+   *
+   * <p>
+   */
+  protected void onHideComplete() {
 
-        clearAnimation();
-        if ((m_messages.getWidgetCount() == 1) && (m_messages.getWidgetIndex(message) != -1)) {
-            animateHide();
-        } else {
-            m_messages.remove(message);
-            setBlocking(requiresBlocking());
-            setBusy(requiresBusy());
-        }
-    }
+    m_animation = null;
+    m_messages.clear();
+    setBlocking(false);
+    setBusy(false);
+    restore();
+  }
 
-    /**
-     * Clears the messages once the hide animation is completed.<p>
-     */
-    protected void onHideComplete() {
+  /**
+   * Called once the show animation is completed.
+   *
+   * <p>
+   */
+  protected void onShowComplete() {
 
-        m_animation = null;
-        m_messages.clear();
-        setBlocking(false);
-        setBusy(false);
-        restore();
-    }
+    m_animation = null;
+  }
 
-    /**
-     * Called once the show animation is completed.<p>
-     */
-    protected void onShowComplete() {
+  /**
+   * Animates hiding the messages.
+   *
+   * <p>
+   */
+  private void animateHide() {
 
-        m_animation = null;
-    }
+    m_animation =
+        CmsFadeAnimation.fadeOut(
+            getElement(),
+            new Command() {
 
-    /**
-     * Animates hiding the messages.<p>
-     */
-    private void animateHide() {
-
-        m_animation = CmsFadeAnimation.fadeOut(getElement(), new Command() {
-
-            /**
-             * @see com.google.gwt.user.client.Command#execute()
-             */
-            public void execute() {
+              /** @see com.google.gwt.user.client.Command#execute() */
+              public void execute() {
 
                 onHideComplete();
-            }
-        }, 200);
+              }
+            },
+            200);
+  }
+
+  /**
+   * Animates showing the messages.
+   *
+   * <p>
+   */
+  private void animateShow() {
+
+    // ensure to display the notification above everything else
+    Element parent = getElement().getParentElement();
+    if (parent != null) {
+      parent.getStyle().setZIndex(I_CmsLayoutBundle.INSTANCE.constants().css().zIndexDND());
     }
+    getElement().getStyle().clearVisibility();
+    m_animation =
+        CmsFadeAnimation.fadeIn(
+            getElement(),
+            new Command() {
 
-    /**
-     * Animates showing the messages.<p>
-     */
-    private void animateShow() {
-
-        // ensure to display the notification above everything else
-        Element parent = getElement().getParentElement();
-        if (parent != null) {
-            parent.getStyle().setZIndex(I_CmsLayoutBundle.INSTANCE.constants().css().zIndexDND());
-        }
-        getElement().getStyle().clearVisibility();
-        m_animation = CmsFadeAnimation.fadeIn(getElement(), new Command() {
-
-            /**
-             * @see com.google.gwt.user.client.Command#execute()
-             */
-            public void execute() {
+              /** @see com.google.gwt.user.client.Command#execute() */
+              public void execute() {
 
                 onShowComplete();
-            }
-        }, 200);
+              }
+            },
+            200);
+  }
+
+  /**
+   * Cancels the current animation.
+   *
+   * <p>
+   */
+  private void clearAnimation() {
+
+    if (m_animation != null) {
+      m_animation.cancel();
+      m_animation = null;
     }
+  }
 
-    /**
-     * Cancels the current animation.<p>
-     */
-    private void clearAnimation() {
+  /**
+   * Checks if any message requires a blocking overlay.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the blocking overlay is required
+   */
+  private boolean requiresBlocking() {
 
-        if (m_animation != null) {
-            m_animation.cancel();
-            m_animation = null;
-        }
+    for (Widget message : m_messages) {
+      if (((CmsNotificationMessage) message).isBlockingMode()) {
+        return true;
+      }
     }
+    return false;
+  }
 
-    /**
-     * Checks if any message requires a blocking overlay.<p>
-     *
-     * @return <code>true</code> if the blocking overlay is required
-     */
-    private boolean requiresBlocking() {
+  /**
+   * Checks if any message requires the busy icon.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the busy icon is required
+   */
+  private boolean requiresBusy() {
 
-        for (Widget message : m_messages) {
-            if (((CmsNotificationMessage)message).isBlockingMode()) {
-                return true;
-            }
-        }
-        return false;
+    for (Widget message : m_messages) {
+      if (((CmsNotificationMessage) message).isBusyMode()) {
+        return true;
+      }
     }
+    return false;
+  }
 
-    /**
-     * Checks if any message requires the busy icon.<p>
-     *
-     * @return <code>true</code> if the busy icon is required
-     */
-    private boolean requiresBusy() {
+  /**
+   * Restores the initial state.
+   *
+   * <p>
+   */
+  private void restore() {
 
-        for (Widget message : m_messages) {
-            if (((CmsNotificationMessage)message).isBusyMode()) {
-                return true;
-            }
-        }
-        return false;
+    Element parent = getElement().getParentElement();
+    if (parent != null) {
+      parent.getStyle().clearZIndex();
     }
+    getElement().getStyle().setVisibility(Visibility.HIDDEN);
+  }
 
-    /**
-     * Restores the initial state.<p>
-     */
-    private void restore() {
+  /**
+   * Toggles the blocking overlay.
+   *
+   * <p>
+   *
+   * @param blocking <code>true</code> to show the blocking overlay
+   */
+  private void setBlocking(boolean blocking) {
 
-        Element parent = getElement().getParentElement();
-        if (parent != null) {
-            parent.getStyle().clearZIndex();
-        }
-        getElement().getStyle().setVisibility(Visibility.HIDDEN);
+    if (blocking) {
+      getElement().addClassName(I_CmsLayoutBundle.INSTANCE.notificationCss().blocking());
+    } else {
+      getElement().removeClassName(I_CmsLayoutBundle.INSTANCE.notificationCss().blocking());
     }
+  }
 
-    /**
-     * Toggles the blocking overlay.<p>
-     *
-     * @param blocking <code>true</code> to show the blocking overlay
-     */
-    private void setBlocking(boolean blocking) {
+  /**
+   * Toggles the busy icon.
+   *
+   * <p>
+   *
+   * @param busy <code>true</code> to show the busy icon
+   */
+  private void setBusy(boolean busy) {
 
-        if (blocking) {
-            getElement().addClassName(I_CmsLayoutBundle.INSTANCE.notificationCss().blocking());
-        } else {
-            getElement().removeClassName(I_CmsLayoutBundle.INSTANCE.notificationCss().blocking());
-        }
+    if (busy) {
+      getElement().addClassName(I_CmsLayoutBundle.INSTANCE.notificationCss().busy());
+    } else {
+      getElement().removeClassName(I_CmsLayoutBundle.INSTANCE.notificationCss().busy());
     }
-
-    /**
-     * Toggles the busy icon.<p>
-     *
-     * @param busy <code>true</code> to show the busy icon
-     */
-    private void setBusy(boolean busy) {
-
-        if (busy) {
-            getElement().addClassName(I_CmsLayoutBundle.INSTANCE.notificationCss().busy());
-        } else {
-            getElement().removeClassName(I_CmsLayoutBundle.INSTANCE.notificationCss().busy());
-        }
-    }
+  }
 }

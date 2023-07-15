@@ -27,28 +27,26 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.ui.shared.CmsVaadinConstants;
-
 import com.google.gwt.user.client.Element;
 import com.vaadin.client.VLoadingIndicator;
+import org.opencms.ui.shared.CmsVaadinConstants;
 
 /**
- * Replacement for the standard Vaadin loading indicator which adds some custom HTML.<p>
+ * Replacement for the standard Vaadin loading indicator which adds some custom HTML.
+ *
+ * <p>
  */
 @SuppressWarnings("deprecation")
 public class CmsLoadingIndicator extends VLoadingIndicator {
 
-    /**
-     * @see com.vaadin.client.VLoadingIndicator#getElement()
-     */
-    @Override
-    public Element getElement() {
+  /** @see com.vaadin.client.VLoadingIndicator#getElement() */
+  @Override
+  public Element getElement() {
 
-        Element element = super.getElement();
-        if (element.getChildCount() == 0) {
-            element.setInnerHTML(CmsVaadinConstants.LOADING_INDICATOR_HTML);
-        }
-        return element;
+    Element element = super.getElement();
+    if (element.getChildCount() == 0) {
+      element.setInnerHTML(CmsVaadinConstants.LOADING_INDICATOR_HTML);
     }
-
+    return element;
+  }
 }

@@ -27,85 +27,90 @@
 
 package org.opencms.ui.components;
 
-import org.opencms.ui.A_CmsUI;
-import org.opencms.ui.Messages;
-
+import com.vaadin.shared.ui.datefield.DateTimeResolution;
+import com.vaadin.ui.DateTimeField;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
-
-import com.vaadin.shared.ui.datefield.DateTimeResolution;
-import com.vaadin.ui.DateTimeField;
+import org.opencms.ui.A_CmsUI;
+import org.opencms.ui.Messages;
 
 /**
- * Convenience subclass of PopupDateField which comes preconfigured with a resolution and validation error message.<p>
+ * Convenience subclass of PopupDateField which comes preconfigured with a resolution and validation
+ * error message.
+ *
+ * <p>
  */
 public class CmsDateField extends DateTimeField {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.<p<
-     */
-    public CmsDateField() {
+  /** Creates a new instance.<p< */
+  public CmsDateField() {
 
-        super();
-        setResolution(DateTimeResolution.MINUTE);
-        String parseError = Messages.get().getBundle(A_CmsUI.get().getLocale()).key(Messages.GUI_INVALID_DATE_FORMAT_0);
-        setParseErrorMessage(parseError);
+    super();
+    setResolution(DateTimeResolution.MINUTE);
+    String parseError =
+        Messages.get().getBundle(A_CmsUI.get().getLocale()).key(Messages.GUI_INVALID_DATE_FORMAT_0);
+    setParseErrorMessage(parseError);
+  }
+
+  /**
+   * Converts a {@link Date} object to a {@link LocalDateTime} object.
+   *
+   * <p>
+   *
+   * @param date the date
+   * @return the local date time
+   */
+  public static LocalDateTime dateToLocalDateTime(Date date) {
+
+    if (date == null) {
+      return null;
     }
+    return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+  }
 
-    /**
-     * Converts a {@link Date} object to a {@link LocalDateTime} object.<p>
-     *
-     * @param date the date
-     *
-     * @return the local date time
-     */
-    public static LocalDateTime dateToLocalDateTime(Date date) {
+  /**
+   * Converts a {@link LocalDateTime} object to a {@link Date} object.
+   *
+   * <p>
+   *
+   * @param local the local date time
+   * @return the date
+   */
+  public static Date localDateTimeToDate(LocalDateTime local) {
 
-        if (date == null) {
-            return null;
-        }
-        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+    if (local == null) {
+      return null;
     }
+    ZonedDateTime zdt = local.atZone(ZoneId.systemDefault());
+    return Date.from(zdt.toInstant());
+  }
 
-    /**
-     * Converts a {@link LocalDateTime} object to a {@link Date} object.<p>
-     *
-     * @param local the local date time
-     *
-     * @return the date
-     */
-    public static Date localDateTimeToDate(LocalDateTime local) {
+  /**
+   * Convenience method returning the field value converted to date.
+   *
+   * <p>
+   *
+   * @return the date
+   */
+  public Date getDate() {
 
-        if (local == null) {
-            return null;
-        }
-        ZonedDateTime zdt = local.atZone(ZoneId.systemDefault());
-        return Date.from(zdt.toInstant());
-    }
+    return localDateTimeToDate(getValue());
+  }
 
-    /**
-     * Convenience method returning the field value converted to date.<p>
-     *
-     * @return the date
-     */
-    public Date getDate() {
+  /**
+   * Convenience method to set the LocalDateTime field value to the given date.
+   *
+   * <p>
+   *
+   * @param date the date to set
+   */
+  public void setDate(Date date) {
 
-        return localDateTimeToDate(getValue());
-    }
-
-    /**
-     * Convenience method to set the LocalDateTime field value to the given date.<p>
-     *
-     * @param date the date to set
-     */
-    public void setDate(Date date) {
-
-        setValue(dateToLocalDateTime(date));
-    }
-
+    setValue(dateToLocalDateTime(date));
+  }
 }

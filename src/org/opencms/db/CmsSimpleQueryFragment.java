@@ -31,49 +31,51 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * A simple query fragment which takes its SQL string and query parameters as
- * constructor arguments.<p>
+ * A simple query fragment which takes its SQL string and query parameters as constructor arguments.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsSimpleQueryFragment implements I_CmsQueryFragment {
 
-    /** The SQL fragment. */
-    private String m_fragment;
+  /** The SQL fragment. */
+  private String m_fragment;
 
-    /** The query parameters. */
-    private List<Object> m_params;
+  /** The query parameters. */
+  private List<Object> m_params;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param fragment the SQL fragment
-     * @param params the query parameters
-     */
-    public CmsSimpleQueryFragment(String fragment, List<Object> params) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param fragment the SQL fragment
+   * @param params the query parameters
+   */
+  public CmsSimpleQueryFragment(String fragment, List<Object> params) {
 
-        m_fragment = fragment;
-        m_params = params;
-    }
+    m_fragment = fragment;
+    m_params = params;
+  }
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param fragment the SQL fragment
-     * @param params the query parameters
-     */
-    public CmsSimpleQueryFragment(String fragment, Object... params) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param fragment the SQL fragment
+   * @param params the query parameters
+   */
+  public CmsSimpleQueryFragment(String fragment, Object... params) {
 
-        m_fragment = fragment;
-        m_params = Arrays.asList(params);
-    }
+    m_fragment = fragment;
+    m_params = Arrays.asList(params);
+  }
 
-    /**
-     * @see org.opencms.db.I_CmsQueryFragment#visit(org.opencms.db.CmsStatementBuilder)
-     */
-    public void visit(CmsStatementBuilder builder) {
+  /** @see org.opencms.db.I_CmsQueryFragment#visit(org.opencms.db.CmsStatementBuilder) */
+  public void visit(CmsStatementBuilder builder) {
 
-        builder.add(m_fragment, m_params);
-    }
-
+    builder.add(m_fragment, m_params);
+  }
 }

@@ -27,6 +27,13 @@
 
 package org.opencms.jsp.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
 import org.opencms.file.CmsResource;
@@ -37,121 +44,129 @@ import org.opencms.main.OpenCms;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Unit tests for the <code>{@link CmsJspVfsAccessBean}</code>.<p>
+ * Unit tests for the <code>{@link CmsJspVfsAccessBean}</code>.
+ *
+ * <p>
  *
  * @since 7.0.2
  */
 public class TestCmsJspResourceAccessBean extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestCmsJspResourceAccessBean(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestCmsJspResourceAccessBean(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestCmsJspResourceAccessBean.class.getName());
+    TestSuite suite = new TestSuite();
+    suite.setName(TestCmsJspResourceAccessBean.class.getName());
 
-        suite.addTest(new TestCmsJspResourceAccessBean("testReadPropertyLocale"));
+    suite.addTest(new TestCmsJspResourceAccessBean("testReadPropertyLocale"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
-    }
+    return wrapper;
+  }
 
-    public void testReadPropertyLocale() throws CmsException {
+  public void testReadPropertyLocale() throws CmsException {
 
-        CmsObject cms = getCmsObject();
+    CmsObject cms = getCmsObject();
 
-        String folderPath = "/test_read_property_locale";
-        String resourcePath = "/test_read_property_locale/test.txt";
-        CmsResource folder = cms.createResource(
+    String folderPath = "/test_read_property_locale";
+    String resourcePath = "/test_read_property_locale/test.txt";
+    CmsResource folder =
+        cms.createResource(
             folderPath,
-            OpenCms.getResourceManager().getResourceType(CmsResourceTypeFolder.getStaticTypeName()));
-        CmsResource resource = cms.createResource(
+            OpenCms.getResourceManager()
+                .getResourceType(CmsResourceTypeFolder.getStaticTypeName()));
+    CmsResource resource =
+        cms.createResource(
             resourcePath,
             OpenCms.getResourceManager().getResourceType(CmsResourceTypePlain.getStaticTypeName()));
 
-        CmsJspResourceAccessBean bean = new CmsJspResourceAccessBean(cms, resource);
+    CmsJspResourceAccessBean bean = new CmsJspResourceAccessBean(cms, resource);
 
-        List<CmsProperty> directProperties = new ArrayList<CmsProperty>();
-        List<CmsProperty> searchedProperties = new ArrayList<CmsProperty>();
-        String directPropertyName = "direct";
-        String searchedPropertyName = "searched";
-        List<String> localeSuffixes = Arrays.asList(new String[] {"", "_de", "_de_DE", "_en"});
-        Locale[] testLocales = new Locale[] {
-            null,
-            new Locale("de"),
-            new Locale("de", "DE"),
-            new Locale("en"),
-            new Locale("en", "GB"),
-            new Locale("it")};
-        String[] expectedPostfix = new String[] {"", "_de", "_de_DE", "_en", "_en", ""};
+    List<CmsProperty> directProperties = new ArrayList<CmsProperty>();
+    List<CmsProperty> searchedProperties = new ArrayList<CmsProperty>();
+    String directPropertyName = "direct";
+    String searchedPropertyName = "searched";
+    List<String> localeSuffixes = Arrays.asList(new String[] {"", "_de", "_de_DE", "_en"});
+    Locale[] testLocales =
+        new Locale[] {
+          null,
+          new Locale("de"),
+          new Locale("de", "DE"),
+          new Locale("en"),
+          new Locale("en", "GB"),
+          new Locale("it")
+        };
+    String[] expectedPostfix = new String[] {"", "_de", "_de_DE", "_en", "_en", ""};
 
-        for (String suffix : localeSuffixes) {
-            directProperties.add(
-                new CmsProperty(directPropertyName + suffix, directPropertyName + suffix, directPropertyName + suffix));
-            searchedProperties.add(
-                new CmsProperty(
-                    searchedPropertyName + suffix,
-                    searchedPropertyName + suffix,
-                    searchedPropertyName + suffix));
-        }
-
-        cms.writePropertyObjects(resource, directProperties);
-        cms.writePropertyObjects(folder, searchedProperties);
-
-        for (int i = 0; i < testLocales.length; i++) {
-            assertEquals(
-                directPropertyName + expectedPostfix[i],
-                bean.getPropertyLocale().get(null != testLocales[i] ? testLocales[i].toString() : null).get(
-                    directPropertyName));
-            assertEquals(
-                directPropertyName + expectedPostfix[i],
-                bean.getPropertyLocale().get(testLocales[i]).get(directPropertyName));
-            assertEquals(
-                CmsProperty.getNullProperty().getValue(),
-                bean.getPropertyLocale().get(null != testLocales[i] ? testLocales[i].toString() : null).get(
-                    searchedPropertyName));
-            assertEquals(
-                CmsProperty.getNullProperty().getValue(),
-                bean.getPropertyLocale().get(testLocales[i]).get(searchedPropertyName));
-        }
+    for (String suffix : localeSuffixes) {
+      directProperties.add(
+          new CmsProperty(
+              directPropertyName + suffix,
+              directPropertyName + suffix,
+              directPropertyName + suffix));
+      searchedProperties.add(
+          new CmsProperty(
+              searchedPropertyName + suffix,
+              searchedPropertyName + suffix,
+              searchedPropertyName + suffix));
     }
+
+    cms.writePropertyObjects(resource, directProperties);
+    cms.writePropertyObjects(folder, searchedProperties);
+
+    for (int i = 0; i < testLocales.length; i++) {
+      assertEquals(
+          directPropertyName + expectedPostfix[i],
+          bean.getPropertyLocale()
+              .get(null != testLocales[i] ? testLocales[i].toString() : null)
+              .get(directPropertyName));
+      assertEquals(
+          directPropertyName + expectedPostfix[i],
+          bean.getPropertyLocale().get(testLocales[i]).get(directPropertyName));
+      assertEquals(
+          CmsProperty.getNullProperty().getValue(),
+          bean.getPropertyLocale()
+              .get(null != testLocales[i] ? testLocales[i].toString() : null)
+              .get(searchedPropertyName));
+      assertEquals(
+          CmsProperty.getNullProperty().getValue(),
+          bean.getPropertyLocale().get(testLocales[i]).get(searchedPropertyName));
+    }
+  }
 }

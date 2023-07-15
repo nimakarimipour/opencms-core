@@ -27,6 +27,15 @@
 
 package org.opencms.ui.sitemap;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResourceFilter;
@@ -41,134 +50,133 @@ import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsResourceInfo;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.v7.ui.HorizontalLayout;
-import com.vaadin.v7.ui.Label;
-
 /**
- * Dialog to confirm detaching a resource from a locale group.<p>
+ * Dialog to confirm detaching a resource from a locale group.
+ *
+ * <p>
  */
 public class CmsUnlinkDialog extends CmsBasicDialog {
 
-    /** The log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsUnlinkDialog.class);
+  /** The log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsUnlinkDialog.class);
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The cancel button. */
-    protected Button m_cancelButton;
+  /** The cancel button. */
+  protected Button m_cancelButton;
 
-    /** The dialog context. */
-    protected I_CmsDialogContext m_context;
+  /** The dialog context. */
+  protected I_CmsDialogContext m_context;
 
-    /** The locale comparison context. */
-    protected I_CmsLocaleCompareContext m_localeContext;
+  /** The locale comparison context. */
+  protected I_CmsLocaleCompareContext m_localeContext;
 
-    /** The label with the confirmation message. */
-    protected Label m_messageLabel;
+  /** The label with the confirmation message. */
+  protected Label m_messageLabel;
 
-    /** The OK button. */
-    protected Button m_okButton;
+  /** The OK button. */
+  protected Button m_okButton;
 
-    /** The other resource.*/
-    protected CmsResource m_otherResource;
+  /** The other resource. */
+  protected CmsResource m_otherResource;
 
-    /** The container for the resource boxes. */
-    protected HorizontalLayout m_resourceBoxContainer;
+  /** The container for the resource boxes. */
+  protected HorizontalLayout m_resourceBoxContainer;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param context the dialog context
-     * @param otherResource the other resource
-     */
-    public CmsUnlinkDialog(I_CmsDialogContext context, CmsResource otherResource) {
-        super();
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        m_context = context;
-        m_otherResource = otherResource;
-        CmsResource leftResource = m_context.getResources().get(0);
-        try {
-            if (leftResource.isFolder()) {
-                CmsResource defaultFile = context.getCms().readDefaultFile(
-                    leftResource,
-                    CmsResourceFilter.IGNORE_EXPIRATION);
-                if (defaultFile != null) {
-                    leftResource = defaultFile;
-                }
-            }
-        } catch (CmsException e) {
-            LOG.error(e.getLocalizedMessage(), e);
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param context the dialog context
+   * @param otherResource the other resource
+   */
+  public CmsUnlinkDialog(I_CmsDialogContext context, CmsResource otherResource) {
+    super();
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    m_context = context;
+    m_otherResource = otherResource;
+    CmsResource leftResource = m_context.getResources().get(0);
+    try {
+      if (leftResource.isFolder()) {
+        CmsResource defaultFile =
+            context.getCms().readDefaultFile(leftResource, CmsResourceFilter.IGNORE_EXPIRATION);
+        if (defaultFile != null) {
+          leftResource = defaultFile;
         }
-        CmsResource rightResource = m_otherResource;
-        CmsResourceInfo left = new CmsResourceInfo(leftResource);
-        CmsResourceInfo right = new CmsResourceInfo(rightResource);
-        Locale leftLocale = OpenCms.getLocaleManager().getDefaultLocale(context.getCms(), leftResource);
-        Locale rightLocale = OpenCms.getLocaleManager().getDefaultLocale(context.getCms(), rightResource);
+      }
+    } catch (CmsException e) {
+      LOG.error(e.getLocalizedMessage(), e);
+    }
+    CmsResource rightResource = m_otherResource;
+    CmsResourceInfo left = new CmsResourceInfo(leftResource);
+    CmsResourceInfo right = new CmsResourceInfo(rightResource);
+    Locale leftLocale = OpenCms.getLocaleManager().getDefaultLocale(context.getCms(), leftResource);
+    Locale rightLocale =
+        OpenCms.getLocaleManager().getDefaultLocale(context.getCms(), rightResource);
 
-        left.getTopLine().setValue("[" + leftLocale.toString().toUpperCase() + "] " + left.getTopLine().getValue());
-        right.getTopLine().setValue("[" + rightLocale.toString().toUpperCase() + "] " + right.getTopLine().getValue());
+    left.getTopLine()
+        .setValue("[" + leftLocale.toString().toUpperCase() + "] " + left.getTopLine().getValue());
+    right
+        .getTopLine()
+        .setValue(
+            "[" + rightLocale.toString().toUpperCase() + "] " + right.getTopLine().getValue());
 
-        m_resourceBoxContainer.addComponent(left);
-        m_resourceBoxContainer.addComponent(right);
+    m_resourceBoxContainer.addComponent(left);
+    m_resourceBoxContainer.addComponent(right);
 
-        m_okButton.addClickListener(new ClickListener() {
+    m_okButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                onClickOk();
-            }
+            onClickOk();
+          }
         });
 
-        m_cancelButton.addClickListener(new ClickListener() {
+    m_cancelButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                onClickCancel();
-            }
+            onClickCancel();
+          }
         });
+  }
 
+  /**
+   * Called when the Cancel button is clicked.
+   *
+   * <p>
+   */
+  protected void onClickCancel() {
+
+    m_context.finish(new ArrayList<CmsUUID>());
+  }
+
+  /**
+   * Called when the OK button is clicked.
+   *
+   * <p>
+   */
+  protected void onClickOk() {
+
+    CmsResource res1 = m_context.getResources().get(0);
+    CmsResource res2 = m_otherResource;
+    try {
+      CmsObject cms = A_CmsUI.getCmsObject();
+      CmsLocaleGroupService groupService = cms.getLocaleGroupService();
+      groupService.detachLocaleGroup(res1, res2);
+      m_context.finish(Arrays.asList(m_context.getResources().get(0).getStructureId()));
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage());
+      m_context.error(e);
     }
-
-    /**
-     * Called when the Cancel button is clicked.<p>
-     */
-    protected void onClickCancel() {
-
-        m_context.finish(new ArrayList<CmsUUID>());
-
-    }
-
-    /**
-     * Called when the OK button is clicked.<p>
-     */
-    protected void onClickOk() {
-
-        CmsResource res1 = m_context.getResources().get(0);
-        CmsResource res2 = m_otherResource;
-        try {
-            CmsObject cms = A_CmsUI.getCmsObject();
-            CmsLocaleGroupService groupService = cms.getLocaleGroupService();
-            groupService.detachLocaleGroup(res1, res2);
-            m_context.finish(Arrays.asList(m_context.getResources().get(0).getStructureId()));
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
-            m_context.error(e);
-        }
-
-    }
-
+  }
 }

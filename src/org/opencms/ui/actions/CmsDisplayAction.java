@@ -27,6 +27,7 @@
 
 package org.opencms.ui.actions;
 
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.types.CmsResourceTypeXmlContainerPage;
@@ -47,104 +48,109 @@ import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.List;
-
 /**
- * The display action. Renders the selected resource.<p>
+ * The display action. Renders the selected resource.
+ *
+ * <p>
  */
 public class CmsDisplayAction extends A_CmsWorkplaceAction implements I_CmsDefaultAction {
 
-    /** The name of the online version window. */
-    public static final String ONLINE_WINDOW_NAME = "_blank";
+  /** The name of the online version window. */
+  public static final String ONLINE_WINDOW_NAME = "_blank";
 
-    /** The action id. */
-    public static final String ACTION_ID = "display";
+  /** The action id. */
+  public static final String ACTION_ID = "display";
 
-    /** The action visibility. */
-    public static final I_CmsHasMenuItemVisibility VISIBILITY = new CmsMenuItemVisibilitySingleOnly(
-        CmsStandardVisibilityCheck.EDIT);
+  /** The action visibility. */
+  public static final I_CmsHasMenuItemVisibility VISIBILITY =
+      new CmsMenuItemVisibilitySingleOnly(CmsStandardVisibilityCheck.EDIT);
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        if (context.getResources().size() == 1) {
-            CmsResource resource = context.getResources().get(0);
-            if (OpenCms.getResourceManager().getResourceType(resource).getTypeName().equals(
-                CmsListManager.RES_TYPE_LIST_CONFIG)) {
-                CmsAppWorkplaceUi.get().showApp(
-                    OpenCms.getWorkplaceAppManager().getAppConfiguration(CmsListManagerConfiguration.APP_ID),
-                    A_CmsWorkplaceApp.addParamToState(
-                        "",
-                        CmsEditor.RESOURCE_ID_PREFIX,
-                        resource.getStructureId().toString()));
-            } else {
+    if (context.getResources().size() == 1) {
+      CmsResource resource = context.getResources().get(0);
+      if (OpenCms.getResourceManager()
+          .getResourceType(resource)
+          .getTypeName()
+          .equals(CmsListManager.RES_TYPE_LIST_CONFIG)) {
+        CmsAppWorkplaceUi.get()
+            .showApp(
+                OpenCms.getWorkplaceAppManager()
+                    .getAppConfiguration(CmsListManagerConfiguration.APP_ID),
+                A_CmsWorkplaceApp.addParamToState(
+                    "", CmsEditor.RESOURCE_ID_PREFIX, resource.getStructureId().toString()));
+      } else {
 
-                CmsObject cms = context.getCms();
-                try {
-                    cms = OpenCms.initCmsObject(cms);
-                    cms.getRequestContext().setUri(cms.getSitePath(resource));
-                } catch (CmsException e) {
-                    // It's ok, we stick to the original context.
-                }
-
-                boolean isOnline = cms.getRequestContext().getCurrentProject().isOnlineProject();
-                String link;
-                if (isOnline
-                    && !(CmsStringUtil.isEmptyOrWhitespaceOnly(cms.getRequestContext().getSiteRoot())
-                        || OpenCms.getSiteManager().isSharedFolder(cms.getRequestContext().getSiteRoot()))) {
-                    // use the online link only in case the current site is not the root site or the shared folder
-                    link = OpenCms.getLinkManager().getOnlineLink(cms, cms.getSitePath(resource));
-                } else {
-                    link = OpenCms.getLinkManager().substituteLink(cms, resource);
-                }
-                if (isOnline
-                    || !(OpenCms.getResourceManager().getResourceType(resource) instanceof CmsResourceTypeXmlContent)) {
-                    A_CmsUI.get().openPageOrWarn(link, ONLINE_WINDOW_NAME);
-                } else {
-                    A_CmsUI.get().getPage().setLocation(link);
-                }
-            }
+        CmsObject cms = context.getCms();
+        try {
+          cms = OpenCms.initCmsObject(cms);
+          cms.getRequestContext().setUri(cms.getSitePath(resource));
+        } catch (CmsException e) {
+          // It's ok, we stick to the original context.
         }
-    }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsDefaultAction#getDefaultActionRank(org.opencms.ui.I_CmsDialogContext)
-     */
-    public int getDefaultActionRank(I_CmsDialogContext context) {
-
-        return 10;
-    }
-
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
-
-        return ACTION_ID;
-    }
-
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
-
-        if ((resources.size() == 1)
-            && resources.get(0).isFile()
-            && !CmsResourceTypeXmlContainerPage.isContainerPage(resources.get(0))) {
-            return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
+        boolean isOnline = cms.getRequestContext().getCurrentProject().isOnlineProject();
+        String link;
+        if (isOnline
+            && !(CmsStringUtil.isEmptyOrWhitespaceOnly(cms.getRequestContext().getSiteRoot())
+                || OpenCms.getSiteManager()
+                    .isSharedFolder(cms.getRequestContext().getSiteRoot()))) {
+          // use the online link only in case the current site is not the root site or the shared
+          // folder
+          link = OpenCms.getLinkManager().getOnlineLink(cms, cms.getSitePath(resource));
         } else {
-            return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
+          link = OpenCms.getLinkManager().substituteLink(cms, resource);
         }
+        if (isOnline
+            || !(OpenCms.getResourceManager().getResourceType(resource)
+                instanceof CmsResourceTypeXmlContent)) {
+          A_CmsUI.get().openPageOrWarn(link, ONLINE_WINDOW_NAME);
+        } else {
+          A_CmsUI.get().getPage().setLocation(link);
+        }
+      }
     }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsDefaultAction#getDefaultActionRank(org.opencms.ui.I_CmsDialogContext)
+   */
+  public int getDefaultActionRank(I_CmsDialogContext context) {
 
-        return Messages.GUI_ACTION_DISPLAY_0;
+    return 10;
+  }
+
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
+
+    return ACTION_ID;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+
+    if ((resources.size() == 1)
+        && resources.get(0).isFile()
+        && !CmsResourceTypeXmlContainerPage.isContainerPage(resources.get(0))) {
+      return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
+    } else {
+      return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
     }
+  }
+
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
+
+    return Messages.GUI_ACTION_DISPLAY_0;
+  }
 }

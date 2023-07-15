@@ -27,99 +27,103 @@
 
 package org.opencms.jsp.search.controller;
 
-import org.opencms.file.CmsObject;
-import org.opencms.jsp.search.config.I_CmsSearchConfigurationFacetField;
-import org.opencms.search.solr.CmsSolrQuery;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.opencms.file.CmsObject;
+import org.opencms.jsp.search.config.I_CmsSearchConfigurationFacetField;
+import org.opencms.search.solr.CmsSolrQuery;
 
 /** Search controller as aggregation of all single field facet controllers. */
 public class CmsSearchControllerFacetsField implements I_CmsSearchControllerFacetsField {
 
-    /** Controllers of the single field facets with the facet's name as key. */
-    Map<String, I_CmsSearchControllerFacetField> m_fieldFacets;
+  /** Controllers of the single field facets with the facet's name as key. */
+  Map<String, I_CmsSearchControllerFacetField> m_fieldFacets;
 
-    /** Constructor taking the list of field facet controllers that are aggregated.
-     * @param configs The controllers for single field facets.
-     */
-    public CmsSearchControllerFacetsField(final Map<String, I_CmsSearchConfigurationFacetField> configs) {
+  /**
+   * Constructor taking the list of field facet controllers that are aggregated.
+   *
+   * @param configs The controllers for single field facets.
+   */
+  public CmsSearchControllerFacetsField(
+      final Map<String, I_CmsSearchConfigurationFacetField> configs) {
 
-        m_fieldFacets = new LinkedHashMap<String, I_CmsSearchControllerFacetField>();
-        for (final String name : configs.keySet()) {
-            m_fieldFacets.put(name, new CmsSearchControllerFacetField(configs.get(name)));
-        }
+    m_fieldFacets = new LinkedHashMap<String, I_CmsSearchControllerFacetField>();
+    for (final String name : configs.keySet()) {
+      m_fieldFacets.put(name, new CmsSearchControllerFacetField(configs.get(name)));
     }
+  }
 
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#addParametersForCurrentState(java.util.Map)
-     */
-    @Override
-    public void addParametersForCurrentState(final Map<String, String[]> parameters) {
+  /**
+   * @see
+   *     org.opencms.jsp.search.controller.I_CmsSearchController#addParametersForCurrentState(java.util.Map)
+   */
+  @Override
+  public void addParametersForCurrentState(final Map<String, String[]> parameters) {
 
-        for (final I_CmsSearchControllerFacetField controller : m_fieldFacets.values()) {
-            controller.addParametersForCurrentState(parameters);
-        }
+    for (final I_CmsSearchControllerFacetField controller : m_fieldFacets.values()) {
+      controller.addParametersForCurrentState(parameters);
     }
+  }
 
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#addQueryParts(CmsSolrQuery, CmsObject)
-     */
-    @Override
-    public void addQueryParts(CmsSolrQuery query, CmsObject cms) {
+  /**
+   * @see org.opencms.jsp.search.controller.I_CmsSearchController#addQueryParts(CmsSolrQuery,
+   *     CmsObject)
+   */
+  @Override
+  public void addQueryParts(CmsSolrQuery query, CmsObject cms) {
 
-        if (!m_fieldFacets.isEmpty()) {
-            query.set("facet", "true");
-            final Iterator<I_CmsSearchControllerFacetField> it = m_fieldFacets.values().iterator();
-            it.next().addQueryParts(query, cms);
-            while (it.hasNext()) {
-                it.next().addQueryParts(query, cms);
-            }
-        }
+    if (!m_fieldFacets.isEmpty()) {
+      query.set("facet", "true");
+      final Iterator<I_CmsSearchControllerFacetField> it = m_fieldFacets.values().iterator();
+      it.next().addQueryParts(query, cms);
+      while (it.hasNext()) {
+        it.next().addQueryParts(query, cms);
+      }
     }
+  }
 
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchControllerFacetsField#getFieldFacetController()
-     */
-    @Override
-    public Map<String, I_CmsSearchControllerFacetField> getFieldFacetController() {
+  /**
+   * @see
+   *     org.opencms.jsp.search.controller.I_CmsSearchControllerFacetsField#getFieldFacetController()
+   */
+  @Override
+  public Map<String, I_CmsSearchControllerFacetField> getFieldFacetController() {
 
-        return m_fieldFacets;
+    return m_fieldFacets;
+  }
+
+  /**
+   * @see
+   *     org.opencms.jsp.search.controller.I_CmsSearchControllerFacetsField#getFieldFacetControllers()
+   */
+  @Override
+  public Collection<I_CmsSearchControllerFacetField> getFieldFacetControllers() {
+
+    return m_fieldFacets.values();
+  }
+
+  /** @see org.opencms.jsp.search.controller.I_CmsSearchController#updateForQueryChange() */
+  @Override
+  public void updateForQueryChange() {
+
+    for (final I_CmsSearchControllerFacetField controller : m_fieldFacets.values()) {
+      controller.updateForQueryChange();
     }
+  }
 
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchControllerFacetsField#getFieldFacetControllers()
-     */
-    @Override
-    public Collection<I_CmsSearchControllerFacetField> getFieldFacetControllers() {
+  /**
+   * @see
+   *     org.opencms.jsp.search.controller.I_CmsSearchController#updateFromRequestParameters(java.util.Map,
+   *     boolean)
+   */
+  @Override
+  public void updateFromRequestParameters(
+      final Map<String, String[]> parameters, boolean isReloaded) {
 
-        return m_fieldFacets.values();
+    for (final I_CmsSearchControllerFacetField controller : m_fieldFacets.values()) {
+      controller.updateFromRequestParameters(parameters, isReloaded);
     }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#updateForQueryChange()
-     */
-    @Override
-    public void updateForQueryChange() {
-
-        for (final I_CmsSearchControllerFacetField controller : m_fieldFacets.values()) {
-            controller.updateForQueryChange();
-        }
-
-    }
-
-    /**
-     * @see org.opencms.jsp.search.controller.I_CmsSearchController#updateFromRequestParameters(java.util.Map, boolean)
-     */
-    @Override
-    public void updateFromRequestParameters(final Map<String, String[]> parameters, boolean isReloaded) {
-
-        for (final I_CmsSearchControllerFacetField controller : m_fieldFacets.values()) {
-            controller.updateFromRequestParameters(parameters, isReloaded);
-        }
-
-    }
-
+  }
 }

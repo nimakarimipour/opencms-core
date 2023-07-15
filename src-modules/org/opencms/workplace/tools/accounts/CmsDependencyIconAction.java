@@ -35,116 +35,119 @@ import org.opencms.workplace.list.CmsListResourceIconAction;
 import org.opencms.workplace.tools.A_CmsHtmlIconButton;
 
 /**
- * Displays an icon action for dependency lists.<p>
+ * Displays an icon action for dependency lists.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDependencyIconAction extends CmsListResourceIconAction {
 
-    /** Path to the list buttons. */
-    public static final String PATH_BUTTONS = "tools/accounts/buttons/";
+  /** Path to the list buttons. */
+  public static final String PATH_BUTTONS = "tools/accounts/buttons/";
 
-    /** the type of the icon. */
-    private final CmsDependencyIconActionType m_type;
+  /** the type of the icon. */
+  private final CmsDependencyIconActionType m_type;
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id the unique id
-     * @param type the type of the icon
-     * @param cms the cms context
-     */
-    public CmsDependencyIconAction(String id, CmsDependencyIconActionType type, CmsObject cms) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id the unique id
+   * @param type the type of the icon
+   * @param cms the cms context
+   */
+  public CmsDependencyIconAction(String id, CmsDependencyIconActionType type, CmsObject cms) {
 
-        super(id + type.getId(), CmsGroupPrincipalDependenciesList.LIST_COLUMN_TYPE, cms);
-        m_type = type;
+    super(id + type.getId(), CmsGroupPrincipalDependenciesList.LIST_COLUMN_TYPE, cms);
+    m_type = type;
+  }
+
+  /**
+   * @see
+   *     org.opencms.workplace.list.CmsListDirectAction#buttonHtml(org.opencms.workplace.CmsWorkplace)
+   */
+  @Override
+  public String buttonHtml(CmsWorkplace wp) {
+
+    if (!isVisible()) {
+      return "";
     }
+    if (m_type == CmsDependencyIconActionType.RESOURCE) {
+      return super.buttonHtml(wp);
+    } else {
+      return A_CmsHtmlIconButton.defaultButtonHtml(
+          resolveButtonStyle(),
+          getId() + getItem().getId(),
+          getId(),
+          resolveName(wp.getLocale()),
+          resolveHelpText(wp.getLocale()),
+          isEnabled(),
+          getIconPath(),
+          null,
+          resolveOnClic(wp.getLocale()),
+          getColumnForTexts() == null,
+          null);
+    }
+  }
 
-    /**
-     * @see org.opencms.workplace.list.CmsListDirectAction#buttonHtml(org.opencms.workplace.CmsWorkplace)
-     */
-    @Override
-    public String buttonHtml(CmsWorkplace wp) {
+  /** @see org.opencms.workplace.tools.A_CmsHtmlIconButton#getIconPath() */
+  @Override
+  public String getIconPath() {
 
-        if (!isVisible()) {
-            return "";
-        }
+    if (m_type == CmsDependencyIconActionType.USER) {
+      return PATH_BUTTONS + "user.png";
+    } else if (m_type == CmsDependencyIconActionType.GROUP) {
+      return PATH_BUTTONS + "group.png";
+    } else {
+      return super.getIconPath();
+    }
+  }
+
+  /**
+   * Returns the type.
+   *
+   * <p>
+   *
+   * @return the type
+   */
+  public CmsDependencyIconActionType getType() {
+
+    return m_type;
+  }
+
+  /** @see org.opencms.workplace.tools.A_CmsHtmlIconButton#isVisible() */
+  @Override
+  public boolean isVisible() {
+
+    boolean visible = false;
+    if (getItem() != null) {
+      CmsUUID id = new CmsUUID(getItem().getId());
+      try {
         if (m_type == CmsDependencyIconActionType.RESOURCE) {
-            return super.buttonHtml(wp);
-        } else {
-            return A_CmsHtmlIconButton.defaultButtonHtml(
-                resolveButtonStyle(),
-                getId() + getItem().getId(),
-                getId(),
-                resolveName(wp.getLocale()),
-                resolveHelpText(wp.getLocale()),
-                isEnabled(),
-                getIconPath(),
-                null,
-                resolveOnClic(wp.getLocale()),
-                getColumnForTexts() == null,
-                null);
-        }
-    }
-
-    /**
-     * @see org.opencms.workplace.tools.A_CmsHtmlIconButton#getIconPath()
-     */
-    @Override
-    public String getIconPath() {
-
-        if (m_type == CmsDependencyIconActionType.USER) {
-            return PATH_BUTTONS + "user.png";
-        } else if (m_type == CmsDependencyIconActionType.GROUP) {
-            return PATH_BUTTONS + "group.png";
-        } else {
-            return super.getIconPath();
-        }
-    }
-
-    /**
-     * Returns the type.<p>
-     *
-     * @return the type
-     */
-    public CmsDependencyIconActionType getType() {
-
-        return m_type;
-    }
-
-    /**
-     * @see org.opencms.workplace.tools.A_CmsHtmlIconButton#isVisible()
-     */
-    @Override
-    public boolean isVisible() {
-
-        boolean visible = false;
-        if (getItem() != null) {
-            CmsUUID id = new CmsUUID(getItem().getId());
+          try {
+            getCms().readUser(id);
+          } catch (CmsException e1) {
             try {
-                if (m_type == CmsDependencyIconActionType.RESOURCE) {
-                    try {
-                        getCms().readUser(id);
-                    } catch (CmsException e1) {
-                        try {
-                            getCms().readGroup(id);
-                        } catch (CmsException e2) {
-                            visible = true;
-                        }
-                    }
-                } else if (m_type == CmsDependencyIconActionType.USER) {
-                    getCms().readUser(id);
-                    visible = true;
-                } else if (m_type == CmsDependencyIconActionType.GROUP) {
-                    getCms().readGroup(id);
-                    visible = true;
-                }
-            } catch (CmsException e) {
-                // not visible
+              getCms().readGroup(id);
+            } catch (CmsException e2) {
+              visible = true;
             }
-        } else {
-            visible = super.isVisible();
+          }
+        } else if (m_type == CmsDependencyIconActionType.USER) {
+          getCms().readUser(id);
+          visible = true;
+        } else if (m_type == CmsDependencyIconActionType.GROUP) {
+          getCms().readGroup(id);
+          visible = true;
         }
-        return visible;
+      } catch (CmsException e) {
+        // not visible
+      }
+    } else {
+      visible = super.isVisible();
     }
+    return visible;
+  }
 }

@@ -27,122 +27,137 @@
 
 package org.opencms.security;
 
+import java.io.IOException;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 
-import java.io.IOException;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /**
- * Defines general authorization methods.<p>
+ * Defines general authorization methods.
  *
- * One of the application scenarios for this interface is a personalized SSO implementation.<p>
+ * <p>One of the application scenarios for this interface is a personalized SSO implementation.
+ *
+ * <p>
  *
  * @since 6.5.4
  */
 public interface I_CmsAuthorizationHandler {
 
-    /**
-     * Class providing the privileged login action.<p>
-     */
-    interface I_PrivilegedLoginAction {
-
-        /**
-         * Used to provide an initial cms object.<p>
-         *
-         * @param cms an initial cms object
-         */
-        void setCmsObject(CmsObject cms);
-
-        /**
-         * Returns the cms object.<p>
-         *
-         * @return the cms object
-         */
-        CmsObject getCmsObject();
-
-        /**
-         * Performs a privileged login action and returns a cms object initialized for the principal.<p>
-         *
-         * @param request the current request
-         * @param principal the principal to login
-         *
-         * @return a cms object initialized for the principal
-         * @throws CmsException if the login action fails
-         */
-        CmsObject doLogin(HttpServletRequest request, String principal) throws CmsException;
-    }
+  /**
+   * Class providing the privileged login action.
+   *
+   * <p>
+   */
+  interface I_PrivilegedLoginAction {
 
     /**
-     * Returns the full URL used to call a login form with additional parameters and a callbackURL.<p>
+     * Used to provide an initial cms object.
      *
-     * @param loginFormURL the form URL specified in the cms (either as a property or system-wide)
-     * @param params additional parameters to provide to the login form
-     * @param callbackURL the call-back URL to redirect after a successful login
+     * <p>
      *
-     * @return the full URL used to call a login form
+     * @param cms an initial cms object
      */
-    String getLoginFormURL(String loginFormURL, String params, String callbackURL);
+    void setCmsObject(CmsObject cms);
 
     /**
-     * Creates a new cms object from the given request object.<p>
+     * Returns the cms object.
      *
-     * This method is called by OpenCms every time a resource is requested
-     * and the session can not automatically be authenticated.<p>
+     * <p>
      *
-     * @param request the HTTP request to authenticate
-     *
-     * @return the cms context object associated to the current session
+     * @return the cms object
      */
-    CmsObject initCmsObject(HttpServletRequest request);
+    CmsObject getCmsObject();
 
     /**
-     * Creates a new cms object from the given request object.<p>
+     * Performs a privileged login action and returns a cms object initialized for the principal.
      *
-     * This method is called by OpenCms every time a resource is requested
-     * and the session can not automatically be authenticated.<p>
+     * <p>
      *
-     * @param request the HTTP request to authenticate
-     * @param loginAction the privileged login action
-     *
-     * @return the cms context object associated to the current session
+     * @param request the current request
+     * @param principal the principal to login
+     * @return a cms object initialized for the principal
+     * @throws CmsException if the login action fails
      */
-    CmsObject initCmsObject(HttpServletRequest request, I_PrivilegedLoginAction loginAction);
+    CmsObject doLogin(HttpServletRequest request, String principal) throws CmsException;
+  }
 
-    /**
-     * Authenticates the current request with additional user information.<p>
-     *
-     * You have to call this method by your own.<p>
-     *
-     * @param request the HTTP request to authenticate
-     * @param userName the user name to authenticate
-     * @param pwd the user password to authenticate with
-     *
-     * @return the cms context object associated to the given user
-     *
-     * @throws CmsException if something goes wrong
-     */
-    CmsObject initCmsObject(HttpServletRequest request, String userName, String pwd) throws CmsException;
+  /**
+   * Returns the full URL used to call a login form with additional parameters and a callbackURL.
+   *
+   * <p>
+   *
+   * @param loginFormURL the form URL specified in the cms (either as a property or system-wide)
+   * @param params additional parameters to provide to the login form
+   * @param callbackURL the call-back URL to redirect after a successful login
+   * @return the full URL used to call a login form
+   */
+  String getLoginFormURL(String loginFormURL, String params, String callbackURL);
 
-    /**
-     * This method sends a request to the client to display a login form,
-     * it is needed for HTTP-Authentication.<p>
-     *
-     * @param req the client request
-     * @param res the response
-     * @param loginFormURL the full URL used for form based authentication
-     *
-     * @throws IOException if something goes wrong
-     */
-    void requestAuthorization(HttpServletRequest req, HttpServletResponse res, String loginFormURL) throws IOException;
+  /**
+   * Creates a new cms object from the given request object.
+   *
+   * <p>This method is called by OpenCms every time a resource is requested and the session can not
+   * automatically be authenticated.
+   *
+   * <p>
+   *
+   * @param request the HTTP request to authenticate
+   * @return the cms context object associated to the current session
+   */
+  CmsObject initCmsObject(HttpServletRequest request);
 
-    /**
-     * Sets parameters which can be configured additionally for an authorization handler.<p>
-     *
-     * @param parameters the map of parameters
-     */
-    void setParameters(Map<String, String> parameters);
+  /**
+   * Creates a new cms object from the given request object.
+   *
+   * <p>This method is called by OpenCms every time a resource is requested and the session can not
+   * automatically be authenticated.
+   *
+   * <p>
+   *
+   * @param request the HTTP request to authenticate
+   * @param loginAction the privileged login action
+   * @return the cms context object associated to the current session
+   */
+  CmsObject initCmsObject(HttpServletRequest request, I_PrivilegedLoginAction loginAction);
+
+  /**
+   * Authenticates the current request with additional user information.
+   *
+   * <p>You have to call this method by your own.
+   *
+   * <p>
+   *
+   * @param request the HTTP request to authenticate
+   * @param userName the user name to authenticate
+   * @param pwd the user password to authenticate with
+   * @return the cms context object associated to the given user
+   * @throws CmsException if something goes wrong
+   */
+  CmsObject initCmsObject(HttpServletRequest request, String userName, String pwd)
+      throws CmsException;
+
+  /**
+   * This method sends a request to the client to display a login form, it is needed for
+   * HTTP-Authentication.
+   *
+   * <p>
+   *
+   * @param req the client request
+   * @param res the response
+   * @param loginFormURL the full URL used for form based authentication
+   * @throws IOException if something goes wrong
+   */
+  void requestAuthorization(HttpServletRequest req, HttpServletResponse res, String loginFormURL)
+      throws IOException;
+
+  /**
+   * Sets parameters which can be configured additionally for an authorization handler.
+   *
+   * <p>
+   *
+   * @param parameters the map of parameters
+   */
+  void setParameters(Map<String, String> parameters);
 }

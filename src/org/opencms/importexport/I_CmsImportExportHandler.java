@@ -27,6 +27,7 @@
 
 package org.opencms.importexport;
 
+import org.dom4j.Document;
 import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
@@ -34,109 +35,126 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.security.CmsRoleViolationException;
 import org.opencms.xml.CmsXmlException;
 
-import org.dom4j.Document;
-
 /**
  * An import/export handler is an abstract layer to hide the logic how to import/export a specific
- * type of Cms data.<p>
+ * type of Cms data.
  *
- * To export data, you would create an instance of a class implementing this interface, and call the
- * implementation's setter methods to arrange which data should be exported. To write the export,
- * call {@link org.opencms.importexport.CmsImportExportManager#exportData(CmsObject, I_CmsImportExportHandler, I_CmsReport)}.<p>
+ * <p>To export data, you would create an instance of a class implementing this interface, and call
+ * the implementation's setter methods to arrange which data should be exported. To write the
+ * export, call {@link org.opencms.importexport.CmsImportExportManager#exportData(CmsObject,
+ * I_CmsImportExportHandler, I_CmsReport)}.
  *
- * To import data, call {@link org.opencms.importexport.CmsImportExportManager#importData(CmsObject, I_CmsReport, CmsImportParameters)}.
- * You don't have to worry about the contents of an imported a ZIP archive -
- * the import/export manager finds the right import/export handler implementation
- * to import the data. You can assign null to the importPath argument in case of a Cms module import.<p>
+ * <p>To import data, call {@link
+ * org.opencms.importexport.CmsImportExportManager#importData(CmsObject, I_CmsReport,
+ * CmsImportParameters)}. You don't have to worry about the contents of an imported a ZIP archive -
+ * the import/export manager finds the right import/export handler implementation to import the
+ * data. You can assign null to the importPath argument in case of a Cms module import.
  *
- * Use {@link org.opencms.main.OpenCms#getImportExportManager()} to get the Cms import/export manager.<p>
+ * <p>Use {@link org.opencms.main.OpenCms#getImportExportManager()} to get the Cms import/export
+ * manager.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsImportExportHandler {
 
-    /**
-     * Exports the data from the Cms.<p>
-     *
-     * @param cms the current OpenCms context object
-     * @param report a Cms report to print log messages
-     *
-     * @throws CmsImportExportException if operation was not successful
-     * @throws CmsRoleViolationException if the current user has not the required role
-     * @throws CmsConfigurationException if a specified module to be exported does not exist
-     */
-    void exportData(CmsObject cms, I_CmsReport report)
-    throws CmsConfigurationException, CmsImportExportException, CmsRoleViolationException;
+  /**
+   * Exports the data from the Cms.
+   *
+   * <p>
+   *
+   * @param cms the current OpenCms context object
+   * @param report a Cms report to print log messages
+   * @throws CmsImportExportException if operation was not successful
+   * @throws CmsRoleViolationException if the current user has not the required role
+   * @throws CmsConfigurationException if a specified module to be exported does not exist
+   */
+  void exportData(CmsObject cms, I_CmsReport report)
+      throws CmsConfigurationException, CmsImportExportException, CmsRoleViolationException;
 
-    /**
-     * Returns the description of this import/export handler.<p>
-     * The description is useful to print some info about the purpose of this handler.<p>
-     *
-     * @return the description of this import/export handler
-     */
-    String getDescription();
+  /**
+   * Returns the description of this import/export handler.
+   *
+   * <p>The description is useful to print some info about the purpose of this handler.
+   *
+   * <p>
+   *
+   * @return the description of this import/export handler
+   */
+  String getDescription();
 
-    /**
-     * Returns the import parameters.<p>
-     *
-     * @return the import parameters
-     */
-    CmsImportParameters getImportParameters();
+  /**
+   * Returns the import parameters.
+   *
+   * <p>
+   *
+   * @return the import parameters
+   */
+  CmsImportParameters getImportParameters();
 
-    /**
-     * Imports the data into the Cms.<p>
-     *
-     * @param cms the current OpenCms context object
-     * @param report a Cms report to print log messages
-     *
-     * @throws CmsImportExportException if operation was not successful
-     * @throws CmsRoleViolationException if the current user has not the required role
-     * @throws CmsXmlException if the manifest of the import could not be unmarshalled
-     * @throws CmsException in case of errors accessing the VFS
-     */
-    void importData(CmsObject cms, I_CmsReport report)
-    throws CmsXmlException, CmsImportExportException, CmsRoleViolationException, CmsException;
+  /**
+   * Imports the data into the Cms.
+   *
+   * <p>
+   *
+   * @param cms the current OpenCms context object
+   * @param report a Cms report to print log messages
+   * @throws CmsImportExportException if operation was not successful
+   * @throws CmsRoleViolationException if the current user has not the required role
+   * @throws CmsXmlException if the manifest of the import could not be unmarshalled
+   * @throws CmsException in case of errors accessing the VFS
+   */
+  void importData(CmsObject cms, I_CmsReport report)
+      throws CmsXmlException, CmsImportExportException, CmsRoleViolationException, CmsException;
 
-    /**
-     * Imports the data into the Cms.<p>
-     *
-     * @param cms the current OpenCms context object
-     * @param importFile the name (absolute path) of the resource (zip file or folder) to be imported
-     * @param importPath the name (absolute path) of the destination folder in the Cms (if required)
-     * @param report a Cms report to print log messages
-     *
-     * @throws CmsImportExportException if operation was not successful
-     * @throws CmsRoleViolationException if the current user has not the required role
-     * @throws CmsXmlException if the manifest of the import could not be unmarshalled
-     * @throws CmsException in case of errors accessing the VFS
-     *
-     * @deprecated use {@link #importData(CmsObject, I_CmsReport)} instead
-     */
-    @Deprecated
-    void importData(CmsObject cms, String importFile, String importPath, I_CmsReport report)
-    throws CmsXmlException, CmsImportExportException, CmsRoleViolationException, CmsException;
+  /**
+   * Imports the data into the Cms.
+   *
+   * <p>
+   *
+   * @param cms the current OpenCms context object
+   * @param importFile the name (absolute path) of the resource (zip file or folder) to be imported
+   * @param importPath the name (absolute path) of the destination folder in the Cms (if required)
+   * @param report a Cms report to print log messages
+   * @throws CmsImportExportException if operation was not successful
+   * @throws CmsRoleViolationException if the current user has not the required role
+   * @throws CmsXmlException if the manifest of the import could not be unmarshalled
+   * @throws CmsException in case of errors accessing the VFS
+   * @deprecated use {@link #importData(CmsObject, I_CmsReport)} instead
+   */
+  @Deprecated
+  void importData(CmsObject cms, String importFile, String importPath, I_CmsReport report)
+      throws CmsXmlException, CmsImportExportException, CmsRoleViolationException, CmsException;
 
-    /**
-     * Checks, if this import/export handler matches with a specified manifest document of an import,
-     * so that it is able to import the data listed in the manifest document.<p>
-     *
-     * @param manifest the manifest.xml of the import as a dom4j XML document
-     * @return true, this handler is able to import the data listed in the manifest document
-     */
-    boolean matches(Document manifest);
+  /**
+   * Checks, if this import/export handler matches with a specified manifest document of an import,
+   * so that it is able to import the data listed in the manifest document.
+   *
+   * <p>
+   *
+   * @param manifest the manifest.xml of the import as a dom4j XML document
+   * @return true, this handler is able to import the data listed in the manifest document
+   */
+  boolean matches(Document manifest);
 
-    /**
-     * Sets the description of this import/export handler.<p>
-     * The description is useful to print some info about the purpose of this handler.<p>
-     *
-     * @param description the description of this import/export handler
-     */
-    void setDescription(String description);
+  /**
+   * Sets the description of this import/export handler.
+   *
+   * <p>The description is useful to print some info about the purpose of this handler.
+   *
+   * <p>
+   *
+   * @param description the description of this import/export handler
+   */
+  void setDescription(String description);
 
-    /**
-     * Sets the import parameters.<p>
-     *
-     * @param parameters the import parameters to set
-     */
-    void setImportParameters(CmsImportParameters parameters);
+  /**
+   * Sets the import parameters.
+   *
+   * <p>
+   *
+   * @param parameters the import parameters to set
+   */
+  void setImportParameters(CmsImportParameters parameters);
 }

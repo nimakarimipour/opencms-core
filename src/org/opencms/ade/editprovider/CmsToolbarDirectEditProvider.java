@@ -27,93 +27,97 @@
 
 package org.opencms.ade.editprovider;
 
-import org.opencms.workplace.editors.directedit.CmsAdvancedDirectEditProvider;
-import org.opencms.workplace.editors.directedit.CmsDirectEditParams;
-import org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import org.opencms.workplace.editors.directedit.CmsAdvancedDirectEditProvider;
+import org.opencms.workplace.editors.directedit.CmsDirectEditParams;
+import org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider;
 
 /**
- * A Direct Edit provider class which also offers some limited ADE functionality,
- * like for example the Publish dialog.<p>
+ * A Direct Edit provider class which also offers some limited ADE functionality, like for example
+ * the Publish dialog.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsToolbarDirectEditProvider extends CmsAdvancedDirectEditProvider {
 
-    /** The module name. */
-    public static final String MODULE_NAME = "editprovider";
+  /** The module name. */
+  public static final String MODULE_NAME = "editprovider";
 
-    /**
-     * Creates a new instance of this direct edit provider.<p>
-     */
-    public CmsToolbarDirectEditProvider() {
+  /**
+   * Creates a new instance of this direct edit provider.
+   *
+   * <p>
+   */
+  public CmsToolbarDirectEditProvider() {
 
-        // ensure that the generated data elements get an id
-        m_useIds = true;
-    }
+    // ensure that the generated data elements get an id
+    m_useIds = true;
+  }
 
-    /**
-     * Returns the direct edit include HTML to insert in the page beginning.<p>
-     *
-     * @param context the page context
-     * @param params the parameters for the direct edit includes
-     *
-     * @return the direct edit include HTML to insert in the page beginning
-     *
-     * @throws Exception if something goes wrong
-     */
-    public String getIncludes(PageContext context, CmsDirectEditParams params) throws Exception {
+  /**
+   * Returns the direct edit include HTML to insert in the page beginning.
+   *
+   * <p>
+   *
+   * @param context the page context
+   * @param params the parameters for the direct edit includes
+   * @return the direct edit include HTML to insert in the page beginning
+   * @throws Exception if something goes wrong
+   */
+  public String getIncludes(PageContext context, CmsDirectEditParams params) throws Exception {
 
-        return new CmsEditProviderActionElement(
+    return new CmsEditProviderActionElement(
             context,
-            (HttpServletRequest)context.getRequest(),
-            (HttpServletResponse)context.getResponse()).exportAll();
+            (HttpServletRequest) context.getRequest(),
+            (HttpServletResponse) context.getResponse())
+        .exportAll();
+  }
+
+  /**
+   * @see
+   *     org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#insertDirectEditIncludes(javax.servlet.jsp.PageContext,
+   *     org.opencms.workplace.editors.directedit.CmsDirectEditParams)
+   */
+  @Override
+  public void insertDirectEditIncludes(PageContext context, CmsDirectEditParams params)
+      throws JspException {
+
+    JspException error = null;
+    String includeData = "";
+
+    try {
+      includeData = getIncludes(context, params);
+    } catch (JspException e) {
+      error = e;
+    } catch (Exception e) {
+      error = new JspException(e);
     }
-
-    /**
-     * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#insertDirectEditIncludes(javax.servlet.jsp.PageContext, org.opencms.workplace.editors.directedit.CmsDirectEditParams)
-     */
-    @Override
-    public void insertDirectEditIncludes(PageContext context, CmsDirectEditParams params) throws JspException {
-
-        JspException error = null;
-        String includeData = "";
-
-        try {
-            includeData = getIncludes(context, params);
-        } catch (JspException e) {
-            error = e;
-        } catch (Exception e) {
-            error = new JspException(e);
-        }
-        if (error != null) {
-            throw error;
-        }
-        print(context, includeData);
+    if (error != null) {
+      throw error;
     }
+    print(context, includeData);
+  }
 
-    /**
-     * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#newInstance()
-     */
-    @Override
-    public I_CmsDirectEditProvider newInstance() {
+  /** @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#newInstance() */
+  @Override
+  public I_CmsDirectEditProvider newInstance() {
 
-        CmsToolbarDirectEditProvider result = new CmsToolbarDirectEditProvider();
-        result.m_configurationParameters = m_configurationParameters;
-        return result;
-    }
+    CmsToolbarDirectEditProvider result = new CmsToolbarDirectEditProvider();
+    result.m_configurationParameters = m_configurationParameters;
+    return result;
+  }
 
-    /**
-     * @see org.opencms.workplace.editors.directedit.CmsAdvancedDirectEditProvider#hasUploadSupport()
-     */
-    @Override
-    protected boolean hasUploadSupport() {
+  /**
+   * @see org.opencms.workplace.editors.directedit.CmsAdvancedDirectEditProvider#hasUploadSupport()
+   */
+  @Override
+  protected boolean hasUploadSupport() {
 
-        return false;
-    }
-
+    return false;
+  }
 }

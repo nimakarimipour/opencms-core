@@ -27,43 +27,40 @@
 
 package org.opencms.security.twofactor;
 
-/**
- * Exception for errors that happen when setting up the second factor.
- */
+/** Exception for errors that happen when setting up the second factor. */
 public class CmsSecondFactorSetupException extends RuntimeException {
 
-    /** Serial version id.*/
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param message the error message
-     */
-    public CmsSecondFactorSetupException(String message) {
+  /**
+   * Creates a new instance.
+   *
+   * @param message the error message
+   */
+  public CmsSecondFactorSetupException(String message) {
 
-        super(message);
-    }
+    super(message);
+  }
 
-    /**
-     * Creates a new instance.
-     *
-     * @param message the message
-     * @param cause the cause
-     */
-    public CmsSecondFactorSetupException(String message, Throwable cause) {
+  /**
+   * Creates a new instance.
+   *
+   * @param message the message
+   * @param cause the cause
+   */
+  public CmsSecondFactorSetupException(String message, Throwable cause) {
 
-        super(message, cause);
-    }
+    super(message, cause);
+  }
 
-    /**
-     * Creates a new instance.
-     *
-     * @param cause the cause
-     */
-    public CmsSecondFactorSetupException(Throwable cause) {
+  /**
+   * Creates a new instance.
+   *
+   * @param cause the cause
+   */
+  public CmsSecondFactorSetupException(Throwable cause) {
 
-        super(cause);
-    }
-
+    super(cause);
+  }
 }

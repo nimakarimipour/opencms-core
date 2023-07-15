@@ -32,30 +32,33 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 
 /**
- * Password field for use by the login dialog.<p>
+ * Password field for use by the login dialog.
+ *
+ * <p>
  */
 public class CmsPasswordField extends A_CmsLoginField {
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsPasswordField() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsPasswordField() {
 
-        super(
-            DOM.getElementById("hidden-password") != null
+    super(
+        DOM.getElementById("hidden-password") != null
             ? DOM.getElementById("hidden-password")
             : Document.get().createPasswordInputElement());
-    }
+  }
 
-    /**
-     * Shows / hides the password.
-     *
-     * @param passwordVisible true if the password should be shown, false if it should be hidden
-     */
-    public void setPasswordVisible(boolean passwordVisible) {
+  /**
+   * Shows / hides the password.
+   *
+   * @param passwordVisible true if the password should be shown, false if it should be hidden
+   */
+  public void setPasswordVisible(boolean passwordVisible) {
 
-        Element elem = getElement();
-        elem.setAttribute("type", passwordVisible ? "text" : "password");
-    }
-
+    Element elem = getElement();
+    elem.setAttribute("type", passwordVisible ? "text" : "password");
+  }
 }

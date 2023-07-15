@@ -31,88 +31,108 @@ import org.opencms.file.CmsObject;
 import org.opencms.ui.CmsCssIcon;
 
 /**
- * Interface for OU tree types.<p>
+ * Interface for OU tree types.
+ *
+ * <p>
  */
 public interface I_CmsOuTreeType {
 
-    /**
-     * Returns the key for the empty-message.<p>
-     *
-     * @return key as string
-     */
-    public String getEmptyMessageKey();
+  /**
+   * Returns the key for the empty-message.
+   *
+   * <p>
+   *
+   * @return key as string
+   */
+  public String getEmptyMessageKey();
 
-    /**
-     * Get the icon.<p>
-     *
-     * @return CmsCssIcon
-     */
-    public CmsCssIcon getIcon();
+  /**
+   * Get the icon.
+   *
+   * <p>
+   *
+   * @return CmsCssIcon
+   */
+  public CmsCssIcon getIcon();
 
-    /**
-     * Gets the id of the type.<p>
-     *
-     * @return id string
-     */
-    public String getId();
+  /**
+   * Gets the id of the type.
+   *
+   * <p>
+   *
+   * @return id string
+   */
+  public String getId();
 
-    /**
-     * Gets the name of the element.<p>
-     *
-     * @return name
-     */
-    public String getName();
+  /**
+   * Gets the name of the element.
+   *
+   * <p>
+   *
+   * @return name
+   */
+  public String getName();
 
-    /**
-     * Checks if type is expandable.<p>
-     *
-     * @return true if expandable
-     */
-    public boolean isExpandable();
+  /**
+   * Checks if type is expandable.
+   *
+   * <p>
+   *
+   * @return true if expandable
+   */
+  public boolean isExpandable();
 
-    /**
-     * Checks if the tree type is group-like.<p>
-     *
-     * @return true for group-like types
-     */
-    public boolean isGroup();
+  /**
+   * Checks if the tree type is group-like.
+   *
+   * <p>
+   *
+   * @return true for group-like types
+   */
+  public boolean isGroup();
 
-    /**
-     * Checks if the tree type is OU-like.<p>
-     *
-     * @return true for OU-like types
-     */
-    public boolean isOrgUnit();
+  /**
+   * Checks if the tree type is OU-like.
+   *
+   * <p>
+   *
+   * @return true for OU-like types
+   */
+  public boolean isOrgUnit();
 
-    /**
-     * Checks if the tree type is role-like.<p>
-     *
-     * @return true for role-like OUs
-     */
-    public boolean isRole();
+  /**
+   * Checks if the tree type is role-like.
+   *
+   * <p>
+   *
+   * @return true for role-like OUs
+   */
+  public boolean isRole();
 
-    /**
-     * Checks if the tree type is user-like.<p>
-     *
-     * @return true for user-like OUs
-     */
-    public boolean isUser();
+  /**
+   * Checks if the tree type is user-like.
+   *
+   * <p>
+   *
+   * @return true for user-like OUs
+   */
+  public boolean isUser();
 
-    /**
-     * Checks if the tree type is available for a given OU.
-     *
-     * @param cms the CMS context
-     * @param ou the OU FQN.
-     *
-     * @return true if the tree type is valid for the OU
-     */
-    public boolean isValidForOu(CmsObject cms, String ou);
+  /**
+   * Checks if the tree type is available for a given OU.
+   *
+   * @param cms the CMS context
+   * @param ou the OU FQN.
+   * @return true if the tree type is valid for the OU
+   */
+  public boolean isValidForOu(CmsObject cms, String ou);
 
-    /**
-     * True if type should be shown in OU overview table.<p>
-     *
-     * @return true if the type should be shown in the overview table for an OU
-     */
-    public boolean showInOuTable();
-
+  /**
+   * True if type should be shown in OU overview table.
+   *
+   * <p>
+   *
+   * @return true if the type should be shown in the overview table for an OU
+   */
+  public boolean showInOuTable();
 }

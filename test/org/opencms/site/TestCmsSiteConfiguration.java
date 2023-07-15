@@ -27,98 +27,104 @@
 
 package org.opencms.site;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.main.OpenCms;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Tests the site configuration.<p>
+ * Tests the site configuration.
  *
+ * <p>
  *
  * @since 9.5
  */
 public class TestCmsSiteConfiguration extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestCmsSiteConfiguration(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestCmsSiteConfiguration(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestCmsSiteConfiguration.class.getName());
+    TestSuite suite = new TestSuite();
+    suite.setName(TestCmsSiteConfiguration.class.getName());
 
-        suite.addTest(new TestCmsSiteConfiguration("testSiteConfiguration"));
+    suite.addTest(new TestCmsSiteConfiguration("testSiteConfiguration"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
+    return wrapper;
+  }
+
+  /**
+   * Tests the basic site configuration.
+   *
+   * <p>
+   *
+   * @throws Throwable if something goes wrong
+   */
+  public void testSiteConfiguration() throws Throwable {
+
+    echo("Testing the basic site configuration");
+
+    CmsSiteManagerImpl siteManager = OpenCms.getSiteManager();
+    Map<CmsSiteMatcher, CmsSite> mapOfSites = siteManager.getSites();
+
+    assertNotNull("Configured map of sites must not be null", mapOfSites);
+
+    List<CmsSite> sites = new ArrayList<CmsSite>(mapOfSites.values());
+    assertTrue("Expected 8 configured sites but found " + sites.size(), sites.size() == 8);
+
+    for (CmsSite site : sites) {
+      echo("Found configured site: " + site);
+      assertNotNull("Site " + site + " has a null site matcher", site.getSiteMatcher());
     }
 
-    /**
-     * Tests the basic site configuration.<p>
-     *
-     * @throws Throwable if something goes wrong
-     */
-    public void testSiteConfiguration() throws Throwable {
-
-        echo("Testing the basic site configuration");
-
-        CmsSiteManagerImpl siteManager = OpenCms.getSiteManager();
-        Map<CmsSiteMatcher, CmsSite> mapOfSites = siteManager.getSites();
-
-        assertNotNull("Configured map of sites must not be null", mapOfSites);
-
-        List<CmsSite> sites = new ArrayList<CmsSite>(mapOfSites.values());
-        assertTrue("Expected 8 configured sites but found " + sites.size(), sites.size() == 8);
-
-        for (CmsSite site : sites) {
-            echo("Found configured site: " + site);
-            assertNotNull("Site " + site + " has a null site matcher", site.getSiteMatcher());
-        }
-
-        assertTrue(
-            "Default site at http://localhost:8080 not found",
-            sites.contains(new CmsSite("/sites/default/", "http://localhost:8080")));
-        assertTrue(
-            "Site at http://localhost:8081 not found",
-            sites.contains(new CmsSite("/sites/default/folder1/", "http://localhost:8081")));
-        assertTrue(
-            "Site at http://localhost:8082 not found",
-            sites.contains(new CmsSite("/sites/testsite/", "http://localhost:8082")));
-    }
+    assertTrue(
+        "Default site at http://localhost:8080 not found",
+        sites.contains(new CmsSite("/sites/default/", "http://localhost:8080")));
+    assertTrue(
+        "Site at http://localhost:8081 not found",
+        sites.contains(new CmsSite("/sites/default/folder1/", "http://localhost:8081")));
+    assertTrue(
+        "Site at http://localhost:8082 not found",
+        sites.contains(new CmsSite("/sites/testsite/", "http://localhost:8082")));
+  }
 }

@@ -29,74 +29,71 @@ package org.opencms.jsp.util;
 
 import java.util.Locale;
 
-/**
- * Common interface for accessing formatter / resource type infos in JSPs.
- */
+/** Common interface for accessing formatter / resource type infos in JSPs. */
 public interface I_CmsFormatterInfo {
 
-    /**
-     * Gets the description in the given locale.
-     *
-     * @param l the locale to use
-     * @return the description
-     */
-    String description(Locale l);
+  /**
+   * Gets the description in the given locale.
+   *
+   * @param l the locale to use
+   * @return the description
+   */
+  String description(Locale l);
 
-    /**
-     * Gets the description in the current locale.
-     *
-     * @return the locale to use
-     */
-    String getDescription();
+  /**
+   * Gets the description in the current locale.
+   *
+   * @return the locale to use
+   */
+  String getDescription();
 
-    /**
-     * Checks if this wraps a resource type.
-     *
-     * @return true if this is a resource type
-     */
-    boolean getIsResourceType();
+  /**
+   * Checks if this wraps a resource type.
+   *
+   * @return true if this is a resource type
+   */
+  boolean getIsResourceType();
 
-    /**
-     * Gets the name.
-     *
-     * @return the name
-     */
-    String getName();
+  /**
+   * Gets the name.
+   *
+   * @return the name
+   */
+  String getName();
 
-    /**
-     * Gets the nice name for the current locale.
-     *
-     * @return the nice name for the current locale
-     */
-    String getNiceName();
+  /**
+   * Gets the nice name for the current locale.
+   *
+   * @return the nice name for the current locale
+   */
+  String getNiceName();
 
-    /**
-     * Checks if this is active.
-     *
-     * @return true if this is active
-     */
-    boolean getIsActive();
+  /**
+   * Checks if this is active.
+   *
+   * @return true if this is active
+   */
+  boolean getIsActive();
 
-    /**
-     * Checks if this wraps a (non-function) formatter.
-     *
-     * @return true if this wraps a normal formatter
-     */
-    boolean getIsFormatter();
+  /**
+   * Checks if this wraps a (non-function) formatter.
+   *
+   * @return true if this wraps a normal formatter
+   */
+  boolean getIsFormatter();
 
-    /**
-     * Checks if this wraps a dynamic function.
-     *
-     * @return true if this wraps a dynamic function
-     */
-    boolean getIsFunction();
+  /**
+   * Checks if this wraps a dynamic function.
+   *
+   * @return true if this wraps a dynamic function
+   */
+  boolean getIsFunction();
 
-    /**
-     * Gets the nice name in the given locale.
-     *
-     * @param l the locale to use
-     * @return the nice name for the locale
-     */
-    String niceName(Locale l);
-
+  /**
+   * Gets the nice name in the given locale.
+   *
+   * @param l the locale to use
+   * @return the nice name for the locale
+   */
+  String niceName(Locale l);
 }

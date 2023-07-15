@@ -27,97 +27,95 @@
 
 package org.opencms.ui.apps.dbmanager;
 
+import com.vaadin.annotations.DesignRoot;
+import com.vaadin.ui.Button;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.opencms.ade.galleries.shared.CmsResourceTypeBean;
 import org.opencms.file.CmsResource;
 import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.dialogs.A_CmsSelectResourceTypeDialog;
 
-import com.vaadin.annotations.DesignRoot;
-import com.vaadin.ui.Button;
-import com.vaadin.v7.ui.ComboBox;
-import com.vaadin.v7.ui.VerticalLayout;
-
 /**
- * Class for the resource type select dialog.<p>
+ * Class for the resource type select dialog.
+ *
+ * <p>
  */
 @DesignRoot
 public class CmsSelectResourceTypeDialog extends A_CmsSelectResourceTypeDialog {
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = -6944584336945436950L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -6944584336945436950L;
 
-    /** The cancel button. */
-    protected Button m_cancelButton;
+  /** The cancel button. */
+  protected Button m_cancelButton;
 
-    /** Container for the type list. */
-    protected VerticalLayout m_typeContainer;
+  /** Container for the type list. */
+  protected VerticalLayout m_typeContainer;
 
-    /** Element view selector. */
-    protected ComboBox m_viewSelector;
+  /** Element view selector. */
+  protected ComboBox m_viewSelector;
 
-    /**
-     * public constructor.<p>
-     *
-     * @param folderResource resource
-     * @param context dialog context
-     */
-    public CmsSelectResourceTypeDialog(CmsResource folderResource, I_CmsDialogContext context) {
-        super(folderResource, context);
-    }
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param folderResource resource
+   * @param context dialog context
+   */
+  public CmsSelectResourceTypeDialog(CmsResource folderResource, I_CmsDialogContext context) {
+    super(folderResource, context);
+  }
 
-    /**
-     * @see org.opencms.ui.dialogs.A_CmsSelectResourceTypeDialog#getCancelButton()
-     */
-    @Override
-    public Button getCancelButton() {
+  /** @see org.opencms.ui.dialogs.A_CmsSelectResourceTypeDialog#getCancelButton() */
+  @Override
+  public Button getCancelButton() {
 
-        return m_cancelButton;
-    }
+    return m_cancelButton;
+  }
 
-    /**
-     * Returns selected resource type.<p>
-     *
-     * @return resource type name
-     */
-    public String getSelectedResource() {
+  /**
+   * Returns selected resource type.
+   *
+   * <p>
+   *
+   * @return resource type name
+   */
+  public String getSelectedResource() {
 
-        return m_selectedType == null ? "" : m_selectedType.getType();
-    }
+    return m_selectedType == null ? "" : m_selectedType.getType();
+  }
 
-    /**
-     * @see org.opencms.ui.dialogs.A_CmsSelectResourceTypeDialog#getVerticalLayout()
-     */
-    @Override
-    public VerticalLayout getVerticalLayout() {
+  /** @see org.opencms.ui.dialogs.A_CmsSelectResourceTypeDialog#getVerticalLayout() */
+  @Override
+  public VerticalLayout getVerticalLayout() {
 
-        return m_typeContainer;
-    }
+    return m_typeContainer;
+  }
 
-    /**
-     * @see org.opencms.ui.dialogs.A_CmsSelectResourceTypeDialog#getViewSelector()
-     */
-    @Override
-    public ComboBox getViewSelector() {
+  /** @see org.opencms.ui.dialogs.A_CmsSelectResourceTypeDialog#getViewSelector() */
+  @Override
+  public ComboBox getViewSelector() {
 
-        return m_viewSelector;
-    }
+    return m_viewSelector;
+  }
 
-    /**
-     * @see org.opencms.ui.dialogs.A_CmsSelectResourceTypeDialog#handleSelection(org.opencms.ade.galleries.shared.CmsResourceTypeBean)
-     */
-    @Override
-    public void handleSelection(CmsResourceTypeBean selectedType) {
+  /**
+   * @see
+   *     org.opencms.ui.dialogs.A_CmsSelectResourceTypeDialog#handleSelection(org.opencms.ade.galleries.shared.CmsResourceTypeBean)
+   */
+  @Override
+  public void handleSelection(CmsResourceTypeBean selectedType) {
 
-        m_selectedType = selectedType;
-        finish(null);
-    }
+    m_selectedType = selectedType;
+    finish(null);
+  }
 
-    /**
-     * @see org.opencms.ui.dialogs.A_CmsSelectResourceTypeDialog#useDefault()
-     */
-    @Override
-    public boolean useDefault() {
+  /** @see org.opencms.ui.dialogs.A_CmsSelectResourceTypeDialog#useDefault() */
+  @Override
+  public boolean useDefault() {
 
-        return false;
-    }
+    return false;
+  }
 }

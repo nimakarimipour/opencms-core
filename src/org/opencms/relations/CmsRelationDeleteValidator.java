@@ -27,14 +27,6 @@
 
 package org.opencms.relations;
 
-import org.opencms.file.CmsObject;
-import org.opencms.file.CmsPropertyDefinition;
-import org.opencms.file.CmsResource;
-import org.opencms.file.CmsResourceFilter;
-import org.opencms.main.CmsException;
-import org.opencms.main.CmsLog;
-import org.opencms.main.OpenCms;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -44,220 +36,236 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.logging.Log;
+import org.opencms.file.CmsObject;
+import org.opencms.file.CmsPropertyDefinition;
+import org.opencms.file.CmsResource;
+import org.opencms.file.CmsResourceFilter;
+import org.opencms.main.CmsException;
+import org.opencms.main.CmsLog;
+import org.opencms.main.OpenCms;
 
 /**
- * Util class to find broken links in a bundle of resources to be deleted.<p>
+ * Util class to find broken links in a bundle of resources to be deleted.
+ *
+ * <p>
  *
  * @since 6.5.3
  */
 public class CmsRelationDeleteValidator {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsRelationDeleteValidator.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsRelationDeleteValidator.class);
 
-    /** The internal computed broken relations map. */
-    protected Map<String, List<CmsRelation>> m_brokenRelations;
+  /** The internal computed broken relations map. */
+  protected Map<String, List<CmsRelation>> m_brokenRelations;
 
-    /** the cms context object. */
-    private CmsObject m_cms;
+  /** the cms context object. */
+  private CmsObject m_cms;
 
-    /**
-     * Creates a new helper object.<p>
-     *
-     * @param cms the cms object
-     * @param resourceNames a list of resource names to be deleted
-     * @param includeSiblings if the siblings should also be deleted
-     */
-    public CmsRelationDeleteValidator(CmsObject cms, List<String> resourceNames, boolean includeSiblings) {
+  /**
+   * Creates a new helper object.
+   *
+   * <p>
+   *
+   * @param cms the cms object
+   * @param resourceNames a list of resource names to be deleted
+   * @param includeSiblings if the siblings should also be deleted
+   */
+  public CmsRelationDeleteValidator(
+      CmsObject cms, List<String> resourceNames, boolean includeSiblings) {
 
-        m_cms = cms;
-        m_brokenRelations = getBrokenRelations(resourceNames, includeSiblings);
-    }
+    m_cms = cms;
+    m_brokenRelations = getBrokenRelations(resourceNames, includeSiblings);
+  }
 
-    /**
-     * Returns the information bean for the given entry.<p>
-     *
-     * @param resourceName the entry name
-     *
-     * @return the information bean for the given entry
-     */
-    public CmsRelationValidatorInfoEntry getInfoEntry(String resourceName) {
+  /**
+   * Returns the information bean for the given entry.
+   *
+   * <p>
+   *
+   * @param resourceName the entry name
+   * @return the information bean for the given entry
+   */
+  public CmsRelationValidatorInfoEntry getInfoEntry(String resourceName) {
 
-        String resName = resourceName;
-        String siteRoot = m_cms.getRequestContext().getSiteRoot();
-        String siteName = null;
-        if (resName.startsWith(m_cms.getRequestContext().getSiteRoot())) {
-            resName = m_cms.getRequestContext().removeSiteRoot(resName);
-        } else {
-            siteRoot = OpenCms.getSiteManager().getSiteRoot(resName);
-            siteName = siteRoot;
-            if (siteRoot != null) {
-                String oldSite = m_cms.getRequestContext().getSiteRoot();
-                try {
-                    m_cms.getRequestContext().setSiteRoot("/");
-                    siteName = m_cms.readPropertyObject(siteRoot, CmsPropertyDefinition.PROPERTY_TITLE, false).getValue(
-                        siteRoot);
-                } catch (CmsException e) {
-                    siteName = siteRoot;
-                } finally {
-                    m_cms.getRequestContext().setSiteRoot(oldSite);
-                }
-                resName = resName.substring(siteRoot.length());
-            } else {
-                siteName = "/";
-            }
-        }
-        return new CmsRelationValidatorInfoEntry(
-            resourceName,
-            resName,
-            siteName,
-            siteRoot,
-            Collections.unmodifiableList(m_brokenRelations.get(resourceName)));
-    }
-
-    /**
-     * If no relation would be broken deleting the given resources.<p>
-     *
-     * @return <code>true</code> if no relation would be broken deleting the given resources
-     */
-    public boolean isEmpty() {
-
-        return m_brokenRelations.isEmpty();
-    }
-
-    /**
-     * @see java.util.Map#keySet()
-     *
-     * @return the broken relations key set
-     */
-    public Set<String> keySet() {
-
-        return m_brokenRelations.keySet();
-    }
-
-    /**
-     * @see java.util.Map#values()
-     *
-     * @return the broken relations value set
-     */
-    public Collection<List<CmsRelation>> values() {
-
-        return m_brokenRelations.values();
-    }
-
-    /**
-     * Returns a map of where each entry has as key a name of a resource to be deleted,
-     * and value a list of relations that would be broken.<p>
-     *
-     * The keys for non-siblings have following format:
-     * <code>file root path</code>.<p>
-     *
-     * The keys for siblings have following format:
-     * <code>original file root path + PREFIX_SIBLING + sibling root path</code>.<p>
-     *
-     * The values are {@link CmsRelation} objects.<p>
-     *
-     * @param resourceNames a list of resource names to be deleted
-     * @param includeSiblings if the siblings should also be deleted
-     *
-     * @return a map of broken relations
-     */
-    private Map<String, List<CmsRelation>> getBrokenRelations(List<String> resourceNames, boolean includeSiblings) {
-
-        Map<String, List<CmsRelation>> brokenRelations = new HashMap<String, List<CmsRelation>>();
-        Set<String> resources = new HashSet<String>();
-        // expand the folders to single resources
-        String site = m_cms.getRequestContext().getSiteRoot();
-        String oldSite = site;
+    String resName = resourceName;
+    String siteRoot = m_cms.getRequestContext().getSiteRoot();
+    String siteName = null;
+    if (resName.startsWith(m_cms.getRequestContext().getSiteRoot())) {
+      resName = m_cms.getRequestContext().removeSiteRoot(resName);
+    } else {
+      siteRoot = OpenCms.getSiteManager().getSiteRoot(resName);
+      siteName = siteRoot;
+      if (siteRoot != null) {
+        String oldSite = m_cms.getRequestContext().getSiteRoot();
         try {
-            m_cms.getRequestContext().setSiteRoot("/");
-            List<CmsResource> resourceList = new ArrayList<CmsResource>();
-            Iterator<String> itResourceNames = resourceNames.iterator();
-            while (itResourceNames.hasNext()) {
-                // get the root path
-                String resName = m_cms.getRequestContext().addSiteRoot(site, itResourceNames.next());
-                try {
-                    CmsResource resource = m_cms.readResource(resName);
-                    resourceList.add(resource);
-                    if (resource.isFolder()) {
-                        resourceList.addAll(m_cms.readResources(resName, CmsResourceFilter.IGNORE_EXPIRATION, true));
-                    }
-                } catch (CmsException e) {
-                    // should never happen
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug(e.getLocalizedMessage(), e);
-                    }
-                }
-            }
-
-            // collect the root paths
-            Iterator<CmsResource> itResources = resourceList.iterator();
-            while (itResources.hasNext()) {
-                CmsResource resource = itResources.next();
-                resources.add(resource.getRootPath());
-            }
-
-            if (Boolean.valueOf(includeSiblings).booleanValue()) {
-                // expand the siblings
-                itResources = new ArrayList<CmsResource>(resourceList).iterator();
-                while (itResources.hasNext()) {
-                    CmsResource resource = itResources.next();
-                    try {
-                        if (!resource.isFolder() && (resource.getSiblingCount() > 1)) {
-                            Iterator<CmsResource> itSiblings = m_cms.readSiblings(
-                                resource.getRootPath(),
-                                CmsResourceFilter.IGNORE_EXPIRATION).iterator();
-                            while (itSiblings.hasNext()) {
-                                CmsResource sibling = itSiblings.next();
-                                if (!resources.contains(sibling.getRootPath())) {
-                                    resources.add(sibling.getRootPath());
-                                    resourceList.add(sibling);
-                                }
-                            }
-                        }
-                    } catch (CmsException e) {
-                        // should never happen
-                        if (LOG.isErrorEnabled()) {
-                            LOG.error(e.getLocalizedMessage(), e);
-                        }
-                    }
-                }
-            }
-
-            // check every resource
-            itResources = resourceList.iterator();
-            while (itResources.hasNext()) {
-                CmsResource resource = itResources.next();
-                String resourceName = resource.getRootPath();
-                try {
-                    Iterator<CmsRelation> it = m_cms.getRelationsForResource(
-                        resource,
-                        CmsRelationFilter.SOURCES).iterator();
-                    while (it.hasNext()) {
-                        CmsRelation relation = it.next();
-                        String relationName = relation.getSourcePath();
-                        // add only if the source is not to be deleted too
-                        if (!resources.contains(relationName)) {
-                            List<CmsRelation> broken = brokenRelations.get(resourceName);
-                            if (broken == null) {
-                                broken = new ArrayList<CmsRelation>();
-                                brokenRelations.put(resourceName, broken);
-                            }
-                            broken.add(relation);
-                        }
-                    }
-                } catch (CmsException e) {
-                    // should never happen
-                    if (LOG.isErrorEnabled()) {
-                        LOG.error(e.getLocalizedMessage(), e);
-                    }
-                }
-            }
+          m_cms.getRequestContext().setSiteRoot("/");
+          siteName =
+              m_cms
+                  .readPropertyObject(siteRoot, CmsPropertyDefinition.PROPERTY_TITLE, false)
+                  .getValue(siteRoot);
+        } catch (CmsException e) {
+          siteName = siteRoot;
         } finally {
-            m_cms.getRequestContext().setSiteRoot(oldSite);
+          m_cms.getRequestContext().setSiteRoot(oldSite);
         }
-        return brokenRelations;
+        resName = resName.substring(siteRoot.length());
+      } else {
+        siteName = "/";
+      }
     }
+    return new CmsRelationValidatorInfoEntry(
+        resourceName,
+        resName,
+        siteName,
+        siteRoot,
+        Collections.unmodifiableList(m_brokenRelations.get(resourceName)));
+  }
+
+  /**
+   * If no relation would be broken deleting the given resources.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if no relation would be broken deleting the given resources
+   */
+  public boolean isEmpty() {
+
+    return m_brokenRelations.isEmpty();
+  }
+
+  /**
+   * @see java.util.Map#keySet()
+   * @return the broken relations key set
+   */
+  public Set<String> keySet() {
+
+    return m_brokenRelations.keySet();
+  }
+
+  /**
+   * @see java.util.Map#values()
+   * @return the broken relations value set
+   */
+  public Collection<List<CmsRelation>> values() {
+
+    return m_brokenRelations.values();
+  }
+
+  /**
+   * Returns a map of where each entry has as key a name of a resource to be deleted, and value a
+   * list of relations that would be broken.
+   *
+   * <p>The keys for non-siblings have following format: <code>file root path</code>.
+   *
+   * <p>The keys for siblings have following format: <code>
+   * original file root path + PREFIX_SIBLING + sibling root path</code>.
+   *
+   * <p>The values are {@link CmsRelation} objects.
+   *
+   * <p>
+   *
+   * @param resourceNames a list of resource names to be deleted
+   * @param includeSiblings if the siblings should also be deleted
+   * @return a map of broken relations
+   */
+  private Map<String, List<CmsRelation>> getBrokenRelations(
+      List<String> resourceNames, boolean includeSiblings) {
+
+    Map<String, List<CmsRelation>> brokenRelations = new HashMap<String, List<CmsRelation>>();
+    Set<String> resources = new HashSet<String>();
+    // expand the folders to single resources
+    String site = m_cms.getRequestContext().getSiteRoot();
+    String oldSite = site;
+    try {
+      m_cms.getRequestContext().setSiteRoot("/");
+      List<CmsResource> resourceList = new ArrayList<CmsResource>();
+      Iterator<String> itResourceNames = resourceNames.iterator();
+      while (itResourceNames.hasNext()) {
+        // get the root path
+        String resName = m_cms.getRequestContext().addSiteRoot(site, itResourceNames.next());
+        try {
+          CmsResource resource = m_cms.readResource(resName);
+          resourceList.add(resource);
+          if (resource.isFolder()) {
+            resourceList.addAll(
+                m_cms.readResources(resName, CmsResourceFilter.IGNORE_EXPIRATION, true));
+          }
+        } catch (CmsException e) {
+          // should never happen
+          if (LOG.isDebugEnabled()) {
+            LOG.debug(e.getLocalizedMessage(), e);
+          }
+        }
+      }
+
+      // collect the root paths
+      Iterator<CmsResource> itResources = resourceList.iterator();
+      while (itResources.hasNext()) {
+        CmsResource resource = itResources.next();
+        resources.add(resource.getRootPath());
+      }
+
+      if (Boolean.valueOf(includeSiblings).booleanValue()) {
+        // expand the siblings
+        itResources = new ArrayList<CmsResource>(resourceList).iterator();
+        while (itResources.hasNext()) {
+          CmsResource resource = itResources.next();
+          try {
+            if (!resource.isFolder() && (resource.getSiblingCount() > 1)) {
+              Iterator<CmsResource> itSiblings =
+                  m_cms
+                      .readSiblings(resource.getRootPath(), CmsResourceFilter.IGNORE_EXPIRATION)
+                      .iterator();
+              while (itSiblings.hasNext()) {
+                CmsResource sibling = itSiblings.next();
+                if (!resources.contains(sibling.getRootPath())) {
+                  resources.add(sibling.getRootPath());
+                  resourceList.add(sibling);
+                }
+              }
+            }
+          } catch (CmsException e) {
+            // should never happen
+            if (LOG.isErrorEnabled()) {
+              LOG.error(e.getLocalizedMessage(), e);
+            }
+          }
+        }
+      }
+
+      // check every resource
+      itResources = resourceList.iterator();
+      while (itResources.hasNext()) {
+        CmsResource resource = itResources.next();
+        String resourceName = resource.getRootPath();
+        try {
+          Iterator<CmsRelation> it =
+              m_cms.getRelationsForResource(resource, CmsRelationFilter.SOURCES).iterator();
+          while (it.hasNext()) {
+            CmsRelation relation = it.next();
+            String relationName = relation.getSourcePath();
+            // add only if the source is not to be deleted too
+            if (!resources.contains(relationName)) {
+              List<CmsRelation> broken = brokenRelations.get(resourceName);
+              if (broken == null) {
+                broken = new ArrayList<CmsRelation>();
+                brokenRelations.put(resourceName, broken);
+              }
+              broken.add(relation);
+            }
+          }
+        } catch (CmsException e) {
+          // should never happen
+          if (LOG.isErrorEnabled()) {
+            LOG.error(e.getLocalizedMessage(), e);
+          }
+        }
+      }
+    } finally {
+      m_cms.getRequestContext().setSiteRoot(oldSite);
+    }
+    return brokenRelations;
+  }
 }

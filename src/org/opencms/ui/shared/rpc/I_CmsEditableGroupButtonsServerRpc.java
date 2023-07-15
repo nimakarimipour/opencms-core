@@ -30,32 +30,40 @@ package org.opencms.ui.shared.rpc;
 import com.vaadin.shared.communication.ServerRpc;
 
 /**
- * Interface for the server side RPC for the CmsEditableGroupButtons component.<p>
+ * Interface for the server side RPC for the CmsEditableGroupButtons component.
+ *
+ * <p>
  */
 public interface I_CmsEditableGroupButtonsServerRpc extends ServerRpc {
 
-    /**
-     * Called when user clicks on 'Add' button.<p>
-     */
-    void onAdd();
+  /**
+   * Called when user clicks on 'Add' button.
+   *
+   * <p>
+   */
+  void onAdd();
 
-    /**
-     * Called when user clicks on 'Delete' button.<p>
-     */
-    void onDelete();
+  /**
+   * Called when user clicks on 'Delete' button.
+   *
+   * <p>
+   */
+  void onDelete();
 
-    /**
-     * Called when user clicks on 'Down' button.<p>
-     */
-    void onDown();
+  /**
+   * Called when user clicks on 'Down' button.
+   *
+   * <p>
+   */
+  void onDown();
 
-    /**
-     * Called when user clicks on the 'Edit' button.
-     */
-    void onEdit();
+  /** Called when user clicks on the 'Edit' button. */
+  void onEdit();
 
-    /**
-     * Called when user clicks on 'Up' button.<p>
-     */
-    void onUp();
+  /**
+   * Called when user clicks on 'Up' button.
+   *
+   * <p>
+   */
+  void onUp();
 }

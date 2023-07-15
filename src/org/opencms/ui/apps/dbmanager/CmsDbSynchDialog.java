@@ -27,98 +27,105 @@
 
 package org.opencms.ui.apps.dbmanager;
 
-import org.opencms.ui.A_CmsUI;
-import org.opencms.ui.CmsVaadinUtils;
-import org.opencms.ui.FontOpenCms;
-import org.opencms.ui.components.CmsBasicDialog;
-import org.opencms.ui.report.CmsReportWidget;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import org.opencms.ui.A_CmsUI;
+import org.opencms.ui.CmsVaadinUtils;
+import org.opencms.ui.FontOpenCms;
+import org.opencms.ui.components.CmsBasicDialog;
+import org.opencms.ui.report.CmsReportWidget;
 
 /**
- * Class for the synchronization dialog.<p>
+ * Class for the synchronization dialog.
+ *
+ * <p>
  */
 public class CmsDbSynchDialog extends CmsBasicDialog {
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = -1818182416175306822L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -1818182416175306822L;
 
-    /**cancel button.*/
-    Button m_cancelButton;
+  /** cancel button. */
+  Button m_cancelButton;
 
-    /**Runnable for close action.*/
-    Runnable m_closeRunnable;
+  /** Runnable for close action. */
+  Runnable m_closeRunnable;
 
-    /**Vaadin component.*/
-    HorizontalLayout m_confirm;
+  /** Vaadin component. */
+  HorizontalLayout m_confirm;
 
-    /**icon. */
-    Label m_icon;
+  /** icon. */
+  Label m_icon;
 
-    /**Ok button. */
-    Button m_okButton;
+  /** Ok button. */
+  Button m_okButton;
 
-    /**Vaadin component. */
-    VerticalLayout m_report;
+  /** Vaadin component. */
+  VerticalLayout m_report;
 
-    /**
-     * public constructor.<p>
-     *
-     * @param closeRunnable gets called on cancel
-     */
-    public CmsDbSynchDialog(Runnable closeRunnable) {
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param closeRunnable gets called on cancel
+   */
+  public CmsDbSynchDialog(Runnable closeRunnable) {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
-        m_report.setVisible(false);
-        m_closeRunnable = closeRunnable;
+    m_report.setVisible(false);
+    m_closeRunnable = closeRunnable;
 
-        //Setup icon
-        m_icon.setContentMode(ContentMode.HTML);
-        m_icon.setValue(FontOpenCms.WARNING.getHtml());
+    // Setup icon
+    m_icon.setContentMode(ContentMode.HTML);
+    m_icon.setValue(FontOpenCms.WARNING.getHtml());
 
-        m_okButton.addClickListener(new Button.ClickListener() {
+    m_okButton.addClickListener(
+        new Button.ClickListener() {
 
-            private static final long serialVersionUID = 7329358907650680436L;
+          private static final long serialVersionUID = 7329358907650680436L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                showReport();
-
-            }
+            showReport();
+          }
         });
 
-        m_cancelButton.addClickListener(new Button.ClickListener() {
+    m_cancelButton.addClickListener(
+        new Button.ClickListener() {
 
-            private static final long serialVersionUID = 4143312166220501488L;
+          private static final long serialVersionUID = 4143312166220501488L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                m_closeRunnable.run();
-
-            }
+            m_closeRunnable.run();
+          }
         });
-    }
+  }
 
-    /**
-     * shows the synchronization report.<p>
-     */
-    protected void showReport() {
+  /**
+   * shows the synchronization report.
+   *
+   * <p>
+   */
+  protected void showReport() {
 
-        m_confirm.setVisible(false);
-        m_report.setVisible(true);
-        CmsSynchronizeThread thread = new CmsSynchronizeThread(A_CmsUI.getCmsObject());
-        thread.start();
-        CmsReportWidget widget = new CmsReportWidget(thread);
-        widget.setHeight("100%");
-        widget.setWidth("100%");
-        m_report.addComponent(widget);
-        m_okButton.setVisible(false);
-        m_cancelButton.setCaption(CmsVaadinUtils.getMessageText(org.opencms.ui.Messages.GUI_BUTTON_CLOSE_DIALOG_0));
-    }
+    m_confirm.setVisible(false);
+    m_report.setVisible(true);
+    CmsSynchronizeThread thread = new CmsSynchronizeThread(A_CmsUI.getCmsObject());
+    thread.start();
+    CmsReportWidget widget = new CmsReportWidget(thread);
+    widget.setHeight("100%");
+    widget.setWidth("100%");
+    m_report.addComponent(widget);
+    m_okButton.setVisible(false);
+    m_cancelButton.setCaption(
+        CmsVaadinUtils.getMessageText(org.opencms.ui.Messages.GUI_BUTTON_CLOSE_DIALOG_0));
+  }
 }

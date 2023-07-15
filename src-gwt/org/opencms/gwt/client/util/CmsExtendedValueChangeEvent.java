@@ -30,43 +30,50 @@ package org.opencms.gwt.client.util;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 
 /**
- * Value change event with additional data.<p>
+ * Value change event with additional data.
+ *
+ * <p>
  *
  * @param <T> the value type
  */
 public class CmsExtendedValueChangeEvent<T> extends ValueChangeEvent<T> {
 
-    /** Flag to indicate whether validation should be triggered for this event. */
-    private boolean m_inhibitValidation;
+  /** Flag to indicate whether validation should be triggered for this event. */
+  private boolean m_inhibitValidation;
 
-    /**
-     * Creates a new value change event instance.<p>
-     *
-     * @param value the new value
-     */
-    public CmsExtendedValueChangeEvent(T value) {
+  /**
+   * Creates a new value change event instance.
+   *
+   * <p>
+   *
+   * @param value the new value
+   */
+  public CmsExtendedValueChangeEvent(T value) {
 
-        super(value);
+    super(value);
+  }
 
-    }
+  /**
+   * Return true if validation shouldn't be triggered by this event.
+   *
+   * <p>
+   *
+   * @return true if validation shouldn't be triggered by this event
+   */
+  public boolean isInhibitValidation() {
 
-    /**
-     * Return true if validation shouldn't be triggered by this event.<p>
-     *
-     * @return true if validation shouldn't be triggered by this event
-     */
-    public boolean isInhibitValidation() {
+    return m_inhibitValidation;
+  }
 
-        return m_inhibitValidation;
-    }
+  /**
+   * Sets the inhibitValidation flag.
+   *
+   * <p>
+   *
+   * @param inhibitValidation the new flag value
+   */
+  public void setInhibitValidation(boolean inhibitValidation) {
 
-    /**
-     * Sets the inhibitValidation flag.<p>
-     *
-     * @param inhibitValidation the new flag value
-     */
-    public void setInhibitValidation(boolean inhibitValidation) {
-
-        m_inhibitValidation = inhibitValidation;
-    }
+    m_inhibitValidation = inhibitValidation;
+  }
 }

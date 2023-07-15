@@ -27,6 +27,7 @@
 
 package org.opencms.ui.actions;
 
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.ui.I_CmsDialogContext;
@@ -37,83 +38,85 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilitySingleOnly;
 import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 
-import java.util.List;
-
 /**
- * The edit table property action.<p>
+ * The edit table property action.
+ *
+ * <p>
  */
 public class CmsEditPropertyAction extends A_CmsWorkplaceAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "edit_";
+  /** The action id. */
+  public static final String ACTION_ID = "edit_";
 
-    /** The action visibility. */
-    public static final I_CmsHasMenuItemVisibility VISIBILITY = new CmsMenuItemVisibilitySingleOnly(
-        CmsStandardVisibilityCheck.DEFAULT);
+  /** The action visibility. */
+  public static final I_CmsHasMenuItemVisibility VISIBILITY =
+      new CmsMenuItemVisibilitySingleOnly(CmsStandardVisibilityCheck.DEFAULT);
 
-    /** The property id. */
-    private CmsResourceTableProperty m_propertyId;
+  /** The property id. */
+  private CmsResourceTableProperty m_propertyId;
 
-    /** The action title message key. */
-    private String m_titleKey;
+  /** The action title message key. */
+  private String m_titleKey;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param propertyId the property id
-     * @param titleKey the title message key
-     */
-    public CmsEditPropertyAction(CmsResourceTableProperty propertyId, String titleKey) {
-        m_propertyId = propertyId;
-        m_titleKey = titleKey;
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param propertyId the property id
+   * @param titleKey the title message key
+   */
+  public CmsEditPropertyAction(CmsResourceTableProperty propertyId, String titleKey) {
+    m_propertyId = propertyId;
+    m_titleKey = titleKey;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
+
+    if (!hasBlockingLocks(context)) {
+      ((I_CmsEditPropertyContext) context).editProperty(m_propertyId);
     }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        if (!hasBlockingLocks(context)) {
-            ((I_CmsEditPropertyContext)context).editProperty(m_propertyId);
-        }
+    return ACTION_ID + m_propertyId.getId();
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+
+    return VISIBILITY.getVisibility(cms, resources);
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.actions.A_CmsWorkplaceAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
+   */
+  @Override
+  public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
+
+    if (!(context instanceof I_CmsEditPropertyContext)
+        || !((I_CmsEditPropertyContext) context).isPropertyEditable(m_propertyId)) {
+      return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
+    } else {
+      return getVisibility(context.getCms(), context.getResources());
     }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return ACTION_ID + m_propertyId.getId();
-    }
-
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
-
-        return VISIBILITY.getVisibility(cms, resources);
-    }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
-     */
-    @Override
-    public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
-
-        if (!(context instanceof I_CmsEditPropertyContext)
-            || !((I_CmsEditPropertyContext)context).isPropertyEditable(m_propertyId)) {
-            return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-        } else {
-            return getVisibility(context.getCms(), context.getResources());
-        }
-    }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
-
-        return m_titleKey;
-    }
+    return m_titleKey;
+  }
 }

@@ -27,85 +27,97 @@
 
 package org.opencms.ade.sitemap.client.alias;
 
-import org.opencms.gwt.client.ui.css.I_CmsCellTableResources;
-import org.opencms.gwt.client.util.CmsDomUtil;
-
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.LoadingStateChangeEvent;
 import com.google.gwt.user.client.Timer;
+import org.opencms.gwt.client.ui.css.I_CmsCellTableResources;
+import org.opencms.gwt.client.util.CmsDomUtil;
 
 /**
- * Various static utility methods for dealing with cell tables.<p>
+ * Various static utility methods for dealing with cell tables.
+ *
+ * <p>
  */
 public final class CmsCellTableUtil {
 
-    /** CSS class for the error text. */
-    public static final String STATUS_ERROR = I_CmsCellTableResources.INSTANCE.cellTableStyle().statusError();
+  /** CSS class for the error text. */
+  public static final String STATUS_ERROR =
+      I_CmsCellTableResources.INSTANCE.cellTableStyle().statusError();
 
-    /** CSS class for the 'Status OK' text. */
-    public static final String STATUS_OK = I_CmsCellTableResources.INSTANCE.cellTableStyle().statusOk();
+  /** CSS class for the 'Status OK' text. */
+  public static final String STATUS_OK =
+      I_CmsCellTableResources.INSTANCE.cellTableStyle().statusOk();
 
-    /**
-     * Hidden constructor.<p>
-     */
-    private CmsCellTableUtil() {
+  /**
+   * Hidden constructor.
+   *
+   * <p>
+   */
+  private CmsCellTableUtil() {
 
-        // nothing
-    }
+    // nothing
+  }
 
-    /**
-     * Ensures that surrounding scroll panels are notified when a table changes size.<p>
-     *
-     * @param table the table for which the parent scroll panels should be notified
-     */
-    public static void ensureCellTableParentResize(final CellTable<?> table) {
+  /**
+   * Ensures that surrounding scroll panels are notified when a table changes size.
+   *
+   * <p>
+   *
+   * @param table the table for which the parent scroll panels should be notified
+   */
+  public static void ensureCellTableParentResize(final CellTable<?> table) {
 
-        // we need to update the scroll panel when the table is redrawn, but the redraw() method of the table is asynchronous,
-        // i.e. it only schedules an actual redraw. However, the method which is responsible for the actual redrawing triggers a
-        // loading state event before it does the redrawing. Using a timer at this point, we can execute code after the redrawing
-        // has happend.
-        table.addLoadingStateChangeHandler(new LoadingStateChangeEvent.Handler() {
+    // we need to update the scroll panel when the table is redrawn, but the redraw() method of the
+    // table is asynchronous,
+    // i.e. it only schedules an actual redraw. However, the method which is responsible for the
+    // actual redrawing triggers a
+    // loading state event before it does the redrawing. Using a timer at this point, we can execute
+    // code after the redrawing
+    // has happend.
+    table.addLoadingStateChangeHandler(
+        new LoadingStateChangeEvent.Handler() {
 
-            public void onLoadingStateChanged(LoadingStateChangeEvent event) {
+          public void onLoadingStateChanged(LoadingStateChangeEvent event) {
 
-                Timer resizeTimer = new Timer() {
+            Timer resizeTimer =
+                new Timer() {
 
-                    @Override
-                    public void run() {
+                  @Override
+                  public void run() {
 
-                        CmsDomUtil.resizeAncestor(table);
-                    }
+                    CmsDomUtil.resizeAncestor(table);
+                  }
                 };
-                resizeTimer.schedule(10);
-            }
+            resizeTimer.schedule(10);
+          }
         });
+  }
+
+  /**
+   * Formats the HTML for the error column of a cell table given an error message.
+   *
+   * <p>
+   *
+   * @param error the error message (null for no error)
+   * @return the SafeHtml representing the contents of the error cell
+   */
+  public static SafeHtml formatErrorHtml(String error) {
+
+    String text;
+    String cssClass;
+    String title = "";
+
+    if (error == null) {
+      text = CmsAliasMessages.messageStatusOk();
+      cssClass = STATUS_OK;
+    } else {
+      text = CmsAliasMessages.messageStatusError();
+      title = SafeHtmlUtils.htmlEscape(error);
+      cssClass = STATUS_ERROR;
     }
-
-    /**
-     * Formats the HTML for the error column of a cell table given an error message.<p>
-     *
-     * @param error the error message (null for no error)
-     *
-     * @return the SafeHtml representing the contents of the error cell
-     */
-    public static SafeHtml formatErrorHtml(String error) {
-
-        String text;
-        String cssClass;
-        String title = "";
-
-        if (error == null) {
-            text = CmsAliasMessages.messageStatusOk();
-            cssClass = STATUS_OK;
-        } else {
-            text = CmsAliasMessages.messageStatusError();
-            title = SafeHtmlUtils.htmlEscape(error);
-            cssClass = STATUS_ERROR;
-        }
-        String html = "<div class='" + cssClass + "' title='" + title + "'>" + text + "</div>";
-        return SafeHtmlUtils.fromSafeConstant(html);
-    }
-
+    String html = "<div class='" + cssClass + "' title='" + title + "'>" + text + "</div>";
+    return SafeHtmlUtils.fromSafeConstant(html);
+  }
 }

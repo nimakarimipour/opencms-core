@@ -27,37 +27,41 @@
 
 package org.opencms.ade.sitemap;
 
-import org.opencms.test.OpenCmsTestProperties;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.opencms.test.OpenCmsTestProperties;
 
 /**
- * Tests for the org.opencms.ade.sitemap package.<p>
+ * Tests for the org.opencms.ade.sitemap package.
+ *
+ * <p>
  */
 public class AllTests {
 
-    /**
-     * Private constructor.<p>
-     */
-    private AllTests() {
+  /**
+   * Private constructor.
+   *
+   * <p>
+   */
+  private AllTests() {
 
-        // no-op
-    }
+    // no-op
+  }
 
-    /**
-     * Test suite generator.<p>
-     *
-     * @return creates the test suite for this package
-     */
-    public static Test suite() {
+  /**
+   * Test suite generator.
+   *
+   * <p>
+   *
+   * @return creates the test suite for this package
+   */
+  public static Test suite() {
 
-        TestSuite suite = new TestSuite("Tests for package " + AllTests.class.getPackage().getName());
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
-        //$JUnit-BEGIN$
-        suite.addTest(new TestSuite(TestNavPosCalculator.class));
-        //$JUnit-END$
-        return suite;
-    }
-
+    TestSuite suite = new TestSuite("Tests for package " + AllTests.class.getPackage().getName());
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    // $JUnit-BEGIN$
+    suite.addTest(new TestSuite(TestNavPosCalculator.class));
+    // $JUnit-END$
+    return suite;
+  }
 }

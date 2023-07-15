@@ -30,10 +30,12 @@ package org.opencms.ui.shared.components;
 import com.vaadin.shared.AbstractComponentState;
 
 /**
- * Report widget state.<p>
+ * Report widget state.
+ *
+ * <p>
  */
 public class CmsReportWidgetState extends AbstractComponentState {
 
-    /** Default serial version.*/
-    private static final long serialVersionUID = 1L;
+  /** Default serial version. */
+  private static final long serialVersionUID = 1L;
 }

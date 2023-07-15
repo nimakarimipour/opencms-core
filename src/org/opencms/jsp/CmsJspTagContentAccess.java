@@ -27,6 +27,10 @@
 
 package org.opencms.jsp;
 
+import java.util.Locale;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspTagException;
+import javax.servlet.jsp.tagext.Tag;
 import org.opencms.file.CmsObject;
 import org.opencms.flex.CmsFlexController;
 import org.opencms.i18n.CmsLocaleManager;
@@ -36,20 +40,16 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.I_CmsXmlDocument;
 
-import java.util.Locale;
-
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.tagext.Tag;
-
 /**
- * Used to access XML content item information from the current open <code>&lt;cms:contentload&gt;</code>
- * tag using JSP page context and the JSP EL.<p>
+ * Used to access XML content item information from the current open <code>&lt;cms:contentload&gt;
+ * </code> tag using JSP page context and the JSP EL.
  *
- * The tag will create an instance of a {@link CmsJspContentAccessBean} that is stored in the selected context.
- * Use the options provided by the bean to access the XML content directly.<p>
+ * <p>The tag will create an instance of a {@link CmsJspContentAccessBean} that is stored in the
+ * selected context. Use the options provided by the bean to access the XML content directly.
  *
- * For example together with the JSTL, use this tag inside an open tag like this:<pre>
+ * <p>For example together with the JSTL, use this tag inside an open tag like this:
+ *
+ * <pre>
  * &lt;cms:contentload ... &gt;
  *     &lt;cms:contentaccess var="myVarName" val="myValueVarName" scope="page" /&gt;
  *     ... other code ...
@@ -59,123 +59,129 @@ import javax.servlet.jsp.tagext.Tag;
  */
 public class CmsJspTagContentAccess extends CmsJspScopedVarBodyTagSuport {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -9015874900596113856L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -9015874900596113856L;
 
-    /** Locale of the content node element to show. */
-    private Locale m_locale;
+  /** Locale of the content node element to show. */
+  private Locale m_locale;
 
-    /** Optional name for the attribute that provides direct access to the content value map. */
-    private String m_value;
+  /** Optional name for the attribute that provides direct access to the content value map. */
+  private String m_value;
 
-    /**
-     * @see javax.servlet.jsp.tagext.Tag#doEndTag()
-     */
-    @Override
-    public int doEndTag() {
+  /** @see javax.servlet.jsp.tagext.Tag#doEndTag() */
+  @Override
+  public int doEndTag() {
 
-        if (OpenCms.getSystemInfo().getServletContainerSettings().isReleaseTagsAfterEnd()) {
-            // need to release manually, JSP container may not call release as required (happens with Tomcat)
-            release();
-        }
-        return EVAL_PAGE;
+    if (OpenCms.getSystemInfo().getServletContainerSettings().isReleaseTagsAfterEnd()) {
+      // need to release manually, JSP container may not call release as required (happens with
+      // Tomcat)
+      release();
+    }
+    return EVAL_PAGE;
+  }
+
+  /** @see javax.servlet.jsp.tagext.Tag#doStartTag() */
+  @Override
+  public int doStartTag() throws JspException {
+
+    // get a reference to the parent "content container" class
+    Tag ancestor = findAncestorWithClass(this, I_CmsXmlContentContainer.class);
+    if (ancestor == null) {
+      CmsMessageContainer errMsgContainer =
+          Messages.get().container(Messages.ERR_PARENTLESS_TAG_1, "contentaccess");
+      String msg = Messages.getLocalizedMessage(errMsgContainer, pageContext);
+      throw new JspTagException(msg);
+    }
+    // get the currently open content container
+    I_CmsXmlContentContainer contentContainer = (I_CmsXmlContentContainer) ancestor;
+
+    // get loaded content from content container
+    I_CmsXmlDocument xmlContent = contentContainer.getXmlDocument();
+
+    // get the current users OpenCms context
+    CmsObject cms = CmsFlexController.getCmsObject(pageContext.getRequest());
+
+    // get the selected Locale or use the default from the OpenCms request context
+    Locale locale = m_locale == null ? cms.getRequestContext().getLocale() : m_locale;
+
+    // initialize a new instance of a content access bean
+    CmsJspContentAccessBean bean = new CmsJspContentAccessBean(cms, locale, xmlContent);
+
+    // store the content access bean in the selected page context scope
+    storeAttribute(bean);
+
+    if (m_value != null) {
+      // if the optional "val" parameter has been set, store the value map of the content in the
+      // page context scope
+      storeAttribute(getVal(), bean.getValue());
     }
 
-    /**
-     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-     */
-    @Override
-    public int doStartTag() throws JspException {
+    return SKIP_BODY;
+  }
 
-        // get a reference to the parent "content container" class
-        Tag ancestor = findAncestorWithClass(this, I_CmsXmlContentContainer.class);
-        if (ancestor == null) {
-            CmsMessageContainer errMsgContainer = Messages.get().container(
-                Messages.ERR_PARENTLESS_TAG_1,
-                "contentaccess");
-            String msg = Messages.getLocalizedMessage(errMsgContainer, pageContext);
-            throw new JspTagException(msg);
-        }
-        // get the currently open content container
-        I_CmsXmlContentContainer contentContainer = (I_CmsXmlContentContainer)ancestor;
+  /**
+   * Returns the locale.
+   *
+   * <p>
+   *
+   * @return the locale
+   */
+  public String getLocale() {
 
-        // get loaded content from content container
-        I_CmsXmlDocument xmlContent = contentContainer.getXmlDocument();
+    return (m_locale != null) ? m_locale.toString() : "";
+  }
 
-        // get the current users OpenCms context
-        CmsObject cms = CmsFlexController.getCmsObject(pageContext.getRequest());
+  /**
+   * Returns the name for the optional attribute that provides direct access to the content value
+   * map.
+   *
+   * <p>
+   *
+   * @return the name for the optional attribute that provides direct access to the content value
+   *     map
+   */
+  public String getVal() {
 
-        // get the selected Locale or use the default from the OpenCms request context
-        Locale locale = m_locale == null ? cms.getRequestContext().getLocale() : m_locale;
+    return m_value;
+  }
 
-        // initialize a new instance of a content access bean
-        CmsJspContentAccessBean bean = new CmsJspContentAccessBean(cms, locale, xmlContent);
+  /** @see javax.servlet.jsp.tagext.Tag#release() */
+  @Override
+  public void release() {
 
-        // store the content access bean in the selected page context scope
-        storeAttribute(bean);
+    m_locale = null;
+    m_value = null;
+    super.release();
+  }
 
-        if (m_value != null) {
-            // if the optional "val" parameter has been set, store the value map of the content in the page context scope
-            storeAttribute(getVal(), bean.getValue());
-        }
+  /**
+   * Sets the locale.
+   *
+   * <p>
+   *
+   * @param locale the locale to set
+   */
+  public void setLocale(String locale) {
 
-        return SKIP_BODY;
+    if (CmsStringUtil.isEmpty(locale)) {
+      m_locale = null;
+    } else {
+      m_locale = CmsLocaleManager.getLocale(locale);
     }
+  }
 
-    /**
-     * Returns the locale.<p>
-     *
-     * @return the locale
-     */
-    public String getLocale() {
+  /**
+   * Sets the name for the optional attribute that provides direct access to the content value map.
+   *
+   * <p>
+   *
+   * @param val the name for the optional attribute that provides direct access to the content value
+   *     map
+   */
+  public void setVal(String val) {
 
-        return (m_locale != null) ? m_locale.toString() : "";
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(val)) {
+      m_value = val.trim();
     }
-
-    /**
-     * Returns the name for the optional attribute that provides direct access to the content value map.<p>
-     *
-     * @return the name for the optional attribute that provides direct access to the content value map
-     */
-    public String getVal() {
-
-        return m_value;
-    }
-
-    /**
-     * @see javax.servlet.jsp.tagext.Tag#release()
-     */
-    @Override
-    public void release() {
-
-        m_locale = null;
-        m_value = null;
-        super.release();
-    }
-
-    /**
-     * Sets the locale.<p>
-     *
-     * @param locale the locale to set
-     */
-    public void setLocale(String locale) {
-
-        if (CmsStringUtil.isEmpty(locale)) {
-            m_locale = null;
-        } else {
-            m_locale = CmsLocaleManager.getLocale(locale);
-        }
-    }
-
-    /**
-     * Sets the name for the optional attribute that provides direct access to the content value map.<p>
-     *
-     * @param val the name for the optional attribute that provides direct access to the content value map
-     */
-    public void setVal(String val) {
-
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(val)) {
-            m_value = val.trim();
-        }
-    }
+  }
 }

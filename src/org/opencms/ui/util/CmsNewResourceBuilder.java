@@ -27,6 +27,13 @@
 
 package org.opencms.ui.util;
 
+import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
 import org.opencms.file.CmsPropertyDefinition;
@@ -50,357 +57,385 @@ import org.opencms.util.CmsUUID;
 import org.opencms.xml.content.CmsXmlContentProperty;
 import org.opencms.xml.content.CmsXmlContentPropertyHelper;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
-import com.google.common.collect.Lists;
-
 /**
- * Helper class for creating a new resource using the New dialog.<p>
+ * Helper class for creating a new resource using the New dialog.
+ *
+ * <p>
  */
 public class CmsNewResourceBuilder {
 
-    /**
-     * Interface for callbacks which should be notified when this helper has created a resource.<p>
-     */
-    public static interface I_Callback {
-
-        /**
-         * Error handler.<p>
-         *
-         * @param e the exception which was thrown
-         */
-        void onError(Exception e);
-
-        /**
-         * This should be called after the resource is fully created and its properties have been set.<p>
-         *
-         * @param builder the resource builder
-         */
-        void onResourceCreated(CmsNewResourceBuilder builder);
-    }
+  /**
+   * Interface for callbacks which should be notified when this helper has created a resource.
+   *
+   * <p>
+   */
+  public static interface I_Callback {
 
     /**
-     * Property helper subclass which is responsible for loading the initial property data to display in the property
-     * dialog for a resource to be created in the New dialog.<p>
-     */
-    public class PropertyEditorHelper extends CmsPropertyEditorHelper {
-
-        /**
-         * Creates a new instance.<p>
-         *
-         * @param cms the CMS cntext
-         */
-        public PropertyEditorHelper(CmsObject cms) {
-
-            super(cms);
-        }
-
-        /**
-         * Loads the data needed for editing the properties of a resource.<p>
-         *
-         * @param id the structure id of the resource (ignored)
-         *
-         * @return the data needed for editing the properties
-         *
-         * @throws CmsException if something goes wrong
-         */
-        @SuppressWarnings("synthetic-access")
-        @Override
-        public CmsPropertiesBean loadPropertyData(CmsUUID id) throws CmsException {
-
-            CmsObject cms = m_cms;
-            String originalSiteRoot = cms.getRequestContext().getSiteRoot();
-            CmsPropertiesBean result = new CmsPropertiesBean();
-
-            result.setReadOnly(false);
-            I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(m_type);
-            List<CmsProperty> typeDefaultProperties = type.getConfiguredDefaultProperties();
-            result.setFolder(type.isFolder());
-            result.setContainerPage(m_type.equals(CmsResourceTypeXmlContainerPage.getStaticTypeName()));
-            String sitePath = OpenCms.getResourceManager().getNameGenerator().getNewFileName(
-                m_cms,
-                m_pathWithPattern,
-                5,
-                m_explorerNameGeneration);
-            String rootPath = m_cms.getRequestContext().addSiteRoot(sitePath);
-            Map<String, CmsXmlContentProperty> propertyConfig;
-            Map<String, CmsXmlContentProperty> defaultProperties = getDefaultPropertiesForType(m_type);
-            Map<String, CmsXmlContentProperty> mergedConfig = OpenCms.getADEManager().lookupConfiguration(
-                cms,
-                rootPath).getPropertyConfiguration(defaultProperties);
-            propertyConfig = mergedConfig;
-
-            // Resolve macros in the property configuration
-            propertyConfig = CmsXmlContentPropertyHelper.resolveMacrosInProperties(
-                propertyConfig,
-                CmsMacroResolver.newWorkplaceLocaleResolver(cms));
-            CmsPropertyEditorHelper.updateWysiwygConfig(propertyConfig, cms, null);
-
-            result.setPropertyDefinitions(new LinkedHashMap<String, CmsXmlContentProperty>(propertyConfig));
-            try {
-                cms.getRequestContext().setSiteRoot("");
-                String parentPath = CmsResource.getParentFolder(rootPath);
-                CmsResource parent = cms.readResource(parentPath, CmsResourceFilter.IGNORE_EXPIRATION);
-                List<CmsProperty> parentProperties = cms.readPropertyObjects(parent, true);
-                List<CmsProperty> ownProperties = typeDefaultProperties;
-                result.setOwnProperties(convertProperties(ownProperties));
-                result.setInheritedProperties(convertProperties(parentProperties));
-                result.setPageInfo(getPageInfo(sitePath));
-                List<CmsPropertyDefinition> propDefs = cms.readAllPropertyDefinitions();
-                List<String> propNames = new ArrayList<String>();
-                for (CmsPropertyDefinition propDef : propDefs) {
-                    propNames.add(propDef.getName());
-                }
-                CmsTemplateFinder templateFinder = new CmsTemplateFinder(cms);
-                result.setTemplates(templateFinder.getTemplates());
-                result.setAllProperties(propNames);
-                result.setStructureId(id);
-                result.setSitePath(sitePath);
-                return result;
-            } finally {
-                cms.getRequestContext().setSiteRoot(originalSiteRoot);
-            }
-        }
-
-        /**
-         * Gets the page info bean.<p>
-         *
-         * @param sitePath the site path
-         * @return the page info bean
-         */
-        private CmsListInfoBean getPageInfo(String sitePath) {
-
-            CmsListInfoBean listInfo = new CmsListInfoBean();
-            listInfo.setResourceState(CmsResource.STATE_NEW);
-            listInfo.setTitle(CmsResource.getName(sitePath));
-            listInfo.setSubTitle(sitePath);
-
-            String key = OpenCms.getWorkplaceManager().getExplorerTypeSetting(m_type).getKey();
-            Locale currentLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(m_cms);
-            CmsMessages messages = OpenCms.getWorkplaceManager().getMessages(currentLocale);
-            String resTypeNiceName = messages.key(key);
-            listInfo.addAdditionalInfo(
-                messages.key(org.opencms.workplace.commons.Messages.GUI_LABEL_TYPE_0),
-                resTypeNiceName);
-            listInfo.setBigIconClasses(CmsIconUtil.getIconClasses(m_type, sitePath, false));
-            listInfo.setResourceType(m_type);
-            return listInfo;
-        }
-    }
-
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsNewResourceBuilder.class);
-
-    /** The CMS context. */
-    CmsObject m_cms;
-
-    /** The resource type name. */
-    String m_type;
-
-    /** The list of registered callbacks. */
-    private List<I_Callback> m_callbacks = Lists.newArrayList();
-
-    /** The created resource (null until this helper has finished creating the resource). */
-    private CmsResource m_createdResource;
-
-    /** True if explorer name generation is enabled. */
-    private boolean m_explorerNameGeneration;
-
-    /** The model resource. */
-    private CmsResource m_modelResource;
-
-    /** The path with name pattern at which the resource should be created. */
-    private String m_pathWithPattern;
-
-    /** The property changes to save (may be null). */
-    private CmsPropertyChangeSet m_propChanges;
-
-    /**
-     * Creates a new instance.<p>
+     * Error handler.
      *
-     * @param cms the CMS context
+     * <p>
+     *
+     * @param e the exception which was thrown
+     */
+    void onError(Exception e);
+
+    /**
+     * This should be called after the resource is fully created and its properties have been set.
+     *
+     * <p>
+     *
+     * @param builder the resource builder
+     */
+    void onResourceCreated(CmsNewResourceBuilder builder);
+  }
+
+  /**
+   * Property helper subclass which is responsible for loading the initial property data to display
+   * in the property dialog for a resource to be created in the New dialog.
+   *
+   * <p>
+   */
+  public class PropertyEditorHelper extends CmsPropertyEditorHelper {
+
+    /**
+     * Creates a new instance.
+     *
+     * <p>
+     *
+     * @param cms the CMS cntext
+     */
+    public PropertyEditorHelper(CmsObject cms) {
+
+      super(cms);
+    }
+
+    /**
+     * Loads the data needed for editing the properties of a resource.
+     *
+     * <p>
+     *
+     * @param id the structure id of the resource (ignored)
+     * @return the data needed for editing the properties
      * @throws CmsException if something goes wrong
      */
-    public CmsNewResourceBuilder(CmsObject cms)
-    throws CmsException {
+    @SuppressWarnings("synthetic-access")
+    @Override
+    public CmsPropertiesBean loadPropertyData(CmsUUID id) throws CmsException {
 
-        m_cms = OpenCms.initCmsObject(cms);
-    }
+      CmsObject cms = m_cms;
+      String originalSiteRoot = cms.getRequestContext().getSiteRoot();
+      CmsPropertiesBean result = new CmsPropertiesBean();
 
-    /**
-     * Adds a callback to be notified when the resource is created.<p>
-     *
-     * @param callback the callback
-     */
-    public void addCallback(I_Callback callback) {
+      result.setReadOnly(false);
+      I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(m_type);
+      List<CmsProperty> typeDefaultProperties = type.getConfiguredDefaultProperties();
+      result.setFolder(type.isFolder());
+      result.setContainerPage(m_type.equals(CmsResourceTypeXmlContainerPage.getStaticTypeName()));
+      String sitePath =
+          OpenCms.getResourceManager()
+              .getNameGenerator()
+              .getNewFileName(m_cms, m_pathWithPattern, 5, m_explorerNameGeneration);
+      String rootPath = m_cms.getRequestContext().addSiteRoot(sitePath);
+      Map<String, CmsXmlContentProperty> propertyConfig;
+      Map<String, CmsXmlContentProperty> defaultProperties = getDefaultPropertiesForType(m_type);
+      Map<String, CmsXmlContentProperty> mergedConfig =
+          OpenCms.getADEManager()
+              .lookupConfiguration(cms, rootPath)
+              .getPropertyConfiguration(defaultProperties);
+      propertyConfig = mergedConfig;
 
-        m_callbacks.add(callback);
-    }
+      // Resolve macros in the property configuration
+      propertyConfig =
+          CmsXmlContentPropertyHelper.resolveMacrosInProperties(
+              propertyConfig, CmsMacroResolver.newWorkplaceLocaleResolver(cms));
+      CmsPropertyEditorHelper.updateWysiwygConfig(propertyConfig, cms, null);
 
-    /**
-     * Triggers the resource creation.<p>
-     *
-     * @return the created resource
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public CmsResource createResource() throws CmsException {
-
-        String path = OpenCms.getResourceManager().getNameGenerator().getNewFileName(
-            m_cms,
-            m_pathWithPattern,
-            5,
-            m_explorerNameGeneration);
-        Locale contentLocale = OpenCms.getLocaleManager().getDefaultLocale(m_cms, CmsResource.getFolderPath(path));
-        CmsRequestContext context = m_cms.getRequestContext();
-        if (m_modelResource != null) {
-            context.setAttribute(CmsRequestContext.ATTRIBUTE_MODEL, m_modelResource.getRootPath());
+      result.setPropertyDefinitions(
+          new LinkedHashMap<String, CmsXmlContentProperty>(propertyConfig));
+      try {
+        cms.getRequestContext().setSiteRoot("");
+        String parentPath = CmsResource.getParentFolder(rootPath);
+        CmsResource parent = cms.readResource(parentPath, CmsResourceFilter.IGNORE_EXPIRATION);
+        List<CmsProperty> parentProperties = cms.readPropertyObjects(parent, true);
+        List<CmsProperty> ownProperties = typeDefaultProperties;
+        result.setOwnProperties(convertProperties(ownProperties));
+        result.setInheritedProperties(convertProperties(parentProperties));
+        result.setPageInfo(getPageInfo(sitePath));
+        List<CmsPropertyDefinition> propDefs = cms.readAllPropertyDefinitions();
+        List<String> propNames = new ArrayList<String>();
+        for (CmsPropertyDefinition propDef : propDefs) {
+          propNames.add(propDef.getName());
         }
-        context.setAttribute(CmsRequestContext.ATTRIBUTE_NEW_RESOURCE_LOCALE, contentLocale);
-        CmsResource res = m_cms.createResource(
+        CmsTemplateFinder templateFinder = new CmsTemplateFinder(cms);
+        result.setTemplates(templateFinder.getTemplates());
+        result.setAllProperties(propNames);
+        result.setStructureId(id);
+        result.setSitePath(sitePath);
+        return result;
+      } finally {
+        cms.getRequestContext().setSiteRoot(originalSiteRoot);
+      }
+    }
+
+    /**
+     * Gets the page info bean.
+     *
+     * <p>
+     *
+     * @param sitePath the site path
+     * @return the page info bean
+     */
+    private CmsListInfoBean getPageInfo(String sitePath) {
+
+      CmsListInfoBean listInfo = new CmsListInfoBean();
+      listInfo.setResourceState(CmsResource.STATE_NEW);
+      listInfo.setTitle(CmsResource.getName(sitePath));
+      listInfo.setSubTitle(sitePath);
+
+      String key = OpenCms.getWorkplaceManager().getExplorerTypeSetting(m_type).getKey();
+      Locale currentLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(m_cms);
+      CmsMessages messages = OpenCms.getWorkplaceManager().getMessages(currentLocale);
+      String resTypeNiceName = messages.key(key);
+      listInfo.addAdditionalInfo(
+          messages.key(org.opencms.workplace.commons.Messages.GUI_LABEL_TYPE_0), resTypeNiceName);
+      listInfo.setBigIconClasses(CmsIconUtil.getIconClasses(m_type, sitePath, false));
+      listInfo.setResourceType(m_type);
+      return listInfo;
+    }
+  }
+
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsNewResourceBuilder.class);
+
+  /** The CMS context. */
+  CmsObject m_cms;
+
+  /** The resource type name. */
+  String m_type;
+
+  /** The list of registered callbacks. */
+  private List<I_Callback> m_callbacks = Lists.newArrayList();
+
+  /** The created resource (null until this helper has finished creating the resource). */
+  private CmsResource m_createdResource;
+
+  /** True if explorer name generation is enabled. */
+  private boolean m_explorerNameGeneration;
+
+  /** The model resource. */
+  private CmsResource m_modelResource;
+
+  /** The path with name pattern at which the resource should be created. */
+  private String m_pathWithPattern;
+
+  /** The property changes to save (may be null). */
+  private CmsPropertyChangeSet m_propChanges;
+
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @throws CmsException if something goes wrong
+   */
+  public CmsNewResourceBuilder(CmsObject cms) throws CmsException {
+
+    m_cms = OpenCms.initCmsObject(cms);
+  }
+
+  /**
+   * Adds a callback to be notified when the resource is created.
+   *
+   * <p>
+   *
+   * @param callback the callback
+   */
+  public void addCallback(I_Callback callback) {
+
+    m_callbacks.add(callback);
+  }
+
+  /**
+   * Triggers the resource creation.
+   *
+   * <p>
+   *
+   * @return the created resource
+   * @throws CmsException if something goes wrong
+   */
+  public CmsResource createResource() throws CmsException {
+
+    String path =
+        OpenCms.getResourceManager()
+            .getNameGenerator()
+            .getNewFileName(m_cms, m_pathWithPattern, 5, m_explorerNameGeneration);
+    Locale contentLocale =
+        OpenCms.getLocaleManager().getDefaultLocale(m_cms, CmsResource.getFolderPath(path));
+    CmsRequestContext context = m_cms.getRequestContext();
+    if (m_modelResource != null) {
+      context.setAttribute(CmsRequestContext.ATTRIBUTE_MODEL, m_modelResource.getRootPath());
+    }
+    context.setAttribute(CmsRequestContext.ATTRIBUTE_NEW_RESOURCE_LOCALE, contentLocale);
+    CmsResource res =
+        m_cms.createResource(
             path,
             OpenCms.getResourceManager().getResourceType(m_type),
             null,
             new ArrayList<CmsProperty>());
-        if (m_propChanges != null) {
-            CmsPropertyEditorHelper helper = new CmsPropertyEditorHelper(m_cms);
-            helper.overrideStructureId(res.getStructureId());
-            helper.saveProperties(m_propChanges);
-        }
-        // Path or other metadata may have changed
-        m_createdResource = m_cms.readResource(res.getStructureId(), CmsResourceFilter.IGNORE_EXPIRATION);
-        try {
-            m_cms.unlockResource(m_createdResource);
-        } catch (CmsException e) {
-            LOG.info(e.getLocalizedMessage(), e);
-        }
-        for (I_Callback callback : m_callbacks) {
-            callback.onResourceCreated(this);
-        }
-        return m_createdResource;
+    if (m_propChanges != null) {
+      CmsPropertyEditorHelper helper = new CmsPropertyEditorHelper(m_cms);
+      helper.overrideStructureId(res.getStructureId());
+      helper.saveProperties(m_propChanges);
     }
-
-    /**
-     * Gets the created resource.<p>
-     *
-     * This will null before the resource creation process.
-     *
-     * @return the created resource
-     */
-    public CmsResource getCreatedResource() {
-
-        return m_createdResource;
+    // Path or other metadata may have changed
+    m_createdResource =
+        m_cms.readResource(res.getStructureId(), CmsResourceFilter.IGNORE_EXPIRATION);
+    try {
+      m_cms.unlockResource(m_createdResource);
+    } catch (CmsException e) {
+      LOG.info(e.getLocalizedMessage(), e);
     }
-
-    /**
-     * Loads the property data with which the property dialog for the new resource should be initialized.<p>
-     *
-     * @return the properties bean
-     */
-    public CmsPropertiesBean getPropertyData() {
-
-        CmsPropertyEditorHelper helper = new PropertyEditorHelper(m_cms);
-        try {
-            CmsPropertiesBean data = helper.loadPropertyData(CmsUUID.getNullUUID());
-            return data;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    for (I_Callback callback : m_callbacks) {
+      callback.onResourceCreated(this);
     }
+    return m_createdResource;
+  }
 
-    /**
-     * Creates a resource, but doesn't throw any exceptions.<p>
-     *
-     * Exceptions will be passed to the onError method of registered callbacks.<p>
-     *
-     * @return the created resource
-     */
-    public CmsResource safeCreateResource() {
+  /**
+   * Gets the created resource.
+   *
+   * <p>This will null before the resource creation process.
+   *
+   * @return the created resource
+   */
+  public CmsResource getCreatedResource() {
 
-        try {
-            return createResource();
-        } catch (Exception e) {
-            for (I_Callback callback : m_callbacks) {
-                callback.onError(e);
-            }
-            return null;
-        }
+    return m_createdResource;
+  }
+
+  /**
+   * Loads the property data with which the property dialog for the new resource should be
+   * initialized.
+   *
+   * <p>
+   *
+   * @return the properties bean
+   */
+  public CmsPropertiesBean getPropertyData() {
+
+    CmsPropertyEditorHelper helper = new PropertyEditorHelper(m_cms);
+    try {
+      CmsPropertiesBean data = helper.loadPropertyData(CmsUUID.getNullUUID());
+      return data;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    /**
-     * Sets the Explorer name generation mode.<p>
-     *
-     * @param explorerNameGenerationMode the explorer name generation mode
-     */
-    public void setExplorerNameGeneration(boolean explorerNameGenerationMode) {
+  /**
+   * Creates a resource, but doesn't throw any exceptions.
+   *
+   * <p>Exceptions will be passed to the onError method of registered callbacks.
+   *
+   * <p>
+   *
+   * @return the created resource
+   */
+  public CmsResource safeCreateResource() {
 
-        m_explorerNameGeneration = explorerNameGenerationMode;
+    try {
+      return createResource();
+    } catch (Exception e) {
+      for (I_Callback callback : m_callbacks) {
+        callback.onError(e);
+      }
+      return null;
     }
+  }
 
-    /**
-     * Sets the locale.<p>
-     *
-     * @param locale the locale
-     */
-    public void setLocale(Locale locale) {
+  /**
+   * Sets the Explorer name generation mode.
+   *
+   * <p>
+   *
+   * @param explorerNameGenerationMode the explorer name generation mode
+   */
+  public void setExplorerNameGeneration(boolean explorerNameGenerationMode) {
 
-        m_cms.getRequestContext().setLocale(locale);
+    m_explorerNameGeneration = explorerNameGenerationMode;
+  }
 
-    }
+  /**
+   * Sets the locale.
+   *
+   * <p>
+   *
+   * @param locale the locale
+   */
+  public void setLocale(Locale locale) {
 
-    /**
-     * Sets the model resource.<p>
-     *
-     * @param modelResource the model resource
-     */
-    public void setModel(CmsResource modelResource) {
+    m_cms.getRequestContext().setLocale(locale);
+  }
 
-        m_modelResource = modelResource;
-    }
+  /**
+   * Sets the model resource.
+   *
+   * <p>
+   *
+   * @param modelResource the model resource
+   */
+  public void setModel(CmsResource modelResource) {
 
-    /**
-     * Sets the creation path containing a number pattern.<p>
-     *
-     * @param destination the creation path
-     */
-    public void setPatternPath(String destination) {
+    m_modelResource = modelResource;
+  }
 
-        m_pathWithPattern = destination;
-    }
+  /**
+   * Sets the creation path containing a number pattern.
+   *
+   * <p>
+   *
+   * @param destination the creation path
+   */
+  public void setPatternPath(String destination) {
 
-    /**
-     * Sets the property changes.<p>
-     *
-     * @param propertyChanges the property changes
-     */
-    public void setPropertyChanges(CmsPropertyChangeSet propertyChanges) {
+    m_pathWithPattern = destination;
+  }
 
-        m_propChanges = propertyChanges;
-    }
+  /**
+   * Sets the property changes.
+   *
+   * <p>
+   *
+   * @param propertyChanges the property changes
+   */
+  public void setPropertyChanges(CmsPropertyChangeSet propertyChanges) {
 
-    /**
-     * Sets the site root of the CMS context.<p>
-     *
-     * @param siteRoot the site root
-     */
-    public void setSiteRoot(String siteRoot) {
+    m_propChanges = propertyChanges;
+  }
 
-        m_cms.getRequestContext().setSiteRoot(siteRoot);
-    }
+  /**
+   * Sets the site root of the CMS context.
+   *
+   * <p>
+   *
+   * @param siteRoot the site root
+   */
+  public void setSiteRoot(String siteRoot) {
 
-    /**
-     * Sets the resource type name.<p>
-     *
-     * @param type the resource type name
-     */
-    public void setType(String type) {
+    m_cms.getRequestContext().setSiteRoot(siteRoot);
+  }
 
-        m_type = type;
-    }
+  /**
+   * Sets the resource type name.
+   *
+   * <p>
+   *
+   * @param type the resource type name
+   */
+  public void setType(String type) {
+
+    m_type = type;
+  }
 }

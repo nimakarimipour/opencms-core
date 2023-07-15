@@ -27,85 +27,91 @@
 
 package org.opencms.mail;
 
+import javax.mail.AuthenticationFailedException;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.main.OpenCms;
 
-import javax.mail.AuthenticationFailedException;
-
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
-
 /**
- * This class is used to send simple text internet email messages without
- * attachments.<p>
+ * This class is used to send simple text internet email messages without attachments.
  *
- * It uses the Apache Commons Email API and extends the provided classes to
- * conveniently generate emails using the OpenCms configuration.<p>
+ * <p>It uses the Apache Commons Email API and extends the provided classes to conveniently generate
+ * emails using the OpenCms configuration.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsSimpleMail extends SimpleEmail {
 
-    /**
-     * Default constructor of a CmsSimpleMail.<p>
-     *
-     * The mail host name and the mail from address are set to the OpenCms
-     * default values of the configuration.<p>
-     *
-     */
-    public CmsSimpleMail() {
+  /**
+   * Default constructor of a CmsSimpleMail.
+   *
+   * <p>The mail host name and the mail from address are set to the OpenCms default values of the
+   * configuration.
+   *
+   * <p>
+   */
+  public CmsSimpleMail() {
 
-        this(OpenCms.getSystemInfo().getMailSettings().getDefaultMailHost());
-    }
+    this(OpenCms.getSystemInfo().getMailSettings().getDefaultMailHost());
+  }
 
-    /**
-     * Constructor of a CmsSimpleMail where the mail host is explicitly chosen.<p>
-     *
-     * The mail from address is set to the OpenCms
-     * default values of the configuration.<p>
-     *
-     * @param mailHost the mail host to use (a host configured in OpenCms).
-     */
-    public CmsSimpleMail(CmsMailHost mailHost) {
+  /**
+   * Constructor of a CmsSimpleMail where the mail host is explicitly chosen.
+   *
+   * <p>The mail from address is set to the OpenCms default values of the configuration.
+   *
+   * <p>
+   *
+   * @param mailHost the mail host to use (a host configured in OpenCms).
+   */
+  public CmsSimpleMail(CmsMailHost mailHost) {
 
-        // call super constructor
-        super();
-        CmsMailUtil.configureMail(mailHost, this);
-    }
+    // call super constructor
+    super();
+    CmsMailUtil.configureMail(mailHost, this);
+  }
 
-    /**
-     * Overrides to add a better message for authentication exception.<p>
-     *
-     * @see org.apache.commons.mail.Email#send()
-     */
-    @Override
-    public String send() {
+  /**
+   * Overrides to add a better message for authentication exception.
+   *
+   * <p>
+   *
+   * @see org.apache.commons.mail.Email#send()
+   */
+  @Override
+  public String send() {
 
-        String messageID = null;
-        try {
-            messageID = super.send();
-        } catch (EmailException e) {
-            // check if original Exception is of type SendFailedException which
-            // should have been thrown by javax.mail.Transport.send()
-            if (e.getCause() instanceof AuthenticationFailedException) {
-                CmsMailHost host = OpenCms.getSystemInfo().getMailSettings().getDefaultMailHost();
-                // wrong user credentials in opencms-system.xml: mail api does not provide a message for authentication exception
+    String messageID = null;
+    try {
+      messageID = super.send();
+    } catch (EmailException e) {
+      // check if original Exception is of type SendFailedException which
+      // should have been thrown by javax.mail.Transport.send()
+      if (e.getCause() instanceof AuthenticationFailedException) {
+        CmsMailHost host = OpenCms.getSystemInfo().getMailSettings().getDefaultMailHost();
+        // wrong user credentials in opencms-system.xml: mail api does not provide a message for
+        // authentication exception
 
-                CmsRuntimeException rte = new CmsRuntimeException(
-                    Messages.get().container(
+        CmsRuntimeException rte =
+            new CmsRuntimeException(
+                Messages.get()
+                    .container(
                         Messages.ERR_SEND_EMAIL_AUTHENTICATE_2,
                         host.getUsername(),
                         host.getHostname()));
-                rte.initCause(e);
-                throw rte;
+        rte.initCause(e);
+        throw rte;
 
-            } else {
-                CmsRuntimeException rte = new CmsRuntimeException(
-                    Messages.get().container(Messages.ERR_SEND_EMAIL_CONFIG_0));
-                rte.initCause(e);
-                throw rte;
-            }
-        }
-        return messageID;
+      } else {
+        CmsRuntimeException rte =
+            new CmsRuntimeException(Messages.get().container(Messages.ERR_SEND_EMAIL_CONFIG_0));
+        rte.initCause(e);
+        throw rte;
+      }
     }
+    return messageID;
+  }
 }

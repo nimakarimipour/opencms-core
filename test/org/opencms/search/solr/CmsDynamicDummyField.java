@@ -31,6 +31,7 @@
 
 package org.opencms.search.solr;
 
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
 import org.opencms.file.CmsResource;
@@ -38,45 +39,49 @@ import org.opencms.search.extractors.I_CmsExtractionResult;
 import org.opencms.search.fields.CmsSearchFieldMapping;
 import org.opencms.search.fields.CmsSearchFieldMappingType;
 
-import java.util.List;
-
 /**
- * Dummy Field Mapping implementation.<p>
+ * Dummy Field Mapping implementation.
+ *
+ * <p>
  */
 public class CmsDynamicDummyField extends CmsSearchFieldMapping {
 
-    /** Serial version UID. */
-    private static final long serialVersionUID = -3451280904747959635L;
+  /** Serial version UID. */
+  private static final long serialVersionUID = -3451280904747959635L;
 
-    /**
-     * Public constructor.<p>
-     */
-    public CmsDynamicDummyField() {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   */
+  public CmsDynamicDummyField() {
 
-        super();
+    super();
+  }
+
+  /**
+   * @see org.opencms.search.fields.CmsSearchFieldMapping#getStringValue(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, org.opencms.search.extractors.I_CmsExtractionResult,
+   *     java.util.List, java.util.List)
+   */
+  @Override
+  public String getStringValue(
+      CmsObject cms,
+      CmsResource res,
+      I_CmsExtractionResult extractionResult,
+      List<CmsProperty> properties,
+      List<CmsProperty> propertiesSearched) {
+
+    String result = null;
+    if (getType().getMode() == CmsSearchFieldMappingType.DYNAMIC.getMode()) {
+      // dynamic mapping
+      if ("special".equals(getParam())) {
+        result = "This is an amazing and very 'dynamic' content";
+      }
+    } else {
+      // default mapping
+      result = super.getStringValue(cms, res, extractionResult, properties, propertiesSearched);
     }
-
-    /**
-     * @see org.opencms.search.fields.CmsSearchFieldMapping#getStringValue(org.opencms.file.CmsObject, org.opencms.file.CmsResource, org.opencms.search.extractors.I_CmsExtractionResult, java.util.List, java.util.List)
-     */
-    @Override
-    public String getStringValue(
-        CmsObject cms,
-        CmsResource res,
-        I_CmsExtractionResult extractionResult,
-        List<CmsProperty> properties,
-        List<CmsProperty> propertiesSearched) {
-
-        String result = null;
-        if (getType().getMode() == CmsSearchFieldMappingType.DYNAMIC.getMode()) {
-            // dynamic mapping
-            if ("special".equals(getParam())) {
-                result = "This is an amazing and very 'dynamic' content";
-            }
-        } else {
-            // default mapping
-            result = super.getStringValue(cms, res, extractionResult, properties, propertiesSearched);
-        }
-        return result;
-    }
+    return result;
+  }
 }

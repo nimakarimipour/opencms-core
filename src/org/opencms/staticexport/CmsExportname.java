@@ -23,7 +23,7 @@
  *
  * For further information about OpenCms, please see the
  * project website: http://www.opencms.org
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -31,156 +31,163 @@
 
 package org.opencms.staticexport;
 
+import java.util.Comparator;
 import org.opencms.site.CmsSite;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.Comparator;
-
 /**
- * A bean for a export name. Combines the export name with the site information<p>
+ * A bean for a export name. Combines the export name with the site information
+ *
+ * <p>
  */
 public class CmsExportname {
 
-    /**
-     * A export name comparator.<p>
-     */
-    public static class CmsExportNameComparator implements Comparator<CmsExportname> {
+  /**
+   * A export name comparator.
+   *
+   * <p>
+   */
+  public static class CmsExportNameComparator implements Comparator<CmsExportname> {
 
-        /** A slash comparator. */
-        private CmsStringUtil.CmsSlashComparator m_comp = new CmsStringUtil.CmsSlashComparator();
+    /** A slash comparator. */
+    private CmsStringUtil.CmsSlashComparator m_comp = new CmsStringUtil.CmsSlashComparator();
 
-        /**
-         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-         */
-        public int compare(CmsExportname o1, CmsExportname o2) {
+    /** @see java.util.Comparator#compare(java.lang.Object, java.lang.Object) */
+    public int compare(CmsExportname o1, CmsExportname o2) {
 
-            if (((o1.getSite() == null) && (o2.getSite() == null))
-                || ((o1.getSite() == null) && (o2.getSite() != null))
-                || ((o1.getSite() != null) && (o2.getSite() == null))
-                || o1.getSite().getSiteRoot().equals(o2.getSite().getSiteRoot())) {
-                return m_comp.compare(o1.getExportname(), o2.getExportname());
-            } else {
-                int siteComp = o1.getSite().getSiteRoot().compareTo(o2.getSite().getSiteRoot());
-                if (siteComp == 0) {
-                    return m_comp.compare(o1.getExportname(), o2.getExportname());
-                }
-                return siteComp;
-            }
+      if (((o1.getSite() == null) && (o2.getSite() == null))
+          || ((o1.getSite() == null) && (o2.getSite() != null))
+          || ((o1.getSite() != null) && (o2.getSite() == null))
+          || o1.getSite().getSiteRoot().equals(o2.getSite().getSiteRoot())) {
+        return m_comp.compare(o1.getExportname(), o2.getExportname());
+      } else {
+        int siteComp = o1.getSite().getSiteRoot().compareTo(o2.getSite().getSiteRoot());
+        if (siteComp == 0) {
+          return m_comp.compare(o1.getExportname(), o2.getExportname());
         }
+        return siteComp;
+      }
     }
+  }
 
-    /** The value of the exportname property. */
-    private String m_exportname;
+  /** The value of the exportname property. */
+  private String m_exportname;
 
-    /**
-     * The according site.<p>
-     */
-    private CmsSite m_site;
+  /**
+   * The according site.
+   *
+   * <p>
+   */
+  private CmsSite m_site;
 
-    /**
-     * Constructor with parameters.<p>
-     * 
-     * @param exportname the export name
-     * @param site the site object
-     */
-    public CmsExportname(String exportname, CmsSite site) {
+  /**
+   * Constructor with parameters.
+   *
+   * <p>
+   *
+   * @param exportname the export name
+   * @param site the site object
+   */
+  public CmsExportname(String exportname, CmsSite site) {
 
-        m_exportname = exportname;
-        m_site = site;
+    m_exportname = exportname;
+    m_site = site;
+  }
+
+  /** @see java.lang.Object#equals(java.lang.Object) */
+  @Override
+  public boolean equals(Object obj) {
+
+    if (this == obj) {
+      return true;
     }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        CmsExportname other = (CmsExportname)obj;
-        if (m_exportname == null) {
-            if (other.m_exportname != null) {
-                return false;
-            }
-        } else if (!m_exportname.equals(other.m_exportname)) {
-            return false;
-        }
-        if (m_site == null) {
-            if (other.m_site != null) {
-                return false;
-            }
-        } else if (!m_site.equals(other.m_site)) {
-            return false;
-        }
-        return true;
+    if (obj == null) {
+      return false;
     }
-
-    /**
-     * Returns the value of the 'exportname' property.<p>
-     * 
-     * @return the value of the 'exportname' property
-     */
-    public String getExportname() {
-
-        return m_exportname;
+    if (getClass() != obj.getClass()) {
+      return false;
     }
-
-    /**
-     * Returns the site.<p>
-     * 
-     * @return the site
-     */
-    public CmsSite getSite() {
-
-        return m_site;
+    CmsExportname other = (CmsExportname) obj;
+    if (m_exportname == null) {
+      if (other.m_exportname != null) {
+        return false;
+      }
+    } else if (!m_exportname.equals(other.m_exportname)) {
+      return false;
     }
-
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-
-        final int prime = 31;
-        int result = 1;
-        result = (prime * result) + ((m_exportname == null) ? 0 : m_exportname.hashCode());
-        result = (prime * result) + ((m_site == null) ? 0 : m_site.hashCode());
-        return result;
+    if (m_site == null) {
+      if (other.m_site != null) {
+        return false;
+      }
+    } else if (!m_site.equals(other.m_site)) {
+      return false;
     }
+    return true;
+  }
 
-    /**
-     * Sets the export name.<p>
-     * 
-     * @param exportname the value to set the export name to
-     */
-    public void setExportname(String exportname) {
+  /**
+   * Returns the value of the 'exportname' property.
+   *
+   * <p>
+   *
+   * @return the value of the 'exportname' property
+   */
+  public String getExportname() {
 
-        m_exportname = exportname;
-    }
+    return m_exportname;
+  }
 
-    /**
-     * Sets the site.<p>
-     * 
-     * @param site the site to set
-     */
-    public void setSite(CmsSite site) {
+  /**
+   * Returns the site.
+   *
+   * <p>
+   *
+   * @return the site
+   */
+  public CmsSite getSite() {
 
-        m_site = site;
-    }
+    return m_site;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#hashCode() */
+  @Override
+  public int hashCode() {
 
-        return "CmsExportName [m_exportname=" + m_exportname + ", m_site=" + m_site + "]";
-    }
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + ((m_exportname == null) ? 0 : m_exportname.hashCode());
+    result = (prime * result) + ((m_site == null) ? 0 : m_site.hashCode());
+    return result;
+  }
+
+  /**
+   * Sets the export name.
+   *
+   * <p>
+   *
+   * @param exportname the value to set the export name to
+   */
+  public void setExportname(String exportname) {
+
+    m_exportname = exportname;
+  }
+
+  /**
+   * Sets the site.
+   *
+   * <p>
+   *
+   * @param site the site to set
+   */
+  public void setSite(CmsSite site) {
+
+    m_site = site;
+  }
+
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
+
+    return "CmsExportName [m_exportname=" + m_exportname + ", m_site=" + m_site + "]";
+  }
 }

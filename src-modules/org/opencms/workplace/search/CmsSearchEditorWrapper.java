@@ -27,64 +27,72 @@
 
 package org.opencms.workplace.search;
 
-import org.opencms.jsp.CmsJspActionElement;
-import org.opencms.workplace.CmsDialog;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
+import org.opencms.jsp.CmsJspActionElement;
+import org.opencms.workplace.CmsDialog;
 
 /**
- * Workplace class for /system/workplace/explorer/search/edit.jsp explorer tool.<p>
+ * Workplace class for /system/workplace/explorer/search/edit.jsp explorer tool.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsSearchEditorWrapper extends CmsDialog {
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsSearchEditorWrapper(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsSearchEditorWrapper(CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsSearchEditorWrapper(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsSearchEditorWrapper(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-    /**
-     * Performs the dialog actions depending on the initialized action and displays the dialog form.<p>
-     *
-     * @throws Exception if writing to the JSP out fails
-     */
-    public void displayDialog() throws Exception {
+  /**
+   * Performs the dialog actions depending on the initialized action and displays the dialog form.
+   *
+   * <p>
+   *
+   * @throws Exception if writing to the JSP out fails
+   */
+  public void displayDialog() throws Exception {
 
-        initAdminTool();
+    initAdminTool();
 
-        JspWriter out = getJsp().getJspContext().getOut();
-        out.print(htmlStart());
-        out.print(bodyStart(null));
-        out.print("<form name='editor' method='post' target='_top' action='");
-        out.print(getJsp().link("/system/workplace/editors/editor.jsp"));
-        out.print("'>\n");
-        out.print(paramsAsHidden());
-        out.print("</form>\n");
-        out.print("<script >\n");
-        out.print("document.forms['editor'].submit();\n");
-        out.print("</script>\n");
-        out.print(bodyEnd());
-        out.print(htmlEnd());
-    }
+    JspWriter out = getJsp().getJspContext().getOut();
+    out.print(htmlStart());
+    out.print(bodyStart(null));
+    out.print("<form name='editor' method='post' target='_top' action='");
+    out.print(getJsp().link("/system/workplace/editors/editor.jsp"));
+    out.print("'>\n");
+    out.print(paramsAsHidden());
+    out.print("</form>\n");
+    out.print("<script >\n");
+    out.print("document.forms['editor'].submit();\n");
+    out.print("</script>\n");
+    out.print(bodyEnd());
+    out.print(htmlEnd());
+  }
 }

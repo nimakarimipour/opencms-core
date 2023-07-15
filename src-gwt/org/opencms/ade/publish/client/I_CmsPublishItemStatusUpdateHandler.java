@@ -30,18 +30,21 @@ package org.opencms.ade.publish.client;
 import org.opencms.util.CmsUUID;
 
 /**
- * Interface used for processing publish item status changes.<p>
+ * Interface used for processing publish item status changes.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsPublishItemStatusUpdateHandler {
 
-    /**
-     * Processes a status change.<p>
-     *
-     * @param id the id of the publish item whose status has changed
-     * @param status the new status
-     */
-    void update(CmsUUID id, CmsPublishItemStatus status);
-
+  /**
+   * Processes a status change.
+   *
+   * <p>
+   *
+   * @param id the id of the publish item whose status has changed
+   * @param status the new status
+   */
+  void update(CmsUUID id, CmsPublishItemStatus status);
 }

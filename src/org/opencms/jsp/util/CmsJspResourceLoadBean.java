@@ -27,82 +27,93 @@
 
 package org.opencms.jsp.util;
 
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 
-import java.util.List;
-
 /**
- * Allows JSP access to the results of a &lt;cms:resourceload ... &gt; operation using the JSTL and EL.<p>
+ * Allows JSP access to the results of a &lt;cms:resourceload ... &gt; operation using the JSTL and
+ * EL.
+ *
+ * <p>
  *
  * @since 8.0
- *
  * @see org.opencms.jsp.CmsJspTagResourceLoad
  * @see CmsJspResourceAccessBean
  */
 public class CmsJspResourceLoadBean {
 
-    /** The OpenCms context of the current user. */
-    protected CmsObject m_cms;
+  /** The OpenCms context of the current user. */
+  protected CmsObject m_cms;
 
-    /** The list of results of the resource loader. */
-    protected List<CmsResource> m_resources;
+  /** The list of results of the resource loader. */
+  protected List<CmsResource> m_resources;
 
-    /**
-     * No argument constructor, required for a JavaBean.<p>
-     *
-     * You must call {@link #init(CmsObject, List)} and provide the
-     * required values when you use this constructor.<p>
-     *
-     * @see #init(CmsObject, List)
-     */
-    public CmsJspResourceLoadBean() {
+  /**
+   * No argument constructor, required for a JavaBean.
+   *
+   * <p>You must call {@link #init(CmsObject, List)} and provide the required values when you use
+   * this constructor.
+   *
+   * <p>
+   *
+   * @see #init(CmsObject, List)
+   */
+  public CmsJspResourceLoadBean() {
 
-        // must call init() manually later
-    }
+    // must call init() manually later
+  }
 
-    /**
-     * Creates a new context bean using the OpenCms context of the current user.<p>
-     *
-     * The current request context locale is used.<p>
-     *
-     * @param cms the OpenCms context of the current user
-     * @param resources the resources to access, must contain objects of type {@link CmsResource}
-     */
-    public CmsJspResourceLoadBean(CmsObject cms, List<CmsResource> resources) {
+  /**
+   * Creates a new context bean using the OpenCms context of the current user.
+   *
+   * <p>The current request context locale is used.
+   *
+   * <p>
+   *
+   * @param cms the OpenCms context of the current user
+   * @param resources the resources to access, must contain objects of type {@link CmsResource}
+   */
+  public CmsJspResourceLoadBean(CmsObject cms, List<CmsResource> resources) {
 
-        init(cms, resources);
-    }
+    init(cms, resources);
+  }
 
-    /**
-     * Returns the OpenCms user context this bean was initialized with.<p>
-     *
-     * @return the OpenCms user context this bean was initialized with
-     */
-    public CmsObject getCmsObject() {
+  /**
+   * Returns the OpenCms user context this bean was initialized with.
+   *
+   * <p>
+   *
+   * @return the OpenCms user context this bean was initialized with
+   */
+  public CmsObject getCmsObject() {
 
-        return m_cms;
-    }
+    return m_cms;
+  }
 
-    /**
-     * Returns a list of {@link CmsResource} instances.<p>
-     *
-     * @return a list of {@link CmsResource} instances
-     */
-    public List<CmsResource> getResources() {
+  /**
+   * Returns a list of {@link CmsResource} instances.
+   *
+   * <p>
+   *
+   * @return a list of {@link CmsResource} instances
+   */
+  public List<CmsResource> getResources() {
 
-        return m_resources;
-    }
+    return m_resources;
+  }
 
-    /**
-     * Initialize this instance.<p>
-     *
-     * @param cms the OpenCms context of the current user
-     * @param resources the resources to access, must contain objects of type {@link CmsResource}
-     */
-    public void init(CmsObject cms, List<CmsResource> resources) {
+  /**
+   * Initialize this instance.
+   *
+   * <p>
+   *
+   * @param cms the OpenCms context of the current user
+   * @param resources the resources to access, must contain objects of type {@link CmsResource}
+   */
+  public void init(CmsObject cms, List<CmsResource> resources) {
 
-        m_cms = cms;
-        m_resources = resources;
-    }
+    m_cms = cms;
+    m_resources = resources;
+  }
 }

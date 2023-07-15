@@ -32,25 +32,23 @@ import org.opencms.main.OpenCms;
 import org.opencms.security.CmsRole;
 
 /**
- * This tool handler hides the tool to non admin users.<p>
+ * This tool handler hides the tool to non admin users.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsOnlyAdminToolHandler extends A_CmsToolHandler {
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject)
-     */
-    public boolean isEnabled(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject) */
+  public boolean isEnabled(CmsObject cms) {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsToolHandler#isVisible(org.opencms.file.CmsObject)
-     */
-    public boolean isVisible(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.I_CmsToolHandler#isVisible(org.opencms.file.CmsObject) */
+  public boolean isVisible(CmsObject cms) {
 
-        return OpenCms.getRoleManager().hasRole(cms, CmsRole.ROOT_ADMIN);
-    }
+    return OpenCms.getRoleManager().hasRole(cms, CmsRole.ROOT_ADMIN);
+  }
 }

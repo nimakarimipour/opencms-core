@@ -27,6 +27,8 @@
 
 package org.opencms.importexport;
 
+import com.google.common.collect.Lists;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
 import org.opencms.file.CmsPropertyDefinition;
@@ -38,133 +40,127 @@ import org.opencms.module.CmsModuleImportData;
 import org.opencms.module.CmsResourceImportData;
 import org.opencms.report.I_CmsReport;
 
-import org.apache.commons.logging.Log;
-
-import com.google.common.collect.Lists;
-
 /**
- * Subclass which doesn't actually import anything, but just reads the module data into a
- * data structure which can then be used by the module updater.<p>
+ * Subclass which doesn't actually import anything, but just reads the module data into a data
+ * structure which can then be used by the module updater.
+ *
+ * <p>
  */
 public class CmsImportResourceDataReader extends CmsImportVersion10 {
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsImportResourceDataReader.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsImportResourceDataReader.class);
 
-    /** The module data object to be filled. */
-    private CmsModuleImportData m_moduleData;
+  /** The module data object to be filled. */
+  private CmsModuleImportData m_moduleData;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param moduleData the module data object to be filled
-     */
-    public CmsImportResourceDataReader(CmsModuleImportData moduleData) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param moduleData the module data object to be filled
+   */
+  public CmsImportResourceDataReader(CmsModuleImportData moduleData) {
 
-        super();
-        m_moduleData = moduleData;
+    super();
+    m_moduleData = moduleData;
+  }
+
+  /** @see org.opencms.importexport.CmsImportVersion10#importAccessControlEntries() */
+  @Override
+  public void importAccessControlEntries() {
+
+    // do nothing, ACLS handled by module updater
+  }
+
+  /**
+   * @see org.opencms.importexport.CmsImportVersion10#importData(org.opencms.file.CmsObject,
+   *     org.opencms.report.I_CmsReport, org.opencms.importexport.CmsImportParameters)
+   */
+  @Override
+  public void importData(CmsObject cms, I_CmsReport report, CmsImportParameters parameters) {
+
+    try {
+      // iniitializes the import helper, but we aren't interested in the method return value
+      matches(parameters);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
+    super.importData(cms, report, parameters);
+  }
 
-    /**
-     * @see org.opencms.importexport.CmsImportVersion10#importAccessControlEntries()
-     */
-    @Override
-    public void importAccessControlEntries() {
+  /** @see org.opencms.importexport.CmsImportVersion10#importRelations() */
+  @Override
+  public void importRelations() {
+    // do nothing, relations handled by module updater
 
-        // do nothing, ACLS handled by module updater
-    }
+  }
 
-    /**
-     * @see org.opencms.importexport.CmsImportVersion10#importData(org.opencms.file.CmsObject, org.opencms.report.I_CmsReport, org.opencms.importexport.CmsImportParameters)
-     */
-    @Override
-    public void importData(CmsObject cms, I_CmsReport report, CmsImportParameters parameters) {
+  /** @see org.opencms.importexport.CmsImportVersion10#importResource() */
+  @Override
+  public void importResource() {
 
-        try {
-            // iniitializes the import helper, but we aren't interested in the method return value
-            matches(parameters);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    try {
+      if (m_throwable != null) {
+        getReport().println(m_throwable);
+        getReport().addError(m_throwable);
+
+        CmsMessageContainer message =
+            Messages.get().container(Messages.ERR_IMPORTEXPORT_ERROR_IMPORTING_RESOURCES_0);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug(message.key(), m_throwable);
         }
-        super.importData(cms, report, parameters);
-    }
-
-    /**
-     * @see org.opencms.importexport.CmsImportVersion10#importRelations()
-     */
-    @Override
-    public void importRelations() {
-        // do nothing, relations handled by module updater
-
-    }
-
-    /**
-     * @see org.opencms.importexport.CmsImportVersion10#importResource()
-     */
-    @Override
-    public void importResource() {
-
-        try {
-            if (m_throwable != null) {
-                getReport().println(m_throwable);
-                getReport().addError(m_throwable);
-
-                CmsMessageContainer message = Messages.get().container(
-                    Messages.ERR_IMPORTEXPORT_ERROR_IMPORTING_RESOURCES_0);
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug(message.key(), m_throwable);
-                }
-                m_throwable = null;
-                m_importACEs = false;
-                m_resource = null;
-                return;
-            }
-            // apply name translation and import path
-            String translatedName = getRequestContext().addSiteRoot(m_parameters.getDestinationPath() + m_destination);
-            boolean resourceImmutable = checkImmutable(translatedName);
-            translatedName = getRequestContext().removeSiteRoot(translatedName);
-            if (!resourceImmutable) {
-                byte[] content = null;
-                if (m_source != null) {
-                    content = m_helper.getFileBytes(m_source);
-                }
-                int size = 0;
-                if (content != null) {
-                    size = content.length;
-                }
-                setDefaultsForEmptyResourceFields();
-                // create a new CmsResource
-                CmsResource resource = createResourceObjectFromFields(translatedName, size);
-                if (!OpenCms.getResourceManager().hasResourceType(m_typeName)) {
-                    CmsProperty prop = new CmsProperty(CmsPropertyDefinition.PROPERTY_EXPORT_TYPE, null, m_typeName);
-                    m_properties.put(CmsPropertyDefinition.PROPERTY_EXPORT_TYPE, prop);
-                }
-                CmsResourceImportData resData = new CmsResourceImportData(
-                    resource,
-                    translatedName,
-                    content,
-                    Lists.newArrayList(m_properties.values()),
-                    m_aces,
-                    m_relationsForResource,
-                    m_hasStructureId,
-                    m_hasDateLastModified,
-                    m_typeName);
-                m_moduleData.addResource(resData);
-            }
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            m_report.println(e);
+        m_throwable = null;
+        m_importACEs = false;
+        m_resource = null;
+        return;
+      }
+      // apply name translation and import path
+      String translatedName =
+          getRequestContext().addSiteRoot(m_parameters.getDestinationPath() + m_destination);
+      boolean resourceImmutable = checkImmutable(translatedName);
+      translatedName = getRequestContext().removeSiteRoot(translatedName);
+      if (!resourceImmutable) {
+        byte[] content = null;
+        if (m_source != null) {
+          content = m_helper.getFileBytes(m_source);
         }
-
+        int size = 0;
+        if (content != null) {
+          size = content.length;
+        }
+        setDefaultsForEmptyResourceFields();
+        // create a new CmsResource
+        CmsResource resource = createResourceObjectFromFields(translatedName, size);
+        if (!OpenCms.getResourceManager().hasResourceType(m_typeName)) {
+          CmsProperty prop =
+              new CmsProperty(CmsPropertyDefinition.PROPERTY_EXPORT_TYPE, null, m_typeName);
+          m_properties.put(CmsPropertyDefinition.PROPERTY_EXPORT_TYPE, prop);
+        }
+        CmsResourceImportData resData =
+            new CmsResourceImportData(
+                resource,
+                translatedName,
+                content,
+                Lists.newArrayList(m_properties.values()),
+                m_aces,
+                m_relationsForResource,
+                m_hasStructureId,
+                m_hasDateLastModified,
+                m_typeName);
+        m_moduleData.addResource(resData);
+      }
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      m_report.println(e);
     }
+  }
 
-    /**
-     * @see org.opencms.importexport.CmsImportVersion10#rewriteParseables()
-     */
-    @Override
-    public void rewriteParseables() {
+  /** @see org.opencms.importexport.CmsImportVersion10#rewriteParseables() */
+  @Override
+  public void rewriteParseables() {
 
-        // do nothing , parseables handled by module updater
-    }
-
+    // do nothing , parseables handled by module updater
+  }
 }

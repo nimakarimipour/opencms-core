@@ -27,81 +27,90 @@
 
 package org.opencms.workplace.tools.modules;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.main.OpenCms;
 import org.opencms.report.I_CmsReportThread;
 import org.opencms.workplace.list.A_CmsListReport;
 import org.opencms.workplace.threads.CmsDatabaseImportThread;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Provides a report for imporintg modules.<p>
+ * Provides a report for imporintg modules.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsModulesListImportReport extends A_CmsListReport {
 
-    /** Modulename. */
-    private String m_paramModule;
+  /** Modulename. */
+  private String m_paramModule;
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsModulesListImportReport(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsModulesListImportReport(CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsModulesListImportReport(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsModulesListImportReport(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-    /**
-     * Gets the module parameter.<p>
-     *
-     * @return the module parameter
-     */
-    public String getParamModule() {
+  /**
+   * Gets the module parameter.
+   *
+   * <p>
+   *
+   * @return the module parameter
+   */
+  public String getParamModule() {
 
-        return m_paramModule;
-    }
+    return m_paramModule;
+  }
 
-    /**
-     *
-     * @see org.opencms.workplace.list.A_CmsListReport#initializeThread()
-     */
-    @Override
-    public I_CmsReportThread initializeThread() {
+  /** @see org.opencms.workplace.list.A_CmsListReport#initializeThread() */
+  @Override
+  public I_CmsReportThread initializeThread() {
 
-        String modulename = getParamModule();
-        String importpath = OpenCms.getSystemInfo().getPackagesRfsPath();
-        importpath = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(importpath + "modules/" + modulename);
+    String modulename = getParamModule();
+    String importpath = OpenCms.getSystemInfo().getPackagesRfsPath();
+    importpath =
+        OpenCms.getSystemInfo()
+            .getAbsoluteRfsPathRelativeToWebInf(importpath + "modules/" + modulename);
 
-        I_CmsReportThread importThread = new CmsDatabaseImportThread(getCms(), importpath, true);
+    I_CmsReportThread importThread = new CmsDatabaseImportThread(getCms(), importpath, true);
 
-        return importThread;
-    }
+    return importThread;
+  }
 
-    /**
-     * Sets the module parameter.<p>
-     * @param paramModule the module parameter
-     */
-    public void setParamModule(String paramModule) {
+  /**
+   * Sets the module parameter.
+   *
+   * <p>
+   *
+   * @param paramModule the module parameter
+   */
+  public void setParamModule(String paramModule) {
 
-        m_paramModule = paramModule;
-    }
-
+    m_paramModule = paramModule;
+  }
 }

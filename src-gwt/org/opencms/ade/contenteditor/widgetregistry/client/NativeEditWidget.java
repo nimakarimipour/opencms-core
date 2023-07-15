@@ -27,32 +27,35 @@
 
 package org.opencms.ade.contenteditor.widgetregistry.client;
 
-import org.opencms.acacia.client.widgets.I_CmsEditWidget;
-
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import org.opencms.acacia.client.widgets.I_CmsEditWidget;
 
 /**
- * Overlay object for native java script widgets.<p>
+ * Overlay object for native java script widgets.
+ *
+ * <p>
  */
 public final class NativeEditWidget extends JavaScriptObject {
 
-    /**
-     * Constructor.<p>
-     */
-    protected NativeEditWidget() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  protected NativeEditWidget() {}
 
-    }
-
-    /**
-     * Wraps a GWT edit widget instance to be used from within another GWT module.<p>
-     *
-     * @param widget the widget to wrap
-     * @param isFormWidget in case of a form widget
-     *
-     * @return the wrapping native java script object
-     */
-    public static native NativeEditWidget wrapWidget(I_CmsEditWidget widget, boolean isFormWidget)/*-{
+  /**
+   * Wraps a GWT edit widget instance to be used from within another GWT module.
+   *
+   * <p>
+   *
+   * @param widget the widget to wrap
+   * @param isFormWidget in case of a form widget
+   * @return the wrapping native java script object
+   */
+  public static native NativeEditWidget wrapWidget(
+      I_CmsEditWidget widget, boolean isFormWidget) /*-{
         var nat = {
             instance : widget
         };
@@ -98,92 +101,109 @@ public final class NativeEditWidget extends JavaScriptObject {
         return nat;
     }-*/;
 
-    /**
-     * Returns an event handler that delegates to a native java script object.<p>
-     *
-     * @param connector the native java script object
-     *
-     * @return the event handler
-     */
-    private static NativeEventHandler getNativeHandler(NativeEditWidget connector) {
+  /**
+   * Returns an event handler that delegates to a native java script object.
+   *
+   * <p>
+   *
+   * @param connector the native java script object
+   * @return the event handler
+   */
+  private static NativeEventHandler getNativeHandler(NativeEditWidget connector) {
 
-        return new NativeEventHandler(connector);
-    }
+    return new NativeEventHandler(connector);
+  }
 
-    public native boolean shouldSetDefaultWhenDisabled() /*-{
+  public native boolean shouldSetDefaultWhenDisabled() /*-{
         return this.shouldSetDefaultWhenDisabled
                 && this.shouldSetDefaultWhenDisabled();
     }-*/;
 
-    /**
-     * Returns the widget element.<p>
-     *
-     * @return the widget element
-     */
-    protected native Element getElement() /*-{
+  /**
+   * Returns the widget element.
+   *
+   * <p>
+   *
+   * @return the widget element
+   */
+  protected native Element getElement() /*-{
         return this.getElement();
     }-*/;
 
-    /**
-     * Returns the widget value.<p>
-     *
-     * @return the widget value
-     */
-    protected native String getValue()/*-{
+  /**
+   * Returns the widget value.
+   *
+   * <p>
+   *
+   * @return the widget value
+   */
+  protected native String getValue() /*-{
         return this.getValue();
     }-*/;
 
-    /**
-     * Returns if the widget is active.<p>
-     *
-     * @return <code>true</code> if the widget is active
-     */
-    protected native boolean isActive() /*-{
+  /**
+   * Returns if the widget is active.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the widget is active
+   */
+  protected native boolean isActive() /*-{
         return this.isActive();
     }-*/;
 
-    /**
-     * Call when the widget was added into the window document.<p>
-     */
-    protected native void onAttachWidget()/*-{
+  /**
+   * Call when the widget was added into the window document.
+   *
+   * <p>
+   */
+  protected native void onAttachWidget() /*-{
         this.onAttachWidget();
     }-*/;
 
-    /**
-     * Sets the widget active.<p>
-     *
-     * @param active <code>true</code> to activate the widget
-     */
-    protected native void setActive(boolean active)/*-{
+  /**
+   * Sets the widget active.
+   *
+   * <p>
+   *
+   * @param active <code>true</code> to activate the widget
+   */
+  protected native void setActive(boolean active) /*-{
         this.setActive(active);
     }-*/;
 
-    /**
-     * Sets the widget value.<p>
-     *
-     * @param value the value
-     */
-    protected native void setValue(String value)/*-{
+  /**
+   * Sets the widget value.
+   *
+   * <p>
+   *
+   * @param value the value
+   */
+  protected native void setValue(String value) /*-{
         this.setValue(value, false);
     }-*/;
 
-    /**
-     * Sets the widget value.<p>
-     *
-     * @param value the value
-     * @param fireEvent <code>true</code> to fire the value change event
-     */
-    protected native void setValue(String value, boolean fireEvent)/*-{
+  /**
+   * Sets the widget value.
+   *
+   * <p>
+   *
+   * @param value the value
+   * @param fireEvent <code>true</code> to fire the value change event
+   */
+  protected native void setValue(String value, boolean fireEvent) /*-{
         this.setValue(value, fireEvent);
     }-*/;
 
-    /**
-     * Sets the widget label and help text.<p>
-     *
-     * @param label the widget label text
-     * @param help the widget help text
-     */
-    protected native void setWidgetInfo(String label, String help)/*-{
+  /**
+   * Sets the widget label and help text.
+   *
+   * <p>
+   *
+   * @param label the widget label text
+   * @param help the widget help text
+   */
+  protected native void setWidgetInfo(String label, String help) /*-{
         this.setWidgetInfo(label, help);
     }-*/;
 }

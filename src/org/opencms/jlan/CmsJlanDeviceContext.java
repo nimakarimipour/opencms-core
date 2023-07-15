@@ -32,41 +32,48 @@ import org.alfresco.jlan.server.filesys.FileSystem;
 import org.alfresco.jlan.server.filesys.SrvDiskInfo;
 
 /**
- * OpenCms implementation of the JLAN device context.<p>
+ * OpenCms implementation of the JLAN device context.
  *
- * For now, it just contains a reference to the corresponding CmsJLanRepository interface.<p>
+ * <p>For now, it just contains a reference to the corresponding CmsJLanRepository interface.
+ *
+ * <p>
  */
 public class CmsJlanDeviceContext extends DiskDeviceContext {
 
-    /** The repository to which this device context belongs. */
-    private CmsJlanRepository m_repository;
+  /** The repository to which this device context belongs. */
+  private CmsJlanRepository m_repository;
 
-    /**
-     * Creates a new device context instance.<p>
-     *
-     * @param repo the repository for which this is a device context
-     */
-    public CmsJlanDeviceContext(CmsJlanRepository repo) {
+  /**
+   * Creates a new device context instance.
+   *
+   * <p>
+   *
+   * @param repo the repository for which this is a device context
+   */
+  public CmsJlanDeviceContext(CmsJlanRepository repo) {
 
-        super(repo.getName());
-        m_repository = repo;
-        setFilesystemAttributes(
-            FileSystem.CasePreservedNames | FileSystem.UnicodeOnDisk | FileSystem.CaseSensitiveSearch);
+    super(repo.getName());
+    m_repository = repo;
+    setFilesystemAttributes(
+        FileSystem.CasePreservedNames | FileSystem.UnicodeOnDisk | FileSystem.CaseSensitiveSearch);
 
-        // Need to set the disk information, even with arbitrary numbers, because not setting it will cause
-        // a hanging dialog in Windows 7 when creating a copy of a file on the network share in the same folder
-        SrvDiskInfo diskInfo = new SrvDiskInfo(2560000, 64, 512, 2304000);
-        setDiskInformation(diskInfo);
-    }
+    // Need to set the disk information, even with arbitrary numbers, because not setting it will
+    // cause
+    // a hanging dialog in Windows 7 when creating a copy of a file on the network share in the same
+    // folder
+    SrvDiskInfo diskInfo = new SrvDiskInfo(2560000, 64, 512, 2304000);
+    setDiskInformation(diskInfo);
+  }
 
-    /**
-     * Gets the repository to which this device context belongs.<p>
-     *
-     * @return the repository to which this device context belongs
-     */
-    public CmsJlanRepository getRepository() {
+  /**
+   * Gets the repository to which this device context belongs.
+   *
+   * <p>
+   *
+   * @return the repository to which this device context belongs
+   */
+  public CmsJlanRepository getRepository() {
 
-        return m_repository;
-    }
-
+    return m_repository;
+  }
 }

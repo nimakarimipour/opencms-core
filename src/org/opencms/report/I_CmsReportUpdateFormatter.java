@@ -30,17 +30,19 @@ package org.opencms.report;
 import java.util.List;
 
 /**
- * Interface used to format report updates.<p>
+ * Interface used to format report updates.
+ *
+ * <p>
  */
 public interface I_CmsReportUpdateFormatter {
 
-    /**
-     * Gets the formatted report output for the given list of report items.<p>
-     *
-     * @param updateItems a list of report items
-     *
-     * @return the formatted output
-     */
-    String formatReportUpdate(List<CmsReportUpdateItem> updateItems);
-
+  /**
+   * Gets the formatted report output for the given list of report items.
+   *
+   * <p>
+   *
+   * @param updateItems a list of report items
+   * @return the formatted output
+   */
+  String formatReportUpdate(List<CmsReportUpdateItem> updateItems);
 }

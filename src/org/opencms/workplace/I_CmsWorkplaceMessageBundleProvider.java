@@ -30,14 +30,19 @@ package org.opencms.workplace;
 import java.util.Collection;
 
 /**
- * Implement this interface to provide message bundle names to added to the CmsWorkplaceMessages bundle.<p>
+ * Implement this interface to provide message bundle names to added to the CmsWorkplaceMessages
+ * bundle.
+ *
+ * <p>
  */
 public interface I_CmsWorkplaceMessageBundleProvider {
 
-    /**
-     * Returns the message bundle names.<p>
-     *
-     * @return the bundle names
-     */
-    Collection<String> getMessageBundleNames();
+  /**
+   * Returns the message bundle names.
+   *
+   * <p>
+   *
+   * @return the bundle names
+   */
+  Collection<String> getMessageBundleNames();
 }

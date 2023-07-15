@@ -30,18 +30,21 @@ package org.opencms.ade.sitemap.client.control;
 import com.google.gwt.event.shared.EventHandler;
 
 /**
- * Sitemap load event handler.<p>
+ * Sitemap load event handler.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.ade.sitemap.client.control.CmsSitemapController
  */
 public interface I_CmsSitemapLoadHandler extends EventHandler {
 
-    /**
-     * Will be triggered when an entry loads its children.<p>
-     *
-     * @param loadEvent the event
-     */
-    void onLoad(CmsSitemapLoadEvent loadEvent);
+  /**
+   * Will be triggered when an entry loads its children.
+   *
+   * <p>
+   *
+   * @param loadEvent the event
+   */
+  void onLoad(CmsSitemapLoadEvent loadEvent);
 }

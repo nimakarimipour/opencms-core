@@ -30,94 +30,109 @@ package org.opencms.gwt.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * The result of a single field validation.<p>
+ * The result of a single field validation.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsValidationResult implements IsSerializable {
 
-    /** Convenience constant which contains a validation result for successful validations. */
-    public static final CmsValidationResult VALIDATION_OK = new CmsValidationResult(null);
+  /** Convenience constant which contains a validation result for successful validations. */
+  public static final CmsValidationResult VALIDATION_OK = new CmsValidationResult(null);
 
-    /** The error message to display, or null. */
-    private String m_errorMessage;
+  /** The error message to display, or null. */
+  private String m_errorMessage;
 
-    /** The flag indicating whether the field value should be replaced. */
-    private boolean m_hasNewValue;
+  /** The flag indicating whether the field value should be replaced. */
+  private boolean m_hasNewValue;
 
-    /** The replacement for the field value. */
-    private String m_newValue;
+  /** The replacement for the field value. */
+  private String m_newValue;
 
-    /**
-     * Creates a new validation result which doesn't replace the current field value.<p>
-     *
-     * @param errorMessage the error message to display, or null if there
-     */
-    public CmsValidationResult(String errorMessage) {
+  /**
+   * Creates a new validation result which doesn't replace the current field value.
+   *
+   * <p>
+   *
+   * @param errorMessage the error message to display, or null if there
+   */
+  public CmsValidationResult(String errorMessage) {
 
-        m_errorMessage = errorMessage;
-        m_hasNewValue = false;
-    }
+    m_errorMessage = errorMessage;
+    m_hasNewValue = false;
+  }
 
-    /**
-     * Creates a new validation result which also replaces the current field value.<p>
-     *
-     * @param errorMessage the error message to display, or null if there was no error
-     * @param newValue the replacement for the field value
-     */
-    public CmsValidationResult(String errorMessage, String newValue) {
+  /**
+   * Creates a new validation result which also replaces the current field value.
+   *
+   * <p>
+   *
+   * @param errorMessage the error message to display, or null if there was no error
+   * @param newValue the replacement for the field value
+   */
+  public CmsValidationResult(String errorMessage, String newValue) {
 
-        m_errorMessage = errorMessage;
-        m_newValue = newValue;
-        m_hasNewValue = true;
-    }
+    m_errorMessage = errorMessage;
+    m_newValue = newValue;
+    m_hasNewValue = true;
+  }
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    protected CmsValidationResult() {
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  protected CmsValidationResult() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Returns the error message, or null if the validation has succeeded.<p>
-     *
-     * @return an error message or null the
-     */
-    public String getErrorMessage() {
+  /**
+   * Returns the error message, or null if the validation has succeeded.
+   *
+   * <p>
+   *
+   * @return an error message or null the
+   */
+  public String getErrorMessage() {
 
-        return m_errorMessage;
-    }
+    return m_errorMessage;
+  }
 
-    /**
-     * Returns the replacement for the field value.<p>
-     *
-     * @return the replacement for the field value
-     */
-    public String getNewValue() {
+  /**
+   * Returns the replacement for the field value.
+   *
+   * <p>
+   *
+   * @return the replacement for the field value
+   */
+  public String getNewValue() {
 
-        return m_newValue;
-    }
+    return m_newValue;
+  }
 
-    /**
-     * Returns true if the field value should be replaced.<p>
-     *
-     * @return true if the field value should be replaced
-     */
-    public boolean hasNewValue() {
+  /**
+   * Returns true if the field value should be replaced.
+   *
+   * <p>
+   *
+   * @return true if the field value should be replaced
+   */
+  public boolean hasNewValue() {
 
-        return m_hasNewValue;
-    }
+    return m_hasNewValue;
+  }
 
-    /**
-     * Returns true if the validation has succeeded.<p>
-     *
-     * @return true if the validation has succeeded
-     */
-    public boolean isOk() {
+  /**
+   * Returns true if the validation has succeeded.
+   *
+   * <p>
+   *
+   * @return true if the validation has succeeded
+   */
+  public boolean isOk() {
 
-        return m_errorMessage == null;
-    }
-
+    return m_errorMessage == null;
+  }
 }

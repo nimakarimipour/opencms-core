@@ -28,16 +28,20 @@
 package org.opencms.ade.galleries.preview;
 
 /**
- * Interface for all resource preview provider.<p>
+ * Interface for all resource preview provider.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsPreviewProvider {
 
-    /**
-     * Returns the name of the preview.<p>
-     *
-     * @return the name of the preview
-     */
-    String getPreviewName();
+  /**
+   * Returns the name of the preview.
+   *
+   * <p>
+   *
+   * @return the name of the preview
+   */
+  String getPreviewName();
 }

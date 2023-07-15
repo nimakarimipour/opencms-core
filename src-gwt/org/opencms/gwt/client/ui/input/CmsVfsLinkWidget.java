@@ -27,6 +27,13 @@
 
 package org.opencms.gwt.client.ui.input;
 
+import com.google.common.base.Optional;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
+import java.util.Map;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.client.I_CmsHasInit;
 import org.opencms.gwt.client.Messages;
@@ -36,264 +43,267 @@ import org.opencms.gwt.client.ui.I_CmsButton.Size;
 import org.opencms.gwt.client.ui.input.form.CmsWidgetFactoryRegistry;
 import org.opencms.gwt.client.ui.input.form.I_CmsFormWidgetFactory;
 
-import java.util.Map;
-
-import com.google.common.base.Optional;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-
 /**
- * The vfs-link widget.<p>
+ * The vfs-link widget.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
-public class CmsVfsLinkWidget extends Composite implements I_CmsFormWidget, I_CmsHasInit, I_CmsHasGhostValue {
+public class CmsVfsLinkWidget extends Composite
+    implements I_CmsFormWidget, I_CmsHasInit, I_CmsHasGhostValue {
 
-    /** The widget type. */
-    public static final String WIDGET_TYPE = "vfslink";
+  /** The widget type. */
+  public static final String WIDGET_TYPE = "vfslink";
 
-    /** The browse button. */
-    protected CmsPushButton m_browseButton;
+  /** The browse button. */
+  protected CmsPushButton m_browseButton;
 
-    /** The textbox containing the currently selected path. */
-    protected CmsTextBox m_textbox;
+  /** The textbox containing the currently selected path. */
+  protected CmsTextBox m_textbox;
 
-    /** The vfs-selector popup. */
-    //protected CmsVfsSelector m_vfsSelector;
+  /** The vfs-selector popup. */
+  // protected CmsVfsSelector m_vfsSelector;
 
-    /** The widget panel. */
-    private FlowPanel m_main;
+  /** The widget panel. */
+  private FlowPanel m_main;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsVfsLinkWidget() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsVfsLinkWidget() {
 
-        m_main = new FlowPanel();
-        initWidget(m_main);
+    m_main = new FlowPanel();
+    initWidget(m_main);
 
-        m_textbox = new CmsTextBox();
-        m_main.add(m_textbox);
-        m_browseButton = new CmsPushButton();
-        m_browseButton.setText(Messages.get().key(Messages.GUI_BROWSE_0));
-        m_browseButton.setTitle(Messages.get().key(Messages.GUI_BROWSE_0));
-        m_browseButton.addClickHandler(new ClickHandler() {
+    m_textbox = new CmsTextBox();
+    m_main.add(m_textbox);
+    m_browseButton = new CmsPushButton();
+    m_browseButton.setText(Messages.get().key(Messages.GUI_BROWSE_0));
+    m_browseButton.setTitle(Messages.get().key(Messages.GUI_BROWSE_0));
+    m_browseButton.addClickHandler(
+        new ClickHandler() {
 
-            public void onClick(ClickEvent event) {
+          public void onClick(ClickEvent event) {
 
-                openSelector(getSelectorUrl());
-            }
+            openSelector(getSelectorUrl());
+          }
         });
 
-        /*m_textbox.addFocusHandler(new FocusHandler() {
+    /*m_textbox.addFocusHandler(new FocusHandler() {
 
-            public void onFocus(FocusEvent arg0) {
+        public void onFocus(FocusEvent arg0) {
 
-                openSelector(getSelectorUrl());
-            }
-        });*/
-        m_main.add(m_browseButton);
-    }
+            openSelector(getSelectorUrl());
+        }
+    });*/
+    m_main.add(m_browseButton);
+  }
 
-    /**
-     * Initializes this class.<p>
-     */
-    public static void initClass() {
+  /**
+   * Initializes this class.
+   *
+   * <p>
+   */
+  public static void initClass() {
 
-        // registers a factory for creating new instances of this widget
-        CmsWidgetFactoryRegistry.instance().registerFactory(WIDGET_TYPE, new I_CmsFormWidgetFactory() {
+    // registers a factory for creating new instances of this widget
+    CmsWidgetFactoryRegistry.instance()
+        .registerFactory(
+            WIDGET_TYPE,
+            new I_CmsFormWidgetFactory() {
 
-            /**
-             * @see org.opencms.gwt.client.ui.input.form.I_CmsFormWidgetFactory#createWidget(java.util.Map, com.google.common.base.Optional)
-             */
-            public I_CmsFormWidget createWidget(Map<String, String> widgetParams, Optional<String> defaultValue) {
+              /**
+               * @see
+               *     org.opencms.gwt.client.ui.input.form.I_CmsFormWidgetFactory#createWidget(java.util.Map,
+               *     com.google.common.base.Optional)
+               */
+              public I_CmsFormWidget createWidget(
+                  Map<String, String> widgetParams, Optional<String> defaultValue) {
 
                 return new CmsVfsLinkWidget();
-            }
-        });
-    }
+              }
+            });
+  }
 
-    /**
-     * Adds a style-name to the browse button.<p>
-     *
-     * @param styleName the style name
-     */
-    public void addButtonStyle(String styleName) {
+  /**
+   * Adds a style-name to the browse button.
+   *
+   * <p>
+   *
+   * @param styleName the style name
+   */
+  public void addButtonStyle(String styleName) {
 
-        m_browseButton.addStyleName(styleName);
-    }
+    m_browseButton.addStyleName(styleName);
+  }
 
-    /**
-     * Adds a style-name to the input text-box.<p>
-     *
-     * @param styleName the style name
-     */
-    public void addInputStyleName(String styleName) {
+  /**
+   * Adds a style-name to the input text-box.
+   *
+   * <p>
+   *
+   * @param styleName the style name
+   */
+  public void addInputStyleName(String styleName) {
 
-        m_textbox.addStyleName(styleName);
-    }
+    m_textbox.addStyleName(styleName);
+  }
 
-    /**
-     * Adds a value change handler.<p>
-     *
-     * @param handler the handler to add
-     */
-    public void addValueChangeHandler(ValueChangeHandler<String> handler) {
+  /**
+   * Adds a value change handler.
+   *
+   * <p>
+   *
+   * @param handler the handler to add
+   */
+  public void addValueChangeHandler(ValueChangeHandler<String> handler) {
 
-        m_textbox.addValueChangeHandler(handler);
-    }
+    m_textbox.addValueChangeHandler(handler);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getApparentValue()
-     */
-    public String getApparentValue() {
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getApparentValue() */
+  public String getApparentValue() {
 
-        return getFormValueAsString();
-    }
+    return getFormValueAsString();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getFieldType()
-     */
-    public FieldType getFieldType() {
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getFieldType() */
+  public FieldType getFieldType() {
 
-        return FieldType.STRING;
-    }
+    return FieldType.STRING;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getFormValue()
-     */
-    public Object getFormValue() {
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getFormValue() */
+  public Object getFormValue() {
 
-        return m_textbox.getFormValue();
-    }
+    return m_textbox.getFormValue();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getFormValueAsString()
-     */
-    public String getFormValueAsString() {
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#getFormValueAsString() */
+  public String getFormValueAsString() {
 
-        return m_textbox.getFormValueAsString();
-    }
+    return m_textbox.getFormValueAsString();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#isEnabled()
-     */
-    public boolean isEnabled() {
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#isEnabled() */
+  public boolean isEnabled() {
 
-        return m_textbox.isEnabled();
-    }
+    return m_textbox.isEnabled();
+  }
 
-    /**
-     * Removes a style-name from the browse button.<p>
-     *
-     * @param styleName the style name
-     */
-    public void removeButtonStyle(String styleName) {
+  /**
+   * Removes a style-name from the browse button.
+   *
+   * <p>
+   *
+   * @param styleName the style name
+   */
+  public void removeButtonStyle(String styleName) {
 
-        m_browseButton.removeStyleName(styleName);
-    }
+    m_browseButton.removeStyleName(styleName);
+  }
 
-    /**
-     * Removes a style-name from the input text-box.<p>
-     *
-     * @param styleName the style name
-     */
-    public void removeInputStyle(String styleName) {
+  /**
+   * Removes a style-name from the input text-box.
+   *
+   * <p>
+   *
+   * @param styleName the style name
+   */
+  public void removeInputStyle(String styleName) {
 
-        m_textbox.removeStyleName(styleName);
-    }
+    m_textbox.removeStyleName(styleName);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#reset()
-     */
-    public void reset() {
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#reset() */
+  public void reset() {
 
-        m_textbox.reset();
-    }
+    m_textbox.reset();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#setAutoHideParent(org.opencms.gwt.client.ui.I_CmsAutoHider)
-     */
-    public void setAutoHideParent(I_CmsAutoHider autoHideParent) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.I_CmsFormWidget#setAutoHideParent(org.opencms.gwt.client.ui.I_CmsAutoHider)
+   */
+  public void setAutoHideParent(I_CmsAutoHider autoHideParent) {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Set the browse button size.<p>
-     *
-     * @param size the button size
-     */
-    public void setButtonSize(Size size) {
+  /**
+   * Set the browse button size.
+   *
+   * <p>
+   *
+   * @param size the button size
+   */
+  public void setButtonSize(Size size) {
 
-        m_browseButton.setSize(size);
-    }
+    m_browseButton.setSize(size);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#setEnabled(boolean)
-     */
-    public void setEnabled(boolean enabled) {
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#setEnabled(boolean) */
+  public void setEnabled(boolean enabled) {
 
-        m_textbox.setEnabled(enabled);
-    }
+    m_textbox.setEnabled(enabled);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#setErrorMessage(java.lang.String)
-     */
-    public void setErrorMessage(String errorMessage) {
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#setErrorMessage(java.lang.String) */
+  public void setErrorMessage(String errorMessage) {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#setFormValueAsString(java.lang.String)
-     */
-    public void setFormValueAsString(String value) {
+  /** @see org.opencms.gwt.client.ui.input.I_CmsFormWidget#setFormValueAsString(java.lang.String) */
+  public void setFormValueAsString(String value) {
 
-        m_textbox.setFormValueAsString(value);
-        m_textbox.fireValueChangedEvent();
+    m_textbox.setFormValueAsString(value);
+    m_textbox.fireValueChangedEvent();
+  }
 
-    }
+  /** @see org.opencms.gwt.client.ui.input.I_CmsHasGhostValue#setGhostMode(boolean) */
+  public void setGhostMode(boolean ghostMode) {
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsHasGhostValue#setGhostMode(boolean)
-     */
-    public void setGhostMode(boolean ghostMode) {
+    m_textbox.setGhostMode(ghostMode);
+  }
 
-        m_textbox.setGhostMode(ghostMode);
-    }
+  /**
+   * @see org.opencms.gwt.client.ui.input.I_CmsHasGhostValue#setGhostValue(java.lang.String,
+   *     boolean)
+   */
+  public void setGhostValue(String value, boolean isGhostMode) {
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsHasGhostValue#setGhostValue(java.lang.String, boolean)
-     */
-    public void setGhostValue(String value, boolean isGhostMode) {
+    m_textbox.setGhostValue(value, isGhostMode);
+  }
 
-        m_textbox.setGhostValue(value, isGhostMode);
-    }
+  /**
+   * Returns the URL to the link selector popup.
+   *
+   * <p>
+   *
+   * @return the URL to the link selector popup
+   */
+  protected String getSelectorUrl() {
 
-    /**
-     * Returns the URL to the link selector popup.<p>
-     *
-     * @return the URL to the link selector popup
-     */
-    protected String getSelectorUrl() {
+    StringBuffer result = new StringBuffer(128);
+    result.append(CmsCoreProvider.get().link("/system/workplace/views/explorer/tree_fs.jsp"));
+    result.append(
+        "?type=vfswidget&includefiles=true&showsiteselector=true&projectaware=false&treesite=");
+    result.append(CmsCoreProvider.get().getSiteRoot());
+    return result.toString();
+  }
 
-        StringBuffer result = new StringBuffer(128);
-        result.append(CmsCoreProvider.get().link("/system/workplace/views/explorer/tree_fs.jsp"));
-        result.append("?type=vfswidget&includefiles=true&showsiteselector=true&projectaware=false&treesite=");
-        result.append(CmsCoreProvider.get().getSiteRoot());
-        return result.toString();
-    }
-
-    /**
-     * Opens the vfs-selector.<p>
-     *
-     * @param selectorUrl the URL to the link selector popup
-     */
-    protected native void openSelector(String selectorUrl)/*-{
+  /**
+   * Opens the vfs-selector.
+   *
+   * <p>
+   *
+   * @param selectorUrl the URL to the link selector popup
+   */
+  protected native void openSelector(String selectorUrl) /*-{
         var newwin = $wnd
                 .open(
                         selectorUrl,
@@ -313,5 +323,4 @@ public class CmsVfsLinkWidget extends Composite implements I_CmsFormWidget, I_Cm
             self.@org.opencms.gwt.client.ui.input.CmsVfsLinkWidget::setFormValueAsString(Ljava/lang/String;)(fileName);
         }
     }-*/;
-
 }

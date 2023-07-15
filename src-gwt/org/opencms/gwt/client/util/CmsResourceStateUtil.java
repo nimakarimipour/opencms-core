@@ -33,60 +33,70 @@ import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
 import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsResourceStateCss;
 
 /**
- * Utility class for the publish dialog.<p>
+ * Utility class for the publish dialog.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public final class CmsResourceStateUtil {
 
-    /** The CSS bundle for the publish dialog. <p> */
-    private static final I_CmsResourceStateCss CSS = I_CmsLayoutBundle.INSTANCE.resourceStateCss();
+  /**
+   * The CSS bundle for the publish dialog.
+   *
+   * <p>
+   */
+  private static final I_CmsResourceStateCss CSS = I_CmsLayoutBundle.INSTANCE.resourceStateCss();
 
-    /**
-     * Hide constructor.<p>
-     */
-    private CmsResourceStateUtil() {
+  /**
+   * Hide constructor.
+   *
+   * <p>
+   */
+  private CmsResourceStateUtil() {
 
-        // empty
+    // empty
+  }
+
+  /**
+   * Returns the human-readable name of a resource state.
+   *
+   * <p>
+   *
+   * @param state the resource state
+   * @return the human-readable name of the code
+   */
+  public static String getStateName(CmsResourceState state) {
+
+    if (state.equals(CmsResourceState.STATE_NEW)) {
+      return Messages.get().key(Messages.GUI_RESOURCE_STATE_NEW_0);
+    } else if (state.equals(CmsResourceState.STATE_DELETED)) {
+      return Messages.get().key(Messages.GUI_RESOURCE_STATE_DELETED_0);
+    } else if (state.equals(CmsResourceState.STATE_CHANGED)) {
+      return Messages.get().key(Messages.GUI_RESOURCE_STATE_CHANGED_0);
+    } else if (state.equals(CmsResourceState.STATE_UNCHANGED)) {
+      return Messages.get().key(Messages.GUI_RESOURCE_STATE_UNCHANGED_0);
     }
+    return "";
+  }
 
-    /**
-     * Returns the human-readable name of a resource state.<p>
-     *
-     * @param state the resource state
-     *
-     * @return the human-readable name of the code
-     */
-    public static String getStateName(CmsResourceState state) {
+  /**
+   * Returns the text style for a given resource state.
+   *
+   * <p>
+   *
+   * @param state the resource state
+   * @return the style name for the resource's state
+   */
+  public static String getStateStyle(CmsResourceState state) {
 
-        if (state.equals(CmsResourceState.STATE_NEW)) {
-            return Messages.get().key(Messages.GUI_RESOURCE_STATE_NEW_0);
-        } else if (state.equals(CmsResourceState.STATE_DELETED)) {
-            return Messages.get().key(Messages.GUI_RESOURCE_STATE_DELETED_0);
-        } else if (state.equals(CmsResourceState.STATE_CHANGED)) {
-            return Messages.get().key(Messages.GUI_RESOURCE_STATE_CHANGED_0);
-        } else if (state.equals(CmsResourceState.STATE_UNCHANGED)) {
-            return Messages.get().key(Messages.GUI_RESOURCE_STATE_UNCHANGED_0);
-        }
-        return "";
+    if (state.equals(CmsResourceState.STATE_NEW)) {
+      return CSS.stateNew();
+    } else if (state.equals(CmsResourceState.STATE_DELETED)) {
+      return CSS.stateDeleted();
+    } else if (state.equals(CmsResourceState.STATE_CHANGED)) {
+      return CSS.stateChanged();
     }
-
-    /**
-     * Returns the text style for a given resource state.<p>
-     *
-     * @param state the resource state
-     *
-     * @return the style name for the resource's state
-     */
-    public static String getStateStyle(CmsResourceState state) {
-
-        if (state.equals(CmsResourceState.STATE_NEW)) {
-            return CSS.stateNew();
-        } else if (state.equals(CmsResourceState.STATE_DELETED)) {
-            return CSS.stateDeleted();
-        } else if (state.equals(CmsResourceState.STATE_CHANGED)) {
-            return CSS.stateChanged();
-        }
-        return CSS.noState();
-    }
+    return CSS.noState();
+  }
 }

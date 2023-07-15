@@ -30,16 +30,22 @@ package org.opencms.jsp.search.controller;
 import org.opencms.jsp.search.config.I_CmsSearchConfigurationCommon;
 import org.opencms.jsp.search.state.I_CmsSearchStateCommon;
 
-/** Interface to get controllers state and configuration - version for common search configurations. */
+/**
+ * Interface to get controllers state and configuration - version for common search configurations.
+ */
 public interface I_CmsSearchControllerCommon extends I_CmsSearchController {
 
-    /** Returns the configuration.
-     * @return The configuration.
-     */
-    I_CmsSearchConfigurationCommon getConfig();
+  /**
+   * Returns the configuration.
+   *
+   * @return The configuration.
+   */
+  I_CmsSearchConfigurationCommon getConfig();
 
-    /** Returns the state.
-     * @return The state.
-     */
-    I_CmsSearchStateCommon getState();
+  /**
+   * Returns the state.
+   *
+   * @return The state.
+   */
+  I_CmsSearchStateCommon getState();
 }

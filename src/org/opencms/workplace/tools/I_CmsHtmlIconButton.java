@@ -31,96 +31,120 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.workplace.CmsWorkplace;
 
 /**
- * Interface for html buttons with icon.<p>
+ * Interface for html buttons with icon.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsHtmlIconButton {
 
-    /**
-     * Returns the necessary html code.<p>
-     *
-     * @param wp the jsp page to write the code to
-     *
-     * @return html code
-     */
-    String buttonHtml(CmsWorkplace wp);
+  /**
+   * Returns the necessary html code.
+   *
+   * <p>
+   *
+   * @param wp the jsp page to write the code to
+   * @return html code
+   */
+  String buttonHtml(CmsWorkplace wp);
 
-    /**
-     * Returns the help text.<p>
-     *
-     * @return the help text
-     */
-    CmsMessageContainer getHelpText();
+  /**
+   * Returns the help text.
+   *
+   * <p>
+   *
+   * @return the help text
+   */
+  CmsMessageContainer getHelpText();
 
-    /**
-     * Returns the path to the icon.<p>
-     *
-     * @return the path to the icon
-     */
-    String getIconPath();
+  /**
+   * Returns the path to the icon.
+   *
+   * <p>
+   *
+   * @return the path to the icon
+   */
+  String getIconPath();
 
-    /**
-     * Returns the id of the html component.<p>
-     *
-     * @return the id
-     */
-    String getId();
+  /**
+   * Returns the id of the html component.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  String getId();
 
-    /**
-     * Returns the display name.<p>
-     *
-     * @return the display name
-     */
-    CmsMessageContainer getName();
+  /**
+   * Returns the display name.
+   *
+   * <p>
+   *
+   * @return the display name
+   */
+  CmsMessageContainer getName();
 
-    /**
-     * Returns if enabled or disabled.<p>
-     *
-     * @return if enabled or disabled
-     */
-    boolean isEnabled();
+  /**
+   * Returns if enabled or disabled.
+   *
+   * <p>
+   *
+   * @return if enabled or disabled
+   */
+  boolean isEnabled();
 
-    /**
-     * Returns if visible or not.<p>
-     *
-     * @return if visible or not
-     */
-    boolean isVisible();
+  /**
+   * Returns if visible or not.
+   *
+   * <p>
+   *
+   * @return if visible or not
+   */
+  boolean isVisible();
 
-    /**
-     * Sets if enabled or disabled.<p>
-     *
-     * @param enabled if enabled or disabled
-     */
-    void setEnabled(boolean enabled);
+  /**
+   * Sets if enabled or disabled.
+   *
+   * <p>
+   *
+   * @param enabled if enabled or disabled
+   */
+  void setEnabled(boolean enabled);
 
-    /**
-     * Sets the help Text.<p>
-     *
-     * @param helpText the help Text to set
-     */
-    void setHelpText(CmsMessageContainer helpText);
+  /**
+   * Sets the help Text.
+   *
+   * <p>
+   *
+   * @param helpText the help Text to set
+   */
+  void setHelpText(CmsMessageContainer helpText);
 
-    /**
-     * Sets the icon Path.<p>
-     *
-     * @param iconPath the icon Path to set
-     */
-    void setIconPath(String iconPath);
+  /**
+   * Sets the icon Path.
+   *
+   * <p>
+   *
+   * @param iconPath the icon Path to set
+   */
+  void setIconPath(String iconPath);
 
-    /**
-     * Sets the name.<p>
-     *
-     * @param name the name to set
-     */
-    void setName(CmsMessageContainer name);
+  /**
+   * Sets the name.
+   *
+   * <p>
+   *
+   * @param name the name to set
+   */
+  void setName(CmsMessageContainer name);
 
-    /**
-     * Sets if visible or not.<p>
-     *
-     * @param visible if visible or not
-     */
-    void setVisible(boolean visible);
-
+  /**
+   * Sets if visible or not.
+   *
+   * <p>
+   *
+   * @param visible if visible or not
+   */
+  void setVisible(boolean visible);
 }

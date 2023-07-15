@@ -30,20 +30,23 @@ package org.opencms.widgets;
 import org.opencms.xml.content.CmsDefaultXmlContentHandler;
 
 /**
- *  This handler adds the categories to the current resource and all siblings.<p>
+ * This handler adds the categories to the current resource and all siblings.
+ *
+ * <p>
  *
  * @since 7.0.5
- *
  * @deprecated no longer needed since logic was moved to the default handler
  */
 @Deprecated
 public class CmsCategoryXmlContentHandler extends CmsDefaultXmlContentHandler {
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsCategoryXmlContentHandler() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsCategoryXmlContentHandler() {
 
-        super();
-    }
+    super();
+  }
 }

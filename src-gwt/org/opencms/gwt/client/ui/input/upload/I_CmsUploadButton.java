@@ -28,36 +28,44 @@
 package org.opencms.gwt.client.ui.input.upload;
 
 /**
- * The upload button interface.<p>
+ * The upload button interface.
+ *
+ * <p>
  */
 public interface I_CmsUploadButton {
 
-    /**
-     * Creates and adds a file input.<p>
-     *
-     * @return returns the previous file input widget
-     */
-    CmsFileInput createFileInput();
+  /**
+   * Creates and adds a file input.
+   *
+   * <p>
+   *
+   * @return returns the previous file input widget
+   */
+  CmsFileInput createFileInput();
 
-    /**
-     * Gets the upload button handler instance for this button.<p>
-     *
-     * @return the upload button handler
-     */
-    I_CmsUploadButtonHandler getButtonHandler();
+  /**
+   * Gets the upload button handler instance for this button.
+   *
+   * <p>
+   *
+   * @return the upload button handler
+   */
+  I_CmsUploadButtonHandler getButtonHandler();
 
-    /**
-     * Reinitializes the button with a new button handler.<p>
-     *
-     * @param buttonHandler the button handler
-     */
-    void reinitButton(I_CmsUploadButtonHandler buttonHandler);
+  /**
+   * Reinitializes the button with a new button handler.
+   *
+   * <p>
+   *
+   * @param buttonHandler the button handler
+   */
+  void reinitButton(I_CmsUploadButtonHandler buttonHandler);
 
-    /**
-     * Enables / disables the button.
-     *
-     * @param enabled true if the button should be enabled
-     * @param disabledMessage the message to display for disabled buttons
-     */
-    void setEnabled(boolean enabled, String disabledMessage);
+  /**
+   * Enables / disables the button.
+   *
+   * @param enabled true if the button should be enabled
+   * @param disabledMessage the message to display for disabled buttons
+   */
+  void setEnabled(boolean enabled, String disabledMessage);
 }

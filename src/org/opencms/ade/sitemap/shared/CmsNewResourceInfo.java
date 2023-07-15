@@ -31,237 +31,273 @@ import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.util.CmsUUID;
 
 /**
- * A bean representing a resource type for use in the detail page creation menu.<p>
+ * A bean representing a resource type for use in the detail page creation menu.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsNewResourceInfo extends CmsListInfoBean {
 
-    /** The navigation level create parameter. */
-    public static final String NAVIGATION_LEVEL_PARAMETER = "new_navigation_level";
+  /** The navigation level create parameter. */
+  public static final String NAVIGATION_LEVEL_PARAMETER = "new_navigation_level";
 
-    /** The structure id of the copy resource. */
-    private CmsUUID m_copyResourceId;
+  /** The structure id of the copy resource. */
+  private CmsUUID m_copyResourceId;
 
-    /** The additional parameter used for creating new resources. */
-    private String m_createParameter;
+  /** The additional parameter used for creating new resources. */
+  private String m_createParameter;
 
-    /** Date. */
-    private String m_date;
+  /** Date. */
+  private String m_date;
 
-    /** The description. */
-    private String m_description;
+  /** The description. */
+  private String m_description;
 
-    /** True if the user can edit the resource. */
-    private boolean m_editable;
+  /** True if the user can edit the resource. */
+  private boolean m_editable;
 
-    /** The id. */
-    private int m_id;
+  /** The id. */
+  private int m_id;
 
-    /** If the default flag is set. */
-    private boolean m_isDefault;
+  /** If the default flag is set. */
+  private boolean m_isDefault;
 
-    /** The flag which determines whether this bean is for a function page or for a normal detail page. */
-    private boolean m_isFunction;
+  /**
+   * The flag which determines whether this bean is for a function page or for a normal detail page.
+   */
+  private boolean m_isFunction;
 
-    /** Navigation position, used for ordering. */
-    private Float m_navPos;
+  /** Navigation position, used for ordering. */
+  private Float m_navPos;
 
-    /** VFS path. */
-    private String m_vfsPath;
+  /** VFS path. */
+  private String m_vfsPath;
 
-    /**
-     * Instantiates a new resource type information bean.
-     *
-     * @param id the id
-     * @param typeName the type name
-     * @param title the title
-     * @param description the description
-     * @param copyResourceId the structure id of the copy resource
-     * @param editable true if the model resource is editable
-     * @param subTitle the subtitle to display
-     */
-    public CmsNewResourceInfo(
-        int id,
-        String typeName,
-        String title,
-        String description,
-        CmsUUID copyResourceId,
-        boolean editable,
-        String subTitle) {
-        super(title, subTitle, null);
-        setResourceType(typeName);
-        m_id = id;
-        m_copyResourceId = copyResourceId;
-        m_description = description;
-        m_editable = editable;
-    }
+  /**
+   * Instantiates a new resource type information bean.
+   *
+   * @param id the id
+   * @param typeName the type name
+   * @param title the title
+   * @param description the description
+   * @param copyResourceId the structure id of the copy resource
+   * @param editable true if the model resource is editable
+   * @param subTitle the subtitle to display
+   */
+  public CmsNewResourceInfo(
+      int id,
+      String typeName,
+      String title,
+      String description,
+      CmsUUID copyResourceId,
+      boolean editable,
+      String subTitle) {
+    super(title, subTitle, null);
+    setResourceType(typeName);
+    m_id = id;
+    m_copyResourceId = copyResourceId;
+    m_description = description;
+    m_editable = editable;
+  }
 
-    /**
-     * Empty default constructor for serialization.<p>
-     */
-    protected CmsNewResourceInfo() {
+  /**
+   * Empty default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsNewResourceInfo() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Returns the structure id of the copy resource.<p>
-     *
-     * @return the structure id of the copy resource
-     */
-    public CmsUUID getCopyResourceId() {
+  /**
+   * Returns the structure id of the copy resource.
+   *
+   * <p>
+   *
+   * @return the structure id of the copy resource
+   */
+  public CmsUUID getCopyResourceId() {
 
-        return m_copyResourceId;
-    }
+    return m_copyResourceId;
+  }
 
-    /**
-     * Gets the additional parameter for creating new resources.<p>
-     *
-     * @return the additional parameter for creating new resources
-     */
-    public String getCreateParameter() {
+  /**
+   * Gets the additional parameter for creating new resources.
+   *
+   * <p>
+   *
+   * @return the additional parameter for creating new resources
+   */
+  public String getCreateParameter() {
 
-        return m_createParameter;
-    }
+    return m_createParameter;
+  }
 
-    /**
-     * Returns the date to display.<p>
-     *
-     * @return the date to display
-     */
-    public String getDate() {
+  /**
+   * Returns the date to display.
+   *
+   * <p>
+   *
+   * @return the date to display
+   */
+  public String getDate() {
 
-        return m_date;
-    }
+    return m_date;
+  }
 
-    /**
-     * Returns the description.<p>
-     *
-     * @return the description
-     */
-    public String getDescription() {
+  /**
+   * Returns the description.
+   *
+   * <p>
+   *
+   * @return the description
+   */
+  public String getDescription() {
 
-        return m_description;
-    }
+    return m_description;
+  }
 
-    /**
-     * Gets the id.
-     *
-     * @return the id
-     */
-    public int getId() {
+  /**
+   * Gets the id.
+   *
+   * @return the id
+   */
+  public int getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Gets the navigation position (used for ordering).<p>
-     *
-     * @return the navigation position
-     */
-    public Float getNavPos() {
+  /**
+   * Gets the navigation position (used for ordering).
+   *
+   * <p>
+   *
+   * @return the navigation position
+   */
+  public Float getNavPos() {
 
-        return m_navPos;
-    }
+    return m_navPos;
+  }
 
-    /**
-     * Gets the VFS path.<p>
-     *
-     * @return the VFS path
-     */
-    public String getVfsPath() {
+  /**
+   * Gets the VFS path.
+   *
+   * <p>
+   *
+   * @return the VFS path
+   */
+  public String getVfsPath() {
 
-        return m_vfsPath;
-    }
+    return m_vfsPath;
+  }
 
-    /**
-     * Returns the default flag.<p>
-     *
-     * @return the default flag
-     */
-    public boolean isDefault() {
+  /**
+   * Returns the default flag.
+   *
+   * <p>
+   *
+   * @return the default flag
+   */
+  public boolean isDefault() {
 
-        return m_isDefault;
-    }
+    return m_isDefault;
+  }
 
-    /**
-     * Returns true if the model resource is editable.<p>
-     *
-     * @return true if the model resource is editable
-     */
-    public boolean isEditable() {
+  /**
+   * Returns true if the model resource is editable.
+   *
+   * <p>
+   *
+   * @return true if the model resource is editable
+   */
+  public boolean isEditable() {
 
-        return m_editable;
-    }
+    return m_editable;
+  }
 
-    /**
-     * Returns true if this is a resource info bean for a function page.<p>
-     *
-     * @return true if this is a resource info bean for a function page
-     */
-    public boolean isFunction() {
+  /**
+   * Returns true if this is a resource info bean for a function page.
+   *
+   * <p>
+   *
+   * @return true if this is a resource info bean for a function page
+   */
+  public boolean isFunction() {
 
-        return m_isFunction;
-    }
+    return m_isFunction;
+  }
 
-    /**
-     * Sets the create parameter used for new pages.<p>
-     *
-     * @param createParameter the create parameter used for new pages
-     */
-    public void setCreateParameter(String createParameter) {
+  /**
+   * Sets the create parameter used for new pages.
+   *
+   * <p>
+   *
+   * @param createParameter the create parameter used for new pages
+   */
+  public void setCreateParameter(String createParameter) {
 
-        m_createParameter = createParameter;
-    }
+    m_createParameter = createParameter;
+  }
 
-    /**
-     * Sets the modification date string.<p>
-     *
-     * @param date the modification date string
-     */
-    public void setDate(String date) {
+  /**
+   * Sets the modification date string.
+   *
+   * <p>
+   *
+   * @param date the modification date string
+   */
+  public void setDate(String date) {
 
-        m_date = date;
-    }
+    m_date = date;
+  }
 
-    /**
-     * Sets the default flag.<p>
-     *
-     * @param isDefault the default flag to set
-     */
-    public void setDefault(boolean isDefault) {
+  /**
+   * Sets the default flag.
+   *
+   * <p>
+   *
+   * @param isDefault the default flag to set
+   */
+  public void setDefault(boolean isDefault) {
 
-        m_isDefault = isDefault;
-    }
+    m_isDefault = isDefault;
+  }
 
-    /**
-     * Sets the "function page" flag.<p>
-     *
-     * @param isFunction the new value for the function page flag
-     */
-    public void setIsFunction(boolean isFunction) {
+  /**
+   * Sets the "function page" flag.
+   *
+   * <p>
+   *
+   * @param isFunction the new value for the function page flag
+   */
+  public void setIsFunction(boolean isFunction) {
 
-        m_isFunction = isFunction;
-    }
+    m_isFunction = isFunction;
+  }
 
-    /**
-     * Sets the navigation position.<p>
-     *
-     * @param navPos the navigation position
-     */
-    public void setNavPos(Float navPos) {
+  /**
+   * Sets the navigation position.
+   *
+   * <p>
+   *
+   * @param navPos the navigation position
+   */
+  public void setNavPos(Float navPos) {
 
-        m_navPos = navPos;
-    }
+    m_navPos = navPos;
+  }
 
-    /**
-     * Sets the VFS path.<p>
-     *
-     * @param vfsPath the VFS path
-     */
-    public void setVfsPath(String vfsPath) {
+  /**
+   * Sets the VFS path.
+   *
+   * <p>
+   *
+   * @param vfsPath the VFS path
+   */
+  public void setVfsPath(String vfsPath) {
 
-        m_vfsPath = vfsPath;
-    }
+    m_vfsPath = vfsPath;
+  }
 }

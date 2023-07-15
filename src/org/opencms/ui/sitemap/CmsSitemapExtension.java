@@ -27,6 +27,18 @@
 
 package org.opencms.ui.sitemap;
 
+import com.vaadin.server.AbstractExtension;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
+import com.vaadin.ui.Window.CloseEvent;
+import com.vaadin.ui.Window.CloseListener;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProject;
 import org.opencms.file.CmsResource;
@@ -49,343 +61,325 @@ import org.opencms.ui.shared.rpc.I_CmsSitemapServerRpc;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.server.AbstractExtension;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.UI;
-import com.vaadin.v7.ui.VerticalLayout;
-import com.vaadin.ui.Window;
-import com.vaadin.ui.Window.CloseEvent;
-import com.vaadin.ui.Window.CloseListener;
-
 /**
- * Extension used for the Vaadin dialogs in the sitemap editor.<p>
+ * Extension used for the Vaadin dialogs in the sitemap editor.
+ *
+ * <p>
  */
 public class CmsSitemapExtension extends AbstractExtension implements I_CmsSitemapServerRpc {
 
+  /**
+   * Dialog context for Vaadin dialogs in the sitemap editor.
+   *
+   * <p>
+   */
+  abstract class DialogContext implements I_CmsDialogContext {
+
+    /** The context type. */
+    private ContextType m_contextType;
+
+    /** The list of resources. */
+    private List<CmsResource> m_resources;
+
+    /** The window used to display the dialog. */
+    private Window m_window;
+
     /**
-     * Dialog context for Vaadin dialogs in the sitemap editor.<p>
+     * Constructor.
+     *
+     * <p>
+     *
+     * @param contextType the context type
+     * @param resources the resources
      */
-    abstract class DialogContext implements I_CmsDialogContext {
+    public DialogContext(ContextType contextType, List<CmsResource> resources) {
+      m_contextType = contextType;
+      m_resources = resources != null ? resources : Collections.<CmsResource>emptyList();
+    }
 
-        /** The context type. */
-        private ContextType m_contextType;
+    /**
+     * Closes the dialog window.
+     *
+     * <p>
+     */
+    public void closeWindow() {
 
-        /** The list of resources. */
-        private List<CmsResource> m_resources;
+      if (m_window != null) {
+        m_window.close();
+        m_window = null;
+      }
+    }
 
-        /** The window used to display the dialog. */
-        private Window m_window;
+    /** @see org.opencms.ui.I_CmsDialogContext#error(java.lang.Throwable) */
+    @SuppressWarnings("synthetic-access")
+    public void error(Throwable error) {
 
-        /**
-         * Constructor.<p>
-         *
-         * @param contextType the context type
-         * @param resources the resources
-         */
-        public DialogContext(ContextType contextType, List<CmsResource> resources) {
-            m_contextType = contextType;
-            m_resources = resources != null ? resources : Collections.<CmsResource> emptyList();
-        }
+      closeWindow();
+      LOG.error(error.getLocalizedMessage(), error);
+      CmsErrorDialog.showErrorDialog(
+          error,
+          new Runnable() {
 
-        /**
-         * Closes the dialog window.<p>
-         */
-        public void closeWindow() {
-
-            if (m_window != null) {
-                m_window.close();
-                m_window = null;
+            public void run() {
+              // empty
             }
-        }
+          });
+    }
 
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#error(java.lang.Throwable)
-         */
-        @SuppressWarnings("synthetic-access")
-        public void error(Throwable error) {
+    /**
+     * @see org.opencms.ui.I_CmsDialogContext#finish(org.opencms.file.CmsProject, java.lang.String)
+     */
+    public void finish(CmsProject project, String siteRoot) {
 
-            closeWindow();
-            LOG.error(error.getLocalizedMessage(), error);
-            CmsErrorDialog.showErrorDialog(error, new Runnable() {
+      throw new RuntimeException("NOT INPLEMENTED");
+    }
 
-                public void run() {
-                    // empty
-                }
+    /** @see org.opencms.ui.I_CmsDialogContext#focus(org.opencms.util.CmsUUID) */
+    public void focus(CmsUUID structureId) {
+
+      // does not apply
+    }
+
+    /** @see org.opencms.ui.I_CmsDialogContext#getAllStructureIdsInView() */
+    public List<CmsUUID> getAllStructureIdsInView() {
+
+      return Collections.emptyList();
+    }
+
+    /** @see org.opencms.ui.I_CmsDialogContext#getAppId() */
+    public String getAppId() {
+
+      return CmsSitemapEditorConfiguration.APP_ID;
+    }
+
+    /** @see org.opencms.ui.I_CmsDialogContext#getCms() */
+    public CmsObject getCms() {
+
+      return A_CmsUI.getCmsObject();
+    }
+
+    /** @see org.opencms.ui.I_CmsDialogContext#getContextType() */
+    public ContextType getContextType() {
+
+      return m_contextType;
+    }
+
+    /** @see org.opencms.ui.I_CmsDialogContext#getResources() */
+    public List<CmsResource> getResources() {
+
+      return m_resources;
+    }
+
+    /** @see org.opencms.ui.I_CmsDialogContext#navigateTo(java.lang.String) */
+    public void navigateTo(String appId) {
+
+      throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    /** @see org.opencms.ui.I_CmsDialogContext#onViewChange() */
+    public void onViewChange() {
+
+      throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    /** @see org.opencms.ui.I_CmsDialogContext#reload() */
+    public void reload() {
+
+      throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    /** @see org.opencms.ui.I_CmsDialogContext#setWindow(com.vaadin.ui.Window) */
+    public void setWindow(Window window) {
+
+      m_window = window;
+    }
+
+    /** @see org.opencms.ui.I_CmsDialogContext#start(java.lang.String, com.vaadin.ui.Component) */
+    public void start(String title, Component dialog) {
+
+      start(title, dialog, DialogWidth.narrow);
+    }
+
+    /**
+     * @see org.opencms.ui.I_CmsDialogContext#start(java.lang.String, com.vaadin.ui.Component,
+     *     org.opencms.ui.components.CmsBasicDialog.DialogWidth)
+     */
+    public void start(String title, Component dialog, DialogWidth width) {
+
+      if (dialog != null) {
+        m_window = CmsBasicDialog.prepareWindow(width);
+        m_window.setCaption(title);
+        m_window.setContent(dialog);
+        UI.getCurrent().addWindow(m_window);
+        m_window.addCloseListener(
+            new CloseListener() {
+
+              private static final long serialVersionUID = 1L;
+
+              public void windowClose(CloseEvent e) {
+
+                handleWindowClose();
+              }
             });
+        if (dialog instanceof CmsBasicDialog) {
+          ((CmsBasicDialog) dialog).initActionHandler(m_window);
         }
+      }
+    }
 
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#finish(org.opencms.file.CmsProject, java.lang.String)
-         */
-        public void finish(CmsProject project, String siteRoot) {
+    /** @see org.opencms.ui.I_CmsDialogContext#updateUserInfo() */
+    public void updateUserInfo() {
 
-            throw new RuntimeException("NOT INPLEMENTED");
+      // not supported
+    }
 
-        }
+    /**
+     * Returns the client RPC.
+     *
+     * <p>
+     *
+     * @return the client RPC
+     */
+    @SuppressWarnings("synthetic-access")
+    protected I_CmsEmbeddedDialogClientRPC getClientRPC() {
 
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#focus(org.opencms.util.CmsUUID)
-         */
-        public void focus(CmsUUID structureId) {
+      return getRpcProxy(I_CmsEmbeddedDialogClientRPC.class);
+    }
 
-            // does not apply
-        }
+    /**
+     * Handles the window close event.
+     *
+     * <p>
+     */
+    void handleWindowClose() {
+      // empty
+    }
+  }
 
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#getAllStructureIdsInView()
-         */
-        public List<CmsUUID> getAllStructureIdsInView() {
+  /** Log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsSitemapExtension.class);
 
-            return Collections.emptyList();
-        }
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#getAppId()
-         */
-        public String getAppId() {
+  /** The container for the locale comparison view. */
+  private VerticalLayout m_localeCompareContainer;
 
-            return CmsSitemapEditorConfiguration.APP_ID;
-        }
+  /** The currently active sitemap tree controller. */
+  private CmsSitemapTreeController m_sitemapTreeController;
 
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#getCms()
-         */
-        public CmsObject getCms() {
+  /** The UI instance. */
+  private CmsSitemapUI m_ui;
 
-            return A_CmsUI.getCmsObject();
-        }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param ui the component to attach to
+   */
+  public CmsSitemapExtension(CmsSitemapUI ui) {
+    extend(ui);
+    m_ui = ui;
+    registerRpc(this, I_CmsSitemapServerRpc.class);
+  }
 
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#getContextType()
-         */
-        public ContextType getContextType() {
+  /**
+   * @see org.opencms.ui.shared.rpc.I_CmsSitemapServerRpc#handleChangedProperties(java.lang.String)
+   */
+  public void handleChangedProperties(String id) {
 
-            return m_contextType;
-        }
+    if (m_sitemapTreeController != null) {
+      m_sitemapTreeController.updateNodeForId(new CmsUUID(id));
+    }
+  }
 
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#getResources()
-         */
-        public List<CmsResource> getResources() {
+  /**
+   * @see org.opencms.ui.shared.rpc.I_CmsSitemapServerRpc#openPageCopyDialog(java.lang.String,
+   *     java.lang.String)
+   */
+  public void openPageCopyDialog(final String callId, final String structureId) {
 
-            return m_resources;
-        }
+    CmsObject cms = A_CmsUI.getCmsObject();
+    try {
+      CmsResource resource =
+          cms.readResource(new CmsUUID(structureId), CmsResourceFilter.IGNORE_EXPIRATION);
+      DialogContext context =
+          new DialogContext(null, Arrays.asList(resource)) {
 
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#navigateTo(java.lang.String)
-         */
-        public void navigateTo(String appId) {
+            @SuppressWarnings("synthetic-access")
+            public void finish(java.util.Collection<CmsUUID> result) {
 
-            throw new RuntimeException("NOT IMPLEMENTED");
-        }
-
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#onViewChange()
-         */
-        public void onViewChange() {
-
-            throw new RuntimeException("NOT IMPLEMENTED");
-        }
-
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#reload()
-         */
-        public void reload() {
-
-            throw new RuntimeException("NOT IMPLEMENTED");
-        }
-
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#setWindow(com.vaadin.ui.Window)
-         */
-        public void setWindow(Window window) {
-
-            m_window = window;
-        }
-
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#start(java.lang.String, com.vaadin.ui.Component)
-         */
-        public void start(String title, Component dialog) {
-
-            start(title, dialog, DialogWidth.narrow);
-        }
-
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#start(java.lang.String, com.vaadin.ui.Component, org.opencms.ui.components.CmsBasicDialog.DialogWidth)
-         */
-        public void start(String title, Component dialog, DialogWidth width) {
-
-            if (dialog != null) {
-                m_window = CmsBasicDialog.prepareWindow(width);
-                m_window.setCaption(title);
-                m_window.setContent(dialog);
-                UI.getCurrent().addWindow(m_window);
-                m_window.addCloseListener(new CloseListener() {
-
-                    private static final long serialVersionUID = 1L;
-
-                    public void windowClose(CloseEvent e) {
-
-                        handleWindowClose();
-                    }
-                });
-                if (dialog instanceof CmsBasicDialog) {
-                    ((CmsBasicDialog)dialog).initActionHandler(m_window);
-                }
+              closeWindow();
+              String response =
+                  result.isEmpty()
+                      ? ""
+                      : CmsStringUtil.listAsString(new ArrayList<Object>(result), "|");
+              getRpcProxy(I_CmsSitemapClientRpc.class).finishPageCopyDialog(callId, response);
             }
-        }
-
-        /**
-         * @see org.opencms.ui.I_CmsDialogContext#updateUserInfo()
-         */
-        public void updateUserInfo() {
-
-            // not supported
-        }
-
-        /**
-         * Returns the client RPC.<p>
-         *
-         * @return the client RPC
-         */
-        @SuppressWarnings("synthetic-access")
-        protected I_CmsEmbeddedDialogClientRPC getClientRPC() {
-
-            return getRpcProxy(I_CmsEmbeddedDialogClientRPC.class);
-        }
-
-        /**
-         * Handles the window close event.<p>
-         */
-        void handleWindowClose() {
-            // empty
-        }
-
+          };
+      CmsCopyPageDialog dialog = new CmsCopyPageDialog(context);
+      String title = CmsVaadinUtils.getMessageText(Messages.GUI_COPYPAGE_DIALOG_TITLE_0);
+      context.start(title, dialog);
+    } catch (CmsException e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      CmsErrorDialog.showErrorDialog(e);
     }
+  }
 
-    /** Log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsSitemapExtension.class);
+  /**
+   * Opens the property dialog for the locale comparison view.
+   *
+   * <p>
+   *
+   * @param sitemapEntryId the structure id for the sitemap entry to edit
+   * @param rootId the structure id of the current tree's root
+   */
+  public void openPropertyDialog(CmsUUID sitemapEntryId, CmsUUID rootId) {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+    getRpcProxy(I_CmsSitemapClientRpc.class).openPropertyDialog("" + sitemapEntryId, "" + rootId);
+  }
 
-    /** The container for the locale comparison view. */
-    private VerticalLayout m_localeCompareContainer;
+  /**
+   * Sets the currently active sitemap tree controller.
+   *
+   * <p>
+   *
+   * @param controller the controller to set
+   */
+  public void setSitemapTreeController(CmsSitemapTreeController controller) {
 
-    /** The currently active sitemap tree controller. */
-    private CmsSitemapTreeController m_sitemapTreeController;
+    m_sitemapTreeController = controller;
+  }
 
-    /** The UI instance. */
-    private CmsSitemapUI m_ui;
+  /**
+   * Shows an info header in the locale-header-container element.
+   *
+   * <p>
+   *
+   * @param title the title
+   * @param description the description
+   * @param path the path
+   * @param locale the locale
+   * @param iconClass the icon class
+   */
+  public void showInfoHeader(
+      String title, String description, String path, String locale, String iconClass) {
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param ui the component to attach to
-     */
-    public CmsSitemapExtension(CmsSitemapUI ui) {
-        extend(ui);
-        m_ui = ui;
-        registerRpc(this, I_CmsSitemapServerRpc.class);
+    getRpcProxy(I_CmsSitemapClientRpc.class)
+        .showInfoHeader(title, description, path, locale, iconClass);
+  }
+
+  /** @see org.opencms.ui.shared.rpc.I_CmsSitemapServerRpc#showLocaleComparison(java.lang.String) */
+  public void showLocaleComparison(String id) {
+
+    if (m_localeCompareContainer == null) {
+      m_localeCompareContainer = new VerticalLayout();
+      CmsExternalLayout layout =
+          new CmsExternalLayout(CmsGwtConstants.ID_LOCALE_COMPARISON, m_localeCompareContainer);
+      m_ui.getContent().addComponent(layout);
     }
-
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsSitemapServerRpc#handleChangedProperties(java.lang.String)
-     */
-    public void handleChangedProperties(String id) {
-
-        if (m_sitemapTreeController != null) {
-            m_sitemapTreeController.updateNodeForId(new CmsUUID(id));
-        }
-    }
-
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsSitemapServerRpc#openPageCopyDialog(java.lang.String, java.lang.String)
-     */
-    public void openPageCopyDialog(final String callId, final String structureId) {
-
-        CmsObject cms = A_CmsUI.getCmsObject();
-        try {
-            CmsResource resource = cms.readResource(new CmsUUID(structureId), CmsResourceFilter.IGNORE_EXPIRATION);
-            DialogContext context = new DialogContext(null, Arrays.asList(resource)) {
-
-                @SuppressWarnings("synthetic-access")
-                public void finish(java.util.Collection<CmsUUID> result) {
-
-                    closeWindow();
-                    String response = result.isEmpty()
-                    ? ""
-                    : CmsStringUtil.listAsString(new ArrayList<Object>(result), "|");
-                    getRpcProxy(I_CmsSitemapClientRpc.class).finishPageCopyDialog(callId, response);
-                }
-            };
-            CmsCopyPageDialog dialog = new CmsCopyPageDialog(context);
-            String title = CmsVaadinUtils.getMessageText(Messages.GUI_COPYPAGE_DIALOG_TITLE_0);
-            context.start(title, dialog);
-        } catch (CmsException e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            CmsErrorDialog.showErrorDialog(e);
-        }
-    }
-
-    /**
-     * Opens the property dialog for the locale comparison view.<p>
-     *
-     * @param sitemapEntryId the structure id for the sitemap entry to edit
-     * @param rootId the structure id of the current tree's root
-     */
-    public void openPropertyDialog(CmsUUID sitemapEntryId, CmsUUID rootId) {
-
-        getRpcProxy(I_CmsSitemapClientRpc.class).openPropertyDialog("" + sitemapEntryId, "" + rootId);
-    }
-
-    /**
-     * Sets the currently active sitemap tree controller.<p>
-     *
-     * @param controller the controller to set
-     */
-    public void setSitemapTreeController(CmsSitemapTreeController controller) {
-
-        m_sitemapTreeController = controller;
-    }
-
-    /**
-     * Shows an info header in the locale-header-container element.<p>
-     *
-     * @param title the title
-     * @param description the description
-     * @param path the path
-     * @param locale the locale
-     * @param iconClass the icon class
-     */
-    public void showInfoHeader(String title, String description, String path, String locale, String iconClass) {
-
-        getRpcProxy(I_CmsSitemapClientRpc.class).showInfoHeader(title, description, path, locale, iconClass);
-    }
-
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsSitemapServerRpc#showLocaleComparison(java.lang.String)
-     */
-    public void showLocaleComparison(String id) {
-
-        if (m_localeCompareContainer == null) {
-            m_localeCompareContainer = new VerticalLayout();
-            CmsExternalLayout layout = new CmsExternalLayout(
-                CmsGwtConstants.ID_LOCALE_COMPARISON,
-                m_localeCompareContainer);
-            m_ui.getContent().addComponent(layout);
-        }
-        m_localeCompareContainer.removeAllComponents();
-        m_localeCompareContainer.addComponent(new CmsLocaleComparePanel(id));
-
-    }
-
+    m_localeCompareContainer.removeAllComponents();
+    m_localeCompareContainer.addComponent(new CmsLocaleComparePanel(id));
+  }
 }

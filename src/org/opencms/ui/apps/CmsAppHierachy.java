@@ -27,79 +27,74 @@
 
 package org.opencms.ui.apps;
 
+import com.google.common.collect.Lists;
+import java.util.List;
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.main.OpenCms;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.I_CmsUpdateListener;
 
-import java.util.List;
-import java.util.Locale;
-
-import com.google.common.collect.Lists;
-
 /**
- * Displays all available app.<p>
+ * Displays all available app.
+ *
+ * <p>
  */
 public class CmsAppHierachy implements I_CmsWorkplaceApp, I_CmsCachableApp {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -2767203655877536034L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -2767203655877536034L;
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceApp#initUI(org.opencms.ui.apps.I_CmsAppUIContext)
-     */
-    public void initUI(I_CmsAppUIContext context) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceApp#initUI(org.opencms.ui.apps.I_CmsAppUIContext) */
+  public void initUI(I_CmsAppUIContext context) {
 
-        CmsObject cms = A_CmsUI.getCmsObject();
-        Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
-        List<I_CmsWorkplaceAppConfiguration> visibleApps = Lists.newArrayList();
-        for (I_CmsWorkplaceAppConfiguration appConfig : OpenCms.getWorkplaceAppManager().getWorkplaceApps()) {
-            CmsAppVisibilityStatus status = appConfig.getVisibility(cms);
-            if (status.isVisible()) {
-                visibleApps.add(appConfig);
-            }
-        }
-        CmsAppHierarchyBuilder hierarchyBuilder = new CmsAppHierarchyBuilder();
-        for (I_CmsWorkplaceAppConfiguration app : visibleApps) {
-            hierarchyBuilder.addAppConfiguration(app);
-        }
-        for (I_CmsAppCategory category : OpenCms.getWorkplaceAppManager().getCategories()) {
-            hierarchyBuilder.addCategory(category);
-        }
+    CmsObject cms = A_CmsUI.getCmsObject();
+    Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
+    List<I_CmsWorkplaceAppConfiguration> visibleApps = Lists.newArrayList();
+    for (I_CmsWorkplaceAppConfiguration appConfig :
+        OpenCms.getWorkplaceAppManager().getWorkplaceApps()) {
+      CmsAppVisibilityStatus status = appConfig.getVisibility(cms);
+      if (status.isVisible()) {
+        visibleApps.add(appConfig);
+      }
+    }
+    CmsAppHierarchyBuilder hierarchyBuilder = new CmsAppHierarchyBuilder();
+    for (I_CmsWorkplaceAppConfiguration app : visibleApps) {
+      hierarchyBuilder.addAppConfiguration(app);
+    }
+    for (I_CmsAppCategory category : OpenCms.getWorkplaceAppManager().getCategories()) {
+      hierarchyBuilder.addCategory(category);
+    }
 
-        CmsAppHierarchyPanel hierarchyPanel = new CmsAppHierarchyPanel(new CmsDefaultAppButtonProvider());
-        hierarchyPanel.fill(hierarchyBuilder.buildHierarchy(), locale);
+    CmsAppHierarchyPanel hierarchyPanel =
+        new CmsAppHierarchyPanel(new CmsDefaultAppButtonProvider());
+    hierarchyPanel.fill(hierarchyBuilder.buildHierarchy(), locale);
 
-        context.setAppContent(hierarchyPanel);
-        context.showInfoArea(false);
-        context.addPublishButton(new I_CmsUpdateListener<String>() {
+    context.setAppContent(hierarchyPanel);
+    context.showInfoArea(false);
+    context.addPublishButton(
+        new I_CmsUpdateListener<String>() {
 
-            public void onUpdate(List<String> updatedItems) {
-                // ignore
-            }
+          public void onUpdate(List<String> updatedItems) {
+            // ignore
+          }
         });
-    }
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsCachableApp#isCachable()
-     */
-    public boolean isCachable() {
+  /** @see org.opencms.ui.apps.I_CmsCachableApp#isCachable() */
+  public boolean isCachable() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsCachableApp#onRestoreFromCache()
-     */
-    public void onRestoreFromCache() {
-        // do nothing
-    }
+  /** @see org.opencms.ui.apps.I_CmsCachableApp#onRestoreFromCache() */
+  public void onRestoreFromCache() {
+    // do nothing
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceApp#onStateChange(java.lang.String)
-     */
-    public void onStateChange(String state) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceApp#onStateChange(java.lang.String) */
+  public void onStateChange(String state) {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 }

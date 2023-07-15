@@ -33,51 +33,52 @@ import org.opencms.ade.sitemap.client.control.CmsSitemapController;
 import org.opencms.ade.sitemap.shared.CmsClientSitemapEntry;
 
 /**
- * Sitemap context menu show in navigation entry.<p>
+ * Sitemap context menu show in navigation entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsShowMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsShowMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsShowMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_SHOW_0));
-        setActive(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_SHOW_0));
+    setActive(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-        CmsSitemapController controller = getHoverbar().getController();
-        controller.showInNavigation(getHoverbar().getEntry().getId());
-    }
+    CmsSitemapController controller = getHoverbar().getController();
+    controller.showInNavigation(getHoverbar().getEntry().getId());
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        CmsSitemapController controller = getHoverbar().getController();
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        boolean show = !CmsSitemapView.getInstance().isSpecialMode()
+    CmsSitemapController controller = getHoverbar().getController();
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    boolean show =
+        !CmsSitemapView.getInstance().isSpecialMode()
             && entry.isInNavigation()
             && entry.isHiddenNavigationEntry();
-        setVisible(show);
-        if (show && !entry.isEditable()) {
-            setActive(false);
-            setDisabledReason(controller.getNoEditReason(entry));
-        } else {
-            setActive(true);
-            setDisabledReason(null);
-        }
+    setVisible(show);
+    if (show && !entry.isEditable()) {
+      setActive(false);
+      setDisabledReason(controller.getNoEditReason(entry));
+    } else {
+      setActive(true);
+      setDisabledReason(null);
     }
+  }
 }

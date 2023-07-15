@@ -27,6 +27,11 @@
 
 package org.opencms.ade.configuration;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
@@ -36,63 +41,57 @@ import org.opencms.xml.content.CmsXmlContentProperty;
 import org.opencms.xml.content.CmsXmlContentRootLocation;
 import org.opencms.xml.content.I_CmsXmlContentValueLocation;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.Map;
-
-/**
- * Contains a set of attribute definitions for the sitemap attribute editor.
- */
+/** Contains a set of attribute definitions for the sitemap attribute editor. */
 public class CmsSitemapAttributeEditorConfiguration {
 
-    /** A configuration with no entries. */
-    public static final CmsSitemapAttributeEditorConfiguration EMPTY = new CmsSitemapAttributeEditorConfiguration(
-        new HashMap<>());
+  /** A configuration with no entries. */
+  public static final CmsSitemapAttributeEditorConfiguration EMPTY =
+      new CmsSitemapAttributeEditorConfiguration(new HashMap<>());
 
-    /** The actual attribute definitions. */
-    private Map<String, CmsXmlContentProperty> m_attributeDefinitions;
+  /** The actual attribute definitions. */
+  private Map<String, CmsXmlContentProperty> m_attributeDefinitions;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param attributeDefinitions the sitemap attribute definitions
-     */
-    public CmsSitemapAttributeEditorConfiguration(Map<String, CmsXmlContentProperty> attributeDefinitions) {
+  /**
+   * Creates a new instance.
+   *
+   * @param attributeDefinitions the sitemap attribute definitions
+   */
+  public CmsSitemapAttributeEditorConfiguration(
+      Map<String, CmsXmlContentProperty> attributeDefinitions) {
 
-        super();
-        m_attributeDefinitions = Collections.unmodifiableMap(new LinkedHashMap<>(attributeDefinitions));
+    super();
+    m_attributeDefinitions = Collections.unmodifiableMap(new LinkedHashMap<>(attributeDefinitions));
+  }
+
+  /**
+   * Reads the attribute definitions from an XML content.
+   *
+   * @param cms the CmsObject to use
+   * @param res the resource from which to read the attribute definitions
+   * @return the sitemap attribute editor configuration which was read from the file
+   * @throws CmsException if something goes wrong
+   */
+  public static CmsSitemapAttributeEditorConfiguration read(CmsObject cms, CmsResource res)
+      throws CmsException {
+
+    Map<String, CmsXmlContentProperty> resultMap = new LinkedHashMap<>();
+    CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, cms.readFile(res));
+    CmsXmlContentRootLocation root = new CmsXmlContentRootLocation(content, Locale.ENGLISH);
+    for (I_CmsXmlContentValueLocation loc : root.getSubValues("Setting")) {
+      CmsXmlContentProperty propDef =
+          CmsConfigurationReader.parseProperty(cms, loc).getPropertyData();
+      resultMap.put(propDef.getName(), propDef);
     }
+    return new CmsSitemapAttributeEditorConfiguration(resultMap);
+  }
 
-    /**
-     * Reads the attribute definitions from an XML content.
-     *
-     * @param cms the CmsObject  to use
-     * @param res the resource from which to read the attribute definitions
-     * @return the sitemap attribute editor configuration which was read from the file
-     * @throws CmsException if something goes wrong
-     */
-    public static CmsSitemapAttributeEditorConfiguration read(CmsObject cms, CmsResource res) throws CmsException {
+  /**
+   * Gets the attribute definitions.
+   *
+   * @return the attribute definitions
+   */
+  public Map<String, CmsXmlContentProperty> getAttributeDefinitions() {
 
-        Map<String, CmsXmlContentProperty> resultMap = new LinkedHashMap<>();
-        CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, cms.readFile(res));
-        CmsXmlContentRootLocation root = new CmsXmlContentRootLocation(content, Locale.ENGLISH);
-        for (I_CmsXmlContentValueLocation loc : root.getSubValues("Setting")) {
-            CmsXmlContentProperty propDef = CmsConfigurationReader.parseProperty(cms, loc).getPropertyData();
-            resultMap.put(propDef.getName(), propDef);
-        }
-        return new CmsSitemapAttributeEditorConfiguration(resultMap);
-    }
-
-    /**
-     * Gets the attribute definitions.
-     *
-     * @return the attribute definitions
-     */
-    public Map<String, CmsXmlContentProperty> getAttributeDefinitions() {
-
-        return m_attributeDefinitions;
-    }
-
+    return m_attributeDefinitions;
+  }
 }

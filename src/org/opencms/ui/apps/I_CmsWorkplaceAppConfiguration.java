@@ -27,98 +27,111 @@
 
 package org.opencms.ui.apps;
 
+import com.vaadin.server.Resource;
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.security.CmsRole;
 
-import java.util.Locale;
-
-import com.vaadin.server.Resource;
-
 /**
- * Contains the configuration of a single workplace app.<p>
+ * Contains the configuration of a single workplace app.
+ *
+ * <p>
  */
 public interface I_CmsWorkplaceAppConfiguration extends I_CmsHasOrder {
 
-    /** Default priority. */
-    int DEFAULT_PRIORIY = 100;
+  /** Default priority. */
+  int DEFAULT_PRIORIY = 100;
 
-    /**
-     * Gets the id of the app category in which this app should be displayed (null for the root category).
-     *
-     * @return the app category id
-     */
-    String getAppCategory();
+  /**
+   * Gets the id of the app category in which this app should be displayed (null for the root
+   * category).
+   *
+   * @return the app category id
+   */
+  String getAppCategory();
 
-    /**
-     * Returns a new app instance.<p>
-     *
-     * @return a new app instance
-     */
-    I_CmsWorkplaceApp getAppInstance();
+  /**
+   * Returns a new app instance.
+   *
+   * <p>
+   *
+   * @return a new app instance
+   */
+  I_CmsWorkplaceApp getAppInstance();
 
-    /**
-     * Returns the button style.<p>
-     *
-     * @return the button style
-     */
-    String getButtonStyle();
+  /**
+   * Returns the button style.
+   *
+   * <p>
+   *
+   * @return the button style
+   */
+  String getButtonStyle();
 
-    /**
-     * Gets the help text for the app in the given locale.<p>
-     *
-     * @param locale the locale to use
-     *
-     * @return the help text
-     */
-    String getHelpText(Locale locale);
+  /**
+   * Gets the help text for the app in the given locale.
+   *
+   * <p>
+   *
+   * @param locale the locale to use
+   * @return the help text
+   */
+  String getHelpText(Locale locale);
 
-    /**
-     * Returns the app icon resource.<p>
-     *
-     * @return the icon resource
-     */
-    Resource getIcon();
+  /**
+   * Returns the app icon resource.
+   *
+   * <p>
+   *
+   * @return the icon resource
+   */
+  Resource getIcon();
 
-    /**
-     * Returns the unique app id.
-     *
-     * @return the app id
-     */
-    String getId();
+  /**
+   * Returns the unique app id.
+   *
+   * @return the app id
+   */
+  String getId();
 
-    /**
-     * Returns the display name of the app.<p>
-     *
-     * @param locale the user locale
-     *
-     * @return the app name
-     */
-    String getName(Locale locale);
+  /**
+   * Returns the display name of the app.
+   *
+   * <p>
+   *
+   * @param locale the user locale
+   * @return the app name
+   */
+  String getName(Locale locale);
 
-    /**
-     * Gets the priority of the app configuration.<p>
-     *
-     * Between two apps with the same id and different priorities, the one with the higher priority will override
-     * the one with the lower priority.<p>
-     *
-     * @return the priority
-     */
-    int getPriority();
+  /**
+   * Gets the priority of the app configuration.
+   *
+   * <p>Between two apps with the same id and different priorities, the one with the higher priority
+   * will override the one with the lower priority.
+   *
+   * <p>
+   *
+   * @return the priority
+   */
+  int getPriority();
 
-    /**
-     * Returns the user role required for this app.<p>
-     *
-     * @return the required user role
-     */
-    CmsRole getRequiredRole();
+  /**
+   * Returns the user role required for this app.
+   *
+   * <p>
+   *
+   * @return the required user role
+   */
+  CmsRole getRequiredRole();
 
-    /**
-     * Returns the visibility status of the app for the given user context.<p>
-     *
-     * @param cms the user context
-     *
-     * @return the visibility status
-     */
-    CmsAppVisibilityStatus getVisibility(CmsObject cms);
-
+  /**
+   * Returns the visibility status of the app for the given user context.
+   *
+   * <p>
+   *
+   * @param cms the user context
+   * @return the visibility status
+   */
+  CmsAppVisibilityStatus getVisibility(CmsObject cms);
 }

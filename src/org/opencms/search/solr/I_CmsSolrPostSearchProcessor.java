@@ -31,37 +31,40 @@
 
 package org.opencms.search.solr;
 
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrInputDocument;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrInputDocument;
-
 /**
- * The post document processor can be used in order to
- * manipulate search results after the OpenCms permission
- * check has been done.<p>
+ * The post document processor can be used in order to manipulate search results after the OpenCms
+ * permission check has been done.
  *
- * NOTE: Currently it is only possible to use this interface
- * if you run an embedded Solr server instance.<p>
+ * <p>NOTE: Currently it is only possible to use this interface if you run an embedded Solr server
+ * instance.
+ *
+ * <p>
  *
  * @since 8.5.0
  */
 public interface I_CmsSolrPostSearchProcessor {
 
-    /**
-     * (Re-)Initializes the post processor.<p>
-     */
-    void init();
+  /**
+   * (Re-)Initializes the post processor.
+   *
+   * <p>
+   */
+  void init();
 
-    /**
-     * Performs the post processing.<p>
-     *
-     * @param searchCms the CMS object
-     * @param resource the resource for the found document
-     * @param document the document itself
-     *
-     * @return the manipulated Solr document
-     */
-    SolrDocument process(CmsObject searchCms, CmsResource resource, SolrInputDocument document);
+  /**
+   * Performs the post processing.
+   *
+   * <p>
+   *
+   * @param searchCms the CMS object
+   * @param resource the resource for the found document
+   * @param document the document itself
+   * @return the manipulated Solr document
+   */
+  SolrDocument process(CmsObject searchCms, CmsResource resource, SolrInputDocument document);
 }

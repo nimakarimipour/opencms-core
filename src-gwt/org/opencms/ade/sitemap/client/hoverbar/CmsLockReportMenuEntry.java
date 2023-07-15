@@ -27,70 +27,73 @@
 
 package org.opencms.ade.sitemap.client.hoverbar;
 
+import com.google.gwt.user.client.Command;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
 import org.opencms.ade.sitemap.shared.CmsClientSitemapEntry;
 import org.opencms.gwt.client.ui.CmsLockReportDialog;
 
-import com.google.gwt.user.client.Command;
-
 /**
- * Sitemap context menu show lock report entry.<p>
+ * Sitemap context menu show lock report entry.
+ *
+ * <p>
  *
  * @since 8.0.1
  */
 public class CmsLockReportMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsLockReportMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsLockReportMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_LOCK_REPORT_0));
-        setActive(true);
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_LOCK_REPORT_0));
+    setActive(true);
+  }
 
-    }
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+    final CmsSitemapController controller = getHoverbar().getController();
+    final CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    CmsLockReportDialog.openDialogForResource(
+        null,
+        entry.getId(),
+        new Command() {
 
-        final CmsSitemapController controller = getHoverbar().getController();
-        final CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        CmsLockReportDialog.openDialogForResource(null, entry.getId(), new Command() {
+          public void execute() {
 
-            public void execute() {
+            controller.updateEntry(entry.getId());
+          }
+        },
+        null);
+  }
 
-                controller.updateEntry(entry.getId());
-            }
-        }, null);
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-    }
+    setVisible(checkVisible());
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /**
+   * Checks if the menu entry should be visible.
+   *
+   * <p>
+   *
+   * @return true if the menu entry should be visible
+   */
+  protected boolean checkVisible() {
 
-        setVisible(checkVisible());
-    }
-
-    /**
-     * Checks if the menu entry should be visible.<p>
-     *
-     * @return true if the menu entry should be visible
-     */
-    protected boolean checkVisible() {
-
-        return getHoverbar().getController().isEditable()
-            && !CmsSitemapView.getInstance().isModelPageMode()
-            && (!CmsSitemapView.getInstance().isGalleryMode() || getHoverbar().getController().getData().isGalleryManager());
-    }
-
+    return getHoverbar().getController().isEditable()
+        && !CmsSitemapView.getInstance().isModelPageMode()
+        && (!CmsSitemapView.getInstance().isGalleryMode()
+            || getHoverbar().getController().getData().isGalleryManager());
+  }
 }

@@ -28,18 +28,21 @@
 package org.opencms.json;
 
 /**
- * To convert objects to json.<p>
+ * To convert objects to json.
+ *
+ * <p>
  *
  * @since 7.6
  */
 public interface I_CmsJsonifable {
 
-    /**
-     * Returns the JSON representation of this object.<p>
-     *
-     * @return the JSON representation of this object
-     *
-     * @throws JSONException if something goes wrong
-     */
-    JSONObject toJson() throws JSONException;
+  /**
+   * Returns the JSON representation of this object.
+   *
+   * <p>
+   *
+   * @return the JSON representation of this object
+   * @throws JSONException if something goes wrong
+   */
+  JSONObject toJson() throws JSONException;
 }

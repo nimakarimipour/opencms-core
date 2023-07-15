@@ -28,13 +28,17 @@
 package org.opencms.main;
 
 /**
- * Interface used for notifying objects stored in a session  when the session is destroyed.<p>
+ * Interface used for notifying objects stored in a session when the session is destroyed.
+ *
+ * <p>
  */
 public interface I_CmsSessionDestroyHandler {
 
-    /**
-     * This method is called when the session in which this object is stored as an attribute is destroyed.<p>
-     */
-    void onSessionDestroyed();
-
+  /**
+   * This method is called when the session in which this object is stored as an attribute is
+   * destroyed.
+   *
+   * <p>
+   */
+  void onSessionDestroyed();
 }

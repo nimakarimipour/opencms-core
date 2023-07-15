@@ -27,97 +27,99 @@
 
 package org.opencms.ui.contextmenu;
 
-import org.opencms.main.CmsLog;
-
+import com.google.common.collect.ClassToInstanceMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.MutableClassToInstanceMap;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
-
 import org.apache.commons.logging.Log;
-
-import com.google.common.collect.ClassToInstanceMap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.MutableClassToInstanceMap;
+import org.opencms.main.CmsLog;
 
 /**
- * Class used to manage multiple context menu item providers through a single instance.<p>
+ * Class used to manage multiple context menu item providers through a single instance.
  *
- * Also keeps track of available menu entries by their global id.<p>
+ * <p>Also keeps track of available menu entries by their global id.
+ *
+ * <p>
  */
 public class CmsContextMenuItemProviderGroup implements I_CmsContextMenuItemProvider {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsContextMenuItemProviderGroup.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsContextMenuItemProviderGroup.class);
 
-    /** Map of provider classes. */
-    ClassToInstanceMap<I_CmsContextMenuItemProvider> m_providerMap = MutableClassToInstanceMap.create();
+  /** Map of provider classes. */
+  ClassToInstanceMap<I_CmsContextMenuItemProvider> m_providerMap =
+      MutableClassToInstanceMap.create();
 
-    /** Item cache. */
-    private List<I_CmsContextMenuItem> m_itemCache = Lists.newArrayList();
+  /** Item cache. */
+  private List<I_CmsContextMenuItem> m_itemCache = Lists.newArrayList();
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsContextMenuItemProviderGroup() {
-        Iterator<I_CmsContextMenuItemProvider> providersIt = ServiceLoader.load(
-            I_CmsContextMenuItemProvider.class).iterator();
-        while (providersIt.hasNext()) {
-            try {
-                addProvider(providersIt.next());
-            } catch (Throwable t) {
-                LOG.error("Error loading context menu provider from classpath.", t);
-            }
-        }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsContextMenuItemProviderGroup() {
+    Iterator<I_CmsContextMenuItemProvider> providersIt =
+        ServiceLoader.load(I_CmsContextMenuItemProvider.class).iterator();
+    while (providersIt.hasNext()) {
+      try {
+        addProvider(providersIt.next());
+      } catch (Throwable t) {
+        LOG.error("Error loading context menu provider from classpath.", t);
+      }
     }
+  }
 
-    /**
-     * Adds a new provider class.<p>
-     *
-     * @param providerClass the provider class
-     */
-    public void addProvider(Class<? extends I_CmsContextMenuItemProvider> providerClass) {
+  /**
+   * Adds a new provider class.
+   *
+   * <p>
+   *
+   * @param providerClass the provider class
+   */
+  public void addProvider(Class<? extends I_CmsContextMenuItemProvider> providerClass) {
 
-        try {
-            m_providerMap.put(providerClass, providerClass.newInstance());
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
-        }
+    try {
+      m_providerMap.put(providerClass, providerClass.newInstance());
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage(), e);
     }
+  }
 
-    /**
-     * Adds a provider.<p>
-     *
-     * Note that no two providers of the same exact class may be added.<p>
-     *
-     * @param instance the provider instance to add
-     */
-    public void addProvider(I_CmsContextMenuItemProvider instance) {
+  /**
+   * Adds a provider.
+   *
+   * <p>Note that no two providers of the same exact class may be added.
+   *
+   * <p>
+   *
+   * @param instance the provider instance to add
+   */
+  public void addProvider(I_CmsContextMenuItemProvider instance) {
 
-        m_providerMap.put(instance.getClass(), instance);
+    m_providerMap.put(instance.getClass(), instance);
+  }
 
+  /** @see org.opencms.ui.contextmenu.I_CmsContextMenuItemProvider#getMenuItems() */
+  public List<I_CmsContextMenuItem> getMenuItems() {
+
+    return Collections.unmodifiableList(m_itemCache);
+  }
+
+  /**
+   * Initializes this instance.
+   *
+   * <p>This must be called after the provider classes have been added.
+   */
+  public synchronized void initialize() {
+
+    List<I_CmsContextMenuItem> result = Lists.newArrayList();
+    for (I_CmsContextMenuItemProvider provider : m_providerMap.values()) {
+      result.addAll(provider.getMenuItems());
     }
-
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsContextMenuItemProvider#getMenuItems()
-     */
-    public List<I_CmsContextMenuItem> getMenuItems() {
-
-        return Collections.unmodifiableList(m_itemCache);
-    }
-
-    /**
-     * Initializes this instance.<p>
-     *
-     * This must be called after the provider classes have been added.
-     */
-    public synchronized void initialize() {
-
-        List<I_CmsContextMenuItem> result = Lists.newArrayList();
-        for (I_CmsContextMenuItemProvider provider : m_providerMap.values()) {
-            result.addAll(provider.getMenuItems());
-        }
-        m_itemCache = result;
-    }
-
+    m_itemCache = result;
+  }
 }

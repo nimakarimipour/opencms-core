@@ -27,135 +27,129 @@
 
 package org.opencms.gwt.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
-/**
- * Data needed by the dialog for creating new list elements.
- */
+/** Data needed by the dialog for creating new list elements. */
 public class CmsListElementCreationDialogData implements IsSerializable {
 
-    /** The dialog caption. */
-    private String m_caption;
+  /** The dialog caption. */
+  private String m_caption;
 
-    /** The resource info bean to display on top. */
-    private CmsListInfoBean m_listInfo;
+  /** The resource info bean to display on top. */
+  private CmsListInfoBean m_listInfo;
 
-    /** The error message to display. */
-    private String m_message;
+  /** The error message to display. */
+  private String m_message;
 
-    /** The list of options (types). */
-    private List<CmsListElementCreationOption> m_options = new ArrayList<>();
+  /** The list of options (types). */
+  private List<CmsListElementCreationOption> m_options = new ArrayList<>();
 
-    /** The post-create handler to use. */
-    private String m_postCreateHandler;
+  /** The post-create handler to use. */
+  private String m_postCreateHandler;
 
-    /**
-     * Creates a new instance.
-     */
-    public CmsListElementCreationDialogData() {}
+  /** Creates a new instance. */
+  public CmsListElementCreationDialogData() {}
 
-    /**
-     * Adds an option.
-     *
-     * @param option the option to add
-     */
-    public void add(CmsListElementCreationOption option) {
+  /**
+   * Adds an option.
+   *
+   * @param option the option to add
+   */
+  public void add(CmsListElementCreationOption option) {
 
-        m_options.add(option);
-    }
+    m_options.add(option);
+  }
 
-    /**
-     * Gets the caption.
-     *
-     * @return the caption
-     */
-    public String getCaption() {
+  /**
+   * Gets the caption.
+   *
+   * @return the caption
+   */
+  public String getCaption() {
 
-        return m_caption;
-    }
+    return m_caption;
+  }
 
-    /**
-     * Gets the resource list info for the element to display on top of the dialog.
-     *
-     * @return the list info
-     */
-    public CmsListInfoBean getListInfo() {
+  /**
+   * Gets the resource list info for the element to display on top of the dialog.
+   *
+   * @return the list info
+   */
+  public CmsListInfoBean getListInfo() {
 
-        return m_listInfo;
-    }
+    return m_listInfo;
+  }
 
-    /**
-     * Gets the message.
-     *
-     * @return the message
-     */
-    public String getMessage() {
+  /**
+   * Gets the message.
+   *
+   * @return the message
+   */
+  public String getMessage() {
 
-        return m_message;
-    }
+    return m_message;
+  }
 
-    /**
-     * Gets the options.
-     *
-     * @return the options
-     */
-    public List<CmsListElementCreationOption> getOptions() {
+  /**
+   * Gets the options.
+   *
+   * @return the options
+   */
+  public List<CmsListElementCreationOption> getOptions() {
 
-        return Collections.unmodifiableList(m_options);
-    }
+    return Collections.unmodifiableList(m_options);
+  }
 
-    /**
-     * Gets the post create handler.
-     *
-     * @return the post create handler
-     */
-    public String getPostCreateHandler() {
+  /**
+   * Gets the post create handler.
+   *
+   * @return the post create handler
+   */
+  public String getPostCreateHandler() {
 
-        return m_postCreateHandler;
-    }
+    return m_postCreateHandler;
+  }
 
-    /**
-     * Sets the caption.
-     *
-     * @param caption the new caption
-     */
-    public void setCaption(String caption) {
+  /**
+   * Sets the caption.
+   *
+   * @param caption the new caption
+   */
+  public void setCaption(String caption) {
 
-        m_caption = caption;
-    }
+    m_caption = caption;
+  }
 
-    /**
-     * Sets the list info.
-     *
-     * @param listInfo the new list info
-     */
-    public void setListInfo(CmsListInfoBean listInfo) {
+  /**
+   * Sets the list info.
+   *
+   * @param listInfo the new list info
+   */
+  public void setListInfo(CmsListInfoBean listInfo) {
 
-        m_listInfo = listInfo;
-    }
+    m_listInfo = listInfo;
+  }
 
-    /**
-     * Sets the message.
-     *
-     * @param message the new message
-     */
-    public void setMessage(String message) {
+  /**
+   * Sets the message.
+   *
+   * @param message the new message
+   */
+  public void setMessage(String message) {
 
-        m_message = message;
-    }
+    m_message = message;
+  }
 
-    /**
-     * Sets the post create handler.
-     *
-     * @param postCreateHandler the new post create handler
-     */
-    public void setPostCreateHandler(String postCreateHandler) {
+  /**
+   * Sets the post create handler.
+   *
+   * @param postCreateHandler the new post create handler
+   */
+  public void setPostCreateHandler(String postCreateHandler) {
 
-        m_postCreateHandler = postCreateHandler;
-    }
-
+    m_postCreateHandler = postCreateHandler;
+  }
 }

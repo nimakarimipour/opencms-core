@@ -30,41 +30,43 @@ package org.opencms.gwt.client.ui.tree;
 import com.google.gwt.event.logical.shared.OpenEvent;
 
 /**
- * Two levels deep lazy list tree open handler abstract implementation.<p>
+ * Two levels deep lazy list tree open handler abstract implementation.
+ *
+ * <p>
  *
  * @param <I> the specific lazy tree item implementation
- *
  * @since 8.0.0
- *
  * @see org.opencms.gwt.client.ui.tree.CmsLazyTree
  * @see org.opencms.gwt.client.ui.tree.CmsLazyTreeItem
  * @see org.opencms.gwt.client.ui.tree.I_CmsLazyOpenHandler
  */
-public abstract class A_CmsDeepLazyOpenHandler<I extends CmsLazyTreeItem> extends A_CmsLazyOpenHandler<I> {
+public abstract class A_CmsDeepLazyOpenHandler<I extends CmsLazyTreeItem>
+    extends A_CmsLazyOpenHandler<I> {
 
-    /**
-     * @see org.opencms.gwt.client.ui.tree.I_CmsLazyOpenHandler#onOpen(com.google.gwt.event.logical.shared.OpenEvent)
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    public void onOpen(OpenEvent<I> event) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.tree.I_CmsLazyOpenHandler#onOpen(com.google.gwt.event.logical.shared.OpenEvent)
+   */
+  @Override
+  @SuppressWarnings("unchecked")
+  public void onOpen(OpenEvent<I> event) {
 
-        I target = event.getTarget();
-        if (target.getLoadState() == CmsLazyTreeItem.LoadState.UNLOADED) {
-            // in case the first level is not yet loaded
-            super.onOpen(event);
-        } else if (target.getChildCount() > 0) {
-            // load second level
-            int c = target.getChildCount();
-            for (int i = 0; i < c; i++) {
-                I child = (I)target.getChild(i);
-                if (child.getLoadState() != CmsLazyTreeItem.LoadState.UNLOADED) {
-                    continue;
-                }
-                child.onStartLoading();
-                child.setOpen(false);
-                load(child, null);
-            }
+    I target = event.getTarget();
+    if (target.getLoadState() == CmsLazyTreeItem.LoadState.UNLOADED) {
+      // in case the first level is not yet loaded
+      super.onOpen(event);
+    } else if (target.getChildCount() > 0) {
+      // load second level
+      int c = target.getChildCount();
+      for (int i = 0; i < c; i++) {
+        I child = (I) target.getChild(i);
+        if (child.getLoadState() != CmsLazyTreeItem.LoadState.UNLOADED) {
+          continue;
         }
+        child.onStartLoading();
+        child.setOpen(false);
+        load(child, null);
+      }
     }
+  }
 }

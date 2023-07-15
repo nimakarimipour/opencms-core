@@ -36,31 +36,31 @@ import org.opencms.main.OpenCms;
 /** Helper functions used to collect information for the publish dialog. */
 public final class CmsPublishListHelper {
 
-    /**
-     * Hide default constructor.
-     */
-    private CmsPublishListHelper() {
+  /** Hide default constructor. */
+  private CmsPublishListHelper() {
 
-        // Just to hide the public default contructor
+    // Just to hide the public default contructor
+  }
+
+  /**
+   * Initializes a CmsObject based on the given one, but with adjusted project information and
+   * configured, such that release and expiration date are ignored.
+   *
+   * <p>
+   *
+   * @param cms the original CmsObject.
+   * @param online true if a CmsObject for the Online project should be returned
+   * @return the initialized CmsObject
+   * @throws CmsException if something goes wrong
+   */
+  public static CmsObject adjustCmsObject(CmsObject cms, boolean online) throws CmsException {
+
+    CmsObject result = OpenCms.initCmsObject(cms);
+    if (online) {
+      CmsProject onlineProject = cms.readProject(CmsProject.ONLINE_PROJECT_ID);
+      result.getRequestContext().setCurrentProject(onlineProject);
     }
-
-    /**
-     * Initializes a CmsObject based on the given one, but with adjusted project information and configured, such that release and expiration date are ignored.<p>
-     * @param cms the original CmsObject.
-     *
-     * @param online true if a CmsObject for the Online project should be returned
-     * @return the initialized CmsObject
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public static CmsObject adjustCmsObject(CmsObject cms, boolean online) throws CmsException {
-
-        CmsObject result = OpenCms.initCmsObject(cms);
-        if (online) {
-            CmsProject onlineProject = cms.readProject(CmsProject.ONLINE_PROJECT_ID);
-            result.getRequestContext().setCurrentProject(onlineProject);
-        }
-        result.getRequestContext().setRequestTime(CmsResource.DATE_RELEASED_EXPIRED_IGNORE);
-        return result;
-    }
+    result.getRequestContext().setRequestTime(CmsResource.DATE_RELEASED_EXPIRED_IGNORE);
+    return result;
+  }
 }

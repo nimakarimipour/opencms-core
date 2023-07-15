@@ -27,52 +27,54 @@
 
 package org.opencms.ui.apps;
 
+import com.vaadin.ui.Component;
 import org.opencms.ui.components.OpenCmsTheme;
 
-import com.vaadin.ui.Component;
-
 /**
- * Generates app launcher buttons.<p>
+ * Generates app launcher buttons.
+ *
+ * <p>
  */
 public interface I_CmsAppButtonProvider {
 
-    /** Button color style. */
-    String BUTTON_STYLE_BLUE = OpenCmsTheme.COLOR_BLUE;
+  /** Button color style. */
+  String BUTTON_STYLE_BLUE = OpenCmsTheme.COLOR_BLUE;
 
-    /** Button color style. */
-    String BUTTON_STYLE_CYAN = OpenCmsTheme.COLOR_CYAN;
+  /** Button color style. */
+  String BUTTON_STYLE_CYAN = OpenCmsTheme.COLOR_CYAN;
 
-    /** Button color style. */
-    String BUTTON_STYLE_GRAY = OpenCmsTheme.COLOR_GRAY;
+  /** Button color style. */
+  String BUTTON_STYLE_GRAY = OpenCmsTheme.COLOR_GRAY;
 
-    /** Button color style. */
-    String BUTTON_STYLE_ORANGE = OpenCmsTheme.COLOR_ORANGE;
+  /** Button color style. */
+  String BUTTON_STYLE_ORANGE = OpenCmsTheme.COLOR_ORANGE;
 
-    /** Button color style. */
-    String BUTTON_STYLE_RED = OpenCmsTheme.COLOR_RED;
+  /** Button color style. */
+  String BUTTON_STYLE_RED = OpenCmsTheme.COLOR_RED;
 
-    /** Button color style. */
-    String BUTTON_STYLE_TRANSPARENT = OpenCmsTheme.IMAGE_TRANSPARENT;
+  /** Button color style. */
+  String BUTTON_STYLE_TRANSPARENT = OpenCmsTheme.IMAGE_TRANSPARENT;
 
-    /** Button color style. */
-    String BUTTON_STYLE_CLASSIC = OpenCmsTheme.IMAGE_GRADIENT;
+  /** Button color style. */
+  String BUTTON_STYLE_CLASSIC = OpenCmsTheme.IMAGE_GRADIENT;
 
-    /**
-     * Creates an app launcher button.<p>
-     *
-     * @param appConfig the app configuration
-     *
-     * @return the button component
-     */
-    Component createAppButton(I_CmsWorkplaceAppConfiguration appConfig);
+  /**
+   * Creates an app launcher button.
+   *
+   * <p>
+   *
+   * @param appConfig the app configuration
+   * @return the button component
+   */
+  Component createAppButton(I_CmsWorkplaceAppConfiguration appConfig);
 
-    /**
-     * Creates an app folder button.<p>
-     *
-     * @param node the folder configuration
-     *
-     * @return the button component
-     */
-    Component createAppFolderButton(CmsAppCategoryNode node);
-
+  /**
+   * Creates an app folder button.
+   *
+   * <p>
+   *
+   * @param node the folder configuration
+   * @return the button component
+   */
+  Component createAppFolderButton(CmsAppCategoryNode node);
 }

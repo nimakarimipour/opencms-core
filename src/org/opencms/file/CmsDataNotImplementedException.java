@@ -31,38 +31,37 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Signals that an attempt to call a method has failed since it is not implemented.
- * This exception may be thrown by various driver implementation classes. <p>
+ * Signals that an attempt to call a method has failed since it is not implemented. This exception
+ * may be thrown by various driver implementation classes.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDataNotImplementedException extends CmsDataAccessException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -2896104363126492116L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -2896104363126492116L;
 
-    /**
-     * @see org.opencms.main.CmsException#CmsException(CmsMessageContainer)
-     */
-    public CmsDataNotImplementedException(CmsMessageContainer container) {
+  /** @see org.opencms.main.CmsException#CmsException(CmsMessageContainer) */
+  public CmsDataNotImplementedException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#CmsException(CmsMessageContainer, Throwable)
-     */
-    public CmsDataNotImplementedException(CmsMessageContainer container, Throwable cause) {
+  /** @see org.opencms.main.CmsException#CmsException(CmsMessageContainer, Throwable) */
+  public CmsDataNotImplementedException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsDataNotImplementedException(container, cause);
-    }
+    return new CmsDataNotImplementedException(container, cause);
+  }
 }

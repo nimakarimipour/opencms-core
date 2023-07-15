@@ -27,51 +27,45 @@
 
 package org.opencms.mx;
 
-import org.opencms.main.OpenCmsServlet;
-import org.opencms.main.OpenCmsServlet.RequestInfo;
-
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
+import org.opencms.main.OpenCmsServlet;
+import org.opencms.main.OpenCmsServlet.RequestInfo;
 
-/**
- * Bean for special diagnostic information retrievable via JMX.
- */
+/** Bean for special diagnostic information retrievable via JMX. */
 public class CmsDiagnosticsMXBean implements I_CmsDiagnosticsMXBean {
 
-    /** The instance. */
-    public static final CmsDiagnosticsMXBean INSTANCE = new CmsDiagnosticsMXBean();
+  /** The instance. */
+  public static final CmsDiagnosticsMXBean INSTANCE = new CmsDiagnosticsMXBean();
 
-    /**
-     * Registers an MBean of this class.
-     *
-     * @throws Exception if registration fails
-     */
-    public static void register() throws Exception {
+  /**
+   * Registers an MBean of this class.
+   *
+   * @throws Exception if registration fails
+   */
+  public static void register() throws Exception {
 
-        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-        ObjectName mxbeanName = new ObjectName("org.opencms.mx:type=CmsDiagnosticsMXBean");
-        mbs.registerMBean(INSTANCE, mxbeanName);
+    MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+    ObjectName mxbeanName = new ObjectName("org.opencms.mx:type=CmsDiagnosticsMXBean");
+    mbs.registerMBean(INSTANCE, mxbeanName);
+  }
+
+  /** @see org.opencms.mx.I_CmsDiagnosticsMXBean#listActiveRequests() */
+  public String listActiveRequests() {
+
+    List<RequestInfo> infos = new ArrayList<>(OpenCmsServlet.activeRequests.values());
+    long now = System.currentTimeMillis();
+    infos.sort((a, b) -> Long.compare(a.getStartTime(), b.getStartTime()));
+    StringBuilder result = new StringBuilder();
+    for (RequestInfo info : infos) {
+      String line =
+          "(#" + info.getThreadId() + ") " + info.getUri() + " " + (now - info.getStartTime());
+      result.append(line);
+      result.append("\n");
     }
-
-    /**
-     * @see org.opencms.mx.I_CmsDiagnosticsMXBean#listActiveRequests()
-     */
-    public String listActiveRequests() {
-
-        List<RequestInfo> infos = new ArrayList<>(OpenCmsServlet.activeRequests.values());
-        long now = System.currentTimeMillis();
-        infos.sort((a, b) -> Long.compare(a.getStartTime(), b.getStartTime()));
-        StringBuilder result = new StringBuilder();
-        for (RequestInfo info : infos) {
-            String line = "(#" + info.getThreadId() + ") " + info.getUri() + " " + (now - info.getStartTime());
-            result.append(line);
-            result.append("\n");
-        }
-        return result.toString();
-    }
-
+    return result.toString();
+  }
 }

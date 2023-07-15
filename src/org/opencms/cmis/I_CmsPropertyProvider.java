@@ -32,51 +32,58 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 
 /**
- * Interface for dynamic CMIS properties.<p>
+ * Interface for dynamic CMIS properties.
  *
- * Dynamic properties don't actually exist in the VFS, instead they are read and written by calling
- * methods on the subclasses implementing this interface which have been configured in the repository configuration.<p>
+ * <p>Dynamic properties don't actually exist in the VFS, instead they are read and written by
+ * calling methods on the subclasses implementing this interface which have been configured in the
+ * repository configuration.
  *
+ * <p>
  */
 public interface I_CmsPropertyProvider {
 
-    /**
-     * Returns the name of the dynamic property.<p>
-     *
-     * The id of the property will consist of the name combined with an opencms-dynamic: prefix.<p>
-     *
-     * @return the name of the property
-     */
-    String getName();
+  /**
+   * Returns the name of the dynamic property.
+   *
+   * <p>The id of the property will consist of the name combined with an opencms-dynamic: prefix.
+   *
+   * <p>
+   *
+   * @return the name of the property
+   */
+  String getName();
 
-    /**
-     * Reads the property value.<p>
-     *
-     * @param cms the current CMS context
-     * @param resource the resource for which the property should be read
-     *
-     * @return the property value
-     *
-     * @throws CmsException if something goes wrong
-     */
-    String getPropertyValue(CmsObject cms, CmsResource resource) throws CmsException;
+  /**
+   * Reads the property value.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param resource the resource for which the property should be read
+   * @return the property value
+   * @throws CmsException if something goes wrong
+   */
+  String getPropertyValue(CmsObject cms, CmsResource resource) throws CmsException;
 
-    /**
-     * Returns true if this dynamic property is writable.<p>
-     *
-     * @return true if the property is writable
-     */
-    boolean isWritable();
+  /**
+   * Returns true if this dynamic property is writable.
+   *
+   * <p>
+   *
+   * @return true if the property is writable
+   */
+  boolean isWritable();
 
-    /**
-     * Writes the property value.<p>
-     *
-     * @param cms the current CMS context.<p>
-     *
-     * @param resource the resource for which to write the property
-     * @param valueToSet the value to write
-     *
-     * @throws CmsException if something goes wrong
-     */
-    void setPropertyValue(CmsObject cms, CmsResource resource, String valueToSet) throws CmsException;
+  /**
+   * Writes the property value.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context.
+   *     <p>
+   * @param resource the resource for which to write the property
+   * @param valueToSet the value to write
+   * @throws CmsException if something goes wrong
+   */
+  void setPropertyValue(CmsObject cms, CmsResource resource, String valueToSet) throws CmsException;
 }

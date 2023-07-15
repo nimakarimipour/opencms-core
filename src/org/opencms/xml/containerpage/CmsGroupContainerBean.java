@@ -31,81 +31,90 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * A group container.<p>
+ * A group container.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsGroupContainerBean {
 
-    /** The group container description. */
-    private String m_description;
+  /** The group container description. */
+  private String m_description;
 
-    /** The group container elements.*/
-    private List<CmsContainerElementBean> m_elements;
+  /** The group container elements. */
+  private List<CmsContainerElementBean> m_elements;
 
-    /** The group container title. */
-    private String m_title;
+  /** The group container title. */
+  private String m_title;
 
-    /** The supported container types. */
-    private Set<String> m_types;
+  /** The supported container types. */
+  private Set<String> m_types;
 
-    /**
-     * Creates a new group container bean.<p>
-     *
-     * @param title the group container title
-     * @param description the group container description
-     * @param elements the group container elements
-     * @param types the supported container types
-     */
-    public CmsGroupContainerBean(
-        String title,
-        String description,
-        List<CmsContainerElementBean> elements,
-        Set<String> types) {
+  /**
+   * Creates a new group container bean.
+   *
+   * <p>
+   *
+   * @param title the group container title
+   * @param description the group container description
+   * @param elements the group container elements
+   * @param types the supported container types
+   */
+  public CmsGroupContainerBean(
+      String title, String description, List<CmsContainerElementBean> elements, Set<String> types) {
 
-        m_title = title;
-        m_description = description;
-        m_elements = elements;
-        m_types = types;
-    }
+    m_title = title;
+    m_description = description;
+    m_elements = elements;
+    m_types = types;
+  }
 
-    /**
-     * Returns the description.<p>
-     *
-     * @return the description
-     */
-    public String getDescription() {
+  /**
+   * Returns the description.
+   *
+   * <p>
+   *
+   * @return the description
+   */
+  public String getDescription() {
 
-        return m_description;
-    }
+    return m_description;
+  }
 
-    /**
-     * Returns the elements.<p>
-     *
-     * @return the elements
-     */
-    public List<CmsContainerElementBean> getElements() {
+  /**
+   * Returns the elements.
+   *
+   * <p>
+   *
+   * @return the elements
+   */
+  public List<CmsContainerElementBean> getElements() {
 
-        return m_elements;
-    }
+    return m_elements;
+  }
 
-    /**
-     * Returns the title.<p>
-     *
-     * @return the title
-     */
-    public String getTitle() {
+  /**
+   * Returns the title.
+   *
+   * <p>
+   *
+   * @return the title
+   */
+  public String getTitle() {
 
-        return m_title;
-    }
+    return m_title;
+  }
 
-    /**
-     * Returns the types.<p>
-     *
-     * @return the types
-     */
-    public Set<String> getTypes() {
+  /**
+   * Returns the types.
+   *
+   * <p>
+   *
+   * @return the types
+   */
+  public Set<String> getTypes() {
 
-        return m_types;
-    }
+    return m_types;
+  }
 }

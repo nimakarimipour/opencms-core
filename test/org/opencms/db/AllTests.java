@@ -27,45 +27,49 @@
 
 package org.opencms.db;
 
-import org.opencms.test.OpenCmsTestProperties;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.opencms.test.OpenCmsTestProperties;
 
 /**
- * Main test suite for the package <code>{@link org.opencms.db}</code>.<p>
+ * Main test suite for the package <code>{@link org.opencms.db}</code>.
+ *
+ * <p>
+ *
  * <p>
  *
  * @since 6.1.3
  */
 public final class AllTests {
 
-    /**
-     * Hide constructor to prevent generation of class instances.
-     * <p>
-     */
-    private AllTests() {
+  /**
+   * Hide constructor to prevent generation of class instances.
+   *
+   * <p>
+   */
+  private AllTests() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * Returns the JUnit test suite for this package.
-     * <p>
-     *
-     * @return the JUnit test suite for this package
-     */
-    public static Test suite() {
+  /**
+   * Returns the JUnit test suite for this package.
+   *
+   * <p>
+   *
+   * @return the JUnit test suite for this package
+   */
+  public static Test suite() {
 
-        TestSuite suite = new TestSuite("Tests for package " + AllTests.class.getPackage().getName());
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
-        // $JUnit-BEGIN$
-        suite.addTest(TestQueryProperties.suite());
-        suite.addTest(TestPublishHistory.suite());
-        suite.addTest(TestSubscriptionManager.suite());
-        suite.addTest(TestAliases.suite());
-        suite.addTest(TestUrlNameMapping.suite());
-        // $JUnit-END$
-        return suite;
-    }
+    TestSuite suite = new TestSuite("Tests for package " + AllTests.class.getPackage().getName());
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    // $JUnit-BEGIN$
+    suite.addTest(TestQueryProperties.suite());
+    suite.addTest(TestPublishHistory.suite());
+    suite.addTest(TestSubscriptionManager.suite());
+    suite.addTest(TestAliases.suite());
+    suite.addTest(TestUrlNameMapping.suite());
+    // $JUnit-END$
+    return suite;
+  }
 }

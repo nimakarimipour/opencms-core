@@ -27,40 +27,37 @@
 
 package org.opencms.gwt.client.util;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import java.util.function.Consumer;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 /**
- * GWT wrapper for  programmatic media query checking.
+ * GWT wrapper for programmatic media query checking.
  *
- *<p>An instance of this class can be created from the media query rule text usign the parse() method.
- * Checking if the media query applies can be either done using the matches() method, or by adding a listener
- * with the addListener method if you need to keep track of changes.
+ * <p>An instance of this class can be created from the media query rule text usign the parse()
+ * method. Checking if the media query applies can be either done using the matches() method, or by
+ * adding a listener with the addListener method if you need to keep track of changes.
  */
 public final class CmsMediaQuery extends JavaScriptObject {
 
-    /**
-     * Hidden constructor.
-     */
-    protected CmsMediaQuery() {}
+  /** Hidden constructor. */
+  protected CmsMediaQuery() {}
 
-    /**
-     * Creates a new instance using the given media query rule.
-     *
-     * @param text the rule text
-     * @return the new media query
-     */
-    public static native CmsMediaQuery parse(String text) /*-{
+  /**
+   * Creates a new instance using the given media query rule.
+   *
+   * @param text the rule text
+   * @return the new media query
+   */
+  public static native CmsMediaQuery parse(String text) /*-{
         return $wnd.matchMedia(text);
     }-*/;
 
-    /**
-     * Adds a listener to detect when the matching state of the media query changes.
-     *
-     * @param callback the callback to call with the matching state as a parameter
-     */
-    public final native void addListener(Consumer<Boolean> callback) /*-{
+  /**
+   * Adds a listener to detect when the matching state of the media query changes.
+   *
+   * @param callback the callback to call with the matching state as a parameter
+   */
+  public final native void addListener(Consumer<Boolean> callback) /*-{
         var jsCallback = function(state) {
             var match;
             if (state.matches) {
@@ -79,13 +76,12 @@ public final class CmsMediaQuery extends JavaScriptObject {
         }
     }-*/;
 
-    /**
-     * Checks if the media query matches.
-     *
-     * @return true if the media query matches
-     */
-    public final native boolean matches() /*-{
+  /**
+   * Checks if the media query matches.
+   *
+   * @return true if the media query matches
+   */
+  public final native boolean matches() /*-{
         return this.matches;
     }-*/;
-
 }

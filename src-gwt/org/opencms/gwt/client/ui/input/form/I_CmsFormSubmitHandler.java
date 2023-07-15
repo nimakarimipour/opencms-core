@@ -31,21 +31,22 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This is an interface for classes which process submitted form data.<p>
+ * This is an interface for classes which process submitted form data.
+ *
+ * <p>
  */
 public interface I_CmsFormSubmitHandler {
 
-    /**
-     * The method which should be called when a {@link CmsForm} is submitted.<p>
-     *
-     * The map passed as a parameter will contain key-value pairs where the key is the
-     * name of the field and the value is the value obtained from the field. It is explicitly
-     * allowed that the value is null; this means that the property is set to 'default'.
-     *
-     * @param form the form
-     * @param fieldValues a map of field values
-     * @param editedFields the fields which have been edited
-     */
-    void onSubmitForm(CmsForm form, Map<String, String> fieldValues, Set<String> editedFields);
-
+  /**
+   * The method which should be called when a {@link CmsForm} is submitted.
+   *
+   * <p>The map passed as a parameter will contain key-value pairs where the key is the name of the
+   * field and the value is the value obtained from the field. It is explicitly allowed that the
+   * value is null; this means that the property is set to 'default'.
+   *
+   * @param form the form
+   * @param fieldValues a map of field values
+   * @param editedFields the fields which have been edited
+   */
+  void onSubmitForm(CmsForm form, Map<String, String> fieldValues, Set<String> editedFields);
 }

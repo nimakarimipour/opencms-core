@@ -29,71 +29,59 @@ package org.opencms.jsp.search.state;
 
 import org.opencms.jsp.search.config.I_CmsSearchConfigurationGeoFilter;
 
-/**
- * Class keeping the state of the Geo filter.
- */
+/** Class keeping the state of the Geo filter. */
 public class CmsSearchStateGeoFilter implements I_CmsSearchStateGeoFilter {
 
-    /** The coordinates. */
-    private String m_coordinates;
+  /** The coordinates. */
+  private String m_coordinates;
 
-    /** The search radius. */
-    private String m_radius;
+  /** The search radius. */
+  private String m_radius;
 
-    /** The units. */
-    private String m_units;
+  /** The units. */
+  private String m_units;
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateGeoFilter#getCoordinates()
-     */
-    @Override
-    public String getCoordinates() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateGeoFilter#getCoordinates() */
+  @Override
+  public String getCoordinates() {
 
-        return m_coordinates;
-    }
+    return m_coordinates;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateGeoFilter#getRadius()
-     */
-    @Override
-    public String getRadius() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateGeoFilter#getRadius() */
+  @Override
+  public String getRadius() {
 
-        return m_radius;
-    }
+    return m_radius;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateGeoFilter#getUnits()
-     */
-    @Override
-    public String getUnits() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateGeoFilter#getUnits() */
+  @Override
+  public String getUnits() {
 
-        return m_units != null ? m_units : I_CmsSearchConfigurationGeoFilter.DEFAULT_UNITS;
-    }
+    return m_units != null ? m_units : I_CmsSearchConfigurationGeoFilter.DEFAULT_UNITS;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateGeoFilter#setCoordinates(java.lang.String)
-     */
-    @Override
-    public void setCoordinates(String coordinates) {
+  /**
+   * @see org.opencms.jsp.search.state.I_CmsSearchStateGeoFilter#setCoordinates(java.lang.String)
+   */
+  @Override
+  public void setCoordinates(String coordinates) {
 
-        m_coordinates = coordinates;
-    }
+    m_coordinates = coordinates;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateGeoFilter#setRadius(java.lang.String)
-     */
-    @Override
-    public void setRadius(String radius) {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateGeoFilter#setRadius(java.lang.String) */
+  @Override
+  public void setRadius(String radius) {
 
-        m_radius = radius;
-    }
+    m_radius = radius;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateGeoFilter#setUnits(java.lang.String)
-     */
-    @Override
-    public void setUnits(String units) {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateGeoFilter#setUnits(java.lang.String) */
+  @Override
+  public void setUnits(String units) {
 
-        m_units = units;
-    }
+    m_units = units;
+  }
 }

@@ -27,35 +27,36 @@
 
 package org.opencms.setup.db.update6to7.oracle;
 
+import java.io.IOException;
 import org.opencms.file.CmsResource;
 
-import java.io.IOException;
-
 /**
- * Oracle implementation to create the history tables and move the according contents to them.<p>
+ * Oracle implementation to create the history tables and move the according contents to them.
+ *
+ * <p>
  *
  * @since 7.0.0
  */
-public class CmsUpdateDBHistoryTables extends org.opencms.setup.db.update6to7.CmsUpdateDBHistoryTables {
+public class CmsUpdateDBHistoryTables
+    extends org.opencms.setup.db.update6to7.CmsUpdateDBHistoryTables {
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the sql queries properties file could not be read
-     */
-    public CmsUpdateDBHistoryTables()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the sql queries properties file could not be read
+   */
+  public CmsUpdateDBHistoryTables() throws IOException {
 
-        super();
-        // Nothing else to do
-    }
+    super();
+    // Nothing else to do
+  }
 
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation()
-     */
-    @Override
-    protected String getPropertyFileLocation() {
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation() */
+  @Override
+  protected String getPropertyFileLocation() {
 
-        return CmsResource.getParentFolder(super.getPropertyFileLocation());
-    }
+    return CmsResource.getParentFolder(super.getPropertyFileLocation());
+  }
 }

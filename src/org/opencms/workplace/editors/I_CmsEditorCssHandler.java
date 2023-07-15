@@ -30,31 +30,38 @@ package org.opencms.workplace.editors;
 import org.opencms.file.CmsObject;
 
 /**
- * Provides methods to determine the CSS style sheet URI for the editors based on the edited resource path.<p>
+ * Provides methods to determine the CSS style sheet URI for the editors based on the edited
+ * resource path.
  *
- * The method {@link #matches(CmsObject, String)} can be used to check
- * if the handler matches the currently edited resource.<p>
+ * <p>The method {@link #matches(CmsObject, String)} can be used to check if the handler matches the
+ * currently edited resource.
+ *
+ * <p>
  *
  * @since 6.9.2
  */
 public interface I_CmsEditorCssHandler {
 
-    /**
-     * Returns the absolute VFS path of the CSS style sheet to use.<p>
-     *
-     * @param cms the current OpenCms user context
-     * @param editedResourcePath the absolute VFS path of the currently edited resource
-     * @return the absolute VFS path of the CSS style sheet to use
-     */
-    String getUriStyleSheet(CmsObject cms, String editedResourcePath);
+  /**
+   * Returns the absolute VFS path of the CSS style sheet to use.
+   *
+   * <p>
+   *
+   * @param cms the current OpenCms user context
+   * @param editedResourcePath the absolute VFS path of the currently edited resource
+   * @return the absolute VFS path of the CSS style sheet to use
+   */
+  String getUriStyleSheet(CmsObject cms, String editedResourcePath);
 
-    /**
-     * Checks if the handler can be used to determine the CSS style sheet based on the edited resource.<p>
-     *
-     * @param cms the current OpenCms user context
-     * @param editedResourcePath the absolute VFS path of the currently edited resource
-     * @return  true if the handler matches, otherwise false
-     */
-    boolean matches(CmsObject cms, String editedResourcePath);
-
+  /**
+   * Checks if the handler can be used to determine the CSS style sheet based on the edited
+   * resource.
+   *
+   * <p>
+   *
+   * @param cms the current OpenCms user context
+   * @param editedResourcePath the absolute VFS path of the currently edited resource
+   * @return true if the handler matches, otherwise false
+   */
+  boolean matches(CmsObject cms, String editedResourcePath);
 }

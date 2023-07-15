@@ -85,25 +85,23 @@
 package org.opencms.jsp;
 
 /**
- * Interface for tag handlers implementing valid parent tags for
- * &lt;c:param&gt;.<p>
+ * Interface for tag handlers implementing valid parent tags for &lt;c:param&gt;.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsJspTagParamParent {
 
-    /**
-     * Add a parameter to this tag.  The intent is that the
-     * &lt;param&gt; subtag will call this to register parameters.
-     * Assumes that 'name' and 'value' are appropriately encoded and do
-     * not contain any meaningful metacharacters; in order words, escaping
-     * is the responsibility of the caller.
-     *
-     * @param name the name of the parameter
-     * @param value the value of the parameter
-     *
-     * @see CmsJspTagParam
-     */
-    void addParameter(String name, String value);
-
+  /**
+   * Add a parameter to this tag. The intent is that the &lt;param&gt; subtag will call this to
+   * register parameters. Assumes that 'name' and 'value' are appropriately encoded and do not
+   * contain any meaningful metacharacters; in order words, escaping is the responsibility of the
+   * caller.
+   *
+   * @param name the name of the parameter
+   * @param value the value of the parameter
+   * @see CmsJspTagParam
+   */
+  void addParameter(String name, String value);
 }

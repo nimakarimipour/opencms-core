@@ -29,11 +29,12 @@ package org.opencms.security;
 
 public interface I_CmsPasswordGenerator {
 
-    /**
-     * Returns random password.<p>
-     *
-     * @return
-     */
-    public String getRandomPassword();
-
+  /**
+   * Returns random password.
+   *
+   * <p>
+   *
+   * @return
+   */
+  public String getRandomPassword();
 }

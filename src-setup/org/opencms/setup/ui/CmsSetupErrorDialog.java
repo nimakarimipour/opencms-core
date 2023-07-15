@@ -27,16 +27,6 @@
 
 package org.opencms.setup.ui;
 
-import org.opencms.ui.A_CmsUI;
-import org.opencms.ui.CmsVaadinUtils;
-import org.opencms.ui.FontOpenCms;
-import org.opencms.ui.components.CmsBasicDialog;
-import org.opencms.ui.components.CmsCopyToClipboardButton;
-import org.opencms.ui.components.OpenCmsTheme;
-import org.opencms.util.CmsUUID;
-
-import org.apache.commons.lang3.exception.ExceptionUtils;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -46,190 +36,217 @@ import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.opencms.ui.A_CmsUI;
+import org.opencms.ui.CmsVaadinUtils;
+import org.opencms.ui.FontOpenCms;
+import org.opencms.ui.components.CmsBasicDialog;
+import org.opencms.ui.components.CmsCopyToClipboardButton;
+import org.opencms.ui.components.OpenCmsTheme;
+import org.opencms.util.CmsUUID;
 
 /**
- * Dialog used to display error stack traces in the workplace.<p>
+ * Dialog used to display error stack traces in the workplace.
+ *
+ * <p>
  */
 public class CmsSetupErrorDialog extends CmsBasicDialog {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The select text button. */
-    private CmsCopyToClipboardButton m_copyText;
+  /** The select text button. */
+  private CmsCopyToClipboardButton m_copyText;
 
-    /** The details component. */
-    private CssLayout m_details;
+  /** The details component. */
+  private CssLayout m_details;
 
-    /** The toggle details button. */
-    private Button m_detailsButton;
+  /** The toggle details button. */
+  private Button m_detailsButton;
 
-    /** Label to display. */
-    private Label m_errorLabel;
+  /** Label to display. */
+  private Label m_errorLabel;
 
-    /** Error message label. */
-    private Label m_errorMessage;
+  /** Error message label. */
+  private Label m_errorMessage;
 
-    /** Hidden stack trace element. */
-    private Label m_hiddenStack;
+  /** Hidden stack trace element. */
+  private Label m_hiddenStack;
 
-    /** Warning icon. */
-    private Label m_icon;
+  /** Warning icon. */
+  private Label m_icon;
 
-    /** The OK button. */
-    private Button m_okButton;
+  /** The OK button. */
+  private Button m_okButton;
 
-    /** The dialog context. */
-    private Runnable m_onClose;
+  /** The dialog context. */
+  private Runnable m_onClose;
 
-    /** The dialog window. */
-    private Window m_window;
+  /** The dialog window. */
+  private Window m_window;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param message the error message
-     * @param t the error to be displayed
-     * @param onClose executed on close
-     * @param window the dialog window if available
-     */
-    public CmsSetupErrorDialog(String message, String details, Runnable onClose, final Window window) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param message the error message
+   * @param t the error to be displayed
+   * @param onClose executed on close
+   * @param window the dialog window if available
+   */
+  public CmsSetupErrorDialog(
+      String message, String details, Runnable onClose, final Window window) {
 
-        m_onClose = onClose;
-        m_window = window;
-        CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
-        m_icon.setContentMode(ContentMode.HTML);
-        m_icon.setValue(FontOpenCms.ERROR.getHtml());
-        m_errorLabel.setContentMode(ContentMode.PREFORMATTED);
-        final String labelId = "label" + new CmsUUID().toString();
+    m_onClose = onClose;
+    m_window = window;
+    CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
+    m_icon.setContentMode(ContentMode.HTML);
+    m_icon.setValue(FontOpenCms.ERROR.getHtml());
+    m_errorLabel.setContentMode(ContentMode.PREFORMATTED);
+    final String labelId = "label" + new CmsUUID().toString();
 
-        m_hiddenStack.setId(labelId);
-        m_hiddenStack.setValue(details);
-        m_errorLabel.setValue(details);
-        m_errorLabel.addStyleName(OpenCmsTheme.FULL_WIDTH_PADDING);
-        m_errorMessage.setContentMode(ContentMode.HTML);
-        m_errorMessage.setValue(message);
+    m_hiddenStack.setId(labelId);
+    m_hiddenStack.setValue(details);
+    m_errorLabel.setValue(details);
+    m_errorLabel.addStyleName(OpenCmsTheme.FULL_WIDTH_PADDING);
+    m_errorMessage.setContentMode(ContentMode.HTML);
+    m_errorMessage.setValue(message);
 
-        m_copyText.setSelector("#" + labelId);
-        m_details.setVisible(false);
+    m_copyText.setSelector("#" + labelId);
+    m_details.setVisible(false);
 
-        m_okButton.addClickListener(new ClickListener() {
+    m_okButton.addClickListener(
+        new ClickListener() {
+
+          private static final long serialVersionUID = 1L;
+
+          public void buttonClick(ClickEvent event) {
+
+            onClose();
+          }
+        });
+    m_detailsButton.addClickListener(
+        new ClickListener() {
+
+          private static final long serialVersionUID = 1L;
+
+          public void buttonClick(ClickEvent event) {
+
+            toggleDetails();
+          }
+        });
+    if (m_window != null) {
+      m_window.addCloseListener(
+          new CloseListener() {
 
             private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+            public void windowClose(CloseEvent e) {
 
-                onClose();
+              onClose();
             }
-        });
-        m_detailsButton.addClickListener(new ClickListener() {
-
-            private static final long serialVersionUID = 1L;
-
-            public void buttonClick(ClickEvent event) {
-
-                toggleDetails();
-            }
-        });
-        if (m_window != null) {
-            m_window.addCloseListener(new CloseListener() {
-
-                private static final long serialVersionUID = 1L;
-
-                public void windowClose(CloseEvent e) {
-
-                    onClose();
-                }
-            });
-        }
-
+          });
     }
+  }
 
-    /**
-     * Shows error dialog, manually supplying details instead of getting them from an exception stack trace.
-     *
-     * @param message the error message
-     * @param details the details
-     */
-    public static void showErrorDialog(String message, String details) {
+  /**
+   * Shows error dialog, manually supplying details instead of getting them from an exception stack
+   * trace.
+   *
+   * @param message the error message
+   * @param details the details
+   */
+  public static void showErrorDialog(String message, String details) {
 
-        Window window = prepareWindow(DialogWidth.wide);
-        window.setCaption("Error");
-        window.setContent(new CmsSetupErrorDialog(message, details, null, window));
-        A_CmsUI.get().addWindow(window);
+    Window window = prepareWindow(DialogWidth.wide);
+    window.setCaption("Error");
+    window.setContent(new CmsSetupErrorDialog(message, details, null, window));
+    A_CmsUI.get().addWindow(window);
+  }
 
+  /**
+   * Shows the error dialog.
+   *
+   * <p>
+   *
+   * @param message the error message
+   * @param t the error to be displayed
+   */
+  public static void showErrorDialog(String message, Throwable t) {
+
+    showErrorDialog(message, t, null);
+  }
+
+  /**
+   * Shows the error dialog.
+   *
+   * <p>
+   *
+   * @param message the error message
+   * @param t the error to be displayed
+   * @param onClose executed on close
+   */
+  public static void showErrorDialog(String message, Throwable t, Runnable onClose) {
+
+    Window window = prepareWindow(DialogWidth.wide);
+    window.setCaption("Error");
+    window.setContent(
+        new CmsSetupErrorDialog(
+            message, message + "\n\n" + ExceptionUtils.getStackTrace(t), onClose, window));
+    A_CmsUI.get().addWindow(window);
+  }
+
+  /**
+   * Shows the error dialog.
+   *
+   * <p>
+   *
+   * @param t the error to be displayed
+   */
+  public static void showErrorDialog(Throwable t) {
+
+    showErrorDialog(t.getLocalizedMessage(), t, null);
+  }
+
+  /**
+   * Shows the error dialog.
+   *
+   * <p>
+   *
+   * @param t the error to be displayed
+   * @param onClose executed on close
+   */
+  public static void showErrorDialog(Throwable t, Runnable onClose) {
+
+    showErrorDialog(t.getLocalizedMessage(), t, onClose);
+  }
+
+  /**
+   * Called on dialog close.
+   *
+   * <p>
+   */
+  void onClose() {
+
+    if (m_onClose != null) {
+      m_onClose.run();
     }
-
-    /**
-     * Shows the error dialog.<p>
-     *
-     * @param message the error message
-     * @param t the error to be displayed
-     */
-    public static void showErrorDialog(String message, Throwable t) {
-
-        showErrorDialog(message, t, null);
+    if (m_window != null) {
+      m_window.close();
     }
+  }
 
-    /**
-     * Shows the error dialog.<p>
-     *
-     * @param message the error message
-     * @param t the error to be displayed
-     * @param onClose executed on close
-     */
-    public static void showErrorDialog(String message, Throwable t, Runnable onClose) {
+  /**
+   * Toggles the details visibility.
+   *
+   * <p>
+   */
+  void toggleDetails() {
 
-        Window window = prepareWindow(DialogWidth.wide);
-        window.setCaption("Error");
-        window.setContent(
-            new CmsSetupErrorDialog(message, message + "\n\n" + ExceptionUtils.getStackTrace(t), onClose, window));
-        A_CmsUI.get().addWindow(window);
+    m_details.setVisible(!m_details.isVisible());
+    if (m_window != null) {
+      m_window.center();
     }
-
-    /**
-     * Shows the error dialog.<p>
-     *
-     * @param t the error to be displayed
-     */
-    public static void showErrorDialog(Throwable t) {
-
-        showErrorDialog(t.getLocalizedMessage(), t, null);
-    }
-
-    /**
-     * Shows the error dialog.<p>
-     *
-     * @param t the error to be displayed
-     * @param onClose executed on close
-     */
-    public static void showErrorDialog(Throwable t, Runnable onClose) {
-
-        showErrorDialog(t.getLocalizedMessage(), t, onClose);
-    }
-
-    /**
-     * Called on dialog close.<p>
-     */
-    void onClose() {
-
-        if (m_onClose != null) {
-            m_onClose.run();
-        }
-        if (m_window != null) {
-            m_window.close();
-        }
-    }
-
-    /**
-     * Toggles the details visibility.<p>
-     */
-    void toggleDetails() {
-
-        m_details.setVisible(!m_details.isVisible());
-        if (m_window != null) {
-            m_window.center();
-        }
-    }
-
+  }
 }

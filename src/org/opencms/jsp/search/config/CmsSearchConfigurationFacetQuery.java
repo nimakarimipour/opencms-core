@@ -33,122 +33,127 @@ import java.util.List;
 
 /** Configuration for the query facet. */
 public class CmsSearchConfigurationFacetQuery extends CmsSearchConfigurationFacet
-implements I_CmsSearchConfigurationFacetQuery {
+    implements I_CmsSearchConfigurationFacetQuery {
 
-    /** Representation of one query facet item. */
-    public static class CmsFacetQueryItem implements I_CmsFacetQueryItem {
+  /** Representation of one query facet item. */
+  public static class CmsFacetQueryItem implements I_CmsFacetQueryItem {
 
-        /** The query string for the item. */
-        String m_query;
-        /** The label for the query item. */
-        String m_label;
+    /** The query string for the item. */
+    String m_query;
+    /** The label for the query item. */
+    String m_label;
 
-        /** Constructor for a facet item.
-         * @param query the query string for the item.
-         * @param label the label for the item, defaults to the query string.
-         */
-        public CmsFacetQueryItem(String query, String label) {
+    /**
+     * Constructor for a facet item.
+     *
+     * @param query the query string for the item.
+     * @param label the label for the item, defaults to the query string.
+     */
+    public CmsFacetQueryItem(String query, String label) {
 
-            m_query = query;
-            m_label = label == null ? query : label;
-        }
-
-        /**
-         * @see java.lang.Object#equals(java.lang.Object)
-         */
-        @Override
-        public boolean equals(final Object queryItem) {
-
-            if (this.hashCode() != queryItem.hashCode()) {
-                return false;
-            }
-
-            if (queryItem instanceof CmsFacetQueryItem) {
-                CmsFacetQueryItem item = (CmsFacetQueryItem)queryItem;
-                boolean equalQueries = ((null == m_query) && (null == item.getQuery()))
-                    || ((null != item.getQuery()) && m_query.equals(item.getQuery()));
-                boolean equalLabels = false;
-                if (equalQueries) {
-                    equalLabels = ((null == m_label) && (null == item.getLabel()))
-                        || ((null != item.getLabel()) && m_label.equals(item.getLabel()));
-                }
-                return equalQueries && equalLabels;
-            }
-            return false;
-        }
-
-        /**
-         * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacetQuery.I_CmsFacetQueryItem#getLabel()
-         */
-        @Override
-        public String getLabel() {
-
-            return m_label;
-        }
-
-        /**
-         * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacetQuery.I_CmsFacetQueryItem#getQuery()
-         */
-        @Override
-        public String getQuery() {
-
-            return m_query;
-        }
-
-        /**
-         * @see java.lang.Object#hashCode()
-         */
-        @Override
-        public int hashCode() {
-
-            int hashCode = 0;
-            if (null != m_label) {
-                hashCode = m_label.hashCode();
-            }
-            if (null != m_query) {
-                hashCode += m_query.hashCode() / 2;
-            }
-            return hashCode;
-        }
-
+      m_query = query;
+      m_label = label == null ? query : label;
     }
 
-    /** List of queries for the facet. */
-    List<I_CmsSearchConfigurationFacetQuery.I_CmsFacetQueryItem> m_queries;
+    /** @see java.lang.Object#equals(java.lang.Object) */
+    @Override
+    public boolean equals(final Object queryItem) {
 
-    /** Constructor for the range facet configuration.
-     * @param queries the queries that can be selected for the facet
-     * @param label the label used to display the facet
-     * @param isAndFacet true if checked facet entries should all be matched, otherwise only one checked entry must match
-     * @param preselection list of entries that should be checked in advance
-     * @param ignoreFiltersFromAllFacets A flag, indicating if filters from all facets should be ignored or not.
-     * @param excludeTags The tags (keys) of (filter) queries to be not taken into account for the facet. If "ignoreFiltersFromFacets" is true, the according tags for facets and queries will be added.
-     */
-    public CmsSearchConfigurationFacetQuery(
-        final List<I_CmsFacetQueryItem> queries,
-        final String label,
-        final Boolean isAndFacet,
-        final List<String> preselection,
-        final Boolean ignoreFiltersFromAllFacets,
-        final Collection<String> excludeTags) {
+      if (this.hashCode() != queryItem.hashCode()) {
+        return false;
+      }
 
-        super(
-            null,
-            label,
-            I_CmsSearchConfigurationFacetQuery.NAME,
-            isAndFacet,
-            preselection,
-            ignoreFiltersFromAllFacets,
-            excludeTags);
-        m_queries = queries != null ? queries : new ArrayList<I_CmsFacetQueryItem>();
+      if (queryItem instanceof CmsFacetQueryItem) {
+        CmsFacetQueryItem item = (CmsFacetQueryItem) queryItem;
+        boolean equalQueries =
+            ((null == m_query) && (null == item.getQuery()))
+                || ((null != item.getQuery()) && m_query.equals(item.getQuery()));
+        boolean equalLabels = false;
+        if (equalQueries) {
+          equalLabels =
+              ((null == m_label) && (null == item.getLabel()))
+                  || ((null != item.getLabel()) && m_label.equals(item.getLabel()));
+        }
+        return equalQueries && equalLabels;
+      }
+      return false;
     }
 
     /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacetQuery#getQueryList()
+     * @see
+     *     org.opencms.jsp.search.config.I_CmsSearchConfigurationFacetQuery.I_CmsFacetQueryItem#getLabel()
      */
     @Override
-    public List<I_CmsFacetQueryItem> getQueryList() {
+    public String getLabel() {
 
-        return m_queries;
+      return m_label;
     }
+
+    /**
+     * @see
+     *     org.opencms.jsp.search.config.I_CmsSearchConfigurationFacetQuery.I_CmsFacetQueryItem#getQuery()
+     */
+    @Override
+    public String getQuery() {
+
+      return m_query;
+    }
+
+    /** @see java.lang.Object#hashCode() */
+    @Override
+    public int hashCode() {
+
+      int hashCode = 0;
+      if (null != m_label) {
+        hashCode = m_label.hashCode();
+      }
+      if (null != m_query) {
+        hashCode += m_query.hashCode() / 2;
+      }
+      return hashCode;
+    }
+  }
+
+  /** List of queries for the facet. */
+  List<I_CmsSearchConfigurationFacetQuery.I_CmsFacetQueryItem> m_queries;
+
+  /**
+   * Constructor for the range facet configuration.
+   *
+   * @param queries the queries that can be selected for the facet
+   * @param label the label used to display the facet
+   * @param isAndFacet true if checked facet entries should all be matched, otherwise only one
+   *     checked entry must match
+   * @param preselection list of entries that should be checked in advance
+   * @param ignoreFiltersFromAllFacets A flag, indicating if filters from all facets should be
+   *     ignored or not.
+   * @param excludeTags The tags (keys) of (filter) queries to be not taken into account for the
+   *     facet. If "ignoreFiltersFromFacets" is true, the according tags for facets and queries will
+   *     be added.
+   */
+  public CmsSearchConfigurationFacetQuery(
+      final List<I_CmsFacetQueryItem> queries,
+      final String label,
+      final Boolean isAndFacet,
+      final List<String> preselection,
+      final Boolean ignoreFiltersFromAllFacets,
+      final Collection<String> excludeTags) {
+
+    super(
+        null,
+        label,
+        I_CmsSearchConfigurationFacetQuery.NAME,
+        isAndFacet,
+        preselection,
+        ignoreFiltersFromAllFacets,
+        excludeTags);
+    m_queries = queries != null ? queries : new ArrayList<I_CmsFacetQueryItem>();
+  }
+
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationFacetQuery#getQueryList() */
+  @Override
+  public List<I_CmsFacetQueryItem> getQueryList() {
+
+    return m_queries;
+  }
 }

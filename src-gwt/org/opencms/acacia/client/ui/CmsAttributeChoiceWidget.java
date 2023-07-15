@@ -27,11 +27,6 @@
 
 package org.opencms.acacia.client.ui;
 
-import org.opencms.acacia.client.CmsButtonBarHandler;
-import org.opencms.acacia.client.CmsChoiceMenuEntryBean;
-import org.opencms.acacia.client.I_CmsWidgetService;
-import org.opencms.acacia.client.css.I_CmsLayoutBundle;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
@@ -50,160 +45,185 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
+import org.opencms.acacia.client.CmsButtonBarHandler;
+import org.opencms.acacia.client.CmsChoiceMenuEntryBean;
+import org.opencms.acacia.client.I_CmsWidgetService;
+import org.opencms.acacia.client.css.I_CmsLayoutBundle;
 
 /**
- * The attribute choice widget.<p>
+ * The attribute choice widget.
+ *
+ * <p>
  */
-public class CmsAttributeChoiceWidget extends Composite implements HasMouseOverHandlers, HasMouseOutHandlers {
+public class CmsAttributeChoiceWidget extends Composite
+    implements HasMouseOverHandlers, HasMouseOutHandlers {
 
-    /**
-     * The UI binder interface.<p>
-     */
-    interface I_AttributeChoiceWidgetUiBinder extends UiBinder<HTMLPanel, CmsAttributeChoiceWidget> {
-        // nothing to do
-    }
+  /**
+   * The UI binder interface.
+   *
+   * <p>
+   */
+  interface I_AttributeChoiceWidgetUiBinder extends UiBinder<HTMLPanel, CmsAttributeChoiceWidget> {
+    // nothing to do
+  }
 
-    /** The UI binder instance. */
-    private static I_AttributeChoiceWidgetUiBinder uiBinder = GWT.create(I_AttributeChoiceWidgetUiBinder.class);
+  /** The UI binder instance. */
+  private static I_AttributeChoiceWidgetUiBinder uiBinder =
+      GWT.create(I_AttributeChoiceWidgetUiBinder.class);
 
-    /** Counts the number of choices added. */
-    private int m_choiceCount = 0;
+  /** Counts the number of choices added. */
+  private int m_choiceCount = 0;
 
-    /** The button icon element. */
-    @UiField
-    SpanElement m_buttonIcon;
+  /** The button icon element. */
+  @UiField SpanElement m_buttonIcon;
 
-    /** The choices panel. */
-    @UiField
-    FlowPanel m_choices;
+  /** The choices panel. */
+  @UiField FlowPanel m_choices;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsAttributeChoiceWidget() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsAttributeChoiceWidget() {
 
-        initWidget(uiBinder.createAndBindUi(this));
-        addMouseOutHandler(CmsButtonBarHandler.INSTANCE);
-        addMouseOverHandler(CmsButtonBarHandler.INSTANCE);
-        addStyleName(CmsButtonBarHandler.HOVERABLE_MARKER);
-    }
+    initWidget(uiBinder.createAndBindUi(this));
+    addMouseOutHandler(CmsButtonBarHandler.INSTANCE);
+    addMouseOverHandler(CmsButtonBarHandler.INSTANCE);
+    addStyleName(CmsButtonBarHandler.HOVERABLE_MARKER);
+  }
 
-    /**
-     * Adds a new choice entry.<p>
-     *
-     * @param widgetService the widget service to use for labels
-     * @param menuEntry the menu entry bean
-     * @param selectHandler the handler to use for selecting entries
-     */
-    public void addChoice(
-        I_CmsWidgetService widgetService,
-        CmsChoiceMenuEntryBean menuEntry,
-        AsyncCallback<CmsChoiceMenuEntryBean> selectHandler) {
+  /**
+   * Adds a new choice entry.
+   *
+   * <p>
+   *
+   * @param widgetService the widget service to use for labels
+   * @param menuEntry the menu entry bean
+   * @param selectHandler the handler to use for selecting entries
+   */
+  public void addChoice(
+      I_CmsWidgetService widgetService,
+      CmsChoiceMenuEntryBean menuEntry,
+      AsyncCallback<CmsChoiceMenuEntryBean> selectHandler) {
 
-        Widget choice = new CmsChoiceMenuEntryWidget(
+    Widget choice =
+        new CmsChoiceMenuEntryWidget(
             widgetService.getAttributeLabel(menuEntry.getPathComponent()),
             widgetService.getAttributeHelp(menuEntry.getPathComponent()),
             menuEntry,
             selectHandler,
             this,
             null);
-        addChoice(choice);
+    addChoice(choice);
+  }
+
+  /**
+   * Adds a choice to the widget.
+   *
+   * <p>
+   *
+   * @param choice the choice to add
+   */
+  public void addChoice(Widget choice) {
+
+    m_choices.add(choice);
+    m_choiceCount += 1;
+    if (m_choiceCount == 1) {
+      this.addStyleName(I_CmsLayoutBundle.INSTANCE.attributeChoice().singleChoice());
+    } else {
+      this.removeStyleName(I_CmsLayoutBundle.INSTANCE.attributeChoice().singleChoice());
     }
+  }
 
-    /**
-     * Adds a choice to the widget.<p>
-     *
-     * @param choice the choice to add
-     */
-    public void addChoice(Widget choice) {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasMouseOutHandlers#addMouseOutHandler(com.google.gwt.event.dom.client.MouseOutHandler)
+   */
+  public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
 
-        m_choices.add(choice);
-        m_choiceCount += 1;
-        if (m_choiceCount == 1) {
-            this.addStyleName(I_CmsLayoutBundle.INSTANCE.attributeChoice().singleChoice());
-        } else {
-            this.removeStyleName(I_CmsLayoutBundle.INSTANCE.attributeChoice().singleChoice());
-        }
+    return addDomHandler(handler, MouseOutEvent.getType());
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasMouseOverHandlers#addMouseOverHandler(com.google.gwt.event.dom.client.MouseOverHandler)
+   */
+  public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+
+    return addDomHandler(handler, MouseOverEvent.getType());
+  }
+
+  /**
+   * Gets the panel into which submenus of this menu should be inserted.
+   *
+   * <p>
+   *
+   * @return the panel for submenus
+   */
+  public Panel getSubmenuPanel() {
+
+    return (Panel) getParent();
+  }
+
+  /**
+   * Hides the choice menu.
+   *
+   * <p>
+   */
+  public void hide() {
+
+    removeStyleName(I_CmsLayoutBundle.INSTANCE.attributeChoice().hovering());
+  }
+
+  /**
+   * Shows the choice menu.
+   *
+   * <p>
+   */
+  public void show() {
+
+    addStyleName(I_CmsLayoutBundle.INSTANCE.attributeChoice().hovering());
+    if (displayAbove()) {
+      addStyleName(I_CmsLayoutBundle.INSTANCE.attributeChoice().displayAbove());
+    } else {
+      removeStyleName(I_CmsLayoutBundle.INSTANCE.attributeChoice().displayAbove());
     }
+  }
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasMouseOutHandlers#addMouseOutHandler(com.google.gwt.event.dom.client.MouseOutHandler)
-     */
-    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+  /**
+   * Evaluates if the choice select should be displayed above the button.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the choice select should be displayed above the button
+   */
+  private boolean displayAbove() {
 
-        return addDomHandler(handler, MouseOutEvent.getType());
-    }
+    int popupHeight = m_choices.getOffsetHeight();
+    // Calculate top position for the choice select
+    int top = m_buttonIcon.getAbsoluteTop();
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasMouseOverHandlers#addMouseOverHandler(com.google.gwt.event.dom.client.MouseOverHandler)
-     */
-    public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+    // Make sure scrolling is taken into account, since
+    // box.getAbsoluteTop() takes scrolling into account.
+    int windowTop = Window.getScrollTop();
+    int windowBottom = Window.getScrollTop() + Window.getClientHeight();
 
-        return addDomHandler(handler, MouseOverEvent.getType());
-    }
+    // Distance from the top edge of the window to the top edge of the
+    // text box
+    int distanceFromWindowTop = top - windowTop;
 
-    /**
-     * Gets the panel into which submenus of this menu should be inserted.<p>
-     *
-     * @return the panel for submenus
-     */
-    public Panel getSubmenuPanel() {
+    // Distance from the bottom edge of the window to the bottom edge of
+    // the text box
+    int distanceToWindowBottom = windowBottom - (top + m_buttonIcon.getOffsetHeight());
 
-        return (Panel)getParent();
-    }
-
-    /**
-     * Hides the choice menu.<p>
-     */
-    public void hide() {
-
-        removeStyleName(I_CmsLayoutBundle.INSTANCE.attributeChoice().hovering());
-    }
-
-    /**
-     * Shows the choice menu.<p>
-     */
-    public void show() {
-
-        addStyleName(I_CmsLayoutBundle.INSTANCE.attributeChoice().hovering());
-        if (displayAbove()) {
-            addStyleName(I_CmsLayoutBundle.INSTANCE.attributeChoice().displayAbove());
-        } else {
-            removeStyleName(I_CmsLayoutBundle.INSTANCE.attributeChoice().displayAbove());
-        }
-    }
-
-    /**
-     * Evaluates if the choice select should be displayed above the button.<p>
-     *
-     * @return <code>true</code> if the choice select should be displayed above the button
-     */
-    private boolean displayAbove() {
-
-        int popupHeight = m_choices.getOffsetHeight();
-        // Calculate top position for the choice select
-        int top = m_buttonIcon.getAbsoluteTop();
-
-        // Make sure scrolling is taken into account, since
-        // box.getAbsoluteTop() takes scrolling into account.
-        int windowTop = Window.getScrollTop();
-        int windowBottom = Window.getScrollTop() + Window.getClientHeight();
-
-        // Distance from the top edge of the window to the top edge of the
-        // text box
-        int distanceFromWindowTop = top - windowTop;
-
-        // Distance from the bottom edge of the window to the bottom edge of
-        // the text box
-        int distanceToWindowBottom = windowBottom - (top + m_buttonIcon.getOffsetHeight());
-
-        // If there is not enough space for the popup's height below the button
-        // and there IS enough space for the popup's height above the button,
-        // then then position the popup above the button. However, if there
-        // is not enough space on either side, then stick with displaying the
-        // popup below the button.
-        boolean displayAbove = (distanceFromWindowTop > distanceToWindowBottom)
-            && (distanceToWindowBottom < popupHeight);
-        return displayAbove;
-    }
+    // If there is not enough space for the popup's height below the button
+    // and there IS enough space for the popup's height above the button,
+    // then then position the popup above the button. However, if there
+    // is not enough space on either side, then stick with displaying the
+    // popup below the button.
+    boolean displayAbove =
+        (distanceFromWindowTop > distanceToWindowBottom) && (distanceToWindowBottom < popupHeight);
+    return displayAbove;
+  }
 }

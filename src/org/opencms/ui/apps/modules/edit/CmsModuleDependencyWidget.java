@@ -27,6 +27,13 @@
 
 package org.opencms.ui.apps.modules.edit;
 
+import com.google.common.collect.Lists;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.ui.TextField;
+import java.util.Collections;
+import java.util.List;
 import org.opencms.main.OpenCms;
 import org.opencms.module.CmsModule;
 import org.opencms.module.CmsModuleDependency;
@@ -34,92 +41,94 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.components.CmsAutoItemCreatingComboBox;
 import org.opencms.ui.components.CmsAutoItemCreatingComboBox.I_NewValueHandler;
 
-import java.util.Collections;
-import java.util.List;
-
-import com.google.common.collect.Lists;
-import com.vaadin.v7.data.Container;
-import com.vaadin.v7.data.util.IndexedContainer;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.v7.ui.TextField;
-
 /**
- * Widget used to edit a module dependency.<p>
+ * Widget used to edit a module dependency.
+ *
+ * <p>
  */
 public class CmsModuleDependencyWidget extends FormLayout {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The module selector. */
-    private CmsAutoItemCreatingComboBox m_moduleSelect;
+  /** The module selector. */
+  private CmsAutoItemCreatingComboBox m_moduleSelect;
 
-    /** Text field for the module version. */
-    private TextField m_version;
+  /** Text field for the module version. */
+  private TextField m_version;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsModuleDependencyWidget() {
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        IndexedContainer container = new IndexedContainer();
-        List<String> moduleNames = Lists.newArrayList();
-        for (CmsModule module : OpenCms.getModuleManager().getAllInstalledModules()) {
-            String name = module.getName();
-            moduleNames.add(name);
-        }
-        Collections.sort(moduleNames);
-        for (String name : moduleNames) {
-            container.addItem(name);
-        }
-        m_moduleSelect.setContainerDataSource(container);
-        m_moduleSelect.setNewValueHandler(new I_NewValueHandler() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsModuleDependencyWidget() {
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    IndexedContainer container = new IndexedContainer();
+    List<String> moduleNames = Lists.newArrayList();
+    for (CmsModule module : OpenCms.getModuleManager().getAllInstalledModules()) {
+      String name = module.getName();
+      moduleNames.add(name);
+    }
+    Collections.sort(moduleNames);
+    for (String name : moduleNames) {
+      container.addItem(name);
+    }
+    m_moduleSelect.setContainerDataSource(container);
+    m_moduleSelect.setNewValueHandler(
+        new I_NewValueHandler() {
 
-            public Object ensureItem(Container cnt, Object id) {
+          public Object ensureItem(Container cnt, Object id) {
 
-                if (!cnt.containsId(id)) {
-                    cnt.addItem(id);
-                }
-                return id;
+            if (!cnt.containsId(id)) {
+              cnt.addItem(id);
             }
+            return id;
+          }
         });
-        setWidth("100%");
+    setWidth("100%");
+  }
+
+  /**
+   * Creates a new widget instance for the given module dependency.
+   *
+   * <p>
+   *
+   * @param dep the module dependency
+   * @return the new widget
+   */
+  public static CmsModuleDependencyWidget create(CmsModuleDependency dep) {
+
+    CmsModuleDependencyWidget result = new CmsModuleDependencyWidget();
+    if (dep != null) {
+      result.m_moduleSelect.setValue(dep.getName());
+      result.m_version.setValue(dep.getVersion().toString());
     }
+    return result;
+  }
 
-    /**
-     * Creates a new widget instance for the given module dependency.<p>
-     *
-     * @param dep the module dependency
-     * @return the new widget
-     */
-    public static CmsModuleDependencyWidget create(CmsModuleDependency dep) {
+  /**
+   * Gets the module name.
+   *
+   * <p>
+   *
+   * @return the module name
+   */
+  public String getModuleName() {
 
-        CmsModuleDependencyWidget result = new CmsModuleDependencyWidget();
-        if (dep != null) {
-            result.m_moduleSelect.setValue(dep.getName());
-            result.m_version.setValue(dep.getVersion().toString());
-        }
-        return result;
-    }
+    return (String) m_moduleSelect.getValue();
+  }
 
-    /**
-     * Gets the module name.<p>
-     *
-     * @return the module name
-     */
-    public String getModuleName() {
+  /**
+   * Gets the module version.
+   *
+   * <p>
+   *
+   * @return the module version
+   */
+  public String getModuleVersion() {
 
-        return (String)m_moduleSelect.getValue();
-    }
-
-    /**
-     * Gets the module version.<p>
-     *
-     * @return the module version
-     */
-    public String getModuleVersion() {
-
-        return m_version.getValue();
-    }
-
+    return m_version.getValue();
+  }
 }

@@ -27,61 +27,64 @@
 
 package org.opencms.workplace.tools.content;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 import org.opencms.report.A_CmsReportThread;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Thread for element rename.<p>
+ * Thread for element rename.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsElementRenameThread extends A_CmsReportThread {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsElementRenameThread.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsElementRenameThread.class);
 
-    private CmsElementRename m_elementRename;
+  private CmsElementRename m_elementRename;
 
-    /**
-     * Constructor, creates a new CmsElementRenameThread.<p>
-     *
-     * @param cms the current CmsObject
-     * @param elementRename the initialized CmsElementRename Object
-     */
-    public CmsElementRenameThread(CmsObject cms, CmsElementRename elementRename) {
+  /**
+   * Constructor, creates a new CmsElementRenameThread.
+   *
+   * <p>
+   *
+   * @param cms the current CmsObject
+   * @param elementRename the initialized CmsElementRename Object
+   */
+  public CmsElementRenameThread(CmsObject cms, CmsElementRename elementRename) {
 
-        super(cms, "Renaming Elements");
-        cms.getRequestContext().setUpdateSessionEnabled(false);
-        initHtmlReport(cms.getRequestContext().getLocale());
-        m_elementRename = elementRename;
+    super(cms, "Renaming Elements");
+    cms.getRequestContext().setUpdateSessionEnabled(false);
+    initHtmlReport(cms.getRequestContext().getLocale());
+    m_elementRename = elementRename;
+  }
+
+  /** @see org.opencms.report.A_CmsReportThread#getReportUpdate() */
+  @Override
+  public String getReportUpdate() {
+
+    return getReport().getReportUpdate();
+  }
+
+  /**
+   * The run method which starts the rename process.
+   *
+   * <p>
+   */
+  @Override
+  public synchronized void run() {
+
+    try {
+      // do the rename operation
+      m_elementRename.actionRename(getReport());
+    } catch (Exception e) {
+      getReport().println(e);
+      if (LOG.isErrorEnabled()) {
+        LOG.error(e.getMessage());
+      }
     }
-
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
-
-        return getReport().getReportUpdate();
-    }
-
-    /**
-     * The run method which starts the rename process.<p>
-     */
-    @Override
-    public synchronized void run() {
-
-        try {
-            // do the rename operation
-            m_elementRename.actionRename(getReport());
-        } catch (Exception e) {
-            getReport().println(e);
-            if (LOG.isErrorEnabled()) {
-                LOG.error(e.getMessage());
-            }
-        }
-    }
+  }
 }

@@ -27,6 +27,8 @@
 
 package org.opencms.gwt.client.ui.contextmenu;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.List;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.client.property.CmsSimplePropertyEditorHandler;
 import org.opencms.gwt.client.rpc.CmsRpcAction;
@@ -38,119 +40,124 @@ import org.opencms.gwt.shared.alias.CmsAliasBean;
 import org.opencms.gwt.shared.property.CmsPropertiesBean;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * The context menu command to open the SEO dialog from the container page editor.<p>
+ * The context menu command to open the SEO dialog from the container page editor.
+ *
+ * <p>
  */
 public class CmsOpenSeoDialog implements I_CmsHasContextMenuCommand, I_CmsContextMenuCommand {
 
-    /**
-     * Returns the context menu command according to
-     * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new CmsOpenSeoDialog();
-    }
+    return new CmsOpenSeoDialog();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public void execute(
-        final CmsUUID structureId,
-        final I_CmsContextMenuHandler contextMenuHandler,
-        final CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#execute(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public void execute(
+      final CmsUUID structureId,
+      final I_CmsContextMenuHandler contextMenuHandler,
+      final CmsContextMenuEntryBean bean) {
 
-        contextMenuHandler.ensureLockOnResource(structureId, new I_CmsSimpleCallback<Boolean>() {
+    contextMenuHandler.ensureLockOnResource(
+        structureId,
+        new I_CmsSimpleCallback<Boolean>() {
 
-            public void execute(Boolean arg) {
+          public void execute(Boolean arg) {
 
-                if (arg.booleanValue()) {
-                    CmsRpcAction<CmsPropertiesBean> action = new CmsRpcAction<CmsPropertiesBean>() {
+            if (arg.booleanValue()) {
+              CmsRpcAction<CmsPropertiesBean> action =
+                  new CmsRpcAction<CmsPropertiesBean>() {
 
-                        @Override
-                        public void execute() {
+                    @Override
+                    public void execute() {
 
-                            start(0, true);
-                            CmsCoreProvider.getVfsService().loadPropertyData(structureId, this);
-                        }
+                      start(0, true);
+                      CmsCoreProvider.getVfsService().loadPropertyData(structureId, this);
+                    }
 
-                        @Override
-                        protected void onResponse(final CmsPropertiesBean propertyData) {
+                    @Override
+                    protected void onResponse(final CmsPropertiesBean propertyData) {
 
-                            stop(false);
-                            CmsRpcAction<CmsListInfoBean> infoAction = new CmsRpcAction<CmsListInfoBean>() {
+                      stop(false);
+                      CmsRpcAction<CmsListInfoBean> infoAction =
+                          new CmsRpcAction<CmsListInfoBean>() {
 
-                                @Override
-                                public void execute() {
+                            @Override
+                            public void execute() {
 
-                                    start(200, true);
-                                    CmsCoreProvider.getVfsService().getPageInfo(structureId, this);
-                                }
+                              start(200, true);
+                              CmsCoreProvider.getVfsService().getPageInfo(structureId, this);
+                            }
 
-                                @Override
-                                protected void onResponse(final CmsListInfoBean listInfoBean) {
+                            @Override
+                            protected void onResponse(final CmsListInfoBean listInfoBean) {
 
-                                    stop(false);
-                                    CmsSeoOptionsDialog.loadAliases(
-                                        structureId,
-                                        new AsyncCallback<List<CmsAliasBean>>() {
+                              stop(false);
+                              CmsSeoOptionsDialog.loadAliases(
+                                  structureId,
+                                  new AsyncCallback<List<CmsAliasBean>>() {
 
-                                            public void onFailure(Throwable caught) {
+                                    public void onFailure(Throwable caught) {
 
-                                                // do nothing
-                                            }
+                                      // do nothing
+                                    }
 
-                                            public void onSuccess(final List<CmsAliasBean> aliases) {
+                                    public void onSuccess(final List<CmsAliasBean> aliases) {
 
-                                                CmsSimplePropertyEditorHandler handler = new CmsSimplePropertyEditorHandler(
-                                                    contextMenuHandler);
-                                                handler.setPropertiesBean(propertyData);
-                                                CmsSeoOptionsDialog dialog = new CmsSeoOptionsDialog(
-                                                    structureId,
-                                                    listInfoBean,
-                                                    aliases,
-                                                    propertyData.getPropertyDefinitions(),
-                                                    handler);
-                                                dialog.centerHorizontally(50);
-                                                dialog.catchNotifications();
-                                                dialog.center();
-                                            }
-                                        });
-                                }
-                            };
-                            infoAction.execute();
-
-                        }
-                    };
-                    action.execute();
-                }
+                                      CmsSimplePropertyEditorHandler handler =
+                                          new CmsSimplePropertyEditorHandler(contextMenuHandler);
+                                      handler.setPropertiesBean(propertyData);
+                                      CmsSeoOptionsDialog dialog =
+                                          new CmsSeoOptionsDialog(
+                                              structureId,
+                                              listInfoBean,
+                                              aliases,
+                                              propertyData.getPropertyDefinitions(),
+                                              handler);
+                                      dialog.centerHorizontally(50);
+                                      dialog.catchNotifications();
+                                      dialog.center();
+                                    }
+                                  });
+                            }
+                          };
+                      infoAction.execute();
+                    }
+                  };
+              action.execute();
             }
+          }
         });
-    }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID, org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler, org.opencms.gwt.shared.CmsContextMenuEntryBean)
-     */
-    public A_CmsContextMenuItem getItemWidget(
-        CmsUUID structureId,
-        I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#getItemWidget(org.opencms.util.CmsUUID,
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler,
+   *     org.opencms.gwt.shared.CmsContextMenuEntryBean)
+   */
+  public A_CmsContextMenuItem getItemWidget(
+      CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget()
-     */
-    public boolean hasItemWidget() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand#hasItemWidget() */
+  public boolean hasItemWidget() {
 
-        return false;
-    }
-
+    return false;
+  }
 }

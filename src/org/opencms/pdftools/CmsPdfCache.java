@@ -33,39 +33,43 @@ import org.opencms.file.wrapper.CmsWrappedResource;
 import org.opencms.main.OpenCms;
 
 /**
- * Cache class for storing generated PDFs in the RFS.<p>
+ * Cache class for storing generated PDFs in the RFS.
  *
- * This class stores all cached files in a single folder.
+ * <p>This class stores all cached files in a single folder.
  */
 public class CmsPdfCache extends CmsVfsNameBasedDiskCache {
 
-    /** The folder name for the cache folder. */
-    public static final String PDF_CACHE_FOLDER = "pdfcache";
+  /** The folder name for the cache folder. */
+  public static final String PDF_CACHE_FOLDER = "pdfcache";
 
-    /**
-     * Creates a new cache instance.<p>
-     */
-    public CmsPdfCache() {
+  /**
+   * Creates a new cache instance.
+   *
+   * <p>
+   */
+  public CmsPdfCache() {
 
-        super(OpenCms.getSystemInfo().getWebInfRfsPath(), PDF_CACHE_FOLDER);
-    }
+    super(OpenCms.getSystemInfo().getWebInfRfsPath(), PDF_CACHE_FOLDER);
+  }
 
-    /**
-     * @see org.opencms.cache.CmsVfsNameBasedDiskCache#getCacheName(org.opencms.file.CmsResource, java.lang.String)
-     */
-    @Override
-    public String getCacheName(CmsResource resource, String parameters) {
+  /**
+   * @see org.opencms.cache.CmsVfsNameBasedDiskCache#getCacheName(org.opencms.file.CmsResource,
+   *     java.lang.String)
+   */
+  @Override
+  public String getCacheName(CmsResource resource, String parameters) {
 
-        // we want a 'flat' folder structure, so we create a fake resource with a path in which the slashes
-        // from the original path have been transformed to underscores
-        CmsWrappedResource wrapper = new CmsWrappedResource(resource);
-        String fakePath = "/" + resource.getRootPath().replaceAll("/", "_");
-        // the extension doesn't really matter for the caching, but with an extension of PDF it's easier to look at the files in the cache folder with
-        // file managers, so we replace the extension
-        fakePath = fakePath.replaceFirst("\\.(?:html|xml)$", ".pdf");
-        wrapper.setRootPath(fakePath);
-        CmsResource fakeResource = wrapper.getResource();
-        return super.getCacheName(fakeResource, parameters);
-    }
-
+    // we want a 'flat' folder structure, so we create a fake resource with a path in which the
+    // slashes
+    // from the original path have been transformed to underscores
+    CmsWrappedResource wrapper = new CmsWrappedResource(resource);
+    String fakePath = "/" + resource.getRootPath().replaceAll("/", "_");
+    // the extension doesn't really matter for the caching, but with an extension of PDF it's easier
+    // to look at the files in the cache folder with
+    // file managers, so we replace the extension
+    fakePath = fakePath.replaceFirst("\\.(?:html|xml)$", ".pdf");
+    wrapper.setRootPath(fakePath);
+    CmsResource fakeResource = wrapper.getResource();
+    return super.getCacheName(fakeResource, parameters);
+  }
 }

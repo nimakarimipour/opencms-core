@@ -30,250 +30,285 @@ package org.opencms.repository;
 import java.util.Date;
 
 /**
- * The class represents a lock to a {@link I_CmsRepositoryItem}.<p>
+ * The class represents a lock to a {@link I_CmsRepositoryItem}.
+ *
+ * <p>
  *
  * @since 6.2.4
  */
 public class CmsRepositoryLockInfo {
 
-    /** The lock scope "exclusive". */
-    public static final String SCOPE_EXCLUSIVE = "exclusive";
+  /** The lock scope "exclusive". */
+  public static final String SCOPE_EXCLUSIVE = "exclusive";
 
-    /** The default scope for locks. */
-    public static final String DEFAULT_SCOPE = SCOPE_EXCLUSIVE;
+  /** The default scope for locks. */
+  public static final String DEFAULT_SCOPE = SCOPE_EXCLUSIVE;
 
-    /** Infinite timeout for the lock. */
-    public static final int TIMEOUT_INFINITE_VALUE = -1;
+  /** Infinite timeout for the lock. */
+  public static final int TIMEOUT_INFINITE_VALUE = -1;
 
-    /** The lock type "write". */
-    public static final String TYPE_WRITE = "write";
+  /** The lock type "write". */
+  public static final String TYPE_WRITE = "write";
 
-    /** The default type for locks. */
-    public static final String DEFAULT_TYPE = TYPE_WRITE;
+  /** The default type for locks. */
+  public static final String DEFAULT_TYPE = TYPE_WRITE;
 
-    /** Default depth is infinite. */
-    public static final int DEPTH_INFINITY_VALUE = 3; // To limit tree browsing a bit
+  /** Default depth is infinite. */
+  public static final int DEPTH_INFINITY_VALUE = 3; // To limit tree browsing a bit
 
-    /** The lock scope "shared". */
-    public static final String SCOPE_SHARED = "shared";
+  /** The lock scope "shared". */
+  public static final String SCOPE_SHARED = "shared";
 
-    /** The creation date of the lock. */
-    private Date m_creationDate = new Date();
+  /** The creation date of the lock. */
+  private Date m_creationDate = new Date();
 
-    /** The depth the lock is valid for (0 for the resource or "Infinity" for inheriting). */
-    private int m_depth;
+  /** The depth the lock is valid for (0 for the resource or "Infinity" for inheriting). */
+  private int m_depth;
 
-    /** The time when the lock expires. */
-    private long m_expiresAt = TIMEOUT_INFINITE_VALUE;
+  /** The time when the lock expires. */
+  private long m_expiresAt = TIMEOUT_INFINITE_VALUE;
 
-    /** The owner of the lock. */
-    private String m_owner = "";
+  /** The owner of the lock. */
+  private String m_owner = "";
 
-    /** The path of the resource item the lock belongs to. */
-    private String m_path = "/";
+  /** The path of the resource item the lock belongs to. */
+  private String m_path = "/";
 
-    /** The scope of the lock (shared or exclusive). */
-    private String m_scope = DEFAULT_SCOPE;
+  /** The scope of the lock (shared or exclusive). */
+  private String m_scope = DEFAULT_SCOPE;
 
-    /** The type of the lock (write or read). */
-    private String m_type = DEFAULT_TYPE;
+  /** The type of the lock (write or read). */
+  private String m_type = DEFAULT_TYPE;
 
-    /** The login name of the current user. */
-    private String m_username = "";
+  /** The login name of the current user. */
+  private String m_username = "";
 
-    /**
-     * Empty default constructor.<p>
-     */
-    public CmsRepositoryLockInfo() {
+  /**
+   * Empty default constructor.
+   *
+   * <p>
+   */
+  public CmsRepositoryLockInfo() {
 
-        // empty default constructor
-    }
+    // empty default constructor
+  }
 
-    /**
-     * Returns the creationDate.<p>
-     *
-     * @return the creationDate
-     */
-    public Date getCreationDate() {
+  /**
+   * Returns the creationDate.
+   *
+   * <p>
+   *
+   * @return the creationDate
+   */
+  public Date getCreationDate() {
 
-        return m_creationDate;
-    }
+    return m_creationDate;
+  }
 
-    /**
-     * Returns the depth.<p>
-     *
-     * @return the depth
-     */
-    public int getDepth() {
+  /**
+   * Returns the depth.
+   *
+   * <p>
+   *
+   * @return the depth
+   */
+  public int getDepth() {
 
-        return m_depth;
-    }
+    return m_depth;
+  }
 
-    /**
-     * Returns the expiresAt.<p>
-     *
-     * @return the expiresAt
-     */
-    public long getExpiresAt() {
+  /**
+   * Returns the expiresAt.
+   *
+   * <p>
+   *
+   * @return the expiresAt
+   */
+  public long getExpiresAt() {
 
-        return m_expiresAt;
-    }
+    return m_expiresAt;
+  }
 
-    /**
-     * Returns the owner.<p>
-     *
-     * @return the owner
-     */
-    public String getOwner() {
+  /**
+   * Returns the owner.
+   *
+   * <p>
+   *
+   * @return the owner
+   */
+  public String getOwner() {
 
-        return m_owner;
-    }
+    return m_owner;
+  }
 
-    /**
-     * Returns the path.<p>
-     *
-     * @return the path
-     */
-    public String getPath() {
+  /**
+   * Returns the path.
+   *
+   * <p>
+   *
+   * @return the path
+   */
+  public String getPath() {
 
-        return m_path;
-    }
+    return m_path;
+  }
 
-    /**
-     * Returns the scope.<p>
-     *
-     * @return the scope
-     */
-    public String getScope() {
+  /**
+   * Returns the scope.
+   *
+   * <p>
+   *
+   * @return the scope
+   */
+  public String getScope() {
 
-        return m_scope;
-    }
+    return m_scope;
+  }
 
-    /**
-     * Returns the type.<p>
-     *
-     * @return the type
-     */
-    public String getType() {
+  /**
+   * Returns the type.
+   *
+   * <p>
+   *
+   * @return the type
+   */
+  public String getType() {
 
-        return m_type;
-    }
+    return m_type;
+  }
 
-    /**
-     * Returns the username.<p>
-     *
-     * @return the username
-     */
-    public String getUsername() {
+  /**
+   * Returns the username.
+   *
+   * <p>
+   *
+   * @return the username
+   */
+  public String getUsername() {
 
-        return m_username;
-    }
+    return m_username;
+  }
 
-    /**
-     * Return true if the lock has expired.
-     *
-     * @return true if the lock has expired
-     */
-    public boolean hasExpired() {
+  /**
+   * Return true if the lock has expired.
+   *
+   * @return true if the lock has expired
+   */
+  public boolean hasExpired() {
 
-        return (System.currentTimeMillis() > m_expiresAt);
-    }
+    return (System.currentTimeMillis() > m_expiresAt);
+  }
 
-    /**
-     * Return true if the lock is exclusive.
-     *
-     * @return true if the lock is exclusive
-     */
-    public boolean isExclusive() {
+  /**
+   * Return true if the lock is exclusive.
+   *
+   * @return true if the lock is exclusive
+   */
+  public boolean isExclusive() {
 
-        return (m_scope.equals("exclusive"));
+    return (m_scope.equals("exclusive"));
+  }
 
-    }
+  /**
+   * Sets the depth.
+   *
+   * <p>
+   *
+   * @param depth the depth to set
+   */
+  public void setDepth(int depth) {
 
-    /**
-     * Sets the depth.<p>
-     *
-     * @param depth the depth to set
-     */
-    public void setDepth(int depth) {
+    m_depth = depth;
+  }
 
-        m_depth = depth;
-    }
+  /**
+   * Sets the expiresAt.
+   *
+   * <p>
+   *
+   * @param expiresAt the expiresAt to set
+   */
+  public void setExpiresAt(long expiresAt) {
 
-    /**
-     * Sets the expiresAt.<p>
-     *
-     * @param expiresAt the expiresAt to set
-     */
-    public void setExpiresAt(long expiresAt) {
+    m_expiresAt = expiresAt;
+  }
 
-        m_expiresAt = expiresAt;
-    }
+  /**
+   * Sets the owner.
+   *
+   * <p>
+   *
+   * @param owner the owner to set
+   */
+  public void setOwner(String owner) {
 
-    /**
-     * Sets the owner.<p>
-     *
-     * @param owner the owner to set
-     */
-    public void setOwner(String owner) {
+    m_owner = owner;
+  }
 
-        m_owner = owner;
-    }
+  /**
+   * Sets the path.
+   *
+   * <p>
+   *
+   * @param path the path to set
+   */
+  public void setPath(String path) {
 
-    /**
-     * Sets the path.<p>
-     *
-     * @param path the path to set
-     */
-    public void setPath(String path) {
+    m_path = path;
+  }
 
-        m_path = path;
-    }
+  /**
+   * Sets the scope.
+   *
+   * <p>
+   *
+   * @param scope the scope to set
+   */
+  public void setScope(String scope) {
 
-    /**
-     * Sets the scope.<p>
-     *
-     * @param scope the scope to set
-     */
-    public void setScope(String scope) {
+    m_scope = scope;
+  }
 
-        m_scope = scope;
-    }
+  /**
+   * Sets the type.
+   *
+   * <p>
+   *
+   * @param type the type to set
+   */
+  public void setType(String type) {
 
-    /**
-     * Sets the type.<p>
-     *
-     * @param type the type to set
-     */
-    public void setType(String type) {
+    m_type = type;
+  }
 
-        m_type = type;
-    }
+  /**
+   * Sets the username.
+   *
+   * <p>
+   *
+   * @param username the username to set
+   */
+  public void setUsername(String username) {
 
-    /**
-     * Sets the username.<p>
-     *
-     * @param username the username to set
-     */
-    public void setUsername(String username) {
+    m_username = username;
+  }
 
-        m_username = username;
-    }
+  /**
+   * Get a string representation of this lock info.
+   *
+   * <p>
+   *
+   * @return a string representation of this lock
+   */
+  @Override
+  public String toString() {
 
-    /**
-     * Get a string representation of this lock info.<p>
-     *
-     * @return a string representation of this lock
-     */
-    @Override
-    public String toString() {
+    String result = "Type:" + m_type + "\n";
+    result += "Scope:" + m_scope + "\n";
+    result += "Depth:" + m_depth + "\n";
+    result += "Owner:" + m_owner + "\n";
+    result += "Expiration:" + new Date(m_expiresAt) + "\n";
 
-        String result = "Type:" + m_type + "\n";
-        result += "Scope:" + m_scope + "\n";
-        result += "Depth:" + m_depth + "\n";
-        result += "Owner:" + m_owner + "\n";
-        result += "Expiration:" + new Date(m_expiresAt) + "\n";
-
-        return result;
-    }
+    return result;
+  }
 }

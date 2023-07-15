@@ -42,6 +42,9 @@
 
 package org.opencms.workplace.tools.searchindex;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.main.I_CmsEventListener;
 import org.opencms.main.OpenCms;
@@ -50,87 +53,99 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.ui.apps.Messages;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
- * Implements methods to utilize a report thread for <code>CmsIndexingReport</code>.<p>
+ * Implements methods to utilize a report thread for <code>CmsIndexingReport</code>.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsIndexingReportThread extends A_CmsReportThread {
 
-    /** The last error occurred. */
-    private Throwable m_error;
+  /** The last error occurred. */
+  private Throwable m_error;
 
-    /** A list of names of the indexes to refresh or null for all indexes. */
-    private List<String> m_indexNames;
+  /** A list of names of the indexes to refresh or null for all indexes. */
+  private List<String> m_indexNames;
 
-    /**
-     * Creates an indexing Thread for full update.<p>
-     *
-     * @param cms the current OpenCms context object
-     * @param indexNames a list of names of the indexes to refresh or null for all indexes
-     */
-    public CmsIndexingReportThread(CmsObject cms, List<String> indexNames) {
+  /**
+   * Creates an indexing Thread for full update.
+   *
+   * <p>
+   *
+   * @param cms the current OpenCms context object
+   * @param indexNames a list of names of the indexes to refresh or null for all indexes
+   */
+  public CmsIndexingReportThread(CmsObject cms, List<String> indexNames) {
 
-        super(cms, Messages.get().getBundle().key(Messages.GUI_INDEXING_THREAD_NAME_0));
-        initHtmlReport(cms.getRequestContext().getLocale());
+    super(cms, Messages.get().getBundle().key(Messages.GUI_INDEXING_THREAD_NAME_0));
+    initHtmlReport(cms.getRequestContext().getLocale());
 
-        m_indexNames = indexNames;
-    }
+    m_indexNames = indexNames;
+  }
 
-    /**
-     * Returns the last error.<p>
-     *
-     * @see org.opencms.report.A_CmsReportThread#getError()
-     */
-    @Override
-    public Throwable getError() {
+  /**
+   * Returns the last error.
+   *
+   * <p>
+   *
+   * @see org.opencms.report.A_CmsReportThread#getError()
+   */
+  @Override
+  public Throwable getError() {
 
-        return m_error;
-    }
+    return m_error;
+  }
 
-    /**
-     * Updates the report.<p>
-     *
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
+  /**
+   * Updates the report.
+   *
+   * <p>
+   *
+   * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
+   */
+  @Override
+  public String getReportUpdate() {
 
-        return getReport().getReportUpdate();
-    }
+    return getReport().getReportUpdate();
+  }
 
-    /**
-     * Starts the indexing report thread.<p>
-     *
-     * @see java.lang.Runnable#run()
-     */
-    @Override
-    public void run() {
+  /**
+   * Starts the indexing report thread.
+   *
+   * <p>
+   *
+   * @see java.lang.Runnable#run()
+   */
+  @Override
+  public void run() {
 
-        getReport().println(
+    getReport()
+        .println(
             Messages.get().container(Messages.RPT_REBUILD_SEARCH_INDEXES_BEGIN_0),
             I_CmsReport.FORMAT_HEADLINE);
 
-        try {
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put(I_CmsEventListener.KEY_REPORT, getReport());
-            if (m_indexNames != null) {
-                params.put(I_CmsEventListener.KEY_INDEX_NAMES, CmsStringUtil.collectionAsString(m_indexNames, ","));
-            }
-            OpenCms.fireCmsEvent(I_CmsEventListener.EVENT_REBUILD_SEARCHINDEXES, params);
-            getReport().println(
-                Messages.get().container(Messages.RPT_REBUILD_SEARCH_INDEXES_END_0),
-                I_CmsReport.FORMAT_HEADLINE);
-        } catch (Throwable exc) {
-            getReport().println(
-                org.opencms.search.Messages.get().container(org.opencms.search.Messages.RPT_SEARCH_INDEXING_FAILED_0),
-                I_CmsReport.FORMAT_WARNING);
-            getReport().println(exc);
-            m_error = exc;
-        }
+    try {
+      Map<String, Object> params = new HashMap<String, Object>();
+      params.put(I_CmsEventListener.KEY_REPORT, getReport());
+      if (m_indexNames != null) {
+        params.put(
+            I_CmsEventListener.KEY_INDEX_NAMES,
+            CmsStringUtil.collectionAsString(m_indexNames, ","));
+      }
+      OpenCms.fireCmsEvent(I_CmsEventListener.EVENT_REBUILD_SEARCHINDEXES, params);
+      getReport()
+          .println(
+              Messages.get().container(Messages.RPT_REBUILD_SEARCH_INDEXES_END_0),
+              I_CmsReport.FORMAT_HEADLINE);
+    } catch (Throwable exc) {
+      getReport()
+          .println(
+              org.opencms.search.Messages.get()
+                  .container(org.opencms.search.Messages.RPT_SEARCH_INDEXING_FAILED_0),
+              I_CmsReport.FORMAT_WARNING);
+      getReport().println(exc);
+      m_error = exc;
     }
+  }
 }

@@ -30,70 +30,81 @@ package org.opencms.ade.contenteditor.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * Bean which holds the necessary data for complex value widgets in the Acacia editor.<p>
+ * Bean which holds the necessary data for complex value widgets in the Acacia editor.
+ *
+ * <p>
  */
 public class CmsComplexWidgetData implements IsSerializable {
 
-    /** The renderer configuration string. */
-    private String m_configuration;
+  /** The renderer configuration string. */
+  private String m_configuration;
 
-    /**
-     * Information about external resources needed by the complex widget.
-     */
-    private CmsExternalWidgetConfiguration m_externalWidgetConfiguration;
+  /** Information about external resources needed by the complex widget. */
+  private CmsExternalWidgetConfiguration m_externalWidgetConfiguration;
 
-    /** The name of the renderer to use for the complex widget. */
-    private String m_rendererName;
+  /** The name of the renderer to use for the complex widget. */
+  private String m_rendererName;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param rendererName the renderer name
-     * @param config the renderer configuration
-     * @param extConfig the external resource configuration for the widget
-     */
-    public CmsComplexWidgetData(String rendererName, String config, CmsExternalWidgetConfiguration extConfig) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param rendererName the renderer name
+   * @param config the renderer configuration
+   * @param extConfig the external resource configuration for the widget
+   */
+  public CmsComplexWidgetData(
+      String rendererName, String config, CmsExternalWidgetConfiguration extConfig) {
 
-        m_rendererName = rendererName;
-        m_configuration = config;
-        m_externalWidgetConfiguration = extConfig;
-    }
+    m_rendererName = rendererName;
+    m_configuration = config;
+    m_externalWidgetConfiguration = extConfig;
+  }
 
-    /**
-     * Defaul constructor for serialization.<p>
-     */
-    protected CmsComplexWidgetData() {
+  /**
+   * Defaul constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsComplexWidgetData() {
 
-        // do  nothing
-    }
+    // do  nothing
+  }
 
-    /**
-     * Gets the renderer configuration string.<p>
-     *
-     * @return the renderer configuration string
-     */
-    public String getConfiguration() {
+  /**
+   * Gets the renderer configuration string.
+   *
+   * <p>
+   *
+   * @return the renderer configuration string
+   */
+  public String getConfiguration() {
 
-        return m_configuration;
-    }
+    return m_configuration;
+  }
 
-    /**
-     * Gets information about the external resources which are needed by this widget.<p>
-     *
-     * @return the information about the required external resources
-     */
-    public CmsExternalWidgetConfiguration getExternalWidgetConfiguration() {
+  /**
+   * Gets information about the external resources which are needed by this widget.
+   *
+   * <p>
+   *
+   * @return the information about the required external resources
+   */
+  public CmsExternalWidgetConfiguration getExternalWidgetConfiguration() {
 
-        return m_externalWidgetConfiguration;
-    }
+    return m_externalWidgetConfiguration;
+  }
 
-    /**
-     * Gets the renderer name.<p>
-     *
-     * @return the renderer name
-     */
-    public String getRendererName() {
+  /**
+   * Gets the renderer name.
+   *
+   * <p>
+   *
+   * @return the renderer name
+   */
+  public String getRendererName() {
 
-        return m_rendererName;
-    }
+    return m_rendererName;
+  }
 }

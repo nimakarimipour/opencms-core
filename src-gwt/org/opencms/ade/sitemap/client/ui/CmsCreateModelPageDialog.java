@@ -31,45 +31,50 @@ import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
 
 /**
- * Dialog for creating new model pages.<p>
+ * Dialog for creating new model pages.
+ *
+ * <p>
  */
 public class CmsCreateModelPageDialog extends A_CmsNewModelPageDialog {
 
-    /** The controller. */
-    private CmsSitemapController m_controller;
+  /** The controller. */
+  private CmsSitemapController m_controller;
 
-    /** The model group flag. */
-    private boolean m_isModelGroup;
+  /** The model group flag. */
+  private boolean m_isModelGroup;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param controller the controller
-     * @param isModelGroup in case of a model group page
-     */
-    public CmsCreateModelPageDialog(CmsSitemapController controller, boolean isModelGroup) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param controller the controller
+   * @param isModelGroup in case of a model group page
+   */
+  public CmsCreateModelPageDialog(CmsSitemapController controller, boolean isModelGroup) {
 
-        super(
-            isModelGroup
+    super(
+        isModelGroup
             ? Messages.get().key(Messages.GUI_CREATE_MODEL_GROUP_PAGE_DIALOG_TITLE_0)
             : Messages.get().key(Messages.GUI_CREATE_MODEL_PAGE_DIALOG_TITLE_0),
-            null);
-        m_isModelGroup = isModelGroup;
-        m_controller = controller;
-    }
+        null);
+    m_isModelGroup = isModelGroup;
+    m_controller = controller;
+  }
 
-    /**
-     * Creates the new gallery folder.<p>
-     */
-    @Override
-    protected void onOk() {
+  /**
+   * Creates the new gallery folder.
+   *
+   * <p>
+   */
+  @Override
+  protected void onOk() {
 
-        m_controller.createNewModelPage(
-            m_titleInput.getFormValueAsString(),
-            m_descriptionInput.getFormValueAsString(),
-            null,
-            m_isModelGroup);
-        hide();
-    }
-
+    m_controller.createNewModelPage(
+        m_titleInput.getFormValueAsString(),
+        m_descriptionInput.getFormValueAsString(),
+        null,
+        m_isModelGroup);
+    hide();
+  }
 }

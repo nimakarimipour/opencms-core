@@ -33,130 +33,158 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * CmsDecorationBundle, contains a map of merged CmsDEcorationMaps.<p>
+ * CmsDecorationBundle, contains a map of merged CmsDEcorationMaps.
  *
- * The map inside the decoration bundle uses the decoration as keys and CmsDecorationObjects as values.<p>
+ * <p>The map inside the decoration bundle uses the decoration as keys and CmsDecorationObjects as
+ * values.
  *
- * A decoration bundle contains either all decoarions for one locale (similar to a resource bundle), or
- * is locale independend. If its a locale independend bundle, the included locale is set to null.
- *
+ * <p>A decoration bundle contains either all decoarions for one locale (similar to a resource
+ * bundle), or is locale independend. If its a locale independend bundle, the included locale is set
+ * to null.
  *
  * @since 6.1.3
  */
 public class CmsDecorationBundle {
 
-    /** The bundle map. */
-    private Map<String, CmsDecorationObject> m_bundle;
+  /** The bundle map. */
+  private Map<String, CmsDecorationObject> m_bundle;
 
-    /** The locale of this bundle. */
-    private Locale m_locale;
+  /** The locale of this bundle. */
+  private Locale m_locale;
 
-    /**
-     * Constructor, creates a new, empty CmsDecorationBundle.<p>
-     */
-    public CmsDecorationBundle() {
+  /**
+   * Constructor, creates a new, empty CmsDecorationBundle.
+   *
+   * <p>
+   */
+  public CmsDecorationBundle() {
 
-        m_bundle = new HashMap<String, CmsDecorationObject>();
-        m_locale = null;
-    }
+    m_bundle = new HashMap<String, CmsDecorationObject>();
+    m_locale = null;
+  }
 
-    /**
-     * Constructor, creates a new CmsDecorationBundle for a given locale.<p>
-     *
-     * @param locale the locale of this bundle or null
-     */
-    public CmsDecorationBundle(Locale locale) {
+  /**
+   * Constructor, creates a new CmsDecorationBundle for a given locale.
+   *
+   * <p>
+   *
+   * @param locale the locale of this bundle or null
+   */
+  public CmsDecorationBundle(Locale locale) {
 
-        m_bundle = new HashMap<String, CmsDecorationObject>();
-        m_locale = locale;
+    m_bundle = new HashMap<String, CmsDecorationObject>();
+    m_locale = locale;
+  }
 
-    }
+  /**
+   * Gets an object from the decoration bundle.
+   *
+   * <p>
+   *
+   * @param key the key of the object ot get
+   * @return the value matching the key or null.
+   */
+  public Object get(Object key) {
 
-    /**
-     * Gets an object from the decoration bundle.<p>
-     * @param key the key of the object ot get
-     * @return the value matching the key or null.
-     */
-    public Object get(Object key) {
+    return m_bundle.get(adjustKey(key.toString()));
+  }
 
-        return m_bundle.get(adjustKey(key.toString()));
-    }
+  /**
+   * Gets the map of all decoarion bundle entries.
+   *
+   * <p>
+   *
+   * @return map of all decoarion bundle entries
+   */
+  public Map<String, CmsDecorationObject> getAll() {
 
-    /**
-     * Gets the map of all decoarion bundle entries.<p>
-     * @return map of all decoarion bundle entries
-     */
-    public Map<String, CmsDecorationObject> getAll() {
+    return m_bundle;
+  }
 
-        return m_bundle;
-    }
+  /**
+   * Gets the locale of this decoration bundle.
+   *
+   * <p>
+   *
+   * @return locale of the decoration bundle
+   */
+  public Locale getLocale() {
 
-    /**
-     * Gets the locale of this decoration bundle.<p>
-     * @return locale of the decoration bundle
-     */
-    public Locale getLocale() {
+    return m_locale;
+  }
 
-        return m_locale;
-    }
+  /**
+   * Gets the keyset of the decoration bundle map.
+   *
+   * <p>
+   *
+   * @return keyset of the decoration bundle map
+   */
+  public Set<String> keySet() {
 
-    /**
-     * Gets the keyset of the decoration bundle map.<p>
-     * @return keyset of the decoration bundle map
-     */
-    public Set<String> keySet() {
+    return m_bundle.keySet();
+  }
 
-        return m_bundle.keySet();
-    }
+  /**
+   * Stores an obiect in the decoration bundle.
+   *
+   * <p>
+   *
+   * @param key the key of the object to store
+   * @param value the value of the object to store
+   */
+  public void put(String key, CmsDecorationObject value) {
 
-    /**
-     * Stores an obiect in the decoration bundle.<p>
-     * @param key the key of the object to store
-     * @param value the value of the object to store
-     */
-    public void put(String key, CmsDecorationObject value) {
+    m_bundle.put(key, value);
+  }
 
-        m_bundle.put(key, value);
-    }
+  /**
+   * Puts a complete map of objects into bundle.
+   *
+   * <p>
+   *
+   * @param map the map to put into the bundle
+   */
+  public void putAll(Map<String, CmsDecorationObject> map) {
 
-    /**
-     * Puts a complete map of objects into bundle.<p>
-     * @param map the map to put into the bundle
-     */
-    public void putAll(Map<String, CmsDecorationObject> map) {
+    m_bundle.putAll(map);
+  }
 
-        m_bundle.putAll(map);
-    }
+  /**
+   * Sets the locale of the decoration bundle.
+   *
+   * <p>
+   *
+   * @param locale the locale to set
+   */
+  public void setLocale(Locale locale) {
 
-    /**
-     * Sets the locale of the decoration bundle.<p>
-     * @param locale the locale to set
-     */
-    public void setLocale(Locale locale) {
+    m_locale = locale;
+  }
 
-        m_locale = locale;
-    }
+  /**
+   * Adjusts the key for the decoration.
+   *
+   * <p>The following adjustments are made:
+   *
+   * <ul>
+   *   <li>&nbsp; is replaced with space
+   *   <li>multiple spaces are replaced with a single space
+   * </ul>
+   *
+   * @param key the key to adjust
+   * @return the adjusted key
+   */
+  private String adjustKey(String key) {
 
-    /**
-     * Adjusts the key for the decoration.<p>
-     * The following adjustments are made:
-     * <ul>
-     * <li>&nbsp; is replaced with space</li>
-     * <li>multiple spaces are replaced with a single space</li>
-     * </ul>
-     * @param key the key to adjust
-     * @return the adjusted key
-     */
-    private String adjustKey(String key) {
-
-        // replace the &nbsp; with spaces
-        key = key.replaceAll("&nbsp;", " ");
-        // now eleiminate all double spaces
-        int keyLen;
-        do {
-            keyLen = key.length();
-            key = key.replaceAll("  ", " ");
-        } while (key.length() != keyLen);
-        return key;
-    }
+    // replace the &nbsp; with spaces
+    key = key.replaceAll("&nbsp;", " ");
+    // now eleiminate all double spaces
+    int keyLen;
+    do {
+      keyLen = key.length();
+      key = key.replaceAll("  ", " ");
+    } while (key.length() != keyLen);
+    return key;
+  }
 }

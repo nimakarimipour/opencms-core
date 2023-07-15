@@ -27,52 +27,55 @@
 
 package org.opencms.workplace.list;
 
+import java.util.Locale;
 import org.opencms.i18n.CmsMessageContainer;
 
-import java.util.Locale;
-
 /**
- * This list item detail formatter creates a two column table, in the first column
- * the message is put and in the second the content self.<p>
+ * This list item detail formatter creates a two column table, in the first column the message is
+ * put and in the second the content self.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListItemDetailsFormatter implements I_CmsListFormatter {
 
-    /** Some message header. */
-    private final CmsMessageContainer m_message;
+  /** Some message header. */
+  private final CmsMessageContainer m_message;
 
-    /**
-     * Default constructor that sets the mask to use.<p>
-     *
-     * @param message header for item detail
-     */
-    public CmsListItemDetailsFormatter(CmsMessageContainer message) {
+  /**
+   * Default constructor that sets the mask to use.
+   *
+   * <p>
+   *
+   * @param message header for item detail
+   */
+  public CmsListItemDetailsFormatter(CmsMessageContainer message) {
 
-        m_message = message;
-    }
+    m_message = message;
+  }
 
-    /**
-     * @see org.opencms.workplace.list.I_CmsListFormatter#format(java.lang.Object, java.util.Locale)
-     */
-    public String format(Object data, Locale locale) {
+  /**
+   * @see org.opencms.workplace.list.I_CmsListFormatter#format(java.lang.Object, java.util.Locale)
+   */
+  public String format(Object data, Locale locale) {
 
-        String message = m_message.key(locale);
-        StringBuffer html = new StringBuffer(512);
-        html.append("<table border='0' cellspacing='0' cellpadding='0'>\n");
-        html.append("\t<tr>\n");
-        html.append("\t\t<td width='150' align='right' class='listdetailhead'>\n");
-        html.append("\t\t\t");
-        html.append(message);
-        html.append("&nbsp;:&nbsp;\n");
-        html.append("\t\t</td>\n");
-        html.append("\t\t<td class='listdetailitem' style='white-space:normal;'>\n");
-        html.append("\t\t\t");
-        html.append(data == null ? "" : data);
-        html.append("\n");
-        html.append("\t\t</td>\n");
-        html.append("\t</tr>\n");
-        html.append("</table>\n");
-        return html.toString();
-    }
+    String message = m_message.key(locale);
+    StringBuffer html = new StringBuffer(512);
+    html.append("<table border='0' cellspacing='0' cellpadding='0'>\n");
+    html.append("\t<tr>\n");
+    html.append("\t\t<td width='150' align='right' class='listdetailhead'>\n");
+    html.append("\t\t\t");
+    html.append(message);
+    html.append("&nbsp;:&nbsp;\n");
+    html.append("\t\t</td>\n");
+    html.append("\t\t<td class='listdetailitem' style='white-space:normal;'>\n");
+    html.append("\t\t\t");
+    html.append(data == null ? "" : data);
+    html.append("\n");
+    html.append("\t\t</td>\n");
+    html.append("\t</tr>\n");
+    html.append("</table>\n");
+    return html.toString();
+  }
 }

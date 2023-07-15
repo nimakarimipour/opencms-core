@@ -27,28 +27,30 @@
 
 package org.opencms.ugc.client.export;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.ExportClosure;
 import org.timepedia.exporter.client.ExportPackage;
 import org.timepedia.exporter.client.Exportable;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 /**
- * Interface used for passing error handlers from native JS to GWT code.<p>
+ * Interface used for passing error handlers from native JS to GWT code.
+ *
+ * <p>
  */
 @Export
 @ExportClosure
 @ExportPackage("opencmsugc")
 public interface I_CmsErrorCallback extends Exportable {
 
-    /**
-     * Calls the error callback.<p>
-     *
-     * @param errorType the error type (a string constant)
-     * @param message a human-readable error message
-     * @param additionalData additional data pertaining to the error
-     */
-    public void call(String errorType, String message, JavaScriptObject additionalData);
-
+  /**
+   * Calls the error callback.
+   *
+   * <p>
+   *
+   * @param errorType the error type (a string constant)
+   * @param message a human-readable error message
+   * @param additionalData additional data pertaining to the error
+   */
+  public void call(String errorType, String message, JavaScriptObject additionalData);
 }

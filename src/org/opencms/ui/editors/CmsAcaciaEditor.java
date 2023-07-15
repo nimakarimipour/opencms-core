@@ -27,6 +27,7 @@
 
 package org.opencms.ui.editors;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.types.CmsResourceTypeXmlContent;
@@ -36,71 +37,67 @@ import org.opencms.main.CmsRuntimeException;
 import org.opencms.main.OpenCms;
 import org.opencms.workplace.editors.CmsWorkplaceEditorManager;
 
-import org.apache.commons.logging.Log;
-
 /**
- * The acacia XML content editor.<p>
+ * The acacia XML content editor.
+ *
+ * <p>
  */
 public class CmsAcaciaEditor extends A_CmsFrameEditor {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -5498365579090634771L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -5498365579090634771L;
 
-    /** Log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsAcaciaEditor.class);
+  /** Log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsAcaciaEditor.class);
 
-    /**
-     * @see org.opencms.ui.editors.I_CmsEditor#getPriority()
-     */
-    public int getPriority() {
+  /** @see org.opencms.ui.editors.I_CmsEditor#getPriority() */
+  public int getPriority() {
 
-        return 100;
+    return 100;
+  }
+
+  /**
+   * @see org.opencms.ui.editors.A_CmsFrameEditor#matchesResource(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, boolean)
+   */
+  @Override
+  public boolean matchesResource(CmsObject cms, CmsResource resource, boolean plainText) {
+
+    I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(resource);
+    boolean result = false;
+
+    if (!plainText && (type instanceof CmsResourceTypeXmlContent)) {
+      try {
+        result = CmsWorkplaceEditorManager.checkAcaciaEditorAvailable(cms, resource);
+      } catch (CmsRuntimeException e) {
+        LOG.error("Error evaluating XML schema for acacia editor.", e);
+        return true;
+      }
     }
 
-    /**
-     * @see org.opencms.ui.editors.A_CmsFrameEditor#matchesResource(org.opencms.file.CmsObject, org.opencms.file.CmsResource, boolean)
-     */
-    @Override
-    public boolean matchesResource(CmsObject cms, CmsResource resource, boolean plainText) {
+    return result;
+  }
 
-        I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(resource);
-        boolean result = false;
+  /**
+   * @see org.opencms.ui.editors.I_CmsEditor#matchesType(org.opencms.file.types.I_CmsResourceType,
+   *     boolean)
+   */
+  public boolean matchesType(I_CmsResourceType type, boolean plainText) {
 
-        if (!plainText && (type instanceof CmsResourceTypeXmlContent)) {
-            try {
-                result = CmsWorkplaceEditorManager.checkAcaciaEditorAvailable(cms, resource);
-            } catch (CmsRuntimeException e) {
-                LOG.error("Error evaluating XML schema for acacia editor.", e);
-                return true;
-            }
-        }
+    boolean result = !plainText && (type instanceof CmsResourceTypeXmlContent);
+    return result;
+  }
 
-        return result;
-    }
+  /** @see org.opencms.ui.editors.I_CmsEditor#newInstance() */
+  public I_CmsEditor newInstance() {
 
-    /**
-     * @see org.opencms.ui.editors.I_CmsEditor#matchesType(org.opencms.file.types.I_CmsResourceType, boolean)
-     */
-    public boolean matchesType(I_CmsResourceType type, boolean plainText) {
+    return new CmsAcaciaEditor();
+  }
 
-        boolean result = !plainText && (type instanceof CmsResourceTypeXmlContent);
-        return result;
-    }
+  /** @see org.opencms.ui.editors.A_CmsFrameEditor#getEditorUri() */
+  @Override
+  protected String getEditorUri() {
 
-    /**
-     * @see org.opencms.ui.editors.I_CmsEditor#newInstance()
-     */
-    public I_CmsEditor newInstance() {
-
-        return new CmsAcaciaEditor();
-    }
-
-    /**
-     * @see org.opencms.ui.editors.A_CmsFrameEditor#getEditorUri()
-     */
-    @Override
-    protected String getEditorUri() {
-
-        return "/system/workplace/editors/acacia/editor.jsp";
-    }
+    return "/system/workplace/editors/acacia/editor.jsp";
+  }
 }

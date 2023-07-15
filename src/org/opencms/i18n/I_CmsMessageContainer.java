@@ -30,17 +30,19 @@ package org.opencms.i18n;
 import java.util.Locale;
 
 /**
- * Interface which represents a message independent of the locale.<p>
+ * Interface which represents a message independent of the locale.
+ *
+ * <p>
  */
 public interface I_CmsMessageContainer {
 
-    /**
-     * Gets the real message for the given locale.<p>
-     *
-     * @param locale the locale
-     *
-     * @return the message for the given locale
-     */
-    String key(Locale locale);
-
+  /**
+   * Gets the real message for the given locale.
+   *
+   * <p>
+   *
+   * @param locale the locale
+   * @return the message for the given locale
+   */
+  String key(Locale locale);
 }

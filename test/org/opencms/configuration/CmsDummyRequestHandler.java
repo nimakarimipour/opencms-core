@@ -27,41 +27,36 @@
 
 package org.opencms.configuration;
 
-import org.opencms.main.I_CmsRequestHandler;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.opencms.main.I_CmsRequestHandler;
 
-/**
- * Dummy handler which does nothing except stores its configuration.
- */
+/** Dummy handler which does nothing except stores its configuration. */
 public class CmsDummyRequestHandler implements I_CmsRequestHandler {
 
-    private CmsParameterConfiguration m_config;
+  private CmsParameterConfiguration m_config;
 
-    public CmsParameterConfiguration getConfiguration() {
+  public CmsParameterConfiguration getConfiguration() {
 
-        return m_config;
-    }
+    return m_config;
+  }
 
-    public String[] getHandlerNames() {
+  public String[] getHandlerNames() {
 
-        return null;
-    }
+    return null;
+  }
 
-    public void handle(HttpServletRequest req, HttpServletResponse res, String name)
-    throws IOException, ServletException {
+  public void handle(HttpServletRequest req, HttpServletResponse res, String name)
+      throws IOException, ServletException {
 
-        // do nothing
+    // do nothing
 
-    }
+  }
 
-    public void initParameters(CmsParameterConfiguration params) {
+  public void initParameters(CmsParameterConfiguration params) {
 
-        m_config = params;
-    }
-
+    m_config = params;
+  }
 }

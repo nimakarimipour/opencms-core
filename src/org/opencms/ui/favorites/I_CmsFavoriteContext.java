@@ -27,60 +27,53 @@
 
 package org.opencms.ui.favorites;
 
+import com.vaadin.ui.Component;
+import java.util.Optional;
 import org.opencms.ui.components.CmsExtendedSiteSelector.SiteSelectorOption;
 import org.opencms.util.CmsUUID;
 
-import java.util.Optional;
-
-import com.vaadin.ui.Component;
-
-/**
- * Interface the favorite dialog uses to interact with the rest of the application.
- */
+/** Interface the favorite dialog uses to interact with the rest of the application. */
 public interface I_CmsFavoriteContext {
 
-    /**
-     * Change the project to one with the given id.
-     *
-     * @param id the project id
-     */
-    public void changeProject(CmsUUID id);
+  /**
+   * Change the project to one with the given id.
+   *
+   * @param id the project id
+   */
+  public void changeProject(CmsUUID id);
 
-    /**
-     * Changes current site.
-     *
-     * @param option the site selector option
-     */
-    public void changeSite(SiteSelectorOption option);
+  /**
+   * Changes current site.
+   *
+   * @param option the site selector option
+   */
+  public void changeSite(SiteSelectorOption option);
 
-    /**
-     * Sets the dialog instance.<p>
-     *
-     * This must be called by the favorite dialog when it is loaded.
-     *
-     * @param component the favorite dialog
-     */
-    public void setDialog(Component component);
+  /**
+   * Sets the dialog instance.
+   *
+   * <p>This must be called by the favorite dialog when it is loaded.
+   *
+   * @param component the favorite dialog
+   */
+  public void setDialog(Component component);
 
-    /**
-     * Closes the favorite dialog.
-     */
-    void close();
+  /** Closes the favorite dialog. */
+  void close();
 
-    /**
-     * Gets the favorite entry for the current location, as an Optional.
-     *
-     * If the result is empty, the current location can not be used as a favorite.
-     *
-     * @return an optional favorite entry
-     */
-    Optional<CmsFavoriteEntry> getFavoriteForCurrentLocation();
+  /**
+   * Gets the favorite entry for the current location, as an Optional.
+   *
+   * <p>If the result is empty, the current location can not be used as a favorite.
+   *
+   * @return an optional favorite entry
+   */
+  Optional<CmsFavoriteEntry> getFavoriteForCurrentLocation();
 
-    /**
-     * Opens the favorite location.
-     *
-     * @param entry the favorite entry whose location should be opened
-     */
-    void openFavorite(CmsFavoriteEntry entry);
-
+  /**
+   * Opens the favorite location.
+   *
+   * @param entry the favorite entry whose location should be opened
+   */
+  void openFavorite(CmsFavoriteEntry entry);
 }

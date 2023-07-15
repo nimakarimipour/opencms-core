@@ -41,57 +41,57 @@ import static org.opencms.gwt.shared.CmsResourceStatusTabId.tabRelationsTo;
 import static org.opencms.gwt.shared.CmsResourceStatusTabId.tabSiblings;
 import static org.opencms.gwt.shared.CmsResourceStatusTabId.tabStatus;
 
-import org.opencms.gwt.shared.CmsResourceStatusTabId;
-import org.opencms.i18n.CmsMessageContainer;
-
+import com.google.common.collect.Maps;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import com.google.common.collect.Maps;
+import org.opencms.gwt.shared.CmsResourceStatusTabId;
+import org.opencms.i18n.CmsMessageContainer;
 
 /**
- * Constants for the resource info dialog.<p>
+ * Constants for the resource info dialog.
+ *
+ * <p>
  */
 public final class CmsResourceStatusConstants {
 
-    /** Tab configuration for container pages. */
-    public static final Map<CmsResourceStatusTabId, CmsMessageContainer> STATUS_TABS_CONTAINER_PAGE;
+  /** Tab configuration for container pages. */
+  public static final Map<CmsResourceStatusTabId, CmsMessageContainer> STATUS_TABS_CONTAINER_PAGE;
 
-    /** Tab configuration for contents. */
-    public static final Map<CmsResourceStatusTabId, CmsMessageContainer> STATUS_TABS_CONTENT;
+  /** Tab configuration for contents. */
+  public static final Map<CmsResourceStatusTabId, CmsMessageContainer> STATUS_TABS_CONTENT;
 
-    /** Tab configuration for other resources. */
-    public static final Map<CmsResourceStatusTabId, CmsMessageContainer> STATUS_TABS_OTHER;
+  /** Tab configuration for other resources. */
+  public static final Map<CmsResourceStatusTabId, CmsMessageContainer> STATUS_TABS_OTHER;
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    private CmsResourceStatusConstants() {
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  private CmsResourceStatusConstants() {}
 
-    }
+  static {
+    LinkedHashMap<CmsResourceStatusTabId, CmsMessageContainer> pageTabs = Maps.newLinkedHashMap();
+    pageTabs.put(tabRelationsFrom, get().container(GUI_STATUS_TAB_FROM_CP_0));
+    pageTabs.put(tabStatus, get().container(GUI_STATUS_TAB_STATUS_0));
+    pageTabs.put(tabRelationsTo, get().container(GUI_STATUS_TAB_TO_CP_0));
+    pageTabs.put(tabSiblings, get().container(GUI_STATUS_TAB_SIBLINGS_0));
+    STATUS_TABS_CONTAINER_PAGE = Collections.unmodifiableMap(pageTabs);
 
-    static {
-        LinkedHashMap<CmsResourceStatusTabId, CmsMessageContainer> pageTabs = Maps.newLinkedHashMap();
-        pageTabs.put(tabRelationsFrom, get().container(GUI_STATUS_TAB_FROM_CP_0));
-        pageTabs.put(tabStatus, get().container(GUI_STATUS_TAB_STATUS_0));
-        pageTabs.put(tabRelationsTo, get().container(GUI_STATUS_TAB_TO_CP_0));
-        pageTabs.put(tabSiblings, get().container(GUI_STATUS_TAB_SIBLINGS_0));
-        STATUS_TABS_CONTAINER_PAGE = Collections.unmodifiableMap(pageTabs);
+    LinkedHashMap<CmsResourceStatusTabId, CmsMessageContainer> contentTabs =
+        Maps.newLinkedHashMap();
+    contentTabs.put(tabRelationsFrom, get().container(GUI_STATUS_TAB_FROM_XML_0));
+    contentTabs.put(tabStatus, get().container(GUI_STATUS_TAB_STATUS_0));
+    contentTabs.put(tabRelationsTo, get().container(GUI_STATUS_TAB_TO_XML_0));
+    contentTabs.put(tabSiblings, get().container(GUI_STATUS_TAB_SIBLINGS_0));
+    STATUS_TABS_CONTENT = Collections.unmodifiableMap(contentTabs);
 
-        LinkedHashMap<CmsResourceStatusTabId, CmsMessageContainer> contentTabs = Maps.newLinkedHashMap();
-        contentTabs.put(tabRelationsFrom, get().container(GUI_STATUS_TAB_FROM_XML_0));
-        contentTabs.put(tabStatus, get().container(GUI_STATUS_TAB_STATUS_0));
-        contentTabs.put(tabRelationsTo, get().container(GUI_STATUS_TAB_TO_XML_0));
-        contentTabs.put(tabSiblings, get().container(GUI_STATUS_TAB_SIBLINGS_0));
-        STATUS_TABS_CONTENT = Collections.unmodifiableMap(contentTabs);
-
-        LinkedHashMap<CmsResourceStatusTabId, CmsMessageContainer> otherTabs = Maps.newLinkedHashMap();
-        otherTabs.put(tabRelationsTo, get().container(GUI_STATUS_TAB_TO_OTHER_0));
-        otherTabs.put(tabStatus, get().container(GUI_STATUS_TAB_STATUS_0));
-        otherTabs.put(tabRelationsFrom, get().container(GUI_STATUS_TAB_FROM_OTHER_0));
-        otherTabs.put(tabSiblings, get().container(GUI_STATUS_TAB_SIBLINGS_0));
-        STATUS_TABS_OTHER = Collections.unmodifiableMap(otherTabs);
-    }
-
+    LinkedHashMap<CmsResourceStatusTabId, CmsMessageContainer> otherTabs = Maps.newLinkedHashMap();
+    otherTabs.put(tabRelationsTo, get().container(GUI_STATUS_TAB_TO_OTHER_0));
+    otherTabs.put(tabStatus, get().container(GUI_STATUS_TAB_STATUS_0));
+    otherTabs.put(tabRelationsFrom, get().container(GUI_STATUS_TAB_FROM_OTHER_0));
+    otherTabs.put(tabSiblings, get().container(GUI_STATUS_TAB_SIBLINGS_0));
+    STATUS_TABS_OTHER = Collections.unmodifiableMap(otherTabs);
+  }
 }

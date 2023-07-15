@@ -27,54 +27,46 @@
 
 package org.opencms.acacia.client.widgets;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
+import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import org.opencms.acacia.client.I_CmsWidgetFactory;
 import org.opencms.ade.contenteditor.widgetregistry.client.WidgetRegistry;
 import org.opencms.gwt.client.I_CmsHasInit;
 import org.opencms.gwt.shared.categorizedselect.I_CmsCategorizedSelectData;
 import org.opencms.gwt.shared.categorizedselect.I_CmsCategorizedSelectDataFactory;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
-import com.google.web.bindery.autobean.shared.AutoBeanCodex;
-
-/**
- * A factory for creating CmsCategorizedSelectWidget objects.
- */
+/** A factory for creating CmsCategorizedSelectWidget objects. */
 public class CmsCategorizedSelectWidgetFactory implements I_CmsWidgetFactory, I_CmsHasInit {
 
-    /** Name for the widget factory. */
-    public static final String WIDGET_NAME = "org.opencms.widgets.CmsCategorizedSelectWidget";
+  /** Name for the widget factory. */
+  public static final String WIDGET_NAME = "org.opencms.widgets.CmsCategorizedSelectWidget";
 
-    /** The configuration factory used for unmarshalling the data from the server. */
-    public static final I_CmsCategorizedSelectDataFactory configFactory = GWT.create(
-        I_CmsCategorizedSelectDataFactory.class);
+  /** The configuration factory used for unmarshalling the data from the server. */
+  public static final I_CmsCategorizedSelectDataFactory configFactory =
+      GWT.create(I_CmsCategorizedSelectDataFactory.class);
 
-    /**
-     * Initializes widget factory on startup.
-     */
-    public static void initClass() {
+  /** Initializes widget factory on startup. */
+  public static void initClass() {
 
-        WidgetRegistry.getInstance().registerWidgetFactory(WIDGET_NAME, new CmsCategorizedSelectWidgetFactory());
-    }
+    WidgetRegistry.getInstance()
+        .registerWidgetFactory(WIDGET_NAME, new CmsCategorizedSelectWidgetFactory());
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetFactory#createFormWidget(java.lang.String)
-     */
-    public I_CmsFormEditWidget createFormWidget(String configuration) {
+  /** @see org.opencms.acacia.client.I_CmsWidgetFactory#createFormWidget(java.lang.String) */
+  public I_CmsFormEditWidget createFormWidget(String configuration) {
 
-        I_CmsCategorizedSelectData config = AutoBeanCodex.decode(
-            configFactory,
-            I_CmsCategorizedSelectData.class,
-            configuration).as();
-        return new CmsFormWidgetWrapper(new CmsCategorizedSelectWidget(config));
-    }
+    I_CmsCategorizedSelectData config =
+        AutoBeanCodex.decode(configFactory, I_CmsCategorizedSelectData.class, configuration).as();
+    return new CmsFormWidgetWrapper(new CmsCategorizedSelectWidget(config));
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetFactory#createInlineWidget(java.lang.String, com.google.gwt.dom.client.Element)
-     */
-    public I_CmsEditWidget createInlineWidget(String configuration, Element element) {
+  /**
+   * @see org.opencms.acacia.client.I_CmsWidgetFactory#createInlineWidget(java.lang.String,
+   *     com.google.gwt.dom.client.Element)
+   */
+  public I_CmsEditWidget createInlineWidget(String configuration, Element element) {
 
-        return null;
-    }
-
+    return null;
+  }
 }

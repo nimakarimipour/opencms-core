@@ -27,103 +27,97 @@
 
 package org.opencms.xml.xml2json.handler;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import java.util.concurrent.ExecutionException;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 import org.opencms.main.I_CmsEventListener;
 import org.opencms.main.OpenCms;
 import org.opencms.xml.xml2json.CmsJsonResult;
 
-import java.util.concurrent.ExecutionException;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-
-/**
- * Wrapper for JSON handlers that caches online project requests.
- */
+/** Wrapper for JSON handlers that caches online project requests. */
 public class CmsJsonHandlerOnlineCachingWrapper implements I_CmsJsonHandler {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsJsonHandlerOnlineCachingWrapper.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsJsonHandlerOnlineCachingWrapper.class);
 
-    /** The wrapped handler. */
-    private I_CmsJsonHandler m_handler;
+  /** The wrapped handler. */
+  private I_CmsJsonHandler m_handler;
 
-    /** The cache. */
-    private LoadingCache<CmsJsonHandlerContext.Key, CmsJsonResult> m_cache;
+  /** The cache. */
+  private LoadingCache<CmsJsonHandlerContext.Key, CmsJsonResult> m_cache;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param handler the handler to wrap
-     * @param spec the CacheBuilder specification to use for the cache
-     */
-    public CmsJsonHandlerOnlineCachingWrapper(I_CmsJsonHandler handler, String spec) {
+  /**
+   * Creates a new instance.
+   *
+   * @param handler the handler to wrap
+   * @param spec the CacheBuilder specification to use for the cache
+   */
+  public CmsJsonHandlerOnlineCachingWrapper(I_CmsJsonHandler handler, String spec) {
 
-        m_handler = handler;
-        CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.from(spec);
-        m_cache = cacheBuilder.build(new CacheLoader<CmsJsonHandlerContext.Key, CmsJsonResult>() {
+    m_handler = handler;
+    CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.from(spec);
+    m_cache =
+        cacheBuilder.build(
+            new CacheLoader<CmsJsonHandlerContext.Key, CmsJsonResult>() {
 
-            @Override
-            @SuppressWarnings("synthetic-access")
-            public CmsJsonResult load(CmsJsonHandlerContext.Key key) throws Exception {
+              @Override
+              @SuppressWarnings("synthetic-access")
+              public CmsJsonResult load(CmsJsonHandlerContext.Key key) throws Exception {
 
                 CmsJsonResult result = m_handler.renderJson(key.getContext());
                 return result;
-
-            }
+              }
+            });
+    OpenCms.addCmsEventListener(
+        evt -> m_cache.invalidateAll(),
+        new int[] {
+          I_CmsEventListener.EVENT_CLEAR_CACHES, I_CmsEventListener.EVENT_PUBLISH_PROJECT
         });
-        OpenCms.addCmsEventListener(
-            evt -> m_cache.invalidateAll(),
-            new int[] {I_CmsEventListener.EVENT_CLEAR_CACHES, I_CmsEventListener.EVENT_PUBLISH_PROJECT});
+  }
 
+  /** @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#getOrder() */
+  public double getOrder() {
+
+    return m_handler.getOrder();
+  }
+
+  /**
+   * @see
+   *     org.opencms.xml.xml2json.handler.I_CmsJsonHandler#matches(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
+   */
+  public boolean matches(CmsJsonHandlerContext context) {
+
+    return m_handler.matches(context);
+  }
+
+  /**
+   * @see
+   *     org.opencms.xml.xml2json.handler.I_CmsJsonHandler#renderJson(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
+   */
+  public CmsJsonResult renderJson(CmsJsonHandlerContext context) {
+
+    if (!context.getCms().getRequestContext().getCurrentProject().isOnlineProject()) {
+      // never cache offline requests
+      return m_handler.renderJson(context);
+    } else {
+      try {
+        return m_cache.get(context.getKey());
+      } catch (ExecutionException e) {
+        LOG.error(e.getLocalizedMessage(), e);
+        return new CmsJsonResult(
+            e.getLocalizedMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      }
     }
+  }
 
-    /**
-     * @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#getOrder()
-     */
-    public double getOrder() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_handler.getOrder();
-    }
-
-    /**
-     * @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#matches(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
-     */
-    public boolean matches(CmsJsonHandlerContext context) {
-
-        return m_handler.matches(context);
-    }
-
-    /**
-     * @see org.opencms.xml.xml2json.handler.I_CmsJsonHandler#renderJson(org.opencms.xml.xml2json.handler.CmsJsonHandlerContext)
-     */
-    public CmsJsonResult renderJson(CmsJsonHandlerContext context) {
-
-        if (!context.getCms().getRequestContext().getCurrentProject().isOnlineProject()) {
-            // never cache offline requests
-            return m_handler.renderJson(context);
-        } else {
-            try {
-                return m_cache.get(context.getKey());
-            } catch (ExecutionException e) {
-                LOG.error(e.getLocalizedMessage(), e);
-                return new CmsJsonResult(e.getLocalizedMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            }
-        }
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-
-        return m_handler.toString();
-    }
-
+    return m_handler.toString();
+  }
 }

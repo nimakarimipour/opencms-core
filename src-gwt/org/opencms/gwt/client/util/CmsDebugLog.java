@@ -27,8 +27,6 @@
 
 package org.opencms.gwt.client.util;
 
-import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.BorderStyle;
@@ -37,115 +35,129 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.RootPanel;
+import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
 
 /**
- * A basic debug log, to print messages into the client window.<p>
+ * A basic debug log, to print messages into the client window.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public final class CmsDebugLog {
 
-    /** The debug log element id. */
-    private static final String CMS_DEBUG_LOG_ID = "cms_debug_log";
+  /** The debug log element id. */
+  private static final String CMS_DEBUG_LOG_ID = "cms_debug_log";
 
-    /** Global debugging flag. */
-    private static final boolean DEBUG = false;
+  /** Global debugging flag. */
+  private static final boolean DEBUG = false;
 
-    /** Debug log displayed within the client window. */
-    private static CmsDebugLog m_debug;
+  /** Debug log displayed within the client window. */
+  private static CmsDebugLog m_debug;
 
-    /** The wrapped widget. */
-    protected Element m_html;
+  /** The wrapped widget. */
+  protected Element m_html;
 
-    /**
-     * Constructor.<p>
-     */
-    private CmsDebugLog() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  private CmsDebugLog() {
 
-        if (!DEBUG) {
-            return;
-        }
-        m_html = DOM.getElementById(CMS_DEBUG_LOG_ID);
-        if (m_html == null) {
-            m_html = DOM.createDiv();
-            m_html.setAttribute("id", CMS_DEBUG_LOG_ID);
-            Style style = m_html.getStyle();
-            style.setWidth(400, Unit.PX);
-            style.setHeight(700, Unit.PX);
-            style.setPadding(10, Unit.PX);
-            style.setOverflow(Overflow.AUTO);
-            style.setBorderStyle(BorderStyle.SOLID);
-            style.setBorderColor(I_CmsLayoutBundle.INSTANCE.constants().css().borderColor());
-            style.setBorderWidth(1, Unit.PX);
-            style.setPosition(Position.FIXED);
-            style.setTop(50, Unit.PX);
-            style.setRight(50, Unit.PX);
-            style.setBackgroundColor(I_CmsLayoutBundle.INSTANCE.constants().css().backgroundColorDialog());
-            style.setZIndex(I_CmsLayoutBundle.INSTANCE.constants().css().zIndexPopup());
-            RootPanel.getBodyElement().appendChild(m_html);
-        }
+    if (!DEBUG) {
+      return;
     }
+    m_html = DOM.getElementById(CMS_DEBUG_LOG_ID);
+    if (m_html == null) {
+      m_html = DOM.createDiv();
+      m_html.setAttribute("id", CMS_DEBUG_LOG_ID);
+      Style style = m_html.getStyle();
+      style.setWidth(400, Unit.PX);
+      style.setHeight(700, Unit.PX);
+      style.setPadding(10, Unit.PX);
+      style.setOverflow(Overflow.AUTO);
+      style.setBorderStyle(BorderStyle.SOLID);
+      style.setBorderColor(I_CmsLayoutBundle.INSTANCE.constants().css().borderColor());
+      style.setBorderWidth(1, Unit.PX);
+      style.setPosition(Position.FIXED);
+      style.setTop(50, Unit.PX);
+      style.setRight(50, Unit.PX);
+      style.setBackgroundColor(
+          I_CmsLayoutBundle.INSTANCE.constants().css().backgroundColorDialog());
+      style.setZIndex(I_CmsLayoutBundle.INSTANCE.constants().css().zIndexPopup());
+      RootPanel.getBodyElement().appendChild(m_html);
+    }
+  }
 
-    /**
-     * Logs a message to the browser console if possible.<p>
-     *
-     * @param message the message to log
-     */
-    public static native void consoleLog(String message) /*-{
+  /**
+   * Logs a message to the browser console if possible.
+   *
+   * <p>
+   *
+   * @param message the message to log
+   */
+  public static native void consoleLog(String message) /*-{
         var cns = $wnd.top.console;
         if (cns && cns.log) {
             cns.log(message);
         }
     }-*/;
 
-    /**
-     * Logs a message and includes the current stack trace.
-     * 
-     * @param message the message to log 
-     */
-    public static native void consoleTrace(String message) /*-{
+  /**
+   * Logs a message and includes the current stack trace.
+   *
+   * @param message the message to log
+   */
+  public static native void consoleTrace(String message) /*-{
         var cns = $wnd.top.console;
         if (cns && cns.trace) {
             cns.trace(message);
         }
     }-*/;
 
-    /**
-     * Returns the debug log.<p>
-     *
-     * @return the debug log
-     */
-    public static CmsDebugLog getInstance() {
+  /**
+   * Returns the debug log.
+   *
+   * <p>
+   *
+   * @return the debug log
+   */
+  public static CmsDebugLog getInstance() {
 
-        if (m_debug == null) {
-            m_debug = new CmsDebugLog();
-        }
-        return m_debug;
+    if (m_debug == null) {
+      m_debug = new CmsDebugLog();
     }
+    return m_debug;
+  }
 
-    /**
-     * Clears the debug log.<p>
-     */
-    public void clear() {
+  /**
+   * Clears the debug log.
+   *
+   * <p>
+   */
+  public void clear() {
 
-        if (!DEBUG) {
-            return;
-        }
-        m_html.setInnerHTML("");
+    if (!DEBUG) {
+      return;
     }
+    m_html.setInnerHTML("");
+  }
 
-    /**
-     * Prints a new line into the log window by adding a p-tag including given text as HTML.<p>
-     *
-     * @param text the text to print
-     */
-    public void printLine(String text) {
+  /**
+   * Prints a new line into the log window by adding a p-tag including given text as HTML.
+   *
+   * <p>
+   *
+   * @param text the text to print
+   */
+  public void printLine(String text) {
 
-        if (!DEBUG) {
-            return;
-        }
-        Element child = DOM.createElement("p");
-        child.setInnerHTML(text);
-        m_html.insertFirst(child);
+    if (!DEBUG) {
+      return;
     }
+    Element child = DOM.createElement("p");
+    child.setInnerHTML(text);
+    m_html.insertFirst(child);
+  }
 }

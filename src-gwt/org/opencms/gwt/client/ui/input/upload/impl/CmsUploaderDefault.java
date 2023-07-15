@@ -27,13 +27,6 @@
 
 package org.opencms.gwt.client.ui.input.upload.impl;
 
-import org.opencms.gwt.client.ui.input.upload.CmsFileInfo;
-import org.opencms.gwt.client.ui.input.upload.I_CmsUploadDialog;
-import org.opencms.gwt.client.ui.input.upload.I_CmsUploader;
-import org.opencms.gwt.shared.I_CmsUploadConstants;
-
-import java.util.List;
-
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.http.client.URL;
@@ -44,133 +37,151 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
+import java.util.List;
+import org.opencms.gwt.client.ui.input.upload.CmsFileInfo;
+import org.opencms.gwt.client.ui.input.upload.I_CmsUploadDialog;
+import org.opencms.gwt.client.ui.input.upload.I_CmsUploader;
+import org.opencms.gwt.shared.I_CmsUploadConstants;
 
 /**
- * The default uploader implementation. Use if the file API is not available.<p>
+ * The default uploader implementation. Use if the file API is not available.
+ *
+ * <p>
  */
 public class CmsUploaderDefault implements I_CmsUploader {
 
-    /**
-     * Implements the submit handler (Used for browsers that don't support file api).<p>
-     */
-    private class CmsUploadHandler implements SubmitCompleteHandler {
+  /**
+   * Implements the submit handler (Used for browsers that don't support file api).
+   *
+   * <p>
+   */
+  private class CmsUploadHandler implements SubmitCompleteHandler {
 
-        /** The upload dialog instance. */
-        private I_CmsUploadDialog m_dialog;
+    /** The upload dialog instance. */
+    private I_CmsUploadDialog m_dialog;
 
-        /** The submitted form. */
-        private FormPanel m_form;
-
-        /**
-         * The default constructor.<p>
-         *
-         * @param dialog the upload dialog instance
-         * @param form the submitted form
-         */
-        public CmsUploadHandler(I_CmsUploadDialog dialog, FormPanel form) {
-
-            m_dialog = dialog;
-            m_form = form;
-        }
-
-        /**
-         * @see com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler#onSubmitComplete(com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent)
-         */
-        public void onSubmitComplete(SubmitCompleteEvent event) {
-
-            m_dialog.parseResponse(event.getResults());
-            m_form.removeFromParent();
-        }
-    }
+    /** The submitted form. */
+    private FormPanel m_form;
 
     /**
-     * @see org.opencms.gwt.client.ui.input.upload.I_CmsUploader#uploadFiles(java.lang.String, java.lang.String, boolean, java.lang.String, java.util.List, java.util.List, org.opencms.gwt.client.ui.input.upload.I_CmsUploadDialog)
-     */
-    public void uploadFiles(
-        String uploadUri,
-        String targetFolder,
-        boolean isRootPath,
-        String postCreateHandler,
-        List<CmsFileInfo> filesToUpload,
-        List<String> filesToUnzip,
-        boolean keepFileNames,
-        I_CmsUploadDialog dialog) {
-
-        FormPanel form = createForm(
-            uploadUri,
-            targetFolder,
-            isRootPath,
-            postCreateHandler,
-            filesToUpload,
-            filesToUnzip);
-        form.addSubmitCompleteHandler(new CmsUploadHandler(dialog, form));
-        form.getElement().getStyle().setDisplay(Display.NONE);
-        RootPanel.get().add(form);
-        form.submit();
-    }
-
-    /**
-     * Creates a hidden input field with the given name and value and adds it to the form panel.<p>
+     * The default constructor.
      *
-     * @param form the form panel
-     * @param fieldName the field name
-     * @param fieldValue the field value
+     * <p>
+     *
+     * @param dialog the upload dialog instance
+     * @param form the submitted form
      */
-    private void addHiddenField(Panel form, String fieldName, String fieldValue) {
+    public CmsUploadHandler(I_CmsUploadDialog dialog, FormPanel form) {
 
-        Hidden inputField = new Hidden();
-        inputField.setName(fieldName);
-        inputField.setValue(fieldValue);
-        form.add(inputField);
+      m_dialog = dialog;
+      m_form = form;
     }
 
     /**
-     * Creates a form to submit the upload files.<p>
-     *
-     * @param uploadUri the upload URI
-     * @param targetFolder the target folder
-     * @param isRootPath if the target folder is given as a root path
-     * @param postCreateHandler the post-create handler
-     * @param filesToUpload the files to upload
-     * @param filesToUnzip the files to unzip
-     * @return the created form panel
+     * @see
+     *     com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler#onSubmitComplete(com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent)
      */
-    private FormPanel createForm(
-        String uploadUri,
-        String targetFolder,
-        boolean isRootPath,
-        String postCreateHandler,
-        List<CmsFileInfo> filesToUpload,
-        List<String> filesToUnzip) {
+    public void onSubmitComplete(SubmitCompleteEvent event) {
 
-        // create a form using the POST method and multipart MIME encoding
-        FormPanel form = new FormPanel();
-        form.setAction(uploadUri);
-        form.setEncoding(FormPanel.ENCODING_MULTIPART);
-        form.setMethod(FormPanel.METHOD_POST);
-        // create a panel that contains the file input fields and the target folder
-        FlowPanel inputFieldsPanel = new FlowPanel();
-        int count = 0;
-        for (CmsFileInfo info : filesToUpload) {
-            InputElement input = info.getInputElement();
-            String fieldName = "file_" + count++;
-            input.setName(fieldName);
-            inputFieldsPanel.getElement().appendChild(input);
-            addHiddenField(
-                inputFieldsPanel,
-                fieldName + I_CmsUploadConstants.UPLOAD_FILENAME_ENCODED_SUFFIX,
-                URL.encode(info.getOverrideFileName()));
-        }
-        for (String filename : filesToUnzip) {
-            addHiddenField(inputFieldsPanel, I_CmsUploadConstants.UPLOAD_UNZIP_FILES_FIELD_NAME, URL.encode(filename));
-        }
-        addHiddenField(inputFieldsPanel, I_CmsUploadConstants.UPLOAD_TARGET_FOLDER_FIELD_NAME, targetFolder);
-        if (postCreateHandler != null) {
-            addHiddenField(inputFieldsPanel, I_CmsUploadConstants.POST_CREATE_HANDLER, postCreateHandler);
-        }
-        addHiddenField(inputFieldsPanel, I_CmsUploadConstants.UPLOAD_IS_ROOT_PATH_FIELD_NAME, "" + isRootPath);
-        form.setWidget(inputFieldsPanel);
-        return form;
+      m_dialog.parseResponse(event.getResults());
+      m_form.removeFromParent();
     }
+  }
 
+  /**
+   * @see org.opencms.gwt.client.ui.input.upload.I_CmsUploader#uploadFiles(java.lang.String,
+   *     java.lang.String, boolean, java.lang.String, java.util.List, java.util.List,
+   *     org.opencms.gwt.client.ui.input.upload.I_CmsUploadDialog)
+   */
+  public void uploadFiles(
+      String uploadUri,
+      String targetFolder,
+      boolean isRootPath,
+      String postCreateHandler,
+      List<CmsFileInfo> filesToUpload,
+      List<String> filesToUnzip,
+      boolean keepFileNames,
+      I_CmsUploadDialog dialog) {
+
+    FormPanel form =
+        createForm(
+            uploadUri, targetFolder, isRootPath, postCreateHandler, filesToUpload, filesToUnzip);
+    form.addSubmitCompleteHandler(new CmsUploadHandler(dialog, form));
+    form.getElement().getStyle().setDisplay(Display.NONE);
+    RootPanel.get().add(form);
+    form.submit();
+  }
+
+  /**
+   * Creates a hidden input field with the given name and value and adds it to the form panel.
+   *
+   * <p>
+   *
+   * @param form the form panel
+   * @param fieldName the field name
+   * @param fieldValue the field value
+   */
+  private void addHiddenField(Panel form, String fieldName, String fieldValue) {
+
+    Hidden inputField = new Hidden();
+    inputField.setName(fieldName);
+    inputField.setValue(fieldValue);
+    form.add(inputField);
+  }
+
+  /**
+   * Creates a form to submit the upload files.
+   *
+   * <p>
+   *
+   * @param uploadUri the upload URI
+   * @param targetFolder the target folder
+   * @param isRootPath if the target folder is given as a root path
+   * @param postCreateHandler the post-create handler
+   * @param filesToUpload the files to upload
+   * @param filesToUnzip the files to unzip
+   * @return the created form panel
+   */
+  private FormPanel createForm(
+      String uploadUri,
+      String targetFolder,
+      boolean isRootPath,
+      String postCreateHandler,
+      List<CmsFileInfo> filesToUpload,
+      List<String> filesToUnzip) {
+
+    // create a form using the POST method and multipart MIME encoding
+    FormPanel form = new FormPanel();
+    form.setAction(uploadUri);
+    form.setEncoding(FormPanel.ENCODING_MULTIPART);
+    form.setMethod(FormPanel.METHOD_POST);
+    // create a panel that contains the file input fields and the target folder
+    FlowPanel inputFieldsPanel = new FlowPanel();
+    int count = 0;
+    for (CmsFileInfo info : filesToUpload) {
+      InputElement input = info.getInputElement();
+      String fieldName = "file_" + count++;
+      input.setName(fieldName);
+      inputFieldsPanel.getElement().appendChild(input);
+      addHiddenField(
+          inputFieldsPanel,
+          fieldName + I_CmsUploadConstants.UPLOAD_FILENAME_ENCODED_SUFFIX,
+          URL.encode(info.getOverrideFileName()));
+    }
+    for (String filename : filesToUnzip) {
+      addHiddenField(
+          inputFieldsPanel,
+          I_CmsUploadConstants.UPLOAD_UNZIP_FILES_FIELD_NAME,
+          URL.encode(filename));
+    }
+    addHiddenField(
+        inputFieldsPanel, I_CmsUploadConstants.UPLOAD_TARGET_FOLDER_FIELD_NAME, targetFolder);
+    if (postCreateHandler != null) {
+      addHiddenField(inputFieldsPanel, I_CmsUploadConstants.POST_CREATE_HANDLER, postCreateHandler);
+    }
+    addHiddenField(
+        inputFieldsPanel, I_CmsUploadConstants.UPLOAD_IS_ROOT_PATH_FIELD_NAME, "" + isRootPath);
+    form.setWidget(inputFieldsPanel);
+    return form;
+  }
 }

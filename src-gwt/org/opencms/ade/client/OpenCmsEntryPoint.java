@@ -27,6 +27,7 @@
 
 package org.opencms.ade.client;
 
+import com.google.gwt.core.client.EntryPoint;
 import org.opencms.ade.containerpage.client.CmsContainerpageEditor;
 import org.opencms.ade.contenteditor.client.CmsContentEditorEntryPoint;
 import org.opencms.ade.editprovider.client.CmsDirectEditEntryPoint;
@@ -41,68 +42,68 @@ import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.shared.CmsCoreData;
 import org.opencms.gwt.shared.CmsCoreData.ModuleKey;
 
-import com.google.gwt.core.client.EntryPoint;
-
 /**
- * Main OpenCms entry point, will delegate to the requested module.<p>
+ * Main OpenCms entry point, will delegate to the requested module.
+ *
+ * <p>
  */
 public class OpenCmsEntryPoint extends A_CmsEntryPoint {
 
-    /**
-     * @see org.opencms.gwt.client.A_CmsEntryPoint#onModuleLoad()
-     */
-    @SuppressWarnings("incomplete-switch")
-    @Override
-    public void onModuleLoad() {
+  /** @see org.opencms.gwt.client.A_CmsEntryPoint#onModuleLoad() */
+  @SuppressWarnings("incomplete-switch")
+  @Override
+  public void onModuleLoad() {
 
-        EntryPoint entry = null;
-        ModuleKey key = getModuleKey();
-        if (key != null) {
-            switch (key) {
-                case containerpage:
-                    entry = new CmsContainerpageEditor();
-                    break;
-                case contenteditor:
-                    entry = new CmsContentEditorEntryPoint();
-                    break;
-                case galleries:
-                    entry = new CmsGallery();
-                    break;
-                case postupload:
-                    entry = new CmsPostUploadDialogEntryPoint();
-                    break;
-                case publish:
-                    entry = new CmsPublishEntryPoint();
-                    break;
-                case sitemap:
-                    entry = new CmsSitemapView();
-                    break;
-                case upload:
-                    entry = new CmsUpload();
-                    break;
-                case editprovider:
-                    entry = new CmsDirectEditEntryPoint();
-                    break;
-                case properties:
-                    entry = new CmsPropertiesEntryPoint();
-                    break;
-            }
-        }
-
-        if (entry != null) {
-            entry.onModuleLoad();
-        }
+    EntryPoint entry = null;
+    ModuleKey key = getModuleKey();
+    if (key != null) {
+      switch (key) {
+        case containerpage:
+          entry = new CmsContainerpageEditor();
+          break;
+        case contenteditor:
+          entry = new CmsContentEditorEntryPoint();
+          break;
+        case galleries:
+          entry = new CmsGallery();
+          break;
+        case postupload:
+          entry = new CmsPostUploadDialogEntryPoint();
+          break;
+        case publish:
+          entry = new CmsPublishEntryPoint();
+          break;
+        case sitemap:
+          entry = new CmsSitemapView();
+          break;
+        case upload:
+          entry = new CmsUpload();
+          break;
+        case editprovider:
+          entry = new CmsDirectEditEntryPoint();
+          break;
+        case properties:
+          entry = new CmsPropertiesEntryPoint();
+          break;
+      }
     }
 
-    /**
-     * Returns the key to the requested module.<p>
-     *
-     * @return the module key
-     */
-    private ModuleKey getModuleKey() {
-
-        String key = CmsCoreProvider.getMetaElementContent(CmsCoreData.META_PARAM_MODULE_KEY);
-        ModuleKey result = ModuleKey.valueOf(key);
-        return result;
+    if (entry != null) {
+      entry.onModuleLoad();
     }
+  }
+
+  /**
+   * Returns the key to the requested module.
+   *
+   * <p>
+   *
+   * @return the module key
+   */
+  private ModuleKey getModuleKey() {
+
+    String key = CmsCoreProvider.getMetaElementContent(CmsCoreData.META_PARAM_MODULE_KEY);
+    ModuleKey result = ModuleKey.valueOf(key);
+    return result;
+  }
 }

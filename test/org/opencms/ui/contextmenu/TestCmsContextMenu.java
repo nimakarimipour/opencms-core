@@ -27,140 +27,145 @@
 
 package org.opencms.ui.contextmenu;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.util.CmsTreeNode;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-
 /**
- * Tests context menu construction.<p>
+ * Tests context menu construction.
+ *
+ * <p>
  */
 public class TestCmsContextMenu extends OpenCmsTestCase {
 
-    /**
-     * Tests building the context menu tree.<p>
-     */
-    public void testBuildTree() {
+  /**
+   * Tests building the context menu tree.
+   *
+   * <p>
+   */
+  public void testBuildTree() {
 
-        List<I_CmsContextMenuItem> items = Arrays.asList(
+    List<I_CmsContextMenuItem> items =
+        Arrays.asList(
             entry("foo", null, 0, 0),
             entry("bar", null, 0, 1),
             entry("baz", "foo", 0, 2),
             entry("qux", "foo", 0, 3));
 
-        CmsContextMenuTreeBuilder builder = new CmsContextMenuTreeBuilder(null);
-        CmsTreeNode<I_CmsContextMenuItem> root = builder.buildTree(items);
-        List<CmsTreeNode<I_CmsContextMenuItem>> topLevel = root.getChildren();
-        assertEquals(2, topLevel.size());
-        assertEquals("foo", topLevel.get(0).getData().getId());
-        assertEquals("bar", topLevel.get(1).getData().getId());
-        assertEquals(2, topLevel.get(0).getChildren().size());
-        assertEquals(0, topLevel.get(1).getChildren().size());
-        assertEquals("baz", topLevel.get(0).getChildren().get(0).getData().getId());
-        assertEquals("qux", topLevel.get(0).getChildren().get(1).getData().getId());
-    }
+    CmsContextMenuTreeBuilder builder = new CmsContextMenuTreeBuilder(null);
+    CmsTreeNode<I_CmsContextMenuItem> root = builder.buildTree(items);
+    List<CmsTreeNode<I_CmsContextMenuItem>> topLevel = root.getChildren();
+    assertEquals(2, topLevel.size());
+    assertEquals("foo", topLevel.get(0).getData().getId());
+    assertEquals("bar", topLevel.get(1).getData().getId());
+    assertEquals(2, topLevel.get(0).getChildren().size());
+    assertEquals(0, topLevel.get(1).getChildren().size());
+    assertEquals("baz", topLevel.get(0).getChildren().get(0).getData().getId());
+    assertEquals("qux", topLevel.get(0).getChildren().get(1).getData().getId());
+  }
 
-    /**
-     * Tests that context menu items with higher priorities override those  with lower ones.<p>
-     */
-    public void testOverride() {
+  /**
+   * Tests that context menu items with higher priorities override those with lower ones.
+   *
+   * <p>
+   */
+  public void testOverride() {
 
-        List<I_CmsContextMenuItem> items = Arrays.asList(
-            entry("foo", null, 0, 0),
-            entry("foo", null, 100, 100),
-            entry("foo", null, 1, 1));
-        CmsContextMenuTreeBuilder builder = new CmsContextMenuTreeBuilder(null);
-        CmsTreeNode<I_CmsContextMenuItem> root = builder.buildTree(items);
-        List<CmsTreeNode<I_CmsContextMenuItem>> topLevel = root.getChildren();
-        assertEquals(1, topLevel.size());
-        assertEquals(100, topLevel.get(0).getData().getPriority());
+    List<I_CmsContextMenuItem> items =
+        Arrays.asList(
+            entry("foo", null, 0, 0), entry("foo", null, 100, 100), entry("foo", null, 1, 1));
+    CmsContextMenuTreeBuilder builder = new CmsContextMenuTreeBuilder(null);
+    CmsTreeNode<I_CmsContextMenuItem> root = builder.buildTree(items);
+    List<CmsTreeNode<I_CmsContextMenuItem>> topLevel = root.getChildren();
+    assertEquals(1, topLevel.size());
+    assertEquals(100, topLevel.get(0).getData().getPriority());
+  }
 
-    }
+  /**
+   * Tests that items cyclically referring to each other via the parent id are not included in the
+   * context menu tree.
+   *
+   * <p>
+   */
+  public void testRemoveCycles() {
 
-    /**
-     * Tests that items cyclically referring to each other via the parent id are not included in the context menu tree.<p>
-     */
-    public void testRemoveCycles() {
+    List<I_CmsContextMenuItem> items =
+        Arrays.asList(
+            entry("foo", null, 0, 0), entry("bar", "baz", 0, 1), entry("baz", "bar", 0, 2));
 
-        List<I_CmsContextMenuItem> items = Arrays.asList(
-            entry("foo", null, 0, 0),
-            entry("bar", "baz", 0, 1),
-            entry("baz", "bar", 0, 2));
+    CmsContextMenuTreeBuilder builder = new CmsContextMenuTreeBuilder(null);
+    CmsTreeNode<I_CmsContextMenuItem> root = builder.buildTree(items);
+    List<CmsTreeNode<I_CmsContextMenuItem>> topLevel = root.getChildren();
+    assertEquals(1, topLevel.size());
+    assertEquals("foo", topLevel.get(0).getData().getId());
+  }
 
-        CmsContextMenuTreeBuilder builder = new CmsContextMenuTreeBuilder(null);
-        CmsTreeNode<I_CmsContextMenuItem> root = builder.buildTree(items);
-        List<CmsTreeNode<I_CmsContextMenuItem>> topLevel = root.getChildren();
-        assertEquals(1, topLevel.size());
-        assertEquals("foo", topLevel.get(0).getData().getId());
+  /**
+   * Helper method to construct a context menu item.
+   *
+   * <p>
+   *
+   * @param id the id
+   * @param parentId the parent id
+   * @param priority the priority
+   * @param order the order
+   * @return the context menu item
+   */
+  private I_CmsContextMenuItem entry(
+      final String id, final String parentId, final int priority, final float order) {
 
-    }
+    return new I_CmsContextMenuItem() {
 
-    /**
-     * Helper method to construct a context menu item.<p>
-     *
-     * @param id the id
-     * @param parentId the parent id
-     * @param priority the priority
-     * @param order the order
-     *
-     * @return the context menu item
-     */
-    private I_CmsContextMenuItem entry(final String id, final String parentId, final int priority, final float order) {
+      public void executeAction(I_CmsDialogContext context) {
 
-        return new I_CmsContextMenuItem() {
+        // TODO Auto-generated method stub
 
-            public void executeAction(I_CmsDialogContext context) {
+      }
 
-                // TODO Auto-generated method stub
+      public String getId() {
 
-            }
+        return id;
+      }
 
-            public String getId() {
+      public float getOrder() {
 
-                return id;
-            }
+        return order;
+      }
 
-            public float getOrder() {
+      public String getParentId() {
 
-                return order;
-            }
+        return parentId;
+      }
 
-            public String getParentId() {
+      public int getPriority() {
 
-                return parentId;
-            }
+        return priority;
+      }
 
-            public int getPriority() {
+      public String getTitle(Locale locale) {
 
-                return priority;
-            }
+        return id;
+      }
 
-            public String getTitle(Locale locale) {
+      public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
 
-                return id;
-            }
+        return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
+      }
 
-            public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+      public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
 
-                return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
-            }
+        return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
+      }
 
-            public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
+      public boolean isLeafItem() {
 
-                return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
-            }
-
-            public boolean isLeafItem() {
-
-                return false;
-            }
-
-        };
-    }
-
+        return false;
+      }
+    };
+  }
 }

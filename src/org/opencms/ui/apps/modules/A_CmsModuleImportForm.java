@@ -27,6 +27,15 @@
 
 package org.opencms.ui.apps.modules;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.Arrays;
+import java.util.List;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
@@ -39,197 +48,203 @@ import org.opencms.ui.components.CmsAutoItemCreatingComboBox;
 import org.opencms.ui.components.CmsErrorDialog;
 import org.opencms.ui.report.CmsReportWidget;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.v7.data.util.IndexedContainer;
-import com.vaadin.v7.ui.VerticalLayout;
-
 /**
- * Abstract superclass for the module import forms.<p>
+ * Abstract superclass for the module import forms.
+ *
+ * <p>
  */
 public abstract class A_CmsModuleImportForm extends CssLayout {
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(A_CmsModuleImportForm.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(A_CmsModuleImportForm.class);
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The module manager app instance. */
-    protected CmsModuleApp m_app;
+  /** The module manager app instance. */
+  protected CmsModuleApp m_app;
 
-    /** A bean representing the module zip file to be imported. */
-    protected CmsModuleImportFile m_importFile;
+  /** A bean representing the module zip file to be imported. */
+  protected CmsModuleImportFile m_importFile;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param app the app instance for which this form is opened
-     */
-    public A_CmsModuleImportForm(
-        CmsModuleApp app,
-        final VerticalLayout start,
-        final VerticalLayout report,
-        Runnable run) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param app the app instance for which this form is opened
+   */
+  public A_CmsModuleImportForm(
+      CmsModuleApp app, final VerticalLayout start, final VerticalLayout report, Runnable run) {
 
-        report.setVisible(false);
-        CmsObject cms = A_CmsUI.getCmsObject();
-        m_app = app;
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        getOkButton().setEnabled(false);
+    report.setVisible(false);
+    CmsObject cms = A_CmsUI.getCmsObject();
+    m_app = app;
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    getOkButton().setEnabled(false);
 
-        final IndexedContainer availableSites = CmsVaadinUtils.getAvailableSitesContainer(cms, "name");
+    final IndexedContainer availableSites = CmsVaadinUtils.getAvailableSitesContainer(cms, "name");
 
-        getSiteSelector().setContainerDataSource(availableSites);
-        if (availableSites.getItem(cms.getRequestContext().getSiteRoot()) != null) {
-            getSiteSelector().setValue(cms.getRequestContext().getSiteRoot());
-        }
-        getSiteSelector().setNullSelectionAllowed(false);
-        getSiteSelector().setItemCaptionPropertyId("name");
-        getSiteSelector().setNewValueHandler(new CmsSiteSelectorNewValueHandler("name"));
+    getSiteSelector().setContainerDataSource(availableSites);
+    if (availableSites.getItem(cms.getRequestContext().getSiteRoot()) != null) {
+      getSiteSelector().setValue(cms.getRequestContext().getSiteRoot());
+    }
+    getSiteSelector().setNullSelectionAllowed(false);
+    getSiteSelector().setItemCaptionPropertyId("name");
+    getSiteSelector().setNewValueHandler(new CmsSiteSelectorNewValueHandler("name"));
 
-        getCancelButton().addClickListener(new ClickListener() {
+    getCancelButton()
+        .addClickListener(
+            new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+              private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+              public void buttonClick(ClickEvent event) {
 
                 CmsVaadinUtils.getWindow(getCancelButton()).close();
+              }
+            });
 
-            }
-        });
+    getOkButton()
+        .addClickListener(
+            new ClickListener() {
 
-        getOkButton().addClickListener(new ClickListener() {
+              private static final long serialVersionUID = 1L;
 
-            private static final long serialVersionUID = 1L;
-
-            @SuppressWarnings("synthetic-access")
-            public void buttonClick(ClickEvent event) {
+              @SuppressWarnings("synthetic-access")
+              public void buttonClick(ClickEvent event) {
 
                 try {
-                    start.setVisible(false);
-                    report.setVisible(true);
-                    getOkButton().setVisible(false);
-                    CmsObject importCms = OpenCms.initCmsObject(A_CmsUI.getCmsObject());
-                    importCms.getRequestContext().setSiteRoot((String)(getSiteSelector().getValue()));
-                    CmsModuleImportThread thread = new CmsModuleImportThread(
-                        importCms,
-                        m_importFile.getModule(),
-                        m_importFile.getPath());
+                  start.setVisible(false);
+                  report.setVisible(true);
+                  getOkButton().setVisible(false);
+                  CmsObject importCms = OpenCms.initCmsObject(A_CmsUI.getCmsObject());
+                  importCms
+                      .getRequestContext()
+                      .setSiteRoot((String) (getSiteSelector().getValue()));
+                  CmsModuleImportThread thread =
+                      new CmsModuleImportThread(
+                          importCms, m_importFile.getModule(), m_importFile.getPath());
 
-                    CmsReportWidget reportWidget = new CmsReportWidget(thread);
-                    reportWidget.setWidth("100%");
-                    reportWidget.setHeight("100%");
+                  CmsReportWidget reportWidget = new CmsReportWidget(thread);
+                  reportWidget.setWidth("100%");
+                  reportWidget.setHeight("100%");
 
-                    report.addComponent(reportWidget);
-                    thread.start();
-                    getOkButton().setEnabled(false);
-                    getCancelButton().setCaption(CmsVaadinUtils.messageClose());
-                    getCancelButton().addClickListener(new ClickListener() {
+                  report.addComponent(reportWidget);
+                  thread.start();
+                  getOkButton().setEnabled(false);
+                  getCancelButton().setCaption(CmsVaadinUtils.messageClose());
+                  getCancelButton()
+                      .addClickListener(
+                          new ClickListener() {
 
-                        private static final long serialVersionUID = 1L;
+                            private static final long serialVersionUID = 1L;
 
-                        public void buttonClick(ClickEvent event) {
+                            public void buttonClick(ClickEvent event) {
 
-                            run.run();
-
-                        }
-                    });
+                              run.run();
+                            }
+                          });
 
                 } catch (CmsException e) {
-                    LOG.error(e.getLocalizedMessage(), e);
-                    CmsErrorDialog.showErrorDialog(e);
+                  LOG.error(e.getLocalizedMessage(), e);
+                  CmsErrorDialog.showErrorDialog(e);
                 }
-            }
+              }
+            });
+  }
 
-        });
+  /**
+   * Gets the list of buttons for the form.
+   *
+   * <p>
+   *
+   * @return the buttons
+   */
+  public List<Button> getButtons() {
 
+    return Arrays.asList(getOkButton(), getCancelButton());
+  }
+
+  /**
+   * Gets the cancel button.
+   *
+   * <p>
+   *
+   * @return the cancel button
+   */
+  protected abstract Button getCancelButton();
+
+  /**
+   * Gets the OK button.
+   *
+   * <p>
+   *
+   * @return the OK button
+   */
+  protected abstract Button getOkButton();
+
+  /**
+   * Returns the site selector for the module import.
+   *
+   * <p>
+   *
+   * @return the site selector
+   */
+  protected abstract CmsAutoItemCreatingComboBox getSiteSelector();
+
+  /**
+   * Takes the file name given in the upload and processes it to return the file name under which
+   * the upload should be stored in the file system.
+   *
+   * <p>
+   *
+   * @param name the upload file name
+   * @return the RFS file name
+   */
+  protected String processFileName(String name) {
+
+    int pos = name.lastIndexOf("/");
+    if (pos >= 0) {
+      name = name.substring(pos + 1);
     }
-
-    /**
-     * Gets the list of buttons for the form.<p>
-     *
-     * @return the buttons
-     */
-    public List<Button> getButtons() {
-
-        return Arrays.asList(getOkButton(), getCancelButton());
+    pos = name.lastIndexOf("\\");
+    if (pos >= 0) {
+      name = name.substring(pos + 1);
     }
+    return name;
+  }
 
-    /**
-     * Gets the cancel button.<p>
-     *
-     * @return the cancel button
-     */
-    protected abstract Button getCancelButton();
+  /**
+   * Validates the module file to be imported.
+   *
+   * <p>
+   */
+  protected void validateModuleFile() {
 
-    /**
-     * Gets the OK button.<p>
-     *
-     * @return the OK button
-     */
-    protected abstract Button getOkButton();
-
-    /**
-     * Returns the site selector for the module import.<p>
-     *
-     * @return the site selector
-     **/
-    protected abstract CmsAutoItemCreatingComboBox getSiteSelector();
-
-    /**
-     * Takes the file name given in the upload and processes it to return the file name under which the upload should be stored in the file system.<p>
-     *
-     * @param name the upload file name
-     * @return the RFS file name
-     */
-    protected String processFileName(String name) {
-
-        int pos = name.lastIndexOf("/");
-        if (pos >= 0) {
-            name = name.substring(pos + 1);
+    try {
+      m_importFile.loadAndValidate();
+      CmsModule importModule = m_importFile.getModule();
+      String site = importModule.getSite();
+      if (site != null) {
+        if (importModule.hasImportSite()) {
+          getSiteSelector().setEnabled(false);
+          getSiteSelector().setValue(site);
+        } else {
+          String itemId =
+              CmsVaadinUtils.getPathItemId(getSiteSelector().getContainerDataSource(), site);
+          if (itemId != null) {
+            getSiteSelector().setValue(itemId);
+          }
         }
-        pos = name.lastIndexOf("\\");
-        if (pos >= 0) {
-            name = name.substring(pos + 1);
-        }
-        return name;
+      }
+      getOkButton().setEnabled(true);
+    } catch (Exception e) {
+      LOG.info(e.getLocalizedMessage(), e);
+      m_importFile = null;
+      getOkButton().setEnabled(false);
+      CmsErrorDialog.showErrorDialog(e);
     }
-
-    /**
-     * Validates the module file to be imported.<p>
-     */
-    protected void validateModuleFile() {
-
-        try {
-            m_importFile.loadAndValidate();
-            CmsModule importModule = m_importFile.getModule();
-            String site = importModule.getSite();
-            if (site != null) {
-                if (importModule.hasImportSite()) {
-                    getSiteSelector().setEnabled(false);
-                    getSiteSelector().setValue(site);
-                } else {
-                    String itemId = CmsVaadinUtils.getPathItemId(getSiteSelector().getContainerDataSource(), site);
-                    if (itemId != null) {
-                        getSiteSelector().setValue(itemId);
-                    }
-                }
-            }
-            getOkButton().setEnabled(true);
-        } catch (Exception e) {
-            LOG.info(e.getLocalizedMessage(), e);
-            m_importFile = null;
-            getOkButton().setEnabled(false);
-            CmsErrorDialog.showErrorDialog(e);
-
-        }
-    }
+  }
 }

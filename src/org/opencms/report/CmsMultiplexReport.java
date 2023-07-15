@@ -27,190 +27,168 @@
 
 package org.opencms.report;
 
-import org.opencms.i18n.CmsMessageContainer;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import org.opencms.i18n.CmsMessageContainer;
 
 /**
- * Report proxy that multiplexes to all contained <code>{@link I_CmsReport}</code> instances.<p>
+ * Report proxy that multiplexes to all contained <code>{@link I_CmsReport}</code> instances.
+ *
+ * <p>
  *
  * @since 7.5.1
  */
 public class CmsMultiplexReport extends A_CmsReport {
 
-    /** The reports to multiplex to. */
-    private List<A_CmsReport> m_delegates = new LinkedList<A_CmsReport>();
+  /** The reports to multiplex to. */
+  private List<A_CmsReport> m_delegates = new LinkedList<A_CmsReport>();
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsMultiplexReport() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsMultiplexReport() {
 
-        // nop
+    // nop
+  }
+
+  /**
+   * Adds the given report to become a proxy delegate of this multiplexer.
+   *
+   * <p>
+   *
+   * @param report the report to be on the recipient list.
+   */
+  public void addReport(final A_CmsReport report) {
+
+    m_delegates.add(report);
+  }
+
+  /** @see org.opencms.report.A_CmsReport#getLastEntryTime() */
+  @Override
+  public long getLastEntryTime() {
+
+    if (m_delegates.isEmpty()) {
+      return 0;
     }
+    return m_delegates.get(0).getLastEntryTime();
+  }
 
-    /**
-     * Adds the given report to become a proxy delegate of this multiplexer.<p>
-     *
-     * @param report the report to be on the recipient list.
-     */
-    public void addReport(final A_CmsReport report) {
+  /** @see org.opencms.report.A_CmsReport#getLocale() */
+  @Override
+  public Locale getLocale() {
 
-        m_delegates.add(report);
+    if (m_delegates.size() > 0) {
+      return m_delegates.get(0).getLocale();
     }
+    return Locale.ENGLISH;
+  }
 
-    /**
-     * @see org.opencms.report.A_CmsReport#getLastEntryTime()
-     */
-    @Override
-    public long getLastEntryTime() {
+  /**
+   * This searches for the first instance of a link in the internal delegate list and returns the
+   * value of it's invocation.
+   *
+   * <p>If no such report is found an empty String will be returned.
+   *
+   * <p>
+   *
+   * @see org.opencms.report.I_CmsReport#getReportUpdate()
+   */
+  public String getReportUpdate() {
 
-        if (m_delegates.isEmpty()) {
-            return 0;
-        }
-        return m_delegates.get(0).getLastEntryTime();
+    for (I_CmsReport report : m_delegates) {
+      if (report.getClass().getName().toLowerCase().contains("html")) {
+        return report.getReportUpdate();
+      }
     }
+    return "";
+  }
 
-    /**
-     * @see org.opencms.report.A_CmsReport#getLocale()
-     */
-    @Override
-    public Locale getLocale() {
+  /** @see I_CmsReport#print(CmsMessageContainer) */
+  @Override
+  public void print(final CmsMessageContainer container) {
 
-        if (m_delegates.size() > 0) {
-            return m_delegates.get(0).getLocale();
-        }
-        return Locale.ENGLISH;
+    for (I_CmsReport report : m_delegates) {
+      report.print(container);
     }
+  }
 
-    /**
-     * This searches for the first instance of a link in the internal delegate list and
-     * returns the value of it's invocation.
-     * <p>
-     *
-     * If no such report is found an empty String will be returned.
-     * <p>
-     *
-     * @see org.opencms.report.I_CmsReport#getReportUpdate()
-     */
-    public String getReportUpdate() {
+  /** @see I_CmsReport#print(CmsMessageContainer, int) */
+  @Override
+  public void print(final CmsMessageContainer container, final int format) {
 
-        for (I_CmsReport report : m_delegates) {
-            if (report.getClass().getName().toLowerCase().contains("html")) {
-                return report.getReportUpdate();
-            }
-        }
-        return "";
+    for (I_CmsReport report : m_delegates) {
+      report.print(container, format);
     }
+  }
 
-    /**
-     * @see I_CmsReport#print(CmsMessageContainer)
-     */
-    @Override
-    public void print(final CmsMessageContainer container) {
+  /** @see I_CmsReport#println() */
+  public void println() {
 
-        for (I_CmsReport report : m_delegates) {
-            report.print(container);
-        }
+    for (I_CmsReport report : m_delegates) {
+      report.println();
     }
+  }
 
-    /**
-     * @see I_CmsReport#print(CmsMessageContainer, int)
-     */
-    @Override
-    public void print(final CmsMessageContainer container, final int format) {
+  /** @see I_CmsReport#println(CmsMessageContainer) */
+  @Override
+  public void println(final CmsMessageContainer container) {
 
-        for (I_CmsReport report : m_delegates) {
-            report.print(container, format);
-        }
-
+    for (I_CmsReport report : m_delegates) {
+      report.println(container);
     }
+  }
 
-    /**
-     * @see I_CmsReport#println()
-     */
-    public void println() {
+  /** @see I_CmsReport#println(CmsMessageContainer, int) */
+  @Override
+  public void println(final CmsMessageContainer container, final int format) {
 
-        for (I_CmsReport report : m_delegates) {
-            report.println();
-        }
+    for (I_CmsReport report : m_delegates) {
+      report.println(container, format);
     }
+  }
 
-    /**
-     * @see I_CmsReport#println(CmsMessageContainer)
-     */
-    @Override
-    public void println(final CmsMessageContainer container) {
+  /** @see I_CmsReport#println(Throwable) */
+  public void println(final Throwable t) {
 
-        for (I_CmsReport report : m_delegates) {
-            report.println(container);
-        }
+    // do nothing
+  }
+
+  /** @see I_CmsReport#printMessageWithParam(CmsMessageContainer, Object) */
+  @Override
+  public void printMessageWithParam(final CmsMessageContainer container, final Object param) {
+
+    for (I_CmsReport report : m_delegates) {
+      report.printMessageWithParam(container, param);
     }
+  }
 
-    /**
-     * @see I_CmsReport#println(CmsMessageContainer, int)
-     */
-    @Override
-    public void println(final CmsMessageContainer container, final int format) {
+  /** @see I_CmsReport#printMessageWithParam(int, int, CmsMessageContainer, Object) */
+  @Override
+  public void printMessageWithParam(
+      final int m, final int n, final CmsMessageContainer container, final Object param) {
 
-        for (I_CmsReport report : m_delegates) {
-            report.println(container, format);
-        }
+    for (I_CmsReport report : m_delegates) {
+      report.printMessageWithParam(m, n, container, param);
     }
+  }
 
-    /**
-     * @see I_CmsReport#println(Throwable)
-     */
-    public void println(final Throwable t) {
+  /** @see I_CmsReport#resetRuntime() */
+  @Override
+  public void resetRuntime() {
 
-        // do nothing
+    for (I_CmsReport report : m_delegates) {
+      report.resetRuntime();
     }
+  }
 
-    /**
-     * @see I_CmsReport#printMessageWithParam(CmsMessageContainer, Object)
-     */
-    @Override
-    public void printMessageWithParam(final CmsMessageContainer container, final Object param) {
+  /** @see org.opencms.report.A_CmsReport#print(java.lang.String, int) */
+  @Override
+  protected void print(String value, int format) {
 
-        for (I_CmsReport report : m_delegates) {
-            report.printMessageWithParam(container, param);
-        }
-    }
-
-    /**
-     * @see I_CmsReport#printMessageWithParam(int, int, CmsMessageContainer, Object)
-     */
-    @Override
-    public void printMessageWithParam(
-        final int m,
-        final int n,
-        final CmsMessageContainer container,
-        final Object param) {
-
-        for (I_CmsReport report : m_delegates) {
-            report.printMessageWithParam(m, n, container, param);
-        }
-    }
-
-    /**
-     * @see I_CmsReport#resetRuntime()
-     */
-    @Override
-    public void resetRuntime() {
-
-        for (I_CmsReport report : m_delegates) {
-            report.resetRuntime();
-        }
-    }
-
-    /**
-     * @see org.opencms.report.A_CmsReport#print(java.lang.String, int)
-     */
-    @Override
-    protected void print(String value, int format) {
-
-        // nop, this is a helper method in A_CmsReport just called from the other routines but not directly.
-    }
+    // nop, this is a helper method in A_CmsReport just called from the other routines but not
+    // directly.
+  }
 }

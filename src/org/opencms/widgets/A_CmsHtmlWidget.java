@@ -27,91 +27,93 @@
 
 package org.opencms.widgets;
 
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.i18n.CmsEncoder;
 import org.opencms.util.CmsMacroResolver;
 
-import java.util.Map;
-
 /**
- * Provides a widget that creates a rich input field using the matching component, for use on a widget dialog.<p>
+ * Provides a widget that creates a rich input field using the matching component, for use on a
+ * widget dialog.
  *
- * The matching component is determined by checking the installed editors for the best matching component to use.<p>
+ * <p>The matching component is determined by checking the installed editors for the best matching
+ * component to use.
+ *
+ * <p>
  *
  * @since 6.0.1
  */
 public abstract class A_CmsHtmlWidget extends A_CmsWidget {
 
-    /**
-     * Creates a new html editing widget.<p>
-     */
-    public A_CmsHtmlWidget() {
+  /**
+   * Creates a new html editing widget.
+   *
+   * <p>
+   */
+  public A_CmsHtmlWidget() {
 
-        // empty constructor is required for class registration
-        super();
+    // empty constructor is required for class registration
+    super();
+  }
+
+  /**
+   * Creates a new html editing widget with the given configuration.
+   *
+   * <p>
+   *
+   * @param configuration the configuration to use
+   */
+  public A_CmsHtmlWidget(String configuration) {
+
+    super(configuration);
+  }
+
+  /** @see org.opencms.widgets.A_CmsWidget#getConfiguration() */
+  @Override
+  public String getConfiguration() {
+
+    return super.getConfiguration();
+  }
+
+  /**
+   * Creates a CmsHtmlWidgetOption instance from the configuration string.
+   *
+   * @param cms the current CMS context
+   * @return the parsed option bean
+   */
+  public CmsHtmlWidgetOption parseWidgetOptions(CmsObject cms) {
+
+    String configStr = getConfiguration();
+    if (cms != null) {
+      CmsMacroResolver resolver = new CmsMacroResolver();
+      resolver.setCmsObject(cms);
+      configStr = resolver.resolveMacros(configStr);
     }
+    return new CmsHtmlWidgetOption(configStr);
+  }
 
-    /**
-     * Creates a new html editing widget with the given configuration.<p>
-     *
-     * @param configuration the configuration to use
-     */
-    public A_CmsHtmlWidget(String configuration) {
+  /** @see org.opencms.widgets.I_CmsWidget#setConfiguration(java.lang.String) */
+  @Override
+  public void setConfiguration(String configuration) {
 
-        super(configuration);
+    super.setConfiguration(configuration);
+  }
+
+  /**
+   * @see org.opencms.widgets.I_CmsWidget#setEditorValue(org.opencms.file.CmsObject, java.util.Map,
+   *     org.opencms.widgets.I_CmsWidgetDialog, org.opencms.widgets.I_CmsWidgetParameter)
+   */
+  @Override
+  public void setEditorValue(
+      CmsObject cms,
+      Map<String, String[]> formParameters,
+      I_CmsWidgetDialog widgetDialog,
+      I_CmsWidgetParameter param) {
+
+    String[] values = formParameters.get(param.getId());
+    if ((values != null) && (values.length > 0)) {
+      String val = CmsEncoder.decode(values[0], CmsEncoder.ENCODING_UTF_8);
+      param.setStringValue(cms, val);
     }
-
-    /**
-     * @see org.opencms.widgets.A_CmsWidget#getConfiguration()
-     */
-    @Override
-    public String getConfiguration() {
-
-        return super.getConfiguration();
-    }
-
-    /**
-     * Creates a CmsHtmlWidgetOption instance from the configuration string.
-     *
-     * @param cms the current CMS context
-     * @return the parsed option bean
-     */
-    public CmsHtmlWidgetOption parseWidgetOptions(CmsObject cms) {
-
-        String configStr = getConfiguration();
-        if (cms != null) {
-            CmsMacroResolver resolver = new CmsMacroResolver();
-            resolver.setCmsObject(cms);
-            configStr = resolver.resolveMacros(configStr);
-        }
-        return new CmsHtmlWidgetOption(configStr);
-
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsWidget#setConfiguration(java.lang.String)
-     */
-    @Override
-    public void setConfiguration(String configuration) {
-
-        super.setConfiguration(configuration);
-    }
-
-    /**
-     * @see org.opencms.widgets.I_CmsWidget#setEditorValue(org.opencms.file.CmsObject, java.util.Map, org.opencms.widgets.I_CmsWidgetDialog, org.opencms.widgets.I_CmsWidgetParameter)
-     */
-    @Override
-    public void setEditorValue(
-        CmsObject cms,
-        Map<String, String[]> formParameters,
-        I_CmsWidgetDialog widgetDialog,
-        I_CmsWidgetParameter param) {
-
-        String[] values = formParameters.get(param.getId());
-        if ((values != null) && (values.length > 0)) {
-            String val = CmsEncoder.decode(values[0], CmsEncoder.ENCODING_UTF_8);
-            param.setStringValue(cms, val);
-        }
-    }
-
+  }
 }

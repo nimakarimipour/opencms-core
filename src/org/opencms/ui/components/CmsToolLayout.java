@@ -27,99 +27,111 @@
 
 package org.opencms.ui.components;
 
-import org.opencms.ui.CmsVaadinUtils;
-import org.opencms.ui.apps.A_CmsWorkplaceApp.NavEntry;
-import org.opencms.ui.apps.CmsDefaultAppButtonProvider;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Panel;
+import org.opencms.ui.CmsVaadinUtils;
+import org.opencms.ui.apps.A_CmsWorkplaceApp.NavEntry;
+import org.opencms.ui.apps.CmsDefaultAppButtonProvider;
 
 /**
- * The standard workplace tool layout.<p>
+ * The standard workplace tool layout.
+ *
+ * <p>
  */
 public class CmsToolLayout extends CssLayout {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 2195018534066531670L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 2195018534066531670L;
 
-    /** The main panel. */
-    private Panel m_main;
+  /** The main panel. */
+  private Panel m_main;
 
-    /** The sub navigation. */
-    private CssLayout m_subNav;
+  /** The sub navigation. */
+  private CssLayout m_subNav;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsToolLayout() {
-        CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsToolLayout() {
+    CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
+  }
+
+  /**
+   * Adds a sub navigation entry.
+   *
+   * <p>
+   *
+   * @param navEntry the entry to add
+   * @return the entry button component
+   */
+  public Button addSubNavEntry(final NavEntry navEntry) {
+
+    Button button =
+        CmsDefaultAppButtonProvider.createIconButton(
+            navEntry.getName(), navEntry.getDescription(), navEntry.getIcon());
+    m_subNav.addComponent(button);
+    return button;
+  }
+
+  /**
+   * Clears the sub navigation.
+   *
+   * <p>
+   */
+  public void clearSubNav() {
+
+    m_subNav.removeAllComponents();
+  }
+
+  /**
+   * Sets the main component.
+   *
+   * <p>
+   *
+   * @param component the main component
+   */
+  public void setMainContent(Component component) {
+
+    component.addStyleName("borderless");
+    m_main.setContent(component);
+  }
+
+  /**
+   * Sets the height of the main panel to 100% to allow for scrollable children.
+   *
+   * <p>If not set, the height of the main panel will adjust to it's content.
+   *
+   * <p>
+   *
+   * @param full <code>true</code> to set the height to 100%
+   */
+  public void setMainHeightFull(boolean full) {
+
+    if (full) {
+      m_main.setHeight("100%");
+    } else {
+      m_main.setHeightUndefined();
     }
+  }
 
-    /**
-     * Adds a sub navigation entry.<p>
-     *
-     * @param navEntry the entry to add
-     *
-     * @return the entry button component
-     */
-    public Button addSubNavEntry(final NavEntry navEntry) {
+  /**
+   * Shows or hides the sub navigation.
+   *
+   * <p>
+   *
+   * @param visible <code>true</code> to show the sub navigation
+   */
+  public void setSubNavVisible(boolean visible) {
 
-        Button button = CmsDefaultAppButtonProvider.createIconButton(
-            navEntry.getName(),
-            navEntry.getDescription(),
-            navEntry.getIcon());
-        m_subNav.addComponent(button);
-        return button;
+    m_subNav.setVisible(visible);
+    if (visible) {
+      removeStyleName("o-tools-subnav-hidden");
+    } else {
+      addStyleName("o-tools-subnav-hidden");
     }
-
-    /**
-     * Clears the sub navigation.<p>
-     */
-    public void clearSubNav() {
-
-        m_subNav.removeAllComponents();
-    }
-
-    /**
-     * Sets the main component.<p>
-     *
-     * @param component the main component
-     */
-    public void setMainContent(Component component) {
-
-        component.addStyleName("borderless");
-        m_main.setContent(component);
-    }
-
-    /**
-     * Sets the height of the main panel to 100% to allow for scrollable children.<p>
-     * If not set, the height of the main panel will adjust to it's content.<p>
-     *
-     * @param full <code>true</code> to set the height to 100%
-     */
-    public void setMainHeightFull(boolean full) {
-
-        if (full) {
-            m_main.setHeight("100%");
-        } else {
-            m_main.setHeightUndefined();
-        }
-    }
-
-    /**
-     * Shows or hides the sub navigation.<p>
-     *
-     * @param visible <code>true</code> to show the sub navigation
-     */
-    public void setSubNavVisible(boolean visible) {
-
-        m_subNav.setVisible(visible);
-        if (visible) {
-            removeStyleName("o-tools-subnav-hidden");
-        } else {
-            addStyleName("o-tools-subnav-hidden");
-        }
-    }
+  }
 }

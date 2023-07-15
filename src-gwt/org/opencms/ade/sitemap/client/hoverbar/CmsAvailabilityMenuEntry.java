@@ -27,6 +27,7 @@
 
 package org.opencms.ade.sitemap.client.hoverbar;
 
+import java.util.Collections;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
@@ -37,89 +38,91 @@ import org.opencms.gwt.client.util.CmsEmbeddedDialogHandler;
 import org.opencms.gwt.shared.CmsGwtConstants;
 import org.opencms.util.CmsUUID;
 
-import java.util.Collections;
-
 /**
- * Sitemap context menu availability entry.<p>
+ * Sitemap context menu availability entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsAvailabilityMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsAvailabilityMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsAvailabilityMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_AVAILABILITY_0));
-        setActive(true);
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_AVAILABILITY_0));
+    setActive(true);
+  }
+
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
+
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    CmsUUID editId = null;
+    if ((CmsSitemapView.getInstance().getEditorMode() == EditorMode.navigation)
+        && (entry.getDefaultFileId() != null)) {
+      editId = entry.getDefaultFileId();
+    } else {
+      editId = entry.getId();
     }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+    CmsEmbeddedDialogHandler dialogHandler =
+        new CmsEmbeddedDialogHandler(
+            new I_CmsActionHandler() {
 
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        CmsUUID editId = null;
-        if ((CmsSitemapView.getInstance().getEditorMode() == EditorMode.navigation)
-            && (entry.getDefaultFileId() != null)) {
-            editId = entry.getDefaultFileId();
-        } else {
-            editId = entry.getId();
-        }
-
-        CmsEmbeddedDialogHandler dialogHandler = new CmsEmbeddedDialogHandler(new I_CmsActionHandler() {
-
-            public void leavePage(String targetUri) {
+              public void leavePage(String targetUri) {
 
                 // not supported
-            }
+              }
 
-            public void onSiteOrProjectChange(String sitePath, String serverLink) {
+              public void onSiteOrProjectChange(String sitePath, String serverLink) {
 
                 // not supported
-            }
+              }
 
-            public void refreshResource(CmsUUID structureId) {
+              public void refreshResource(CmsUUID structureId) {
 
                 updateEntry();
-            }
-        });
-        dialogHandler.openDialog(
-            "org.opencms.ui.actions.CmsAvailabilityDialogAction",
-            CmsGwtConstants.CONTEXT_TYPE_SITEMAP_TOOLBAR,
-            Collections.singletonList(editId));
+              }
+            });
+    dialogHandler.openDialog(
+        "org.opencms.ui.actions.CmsAvailabilityDialogAction",
+        CmsGwtConstants.CONTEXT_TYPE_SITEMAP_TOOLBAR,
+        Collections.singletonList(editId));
+  }
+
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
+
+    CmsSitemapController controller = getHoverbar().getController();
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    boolean show =
+        controller.isEditable() && !CmsSitemapView.getInstance().isSpecialMode() && (entry != null);
+    setVisible(show);
+    if (show && (entry != null) && !entry.isEditable()) {
+      setActive(false);
+      setDisabledReason(controller.getNoEditReason(entry));
+    } else {
+      setActive(true);
+      setDisabledReason(null);
     }
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /**
+   * Updates the sitemap entry.
+   *
+   * <p>
+   */
+  protected void updateEntry() {
 
-        CmsSitemapController controller = getHoverbar().getController();
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        boolean show = controller.isEditable() && !CmsSitemapView.getInstance().isSpecialMode() && (entry != null);
-        setVisible(show);
-        if (show && (entry != null) && !entry.isEditable()) {
-            setActive(false);
-            setDisabledReason(controller.getNoEditReason(entry));
-        } else {
-            setActive(true);
-            setDisabledReason(null);
-        }
-
-    }
-
-    /**
-     * Updates the sitemap entry.<p>
-     */
-    protected void updateEntry() {
-
-        getHoverbar().getController().updateSingleEntry(getHoverbar().getEntry().getId());
-    }
+    getHoverbar().getController().updateSingleEntry(getHoverbar().getEntry().getId());
+  }
 }

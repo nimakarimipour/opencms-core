@@ -27,51 +27,55 @@
 
 package org.opencms.workplace.tools.modules;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.report.I_CmsReportThread;
 import org.opencms.workplace.list.A_CmsListReport;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Displays the add resource type to module report.<p>
+ * Displays the add resource type to module report.
+ *
+ * <p>
  */
 public class CmsModuleAddResourceTypeReport extends A_CmsListReport {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param jsp the JSP action element
-     */
-    public CmsModuleAddResourceTypeReport(CmsJspActionElement jsp) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param jsp the JSP action element
+   */
+  public CmsModuleAddResourceTypeReport(CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsModuleAddResourceTypeReport(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsModuleAddResourceTypeReport(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListReport#initializeThread()
-     */
-    @Override
-    public I_CmsReportThread initializeThread() {
+  /** @see org.opencms.workplace.list.A_CmsListReport#initializeThread() */
+  @Override
+  public I_CmsReportThread initializeThread() {
 
-        CmsResourceTypeInfoBean resInfo = (CmsResourceTypeInfoBean)getJsp().getRequest().getAttribute(
-            CmsModuleAddResourceTypes.ATTR_RESOURCE_TYPE_INFO);
+    CmsResourceTypeInfoBean resInfo =
+        (CmsResourceTypeInfoBean)
+            getJsp().getRequest().getAttribute(CmsModuleAddResourceTypes.ATTR_RESOURCE_TYPE_INFO);
 
-        return new CmsModuleAddResourceTypeThread(getCms(), resInfo);
-    }
-
+    return new CmsModuleAddResourceTypeThread(getCms(), resInfo);
+  }
 }

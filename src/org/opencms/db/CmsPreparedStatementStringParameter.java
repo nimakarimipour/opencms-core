@@ -31,31 +31,36 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * A prepared statement parameter of type 'string'.<p>
+ * A prepared statement parameter of type 'string'.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsPreparedStatementStringParameter implements I_CmsPreparedStatementParameter {
 
-    /** The actual value of the prepared statement parameter. */
-    String m_param;
+  /** The actual value of the prepared statement parameter. */
+  String m_param;
 
-    /**
-     * Constructs a new prepared statement parameter with a value of type 'string'.<p>
-     *
-     * @param param the string value
-     */
-    public CmsPreparedStatementStringParameter(String param) {
+  /**
+   * Constructs a new prepared statement parameter with a value of type 'string'.
+   *
+   * <p>
+   *
+   * @param param the string value
+   */
+  public CmsPreparedStatementStringParameter(String param) {
 
-        m_param = param;
-    }
+    m_param = param;
+  }
 
-    /**
-     * @see org.opencms.db.I_CmsPreparedStatementParameter#insertIntoStatement(java.sql.PreparedStatement, int)
-     */
-    public void insertIntoStatement(PreparedStatement stmt, int index) throws SQLException {
+  /**
+   * @see
+   *     org.opencms.db.I_CmsPreparedStatementParameter#insertIntoStatement(java.sql.PreparedStatement,
+   *     int)
+   */
+  public void insertIntoStatement(PreparedStatement stmt, int index) throws SQLException {
 
-        stmt.setString(index, m_param);
-    }
-
+    stmt.setString(index, m_param);
+  }
 }

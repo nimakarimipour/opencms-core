@@ -30,47 +30,57 @@ package org.opencms.ui.contextmenu;
 import java.util.Locale;
 
 /**
- * Interface for generic context menu entris.<p>
+ * Interface for generic context menu entris.
+ *
+ * <p>
  *
  * @param <T> the item data type
  */
 public interface I_CmsSimpleContextMenuEntry<T> {
 
-    /**
-     * This interface allows special styles for certain entries.<p>
-     */
-    public interface I_HasCssStyles {
-
-        /**
-         * Returns the styles to use for this menu entry.<p>
-         *
-         * @return the styles to use for this menu entry
-         */
-        String getStyles();
-    }
+  /**
+   * This interface allows special styles for certain entries.
+   *
+   * <p>
+   */
+  public interface I_HasCssStyles {
 
     /**
-     * Executes the entry action.<p>
+     * Returns the styles to use for this menu entry.
      *
-     * @param context the item data
+     * <p>
+     *
+     * @return the styles to use for this menu entry
      */
-    void executeAction(T context);
+    String getStyles();
+  }
 
-    /**
-     * Returns the entry title for the given locale.<p>
-     *
-     * @param locale the locale
-     *
-     * @return the title
-     */
-    String getTitle(Locale locale);
+  /**
+   * Executes the entry action.
+   *
+   * <p>
+   *
+   * @param context the item data
+   */
+  void executeAction(T context);
 
-    /**
-     * Returns the entry visibility matching the given item data.<p>
-     *
-     * @param context the item data
-     *
-     * @return the visibility mode
-     */
-    CmsMenuItemVisibilityMode getVisibility(T context);
+  /**
+   * Returns the entry title for the given locale.
+   *
+   * <p>
+   *
+   * @param locale the locale
+   * @return the title
+   */
+  String getTitle(Locale locale);
+
+  /**
+   * Returns the entry visibility matching the given item data.
+   *
+   * <p>
+   *
+   * @param context the item data
+   * @return the visibility mode
+   */
+  CmsMenuItemVisibilityMode getVisibility(T context);
 }

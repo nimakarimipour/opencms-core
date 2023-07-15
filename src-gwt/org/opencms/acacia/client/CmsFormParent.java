@@ -36,104 +36,103 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Inline form parent widget.<p>
- * Use to wrap any HTML element of the DOM as the parent of an inline form.<p>
+ * Inline form parent widget.
+ *
+ * <p>Use to wrap any HTML element of the DOM as the parent of an inline form.
+ *
+ * <p>
  */
 public class CmsFormParent extends ComplexPanel implements I_CmsInlineFormParent {
 
-    /** The wrapped widget. This will be a @link com.google.gwt.user.client.RootPanel. */
-    private Widget m_widget;
+  /** The wrapped widget. This will be a @link com.google.gwt.user.client.RootPanel. */
+  private Widget m_widget;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param rootPanel the root panel to wrap
-     */
-    public CmsFormParent(RootPanel rootPanel) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param rootPanel the root panel to wrap
+   */
+  public CmsFormParent(RootPanel rootPanel) {
 
-        initWidget(rootPanel);
+    initWidget(rootPanel);
+  }
+
+  /**
+   * @see
+   *     org.opencms.acacia.client.I_CmsInlineFormParent#adoptWidget(com.google.gwt.user.client.ui.IsWidget)
+   */
+  public void adoptWidget(IsWidget widget) {
+
+    getChildren().add(widget.asWidget());
+    adopt(widget.asWidget());
+  }
+
+  /** @see com.google.gwt.user.client.ui.Widget#isAttached() */
+  @Override
+  public boolean isAttached() {
+
+    if (m_widget != null) {
+      return m_widget.isAttached();
+    }
+    return false;
+  }
+
+  /** @see com.google.gwt.user.client.ui.Widget#onBrowserEvent(com.google.gwt.user.client.Event) */
+  @Override
+  public void onBrowserEvent(Event event) {
+
+    // Fire any handler added to the composite itself.
+    super.onBrowserEvent(event);
+
+    // Delegate events to the widget.
+    m_widget.onBrowserEvent(event);
+  }
+
+  /** @see org.opencms.acacia.client.I_CmsInlineFormParent#replaceHtml(java.lang.String) */
+  public void replaceHtml(String html) {
+
+    // detach all children first
+    while (getChildren().size() > 0) {
+      getChildren().get(getChildren().size() - 1).removeFromParent();
+    }
+    Element tempDiv = DOM.createDiv();
+    tempDiv.setInnerHTML(html);
+    getElement().setInnerHTML(tempDiv.getFirstChildElement().getInnerHTML());
+  }
+
+  /**
+   * Provides subclasses access to the topmost widget that defines this panel.
+   *
+   * @return the widget
+   */
+  protected Widget getWidget() {
+
+    return m_widget;
+  }
+
+  /**
+   * Sets the widget to be wrapped by the composite. The wrapped widget must be set before calling
+   * any {@link Widget} methods on this object, or adding it to a panel. This method may only be
+   * called once for a given composite.
+   *
+   * @param widget the widget to be wrapped
+   */
+  protected void initWidget(Widget widget) {
+
+    // Validate. Make sure the widget is not being set twice.
+    if (m_widget != null) {
+      throw new IllegalStateException("Composite.initWidget() may only be " + "called once.");
     }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsInlineFormParent#adoptWidget(com.google.gwt.user.client.ui.IsWidget)
-     */
-    public void adoptWidget(IsWidget widget) {
+    // Use the contained widget's element as the composite's element,
+    // effectively merging them within the DOM.
+    setElement((Element) widget.getElement());
 
-        getChildren().add(widget.asWidget());
-        adopt(widget.asWidget());
-    }
+    adopt(widget);
 
-    /**
-     * @see com.google.gwt.user.client.ui.Widget#isAttached()
-     */
-    @Override
-    public boolean isAttached() {
-
-        if (m_widget != null) {
-            return m_widget.isAttached();
-        }
-        return false;
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.Widget#onBrowserEvent(com.google.gwt.user.client.Event)
-     */
-    @Override
-    public void onBrowserEvent(Event event) {
-
-        // Fire any handler added to the composite itself.
-        super.onBrowserEvent(event);
-
-        // Delegate events to the widget.
-        m_widget.onBrowserEvent(event);
-    }
-
-    /**
-     * @see org.opencms.acacia.client.I_CmsInlineFormParent#replaceHtml(java.lang.String)
-     */
-    public void replaceHtml(String html) {
-
-        // detach all children first
-        while (getChildren().size() > 0) {
-            getChildren().get(getChildren().size() - 1).removeFromParent();
-        }
-        Element tempDiv = DOM.createDiv();
-        tempDiv.setInnerHTML(html);
-        getElement().setInnerHTML(tempDiv.getFirstChildElement().getInnerHTML());
-    }
-
-    /**
-     * Provides subclasses access to the topmost widget that defines this
-     * panel.
-     *
-     * @return the widget
-     */
-    protected Widget getWidget() {
-
-        return m_widget;
-    }
-
-    /**
-     * Sets the widget to be wrapped by the composite. The wrapped widget must be
-     * set before calling any {@link Widget} methods on this object, or adding it
-     * to a panel. This method may only be called once for a given composite.
-     *
-     * @param widget the widget to be wrapped
-     */
-    protected void initWidget(Widget widget) {
-
-        // Validate. Make sure the widget is not being set twice.
-        if (m_widget != null) {
-            throw new IllegalStateException("Composite.initWidget() may only be " + "called once.");
-        }
-
-        // Use the contained widget's element as the composite's element,
-        // effectively merging them within the DOM.
-        setElement((Element)widget.getElement());
-
-        adopt(widget);
-
-        // Logical attach.
-        m_widget = widget;
-    }
+    // Logical attach.
+    m_widget = widget;
+  }
 }

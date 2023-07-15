@@ -27,74 +27,68 @@
 
 package org.opencms.ade.sitemap.client.hoverbar;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Submenu for advanced options.<p>
+ * Submenu for advanced options.
+ *
+ * <p>
  */
 public class CmsAdvancedSubmenu extends A_CmsSitemapMenuEntry {
 
-    /** The list of sub-entries. */
-    private List<A_CmsSitemapMenuEntry> m_subEntries;
+  /** The list of sub-entries. */
+  private List<A_CmsSitemapMenuEntry> m_subEntries;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param hoverbar the hoverbar
-     * @param subEntries the nested menu entries
-     */
-    public CmsAdvancedSubmenu(CmsSitemapHoverbar hoverbar, List<A_CmsSitemapMenuEntry> subEntries) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   * @param subEntries the nested menu entries
+   */
+  public CmsAdvancedSubmenu(CmsSitemapHoverbar hoverbar, List<A_CmsSitemapMenuEntry> subEntries) {
 
-        super(hoverbar);
-        m_subEntries = subEntries;
-        setActive(true);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_ADVANCED_0));
+    super(hoverbar);
+    m_subEntries = subEntries;
+    setActive(true);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_ADVANCED_0));
+  }
+
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
+
+    // TODO Auto-generated method stub
+
+  }
+
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#getSubMenu() */
+  @Override
+  public List<I_CmsContextMenuEntry> getSubMenu() {
+
+    return new ArrayList<I_CmsContextMenuEntry>(m_subEntries);
+  }
+
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#hasSubMenu() */
+  @Override
+  public boolean hasSubMenu() {
+
+    return true;
+  }
+
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
+
+    for (I_CmsContextMenuEntry entry : m_subEntries) {
+      if (entry.isVisible()) {
+        setVisible(true);
+        return;
+      }
     }
-
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
-
-        // TODO Auto-generated method stub
-
-    }
-
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#getSubMenu()
-     */
-    @Override
-    public List<I_CmsContextMenuEntry> getSubMenu() {
-
-        return new ArrayList<I_CmsContextMenuEntry>(m_subEntries);
-    }
-
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#hasSubMenu()
-     */
-    @Override
-    public boolean hasSubMenu() {
-
-        return true;
-    }
-
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
-
-        for (I_CmsContextMenuEntry entry : m_subEntries) {
-            if (entry.isVisible()) {
-                setVisible(true);
-                return;
-            }
-        }
-        setVisible(false);
-    }
-
+    setVisible(false);
+  }
 }

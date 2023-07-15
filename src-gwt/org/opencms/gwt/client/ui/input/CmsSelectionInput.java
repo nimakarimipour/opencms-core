@@ -27,11 +27,6 @@
 
 package org.opencms.gwt.client.ui.input;
 
-import org.opencms.gwt.client.ui.CmsPushButton;
-import org.opencms.gwt.client.ui.I_CmsButton;
-import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
-import org.opencms.gwt.client.ui.I_CmsButton.Size;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -42,112 +37,131 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import org.opencms.gwt.client.ui.CmsPushButton;
+import org.opencms.gwt.client.ui.I_CmsButton;
+import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
+import org.opencms.gwt.client.ui.I_CmsButton.Size;
 
 /**
- * Text input field with value select opener button and value fader for overflowing values.<p>
+ * Text input field with value select opener button and value fader for overflowing values.
+ *
+ * <p>
  */
 public class CmsSelectionInput extends Composite {
 
-    /**
-     * The UI Binder interface for this widget.<p>
-     */
-    interface I_CmsSelectionInputUiBinder extends UiBinder<Widget, CmsSelectionInput> {
-        // binder interface
+  /**
+   * The UI Binder interface for this widget.
+   *
+   * <p>
+   */
+  interface I_CmsSelectionInputUiBinder extends UiBinder<Widget, CmsSelectionInput> {
+    // binder interface
+  }
+
+  /** The ui binder for this widget. */
+  private static I_CmsSelectionInputUiBinder uiBinder =
+      GWT.create(I_CmsSelectionInputUiBinder.class);
+
+  /** The fader element. */
+  @UiField Label m_fader;
+
+  /** The dialog opener. */
+  @UiField CmsPushButton m_opener;
+
+  /** The text input field. */
+  @UiField CmsSimpleTextBox m_textbox;
+
+  /** The command to open the value select dialog. */
+  private Command m_openCommand;
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param openerIcon the image icon class
+   */
+  public CmsSelectionInput(String openerIcon) {
+
+    initWidget(uiBinder.createAndBindUi(this));
+    if (openerIcon == null) {
+      m_opener.setImageClass(I_CmsButton.GALLERY);
+    } else {
+      m_opener.setImageClass(openerIcon);
     }
+    m_opener.setButtonStyle(ButtonStyle.FONT_ICON, null);
+    m_opener.setSize(Size.small);
+  }
 
-    /** The ui binder for this widget. */
-    private static I_CmsSelectionInputUiBinder uiBinder = GWT.create(I_CmsSelectionInputUiBinder.class);
+  /**
+   * Returns the input box.
+   *
+   * <p>
+   *
+   * @return the input box
+   */
+  public CmsSimpleTextBox getTextBox() {
 
-    /** The fader element. */
-    @UiField
-    Label m_fader;
+    return m_textbox;
+  }
 
-    /** The dialog opener. */
-    @UiField
-    CmsPushButton m_opener;
+  /**
+   * Hides the fader.
+   *
+   * <p>
+   */
+  public void hideFader() {
 
-    /** The text input field. */
-    @UiField
-    CmsSimpleTextBox m_textbox;
+    m_fader.getElement().getStyle().setDisplay(Display.NONE);
+  }
 
-    /** The command to open the value select dialog. */
-    private Command m_openCommand;
+  /**
+   * Sets the value select dialog open command.
+   *
+   * <p>
+   *
+   * @param openCommand the command
+   */
+  public void setOpenCommand(Command openCommand) {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param openerIcon the image icon class
-     */
-    public CmsSelectionInput(String openerIcon) {
+    m_openCommand = openCommand;
+  }
 
-        initWidget(uiBinder.createAndBindUi(this));
-        if (openerIcon == null) {
-            m_opener.setImageClass(I_CmsButton.GALLERY);
-        } else {
-            m_opener.setImageClass(openerIcon);
-        }
-        m_opener.setButtonStyle(ButtonStyle.FONT_ICON, null);
-        m_opener.setSize(Size.small);
+  /**
+   * Shows the fader.
+   *
+   * <p>
+   */
+  public void showFader() {
+
+    m_fader.getElement().getStyle().clearDisplay();
+  }
+
+  /**
+   * Handles the opener clicks.
+   *
+   * <p>
+   *
+   * @param event the click event
+   */
+  @UiHandler("m_fader")
+  void onFaderClick(ClickEvent event) {
+
+    m_textbox.setFocus(true);
+  }
+
+  /**
+   * Handles the opener clicks.
+   *
+   * <p>
+   *
+   * @param event the click event
+   */
+  @UiHandler("m_opener")
+  void onOpen(ClickEvent event) {
+
+    if (m_openCommand != null) {
+      m_openCommand.execute();
     }
-
-    /**
-     * Returns the input box.<p>
-     *
-     * @return the input box
-     */
-    public CmsSimpleTextBox getTextBox() {
-
-        return m_textbox;
-    }
-
-    /**
-     * Hides the fader.<p>
-     */
-    public void hideFader() {
-
-        m_fader.getElement().getStyle().setDisplay(Display.NONE);
-    }
-
-    /**
-     * Sets the value select dialog open command.<p>
-     *
-     * @param openCommand the command
-     */
-    public void setOpenCommand(Command openCommand) {
-
-        m_openCommand = openCommand;
-    }
-
-    /**
-     * Shows the fader.<p>
-     */
-    public void showFader() {
-
-        m_fader.getElement().getStyle().clearDisplay();
-    }
-
-    /**
-     * Handles the opener clicks.<p>
-     *
-     * @param event the click event
-     */
-    @UiHandler("m_fader")
-    void onFaderClick(ClickEvent event) {
-
-        m_textbox.setFocus(true);
-    }
-
-    /**
-     * Handles the opener clicks.<p>
-     *
-     * @param event the click event
-     */
-    @UiHandler("m_opener")
-    void onOpen(ClickEvent event) {
-
-        if (m_openCommand != null) {
-            m_openCommand.execute();
-        }
-    }
-
+  }
 }

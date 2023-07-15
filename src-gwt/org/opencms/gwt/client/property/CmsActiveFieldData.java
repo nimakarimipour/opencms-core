@@ -30,74 +30,81 @@ package org.opencms.gwt.client.property;
 import org.opencms.gwt.client.ui.input.I_CmsFormField;
 
 /**
- * Represents information about which field in the property editor dialog is active.<p>
+ * Represents information about which field in the property editor dialog is active.
+ *
+ * <p>
  */
 public class CmsActiveFieldData {
 
-    /** The tab. */
-    public String m_page;
+  /** The tab. */
+  public String m_page;
 
-    /** The property name. */
-    public String m_property;
+  /** The property name. */
+  public String m_property;
 
-    /** The selected field. */
-    private I_CmsFormField m_field;
+  /** The selected field. */
+  private I_CmsFormField m_field;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param field the field
-     * @param tab the tab
-     * @param property the property name
-     */
-    public CmsActiveFieldData(I_CmsFormField field, String tab, String property) {
-        m_field = field;
-        m_page = tab;
-        m_property = property;
-    }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param field the field
+   * @param tab the tab
+   * @param property the property name
+   */
+  public CmsActiveFieldData(I_CmsFormField field, String tab, String property) {
+    m_field = field;
+    m_page = tab;
+    m_property = property;
+  }
 
-    /**
-     * Gets the field.<p>
-     *
-     * @return the field
-     */
-    public I_CmsFormField getField() {
+  /**
+   * Gets the field.
+   *
+   * <p>
+   *
+   * @return the field
+   */
+  public I_CmsFormField getField() {
 
-        return m_field;
-    }
+    return m_field;
+  }
 
-    public String getFieldId() {
+  public String getFieldId() {
 
-        return (m_field != null) ? m_field.getId() : "(null)";
-    }
+    return (m_field != null) ? m_field.getId() : "(null)";
+  }
 
-    /**
-     * Gets the property name.<p>
-     *
-     * @return the property name
-     */
-    public String getProperty() {
+  /**
+   * Gets the property name.
+   *
+   * <p>
+   *
+   * @return the property name
+   */
+  public String getProperty() {
 
-        return m_property;
-    }
+    return m_property;
+  }
 
-    /**
-     * Gets the tab name .<p>
-     *
-     * @return the tab
-     */
-    public String getTab() {
+  /**
+   * Gets the tab name .
+   *
+   * <p>
+   *
+   * @return the tab
+   */
+  public String getTab() {
 
-        return m_page;
-    }
+    return m_page;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_page + ":" + m_property;
-    }
-
+    return m_page + ":" + m_property;
+  }
 }

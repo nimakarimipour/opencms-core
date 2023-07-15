@@ -30,21 +30,24 @@ package org.opencms.gwt.shared.rpc;
 import com.google.gwt.user.client.rpc.RemoteService;
 
 /**
- * Handles client side logging.<p>
+ * Handles client side logging.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.gwt.CmsLogService
  * @see org.opencms.gwt.shared.rpc.I_CmsLogService
  * @see org.opencms.gwt.shared.rpc.I_CmsLogServiceAsync
  */
 public interface I_CmsLogService extends RemoteService {
 
-    /**
-     * Logs client messages on the server.<p>
-     *
-     * @param ticket the optional client-side generated ticket
-     * @param message the message to log
-     */
-    void log(String ticket, String message);
+  /**
+   * Logs client messages on the server.
+   *
+   * <p>
+   *
+   * @param ticket the optional client-side generated ticket
+   * @param message the message to log
+   */
+  void log(String ticket, String message);
 }

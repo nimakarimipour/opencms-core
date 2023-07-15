@@ -27,6 +27,7 @@
 
 package org.opencms.workplace.comparison;
 
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResourceFilter;
@@ -36,83 +37,89 @@ import org.opencms.main.CmsRuntimeException;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.commons.Messages;
 
-import java.util.Locale;
-
 /**
- * Utility methods for the history list.<p>
+ * Utility methods for the history list.
+ *
+ * <p>
  */
 public final class CmsHistoryListUtil {
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    private CmsHistoryListUtil() {
-        // nothing
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  private CmsHistoryListUtil() {
+    // nothing
+  }
+
+  /**
+   * Returns the version number from a version parameter.
+   *
+   * <p>
+   *
+   * @param version might be negative for the online version
+   * @param locale if the result is for display purposes, the locale has to be <code>!= null</code>
+   * @return the display name
+   */
+  public static String getDisplayVersion(String version, Locale locale) {
+
+    int ver = Integer.parseInt(version);
+    if (ver == CmsHistoryResourceHandler.PROJECT_OFFLINE_VERSION) {
+      return Messages.get().getBundle(locale).key(Messages.GUI_PROJECT_OFFLINE_0);
     }
-
-    /**
-     * Returns the version number from a version parameter.<p>
-     *
-     * @param version might be negative for the online version
-     * @param locale if the result is for display purposes, the locale has to be <code>!= null</code>
-     *
-     * @return the display name
-     */
-    public static String getDisplayVersion(String version, Locale locale) {
-
-        int ver = Integer.parseInt(version);
-        if (ver == CmsHistoryResourceHandler.PROJECT_OFFLINE_VERSION) {
-            return Messages.get().getBundle(locale).key(Messages.GUI_PROJECT_OFFLINE_0);
-        }
-        if (ver < 0) {
-            ver *= -1;
-            if (locale != null) {
-                return Messages.get().getBundle(locale).key(Messages.GUI_PROJECT_ONLINE_1, new Integer(ver));
-            }
-        }
-        return "" + ver;
+    if (ver < 0) {
+      ver *= -1;
+      if (locale != null) {
+        return Messages.get()
+            .getBundle(locale)
+            .key(Messages.GUI_PROJECT_ONLINE_1, new Integer(ver));
+      }
     }
+    return "" + ver;
+  }
 
-    /**
-     * Returns the link to an historical file.<p>
-     *
-     * @param cms the cms context
-     * @param structureId the structure id of the file
-     * @param version the version number of the file
-     *
-     * @return the link to an historical file
-     */
-    public static String getHistoryLink(CmsObject cms, CmsUUID structureId, String version) {
+  /**
+   * Returns the link to an historical file.
+   *
+   * <p>
+   *
+   * @param cms the cms context
+   * @param structureId the structure id of the file
+   * @param version the version number of the file
+   * @return the link to an historical file
+   */
+  public static String getHistoryLink(CmsObject cms, CmsUUID structureId, String version) {
 
-        String resourcePath;
-        CmsResource resource;
-        try {
-            resource = cms.readResource(structureId, CmsResourceFilter.ALL);
-            resourcePath = resource.getRootPath();
-        } catch (CmsException e) {
-            throw new CmsRuntimeException(e.getMessageContainer(), e);
-        }
-        StringBuffer link = new StringBuffer();
-        link.append(CmsHistoryResourceHandler.HISTORY_HANDLER);
-        link.append(resourcePath);
-        link.append('?');
-        link.append(CmsHistoryResourceHandler.PARAM_VERSION);
-        link.append('=');
-        link.append(CmsHistoryListUtil.getVersion("" + version));
-        return link.toString();
+    String resourcePath;
+    CmsResource resource;
+    try {
+      resource = cms.readResource(structureId, CmsResourceFilter.ALL);
+      resourcePath = resource.getRootPath();
+    } catch (CmsException e) {
+      throw new CmsRuntimeException(e.getMessageContainer(), e);
     }
+    StringBuffer link = new StringBuffer();
+    link.append(CmsHistoryResourceHandler.HISTORY_HANDLER);
+    link.append(resourcePath);
+    link.append('?');
+    link.append(CmsHistoryResourceHandler.PARAM_VERSION);
+    link.append('=');
+    link.append(CmsHistoryListUtil.getVersion("" + version));
+    return link.toString();
+  }
 
-    /**
-     * Returns the version number from a version parameter.<p>
-     *
-     * @param version might be negative for the online version
-     *
-     * @return the positive value
-     */
-    public static int getVersion(String version) {
+  /**
+   * Returns the version number from a version parameter.
+   *
+   * <p>
+   *
+   * @param version might be negative for the online version
+   * @return the positive value
+   */
+  public static int getVersion(String version) {
 
-        int ver = Integer.parseInt(version);
-        return Math.abs(ver);
-    }
-
+    int ver = Integer.parseInt(version);
+    return Math.abs(ver);
+  }
 }

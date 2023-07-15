@@ -27,6 +27,9 @@
 
 package org.opencms.test;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.opencms.db.CmsResourceState;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
@@ -40,405 +43,456 @@ import org.opencms.security.CmsAccessControlEntry;
 import org.opencms.security.CmsAccessControlList;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 /**
- * A single entry of the OpenCmsTestResourceStorage.<p>
+ * A single entry of the OpenCmsTestResourceStorage.
  *
+ * <p>
  */
 public class OpenCmsTestResourceStorageEntry {
 
-    /** The size of the content. */
-    protected int m_length;
+  /** The size of the content. */
+  protected int m_length;
 
-    /** The ccess control list entries. */
-    private List<CmsAccessControlEntry> m_accessControlEntries;
+  /** The ccess control list entries. */
+  private List<CmsAccessControlEntry> m_accessControlEntries;
 
-    /** The access control list. */
-    private CmsAccessControlList m_accessControlList;
+  /** The access control list. */
+  private CmsAccessControlList m_accessControlList;
 
-    /** The content of the resource. If the resource is a folder, the content is null. */
-    private byte[] m_contents;
+  /** The content of the resource. If the resource is a folder, the content is null. */
+  private byte[] m_contents;
 
-    /** The content date of this resource. */
-    private long m_dateContent;
+  /** The content date of this resource. */
+  private long m_dateContent;
 
-    /** The creation date of this resource. */
-    private long m_dateCreated;
+  /** The creation date of this resource. */
+  private long m_dateCreated;
 
-    /** The expiration date of this resource. */
-    private long m_dateExpired;
+  /** The expiration date of this resource. */
+  private long m_dateExpired;
 
-    /** The date of the last modification of this resource. */
-    private long m_dateLastModified;
+  /** The date of the last modification of this resource. */
+  private long m_dateLastModified;
 
-    /** The release date of this resource. */
-    private long m_dateReleased;
+  /** The release date of this resource. */
+  private long m_dateReleased;
 
-    /** The flags of this resource ( not used yet; the Accessflags are stored in m_accessFlags). */
-    private int m_flags;
+  /** The flags of this resource ( not used yet; the Accessflags are stored in m_accessFlags). */
+  private int m_flags;
 
-    /** Boolean flag whether the timestamp of this resource was modified by a touch command. */
-    private boolean m_isTouched;
+  /** Boolean flag whether the timestamp of this resource was modified by a touch command. */
+  private boolean m_isTouched;
 
-    /** The id of the loader which is used to process this resource. */
-    private int m_loaderId;
+  /** The id of the loader which is used to process this resource. */
+  private int m_loaderId;
 
-    /** The lockstate of the resource. */
-    private CmsLock m_lockstate;
+  /** The lockstate of the resource. */
+  private CmsLock m_lockstate;
 
-    /** The name of this resource. */
-    private String m_name;
+  /** The name of this resource. */
+  private String m_name;
 
-    /** The project id where this resource has been last modified in. */
-    private CmsUUID m_projectLastModified;
+  /** The project id where this resource has been last modified in. */
+  private CmsUUID m_projectLastModified;
 
-    /** The properties of the resource. */
-    private List<CmsProperty> m_properties;
+  /** The properties of the resource. */
+  private List<CmsProperty> m_properties;
 
-    /** The stored relations. */
-    private List<CmsRelation> m_relations;
+  /** The stored relations. */
+  private List<CmsRelation> m_relations;
 
-    /** The ID of the resource database record. */
-    private CmsUUID m_resourceId;
+  /** The ID of the resource database record. */
+  private CmsUUID m_resourceId;
 
-    /** The number of links that point to this resource. */
-    private int m_siblingCount;
+  /** The number of links that point to this resource. */
+  private int m_siblingCount;
 
-    /** The state of this resource. */
-    private CmsResourceState m_state;
+  /** The state of this resource. */
+  private CmsResourceState m_state;
 
-    /** The ID of the structure database record. */
-    private CmsUUID m_structureId;
+  /** The ID of the structure database record. */
+  private CmsUUID m_structureId;
 
-    /** The type of this resource. */
-    private int m_type;
+  /** The type of this resource. */
+  private int m_type;
 
-    /** The id of the user who created this resource. */
-    private CmsUUID m_userCreated;
+  /** The id of the user who created this resource. */
+  private CmsUUID m_userCreated;
 
-    /** The id of the user who modified this resource last. */
-    private CmsUUID m_userLastModified;
+  /** The id of the user who modified this resource last. */
+  private CmsUUID m_userLastModified;
 
-    /**
-     * Creates a new empty OpenCmsTestResourceStorageEntry.<p>
-     */
-    public OpenCmsTestResourceStorageEntry() {
+  /**
+   * Creates a new empty OpenCmsTestResourceStorageEntry.
+   *
+   * <p>
+   */
+  public OpenCmsTestResourceStorageEntry() {
 
-        // noop
+    // noop
+  }
+
+  /**
+   * Creates a new OpenCmsTestResourceStorageEntry.
+   *
+   * <p>
+   *
+   * @param cms current CmsObject
+   * @param resourceName the complete name of the resource
+   * @param res the CmsResource to store.
+   * @throws CmsException if something goes wrong
+   */
+  public OpenCmsTestResourceStorageEntry(CmsObject cms, String resourceName, CmsResource res)
+      throws CmsException {
+
+    m_dateContent = res.getDateContent();
+    m_dateCreated = res.getDateCreated();
+    m_dateLastModified = res.getDateLastModified();
+    m_dateReleased = res.getDateReleased();
+    m_dateExpired = res.getDateExpired();
+    m_flags = res.getFlags();
+    m_isTouched = res.isTouched();
+    m_length = res.getLength();
+    m_siblingCount = res.getSiblingCount();
+    m_name = res.getName();
+    m_projectLastModified = res.getProjectLastModified();
+    m_resourceId = res.getResourceId();
+    m_state = res.getState();
+    m_structureId = res.getStructureId();
+    m_type = res.getTypeId();
+    m_userCreated = res.getUserCreated();
+    m_userLastModified = res.getUserLastModified();
+    m_lockstate = cms.getLock(res);
+    if (res.isFile()) {
+      m_contents = cms.readFile(resourceName, CmsResourceFilter.ALL).getContents();
+    } else {
+      m_contents = null;
     }
 
-    /**
-     * Creates a new OpenCmsTestResourceStorageEntry.<p>
-     *
-     * @param cms current CmsObject
-     * @param resourceName the complete name of the resource
-     * @param res the CmsResource to store.
-     * @throws CmsException if something goes wrong
-     */
-    public OpenCmsTestResourceStorageEntry(CmsObject cms, String resourceName, CmsResource res)
-    throws CmsException {
-
-        m_dateContent = res.getDateContent();
-        m_dateCreated = res.getDateCreated();
-        m_dateLastModified = res.getDateLastModified();
-        m_dateReleased = res.getDateReleased();
-        m_dateExpired = res.getDateExpired();
-        m_flags = res.getFlags();
-        m_isTouched = res.isTouched();
-        m_length = res.getLength();
-        m_siblingCount = res.getSiblingCount();
-        m_name = res.getName();
-        m_projectLastModified = res.getProjectLastModified();
-        m_resourceId = res.getResourceId();
-        m_state = res.getState();
-        m_structureId = res.getStructureId();
-        m_type = res.getTypeId();
-        m_userCreated = res.getUserCreated();
-        m_userLastModified = res.getUserLastModified();
-        m_lockstate = cms.getLock(res);
-        if (res.isFile()) {
-            m_contents = cms.readFile(resourceName, CmsResourceFilter.ALL).getContents();
-        } else {
-            m_contents = null;
-        }
-
-        m_properties = new ArrayList<CmsProperty>();
-        List<CmsProperty> properties = cms.readPropertyObjects(resourceName, false);
-        Iterator<CmsProperty> i = properties.iterator();
-        while (i.hasNext()) {
-            CmsProperty prop = i.next();
-            m_properties.add(prop.clone());
-        }
-
-        m_accessControlList = cms.getAccessControlList(resourceName);
-        m_relations = cms.readRelations(CmsRelationFilter.relationsFromStructureId(m_structureId));
-        m_accessControlEntries = cms.getAccessControlEntries(resourceName);
+    m_properties = new ArrayList<CmsProperty>();
+    List<CmsProperty> properties = cms.readPropertyObjects(resourceName, false);
+    Iterator<CmsProperty> i = properties.iterator();
+    while (i.hasNext()) {
+      CmsProperty prop = i.next();
+      m_properties.add(prop.clone());
     }
 
-    /**
-     * Returns the access control entries of the resource.<p>
-     *
-     * @return  the access control entries of the resource
-     */
-    public List<CmsAccessControlEntry> getAccessControlEntries() {
+    m_accessControlList = cms.getAccessControlList(resourceName);
+    m_relations = cms.readRelations(CmsRelationFilter.relationsFromStructureId(m_structureId));
+    m_accessControlEntries = cms.getAccessControlEntries(resourceName);
+  }
 
-        return m_accessControlEntries;
-    }
+  /**
+   * Returns the access control entries of the resource.
+   *
+   * <p>
+   *
+   * @return the access control entries of the resource
+   */
+  public List<CmsAccessControlEntry> getAccessControlEntries() {
 
-    /**
-     * Returns the access control list of the resource.<p>
-     *
-     * @return  the access control list of the resource
-     */
-    public CmsAccessControlList getAccessControlList() {
+    return m_accessControlEntries;
+  }
 
-        return m_accessControlList;
-    }
+  /**
+   * Returns the access control list of the resource.
+   *
+   * <p>
+   *
+   * @return the access control list of the resource
+   */
+  public CmsAccessControlList getAccessControlList() {
 
-    /**
-     * Returns the date of the creation of this resource.<p>
-     *
-     * @return the date of the creation of this resource
-     */
-    public byte[] getContents() {
+    return m_accessControlList;
+  }
 
-        return m_contents;
-    }
+  /**
+   * Returns the date of the creation of this resource.
+   *
+   * <p>
+   *
+   * @return the date of the creation of this resource
+   */
+  public byte[] getContents() {
 
-    /**
-     * Returns the date of the content of this resource.<p>
-     *
-     * @return the date of the content of this resource
-     */
-    public long getDateContent() {
+    return m_contents;
+  }
 
-        return m_dateContent;
-    }
+  /**
+   * Returns the date of the content of this resource.
+   *
+   * <p>
+   *
+   * @return the date of the content of this resource
+   */
+  public long getDateContent() {
 
-    /**
-     * Returns the date of the creation of this resource.<p>
-     *
-     * @return the date of the creation of this resource
-     */
-    public long getDateCreated() {
+    return m_dateContent;
+  }
 
-        return m_dateCreated;
-    }
+  /**
+   * Returns the date of the creation of this resource.
+   *
+   * <p>
+   *
+   * @return the date of the creation of this resource
+   */
+  public long getDateCreated() {
 
-    /**
-     * Returns the expiration date this resource.<p>
-     *
-     * @return the expiration date of this resource
-     */
-    public long getDateExpired() {
+    return m_dateCreated;
+  }
 
-        return m_dateExpired;
-    }
+  /**
+   * Returns the expiration date this resource.
+   *
+   * <p>
+   *
+   * @return the expiration date of this resource
+   */
+  public long getDateExpired() {
 
-    /**
-     * Returns the date of the last modification of this resource.<p>
-     *
-     * @return the date of the last modification of this resource
-     */
-    public long getDateLastModified() {
+    return m_dateExpired;
+  }
 
-        return m_dateLastModified;
-    }
+  /**
+   * Returns the date of the last modification of this resource.
+   *
+   * <p>
+   *
+   * @return the date of the last modification of this resource
+   */
+  public long getDateLastModified() {
 
-    /**
-     * Returns the release date this resource.<p>
-     *
-     * @return the release date of this resource
-     */
-    public long getDateReleased() {
+    return m_dateLastModified;
+  }
 
-        return m_dateReleased;
-    }
+  /**
+   * Returns the release date this resource.
+   *
+   * <p>
+   *
+   * @return the release date of this resource
+   */
+  public long getDateReleased() {
 
-    /**
-     * Returns the flags of this resource.<p>
-     *
-     * @return the flags of this resource
-     */
-    public int getFlags() {
+    return m_dateReleased;
+  }
 
-        return m_flags;
-    }
+  /**
+   * Returns the flags of this resource.
+   *
+   * <p>
+   *
+   * @return the flags of this resource
+   */
+  public int getFlags() {
 
-    /**
-     * Gets the id of the file content database entry.<p>
-     *
-     * @return the ID of the file content database entry
-     */
-    /* public CmsUUID getFileId() {
-     return m_contentId;
-     } */
+    return m_flags;
+  }
 
-    /**
-     * Gets the length of the content (i.e. the file size).<p>
-     *
-     * @return the length of the content
-     */
-    public int getLength() {
+  /**
+   * Gets the id of the file content database entry.
+   *
+   * <p>
+   *
+   * @return the ID of the file content database entry
+   */
+  /* public CmsUUID getFileId() {
+  return m_contentId;
+  } */
 
-        return m_length;
-    }
+  /**
+   * Gets the length of the content (i.e. the file size).
+   *
+   * <p>
+   *
+   * @return the length of the content
+   */
+  public int getLength() {
 
-    /**
-     * Gets the loader id of this resource.<p>
-     *
-     * @return the loader type id of this resource
-     */
-    public int getLoaderId() {
+    return m_length;
+  }
 
-        return m_loaderId;
-    }
+  /**
+   * Gets the loader id of this resource.
+   *
+   * <p>
+   *
+   * @return the loader type id of this resource
+   */
+  public int getLoaderId() {
 
-    /**
-     * Gets the lockstate of this resource.<p>
-     *
-     * @return the lockstate  of this resource
-     */
-    public CmsLock getLock() {
+    return m_loaderId;
+  }
 
-        return m_lockstate;
-    }
+  /**
+   * Gets the lockstate of this resource.
+   *
+   * <p>
+   *
+   * @return the lockstate of this resource
+   */
+  public CmsLock getLock() {
 
-    /**
-     * Returns the name of this resource, e.g. <code>index.html</code>.<p>
-     *
-     * @return the name of this resource
-     */
-    public String getName() {
+    return m_lockstate;
+  }
 
-        return m_name;
-    }
+  /**
+   * Returns the name of this resource, e.g. <code>index.html</code>.
+   *
+   * <p>
+   *
+   * @return the name of this resource
+   */
+  public String getName() {
 
-    /**
-     * Returns the name of this resource including the full path in the current site,
-     * but without the current site root.<p>
-     *
-     * @return the name of this resource including the full path in the current site
-     */
-    public String getPath() {
+    return m_name;
+  }
 
-        // TODO: Must be implemented
-        return null;
-    }
+  /**
+   * Returns the name of this resource including the full path in the current site, but without the
+   * current site root.
+   *
+   * <p>
+   *
+   * @return the name of this resource including the full path in the current site
+   */
+  public String getPath() {
 
-    /**
-     * Returns the id of the project where the resource has been last modified.<p>
-     *
-     * @return the id of the project where the resource has been last modified
-     */
-    public CmsUUID getProjectLastModified() {
+    // TODO: Must be implemented
+    return null;
+  }
 
-        return m_projectLastModified;
-    }
+  /**
+   * Returns the id of the project where the resource has been last modified.
+   *
+   * <p>
+   *
+   * @return the id of the project where the resource has been last modified
+   */
+  public CmsUUID getProjectLastModified() {
 
-    /**
-     * Returns the properties of the resource.<p>
-     *
-     * @return  the properties of the resource
-     */
-    public List<CmsProperty> getProperties() {
+    return m_projectLastModified;
+  }
 
-        return m_properties;
-    }
+  /**
+   * Returns the properties of the resource.
+   *
+   * <p>
+   *
+   * @return the properties of the resource
+   */
+  public List<CmsProperty> getProperties() {
 
-    /**
-     * Gets the stored relations.
-     *
-     * @return the stored relations
-     */
-    public List<CmsRelation> getRelations() {
+    return m_properties;
+  }
 
-        return m_relations;
-    }
+  /**
+   * Gets the stored relations.
+   *
+   * @return the stored relations
+   */
+  public List<CmsRelation> getRelations() {
 
-    /**
-     * Returns the id of the resource database entry of this resource.<p>
-     *
-     * @return the id of the resource database entry
-     */
-    public CmsUUID getResourceId() {
+    return m_relations;
+  }
 
-        return m_resourceId;
-    }
+  /**
+   * Returns the id of the resource database entry of this resource.
+   *
+   * <p>
+   *
+   * @return the id of the resource database entry
+   */
+  public CmsUUID getResourceId() {
 
-    /**
-     * Gets the number of references to the resource.<p>
-     *
-     * @return the number of links
-     */
-    public int getSiblingCount() {
+    return m_resourceId;
+  }
 
-        return m_siblingCount;
-    }
+  /**
+   * Gets the number of references to the resource.
+   *
+   * <p>
+   *
+   * @return the number of links
+   */
+  public int getSiblingCount() {
 
-    /**
-     * Returns the state of this resource.<p>
-     *
-     * This may be STATE_UNCHANGED, STATE_CHANGED, STATE_NEW or STATE_DELETED.<p>
-     *
-     * @return the state of this resource
-     */
-    public CmsResourceState getState() {
+    return m_siblingCount;
+  }
 
-        return m_state;
-    }
+  /**
+   * Returns the state of this resource.
+   *
+   * <p>This may be STATE_UNCHANGED, STATE_CHANGED, STATE_NEW or STATE_DELETED.
+   *
+   * <p>
+   *
+   * @return the state of this resource
+   */
+  public CmsResourceState getState() {
 
-    /**
-     * Returns the id of the structure record of this resource.<p>
-     *
-     * @return the id of the structure record of this resource
-     */
-    public CmsUUID getStructureId() {
+    return m_state;
+  }
 
-        return m_structureId;
-    }
+  /**
+   * Returns the id of the structure record of this resource.
+   *
+   * <p>
+   *
+   * @return the id of the structure record of this resource
+   */
+  public CmsUUID getStructureId() {
 
-    /**
-     * Returns the type id for this resource.<p>
-     *
-     * @return the type id of this resource.
-     */
-    public int getType() {
+    return m_structureId;
+  }
 
-        return m_type;
-    }
+  /**
+   * Returns the type id for this resource.
+   *
+   * <p>
+   *
+   * @return the type id of this resource.
+   */
+  public int getType() {
 
-    /**
-     * Returns the user id of the user who created this resource.<p>
-     *
-     * @return the user id
-     */
-    public CmsUUID getUserCreated() {
+    return m_type;
+  }
 
-        return m_userCreated;
-    }
+  /**
+   * Returns the user id of the user who created this resource.
+   *
+   * <p>
+   *
+   * @return the user id
+   */
+  public CmsUUID getUserCreated() {
 
-    /**
-     * Returns the user id of the user who made the last change on this resource.<p>
-     *
-     * @return the user id of the user who made the last change<p>
-     */
-    public CmsUUID getUserLastModified() {
+    return m_userCreated;
+  }
 
-        return m_userLastModified;
-    }
+  /**
+   * Returns the user id of the user who made the last change on this resource.
+   *
+   * <p>
+   *
+   * @return the user id of the user who made the last change
+   *     <p>
+   */
+  public CmsUUID getUserLastModified() {
 
-    /**
-     * Returns true if this resource was touched.<p>
-     *
-     * @return boolean true if this resource was touched
-     */
-    public boolean isTouched() {
+    return m_userLastModified;
+  }
 
-        return m_isTouched;
-    }
+  /**
+   * Returns true if this resource was touched.
+   *
+   * <p>
+   *
+   * @return boolean true if this resource was touched
+   */
+  public boolean isTouched() {
 
+    return m_isTouched;
+  }
 }

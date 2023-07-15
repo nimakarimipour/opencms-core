@@ -27,6 +27,9 @@
 
 package org.opencms.setup;
 
+import com.vaadin.annotations.Theme;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.Window;
 import org.opencms.main.OpenCmsServlet;
 import org.opencms.setup.ui.CmsSetupErrorDialog;
 import org.opencms.setup.updater.dialogs.A_CmsUpdateDialog;
@@ -35,78 +38,78 @@ import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsBasicDialog.DialogWidth;
 
-import com.vaadin.annotations.Theme;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.Window;
-
 @Theme("opencms")
 public class CmsUpdateUI extends A_CmsUI {
 
-    private Window m_window;
+  private Window m_window;
 
-    private CmsUpdateBean m_updateBean;
+  private CmsUpdateBean m_updateBean;
 
-    public void displayDialog(A_CmsUpdateDialog dialog) {
+  public void displayDialog(A_CmsUpdateDialog dialog) {
 
-        if (dialog.init(this)) {
-            m_window.setContent(dialog);
-            m_window.setCaption(dialog.getCaption());
-            m_window.center();
-        }
-
+    if (dialog.init(this)) {
+      m_window.setContent(dialog);
+      m_window.setCaption(dialog.getCaption());
+      m_window.center();
     }
+  }
 
-    public CmsUpdateBean getUpdateBean() {
+  public CmsUpdateBean getUpdateBean() {
 
-        return m_updateBean;
+    return m_updateBean;
+  }
+
+  @Override
+  protected void init(VaadinRequest request) {
+
+    this.addStyleName("opencms");
+    m_updateBean = new CmsUpdateBean();
+    if (!m_updateBean.checkOceeVersion(
+        org.opencms.main.OpenCms.getSystemInfo().getVersionNumber())) {
+
+    } else {
+      m_updateBean.init(
+          CmsUpdateServlet.instance.getServletConfig().getServletContext().getRealPath("/"),
+          CmsUpdateServlet.instance
+              .getServletContext()
+              .getInitParameter(OpenCmsServlet.SERVLET_PARAM_OPEN_CMS_SERVLET),
+          CmsUpdateServlet.instance
+              .getServletContext()
+              .getInitParameter(OpenCmsServlet.SERVLET_PARAM_DEFAULT_WEB_APPLICATION));
+      // check wizards accessability
+      boolean wizardEnabled = m_updateBean.getWizardEnabled();
+      Window window = createWindow();
+      addWindow(window);
+      if (!wizardEnabled) {
+        window.setContent(
+            new CmsSetupErrorDialog(
+                "Wizard not enabled",
+                null,
+                new Runnable() {
+
+                  public void run() {
+
+                    //
+
+                  }
+                },
+                window));
+      } else {
+        displayDialog(new CmsUpdateStep01LicenseDialog());
+      }
     }
+  }
 
-    @Override
-    protected void init(VaadinRequest request) {
+  private Window createWindow() {
 
-        this.addStyleName("opencms");
-        m_updateBean = new CmsUpdateBean();
-        if (!m_updateBean.checkOceeVersion(org.opencms.main.OpenCms.getSystemInfo().getVersionNumber())) {
-
-        } else {
-            m_updateBean.init(
-                CmsUpdateServlet.instance.getServletConfig().getServletContext().getRealPath("/"),
-                CmsUpdateServlet.instance.getServletContext().getInitParameter(
-                    OpenCmsServlet.SERVLET_PARAM_OPEN_CMS_SERVLET),
-                CmsUpdateServlet.instance.getServletContext().getInitParameter(
-                    OpenCmsServlet.SERVLET_PARAM_DEFAULT_WEB_APPLICATION));
-            // check wizards accessability
-            boolean wizardEnabled = m_updateBean.getWizardEnabled();
-            Window window = createWindow();
-            addWindow(window);
-            if (!wizardEnabled) {
-                window.setContent(new CmsSetupErrorDialog("Wizard not enabled", null, new Runnable() {
-
-                    public void run() {
-
-                        //
-
-                    }
-                }, window));
-            } else {
-                displayDialog(new CmsUpdateStep01LicenseDialog());
-            }
-
-        }
-
+    if (m_window != null) {
+      m_window.close();
     }
-
-    private Window createWindow() {
-
-        if (m_window != null) {
-            m_window.close();
-        }
-        Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
-        window.setDraggable(false);
-        window.setResizable(false);
-        window.setClosable(false);
-        m_window = window;
-        return m_window;
-    }
-
+    Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
+    window.setDraggable(false);
+    window.setResizable(false);
+    window.setClosable(false);
+    m_window = window;
+    return m_window;
+  }
 }

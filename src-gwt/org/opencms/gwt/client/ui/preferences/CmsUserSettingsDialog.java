@@ -27,6 +27,13 @@
 
 package org.opencms.gwt.client.ui.preferences;
 
+import com.google.common.base.Optional;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+import com.google.gwt.dom.client.Element;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.client.rpc.CmsRpcAction;
 import org.opencms.gwt.client.ui.CmsPopup;
@@ -47,185 +54,189 @@ import org.opencms.gwt.client.util.CmsDomUtil.Style;
 import org.opencms.gwt.shared.CmsUserSettingsBean;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-
-import com.google.common.base.Optional;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.RepeatingCommand;
-import com.google.gwt.dom.client.Element;
-
 /**
- * Dialog used for changing the user settings.<p>
+ * Dialog used for changing the user settings.
+ *
+ * <p>
  */
 public class CmsUserSettingsDialog extends CmsFormDialog implements I_CmsFormSubmitHandler {
 
-    /** The action to execute after the user has changed their preferences. */
-    Runnable m_finishAction;
+  /** The action to execute after the user has changed their preferences. */
+  Runnable m_finishAction;
 
-    /** The panel used to edit the preferences. */
-    CmsUserSettingsFormFieldPanel m_panel;
+  /** The panel used to edit the preferences. */
+  CmsUserSettingsFormFieldPanel m_panel;
 
-    /** The old tab index. */
-    private int m_oldTabIndex;
+  /** The old tab index. */
+  private int m_oldTabIndex;
 
-    /**
-     * Creates a new widget instance.<p>
-     *
-     * @param userSettings the current user settings
-     * @param finishAction the action to execute when the user has edited the user settings
-     */
-    public CmsUserSettingsDialog(CmsUserSettingsBean userSettings, Runnable finishAction) {
+  /**
+   * Creates a new widget instance.
+   *
+   * <p>
+   *
+   * @param userSettings the current user settings
+   * @param finishAction the action to execute when the user has edited the user settings
+   */
+  public CmsUserSettingsDialog(CmsUserSettingsBean userSettings, Runnable finishAction) {
 
-        super("User settings", new CmsForm(false), -1);
-        m_finishAction = finishAction;
-        m_panel = new CmsUserSettingsFormFieldPanel(userSettings);
+    super("User settings", new CmsForm(false), -1);
+    m_finishAction = finishAction;
+    m_panel = new CmsUserSettingsFormFieldPanel(userSettings);
 
-        getForm().setWidget(m_panel);
-        for (Map.Entry<String, CmsXmlContentProperty> entry : userSettings.getConfiguration().entrySet()) {
-            String key = entry.getKey();
-            CmsXmlContentProperty settingDef = entry.getValue();
-            I_CmsFormWidgetMultiFactory factory = new I_CmsFormWidgetMultiFactory() {
+    getForm().setWidget(m_panel);
+    for (Map.Entry<String, CmsXmlContentProperty> entry :
+        userSettings.getConfiguration().entrySet()) {
+      String key = entry.getKey();
+      CmsXmlContentProperty settingDef = entry.getValue();
+      I_CmsFormWidgetMultiFactory factory =
+          new I_CmsFormWidgetMultiFactory() {
 
-                public I_CmsFormWidget createFormWidget(
-                    String widgetKey,
-                    Map<String, String> widgetParams,
-                    Optional<String> defaultValue) {
+            public I_CmsFormWidget createFormWidget(
+                String widgetKey, Map<String, String> widgetParams, Optional<String> defaultValue) {
 
-                    if (CmsSelectBox.WIDGET_TYPE.equals(widgetKey)) {
-                        widgetKey = CmsSelectBox.WIDGET_TYPE_NOTNULL;
-                    }
-                    return CmsWidgetFactoryRegistry.instance().createFormWidget(widgetKey, widgetParams, defaultValue);
-                }
-            };
-            I_CmsFormField field = CmsBasicFormField.createField(
-                settingDef,
-                settingDef.getName(),
-                factory,
-                Collections.<String, String> emptyMap(),
-                false);
-            if (userSettings.isBasic(settingDef.getName())) {
-                field.getLayoutData().put("basic", "true");
+              if (CmsSelectBox.WIDGET_TYPE.equals(widgetKey)) {
+                widgetKey = CmsSelectBox.WIDGET_TYPE_NOTNULL;
+              }
+              return CmsWidgetFactoryRegistry.instance()
+                  .createFormWidget(widgetKey, widgetParams, defaultValue);
             }
-            String initialValue = userSettings.getValue(key);
-            if (initialValue == null) {
-                initialValue = settingDef.getDefault();
-            }
+          };
+      I_CmsFormField field =
+          CmsBasicFormField.createField(
+              settingDef,
+              settingDef.getName(),
+              factory,
+              Collections.<String, String>emptyMap(),
+              false);
+      if (userSettings.isBasic(settingDef.getName())) {
+        field.getLayoutData().put("basic", "true");
+      }
+      String initialValue = userSettings.getValue(key);
+      if (initialValue == null) {
+        initialValue = settingDef.getDefault();
+      }
 
-            getForm().addField(field, initialValue);
-        }
-        CmsDialogFormHandler handler = new CmsDialogFormHandler();
-        handler.setDialog(this);
-        handler.setSubmitHandler(this);
-        getForm().setFormHandler(handler);
-        getForm().render();
-        getElement().addClassName(I_CmsLayoutBundle.INSTANCE.dialogCss().hideCaption());
-        setMainContent(m_panel);
-        setModal(true);
-        setGlassEnabled(true);
-        removePadding();
+      getForm().addField(field, initialValue);
     }
+    CmsDialogFormHandler handler = new CmsDialogFormHandler();
+    handler.setDialog(this);
+    handler.setSubmitHandler(this);
+    getForm().setFormHandler(handler);
+    getForm().render();
+    getElement().addClassName(I_CmsLayoutBundle.INSTANCE.dialogCss().hideCaption());
+    setMainContent(m_panel);
+    setModal(true);
+    setGlassEnabled(true);
+    removePadding();
+  }
 
-    /**
-     * Loads the user settings dialog.<p>
-     *
-     * @param finishAction  the action to execute after the user has changed his preferences
-     */
-    public static void loadAndShow(final Runnable finishAction) {
+  /**
+   * Loads the user settings dialog.
+   *
+   * <p>
+   *
+   * @param finishAction the action to execute after the user has changed his preferences
+   */
+  public static void loadAndShow(final Runnable finishAction) {
 
-        CmsRpcAction<CmsUserSettingsBean> action = new CmsRpcAction<CmsUserSettingsBean>() {
+    CmsRpcAction<CmsUserSettingsBean> action =
+        new CmsRpcAction<CmsUserSettingsBean>() {
 
-            @Override
-            public void execute() {
+          @Override
+          public void execute() {
 
-                start(200, false);
-                CmsCoreProvider.getService().loadUserSettings(this);
+            start(200, false);
+            CmsCoreProvider.getService().loadUserSettings(this);
+          }
 
-            }
+          @Override
+          protected void onResponse(CmsUserSettingsBean result) {
 
-            @Override
-            protected void onResponse(CmsUserSettingsBean result) {
-
-                stop(false);
-                CmsUserSettingsDialog dlg = new CmsUserSettingsDialog(result, finishAction);
-                dlg.centerHorizontally(50);
-            }
+            stop(false);
+            CmsUserSettingsDialog dlg = new CmsUserSettingsDialog(result, finishAction);
+            dlg.centerHorizontally(50);
+          }
         };
 
-        action.execute();
+    action.execute();
+  }
 
-    }
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.form.I_CmsFormSubmitHandler#onSubmitForm(org.opencms.gwt.client.ui.input.form.CmsForm,
+   *     java.util.Map, java.util.Set)
+   */
+  public void onSubmitForm(
+      CmsForm form, final Map<String, String> fieldValues, final Set<String> editedFields) {
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.form.I_CmsFormSubmitHandler#onSubmitForm(org.opencms.gwt.client.ui.input.form.CmsForm, java.util.Map, java.util.Set)
-     */
-    public void onSubmitForm(CmsForm form, final Map<String, String> fieldValues, final Set<String> editedFields) {
+    CmsRpcAction<Void> action =
+        new CmsRpcAction<Void>() {
 
-        CmsRpcAction<Void> action = new CmsRpcAction<Void>() {
+          @Override
+          public void execute() {
 
-            @Override
-            public void execute() {
+            start(200, false);
+            CmsCoreProvider.getService().saveUserSettings(fieldValues, editedFields, this);
+          }
 
-                start(200, false);
-                CmsCoreProvider.getService().saveUserSettings(fieldValues, editedFields, this);
+          @Override
+          protected void onResponse(Void result) {
 
+            stop(false);
+            if (m_finishAction != null) {
+              m_finishAction.run();
             }
-
-            @Override
-            protected void onResponse(Void result) {
-
-                stop(false);
-                if (m_finishAction != null) {
-                    m_finishAction.run();
-                }
-            }
+          }
         };
-        action.execute();
-    }
+    action.execute();
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.Widget#onLoad()
-     */
-    @Override
-    protected void onLoad() {
+  /** @see com.google.gwt.user.client.ui.Widget#onLoad() */
+  @Override
+  protected void onLoad() {
 
-        super.onLoad();
-        Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+    super.onLoad();
+    Scheduler.get()
+        .scheduleFixedDelay(
+            new RepeatingCommand() {
 
-            public boolean execute() {
+              public boolean execute() {
 
-                if (!CmsUserSettingsDialog.this.isAttached() || !CmsUserSettingsDialog.this.isVisible()) {
-                    return false;
+                if (!CmsUserSettingsDialog.this.isAttached()
+                    || !CmsUserSettingsDialog.this.isVisible()) {
+                  return false;
                 }
                 updateHeight();
                 return true;
-            }
+              }
+            },
+            200);
+  }
 
-        }, 200);
+  /**
+   * Updates the panel height depending on the content of the current tab.
+   *
+   * <p>
+   */
+  protected void updateHeight() {
+
+    CmsPopup dialog = this;
+    int tabIndex = m_panel.getTabPanel().getSelectedIndex();
+    boolean changedTab = tabIndex != m_oldTabIndex;
+    m_oldTabIndex = tabIndex;
+    CmsScrollPanel tabWidget = m_panel.getTabPanel().getWidget(tabIndex);
+    Element innerElement = tabWidget.getWidget().getElement();
+    int contentHeight = CmsDomUtil.getCurrentStyleInt(innerElement, Style.height);
+    int spaceLeft = dialog.getAvailableHeight(0);
+    int newHeight = Math.min(spaceLeft, contentHeight + 47);
+    boolean changedHeight = m_panel.getTabPanel().getOffsetHeight() != newHeight;
+    if (changedHeight || changedTab) {
+      m_panel.getTabPanel().setHeight(newHeight + "px");
+      int selectedIndex = m_panel.getTabPanel().getSelectedIndex();
+      CmsScrollPanel widget = m_panel.getTabPanel().getWidget(selectedIndex);
+      widget.setHeight((newHeight - 34) + "px");
+      widget.onResizeDescendant();
     }
-
-    /**
-     * Updates the panel height depending on the content of the current tab.<p>
-     */
-    protected void updateHeight() {
-
-        CmsPopup dialog = this;
-        int tabIndex = m_panel.getTabPanel().getSelectedIndex();
-        boolean changedTab = tabIndex != m_oldTabIndex;
-        m_oldTabIndex = tabIndex;
-        CmsScrollPanel tabWidget = m_panel.getTabPanel().getWidget(tabIndex);
-        Element innerElement = tabWidget.getWidget().getElement();
-        int contentHeight = CmsDomUtil.getCurrentStyleInt(innerElement, Style.height);
-        int spaceLeft = dialog.getAvailableHeight(0);
-        int newHeight = Math.min(spaceLeft, contentHeight + 47);
-        boolean changedHeight = m_panel.getTabPanel().getOffsetHeight() != newHeight;
-        if (changedHeight || changedTab) {
-            m_panel.getTabPanel().setHeight(newHeight + "px");
-            int selectedIndex = m_panel.getTabPanel().getSelectedIndex();
-            CmsScrollPanel widget = m_panel.getTabPanel().getWidget(selectedIndex);
-            widget.setHeight((newHeight - 34) + "px");
-            widget.onResizeDescendant();
-        }
-    }
+  }
 }

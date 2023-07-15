@@ -27,70 +27,78 @@
 
 package org.opencms.ui.dialogs.permissions;
 
+import com.vaadin.server.AbstractExtension;
+import com.vaadin.ui.UI;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.shared.rpc.I_CmsPrincipalSelectRpc;
 
-import com.vaadin.server.AbstractExtension;
-import com.vaadin.ui.UI;
-
 /**
- * The principal select extension. Handles communication between the select dialog iframe and the server.<p>
+ * The principal select extension. Handles communication between the select dialog iframe and the
+ * server.
+ *
+ * <p>
  */
-public class CmsPrincipalSelectExtension extends AbstractExtension implements I_CmsPrincipalSelectRpc {
+public class CmsPrincipalSelectExtension extends AbstractExtension
+    implements I_CmsPrincipalSelectRpc {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -38736017917448694L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -38736017917448694L;
 
-    /** The select widget. */
-    private CmsPrincipalSelect m_select;
+  /** The select widget. */
+  private CmsPrincipalSelect m_select;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param ui the select widget
-     */
-    private CmsPrincipalSelectExtension(UI ui) {
-        extend(ui);
-        registerRpc(this);
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param ui the select widget
+   */
+  private CmsPrincipalSelectExtension(UI ui) {
+    extend(ui);
+    registerRpc(this);
+  }
+
+  /**
+   * Returns the principal select extension instance for the current UI.
+   *
+   * <p>
+   *
+   * @return the instance
+   */
+  protected static CmsPrincipalSelectExtension getInstance() {
+
+    A_CmsUI ui = A_CmsUI.get();
+    CmsPrincipalSelectExtension instance =
+        (CmsPrincipalSelectExtension) ui.getAttribute(CmsPrincipalSelectExtension.class.getName());
+    if (instance == null) {
+      instance = new CmsPrincipalSelectExtension(ui);
+      ui.setAttribute(CmsPrincipalSelectExtension.class.getName(), instance);
     }
+    return instance;
+  }
 
-    /**
-     * Returns the principal select extension instance for the current UI.<p>
-     *
-     * @return the instance
-     */
-    protected static CmsPrincipalSelectExtension getInstance() {
+  /**
+   * Sets the current select widget.
+   *
+   * <p>This needs to be called, when the select window is opened.
+   *
+   * <p>
+   *
+   * @param select the select widget
+   */
+  public void setCurrentSelect(CmsPrincipalSelect select) {
 
-        A_CmsUI ui = A_CmsUI.get();
-        CmsPrincipalSelectExtension instance = (CmsPrincipalSelectExtension)ui.getAttribute(
-            CmsPrincipalSelectExtension.class.getName());
-        if (instance == null) {
-            instance = new CmsPrincipalSelectExtension(ui);
-            ui.setAttribute(CmsPrincipalSelectExtension.class.getName(), instance);
-        }
-        return instance;
+    m_select = select;
+  }
+
+  /** @see org.opencms.ui.shared.rpc.I_CmsPrincipalSelectRpc#setPrincipal(int, java.lang.String) */
+  public void setPrincipal(int type, String principalName) {
+
+    if (m_select != null) {
+      m_select.setPrincipal(type, principalName);
+      m_select.closeWindow();
+      m_select = null;
     }
-
-    /**
-     * Sets the current select widget.<p>
-     * This needs to be called, when the select window is opened.<p>
-     *
-     * @param select the select widget
-     */
-    public void setCurrentSelect(CmsPrincipalSelect select) {
-
-        m_select = select;
-    }
-
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsPrincipalSelectRpc#setPrincipal(int, java.lang.String)
-     */
-    public void setPrincipal(int type, String principalName) {
-
-        if (m_select != null) {
-            m_select.setPrincipal(type, principalName);
-            m_select.closeWindow();
-            m_select = null;
-        }
-    }
+  }
 }

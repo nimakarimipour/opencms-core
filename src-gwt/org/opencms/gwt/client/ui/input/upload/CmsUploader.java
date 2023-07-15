@@ -27,50 +27,54 @@
 
 package org.opencms.gwt.client.ui.input.upload;
 
+import com.google.gwt.core.client.GWT;
+import java.util.List;
 import org.opencms.gwt.client.ui.input.upload.impl.CmsUploaderDefault;
 
-import java.util.List;
-
-import com.google.gwt.core.client.GWT;
-
 /**
- * File uploader utility class. Takes care of the browser specifics when uploading files asynchronously.<p>
+ * File uploader utility class. Takes care of the browser specifics when uploading files
+ * asynchronously.
+ *
+ * <p>
  */
 public class CmsUploader implements I_CmsUploader {
 
-    /** The uploader implementation. */
-    private I_CmsUploader m_impl;
+  /** The uploader implementation. */
+  private I_CmsUploader m_impl;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsUploader() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsUploader() {
 
-        m_impl = GWT.create(CmsUploaderDefault.class);
-    }
+    m_impl = GWT.create(CmsUploaderDefault.class);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.upload.I_CmsUploader#uploadFiles(java.lang.String, java.lang.String, boolean, java.lang.String, java.util.List, java.util.List, org.opencms.gwt.client.ui.input.upload.I_CmsUploadDialog)
-     */
-    public void uploadFiles(
-        String uploadUri,
-        String targetFolder,
-        boolean isRootPath,
-        String postCreateHandler,
-        List<CmsFileInfo> filesToUpload,
-        List<String> filesToUnzip,
-        boolean keepFileNames,
-        I_CmsUploadDialog dialog) {
+  /**
+   * @see org.opencms.gwt.client.ui.input.upload.I_CmsUploader#uploadFiles(java.lang.String,
+   *     java.lang.String, boolean, java.lang.String, java.util.List, java.util.List,
+   *     org.opencms.gwt.client.ui.input.upload.I_CmsUploadDialog)
+   */
+  public void uploadFiles(
+      String uploadUri,
+      String targetFolder,
+      boolean isRootPath,
+      String postCreateHandler,
+      List<CmsFileInfo> filesToUpload,
+      List<String> filesToUnzip,
+      boolean keepFileNames,
+      I_CmsUploadDialog dialog) {
 
-        m_impl.uploadFiles(
-            uploadUri,
-            targetFolder,
-            isRootPath,
-            postCreateHandler,
-            filesToUpload,
-            filesToUnzip,
-            keepFileNames,
-            dialog);
-    }
-
+    m_impl.uploadFiles(
+        uploadUri,
+        targetFolder,
+        isRootPath,
+        postCreateHandler,
+        filesToUpload,
+        filesToUnzip,
+        keepFileNames,
+        dialog);
+  }
 }

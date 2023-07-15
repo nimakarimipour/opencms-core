@@ -35,72 +35,72 @@ import org.opencms.gwt.client.ui.CmsDeleteWarningDialog;
 import org.opencms.gwt.client.ui.I_CmsConfirmDialogHandler;
 
 /**
- * Sitemap context menu delete entry.<p>
+ * Sitemap context menu delete entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsDeleteMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsDeleteMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsDeleteMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_DELETE_0));
-        setActive(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_DELETE_0));
+    setActive(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-        I_CmsConfirmDialogHandler handler = new I_CmsConfirmDialogHandler() {
+    I_CmsConfirmDialogHandler handler =
+        new I_CmsConfirmDialogHandler() {
 
-            /**
-             * @see org.opencms.gwt.client.ui.I_CmsCloseDialogHandler#onClose()
-             */
-            public void onClose() {
+          /** @see org.opencms.gwt.client.ui.I_CmsCloseDialogHandler#onClose() */
+          public void onClose() {
 
-                // do nothing
-            }
+            // do nothing
+          }
 
-            /**
-             * @see org.opencms.gwt.client.ui.I_CmsConfirmDialogHandler#onOk()
-             */
-            public void onOk() {
+          /** @see org.opencms.gwt.client.ui.I_CmsConfirmDialogHandler#onOk() */
+          public void onOk() {
 
-                getHoverbar().getController().delete(getHoverbar().getEntry().getSitePath());
-            }
+            getHoverbar().getController().delete(getHoverbar().getEntry().getSitePath());
+          }
         };
-        CmsDeleteWarningDialog dialog = new CmsDeleteWarningDialog(getHoverbar().getEntry().getSitePath());
-        dialog.setHandler(handler);
-        dialog.loadAndShow(null);
-    }
+    CmsDeleteWarningDialog dialog =
+        new CmsDeleteWarningDialog(getHoverbar().getEntry().getSitePath());
+    dialog.setHandler(handler);
+    dialog.loadAndShow(null);
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        CmsSitemapController controller = getHoverbar().getController();
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        // gallery folders may only be deleted by gallery managers
-        boolean show = controller.isEditable()
+    CmsSitemapController controller = getHoverbar().getController();
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    // gallery folders may only be deleted by gallery managers
+    boolean show =
+        controller.isEditable()
             && !controller.isRoot(entry.getSitePath())
             && !CmsSitemapView.getInstance().isModelPageMode()
-            && (!CmsSitemapView.getInstance().isGalleryMode() || getHoverbar().getController().getData().isGalleryManager());
-        setVisible(show);
-        if (show && !entry.isEditable()) {
-            setActive(false);
-            setDisabledReason(controller.getNoEditReason(entry));
-        } else {
-            setActive(true);
-            setDisabledReason(null);
-        }
+            && (!CmsSitemapView.getInstance().isGalleryMode()
+                || getHoverbar().getController().getData().isGalleryManager());
+    setVisible(show);
+    if (show && !entry.isEditable()) {
+      setActive(false);
+      setDisabledReason(controller.getNoEditReason(entry));
+    } else {
+      setActive(true);
+      setDisabledReason(null);
     }
+  }
 }

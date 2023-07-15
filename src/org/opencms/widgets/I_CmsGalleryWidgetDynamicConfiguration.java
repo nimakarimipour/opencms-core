@@ -31,39 +31,43 @@ import org.opencms.file.CmsObject;
 import org.opencms.i18n.CmsMessages;
 
 /**
- * Enables a dynamic configuration of values for the {@link A_CmsGalleryWidget}.<p>
+ * Enables a dynamic configuration of values for the {@link A_CmsGalleryWidget}.
  *
- * The following values can be configured dynamically:
+ * <p>The following values can be configured dynamically:
+ *
  * <ul>
- * <li>The type of the preselected item list (gallery or category)</li>
- * <li>The preselected item list (i.e. a gallery folder or category)</li>
+ *   <li>The type of the preselected item list (gallery or category)
+ *   <li>The preselected item list (i.e. a gallery folder or category)
  * </ul>
  *
  * @since 7.5.0
  */
-
 public interface I_CmsGalleryWidgetDynamicConfiguration {
 
-    /**
-     * Returns the required information for the initial item list to load.<p>
-     *
-     * If a gallery should be shown, the path to the gallery must be specified,
-     * for a category the category path.<p>
-     *
-     * @param cms an initialized instance of a CmsObject
-     * @param widgetDialog the dialog where the widget is used on
-     * @param param the widget parameter to generate the widget for
-     * @return the required information for the initial item list to load
-     */
-    String getStartup(CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param);
+  /**
+   * Returns the required information for the initial item list to load.
+   *
+   * <p>If a gallery should be shown, the path to the gallery must be specified, for a category the
+   * category path.
+   *
+   * <p>
+   *
+   * @param cms an initialized instance of a CmsObject
+   * @param widgetDialog the dialog where the widget is used on
+   * @param param the widget parameter to generate the widget for
+   * @return the required information for the initial item list to load
+   */
+  String getStartup(CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param);
 
-    /**
-     * Returns the type of the initial item list to load, either gallery or category.<p>
-     *
-     * @param cms an initialized instance of a CmsObject
-     * @param widgetDialog the dialog where the widget is used on
-     * @param param the widget parameter to generate the widget for
-     * @return the type of the initial image list to load, either gallery or category
-     */
-    String getType(CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param);
+  /**
+   * Returns the type of the initial item list to load, either gallery or category.
+   *
+   * <p>
+   *
+   * @param cms an initialized instance of a CmsObject
+   * @param widgetDialog the dialog where the widget is used on
+   * @param param the widget parameter to generate the widget for
+   * @return the type of the initial image list to load, either gallery or category
+   */
+  String getType(CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param);
 }

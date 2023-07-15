@@ -30,76 +30,87 @@ package org.opencms.ade.containerpage.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * Bean representing a link to a different locale variant.<p>
+ * Bean representing a link to a different locale variant.
+ *
+ * <p>
  */
 public class CmsLocaleLinkBean implements IsSerializable {
 
-    /** Error message if the link can't be opened. */
-    private String m_error;
+  /** Error message if the link can't be opened. */
+  private String m_error;
 
-    /** The link. */
-    private String m_link;
+  /** The link. */
+  private String m_link;
 
-    /**
-     * Default constructor for serialization.<p>
-     */
-    protected CmsLocaleLinkBean() {
-        // do nothing
-    }
+  /**
+   * Default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsLocaleLinkBean() {
+    // do nothing
+  }
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param error the error
-     * @param link the link
-     */
-    protected CmsLocaleLinkBean(String error, String link) {
-        m_error = error;
-        m_link = link;
-    }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param error the error
+   * @param link the link
+   */
+  protected CmsLocaleLinkBean(String error, String link) {
+    m_error = error;
+    m_link = link;
+  }
 
-    /**
-     * Creates a new link bean with an error message.<p>
-     *
-     * @param errorMsg the error message
-     *
-     * @return the new bean
-     */
-    public static CmsLocaleLinkBean error(String errorMsg) {
+  /**
+   * Creates a new link bean with an error message.
+   *
+   * <p>
+   *
+   * @param errorMsg the error message
+   * @return the new bean
+   */
+  public static CmsLocaleLinkBean error(String errorMsg) {
 
-        return new CmsLocaleLinkBean(errorMsg, null);
-    }
+    return new CmsLocaleLinkBean(errorMsg, null);
+  }
 
-    /**
-     * Creates a new link bean with a link.<p>
-     *
-     * @param link the link
-     *
-     * @return the link bean
-     */
-    public static CmsLocaleLinkBean link(String link) {
+  /**
+   * Creates a new link bean with a link.
+   *
+   * <p>
+   *
+   * @param link the link
+   * @return the link bean
+   */
+  public static CmsLocaleLinkBean link(String link) {
 
-        return new CmsLocaleLinkBean(null, link);
-    }
+    return new CmsLocaleLinkBean(null, link);
+  }
 
-    /**
-     * Gets the error message.<p>
-     *
-     * @return the error message
-     */
-    public String getError() {
+  /**
+   * Gets the error message.
+   *
+   * <p>
+   *
+   * @return the error message
+   */
+  public String getError() {
 
-        return m_error;
-    }
+    return m_error;
+  }
 
-    /**
-     * Gets the link.<p>
-     *
-     * @return the link
-     */
-    public String getLink() {
+  /**
+   * Gets the link.
+   *
+   * <p>
+   *
+   * @return the link
+   */
+  public String getLink() {
 
-        return m_link;
-    }
-
+    return m_link;
+  }
 }

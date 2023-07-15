@@ -36,88 +36,88 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 /**
- * The default string model implementation.<p>
+ * The default string model implementation.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsDefaultStringModel implements I_CmsStringModel {
 
-    /** The event bus for this class. */
-    EventBus m_eventBus = new SimpleEventBus();
+  /** The event bus for this class. */
+  EventBus m_eventBus = new SimpleEventBus();
 
-    /**
-     * A flag which indicates that the model is currently being updated, which is used to prevent infinite recursion.<p>
-     */
-    private boolean m_active;
+  /**
+   * A flag which indicates that the model is currently being updated, which is used to prevent
+   * infinite recursion.
+   *
+   * <p>
+   */
+  private boolean m_active;
 
-    /** The id. */
-    private String m_id;
+  /** The id. */
+  private String m_id;
 
-    /** The model value. */
-    private String m_value;
+  /** The model value. */
+  private String m_value;
 
-    /**
-     * Creates a new string model.<p>
-     *
-     * @param id the model id
-     */
-    public CmsDefaultStringModel(String id) {
+  /**
+   * Creates a new string model.
+   *
+   * <p>
+   *
+   * @param id the model id
+   */
+  public CmsDefaultStringModel(String id) {
 
-        m_id = id;
-        m_value = "";
-    }
+    m_id = id;
+    m_value = "";
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
 
-        return m_eventBus.addHandler(ValueChangeEvent.getType(), handler);
-    }
+    return m_eventBus.addHandler(ValueChangeEvent.getType(), handler);
+  }
 
-    /**
-     * @see com.google.gwt.event.shared.HasHandlers#fireEvent(com.google.gwt.event.shared.GwtEvent)
-     */
-    public void fireEvent(GwtEvent<?> event) {
+  /**
+   * @see com.google.gwt.event.shared.HasHandlers#fireEvent(com.google.gwt.event.shared.GwtEvent)
+   */
+  public void fireEvent(GwtEvent<?> event) {
 
-        m_eventBus.fireEvent(event);
-    }
+    m_eventBus.fireEvent(event);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsStringModel#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.gwt.client.ui.input.I_CmsStringModel#getId() */
+  public String getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsStringModel#getValue()
-     */
-    public String getValue() {
+  /** @see org.opencms.gwt.client.ui.input.I_CmsStringModel#getValue() */
+  public String getValue() {
 
-        return m_value;
-    }
+    return m_value;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.I_CmsStringModel#setValue(java.lang.String, boolean)
-     */
-    public void setValue(String value, boolean notify) {
+  /** @see org.opencms.gwt.client.ui.input.I_CmsStringModel#setValue(java.lang.String, boolean) */
+  public void setValue(String value, boolean notify) {
 
-        if (!m_active) {
-            m_active = true;
-            try {
+    if (!m_active) {
+      m_active = true;
+      try {
 
-                boolean changed = !Objects.equal(value, m_value);
-                m_value = value;
-                if (notify && changed) {
-                    ValueChangeEvent.fire(this, value);
-                }
-            } finally {
-                m_active = false;
-            }
+        boolean changed = !Objects.equal(value, m_value);
+        m_value = value;
+        if (notify && changed) {
+          ValueChangeEvent.fire(this, value);
         }
-
+      } finally {
+        m_active = false;
+      }
     }
-
+  }
 }

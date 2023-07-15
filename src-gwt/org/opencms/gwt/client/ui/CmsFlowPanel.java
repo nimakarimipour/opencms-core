@@ -27,8 +27,6 @@
 
 package org.opencms.gwt.client.ui;
 
-import org.opencms.gwt.client.util.CmsDomUtil;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.HasAllMouseHandlers;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -48,114 +46,128 @@ import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.opencms.gwt.client.util.CmsDomUtil;
 
 /**
- * A basic panel which is like GWT's FlowPanel, except it allows you to choose the HTML tag
- * to use.<p>
- * Implements {@link com.google.gwt.event.dom.client.HasAllMouseHandlers}.<p>
+ * A basic panel which is like GWT's FlowPanel, except it allows you to choose the HTML tag to use.
+ *
+ * <p>Implements {@link com.google.gwt.event.dom.client.HasAllMouseHandlers}.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsFlowPanel extends ComplexPanel implements HasAllMouseHandlers {
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsFlowPanel() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsFlowPanel() {
 
-        this(CmsDomUtil.Tag.div.name());
-    }
+    this(CmsDomUtil.Tag.div.name());
+  }
 
-    /**
-     * Wrapping constructor.<p>
-     *
-     * @param element the element to wrap
-     */
-    public CmsFlowPanel(Element element) {
+  /**
+   * Wrapping constructor.
+   *
+   * <p>
+   *
+   * @param element the element to wrap
+   */
+  public CmsFlowPanel(Element element) {
 
-        element.removeFromParent();
-        setElement(element);
-    }
+    element.removeFromParent();
+    setElement(element);
+  }
 
-    /**
-     * Creates an empty flow panel with a given tag name.
-     *
-     * @param tag the HTML tag name to use
-     */
-    @UiConstructor
-    public CmsFlowPanel(String tag) {
+  /**
+   * Creates an empty flow panel with a given tag name.
+   *
+   * @param tag the HTML tag name to use
+   */
+  @UiConstructor
+  public CmsFlowPanel(String tag) {
 
-        setElement((Element)DOM.createElement(tag));
-    }
+    setElement((Element) DOM.createElement(tag));
+  }
 
-    /**
-     * Adds a new child widget to the panel.
-     *
-     * @param w the widget to be added
-     */
-    @Override
-    public void add(Widget w) {
+  /**
+   * Adds a new child widget to the panel.
+   *
+   * @param w the widget to be added
+   */
+  @Override
+  public void add(Widget w) {
 
-        super.add(w, (Element)getElement());
-    }
+    super.add(w, (Element) getElement());
+  }
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasMouseDownHandlers#addMouseDownHandler(com.google.gwt.event.dom.client.MouseDownHandler)
-     */
-    public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasMouseDownHandlers#addMouseDownHandler(com.google.gwt.event.dom.client.MouseDownHandler)
+   */
+  public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
 
-        return addDomHandler(handler, MouseDownEvent.getType());
-    }
+    return addDomHandler(handler, MouseDownEvent.getType());
+  }
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasMouseMoveHandlers#addMouseMoveHandler(com.google.gwt.event.dom.client.MouseMoveHandler)
-     */
-    public HandlerRegistration addMouseMoveHandler(MouseMoveHandler handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasMouseMoveHandlers#addMouseMoveHandler(com.google.gwt.event.dom.client.MouseMoveHandler)
+   */
+  public HandlerRegistration addMouseMoveHandler(MouseMoveHandler handler) {
 
-        return addDomHandler(handler, MouseMoveEvent.getType());
-    }
+    return addDomHandler(handler, MouseMoveEvent.getType());
+  }
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasMouseOutHandlers#addMouseOutHandler(com.google.gwt.event.dom.client.MouseOutHandler)
-     */
-    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasMouseOutHandlers#addMouseOutHandler(com.google.gwt.event.dom.client.MouseOutHandler)
+   */
+  public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
 
-        return addDomHandler(handler, MouseOutEvent.getType());
-    }
+    return addDomHandler(handler, MouseOutEvent.getType());
+  }
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasMouseOverHandlers#addMouseOverHandler(com.google.gwt.event.dom.client.MouseOverHandler)
-     */
-    public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasMouseOverHandlers#addMouseOverHandler(com.google.gwt.event.dom.client.MouseOverHandler)
+   */
+  public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
 
-        return addDomHandler(handler, MouseOverEvent.getType());
-    }
+    return addDomHandler(handler, MouseOverEvent.getType());
+  }
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasMouseUpHandlers#addMouseUpHandler(com.google.gwt.event.dom.client.MouseUpHandler)
-     */
-    public HandlerRegistration addMouseUpHandler(MouseUpHandler handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasMouseUpHandlers#addMouseUpHandler(com.google.gwt.event.dom.client.MouseUpHandler)
+   */
+  public HandlerRegistration addMouseUpHandler(MouseUpHandler handler) {
 
-        return addDomHandler(handler, MouseUpEvent.getType());
-    }
+    return addDomHandler(handler, MouseUpEvent.getType());
+  }
 
-    /**
-     * @see com.google.gwt.event.dom.client.HasMouseWheelHandlers#addMouseWheelHandler(com.google.gwt.event.dom.client.MouseWheelHandler)
-     */
-    public HandlerRegistration addMouseWheelHandler(MouseWheelHandler handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasMouseWheelHandlers#addMouseWheelHandler(com.google.gwt.event.dom.client.MouseWheelHandler)
+   */
+  public HandlerRegistration addMouseWheelHandler(MouseWheelHandler handler) {
 
-        return addDomHandler(handler, MouseWheelEvent.getType());
-    }
+    return addDomHandler(handler, MouseWheelEvent.getType());
+  }
 
-    /**
-     * Inserts a widget at a given position.<p>
-     *
-     * @param w the widget to insert
-     * @param beforeIndex the position before which the widget should be inserted
-     */
-    public void insert(Widget w, int beforeIndex) {
+  /**
+   * Inserts a widget at a given position.
+   *
+   * <p>
+   *
+   * @param w the widget to insert
+   * @param beforeIndex the position before which the widget should be inserted
+   */
+  public void insert(Widget w, int beforeIndex) {
 
-        insert(w, (Element)getElement(), beforeIndex, true);
-    }
-
+    insert(w, (Element) getElement(), beforeIndex, true);
+  }
 }

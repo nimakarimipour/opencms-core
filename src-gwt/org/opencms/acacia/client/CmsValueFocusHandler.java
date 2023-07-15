@@ -27,9 +27,6 @@
 
 package org.opencms.acacia.client;
 
-import org.opencms.acacia.client.css.I_CmsLayoutBundle;
-import org.opencms.acacia.client.ui.CmsAttributeValueView;
-
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -39,177 +36,201 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.opencms.acacia.client.css.I_CmsLayoutBundle;
+import org.opencms.acacia.client.ui.CmsAttributeValueView;
 
 /**
- * The attribute value view highlighting handler.<p>
+ * The attribute value view highlighting handler.
+ *
+ * <p>
  */
-public final class CmsValueFocusHandler implements MouseOverHandler, MouseOutHandler, MouseDownHandler {
+public final class CmsValueFocusHandler
+    implements MouseOverHandler, MouseOutHandler, MouseDownHandler {
 
-    /** The handler instance. */
-    private static CmsValueFocusHandler INSTANCE;
+  /** The handler instance. */
+  private static CmsValueFocusHandler INSTANCE;
 
-    /** The on button hover highlighted element. */
-    private CmsAttributeValueView m_currentButtonFocus;
+  /** The on button hover highlighted element. */
+  private CmsAttributeValueView m_currentButtonFocus;
 
-    /** The currently selected value view. */
-    private CmsAttributeValueView m_currentFocus;
+  /** The currently selected value view. */
+  private CmsAttributeValueView m_currentFocus;
 
-    /** The handler registration. */
-    private HandlerRegistration m_handlerRegistration;
+  /** The handler registration. */
+  private HandlerRegistration m_handlerRegistration;
 
-    /**
-     * Constructor.<p>
-     */
-    private CmsValueFocusHandler() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  private CmsValueFocusHandler() {
 
-        m_handlerRegistration = RootPanel.get().addDomHandler(this, MouseDownEvent.getType());
+    m_handlerRegistration = RootPanel.get().addDomHandler(this, MouseDownEvent.getType());
+  }
+
+  /**
+   * Returns the highlighting handler instance.
+   *
+   * <p>
+   *
+   * @return the highlighting handler instance
+   */
+  public static CmsValueFocusHandler getInstance() {
+
+    if (INSTANCE == null) {
+      INSTANCE = new CmsValueFocusHandler();
     }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the highlighting handler instance.<p>
-     *
-     * @return the highlighting handler instance
-     */
-    public static CmsValueFocusHandler getInstance() {
+  /**
+   * Clears the static instance reference.
+   *
+   * <p>
+   */
+  private static void clearInstance() {
 
-        if (INSTANCE == null) {
-            INSTANCE = new CmsValueFocusHandler();
-        }
-        return INSTANCE;
+    INSTANCE = null;
+  }
+
+  /**
+   * Removes all focus highlighting.
+   *
+   * <p>
+   */
+  public void clearFocus() {
+
+    if ((m_currentFocus != null)) {
+      m_currentFocus.toggleFocus(false);
+      m_currentFocus = null;
     }
+  }
 
-    /**
-     * Clears the static instance reference.<p>
-     */
-    private static void clearInstance() {
+  /**
+   * Destroys the current handler instance.
+   *
+   * <p>
+   */
+  public void destroy() {
 
-        INSTANCE = null;
+    m_currentFocus = null;
+    if (m_handlerRegistration != null) {
+      m_handlerRegistration.removeHandler();
     }
+    m_handlerRegistration = null;
+    clearInstance();
+  }
 
-    /**
-     * Removes all focus highlighting.<p>
-     */
-    public void clearFocus() {
+  /**
+   * Hides all help bubbles.
+   *
+   * <p>
+   *
+   * @param formPanel the form panel
+   * @param hide <code>true</code> to hide the help bubbles
+   */
+  public void hideHelpBubbles(Widget formPanel, boolean hide) {
 
-        if ((m_currentFocus != null)) {
-            m_currentFocus.toggleFocus(false);
-            m_currentFocus = null;
-        }
+    if (hide) {
+      formPanel.addStyleName(I_CmsLayoutBundle.INSTANCE.form().hideHelpBubbles());
+    } else {
+      formPanel.removeStyleName(I_CmsLayoutBundle.INSTANCE.form().hideHelpBubbles());
     }
+  }
 
-    /**
-     * Destroys the current handler instance.<p>
-     */
-    public void destroy() {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.MouseDownHandler#onMouseDown(com.google.gwt.event.dom.client.MouseDownEvent)
+   */
+  public void onMouseDown(MouseDownEvent event) {
 
+    event.stopPropagation();
+    if (RootPanel.get().equals(event.getSource())) {
+      com.google.gwt.dom.client.Element element =
+          com.google.gwt.dom.client.Element.as(event.getNativeEvent().getEventTarget());
+      if ((m_currentFocus != null) && !m_currentFocus.owns(element)) {
+        m_currentFocus.toggleFocus(false);
         m_currentFocus = null;
-        if (m_handlerRegistration != null) {
-            m_handlerRegistration.removeHandler();
-        }
-        m_handlerRegistration = null;
-        clearInstance();
+      }
+    } else {
+      if (event.getSource().equals(m_currentFocus)) {
+        return;
+      }
+      if ((m_currentFocus != null)) {
+        m_currentFocus.toggleFocus(false);
+      }
+      m_currentFocus = (CmsAttributeValueView) event.getSource();
+      m_currentFocus.toggleFocus(true);
     }
+  }
 
-    /**
-     * Hides all help bubbles.<p>
-     *
-     * @param formPanel the form panel
-     * @param hide <code>true</code> to hide the help bubbles
-     */
-    public void hideHelpBubbles(Widget formPanel, boolean hide) {
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.MouseOutHandler#onMouseOut(com.google.gwt.event.dom.client.MouseOutEvent)
+   */
+  public void onMouseOut(MouseOutEvent event) {
 
-        if (hide) {
-            formPanel.addStyleName(I_CmsLayoutBundle.INSTANCE.form().hideHelpBubbles());
+    if (!(event.getSource() instanceof CmsAttributeValueView)) {
+      if ((m_currentButtonFocus != null)
+          && m_currentButtonFocus
+              .getElement()
+              .isOrHasChild(((Widget) event.getSource()).getElement())) {
+        if (!m_currentButtonFocus.equals(m_currentFocus)) {
+          m_currentButtonFocus.toggleFocus(false);
+        }
+        m_currentButtonFocus = null;
+      }
+      return;
+    }
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.MouseOverHandler#onMouseOver(com.google.gwt.event.dom.client.MouseOverEvent)
+   */
+  public void onMouseOver(MouseOverEvent event) {
+
+    if (!(event.getSource() instanceof CmsAttributeValueView)) {
+      CmsAttributeValueView parentView = null;
+      Widget source = ((Widget) event.getSource()).getParent();
+      while (parentView == null) {
+        if (source instanceof CmsAttributeValueView) {
+          parentView = (CmsAttributeValueView) source;
         } else {
-            formPanel.removeStyleName(I_CmsLayoutBundle.INSTANCE.form().hideHelpBubbles());
+          source = source.getParent();
         }
+      }
+      if (m_currentButtonFocus != null) {
+        if (m_currentButtonFocus.equals(parentView)) {
+          return;
+        } else if (!m_currentButtonFocus.equals(m_currentFocus)) {
+          m_currentButtonFocus.toggleFocus(false);
+        }
+      }
+      m_currentButtonFocus = parentView;
+      m_currentButtonFocus.toggleFocus(true);
+      return;
+    }
+  }
+
+  /**
+   * Sets the given attribute value view focused.
+   *
+   * <p>
+   *
+   * @param target the target attribute value view
+   */
+  public void setFocus(CmsAttributeValueView target) {
+
+    if (m_currentFocus == target) {
+      return;
     }
 
-    /**
-     * @see com.google.gwt.event.dom.client.MouseDownHandler#onMouseDown(com.google.gwt.event.dom.client.MouseDownEvent)
-     */
-    public void onMouseDown(MouseDownEvent event) {
-
-        event.stopPropagation();
-        if (RootPanel.get().equals(event.getSource())) {
-            com.google.gwt.dom.client.Element element = com.google.gwt.dom.client.Element.as(
-                event.getNativeEvent().getEventTarget());
-            if ((m_currentFocus != null) && !m_currentFocus.owns(element)) {
-                m_currentFocus.toggleFocus(false);
-                m_currentFocus = null;
-            }
-        } else {
-            if (event.getSource().equals(m_currentFocus)) {
-                return;
-            }
-            if ((m_currentFocus != null)) {
-                m_currentFocus.toggleFocus(false);
-            }
-            m_currentFocus = (CmsAttributeValueView)event.getSource();
-            m_currentFocus.toggleFocus(true);
-        }
+    if ((m_currentFocus != null)) {
+      m_currentFocus.toggleFocus(false);
     }
-
-    /**
-     * @see com.google.gwt.event.dom.client.MouseOutHandler#onMouseOut(com.google.gwt.event.dom.client.MouseOutEvent)
-     */
-    public void onMouseOut(MouseOutEvent event) {
-
-        if (!(event.getSource() instanceof CmsAttributeValueView)) {
-            if ((m_currentButtonFocus != null)
-                && m_currentButtonFocus.getElement().isOrHasChild(((Widget)event.getSource()).getElement())) {
-                if (!m_currentButtonFocus.equals(m_currentFocus)) {
-                    m_currentButtonFocus.toggleFocus(false);
-                }
-                m_currentButtonFocus = null;
-            }
-            return;
-        }
-    }
-
-    /**
-     * @see com.google.gwt.event.dom.client.MouseOverHandler#onMouseOver(com.google.gwt.event.dom.client.MouseOverEvent)
-     */
-    public void onMouseOver(MouseOverEvent event) {
-
-        if (!(event.getSource() instanceof CmsAttributeValueView)) {
-            CmsAttributeValueView parentView = null;
-            Widget source = ((Widget)event.getSource()).getParent();
-            while (parentView == null) {
-                if (source instanceof CmsAttributeValueView) {
-                    parentView = (CmsAttributeValueView)source;
-                } else {
-                    source = source.getParent();
-                }
-            }
-            if (m_currentButtonFocus != null) {
-                if (m_currentButtonFocus.equals(parentView)) {
-                    return;
-                } else if (!m_currentButtonFocus.equals(m_currentFocus)) {
-                    m_currentButtonFocus.toggleFocus(false);
-                }
-            }
-            m_currentButtonFocus = parentView;
-            m_currentButtonFocus.toggleFocus(true);
-            return;
-        }
-    }
-
-    /**
-     * Sets the given attribute value view focused.<p>
-     *
-     * @param target the target attribute value view
-     */
-    public void setFocus(CmsAttributeValueView target) {
-
-        if (m_currentFocus == target) {
-            return;
-        }
-
-        if ((m_currentFocus != null)) {
-            m_currentFocus.toggleFocus(false);
-        }
-        m_currentFocus = target;
-        m_currentFocus.toggleFocus(true);
-    }
+    m_currentFocus = target;
+    m_currentFocus.toggleFocus(true);
+  }
 }

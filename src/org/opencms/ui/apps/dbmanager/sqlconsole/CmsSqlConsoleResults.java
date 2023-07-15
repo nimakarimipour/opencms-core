@@ -27,99 +27,103 @@
 
 package org.opencms.ui.apps.dbmanager.sqlconsole;
 
+import au.com.bytecode.opencsv.CSVWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import au.com.bytecode.opencsv.CSVWriter;
-
 /**
- * Class for storing query results.<p>
+ * Class for storing query results.
+ *
+ * <p>
  */
 public class CmsSqlConsoleResults {
 
-    /** The column names. */
-    private List<String> m_columns;
+  /** The column names. */
+  private List<String> m_columns;
 
-    /** The row data from the result set. */
-    private List<List<Object>> m_data;
+  /** The row data from the result set. */
+  private List<List<Object>> m_data;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param columns the column names
-     * @param data the row data
-     */
-    public CmsSqlConsoleResults(List<String> columns, List<List<Object>> data) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param columns the column names
+   * @param data the row data
+   */
+  public CmsSqlConsoleResults(List<String> columns, List<List<Object>> data) {
 
-        m_columns = columns;
-        m_data = data;
+    m_columns = columns;
+    m_data = data;
+  }
 
+  /**
+   * Gets the column names.
+   *
+   * <p>
+   *
+   * @return the list of column names
+   */
+  public List<String> getColumns() {
+
+    return m_columns;
+  }
+
+  /**
+   * Gets the type to use for the Vaadin table column corresponding to the c-th column in this
+   * result.
+   *
+   * @param c the column index
+   * @return the class to use for the c-th Vaadin table column
+   */
+  public Class<?> getColumnType(int c) {
+
+    for (int r = 0; r < m_data.size(); r++) {
+      Object val = m_data.get(r).get(c);
+      if (val != null) {
+        return val.getClass();
+      }
     }
+    return Object.class;
+  }
 
-    /**
-     * Gets the column names.<p>
-     *
-     * @return the list of column names
-     */
-    public List<String> getColumns() {
+  /**
+   * Converts the results to CSV data.
+   *
+   * @return the CSV data
+   */
+  public String getCsv() {
 
-        return m_columns;
-    }
-
-    /**
-     * Gets the type to use for the Vaadin table column corresponding to the c-th column in this result.
-     *
-     * @param c the column index
-     * @return the class to use for the c-th Vaadin table column
-     */
-    public Class<?> getColumnType(int c) {
-
-        for (int r = 0; r < m_data.size(); r++) {
-            Object val = m_data.get(r).get(c);
-            if (val != null) {
-                return val.getClass();
-            }
+    StringWriter writer = new StringWriter();
+    try (CSVWriter csv = new CSVWriter(writer)) {
+      List<String> headers = new ArrayList<>();
+      for (String col : m_columns) {
+        headers.add(col);
+      }
+      csv.writeNext(headers.toArray(new String[] {}));
+      for (List<Object> row : m_data) {
+        List<String> colCsv = new ArrayList<>();
+        for (Object col : row) {
+          colCsv.add(String.valueOf(col));
         }
-        return Object.class;
+        csv.writeNext(colCsv.toArray(new String[] {}));
+      }
+      return writer.toString();
+    } catch (IOException e) {
+      return null;
     }
+  }
 
-    /**
-     * Converts the results to CSV data.
-     *
-     * @return the CSV data
-     */
-    public String getCsv() {
+  /**
+   * Gets the row data
+   *
+   * @return the row data
+   */
+  public List<List<Object>> getData() {
 
-        StringWriter writer = new StringWriter();
-        try (CSVWriter csv = new CSVWriter(writer)) {
-            List<String> headers = new ArrayList<>();
-            for (String col : m_columns) {
-                headers.add(col);
-            }
-            csv.writeNext(headers.toArray(new String[] {}));
-            for (List<Object> row : m_data) {
-                List<String> colCsv = new ArrayList<>();
-                for (Object col : row) {
-                    colCsv.add(String.valueOf(col));
-                }
-                csv.writeNext(colCsv.toArray(new String[] {}));
-            }
-            return writer.toString();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Gets the row data
-     *
-     * @return the row data
-     */
-    public List<List<Object>> getData() {
-
-        return m_data;
-    }
-
+    return m_data;
+  }
 }

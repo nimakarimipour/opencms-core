@@ -28,18 +28,21 @@
 package org.opencms.gwt.shared.sort;
 
 /**
- * Marker interface for objects with a title property to allow easy sorting.<p>
+ * Marker interface for objects with a title property to allow easy sorting.
+ *
+ * <p>
  *
  * @see CmsComparatorTitle
- *
  * @since 8.0.0
  */
 public interface I_CmsHasTitle {
 
-    /**
-     * Returns the title.<p>
-     *
-     * @return the title
-     */
-    String getTitle();
+  /**
+   * Returns the title.
+   *
+   * <p>
+   *
+   * @return the title
+   */
+  String getTitle();
 }

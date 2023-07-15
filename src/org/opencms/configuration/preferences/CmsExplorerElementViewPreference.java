@@ -28,26 +28,27 @@
 package org.opencms.configuration.preferences;
 
 /**
- * Explorer element view preference.<p>
+ * Explorer element view preference.
+ *
+ * <p>
  */
 public class CmsExplorerElementViewPreference extends CmsElementViewPreference {
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param name the preference name
-     */
-    public CmsExplorerElementViewPreference(String name) {
-        super(name);
-    }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param name the preference name
+   */
+  public CmsExplorerElementViewPreference(String name) {
+    super(name);
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.CmsElementViewPreference#getNiceName()
-     */
-    @Override
-    public String getNiceName() {
+  /** @see org.opencms.configuration.preferences.CmsElementViewPreference#getNiceName() */
+  @Override
+  public String getNiceName() {
 
-        return "%(key." + org.opencms.workplace.commons.Messages.GUI_PREF_EXPLORER_ELEMENT_VIEW_0 + ")";
-    }
-
+    return "%(key." + org.opencms.workplace.commons.Messages.GUI_PREF_EXPLORER_ELEMENT_VIEW_0 + ")";
+  }
 }

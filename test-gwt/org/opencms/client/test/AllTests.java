@@ -28,25 +28,28 @@
 package org.opencms.client.test;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * Test suite to run all GWT based tests.<p>
+ * Test suite to run all GWT based tests.
+ *
+ * <p>
  */
 public class AllTests extends GWTTestSuite {
 
-    /**
-     * Creates the test suite.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Creates the test suite.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        TestSuite suite = new TestSuite("Runs all GWT based tests");
-        suite.addTest(org.opencms.acacia.client.entity.AllTests.suite());
-        suite.addTest(org.opencms.acacia.client.widgets.serialdate.AllTests.suite());
-        return suite;
-    }
+    TestSuite suite = new TestSuite("Runs all GWT based tests");
+    suite.addTest(org.opencms.acacia.client.entity.AllTests.suite());
+    suite.addTest(org.opencms.acacia.client.widgets.serialdate.AllTests.suite());
+    return suite;
+  }
 }

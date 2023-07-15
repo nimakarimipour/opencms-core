@@ -31,10 +31,9 @@ package org.opencms.gwt.client;
  * The marker interface for classes which should be initialized via {@link I_CmsClassInitializer}.
  *
  * @since 8.0.0
- *
  * @see org.opencms.gwt.rebind.CmsClassInitGenerator
  */
 public interface I_CmsHasInit {
 
-    // empty
+  // empty
 }

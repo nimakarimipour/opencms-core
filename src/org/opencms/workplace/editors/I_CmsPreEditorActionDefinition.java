@@ -33,42 +33,53 @@ import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.workplace.CmsDialog;
 
 /**
- * Defines an action to be performed before the workplace editor is opened for the first time.<p>
+ * Defines an action to be performed before the workplace editor is opened for the first time.
+ *
+ * <p>
  *
  * @since 6.5.4
  */
 public interface I_CmsPreEditorActionDefinition extends I_CmsConfigurationParameterHandler {
 
-    /**
-     * Returns if an action has to be performed before opening the editor depending on the resource to edit
-     * and eventual request parameter values.<p>
-     *
-     * @param resource the resource to be edited
-     * @param dialog the dialog instance
-     * @param originalParams the original request parameters as String passed to the editor
-     * @return true if an action has to be performed before opening the editor
-     * @throws Exception if something goes wrong
-     */
-    boolean doPreAction(CmsResource resource, CmsDialog dialog, String originalParams) throws Exception;
+  /**
+   * Returns if an action has to be performed before opening the editor depending on the resource to
+   * edit and eventual request parameter values.
+   *
+   * <p>
+   *
+   * @param resource the resource to be edited
+   * @param dialog the dialog instance
+   * @param originalParams the original request parameters as String passed to the editor
+   * @return true if an action has to be performed before opening the editor
+   * @throws Exception if something goes wrong
+   */
+  boolean doPreAction(CmsResource resource, CmsDialog dialog, String originalParams)
+      throws Exception;
 
-    /**
-     * Returns the resource type for which the action should be performed.<p>
-     *
-     * @return the resource type
-     */
-    I_CmsResourceType getResourceType();
+  /**
+   * Returns the resource type for which the action should be performed.
+   *
+   * <p>
+   *
+   * @return the resource type
+   */
+  I_CmsResourceType getResourceType();
 
-    /**
-     * Returns the resource type name for which the action should be performed.<p>
-     *
-     * @return the resource type name
-     */
-    String getResourceTypeName();
+  /**
+   * Returns the resource type name for which the action should be performed.
+   *
+   * <p>
+   *
+   * @return the resource type name
+   */
+  String getResourceTypeName();
 
-    /**
-     * Sets the resource type name for which the action should be performed.<p>
-     *
-     * @param resourceTypeName the resource type name
-     */
-    void setResourceTypeName(String resourceTypeName);
+  /**
+   * Sets the resource type name for which the action should be performed.
+   *
+   * <p>
+   *
+   * @param resourceTypeName the resource type name
+   */
+  void setResourceTypeName(String resourceTypeName);
 }

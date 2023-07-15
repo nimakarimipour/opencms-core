@@ -27,140 +27,166 @@
 
 package org.opencms.gwt.client;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.StatusCodeException;
+import java.util.List;
 import org.opencms.gwt.client.ui.CmsNotification;
 import org.opencms.gwt.client.ui.CmsNotification.Type;
 import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
 import org.opencms.gwt.shared.CmsBroadcastMessage;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.List;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.RepeatingCommand;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.StatusCodeException;
-
 /**
- * A timer which sends an RPC call regularly to keep the session alive and receive workplace broadcasts.<p>
+ * A timer which sends an RPC call regularly to keep the session alive and receive workplace
+ * broadcasts.
+ *
+ * <p>
  *
  * @since 9.5.0
  */
 public class CmsBroadcastTimer {
 
-    /**
-     * The interval for the RPC calls.<p>
-     */
-    public static final int PING_INTERVAL = 1000 * 10;
+  /**
+   * The interval for the RPC calls.
+   *
+   * <p>
+   */
+  public static final int PING_INTERVAL = 1000 * 10;
 
-    /**
-     * The static instance.<p>
-     */
-    private static CmsBroadcastTimer INSTANCE;
+  /**
+   * The static instance.
+   *
+   * <p>
+   */
+  private static CmsBroadcastTimer INSTANCE;
 
-    /** Flag indicating if the timer should keep running. */
-    private static boolean m_keepRunning;
+  /** Flag indicating if the timer should keep running. */
+  private static boolean m_keepRunning;
 
-    /**
-     * Aborts the timer.<p>
-     */
-    public static void abort() {
+  /**
+   * Aborts the timer.
+   *
+   * <p>
+   */
+  public static void abort() {
 
-        m_keepRunning = false;
+    m_keepRunning = false;
+  }
+
+  /**
+   * Starts the timer.
+   *
+   * <p>
+   */
+  public static void start() {
+
+    if (!CmsCoreProvider.get().isKeepAlive()) {
+      return;
     }
 
-    /**
-     * Starts the timer.<p>
-     */
-    public static void start() {
-
-        if (!CmsCoreProvider.get().isKeepAlive()) {
-            return;
-        }
-
-        if (INSTANCE == null) {
-            m_keepRunning = true;
-            CmsBroadcastTimer timer = new CmsBroadcastTimer();
-            timer.getBroadcast();
-            timer.run();
-            INSTANCE = timer;
-        }
+    if (INSTANCE == null) {
+      m_keepRunning = true;
+      CmsBroadcastTimer timer = new CmsBroadcastTimer();
+      timer.getBroadcast();
+      timer.run();
+      INSTANCE = timer;
     }
+  }
 
-    /**
-     * Returns if the timer should keep running.<p>
-     *
-     * @return <code>true</code>  if the ping timer should keep running
-     */
-    protected static boolean shouldKeepRunning() {
+  /**
+   * Returns if the timer should keep running.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the ping timer should keep running
+   */
+  protected static boolean shouldKeepRunning() {
 
-        return m_keepRunning;
+    return m_keepRunning;
+  }
+
+  /**
+   * Generates the HTML for a single broadcast message.
+   *
+   * <p>
+   *
+   * @param message the message
+   * @return the HTML string
+   */
+  protected String createMessageHtml(CmsBroadcastMessage message) {
+
+    StringBuffer result = new StringBuffer();
+    result
+        .append("<p class=\"")
+        .append(I_CmsLayoutBundle.INSTANCE.notificationCss().messageHead())
+        .append("\">");
+    if (!CmsStringUtil.isEmptyOrWhitespaceOnly(message.getIcon())) {
+      result.append("<img src=\"").append(message.getIcon()).append("\">");
     }
+    result.append("<em>" + message.getTime() + "</em><br/>");
+    result.append(Messages.get().key(Messages.GUI_BROADCAST_SEND_BY_1, message.getUser()));
+    String contentClass = I_CmsLayoutBundle.INSTANCE.notificationCss().messageText();
+    result.append("</p>").append("<div class='" + contentClass + "'>");
+    result.append(message.getMessage());
 
-    /**
-     * Generates the HTML for a single broadcast message.<p>
-     *
-     * @param message the message
-     *
-     * @return the HTML string
-     */
-    protected String createMessageHtml(CmsBroadcastMessage message) {
+    result.append("\n</div>");
+    return result.toString();
+  }
 
-        StringBuffer result = new StringBuffer();
-        result.append("<p class=\"").append(I_CmsLayoutBundle.INSTANCE.notificationCss().messageHead()).append("\">");
-        if (!CmsStringUtil.isEmptyOrWhitespaceOnly(message.getIcon())) {
-            result.append("<img src=\"").append(message.getIcon()).append("\">");
-        }
-        result.append("<em>" + message.getTime() + "</em><br/>");
-        result.append(Messages.get().key(Messages.GUI_BROADCAST_SEND_BY_1, message.getUser()));
-        String contentClass = I_CmsLayoutBundle.INSTANCE.notificationCss().messageText();
-        result.append("</p>").append("<div class='" + contentClass + "'>");
-        result.append(message.getMessage());
+  /**
+   * Installs the timer which fires the RPC calls.
+   *
+   * <p>
+   */
+  protected void run() {
 
-        result.append("\n</div>");
-        return result.toString();
-    }
+    Scheduler.get()
+        .scheduleFixedDelay(
+            new RepeatingCommand() {
 
-    /**
-     * Installs the timer which fires the RPC calls.<p>
-     */
-    protected void run() {
-
-        Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
-
-            public boolean execute() {
+              public boolean execute() {
 
                 if (CmsBroadcastTimer.shouldKeepRunning()) {
-                    getBroadcast();
-                    return true;
+                  getBroadcast();
+                  return true;
                 }
                 return false;
-            }
-        }, PING_INTERVAL);
-    }
+              }
+            },
+            PING_INTERVAL);
+  }
 
-    /**
-     * Requests the latest broadcast.<p>
-     */
-    void getBroadcast() {
+  /**
+   * Requests the latest broadcast.
+   *
+   * <p>
+   */
+  void getBroadcast() {
 
-        CmsCoreProvider.getService().getBroadcast(new AsyncCallback<List<CmsBroadcastMessage>>() {
+    CmsCoreProvider.getService()
+        .getBroadcast(
+            new AsyncCallback<List<CmsBroadcastMessage>>() {
 
-            public void onFailure(Throwable caught) {
+              public void onFailure(Throwable caught) {
 
-                // in case of a status code exception abort, indicates the session is no longer valid
-                if ((caught instanceof StatusCodeException) && (((StatusCodeException)caught).getStatusCode() == 500)) {
-                    CmsBroadcastTimer.abort();
+                // in case of a status code exception abort, indicates the session is no longer
+                // valid
+                if ((caught instanceof StatusCodeException)
+                    && (((StatusCodeException) caught).getStatusCode() == 500)) {
+                  CmsBroadcastTimer.abort();
                 }
-            }
+              }
 
-            public void onSuccess(List<CmsBroadcastMessage> result) {
+              public void onSuccess(List<CmsBroadcastMessage> result) {
 
                 if (result != null) {
-                    for (CmsBroadcastMessage message : result) {
-                        CmsNotification.get().sendAlert(Type.WARNING, createMessageHtml(message));
-                    }
+                  for (CmsBroadcastMessage message : result) {
+                    CmsNotification.get().sendAlert(Type.WARNING, createMessageHtml(message));
+                  }
                 }
-            }
-        });
-    }
+              }
+            });
+  }
 }

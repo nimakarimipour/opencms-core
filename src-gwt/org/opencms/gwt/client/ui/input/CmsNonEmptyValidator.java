@@ -33,37 +33,43 @@ import org.opencms.gwt.shared.CmsValidationResult;
 import org.opencms.util.CmsStringUtil;
 
 /**
- * A validator that checks whether a field is not empty.<p>
+ * A validator that checks whether a field is not empty.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsNonEmptyValidator implements I_CmsValidator {
 
-    /** The error message to display if the validation fails. */
-    private String m_errorMessage;
+  /** The error message to display if the validation fails. */
+  private String m_errorMessage;
 
-    /**
-     * Constructs a new validator with a given error message.<p>
-     *
-     * @param errorMessage the error message to use when the validated field is empty
-     */
-    public CmsNonEmptyValidator(String errorMessage) {
+  /**
+   * Constructs a new validator with a given error message.
+   *
+   * <p>
+   *
+   * @param errorMessage the error message to use when the validated field is empty
+   */
+  public CmsNonEmptyValidator(String errorMessage) {
 
-        m_errorMessage = errorMessage;
+    m_errorMessage = errorMessage;
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.validation.I_CmsValidator#validate(org.opencms.gwt.client.ui.input.I_CmsFormField,
+   *     org.opencms.gwt.client.validation.I_CmsValidationController)
+   */
+  public void validate(I_CmsFormField field, I_CmsValidationController controller) {
+
+    String value = field.getWidget().getFormValueAsString();
+    CmsValidationResult result;
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(value)) {
+      result = new CmsValidationResult(m_errorMessage);
+    } else {
+      result = CmsValidationResult.VALIDATION_OK;
     }
-
-    /**
-     * @see org.opencms.gwt.client.validation.I_CmsValidator#validate(org.opencms.gwt.client.ui.input.I_CmsFormField, org.opencms.gwt.client.validation.I_CmsValidationController)
-     */
-    public void validate(I_CmsFormField field, I_CmsValidationController controller) {
-
-        String value = field.getWidget().getFormValueAsString();
-        CmsValidationResult result;
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(value)) {
-            result = new CmsValidationResult(m_errorMessage);
-        } else {
-            result = CmsValidationResult.VALIDATION_OK;
-        }
-        controller.provideValidationResult(field.getId(), result);
-    }
+    controller.provideValidationResult(field.getId(), result);
+  }
 }

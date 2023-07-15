@@ -28,23 +28,29 @@
 package org.opencms.ui.apps;
 
 /**
- * Used to write app settings to the user. Can be restored for the next user session.<p>
+ * Used to write app settings to the user. Can be restored for the next user session.
+ *
+ * <p>
  */
 public interface I_CmsAppSettings {
 
-    /**
-     * Returns the string representation of the current setting state.<p>
-     * Will be used to restore the settings.<p>
-     *
-     * @return the settings string
-     */
-    String getSettingsString();
+  /**
+   * Returns the string representation of the current setting state.
+   *
+   * <p>Will be used to restore the settings.
+   *
+   * <p>
+   *
+   * @return the settings string
+   */
+  String getSettingsString();
 
-    /**
-     * Restores the settings from the given string.<p>
-     *
-     * @param storedSettings the stored settings
-     */
-    void restoreSettings(String storedSettings);
-
+  /**
+   * Restores the settings from the given string.
+   *
+   * <p>
+   *
+   * @param storedSettings the stored settings
+   */
+  void restoreSettings(String storedSettings);
 }

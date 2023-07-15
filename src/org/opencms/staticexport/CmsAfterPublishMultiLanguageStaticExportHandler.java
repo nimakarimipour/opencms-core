@@ -27,55 +27,58 @@
 
 package org.opencms.staticexport;
 
-import org.opencms.i18n.CmsLocaleManager;
-import org.opencms.main.OpenCms;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import org.opencms.i18n.CmsLocaleManager;
+import org.opencms.main.OpenCms;
 
 /**
- * Extended after publish static export handler, supporting multi-language exports.<p>
+ * Extended after publish static export handler, supporting multi-language exports.
+ *
+ * <p>
  *
  * @since 7.0.3
- *
  * @see CmsAfterPublishStaticExportHandler
  * @see I_CmsStaticExportHandler
  */
-public class CmsAfterPublishMultiLanguageStaticExportHandler extends CmsAfterPublishStaticExportHandler {
+public class CmsAfterPublishMultiLanguageStaticExportHandler
+    extends CmsAfterPublishStaticExportHandler {
 
-    /** Cached locale matching rules. */
-    private static List<CmsStaticExportRfsRule> m_rules;
+  /** Cached locale matching rules. */
+  private static List<CmsStaticExportRfsRule> m_rules;
 
-    /**
-     * @see org.opencms.staticexport.CmsAfterPublishStaticExportHandler#getRelatedFilesToPurge(java.lang.String, java.lang.String)
-     */
-    @Override
-    protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
+  /**
+   * @see
+   *     org.opencms.staticexport.CmsAfterPublishStaticExportHandler#getRelatedFilesToPurge(java.lang.String,
+   *     java.lang.String)
+   */
+  @Override
+  protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
 
-        CmsStaticExportManager manager = OpenCms.getStaticExportManager();
-        List<File> result = new ArrayList<File>();
-        if (m_rules == null) {
-            // get the locale matching rules
-            CmsLocaleManager locManager = OpenCms.getLocaleManager();
-            m_rules = new ArrayList<CmsStaticExportRfsRule>();
-            Iterator<CmsStaticExportRfsRule> itRules = manager.getRfsRules().iterator();
-            while (itRules.hasNext()) {
-                CmsStaticExportRfsRule rule = itRules.next();
-                Locale locale = CmsLocaleManager.getLocale(rule.getName());
-                if (locManager.getDefaultLocales().contains(locale)) {
-                    m_rules.add(rule);
-                }
-            }
+    CmsStaticExportManager manager = OpenCms.getStaticExportManager();
+    List<File> result = new ArrayList<File>();
+    if (m_rules == null) {
+      // get the locale matching rules
+      CmsLocaleManager locManager = OpenCms.getLocaleManager();
+      m_rules = new ArrayList<CmsStaticExportRfsRule>();
+      Iterator<CmsStaticExportRfsRule> itRules = manager.getRfsRules().iterator();
+      while (itRules.hasNext()) {
+        CmsStaticExportRfsRule rule = itRules.next();
+        Locale locale = CmsLocaleManager.getLocale(rule.getName());
+        if (locManager.getDefaultLocales().contains(locale)) {
+          m_rules.add(rule);
         }
-        // add paths for all possible locales
-        Iterator<CmsStaticExportRfsRule> it = m_rules.iterator();
-        while (it.hasNext()) {
-            CmsStaticExportRfsRule rule = it.next();
-            result.add(new File(rule.getLocalizedRfsName(exportFileName, File.separator)));
-        }
-        return result;
+      }
     }
+    // add paths for all possible locales
+    Iterator<CmsStaticExportRfsRule> it = m_rules.iterator();
+    while (it.hasNext()) {
+      CmsStaticExportRfsRule rule = it.next();
+      result.add(new File(rule.getLocalizedRfsName(exportFileName, File.separator)));
+    }
+    return result;
+  }
 }

@@ -30,36 +30,40 @@ package org.opencms.setup.comptest;
 import org.opencms.setup.CmsSetupBean;
 
 /**
- * Represent a test to give users infos about whether their system is compatible to OpenCms.<p>
+ * Represent a test to give users infos about whether their system is compatible to OpenCms.
+ *
+ * <p>
  *
  * @since 6.1.8
  */
 public interface I_CmsSetupTest {
 
-    /** Test failed display text. */
-    String RESULT_FAILED = "failed!";
+  /** Test failed display text. */
+  String RESULT_FAILED = "failed!";
 
-    /** Test passed display text. */
-    String RESULT_PASSED = "passed";
+  /** Test passed display text. */
+  String RESULT_PASSED = "passed";
 
-    /** Test warning display text. */
-    String RESULT_WARNING = "warning!";
+  /** Test warning display text. */
+  String RESULT_WARNING = "warning!";
 
-    /**
-     * Returns the nice name for the test.<p>
-     *
-     * @return the nice name
-     */
-    String getName();
+  /**
+   * Returns the nice name for the test.
+   *
+   * <p>
+   *
+   * @return the nice name
+   */
+  String getName();
 
-    /**
-     * Returns the test results.<p>
-     *
-     * @param setupBean the setup bean
-     *
-     * @return the test results
-     *
-     * @throws Exception if something goes wrong
-     */
-    CmsSetupTestResult execute(CmsSetupBean setupBean) throws Exception;
+  /**
+   * Returns the test results.
+   *
+   * <p>
+   *
+   * @param setupBean the setup bean
+   * @return the test results
+   * @throws Exception if something goes wrong
+   */
+  CmsSetupTestResult execute(CmsSetupBean setupBean) throws Exception;
 }

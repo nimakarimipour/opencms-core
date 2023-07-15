@@ -27,53 +27,57 @@
 
 package org.opencms.gwt.client.util;
 
-import java.util.List;
-
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Timer;
+import java.util.List;
 
 /**
- * Helper class to append a stylesheet link to the head of the current page and run a callback when everything has been loaded.
+ * Helper class to append a stylesheet link to the head of the current page and run a callback when
+ * everything has been loaded.
  */
 public class CmsStylesheetLoader {
 
-    /** The callback that should be called when everything has been loaded. */
-    private Runnable m_allLoadedCallback;
+  /** The callback that should be called when everything has been loaded. */
+  private Runnable m_allLoadedCallback;
 
-    /** Indicates whether the all-loaded callback has already been called. */
-    private boolean m_callbackCalled;
+  /** Indicates whether the all-loaded callback has already been called. */
+  private boolean m_callbackCalled;
 
-    /** The callback for the onload handlers of the stylesheets. */
-    private JavaScriptObject m_jsCallback;
+  /** The callback for the onload handlers of the stylesheets. */
+  private JavaScriptObject m_jsCallback;
 
-    /** The number of stylesheets that have been already loaded. */
-    private int m_loadCounter;
+  /** The number of stylesheets that have been already loaded. */
+  private int m_loadCounter;
 
-    /** The list of stylesheets to load. */
-    private List<String> m_stylesheets;
+  /** The list of stylesheets to load. */
+  private List<String> m_stylesheets;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param stylesheets the list of stylesheets to load
-     * @param allLoadedCallback the callback to call when everything has been loaded
-     */
-    public CmsStylesheetLoader(List<String> stylesheets, Runnable allLoadedCallback) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param stylesheets the list of stylesheets to load
+   * @param allLoadedCallback the callback to call when everything has been loaded
+   */
+  public CmsStylesheetLoader(List<String> stylesheets, Runnable allLoadedCallback) {
 
-        m_stylesheets = stylesheets;
-        m_loadCounter = 0;
-        m_allLoadedCallback = allLoadedCallback;
+    m_stylesheets = stylesheets;
+    m_loadCounter = 0;
+    m_allLoadedCallback = allLoadedCallback;
 
-        m_jsCallback = createJsCallback();
-    }
+    m_jsCallback = createJsCallback();
+  }
 
-    /**
-     * Checks the window.document for given style-sheet.<p>
-     *
-     * @param styleSheetLink the style-sheet link
-     * @return true if the stylesheet is already present
-     */
-    private static native boolean checkStylesheet(String styleSheetLink)/*-{
+  /**
+   * Checks the window.document for given style-sheet.
+   *
+   * <p>
+   *
+   * @param styleSheetLink the style-sheet link
+   * @return true if the stylesheet is already present
+   */
+  private static native boolean checkStylesheet(String styleSheetLink) /*-{
         var styles = $wnd.document.styleSheets;
         for (var i = 0; i < styles.length; i++) {
             if (styles[i].href != null
@@ -85,44 +89,49 @@ public class CmsStylesheetLoader {
         return false;
     }-*/;
 
-    /**
-     * Starts the loading process and creates a timer that sets of the callback after a given tiime if it hasn't already been triggered.
-     *
-     * @param timeout number of milliseconds after which the callback should be called if it hasn't already been
-     */
-    public void loadWithTimeout(int timeout) {
+  /**
+   * Starts the loading process and creates a timer that sets of the callback after a given tiime if
+   * it hasn't already been triggered.
+   *
+   * @param timeout number of milliseconds after which the callback should be called if it hasn't
+   *     already been
+   */
+  public void loadWithTimeout(int timeout) {
 
-        for (String stylesheet : m_stylesheets) {
-            boolean alreadyLoaded = checkStylesheet(stylesheet);
-            if (alreadyLoaded) {
-                m_loadCounter += 1;
-            } else {
-                appendStylesheet(stylesheet, m_jsCallback);
-            }
-        }
-        checkAllLoaded();
-        if (timeout > 0) {
-            Timer timer = new Timer() {
-
-                @SuppressWarnings("synthetic-access")
-                @Override
-                public void run() {
-
-                    callCallback();
-                }
-            };
-
-            timer.schedule(timeout);
-        }
+    for (String stylesheet : m_stylesheets) {
+      boolean alreadyLoaded = checkStylesheet(stylesheet);
+      if (alreadyLoaded) {
+        m_loadCounter += 1;
+      } else {
+        appendStylesheet(stylesheet, m_jsCallback);
+      }
     }
+    checkAllLoaded();
+    if (timeout > 0) {
+      Timer timer =
+          new Timer() {
 
-    /**
-     * Appends a stylesheet to the page head.<p>
-     *
-     * @param stylesheet the stylesheet link
-     * @param callback the load handler for the stylesheet link element
-     */
-    private native void appendStylesheet(String stylesheet, JavaScriptObject callback) /*-{
+            @SuppressWarnings("synthetic-access")
+            @Override
+            public void run() {
+
+              callCallback();
+            }
+          };
+
+      timer.schedule(timeout);
+    }
+  }
+
+  /**
+   * Appends a stylesheet to the page head.
+   *
+   * <p>
+   *
+   * @param stylesheet the stylesheet link
+   * @param callback the load handler for the stylesheet link element
+   */
+  private native void appendStylesheet(String stylesheet, JavaScriptObject callback) /*-{
         var headID = $wnd.document.getElementsByTagName("head")[0];
         var cssNode = $wnd.document.createElement('link');
         cssNode.type = 'text/css';
@@ -132,46 +141,53 @@ public class CmsStylesheetLoader {
         cssNode.addEventListener("load", callback);
     }-*/;
 
-    /**
-     * Calls the callback if it hasn't already been triggered.<p>
-     */
-    private void callCallback() {
+  /**
+   * Calls the callback if it hasn't already been triggered.
+   *
+   * <p>
+   */
+  private void callCallback() {
 
-        if (!m_callbackCalled) {
-            m_callbackCalled = true;
-            m_allLoadedCallback.run();
-        }
+    if (!m_callbackCalled) {
+      m_callbackCalled = true;
+      m_allLoadedCallback.run();
     }
+  }
 
-    /**
-     * Checks if all stylesheets have been loaded.<p>
-     */
-    private void checkAllLoaded() {
+  /**
+   * Checks if all stylesheets have been loaded.
+   *
+   * <p>
+   */
+  private void checkAllLoaded() {
 
-        if (m_loadCounter == m_stylesheets.size()) {
-            callCallback();
-        }
+    if (m_loadCounter == m_stylesheets.size()) {
+      callCallback();
     }
+  }
 
-    /**
-     * Creates the callback for the onload handlers of the link elements.<p>
-     *
-     * @return the callback
-     */
-    private native JavaScriptObject createJsCallback() /*-{
+  /**
+   * Creates the callback for the onload handlers of the link elements.
+   *
+   * <p>
+   *
+   * @return the callback
+   */
+  private native JavaScriptObject createJsCallback() /*-{
         var self = this;
         return function() {
             self.@org.opencms.gwt.client.util.CmsStylesheetLoader::onLoadCallback()();
         }
     }-*/;
 
-    /**
-     * The method which should be called by the onload handlers of the link elements.<p>
-     */
-    private void onLoadCallback() {
+  /**
+   * The method which should be called by the onload handlers of the link elements.
+   *
+   * <p>
+   */
+  private void onLoadCallback() {
 
-        m_loadCounter += 1;
-        checkAllLoaded();
-    }
-
+    m_loadCounter += 1;
+    checkAllLoaded();
+  }
 }

@@ -27,64 +27,66 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.ui.components.extensions.CmsHistoryExtension;
-import org.opencms.ui.shared.components.CmsHistoryState;
-
 import com.google.gwt.user.client.History;
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
 import com.vaadin.shared.ui.Connect;
+import org.opencms.ui.components.extensions.CmsHistoryExtension;
+import org.opencms.ui.shared.components.CmsHistoryState;
 
 /**
- * The history extension connector.<p>
+ * The history extension connector.
+ *
+ * <p>
  */
 @Connect(CmsHistoryExtension.class)
 public class CmsHistoryConnector extends AbstractExtensionConnector {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1172858679530092378L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1172858679530092378L;
 
-    /**
-     * @see com.vaadin.client.ui.AbstractConnector#getState()
-     */
-    @Override
-    public CmsHistoryState getState() {
+  /** @see com.vaadin.client.ui.AbstractConnector#getState() */
+  @Override
+  public CmsHistoryState getState() {
 
-        return (CmsHistoryState)super.getState();
+    return (CmsHistoryState) super.getState();
+  }
 
+  /**
+   * @see
+   *     com.vaadin.client.ui.AbstractConnector#onStateChanged(com.vaadin.client.communication.StateChangeEvent)
+   */
+  @Override
+  public void onStateChanged(StateChangeEvent stateChangeEvent) {
+
+    super.onStateChanged(stateChangeEvent);
+
+    executeHistoryAction();
+  }
+
+  /**
+   * @see
+   *     com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
+   */
+  @Override
+  protected void extend(ServerConnector target) {
+
+    // nothing to do
+  }
+
+  /**
+   * Executes the history action according to the history state.
+   *
+   * <p>
+   */
+  private void executeHistoryAction() {
+
+    CmsHistoryState state = getState();
+    if (state.isHistoryBack()) {
+      History.back();
+    } else if (state.isHistoryForward()) {
+      History.forward();
     }
-
-    /**
-     * @see com.vaadin.client.ui.AbstractConnector#onStateChanged(com.vaadin.client.communication.StateChangeEvent)
-     */
-    @Override
-    public void onStateChanged(StateChangeEvent stateChangeEvent) {
-
-        super.onStateChanged(stateChangeEvent);
-
-        executeHistoryAction();
-    }
-
-    /**
-     * @see com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
-     */
-    @Override
-    protected void extend(ServerConnector target) {
-
-        // nothing to do
-    }
-
-    /**
-     * Executes the history action according to the history state.<p>
-     */
-    private void executeHistoryAction() {
-
-        CmsHistoryState state = getState();
-        if (state.isHistoryBack()) {
-            History.back();
-        } else if (state.isHistoryForward()) {
-            History.forward();
-        }
-    }
+  }
 }

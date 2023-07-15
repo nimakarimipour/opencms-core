@@ -27,65 +27,70 @@
 
 package org.opencms.jsp;
 
-import org.opencms.util.CmsStringUtil;
-
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
+import org.opencms.util.CmsStringUtil;
 
 /**
- * The tag 'displayFormatter' can be used to add a formatter resource type pairing to the surrounding 'display' tag.<p>
+ * The tag 'displayFormatter' can be used to add a formatter resource type pairing to the
+ * surrounding 'display' tag.
+ *
+ * <p>
  */
 public class CmsJspTagDisplayFormatter extends TagSupport {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -7268191204617852330L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -7268191204617852330L;
 
-    /** The resource type name. */
-    private String m_type;
+  /** The resource type name. */
+  private String m_type;
 
-    /** The path to the formatter configuration file. */
-    private String m_path;
+  /** The path to the formatter configuration file. */
+  private String m_path;
 
-    /**
-     * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
-     */
-    @Override
-    public int doStartTag() throws JspException {
+  /** @see javax.servlet.jsp.tagext.TagSupport#doStartTag() */
+  @Override
+  public int doStartTag() throws JspException {
 
-        Tag t = findAncestorWithClass(this, CmsJspTagDisplay.class);
-        if (t == null) {
-            throw new JspTagException(Messages.get().getBundle(pageContext.getRequest().getLocale()).key(
-                Messages.ERR_PARENTLESS_TAG_1,
-                new Object[] {"displayFormatter"}));
-        }
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_type) && CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_path)) {
-            // only act if type and path are set
-            ((CmsJspTagDisplay)t).addDisplayFormatter(m_type, m_path);
-        }
-
-        return EVAL_PAGE;
+    Tag t = findAncestorWithClass(this, CmsJspTagDisplay.class);
+    if (t == null) {
+      throw new JspTagException(
+          Messages.get()
+              .getBundle(pageContext.getRequest().getLocale())
+              .key(Messages.ERR_PARENTLESS_TAG_1, new Object[] {"displayFormatter"}));
+    }
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_type)
+        && CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_path)) {
+      // only act if type and path are set
+      ((CmsJspTagDisplay) t).addDisplayFormatter(m_type, m_path);
     }
 
-    /**
-     * Sets the path to the formatter configuration file.<p>
-     *
-     * @param path the path to set
-     */
-    public void setPath(String path) {
+    return EVAL_PAGE;
+  }
 
-        m_path = path;
-    }
+  /**
+   * Sets the path to the formatter configuration file.
+   *
+   * <p>
+   *
+   * @param path the path to set
+   */
+  public void setPath(String path) {
 
-    /**
-     * Sets the type.<p>
-     *
-     * @param type the type to set
-     */
-    public void setType(String type) {
+    m_path = path;
+  }
 
-        m_type = type;
-    }
+  /**
+   * Sets the type.
+   *
+   * <p>
+   *
+   * @param type the type to set
+   */
+  public void setType(String type) {
 
+    m_type = type;
+  }
 }

@@ -27,6 +27,8 @@
 
 package org.opencms.loader;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResourceFilter;
@@ -36,68 +38,63 @@ import org.opencms.main.OpenCms;
 import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.content.CmsXmlContentFactory;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-
 /**
- * The SEO file loader.<p>
+ * The SEO file loader.
+ *
+ * <p>
  */
 public class CmsSeoFileLoader extends A_CmsXmlDocumentLoader {
 
-    /** The loader id. */
-    public static final int LOADER_ID = 14;
+  /** The loader id. */
+  public static final int LOADER_ID = 14;
 
-    /** The SEO file template JSP path. */
-    public static final String TEMPLATE_PATH = "/system/modules/org.opencms.base/pages/render-seo-file.jsp";
+  /** The SEO file template JSP path. */
+  public static final String TEMPLATE_PATH =
+      "/system/modules/org.opencms.base/pages/render-seo-file.jsp";
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#getLoaderId()
-     */
-    public int getLoaderId() {
+  /** @see org.opencms.loader.I_CmsResourceLoader#getLoaderId() */
+  public int getLoaderId() {
 
-        return LOADER_ID;
-    }
+    return LOADER_ID;
+  }
 
-    /**
-     * @see org.opencms.loader.I_CmsResourceLoader#getResourceLoaderInfo()
-     */
-    public String getResourceLoaderInfo() {
+  /** @see org.opencms.loader.I_CmsResourceLoader#getResourceLoaderInfo() */
+  public String getResourceLoaderInfo() {
 
-        return Messages.get().getBundle().key(Messages.GUI_LOADER_SEOFILE_DEFAULT_DESC_0);
-    }
+    return Messages.get().getBundle().key(Messages.GUI_LOADER_SEOFILE_DEFAULT_DESC_0);
+  }
 
-    /**
-     * @see org.opencms.loader.A_CmsXmlDocumentLoader#getTemplateLoaderFacade(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    protected CmsTemplateLoaderFacade getTemplateLoaderFacade(
-        CmsObject cms,
-        CmsResource resource,
-        HttpServletRequest req)
-    throws CmsException {
+  /**
+   * @see
+   *     org.opencms.loader.A_CmsXmlDocumentLoader#getTemplateLoaderFacade(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest)
+   */
+  @Override
+  protected CmsTemplateLoaderFacade getTemplateLoaderFacade(
+      CmsObject cms, CmsResource resource, HttpServletRequest req) throws CmsException {
 
-        CmsResource template = cms.readFile(TEMPLATE_PATH, CmsResourceFilter.IGNORE_EXPIRATION);
-        return new CmsTemplateLoaderFacade(OpenCms.getResourceManager().getLoader(template), resource, template);
-    }
+    CmsResource template = cms.readFile(TEMPLATE_PATH, CmsResourceFilter.IGNORE_EXPIRATION);
+    return new CmsTemplateLoaderFacade(
+        OpenCms.getResourceManager().getLoader(template), resource, template);
+  }
 
-    /**
-     * @see org.opencms.loader.A_CmsXmlDocumentLoader#getTemplatePropertyDefinition()
-     */
-    @Override
-    protected String getTemplatePropertyDefinition() {
+  /** @see org.opencms.loader.A_CmsXmlDocumentLoader#getTemplatePropertyDefinition() */
+  @Override
+  protected String getTemplatePropertyDefinition() {
 
-        throw new CmsRuntimeException(
-            Messages.get().container(Messages.ERR_TEMPLATE_PROTERTY_UNSUPPORTED_1, getClass().getName()));
-    }
+    throw new CmsRuntimeException(
+        Messages.get()
+            .container(Messages.ERR_TEMPLATE_PROTERTY_UNSUPPORTED_1, getClass().getName()));
+  }
 
-    /**
-     * @see org.opencms.loader.A_CmsXmlDocumentLoader#unmarshalXmlDocument(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.ServletRequest)
-     */
-    @Override
-    protected I_CmsXmlDocument unmarshalXmlDocument(CmsObject cms, CmsResource resource, ServletRequest req)
-    throws CmsException {
+  /**
+   * @see org.opencms.loader.A_CmsXmlDocumentLoader#unmarshalXmlDocument(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, javax.servlet.ServletRequest)
+   */
+  @Override
+  protected I_CmsXmlDocument unmarshalXmlDocument(
+      CmsObject cms, CmsResource resource, ServletRequest req) throws CmsException {
 
-        return CmsXmlContentFactory.unmarshal(cms, resource, req);
-    }
-
+    return CmsXmlContentFactory.unmarshal(cms, resource, req);
+  }
 }

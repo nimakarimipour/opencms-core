@@ -27,6 +27,9 @@
 
 package org.opencms.workplace.tools.link;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.workplace.explorer.CmsResourceUtil;
@@ -34,60 +37,63 @@ import org.opencms.workplace.list.A_CmsListExplorerDialog;
 import org.opencms.workplace.list.A_CmsListResourceCollector;
 import org.opencms.workplace.list.CmsListItem;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 /**
- * Collector for file with broken links.<p>
+ * Collector for file with broken links.
+ *
+ * <p>
  *
  * @since 6.1.0
  */
 public class CmsInternalLinkValidationFilesCollector extends A_CmsListResourceCollector {
 
-    /** Parameter of the default collector name. */
-    public static final String COLLECTOR_NAME = "brokenlinks";
+  /** Parameter of the default collector name. */
+  public static final String COLLECTOR_NAME = "brokenlinks";
 
-    /** The list of resources with broken links. */
-    private List<CmsResource> m_resourcesBroken;
+  /** The list of resources with broken links. */
+  private List<CmsResource> m_resourcesBroken;
 
-    /**
-     * Constructor, creates a new instance.<p>
-     *
-     * @param wp the workplace object
-     * @param resources the resources with broken links
-     */
-    public CmsInternalLinkValidationFilesCollector(A_CmsListExplorerDialog wp, List<CmsResource> resources) {
+  /**
+   * Constructor, creates a new instance.
+   *
+   * <p>
+   *
+   * @param wp the workplace object
+   * @param resources the resources with broken links
+   */
+  public CmsInternalLinkValidationFilesCollector(
+      A_CmsListExplorerDialog wp, List<CmsResource> resources) {
 
-        super(wp);
-        m_resourcesBroken = resources;
-    }
+    super(wp);
+    m_resourcesBroken = resources;
+  }
 
-    /**
-     * @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames()
-     */
-    public List<String> getCollectorNames() {
+  /** @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames() */
+  public List<String> getCollectorNames() {
 
-        List<String> names = new ArrayList<String>();
-        names.add(COLLECTOR_NAME);
-        return names;
-    }
+    List<String> names = new ArrayList<String>();
+    names.add(COLLECTOR_NAME);
+    return names;
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListResourceCollector#getResources(org.opencms.file.CmsObject, java.util.Map)
-     */
-    @Override
-    public List<CmsResource> getResources(CmsObject cms, Map<String, String> params) {
+  /**
+   * @see
+   *     org.opencms.workplace.list.A_CmsListResourceCollector#getResources(org.opencms.file.CmsObject,
+   *     java.util.Map)
+   */
+  @Override
+  public List<CmsResource> getResources(CmsObject cms, Map<String, String> params) {
 
-        return m_resourcesBroken;
-    }
+    return m_resourcesBroken;
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListResourceCollector#setAdditionalColumns(org.opencms.workplace.list.CmsListItem, org.opencms.workplace.explorer.CmsResourceUtil)
-     */
-    @Override
-    protected void setAdditionalColumns(CmsListItem item, CmsResourceUtil resUtil) {
+  /**
+   * @see
+   *     org.opencms.workplace.list.A_CmsListResourceCollector#setAdditionalColumns(org.opencms.workplace.list.CmsListItem,
+   *     org.opencms.workplace.explorer.CmsResourceUtil)
+   */
+  @Override
+  protected void setAdditionalColumns(CmsListItem item, CmsResourceUtil resUtil) {
 
-        // no-op
-    }
+    // no-op
+  }
 }

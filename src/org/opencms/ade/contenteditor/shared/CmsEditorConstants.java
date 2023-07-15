@@ -28,42 +28,43 @@
 package org.opencms.ade.contenteditor.shared;
 
 /**
- * Constants used for content editor  integration.<p>
+ * Constants used for content editor integration.
+ *
+ * <p>
  */
 public final class CmsEditorConstants {
 
-    /** Javascript attribute name. */
-    public static final String ATTR_CONTEXT_ID = "contextId";
+  /** Javascript attribute name. */
+  public static final String ATTR_CONTEXT_ID = "contextId";
 
-    /** Javascript attribute name. */
-    public static final String ATTR_MODE = "mode";
+  /** Javascript attribute name. */
+  public static final String ATTR_MODE = "mode";
 
-    /** Javascript attribute name. */
-    public static final String ATTR_POST_CREATE_HANDLER = "postCreateHandler";
+  /** Javascript attribute name. */
+  public static final String ATTR_POST_CREATE_HANDLER = "postCreateHandler";
 
-    /** Javascript function name. */
-    public static final String FUNCTION_CREATE_NEW = "cmsCreateAndEditNewElement";
+  /** Javascript function name. */
+  public static final String FUNCTION_CREATE_NEW = "cmsCreateAndEditNewElement";
 
-    /** Copy mode value. */
-    public static final String MODE_COPY = "copy";
+  /** Copy mode value. */
+  public static final String MODE_COPY = "copy";
 
-    /** Request parameter name. */
-    public static final String PARAM_MODE = "mode";
+  /** Request parameter name. */
+  public static final String PARAM_MODE = "mode";
 
-    /** Request parameter name. */
-    public static final String PARAM_POST_CREATE_HANDLER = "postCreateHandler";
+  /** Request parameter name. */
+  public static final String PARAM_POST_CREATE_HANDLER = "postCreateHandler";
 
-    /** Attribute used for storing the element view of a collector list element. */
-    public static final String ATTR_ELEMENT_VIEW = "elementView";
+  /** Attribute used for storing the element view of a collector list element. */
+  public static final String ATTR_ELEMENT_VIEW = "elementView";
 
-    /** Constant for the "reuse" mode when dropping clipboard elements. */
-    public static final String MODE_REUSE = "reuse";
+  /** Constant for the "reuse" mode when dropping clipboard elements. */
+  public static final String MODE_REUSE = "reuse";
 
-    /**
-     * Hiding the constructor.<p>
-     */
-    private CmsEditorConstants() {
-
-    }
-
+  /**
+   * Hiding the constructor.
+   *
+   * <p>
+   */
+  private CmsEditorConstants() {}
 }

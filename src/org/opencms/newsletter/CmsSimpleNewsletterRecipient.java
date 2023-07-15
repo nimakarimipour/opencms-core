@@ -28,140 +28,137 @@
 package org.opencms.newsletter;
 
 /**
- * Simple implementation of interface {@link I_CmsNewsletterRecipient}, with
- * {@link I_CmsNewsletterRecipient#isSubscriber(org.opencms.newsletter.I_CmsNewsletterContent)} always returning true.<p>
+ * Simple implementation of interface {@link I_CmsNewsletterRecipient}, with {@link
+ * I_CmsNewsletterRecipient#isSubscriber(org.opencms.newsletter.I_CmsNewsletterContent)} always
+ * returning true.
+ *
+ * <p>
  *
  * @since 6.0.2
- *
  */
 public class CmsSimpleNewsletterRecipient implements I_CmsNewsletterRecipient {
 
-    /** The email address of this recipient. */
-    private String m_email;
+  /** The email address of this recipient. */
+  private String m_email;
 
-    /** The firstname of this recipient. */
-    private String m_firstname;
+  /** The firstname of this recipient. */
+  private String m_firstname;
 
-    /** The lastname of this recipient. */
-    private String m_lastname;
+  /** The lastname of this recipient. */
+  private String m_lastname;
 
-    /** The nicename of this recipient. */
-    private String m_name;
+  /** The nicename of this recipient. */
+  private String m_name;
 
-    /**
-     * Creates a new CmsSimpleNewsletterRecipient.<p>
-     *
-     * @param email the email address to be sent
-     * @param name the nicename of the recipient
-     */
-    public CmsSimpleNewsletterRecipient(String email, String name) {
+  /**
+   * Creates a new CmsSimpleNewsletterRecipient.
+   *
+   * <p>
+   *
+   * @param email the email address to be sent
+   * @param name the nicename of the recipient
+   */
+  public CmsSimpleNewsletterRecipient(String email, String name) {
 
-        m_email = email;
-        m_name = name;
+    m_email = email;
+    m_name = name;
+  }
+
+  /**
+   * Creates a new CmsSimpleNewsletterRecipient.
+   *
+   * <p>
+   *
+   * @param email the email address to be sent
+   * @param firstname the firstname of the recipient
+   * @param lastname the newsletter recipient's lastname
+   */
+  public CmsSimpleNewsletterRecipient(String email, String firstname, String lastname) {
+
+    m_email = email;
+    m_firstname = firstname;
+    m_lastname = lastname;
+    m_name = firstname + ' ' + lastname;
+  }
+
+  /** @see java.lang.Object#equals(java.lang.Object) */
+  @Override
+  public boolean equals(Object obj) {
+
+    if (!(obj instanceof CmsSimpleNewsletterRecipient)) {
+      return false;
     }
-
-    /**
-     * Creates a new CmsSimpleNewsletterRecipient.<p>
-     *
-     * @param email the email address to be sent
-     * @param firstname the firstname of the recipient
-     * @param lastname the newsletter recipient's lastname
-     */
-    public CmsSimpleNewsletterRecipient(String email, String firstname, String lastname) {
-
-        m_email = email;
-        m_firstname = firstname;
-        m_lastname = lastname;
-        m_name = firstname + ' ' + lastname;
+    CmsSimpleNewsletterRecipient recipient = (CmsSimpleNewsletterRecipient) obj;
+    if (getEmail() != recipient.getEmail()) {
+      return false;
     }
-
-    /**
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-
-        if (!(obj instanceof CmsSimpleNewsletterRecipient)) {
-            return false;
-        }
-        CmsSimpleNewsletterRecipient recipient = (CmsSimpleNewsletterRecipient)obj;
-        if (getEmail() != recipient.getEmail()) {
-            return false;
-        }
-        if (!getName().equals(recipient.getName())) {
-            return false;
-        }
-        return true;
+    if (!getName().equals(recipient.getName())) {
+      return false;
     }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.newsletter.I_CmsNewsletterRecipient#getEmail()
-     */
-    public String getEmail() {
+  /** @see org.opencms.newsletter.I_CmsNewsletterRecipient#getEmail() */
+  public String getEmail() {
 
-        return m_email;
-    }
+    return m_email;
+  }
 
-    /**
-     * @see org.opencms.newsletter.I_CmsNewsletterRecipient#getFirstname()
-     */
-    public String getFirstname() {
+  /** @see org.opencms.newsletter.I_CmsNewsletterRecipient#getFirstname() */
+  public String getFirstname() {
 
-        return m_firstname;
-    }
+    return m_firstname;
+  }
 
-    /**
-     * @see org.opencms.newsletter.I_CmsNewsletterRecipient#getFullName()
-     */
-    public String getFullName() {
+  /** @see org.opencms.newsletter.I_CmsNewsletterRecipient#getFullName() */
+  public String getFullName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * @see org.opencms.newsletter.I_CmsNewsletterRecipient#getLastname()
-     */
-    public String getLastname() {
+  /** @see org.opencms.newsletter.I_CmsNewsletterRecipient#getLastname() */
+  public String getLastname() {
 
-        return m_lastname;
-    }
+    return m_lastname;
+  }
 
-    /**
-     * Returns the name of the recipient.<p>
-     *
-     * @return the name of the recipient.
-     */
-    public String getName() {
+  /**
+   * Returns the name of the recipient.
+   *
+   * <p>
+   *
+   * @return the name of the recipient.
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     *
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
+  /** @see java.lang.Object#hashCode() */
+  @Override
+  public int hashCode() {
 
-        return m_email.hashCode() + m_firstname.hashCode() + m_lastname.hashCode() + m_name.hashCode();
-    }
+    return m_email.hashCode() + m_firstname.hashCode() + m_lastname.hashCode() + m_name.hashCode();
+  }
 
-    /**
-     * @see org.opencms.newsletter.I_CmsNewsletterRecipient#isSubscriber(org.opencms.newsletter.I_CmsNewsletterContent)
-     */
-    public boolean isSubscriber(I_CmsNewsletterContent content) {
+  /**
+   * @see
+   *     org.opencms.newsletter.I_CmsNewsletterRecipient#isSubscriber(org.opencms.newsletter.I_CmsNewsletterContent)
+   */
+  public boolean isSubscriber(I_CmsNewsletterContent content) {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * Set the email address of this recepient.<p>
-     *
-     * @param email the email address of this recepient to set.
-     */
-    protected void setEmail(String email) {
+  /**
+   * Set the email address of this recepient.
+   *
+   * <p>
+   *
+   * @param email the email address of this recepient to set.
+   */
+  protected void setEmail(String email) {
 
-        m_email = email;
-    }
+    m_email = email;
+  }
 }

@@ -27,95 +27,103 @@
 
 package org.opencms.file;
 
+import java.util.List;
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.file.history.CmsHistoryProject;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 
-import java.util.List;
-
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Unit test for the project history function of the CmsObject.<p>
+ * Unit test for the project history function of the CmsObject.
+ *
+ * <p>
  *
  * @since 6.0 alpha 2
  */
 public class TestProjectHistory extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestProjectHistory(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestProjectHistory(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestProjectHistory.class.getName());
+    TestSuite suite = new TestSuite();
+    suite.setName(TestProjectHistory.class.getName());
 
-        suite.addTest(new TestProjectHistory("testProjectHistory"));
+    suite.addTest(new TestProjectHistory("testProjectHistory"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
-    }
+    return wrapper;
+  }
 
-    /**
-     * Tests the project history function of the CmsObject.<p>
-     *
-     * @throws Throwable if something goes wrong
-     */
-    public void testProjectHistory() throws Throwable {
+  /**
+   * Tests the project history function of the CmsObject.
+   *
+   * <p>
+   *
+   * @throws Throwable if something goes wrong
+   */
+  public void testProjectHistory() throws Throwable {
 
-        CmsObject cms = getCmsObject();
+    CmsObject cms = getCmsObject();
 
-        echo("Testing the project history function");
-        projectHistory(cms);
-    }
+    echo("Testing the project history function");
+    projectHistory(cms);
+  }
 
-    /**
-     * Tests the project history function of the CmsObject.<p>
-     *
-     * @param cms the CmsObject
-     * @throws Throwable if something goes wrong
-     */
-    public static void projectHistory(CmsObject cms) throws Throwable {
+  /**
+   * Tests the project history function of the CmsObject.
+   *
+   * <p>
+   *
+   * @param cms the CmsObject
+   * @throws Throwable if something goes wrong
+   */
+  public static void projectHistory(CmsObject cms) throws Throwable {
 
-        List projectHistory = null;
-        CmsHistoryProject historyProject = null;
+    List projectHistory = null;
+    CmsHistoryProject historyProject = null;
 
-        projectHistory = cms.getAllHistoricalProjects();
+    projectHistory = cms.getAllHistoricalProjects();
 
-        // the project history should contain just the setup project here
-        assertEquals(projectHistory.size(), 1);
-        historyProject = (CmsHistoryProject)projectHistory.get(0);
-        assertEquals(historyProject.getName(), "_setupProject");
-    }
-
+    // the project history should contain just the setup project here
+    assertEquals(projectHistory.size(), 1);
+    historyProject = (CmsHistoryProject) projectHistory.get(0);
+    assertEquals(historyProject.getName(), "_setupProject");
+  }
 }

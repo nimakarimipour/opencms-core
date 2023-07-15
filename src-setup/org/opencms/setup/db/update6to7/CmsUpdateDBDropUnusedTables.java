@@ -27,9 +27,6 @@
 
 package org.opencms.setup.db.update6to7;
 
-import org.opencms.setup.CmsSetupDb;
-import org.opencms.setup.db.A_CmsUpdateDBPart;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -38,72 +35,84 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.opencms.setup.CmsSetupDb;
+import org.opencms.setup.db.A_CmsUpdateDBPart;
 
 /**
- * This class drops the outdated tables from the OpenCms database.<p>
+ * This class drops the outdated tables from the OpenCms database.
  *
- * These tables are
- * CMS_SYSTEMID
- * CMS_TASK
- * CMS_TASKLOG
- * CMS_TASKPAR
- * CMS_TASKTYPE
- * TEMP_PROJECT_UUIDS
+ * <p>These tables are CMS_SYSTEMID CMS_TASK CMS_TASKLOG CMS_TASKPAR CMS_TASKTYPE TEMP_PROJECT_UUIDS
  *
  * @since 7.0.0
  */
 public class CmsUpdateDBDropUnusedTables extends A_CmsUpdateDBPart {
 
-    /** Constant for the SQL query to drop a table.<p> */
-    private static final String QUERY_DROP_TABLE = "Q_DROP_TABLE";
+  /**
+   * Constant for the SQL query to drop a table.
+   *
+   * <p>
+   */
+  private static final String QUERY_DROP_TABLE = "Q_DROP_TABLE";
 
-    /** Constant for the SQL query properties.<p> */
-    private static final String QUERY_PROPERTY_FILE = "cms_drop_unused_tables_queries.properties";
+  /**
+   * Constant for the SQL query properties.
+   *
+   * <p>
+   */
+  private static final String QUERY_PROPERTY_FILE = "cms_drop_unused_tables_queries.properties";
 
-    /** Constant for the replacement of the tablename in the sql query.<p> */
-    private static final String REPLACEMENT_TABLENAME = "${tablename}";
+  /**
+   * Constant for the replacement of the tablename in the sql query.
+   *
+   * <p>
+   */
+  private static final String REPLACEMENT_TABLENAME = "${tablename}";
 
-    /** Constant array with the unused tables.<p> */
-    private static final String[] UNUSED_TABLES = {
-        "CMS_SYSTEMID",
-        "CMS_TASK",
-        "CMS_TASKLOG",
-        "CMS_TASKPAR",
-        "CMS_TASKTYPE",
-        "TEMP_PROJECT_UUIDS"};
+  /**
+   * Constant array with the unused tables.
+   *
+   * <p>
+   */
+  private static final String[] UNUSED_TABLES = {
+    "CMS_SYSTEMID", "CMS_TASK", "CMS_TASKLOG", "CMS_TASKPAR", "CMS_TASKTYPE", "TEMP_PROJECT_UUIDS"
+  };
 
-    /** Constant ArrayList of the unused tables that are to be dropped.<p> */
-    private static final List<String> UNUSED_TABLES_LIST = Collections.unmodifiableList(Arrays.asList(UNUSED_TABLES));
+  /**
+   * Constant ArrayList of the unused tables that are to be dropped.
+   *
+   * <p>
+   */
+  private static final List<String> UNUSED_TABLES_LIST =
+      Collections.unmodifiableList(Arrays.asList(UNUSED_TABLES));
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the sql queries properties file could not be read
-     */
-    public CmsUpdateDBDropUnusedTables()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the sql queries properties file could not be read
+   */
+  public CmsUpdateDBDropUnusedTables() throws IOException {
 
-        super();
-        loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+    super();
+    loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+  }
+
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#internalExecute(org.opencms.setup.CmsSetupDb) */
+  @Override
+  protected void internalExecute(CmsSetupDb dbCon) throws SQLException {
+
+    System.out.println(new Exception().getStackTrace()[0].toString());
+    for (Iterator<String> it = UNUSED_TABLES_LIST.iterator(); it.hasNext(); ) {
+      String table = it.next();
+      // Check if the table to drop exists
+      if (dbCon.hasTableOrColumn(table, null)) {
+        Map<String, String> replacer = new HashMap<String, String>();
+        replacer.put(REPLACEMENT_TABLENAME, table);
+        dbCon.updateSqlStatement(readQuery(QUERY_DROP_TABLE), replacer, null);
+      } else {
+        System.out.println("table " + table + " not found");
+      }
     }
-
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#internalExecute(org.opencms.setup.CmsSetupDb)
-     */
-    @Override
-    protected void internalExecute(CmsSetupDb dbCon) throws SQLException {
-
-        System.out.println(new Exception().getStackTrace()[0].toString());
-        for (Iterator<String> it = UNUSED_TABLES_LIST.iterator(); it.hasNext();) {
-            String table = it.next();
-            // Check if the table to drop exists
-            if (dbCon.hasTableOrColumn(table, null)) {
-                Map<String, String> replacer = new HashMap<String, String>();
-                replacer.put(REPLACEMENT_TABLENAME, table);
-                dbCon.updateSqlStatement(readQuery(QUERY_DROP_TABLE), replacer, null);
-            } else {
-                System.out.println("table " + table + " not found");
-            }
-        }
-    }
+  }
 }

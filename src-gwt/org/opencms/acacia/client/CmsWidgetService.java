@@ -27,6 +27,9 @@
 
 package org.opencms.acacia.client;
 
+import com.google.gwt.dom.client.Element;
+import java.util.HashMap;
+import java.util.Map;
 import org.opencms.acacia.client.widgets.CmsFormWidgetWrapper;
 import org.opencms.acacia.client.widgets.CmsStringWidget;
 import org.opencms.acacia.client.widgets.I_CmsEditWidget;
@@ -35,299 +38,299 @@ import org.opencms.acacia.shared.CmsAttributeConfiguration;
 import org.opencms.acacia.shared.CmsContentDefinition;
 import org.opencms.acacia.shared.CmsType;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.google.gwt.dom.client.Element;
-
 /**
- * Service providing form widget renderer for entity attributes.<p>
+ * Service providing form widget renderer for entity attributes.
+ *
+ * <p>
  */
 public class CmsWidgetService implements I_CmsWidgetService {
 
-    /** The attribute configurations. */
-    private Map<String, CmsAttributeConfiguration> m_attributeConfigurations;
+  /** The attribute configurations. */
+  private Map<String, CmsAttributeConfiguration> m_attributeConfigurations;
 
-    /** The in-line renderer. */
-    private I_CmsEntityRenderer m_defaultRenderer;
+  /** The in-line renderer. */
+  private I_CmsEntityRenderer m_defaultRenderer;
 
-    /** Renderers by attribute. */
-    private Map<String, I_CmsEntityRenderer> m_rendererByAttribute = new HashMap<String, I_CmsEntityRenderer>();
+  /** Renderers by attribute. */
+  private Map<String, I_CmsEntityRenderer> m_rendererByAttribute =
+      new HashMap<String, I_CmsEntityRenderer>();
 
-    /** Map of renderer by type name. */
-    private Map<String, I_CmsEntityRenderer> m_rendererByType;
+  /** Map of renderer by type name. */
+  private Map<String, I_CmsEntityRenderer> m_rendererByType;
 
-    /** Map of renderers by name. */
-    private Map<String, I_CmsEntityRenderer> m_renderers = new HashMap<String, I_CmsEntityRenderer>();
+  /** Map of renderers by name. */
+  private Map<String, I_CmsEntityRenderer> m_renderers = new HashMap<String, I_CmsEntityRenderer>();
 
-    /** The registered widget factories. */
-    private Map<String, I_CmsWidgetFactory> m_widgetFactories;
+  /** The registered widget factories. */
+  private Map<String, I_CmsWidgetFactory> m_widgetFactories;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsWidgetService() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsWidgetService() {
 
-        m_rendererByType = new HashMap<String, I_CmsEntityRenderer>();
-        m_widgetFactories = new HashMap<String, I_CmsWidgetFactory>();
-        m_attributeConfigurations = new HashMap<String, CmsAttributeConfiguration>();
-    }
+    m_rendererByType = new HashMap<String, I_CmsEntityRenderer>();
+    m_widgetFactories = new HashMap<String, I_CmsWidgetFactory>();
+    m_attributeConfigurations = new HashMap<String, CmsAttributeConfiguration>();
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#addChangedOrderPath(java.lang.String)
-     */
-    public void addChangedOrderPath(String valuePath) {
+  /** @see org.opencms.acacia.client.I_CmsWidgetService#addChangedOrderPath(java.lang.String) */
+  public void addChangedOrderPath(String valuePath) {
 
-        // not implemented
-    }
+    // not implemented
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#addConfigurations(java.util.Map)
-     */
-    public void addConfigurations(Map<String, CmsAttributeConfiguration> configurations) {
+  /** @see org.opencms.acacia.client.I_CmsWidgetService#addConfigurations(java.util.Map) */
+  public void addConfigurations(Map<String, CmsAttributeConfiguration> configurations) {
 
-        m_attributeConfigurations.putAll(configurations);
-    }
+    m_attributeConfigurations.putAll(configurations);
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#addRenderer(org.opencms.acacia.client.I_CmsEntityRenderer)
-     */
-    public void addRenderer(I_CmsEntityRenderer renderer) {
+  /**
+   * @see
+   *     org.opencms.acacia.client.I_CmsWidgetService#addRenderer(org.opencms.acacia.client.I_CmsEntityRenderer)
+   */
+  public void addRenderer(I_CmsEntityRenderer renderer) {
 
-        m_renderers.put(renderer.getName(), renderer);
-    }
+    m_renderers.put(renderer.getName(), renderer);
+  }
 
-    /**
-     * Adds a renderer for the given type.<p>
-     *
-     * @param typeName the type name
-     * @param renderer the renderer
-     */
-    public void addRenderer(String typeName, I_CmsEntityRenderer renderer) {
+  /**
+   * Adds a renderer for the given type.
+   *
+   * <p>
+   *
+   * @param typeName the type name
+   * @param renderer the renderer
+   */
+  public void addRenderer(String typeName, I_CmsEntityRenderer renderer) {
 
-        m_rendererByType.put(typeName, renderer);
-    }
+    m_rendererByType.put(typeName, renderer);
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#addWidgetFactory(java.lang.String, org.opencms.acacia.client.I_CmsWidgetFactory)
-     */
-    public void addWidgetFactory(String widgetName, I_CmsWidgetFactory widgetFactory) {
+  /**
+   * @see org.opencms.acacia.client.I_CmsWidgetService#addWidgetFactory(java.lang.String,
+   *     org.opencms.acacia.client.I_CmsWidgetFactory)
+   */
+  public void addWidgetFactory(String widgetName, I_CmsWidgetFactory widgetFactory) {
 
-        m_widgetFactories.put(widgetName, widgetFactory);
-    }
+    m_widgetFactories.put(widgetName, widgetFactory);
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#getAttributeFormWidget(java.lang.String)
-     */
-    public I_CmsFormEditWidget getAttributeFormWidget(String attributeName) {
+  /** @see org.opencms.acacia.client.I_CmsWidgetService#getAttributeFormWidget(java.lang.String) */
+  public I_CmsFormEditWidget getAttributeFormWidget(String attributeName) {
 
-        if (m_attributeConfigurations != null) {
-            CmsAttributeConfiguration config = m_attributeConfigurations.get(attributeName);
-            if (config != null) {
-                I_CmsWidgetFactory factory = m_widgetFactories.get(config.getWidgetName());
-                if (factory != null) {
-                    return factory.createFormWidget(config.getWidgetConfig());
-                }
-            }
+    if (m_attributeConfigurations != null) {
+      CmsAttributeConfiguration config = m_attributeConfigurations.get(attributeName);
+      if (config != null) {
+        I_CmsWidgetFactory factory = m_widgetFactories.get(config.getWidgetName());
+        if (factory != null) {
+          return factory.createFormWidget(config.getWidgetConfig());
         }
-        // no configuration or widget factory found, return default string widget
-        return new CmsFormWidgetWrapper(new CmsStringWidget());
+      }
     }
+    // no configuration or widget factory found, return default string widget
+    return new CmsFormWidgetWrapper(new CmsStringWidget());
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#getAttributeHelp(java.lang.String)
-     */
-    public String getAttributeHelp(String attributeName) {
+  /** @see org.opencms.acacia.client.I_CmsWidgetService#getAttributeHelp(java.lang.String) */
+  public String getAttributeHelp(String attributeName) {
 
-        if (m_attributeConfigurations != null) {
-            CmsAttributeConfiguration config = m_attributeConfigurations.get(attributeName);
-            if (config != null) {
-                return config.getHelp();
-            }
+    if (m_attributeConfigurations != null) {
+      CmsAttributeConfiguration config = m_attributeConfigurations.get(attributeName);
+      if (config != null) {
+        return config.getHelp();
+      }
+    }
+    return null;
+  }
+
+  /**
+   * @see org.opencms.acacia.client.I_CmsWidgetService#getAttributeInlineWidget(java.lang.String,
+   *     com.google.gwt.dom.client.Element)
+   */
+  public I_CmsEditWidget getAttributeInlineWidget(String attributeName, Element element) {
+
+    if (m_attributeConfigurations != null) {
+      CmsAttributeConfiguration config = m_attributeConfigurations.get(attributeName);
+      if (config != null) {
+        I_CmsWidgetFactory factory = m_widgetFactories.get(config.getWidgetName());
+        if (factory != null) {
+          return factory.createInlineWidget(config.getWidgetConfig(), element);
         }
-        return null;
+      }
     }
+    // no widget configured
+    return null;
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#getAttributeInlineWidget(java.lang.String, com.google.gwt.dom.client.Element)
-     */
-    public I_CmsEditWidget getAttributeInlineWidget(String attributeName, Element element) {
+  /** @see org.opencms.acacia.client.I_CmsWidgetService#getAttributeLabel(java.lang.String) */
+  public String getAttributeLabel(String attributeName) {
 
-        if (m_attributeConfigurations != null) {
-            CmsAttributeConfiguration config = m_attributeConfigurations.get(attributeName);
-            if (config != null) {
-                I_CmsWidgetFactory factory = m_widgetFactories.get(config.getWidgetName());
-                if (factory != null) {
-                    return factory.createInlineWidget(config.getWidgetConfig(), element);
-                }
-            }
-        }
-        // no widget configured
-        return null;
+    if (m_attributeConfigurations != null) {
+      CmsAttributeConfiguration config = m_attributeConfigurations.get(attributeName);
+      if (config != null) {
+        return config.getLabel();
+      }
     }
+    return attributeName;
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#getAttributeLabel(java.lang.String)
-     */
-    public String getAttributeLabel(String attributeName) {
+  /**
+   * @see org.opencms.acacia.client.I_CmsWidgetService#getDefaultAttributeValue(java.lang.String,
+   *     java.lang.String)
+   */
+  public String getDefaultAttributeValue(String attributeName, String simpleValuePath) {
 
-        if (m_attributeConfigurations != null) {
-            CmsAttributeConfiguration config = m_attributeConfigurations.get(attributeName);
-            if (config != null) {
-                return config.getLabel();
-            }
-        }
-        return attributeName;
+    CmsAttributeConfiguration config = m_attributeConfigurations.get(attributeName);
+    return (config != null) && (config.getDefaultValue() != null) ? config.getDefaultValue() : "";
+  }
+
+  /**
+   * Gets the renderer instance for a specific attribute.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute for which we want the renderer
+   * @return the renderer instance
+   */
+  public I_CmsEntityRenderer getRendererForAttribute(String attributeName) {
+
+    int openCmsIndex = attributeName.indexOf("opencms://");
+    if (openCmsIndex != -1) {
+      attributeName = attributeName.substring(openCmsIndex);
     }
-
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#getDefaultAttributeValue(java.lang.String, java.lang.String)
-     */
-    public String getDefaultAttributeValue(String attributeName, String simpleValuePath) {
-
-        CmsAttributeConfiguration config = m_attributeConfigurations.get(attributeName);
-        return (config != null) && (config.getDefaultValue() != null) ? config.getDefaultValue() : "";
+    I_CmsEntityRenderer result = m_rendererByAttribute.get(attributeName);
+    if (result == null) {
+      return m_defaultRenderer;
+    } else {
+      return result;
     }
+  }
 
-    /**
-     * Gets the renderer instance for a specific attribute.<p>
-     *
-     * @param attributeName the attribute for which we want the renderer
-     *
-     * @return the renderer instance
-     */
-    public I_CmsEntityRenderer getRendererForAttribute(String attributeName) {
+  /**
+   * @see org.opencms.acacia.client.I_CmsWidgetService#getRendererForAttribute(java.lang.String,
+   *     org.opencms.acacia.shared.CmsType)
+   */
+  public I_CmsEntityRenderer getRendererForAttribute(String attributeName, CmsType attributeType) {
 
-        int openCmsIndex = attributeName.indexOf("opencms://");
-        if (openCmsIndex != -1) {
-            attributeName = attributeName.substring(openCmsIndex);
-        }
-        I_CmsEntityRenderer result = m_rendererByAttribute.get(attributeName);
-        if (result == null) {
-            return m_defaultRenderer;
-        } else {
-            return result;
-        }
+    return getRendererForAttribute(attributeName);
+  }
+
+  /**
+   * @see
+   *     org.opencms.acacia.client.I_CmsWidgetService#getRendererForType(org.opencms.acacia.shared.CmsType)
+   */
+  public I_CmsEntityRenderer getRendererForType(CmsType entityType) {
+
+    if (m_rendererByType.containsKey(entityType.getId())) {
+      return m_rendererByType.get(entityType.getId());
     }
+    return m_defaultRenderer;
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#getRendererForAttribute(java.lang.String, org.opencms.acacia.shared.CmsType)
-     */
-    public I_CmsEntityRenderer getRendererForAttribute(String attributeName, CmsType attributeType) {
+  /**
+   * Initializes the widget service with the given content definition.
+   *
+   * <p>
+   *
+   * @param definition the content definition
+   */
+  public void init(CmsContentDefinition definition) {
 
-        return getRendererForAttribute(attributeName);
+    m_attributeConfigurations = definition.getConfigurations();
+  }
+
+  /** @see org.opencms.acacia.client.I_CmsWidgetService#isDisplayCompact(java.lang.String) */
+  public boolean isDisplayCompact(String attributeName) {
+
+    if (m_attributeConfigurations != null) {
+      CmsAttributeConfiguration config = m_attributeConfigurations.get(attributeName);
+      if (config != null) {
+        return config.isDisplayColumn();
+      }
     }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#getRendererForType(org.opencms.acacia.shared.CmsType)
-     */
-    public I_CmsEntityRenderer getRendererForType(CmsType entityType) {
+  /** @see org.opencms.acacia.client.I_CmsWidgetService#isDisplaySingleLine(java.lang.String) */
+  public boolean isDisplaySingleLine(String attributeName) {
 
-        if (m_rendererByType.containsKey(entityType.getId())) {
-            return m_rendererByType.get(entityType.getId());
-        }
-        return m_defaultRenderer;
+    if (m_attributeConfigurations != null) {
+      CmsAttributeConfiguration config = m_attributeConfigurations.get(attributeName);
+      if (config != null) {
+        return config.isDisplaySingleLine();
+      }
     }
+    return false;
+  }
 
-    /**
-     * Initializes the widget service with the given content definition.<p>
-     *
-     * @param definition the content definition
-     */
-    public void init(CmsContentDefinition definition) {
+  /** @see org.opencms.acacia.client.I_CmsWidgetService#isVisible(java.lang.String) */
+  public boolean isVisible(String attributeName) {
 
-        m_attributeConfigurations = definition.getConfigurations();
+    boolean result = true;
+    if (m_attributeConfigurations.containsKey(attributeName)) {
+      result = m_attributeConfigurations.get(attributeName).isVisible();
     }
+    return result;
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#isDisplayCompact(java.lang.String)
-     */
-    public boolean isDisplayCompact(String attributeName) {
+  /**
+   * @see
+   *     org.opencms.acacia.client.I_CmsWidgetService#registerComplexWidgetAttribute(java.lang.String,
+   *     java.lang.String, java.lang.String)
+   */
+  public void registerComplexWidgetAttribute(
+      String attrName, String rendererName, String configuration) {
 
-        if (m_attributeConfigurations != null) {
-            CmsAttributeConfiguration config = m_attributeConfigurations.get(attributeName);
-            if (config != null) {
-                return config.isDisplayColumn();
-            }
-        }
-        return false;
+    I_CmsEntityRenderer renderer = m_renderers.get(rendererName);
+    if (renderer != null) {
+      renderer = renderer.configure(configuration);
+      m_rendererByAttribute.put(attrName, renderer);
+    } else {
+      log("Invalid entity renderer: " + rendererName);
     }
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#isDisplaySingleLine(java.lang.String)
-     */
-    public boolean isDisplaySingleLine(String attributeName) {
+  /**
+   * Adds the default complex type renderer.
+   *
+   * <p>
+   *
+   * @param renderer the renderer
+   */
+  public void setDefaultRenderer(I_CmsEntityRenderer renderer) {
 
-        if (m_attributeConfigurations != null) {
-            CmsAttributeConfiguration config = m_attributeConfigurations.get(attributeName);
-            if (config != null) {
-                return config.isDisplaySingleLine();
-            }
-        }
-        return false;
-    }
+    m_defaultRenderer = renderer;
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#isVisible(java.lang.String)
-     */
-    public boolean isVisible(String attributeName) {
+  /** @see org.opencms.acacia.client.I_CmsWidgetService#setWidgetFactories(java.util.Map) */
+  public void setWidgetFactories(Map<String, I_CmsWidgetFactory> widgetFactories) {
 
-        boolean result = true;
-        if (m_attributeConfigurations.containsKey(attributeName)) {
-            result = m_attributeConfigurations.get(attributeName).isVisible();
-        }
-        return result;
-    }
+    m_widgetFactories = widgetFactories;
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#registerComplexWidgetAttribute(java.lang.String, java.lang.String, java.lang.String)
-     */
-    public void registerComplexWidgetAttribute(String attrName, String rendererName, String configuration) {
+  /**
+   * @see
+   *     org.opencms.acacia.client.I_CmsWidgetService#shouldRemoveLastValueAfterUnfocus(org.opencms.acacia.client.widgets.I_CmsEditWidget)
+   */
+  public boolean shouldRemoveLastValueAfterUnfocus(I_CmsEditWidget widget) {
 
-        I_CmsEntityRenderer renderer = m_renderers.get(rendererName);
-        if (renderer != null) {
-            renderer = renderer.configure(configuration);
-            m_rendererByAttribute.put(attrName, renderer);
-        } else {
-            log("Invalid entity renderer: " + rendererName);
-        }
-    }
+    return false;
+  }
 
-    /**
-     * Adds the default complex type renderer.<p>
-     *
-     * @param renderer the renderer
-     */
-    public void setDefaultRenderer(I_CmsEntityRenderer renderer) {
-
-        m_defaultRenderer = renderer;
-    }
-
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#setWidgetFactories(java.util.Map)
-     */
-    public void setWidgetFactories(Map<String, I_CmsWidgetFactory> widgetFactories) {
-
-        m_widgetFactories = widgetFactories;
-    }
-
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetService#shouldRemoveLastValueAfterUnfocus(org.opencms.acacia.client.widgets.I_CmsEditWidget)
-     */
-    public boolean shouldRemoveLastValueAfterUnfocus(I_CmsEditWidget widget) {
-
-        return false;
-    }
-
-    /**
-     * Log method for debugging.<p>
-     *
-     * @param message the message to log
-     */
-    private native void log(String message) /*-{
+  /**
+   * Log method for debugging.
+   *
+   * <p>
+   *
+   * @param message the message to log
+   */
+  private native void log(String message) /*-{
         if ($wnd.console) {
             $wnd.console.log(message);
         }
     }-*/;
-
 }

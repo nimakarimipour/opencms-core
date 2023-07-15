@@ -28,15 +28,18 @@
 package org.opencms.gwt.client.ui.input.form;
 
 /**
- * Handler interface for form resets.<p>
+ * Handler interface for form resets.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsFormResetHandler {
 
-    /**
-     * This method should be called when the user has pressed the reset button on a form.<p>
-     */
-    void onResetForm();
-
+  /**
+   * This method should be called when the user has pressed the reset button on a form.
+   *
+   * <p>
+   */
+  void onResetForm();
 }

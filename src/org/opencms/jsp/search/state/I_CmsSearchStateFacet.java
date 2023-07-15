@@ -33,43 +33,57 @@ import java.util.Map;
 /** Interface for the state all facet types have in common. */
 public interface I_CmsSearchStateFacet {
 
-    /** Add a facet entry to the collection of checked entries.
-     * @param entry The facet entry.
-     */
-    void addChecked(String entry);
+  /**
+   * Add a facet entry to the collection of checked entries.
+   *
+   * @param entry The facet entry.
+   */
+  void addChecked(String entry);
 
-    /**
-     * Clear the collection of checked entries - i.e., tell that nothing is checked.
-     */
-    void clearChecked();
+  /** Clear the collection of checked entries - i.e., tell that nothing is checked. */
+  void clearChecked();
 
-    /** Returns all checked entries of a facet.
-     * @return List of the facet's entries that are checked.
-     */
-    List<String> getCheckedEntries();
+  /**
+   * Returns all checked entries of a facet.
+   *
+   * @return List of the facet's entries that are checked.
+   */
+  List<String> getCheckedEntries();
 
-    /** Returns a flag, indicating if the checked entries should be ignored.
-     * @return Flag, indicating if the checked entries should be ignored.
-     */
-    boolean getIgnoreChecked();
+  /**
+   * Returns a flag, indicating if the checked entries should be ignored.
+   *
+   * @return Flag, indicating if the checked entries should be ignored.
+   */
+  boolean getIgnoreChecked();
 
-    /** Returns a map that tells for each facet entry (an arbitrary string), if it is checked.
-     * @return Map from facet entries to their check state.
-     */
-    Map<String, Boolean> getIsChecked();
+  /**
+   * Returns a map that tells for each facet entry (an arbitrary string), if it is checked.
+   *
+   * @return Map from facet entries to their check state.
+   */
+  Map<String, Boolean> getIsChecked();
 
-    /** Returns a flag, indicating if the limit for the maximal number of facet entries should be used.
-     * @return A flag, indicating if the limit for the maximal number of facet entries should be used.
-     */
-    boolean getUseLimit();
+  /**
+   * Returns a flag, indicating if the limit for the maximal number of facet entries should be used.
+   *
+   * @return A flag, indicating if the limit for the maximal number of facet entries should be used.
+   */
+  boolean getUseLimit();
 
-    /** Set, if the checked facet entries should be ignored. (This influences the generated query part, by (not) adding specific filter queries.)
-     * @param ignore Flag, indicating if the checked entries should be ignored or not.
-     */
-    void setIgnoreChecked(boolean ignore);
+  /**
+   * Set, if the checked facet entries should be ignored. (This influences the generated query part,
+   * by (not) adding specific filter queries.)
+   *
+   * @param ignore Flag, indicating if the checked entries should be ignored or not.
+   */
+  void setIgnoreChecked(boolean ignore);
 
-    /** Set, if the limit for the maximal number of facet entries should be used.
-     * @param useLimit Flag, indicating if the configured limit for the maximal number of facet entries should be used.
-     */
-    void setUseLimit(boolean useLimit);
+  /**
+   * Set, if the limit for the maximal number of facet entries should be used.
+   *
+   * @param useLimit Flag, indicating if the configured limit for the maximal number of facet
+   *     entries should be used.
+   */
+  void setUseLimit(boolean useLimit);
 }

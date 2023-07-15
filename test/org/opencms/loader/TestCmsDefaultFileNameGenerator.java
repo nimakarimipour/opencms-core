@@ -27,55 +27,59 @@
 
 package org.opencms.loader;
 
-import org.opencms.test.OpenCmsTestCase;
-
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import org.opencms.test.OpenCmsTestCase;
 
 /**
- * Tests the default file name generation.<p>
+ * Tests the default file name generation.
+ *
+ * <p>
  */
 public class TestCmsDefaultFileNameGenerator extends OpenCmsTestCase {
 
-    /** List of names with 5 digits. */
-    public static final Set<String> NAMES_5 = new HashSet<>(
-        Arrays.asList(new String[] {"/file_00001.xml", "/file_00002.xml"}));
+  /** List of names with 5 digits. */
+  public static final Set<String> NAMES_5 =
+      new HashSet<>(Arrays.asList(new String[] {"/file_00001.xml", "/file_00002.xml"}));
 
-    /** List of names with 4 digits. */
-    public static final Set<String> NAMES_4 = new HashSet<>(
-        Arrays.asList(new String[] {"/file_0001.xml", "/file_0002.xml"}));
+  /** List of names with 4 digits. */
+  public static final Set<String> NAMES_4 =
+      new HashSet<>(Arrays.asList(new String[] {"/file_0001.xml", "/file_0002.xml"}));
 
-    /**
-     * Tests the default file name generation.<p>
-     *
-     * @throws Exception in case the test fails
-     */
-    public void testFileNumbering() throws Exception {
+  /**
+   * Tests the default file name generation.
+   *
+   * <p>
+   *
+   * @throws Exception in case the test fails
+   */
+  public void testFileNumbering() throws Exception {
 
-        CmsDefaultFileNameGenerator defaultGenerator = new CmsDefaultFileNameGenerator();
+    CmsDefaultFileNameGenerator defaultGenerator = new CmsDefaultFileNameGenerator();
 
-        String next5Name = defaultGenerator.getNewFileNameFromList(NAMES_5, "/file_%(number).xml", 5, false);
-        assertEquals("/file_00003.xml", next5Name);
+    String next5Name =
+        defaultGenerator.getNewFileNameFromList(NAMES_5, "/file_%(number).xml", 5, false);
+    assertEquals("/file_00003.xml", next5Name);
 
-        String next4Name = defaultGenerator.getNewFileNameFromList(NAMES_4, "/file_%(number).xml", 4, false);
-        assertEquals("/file_0003.xml", next4Name);
+    String next4Name =
+        defaultGenerator.getNewFileNameFromList(NAMES_4, "/file_%(number).xml", 4, false);
+    assertEquals("/file_0003.xml", next4Name);
 
-        String next45Name = defaultGenerator.getNewFileNameFromList(NAMES_4, "/file_%(number:4).xml", 5, false);
-        assertEquals("/file_0003.xml", next45Name);
+    String next45Name =
+        defaultGenerator.getNewFileNameFromList(NAMES_4, "/file_%(number:4).xml", 5, false);
+    assertEquals("/file_0003.xml", next45Name);
 
-        String next54Name = defaultGenerator.getNewFileNameFromList(NAMES_5, "/file_%(number:5).xml", 4, false);
-        assertEquals("/file_00003.xml", next54Name);
+    String next54Name =
+        defaultGenerator.getNewFileNameFromList(NAMES_5, "/file_%(number:5).xml", 4, false);
+    assertEquals("/file_00003.xml", next54Name);
 
-        String nextEmptyName = defaultGenerator.getNewFileNameFromList(
-            new HashSet<>(),
-            "/file_%(number:1).xml",
-            4,
-            false);
-        assertEquals("/file_1.xml", nextEmptyName);
+    String nextEmptyName =
+        defaultGenerator.getNewFileNameFromList(new HashSet<>(), "/file_%(number:1).xml", 4, false);
+    assertEquals("/file_1.xml", nextEmptyName);
 
-        String next9Name = defaultGenerator.getNewFileNameFromList(NAMES_5, "/file_%(number:9).xml", 4, false);
-        assertEquals("/file_000000001.xml", next9Name);
-    }
+    String next9Name =
+        defaultGenerator.getNewFileNameFromList(NAMES_5, "/file_%(number:9).xml", 4, false);
+    assertEquals("/file_000000001.xml", next9Name);
+  }
 }

@@ -30,62 +30,70 @@ package org.opencms.util;
 import org.opencms.test.OpenCmsTestCase;
 
 /**
- * Test cases for the resource translator.<p>
+ * Test cases for the resource translator.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class TestCmsResourceTranslator extends OpenCmsTestCase {
 
-    // default rules (same as in "opencms.properties")
-    private static String[] rules = {
-        "s#/default/vfs/content/bodys/(.*)#/default/vfs/system/bodies/$1#",
-        "s#/default/vfs/pics/system/(.*)#/default/vfs/system/workplace/resources/$1#",
-        "s#/default/vfs/pics/(.*)#/default/vfs/system/galleries/pics/$1#",
-        "s#/default/vfs/download/(.*)#/default/vfs/system/galleries/download/$1#",
-        "s#/default/vfs/externallinks/(.*)#/default/vfs/system/galleries/externallinks/$1#",
-        "s#/default/vfs/htmlgalleries/(.*)#/default/vfs/system/galleries/htmlgalleries/$1#",
-        "s#/default/vfs/content/(.*)#/default/vfs/system/modules/default/$1#",
-        "s#/default/vfs/moduledemos/(.*)#/default/vfs/system/moduledemos/$1#",
-        "s#/default/vfs/system/workplace/config/language/(.*)#/default/vfs/system/workplace/locales/$1#",
-        "s#/default/vfs/system/workplace/css/(.*)#/default/vfs/system/workplace/resources/$1#",
-        "s#/default/vfs/system/workplace/templates/js/(.*)#/default/vfs/system/workplace/scripts/$1#",
-        "s#[\\s]+#_#g",
-        "s#[" + OpenCmsTestCase.C_AUML_LOWER + "]#ae#g",
-        "s#[" + OpenCmsTestCase.C_AUML_UPPER + "]#Ae#g",
-        "s#[" + OpenCmsTestCase.C_OUML_LOWER + "]#oe#g",
-        "s#[" + OpenCmsTestCase.C_OUML_UPPER + "]#Oe#g",
-        "s#[" + OpenCmsTestCase.C_UUML_LOWER + "]#ue#g",
-        "s#[" + OpenCmsTestCase.C_UUML_UPPER + "]#Ue#g",
-        "s#[" + OpenCmsTestCase.C_SHARP_S + "]#ss#g",
-        "s#[^0-9a-zA-Z_\\.\\-\\/]#!#g",
-        "s#!+#x#g"};
+  // default rules (same as in "opencms.properties")
+  private static String[] rules = {
+    "s#/default/vfs/content/bodys/(.*)#/default/vfs/system/bodies/$1#",
+    "s#/default/vfs/pics/system/(.*)#/default/vfs/system/workplace/resources/$1#",
+    "s#/default/vfs/pics/(.*)#/default/vfs/system/galleries/pics/$1#",
+    "s#/default/vfs/download/(.*)#/default/vfs/system/galleries/download/$1#",
+    "s#/default/vfs/externallinks/(.*)#/default/vfs/system/galleries/externallinks/$1#",
+    "s#/default/vfs/htmlgalleries/(.*)#/default/vfs/system/galleries/htmlgalleries/$1#",
+    "s#/default/vfs/content/(.*)#/default/vfs/system/modules/default/$1#",
+    "s#/default/vfs/moduledemos/(.*)#/default/vfs/system/moduledemos/$1#",
+    "s#/default/vfs/system/workplace/config/language/(.*)#/default/vfs/system/workplace/locales/$1#",
+    "s#/default/vfs/system/workplace/css/(.*)#/default/vfs/system/workplace/resources/$1#",
+    "s#/default/vfs/system/workplace/templates/js/(.*)#/default/vfs/system/workplace/scripts/$1#",
+    "s#[\\s]+#_#g",
+    "s#[" + OpenCmsTestCase.C_AUML_LOWER + "]#ae#g",
+    "s#[" + OpenCmsTestCase.C_AUML_UPPER + "]#Ae#g",
+    "s#[" + OpenCmsTestCase.C_OUML_LOWER + "]#oe#g",
+    "s#[" + OpenCmsTestCase.C_OUML_UPPER + "]#Oe#g",
+    "s#[" + OpenCmsTestCase.C_UUML_LOWER + "]#ue#g",
+    "s#[" + OpenCmsTestCase.C_UUML_UPPER + "]#Ue#g",
+    "s#[" + OpenCmsTestCase.C_SHARP_S + "]#ss#g",
+    "s#[^0-9a-zA-Z_\\.\\-\\/]#!#g",
+    "s#!+#x#g"
+  };
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestCmsResourceTranslator(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestCmsResourceTranslator(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Tests for the resource name translation.<p>
-     */
-    public void testTranslateResource() {
+  /**
+   * Tests for the resource name translation.
+   *
+   * <p>
+   */
+  public void testTranslateResource() {
 
-        CmsResourceTranslator translator = new CmsResourceTranslator(rules, false);
-        String test;
+    CmsResourceTranslator translator = new CmsResourceTranslator(rules, false);
+    String test;
 
-        test = translator.translateResource("/default/vfs/content/bodys/test/index.html");
-        assertEquals(test, "/default/vfs/system/bodies/test/index.html");
+    test = translator.translateResource("/default/vfs/content/bodys/test/index.html");
+    assertEquals(test, "/default/vfs/system/bodies/test/index.html");
 
-        test = translator.translateResource("/default/vfs/system/workplace/templates/js/test.js");
-        assertEquals(test, "/default/vfs/system/workplace/scripts/test.js");
+    test = translator.translateResource("/default/vfs/system/workplace/templates/js/test.js");
+    assertEquals(test, "/default/vfs/system/workplace/scripts/test.js");
 
-        translator = new CmsResourceTranslator(rules, true);
-        test = translator.translateResource(
+    translator = new CmsResourceTranslator(rules, true);
+    test =
+        translator.translateResource(
             "Sch"
                 + OpenCmsTestCase.C_OUML_LOWER
                 + "ne "
@@ -93,7 +101,6 @@ public class TestCmsResourceTranslator extends OpenCmsTestCase {
                 + "bung mit Fu"
                 + OpenCmsTestCase.C_SHARP_S
                 + ".js");
-        assertEquals(test, "Schoene_Uebung_mit_Fuss.js");
-    }
-
+    assertEquals(test, "Schoene_Uebung_mit_Fuss.js");
+  }
 }

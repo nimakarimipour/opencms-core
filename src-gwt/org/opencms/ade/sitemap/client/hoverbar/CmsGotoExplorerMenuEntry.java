@@ -27,46 +27,46 @@
 
 package org.opencms.ade.sitemap.client.hoverbar;
 
+import com.google.gwt.user.client.Window;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.gwt.client.CmsCoreProvider;
 
-import com.google.gwt.user.client.Window;
-
 /**
- * Sitemap context menu open in explorer entry.<p>
+ * Sitemap context menu open in explorer entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsGotoExplorerMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsGotoExplorerMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsGotoExplorerMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_GOTO_EXPLORER_0));
-        setActive(true);
-        setVisible(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_GOTO_EXPLORER_0));
+    setActive(true);
+    setVisible(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-        Window.Location.assign(CmsCoreProvider.get().getExplorerLink(getHoverbar().getEntry().getSitePath()));
-    }
+    Window.Location.assign(
+        CmsCoreProvider.get().getExplorerLink(getHoverbar().getEntry().getSitePath()));
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        setVisible(!CmsSitemapView.getInstance().isSpecialMode());
-    }
+    setVisible(!CmsSitemapView.getInstance().isSpecialMode());
+  }
 }

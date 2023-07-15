@@ -30,15 +30,19 @@ package org.opencms.ui.shared.rpc;
 import com.vaadin.shared.communication.ServerRpc;
 
 /**
- * The principal select RPC service.<p>
+ * The principal select RPC service.
+ *
+ * <p>
  */
 public interface I_CmsPrincipalSelectRpc extends ServerRpc {
 
-    /**
-     * Sets the principal.<p>
-     *
-     * @param type the principal type
-     * @param principalName the principal name
-     */
-    void setPrincipal(int type, String principalName);
+  /**
+   * Sets the principal.
+   *
+   * <p>
+   *
+   * @param type the principal type
+   * @param principalName the principal name
+   */
+  void setPrincipal(int type, String principalName);
 }

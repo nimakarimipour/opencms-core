@@ -29,16 +29,15 @@ package org.opencms.gwt.client.ui.css;
 
 import com.google.gwt.resources.client.CssResource;
 
-/**
- * CSS resource for styling the element settings dialog.
- */
+/** CSS resource for styling the element settings dialog. */
 public interface I_CmsElementSettingsDialogCss extends CssResource {
 
-    /**
-     * Css class reader.<p>
-     *
-     * @return the css class
-     */
-    public String elementSettingsDialog();
-
+  /**
+   * Css class reader.
+   *
+   * <p>
+   *
+   * @return the css class
+   */
+  public String elementSettingsDialog();
 }

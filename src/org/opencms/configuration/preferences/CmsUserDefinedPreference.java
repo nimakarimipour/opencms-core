@@ -27,116 +27,119 @@
 
 package org.opencms.configuration.preferences;
 
+import org.dom4j.Element;
 import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.configuration.CmsWorkplaceConfiguration;
 import org.opencms.configuration.I_CmsXmlConfiguration;
 import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
-import org.dom4j.Element;
-
 /**
- * Subclass for user-defined preferences.<p>
+ * Subclass for user-defined preferences.
+ *
+ * <p>
  */
 public class CmsUserDefinedPreference extends A_CmsPreference {
 
-    /** The configured preference data. */
-    private CmsPreferenceData m_preferenceData;
+  /** The configured preference data. */
+  private CmsPreferenceData m_preferenceData;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param name the preference name
-     * @param value the preference value
-     * @param prop the bean containing the widget configuration for the preference
-     * @param tab the tab on which to display the widget
-     */
-    public CmsUserDefinedPreference(String name, String value, CmsXmlContentProperty prop, String tab) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param name the preference name
+   * @param value the preference value
+   * @param prop the bean containing the widget configuration for the preference
+   * @param tab the tab on which to display the widget
+   */
+  public CmsUserDefinedPreference(
+      String name, String value, CmsXmlContentProperty prop, String tab) {
 
-        m_preferenceData = new CmsPreferenceData(name, value, prop, tab);
+    m_preferenceData = new CmsPreferenceData(name, value, prop, tab);
+  }
+
+  /**
+   * Helper method used to create the configuration attributes for a CmsPreferenceData bean.
+   *
+   * <p>
+   *
+   * @param pref the preference data
+   * @param elem the element in which the attributes should be created
+   */
+  public static void fillAttributes(CmsPreferenceData pref, Element elem) {
+
+    CmsXmlContentProperty prop = pref.getPropertyDefinition();
+    for (String[] attrToSet :
+        new String[][] {
+          {I_CmsXmlConfiguration.A_VALUE, pref.getDefaultValue()},
+          {CmsWorkplaceConfiguration.A_NICE_NAME, prop.getNiceName()},
+          {CmsWorkplaceConfiguration.A_DESCRIPTION, prop.getDescription()},
+          {CmsWorkplaceConfiguration.A_WIDGET, prop.getConfiguredWidget()},
+          {CmsWorkplaceConfiguration.A_WIDGET_CONFIG, prop.getWidgetConfiguration()},
+          {CmsWorkplaceConfiguration.A_RULE_REGEX, prop.getRuleRegex()},
+          {CmsWorkplaceConfiguration.A_ERROR, prop.getError()}
+        }) {
+      String attrName = attrToSet[0];
+      String value = attrToSet[1];
+      if (value != null) {
+        elem.addAttribute(attrName, value);
+      }
     }
+  }
 
-    /**
-     * Helper method used to create the configuration attributes for a CmsPreferenceData bean.<p>
-     *
-     * @param pref the preference data
-     * @param elem the element in which the attributes should be created
-     */
-    public static void fillAttributes(CmsPreferenceData pref, Element elem) {
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue() */
+  public String getDefaultValue() {
 
-        CmsXmlContentProperty prop = pref.getPropertyDefinition();
-        for (String[] attrToSet : new String[][] {
-            {I_CmsXmlConfiguration.A_VALUE, pref.getDefaultValue()},
-            {CmsWorkplaceConfiguration.A_NICE_NAME, prop.getNiceName()},
-            {CmsWorkplaceConfiguration.A_DESCRIPTION, prop.getDescription()},
-            {CmsWorkplaceConfiguration.A_WIDGET, prop.getConfiguredWidget()},
-            {CmsWorkplaceConfiguration.A_WIDGET_CONFIG, prop.getWidgetConfiguration()},
-            {CmsWorkplaceConfiguration.A_RULE_REGEX, prop.getRuleRegex()},
-            {CmsWorkplaceConfiguration.A_ERROR, prop.getError()}}) {
-            String attrName = attrToSet[0];
-            String value = attrToSet[1];
-            if (value != null) {
-                elem.addAttribute(attrName, value);
-            }
-        }
-    }
+    return m_preferenceData.getDefaultValue();
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue()
-     */
-    public String getDefaultValue() {
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#getName() */
+  public String getName() {
 
-        return m_preferenceData.getDefaultValue();
-    }
+    return m_preferenceData.getName();
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getName()
-     */
-    public String getName() {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.I_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
+   */
+  @Override
+  public CmsXmlContentProperty getPropertyDefinition(CmsObject cms) {
 
-        return m_preferenceData.getName();
-    }
+    return getPropertyDefinition();
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
-     */
-    @Override
-    public CmsXmlContentProperty getPropertyDefinition(CmsObject cms) {
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#getTab() */
+  public String getTab() {
 
-        return getPropertyDefinition();
-    }
+    return m_preferenceData.getTab();
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getTab()
-     */
-    public String getTab() {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.I_CmsPreference#getValue(org.opencms.configuration.CmsDefaultUserSettings)
+   */
+  public String getValue(CmsDefaultUserSettings userSettings) {
 
-        return m_preferenceData.getTab();
-    }
+    return userSettings.getAdditionalPreference(getName(), true);
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getValue(org.opencms.configuration.CmsDefaultUserSettings)
-     */
-    public String getValue(CmsDefaultUserSettings userSettings) {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.I_CmsPreference#setValue(org.opencms.configuration.CmsDefaultUserSettings,
+   *     java.lang.String)
+   */
+  public void setValue(CmsDefaultUserSettings settings, String value) {
 
-        return userSettings.getAdditionalPreference(getName(), true);
-    }
+    settings.setAdditionalPreference(getName(), value);
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#setValue(org.opencms.configuration.CmsDefaultUserSettings, java.lang.String)
-     */
-    public void setValue(CmsDefaultUserSettings settings, String value) {
+  /** @see org.opencms.configuration.preferences.A_CmsPreference#getPropertyDefinition() */
+  @Override
+  protected CmsXmlContentProperty getPropertyDefinition() {
 
-        settings.setAdditionalPreference(getName(), value);
-    }
-
-    /**
-     * @see org.opencms.configuration.preferences.A_CmsPreference#getPropertyDefinition()
-     */
-    @Override
-    protected CmsXmlContentProperty getPropertyDefinition() {
-
-        return m_preferenceData.getPropertyDefinition();
-    }
-
+    return m_preferenceData.getPropertyDefinition();
+  }
 }

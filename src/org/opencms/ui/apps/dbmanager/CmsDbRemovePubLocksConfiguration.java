@@ -27,6 +27,8 @@
 
 package org.opencms.ui.apps.dbmanager;
 
+import com.vaadin.server.Resource;
+import java.util.Locale;
 import org.opencms.security.CmsRole;
 import org.opencms.ui.FontOpenCms;
 import org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration;
@@ -34,93 +36,77 @@ import org.opencms.ui.apps.I_CmsWorkplaceApp;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.OpenCmsTheme;
 
-import java.util.Locale;
-
-import com.vaadin.server.Resource;
-
 /**
- * Class for app configuration.<p>
+ * Class for app configuration.
+ *
+ * <p>
  */
 public class CmsDbRemovePubLocksConfiguration extends A_CmsWorkplaceAppConfiguration {
 
-    /** The app id. */
-    public static final String APP_ID = "db-admin-remove-locks";
+  /** The app id. */
+  public static final String APP_ID = "db-admin-remove-locks";
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppCategory()
-     */
-    @Override
-    public String getAppCategory() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppCategory() */
+  @Override
+  public String getAppCategory() {
 
-        return CmsDbManagerFolder.ID;
-    }
+    return CmsDbManagerFolder.ID;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance()
-     */
-    public I_CmsWorkplaceApp getAppInstance() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance() */
+  public I_CmsWorkplaceApp getAppInstance() {
 
-        return new CmsDbRemovePubLocksApp();
-    }
+    return new CmsDbRemovePubLocksApp();
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getButtonStyle()
-     */
-    @Override
-    public String getButtonStyle() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getButtonStyle() */
+  @Override
+  public String getButtonStyle() {
 
-        return FontOpenCms.PUBLISH.getButtonOverlayStyle() + " " + OpenCmsTheme.BUTTON_OVERLAY_RED;
-    }
+    return FontOpenCms.PUBLISH.getButtonOverlayStyle() + " " + OpenCmsTheme.BUTTON_OVERLAY_RED;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
-     */
-    @Override
-    public String getHelpText(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale) */
+  @Override
+  public String getHelpText(Locale locale) {
 
-        return Messages.get().getBundle(locale).key(Messages.GUI_DATABASEAPP_DB_PUBLOCKS_ADMIN_TOOL_HELP_0);
-    }
+    return Messages.get()
+        .getBundle(locale)
+        .key(Messages.GUI_DATABASEAPP_DB_PUBLOCKS_ADMIN_TOOL_HELP_0);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon()
-     */
-    public Resource getIcon() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon() */
+  public Resource getIcon() {
 
-        return CmsDbManagerFolder.ICON;
-    }
+    return CmsDbManagerFolder.ICON;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId() */
+  public String getId() {
 
-        return APP_ID;
-    }
+    return APP_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
-     */
-    @Override
-    public String getName(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
+  @Override
+  public String getName(Locale locale) {
 
-        return Messages.get().getBundle(locale).key(Messages.GUI_DATABASEAPP_DB_PUBLOCKS_ADMIN_TOOL_NAME_0);
-    }
+    return Messages.get()
+        .getBundle(locale)
+        .key(Messages.GUI_DATABASEAPP_DB_PUBLOCKS_ADMIN_TOOL_NAME_0);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getOrder()
-     */
-    @Override
-    public int getOrder() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getOrder() */
+  @Override
+  public int getOrder() {
 
-        return 5;
-    }
+    return 5;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getRequiredRole()
-     */
-    @Override
-    public CmsRole getRequiredRole() {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getRequiredRole() */
+  @Override
+  public CmsRole getRequiredRole() {
 
-        return CmsRole.DATABASE_MANAGER;
-    }
+    return CmsRole.DATABASE_MANAGER;
+  }
 }

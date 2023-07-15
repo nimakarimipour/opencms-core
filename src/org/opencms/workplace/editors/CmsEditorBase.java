@@ -27,6 +27,8 @@
 
 package org.opencms.workplace.editors;
 
+import javax.servlet.http.HttpSession;
+import org.apache.commons.logging.Log;
 import org.opencms.db.CmsUserSettings;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResourceFilter;
@@ -40,98 +42,105 @@ import org.opencms.security.CmsRole;
 import org.opencms.security.CmsRoleViolationException;
 import org.opencms.workplace.CmsDialog;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Base class for all editors that turns of time warp deletion inherited from
- * <code>{@link org.opencms.workplace.CmsWorkplace}</code>.<p>
+ * Base class for all editors that turns of time warp deletion inherited from <code>
+ * {@link org.opencms.workplace.CmsWorkplace}</code>.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsEditorBase extends CmsDialog {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsEditorBase.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsEditorBase.class);
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsEditorBase(CmsJspActionElement jsp) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsEditorBase(CmsJspActionElement jsp) {
 
-        super(jsp);
+    super(jsp);
+  }
+
+  /**
+   * In addition to the permission check, this will also check if the current user has at least the
+   * ELEMENT_AUTHOR role.
+   *
+   * <p>
+   *
+   * @see
+   *     org.opencms.workplace.CmsDialog#checkResourcePermissions(org.opencms.security.CmsPermissionSet,
+   *     boolean, org.opencms.i18n.CmsMessageContainer)
+   */
+  @Override
+  protected boolean checkResourcePermissions(
+      CmsPermissionSet required, boolean neededForFolder, CmsMessageContainer errorMessage) {
+
+    boolean hasPermissions = false;
+    try {
+      CmsResource res;
+      if (neededForFolder) {
+        // check permissions for the folder the resource is in
+        res =
+            getCms()
+                .readResource(
+                    CmsResource.getParentFolder(getParamResource()), CmsResourceFilter.ALL);
+      } else {
+        res = getCms().readResource(getParamResource(), CmsResourceFilter.ALL);
+      }
+      hasPermissions =
+          getCms().hasPermissions(res, required, false, CmsResourceFilter.ALL)
+              && (OpenCms.getRoleManager()
+                      .hasRoleForResource(
+                          getCms(), CmsRole.ELEMENT_AUTHOR, getCms().getSitePath(res))
+                  || OpenCms.getRoleManager()
+                      .hasRoleForResource(
+                          getCms(), CmsRole.PROJECT_MANAGER, getCms().getSitePath(res))
+                  || OpenCms.getRoleManager()
+                      .hasRoleForResource(
+                          getCms(), CmsRole.ACCOUNT_MANAGER, getCms().getSitePath(res)));
+    } catch (CmsException e) {
+      // should usually never happen
+      if (LOG.isInfoEnabled()) {
+        LOG.info(e.getLocalizedMessage(), e);
+      }
     }
 
-    /**
-     * In addition to the permission check, this will also check if the current user has at least the ELEMENT_AUTHOR role.<p>
-     *
-     * @see org.opencms.workplace.CmsDialog#checkResourcePermissions(org.opencms.security.CmsPermissionSet, boolean, org.opencms.i18n.CmsMessageContainer)
-     */
-    @Override
-    protected boolean checkResourcePermissions(
-        CmsPermissionSet required,
-        boolean neededForFolder,
-        CmsMessageContainer errorMessage) {
-
-        boolean hasPermissions = false;
-        try {
-            CmsResource res;
-            if (neededForFolder) {
-                // check permissions for the folder the resource is in
-                res = getCms().readResource(CmsResource.getParentFolder(getParamResource()), CmsResourceFilter.ALL);
-            } else {
-                res = getCms().readResource(getParamResource(), CmsResourceFilter.ALL);
-            }
-            hasPermissions = getCms().hasPermissions(res, required, false, CmsResourceFilter.ALL)
-                && (OpenCms.getRoleManager().hasRoleForResource(
-                    getCms(),
-                    CmsRole.ELEMENT_AUTHOR,
-                    getCms().getSitePath(res))
-                    || OpenCms.getRoleManager().hasRoleForResource(
-                        getCms(),
-                        CmsRole.PROJECT_MANAGER,
-                        getCms().getSitePath(res))
-                    || OpenCms.getRoleManager().hasRoleForResource(
-                        getCms(),
-                        CmsRole.ACCOUNT_MANAGER,
-                        getCms().getSitePath(res)));
-        } catch (CmsException e) {
-            // should usually never happen
-            if (LOG.isInfoEnabled()) {
-                LOG.info(e.getLocalizedMessage(), e);
-            }
-        }
-
-        if (!hasPermissions) {
-            // store the error message in the users session
-            getSettings().setErrorMessage(errorMessage);
-        }
-
-        return hasPermissions;
+    if (!hasPermissions) {
+      // store the error message in the users session
+      getSettings().setErrorMessage(errorMessage);
     }
 
-    /**
-     * Checks that the current user is a workplace user.<p>
-     *
-     * @throws CmsRoleViolationException if the user does not have the required role
-     */
-    @Override
-    protected void checkRole() throws CmsRoleViolationException {
+    return hasPermissions;
+  }
 
-        OpenCms.getRoleManager().checkRole(getCms(), CmsRole.EDITOR);
-    }
+  /**
+   * Checks that the current user is a workplace user.
+   *
+   * <p>
+   *
+   * @throws CmsRoleViolationException if the user does not have the required role
+   */
+  @Override
+  protected void checkRole() throws CmsRoleViolationException {
 
-    /**
-     * @see org.opencms.workplace.CmsWorkplace#initTimeWarp(org.opencms.db.CmsUserSettings, javax.servlet.http.HttpSession)
-     */
-    @Override
-    protected void initTimeWarp(CmsUserSettings settings, HttpSession session) {
+    OpenCms.getRoleManager().checkRole(getCms(), CmsRole.EDITOR);
+  }
 
-        // overridden to avoid deletion of the configured time warp:
-        // this is triggered by editors and in auto time warping a direct edit
-        // must not delete a potential auto warped request time
-    }
+  /**
+   * @see org.opencms.workplace.CmsWorkplace#initTimeWarp(org.opencms.db.CmsUserSettings,
+   *     javax.servlet.http.HttpSession)
+   */
+  @Override
+  protected void initTimeWarp(CmsUserSettings settings, HttpSession session) {
+
+    // overridden to avoid deletion of the configured time warp:
+    // this is triggered by editors and in auto time warping a direct edit
+    // must not delete a potential auto warped request time
+  }
 }

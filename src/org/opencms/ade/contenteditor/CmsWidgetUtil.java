@@ -27,6 +27,10 @@
 
 package org.opencms.ade.contenteditor;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import org.apache.commons.collections4.CollectionUtils;
 import org.opencms.file.CmsObject;
 import org.opencms.i18n.CmsMessages;
 import org.opencms.i18n.CmsMultiMessages;
@@ -41,230 +45,248 @@ import org.opencms.xml.content.I_CmsXmlContentHandler.DisplayType;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 import org.opencms.xml.types.I_CmsXmlSchemaType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.commons.collections4.CollectionUtils;
-
 /**
- * Utility methods for getting widget informations out of content definitions.<p>
+ * Utility methods for getting widget informations out of content definitions.
+ *
+ * <p>
  */
 public final class CmsWidgetUtil {
 
+  /**
+   * Bean representing widget information.
+   *
+   * <p>
+   */
+  public static class WidgetInfo {
+
+    /** The display type. */
+    private DisplayType m_displayType;
+
+    /** A widget instance. */
+    private I_CmsWidget m_widget;
+
+    /** The complex widget. */
+    private I_CmsComplexWidget m_complexWidget;
+
     /**
-     * Bean representing widget information.<p>
+     * Gets the complex widget.
+     *
+     * <p>
+     *
+     * @return the complex widget
      */
-    public static class WidgetInfo {
+    public I_CmsComplexWidget getComplexWidget() {
 
-        /** The display type. */
-        private DisplayType m_displayType;
-
-        /** A widget instance. */
-        private I_CmsWidget m_widget;
-
-        /** The complex widget. */
-        private I_CmsComplexWidget m_complexWidget;
-
-        /**
-         * Gets the complex widget.<p>
-         *
-         * @return the complex widget
-         */
-        public I_CmsComplexWidget getComplexWidget() {
-
-            return m_complexWidget;
-        }
-
-        /**
-         * Gets the display type.<p>
-         *
-         * @return the display type
-         */
-        public DisplayType getDisplayType() {
-
-            return m_displayType;
-        }
-
-        /**
-         * Gets the widget instance.<p>
-         *
-         * @return the widget instance
-         */
-        public I_CmsWidget getWidget() {
-
-            return m_widget;
-        }
-
-        /**
-         * Sets the complex widget.<p>
-         *
-         * @param complexWidget the complex widget to set
-         */
-        public void setComplexWidget(I_CmsComplexWidget complexWidget) {
-
-            m_complexWidget = complexWidget;
-
-        }
-
-        /**
-         * Sets the display type.<p>
-         *
-         * @param displayType the display type
-         */
-        public void setDisplayType(DisplayType displayType) {
-
-            m_displayType = displayType;
-        }
-
-        /**
-         * Sets the widget.<p>
-         *
-         * @param widget the widget
-         */
-        public void setWidget(I_CmsWidget widget) {
-
-            m_widget = widget;
-        }
+      return m_complexWidget;
     }
 
     /**
-     * Hidden default constructor.
+     * Gets the display type.
+     *
+     * <p>
+     *
+     * @return the display type
      */
-    private CmsWidgetUtil() {
+    public DisplayType getDisplayType() {
 
-        // hidden default constructor
+      return m_displayType;
     }
 
     /**
-     * Collects widget information for a given content definition and content value path.<p>
+     * Gets the widget instance.
      *
-     * @param cms the the CMS context to use
-     * @param rootContentDefinition the content definition
-     * @param path the path relative to the given content definition
-     * @param messages the message bundle to use
+     * <p>
      *
-     * @return the widget information for the given path
+     * @return the widget instance
      */
-    public static WidgetInfo collectWidgetInfo(
-        CmsObject cms,
-        CmsXmlContentDefinition rootContentDefinition,
-        String path,
-        CmsMessages messages) {
+    public I_CmsWidget getWidget() {
 
-        String widgetConfig = null;
-        DisplayType configuredType = DisplayType.none;
-        I_CmsXmlSchemaType schemaType = rootContentDefinition.getSchemaType(path);
+      return m_widget;
+    }
 
-        I_CmsWidget widget = null;
-        I_CmsComplexWidget complexWidget = null;
-        I_CmsXmlContentHandler contentHandler = schemaType.getContentDefinition().getContentHandler();
-        final List<I_CmsWidget> widgets = new ArrayList<>();
-        final List<String> widgetConfigs = new ArrayList<>();
-        final List<DisplayType> configuredDisplayTypes = new ArrayList<>();
-        final List<I_CmsComplexWidget> configuredComplexWidgets = new ArrayList<>();
-        if (messages == null) {
-            Locale wpLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
-            CmsMultiMessages multi = new CmsMultiMessages(wpLocale);
-            multi.addMessages(OpenCms.getWorkplaceManager().getMessages(wpLocale));
-            CmsMessages contentHandlerMessages = rootContentDefinition.getContentHandler().getMessages(wpLocale);
-            if (contentHandlerMessages != null) {
-                // Note: the default content handler class will always return a non-null messages object
-                multi.addMessages(contentHandlerMessages);
-            }
-            messages = multi;
-        }
+    /**
+     * Sets the complex widget.
+     *
+     * <p>
+     *
+     * @param complexWidget the complex widget to set
+     */
+    public void setComplexWidget(I_CmsComplexWidget complexWidget) {
 
-        // Use lists to store found widget configurations, and then use the first elements of each list.
-        // Because we iterate from the top level schema down to the nested schema, configurations in higher level schemas
-        // will have precedence over those in lower level schemas for the same element.
+      m_complexWidget = complexWidget;
+    }
 
-        rootContentDefinition.findSchemaTypesForPath(path, (nestedType, remainingPath) -> {
-            remainingPath = CmsXmlUtils.concatXpath(nestedType.getName(), remainingPath);
-            I_CmsXmlContentHandler handler = nestedType.getContentDefinition().getContentHandler();
-            I_CmsWidget widgetForPath = handler.getWidget(cms, remainingPath);
-            CollectionUtils.addIgnoreNull(widgets, widgetForPath);
-            CollectionUtils.addIgnoreNull(widgetConfigs, handler.getConfiguration(remainingPath));
+    /**
+     * Sets the display type.
+     *
+     * <p>
+     *
+     * @param displayType the display type
+     */
+    public void setDisplayType(DisplayType displayType) {
+
+      m_displayType = displayType;
+    }
+
+    /**
+     * Sets the widget.
+     *
+     * <p>
+     *
+     * @param widget the widget
+     */
+    public void setWidget(I_CmsWidget widget) {
+
+      m_widget = widget;
+    }
+  }
+
+  /** Hidden default constructor. */
+  private CmsWidgetUtil() {
+
+    // hidden default constructor
+  }
+
+  /**
+   * Collects widget information for a given content definition and content value path.
+   *
+   * <p>
+   *
+   * @param cms the the CMS context to use
+   * @param rootContentDefinition the content definition
+   * @param path the path relative to the given content definition
+   * @param messages the message bundle to use
+   * @return the widget information for the given path
+   */
+  public static WidgetInfo collectWidgetInfo(
+      CmsObject cms,
+      CmsXmlContentDefinition rootContentDefinition,
+      String path,
+      CmsMessages messages) {
+
+    String widgetConfig = null;
+    DisplayType configuredType = DisplayType.none;
+    I_CmsXmlSchemaType schemaType = rootContentDefinition.getSchemaType(path);
+
+    I_CmsWidget widget = null;
+    I_CmsComplexWidget complexWidget = null;
+    I_CmsXmlContentHandler contentHandler = schemaType.getContentDefinition().getContentHandler();
+    final List<I_CmsWidget> widgets = new ArrayList<>();
+    final List<String> widgetConfigs = new ArrayList<>();
+    final List<DisplayType> configuredDisplayTypes = new ArrayList<>();
+    final List<I_CmsComplexWidget> configuredComplexWidgets = new ArrayList<>();
+    if (messages == null) {
+      Locale wpLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
+      CmsMultiMessages multi = new CmsMultiMessages(wpLocale);
+      multi.addMessages(OpenCms.getWorkplaceManager().getMessages(wpLocale));
+      CmsMessages contentHandlerMessages =
+          rootContentDefinition.getContentHandler().getMessages(wpLocale);
+      if (contentHandlerMessages != null) {
+        // Note: the default content handler class will always return a non-null messages object
+        multi.addMessages(contentHandlerMessages);
+      }
+      messages = multi;
+    }
+
+    // Use lists to store found widget configurations, and then use the first elements of each list.
+    // Because we iterate from the top level schema down to the nested schema, configurations in
+    // higher level schemas
+    // will have precedence over those in lower level schemas for the same element.
+
+    rootContentDefinition.findSchemaTypesForPath(
+        path,
+        (nestedType, remainingPath) -> {
+          remainingPath = CmsXmlUtils.concatXpath(nestedType.getName(), remainingPath);
+          I_CmsXmlContentHandler handler = nestedType.getContentDefinition().getContentHandler();
+          I_CmsWidget widgetForPath = handler.getWidget(cms, remainingPath);
+          CollectionUtils.addIgnoreNull(widgets, widgetForPath);
+          CollectionUtils.addIgnoreNull(widgetConfigs, handler.getConfiguration(remainingPath));
+          CollectionUtils.addIgnoreNull(
+              configuredDisplayTypes, handler.getConfiguredDisplayType(remainingPath, null));
+          if (widgetForPath == null) {
+            // If we already have a normal widget, trying to find a complex widget for the same path
+            // is unnecessary,
+            // and would also cost performance (because of failing Class.forName calls in
+            // getComplexWidget).
             CollectionUtils.addIgnoreNull(
-                configuredDisplayTypes,
-                handler.getConfiguredDisplayType(remainingPath, null));
-            if (widgetForPath == null) {
-                // If we already have a normal widget, trying to find a complex widget for the same path is unnecessary,
-                // and would also cost performance (because of failing Class.forName calls in getComplexWidget).
-                CollectionUtils.addIgnoreNull(configuredComplexWidgets, handler.getComplexWidget(cms, remainingPath));
-            }
-
+                configuredComplexWidgets, handler.getComplexWidget(cms, remainingPath));
+          }
         });
-        if (!widgets.isEmpty()) {
-            widget = widgets.get(0).newInstance();
-        } else {
-            widget = OpenCms.getXmlContentTypeManager().getWidgetDefault(schemaType.getTypeName());
-        }
-        if (!configuredDisplayTypes.isEmpty()) {
-            configuredType = configuredDisplayTypes.get(0);
-        }
-        if (!widgetConfigs.isEmpty()) {
-            widgetConfig = widgetConfigs.get(0);
-        } else if (widget != null) {
-            widgetConfig = OpenCms.getXmlContentTypeManager().getWidgetDefaultConfiguration(widget);
-        }
-        CmsMacroResolver resolver = new CmsMacroResolver();
-        resolver.setCmsObject(cms);
-        resolver.setKeepEmptyMacros(false);
-        resolver.setMessages(messages);
-        if (widget != null) {
-            String resolvedConfig = resolveWidgetConfigMacros(resolver, widgetConfig);
-            widget.setConfiguration(resolvedConfig);
-        }
-        // default complex widget and default c. widget config have lower priorities than those directly defined, so put them at the end of the list
-        CollectionUtils.addIgnoreNull(configuredComplexWidgets, contentHandler.getDefaultComplexWidget());
-        List<String> complexWidgetConfigs = new ArrayList<>(widgetConfigs);
-        CollectionUtils.addIgnoreNull(complexWidgetConfigs, contentHandler.getDefaultComplexWidgetConfiguration());
-        if (!configuredComplexWidgets.isEmpty()) {
-            String config = "";
-            if (!complexWidgetConfigs.isEmpty()) {
-                config = complexWidgetConfigs.get(0);
-                config = resolveWidgetConfigMacros(resolver, config);
-            }
-            complexWidget = configuredComplexWidgets.get(0).configure(config);
-        }
-        WidgetInfo result = new WidgetInfo();
-        result.setComplexWidget(complexWidget);
-        result.setDisplayType(configuredType);
-        result.setWidget(widget);
-        return result;
+    if (!widgets.isEmpty()) {
+      widget = widgets.get(0).newInstance();
+    } else {
+      widget = OpenCms.getXmlContentTypeManager().getWidgetDefault(schemaType.getTypeName());
     }
-
-    /**
-     * Collects widget information for a given content value.<p>
-     *
-     * @param cms the current CMS context
-     * @param value a content value
-     *
-     * @return the widget information for the given value
-     */
-
-    public static WidgetInfo collectWidgetInfo(CmsObject cms, I_CmsXmlContentValue value) {
-
-        CmsXmlContentDefinition contentDef = value.getDocument().getContentDefinition();
-        String path = value.getPath();
-        return collectWidgetInfo(cms, contentDef, path, null);
+    if (!configuredDisplayTypes.isEmpty()) {
+      configuredType = configuredDisplayTypes.get(0);
     }
-
-    /**
-     * Resolves macros in a string using the given macro resolver, unless universal macro resolution for widget configurations is turned off by setting the widgets.config.resolveMacros.disabled runtime property to true in opencms-system.xml.
-     *
-     * @param resolver the macro resolver
-     * @param widgetConfig the widget configuration
-     * @return the macro resolution result
-     */
-    private static String resolveWidgetConfigMacros(CmsMacroResolver resolver, String widgetConfig) {
-
-        if (Boolean.parseBoolean((String)OpenCms.getRuntimeProperty("widgets.config.resolveMacros.disabled"))) {
-            return widgetConfig;
-        } else {
-            return resolver.resolveMacros(widgetConfig);
-        }
+    if (!widgetConfigs.isEmpty()) {
+      widgetConfig = widgetConfigs.get(0);
+    } else if (widget != null) {
+      widgetConfig = OpenCms.getXmlContentTypeManager().getWidgetDefaultConfiguration(widget);
     }
+    CmsMacroResolver resolver = new CmsMacroResolver();
+    resolver.setCmsObject(cms);
+    resolver.setKeepEmptyMacros(false);
+    resolver.setMessages(messages);
+    if (widget != null) {
+      String resolvedConfig = resolveWidgetConfigMacros(resolver, widgetConfig);
+      widget.setConfiguration(resolvedConfig);
+    }
+    // default complex widget and default c. widget config have lower priorities than those directly
+    // defined, so put them at the end of the list
+    CollectionUtils.addIgnoreNull(
+        configuredComplexWidgets, contentHandler.getDefaultComplexWidget());
+    List<String> complexWidgetConfigs = new ArrayList<>(widgetConfigs);
+    CollectionUtils.addIgnoreNull(
+        complexWidgetConfigs, contentHandler.getDefaultComplexWidgetConfiguration());
+    if (!configuredComplexWidgets.isEmpty()) {
+      String config = "";
+      if (!complexWidgetConfigs.isEmpty()) {
+        config = complexWidgetConfigs.get(0);
+        config = resolveWidgetConfigMacros(resolver, config);
+      }
+      complexWidget = configuredComplexWidgets.get(0).configure(config);
+    }
+    WidgetInfo result = new WidgetInfo();
+    result.setComplexWidget(complexWidget);
+    result.setDisplayType(configuredType);
+    result.setWidget(widget);
+    return result;
+  }
 
+  /**
+   * Collects widget information for a given content value.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param value a content value
+   * @return the widget information for the given value
+   */
+  public static WidgetInfo collectWidgetInfo(CmsObject cms, I_CmsXmlContentValue value) {
+
+    CmsXmlContentDefinition contentDef = value.getDocument().getContentDefinition();
+    String path = value.getPath();
+    return collectWidgetInfo(cms, contentDef, path, null);
+  }
+
+  /**
+   * Resolves macros in a string using the given macro resolver, unless universal macro resolution
+   * for widget configurations is turned off by setting the widgets.config.resolveMacros.disabled
+   * runtime property to true in opencms-system.xml.
+   *
+   * @param resolver the macro resolver
+   * @param widgetConfig the widget configuration
+   * @return the macro resolution result
+   */
+  private static String resolveWidgetConfigMacros(CmsMacroResolver resolver, String widgetConfig) {
+
+    if (Boolean.parseBoolean(
+        (String) OpenCms.getRuntimeProperty("widgets.config.resolveMacros.disabled"))) {
+      return widgetConfig;
+    } else {
+      return resolver.resolveMacros(widgetConfig);
+    }
+  }
 }

@@ -31,38 +31,36 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Signals an error during import or export of OpenCms data.<p>
+ * Signals an error during import or export of OpenCms data.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsImportExportException extends CmsException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -5010535524516515412L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -5010535524516515412L;
 
-    /**
-     * @see CmsException#CmsException(CmsMessageContainer)
-     */
-    public CmsImportExportException(CmsMessageContainer container) {
+  /** @see CmsException#CmsException(CmsMessageContainer) */
+  public CmsImportExportException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * @see CmsException#CmsException(CmsMessageContainer, Throwable)
-     */
-    public CmsImportExportException(CmsMessageContainer container, Throwable cause) {
+  /** @see CmsException#CmsException(CmsMessageContainer, Throwable) */
+  public CmsImportExportException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsImportExportException(container, cause);
-    }
-
+    return new CmsImportExportException(container, cause);
+  }
 }

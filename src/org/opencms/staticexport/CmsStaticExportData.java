@@ -30,140 +30,159 @@ package org.opencms.staticexport;
 import org.opencms.file.CmsResource;
 
 /**
- * Provides a data structure for the result of an export request.<p>
+ * Provides a data structure for the result of an export request.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsStaticExportData {
 
-    /** Flag to indicate whether this is the export data for a detail page. */
-    private boolean m_isDetailPage;
+  /** Flag to indicate whether this is the export data for a detail page. */
+  private boolean m_isDetailPage;
 
-    /** The parameters. */
-    private String m_parameters;
+  /** The parameters. */
+  private String m_parameters;
 
-    /** The resource to export. */
-    private CmsResource m_resource;
+  /** The resource to export. */
+  private CmsResource m_resource;
 
-    /** The uri to export in the rfs. */
-    private String m_rfsName;
+  /** The uri to export in the rfs. */
+  private String m_rfsName;
 
-    /** The uri in the vfs. */
-    private String m_vfsName;
+  /** The uri in the vfs. */
+  private String m_vfsName;
 
-    /**
-     * Creates a new static export data object.<p>
-     *
-     * @param vfsName the vfs name of the resource
-     * @param rfsName the rfs name of the resource
-     * @param resource the resource object
-     * @param parameters the parameter string of a resource
-     */
-    public CmsStaticExportData(String vfsName, String rfsName, CmsResource resource, String parameters) {
+  /**
+   * Creates a new static export data object.
+   *
+   * <p>
+   *
+   * @param vfsName the vfs name of the resource
+   * @param rfsName the rfs name of the resource
+   * @param resource the resource object
+   * @param parameters the parameter string of a resource
+   */
+  public CmsStaticExportData(
+      String vfsName, String rfsName, CmsResource resource, String parameters) {
 
-        m_vfsName = vfsName;
-        m_rfsName = rfsName;
-        m_resource = resource;
-        m_parameters = parameters;
+    m_vfsName = vfsName;
+    m_rfsName = rfsName;
+    m_resource = resource;
+    m_parameters = parameters;
+  }
+
+  /**
+   * Return the parameters of the resource to export.
+   *
+   * <p>
+   *
+   * @return the parameter map
+   */
+  public String getParameters() {
+
+    return m_parameters;
+  }
+
+  /**
+   * Returns the resource to export.
+   *
+   * <p>
+   *
+   * @return the resource to export
+   */
+  public CmsResource getResource() {
+
+    return m_resource;
+  }
+
+  /**
+   * Returns the rfs name of the resource to export.
+   *
+   * <p>
+   *
+   * @return the rfs name of the resource to export
+   */
+  public String getRfsName() {
+
+    return m_rfsName;
+  }
+
+  /**
+   * Returns the vfs name of the resource to export.
+   *
+   * <p>
+   *
+   * @return the vfs name of the resource to export
+   */
+  public String getVfsName() {
+
+    return m_vfsName;
+  }
+
+  /**
+   * Returns true if this is the static export data for a detail page.
+   *
+   * <p>
+   *
+   * @return true if this is the static export data for a detail page
+   */
+  public boolean isDetailPage() {
+
+    return m_isDetailPage;
+  }
+
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
+
+    StringBuffer result = new StringBuffer();
+    result.append(this.getClass().getName());
+    result.append("[vfsName=");
+    result.append(m_vfsName);
+    result.append(", rfsName=");
+    result.append(m_rfsName);
+    if (m_resource != null) {
+      result.append(", structureId=");
+      result.append(m_resource.getStructureId());
     }
+    result.append("]");
+    return result.toString();
+  }
 
-    /**
-     * Return the parameters of the resource to export.<p>
-     *
-     * @return the parameter map
-     */
-    public String getParameters() {
+  /**
+   * Changes the 'is detail page' flag in this export data instance.
+   *
+   * <p>
+   *
+   * @param isDetailPage the new value for the flag
+   */
+  protected void setIsDetailPage(boolean isDetailPage) {
 
-        return m_parameters;
-    }
+    m_isDetailPage = isDetailPage;
+  }
 
-    /**
-     * Returns the resource to export.<p>
-     *
-     * @return the resource to export
-     */
-    public CmsResource getResource() {
+  /**
+   * Sets the parameters.
+   *
+   * <p>
+   *
+   * @param parameters the parameters to set
+   */
+  protected void setParameters(String parameters) {
 
-        return m_resource;
-    }
+    m_parameters = parameters;
+  }
 
-    /**
-     * Returns the rfs name of the resource to export.<p>
-     *
-     * @return the rfs name of the resource to export
-     */
-    public String getRfsName() {
+  /**
+   * Sets the RFS name.
+   *
+   * <p>
+   *
+   * @param rfsName the RFS name to set
+   */
+  protected void setRfsName(String rfsName) {
 
-        return m_rfsName;
-    }
-
-    /**
-     * Returns the vfs name of the resource to export.<p>
-     *
-     * @return the vfs name of the resource to export
-     */
-    public String getVfsName() {
-
-        return m_vfsName;
-    }
-
-    /**
-     * Returns true if this is the static export data for a detail page.<p>
-     *
-     * @return true if this is the static export data for a detail page
-     */
-    public boolean isDetailPage() {
-
-        return m_isDetailPage;
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-
-        StringBuffer result = new StringBuffer();
-        result.append(this.getClass().getName());
-        result.append("[vfsName=");
-        result.append(m_vfsName);
-        result.append(", rfsName=");
-        result.append(m_rfsName);
-        if (m_resource != null) {
-            result.append(", structureId=");
-            result.append(m_resource.getStructureId());
-        }
-        result.append("]");
-        return result.toString();
-    }
-
-    /**
-     * Changes the 'is detail page' flag in this export data instance.<p>
-     *
-     * @param isDetailPage the new value for the flag
-     */
-    protected void setIsDetailPage(boolean isDetailPage) {
-
-        m_isDetailPage = isDetailPage;
-    }
-
-    /**
-     * Sets the parameters.<p>
-     *
-     * @param parameters the parameters to set
-     */
-    protected void setParameters(String parameters) {
-
-        m_parameters = parameters;
-    }
-
-    /**
-     * Sets the RFS name.<p>
-     *
-     * @param rfsName the RFS name to set
-     */
-    protected void setRfsName(String rfsName) {
-
-        m_rfsName = rfsName;
-    }
+    m_rfsName = rfsName;
+  }
 }

@@ -27,6 +27,15 @@
 
 package org.opencms.ui.dialogs;
 
+import com.google.common.collect.Lists;
+import com.vaadin.annotations.DesignRoot;
+import com.vaadin.ui.Button;
+import com.vaadin.v7.data.Property.ValueChangeEvent;
+import com.vaadin.v7.data.Property.ValueChangeListener;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.ArrayList;
 import org.opencms.ade.configuration.CmsADEConfigData;
 import org.opencms.ade.configuration.CmsResourceTypeConfig;
 import org.opencms.ade.galleries.shared.CmsResourceTypeBean;
@@ -42,164 +51,157 @@ import org.opencms.ui.util.CmsNewResourceBuilder.I_Callback;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-
-import com.google.common.collect.Lists;
-import com.vaadin.annotations.DesignRoot;
-import com.vaadin.v7.data.Property.ValueChangeEvent;
-import com.vaadin.v7.data.Property.ValueChangeListener;
-import com.vaadin.ui.Button;
-import com.vaadin.v7.ui.CheckBox;
-import com.vaadin.v7.ui.ComboBox;
-import com.vaadin.v7.ui.VerticalLayout;
-
 /**
- * Dialog for creating new resources.<p>
+ * Dialog for creating new resources.
+ *
+ * <p>
  */
 @DesignRoot
 public class CmsNewDialog extends A_CmsSelectResourceTypeDialog {
 
-    /** Element view selector. */
-    protected ComboBox m_viewSelector;
+  /** Element view selector. */
+  protected ComboBox m_viewSelector;
 
-    /** Container for the type list. */
-    protected VerticalLayout m_typeContainer;
+  /** Container for the type list. */
+  protected VerticalLayout m_typeContainer;
 
-    /** Check box for enabling / disabling default creation folders. */
-    protected CheckBox m_defaultLocationCheckbox;
+  /** Check box for enabling / disabling default creation folders. */
+  protected CheckBox m_defaultLocationCheckbox;
 
-    /** The cancel button. */
-    protected Button m_cancelButton;
+  /** The cancel button. */
+  protected Button m_cancelButton;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param folderResource the folder resource
-     * @param context the context
-     */
-    public CmsNewDialog(CmsResource folderResource, I_CmsDialogContext context) {
-        super(folderResource, context);
-        m_defaultLocationCheckbox.setValue(getInitialValueForUseDefaultLocationOption(folderResource));
-        m_defaultLocationCheckbox.addValueChangeListener(new ValueChangeListener() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param folderResource the folder resource
+   * @param context the context
+   */
+  public CmsNewDialog(CmsResource folderResource, I_CmsDialogContext context) {
+    super(folderResource, context);
+    m_defaultLocationCheckbox.setValue(getInitialValueForUseDefaultLocationOption(folderResource));
+    m_defaultLocationCheckbox.addValueChangeListener(
+        new ValueChangeListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void valueChange(ValueChangeEvent event) {
+          public void valueChange(ValueChangeEvent event) {
 
-                try {
-                    init(m_currentView, ((Boolean)event.getProperty().getValue()).booleanValue());
-                } catch (Exception e) {
-                    m_dialogContext.error(e);
-                }
-
+            try {
+              init(m_currentView, ((Boolean) event.getProperty().getValue()).booleanValue());
+            } catch (Exception e) {
+              m_dialogContext.error(e);
             }
+          }
         });
+  }
 
-    }
+  @Override
+  public Button getCancelButton() {
 
-    @Override
-    public Button getCancelButton() {
+    return m_cancelButton;
+  }
 
-        return m_cancelButton;
-    }
+  @Override
+  public VerticalLayout getVerticalLayout() {
 
-    @Override
-    public VerticalLayout getVerticalLayout() {
+    return m_typeContainer;
+  }
 
-        return m_typeContainer;
-    }
+  @Override
+  public ComboBox getViewSelector() {
 
-    @Override
-    public ComboBox getViewSelector() {
+    return m_viewSelector;
+  }
 
-        return m_viewSelector;
-    }
+  /**
+   * Handles selection of a type.
+   *
+   * <p>
+   *
+   * @param selectedType the selected type
+   */
+  @Override
+  public void handleSelection(final CmsResourceTypeBean selectedType) {
 
-    /**
-     * Handles selection of a type.<p>
-     *
-     * @param selectedType the selected type
-     */
-    @Override
-    public void handleSelection(final CmsResourceTypeBean selectedType) {
+    CmsObject cms = A_CmsUI.getCmsObject();
+    m_selectedType = selectedType;
+    try {
 
-        CmsObject cms = A_CmsUI.getCmsObject();
-        m_selectedType = selectedType;
-        try {
+      CmsNewResourceBuilder builder = new CmsNewResourceBuilder(cms);
+      builder.addCallback(
+          new I_Callback() {
 
-            CmsNewResourceBuilder builder = new CmsNewResourceBuilder(cms);
-            builder.addCallback(new I_Callback() {
+            public void onError(Exception e) {
 
-                public void onError(Exception e) {
-
-                    m_dialogContext.error(e);
-                }
-
-                public void onResourceCreated(CmsNewResourceBuilder builderParam) {
-
-                    finish(Lists.newArrayList(builderParam.getCreatedResource().getStructureId()));
-                }
-            });
-
-            m_selectedType = selectedType;
-
-            Boolean useDefaultLocation = m_defaultLocationCheckbox.getValue();
-            if (useDefaultLocation.booleanValue() && (m_selectedType.getCreatePath() != null)) {
-                try {
-                    CmsADEConfigData configData = OpenCms.getADEManager().lookupConfiguration(
-                        cms,
-                        m_folderResource.getRootPath());
-
-                    CmsResourceTypeConfig typeConfig = configData.getResourceType(m_selectedType.getType());
-                    if (typeConfig != null) {
-                        typeConfig.configureCreateNewElement(cms, m_folderResource.getRootPath(), builder);
-                    }
-                } catch (Exception e) {
-                    m_dialogContext.error(e);
-                }
-
-            } else {
-                boolean explorerNameGenerationMode = false;
-                String sitePath = cms.getRequestContext().removeSiteRoot(m_folderResource.getRootPath());
-                String namePattern = m_selectedType.getNamePattern();
-                if (CmsStringUtil.isEmptyOrWhitespaceOnly(namePattern)) {
-                    namePattern = OpenCms.getWorkplaceManager().getDefaultNamePattern(m_selectedType.getType());
-                    explorerNameGenerationMode = true;
-                }
-                String fileName = CmsStringUtil.joinPaths(sitePath, namePattern);
-                builder.setPatternPath(fileName);
-                builder.setType(m_selectedType.getType());
-                builder.setExplorerNameGeneration(explorerNameGenerationMode);
-
+              m_dialogContext.error(e);
             }
-            CmsPropertyDialogExtension ext = new CmsPropertyDialogExtension(A_CmsUI.get(), null);
-            CmsAppWorkplaceUi.get().disableGlobalShortcuts();
-            ext.editPropertiesForNewResource(builder);
-            finish(new ArrayList<CmsUUID>());
 
+            public void onResourceCreated(CmsNewResourceBuilder builderParam) {
+
+              finish(Lists.newArrayList(builderParam.getCreatedResource().getStructureId()));
+            }
+          });
+
+      m_selectedType = selectedType;
+
+      Boolean useDefaultLocation = m_defaultLocationCheckbox.getValue();
+      if (useDefaultLocation.booleanValue() && (m_selectedType.getCreatePath() != null)) {
+        try {
+          CmsADEConfigData configData =
+              OpenCms.getADEManager().lookupConfiguration(cms, m_folderResource.getRootPath());
+
+          CmsResourceTypeConfig typeConfig = configData.getResourceType(m_selectedType.getType());
+          if (typeConfig != null) {
+            typeConfig.configureCreateNewElement(cms, m_folderResource.getRootPath(), builder);
+          }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+          m_dialogContext.error(e);
         }
 
+      } else {
+        boolean explorerNameGenerationMode = false;
+        String sitePath = cms.getRequestContext().removeSiteRoot(m_folderResource.getRootPath());
+        String namePattern = m_selectedType.getNamePattern();
+        if (CmsStringUtil.isEmptyOrWhitespaceOnly(namePattern)) {
+          namePattern =
+              OpenCms.getWorkplaceManager().getDefaultNamePattern(m_selectedType.getType());
+          explorerNameGenerationMode = true;
+        }
+        String fileName = CmsStringUtil.joinPaths(sitePath, namePattern);
+        builder.setPatternPath(fileName);
+        builder.setType(m_selectedType.getType());
+        builder.setExplorerNameGeneration(explorerNameGenerationMode);
+      }
+      CmsPropertyDialogExtension ext = new CmsPropertyDialogExtension(A_CmsUI.get(), null);
+      CmsAppWorkplaceUi.get().disableGlobalShortcuts();
+      ext.editPropertiesForNewResource(builder);
+      finish(new ArrayList<CmsUUID>());
+
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    @Override
-    public boolean useDefault() {
+  @Override
+  public boolean useDefault() {
 
-        return m_defaultLocationCheckbox.getValue().booleanValue();
-    }
+    return m_defaultLocationCheckbox.getValue().booleanValue();
+  }
 
-    /**
-     * Gets the initial value for the 'default location' option.<p>
-     *
-     * @param folderResource the current folder
-     *
-     * @return the initial value for the option
-     */
-    private Boolean getInitialValueForUseDefaultLocationOption(CmsResource folderResource) {
+  /**
+   * Gets the initial value for the 'default location' option.
+   *
+   * <p>
+   *
+   * @param folderResource the current folder
+   * @return the initial value for the option
+   */
+  private Boolean getInitialValueForUseDefaultLocationOption(CmsResource folderResource) {
 
-        String rootPath = folderResource.getRootPath();
-        return Boolean.valueOf(OpenCms.getSiteManager().getSiteForRootPath(rootPath) != null);
-    }
-
+    String rootPath = folderResource.getRootPath();
+    return Boolean.valueOf(OpenCms.getSiteManager().getSiteForRootPath(rootPath) != null);
+  }
 }

@@ -27,102 +27,112 @@
 
 package org.opencms.ugc;
 
+import java.util.List;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.ugc.shared.CmsUgcConstants;
 import org.opencms.ugc.shared.CmsUgcException;
 
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Helper class which implements some of the security checks for user generated content creation.<p>
+ * Helper class which implements some of the security checks for user generated content creation.
+ *
+ * <p>
  */
 public class CmsUgcSessionSecurityUtil {
 
-    /** The log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsUgcSessionSecurityUtil.class);
+  /** The log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsUgcSessionSecurityUtil.class);
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    private CmsUgcSessionSecurityUtil() {
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  private CmsUgcSessionSecurityUtil() {
 
-        // empty
+    // empty
+  }
+
+  /**
+   * Checks whether a new XML content may be created and throws an exception if this is not the
+   * case.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param config the form configuration
+   * @throws CmsUgcException if something goes wrong
+   */
+  public static void checkCreateContent(CmsObject cms, CmsUgcConfiguration config)
+      throws CmsUgcException {
+
+    if (config.getMaxContentNumber().isPresent()) {
+      int maxContents = config.getMaxContentNumber().get().intValue();
+      String sitePath = cms.getSitePath(config.getContentParentFolder());
+      try {
+        if (cms.getFilesInFolder(sitePath).size() >= maxContents) {
+
+          String message =
+              Messages.get()
+                  .getBundle(cms.getRequestContext().getLocale())
+                  .key(Messages.ERR_TOO_MANY_CONTENTS_1, config.getContentParentFolder());
+          throw new CmsUgcException(CmsUgcConstants.ErrorCode.errMaxContentsExceeded, message);
+        }
+      } catch (CmsException e) {
+        LOG.error(e.getLocalizedMessage(), e);
+        throw new CmsUgcException(e);
+      }
+    }
+  }
+
+  /**
+   * Checks whether an uploaded file can be created in the VFS, and throws an exception otherwise.
+   *
+   * @param cms the current CMS context
+   * @param config the form configuration
+   * @param name the file name of the uploaded file
+   * @param size the size of the uploaded file
+   * @throws CmsUgcException if something goes wrong
+   */
+  public static void checkCreateUpload(
+      CmsObject cms, CmsUgcConfiguration config, String name, long size) throws CmsUgcException {
+
+    if (!config.getUploadParentFolder().isPresent()) {
+      String message =
+          Messages.get()
+              .container(Messages.ERR_NO_UPLOADS_ALLOWED_0)
+              .key(cms.getRequestContext().getLocale());
+      throw new CmsUgcException(CmsUgcConstants.ErrorCode.errNoUploadAllowed, message);
     }
 
-    /**
-     * Checks whether a new XML content may be created and throws an exception if this is not the case.<p>
-     *
-     * @param cms the current CMS context
-     * @param config the form configuration
-     *
-     *  @throws CmsUgcException if something goes wrong
-     */
-    public static void checkCreateContent(CmsObject cms, CmsUgcConfiguration config) throws CmsUgcException {
-
-        if (config.getMaxContentNumber().isPresent()) {
-            int maxContents = config.getMaxContentNumber().get().intValue();
-            String sitePath = cms.getSitePath(config.getContentParentFolder());
-            try {
-                if (cms.getFilesInFolder(sitePath).size() >= maxContents) {
-
-                    String message = Messages.get().getBundle(cms.getRequestContext().getLocale()).key(
-                        Messages.ERR_TOO_MANY_CONTENTS_1,
-                        config.getContentParentFolder());
-                    throw new CmsUgcException(CmsUgcConstants.ErrorCode.errMaxContentsExceeded, message);
-                }
-            } catch (CmsException e) {
-                LOG.error(e.getLocalizedMessage(), e);
-                throw new CmsUgcException(e);
-            }
-        }
+    if (config.getMaxUploadSize().isPresent()) {
+      if (config.getMaxUploadSize().get().longValue() < size) {
+        String message =
+            Messages.get()
+                .container(Messages.ERR_UPLOAD_TOO_BIG_1, name)
+                .key(cms.getRequestContext().getLocale());
+        throw new CmsUgcException(CmsUgcConstants.ErrorCode.errMaxUploadSizeExceeded, message);
+      }
     }
 
-    /**
-     * Checks whether an  uploaded file can be created in the VFS, and throws an exception otherwise.
-     *
-     * @param cms the current CMS context
-     * @param config the form configuration
-     * @param name the file name of the uploaded file
-     * @param size the size of the uploaded file
-     *
-     *  @throws CmsUgcException if something goes wrong
-     *
-     */
-    public static void checkCreateUpload(CmsObject cms, CmsUgcConfiguration config, String name, long size)
-    throws CmsUgcException {
-
-        if (!config.getUploadParentFolder().isPresent()) {
-            String message = Messages.get().container(Messages.ERR_NO_UPLOADS_ALLOWED_0).key(
-                cms.getRequestContext().getLocale());
-            throw new CmsUgcException(CmsUgcConstants.ErrorCode.errNoUploadAllowed, message);
+    if (config.getValidExtensions().isPresent()) {
+      List<String> validExtensions = config.getValidExtensions().get();
+      boolean foundExtension = false;
+      for (String extension : validExtensions) {
+        if (name.toLowerCase().endsWith(extension.toLowerCase())) {
+          foundExtension = true;
+          break;
         }
-
-        if (config.getMaxUploadSize().isPresent()) {
-            if (config.getMaxUploadSize().get().longValue() < size) {
-                String message = Messages.get().container(Messages.ERR_UPLOAD_TOO_BIG_1, name).key(
-                    cms.getRequestContext().getLocale());
-                throw new CmsUgcException(CmsUgcConstants.ErrorCode.errMaxUploadSizeExceeded, message);
-            }
-        }
-
-        if (config.getValidExtensions().isPresent()) {
-            List<String> validExtensions = config.getValidExtensions().get();
-            boolean foundExtension = false;
-            for (String extension : validExtensions) {
-                if (name.toLowerCase().endsWith(extension.toLowerCase())) {
-                    foundExtension = true;
-                    break;
-                }
-            }
-            if (!foundExtension) {
-                String message = Messages.get().container(Messages.ERR_UPLOAD_FILE_EXTENSION_NOT_ALLOWED_1, name).key(
-                    cms.getRequestContext().getLocale());
-                throw new CmsUgcException(CmsUgcConstants.ErrorCode.errInvalidExtension, message);
-            }
-        }
+      }
+      if (!foundExtension) {
+        String message =
+            Messages.get()
+                .container(Messages.ERR_UPLOAD_FILE_EXTENSION_NOT_ALLOWED_1, name)
+                .key(cms.getRequestContext().getLocale());
+        throw new CmsUgcException(CmsUgcConstants.ErrorCode.errInvalidExtension, message);
+      }
     }
+  }
 }

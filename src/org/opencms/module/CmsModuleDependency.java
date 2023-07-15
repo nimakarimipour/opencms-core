@@ -30,174 +30,179 @@ package org.opencms.module;
 import java.io.Serializable;
 
 /**
- * Describes an OpenCms module dependency.<p>
+ * Describes an OpenCms module dependency.
  *
- * Module dependencies are checked if a module is imported or deleted.
- * If a module A requires certain resources (like Java classes)
- * from another module B, a should be made dependend on B.<p>
-
+ * <p>Module dependencies are checked if a module is imported or deleted. If a module A requires
+ * certain resources (like Java classes) from another module B, a should be made dependend on B.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsModuleDependency implements Comparable<Object>, Serializable {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -464911120361037953L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -464911120361037953L;
 
-    /** The hash code of the module dependency. */
-    private int m_hashCode;
+  /** The hash code of the module dependency. */
+  private int m_hashCode;
 
-    /** The name of the module dependency. */
-    private String m_name;
+  /** The name of the module dependency. */
+  private String m_name;
 
-    /** The (minimum) version of the module dependency. */
-    private CmsModuleVersion m_version;
+  /** The (minimum) version of the module dependency. */
+  private CmsModuleVersion m_version;
 
-    /**
-     * Generates a new, empty module dependency.<p>
-     *
-     */
-    public CmsModuleDependency() {
+  /**
+   * Generates a new, empty module dependency.
+   *
+   * <p>
+   */
+  public CmsModuleDependency() {
 
-        super();
-        m_name = "";
-        m_version = new CmsModuleVersion("0");
+    super();
+    m_name = "";
+    m_version = new CmsModuleVersion("0");
 
-        // pre - calculate the hash code
-        m_hashCode = m_name.concat(m_version.toString()).hashCode();
+    // pre - calculate the hash code
+    m_hashCode = m_name.concat(m_version.toString()).hashCode();
+  }
+
+  /**
+   * Generates a new module dependency.
+   *
+   * <p>
+   *
+   * @param moduleName the name of the module dependency
+   * @param minVersion the minimum version of the dependency
+   */
+  public CmsModuleDependency(String moduleName, CmsModuleVersion minVersion) {
+
+    super();
+    m_name = moduleName;
+    m_version = minVersion;
+
+    // pre - calculate the hash code
+    m_hashCode = m_name.concat(m_version.toString()).hashCode();
+  }
+
+  /** @see java.lang.Object#clone() */
+  @Override
+  public Object clone() {
+
+    return new CmsModuleDependency(m_name, new CmsModuleVersion(m_version.getVersion()));
+  }
+
+  /** @see java.lang.Comparable#compareTo(java.lang.Object) */
+  public int compareTo(Object obj) {
+
+    if (obj == this) {
+      return 0;
     }
-
-    /**
-     * Generates a new module dependency.<p>
-     *
-     * @param moduleName the name of the module dependency
-     * @param minVersion the minimum version of the dependency
-     */
-    public CmsModuleDependency(String moduleName, CmsModuleVersion minVersion) {
-
-        super();
-        m_name = moduleName;
-        m_version = minVersion;
-
-        // pre - calculate the hash code
-        m_hashCode = m_name.concat(m_version.toString()).hashCode();
-    }
-
-    /**
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    public Object clone() {
-
-        return new CmsModuleDependency(m_name, new CmsModuleVersion(m_version.getVersion()));
-    }
-
-    /**
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    public int compareTo(Object obj) {
-
-        if (obj == this) {
-            return 0;
-        }
-        if (obj instanceof CmsModuleDependency) {
-            CmsModuleDependency other = (CmsModuleDependency)obj;
-            if (!m_name.equals(other.m_name)) {
-                // not same name means no dependency
-                return 0;
-            }
-            // same name: result depends on version numbers
-            return m_version.compareTo(other.m_version);
-        }
+    if (obj instanceof CmsModuleDependency) {
+      CmsModuleDependency other = (CmsModuleDependency) obj;
+      if (!m_name.equals(other.m_name)) {
+        // not same name means no dependency
         return 0;
+      }
+      // same name: result depends on version numbers
+      return m_version.compareTo(other.m_version);
+    }
+    return 0;
+  }
+
+  /**
+   * Checks if this module depedency depends on another given module dependency.
+   *
+   * <p>
+   *
+   * @param other the other dependency to check against
+   * @return true if this module depedency depends on the given module dependency
+   */
+  public boolean dependesOn(CmsModuleDependency other) {
+
+    if (!m_name.equals(other.m_name)) {
+      // not same name means no dependency
+      return false;
     }
 
-    /**
-     * Checks if this module depedency depends on another given module dependency.<p>
-     *
-     * @param other the other dependency to check against
-     * @return true if this module depedency depends on the given module dependency
-     */
-    public boolean dependesOn(CmsModuleDependency other) {
+    // same name: result depends on version numbers
+    return (m_version.compareTo(other.m_version) <= 0);
+  }
 
-        if (!m_name.equals(other.m_name)) {
-            // not same name means no dependency
-            return false;
-        }
+  /** @see java.lang.Object#equals(java.lang.Object) */
+  @Override
+  public boolean equals(Object obj) {
 
-        // same name: result depends on version numbers
-        return (m_version.compareTo(other.m_version) <= 0);
+    if (obj == this) {
+      return true;
     }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-
-        if (obj == this) {
-            return true;
-        }
-        if (obj instanceof CmsModuleDependency) {
-            CmsModuleDependency other = (CmsModuleDependency)obj;
-            return m_name.equals(other.m_name) && m_version.equals(other.m_version);
-        }
-        return false;
+    if (obj instanceof CmsModuleDependency) {
+      CmsModuleDependency other = (CmsModuleDependency) obj;
+      return m_name.equals(other.m_name) && m_version.equals(other.m_version);
     }
+    return false;
+  }
 
-    /**
-     * Returns the name of the module dependency.<p>
-     *
-     * @return the name of the module dependency
-     */
-    public String getName() {
+  /**
+   * Returns the name of the module dependency.
+   *
+   * <p>
+   *
+   * @return the name of the module dependency
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the minimum version of the dependency.<p>
-     *
-     * @return the minimum version of the dependency
-     */
-    public CmsModuleVersion getVersion() {
+  /**
+   * Returns the minimum version of the dependency.
+   *
+   * <p>
+   *
+   * @return the minimum version of the dependency
+   */
+  public CmsModuleVersion getVersion() {
 
-        return m_version;
-    }
+    return m_version;
+  }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
+  /** @see java.lang.Object#hashCode() */
+  @Override
+  public int hashCode() {
 
-        return m_hashCode;
-    }
+    return m_hashCode;
+  }
 
-    /** Sets the name of a module dependency.<p>
-     *
-     * @param value the name of a module dependency
-     */
-    public void setName(String value) {
+  /**
+   * Sets the name of a module dependency.
+   *
+   * <p>
+   *
+   * @param value the name of a module dependency
+   */
+  public void setName(String value) {
 
-        m_name = value;
-    }
+    m_name = value;
+  }
 
-    /** Sets the version of a module dependency.<p>
-     *
-     * @param value the version of a module dependency
-     */
-    public void setVersion(CmsModuleVersion value) {
+  /**
+   * Sets the version of a module dependency.
+   *
+   * <p>
+   *
+   * @param value the version of a module dependency
+   */
+  public void setVersion(CmsModuleVersion value) {
 
-        m_version = value;
-    }
+    m_version = value;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return "[" + getClass().getName() + ", name: " + m_name + ", version: " + m_version + "]";
-    }
+    return "[" + getClass().getName() + ", name: " + m_name + ", version: " + m_version + "]";
+  }
 }

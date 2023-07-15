@@ -31,40 +31,40 @@ import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.util.CmsUUID;
 
 /**
- * Context menu entry for deleting a category.<p>
+ * Context menu entry for deleting a category.
+ *
+ * <p>
  */
 public class CmsDeleteCategoryMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsDeleteCategoryMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsDeleteCategoryMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_DELETE_0));
-        setActive(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_DELETE_0));
+    setActive(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-        CmsUUID id = getHoverbar().getId();
-        getHoverbar().getController().deleteCategory(id);
-    }
+    CmsUUID id = getHoverbar().getId();
+    getHoverbar().getController().deleteCategory(id);
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        CmsUUID id = getHoverbar().getId();
-        boolean visible = getHoverbar().getController().isEditable() && (id != null) && !id.isNullUUID();
-        setVisible(visible);
-    }
-
+    CmsUUID id = getHoverbar().getId();
+    boolean visible =
+        getHoverbar().getController().isEditable() && (id != null) && !id.isNullUUID();
+    setVisible(visible);
+  }
 }

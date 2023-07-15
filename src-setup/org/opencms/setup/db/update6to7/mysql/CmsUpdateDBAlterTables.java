@@ -27,39 +27,36 @@
 
 package org.opencms.setup.db.update6to7.mysql;
 
+import java.io.IOException;
 import org.opencms.file.CmsResource;
 
-import java.io.IOException;
-
 /**
- * This class makes the remaining changes to some tables in order to update them.<p>
+ * This class makes the remaining changes to some tables in order to update them.
  *
- * The following tables will be altered
+ * <p>The following tables will be altered
  *
- * CMS_ONLINE/OFFLINE_PROPERTYDEF   Add the TYPE column
- * CMS_ONLINE/OFFLINE_RESOURCES     Add the columns DATE_CONTENT and RESOURCE_VERSION
- * CMS_ONLINE/OFFLINE_STRUCTURE     Add the column STRUCTURE_VERSION
- * CMS_PROJECTS                     Drop the column TASK_ID and change the size for the project name
+ * <p>CMS_ONLINE/OFFLINE_PROPERTYDEF Add the TYPE column CMS_ONLINE/OFFLINE_RESOURCES Add the
+ * columns DATE_CONTENT and RESOURCE_VERSION CMS_ONLINE/OFFLINE_STRUCTURE Add the column
+ * STRUCTURE_VERSION CMS_PROJECTS Drop the column TASK_ID and change the size for the project name
  */
 public class CmsUpdateDBAlterTables extends org.opencms.setup.db.update6to7.CmsUpdateDBAlterTables {
 
-    /**
-     * Default constructor.<p>
-     *
-     * @throws IOException if the default sql queries property file could not be read
-     */
-    public CmsUpdateDBAlterTables()
-    throws IOException {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the default sql queries property file could not be read
+   */
+  public CmsUpdateDBAlterTables() throws IOException {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation()
-     */
-    @Override
-    protected String getPropertyFileLocation() {
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation() */
+  @Override
+  protected String getPropertyFileLocation() {
 
-        return CmsResource.getParentFolder(super.getPropertyFileLocation());
-    }
+    return CmsResource.getParentFolder(super.getPropertyFileLocation());
+  }
 }

@@ -34,45 +34,45 @@ package org.opencms.gwt.shared;
  */
 public interface I_CmsUnlockData {
 
-    /**
-     * Gets the detail content id.
-     *
-     * @return the detail content id
-     */
-    String getDetailId();
+  /**
+   * Gets the detail content id.
+   *
+   * @return the detail content id
+   */
+  String getDetailId();
 
-    /**
-     * Gets the locale
-     *
-     * @return the locale
-     */
-    String getLocale();
+  /**
+   * Gets the locale
+   *
+   * @return the locale
+   */
+  String getLocale();
 
-    /**
-     * Gets the page id.
-     *
-     * @return the page id
-     */
-    String getPageId();
+  /**
+   * Gets the page id.
+   *
+   * @return the page id
+   */
+  String getPageId();
 
-    /**
-     * Sets the detail content id.
-     *
-     * @param detailId the detail content id
-     */
-    void setDetailId(String detailId);
+  /**
+   * Sets the detail content id.
+   *
+   * @param detailId the detail content id
+   */
+  void setDetailId(String detailId);
 
-    /**
-     * Sets the page locale.
-     *
-     * @param locale the locale
-     */
-    void setLocale(String locale);
+  /**
+   * Sets the page locale.
+   *
+   * @param locale the locale
+   */
+  void setLocale(String locale);
 
-    /**
-     * Sets the page structure id.
-     *
-     * @param pageId the page id
-     */
-    void setPageId(String pageId);
+  /**
+   * Sets the page structure id.
+   *
+   * @param pageId the page id
+   */
+  void setPageId(String pageId);
 }

@@ -27,6 +27,16 @@
 
 package org.opencms.ui.login;
 
+import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.event.ShortcutListener;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.JavaScript;
+import com.vaadin.ui.TextField;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.function.Consumer;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsUser;
 import org.opencms.main.CmsLog;
 import org.opencms.ui.CmsVaadinUtils;
@@ -37,111 +47,97 @@ import org.opencms.ui.components.CmsResourceInfo;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.function.Consumer;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.event.ShortcutListener;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.JavaScript;
-import com.vaadin.ui.TextField;
-
 /**
- * Dialog used to ask the user for a verification code generated from his second factor, using an authenticator app.
+ * Dialog used to ask the user for a verification code generated from his second factor, using an
+ * authenticator app.
  */
 public class CmsSecondFactorDialog extends CmsBasicDialog {
 
-    public static final String CLASS_VERIFICATION_CODE_FIELD = "o-verification-code-field";
+  public static final String CLASS_VERIFICATION_CODE_FIELD = "o-verification-code-field";
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsSecondFactorDialog.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsSecondFactorDialog.class);
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The OK button. */
-    private Button m_okButton;
+  /** The OK button. */
+  private Button m_okButton;
 
-    /** The field for entering the code. */
-    private TextField m_verification;
+  /** The field for entering the code. */
+  private TextField m_verification;
 
-    /** The handler to which to pass the code entered by the user. */
-    private Consumer<String> m_verificationCodeHandler;
+  /** The handler to which to pass the code entered by the user. */
+  private Consumer<String> m_verificationCodeHandler;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param user the user who should be asked for the second factor
-     * @param verificationCodeHandler the handler to which to pass the code entered by the user
-     */
-    public CmsSecondFactorDialog(CmsUser user, Consumer<String> verificationCodeHandler) {
+  /**
+   * Creates a new instance.
+   *
+   * @param user the user who should be asked for the second factor
+   * @param verificationCodeHandler the handler to which to pass the code entered by the user
+   */
+  public CmsSecondFactorDialog(CmsUser user, Consumer<String> verificationCodeHandler) {
 
-        CmsResourceInfo userInfo = CmsAccountsApp.getPrincipalInfo(user);
-        userInfo.setTopLineText(user.getFullName());
-        displayResourceInfoDirectly(Collections.singletonList(userInfo));
+    CmsResourceInfo userInfo = CmsAccountsApp.getPrincipalInfo(user);
+    userInfo.setTopLineText(user.getFullName());
+    displayResourceInfoDirectly(Collections.singletonList(userInfo));
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), new HashMap<>());
-        m_verificationCodeHandler = verificationCodeHandler;
-        m_okButton.addClickListener(event -> submit());
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), new HashMap<>());
+    m_verificationCodeHandler = verificationCodeHandler;
+    m_okButton.addClickListener(event -> submit());
 
-        m_verification.addShortcutListener(new ShortcutListener(null, KeyCode.ENTER, null) {
+    m_verification.addShortcutListener(
+        new ShortcutListener(null, KeyCode.ENTER, null) {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            @Override
-            public void handleAction(Object sender, Object target) {
+          @Override
+          public void handleAction(Object sender, Object target) {
 
-                submit();
-            }
+            submit();
+          }
         });
-        m_verification.addStyleName(CLASS_VERIFICATION_CODE_FIELD);
-        addAttachListener(event -> {
-            m_verification.focus();
-            initVerificationField();
+    m_verification.addStyleName(CLASS_VERIFICATION_CODE_FIELD);
+    addAttachListener(
+        event -> {
+          m_verification.focus();
+          initVerificationField();
         });
+  }
+
+  /**
+   * Gets the caption to use for the dialog window.
+   *
+   * @param user the user for whom 2FA should be used
+   * @return the dialog caption
+   */
+  public static String getCaption(CmsUser user) {
+
+    return CmsVaadinUtils.getMessageText(Messages.GUI_LOGIN_2FA_VERIFICATION_0);
+  }
+
+  /** Executes Javascript code that sets additional attributes on the verification code field. */
+  public static void initVerificationField() {
+
+    try {
+      byte[] jsSnippetBytes =
+          CmsFileUtil.readFully(
+              CmsSecondFactorDialog.class.getResourceAsStream("init-verification-field.js"), true);
+      String jsSnippet = new String(jsSnippetBytes, StandardCharsets.UTF_8);
+      JavaScript.getCurrent().execute(jsSnippet);
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage(), e);
     }
+  }
 
-    /**
-     * Gets the caption to use for the dialog window.
-     *
-     * @param user the user for whom 2FA should be used
-     *
-     * @return the dialog caption
-     */
-    public static String getCaption(CmsUser user) {
+  /** Executed when the user clicks the OK button or presses Enter. */
+  protected void submit() {
 
-        return CmsVaadinUtils.getMessageText(Messages.GUI_LOGIN_2FA_VERIFICATION_0);
+    String otp = m_verification.getValue().trim();
+    if (!CmsStringUtil.isEmptyOrWhitespaceOnly(otp)) {
+      CmsVaadinUtils.getWindow(this).close();
+      m_verificationCodeHandler.accept(otp);
     }
-
-    /**
-     * Executes Javascript code that sets additional attributes on the verification code field.
-     */
-    public static void initVerificationField() {
-
-        try {
-            byte[] jsSnippetBytes = CmsFileUtil.readFully(
-                CmsSecondFactorDialog.class.getResourceAsStream("init-verification-field.js"),
-                true);
-            String jsSnippet = new String(jsSnippetBytes, StandardCharsets.UTF_8);
-            JavaScript.getCurrent().execute(jsSnippet);
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
-        }
-    }
-
-    /**
-     * Executed when the user clicks the OK button or presses Enter.
-     */
-    protected void submit() {
-
-        String otp = m_verification.getValue().trim();
-        if (!CmsStringUtil.isEmptyOrWhitespaceOnly(otp)) {
-            CmsVaadinUtils.getWindow(this).close();
-            m_verificationCodeHandler.accept(otp);
-        }
-    }
+  }
 }

@@ -27,101 +27,100 @@
 
 package org.opencms.configuration;
 
+import org.apache.commons.digester3.Digester;
+import org.dom4j.Element;
 import org.opencms.main.CmsLog;
 
-import org.apache.commons.digester3.Digester;
-
-import org.dom4j.Element;
-
 /**
- * Dummy class for configuration testing.<p>
+ * Dummy class for configuration testing.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsTestConfiguration extends A_CmsXmlConfiguration {
 
-    /** The name of the DTD for this configuration. */
-    private static final String CONFIGURATION_DTD_NAME = "opencms-tests.dtd";
+  /** The name of the DTD for this configuration. */
+  private static final String CONFIGURATION_DTD_NAME = "opencms-tests.dtd";
 
-    /** The name of the default XML file for this configuration. */
-    private static final String DEFAULT_XML_FILE_NAME = "opencms-tests.xml";
+  /** The name of the default XML file for this configuration. */
+  private static final String DEFAULT_XML_FILE_NAME = "opencms-tests.xml";
 
-    /** Test content 1. */
-    private String m_content1;
+  /** Test content 1. */
+  private String m_content1;
 
-    /** Test content 2. */
-    private String m_content2;
+  /** Test content 2. */
+  private String m_content2;
 
-    /**
-     * The public contructor is hidden to prevent generation of instances of this class.<p>
-     */
-    public CmsTestConfiguration() {
+  /**
+   * The public contructor is hidden to prevent generation of instances of this class.
+   *
+   * <p>
+   */
+  public CmsTestConfiguration() {
 
-        setXmlFileName(DEFAULT_XML_FILE_NAME);
-        if (CmsLog.getLog(this).isDebugEnabled()) {
-            CmsLog.getLog(this).debug("Empty constructor called on " + this);
-        }
+    setXmlFileName(DEFAULT_XML_FILE_NAME);
+    if (CmsLog.getLog(this).isDebugEnabled()) {
+      CmsLog.getLog(this).debug("Empty constructor called on " + this);
     }
+  }
 
-    /**
-     * Test method to add a value.<p>
-     *
-     * @param name the name of the test
-     * @param value the value of the test
-     */
-    public void addTest(String name, String value) {
+  /**
+   * Test method to add a value.
+   *
+   * <p>
+   *
+   * @param name the name of the test
+   * @param value the value of the test
+   */
+  public void addTest(String name, String value) {
 
-        if ("test1".equals(name)) {
-            m_content1 = value;
-        }
-        if ("test2".equals(name)) {
-            m_content2 = value;
-        }
+    if ("test1".equals(name)) {
+      m_content1 = value;
     }
-
-    /**
-     * @see org.opencms.configuration.I_CmsXmlConfiguration#addXmlDigesterRules(org.apache.commons.digester3.Digester)
-     */
-    public void addXmlDigesterRules(Digester digester) {
-
-        // add test rules
-        digester.addCallMethod("*/tests/test", "addTest", 2);
-        digester.addCallParam("*/tests/test", 0, A_NAME);
-        digester.addCallParam("*/tests/test", 1);
+    if ("test2".equals(name)) {
+      m_content2 = value;
     }
+  }
 
-    /**
-     * @see org.opencms.configuration.I_CmsXmlConfiguration#generateXml(org.dom4j.Element)
-     */
-    public Element generateXml(Element parent) {
+  /**
+   * @see
+   *     org.opencms.configuration.I_CmsXmlConfiguration#addXmlDigesterRules(org.apache.commons.digester3.Digester)
+   */
+  public void addXmlDigesterRules(Digester digester) {
 
-        Element testElement = parent.addElement("tests");
-        if (m_content1 != null) {
-            testElement.addElement("test").addAttribute(A_NAME, "test1").addText(m_content1);
-        }
-        if (m_content2 != null) {
-            testElement.addElement("test").addAttribute(A_NAME, "test2").addText(m_content2);
-        }
-        return testElement;
+    // add test rules
+    digester.addCallMethod("*/tests/test", "addTest", 2);
+    digester.addCallParam("*/tests/test", 0, A_NAME);
+    digester.addCallParam("*/tests/test", 1);
+  }
+
+  /** @see org.opencms.configuration.I_CmsXmlConfiguration#generateXml(org.dom4j.Element) */
+  public Element generateXml(Element parent) {
+
+    Element testElement = parent.addElement("tests");
+    if (m_content1 != null) {
+      testElement.addElement("test").addAttribute(A_NAME, "test1").addText(m_content1);
     }
-
-    /**
-     * @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdFilename()
-     */
-    public String getDtdFilename() {
-
-        return CONFIGURATION_DTD_NAME;
+    if (m_content2 != null) {
+      testElement.addElement("test").addAttribute(A_NAME, "test2").addText(m_content2);
     }
+    return testElement;
+  }
 
-    /**
-     * @see org.opencms.configuration.A_CmsXmlConfiguration#initMembers()
-     */
-    @Override
-    protected void initMembers() {
+  /** @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdFilename() */
+  public String getDtdFilename() {
 
-        setXmlFileName(DEFAULT_XML_FILE_NAME);
-        if (CmsLog.getLog(this).isDebugEnabled()) {
-            CmsLog.getLog(this).debug("Empty constructor called on " + this);
-        }
+    return CONFIGURATION_DTD_NAME;
+  }
+
+  /** @see org.opencms.configuration.A_CmsXmlConfiguration#initMembers() */
+  @Override
+  protected void initMembers() {
+
+    setXmlFileName(DEFAULT_XML_FILE_NAME);
+    if (CmsLog.getLog(this).isDebugEnabled()) {
+      CmsLog.getLog(this).debug("Empty constructor called on " + this);
     }
+  }
 }

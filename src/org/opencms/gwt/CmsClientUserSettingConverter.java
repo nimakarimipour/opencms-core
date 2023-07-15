@@ -27,6 +27,11 @@
 
 package org.opencms.gwt;
 
+import java.util.Locale;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
 import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.configuration.preferences.I_CmsPreference;
 import org.opencms.file.CmsObject;
@@ -41,156 +46,156 @@ import org.opencms.workplace.CmsWorkplace;
 import org.opencms.xml.content.CmsXmlContentProperty;
 import org.opencms.xml.content.CmsXmlContentPropertyHelper;
 
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Helper class to deal with loading and saving user preferences from the ADE user interface.<p>
+ * Helper class to deal with loading and saving user preferences from the ADE user interface.
+ *
+ * <p>
  */
 public class CmsClientUserSettingConverter {
 
-    /**
-     * Subclass of the normal action element which can be created even if we are not being called from a JSP.<p>
-     */
-    class NoJspActionElement extends CmsJspActionElement {
+  /**
+   * Subclass of the normal action element which can be created even if we are not being called from
+   * a JSP.
+   *
+   * <p>
+   */
+  class NoJspActionElement extends CmsJspActionElement {
 
-        /** The CMS object to use. */
-        private CmsObject m_setCms;
-
-        /**
-         * Creates a new instance.<p>
-         *
-         * @param cms the CMS context to use
-         * @param req the current request
-         * @param res the current response
-         */
-        public NoJspActionElement(CmsObject cms, HttpServletRequest req, HttpServletResponse res) {
-
-            super(null, req, res);
-            m_setCms = cms;
-
-        }
-
-        /**
-         * @see org.opencms.jsp.CmsJspBean#getCmsObject()
-         */
-        @Override
-        public CmsObject getCmsObject() {
-
-            return m_setCms;
-        }
-
-        /**
-         * @see org.opencms.jsp.CmsJspBean#handleMissingFlexController()
-         */
-        @Override
-        protected void handleMissingFlexController() {
-
-            // ignore
-        }
-
-    }
-
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsClientUserSettingConverter.class);
-
-    /** The CMS context to use. */
-    private CmsObject m_cms;
-
-    /** The current preferences. */
-    private CmsDefaultUserSettings m_currentPreferences;
-
-    /** The macro resolver used for macros in preference property definitions. */
-    private CmsMacroResolver m_macroResolver = new CmsMacroResolver();
-
-    /** The current request. */
-    private HttpServletRequest m_request;
+    /** The CMS object to use. */
+    private CmsObject m_setCms;
 
     /**
-     * Creates a new instance.<p>
+     * Creates a new instance.
      *
-     * @param cms the current CMS context
-     * @param request the current request
-     * @param response the current response
+     * <p>
+     *
+     * @param cms the CMS context to use
+     * @param req the current request
+     * @param res the current response
      */
-    public CmsClientUserSettingConverter(CmsObject cms, HttpServletRequest request, HttpServletResponse response) {
+    public NoJspActionElement(CmsObject cms, HttpServletRequest req, HttpServletResponse res) {
 
-        m_cms = cms;
-        m_request = request;
-        m_currentPreferences = new CmsDefaultUserSettings();
-        m_currentPreferences.init(cms.getRequestContext().getCurrentUser());
-        Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
-        CmsMultiMessages messages = new CmsMultiMessages(locale);
-        messages.addMessages(OpenCms.getWorkplaceManager().getMessages(locale));
-        messages.addMessages(org.opencms.workplace.commons.Messages.get().getBundle(locale));
-        m_macroResolver.setMessages(messages);
-
+      super(null, req, res);
+      m_setCms = cms;
     }
 
-    /**
-     * Loads the current user's preferences into a CmsUserSettingsBean.<p>
-     *
-     * @return the bean representing the current user's preferences
-     */
-    public CmsUserSettingsBean loadSettings() {
+    /** @see org.opencms.jsp.CmsJspBean#getCmsObject() */
+    @Override
+    public CmsObject getCmsObject() {
 
-        CmsUserSettingsBean result = new CmsUserSettingsBean();
-        CmsDefaultUserSettings currentSettings = new CmsDefaultUserSettings();
-        currentSettings.init(m_currentPreferences.getUser());
-        for (I_CmsPreference pref : OpenCms.getWorkplaceManager().getDefaultUserSettings().getPreferences().values()) {
-            String tab = pref.getTab();
-            if (CmsGwtConstants.TAB_HIDDEN.equals(tab) || pref.isDisabled(m_cms)) {
-                continue;
-            }
-            CmsXmlContentProperty prop2 = pref.getPropertyDefinition(m_cms);
-            String value = pref.getValue(currentSettings);
-            CmsXmlContentProperty resolvedProp = CmsXmlContentPropertyHelper.resolveMacrosInProperty(
-                prop2.withDefaultWidget("string"),
-                m_macroResolver);
-            result.addSetting(value, resolvedProp, CmsGwtConstants.TAB_BASIC.equals(tab));
-        }
-        return result;
+      return m_setCms;
     }
 
-    /**
-     * Saves the given user preference values.<p>
-     *
-     * @param settings the user preference values to save
-     *
-     * @throws Exception if something goes wrong
-     */
-    public void saveSettings(Map<String, String> settings) throws Exception {
+    /** @see org.opencms.jsp.CmsJspBean#handleMissingFlexController() */
+    @Override
+    protected void handleMissingFlexController() {
 
-        for (Map.Entry<String, String> entry : settings.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            saveSetting(key, value);
-        }
-        m_currentPreferences.save(m_cms);
-        CmsWorkplace.updateUserPreferences(m_cms, m_request);
+      // ignore
     }
+  }
 
-    /**
-     * Saves an individual user preference value.<p>
-     *
-     * @param key the key of the user preference
-     * @param value the value of the user preference
-     *
-     * @throws Exception if something goes wrong
-     */
-    private void saveSetting(String key, String value) throws Exception {
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsClientUserSettingConverter.class);
 
-        Map<String, I_CmsPreference> prefs = OpenCms.getWorkplaceManager().getDefaultUserSettings().getPreferences();
-        if (prefs.containsKey(key)) {
-            prefs.get(key).setValue(m_currentPreferences, value);
-        } else {
-            LOG.error("Can't save user setting '" + key + "'");
-        }
+  /** The CMS context to use. */
+  private CmsObject m_cms;
+
+  /** The current preferences. */
+  private CmsDefaultUserSettings m_currentPreferences;
+
+  /** The macro resolver used for macros in preference property definitions. */
+  private CmsMacroResolver m_macroResolver = new CmsMacroResolver();
+
+  /** The current request. */
+  private HttpServletRequest m_request;
+
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param request the current request
+   * @param response the current response
+   */
+  public CmsClientUserSettingConverter(
+      CmsObject cms, HttpServletRequest request, HttpServletResponse response) {
+
+    m_cms = cms;
+    m_request = request;
+    m_currentPreferences = new CmsDefaultUserSettings();
+    m_currentPreferences.init(cms.getRequestContext().getCurrentUser());
+    Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
+    CmsMultiMessages messages = new CmsMultiMessages(locale);
+    messages.addMessages(OpenCms.getWorkplaceManager().getMessages(locale));
+    messages.addMessages(org.opencms.workplace.commons.Messages.get().getBundle(locale));
+    m_macroResolver.setMessages(messages);
+  }
+
+  /**
+   * Loads the current user's preferences into a CmsUserSettingsBean.
+   *
+   * <p>
+   *
+   * @return the bean representing the current user's preferences
+   */
+  public CmsUserSettingsBean loadSettings() {
+
+    CmsUserSettingsBean result = new CmsUserSettingsBean();
+    CmsDefaultUserSettings currentSettings = new CmsDefaultUserSettings();
+    currentSettings.init(m_currentPreferences.getUser());
+    for (I_CmsPreference pref :
+        OpenCms.getWorkplaceManager().getDefaultUserSettings().getPreferences().values()) {
+      String tab = pref.getTab();
+      if (CmsGwtConstants.TAB_HIDDEN.equals(tab) || pref.isDisabled(m_cms)) {
+        continue;
+      }
+      CmsXmlContentProperty prop2 = pref.getPropertyDefinition(m_cms);
+      String value = pref.getValue(currentSettings);
+      CmsXmlContentProperty resolvedProp =
+          CmsXmlContentPropertyHelper.resolveMacrosInProperty(
+              prop2.withDefaultWidget("string"), m_macroResolver);
+      result.addSetting(value, resolvedProp, CmsGwtConstants.TAB_BASIC.equals(tab));
     }
+    return result;
+  }
 
+  /**
+   * Saves the given user preference values.
+   *
+   * <p>
+   *
+   * @param settings the user preference values to save
+   * @throws Exception if something goes wrong
+   */
+  public void saveSettings(Map<String, String> settings) throws Exception {
+
+    for (Map.Entry<String, String> entry : settings.entrySet()) {
+      String key = entry.getKey();
+      String value = entry.getValue();
+      saveSetting(key, value);
+    }
+    m_currentPreferences.save(m_cms);
+    CmsWorkplace.updateUserPreferences(m_cms, m_request);
+  }
+
+  /**
+   * Saves an individual user preference value.
+   *
+   * <p>
+   *
+   * @param key the key of the user preference
+   * @param value the value of the user preference
+   * @throws Exception if something goes wrong
+   */
+  private void saveSetting(String key, String value) throws Exception {
+
+    Map<String, I_CmsPreference> prefs =
+        OpenCms.getWorkplaceManager().getDefaultUserSettings().getPreferences();
+    if (prefs.containsKey(key)) {
+      prefs.get(key).setValue(m_currentPreferences, value);
+    } else {
+      LOG.error("Can't save user setting '" + key + "'");
+    }
+  }
 }

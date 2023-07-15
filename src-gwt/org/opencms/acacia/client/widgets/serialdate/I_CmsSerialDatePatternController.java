@@ -30,9 +30,10 @@ package org.opencms.acacia.client.widgets.serialdate;
 /** Interface for serial date pattern controllers. */
 public interface I_CmsSerialDatePatternController {
 
-    /**
-     * Returns the view that is controlled.
-     * @return the controlled view.
-     */
-    I_CmsSerialDatePatternView getView();
+  /**
+   * Returns the view that is controlled.
+   *
+   * @return the controlled view.
+   */
+  I_CmsSerialDatePatternView getView();
 }

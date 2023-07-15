@@ -31,21 +31,18 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
-/**
- * Provides access to the window-global variable 'embeddedDialogFrameInstance'.
- */
+/** Provides access to the window-global variable 'embeddedDialogFrameInstance'. */
 @JsType(name = "Window", namespace = JsPackage.GLOBAL, isNative = true)
 public class CmsEmbeddedDialogFrameWrapper {
 
-    /** The parent window. */
-    @JsProperty(namespace = JsPackage.GLOBAL)
-    public static CmsEmbeddedDialogFrameWrapper parent;
+  /** The parent window. */
+  @JsProperty(namespace = JsPackage.GLOBAL)
+  public static CmsEmbeddedDialogFrameWrapper parent;
 
-    /** The current window. */
-    @JsProperty(namespace = JsPackage.GLOBAL)
-    public static CmsEmbeddedDialogFrameWrapper window;
+  /** The current window. */
+  @JsProperty(namespace = JsPackage.GLOBAL)
+  public static CmsEmbeddedDialogFrameWrapper window;
 
-    /** The global variable used to hold the embedded dialog frame. */
-    public I_CmsEmbeddedDialogFrame embeddedDialogFrameInstance;
-
+  /** The global variable used to hold the embedded dialog frame. */
+  public I_CmsEmbeddedDialogFrame embeddedDialogFrameInstance;
 }

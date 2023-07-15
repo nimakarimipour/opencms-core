@@ -30,38 +30,44 @@ package org.opencms.gwt.client.util.impl;
 import com.google.gwt.dom.client.Element;
 
 /**
- * Helper class to retrieve the computed style of an element.<p>
+ * Helper class to retrieve the computed style of an element.
  *
- * This implementation is used for MSIE 9 browsers.<p>
+ * <p>This implementation is used for MSIE 9 browsers.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class DocumentStyleImplIE9 extends DocumentStyleImpl {
 
-    /**
-     * Transforms the CSS style name to the name of the javascript style property.<p>
-     *
-     * @param name the name of the CSS property
-     * @return the javascript property name
-     */
-    @Override
-    public String getPropertyName(String name) {
+  /**
+   * Transforms the CSS style name to the name of the javascript style property.
+   *
+   * <p>
+   *
+   * @param name the name of the CSS property
+   * @return the javascript property name
+   */
+  @Override
+  public String getPropertyName(String name) {
 
-        if ("float".equals(name)) {
-            return "styleFloat";
-        } else if ("class".equals(name)) {
-            return "className";
-        } else if ("for".equals(name)) {
-            return "htmlFor";
-        }
-        return name;
+    if ("float".equals(name)) {
+      return "styleFloat";
+    } else if ("class".equals(name)) {
+      return "className";
+    } else if ("for".equals(name)) {
+      return "htmlFor";
     }
+    return name;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.util.impl.DocumentStyleImpl#getComputedStyle(com.google.gwt.dom.client.Element, java.lang.String)
-     */
-    @Override
-    protected native String getComputedStyle(Element elem, String name) /*-{
+  /**
+   * @see
+   *     org.opencms.gwt.client.util.impl.DocumentStyleImpl#getComputedStyle(com.google.gwt.dom.client.Element,
+   *     java.lang.String)
+   */
+  @Override
+  protected native String getComputedStyle(Element elem, String name) /*-{
                                                                         function getComputed(elem, name) {
                                                                         var style = elem.style;
                                                                         var camelCase = name.replace(/\-(\w)/g, function(all, letter) {

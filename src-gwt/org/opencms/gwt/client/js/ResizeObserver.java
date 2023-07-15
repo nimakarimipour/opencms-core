@@ -32,53 +32,46 @@ import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsType;
 import jsinterop.base.JsPropertyMap;
 
-/**
- * JS interop class for native ResizeObserver.
- */
+/** JS interop class for native ResizeObserver. */
 @JsType(isNative = true, name = "ResizeObserver", namespace = "<window>")
 public class ResizeObserver {
 
-    /**
-     * JS Callback for resize observers.
-     */
-    @JsFunction
-    public interface Callback {
-
-        /**
-         * Called by the resize observer.
-         *
-         * @param entries the resize observer entries
-         */
-        void call(JsArray<JsPropertyMap<?>> entries);
-    }
+  /** JS Callback for resize observers. */
+  @JsFunction
+  public interface Callback {
 
     /**
-     * Creates a new instance.
+     * Called by the resize observer.
      *
-     * @param callback the callback to call when resizes happen
+     * @param entries the resize observer entries
      */
-    public ResizeObserver(Callback callback) {
+    void call(JsArray<JsPropertyMap<?>> entries);
+  }
 
-        super();
-    }
+  /**
+   * Creates a new instance.
+   *
+   * @param callback the callback to call when resizes happen
+   */
+  public ResizeObserver(Callback callback) {
 
-    /**
-     * Disconnects the resize observer.
-     */
-    public native void disconnect();
+    super();
+  }
 
-    /**
-     * Starts observation for an element.
-     *
-     * @param element the element to observer
-     */
-    public native void observe(elemental2.dom.Element element);
+  /** Disconnects the resize observer. */
+  public native void disconnect();
 
-    /**
-     * Stops observation for an element.
-     *
-     * @param element the element for which to stop observation
-     */
-    public native void unobserve(elemental2.dom.Element element);
+  /**
+   * Starts observation for an element.
+   *
+   * @param element the element to observer
+   */
+  public native void observe(elemental2.dom.Element element);
 
+  /**
+   * Stops observation for an element.
+   *
+   * @param element the element for which to stop observation
+   */
+  public native void unobserve(elemental2.dom.Element element);
 }

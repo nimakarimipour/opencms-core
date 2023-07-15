@@ -27,6 +27,10 @@
 
 package org.opencms.ugc;
 
+import java.util.concurrent.ConcurrentHashMap;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsFile;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
@@ -35,187 +39,191 @@ import org.opencms.ugc.shared.CmsUgcConstants;
 import org.opencms.ugc.shared.CmsUgcException;
 import org.opencms.util.CmsUUID;
 
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Factory to create the form editing sessions.<p>
+ * Factory to create the form editing sessions.
+ *
+ * <p>
  */
 public class CmsUgcSessionFactory {
 
-    /** The log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsUgcSessionFactory.class);
+  /** The log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsUgcSessionFactory.class);
 
-    /** The factory instance. */
-    private static CmsUgcSessionFactory INSTANCE;
+  /** The factory instance. */
+  private static CmsUgcSessionFactory INSTANCE;
 
-    /** Admin CmsObject instance. */
-    private static CmsObject m_adminCms;
+  /** Admin CmsObject instance. */
+  private static CmsObject m_adminCms;
 
-    /** The session queues. */
-    private ConcurrentHashMap<CmsUUID, CmsUgcSessionQueue> m_queues = new ConcurrentHashMap<CmsUUID, CmsUgcSessionQueue>();
+  /** The session queues. */
+  private ConcurrentHashMap<CmsUUID, CmsUgcSessionQueue> m_queues =
+      new ConcurrentHashMap<CmsUUID, CmsUgcSessionQueue>();
 
-    /**
-     * Constructor.<p>
-     */
-    private CmsUgcSessionFactory() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  private CmsUgcSessionFactory() {}
 
+  /**
+   * Returns the factory instance.
+   *
+   * <p>
+   *
+   * @return the factory instance
+   */
+  public static synchronized CmsUgcSessionFactory getInstance() {
+
+    if (INSTANCE == null) {
+      INSTANCE = new CmsUgcSessionFactory();
     }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the factory instance.<p>
-     *
-     * @return the factory instance
-     */
-    public static synchronized CmsUgcSessionFactory getInstance() {
+  /**
+   * Sets the admin CmsObject instance.
+   *
+   * @param adminCms the admin CmsObject
+   */
+  public static void setAdminCms(CmsObject adminCms) {
 
-        if (INSTANCE == null) {
-            INSTANCE = new CmsUgcSessionFactory();
-        }
-        return INSTANCE;
+    m_adminCms = adminCms;
+  }
+
+  /**
+   * Creates a new editing session.
+   *
+   * <p>
+   *
+   * @param cms the cms context
+   * @param request the request
+   * @param config the configuration
+   * @return the form session
+   * @throws CmsUgcException if creating the session fails
+   */
+  public CmsUgcSession createSession(
+      CmsObject cms, HttpServletRequest request, CmsUgcConfiguration config)
+      throws CmsUgcException {
+
+    CmsUgcSession session = createSession(cms, config);
+    HttpSession httpSession = request.getSession(true);
+    httpSession.setAttribute("" + session.getId(), session);
+    return session;
+  }
+
+  /**
+   * Creates a new editing session.
+   *
+   * <p>
+   *
+   * @param cms the cms context
+   * @param request the request
+   * @param sitePath the configuration site path
+   * @return the form session
+   * @throws CmsUgcException if creating the session fails
+   */
+  public CmsUgcSession createSession(CmsObject cms, HttpServletRequest request, String sitePath)
+      throws CmsUgcException {
+
+    CmsUgcConfigurationReader reader = new CmsUgcConfigurationReader(cms);
+    CmsUgcConfiguration config = null;
+    try {
+      CmsFile configFile = cms.readFile(sitePath);
+      config = reader.readConfiguration(configFile);
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      throw new CmsUgcException(
+          e, CmsUgcConstants.ErrorCode.errConfiguration, e.getLocalizedMessage());
     }
+    return createSession(cms, request, config);
+  }
 
-    /**
-     * Sets the admin CmsObject instance.
-     *
-     * @param adminCms the admin CmsObject
-     */
-    public static void setAdminCms(CmsObject adminCms) {
+  /**
+   * Creates a new session for a given file.
+   *
+   * <p>
+   *
+   * @param cms the CMS context to use
+   * @param request the current request
+   * @param configPath the path of the form configuration
+   * @param fileName the file name (*not* path) of the XML content for which the session should be
+   *     initialized
+   * @return the newly created session
+   * @throws CmsUgcException if something goes wrong
+   */
+  public CmsUgcSession createSessionForFile(
+      CmsObject cms, HttpServletRequest request, String configPath, String fileName)
+      throws CmsUgcException {
 
-        m_adminCms = adminCms;
+    CmsUgcSession session = createSession(cms, request, configPath);
+    session.loadXmlContent(fileName);
+
+    // when we open a session for existing files, we do not want them to get automatically deleted
+    session.disableCleanup();
+    return session;
+  }
+
+  /**
+   * Returns the session, if already initialized.
+   *
+   * <p>
+   *
+   * @param request the request
+   * @param sessionId the form session id
+   * @return the session
+   */
+  public CmsUgcSession getSession(HttpServletRequest request, CmsUUID sessionId) {
+
+    return (CmsUgcSession) request.getSession(true).getAttribute("" + sessionId);
+  }
+
+  /**
+   * Creates a new editing session.
+   *
+   * <p>
+   *
+   * @param cms the cms context
+   * @param config the configuration
+   * @return the form session
+   * @throws CmsUgcException if the session creation fails
+   */
+  private CmsUgcSession createSession(CmsObject cms, CmsUgcConfiguration config)
+      throws CmsUgcException {
+
+    if (getQueue(config).waitForSlot()) {
+      try {
+        return new CmsUgcSession(m_adminCms, cms, config);
+      } catch (CmsException e) {
+        LOG.error(e.getLocalizedMessage(), e);
+        throw new CmsUgcException(e);
+      }
+    } else {
+      String message =
+          Messages.get()
+              .container(Messages.ERR_WAIT_QUEUE_EXCEEDED_0)
+              .key(cms.getRequestContext().getLocale());
+      throw new CmsUgcException(CmsUgcConstants.ErrorCode.errMaxQueueLengthExceeded, message);
     }
+  }
 
-    /**
-     * Creates a new editing session.<p>
-     *
-     * @param cms the cms context
-     * @param request the request
-     * @param config the configuration
-     *
-     * @return the form session
-     *
-     * @throws CmsUgcException if creating the session fails
-     */
-    public CmsUgcSession createSession(CmsObject cms, HttpServletRequest request, CmsUgcConfiguration config)
-    throws CmsUgcException {
+  /**
+   * Returns the session queue.
+   *
+   * <p>
+   *
+   * @param config the form configuration
+   * @return the queue
+   */
+  private CmsUgcSessionQueue getQueue(CmsUgcConfiguration config) {
 
-        CmsUgcSession session = createSession(cms, config);
-        HttpSession httpSession = request.getSession(true);
-        httpSession.setAttribute("" + session.getId(), session);
-        return session;
+    CmsUgcSessionQueue queue = m_queues.get(config.getId());
+    if (queue == null) {
+      queue = CmsUgcSessionQueue.createQueue(config);
+      m_queues.put(config.getId(), queue);
+    } else {
+      queue.updateFromConfiguration(config);
     }
-
-    /**
-     * Creates a new editing session.<p>
-     *
-     * @param cms the cms context
-     * @param request the request
-     * @param sitePath the configuration site path
-     *
-     * @return the form session
-     *
-     * @throws CmsUgcException if creating the session fails
-     */
-    public CmsUgcSession createSession(CmsObject cms, HttpServletRequest request, String sitePath)
-    throws CmsUgcException {
-
-        CmsUgcConfigurationReader reader = new CmsUgcConfigurationReader(cms);
-        CmsUgcConfiguration config = null;
-        try {
-            CmsFile configFile = cms.readFile(sitePath);
-            config = reader.readConfiguration(configFile);
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            throw new CmsUgcException(e, CmsUgcConstants.ErrorCode.errConfiguration, e.getLocalizedMessage());
-        }
-        return createSession(cms, request, config);
-    }
-
-    /**
-     * Creates a new session for a given file.<p>
-     *
-     * @param cms the CMS context to use
-     * @param request the current request
-     * @param configPath the path of the form configuration
-     * @param fileName the file name (*not* path) of the XML content for which the session should be initialized
-     *
-     * @return the newly created session
-     * @throws CmsUgcException if something goes wrong
-     */
-    public CmsUgcSession createSessionForFile(
-        CmsObject cms,
-        HttpServletRequest request,
-        String configPath,
-        String fileName)
-    throws CmsUgcException {
-
-        CmsUgcSession session = createSession(cms, request, configPath);
-        session.loadXmlContent(fileName);
-
-        // when we open a session for existing files, we do not want them to get automatically deleted
-        session.disableCleanup();
-        return session;
-    }
-
-    /**
-     * Returns the session, if already initialized.<p>
-     *
-     * @param request the request
-     * @param sessionId the form session id
-     *
-     * @return the session
-     */
-    public CmsUgcSession getSession(HttpServletRequest request, CmsUUID sessionId) {
-
-        return (CmsUgcSession)request.getSession(true).getAttribute("" + sessionId);
-    }
-
-    /**
-     * Creates a new editing session.<p>
-     *
-     * @param cms the cms context
-     * @param config the configuration
-     *
-     * @return the form session
-     *
-     * @throws CmsUgcException if the session creation fails
-     */
-    private CmsUgcSession createSession(CmsObject cms, CmsUgcConfiguration config) throws CmsUgcException {
-
-        if (getQueue(config).waitForSlot()) {
-            try {
-                return new CmsUgcSession(m_adminCms, cms, config);
-            } catch (CmsException e) {
-                LOG.error(e.getLocalizedMessage(), e);
-                throw new CmsUgcException(e);
-            }
-        } else {
-            String message = Messages.get().container(Messages.ERR_WAIT_QUEUE_EXCEEDED_0).key(
-                cms.getRequestContext().getLocale());
-            throw new CmsUgcException(CmsUgcConstants.ErrorCode.errMaxQueueLengthExceeded, message);
-        }
-    }
-
-    /**
-     * Returns the session queue.<p>
-     *
-     * @param config the form configuration
-     *
-     * @return the queue
-     */
-    private CmsUgcSessionQueue getQueue(CmsUgcConfiguration config) {
-
-        CmsUgcSessionQueue queue = m_queues.get(config.getId());
-        if (queue == null) {
-            queue = CmsUgcSessionQueue.createQueue(config);
-            m_queues.put(config.getId(), queue);
-        } else {
-            queue.updateFromConfiguration(config);
-        }
-        return queue;
-    }
+    return queue;
+  }
 }

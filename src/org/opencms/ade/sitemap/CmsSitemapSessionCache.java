@@ -27,53 +27,60 @@
 
 package org.opencms.ade.sitemap;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.opencms.ade.sitemap.shared.CmsClientSitemapEntry;
 import org.opencms.file.CmsObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Sitemap session cache.<p>
+ * Sitemap session cache.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public final class CmsSitemapSessionCache {
 
-    /** The sitemap recent list. */
-    private List<CmsClientSitemapEntry> m_recentList;
+  /** The sitemap recent list. */
+  private List<CmsClientSitemapEntry> m_recentList;
 
-    /** Session attribute name constant. */
-    public static final String SESSION_ATTR_SITEMAP_CACHE = "__OCMS_SITEMAP_CACHE__";
+  /** Session attribute name constant. */
+  public static final String SESSION_ATTR_SITEMAP_CACHE = "__OCMS_SITEMAP_CACHE__";
 
-    /**
-     * Initializes the session cache.<p>
-     *
-     * @param cms the cms context
-     */
-    public CmsSitemapSessionCache(CmsObject cms) {
+  /**
+   * Initializes the session cache.
+   *
+   * <p>
+   *
+   * @param cms the cms context
+   */
+  public CmsSitemapSessionCache(CmsObject cms) {
 
-        // sitemap recent lists
-        m_recentList = new ArrayList<CmsClientSitemapEntry>();
-    }
+    // sitemap recent lists
+    m_recentList = new ArrayList<CmsClientSitemapEntry>();
+  }
 
-    /**
-     * Returns the cached recent list.<p>
-     *
-     * @return the cached recent list
-     */
-    public List<CmsClientSitemapEntry> getRecentList() {
+  /**
+   * Returns the cached recent list.
+   *
+   * <p>
+   *
+   * @return the cached recent list
+   */
+  public List<CmsClientSitemapEntry> getRecentList() {
 
-        return m_recentList;
-    }
+    return m_recentList;
+  }
 
-    /**
-     * Caches the given recent list.<p>
-     *
-     * @param list the recent list to cache
-     */
-    public void setRecentList(List<CmsClientSitemapEntry> list) {
+  /**
+   * Caches the given recent list.
+   *
+   * <p>
+   *
+   * @param list the recent list to cache
+   */
+  public void setRecentList(List<CmsClientSitemapEntry> list) {
 
-        m_recentList = list;
-    }
+    m_recentList = list;
+  }
 }

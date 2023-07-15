@@ -30,16 +30,22 @@ package org.opencms.jsp.search.controller;
 import org.opencms.jsp.search.config.I_CmsSearchConfigurationSorting;
 import org.opencms.jsp.search.state.I_CmsSearchStateSorting;
 
-/** Interface to get controllers state and configuration - version for common search configurations. */
+/**
+ * Interface to get controllers state and configuration - version for common search configurations.
+ */
 public interface I_CmsSearchControllerSorting extends I_CmsSearchController {
 
-    /** Returns the configuration.
-     * @return The configuration.
-     */
-    I_CmsSearchConfigurationSorting getConfig();
+  /**
+   * Returns the configuration.
+   *
+   * @return The configuration.
+   */
+  I_CmsSearchConfigurationSorting getConfig();
 
-    /** Returns the state.
-     * @return The state.
-     */
-    I_CmsSearchStateSorting getState();
+  /**
+   * Returns the state.
+   *
+   * @return The state.
+   */
+  I_CmsSearchStateSorting getState();
 }

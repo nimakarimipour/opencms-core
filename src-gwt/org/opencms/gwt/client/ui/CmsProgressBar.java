@@ -27,54 +27,59 @@
 
 package org.opencms.gwt.client.ui;
 
-import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
-
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
 
 /**
- * Provides a simple progress bar.<p>
+ * Provides a simple progress bar.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsProgressBar extends FlowPanel {
 
-    /** The widget for the completed part of the process. */
-    private FlowPanel m_complete = new FlowPanel();
+  /** The widget for the completed part of the process. */
+  private FlowPanel m_complete = new FlowPanel();
 
-    /** The div element for the percentage text. */
-    private HTML m_text = new HTML();
+  /** The div element for the percentage text. */
+  private HTML m_text = new HTML();
 
-    /**
-     * Creates a progress bar.<p>
-     *
-     * Initializes the progress bar with 0 percent.<p>
-     */
-    public CmsProgressBar() {
+  /**
+   * Creates a progress bar.
+   *
+   * <p>Initializes the progress bar with 0 percent.
+   *
+   * <p>
+   */
+  public CmsProgressBar() {
 
-        m_text.setStyleName(I_CmsLayoutBundle.INSTANCE.progressBarCss().meterText());
+    m_text.setStyleName(I_CmsLayoutBundle.INSTANCE.progressBarCss().meterText());
 
-        m_complete.setStyleName(I_CmsLayoutBundle.INSTANCE.progressBarCss().meterValue());
-        m_complete.addStyleName(I_CmsLayoutBundle.INSTANCE.progressBarCss().colorComplete());
-        m_complete.add(m_text);
+    m_complete.setStyleName(I_CmsLayoutBundle.INSTANCE.progressBarCss().meterValue());
+    m_complete.addStyleName(I_CmsLayoutBundle.INSTANCE.progressBarCss().colorComplete());
+    m_complete.add(m_text);
 
-        add(m_complete);
-        setStyleName(I_CmsLayoutBundle.INSTANCE.progressBarCss().meterWrap());
-        addStyleName(I_CmsLayoutBundle.INSTANCE.progressBarCss().colorIncomplete());
+    add(m_complete);
+    setStyleName(I_CmsLayoutBundle.INSTANCE.progressBarCss().meterWrap());
+    addStyleName(I_CmsLayoutBundle.INSTANCE.progressBarCss().colorIncomplete());
 
-        setValue(0);
+    setValue(0);
+  }
+
+  /**
+   * Sets the progress.
+   *
+   * <p>
+   *
+   * @param percent the percent to set
+   */
+  public void setValue(int percent) {
+
+    if (percent <= 100) {
+      m_text.setText(percent + "%");
+      m_complete.setWidth(percent + "%");
     }
-
-    /**
-     * Sets the progress.<p>
-     *
-     * @param percent the percent to set
-     */
-    public void setValue(int percent) {
-
-        if (percent <= 100) {
-            m_text.setText(percent + "%");
-            m_complete.setWidth(percent + "%");
-        }
-    }
+  }
 }

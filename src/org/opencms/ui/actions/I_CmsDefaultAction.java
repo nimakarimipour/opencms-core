@@ -30,17 +30,19 @@ package org.opencms.ui.actions;
 import org.opencms.ui.I_CmsDialogContext;
 
 /**
- * Marks workplace actions as an default action to be executed on item click within the file table.<p>
+ * Marks workplace actions as an default action to be executed on item click within the file table.
+ *
+ * <p>
  */
 public interface I_CmsDefaultAction extends I_CmsWorkplaceAction {
 
-    /**
-     * Returns the action rank, the highest ranked default action will be used.<p>
-     *
-     * @param context the dialog context
-     *
-     * @return the action rank
-     */
-    int getDefaultActionRank(I_CmsDialogContext context);
-
+  /**
+   * Returns the action rank, the highest ranked default action will be used.
+   *
+   * <p>
+   *
+   * @param context the dialog context
+   * @return the action rank
+   */
+  int getDefaultActionRank(I_CmsDialogContext context);
 }

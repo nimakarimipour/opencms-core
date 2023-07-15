@@ -27,64 +27,73 @@
 
 package org.opencms.file;
 
+import junit.framework.Test;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 
-import junit.framework.Test;
-
 /**
- * Unit tests for the counters.<p>
+ * Unit tests for the counters.
+ *
+ * <p>
  */
 public class TestCounters extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestCounters(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestCounters(String arg0) {
 
-        super(arg0);
+    super(arg0);
+  }
+
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
+
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    return generateSetupTestWrapper(TestCounters.class, "systemtest", "/");
+  }
+
+  /**
+   * Tests reading a single counter.
+   *
+   * <p>
+   *
+   * @throws Exception when an error occurs
+   */
+  public void testReadCounter() throws Exception {
+
+    CmsObject cms = getCmsObject();
+    for (int i = 0; i < 10; i++) {
+      int counter1 = cms.incrementCounter("type1");
+      assertEquals(i, counter1);
     }
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Tests reading two counters in interleaved order.
+   *
+   * <p>
+   *
+   * @throws Exception when an error occurs
+   */
+  public void testReadCountersInterleaved() throws Exception {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
-        return generateSetupTestWrapper(TestCounters.class, "systemtest", "/");
+    CmsObject cms = getCmsObject();
+    for (int i = 0; i < 10; i++) {
+      int counter2 = cms.incrementCounter("type2");
+      int counter3 = cms.incrementCounter("type3");
+      assertEquals(i, counter2);
+      assertEquals(i, counter3);
     }
-
-    /**
-     * Tests reading a single counter.<p>
-     *
-     * @throws Exception when an error occurs
-     */
-    public void testReadCounter() throws Exception {
-
-        CmsObject cms = getCmsObject();
-        for (int i = 0; i < 10; i++) {
-            int counter1 = cms.incrementCounter("type1");
-            assertEquals(i, counter1);
-        }
-    }
-
-    /**
-     * Tests reading two counters in interleaved order.<p>
-     *
-     * @throws Exception when an error occurs
-     */
-    public void testReadCountersInterleaved() throws Exception {
-
-        CmsObject cms = getCmsObject();
-        for (int i = 0; i < 10; i++) {
-            int counter2 = cms.incrementCounter("type2");
-            int counter3 = cms.incrementCounter("type3");
-            assertEquals(i, counter2);
-            assertEquals(i, counter3);
-        }
-    }
+  }
 }

@@ -27,127 +27,113 @@
 
 package org.opencms.ui.apps;
 
-import org.opencms.ui.CmsCssIcon;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import org.opencms.ui.CmsCssIcon;
 
 /**
- * Editor for the user quick launch configuration.<p>
+ * Editor for the user quick launch configuration.
+ *
+ * <p>
  */
 public class CmsQuickLaunchEditorConfiguration extends A_CmsWorkplaceAppConfiguration {
 
+  /**
+   * The quick launch editor app.
+   *
+   * <p>
+   */
+  protected static class QuickLaunchEditorApp extends A_CmsWorkplaceApp
+      implements ViewChangeListener {
+
+    /** The serial version id. */
+    private static final long serialVersionUID = 5187855022780289047L;
+
+    /** The editor component. */
+    private CmsQuickLaunchEditor editor;
+
     /**
-     * The quick launch editor app.<p>
+     * @see
+     *     com.vaadin.navigator.ViewChangeListener#beforeViewChange(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
      */
-    protected static class QuickLaunchEditorApp extends A_CmsWorkplaceApp implements ViewChangeListener {
+    public boolean beforeViewChange(ViewChangeEvent event) {
 
-        /** The serial version id. */
-        private static final long serialVersionUID = 5187855022780289047L;
-
-        /** The editor component. */
-        private CmsQuickLaunchEditor editor;
-
-        /**
-         * @see com.vaadin.navigator.ViewChangeListener#beforeViewChange(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
-         */
-        public boolean beforeViewChange(ViewChangeEvent event) {
-
-            editor.saveToUser();
-            return true;
-        }
-
-        /**
-         * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String)
-         */
-        @Override
-        protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
-
-            return null;
-        }
-
-        /**
-         * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String)
-         */
-        @Override
-        protected Component getComponentForState(String state) {
-
-            if (editor == null) {
-                editor = new CmsQuickLaunchEditor();
-                editor.resetAppIcons();
-            }
-            return editor;
-        }
-
-        /**
-         * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String)
-         */
-        @Override
-        protected List<NavEntry> getSubNavEntries(String state) {
-
-            return null;
-        }
+      editor.saveToUser();
+      return true;
     }
 
-    /** The app id. */
-    public static String APP_ID = "quicklaunch_editor";
-
-    /** The app icon resource (size 32x32). */
-    public static final CmsCssIcon ICON = new CmsCssIcon("oc-icon-32-quicklaunch-editor");
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance()
-     */
-    public I_CmsWorkplaceApp getAppInstance() {
-
-        return new QuickLaunchEditorApp();
-    }
-
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
-     */
+    /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String) */
     @Override
-    public String getHelpText(Locale locale) {
+    protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
 
-        return Messages.get().getBundle(locale).key(Messages.GUI_QUICK_LAUNCH_EDITOR_HELP_0);
+      return null;
     }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon()
-     */
-    public Resource getIcon() {
-
-        return ICON;
-    }
-
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId()
-     */
-    public String getId() {
-
-        return APP_ID;
-    }
-
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
-     */
+    /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String) */
     @Override
-    public String getName(Locale locale) {
+    protected Component getComponentForState(String state) {
 
-        return Messages.get().getBundle(locale).key(Messages.GUI_QUICK_LAUNCH_EDITOR_TITLE_0);
+      if (editor == null) {
+        editor = new CmsQuickLaunchEditor();
+        editor.resetAppIcons();
+      }
+      return editor;
     }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getOrder()
-     */
+    /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String) */
     @Override
-    public int getOrder() {
+    protected List<NavEntry> getSubNavEntries(String state) {
 
-        return 30;
+      return null;
     }
+  }
+
+  /** The app id. */
+  public static String APP_ID = "quicklaunch_editor";
+
+  /** The app icon resource (size 32x32). */
+  public static final CmsCssIcon ICON = new CmsCssIcon("oc-icon-32-quicklaunch-editor");
+
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance() */
+  public I_CmsWorkplaceApp getAppInstance() {
+
+    return new QuickLaunchEditorApp();
+  }
+
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale) */
+  @Override
+  public String getHelpText(Locale locale) {
+
+    return Messages.get().getBundle(locale).key(Messages.GUI_QUICK_LAUNCH_EDITOR_HELP_0);
+  }
+
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon() */
+  public Resource getIcon() {
+
+    return ICON;
+  }
+
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId() */
+  public String getId() {
+
+    return APP_ID;
+  }
+
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
+  @Override
+  public String getName(Locale locale) {
+
+    return Messages.get().getBundle(locale).key(Messages.GUI_QUICK_LAUNCH_EDITOR_TITLE_0);
+  }
+
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getOrder() */
+  @Override
+  public int getOrder() {
+
+    return 30;
+  }
 }

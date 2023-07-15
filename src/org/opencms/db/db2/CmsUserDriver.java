@@ -27,78 +27,73 @@
 
 package org.opencms.db.db2;
 
+import com.google.common.base.Joiner;
 import org.opencms.db.CmsSelectQuery.TableAlias;
 import org.opencms.db.CmsSimpleQueryFragment;
 import org.opencms.db.I_CmsQueryFragment;
 import org.opencms.db.generic.CmsSqlManager;
 import org.opencms.db.generic.CmsUserQueryBuilder;
 
-import com.google.common.base.Joiner;
-
 /**
- * DB2 implementation of the user driver methods.<p>
+ * DB2 implementation of the user driver methods.
+ *
+ * <p>
  *
  * @since 7.0.3
  */
 public class CmsUserDriver extends org.opencms.db.generic.CmsUserDriver {
 
-    /**
-     * @see org.opencms.db.generic.CmsUserDriver#createUserQueryBuilder()
-     */
-    @Override
-    public CmsUserQueryBuilder createUserQueryBuilder() {
+  /** @see org.opencms.db.generic.CmsUserDriver#createUserQueryBuilder() */
+  @Override
+  public CmsUserQueryBuilder createUserQueryBuilder() {
 
-        return new CmsUserQueryBuilder() {
+    return new CmsUserQueryBuilder() {
 
-            /**
-             * @see org.opencms.db.generic.CmsUserQueryBuilder#createFlagCondition(org.opencms.db.CmsSelectQuery.TableAlias, int)
-             */
-            @Override
-            protected I_CmsQueryFragment createFlagCondition(TableAlias users, int flags) {
+      /**
+       * @see
+       *     org.opencms.db.generic.CmsUserQueryBuilder#createFlagCondition(org.opencms.db.CmsSelectQuery.TableAlias,
+       *     int)
+       */
+      @Override
+      protected I_CmsQueryFragment createFlagCondition(TableAlias users, int flags) {
 
-                return new CmsSimpleQueryFragment(
-                    "BITAND(" + users.column("USER_FLAGS") + ", ?) = ? ",
-                    new Integer(flags),
-                    new Integer(flags));
-            }
+        return new CmsSimpleQueryFragment(
+            "BITAND(" + users.column("USER_FLAGS") + ", ?) = ? ",
+            new Integer(flags),
+            new Integer(flags));
+      }
 
-            /**
-             * @see org.opencms.db.generic.CmsUserQueryBuilder#generateConcat(java.lang.String[])
-             */
-            @Override
-            protected String generateConcat(String... expressions) {
+      /** @see org.opencms.db.generic.CmsUserQueryBuilder#generateConcat(java.lang.String[]) */
+      @Override
+      protected String generateConcat(String... expressions) {
 
-                return Joiner.on(" || ").join(expressions);
-            }
+        return Joiner.on(" || ").join(expressions);
+      }
 
-            /**
-             * @see org.opencms.db.generic.CmsUserQueryBuilder#getUserFlagExpression(org.opencms.db.CmsSelectQuery.TableAlias, int)
-             */
-            @Override
-            protected String getUserFlagExpression(TableAlias users, int flags) {
+      /**
+       * @see
+       *     org.opencms.db.generic.CmsUserQueryBuilder#getUserFlagExpression(org.opencms.db.CmsSelectQuery.TableAlias,
+       *     int)
+       */
+      @Override
+      protected String getUserFlagExpression(TableAlias users, int flags) {
 
-                return "BITAND(" + users.column("USER_FLAGS") + ", " + flags + ")";
+        return "BITAND(" + users.column("USER_FLAGS") + ", " + flags + ")";
+      }
 
-            }
+      /** @see org.opencms.db.generic.CmsUserQueryBuilder#useWindowFunctionsForPaging() */
+      @Override
+      protected boolean useWindowFunctionsForPaging() {
 
-            /**
-             * @see org.opencms.db.generic.CmsUserQueryBuilder#useWindowFunctionsForPaging()
-             */
-            @Override
-            protected boolean useWindowFunctionsForPaging() {
+        return true;
+      }
+    };
+  }
 
-                return true;
-            }
-        };
-    }
+  /** @see org.opencms.db.I_CmsUserDriver#initSqlManager(String) */
+  @Override
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
 
-    /**
-    * @see org.opencms.db.I_CmsUserDriver#initSqlManager(String)
-    */
-    @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
-
-        return CmsSqlManager.getInstance(classname);
-    }
-
+    return CmsSqlManager.getInstance(classname);
+  }
 }

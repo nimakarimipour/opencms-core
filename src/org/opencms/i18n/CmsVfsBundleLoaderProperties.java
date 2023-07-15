@@ -27,6 +27,13 @@
 
 package org.opencms.i18n;
 
+import com.google.common.collect.Maps;
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsFile;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
@@ -35,64 +42,59 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-
-import org.apache.commons.logging.Log;
-
-import com.google.common.collect.Maps;
-
 /**
- * Loads message bundles from .properties files in the VFS.<p>
+ * Loads message bundles from .properties files in the VFS.
  *
- * The paths of the properties files are formed from the base path in the bundle parameters, the locale, and the .properties suffix.
+ * <p>The paths of the properties files are formed from the base path in the bundle parameters, the
+ * locale, and the .properties suffix.
  */
 public class CmsVfsBundleLoaderProperties implements CmsVfsResourceBundle.I_Loader {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsVfsBundleLoaderProperties.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsVfsBundleLoaderProperties.class);
 
-    /**
-     * @see org.opencms.i18n.CmsVfsResourceBundle.I_Loader#loadData(org.opencms.file.CmsObject, org.opencms.i18n.CmsVfsBundleParameters)
-     */
-    public Map<Locale, Map<String, String>> loadData(CmsObject cms, CmsVfsBundleParameters params) throws Exception {
+  /**
+   * @see org.opencms.i18n.CmsVfsResourceBundle.I_Loader#loadData(org.opencms.file.CmsObject,
+   *     org.opencms.i18n.CmsVfsBundleParameters)
+   */
+  public Map<Locale, Map<String, String>> loadData(CmsObject cms, CmsVfsBundleParameters params)
+      throws Exception {
 
-        CmsFile file = cms.readFile(params.getBasePath());
-        String encoding = getEncoding(cms, file);
-        Properties props = new Properties();
-        // we do the decoding by ourselves using the encoding set on the resource, so we are not restricted to ISO 8859-1
-        props.load(new InputStreamReader(new ByteArrayInputStream(file.getContents()), encoding));
-        Map<String, String> messages = Maps.newHashMap();
-        for (Map.Entry<Object, Object> entry : props.entrySet()) {
-            messages.put((String)entry.getKey(), (String)entry.getValue());
-        }
-        Map<Locale, Map<String, String>> result = Maps.newHashMap();
-        result.put(params.getLocale(), messages);
-        return result;
+    CmsFile file = cms.readFile(params.getBasePath());
+    String encoding = getEncoding(cms, file);
+    Properties props = new Properties();
+    // we do the decoding by ourselves using the encoding set on the resource, so we are not
+    // restricted to ISO 8859-1
+    props.load(new InputStreamReader(new ByteArrayInputStream(file.getContents()), encoding));
+    Map<String, String> messages = Maps.newHashMap();
+    for (Map.Entry<Object, Object> entry : props.entrySet()) {
+      messages.put((String) entry.getKey(), (String) entry.getValue());
     }
+    Map<Locale, Map<String, String>> result = Maps.newHashMap();
+    result.put(params.getLocale(), messages);
+    return result;
+  }
 
-    /**
-     * Gets the encoding which should be used to read the properties file.<p>
-     *
-     * @param cms the CMS context to use
-     * @param res the resource for which we want the encoding
-     *
-     * @return the encoding value
-     */
-    private String getEncoding(CmsObject cms, CmsResource res) {
+  /**
+   * Gets the encoding which should be used to read the properties file.
+   *
+   * <p>
+   *
+   * @param cms the CMS context to use
+   * @param res the resource for which we want the encoding
+   * @return the encoding value
+   */
+  private String getEncoding(CmsObject cms, CmsResource res) {
 
-        String defaultEncoding = OpenCms.getSystemInfo().getDefaultEncoding();
-        try {
-            CmsProperty encProp = cms.readPropertyObject(res, CmsPropertyDefinition.PROPERTY_CONTENT_ENCODING, true);
-            String encoding = encProp.getValue(defaultEncoding);
-            return encoding;
-        } catch (Exception e) {
-            LOG.warn(e.getLocalizedMessage(), e);
-            return defaultEncoding;
-        }
+    String defaultEncoding = OpenCms.getSystemInfo().getDefaultEncoding();
+    try {
+      CmsProperty encProp =
+          cms.readPropertyObject(res, CmsPropertyDefinition.PROPERTY_CONTENT_ENCODING, true);
+      String encoding = encProp.getValue(defaultEncoding);
+      return encoding;
+    } catch (Exception e) {
+      LOG.warn(e.getLocalizedMessage(), e);
+      return defaultEncoding;
     }
-
+  }
 }

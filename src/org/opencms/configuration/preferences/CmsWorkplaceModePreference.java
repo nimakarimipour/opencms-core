@@ -32,86 +32,90 @@ import org.opencms.main.OpenCms;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
 /**
- * Workplace mode preference configuration.<p>
+ * Workplace mode preference configuration.
+ *
+ * <p>
  */
 public class CmsWorkplaceModePreference extends CmsBuiltinPreference {
 
-    /** The preference name. */
-    public static final String PREFERENCE_NAME = "workplaceMode";
+  /** The preference name. */
+  public static final String PREFERENCE_NAME = "workplaceMode";
 
-    /** The nice name. */
-    private static final String NICE_NAME = "%(key." + org.opencms.ui.Messages.GUI_PREF_WORKPLACE_MODE_0 + ")";
+  /** The nice name. */
+  private static final String NICE_NAME =
+      "%(key." + org.opencms.ui.Messages.GUI_PREF_WORKPLACE_MODE_0 + ")";
 
-    /** Widget configuration. */
-    public static final String WIDGET_CONFIG = "old:%(key.GUI_PREF_WORKPLACE_MODE_OLD_0)|new:%(key.GUI_PREF_WORKPLACE_MODE_NEW_0)";
+  /** Widget configuration. */
+  public static final String WIDGET_CONFIG =
+      "old:%(key.GUI_PREF_WORKPLACE_MODE_OLD_0)|new:%(key.GUI_PREF_WORKPLACE_MODE_NEW_0)";
 
-    /**
-     * Constructor.<p>
-     *
-     * @param propName the name of the bean property used to access this preference
-     */
-    public CmsWorkplaceModePreference(String propName) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param propName the name of the bean property used to access this preference
+   */
+  public CmsWorkplaceModePreference(String propName) {
 
-        super(propName);
-        m_basic = false;
-    }
+    super(propName);
+    m_basic = false;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.CmsBuiltinPreference#getDefaultValue()
-     */
-    @Override
-    public String getDefaultValue() {
+  /** @see org.opencms.configuration.preferences.CmsBuiltinPreference#getDefaultValue() */
+  @Override
+  public String getDefaultValue() {
 
-        return "new";
-    }
+    return "new";
+  }
 
-    /**
-     * Gets the nice name key.<p>
-     *
-     * @return the nice name key
-     */
-    public String getNiceName() {
+  /**
+   * Gets the nice name key.
+   *
+   * <p>
+   *
+   * @return the nice name key
+   */
+  public String getNiceName() {
 
-        return NICE_NAME;
-    }
+    return NICE_NAME;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.CmsBuiltinPreference#getPropertyDefinition()
-     */
-    @Override
-    public CmsXmlContentProperty getPropertyDefinition() {
+  /** @see org.opencms.configuration.preferences.CmsBuiltinPreference#getPropertyDefinition() */
+  @Override
+  public CmsXmlContentProperty getPropertyDefinition() {
 
-        CmsXmlContentProperty prop = new CmsXmlContentProperty(
-            getName(), //name
-            "string", //type
-            "select_notnull", //widget
-            WIDGET_CONFIG, //widgetconfig
-            null, //regex
-            null, //ruletype
-            getDefaultValue(), //default
-            getNiceName(), //nicename
-            null, //description
-            null, //error
-            null //preferfolder
-        );
-        return prop;
-    }
+    CmsXmlContentProperty prop =
+        new CmsXmlContentProperty(
+            getName(), // name
+            "string", // type
+            "select_notnull", // widget
+            WIDGET_CONFIG, // widgetconfig
+            null, // regex
+            null, // ruletype
+            getDefaultValue(), // default
+            getNiceName(), // nicename
+            null, // description
+            null, // error
+            null // preferfolder
+            );
+    return prop;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.A_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
-     */
-    @Override
-    public CmsXmlContentProperty getPropertyDefinition(CmsObject cms) {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.A_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
+   */
+  @Override
+  public CmsXmlContentProperty getPropertyDefinition(CmsObject cms) {
 
-        return getPropertyDefinition();
-    }
+    return getPropertyDefinition();
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.A_CmsPreference#isDisabled(CmsObject)
-     */
-    @Override
-    public boolean isDisabled(CmsObject cms) {
+  /** @see org.opencms.configuration.preferences.A_CmsPreference#isDisabled(CmsObject) */
+  @Override
+  public boolean isDisabled(CmsObject cms) {
 
-        return !OpenCms.getModuleManager().hasModule("org.opencms.workplace.traditional");
-    }
+    return !OpenCms.getModuleManager().hasModule("org.opencms.workplace.traditional");
+  }
 }

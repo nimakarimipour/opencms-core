@@ -28,76 +28,87 @@
 package org.opencms.acacia.client.widgets.complex;
 
 /**
- * Represents a data view value to be read from or written to the editor by the data view widget.<p>
+ * Represents a data view value to be read from or written to the editor by the data view widget.
+ *
+ * <p>
  */
 public class CmsDataViewValue {
 
-    /** The id. */
-    private String m_id;
+  /** The id. */
+  private String m_id;
 
-    /** The title. */
-    private String m_title;
+  /** The title. */
+  private String m_title;
 
-    /** The description. */
-    private String m_description;
+  /** The description. */
+  private String m_description;
 
-    /** The additional data. */
-    private String m_data;
+  /** The additional data. */
+  private String m_data;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param id the id
-     * @param title the title
-     * @param description the description
-     * @param data the additional data
-     */
-    public CmsDataViewValue(String id, String title, String description, String data) {
-        super();
-        m_id = id;
-        m_title = title;
-        m_description = description;
-        m_data = data;
-    }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param id the id
+   * @param title the title
+   * @param description the description
+   * @param data the additional data
+   */
+  public CmsDataViewValue(String id, String title, String description, String data) {
+    super();
+    m_id = id;
+    m_title = title;
+    m_description = description;
+    m_data = data;
+  }
 
-    /**
-     * Returns the data.<p>
-     *
-     * @return the data
-     */
-    public String getData() {
+  /**
+   * Returns the data.
+   *
+   * <p>
+   *
+   * @return the data
+   */
+  public String getData() {
 
-        return m_data;
-    }
+    return m_data;
+  }
 
-    /**
-     * Returns the description.<p>
-     *
-     * @return the description
-     */
-    public String getDescription() {
+  /**
+   * Returns the description.
+   *
+   * <p>
+   *
+   * @return the description
+   */
+  public String getDescription() {
 
-        return m_description;
-    }
+    return m_description;
+  }
 
-    /**
-     * Returns the id.<p>
-     *
-     * @return the id
-     */
-    public String getId() {
+  /**
+   * Returns the id.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  public String getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Returns the title.<p>
-     *
-     * @return the title
-     */
-    public String getTitle() {
+  /**
+   * Returns the title.
+   *
+   * <p>
+   *
+   * @return the title
+   */
+  public String getTitle() {
 
-        return m_title;
-    }
-
+    return m_title;
+  }
 }

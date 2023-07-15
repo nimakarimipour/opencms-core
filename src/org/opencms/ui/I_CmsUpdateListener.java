@@ -30,16 +30,20 @@ package org.opencms.ui;
 import java.util.List;
 
 /**
- * Handles updates to items of a given type.<p>
+ * Handles updates to items of a given type.
+ *
+ * <p>
  *
  * @param <T> the type of updated items
  */
 public interface I_CmsUpdateListener<T> {
 
-    /**
-     * Called with a list of items when these items have been updated.<p>
-     *
-     * @param updatedItems the updated items
-     */
-    public void onUpdate(List<T> updatedItems);
+  /**
+   * Called with a list of items when these items have been updated.
+   *
+   * <p>
+   *
+   * @param updatedItems the updated items
+   */
+  public void onUpdate(List<T> updatedItems);
 }

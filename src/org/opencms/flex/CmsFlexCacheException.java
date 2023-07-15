@@ -31,37 +31,36 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Signals an error of the Flex cache.<p>
+ * Signals an error of the Flex cache.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsFlexCacheException extends CmsException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 1169608208297722055L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 1169608208297722055L;
 
-    /**
-     * @see CmsException#CmsException(CmsMessageContainer)
-     */
-    public CmsFlexCacheException(CmsMessageContainer container) {
+  /** @see CmsException#CmsException(CmsMessageContainer) */
+  public CmsFlexCacheException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * @see CmsException#CmsException(CmsMessageContainer, Throwable)
-     */
-    public CmsFlexCacheException(CmsMessageContainer container, Throwable cause) {
+  /** @see CmsException#CmsException(CmsMessageContainer, Throwable) */
+  public CmsFlexCacheException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsFlexCacheException(container, cause);
-    }
+    return new CmsFlexCacheException(container, cause);
+  }
 }

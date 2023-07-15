@@ -27,173 +27,199 @@
 
 package org.opencms.acacia.client;
 
+import com.google.gwt.dom.client.Element;
+import java.util.Map;
 import org.opencms.acacia.client.widgets.I_CmsEditWidget;
 import org.opencms.acacia.client.widgets.I_CmsFormEditWidget;
 import org.opencms.acacia.shared.CmsAttributeConfiguration;
 import org.opencms.acacia.shared.CmsType;
 
-import java.util.Map;
-
-import com.google.gwt.dom.client.Element;
-
 /**
- * Provides widget renderer for entity attributes.<p>
+ * Provides widget renderer for entity attributes.
+ *
+ * <p>
  */
 public interface I_CmsWidgetService {
 
-    /**
-     * Adds the given path to the list of paths where child attributes have change their order.<p>
-     *
-     * @param attributePath the attribute path
-     */
-    void addChangedOrderPath(String attributePath);
+  /**
+   * Adds the given path to the list of paths where child attributes have change their order.
+   *
+   * <p>
+   *
+   * @param attributePath the attribute path
+   */
+  void addChangedOrderPath(String attributePath);
 
-    /**
-     * Adds all configurations.<p>
-     *
-     * @param configurations the configurations to add
-     */
-    void addConfigurations(Map<String, CmsAttributeConfiguration> configurations);
+  /**
+   * Adds all configurations.
+   *
+   * <p>
+   *
+   * @param configurations the configurations to add
+   */
+  void addConfigurations(Map<String, CmsAttributeConfiguration> configurations);
 
-    /**
-     * Adds a renderer.<p>
-     *
-     * @param renderer the renderer to add
-     */
-    void addRenderer(I_CmsEntityRenderer renderer);
+  /**
+   * Adds a renderer.
+   *
+   * <p>
+   *
+   * @param renderer the renderer to add
+   */
+  void addRenderer(I_CmsEntityRenderer renderer);
 
-    /**
-     * Registers the given widget factory with the service.<p>
-     *
-     * @param widgetName the widget name
-     * @param widgetFactory the widget factory
-     */
-    void addWidgetFactory(String widgetName, I_CmsWidgetFactory widgetFactory);
+  /**
+   * Registers the given widget factory with the service.
+   *
+   * <p>
+   *
+   * @param widgetName the widget name
+   * @param widgetFactory the widget factory
+   */
+  void addWidgetFactory(String widgetName, I_CmsWidgetFactory widgetFactory);
 
-    /**
-     * Returns the attribute form editing widget.<p>
-     *
-     * @param attributeName the attribute name
-     *
-     * @return the attribute widget
-     */
-    I_CmsFormEditWidget getAttributeFormWidget(String attributeName);
+  /**
+   * Returns the attribute form editing widget.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @return the attribute widget
+   */
+  I_CmsFormEditWidget getAttributeFormWidget(String attributeName);
 
-    /**
-     * Returns the attribute help information.<p>
-     *
-     * @param attributeName the attribute name
-     *
-     * @return the attribute help information
-     */
-    String getAttributeHelp(String attributeName);
+  /**
+   * Returns the attribute help information.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @return the attribute help information
+   */
+  String getAttributeHelp(String attributeName);
 
-    /**
-     * Returns the attribute inline editing widget wrapping the given DOM element.<p>
-     *
-     * @param attributeName the attribute name
-     * @param element the DOM element to wrap
-     *
-     * @return the attribute widget
-     */
-    I_CmsEditWidget getAttributeInlineWidget(String attributeName, Element element);
+  /**
+   * Returns the attribute inline editing widget wrapping the given DOM element.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @param element the DOM element to wrap
+   * @return the attribute widget
+   */
+  I_CmsEditWidget getAttributeInlineWidget(String attributeName, Element element);
 
-    /**
-     * Returns the label for the given attribute.<p>
-     *
-     * @param attributeName the attribute name
-     *
-     * @return the attribute label
-     */
-    String getAttributeLabel(String attributeName);
+  /**
+   * Returns the label for the given attribute.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @return the attribute label
+   */
+  String getAttributeLabel(String attributeName);
 
-    /**
-     * Returns the default attribute value.<p>
-     *
-     * @param attributeName the attribute name
-     * @param simpleValuePath the value path
-     *
-     * @return the default value
-     */
-    String getDefaultAttributeValue(String attributeName, String simpleValuePath);
+  /**
+   * Returns the default attribute value.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @param simpleValuePath the value path
+   * @return the default value
+   */
+  String getDefaultAttributeValue(String attributeName, String simpleValuePath);
 
-    /**
-     * Returns the renderer for the given attribute.<p>
-     *
-     * @param attributeName the name of the attribute
-     * @param attributeType the type of the attribute
-     *
-     * @return the renderer
-     */
-    I_CmsEntityRenderer getRendererForAttribute(String attributeName, CmsType attributeType);
+  /**
+   * Returns the renderer for the given attribute.
+   *
+   * <p>
+   *
+   * @param attributeName the name of the attribute
+   * @param attributeType the type of the attribute
+   * @return the renderer
+   */
+  I_CmsEntityRenderer getRendererForAttribute(String attributeName, CmsType attributeType);
 
-    /**
-     * Returns the renderer for the given entity type.<p>
-     *
-     * @param entityType the type
-     *
-     * @return the renderer
-     */
-    I_CmsEntityRenderer getRendererForType(CmsType entityType);
+  /**
+   * Returns the renderer for the given entity type.
+   *
+   * <p>
+   *
+   * @param entityType the type
+   * @return the renderer
+   */
+  I_CmsEntityRenderer getRendererForType(CmsType entityType);
 
-    /**
-     * Returns the if the attribute widget should be displayed in compact view.<p>
-     *
-     * @param attributeName the attribute name
-     *
-     * @return <code>true</code> if the attribute widget should be displayed in compact view
-     */
-    boolean isDisplayCompact(String attributeName);
+  /**
+   * Returns the if the attribute widget should be displayed in compact view.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @return <code>true</code> if the attribute widget should be displayed in compact view
+   */
+  boolean isDisplayCompact(String attributeName);
 
-    /**
-     * Returns if the attribute widget should be displayed in single line view.<p>
-     *
-     * @param attributeName the attribute name
-     *
-     * @return <code>true</code> if the attribute widget should be displayed in single line view
-     */
-    boolean isDisplaySingleLine(String attributeName);
+  /**
+   * Returns if the attribute widget should be displayed in single line view.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @return <code>true</code> if the attribute widget should be displayed in single line view
+   */
+  boolean isDisplaySingleLine(String attributeName);
 
-    /**
-     * Returns if the given attribute should be visible in the editor.<p>
-     *
-     * @param attributeName the attribute name
-     *
-     * @return <code>true</code> if the given attribute should be visible in the editor
-     */
-    boolean isVisible(String attributeName);
+  /**
+   * Returns if the given attribute should be visible in the editor.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @return <code>true</code> if the given attribute should be visible in the editor
+   */
+  boolean isVisible(String attributeName);
 
-    /**
-     * Registers a complex widget attribute which should be handled by a special renderer.<p>
-     *
-     * @param attrName the attribute name
-     * @param renderer the renderer to register for the attribute
-     * @param configuration the renderer configuration
-     */
-    void registerComplexWidgetAttribute(String attrName, String renderer, String configuration);
+  /**
+   * Registers a complex widget attribute which should be handled by a special renderer.
+   *
+   * <p>
+   *
+   * @param attrName the attribute name
+   * @param renderer the renderer to register for the attribute
+   * @param configuration the renderer configuration
+   */
+  void registerComplexWidgetAttribute(String attrName, String renderer, String configuration);
 
-    /**
-     * Sets the default renderer.<p>
-     *
-     * @param renderer the default renderer
-     */
-    void setDefaultRenderer(I_CmsEntityRenderer renderer);
+  /**
+   * Sets the default renderer.
+   *
+   * <p>
+   *
+   * @param renderer the default renderer
+   */
+  void setDefaultRenderer(I_CmsEntityRenderer renderer);
 
-    /**
-     * Sets the widget factories.<p>
-     *
-     * @param widgetFactories the widget factories
-     */
-    void setWidgetFactories(Map<String, I_CmsWidgetFactory> widgetFactories);
+  /**
+   * Sets the widget factories.
+   *
+   * <p>
+   *
+   * @param widgetFactories the widget factories
+   */
+  void setWidgetFactories(Map<String, I_CmsWidgetFactory> widgetFactories);
 
-    /**
-     * Returns true if the value which this widget is being used for should be disabled if it is unfocused and the last remaining attribute value for a given attribute.<p>
-     *
-     * The main use case is disabling empty text input fields.<p>
-     *
-     * @param widget the widget to check
-     *
-     * @return true if the value should be disabled
-     */
-    boolean shouldRemoveLastValueAfterUnfocus(I_CmsEditWidget widget);
+  /**
+   * Returns true if the value which this widget is being used for should be disabled if it is
+   * unfocused and the last remaining attribute value for a given attribute.
+   *
+   * <p>The main use case is disabling empty text input fields.
+   *
+   * <p>
+   *
+   * @param widget the widget to check
+   * @return true if the value should be disabled
+   */
+  boolean shouldRemoveLastValueAfterUnfocus(I_CmsEditWidget widget);
 }

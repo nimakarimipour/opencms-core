@@ -30,18 +30,21 @@ package org.opencms.ade.sitemap.client.control;
 import com.google.gwt.event.shared.EventHandler;
 
 /**
- * Sitemap change event handler.<p>
+ * Sitemap change event handler.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.ade.sitemap.client.control.CmsSitemapController
  */
 public interface I_CmsSitemapChangeHandler extends EventHandler {
 
-    /**
-     * Will be triggered when something has changed.<p>
-     *
-     * @param changeEvent the specific change event
-     */
-    void onChange(CmsSitemapChangeEvent changeEvent);
+  /**
+   * Will be triggered when something has changed.
+   *
+   * <p>
+   *
+   * @param changeEvent the specific change event
+   */
+  void onChange(CmsSitemapChangeEvent changeEvent);
 }

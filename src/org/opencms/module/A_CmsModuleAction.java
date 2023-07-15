@@ -27,6 +27,7 @@
 
 package org.opencms.module;
 
+import org.apache.commons.logging.Log;
 import org.opencms.configuration.CmsConfigurationManager;
 import org.opencms.db.CmsPublishList;
 import org.opencms.file.CmsObject;
@@ -34,96 +35,93 @@ import org.opencms.main.CmsEvent;
 import org.opencms.main.CmsLog;
 import org.opencms.report.I_CmsReport;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Simple base implementation of the {@link I_CmsModuleAction} interface,
- * extend this class for more sophisticated module action implementations.<p>
+ * Simple base implementation of the {@link I_CmsModuleAction} interface, extend this class for more
+ * sophisticated module action implementations.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public abstract class A_CmsModuleAction implements I_CmsModuleAction {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(A_CmsModuleAction.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(A_CmsModuleAction.class);
 
-    /**
-     * @see org.opencms.main.I_CmsEventListener#cmsEvent(org.opencms.main.CmsEvent)
-     */
-    public void cmsEvent(CmsEvent event) {
+  /** @see org.opencms.main.I_CmsEventListener#cmsEvent(org.opencms.main.CmsEvent) */
+  public void cmsEvent(CmsEvent event) {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(
-                Messages.get().getBundle().key(
-                    Messages.LOG_EVENT_CAUGHT_2,
-                    this.getClass().getName(),
-                    new Integer(event.getType())));
-        }
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
+          Messages.get()
+              .getBundle()
+              .key(
+                  Messages.LOG_EVENT_CAUGHT_2,
+                  this.getClass().getName(),
+                  new Integer(event.getType())));
     }
+  }
 
-    /**
-     * @see org.opencms.module.I_CmsModuleAction#initialize(org.opencms.file.CmsObject, CmsConfigurationManager, CmsModule)
-     */
-    public void initialize(CmsObject adminCms, CmsConfigurationManager configurationManager, CmsModule module) {
+  /**
+   * @see org.opencms.module.I_CmsModuleAction#initialize(org.opencms.file.CmsObject,
+   *     CmsConfigurationManager, CmsModule)
+   */
+  public void initialize(
+      CmsObject adminCms, CmsConfigurationManager configurationManager, CmsModule module) {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(
-                Messages.get().getBundle().key(
-                    Messages.LOG_MODULE_INITIALIZED_2,
-                    module.getName(),
-                    this.getClass().getName()));
-        }
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
+          Messages.get()
+              .getBundle()
+              .key(Messages.LOG_MODULE_INITIALIZED_2, module.getName(), this.getClass().getName()));
     }
+  }
 
-    /**
-     * @see org.opencms.module.I_CmsModuleAction#moduleUninstall(CmsModule)
-     */
-    public void moduleUninstall(CmsModule module) {
+  /** @see org.opencms.module.I_CmsModuleAction#moduleUninstall(CmsModule) */
+  public void moduleUninstall(CmsModule module) {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(
-                Messages.get().getBundle().key(
-                    Messages.LOG_MODULE_UNINSTALLED_2,
-                    module.getName(),
-                    this.getClass().getName()));
-        }
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
+          Messages.get()
+              .getBundle()
+              .key(Messages.LOG_MODULE_UNINSTALLED_2, module.getName(), this.getClass().getName()));
     }
+  }
 
-    /**
-     * @see org.opencms.module.I_CmsModuleAction#moduleUpdate(org.opencms.module.CmsModule)
-     */
-    public void moduleUpdate(CmsModule module) {
+  /** @see org.opencms.module.I_CmsModuleAction#moduleUpdate(org.opencms.module.CmsModule) */
+  public void moduleUpdate(CmsModule module) {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(
-                Messages.get().getBundle().key(
-                    Messages.LOG_MODULE_UPDATED_2,
-                    module.getName(),
-                    this.getClass().getName()));
-        }
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
+          Messages.get()
+              .getBundle()
+              .key(Messages.LOG_MODULE_UPDATED_2, module.getName(), this.getClass().getName()));
     }
+  }
 
-    /**
-     * @see org.opencms.module.I_CmsModuleAction#publishProject(org.opencms.file.CmsObject, org.opencms.db.CmsPublishList, int, org.opencms.report.I_CmsReport)
-     */
-    public void publishProject(CmsObject cms, CmsPublishList publishList, int publishTag, I_CmsReport report) {
+  /**
+   * @see org.opencms.module.I_CmsModuleAction#publishProject(org.opencms.file.CmsObject,
+   *     org.opencms.db.CmsPublishList, int, org.opencms.report.I_CmsReport)
+   */
+  public void publishProject(
+      CmsObject cms, CmsPublishList publishList, int publishTag, I_CmsReport report) {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(Messages.get().getBundle().key(Messages.LOG_PUBLISH_PROJECT_1, this.getClass().getName()));
-        }
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
+          Messages.get()
+              .getBundle()
+              .key(Messages.LOG_PUBLISH_PROJECT_1, this.getClass().getName()));
     }
+  }
 
-    /**
-     * @see org.opencms.module.I_CmsModuleAction#shutDown(CmsModule)
-     */
-    public void shutDown(CmsModule module) {
+  /** @see org.opencms.module.I_CmsModuleAction#shutDown(CmsModule) */
+  public void shutDown(CmsModule module) {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(
-                Messages.get().getBundle().key(
-                    Messages.LOG_MODULE_SHUTDOWN_2,
-                    module.getName(),
-                    this.getClass().getName()));
-        }
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(
+          Messages.get()
+              .getBundle()
+              .key(Messages.LOG_MODULE_SHUTDOWN_2, module.getName(), this.getClass().getName()));
     }
+  }
 }

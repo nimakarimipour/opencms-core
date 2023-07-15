@@ -33,66 +33,73 @@ import org.opencms.gwt.client.ui.CmsNotificationMessage;
 import org.opencms.ugc.client.export.I_CmsBooleanCallback;
 
 /**
- * Keeps track of currently running requests for the purpose of enabling or disabling a waiting indicator.<p>
+ * Keeps track of currently running requests for the purpose of enabling or disabling a waiting
+ * indicator.
+ *
+ * <p>
  */
 public class CmsRequestCounter {
 
-    /** Number of active requests. */
-    private int m_counter;
+  /** Number of active requests. */
+  private int m_counter;
 
-    /** The callback used to enable or disable the wait indicator. */
-    private I_CmsBooleanCallback m_callback = new I_CmsBooleanCallback() {
+  /** The callback used to enable or disable the wait indicator. */
+  private I_CmsBooleanCallback m_callback =
+      new I_CmsBooleanCallback() {
 
         private CmsNotificationMessage m_message;
 
-        /**
-         * @see org.opencms.ugc.client.export.I_CmsBooleanCallback#call(boolean)
-         */
+        /** @see org.opencms.ugc.client.export.I_CmsBooleanCallback#call(boolean) */
         public void call(boolean b) {
 
-            if (b) {
-                // check if the message is already showing
-                if (m_message == null) {
-                    m_message = CmsNotification.get().sendBusy(Type.NORMAL, "Loading");
-                }
-            } else if (m_message != null) {
-                CmsNotification.get().removeMessage(m_message);
-                m_message = null;
+          if (b) {
+            // check if the message is already showing
+            if (m_message == null) {
+              m_message = CmsNotification.get().sendBusy(Type.NORMAL, "Loading");
             }
+          } else if (m_message != null) {
+            CmsNotification.get().removeMessage(m_message);
+            m_message = null;
+          }
         }
-    };
+      };
 
-    /**
-     * Decrements the request counter.<p>
-     */
-    public void decrement() {
+  /**
+   * Decrements the request counter.
+   *
+   * <p>
+   */
+  public void decrement() {
 
-        m_counter -= 1;
-        if (m_counter < 0) {
-            m_counter = 0;
-        }
-        if (m_counter == 0) {
-            m_callback.call(false);
-        }
+    m_counter -= 1;
+    if (m_counter < 0) {
+      m_counter = 0;
     }
-
-    /**
-     * Increments the request counter.<p>
-     */
-    public void increment() {
-
-        m_counter += 1;
-        m_callback.call(true);
+    if (m_counter == 0) {
+      m_callback.call(false);
     }
+  }
 
-    /**
-     * Sets the callback.<p>
-     *
-     * @param callback the callback
-     */
-    public void setCallback(I_CmsBooleanCallback callback) {
+  /**
+   * Increments the request counter.
+   *
+   * <p>
+   */
+  public void increment() {
 
-        m_callback = callback;
-    }
+    m_counter += 1;
+    m_callback.call(true);
+  }
 
+  /**
+   * Sets the callback.
+   *
+   * <p>
+   *
+   * @param callback the callback
+   */
+  public void setCallback(I_CmsBooleanCallback callback) {
+
+    m_callback = callback;
+  }
 }

@@ -31,52 +31,62 @@ import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
 
 /**
- * Convenience class to access the localized messages of this OpenCms package.<p>
+ * Convenience class to access the localized messages of this OpenCms package.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public final class Messages extends A_CmsMessageBundle {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_RESOURCE_STORAGE_NOT_FOUND_0 = "ERR_RESOURCE_STORAGE_NOT_FOUND_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_RESOURCE_STORAGE_NOT_FOUND_0 = "ERR_RESOURCE_STORAGE_NOT_FOUND_0";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.test.messages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME = "org.opencms.test.messages";
 
-    /** Static instance member. */
-    private static final I_CmsMessageBundle INSTANCE = new Messages();
+  /** Static instance member. */
+  private static final I_CmsMessageBundle INSTANCE = new Messages();
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_MISSING_CLASSLOADER_RESOURCE_1 = "ERR_MISSING_CLASSLOADER_RESOURCE_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_MISSING_CLASSLOADER_RESOURCE_1 =
+      "ERR_MISSING_CLASSLOADER_RESOURCE_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_MISSING_CLASSLOADER_RESOURCE_2 = "ERR_MISSING_CLASSLOADER_RESOURCE_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_MISSING_CLASSLOADER_RESOURCE_2 =
+      "ERR_MISSING_CLASSLOADER_RESOURCE_2";
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
-    }
+    // hide the constructor
+  }
 
-    /**
-     * Returns an instance of this localized message accessor.<p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static I_CmsMessageBundle get() {
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static I_CmsMessageBundle get() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the bundle name for this OpenCms package.<p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
 
-        return BUNDLE_NAME;
-    }
+    return BUNDLE_NAME;
+  }
 }

@@ -33,18 +33,21 @@ import org.timepedia.exporter.client.ExportPackage;
 import org.timepedia.exporter.client.Exportable;
 
 /**
- * Callback interface for functions taking a string as a parameter.<p>
+ * Callback interface for functions taking a string as a parameter.
+ *
+ * <p>
  */
 @Export
 @ExportClosure
 @ExportPackage("opencmsugc")
 public interface I_CmsStringCallback extends Exportable {
 
-    /**
-     * Calls the function with the given string.<p>
-     *
-     * @param str the string to be used as a parameter
-     */
-    void call(String str);
-
+  /**
+   * Calls the function with the given string.
+   *
+   * <p>
+   *
+   * @param str the string to be used as a parameter
+   */
+  void call(String str);
 }

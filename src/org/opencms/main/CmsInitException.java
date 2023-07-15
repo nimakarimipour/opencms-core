@@ -30,86 +30,99 @@ package org.opencms.main;
 import org.opencms.i18n.CmsMessageContainer;
 
 /**
- * Describes errors that occur in the context of OpenCms the initialization, this is fatal
- * and prevents OpenCms from starting.<p>
+ * Describes errors that occur in the context of OpenCms the initialization, this is fatal and
+ * prevents OpenCms from starting.
  *
- * If an Exception of this class is thrown, OpenCms is set to an error state and
- * the system won't try to start up again.<p>
+ * <p>If an Exception of this class is thrown, OpenCms is set to an error state and the system won't
+ * try to start up again.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsInitException extends CmsRuntimeException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 7705928617426913316L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 7705928617426913316L;
 
-    /** Indicates that this exception describes a new error. */
-    private boolean m_newError;
+  /** Indicates that this exception describes a new error. */
+  private boolean m_newError;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsInitException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsInitException(CmsMessageContainer container) {
 
-        this(container, true);
+    this(container, true);
+  }
+
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param newError indicates that the error is new, and OpenCms should be stopped
+   */
+  public CmsInitException(CmsMessageContainer container, boolean newError) {
+
+    super(container);
+    m_newError = newError;
+    if (m_newError) {
+      setErrorCondition();
     }
+  }
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     * @param newError indicates that the error is new, and OpenCms should be stopped
-     */
-    public CmsInitException(CmsMessageContainer container, boolean newError) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsInitException(CmsMessageContainer container, Throwable cause) {
 
-        super(container);
-        m_newError = newError;
-        if (m_newError) {
-            setErrorCondition();
-        }
-    }
+    super(container, cause);
+    m_newError = true;
+    setErrorCondition();
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsInitException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsRuntimeException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsRuntimeException createException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-        m_newError = true;
-        setErrorCondition();
-    }
+    return new CmsInitException(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsRuntimeException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsRuntimeException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Indicates that this exception describes a new error that was not already logged.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this exception describes a new error that was not already logged
+   */
+  public boolean isNewError() {
 
-        return new CmsInitException(container, cause);
-    }
+    return m_newError;
+  }
 
-    /**
-     * Indicates that this exception describes a new error that was not already logged.<p>
-     *
-     * @return <code>true</code> if this exception describes a new error that was not already logged
-     */
-    public boolean isNewError() {
+  /**
+   * Prints an error message to the System.err stream, indicating that OpenCms is unable to start
+   * up.
+   *
+   * <p>
+   */
+  private void setErrorCondition() {
 
-        return m_newError;
-    }
-
-    /**
-     * Prints an error message to the System.err stream, indicating that OpenCms
-     * is unable to start up.<p>
-     */
-    private void setErrorCondition() {
-
-        CmsMessageContainer errorCondition = getMessageContainer();
-        OpenCmsCore.setErrorCondition(errorCondition);
-    }
+    CmsMessageContainer errorCondition = getMessageContainer();
+    OpenCmsCore.setErrorCondition(errorCondition);
+  }
 }

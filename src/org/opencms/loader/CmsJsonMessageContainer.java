@@ -27,52 +27,53 @@
 
 package org.opencms.loader;
 
+import java.util.Locale;
 import org.opencms.i18n.I_CmsMessageContainer;
 import org.opencms.json.JSONObject;
 
-import java.util.Locale;
-
 /**
- * Simple JSON-based message container.<p>
+ * Simple JSON-based message container.
  *
- * This message container will accept an Object which may either be a simple string (in which case
- * this string will always be returned as the message), or a JSONObject which has locale strings as
- * keys and the corresponding message strings as values.
+ * <p>This message container will accept an Object which may either be a simple string (in which
+ * case this string will always be returned as the message), or a JSONObject which has locale
+ * strings as keys and the corresponding message strings as values.
  */
 public class CmsJsonMessageContainer implements I_CmsMessageContainer {
 
-    /** The JSON value for this message container. */
-    private Object m_jsonValue;
+  /** The JSON value for this message container. */
+  private Object m_jsonValue;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param jsonValue the JSON value containing the message(s).<p>
-     */
-    public CmsJsonMessageContainer(Object jsonValue) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param jsonValue the JSON value containing the message(s).
+   *     <p>
+   */
+  public CmsJsonMessageContainer(Object jsonValue) {
 
-        m_jsonValue = jsonValue;
+    m_jsonValue = jsonValue;
+  }
 
-    }
+  /** @see org.opencms.i18n.I_CmsMessageContainer#key(java.util.Locale) */
+  public String key(Locale locale) {
 
-    /**
-     * @see org.opencms.i18n.I_CmsMessageContainer#key(java.util.Locale)
-     */
-    public String key(Locale locale) {
-
-        if (m_jsonValue instanceof String) {
-            return (String)m_jsonValue;
-        } else if (m_jsonValue instanceof JSONObject) {
-            JSONObject localeMap = (JSONObject)m_jsonValue;
-            for (String key : new String[] {
-                locale.toString(),
-                "en",
-                localeMap.keySet().size() > 0 ? (localeMap.keySet().iterator().next()) : ""}) {
-                if (localeMap.has(key)) {
-                    return "" + localeMap.optString(key);
-                }
-            }
+    if (m_jsonValue instanceof String) {
+      return (String) m_jsonValue;
+    } else if (m_jsonValue instanceof JSONObject) {
+      JSONObject localeMap = (JSONObject) m_jsonValue;
+      for (String key :
+          new String[] {
+            locale.toString(),
+            "en",
+            localeMap.keySet().size() > 0 ? (localeMap.keySet().iterator().next()) : ""
+          }) {
+        if (localeMap.has(key)) {
+          return "" + localeMap.optString(key);
         }
-        return "??? not found ???";
+      }
     }
+    return "??? not found ???";
+  }
 }

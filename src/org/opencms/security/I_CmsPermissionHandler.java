@@ -36,141 +36,152 @@ import org.opencms.main.CmsException;
 import org.opencms.util.A_CmsModeIntEnumeration;
 
 /**
- * Permission handler interface.<p>
+ * Permission handler interface.
+ *
+ * <p>
  *
  * @since 7.0.2
- *
- * @see org.opencms.db.CmsSecurityManager#hasPermissions(org.opencms.file.CmsRequestContext, CmsResource, CmsPermissionSet, boolean, CmsResourceFilter)
+ * @see org.opencms.db.CmsSecurityManager#hasPermissions(org.opencms.file.CmsRequestContext,
+ *     CmsResource, CmsPermissionSet, boolean, CmsResourceFilter)
  */
 public interface I_CmsPermissionHandler {
 
-    /**
-     *  Enumeration class for the results of {@link I_CmsPermissionHandler#hasPermissions(CmsDbContext, CmsResource, CmsPermissionSet, LockCheck, CmsResourceFilter)}.<p>
-     */
-    public static final class CmsPermissionCheckResult extends A_CmsModeIntEnumeration {
-
-        /** Indicates allowed permissions. */
-        protected static final CmsPermissionCheckResult ALLOWED = new CmsPermissionCheckResult(1);
-
-        /** Indicates denied permissions. */
-        protected static final CmsPermissionCheckResult DENIED = new CmsPermissionCheckResult(2);
-
-        /** Indicates a resource was filtered during permission check. */
-        protected static final CmsPermissionCheckResult FILTERED = new CmsPermissionCheckResult(3);
-
-        /** Indicates a resource was not locked for a write / control operation. */
-        protected static final CmsPermissionCheckResult NOTLOCKED = new CmsPermissionCheckResult(4);
-
-        /** Version id required for safe serialization. */
-        private static final long serialVersionUID = 2398277834335860916L;
-
-        /**
-         * Private constructor.<p>
-         *
-         * @param mode the copy mode integer representation
-         */
-        private CmsPermissionCheckResult(int mode) {
-
-            super(mode);
-        }
-
-        /**
-         * Checks if this permission is allowed or not.<p>
-         *
-         * @return <code>true</code> if allowed
-         */
-        public boolean isAllowed() {
-
-            return (this == ALLOWED);
-        }
-    }
-
-    /**
-     * Enum for the lock check mode.
-     */
-    public enum LockCheck {
-
-        /** Don't check locks. */
-        no("N"),
-
-        /** Check for shallow or normal lock. */
-        shallowOnly("S"),
-
-        /** Check for normal (non-shallow) lock. */
-        yes("Y");
-
-        /** The code for this enum value. */
-        private String m_code;
-
-        /**
-         * Creates a new instance.
-         *
-         * @param code the code for the enum value
-         */
-        private LockCheck(String code) {
-
-            m_code = code;
-        }
-
-        /**
-         * Gets the code for the enum value.<p>
-         *
-         * The code is a short string identifying the enum value for use in cache keys.
-         *
-         * @return the code
-         */
-        public String getCode() {
-
-            return m_code;
-        }
-    }
+  /**
+   * Enumeration class for the results of {@link I_CmsPermissionHandler#hasPermissions(CmsDbContext,
+   * CmsResource, CmsPermissionSet, LockCheck, CmsResourceFilter)}.
+   *
+   * <p>
+   */
+  public static final class CmsPermissionCheckResult extends A_CmsModeIntEnumeration {
 
     /** Indicates allowed permissions. */
-    CmsPermissionCheckResult PERM_ALLOWED = CmsPermissionCheckResult.ALLOWED;
+    protected static final CmsPermissionCheckResult ALLOWED = new CmsPermissionCheckResult(1);
+
     /** Indicates denied permissions. */
-    CmsPermissionCheckResult PERM_DENIED = CmsPermissionCheckResult.DENIED;
+    protected static final CmsPermissionCheckResult DENIED = new CmsPermissionCheckResult(2);
+
     /** Indicates a resource was filtered during permission check. */
-    CmsPermissionCheckResult PERM_FILTERED = CmsPermissionCheckResult.FILTERED;
+    protected static final CmsPermissionCheckResult FILTERED = new CmsPermissionCheckResult(3);
+
     /** Indicates a resource was not locked for a write / control operation. */
-    CmsPermissionCheckResult PERM_NOTLOCKED = CmsPermissionCheckResult.NOTLOCKED;
+    protected static final CmsPermissionCheckResult NOTLOCKED = new CmsPermissionCheckResult(4);
+
+    /** Version id required for safe serialization. */
+    private static final long serialVersionUID = 2398277834335860916L;
 
     /**
-     * Performs a non-blocking permission check on a resource.<p>
+     * Private constructor.
      *
-     * This test will not throw an exception in case the required permissions are not
-     * available for the requested operation. Instead, it will return one of the
-     * following values:<ul>
-     * <li><code>{@link #PERM_ALLOWED}</code></li>
-     * <li><code>{@link #PERM_FILTERED}</code></li>
-     * <li><code>{@link #PERM_DENIED}</code></li></ul><p>
+     * <p>
      *
-     * Despite of the fact that the results of this method are cached, this method should
-     * be as fast as possible since it is called really often.<p>
-     *
-     * @param dbc the current database context
-     * @param resource the resource on which permissions are required
-     * @param requiredPermissions the set of permissions required for the operation
-     * @param checkLock the type of lock check to perform for write operations
-     * @param filter the resource filter to use
-     *
-     * @return <code>{@link #PERM_ALLOWED}</code> if the user has sufficient permissions on the resource
-     *      for the requested operation
-     *
-     * @throws CmsException in case of i/o errors (NOT because of insufficient permissions)
+     * @param mode the copy mode integer representation
      */
-    CmsPermissionCheckResult hasPermissions(
-        CmsDbContext dbc,
-        CmsResource resource,
-        CmsPermissionSet requiredPermissions,
-        LockCheck checkLock,
-        CmsResourceFilter filter)
-    throws CmsException;
+    private CmsPermissionCheckResult(int mode) {
+
+      super(mode);
+    }
 
     /**
-     * Initializes internal variables needed to work.<p>
+     * Checks if this permission is allowed or not.
      *
-     * @param driverManager the driver manager
-     * @param systemConfiguration the system configuration instance
+     * <p>
+     *
+     * @return <code>true</code> if allowed
      */
-    void init(CmsDriverManager driverManager, CmsSystemConfiguration systemConfiguration);
+    public boolean isAllowed() {
+
+      return (this == ALLOWED);
+    }
+  }
+
+  /** Enum for the lock check mode. */
+  public enum LockCheck {
+
+    /** Don't check locks. */
+    no("N"),
+
+    /** Check for shallow or normal lock. */
+    shallowOnly("S"),
+
+    /** Check for normal (non-shallow) lock. */
+    yes("Y");
+
+    /** The code for this enum value. */
+    private String m_code;
+
+    /**
+     * Creates a new instance.
+     *
+     * @param code the code for the enum value
+     */
+    private LockCheck(String code) {
+
+      m_code = code;
+    }
+
+    /**
+     * Gets the code for the enum value.
+     *
+     * <p>The code is a short string identifying the enum value for use in cache keys.
+     *
+     * @return the code
+     */
+    public String getCode() {
+
+      return m_code;
+    }
+  }
+
+  /** Indicates allowed permissions. */
+  CmsPermissionCheckResult PERM_ALLOWED = CmsPermissionCheckResult.ALLOWED;
+  /** Indicates denied permissions. */
+  CmsPermissionCheckResult PERM_DENIED = CmsPermissionCheckResult.DENIED;
+  /** Indicates a resource was filtered during permission check. */
+  CmsPermissionCheckResult PERM_FILTERED = CmsPermissionCheckResult.FILTERED;
+  /** Indicates a resource was not locked for a write / control operation. */
+  CmsPermissionCheckResult PERM_NOTLOCKED = CmsPermissionCheckResult.NOTLOCKED;
+
+  /**
+   * Performs a non-blocking permission check on a resource.
+   *
+   * <p>This test will not throw an exception in case the required permissions are not available for
+   * the requested operation. Instead, it will return one of the following values:
+   *
+   * <ul>
+   *   <li><code>{@link #PERM_ALLOWED}</code>
+   *   <li><code>{@link #PERM_FILTERED}</code>
+   *   <li><code>{@link #PERM_DENIED}</code>
+   * </ul>
+   *
+   * <p>Despite of the fact that the results of this method are cached, this method should be as
+   * fast as possible since it is called really often.
+   *
+   * <p>
+   *
+   * @param dbc the current database context
+   * @param resource the resource on which permissions are required
+   * @param requiredPermissions the set of permissions required for the operation
+   * @param checkLock the type of lock check to perform for write operations
+   * @param filter the resource filter to use
+   * @return <code>{@link #PERM_ALLOWED}</code> if the user has sufficient permissions on the
+   *     resource for the requested operation
+   * @throws CmsException in case of i/o errors (NOT because of insufficient permissions)
+   */
+  CmsPermissionCheckResult hasPermissions(
+      CmsDbContext dbc,
+      CmsResource resource,
+      CmsPermissionSet requiredPermissions,
+      LockCheck checkLock,
+      CmsResourceFilter filter)
+      throws CmsException;
+
+  /**
+   * Initializes internal variables needed to work.
+   *
+   * <p>
+   *
+   * @param driverManager the driver manager
+   * @param systemConfiguration the system configuration instance
+   */
+  void init(CmsDriverManager driverManager, CmsSystemConfiguration systemConfiguration);
 }

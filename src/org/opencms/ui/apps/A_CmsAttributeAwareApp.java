@@ -27,114 +27,118 @@
 
 package org.opencms.ui.apps;
 
-import java.util.Collections;
-import java.util.Map;
-
 import com.google.common.collect.Maps;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.Label;
+import java.util.Collections;
+import java.util.Map;
 
 /**
- * An abstract subclass of A_CmsWorkplaceApp which provides an additional way for the main component of an app
- * (the widget returned by getComponentForState) to influence the app layout of the app itself (i.e. the parts outside the main component).
+ * An abstract subclass of A_CmsWorkplaceApp which provides an additional way for the main component
+ * of an app (the widget returned by getComponentForState) to influence the app layout of the app
+ * itself (i.e. the parts outside the main component).
  *
+ * <p>This is done using two methods:
  *
- * This is done using two methods:
- *
- * getAttributesForComponent is used to extract additiona
- *
+ * <p>getAttributesForComponent is used to extract additiona
  */
 public abstract class A_CmsAttributeAwareApp extends A_CmsWorkplaceApp {
 
-    /**Attribute for info. */
-    public static final String ATTR_INFO_COMPONENT = "ATTR_INFO_COMPONENT";
+  /** Attribute for info. */
+  public static final String ATTR_INFO_COMPONENT = "ATTR_INFO_COMPONENT";
 
-    /**Attribute for full height. */
-    public static final String ATTR_MAIN_HEIGHT_FULL = "ATTR_MAIN_HEIGHT_FULL";
+  /** Attribute for full height. */
+  public static final String ATTR_MAIN_HEIGHT_FULL = "ATTR_MAIN_HEIGHT_FULL";
 
-    /**vaadin component. */
-    private Component m_infoComponent;
+  /** vaadin component. */
+  private Component m_infoComponent;
 
-    /**
-     * Opens the requested sub view.<p>
-     *
-     * @param state the state
-     * @param updateState <code>true</code> to update the state URL token
-     */
-    @Override
-    public void openSubView(String state, boolean updateState) {
+  /**
+   * Opens the requested sub view.
+   *
+   * <p>
+   *
+   * @param state the state
+   * @param updateState <code>true</code> to update the state URL token
+   */
+  @Override
+  public void openSubView(String state, boolean updateState) {
 
-        if (updateState) {
-            CmsAppWorkplaceUi.get().changeCurrentAppState(state);
-        }
-        Component comp = getComponentForState(state);
-        if (comp != null) {
-            updateMainComponent(comp);
-        } else {
-            m_rootLayout.setMainContent(new Label("Malformed path, tool not available for path: " + state));
-            updateAppAttributes(Collections.<String, Object> emptyMap());
-        }
-        updateSubNav(getSubNavEntries(state));
-        updateBreadCrumb(getBreadCrumbForState(state));
-
+    if (updateState) {
+      CmsAppWorkplaceUi.get().changeCurrentAppState(state);
     }
-
-    /**
-     * Replaces the app's  main component with the given component.<p>
-     *
-     * This also handles the attributes for the component, just as if the given component was returned by an app's
-     * getComponentForState method.
-     *
-     * @param comp the component to set as the main component
-     */
-    public void updateMainComponent(Component comp) {
-
-        comp.setSizeFull();
-        m_rootLayout.setMainContent(comp);
-        Map<String, Object> attributes = getAttributesForComponent(comp);
-        updateAppAttributes(attributes);
+    Component comp = getComponentForState(state);
+    if (comp != null) {
+      updateMainComponent(comp);
+    } else {
+      m_rootLayout.setMainContent(
+          new Label("Malformed path, tool not available for path: " + state));
+      updateAppAttributes(Collections.<String, Object>emptyMap());
     }
+    updateSubNav(getSubNavEntries(state));
+    updateBreadCrumb(getBreadCrumbForState(state));
+  }
 
-    /**
-     * Gets the attributes from a given component.<p>
-     *
-     * @param component to read attributes from
-     * @return map of attributes
-     */
-    protected Map<String, Object> getAttributesForComponent(Component component) {
+  /**
+   * Replaces the app's main component with the given component.
+   *
+   * <p>This also handles the attributes for the component, just as if the given component was
+   * returned by an app's getComponentForState method.
+   *
+   * @param comp the component to set as the main component
+   */
+  public void updateMainComponent(Component comp) {
 
-        Map<String, Object> result = Maps.newHashMap();
-        if (component instanceof AbstractComponent) {
-            AbstractComponent abstractComp = (AbstractComponent)component;
-            if (abstractComp.getData() instanceof Map) {
-                Map<?, ?> map = (Map<?, ?>)abstractComp.getData();
-                for (Map.Entry<?, ?> entry : map.entrySet()) {
-                    if (entry.getKey() instanceof String) {
-                        result.put((String)(entry.getKey()), entry.getValue());
-                    }
-                }
-            }
+    comp.setSizeFull();
+    m_rootLayout.setMainContent(comp);
+    Map<String, Object> attributes = getAttributesForComponent(comp);
+    updateAppAttributes(attributes);
+  }
+
+  /**
+   * Gets the attributes from a given component.
+   *
+   * <p>
+   *
+   * @param component to read attributes from
+   * @return map of attributes
+   */
+  protected Map<String, Object> getAttributesForComponent(Component component) {
+
+    Map<String, Object> result = Maps.newHashMap();
+    if (component instanceof AbstractComponent) {
+      AbstractComponent abstractComp = (AbstractComponent) component;
+      if (abstractComp.getData() instanceof Map) {
+        Map<?, ?> map = (Map<?, ?>) abstractComp.getData();
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+          if (entry.getKey() instanceof String) {
+            result.put((String) (entry.getKey()), entry.getValue());
+          }
         }
-        return result;
+      }
     }
+    return result;
+  }
 
-    /**
-     * Handles the attributes.<p>
-     *
-     * @param attributes to set
-     */
-    protected void updateAppAttributes(Map<String, Object> attributes) {
+  /**
+   * Handles the attributes.
+   *
+   * <p>
+   *
+   * @param attributes to set
+   */
+  protected void updateAppAttributes(Map<String, Object> attributes) {
 
-        m_rootLayout.setMainHeightFull(Boolean.TRUE.equals(attributes.get(ATTR_MAIN_HEIGHT_FULL)));
+    m_rootLayout.setMainHeightFull(Boolean.TRUE.equals(attributes.get(ATTR_MAIN_HEIGHT_FULL)));
 
-        Object infoComponentObj = attributes.get(ATTR_INFO_COMPONENT);
-        if (m_infoComponent != null) {
-            m_infoLayout.removeComponent(m_infoComponent);
-        }
-        if (infoComponentObj instanceof Component) {
-            m_infoComponent = (Component)infoComponentObj;
-            m_infoLayout.addComponent(m_infoComponent);
-        }
+    Object infoComponentObj = attributes.get(ATTR_INFO_COMPONENT);
+    if (m_infoComponent != null) {
+      m_infoLayout.removeComponent(m_infoComponent);
     }
+    if (infoComponentObj instanceof Component) {
+      m_infoComponent = (Component) infoComponentObj;
+      m_infoLayout.addComponent(m_infoComponent);
+    }
+  }
 }

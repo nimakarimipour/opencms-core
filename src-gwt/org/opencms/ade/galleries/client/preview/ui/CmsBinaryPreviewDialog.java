@@ -27,109 +27,116 @@
 
 package org.opencms.ade.galleries.client.preview.ui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Command;
 import org.opencms.ade.galleries.client.Messages;
 import org.opencms.ade.galleries.client.preview.CmsBinaryPreviewHandler;
 import org.opencms.ade.galleries.client.preview.I_CmsPreviewHandler;
 import org.opencms.ade.galleries.shared.CmsResourceInfoBean;
 import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryMode;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Command;
-
 /**
- * Provides a widget for the binary preview dialog .<p>
+ * Provides a widget for the binary preview dialog .
+ *
+ * <p>
  *
  * @since 8.0.
  */
 public class CmsBinaryPreviewDialog extends A_CmsPreviewDialog<CmsResourceInfoBean> {
 
-    /** The preview handler. */
-    private CmsBinaryPreviewHandler m_handler;
+  /** The preview handler. */
+  private CmsBinaryPreviewHandler m_handler;
 
-    /** The properties tab. */
-    private CmsPropertiesTab m_propertiesTab;
+  /** The properties tab. */
+  private CmsPropertiesTab m_propertiesTab;
 
-    /**
-     * The constructor.<p>
-     *
-     * @param dialogMode the dialog mode
-     * @param dialogHeight the dialog height to set
-     * @param dialogWidth the dialog width to set
-     * @param disableSelection true if selection from the preview should be disabled
-     */
-    public CmsBinaryPreviewDialog(GalleryMode dialogMode, int dialogHeight, int dialogWidth, boolean disableSelection) {
+  /**
+   * The constructor.
+   *
+   * <p>
+   *
+   * @param dialogMode the dialog mode
+   * @param dialogHeight the dialog height to set
+   * @param dialogWidth the dialog width to set
+   * @param disableSelection true if selection from the preview should be disabled
+   */
+  public CmsBinaryPreviewDialog(
+      GalleryMode dialogMode, int dialogHeight, int dialogWidth, boolean disableSelection) {
 
-        super(dialogMode, dialogHeight, dialogWidth, disableSelection);
-    }
+    super(dialogMode, dialogHeight, dialogWidth, disableSelection);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.ui.A_CmsPreviewDialog#fillContent(org.opencms.ade.galleries.shared.CmsResourceInfoBean)
-     */
-    @Override
-    public void fillContent(CmsResourceInfoBean infoBean) {
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.ui.A_CmsPreviewDialog#fillContent(org.opencms.ade.galleries.shared.CmsResourceInfoBean)
+   */
+  @Override
+  public void fillContent(CmsResourceInfoBean infoBean) {
 
-        fillPreviewPanel(infoBean);
-        m_propertiesTab.fillContent(infoBean);
-    }
+    fillPreviewPanel(infoBean);
+    m_propertiesTab.fillContent(infoBean);
+  }
 
-    /**
-     * Fills the content of the preview panel part.<p>
-     *
-     * @param infoBean the resource info
-     */
-    public void fillPreviewPanel(CmsResourceInfoBean infoBean) {
+  /**
+   * Fills the content of the preview panel part.
+   *
+   * <p>
+   *
+   * @param infoBean the resource info
+   */
+  public void fillPreviewPanel(CmsResourceInfoBean infoBean) {
 
-        m_previewPanel.setWidget(new CmsBinaryPreviewContent(infoBean, m_handler));
-    }
+    m_previewPanel.setWidget(new CmsBinaryPreviewContent(infoBean, m_handler));
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.ui.A_CmsPreviewDialog#hasChanges()
-     */
-    @Override
-    public boolean hasChanges() {
+  /** @see org.opencms.ade.galleries.client.preview.ui.A_CmsPreviewDialog#hasChanges() */
+  @Override
+  public boolean hasChanges() {
 
-        return m_propertiesTab.isChanged();
-    }
+    return m_propertiesTab.isChanged();
+  }
 
-    /**
-     * Initializes the preview.<p>
-     *
-     * @param handler the preview handler
-     */
-    public void init(CmsBinaryPreviewHandler handler) {
+  /**
+   * Initializes the preview.
+   *
+   * <p>
+   *
+   * @param handler the preview handler
+   */
+  public void init(CmsBinaryPreviewHandler handler) {
 
-        m_handler = handler;
-        final CmsPropertiesTab propTab = new CmsPropertiesTab(m_galleryMode, m_dialogHeight, m_dialogWidth, m_handler);
-        m_selectButton.addClickHandler(new ClickHandler() {
+    m_handler = handler;
+    final CmsPropertiesTab propTab =
+        new CmsPropertiesTab(m_galleryMode, m_dialogHeight, m_dialogWidth, m_handler);
+    m_selectButton.addClickHandler(
+        new ClickHandler() {
 
-            public void onClick(ClickEvent event) {
+          public void onClick(ClickEvent event) {
 
-                saveChanges(null);
-
-            }
+            saveChanges(null);
+          }
         });
-        m_propertiesTab = propTab;
-        m_tabbedPanel.add(m_propertiesTab, Messages.get().key(Messages.GUI_PREVIEW_TAB_PROPERTIES_0));
+    m_propertiesTab = propTab;
+    m_tabbedPanel.add(m_propertiesTab, Messages.get().key(Messages.GUI_PREVIEW_TAB_PROPERTIES_0));
+  }
+
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.ui.A_CmsPreviewDialog#saveChanges(com.google.gwt.user.client.Command)
+   */
+  @Override
+  public void saveChanges(Command afterSaveCommand) {
+
+    if (hasChanges()) {
+      m_propertiesTab.saveProperties(afterSaveCommand);
     }
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.ui.A_CmsPreviewDialog#saveChanges(com.google.gwt.user.client.Command)
-     */
-    @Override
-    public void saveChanges(Command afterSaveCommand) {
+  /** @see org.opencms.ade.galleries.client.preview.ui.A_CmsPreviewDialog#getHandler() */
+  @Override
+  protected I_CmsPreviewHandler<CmsResourceInfoBean> getHandler() {
 
-        if (hasChanges()) {
-            m_propertiesTab.saveProperties(afterSaveCommand);
-        }
-    }
-
-    /**
-     * @see org.opencms.ade.galleries.client.preview.ui.A_CmsPreviewDialog#getHandler()
-     */
-    @Override
-    protected I_CmsPreviewHandler<CmsResourceInfoBean> getHandler() {
-
-        return m_handler;
-    }
+    return m_handler;
+  }
 }

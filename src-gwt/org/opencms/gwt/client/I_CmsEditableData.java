@@ -31,121 +31,153 @@ import org.opencms.gwt.shared.I_CmsEditableDataExtensions;
 import org.opencms.util.CmsUUID;
 
 /**
- * Interface for a bean holding data needed to open the xml content editor.<p>
+ * Interface for a bean holding data needed to open the xml content editor.
+ *
+ * <p>
  *
  * @since 8.0.1
  */
 public interface I_CmsEditableData {
 
-    /**
-     * Gets the collector context id.<p>
-     *
-     * @return the collector context id
-     */
-    String getContextId();
+  /**
+   * Gets the collector context id.
+   *
+   * <p>
+   *
+   * @return the collector context id
+   */
+  String getContextId();
 
-    /**
-     * Returns the edit id.<p>
-     *
-     * @return the edit id
-     */
-    String getEditId();
+  /**
+   * Returns the edit id.
+   *
+   * <p>
+   *
+   * @return the edit id
+   */
+  String getEditId();
 
-    /**
-     * Gets the element id.<p>
-     *
-     * @return the element id
-     */
-    String getElementId();
+  /**
+   * Gets the element id.
+   *
+   * <p>
+   *
+   * @return the element id
+   */
+  String getElementId();
 
-    /**
-     * Returns the element language.<p>
-     *
-     * @return the element language
-     */
-    String getElementLanguage();
+  /**
+   * Returns the element language.
+   *
+   * <p>
+   *
+   * @return the element language
+   */
+  String getElementLanguage();
 
-    /**
-     * Returns the element name.<p>
-     *
-     * @return the element name
-     */
-    String getElementName();
+  /**
+   * Returns the element name.
+   *
+   * <p>
+   *
+   * @return the element name
+   */
+  String getElementName();
 
-    /**
-     * Gets the extended attributes.
-     *
-     * @return the extended attributes
-     */
-    I_CmsEditableDataExtensions getExtensions();
+  /**
+   * Gets the extended attributes.
+   *
+   * @return the extended attributes
+   */
+  I_CmsEditableDataExtensions getExtensions();
 
-    /**
-     * Returns the new link url.<p>
-     *
-     * @return the new link url
-     */
-    String getNewLink();
+  /**
+   * Returns the new link url.
+   *
+   * <p>
+   *
+   * @return the new link url
+   */
+  String getNewLink();
 
-    /**
-     * Returns the new link url.<p>
-     *
-     * @return the new link url
-     */
-    String getNewTitle();
+  /**
+   * Returns the new link url.
+   *
+   * <p>
+   *
+   * @return the new link url
+   */
+  String getNewTitle();
 
-    /**
-     * Returns the no edit reason.<p>
-     *
-     * @return the no edit reason
-     */
-    String getNoEditReason();
+  /**
+   * Returns the no edit reason.
+   *
+   * <p>
+   *
+   * @return the no edit reason
+   */
+  String getNoEditReason();
 
-    /**
-     * Gets the (fully qualified) name of the post-create handler class to use.<p>
-     *
-     * @return the post-create handler class name
-     */
-    String getPostCreateHandler();
+  /**
+   * Gets the (fully qualified) name of the post-create handler class to use.
+   *
+   * <p>
+   *
+   * @return the post-create handler class name
+   */
+  String getPostCreateHandler();
 
-    /**
-     * Returns the site path.<p>
-     *
-     * @return the site path
-     */
-    String getSitePath();
+  /**
+   * Returns the site path.
+   *
+   * <p>
+   *
+   * @return the site path
+   */
+  String getSitePath();
 
-    /**
-     * Returns the structure id.<p>
-     *
-     * @return the structure id
-     */
-    CmsUUID getStructureId();
+  /**
+   * Returns the structure id.
+   *
+   * <p>
+   *
+   * @return the structure id
+   */
+  CmsUUID getStructureId();
 
-    /**
-     * Returns whether an edit handler is available for the resource type.<p>
-     *
-     * @return <code>true</code> if an edit handler is available for the resource type
-     */
-    boolean hasEditHandler();
+  /**
+   * Returns whether an edit handler is available for the resource type.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if an edit handler is available for the resource type
+   */
+  boolean hasEditHandler();
 
-    /**
-     * Returns true if there is an actual resource behind the editable element.<p>
-     *
-     * @return true if the editable element represents an actual resource
-     */
-    boolean hasResource();
+  /**
+   * Returns true if there is an actual resource behind the editable element.
+   *
+   * <p>
+   *
+   * @return true if the editable element represents an actual resource
+   */
+  boolean hasResource();
 
-    /**
-     * Returns if the given resource is unreleased or expired.<p>
-     *
-     * @return <code>true</code> if the given resource is unreleased or expired
-     */
-    boolean isUnreleasedOrExpired();
+  /**
+   * Returns if the given resource is unreleased or expired.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the given resource is unreleased or expired
+   */
+  boolean isUnreleasedOrExpired();
 
-    /**
-     * Sets the site path.<p>
-     *
-     * @param sitePath the site path
-     */
-    void setSitePath(String sitePath);
+  /**
+   * Sets the site path.
+   *
+   * <p>
+   *
+   * @param sitePath the site path
+   */
+  void setSitePath(String sitePath);
 }

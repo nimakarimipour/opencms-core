@@ -30,18 +30,21 @@ package org.opencms.ade.sitemap.client.hoverbar;
 import com.google.gwt.event.shared.EventHandler;
 
 /**
- * Hoverbar attach event handler.<p>
+ * Hoverbar attach event handler.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.ade.sitemap.client.control.CmsSitemapController
  */
 public interface I_CmsHoverbarShowHandler extends EventHandler {
 
-    /**
-     * Will be triggered on attach.<p>
-     *
-     * @param event the event
-     */
-    void onShow(CmsHoverbarShowEvent event);
+  /**
+   * Will be triggered on attach.
+   *
+   * <p>
+   *
+   * @param event the event
+   */
+  void onShow(CmsHoverbarShowEvent event);
 }

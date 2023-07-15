@@ -27,53 +27,57 @@
 
 package org.opencms.gwt.shared.rpc;
 
+import com.google.gwt.user.client.rpc.RemoteService;
+import java.util.List;
 import org.opencms.gwt.CmsRpcException;
 import org.opencms.gwt.shared.CmsUploadFileBean;
 import org.opencms.gwt.shared.CmsUploadProgessInfo;
 
-import java.util.List;
-
-import com.google.gwt.user.client.rpc.RemoteService;
-
 /**
- * Handles all RPC services related to the upload dialog.<p>
+ * Handles all RPC services related to the upload dialog.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.ade.upload.CmsUploadService
  * @see org.opencms.gwt.shared.rpc.I_CmsUploadService
  * @see org.opencms.gwt.shared.rpc.I_CmsUploadServiceAsync
  */
 public interface I_CmsUploadService extends RemoteService {
 
-    /**
-     * Cancels the upload.<p>
-     *
-     * @return <code>true</code> if the listener was canceled <code>false</code> otherwise
-     */
-    Boolean cancelUpload();
+  /**
+   * Cancels the upload.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the listener was canceled <code>false</code> otherwise
+   */
+  Boolean cancelUpload();
 
-    /**
-     * Checks the availability of a resource in the VFS, using the
-     * {@link org.opencms.file.CmsResourceFilter#IGNORE_EXPIRATION} filter.<p>
-     *
-     * Calculates the VFS path for each filename in the given list and checks its availability.<p>
-     *
-     * @param fileNames the filenames to check
-     * @param targetFolder the folder to check
-     * @param isRootPath <code>true</code> in case the target folder path is a root path
-     *
-     * @return a {@link CmsUploadFileBean} that holds the list of resource names (without the path)
-     * that already exist in the VFS and a list of filenames that are invalid
-     */
-    CmsUploadFileBean checkUploadFiles(List<String> fileNames, String targetFolder, boolean isRootPath);
+  /**
+   * Checks the availability of a resource in the VFS, using the {@link
+   * org.opencms.file.CmsResourceFilter#IGNORE_EXPIRATION} filter.
+   *
+   * <p>Calculates the VFS path for each filename in the given list and checks its availability.
+   *
+   * <p>
+   *
+   * @param fileNames the filenames to check
+   * @param targetFolder the folder to check
+   * @param isRootPath <code>true</code> in case the target folder path is a root path
+   * @return a {@link CmsUploadFileBean} that holds the list of resource names (without the path)
+   *     that already exist in the VFS and a list of filenames that are invalid
+   */
+  CmsUploadFileBean checkUploadFiles(
+      List<String> fileNames, String targetFolder, boolean isRootPath);
 
-    /**
-     * Returns the upload progress information.<p>
-     *
-     * @return the upload progress information
-     *
-     * @throws CmsRpcException if something goes wrong
-     */
-    CmsUploadProgessInfo getUploadProgressInfo() throws CmsRpcException;
+  /**
+   * Returns the upload progress information.
+   *
+   * <p>
+   *
+   * @return the upload progress information
+   * @throws CmsRpcException if something goes wrong
+   */
+  CmsUploadProgessInfo getUploadProgressInfo() throws CmsRpcException;
 }

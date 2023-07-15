@@ -27,42 +27,44 @@
 
 package org.opencms.acacia.client.widgets;
 
+import com.google.gwt.dom.client.Element;
 import org.opencms.acacia.client.I_CmsWidgetFactory;
 import org.opencms.ade.contenteditor.widgetregistry.client.WidgetRegistry;
 import org.opencms.gwt.client.I_CmsHasInit;
 
-import com.google.gwt.dom.client.Element;
-
 /**
- * Factory to generate basic input widget.<p>
+ * Factory to generate basic input widget.
+ *
+ * <p>
  */
 public class CmsMultiSelectWidgetFactory implements I_CmsWidgetFactory, I_CmsHasInit {
 
-    /** The widget name. */
-    private static final String WIDGET_NAME = "org.opencms.widgets.CmsMultiSelectWidget";
+  /** The widget name. */
+  private static final String WIDGET_NAME = "org.opencms.widgets.CmsMultiSelectWidget";
 
-    /**
-     * Initializes this class.<p>
-     */
-    public static void initClass() {
+  /**
+   * Initializes this class.
+   *
+   * <p>
+   */
+  public static void initClass() {
 
-        WidgetRegistry.getInstance().registerWidgetFactory(WIDGET_NAME, new CmsMultiSelectWidgetFactory());
-    }
+    WidgetRegistry.getInstance()
+        .registerWidgetFactory(WIDGET_NAME, new CmsMultiSelectWidgetFactory());
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetFactory#createFormWidget(java.lang.String)
-     */
-    public I_CmsFormEditWidget createFormWidget(String configuration) {
+  /** @see org.opencms.acacia.client.I_CmsWidgetFactory#createFormWidget(java.lang.String) */
+  public I_CmsFormEditWidget createFormWidget(String configuration) {
 
-        return new CmsFormWidgetWrapper(new CmsMultiSelectWidget(configuration));
-    }
+    return new CmsFormWidgetWrapper(new CmsMultiSelectWidget(configuration));
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetFactory#createInlineWidget(java.lang.String, com.google.gwt.dom.client.Element)
-     */
-    public I_CmsEditWidget createInlineWidget(String configuration, Element element) {
+  /**
+   * @see org.opencms.acacia.client.I_CmsWidgetFactory#createInlineWidget(java.lang.String,
+   *     com.google.gwt.dom.client.Element)
+   */
+  public I_CmsEditWidget createInlineWidget(String configuration, Element element) {
 
-        return null;
-    }
-
+    return null;
+  }
 }

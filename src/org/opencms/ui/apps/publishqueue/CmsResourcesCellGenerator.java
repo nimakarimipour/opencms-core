@@ -27,77 +27,83 @@
 
 package org.opencms.ui.apps.publishqueue;
 
+import com.vaadin.v7.ui.Table;
+import java.util.List;
 import org.opencms.db.CmsPublishedResource;
 import org.opencms.file.CmsResource;
 
-import java.util.List;
-
-import com.vaadin.v7.ui.Table;
-
 /**
-*   Table column generator for published-resources. Shows list as comma separated string of setted maximal length.<p>
-*   The Value of property have to be of type List<CmsResource> or List<CmsPublishedResource>.<p>
-*/
+ * Table column generator for published-resources. Shows list as comma separated string of setted
+ * maximal length.
+ *
+ * <p>The Value of property have to be of type List<CmsResource> or List<CmsPublishedResource>.
+ *
+ * <p>
+ */
 class CmsResourcesCellGenerator implements Table.ColumnGenerator {
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = -3349782291910407616L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -3349782291910407616L;
 
-    /**limit size for the string to be shown.*/
-    private int m_charLimit;
+  /** limit size for the string to be shown. */
+  private int m_charLimit;
 
-    /**
-     * Default public constructor.<p>
-     *
-     * @param charLimit maximal chars to output ".." instead of next list item.
-     */
-    public CmsResourcesCellGenerator(int charLimit) {
+  /**
+   * Default public constructor.
+   *
+   * <p>
+   *
+   * @param charLimit maximal chars to output ".." instead of next list item.
+   */
+  public CmsResourcesCellGenerator(int charLimit) {
 
-        m_charLimit = charLimit;
+    m_charLimit = charLimit;
+  }
+
+  public static String formatResourcesForTable(List<?> resources, int charLimit) {
+
+    String out = "";
+    if (!resources.isEmpty()) {
+      out = getRootPath(resources.get(0));
+      int i = 1;
+      while ((resources.size() > i) & (out.length() < charLimit)) {
+        out += ", " + getRootPath(resources.get(i));
+      }
+      if (resources.size() > i) {
+        out += " ...";
+      }
     }
+    return out;
+  }
 
-    public static String formatResourcesForTable(List<?> resources, int charLimit) {
+  /**
+   * Reads path of given resource.
+   *
+   * <p>
+   *
+   * @param resource CmsResource or CmsPublishedResource to get path of
+   * @return path
+   */
+  private static String getRootPath(Object resource) {
 
-        String out = "";
-        if (!resources.isEmpty()) {
-            out = getRootPath(resources.get(0));
-            int i = 1;
-            while ((resources.size() > i) & (out.length() < charLimit)) {
-                out += ", " + getRootPath(resources.get(i));
-            }
-            if (resources.size() > i) {
-                out += " ...";
-            }
-        }
-        return out;
+    if (resource instanceof CmsResource) {
+      return ((CmsResource) resource).getRootPath();
     }
-
-    /**
-     * Reads path of given resource.<p>
-     *
-     * @param resource CmsResource or CmsPublishedResource to get path of
-     * @return path
-     */
-    private static String getRootPath(Object resource) {
-
-        if (resource instanceof CmsResource) {
-            return ((CmsResource)resource).getRootPath();
-        }
-        if (resource instanceof CmsPublishedResource) {
-            return ((CmsPublishedResource)resource).getRootPath();
-        }
-        throw new IllegalArgumentException("wrong format of resources"); //should never happen
+    if (resource instanceof CmsPublishedResource) {
+      return ((CmsPublishedResource) resource).getRootPath();
     }
+    throw new IllegalArgumentException("wrong format of resources"); // should never happen
+  }
 
-    /**
-    * @see com.vaadin.ui.Table.ColumnGenerator#generateCell(com.vaadin.ui.Table, java.lang.Object, java.lang.Object)
-    */
-    public Object generateCell(Table source, Object itemId, Object columnId) {
+  /**
+   * @see com.vaadin.ui.Table.ColumnGenerator#generateCell(com.vaadin.ui.Table, java.lang.Object,
+   *     java.lang.Object)
+   */
+  public Object generateCell(Table source, Object itemId, Object columnId) {
 
-        List<?> resources = (List<?>)source.getItem(itemId).getItemProperty(columnId).getValue();
+    List<?> resources = (List<?>) source.getItem(itemId).getItemProperty(columnId).getValue();
 
-        String out = formatResourcesForTable(resources, m_charLimit);
-        return out;
-    }
-
+    String out = formatResourcesForTable(resources, m_charLimit);
+    return out;
+  }
 }

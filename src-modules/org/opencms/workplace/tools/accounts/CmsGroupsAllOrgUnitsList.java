@@ -27,6 +27,15 @@
 
 package org.opencms.workplace.tools.accounts;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.file.CmsGroup;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.main.CmsException;
@@ -43,236 +52,233 @@ import org.opencms.workplace.list.CmsListItemDetails;
 import org.opencms.workplace.list.CmsListItemDetailsFormatter;
 import org.opencms.workplace.list.CmsListMetadata;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Group account view over all manageable organizational units.<p>
+ * Group account view over all manageable organizational units.
+ *
+ * <p>
  *
  * @since 6.5.6
  */
 public class CmsGroupsAllOrgUnitsList extends A_CmsGroupsList {
 
-    /** list action id constant. */
-    public static final String LIST_ACTION_OVERVIEW = "ao";
+  /** list action id constant. */
+  public static final String LIST_ACTION_OVERVIEW = "ao";
 
-    /** list column id constant. */
-    public static final String LIST_COLUMN_ORGUNIT = "co";
+  /** list column id constant. */
+  public static final String LIST_COLUMN_ORGUNIT = "co";
 
-    /** list item detail id constant. */
-    public static final String LIST_DETAIL_ORGUNIT_DESC = "dd";
+  /** list item detail id constant. */
+  public static final String LIST_DETAIL_ORGUNIT_DESC = "dd";
 
-    /** list id constant. */
-    public static final String LIST_ID = "lgaou";
+  /** list id constant. */
+  public static final String LIST_ID = "lgaou";
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsGroupsAllOrgUnitsList(CmsJspActionElement jsp) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsGroupsAllOrgUnitsList(CmsJspActionElement jsp) {
 
-        super(jsp, LIST_ID, Messages.get().container(Messages.GUI_GROUPS_LIST_NAME_0));
+    super(jsp, LIST_ID, Messages.get().container(Messages.GUI_GROUPS_LIST_NAME_0));
+  }
+
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsGroupsAllOrgUnitsList(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
+
+    this(new CmsJspActionElement(context, req, res));
+  }
+
+  /** @see org.opencms.workplace.tools.accounts.A_CmsGroupsList#executeListSingleActions() */
+  @Override
+  public void executeListSingleActions() throws IOException, ServletException, CmsRuntimeException {
+
+    String groupId = getSelectedItem().getId();
+    String groupName = getSelectedItem().get(LIST_COLUMN_NAME).toString();
+
+    Map<String, String[]> params = new HashMap<String, String[]>();
+    params.put(A_CmsEditGroupDialog.PARAM_GROUPID, new String[] {groupId});
+    params.put(A_CmsEditGroupDialog.PARAM_GROUPNAME, new String[] {groupName});
+    params.put(
+        A_CmsOrgUnitDialog.PARAM_OUFQN,
+        new String[] {getSelectedItem().get(LIST_COLUMN_ORGUNIT).toString().substring(1)});
+    // set action parameter to initial dialog call
+    params.put(CmsDialog.PARAM_ACTION, new String[] {CmsDialog.DIALOG_INITIAL});
+
+    if (getParamListAction().equals(LIST_ACTION_OVERVIEW)) {
+      // forward
+      getToolManager().jspForwardTool(this, "/accounts/orgunit/groups/edit", params);
+    } else if (getParamListAction().equals(LIST_DEFACTION_EDIT)) {
+      // forward to the edit user screen
+      getToolManager().jspForwardTool(this, "/accounts/orgunit/groups/edit", params);
+    } else {
+      super.executeListSingleActions();
     }
+    listSave();
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsGroupsAllOrgUnitsList(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /** @see org.opencms.workplace.tools.accounts.A_CmsGroupsList#fillDetails(java.lang.String) */
+  @Override
+  protected void fillDetails(String detailId) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    super.fillDetails(detailId);
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsGroupsList#executeListSingleActions()
-     */
-    @Override
-    public void executeListSingleActions() throws IOException, ServletException, CmsRuntimeException {
-
-        String groupId = getSelectedItem().getId();
-        String groupName = getSelectedItem().get(LIST_COLUMN_NAME).toString();
-
-        Map<String, String[]> params = new HashMap<String, String[]>();
-        params.put(A_CmsEditGroupDialog.PARAM_GROUPID, new String[] {groupId});
-        params.put(A_CmsEditGroupDialog.PARAM_GROUPNAME, new String[] {groupName});
-        params.put(
-            A_CmsOrgUnitDialog.PARAM_OUFQN,
-            new String[] {getSelectedItem().get(LIST_COLUMN_ORGUNIT).toString().substring(1)});
-        // set action parameter to initial dialog call
-        params.put(CmsDialog.PARAM_ACTION, new String[] {CmsDialog.DIALOG_INITIAL});
-
-        if (getParamListAction().equals(LIST_ACTION_OVERVIEW)) {
-            // forward
-            getToolManager().jspForwardTool(this, "/accounts/orgunit/groups/edit", params);
-        } else if (getParamListAction().equals(LIST_DEFACTION_EDIT)) {
-            // forward to the edit user screen
-            getToolManager().jspForwardTool(this, "/accounts/orgunit/groups/edit", params);
+    // get content
+    List<CmsListItem> groups = getList().getAllContent();
+    Iterator<CmsListItem> itGroups = groups.iterator();
+    while (itGroups.hasNext()) {
+      CmsListItem item = itGroups.next();
+      String groupName = item.get(LIST_COLUMN_NAME).toString();
+      StringBuffer html = new StringBuffer(512);
+      try {
+        if (detailId.equals(LIST_DETAIL_ORGUNIT_DESC)) {
+          CmsGroup group = getCms().readGroup(groupName);
+          html.append(
+              OpenCms.getOrgUnitManager()
+                  .readOrganizationalUnit(getCms(), group.getOuFqn())
+                  .getDescription(getLocale()));
         } else {
-            super.executeListSingleActions();
+          continue;
         }
-        listSave();
+      } catch (Exception e) {
+        // ignore
+      }
+      item.set(detailId, html.toString());
+    }
+  }
+
+  /** @see org.opencms.workplace.tools.accounts.A_CmsGroupsList#getGroups() */
+  @Override
+  protected List<CmsGroup> getGroups() throws CmsException {
+
+    return CmsPrincipal.filterCoreGroups(
+        OpenCms.getRoleManager().getManageableGroups(getCms(), "", true));
+  }
+
+  /** @see org.opencms.workplace.tools.accounts.A_CmsGroupsList#getListItems() */
+  @Override
+  protected List<CmsListItem> getListItems() throws CmsException {
+
+    List<CmsListItem> listItems = super.getListItems();
+    Iterator<CmsListItem> itListItems = listItems.iterator();
+    while (itListItems.hasNext()) {
+      CmsListItem item = itListItems.next();
+      CmsGroup group = getCms().readGroup(new CmsUUID(item.getId()));
+      item.set(LIST_COLUMN_ORGUNIT, CmsOrganizationalUnit.SEPARATOR + group.getOuFqn());
     }
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsGroupsList#fillDetails(java.lang.String)
-     */
-    @Override
-    protected void fillDetails(String detailId) {
+    return listItems;
+  }
 
-        super.fillDetails(detailId);
+  /**
+   * @see
+   *     org.opencms.workplace.tools.accounts.A_CmsGroupsList#setColumns(org.opencms.workplace.list.CmsListMetadata)
+   */
+  @Override
+  protected void setColumns(CmsListMetadata metadata) {
 
-        // get content
-        List<CmsListItem> groups = getList().getAllContent();
-        Iterator<CmsListItem> itGroups = groups.iterator();
-        while (itGroups.hasNext()) {
-            CmsListItem item = itGroups.next();
-            String groupName = item.get(LIST_COLUMN_NAME).toString();
-            StringBuffer html = new StringBuffer(512);
-            try {
-                if (detailId.equals(LIST_DETAIL_ORGUNIT_DESC)) {
-                    CmsGroup group = getCms().readGroup(groupName);
-                    html.append(
-                        OpenCms.getOrgUnitManager().readOrganizationalUnit(getCms(), group.getOuFqn()).getDescription(
-                            getLocale()));
-                } else {
-                    continue;
-                }
-            } catch (Exception e) {
-                // ignore
-            }
-            item.set(detailId, html.toString());
-        }
-    }
+    super.setColumns(metadata);
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsGroupsList#getGroups()
-     */
-    @Override
-    protected List<CmsGroup> getGroups() throws CmsException {
+    metadata.getColumnDefinition(LIST_COLUMN_USERS).setVisible(false);
+    metadata.getColumnDefinition(LIST_COLUMN_ACTIVATE).setVisible(false);
+    metadata.getColumnDefinition(LIST_COLUMN_DELETE).setVisible(false);
 
-        return CmsPrincipal.filterCoreGroups(OpenCms.getRoleManager().getManageableGroups(getCms(), "", true));
-    }
+    metadata.getColumnDefinition(LIST_COLUMN_DISPLAY).setWidth("25%");
+    metadata.getColumnDefinition(LIST_COLUMN_DESCRIPTION).setWidth("50%");
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsGroupsList#getListItems()
-     */
-    @Override
-    protected List<CmsListItem> getListItems() throws CmsException {
+    // add column for orgunit
+    CmsListColumnDefinition orgUnitCol = new CmsListColumnDefinition(LIST_COLUMN_ORGUNIT);
+    orgUnitCol.setName(Messages.get().container(Messages.GUI_GROUPS_LIST_COLS_ORGUNIT_0));
+    orgUnitCol.setWidth("25%");
+    metadata.addColumn(
+        orgUnitCol,
+        metadata
+            .getColumnDefinitions()
+            .indexOf(metadata.getColumnDefinition(LIST_COLUMN_DESCRIPTION)));
+  }
 
-        List<CmsListItem> listItems = super.getListItems();
-        Iterator<CmsListItem> itListItems = listItems.iterator();
-        while (itListItems.hasNext()) {
-            CmsListItem item = itListItems.next();
-            CmsGroup group = getCms().readGroup(new CmsUUID(item.getId()));
-            item.set(LIST_COLUMN_ORGUNIT, CmsOrganizationalUnit.SEPARATOR + group.getOuFqn());
-        }
+  /**
+   * @see
+   *     org.opencms.workplace.tools.accounts.A_CmsGroupsList#setDeleteAction(org.opencms.workplace.list.CmsListColumnDefinition)
+   */
+  @Override
+  protected void setDeleteAction(CmsListColumnDefinition deleteCol) {
 
-        return listItems;
-    }
+    // noop
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsGroupsList#setColumns(org.opencms.workplace.list.CmsListMetadata)
-     */
-    @Override
-    protected void setColumns(CmsListMetadata metadata) {
+  /**
+   * @see
+   *     org.opencms.workplace.tools.accounts.A_CmsGroupsList#setEditAction(org.opencms.workplace.list.CmsListColumnDefinition)
+   */
+  @Override
+  protected void setEditAction(CmsListColumnDefinition editCol) {
 
-        super.setColumns(metadata);
+    CmsListDirectAction editAction = new CmsListDirectAction(LIST_ACTION_OVERVIEW);
+    editAction.setName(Messages.get().container(Messages.GUI_GROUPS_LIST_DEFACTION_EDIT_NAME_0));
+    editAction.setHelpText(
+        Messages.get().container(Messages.GUI_GROUPS_LIST_DEFACTION_EDIT_HELP_0));
+    editAction.setIconPath(A_CmsUsersList.PATH_BUTTONS + "group.png");
+    editCol.addDirectAction(editAction);
+  }
 
-        metadata.getColumnDefinition(LIST_COLUMN_USERS).setVisible(false);
-        metadata.getColumnDefinition(LIST_COLUMN_ACTIVATE).setVisible(false);
-        metadata.getColumnDefinition(LIST_COLUMN_DELETE).setVisible(false);
+  /**
+   * @see
+   *     org.opencms.workplace.tools.accounts.A_CmsGroupsList#setIndependentActions(org.opencms.workplace.list.CmsListMetadata)
+   */
+  @Override
+  protected void setIndependentActions(CmsListMetadata metadata) {
 
-        metadata.getColumnDefinition(LIST_COLUMN_DISPLAY).setWidth("25%");
-        metadata.getColumnDefinition(LIST_COLUMN_DESCRIPTION).setWidth("50%");
+    super.setIndependentActions(metadata);
 
-        // add column for orgunit
-        CmsListColumnDefinition orgUnitCol = new CmsListColumnDefinition(LIST_COLUMN_ORGUNIT);
-        orgUnitCol.setName(Messages.get().container(Messages.GUI_GROUPS_LIST_COLS_ORGUNIT_0));
-        orgUnitCol.setWidth("25%");
-        metadata.addColumn(
-            orgUnitCol,
-            metadata.getColumnDefinitions().indexOf(metadata.getColumnDefinition(LIST_COLUMN_DESCRIPTION)));
+    // add orgunit description details
+    CmsListItemDetails orgUnitDescDetails = new CmsListItemDetails(LIST_DETAIL_ORGUNIT_DESC);
+    orgUnitDescDetails.setAtColumn(LIST_COLUMN_DISPLAY);
+    orgUnitDescDetails.setVisible(false);
+    orgUnitDescDetails.setShowActionName(
+        Messages.get().container(Messages.GUI_USERS_DETAIL_SHOW_ORGUNIT_DESC_NAME_0));
+    orgUnitDescDetails.setShowActionHelpText(
+        Messages.get().container(Messages.GUI_USERS_DETAIL_SHOW_ORGUNIT_DESC_HELP_0));
+    orgUnitDescDetails.setHideActionName(
+        Messages.get().container(Messages.GUI_USERS_DETAIL_HIDE_ORGUNIT_DESC_NAME_0));
+    orgUnitDescDetails.setHideActionHelpText(
+        Messages.get().container(Messages.GUI_USERS_DETAIL_HIDE_ORGUNIT_DESC_HELP_0));
+    orgUnitDescDetails.setName(
+        Messages.get().container(Messages.GUI_USERS_DETAIL_ORGUNIT_DESC_NAME_0));
+    orgUnitDescDetails.setFormatter(
+        new CmsListItemDetailsFormatter(
+            Messages.get().container(Messages.GUI_USERS_DETAIL_ORGUNIT_DESC_NAME_0)));
+    metadata.addItemDetails(orgUnitDescDetails);
 
-    }
+    metadata.getSearchAction().addColumn(metadata.getColumnDefinition(LIST_COLUMN_DESCRIPTION));
+    metadata.getSearchAction().addColumn(metadata.getColumnDefinition(LIST_COLUMN_ORGUNIT));
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsGroupsList#setDeleteAction(org.opencms.workplace.list.CmsListColumnDefinition)
-     */
-    @Override
-    protected void setDeleteAction(CmsListColumnDefinition deleteCol) {
+  /**
+   * @see
+   *     org.opencms.workplace.tools.accounts.A_CmsGroupsList#setMultiActions(org.opencms.workplace.list.CmsListMetadata)
+   */
+  @Override
+  protected void setMultiActions(CmsListMetadata metadata) {
 
-        // noop
-    }
+    // noop
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsGroupsList#setEditAction(org.opencms.workplace.list.CmsListColumnDefinition)
-     */
-    @Override
-    protected void setEditAction(CmsListColumnDefinition editCol) {
+  /** @see org.opencms.workplace.list.A_CmsListDialog#validateParamaters() */
+  @Override
+  protected void validateParamaters() throws Exception {
 
-        CmsListDirectAction editAction = new CmsListDirectAction(LIST_ACTION_OVERVIEW);
-        editAction.setName(Messages.get().container(Messages.GUI_GROUPS_LIST_DEFACTION_EDIT_NAME_0));
-        editAction.setHelpText(Messages.get().container(Messages.GUI_GROUPS_LIST_DEFACTION_EDIT_HELP_0));
-        editAction.setIconPath(A_CmsUsersList.PATH_BUTTONS + "group.png");
-        editCol.addDirectAction(editAction);
-    }
-
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsGroupsList#setIndependentActions(org.opencms.workplace.list.CmsListMetadata)
-     */
-    @Override
-    protected void setIndependentActions(CmsListMetadata metadata) {
-
-        super.setIndependentActions(metadata);
-
-        // add orgunit description details
-        CmsListItemDetails orgUnitDescDetails = new CmsListItemDetails(LIST_DETAIL_ORGUNIT_DESC);
-        orgUnitDescDetails.setAtColumn(LIST_COLUMN_DISPLAY);
-        orgUnitDescDetails.setVisible(false);
-        orgUnitDescDetails.setShowActionName(
-            Messages.get().container(Messages.GUI_USERS_DETAIL_SHOW_ORGUNIT_DESC_NAME_0));
-        orgUnitDescDetails.setShowActionHelpText(
-            Messages.get().container(Messages.GUI_USERS_DETAIL_SHOW_ORGUNIT_DESC_HELP_0));
-        orgUnitDescDetails.setHideActionName(
-            Messages.get().container(Messages.GUI_USERS_DETAIL_HIDE_ORGUNIT_DESC_NAME_0));
-        orgUnitDescDetails.setHideActionHelpText(
-            Messages.get().container(Messages.GUI_USERS_DETAIL_HIDE_ORGUNIT_DESC_HELP_0));
-        orgUnitDescDetails.setName(Messages.get().container(Messages.GUI_USERS_DETAIL_ORGUNIT_DESC_NAME_0));
-        orgUnitDescDetails.setFormatter(
-            new CmsListItemDetailsFormatter(Messages.get().container(Messages.GUI_USERS_DETAIL_ORGUNIT_DESC_NAME_0)));
-        metadata.addItemDetails(orgUnitDescDetails);
-
-        metadata.getSearchAction().addColumn(metadata.getColumnDefinition(LIST_COLUMN_DESCRIPTION));
-        metadata.getSearchAction().addColumn(metadata.getColumnDefinition(LIST_COLUMN_ORGUNIT));
-    }
-
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsGroupsList#setMultiActions(org.opencms.workplace.list.CmsListMetadata)
-     */
-    @Override
-    protected void setMultiActions(CmsListMetadata metadata) {
-
-        // noop
-    }
-
-    /**
-     * @see org.opencms.workplace.list.A_CmsListDialog#validateParamaters()
-     */
-    @Override
-    protected void validateParamaters() throws Exception {
-
-        // no param check needed
-    }
+    // no param check needed
+  }
 }

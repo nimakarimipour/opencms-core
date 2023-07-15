@@ -30,30 +30,27 @@ package org.opencms.gwt.shared.categorizedselect;
 import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanFactory;
 
-/**
- * AutoBean factory used to create the data for the categorized select widget.
- */
+/** AutoBean factory used to create the data for the categorized select widget. */
 public interface I_CmsCategorizedSelectDataFactory extends AutoBeanFactory {
 
-    /**
-     * Creates new category.
-     *
-     * @return the category bean
-     */
-    AutoBean<I_CmsCategorizedSelectData.Category> category();
+  /**
+   * Creates new category.
+   *
+   * @return the category bean
+   */
+  AutoBean<I_CmsCategorizedSelectData.Category> category();
 
-    /**
-     * Creates new configuration object.
-     *
-     * @return the configuration
-     */
-    AutoBean<I_CmsCategorizedSelectData> config();
+  /**
+   * Creates new configuration object.
+   *
+   * @return the configuration
+   */
+  AutoBean<I_CmsCategorizedSelectData> config();
 
-    /**
-     * Creates new option object.
-     *
-     * @return the option object
-     */
-    AutoBean<I_CmsCategorizedSelectData.Option> option();
-
+  /**
+   * Creates new option object.
+   *
+   * @return the option object
+   */
+  AutoBean<I_CmsCategorizedSelectData.Option> option();
 }

@@ -27,9 +27,6 @@
 
 package org.opencms.gwt.client.ui.input;
 
-import org.opencms.gwt.client.ui.css.I_CmsInputLayoutBundle;
-import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
-
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -40,59 +37,69 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import org.opencms.gwt.client.ui.css.I_CmsInputLayoutBundle;
+import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
 
 /**
- * Wraps the GWT suggest box to enhance the layout.<p>
+ * Wraps the GWT suggest box to enhance the layout.
+ *
+ * <p>
  */
 public class CmsSuggestBox extends Composite
-implements HasValueChangeHandlers<String>, HasSelectionHandlers<SuggestOracle.Suggestion> {
+    implements HasValueChangeHandlers<String>, HasSelectionHandlers<SuggestOracle.Suggestion> {
 
-    /** The wrapped suggest box. */
-    private SuggestBox m_suggestBox;
+  /** The wrapped suggest box. */
+  private SuggestBox m_suggestBox;
 
-    /** The container for the text box. */
-    private FlowPanel m_textBoxContainer;
+  /** The container for the text box. */
+  private FlowPanel m_textBoxContainer;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param oracle the suggestion oracle
-     */
-    public CmsSuggestBox(SuggestOracle oracle) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param oracle the suggestion oracle
+   */
+  public CmsSuggestBox(SuggestOracle oracle) {
 
-        m_textBoxContainer = new FlowPanel();
-        m_textBoxContainer.setStyleName(I_CmsInputLayoutBundle.INSTANCE.inputCss().textBoxPanel());
-        m_textBoxContainer.addStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().cornerAll());
-        m_textBoxContainer.addStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().textMedium());
-        m_suggestBox = new SuggestBox(oracle);
-        m_textBoxContainer.add(m_suggestBox);
+    m_textBoxContainer = new FlowPanel();
+    m_textBoxContainer.setStyleName(I_CmsInputLayoutBundle.INSTANCE.inputCss().textBoxPanel());
+    m_textBoxContainer.addStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().cornerAll());
+    m_textBoxContainer.addStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().textMedium());
+    m_suggestBox = new SuggestBox(oracle);
+    m_textBoxContainer.add(m_suggestBox);
 
-        initWidget(m_textBoxContainer);
-    }
+    initWidget(m_textBoxContainer);
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasSelectionHandlers#addSelectionHandler(com.google.gwt.event.logical.shared.SelectionHandler)
-     */
-    public HandlerRegistration addSelectionHandler(SelectionHandler<Suggestion> handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasSelectionHandlers#addSelectionHandler(com.google.gwt.event.logical.shared.SelectionHandler)
+   */
+  public HandlerRegistration addSelectionHandler(SelectionHandler<Suggestion> handler) {
 
-        return m_suggestBox.addSelectionHandler(handler);
-    }
+    return m_suggestBox.addSelectionHandler(handler);
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
 
-        return m_suggestBox.addValueChangeHandler(handler);
-    }
+    return m_suggestBox.addValueChangeHandler(handler);
+  }
 
-    /**
-     * Sets the text value.<p>
-     *
-     * @param textValue he text value
-     */
-    public void setTextValue(String textValue) {
+  /**
+   * Sets the text value.
+   *
+   * <p>
+   *
+   * @param textValue he text value
+   */
+  public void setTextValue(String textValue) {
 
-        m_suggestBox.setText(textValue);
-    }
+    m_suggestBox.setText(textValue);
+  }
 }

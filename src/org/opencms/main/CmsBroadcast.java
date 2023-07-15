@@ -32,256 +32,269 @@ import org.opencms.i18n.CmsEncoder;
 import org.opencms.ui.components.CmsRichTextArea;
 
 /**
- * A single broadcast message, send from one OpenCms user to another.<p>
+ * A single broadcast message, send from one OpenCms user to another.
  *
- * To addess a broadcast to another user, it must be placed in the
- * broadcast queue of that user using for example
- * {@link org.opencms.main.CmsSessionManager#sendBroadcast(CmsUser, String, CmsUser)}.<p>
+ * <p>To addess a broadcast to another user, it must be placed in the broadcast queue of that user
+ * using for example {@link org.opencms.main.CmsSessionManager#sendBroadcast(CmsUser, String,
+ * CmsUser)}.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsBroadcast implements Cloneable {
 
-    /** The content mode describes how the text used for a broadcast message should be interpreted. */
-    public enum ContentMode {
-        /** Broadcast message is plaintext and needs to be converted to HTML. */
-        plain,
-        /** Broadcast message is already HTML, but may need to be cleaned up. */
-        html;
+  /** The content mode describes how the text used for a broadcast message should be interpreted. */
+  public enum ContentMode {
+    /** Broadcast message is plaintext and needs to be converted to HTML. */
+    plain,
+    /** Broadcast message is already HTML, but may need to be cleaned up. */
+    html;
+  }
+
+  /** Time interval between displays of repeated messages. */
+  public static long DISPLAY_AGAIN_TIME = 60 * 1000;
+
+  /** The broadcast content. */
+  private String m_message;
+
+  /** The sender of the broadcast. */
+  private CmsUser m_sender;
+
+  /** Time the broadcast was send. */
+  private long m_sendTime;
+
+  /** The content mode. */
+  private ContentMode m_contentMode;
+
+  /** The last display time. */
+  private long m_lastDisplay;
+
+  /** True if message should be repeated. */
+  private boolean m_repeat;
+
+  /**
+   * Creates a new broadcast, with the current system time set as send time.
+   *
+   * <p>
+   *
+   * @param sender the sender of the broadcast
+   * @param message the message to send
+   * @deprecated use the constructors with the content mode instead
+   */
+  @Deprecated
+  public CmsBroadcast(CmsUser sender, String message) {
+
+    this(sender, message, System.currentTimeMillis(), 0L, false);
+  }
+
+  /**
+   * Creates a new broadcast, with the current system time set as send time.
+   *
+   * <p>
+   *
+   * @param sender the sender of the broadcast
+   * @param message the message to send
+   * @param repeat true if message shoul be repeated
+   * @deprecated use the constructors with the content mode instead
+   */
+  @Deprecated
+  public CmsBroadcast(CmsUser sender, String message, boolean repeat) {
+
+    this(sender, message, System.currentTimeMillis(), 0L, repeat);
+  }
+
+  /**
+   * Creates a new broadcast, with the current system time set as send time.
+   *
+   * <p>
+   *
+   * @param sender the sender of the broadcast
+   * @param message the message to send
+   * @param repeat true if message should be repeated
+   * @param mode the content mode
+   */
+  public CmsBroadcast(CmsUser sender, String message, boolean repeat, ContentMode mode) {
+
+    this(sender, message, System.currentTimeMillis(), 0L, repeat, mode);
+  }
+
+  /**
+   * Creates a new broadcast, with the current system time set as send time.
+   *
+   * <p>
+   *
+   * @param sender the sender of the broadcast
+   * @param message the message to send
+   * @param mode the content mode
+   */
+  public CmsBroadcast(CmsUser sender, String message, ContentMode mode) {
+
+    this(sender, message, System.currentTimeMillis(), 0L, false, mode);
+  }
+
+  /**
+   * Creates a new broadcast, with the current system time set as send time.
+   *
+   * <p>
+   *
+   * @param sender the sender of the broadcast
+   * @param message the message to send
+   * @param sendTime time when broadcast initaly was send
+   * @param lastDisplay last display time
+   * @param repeat true if message should be repeated
+   * @deprecated use the constructors with the content mode instead
+   */
+  @Deprecated
+  public CmsBroadcast(
+      CmsUser sender, String message, long sendTime, long lastDisplay, boolean repeat) {
+
+    this(sender, message, sendTime, lastDisplay, repeat, ContentMode.plain);
+  }
+
+  /**
+   * Creates a new broadcast, with the current system time set as send time.
+   *
+   * <p>
+   *
+   * @param sender the sender of the broadcast
+   * @param message the message to send
+   * @param sendTime time when broadcast initaly was send
+   * @param lastDisplay last display time
+   * @param repeat true if the message should be repeated
+   * @param mode the content mode
+   */
+  @Deprecated
+  public CmsBroadcast(
+      CmsUser sender,
+      String message,
+      long sendTime,
+      long lastDisplay,
+      boolean repeat,
+      ContentMode mode) {
+
+    m_sender = sender;
+    m_message = message;
+    m_sendTime = sendTime;
+    m_lastDisplay = lastDisplay;
+    m_repeat = repeat;
+    m_contentMode = mode;
+  }
+
+  /**
+   * Gets the content mode.
+   *
+   * @return the content mode
+   */
+  public ContentMode getContentMode() {
+
+    return m_contentMode;
+  }
+
+  /**
+   * Gets the last display time.
+   *
+   * @return the last display time
+   */
+  public long getLastDisplay() {
+
+    return m_lastDisplay;
+  }
+
+  /**
+   * Returns the processed broadcast message content as HTML.
+   *
+   * @return the broadcast message content HTML
+   */
+  public String getMessage() {
+
+    String result;
+    switch (m_contentMode) {
+      case html:
+        result = m_message;
+        break;
+      case plain:
+      default:
+        result = htmlForPlain(m_message);
     }
+    result = CmsRichTextArea.cleanHtml(result, true);
+    return result;
+  }
 
-    /** Time interval between displays of repeated messages. */
-    public static long DISPLAY_AGAIN_TIME = 60 * 1000;
+  /**
+   * Returns the original message text passed in the constructor.
+   *
+   * @return the original message text
+   */
+  public String getRawMessage() {
 
-    /** The broadcast content. */
-    private String m_message;
+    return m_message;
+  }
 
-    /** The sender of the broadcast. */
-    private CmsUser m_sender;
+  /**
+   * Returns the time this broadcast was send.
+   *
+   * <p>
+   *
+   * @return the time this broadcast was send
+   */
+  public long getSendTime() {
 
-    /** Time the broadcast was send. */
-    private long m_sendTime;
+    return m_sendTime;
+  }
 
-    /** The content mode. */
-    private ContentMode m_contentMode;
+  /**
+   * Returns the user that was the sender of this broadcast.
+   *
+   * <p>It could be <code>null</code> to signalize a system message.
+   *
+   * <p>
+   *
+   * @return the user that was the sender of this broadcast
+   */
+  public CmsUser getUser() {
 
-    /**The last display time. */
-    private long m_lastDisplay;
+    return m_sender;
+  }
 
-    /** True if message should be repeated. */
-    private boolean m_repeat;
+  /**
+   * Returns true if this is a repeating message.
+   *
+   * @return true if this is a repeating message
+   */
+  public boolean isRepeat() {
 
-    /**
-     * Creates a new broadcast, with the current system time set as send time.<p>
-     *
-     *
-     *
-     * @param sender the sender of the broadcast
-     * @param message the message to send
-     * @deprecated use the constructors with the content mode instead
-     */
-    @Deprecated
-    public CmsBroadcast(CmsUser sender, String message) {
+    return m_repeat;
+  }
 
-        this(sender, message, System.currentTimeMillis(), 0L, false);
+  /**
+   * Produces a copy of this object, but with a changed lastDisplay attribute.
+   *
+   * @param lastDisplay the new value for the lastDisplay attribute
+   * @return the copy with the modified time
+   */
+  public CmsBroadcast withLastDisplay(long lastDisplay) {
+
+    CmsBroadcast result;
+    try {
+      result = (CmsBroadcast) (this.clone());
+      result.m_lastDisplay = lastDisplay;
+      return result;
+    } catch (CloneNotSupportedException e) {
+      return null;
     }
+  }
 
-    /**
-     * Creates a new broadcast, with the current system time set as send time.<p>
-     *
-     * @param sender the sender of the broadcast
-     * @param message the message to send
-     * @param repeat true if message shoul be repeated
-     * @deprecated use the constructors with the content mode instead
-     */
-    @Deprecated
-    public CmsBroadcast(CmsUser sender, String message, boolean repeat) {
+  /**
+   * Escapes special HTML characters and converts newlines to br tags.
+   *
+   * @param message the message to convert
+   * @return the HTML for the message
+   */
+  private String htmlForPlain(String message) {
 
-        this(sender, message, System.currentTimeMillis(), 0L, repeat);
-    }
-
-    /**
-     * Creates a new broadcast, with the current system time set as send time.<p>
-     *
-     * @param sender the sender of the broadcast
-     * @param message the message to send
-     * @param repeat true if message should be repeated
-     * @param mode the content mode
-     */
-    public CmsBroadcast(CmsUser sender, String message, boolean repeat, ContentMode mode) {
-
-        this(sender, message, System.currentTimeMillis(), 0L, repeat, mode);
-    }
-
-    /**
-     * Creates a new broadcast, with the current system time set as send time.<p>
-     *
-     * @param sender the sender of the broadcast
-     * @param message the message to send
-     * @param mode the content mode
-     */
-    public CmsBroadcast(CmsUser sender, String message, ContentMode mode) {
-
-        this(sender, message, System.currentTimeMillis(), 0L, false, mode);
-    }
-
-    /**
-     * Creates a new broadcast, with the current system time set as send time.<p>
-     *
-     * @param sender the sender of the broadcast
-     * @param message the message to send
-     * @param sendTime time when broadcast initaly was send
-     * @param lastDisplay  last display time
-     * @param repeat true if message should be repeated
-     *
-     * @deprecated use the constructors with the content mode instead
-     */
-    @Deprecated
-    public CmsBroadcast(CmsUser sender, String message, long sendTime, long lastDisplay, boolean repeat) {
-
-        this(sender, message, sendTime, lastDisplay, repeat, ContentMode.plain);
-
-    }
-
-    /**
-     * Creates a new broadcast, with the current system time set as send time.<p>
-     *
-     * @param sender the sender of the broadcast
-     * @param message the message to send
-     * @param sendTime time when broadcast initaly was send
-     * @param lastDisplay  last display time
-     * @param repeat true if the message should be repeated
-     * @param mode the content mode
-     */
-    @Deprecated
-    public CmsBroadcast(
-        CmsUser sender,
-        String message,
-        long sendTime,
-        long lastDisplay,
-        boolean repeat,
-        ContentMode mode) {
-
-        m_sender = sender;
-        m_message = message;
-        m_sendTime = sendTime;
-        m_lastDisplay = lastDisplay;
-        m_repeat = repeat;
-        m_contentMode = mode;
-    }
-
-    /**
-     * Gets the content mode.
-     *
-     * @return the content mode
-     */
-    public ContentMode getContentMode() {
-
-        return m_contentMode;
-    }
-
-    /**
-     * Gets the last display time.
-     *
-     * @return the last display time
-     */
-    public long getLastDisplay() {
-
-        return m_lastDisplay;
-    }
-
-    /**
-     * Returns the processed broadcast message content as HTML.
-     *
-     * @return the broadcast message content HTML
-     */
-    public String getMessage() {
-
-        String result;
-        switch (m_contentMode) {
-            case html:
-                result = m_message;
-                break;
-            case plain:
-            default:
-                result = htmlForPlain(m_message);
-        }
-        result = CmsRichTextArea.cleanHtml(result, true);
-        return result;
-    }
-
-    /**
-     * Returns the original message text passed in the constructor.
-     *
-     * @return the original message text
-     */
-    public String getRawMessage() {
-
-        return m_message;
-    }
-
-    /**
-     * Returns the time this broadcast was send.<p>
-     *
-     * @return the time this broadcast was send
-     */
-    public long getSendTime() {
-
-        return m_sendTime;
-    }
-
-    /**
-     * Returns the user that was the sender of this broadcast.<p>
-     *
-     * It could be <code>null</code> to signalize a system message.<p>
-     *
-     * @return the user that was the sender of this broadcast
-     */
-    public CmsUser getUser() {
-
-        return m_sender;
-    }
-
-    /**
-     * Returns true if this is a repeating message.
-     *
-     * @return true if this is a repeating message
-     */
-    public boolean isRepeat() {
-
-        return m_repeat;
-    }
-
-    /**
-     * Produces a copy of this object, but with a changed lastDisplay attribute.
-     *
-     * @param lastDisplay the new value for the lastDisplay attribute
-     * @return the copy with the modified time
-     */
-    public CmsBroadcast withLastDisplay(long lastDisplay) {
-
-        CmsBroadcast result;
-        try {
-            result = (CmsBroadcast)(this.clone());
-            result.m_lastDisplay = lastDisplay;
-            return result;
-        } catch (CloneNotSupportedException e) {
-            return null;
-        }
-
-    }
-
-    /**
-     * Escapes special HTML characters and converts newlines to br tags.
-     *
-     * @param message the message to convert
-     * @return the HTML for the message
-     */
-    private String htmlForPlain(String message) {
-
-        String result = CmsEncoder.escapeXml(message);
-        result = result.replace("\n", "<br>");
-        return result;
-
-    }
+    String result = CmsEncoder.escapeXml(message);
+    result = result.replace("\n", "<br>");
+    return result;
+  }
 }

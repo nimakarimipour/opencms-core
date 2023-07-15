@@ -30,33 +30,34 @@ package org.opencms.gwt.shared.sort;
 import java.util.Comparator;
 
 /**
- * Comparator for objects with a path property.<p>
+ * Comparator for objects with a path property.
+ *
+ * <p>
  *
  * @see I_CmsHasPath
- *
  * @since 8.0.0
  */
 public class CmsComparatorPath implements Comparator<I_CmsHasPath> {
 
-    /** Sort order flag. */
-    private boolean m_ascending;
+  /** Sort order flag. */
+  private boolean m_ascending;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param ascending if <code>true</code> order is ascending
-     */
-    public CmsComparatorPath(boolean ascending) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param ascending if <code>true</code> order is ascending
+   */
+  public CmsComparatorPath(boolean ascending) {
 
-        m_ascending = ascending;
-    }
+    m_ascending = ascending;
+  }
 
-    /**
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */
-    public int compare(I_CmsHasPath o1, I_CmsHasPath o2) {
+  /** @see java.util.Comparator#compare(java.lang.Object, java.lang.Object) */
+  public int compare(I_CmsHasPath o1, I_CmsHasPath o2) {
 
-        int result = o1.getPath().compareTo(o2.getPath());
-        return m_ascending ? result : -result;
-    }
+    int result = o1.getPath().compareTo(o2.getPath());
+    return m_ascending ? result : -result;
+  }
 }

@@ -27,8 +27,6 @@
 
 package org.opencms.setup.db.update6to7.mysql;
 
-import org.opencms.setup.CmsSetupDb;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,63 +34,64 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.opencms.setup.CmsSetupDb;
 
 /**
- * This class creates the new tables for the database version of OpenCms 7.<p>
+ * This class creates the new tables for the database version of OpenCms 7.
  *
- * The new tables are
- * CMS_OFFLINE_RESOURCE_RELATIONS
- * CMS_ONLINE_RESOURCE_RELATOINS
- * CMS_PUBLISH_JOBS
- * CMS_RESOURCE_LOCKS
- * CMS_CONTENTS
+ * <p>The new tables are CMS_OFFLINE_RESOURCE_RELATIONS CMS_ONLINE_RESOURCE_RELATOINS
+ * CMS_PUBLISH_JOBS CMS_RESOURCE_LOCKS CMS_CONTENTS
  */
 public class CmsUpdateDBNewTables extends org.opencms.setup.db.update6to7.CmsUpdateDBNewTables {
 
-    /** Constant for the SQL query properties.<p> */
-    private static final String QUERY_PROPERTY_FILE = "cms_new_tables_queries.properties";
+  /**
+   * Constant for the SQL query properties.
+   *
+   * <p>
+   */
+  private static final String QUERY_PROPERTY_FILE = "cms_new_tables_queries.properties";
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the sql queries properties file could not be read
-     */
-    public CmsUpdateDBNewTables()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the sql queries properties file could not be read
+   */
+  public CmsUpdateDBNewTables() throws IOException {
 
-        super();
-        loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+    super();
+    loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+  }
+
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#internalExecute(org.opencms.setup.CmsSetupDb) */
+  @Override
+  protected void internalExecute(CmsSetupDb dbCon) throws SQLException {
+
+    System.out.println(new Exception().getStackTrace()[0].toString());
+
+    List<String> elements = new ArrayList<String>();
+    elements.add("CMS_OFFLINE_RESOURCE_RELATIONS");
+    elements.add("CMS_ONLINE_RESOURCE_RELATIONS");
+    elements.add("CMS_PUBLISH_JOBS");
+    elements.add("CMS_RESOURCE_LOCKS");
+    elements.add("CMS_CONTENTS");
+    elements.add("CMS_HISTORY_PROJECTRESOURCES");
+    elements.add("CMS_HISTORY_PROPERTYDEF");
+    elements.add("CMS_HISTORY_PROPERTIES");
+    elements.add("CMS_HISTORY_RESOURCES");
+    elements.add("CMS_HISTORY_STRUCTURE");
+
+    Map<String, String> replacer =
+        Collections.singletonMap("${tableEngine}", m_poolData.get("engine"));
+    for (Iterator<String> it = elements.iterator(); it.hasNext(); ) {
+      String table = it.next();
+      if (!dbCon.hasTableOrColumn(table, null)) {
+        String query = readQuery(table + "_MYSQL");
+        dbCon.updateSqlStatement(query, replacer, null);
+      } else {
+        System.out.println("table " + table + " already exists");
+      }
     }
-
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#internalExecute(org.opencms.setup.CmsSetupDb)
-     */
-    @Override
-    protected void internalExecute(CmsSetupDb dbCon) throws SQLException {
-
-        System.out.println(new Exception().getStackTrace()[0].toString());
-
-        List<String> elements = new ArrayList<String>();
-        elements.add("CMS_OFFLINE_RESOURCE_RELATIONS");
-        elements.add("CMS_ONLINE_RESOURCE_RELATIONS");
-        elements.add("CMS_PUBLISH_JOBS");
-        elements.add("CMS_RESOURCE_LOCKS");
-        elements.add("CMS_CONTENTS");
-        elements.add("CMS_HISTORY_PROJECTRESOURCES");
-        elements.add("CMS_HISTORY_PROPERTYDEF");
-        elements.add("CMS_HISTORY_PROPERTIES");
-        elements.add("CMS_HISTORY_RESOURCES");
-        elements.add("CMS_HISTORY_STRUCTURE");
-
-        Map<String, String> replacer = Collections.singletonMap("${tableEngine}", m_poolData.get("engine"));
-        for (Iterator<String> it = elements.iterator(); it.hasNext();) {
-            String table = it.next();
-            if (!dbCon.hasTableOrColumn(table, null)) {
-                String query = readQuery(table + "_MYSQL");
-                dbCon.updateSqlStatement(query, replacer, null);
-            } else {
-                System.out.println("table " + table + " already exists");
-            }
-        }
-    }
+  }
 }

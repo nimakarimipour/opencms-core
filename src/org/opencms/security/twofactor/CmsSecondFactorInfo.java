@@ -28,102 +28,90 @@
 package org.opencms.security.twofactor;
 
 import java.util.Objects;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-/**
- * Second factor information for login.
- */
+/** Second factor information for login. */
 public class CmsSecondFactorInfo {
 
-    /** The verification code. */
-    private String m_code;
+  /** The verification code. */
+  private String m_code;
 
-    /** The shared secret. */
-    private String m_secret;
+  /** The shared secret. */
+  private String m_secret;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param code the verification code
-     */
-    public CmsSecondFactorInfo(String code) {
+  /**
+   * Creates a new instance.
+   *
+   * @param code the verification code
+   */
+  public CmsSecondFactorInfo(String code) {
 
-        m_code = StringUtils.trim(code);
+    m_code = StringUtils.trim(code);
+  }
+
+  /**
+   * Creates a new instance.
+   *
+   * @param secret the secret
+   * @param code the verification code
+   */
+  public CmsSecondFactorInfo(String secret, String code) {
+
+    m_secret = StringUtils.trim(secret);
+    m_code = StringUtils.trim(code);
+  }
+
+  /** @see java.lang.Object#equals(java.lang.Object) */
+  @Override
+  public boolean equals(Object obj) {
+
+    if (!(obj instanceof CmsSecondFactorInfo)) {
+      return false;
     }
-
-    /**
-     * Creates a new instance.
-     *
-     * @param secret the secret
-     * @param code the verification code
-     */
-    public CmsSecondFactorInfo(String secret, String code) {
-
-        m_secret = StringUtils.trim(secret);
-        m_code = StringUtils.trim(code);
+    CmsSecondFactorInfo other = ((CmsSecondFactorInfo) obj);
+    if (!Objects.equals(m_code, other.m_code)) {
+      return false;
     }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-
-        if (!(obj instanceof CmsSecondFactorInfo)) {
-            return false;
-        }
-        CmsSecondFactorInfo other = ((CmsSecondFactorInfo)obj);
-        if (!Objects.equals(m_code, other.m_code)) {
-            return false;
-        }
-        if (!Objects.equals(m_secret, other.m_secret)) {
-            return false;
-        }
-        return true;
-
+    if (!Objects.equals(m_secret, other.m_secret)) {
+      return false;
     }
+    return true;
+  }
 
-    /**
-     * Gets the verification code (normally generated and entered by the user).
-     *
-     * @return the verification code
-     */
-    public String getCode() {
+  /**
+   * Gets the verification code (normally generated and entered by the user).
+   *
+   * @return the verification code
+   */
+  public String getCode() {
 
-        return m_code;
-    }
+    return m_code;
+  }
 
-    /**
-     * Gets the secret (usually null, only used for second factor setup).
-     *
-     * @return the secret
-     */
-    public String getSecret() {
+  /**
+   * Gets the secret (usually null, only used for second factor setup).
+   *
+   * @return the secret
+   */
+  public String getSecret() {
 
-        return m_secret;
-    }
+    return m_secret;
+  }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
+  /** @see java.lang.Object#hashCode() */
+  @Override
+  public int hashCode() {
 
-        return new HashCodeBuilder().append(m_code).append(m_secret).hashCode();
-    }
+    return new HashCodeBuilder().append(m_code).append(m_secret).hashCode();
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-
-    }
-
+    return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+  }
 }

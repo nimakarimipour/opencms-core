@@ -31,95 +31,108 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Store for some administration view parameters,
- * for each user, used by the <code>{@link CmsToolManager}</code>.<p>
+ * Store for some administration view parameters, for each user, used by the <code>
+ * {@link CmsToolManager}</code>.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsToolUserData {
 
-    /** base tool for the user, root-based. */
-    private Map<String, String> m_baseTools;
+  /** base tool for the user, root-based. */
+  private Map<String, String> m_baseTools;
 
-    /** Current used tool paths, root-based. */
-    private Map<String, String> m_currentToolPaths;
+  /** Current used tool paths, root-based. */
+  private Map<String, String> m_currentToolPaths;
 
-    /** root key for the user. */
-    private String m_rootKey;
+  /** root key for the user. */
+  private String m_rootKey;
 
-    /**
-     * Default Constructor.<p>
-     */
-    public CmsToolUserData() {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   */
+  public CmsToolUserData() {
 
-        m_baseTools = new HashMap<String, String>();
-        m_currentToolPaths = new HashMap<String, String>();
-    }
+    m_baseTools = new HashMap<String, String>();
+    m_currentToolPaths = new HashMap<String, String>();
+  }
 
-    /**
-     * Returns the base tool.<p>
-     *
-     * @param rootKey the tool root
-     *
-     * @return the base tool
-     */
-    public String getBaseTool(String rootKey) {
+  /**
+   * Returns the base tool.
+   *
+   * <p>
+   *
+   * @param rootKey the tool root
+   * @return the base tool
+   */
+  public String getBaseTool(String rootKey) {
 
-        return m_baseTools.get(rootKey);
-    }
+    return m_baseTools.get(rootKey);
+  }
 
-    /**
-     * Returns the current tool path.<p>
-     *
-     * @param rootKey the tool root
-     *
-     * @return the current tool path
-     */
-    public String getCurrentToolPath(String rootKey) {
+  /**
+   * Returns the current tool path.
+   *
+   * <p>
+   *
+   * @param rootKey the tool root
+   * @return the current tool path
+   */
+  public String getCurrentToolPath(String rootKey) {
 
-        return m_currentToolPaths.get(rootKey);
-    }
+    return m_currentToolPaths.get(rootKey);
+  }
 
-    /**
-     * Returns the root key.<p>
-     *
-     * @return the root key
-     */
-    public String getRootKey() {
+  /**
+   * Returns the root key.
+   *
+   * <p>
+   *
+   * @return the root key
+   */
+  public String getRootKey() {
 
-        return m_rootKey;
-    }
+    return m_rootKey;
+  }
 
-    /**
-     * Sets the base tool.<p>
-     *
-     * @param rootKey the tool root
-     * @param baseTool the base tool to set
-     */
-    public void setBaseTool(String rootKey, String baseTool) {
+  /**
+   * Sets the base tool.
+   *
+   * <p>
+   *
+   * @param rootKey the tool root
+   * @param baseTool the base tool to set
+   */
+  public void setBaseTool(String rootKey, String baseTool) {
 
-        m_baseTools.put(rootKey, baseTool);
-    }
+    m_baseTools.put(rootKey, baseTool);
+  }
 
-    /**
-     * Sets the current tool path.<p>
-     *
-     * @param rootKey the tool root
-     * @param currentToolPath the current tool path to set
-     */
-    public void setCurrentToolPath(String rootKey, String currentToolPath) {
+  /**
+   * Sets the current tool path.
+   *
+   * <p>
+   *
+   * @param rootKey the tool root
+   * @param currentToolPath the current tool path to set
+   */
+  public void setCurrentToolPath(String rootKey, String currentToolPath) {
 
-        m_currentToolPaths.put(rootKey, currentToolPath);
-    }
+    m_currentToolPaths.put(rootKey, currentToolPath);
+  }
 
-    /**
-     * Sets the root key.<p>
-     *
-     * @param key the root key to set
-     */
-    public void setRootKey(String key) {
+  /**
+   * Sets the root key.
+   *
+   * <p>
+   *
+   * @param key the root key to set
+   */
+  public void setRootKey(String key) {
 
-        m_rootKey = key;
-    }
-
+    m_rootKey = key;
+  }
 }

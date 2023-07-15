@@ -27,152 +27,156 @@
 
 package org.opencms.xml.types;
 
+import java.util.Locale;
+import org.dom4j.Element;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.xml.CmsXmlContentDefinition;
 import org.opencms.xml.I_CmsXmlDocument;
 
-import java.util.Locale;
-
-import org.dom4j.Element;
-
 /**
- * A nested content XML definition that is included by another XML content definition.<p>
+ * A nested content XML definition that is included by another XML content definition.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsXmlNestedContentDefinition extends A_CmsXmlContentValue {
 
-    /** The nested content definition. */
-    private CmsXmlContentDefinition m_nestedContentDefinition;
+  /** The nested content definition. */
+  private CmsXmlContentDefinition m_nestedContentDefinition;
 
-    /**
-     * Creates a new XML content value for the nested content definition.<p>
-     *
-     * @param document the XML content instance this value belongs to
-     * @param contentDefinition the nested XML content definition
-     * @param element the XML element that contains this value
-     * @param locale the locale this value is created for
-     * @param type the type instance to create the value for
-     */
-    public CmsXmlNestedContentDefinition(
-        CmsXmlContentDefinition contentDefinition,
-        I_CmsXmlDocument document,
-        Element element,
-        Locale locale,
-        I_CmsXmlSchemaType type) {
+  /**
+   * Creates a new XML content value for the nested content definition.
+   *
+   * <p>
+   *
+   * @param document the XML content instance this value belongs to
+   * @param contentDefinition the nested XML content definition
+   * @param element the XML element that contains this value
+   * @param locale the locale this value is created for
+   * @param type the type instance to create the value for
+   */
+  public CmsXmlNestedContentDefinition(
+      CmsXmlContentDefinition contentDefinition,
+      I_CmsXmlDocument document,
+      Element element,
+      Locale locale,
+      I_CmsXmlSchemaType type) {
 
-        super(document, element, locale, type);
-        m_nestedContentDefinition = contentDefinition;
-    }
+    super(document, element, locale, type);
+    m_nestedContentDefinition = contentDefinition;
+  }
 
-    /**
-     * Creates a new nested content definition.<p>
-     *
-     * @param contentDefinition the content definition to nest
-     * @param name the name of the XML node containing the value according to the XML schema
-     * @param minOccurs minimum number of occurrences of this type according to the XML schema
-     * @param maxOccurs maximum number of occurrences of this type according to the XML schema
-     */
-    public CmsXmlNestedContentDefinition(
-        CmsXmlContentDefinition contentDefinition,
-        String name,
-        String minOccurs,
-        String maxOccurs) {
+  /**
+   * Creates a new nested content definition.
+   *
+   * <p>
+   *
+   * @param contentDefinition the content definition to nest
+   * @param name the name of the XML node containing the value according to the XML schema
+   * @param minOccurs minimum number of occurrences of this type according to the XML schema
+   * @param maxOccurs maximum number of occurrences of this type according to the XML schema
+   */
+  public CmsXmlNestedContentDefinition(
+      CmsXmlContentDefinition contentDefinition, String name, String minOccurs, String maxOccurs) {
 
-        super(name, minOccurs, maxOccurs);
-        m_nestedContentDefinition = contentDefinition;
-    }
+    super(name, minOccurs, maxOccurs);
+    m_nestedContentDefinition = contentDefinition;
+  }
 
-    /**
-     * @see org.opencms.xml.types.I_CmsXmlSchemaType#createValue(I_CmsXmlDocument, org.dom4j.Element, Locale)
-     */
-    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, Element element, Locale locale) {
+  /**
+   * @see org.opencms.xml.types.I_CmsXmlSchemaType#createValue(I_CmsXmlDocument, org.dom4j.Element,
+   *     Locale)
+   */
+  public I_CmsXmlContentValue createValue(
+      I_CmsXmlDocument document, Element element, Locale locale) {
 
-        return new CmsXmlNestedContentDefinition(m_nestedContentDefinition, document, element, locale, this);
-    }
+    return new CmsXmlNestedContentDefinition(
+        m_nestedContentDefinition, document, element, locale, this);
+  }
 
-    /**
-     * @see org.opencms.xml.types.I_CmsXmlSchemaType#generateXml(org.opencms.file.CmsObject, org.opencms.xml.I_CmsXmlDocument, org.dom4j.Element, java.util.Locale)
-     */
-    @Override
-    public Element generateXml(CmsObject cms, I_CmsXmlDocument document, Element root, Locale locale) {
+  /**
+   * @see org.opencms.xml.types.I_CmsXmlSchemaType#generateXml(org.opencms.file.CmsObject,
+   *     org.opencms.xml.I_CmsXmlDocument, org.dom4j.Element, java.util.Locale)
+   */
+  @Override
+  public Element generateXml(
+      CmsObject cms, I_CmsXmlDocument document, Element root, Locale locale) {
 
-        // create the XML base node for the nested content definition
-        Element element = root.addElement(getName());
-        // create a default XML element for the nested content definition
-        element = m_nestedContentDefinition.createDefaultXml(cms, document, element, locale);
-        // return the generated element
-        return element;
-    }
+    // create the XML base node for the nested content definition
+    Element element = root.addElement(getName());
+    // create a default XML element for the nested content definition
+    element = m_nestedContentDefinition.createDefaultXml(cms, document, element, locale);
+    // return the generated element
+    return element;
+  }
 
-    /**
-     * Returns the nested content definition.<p>
-     *
-     * @return the nested content definition
-     */
-    public CmsXmlContentDefinition getNestedContentDefinition() {
+  /**
+   * Returns the nested content definition.
+   *
+   * <p>
+   *
+   * @return the nested content definition
+   */
+  public CmsXmlContentDefinition getNestedContentDefinition() {
 
-        return m_nestedContentDefinition;
-    }
+    return m_nestedContentDefinition;
+  }
 
-    /**
-     * @see org.opencms.xml.types.I_CmsXmlSchemaType#getSchemaDefinition()
-     */
-    public String getSchemaDefinition() {
+  /** @see org.opencms.xml.types.I_CmsXmlSchemaType#getSchemaDefinition() */
+  public String getSchemaDefinition() {
 
-        throw new CmsRuntimeException(Messages.get().container(Messages.ERR_NESTED_SCHEMA_0));
-    }
+    throw new CmsRuntimeException(Messages.get().container(Messages.ERR_NESTED_SCHEMA_0));
+  }
 
-    /**
-     * @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(org.opencms.file.CmsObject)
-     */
-    public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+  /** @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(org.opencms.file.CmsObject) */
+  public String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
-        throw new CmsRuntimeException(Messages.get().container(Messages.ERR_NESTED_GETVALUE_0));
-    }
+    throw new CmsRuntimeException(Messages.get().container(Messages.ERR_NESTED_GETVALUE_0));
+  }
 
-    /**
-     * @see org.opencms.xml.types.I_CmsXmlSchemaType#getTypeName()
-     */
-    public String getTypeName() {
+  /** @see org.opencms.xml.types.I_CmsXmlSchemaType#getTypeName() */
+  public String getTypeName() {
 
-        return m_nestedContentDefinition.getTypeName();
-    }
+    return m_nestedContentDefinition.getTypeName();
+  }
 
-    /**
-     * @see org.opencms.xml.types.I_CmsXmlSchemaType#isChoiceType()
-     */
-    @Override
-    public boolean isChoiceType() {
+  /** @see org.opencms.xml.types.I_CmsXmlSchemaType#isChoiceType() */
+  @Override
+  public boolean isChoiceType() {
 
-        return m_nestedContentDefinition.getChoiceMaxOccurs() > 0;
-    }
+    return m_nestedContentDefinition.getChoiceMaxOccurs() > 0;
+  }
 
-    /**
-     * Returns <code>false</code>, since nested content definitions are never simple.<p>
-     *
-     * @see org.opencms.xml.types.I_CmsXmlSchemaType#isSimpleType()
-     */
-    @Override
-    public boolean isSimpleType() {
+  /**
+   * Returns <code>false</code>, since nested content definitions are never simple.
+   *
+   * <p>
+   *
+   * @see org.opencms.xml.types.I_CmsXmlSchemaType#isSimpleType()
+   */
+  @Override
+  public boolean isSimpleType() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.xml.types.I_CmsXmlSchemaType#newInstance(java.lang.String, java.lang.String, java.lang.String)
-     */
-    public I_CmsXmlSchemaType newInstance(String name, String minOccurs, String maxOccurs) {
+  /**
+   * @see org.opencms.xml.types.I_CmsXmlSchemaType#newInstance(java.lang.String, java.lang.String,
+   *     java.lang.String)
+   */
+  public I_CmsXmlSchemaType newInstance(String name, String minOccurs, String maxOccurs) {
 
-        throw new CmsRuntimeException(Messages.get().container(Messages.ERR_NESTED_NEWINSTANCE_0));
-    }
+    throw new CmsRuntimeException(Messages.get().container(Messages.ERR_NESTED_NEWINSTANCE_0));
+  }
 
-    /**
-     * @see org.opencms.xml.types.I_CmsXmlContentValue#setStringValue(org.opencms.file.CmsObject, java.lang.String)
-     */
-    public void setStringValue(CmsObject cms, String value) {
+  /**
+   * @see org.opencms.xml.types.I_CmsXmlContentValue#setStringValue(org.opencms.file.CmsObject,
+   *     java.lang.String)
+   */
+  public void setStringValue(CmsObject cms, String value) {
 
-        throw new CmsRuntimeException(Messages.get().container(Messages.ERR_NESTED_SETVALUE_0));
-    }
+    throw new CmsRuntimeException(Messages.get().container(Messages.ERR_NESTED_SETVALUE_0));
+  }
 }

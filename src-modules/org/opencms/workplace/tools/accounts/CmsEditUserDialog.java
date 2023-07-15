@@ -27,87 +27,91 @@
 
 package org.opencms.workplace.tools.accounts;
 
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.file.CmsUser;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.main.CmsException;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Dialog to edit new or existing system user in the administration view.<p>
+ * Dialog to edit new or existing system user in the administration view.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsEditUserDialog extends A_CmsEditUserDialog {
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsEditUserDialog(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsEditUserDialog(CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsEditUserDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsEditUserDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsEditUserDialog#createUser(java.lang.String, java.lang.String, java.lang.String, java.util.Map)
-     */
-    @Override
-    protected CmsUser createUser(String name, String pwd, String desc, Map<String, Object> info) throws CmsException {
+  /**
+   * @see org.opencms.workplace.tools.accounts.A_CmsEditUserDialog#createUser(java.lang.String,
+   *     java.lang.String, java.lang.String, java.util.Map)
+   */
+  @Override
+  protected CmsUser createUser(String name, String pwd, String desc, Map<String, Object> info)
+      throws CmsException {
 
-        return getCms().createUser(name, pwd, desc, info);
-    }
+    return getCms().createUser(name, pwd, desc, info);
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsEditUserDialog#getListClass()
-     */
-    @Override
-    protected String getListClass() {
+  /** @see org.opencms.workplace.tools.accounts.A_CmsEditUserDialog#getListClass() */
+  @Override
+  protected String getListClass() {
 
-        return CmsUsersList.class.getName();
-    }
+    return CmsUsersList.class.getName();
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsEditUserDialog#getListRootPath()
-     */
-    @Override
-    protected String getListRootPath() {
+  /** @see org.opencms.workplace.tools.accounts.A_CmsEditUserDialog#getListRootPath() */
+  @Override
+  protected String getListRootPath() {
 
-        return "/accounts/orgunit/users";
-    }
+    return "/accounts/orgunit/users";
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsEditUserDialog#isEditable(org.opencms.file.CmsUser)
-     */
-    @Override
-    protected boolean isEditable(CmsUser user) {
+  /**
+   * @see
+   *     org.opencms.workplace.tools.accounts.A_CmsEditUserDialog#isEditable(org.opencms.file.CmsUser)
+   */
+  @Override
+  protected boolean isEditable(CmsUser user) {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.accounts.A_CmsEditUserDialog#writeUser(org.opencms.file.CmsUser)
-     */
-    @Override
-    protected void writeUser(CmsUser user) throws CmsException {
+  /**
+   * @see
+   *     org.opencms.workplace.tools.accounts.A_CmsEditUserDialog#writeUser(org.opencms.file.CmsUser)
+   */
+  @Override
+  protected void writeUser(CmsUser user) throws CmsException {
 
-        getCms().writeUser(user);
-    }
+    getCms().writeUser(user);
+  }
 }

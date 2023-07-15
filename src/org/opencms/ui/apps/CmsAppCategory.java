@@ -27,92 +27,85 @@
 
 package org.opencms.ui.apps;
 
+import java.util.Locale;
 import org.opencms.main.OpenCms;
 import org.opencms.workplace.CmsWorkplaceMessages;
 
-import java.util.Locale;
-
 /**
- * Bean representing a category for workplace apps.<p>
+ * Bean representing a category for workplace apps.
  *
- * App categories should have a unique id. Nesting of categories is defined by the parent category id of each category.
- * A category whose parent category id is null will be displayed at the root level, and similarly, a workplace app whose
- * category id is null will be displayed at the root level.
- *
+ * <p>App categories should have a unique id. Nesting of categories is defined by the parent
+ * category id of each category. A category whose parent category id is null will be displayed at
+ * the root level, and similarly, a workplace app whose category id is null will be displayed at the
+ * root level.
  */
 public class CmsAppCategory implements I_CmsAppCategory {
 
-    /** Prefix for message bundle keys used to localize app categories. */
-    private static final String MESSAGE_PREFIX = "appcategory.";
+  /** Prefix for message bundle keys used to localize app categories. */
+  private static final String MESSAGE_PREFIX = "appcategory.";
 
-    /** Sort key for the category. */
-    private int m_order;
+  /** Sort key for the category. */
+  private int m_order;
 
-    /** Category id. */
-    private String m_id;
+  /** Category id. */
+  private String m_id;
 
-    /** Parent category id. */
-    private String m_parentId;
+  /** Parent category id. */
+  private String m_parentId;
 
-    /** Priority number; categories with higher priorities can override those with lower priorities. */
-    private int m_priority;
+  /**
+   * Priority number; categories with higher priorities can override those with lower priorities.
+   */
+  private int m_priority;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param id the category id
-     * @param parentId the parent category id
-     * @param order the order
-     * @param priority the priority
-     */
-    public CmsAppCategory(String id, String parentId, int order, int priority) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param id the category id
+   * @param parentId the parent category id
+   * @param order the order
+   * @param priority the priority
+   */
+  public CmsAppCategory(String id, String parentId, int order, int priority) {
 
-        super();
-        m_id = id;
-        m_parentId = parentId;
-        m_order = order;
-        m_priority = priority;
-    }
+    super();
+    m_id = id;
+    m_parentId = parentId;
+    m_order = order;
+    m_priority = priority;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppCategory#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.apps.I_CmsAppCategory#getId() */
+  public String getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppCategory#getName(java.util.Locale)
-     */
-    public String getName(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsAppCategory#getName(java.util.Locale) */
+  public String getName(Locale locale) {
 
-        CmsWorkplaceMessages messages = OpenCms.getWorkplaceManager().getMessages(locale);
-        String niceName = messages.keyDefault(MESSAGE_PREFIX + m_id, m_id);
-        return niceName;
-    }
+    CmsWorkplaceMessages messages = OpenCms.getWorkplaceManager().getMessages(locale);
+    String niceName = messages.keyDefault(MESSAGE_PREFIX + m_id, m_id);
+    return niceName;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppCategory#getOrder()
-     */
-    public int getOrder() {
+  /** @see org.opencms.ui.apps.I_CmsAppCategory#getOrder() */
+  public int getOrder() {
 
-        return m_order;
-    }
+    return m_order;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppCategory#getParentId()
-     */
-    public String getParentId() {
+  /** @see org.opencms.ui.apps.I_CmsAppCategory#getParentId() */
+  public String getParentId() {
 
-        return m_parentId;
-    }
+    return m_parentId;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsAppCategory#getPriority()
-     */
-    public int getPriority() {
+  /** @see org.opencms.ui.apps.I_CmsAppCategory#getPriority() */
+  public int getPriority() {
 
-        return m_priority;
-    }
+    return m_priority;
+  }
 }

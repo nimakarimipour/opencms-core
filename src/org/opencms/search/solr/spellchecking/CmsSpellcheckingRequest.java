@@ -29,71 +29,66 @@ package org.opencms.search.solr.spellchecking;
 
 import org.opencms.json.JSONObject;
 
-/**
- * Helper class that represents a spellchecking request.
- */
+/** Helper class that represents a spellchecking request. */
 class CmsSpellcheckingRequest {
 
-    /** The Id of the request sent by tinyMce. */
-    String m_id;
+  /** The Id of the request sent by tinyMce. */
+  String m_id;
 
-    /** The dictionary to use.  */
-    String m_dictionaryToUse;
+  /** The dictionary to use. */
+  String m_dictionaryToUse;
 
-    /** The string array that contains the words that have to checked. */
-    String[] m_wordsToCheck;
+  /** The string array that contains the words that have to checked. */
+  String[] m_wordsToCheck;
 
-    /** JSON object containing the computed suggestions for the checked words. */
-    JSONObject m_wordSuggestions;
+  /** JSON object containing the computed suggestions for the checked words. */
+  JSONObject m_wordSuggestions;
 
-    /**
-     * Constructor.
-     */
-    CmsSpellcheckingRequest() {
+  /** Constructor. */
+  CmsSpellcheckingRequest() {}
 
-    }
+  /**
+   * Constructor.
+   *
+   * @param q the string that contains the words that have to checked.
+   * @param dictionary the dictionary to use.
+   */
+  CmsSpellcheckingRequest(String[] q, String dictionary) {
 
-    /**
-     * Constructor.
-     *
-     * @param q the string that contains the words that have to checked.
-     * @param dictionary the dictionary to use.
-     */
-    CmsSpellcheckingRequest(String[] q, String dictionary) {
+    this(q, dictionary, null);
+  }
 
-        this(q, dictionary, null);
-    }
+  /**
+   * Constructor.
+   *
+   * @param q the string that contains the words that have to checked.
+   * @param dictionary the dictionary to use.
+   * @param id the Id of the request sent by tinyMce.
+   */
+  CmsSpellcheckingRequest(String[] q, String dictionary, String id) {
 
-    /**
-     * Constructor.
-     *
-     * @param q the string that contains the words that have to checked.
-     * @param dictionary the dictionary to use.
-     * @param id the Id of the request sent by tinyMce.
-     */
-    CmsSpellcheckingRequest(String[] q, String dictionary, String id) {
+    m_wordsToCheck = q;
+    m_dictionaryToUse = dictionary;
+    m_id = id;
+  }
 
-        m_wordsToCheck = q;
-        m_dictionaryToUse = dictionary;
-        m_id = id;
-    }
+  /**
+   * Returns whether this class has been correctly initialized.
+   *
+   * @return true if this class has been correctly initialized, otherwise false.
+   */
+  public boolean isInitialized() {
 
-    /**
-     * Returns whether this class has been correctly initialized.
-     *
-     * @return true if this class has been correctly initialized, otherwise false.
-     */
-    public boolean isInitialized() {
+    return (null != m_dictionaryToUse) && (null != m_wordsToCheck);
+  }
 
-        return (null != m_dictionaryToUse) && (null != m_wordsToCheck);
-    }
+  /**
+   * Sets the words to check.
+   *
+   * @param q Array containing all words to check.
+   */
+  public void setWordsToCheck(String[] q) {
 
-    /**
-     * Sets the words to check.
-     * @param q Array containing all words to check.
-     */
-    public void setWordsToCheck(String[] q) {
-
-        m_wordsToCheck = q;
-    }
+    m_wordsToCheck = q;
+  }
 }

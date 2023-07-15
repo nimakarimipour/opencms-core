@@ -38,105 +38,103 @@ import org.opencms.xml.containerpage.CmsXmlContainerPageFactory;
 
 /**
  * 'Wrapper' around XML container page used for programmatic editing operations on container pages.
- * <p>
- * Uses mutable helper classes for the container page and its containers.
+ *
+ * <p>Uses mutable helper classes for the container page and its containers.
  */
 public class CmsContainerPageWrapper {
 
-    /** The mutable bean containing the container page data. */
-    private CmsMutableContainerPage m_page;
+  /** The mutable bean containing the container page data. */
+  private CmsMutableContainerPage m_page;
 
-    /** The underlying XML container page. */
-    private CmsXmlContainerPage m_xml;
+  /** The underlying XML container page. */
+  private CmsXmlContainerPage m_xml;
 
-    /** The CMS context. */
-    private CmsObject m_cms;
+  /** The CMS context. */
+  private CmsObject m_cms;
 
-    /**
-     * Creates a new instance by reading the container page from a file.
-     *
-     * @param cms the CMS context
-     * @param res the resource
-     * @throws CmsException if something goes wrong
-     */
-    public CmsContainerPageWrapper(CmsObject cms, CmsResource res)
-    throws CmsException {
+  /**
+   * Creates a new instance by reading the container page from a file.
+   *
+   * @param cms the CMS context
+   * @param res the resource
+   * @throws CmsException if something goes wrong
+   */
+  public CmsContainerPageWrapper(CmsObject cms, CmsResource res) throws CmsException {
 
-        m_cms = cms;
-        m_xml = CmsXmlContainerPageFactory.unmarshal(cms, cms.readFile(res));
-        m_page = CmsMutableContainerPage.fromImmutable(m_xml.getContainerPage(cms));
+    m_cms = cms;
+    m_xml = CmsXmlContainerPageFactory.unmarshal(cms, cms.readFile(res));
+    m_page = CmsMutableContainerPage.fromImmutable(m_xml.getContainerPage(cms));
+  }
+
+  /**
+   * Creates a new instance from an existing XML container page object.
+   *
+   * @param cms the CMS context
+   * @param xml the XML container page object
+   */
+  public CmsContainerPageWrapper(CmsObject cms, CmsXmlContainerPage xml) {
+
+    m_cms = cms;
+    m_xml = xml;
+    m_page = CmsMutableContainerPage.fromImmutable(m_xml.getContainerPage(cms));
+  }
+
+  /**
+   * Adds an element to the given container (the first container with the given container suffix is
+   * used).
+   *
+   * @param containerName the container name or suffix
+   * @param element the element to add
+   * @return false if there was no container to add the element to, true otherwise
+   */
+  public boolean addElementToContainer(String containerName, CmsContainerElementBean element) {
+
+    CmsMutableContainer container = page().firstContainer(containerName);
+    if (container == null) {
+      return false;
     }
+    container.elements().add(element);
+    return true;
+  }
 
-    /**
-     * Creates a new instance from an existing XML container page object.
-     *
-     * @param cms the CMS context
-     * @param xml the XML container page object
-     */
-    public CmsContainerPageWrapper(CmsObject cms, CmsXmlContainerPage xml) {
+  /**
+   * Marshals the page data without writing it to the VFS.
+   *
+   * @return the marshalled page data
+   * @throws CmsException if something goes wrong
+   */
+  public byte[] marshal() throws CmsException {
 
-        m_cms = cms;
-        m_xml = xml;
-        m_page = CmsMutableContainerPage.fromImmutable(m_xml.getContainerPage(cms));
+    m_xml.writeContainerPage(m_cms, m_page.toImmutable());
+    return m_xml.marshal();
+  }
+
+  /**
+   * Gets the mutable page bean instance.
+   *
+   * @return the mutable page bean
+   */
+  public CmsMutableContainerPage page() {
+
+    return m_page;
+  }
+
+  /**
+   * Saves the page data to the VFS, using the same resource from which this object was created.
+   *
+   * @throws CmsException if something goes wrong
+   */
+  public void saveToVfs() throws CmsException {
+
+    CmsContainerPageBean immutablePage = page().toImmutable();
+    try (AutoCloseable c = CmsLockUtil.withLockedResources(m_cms, m_xml.getFile())) {
+      m_xml.save(m_cms, immutablePage);
+    } catch (Exception e) {
+      if (e instanceof CmsException) {
+        throw (CmsException) e;
+      } else {
+        throw new RuntimeException(e);
+      }
     }
-
-    /**
-     * Adds an element to the given container (the first container with the given container suffix is used).
-     *
-     * @param containerName the container name or suffix
-     * @param element the element to add
-     * @return false if there was no container to add the element to, true otherwise
-     */
-    public boolean addElementToContainer(String containerName, CmsContainerElementBean element) {
-
-        CmsMutableContainer container = page().firstContainer(containerName);
-        if (container == null) {
-            return false;
-        }
-        container.elements().add(element);
-        return true;
-    }
-
-    /**
-     * Marshals the page data without writing it to the VFS.
-     *
-     * @return the marshalled page data
-     * @throws CmsException if something goes wrong
-     */
-    public byte[] marshal() throws CmsException {
-
-        m_xml.writeContainerPage(m_cms, m_page.toImmutable());
-        return m_xml.marshal();
-
-    }
-
-    /**
-     * Gets the mutable page bean instance.
-     *
-     * @return the mutable page bean
-     */
-    public CmsMutableContainerPage page() {
-
-        return m_page;
-    }
-
-    /**
-     * Saves the page data to the VFS, using the same resource from which this object was created.
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public void saveToVfs() throws CmsException {
-
-        CmsContainerPageBean immutablePage = page().toImmutable();
-        try (AutoCloseable c = CmsLockUtil.withLockedResources(m_cms, m_xml.getFile())) {
-            m_xml.save(m_cms, immutablePage);
-        } catch (Exception e) {
-            if (e instanceof CmsException) {
-                throw (CmsException)e;
-            } else {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
+  }
 }

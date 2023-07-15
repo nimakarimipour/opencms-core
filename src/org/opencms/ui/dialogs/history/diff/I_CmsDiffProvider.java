@@ -27,31 +27,29 @@
 
 package org.opencms.ui.dialogs.history.diff;
 
+import com.google.common.base.Optional;
+import com.vaadin.ui.Component;
 import org.opencms.file.CmsObject;
 import org.opencms.gwt.shared.CmsHistoryResourceBean;
 import org.opencms.main.CmsException;
 
-import com.google.common.base.Optional;
-import com.vaadin.ui.Component;
-
 /**
- * Interface for classes which display a comparison widget in the comparison view of the history dialog.
+ * Interface for classes which display a comparison widget in the comparison view of the history
+ * dialog.
  */
 public interface I_CmsDiffProvider {
 
-    /**
-     * Optionally returns a comparison component to display for the given resource versions.<p>
-     *
-     * If no value is returned, then no widget is displayed.
-     *
-     * @param cms the CMS context
-     * @param v1 bean representing the first version
-     * @param v2 bean representing the second version
-     *
-     * @return the optional component to display
-     *
-     * @throws CmsException if something goes wrong
-     */
-    Optional<Component> diff(CmsObject cms, CmsHistoryResourceBean v1, CmsHistoryResourceBean v2) throws CmsException;
-
+  /**
+   * Optionally returns a comparison component to display for the given resource versions.
+   *
+   * <p>If no value is returned, then no widget is displayed.
+   *
+   * @param cms the CMS context
+   * @param v1 bean representing the first version
+   * @param v2 bean representing the second version
+   * @return the optional component to display
+   * @throws CmsException if something goes wrong
+   */
+  Optional<Component> diff(CmsObject cms, CmsHistoryResourceBean v1, CmsHistoryResourceBean v2)
+      throws CmsException;
 }

@@ -27,82 +27,94 @@
 
 package org.opencms.gwt.shared;
 
+import com.google.common.collect.Lists;
+import java.util.List;
 import org.opencms.relations.CmsCategory;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 /**
- * Recursive category tree entry.<p>
+ * Recursive category tree entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsCategoryTreeEntry extends CmsCategoryBean {
 
-    /** The children. */
-    private List<CmsCategoryTreeEntry> m_children = Lists.newArrayList();
+  /** The children. */
+  private List<CmsCategoryTreeEntry> m_children = Lists.newArrayList();
 
-    /**
-     * Clone constructor.<p>
-     *
-     * @param category the category to clone
-     */
-    public CmsCategoryTreeEntry(CmsCategory category) {
+  /**
+   * Clone constructor.
+   *
+   * <p>
+   *
+   * @param category the category to clone
+   */
+  public CmsCategoryTreeEntry(CmsCategory category) {
 
-        super(category);
+    super(category);
+  }
+
+  /**
+   * Constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsCategoryTreeEntry() {
+
+    // do nothing
+  }
+
+  /**
+   * Adds a child entry.
+   *
+   * <p>
+   *
+   * @param child the child to add
+   */
+  public void addChild(CmsCategoryTreeEntry child) {
+
+    m_children.add(child);
+  }
+
+  /**
+   * Returns the children.
+   *
+   * <p>
+   *
+   * @return the children
+   */
+  public List<CmsCategoryTreeEntry> getChildren() {
+
+    return m_children;
+  }
+
+  /**
+   * Gets the title of the category, or the name if the title is not set.
+   *
+   * <p>
+   *
+   * @return the title or name
+   */
+  public Object getTitleOrName() {
+
+    String result = getTitle();
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(result)) {
+      result = getPath();
     }
+    return result;
+  }
 
-    /**
-     * Constructor for serialization.<p>
-     */
-    protected CmsCategoryTreeEntry() {
+  /**
+   * Sets the children.
+   *
+   * <p>
+   *
+   * @param children the children to set
+   */
+  public void setChildren(List<CmsCategoryTreeEntry> children) {
 
-        // do nothing
-    }
-
-    /**
-     * Adds a child entry.<p>
-     *
-     * @param child the child to add
-     */
-    public void addChild(CmsCategoryTreeEntry child) {
-
-        m_children.add(child);
-    }
-
-    /**
-     * Returns the children.<p>
-     *
-     * @return the children
-     */
-    public List<CmsCategoryTreeEntry> getChildren() {
-
-        return m_children;
-    }
-
-    /**
-     * Gets the title of the category, or the name if the title is not set.<p>
-     *
-     * @return the title or name
-     */
-    public Object getTitleOrName() {
-
-        String result = getTitle();
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(result)) {
-            result = getPath();
-        }
-        return result;
-    }
-
-    /**
-     * Sets the children.<p>
-     *
-     * @param children the children to set
-     */
-    public void setChildren(List<CmsCategoryTreeEntry> children) {
-
-        m_children = children;
-    }
+    m_children = children;
+  }
 }

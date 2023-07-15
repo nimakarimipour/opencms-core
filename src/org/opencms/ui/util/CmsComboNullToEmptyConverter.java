@@ -27,54 +27,52 @@
 
 package org.opencms.ui.util;
 
+import com.vaadin.v7.data.util.converter.Converter;
 import java.util.Locale;
 
-import com.vaadin.v7.data.util.converter.Converter;
-
 /**
- * Converts null values to an empty string for the input widgets.<p>
+ * Converts null values to an empty string for the input widgets.
+ *
+ * <p>
  */
 public class CmsComboNullToEmptyConverter implements Converter<Object, String> {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * @see com.vaadin.data.util.converter.Converter#convertToModel(java.lang.Object, java.lang.Class, java.util.Locale)
-     */
-    public String convertToModel(Object value, Class<? extends String> targetType, Locale locale)
-    throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
+  /**
+   * @see com.vaadin.data.util.converter.Converter#convertToModel(java.lang.Object, java.lang.Class,
+   *     java.util.Locale)
+   */
+  public String convertToModel(Object value, Class<? extends String> targetType, Locale locale)
+      throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
 
-        return (String)value;
+    return (String) value;
+  }
+
+  /**
+   * @see com.vaadin.data.util.converter.Converter#convertToPresentation(java.lang.Object,
+   *     java.lang.Class, java.util.Locale)
+   */
+  public Object convertToPresentation(
+      String value, Class<? extends Object> targetType, Locale locale)
+      throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
+
+    if (value == null) {
+      return "";
     }
+    return value;
+  }
 
-    /**
-     * @see com.vaadin.data.util.converter.Converter#convertToPresentation(java.lang.Object, java.lang.Class, java.util.Locale)
-     */
-    public Object convertToPresentation(String value, Class<? extends Object> targetType, Locale locale)
-    throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
+  /** @see com.vaadin.data.util.converter.Converter#getModelType() */
+  public Class<String> getModelType() {
 
-        if (value == null) {
-            return "";
-        }
-        return value;
+    return String.class;
+  }
 
-    }
+  /** @see com.vaadin.data.util.converter.Converter#getPresentationType() */
+  public Class<Object> getPresentationType() {
 
-    /**
-     * @see com.vaadin.data.util.converter.Converter#getModelType()
-     */
-    public Class<String> getModelType() {
-
-        return String.class;
-    }
-
-    /**
-     * @see com.vaadin.data.util.converter.Converter#getPresentationType()
-     */
-    public Class<Object> getPresentationType() {
-
-        return Object.class;
-    }
-
+    return Object.class;
+  }
 }

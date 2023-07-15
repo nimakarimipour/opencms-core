@@ -27,10 +27,8 @@
 
 package com.google.gwt.dev.shell;
 
-/**
- * Required to make the Vaadin client side code compile with GWT 2.9.0.
- */
+/** Required to make the Vaadin client side code compile with GWT 2.9.0. */
 public class CheckForUpdates {
 
-    // empty
+  // empty
 }

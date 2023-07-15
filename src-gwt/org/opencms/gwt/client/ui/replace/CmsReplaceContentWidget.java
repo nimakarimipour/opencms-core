@@ -27,11 +27,6 @@
 
 package org.opencms.gwt.client.ui.replace;
 
-import org.opencms.gwt.client.ui.CmsLoadingAnimation;
-import org.opencms.gwt.client.ui.FontOpenCms;
-import org.opencms.gwt.client.ui.css.I_CmsConstantsBundle;
-import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -39,129 +34,148 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
+import org.opencms.gwt.client.ui.CmsLoadingAnimation;
+import org.opencms.gwt.client.ui.FontOpenCms;
+import org.opencms.gwt.client.ui.css.I_CmsConstantsBundle;
+import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
 
 /**
- * The replace dialog content widget.<p>
+ * The replace dialog content widget.
+ *
+ * <p>
  */
 public class CmsReplaceContentWidget extends Composite {
 
-    /** The UiBinder interface for this widget. */
-    interface I_CmsReplaceContentWidgetUiBinder extends UiBinder<FlowPanel, CmsReplaceContentWidget> {
-        // nothing to do
+  /** The UiBinder interface for this widget. */
+  interface I_CmsReplaceContentWidgetUiBinder extends UiBinder<FlowPanel, CmsReplaceContentWidget> {
+    // nothing to do
+  }
+
+  /** The UiBinder for this widget. */
+  private static I_CmsReplaceContentWidgetUiBinder uiBinder =
+      GWT.create(I_CmsReplaceContentWidgetUiBinder.class);
+
+  /** The dialog content container. */
+  @UiField protected FlowPanel m_container;
+
+  /** The dialog info widget. */
+  @UiField protected HTML m_dialogInfo;
+
+  /** The loading panel. */
+  private FlowPanel m_loadingPanel;
+
+  /** The main panel. */
+  private FlowPanel m_mainPanel;
+
+  /** The replace info widget. */
+  private Widget m_replaceInfo;
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsReplaceContentWidget() {
+
+    m_mainPanel = uiBinder.createAndBindUi(this);
+    initWidget(m_mainPanel);
+  }
+
+  /**
+   * Sets the dialog info message.
+   *
+   * <p>
+   *
+   * @param msg the message to display
+   * @param warning signals whether the message should be a warning or nor
+   */
+  public void displayDialogInfo(String msg, boolean warning) {
+
+    StringBuffer buffer = new StringBuffer(64);
+    if (!warning) {
+      buffer.append("<p class=\"");
+      buffer.append(I_CmsLayoutBundle.INSTANCE.uploadButton().dialogMessage());
+      buffer.append("\">");
+      buffer.append(msg);
+      buffer.append("</p>");
+    } else {
+      buffer.append(
+          FontOpenCms.WARNING.getHtml(32, I_CmsConstantsBundle.INSTANCE.css().colorWarning()));
+      buffer.append("<p class=\"");
+      buffer.append(I_CmsLayoutBundle.INSTANCE.uploadButton().warningMessage());
+      buffer.append("\">");
+      buffer.append(msg);
+      buffer.append("</p>");
     }
+    m_dialogInfo.setHTML(buffer.toString());
+  }
 
-    /** The UiBinder for this widget. */
-    private static I_CmsReplaceContentWidgetUiBinder uiBinder = GWT.create(I_CmsReplaceContentWidgetUiBinder.class);
+  /**
+   * Removes the loading animation.
+   *
+   * <p>
+   */
+  public void removeLoadingAnimation() {
 
-    /** The dialog content container. */
-    @UiField
-    protected FlowPanel m_container;
-
-    /** The dialog info widget. */
-    @UiField
-    protected HTML m_dialogInfo;
-
-    /** The loading panel. */
-    private FlowPanel m_loadingPanel;
-
-    /** The main panel. */
-    private FlowPanel m_mainPanel;
-
-    /** The replace info widget. */
-    private Widget m_replaceInfo;
-
-    /**
-     * Constructor.<p>
-     */
-    public CmsReplaceContentWidget() {
-
-        m_mainPanel = uiBinder.createAndBindUi(this);
-        initWidget(m_mainPanel);
+    if (m_loadingPanel != null) {
+      m_loadingPanel.removeFromParent();
+      m_loadingPanel = null;
     }
+  }
 
-    /**
-     * Sets the dialog info message.<p>
-     *
-     * @param msg the message to display
-     * @param warning signals whether the message should be a warning or nor
-     */
-    public void displayDialogInfo(String msg, boolean warning) {
+  /**
+   * Sets the container widget content.
+   *
+   * <p>
+   *
+   * @param widget the container content
+   */
+  public void setContainerWidget(Widget widget) {
 
-        StringBuffer buffer = new StringBuffer(64);
-        if (!warning) {
-            buffer.append("<p class=\"");
-            buffer.append(I_CmsLayoutBundle.INSTANCE.uploadButton().dialogMessage());
-            buffer.append("\">");
-            buffer.append(msg);
-            buffer.append("</p>");
-        } else {
-            buffer.append(FontOpenCms.WARNING.getHtml(32, I_CmsConstantsBundle.INSTANCE.css().colorWarning()));
-            buffer.append("<p class=\"");
-            buffer.append(I_CmsLayoutBundle.INSTANCE.uploadButton().warningMessage());
-            buffer.append("\">");
-            buffer.append(msg);
-            buffer.append("</p>");
-        }
-        m_dialogInfo.setHTML(buffer.toString());
+    m_container.clear();
+    m_container.add(widget);
+  }
+
+  /**
+   * Sets the replace info widget.
+   *
+   * <p>
+   *
+   * @param replaceInfo the replace info widget
+   */
+  public void setReplaceInfo(Widget replaceInfo) {
+
+    if (m_replaceInfo != null) {
+      m_replaceInfo.removeFromParent();
     }
+    m_replaceInfo = replaceInfo;
+    m_mainPanel.insert(m_replaceInfo, 0);
+  }
 
-    /**
-     * Removes the loading animation.<p>
-     */
-    public void removeLoadingAnimation() {
+  /**
+   * Creates the loading animation HTML and adds is to the content wrapper.
+   *
+   * <p>
+   *
+   * @param msg the message to display below the animation
+   */
+  public void showLoadingAnimation(String msg) {
 
-        if (m_loadingPanel != null) {
-            m_loadingPanel.removeFromParent();
-            m_loadingPanel = null;
-        }
-    }
+    removeLoadingAnimation();
+    m_loadingPanel = new FlowPanel();
+    m_loadingPanel.addStyleName(I_CmsLayoutBundle.INSTANCE.uploadButton().loadingPanel());
+    m_loadingPanel.addStyleName(
+        org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.generalCss().cornerAll());
 
-    /**
-     * Sets the container widget content.<p>
-     *
-     * @param widget the container content
-     */
-    public void setContainerWidget(Widget widget) {
+    CmsLoadingAnimation animationDiv = new CmsLoadingAnimation();
+    animationDiv.addStyleName(I_CmsLayoutBundle.INSTANCE.uploadButton().loadingAnimation());
+    m_loadingPanel.add(animationDiv);
 
-        m_container.clear();
-        m_container.add(widget);
-    }
+    HTML messageDiv = new HTML();
+    messageDiv.addStyleName(I_CmsLayoutBundle.INSTANCE.uploadButton().loadingText());
+    messageDiv.setHTML(msg);
+    m_loadingPanel.add(messageDiv);
 
-    /**
-     * Sets the replace info widget.<p>
-     *
-     * @param replaceInfo the replace info widget
-     */
-    public void setReplaceInfo(Widget replaceInfo) {
-
-        if (m_replaceInfo != null) {
-            m_replaceInfo.removeFromParent();
-        }
-        m_replaceInfo = replaceInfo;
-        m_mainPanel.insert(m_replaceInfo, 0);
-    }
-
-    /**
-     * Creates the loading animation HTML and adds is to the content wrapper.<p>
-     *
-     * @param msg the message to display below the animation
-     */
-    public void showLoadingAnimation(String msg) {
-
-        removeLoadingAnimation();
-        m_loadingPanel = new FlowPanel();
-        m_loadingPanel.addStyleName(I_CmsLayoutBundle.INSTANCE.uploadButton().loadingPanel());
-        m_loadingPanel.addStyleName(org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.generalCss().cornerAll());
-
-        CmsLoadingAnimation animationDiv = new CmsLoadingAnimation();
-        animationDiv.addStyleName(I_CmsLayoutBundle.INSTANCE.uploadButton().loadingAnimation());
-        m_loadingPanel.add(animationDiv);
-
-        HTML messageDiv = new HTML();
-        messageDiv.addStyleName(I_CmsLayoutBundle.INSTANCE.uploadButton().loadingText());
-        messageDiv.setHTML(msg);
-        m_loadingPanel.add(messageDiv);
-
-        m_container.add(m_loadingPanel);
-    }
+    m_container.add(m_loadingPanel);
+  }
 }

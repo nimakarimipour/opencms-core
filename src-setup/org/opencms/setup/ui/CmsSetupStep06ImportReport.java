@@ -27,81 +27,73 @@
 
 package org.opencms.setup.ui;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.VerticalLayout;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import org.opencms.setup.CmsVaadinSetupWorkplaceImportThread;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.report.CmsStreamReportWidget;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.VerticalLayout;
-
-/**
- * Setup step: Module import via CmsShell.
- */
+/** Setup step: Module import via CmsShell. */
 public class CmsSetupStep06ImportReport extends A_CmsSetupStep {
 
-    /** Forward button. */
-    private Button m_forwardButton;
+  /** Forward button. */
+  private Button m_forwardButton;
 
-    /** The log stream. */
-    private OutputStream m_logStream;
+  /** The log stream. */
+  private OutputStream m_logStream;
 
-    /** The main layout. */
-    private VerticalLayout m_mainLayout;
+  /** The main layout. */
+  private VerticalLayout m_mainLayout;
 
-    /**
-     * Creates a new instance.
-     * @param context the setup context
-     */
-    public CmsSetupStep06ImportReport(I_SetupUiContext context) {
+  /**
+   * Creates a new instance.
+   *
+   * @param context the setup context
+   */
+  public CmsSetupStep06ImportReport(I_SetupUiContext context) {
 
-        super(context);
+    super(context);
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
-        m_forwardButton.addClickListener(evt -> forward());
-        final CmsStreamReportWidget report = new CmsStreamReportWidget();
-        report.setWidth("100%");
-        report.setHeight("100%");
-        m_forwardButton.setEnabled(false);
-        m_mainLayout.addComponent(report);
-        try {
-            m_logStream = new FileOutputStream(context.getSetupBean().getLogName());
-        } catch (IOException e) {
+    CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
+    m_forwardButton.addClickListener(evt -> forward());
+    final CmsStreamReportWidget report = new CmsStreamReportWidget();
+    report.setWidth("100%");
+    report.setHeight("100%");
+    m_forwardButton.setEnabled(false);
+    m_mainLayout.addComponent(report);
+    try {
+      m_logStream = new FileOutputStream(context.getSetupBean().getLogName());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    report.setDelegateStream(m_logStream);
+    report.addReportFinishedHandler(
+        () -> {
+          m_forwardButton.setEnabled(true);
+          try {
+            m_logStream.close();
+          } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-        report.setDelegateStream(m_logStream);
-        report.addReportFinishedHandler(() -> {
-            m_forwardButton.setEnabled(true);
-            try {
-                m_logStream.close();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+          }
         });
-        Thread thread = new CmsVaadinSetupWorkplaceImportThread(context.getSetupBean(), report);
-        thread.start();
-    }
+    Thread thread = new CmsVaadinSetupWorkplaceImportThread(context.getSetupBean(), report);
+    thread.start();
+  }
 
-    /**
-     * Proceed to next step.
-     */
-    public void forward() {
+  /** Proceed to next step. */
+  public void forward() {
 
-        m_context.stepForward();
+    m_context.stepForward();
+  }
 
-    }
+  /** @see org.opencms.setup.ui.A_CmsSetupStep#getTitle() */
+  @Override
+  public String getTitle() {
 
-    /**
-     * @see org.opencms.setup.ui.A_CmsSetupStep#getTitle()
-     */
-    @Override
-    public String getTitle() {
-
-        return "OpenCms setup - Importing modules";
-    }
-
+    return "OpenCms setup - Importing modules";
+  }
 }

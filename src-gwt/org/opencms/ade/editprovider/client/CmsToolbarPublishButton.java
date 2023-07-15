@@ -31,37 +31,36 @@ import org.opencms.gwt.client.ui.A_CmsToolbarButton;
 import org.opencms.gwt.client.ui.I_CmsButton;
 
 /**
- * A simplified publish button for the Toolbar direct edit provider.<p>
+ * A simplified publish button for the Toolbar direct edit provider.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsToolbarPublishButton extends A_CmsToolbarButton<CmsDirectEditToolbarHandler> {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param handler the container-page handler
-     */
-    public CmsToolbarPublishButton(CmsDirectEditToolbarHandler handler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param handler the container-page handler
+   */
+  public CmsToolbarPublishButton(CmsDirectEditToolbarHandler handler) {
 
-        super(I_CmsButton.ButtonData.PUBLISH_BUTTON, handler);
-    }
+    super(I_CmsButton.ButtonData.PUBLISH_BUTTON, handler);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate()
-     */
-    public void onToolbarActivate() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate() */
+  public void onToolbarActivate() {
 
-        setEnabled(false);
-        getHandler().showPublishDialog();
-    }
+    setEnabled(false);
+    getHandler().showPublishDialog();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate()
-     */
-    public void onToolbarDeactivate() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate() */
+  public void onToolbarDeactivate() {
 
-        setEnabled(true);
-    }
-
+    setEnabled(true);
+  }
 }

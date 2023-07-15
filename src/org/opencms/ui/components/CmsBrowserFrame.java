@@ -27,83 +27,77 @@
 
 package org.opencms.ui.components;
 
-import org.opencms.ui.shared.CmsBrowserFrameState;
-
 import com.vaadin.server.Resource;
 import com.vaadin.ui.BrowserFrame;
+import org.opencms.ui.shared.CmsBrowserFrameState;
 
 /**
- * Extending the browser frame class to allow setting of the iFrame name attribute.<p>
+ * Extending the browser frame class to allow setting of the iFrame name attribute.
+ *
+ * <p>
  */
 public class CmsBrowserFrame extends BrowserFrame {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -7614391470292599811L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -7614391470292599811L;
 
-    /**
-     * Creates a new empty browser frame.
-     */
-    public CmsBrowserFrame() {
+  /** Creates a new empty browser frame. */
+  public CmsBrowserFrame() {}
 
-    }
+  /**
+   * Creates a new empty browser frame with the given caption.
+   *
+   * @param caption The caption for the component
+   */
+  public CmsBrowserFrame(String caption) {
+    super(caption);
+  }
 
-    /**
-     * Creates a new empty browser frame with the given caption.
-     *
-     * @param caption
-     *            The caption for the component
-     */
-    public CmsBrowserFrame(String caption) {
-        super(caption);
-    }
+  /**
+   * Creates a new browser frame with the given caption and content.
+   *
+   * @param caption The caption for the component.
+   * @param source A Resource representing the Web page that should be displayed.
+   */
+  public CmsBrowserFrame(String caption, Resource source) {
+    super(caption, source);
+  }
 
-    /**
-     * Creates a new browser frame with the given caption and content.
-     *
-     * @param caption
-     *            The caption for the component.
-     * @param source
-     *            A Resource representing the Web page that should be displayed.
-     */
-    public CmsBrowserFrame(String caption, Resource source) {
-        super(caption, source);
-    }
+  /**
+   * Sets the iFrame name attribute.
+   *
+   * <p>
+   *
+   * @return the iFrame name attribute
+   */
+  public String getName() {
 
-    /**
-     * Sets the iFrame name attribute.<p>
-     *
-     * @return the iFrame name attribute
-     */
-    public String getName() {
+    return getState().getName();
+  }
 
-        return getState().getName();
-    }
+  /**
+   * Returns the iFrame name attribute.
+   *
+   * <p>
+   *
+   * @param name the iFrame name attribute
+   */
+  public void setName(String name) {
 
-    /**
-     * Returns the iFrame name attribute.<p>
-     *
-     * @param name the iFrame name attribute
-     */
-    public void setName(String name) {
+    getState(true).setName(name);
+  }
 
-        getState(true).setName(name);
-    }
+  /** @see com.vaadin.ui.BrowserFrame#getState() */
+  @Override
+  protected CmsBrowserFrameState getState() {
 
-    /**
-     * @see com.vaadin.ui.BrowserFrame#getState()
-     */
-    @Override
-    protected CmsBrowserFrameState getState() {
+    return (CmsBrowserFrameState) super.getState();
+  }
 
-        return (CmsBrowserFrameState)super.getState();
-    }
+  /** @see com.vaadin.ui.AbstractEmbedded#getState(boolean) */
+  @Override
+  protected CmsBrowserFrameState getState(boolean markAsDirty) {
 
-    /**
-     * @see com.vaadin.ui.AbstractEmbedded#getState(boolean)
-     */
-    @Override
-    protected CmsBrowserFrameState getState(boolean markAsDirty) {
-
-        return (CmsBrowserFrameState)super.getState(markAsDirty);
-    }
+    return (CmsBrowserFrameState) super.getState(markAsDirty);
+  }
 }

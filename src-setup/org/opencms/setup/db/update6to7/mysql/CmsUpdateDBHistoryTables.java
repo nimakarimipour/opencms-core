@@ -27,46 +27,41 @@
 
 package org.opencms.setup.db.update6to7.mysql;
 
+import java.io.IOException;
 import org.opencms.file.CmsResource;
 
-import java.io.IOException;
-
 /**
- * This class converts the backup tables to history tables.<p>
+ * This class converts the backup tables to history tables.
  *
- * The following tables are converted
- * CMS_BACKUP_PROJECTRESOURCES
- * CMS_BACKUP_PROPERTIES
- * CMS_BACKUP_PROPERTYDEF
- * CMS_BACKUP_RESOURCES
- * CMS_BACKUP_STRUCTURE
+ * <p>The following tables are converted CMS_BACKUP_PROJECTRESOURCES CMS_BACKUP_PROPERTIES
+ * CMS_BACKUP_PROPERTYDEF CMS_BACKUP_RESOURCES CMS_BACKUP_STRUCTURE
  *
- * The tables CMS_HISTORY_PRINCIPALS and CMS_HISTORY_PROJECTS are created in other classes.
+ * <p>The tables CMS_HISTORY_PRINCIPALS and CMS_HISTORY_PROJECTS are created in other classes.
  *
- * CMS_HISTORY_PRINCIPALS is a completely new table and is therefor handled by its own class.
+ * <p>CMS_HISTORY_PRINCIPALS is a completely new table and is therefor handled by its own class.
  *
- * CMS_HISTORY_PROJECTS needs extra conversion beyond the execution of SQL statements and is
- * also handled by a special class.
+ * <p>CMS_HISTORY_PROJECTS needs extra conversion beyond the execution of SQL statements and is also
+ * handled by a special class.
  */
-public class CmsUpdateDBHistoryTables extends org.opencms.setup.db.update6to7.CmsUpdateDBHistoryTables {
+public class CmsUpdateDBHistoryTables
+    extends org.opencms.setup.db.update6to7.CmsUpdateDBHistoryTables {
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the sql queries properties file could not be read
-     */
-    public CmsUpdateDBHistoryTables()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the sql queries properties file could not be read
+   */
+  public CmsUpdateDBHistoryTables() throws IOException {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation()
-     */
-    @Override
-    protected String getPropertyFileLocation() {
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation() */
+  @Override
+  protected String getPropertyFileLocation() {
 
-        return CmsResource.getParentFolder(super.getPropertyFileLocation());
-    }
+    return CmsResource.getParentFolder(super.getPropertyFileLocation());
+  }
 }

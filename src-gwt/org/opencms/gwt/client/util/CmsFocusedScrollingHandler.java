@@ -35,104 +35,118 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Native preview handler that focuses the on scroll wheel mouse event on the given scroll panel.<p>
+ * Native preview handler that focuses the on scroll wheel mouse event on the given scroll panel.
+ *
+ * <p>
  */
 public final class CmsFocusedScrollingHandler implements NativePreviewHandler {
 
-    /** The scroll panel. */
-    private ScrollPanel m_scrollPanel;
+  /** The scroll panel. */
+  private ScrollPanel m_scrollPanel;
 
-    /** The scroll handler registration. */
-    private HandlerRegistration m_handlerRegistration;
+  /** The scroll handler registration. */
+  private HandlerRegistration m_handlerRegistration;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param scrollPanel the scroll panel to focus on
-     */
-    private CmsFocusedScrollingHandler(ScrollPanel scrollPanel) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param scrollPanel the scroll panel to focus on
+   */
+  private CmsFocusedScrollingHandler(ScrollPanel scrollPanel) {
 
-        m_scrollPanel = scrollPanel;
+    m_scrollPanel = scrollPanel;
+  }
+
+  /**
+   * Installs a focused scrolling handler on the given widget.
+   *
+   * <p>
+   *
+   * @param scrollPanel the scroll panel
+   * @return the focused scrolling handler
+   */
+  public static CmsFocusedScrollingHandler installFocusedScrollingHandler(ScrollPanel scrollPanel) {
+
+    if (scrollPanel == null) {
+      throw new UnsupportedOperationException("No scroll panel given");
     }
+    CmsFocusedScrollingHandler handler = new CmsFocusedScrollingHandler(scrollPanel);
+    handler.register();
+    return handler;
+  }
 
-    /**
-     * Installs a focused scrolling handler on the given widget.<p>
-     *
-     * @param scrollPanel the scroll panel
-     *
-     * @return the focused scrolling handler
-     */
-    public static CmsFocusedScrollingHandler installFocusedScrollingHandler(ScrollPanel scrollPanel) {
+  /**
+   * @see
+   *     com.google.gwt.user.client.Event.NativePreviewHandler#onPreviewNativeEvent(com.google.gwt.user.client.Event.NativePreviewEvent)
+   */
+  public void onPreviewNativeEvent(NativePreviewEvent event) {
 
-        if (scrollPanel == null) {
-            throw new UnsupportedOperationException("No scroll panel given");
+    if ((Event.ONMOUSEWHEEL == event.getTypeInt()) && (m_handlerRegistration != null)) {
+      CmsPositionBean position = CmsPositionBean.generatePositionInfo(m_scrollPanel);
+      if (position.isOverElement(
+          event.getNativeEvent().getClientX(), event.getNativeEvent().getClientY())) {
+        boolean cancelEvent = false;
+        int velocity = event.getNativeEvent().getMouseWheelVelocityY();
+        if (velocity > 0) {
+
+          Widget child = m_scrollPanel.getWidget();
+          int scrollSpace =
+              child.getOffsetHeight()
+                  - m_scrollPanel.getVerticalScrollPosition()
+                  - m_scrollPanel.getOffsetHeight();
+          CmsDebugLog.getInstance().printLine("Scrolling down:  " + scrollSpace);
+          cancelEvent = scrollSpace <= 0;
+        } else {
+          CmsDebugLog.getInstance()
+              .printLine("Scrolling up:  " + m_scrollPanel.getVerticalScrollPosition());
+          cancelEvent = m_scrollPanel.getVerticalScrollPosition() == 0;
         }
-        CmsFocusedScrollingHandler handler = new CmsFocusedScrollingHandler(scrollPanel);
-        handler.register();
-        return handler;
-    }
-
-    /**
-     * @see com.google.gwt.user.client.Event.NativePreviewHandler#onPreviewNativeEvent(com.google.gwt.user.client.Event.NativePreviewEvent)
-     */
-    public void onPreviewNativeEvent(NativePreviewEvent event) {
-
-        if ((Event.ONMOUSEWHEEL == event.getTypeInt()) && (m_handlerRegistration != null)) {
-            CmsPositionBean position = CmsPositionBean.generatePositionInfo(m_scrollPanel);
-            if (position.isOverElement(event.getNativeEvent().getClientX(), event.getNativeEvent().getClientY())) {
-                boolean cancelEvent = false;
-                int velocity = event.getNativeEvent().getMouseWheelVelocityY();
-                if (velocity > 0) {
-
-                    Widget child = m_scrollPanel.getWidget();
-                    int scrollSpace = child.getOffsetHeight()
-                        - m_scrollPanel.getVerticalScrollPosition()
-                        - m_scrollPanel.getOffsetHeight();
-                    CmsDebugLog.getInstance().printLine("Scrolling down:  " + scrollSpace);
-                    cancelEvent = scrollSpace <= 0;
-                } else {
-                    CmsDebugLog.getInstance().printLine("Scrolling up:  " + m_scrollPanel.getVerticalScrollPosition());
-                    cancelEvent = m_scrollPanel.getVerticalScrollPosition() == 0;
-                }
-                if (cancelEvent) {
-                    event.cancel();
-                }
-            } else {
-                removeHandler();
-            }
-
+        if (cancelEvent) {
+          event.cancel();
         }
-
-    }
-
-    /**
-     * Returns if the handler is currently registered.<p>
-     *
-     * @return <code>true</code> if the handler is currently registered and active
-     */
-    public boolean isRegistered() {
-
-        return m_handlerRegistration != null;
-    }
-
-    /**
-     * Registers the handler.<p>
-     */
-    public void register() {
-
+      } else {
         removeHandler();
-        m_handlerRegistration = Event.addNativePreviewHandler(this);
+      }
     }
+  }
 
-    /**
-     * Removes the handler and deactivates it.<p>
-     * Call {@link #register()} the register again.<p>
-     */
-    public void removeHandler() {
+  /**
+   * Returns if the handler is currently registered.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the handler is currently registered and active
+   */
+  public boolean isRegistered() {
 
-        if (m_handlerRegistration != null) {
-            m_handlerRegistration.removeHandler();
-            m_handlerRegistration = null;
-        }
+    return m_handlerRegistration != null;
+  }
+
+  /**
+   * Registers the handler.
+   *
+   * <p>
+   */
+  public void register() {
+
+    removeHandler();
+    m_handlerRegistration = Event.addNativePreviewHandler(this);
+  }
+
+  /**
+   * Removes the handler and deactivates it.
+   *
+   * <p>Call {@link #register()} the register again.
+   *
+   * <p>
+   */
+  public void removeHandler() {
+
+    if (m_handlerRegistration != null) {
+      m_handlerRegistration.removeHandler();
+      m_handlerRegistration = null;
     }
+  }
 }

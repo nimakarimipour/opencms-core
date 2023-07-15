@@ -30,70 +30,85 @@ package org.opencms.gwt.shared.alias;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * The values of this enum describe what should happen when a request to an aliased resource
- * comes in.<p>
+ * The values of this enum describe what should happen when a request to an aliased resource comes
+ * in.
+ *
+ * <p>
  */
 public enum CmsAliasMode implements IsSerializable {
 
-    /** The request will be forwarded internally to the given resource. */
-    page(0), /** Pass the new path along to the next resource handler. */
-    passthrough(3), /** A 'moved permanently' status with a link to the aliased resource will be sent to the browser. */
-    permanentRedirect(
-    2), /** A 'moved temporarily' status with a link to the aliased resource will be sent to the browser. */
-    redirect(1);
+  /** The request will be forwarded internally to the given resource. */
+  page(0),
+  /** Pass the new path along to the next resource handler. */
+  passthrough(3),
+  /**
+   * A 'moved permanently' status with a link to the aliased resource will be sent to the browser.
+   */
+  permanentRedirect(2),
+  /**
+   * A 'moved temporarily' status with a link to the aliased resource will be sent to the browser.
+   */
+  redirect(1);
 
-    /** The id used for storing alias modes in the database. */
-    private final int m_id;
+  /** The id used for storing alias modes in the database. */
+  private final int m_id;
 
-    /**
-     * Creates a new enum constant.<p>
-     *
-     * @param id the id used in the database
-     */
-    CmsAliasMode(int id) {
+  /**
+   * Creates a new enum constant.
+   *
+   * <p>
+   *
+   * @param id the id used in the database
+   */
+  CmsAliasMode(int id) {
 
-        m_id = id;
+    m_id = id;
+  }
+
+  /**
+   * Gets the enum constant for a given integer id.
+   *
+   * <p>
+   *
+   * @param id the integer id
+   * @return the enum constant matching that id
+   */
+  public static CmsAliasMode fromInt(int id) {
+
+    switch (id) {
+      case 1:
+        return redirect;
+      case 2:
+        return permanentRedirect;
+      case 3:
+        return passthrough;
+      case 0:
+      default:
+        return page;
     }
+  }
 
-    /**
-     * Gets the enum constant for a given integer id.<p>
-     *
-     * @param id the integer id
-     * @return the enum constant matching that id
-     */
-    public static CmsAliasMode fromInt(int id) {
+  /**
+   * Checks whether this is a mode that requires a redirect.
+   *
+   * <p>
+   *
+   * @return true if this mode requires a redirect
+   */
+  public boolean isRedirect() {
 
-        switch (id) {
-            case 1:
-                return redirect;
-            case 2:
-                return permanentRedirect;
-            case 3:
-                return passthrough;
-            case 0:
-            default:
-                return page;
-        }
-    }
+    return (this == redirect) || (this == permanentRedirect);
+  }
 
-    /**
-     * Checks whether this is a mode that requires a redirect.<p>
-     *
-     * @return true if this mode requires a redirect
-     */
-    public boolean isRedirect() {
+  /**
+   * Converts an enum constant to the id used for storing alias modes in the database.
+   *
+   * <p>
+   *
+   * @return the enum constant id
+   */
+  public int toInt() {
 
-        return (this == redirect) || (this == permanentRedirect);
-    }
-
-    /**
-     * Converts an enum constant to the id used for storing alias modes in the database.<p>
-     *
-     * @return the enum constant id
-     */
-    public int toInt() {
-
-        return m_id;
-    }
-
+    return m_id;
+  }
 }

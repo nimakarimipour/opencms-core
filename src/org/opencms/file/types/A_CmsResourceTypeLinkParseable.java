@@ -30,29 +30,32 @@ package org.opencms.file.types;
 import org.opencms.relations.I_CmsLinkParseable;
 
 /**
- * Base implementation for resource types implementing the {@link I_CmsLinkParseable} interface.<p>
+ * Base implementation for resource types implementing the {@link I_CmsLinkParseable} interface.
+ *
+ * <p>
  *
  * @since 6.5.0
  */
-public abstract class A_CmsResourceTypeLinkParseable extends A_CmsResourceType implements I_CmsLinkParseable {
+public abstract class A_CmsResourceTypeLinkParseable extends A_CmsResourceType
+    implements I_CmsLinkParseable {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 2171311306285390833L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 2171311306285390833L;
 
-    /**
-     * Default constructor.<p>
-     */
-    public A_CmsResourceTypeLinkParseable() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public A_CmsResourceTypeLinkParseable() {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * @see org.opencms.file.types.I_CmsResourceType#isDirectEditable()
-     */
-    @Override
-    public boolean isDirectEditable() {
+  /** @see org.opencms.file.types.I_CmsResourceType#isDirectEditable() */
+  @Override
+  public boolean isDirectEditable() {
 
-        return true;
-    }
+    return true;
+  }
 }

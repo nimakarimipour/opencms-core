@@ -27,121 +27,131 @@
 
 package org.opencms.ui.login;
 
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.v7.shared.ui.combobox.FilteringMode;
+import com.vaadin.v7.ui.ComboBox;
+import java.util.List;
 import org.opencms.security.CmsOrganizationalUnit;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.Messages;
 import org.opencms.util.CmsFileUtil;
 
-import java.util.List;
-
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.v7.shared.ui.combobox.FilteringMode;
-import com.vaadin.v7.ui.ComboBox;
-
 /**
- * Widget used to allow the user to search and select an organizational unit.<p>
+ * Widget used to allow the user to search and select an organizational unit.
+ *
+ * <p>
  */
 public class CmsLoginOuSelector extends CustomComponent {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** Special value for the 'not selected' option. */
-    public static final String OU_NONE = "OU_NONE";
+  /** Special value for the 'not selected' option. */
+  public static final String OU_NONE = "OU_NONE";
 
-    /** The combo box containing the OU options. */
-    private ComboBox m_ouSelect = new ComboBox();
+  /** The combo box containing the OU options. */
+  private ComboBox m_ouSelect = new ComboBox();
 
-    /** Flag to always hide the selector. */
-    private boolean m_alwaysHidden;
+  /** Flag to always hide the selector. */
+  private boolean m_alwaysHidden;
 
-    /**
-     * Creates a new instance.<P>
-     */
-    public CmsLoginOuSelector() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsLoginOuSelector() {
 
-        m_ouSelect.setWidth("100%");
-        setCompositionRoot(m_ouSelect);
-        m_ouSelect.setFilteringMode(FilteringMode.CONTAINS);
-        m_ouSelect.setNullSelectionAllowed(false);
+    m_ouSelect.setWidth("100%");
+    setCompositionRoot(m_ouSelect);
+    m_ouSelect.setFilteringMode(FilteringMode.CONTAINS);
+    m_ouSelect.setNullSelectionAllowed(false);
+  }
+
+  /**
+   * Gets the selected OU.<p<
+   *
+   * @return the selected OU
+   */
+  public String getValue() {
+
+    return (String) m_ouSelect.getValue();
+  }
+
+  /**
+   * Checks if a given OU is available for selection.
+   *
+   * @param ou the OU to check
+   * @return true if the OU is available
+   */
+  public boolean hasOrgUnit(String ou) {
+
+    return m_ouSelect.getContainerDataSource().getItem(normalizeOuName(ou)) != null;
+  }
+
+  /**
+   * Initializes the select options.
+   *
+   * <p>
+   *
+   * @param orgUnits the selectable OUs
+   * @param addEmptyOption adds empty 'not selected' option with the special value OU_NONE
+   */
+  public void initOrgUnits(List<CmsOrganizationalUnit> orgUnits, boolean addEmptyOption) {
+
+    if ((orgUnits.size() == 1) && (orgUnits.get(0).getParentFqn() == null)) {
+      setVisible(false);
+      m_alwaysHidden = true;
     }
-
-    /**
-     * Gets the selected OU.<p<
-     *
-     * @return the selected OU
-     */
-    public String getValue() {
-
-        return (String)m_ouSelect.getValue();
+    if (addEmptyOption) {
+      m_ouSelect.addItem(OU_NONE);
+      m_ouSelect.setItemCaption(
+          OU_NONE, CmsVaadinUtils.getMessageText(Messages.GUI_LOGIN_NO_OU_SELECTED_0));
     }
-
-    /**
-     * Checks if a given OU is available for selection.
-     * 
-     * @param ou the OU to check
-     * @return true if the OU is available
-     */
-    public boolean hasOrgUnit(String ou) {
-
-        return m_ouSelect.getContainerDataSource().getItem(normalizeOuName(ou)) != null;
+    for (CmsOrganizationalUnit ou : orgUnits) {
+      String key = normalizeOuName(ou.getName());
+      m_ouSelect.addItem(key);
+      m_ouSelect.setItemCaption(key, ou.getDisplayName(A_CmsUI.get().getLocale()));
     }
+  }
 
-    /**
-     * Initializes the select options.<p>
-     *
-     * @param orgUnits the selectable OUs
-     * @param addEmptyOption adds empty 'not selected' option with the special value OU_NONE
-     */
-    public void initOrgUnits(List<CmsOrganizationalUnit> orgUnits, boolean addEmptyOption) {
+  /**
+   * Returns true if the OU selector should remain hidden.
+   *
+   * <p>
+   *
+   * @return true if the OU selector should remain hidden
+   */
+  public boolean isAlwaysHidden() {
 
-        if ((orgUnits.size() == 1) && (orgUnits.get(0).getParentFqn() == null)) {
-            setVisible(false);
-            m_alwaysHidden = true;
-        }
-        if (addEmptyOption) {
-            m_ouSelect.addItem(OU_NONE);
-            m_ouSelect.setItemCaption(OU_NONE, CmsVaadinUtils.getMessageText(Messages.GUI_LOGIN_NO_OU_SELECTED_0));
-        }
-        for (CmsOrganizationalUnit ou : orgUnits) {
-            String key = normalizeOuName(ou.getName());
-            m_ouSelect.addItem(key);
-            m_ouSelect.setItemCaption(key, ou.getDisplayName(A_CmsUI.get().getLocale()));
-        }
-    }
+    return m_alwaysHidden;
+  }
 
-    /**
-     * Returns true if the OU selector should remain hidden.<p>
-     *
-     * @return true if the OU selector should remain hidden
-     */
-    public boolean isAlwaysHidden() {
+  /**
+   * Sets the selected OU.
+   *
+   * <p>
+   *
+   * @param value the OU to select
+   */
+  public void setValue(String value) {
 
-        return m_alwaysHidden;
-    }
+    m_ouSelect.setValue(normalizeOuName(value));
+  }
 
-    /**
-     * Sets the selected OU.<p>
-     *
-     * @param value the OU to select
-     */
-    public void setValue(String value) {
+  /**
+   * Normalizes a given OU name.
+   *
+   * <p>
+   *
+   * @param ou the OU name
+   * @return the normalized version
+   */
+  String normalizeOuName(String ou) {
 
-        m_ouSelect.setValue(normalizeOuName(value));
-    }
-
-    /**
-     * Normalizes a given OU name.<p>
-     *
-     * @param ou the OU name
-     * @return the normalized version
-     */
-    String normalizeOuName(String ou) {
-
-        ou = CmsFileUtil.removeLeadingSeparator(ou);
-        ou = CmsFileUtil.removeTrailingSeparator(ou);
-        return ou;
-    }
-
+    ou = CmsFileUtil.removeLeadingSeparator(ou);
+    ou = CmsFileUtil.removeTrailingSeparator(ou);
+    return ou;
+  }
 }

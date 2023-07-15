@@ -33,89 +33,105 @@ import org.opencms.gwt.client.ui.CmsListItemWidget;
 import org.opencms.util.CmsUUID;
 
 /**
- * A list item widget class which also contains a resource type info bean, for use in creating new sitemap entries.<p>
+ * A list item widget class which also contains a resource type info bean, for use in creating new
+ * sitemap entries.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsCreatableListItem extends CmsListItem {
 
-    /** The types of creatable sitemap entries. */
-    public enum NewEntryType {
-        /** A detail page. */
-        detailpage,
-        /** A redirect entry. */
-        redirect,
-        /** A regular entry. */
-        regular
-    }
+  /** The types of creatable sitemap entries. */
+  public enum NewEntryType {
+    /** A detail page. */
+    detailpage,
+    /** A redirect entry. */
+    redirect,
+    /** A regular entry. */
+    regular
+  }
 
-    /** The sitemap entry type to create. */
-    private NewEntryType m_newEntryType;
+  /** The sitemap entry type to create. */
+  private NewEntryType m_newEntryType;
 
-    /** The resource type info bean. */
-    private CmsNewResourceInfo m_typeInfo;
+  /** The resource type info bean. */
+  private CmsNewResourceInfo m_typeInfo;
 
-    /**
-     * Creates a new list item with a given resource type info bean.<p>
-     *
-     * @param content the content for the list item widget
-     * @param typeInfo the resource type info bean
-     * @param newEntryType the type of the creatable sitemap entry type
-     */
-    public CmsCreatableListItem(CmsListItemWidget content, CmsNewResourceInfo typeInfo, NewEntryType newEntryType) {
+  /**
+   * Creates a new list item with a given resource type info bean.
+   *
+   * <p>
+   *
+   * @param content the content for the list item widget
+   * @param typeInfo the resource type info bean
+   * @param newEntryType the type of the creatable sitemap entry type
+   */
+  public CmsCreatableListItem(
+      CmsListItemWidget content, CmsNewResourceInfo typeInfo, NewEntryType newEntryType) {
 
-        super(content);
-        m_typeInfo = typeInfo;
-        m_newEntryType = newEntryType;
-    }
+    super(content);
+    m_typeInfo = typeInfo;
+    m_newEntryType = newEntryType;
+  }
 
-    /**
-     * Returns the copy resource structure id.<p>
-     *
-     * @return the copy resource structure id
-     */
-    public CmsUUID getCopyResourceId() {
+  /**
+   * Returns the copy resource structure id.
+   *
+   * <p>
+   *
+   * @return the copy resource structure id
+   */
+  public CmsUUID getCopyResourceId() {
 
-        return m_typeInfo.getCopyResourceId();
-    }
+    return m_typeInfo.getCopyResourceId();
+  }
 
-    /**
-     * Returns the new sitemap entry type.<p>
-     *
-     * @return the new sitemap entry type
-     */
-    public NewEntryType getNewEntryType() {
+  /**
+   * Returns the new sitemap entry type.
+   *
+   * <p>
+   *
+   * @return the new sitemap entry type
+   */
+  public NewEntryType getNewEntryType() {
 
-        return m_newEntryType;
-    }
+    return m_newEntryType;
+  }
 
-    /**
-     * Returns the resource type information bean.<p>
-     *
-     * @return the resource type info bean
-     */
-    public CmsNewResourceInfo getResourceTypeInfo() {
+  /**
+   * Returns the resource type information bean.
+   *
+   * <p>
+   *
+   * @return the resource type info bean
+   */
+  public CmsNewResourceInfo getResourceTypeInfo() {
 
-        return m_typeInfo;
-    }
+    return m_typeInfo;
+  }
 
-    /**
-     * Returns the resource type id.<p>
-     *
-     * @return the resource type id
-     */
-    public int getTypeId() {
+  /**
+   * Returns the resource type id.
+   *
+   * <p>
+   *
+   * @return the resource type id
+   */
+  public int getTypeId() {
 
-        return m_typeInfo.getId();
-    }
+    return m_typeInfo.getId();
+  }
 
-    /**
-     * Returns the resource type name.<p>
-     *
-     * @return the resource type name
-     */
-    public String getTypeName() {
+  /**
+   * Returns the resource type name.
+   *
+   * <p>
+   *
+   * @return the resource type name
+   */
+  public String getTypeName() {
 
-        return m_typeInfo.getResourceType();
-    }
+    return m_typeInfo.getResourceType();
+  }
 }

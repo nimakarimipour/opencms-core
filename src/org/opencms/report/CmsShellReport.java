@@ -27,165 +27,154 @@
 
 package org.opencms.report;
 
+import java.io.PrintStream;
+import java.util.Locale;
 import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsShell;
 
-import java.io.PrintStream;
-import java.util.Locale;
-
 /**
- * Report class used for the shell.<p>
+ * Report class used for the shell.
  *
- * It stores nothing. It just prints everything to <code>{@link System#out}</code><p>.
+ * <p>It stores nothing. It just prints everything to <code>{@link System#out}</code>
+ *
+ * <p>.
  *
  * @since 6.0.0
  */
 public class CmsShellReport extends CmsPrintStreamReport {
 
-    /** Flag indicating if the job is still running. */
-    private boolean m_stillRunning;
+  /** Flag indicating if the job is still running. */
+  private boolean m_stillRunning;
 
-    /**
-     * Constructs a new report using the provided locale for the output language.<p>
-     *
-     * @param locale the locale to use for the output language
-     */
-    public CmsShellReport(Locale locale) {
+  /**
+   * Constructs a new report using the provided locale for the output language.
+   *
+   * <p>
+   *
+   * @param locale the locale to use for the output language
+   */
+  public CmsShellReport(Locale locale) {
 
-        super(getOutputStream(), locale, false);
+    super(getOutputStream(), locale, false);
+  }
+
+  /**
+   * Retrieves the appropriate output stream to write the report to.
+   *
+   * <p>If we are running in a shell context, this will return the shell's assigned output stream,
+   * otherwise System.out is returned.
+   *
+   * <p>
+   *
+   * @return the output stream to write the report to
+   */
+  public static PrintStream getOutputStream() {
+
+    CmsShell shell = CmsShell.getTopShell();
+    if (shell != null) {
+      return shell.getOut();
+    } else {
+      return System.out;
     }
+  }
 
-    /**
-     * Retrieves the appropriate output stream to write the report to.<p>
-     *
-     * If we are running in a shell context, this will return the shell's assigned output stream, otherwise System.out is returned.<p>
-     *
-     * @return the output stream to write the report to
-     */
-    public static PrintStream getOutputStream() {
+  /** @see org.opencms.report.A_CmsReport#addError(java.lang.Object) */
+  @Override
+  public void addError(Object obj) {
 
-        CmsShell shell = CmsShell.getTopShell();
-        if (shell != null) {
-            return shell.getOut();
-        } else {
-            return System.out;
-        }
+    super.addError(obj);
+    CmsShell.setReportError();
+  }
 
+  /** @see org.opencms.report.I_CmsReport#getReportUpdate() */
+  @Override
+  public synchronized String getReportUpdate() {
+
+    // to avoid premature interruption of the reporting thread (@see
+    // org.opencms.main.CmsThreadStore),
+    // a not empty string is returned, if there have been any print outs since the last check
+    if (m_stillRunning) {
+      m_stillRunning = false;
+      return "*";
     }
+    return "";
+  }
 
-    /**
-     * @see org.opencms.report.A_CmsReport#addError(java.lang.Object)
-     */
-    @Override
-    public void addError(Object obj) {
+  /** @see org.opencms.report.A_CmsReport#print(org.opencms.i18n.CmsMessageContainer) */
+  @Override
+  public void print(CmsMessageContainer container) {
 
-        super.addError(obj);
-        CmsShell.setReportError();
-    }
+    super.print(container);
+    m_stillRunning = true;
+  }
 
-    /**
-     * @see org.opencms.report.I_CmsReport#getReportUpdate()
-     */
-    @Override
-    public synchronized String getReportUpdate() {
+  /** @see org.opencms.report.A_CmsReport#print(org.opencms.i18n.CmsMessageContainer, int) */
+  @Override
+  public void print(CmsMessageContainer container, int format) {
 
-        // to avoid premature interruption of the reporting thread (@see org.opencms.main.CmsThreadStore),
-        // a not empty string is returned, if there have been any print outs since the last check
-        if (m_stillRunning) {
-            m_stillRunning = false;
-            return "*";
-        }
-        return "";
-    }
+    super.print(container, format);
+    m_stillRunning = true;
+  }
 
-    /**
-     * @see org.opencms.report.A_CmsReport#print(org.opencms.i18n.CmsMessageContainer)
-     */
-    @Override
-    public void print(CmsMessageContainer container) {
+  /** @see org.opencms.report.CmsPrintStreamReport#println() */
+  @Override
+  public void println() {
 
-        super.print(container);
-        m_stillRunning = true;
-    }
+    super.println();
+    m_stillRunning = true;
+  }
 
-    /**
-     * @see org.opencms.report.A_CmsReport#print(org.opencms.i18n.CmsMessageContainer, int)
-     */
-    @Override
-    public void print(CmsMessageContainer container, int format) {
+  /** @see org.opencms.report.A_CmsReport#println(org.opencms.i18n.CmsMessageContainer) */
+  @Override
+  public void println(CmsMessageContainer container) {
 
-        super.print(container, format);
-        m_stillRunning = true;
-    }
+    super.println(container);
+    m_stillRunning = true;
+  }
 
-    /**
-     * @see org.opencms.report.CmsPrintStreamReport#println()
-     */
-    @Override
-    public void println() {
+  /** @see org.opencms.report.A_CmsReport#println(org.opencms.i18n.CmsMessageContainer, int) */
+  @Override
+  public void println(CmsMessageContainer container, int format) {
 
-        super.println();
-        m_stillRunning = true;
-    }
+    super.println(container, format);
+    m_stillRunning = true;
+  }
 
-    /**
-     * @see org.opencms.report.A_CmsReport#println(org.opencms.i18n.CmsMessageContainer)
-     */
-    @Override
-    public void println(CmsMessageContainer container) {
+  /** @see org.opencms.report.CmsPrintStreamReport#println(java.lang.Throwable) */
+  @Override
+  public void println(Throwable t) {
 
-        super.println(container);
-        m_stillRunning = true;
-    }
+    super.println(t);
+    m_stillRunning = true;
+  }
 
-    /**
-     * @see org.opencms.report.A_CmsReport#println(org.opencms.i18n.CmsMessageContainer, int)
-     */
-    @Override
-    public void println(CmsMessageContainer container, int format) {
+  /**
+   * @see org.opencms.report.A_CmsReport#printMessageWithParam(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Object)
+   */
+  @Override
+  public void printMessageWithParam(CmsMessageContainer container, Object param) {
 
-        super.println(container, format);
-        m_stillRunning = true;
-    }
+    super.printMessageWithParam(container, param);
+    m_stillRunning = true;
+  }
 
-    /**
-     * @see org.opencms.report.CmsPrintStreamReport#println(java.lang.Throwable)
-     */
-    @Override
-    public void println(Throwable t) {
+  /**
+   * @see org.opencms.report.A_CmsReport#printMessageWithParam(int, int,
+   *     org.opencms.i18n.CmsMessageContainer, java.lang.Object)
+   */
+  @Override
+  public void printMessageWithParam(int m, int n, CmsMessageContainer container, Object param) {
 
-        super.println(t);
-        m_stillRunning = true;
-    }
+    super.printMessageWithParam(m, n, container, param);
+    m_stillRunning = true;
+  }
 
-    /**
-     * @see org.opencms.report.A_CmsReport#printMessageWithParam(org.opencms.i18n.CmsMessageContainer, java.lang.Object)
-     */
-    @Override
-    public void printMessageWithParam(CmsMessageContainer container, Object param) {
+  /** @see org.opencms.report.CmsPrintStreamReport#start() */
+  @Override
+  public void start() {
 
-        super.printMessageWithParam(container, param);
-        m_stillRunning = true;
-    }
-
-    /**
-     * @see org.opencms.report.A_CmsReport#printMessageWithParam(int, int, org.opencms.i18n.CmsMessageContainer, java.lang.Object)
-     */
-    @Override
-    public void printMessageWithParam(int m, int n, CmsMessageContainer container, Object param) {
-
-        super.printMessageWithParam(m, n, container, param);
-        m_stillRunning = true;
-    }
-
-    /**
-     * @see org.opencms.report.CmsPrintStreamReport#start()
-     */
-    @Override
-    public void start() {
-
-        super.start();
-        m_stillRunning = true;
-    }
-
+    super.start();
+    m_stillRunning = true;
+  }
 }

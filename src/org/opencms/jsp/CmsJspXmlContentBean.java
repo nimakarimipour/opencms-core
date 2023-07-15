@@ -28,181 +28,191 @@
 package org.opencms.jsp;
 
 import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 /**
- * Provides access to XML content tag functions from scriptlet code.<p>
+ * Provides access to XML content tag functions from scriptlet code.
  *
- * Otherwise provides all functions from the parent class <code>{@link org.opencms.jsp.CmsJspActionElement}</code>.<p>
+ * <p>Otherwise provides all functions from the parent class <code>
+ * {@link org.opencms.jsp.CmsJspActionElement}</code>.
+ *
+ * <p>
  *
  * @since 6.2.0
  */
 public class CmsJspXmlContentBean extends CmsJspActionElement {
 
-    /**
-     * Empty constructor, required for every JavaBean.
-     *
-     * @see CmsJspActionElement#CmsJspActionElement()
-     */
-    public CmsJspXmlContentBean() {
+  /**
+   * Empty constructor, required for every JavaBean.
+   *
+   * @see CmsJspActionElement#CmsJspActionElement()
+   */
+  public CmsJspXmlContentBean() {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * Constructor, with parameters.
-     *
-     * @param context the JSP page context object
-     * @param req the JSP request
-     * @param res the JSP response
-     *
-     * @see CmsJspActionElement#CmsJspActionElement(PageContext, HttpServletRequest, HttpServletResponse)
-     */
-    public CmsJspXmlContentBean(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Constructor, with parameters.
+   *
+   * @param context the JSP page context object
+   * @param req the JSP request
+   * @param res the JSP response
+   * @see CmsJspActionElement#CmsJspActionElement(PageContext, HttpServletRequest,
+   *     HttpServletResponse)
+   */
+  public CmsJspXmlContentBean(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        super(context, req, res);
-    }
+    super(context, req, res);
+  }
 
-    /**
-     * Loads a set of <code>{@link org.opencms.xml.I_CmsXmlDocument}</code>, same as
-     * using the <code>&lt;cms:contentload collector="***" param="***" editable="***" /&gt;</code> tag.<p>
-     *
-     * The locale for accessing the content is read form the current OpenCms users request context.<p>
-     *
-     * @param collectorName the collector name to use
-     * @param collectorParam the parameters for the collector
-     * @param editable indicates if "direct edit" support is required (will insert additional HTML)
-     *
-     * @return an XML content container loaded with the selected content
-     *
-     * @throws JspException in case something goes wrong
-     */
-    public I_CmsXmlContentContainer contentload(String collectorName, String collectorParam, boolean editable)
-    throws JspException {
+  /**
+   * Loads a set of <code>{@link org.opencms.xml.I_CmsXmlDocument}</code>, same as using the <code>
+   * &lt;cms:contentload collector="***" param="***" editable="***" /&gt;</code> tag.
+   *
+   * <p>The locale for accessing the content is read form the current OpenCms users request context.
+   *
+   * <p>
+   *
+   * @param collectorName the collector name to use
+   * @param collectorParam the parameters for the collector
+   * @param editable indicates if "direct edit" support is required (will insert additional HTML)
+   * @return an XML content container loaded with the selected content
+   * @throws JspException in case something goes wrong
+   */
+  public I_CmsXmlContentContainer contentload(
+      String collectorName, String collectorParam, boolean editable) throws JspException {
 
-        return contentload(collectorName, collectorParam, getRequestContext().getLocale(), editable);
-    }
+    return contentload(collectorName, collectorParam, getRequestContext().getLocale(), editable);
+  }
 
-    /**
-     * Loads a set of <code>{@link org.opencms.xml.I_CmsXmlDocument}</code>, same as
-     * using the <code>&lt;cms:contentload collector="***" param="***" locale="***" editable="***" /&gt;</code> tag.<p>
-     *
-     * @param collectorName the collector name to use
-     * @param collectorParam the parameters for the collector
-     * @param locale the locale to use to access the content
-     * @param editable indicates if "direct edit" support is required (will insert additional HTML)
-     *
-     * @return an XML content container loaded with the selected content
-     *
-     * @throws JspException in case something goes wrong
-     */
-    public I_CmsXmlContentContainer contentload(
-        String collectorName,
-        String collectorParam,
-        Locale locale,
-        boolean editable) throws JspException {
+  /**
+   * Loads a set of <code>{@link org.opencms.xml.I_CmsXmlDocument}</code>, same as using the <code>
+   * &lt;cms:contentload collector="***" param="***" locale="***" editable="***" /&gt;</code> tag.
+   *
+   * <p>
+   *
+   * @param collectorName the collector name to use
+   * @param collectorParam the parameters for the collector
+   * @param locale the locale to use to access the content
+   * @param editable indicates if "direct edit" support is required (will insert additional HTML)
+   * @return an XML content container loaded with the selected content
+   * @throws JspException in case something goes wrong
+   */
+  public I_CmsXmlContentContainer contentload(
+      String collectorName, String collectorParam, Locale locale, boolean editable)
+      throws JspException {
 
-        return new CmsJspTagContentLoad(null, getJspContext(), collectorName, collectorParam, locale, editable);
-    }
+    return new CmsJspTagContentLoad(
+        null, getJspContext(), collectorName, collectorParam, locale, editable);
+  }
 
-    /**
-     * Loads a set of <code>{@link org.opencms.xml.I_CmsXmlDocument}</code>, same as
-     * using the <code>&lt;cms:contentload collector="***" param="***" locale="***" editable="***" /&gt;</code> tag.<p>
-     *
-     * @param collectorName the collector name to use
-     * @param collectorParam the collector param to use
-     * @param pageIndex the display page index (may contain macros)
-     * @param pageSize the display page size (may contain macros)
-     * @param locale the locale to use to access the content
-     * @param editable indicates if "direct edit" support is required (will insert additional HTML)
-     *
-     * @return an XML content container loaded with the selected content
-     *
-     * @throws JspException in case something goes wrong
-     */
-    public I_CmsXmlContentContainer contentload(
-        String collectorName,
-        String collectorParam,
-        String pageIndex,
-        String pageSize,
-        Locale locale,
-        boolean editable) throws JspException {
+  /**
+   * Loads a set of <code>{@link org.opencms.xml.I_CmsXmlDocument}</code>, same as using the <code>
+   * &lt;cms:contentload collector="***" param="***" locale="***" editable="***" /&gt;</code> tag.
+   *
+   * <p>
+   *
+   * @param collectorName the collector name to use
+   * @param collectorParam the collector param to use
+   * @param pageIndex the display page index (may contain macros)
+   * @param pageSize the display page size (may contain macros)
+   * @param locale the locale to use to access the content
+   * @param editable indicates if "direct edit" support is required (will insert additional HTML)
+   * @return an XML content container loaded with the selected content
+   * @throws JspException in case something goes wrong
+   */
+  public I_CmsXmlContentContainer contentload(
+      String collectorName,
+      String collectorParam,
+      String pageIndex,
+      String pageSize,
+      Locale locale,
+      boolean editable)
+      throws JspException {
 
-        return new CmsJspTagContentLoad(
-            null,
-            getJspContext(),
-            collectorName,
-            collectorParam,
-            pageIndex,
-            pageSize,
-            locale,
-            editable);
-    }
+    return new CmsJspTagContentLoad(
+        null,
+        getJspContext(),
+        collectorName,
+        collectorParam,
+        pageIndex,
+        pageSize,
+        locale,
+        editable);
+  }
 
-    /**
-     * Enables looping over a list of element values in the given parent container, same as
-     * using the <code>&lt;cms:contentloop element="***" /&gt;</code> tag.<p>
-     *
-     * @param container the XML content container to read the content from
-     * @param element the element to loop over
-     *
-     * @return an XML content container to be used to loop over the selected element values in the parent container
-     */
-    public I_CmsXmlContentContainer contentloop(I_CmsXmlContentContainer container, String element) {
+  /**
+   * Enables looping over a list of element values in the given parent container, same as using the
+   * <code>&lt;cms:contentloop element="***" /&gt;</code> tag.
+   *
+   * <p>
+   *
+   * @param container the XML content container to read the content from
+   * @param element the element to loop over
+   * @return an XML content container to be used to loop over the selected element values in the
+   *     parent container
+   */
+  public I_CmsXmlContentContainer contentloop(I_CmsXmlContentContainer container, String element) {
 
-        return new CmsJspTagContentLoop(container, element);
-    }
+    return new CmsJspTagContentLoop(container, element);
+  }
 
-    /**
-     * Returns the currently looped content element String value from the given XML content container, same as
-     * using the <code>&lt;cms:contentshow /&gt;</code> tag.<p>
-     *
-     * This is to be used with a container initialized by <code>{@link #contentloop(I_CmsXmlContentContainer, String)}</code>,
-     * in this case the element name is already set by the content loop container.<p>
-     *
-     * The locale for accessing the content is read form the current OpenCms users request context.<p>
-     *
-     * @param container the XML content container to read the content from
-     *
-     * @return the selected content element String value from the given XML content container
-     */
-    public String contentshow(I_CmsXmlContentContainer container) {
+  /**
+   * Returns the currently looped content element String value from the given XML content container,
+   * same as using the <code>&lt;cms:contentshow /&gt;</code> tag.
+   *
+   * <p>This is to be used with a container initialized by <code>
+   * {@link #contentloop(I_CmsXmlContentContainer, String)}</code>, in this case the element name is
+   * already set by the content loop container.
+   *
+   * <p>The locale for accessing the content is read form the current OpenCms users request context.
+   *
+   * <p>
+   *
+   * @param container the XML content container to read the content from
+   * @return the selected content element String value from the given XML content container
+   */
+  public String contentshow(I_CmsXmlContentContainer container) {
 
-        return contentshow(container, null, null);
-    }
+    return contentshow(container, null, null);
+  }
 
-    /**
-     * Returns the selected content element String value from the given XML content container, same as
-     * using the <code>&lt;cms:contentshow element="***" /&gt;</code> tag.<p>
-     *
-     * The locale for accessing the content is read form the current OpenCms users request context.<p>
-     *
-     * @param container the XML content container to read the content from
-     * @param element the element to show
-     *
-     * @return the selected content element String value from the given XML content container
-     */
-    public String contentshow(I_CmsXmlContentContainer container, String element) {
+  /**
+   * Returns the selected content element String value from the given XML content container, same as
+   * using the <code>&lt;cms:contentshow element="***" /&gt;</code> tag.
+   *
+   * <p>The locale for accessing the content is read form the current OpenCms users request context.
+   *
+   * <p>
+   *
+   * @param container the XML content container to read the content from
+   * @param element the element to show
+   * @return the selected content element String value from the given XML content container
+   */
+  public String contentshow(I_CmsXmlContentContainer container, String element) {
 
-        return contentshow(container, element, null);
-    }
+    return contentshow(container, element, null);
+  }
 
-    /**
-     * Returns the selected content element String value from the given XML content container, same as
-     * using the <code>&lt;cms:contentshow element="***" locale="***" /&gt;</code> tag.<p>
-     *
-     * @param container the XML content container to read the content from
-     * @param element the element to show
-     * @param locale the locale to read the element from
-     *
-     * @return the selected content element String value from the given XML content container
-     */
-    public String contentshow(I_CmsXmlContentContainer container, String element, Locale locale) {
+  /**
+   * Returns the selected content element String value from the given XML content container, same as
+   * using the <code>&lt;cms:contentshow element="***" locale="***" /&gt;</code> tag.
+   *
+   * <p>
+   *
+   * @param container the XML content container to read the content from
+   * @param element the element to show
+   * @param locale the locale to read the element from
+   * @return the selected content element String value from the given XML content container
+   */
+  public String contentshow(I_CmsXmlContentContainer container, String element, Locale locale) {
 
-        return CmsJspTagContentShow.contentShowTagAction(container, getJspContext(), element, locale, false);
-    }
+    return CmsJspTagContentShow.contentShowTagAction(
+        container, getJspContext(), element, locale, false);
+  }
 }

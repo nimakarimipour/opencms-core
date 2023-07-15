@@ -28,34 +28,37 @@
 package org.opencms.gwt.shared;
 
 /**
- * A class which contains constants for menu command parameters.<p>
+ * A class which contains constants for menu command parameters.
+ *
+ * <p>
  */
 public final class CmsMenuCommandParameters {
 
-    /** Parameter key for dialog height. */
-    public static final String PARAM_DIALOG_HEIGHT = "dialogHeight";
+  /** Parameter key for dialog height. */
+  public static final String PARAM_DIALOG_HEIGHT = "dialogHeight";
 
-    /** Parameter key for dialog URI. */
-    public static final String PARAM_DIALOG_URI = "dialogUri";
+  /** Parameter key for dialog URI. */
+  public static final String PARAM_DIALOG_URI = "dialogUri";
 
-    /** Parameter key for dialog width. */
-    public static final String PARAM_DIALOG_WIDTH = "dialogWidth";
+  /** Parameter key for dialog width. */
+  public static final String PARAM_DIALOG_WIDTH = "dialogWidth";
 
-    /** Parameter key for file names. */
-    public static final String PARAM_FILENAME = "filename";
+  /** Parameter key for file names. */
+  public static final String PARAM_FILENAME = "filename";
 
-    /** Parameter for 'reload on edit'. */
-    public static final String PARAM_RELOAD = "reload";
+  /** Parameter for 'reload on edit'. */
+  public static final String PARAM_RELOAD = "reload";
 
-    /** Parameter to open the edit dialog in the same window, not using any overlays and iFrames. */
-    public static final String PARAM_USE_SELF = "useSelf";
+  /** Parameter to open the edit dialog in the same window, not using any overlays and iFrames. */
+  public static final String PARAM_USE_SELF = "useSelf";
 
-    /**
-     * Hidden constructor.<p>
-     */
-    private CmsMenuCommandParameters() {
+  /**
+   * Hidden constructor.
+   *
+   * <p>
+   */
+  private CmsMenuCommandParameters() {
 
-        // does nothing
-    }
-
+    // does nothing
+  }
 }

@@ -30,23 +30,29 @@ package org.opencms.ade.sitemap.client.toolbar;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Interface for activatable toolbar widgets.<p>
+ * Interface for activatable toolbar widgets.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsToolbarActivatable {
 
-    /**
-     * Execute on activation.<p>
-     *
-     * @param widget the widget
-     */
-    void onActivation(Widget widget);
+  /**
+   * Execute on activation.
+   *
+   * <p>
+   *
+   * @param widget the widget
+   */
+  void onActivation(Widget widget);
 
-    /**
-     * Sets whether this button is enabled.<p>
-     *
-     * @param enabled <code>true</code> to enable the button, <code>false</code> to disable it
-     */
-    void setEnabled(boolean enabled);
+  /**
+   * Sets whether this button is enabled.
+   *
+   * <p>
+   *
+   * @param enabled <code>true</code> to enable the button, <code>false</code> to disable it
+   */
+  void setEnabled(boolean enabled);
 }

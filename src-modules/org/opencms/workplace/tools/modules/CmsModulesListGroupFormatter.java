@@ -27,43 +27,45 @@
 
 package org.opencms.workplace.tools.modules;
 
+import java.util.Locale;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.list.I_CmsListFormatter;
 
-import java.util.Locale;
-
 /**
- * This list item detail formatter creates a nice output for modules groups.<p>
+ * This list item detail formatter creates a nice output for modules groups.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsModulesListGroupFormatter implements I_CmsListFormatter {
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsModulesListGroupFormatter() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsModulesListGroupFormatter() {
 
-        //noop
+    // noop
+  }
+
+  /**
+   * @see org.opencms.workplace.list.I_CmsListFormatter#format(java.lang.Object, java.util.Locale)
+   */
+  public String format(Object data, Locale locale) {
+
+    StringBuffer html = new StringBuffer(32);
+
+    String group = (String) data;
+
+    // simple solution so far, if no group name is given, display some dashes
+    if (CmsStringUtil.isEmpty(group)) {
+      html.append("---");
+    } else {
+      html.append(group);
     }
 
-    /**
-     * @see org.opencms.workplace.list.I_CmsListFormatter#format(java.lang.Object, java.util.Locale)
-     */
-    public String format(Object data, Locale locale) {
-
-        StringBuffer html = new StringBuffer(32);
-
-        String group = (String)data;
-
-        // simple solution so far, if no group name is given, display some dashes
-        if (CmsStringUtil.isEmpty(group)) {
-            html.append("---");
-        } else {
-            html.append(group);
-        }
-
-        return html.toString();
-    }
-
+    return html.toString();
+  }
 }

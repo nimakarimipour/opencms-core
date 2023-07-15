@@ -31,87 +31,100 @@ import org.opencms.file.CmsResource;
 import org.opencms.lock.CmsLock;
 
 /**
- * Contains information about a resource that is direct edited.<p>
+ * Contains information about a resource that is direct edited.
  *
- * For example, the information in this class allows implementations
- * of a {@link I_CmsDirectEditProvider} to render HTML
- * with extended information about the resource displayed on the buttons.<p>
+ * <p>For example, the information in this class allows implementations of a {@link
+ * I_CmsDirectEditProvider} to render HTML with extended information about the resource displayed on
+ * the buttons.
+ *
+ * <p>
  *
  * @since 6.2.3
  */
 public class CmsDirectEditResourceInfo {
 
-    /** Constant for inactive permissions without further resource info. */
-    public static final CmsDirectEditResourceInfo INACTIVE = new CmsDirectEditResourceInfo(
-        CmsDirectEditPermissions.INACTIVE);
+  /** Constant for inactive permissions without further resource info. */
+  public static final CmsDirectEditResourceInfo INACTIVE =
+      new CmsDirectEditResourceInfo(CmsDirectEditPermissions.INACTIVE);
 
-    /** The lock on the direct edit resource. */
-    CmsLock m_lock;
+  /** The lock on the direct edit resource. */
+  CmsLock m_lock;
 
-    /** The direct edit permissions of the resource. */
-    CmsDirectEditPermissions m_permissions;
+  /** The direct edit permissions of the resource. */
+  CmsDirectEditPermissions m_permissions;
 
-    /** The resource that is to be direct edited. */
-    CmsResource m_resource;
+  /** The resource that is to be direct edited. */
+  CmsResource m_resource;
 
-    /**
-     * Creates a new direct edit resource info container without any
-     * specific information about the resource to be direct edited.<p>
-     *
-     * @param permissions the direct edit permissions of the resource
-     */
-    public CmsDirectEditResourceInfo(CmsDirectEditPermissions permissions) {
+  /**
+   * Creates a new direct edit resource info container without any specific information about the
+   * resource to be direct edited.
+   *
+   * <p>
+   *
+   * @param permissions the direct edit permissions of the resource
+   */
+  public CmsDirectEditResourceInfo(CmsDirectEditPermissions permissions) {
 
-        this(permissions, null, null);
-    }
+    this(permissions, null, null);
+  }
 
-    /**
-     * Creates a new direct edit resource info container.<p>
-     *
-     * @param permissions the direct edit permissions of the resource
-     * @param resource the resource that is to be direct edited
-     * @param lock the lock on the direct edit resource
-     */
-    public CmsDirectEditResourceInfo(CmsDirectEditPermissions permissions, CmsResource resource, CmsLock lock) {
+  /**
+   * Creates a new direct edit resource info container.
+   *
+   * <p>
+   *
+   * @param permissions the direct edit permissions of the resource
+   * @param resource the resource that is to be direct edited
+   * @param lock the lock on the direct edit resource
+   */
+  public CmsDirectEditResourceInfo(
+      CmsDirectEditPermissions permissions, CmsResource resource, CmsLock lock) {
 
-        m_permissions = permissions;
-        m_resource = resource;
-        m_lock = lock;
-    }
+    m_permissions = permissions;
+    m_resource = resource;
+    m_lock = lock;
+  }
 
-    /**
-     * Returns the lock on the direct edit resource.<p>
-     *
-     * This may be <code>null</code> in case the result is {@link #INACTIVE}.<p>
-     *
-     * @return the lock on the direct edit resource
-     */
-    public CmsLock getLock() {
+  /**
+   * Returns the lock on the direct edit resource.
+   *
+   * <p>This may be <code>null</code> in case the result is {@link #INACTIVE}.
+   *
+   * <p>
+   *
+   * @return the lock on the direct edit resource
+   */
+  public CmsLock getLock() {
 
-        return m_lock;
-    }
+    return m_lock;
+  }
 
-    /**
-     * Returns the direct edit permissions of the resource.<p>
-     *
-     * The result is ensured not to be <code>null</code>.<p>
-     *
-     * @return the direct edit permissions of the resource
-     */
-    public CmsDirectEditPermissions getPermissions() {
+  /**
+   * Returns the direct edit permissions of the resource.
+   *
+   * <p>The result is ensured not to be <code>null</code>.
+   *
+   * <p>
+   *
+   * @return the direct edit permissions of the resource
+   */
+  public CmsDirectEditPermissions getPermissions() {
 
-        return m_permissions;
-    }
+    return m_permissions;
+  }
 
-    /**
-     * Returns the resource that is to be direct edited.<p>
-     *
-     * This may be <code>null</code> in case the result is {@link #INACTIVE}.<p>
-     *
-     * @return the resource that is to be direct edited
-     */
-    public CmsResource getResource() {
+  /**
+   * Returns the resource that is to be direct edited.
+   *
+   * <p>This may be <code>null</code> in case the result is {@link #INACTIVE}.
+   *
+   * <p>
+   *
+   * @return the resource that is to be direct edited
+   */
+  public CmsResource getResource() {
 
-        return m_resource;
-    }
+    return m_resource;
+  }
 }

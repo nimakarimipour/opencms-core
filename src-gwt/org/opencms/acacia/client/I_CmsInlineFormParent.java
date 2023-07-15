@@ -31,30 +31,39 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.IsWidget;
 
 /**
- * An inline form parent widget.<p>
+ * An inline form parent widget.
+ *
+ * <p>
  */
 public interface I_CmsInlineFormParent {
 
-    /**
-     * Adopts the given widget as a child widget.<p>
-     * This assumes the widget element is already attached to the DOM and is a child or descendant of this widget element.<p>
-     *
-     * @param widget the widget to adopt
-     */
-    void adoptWidget(IsWidget widget);
+  /**
+   * Adopts the given widget as a child widget.
+   *
+   * <p>This assumes the widget element is already attached to the DOM and is a child or descendant
+   * of this widget element.
+   *
+   * <p>
+   *
+   * @param widget the widget to adopt
+   */
+  void adoptWidget(IsWidget widget);
 
-    /**
-     * The widget element.<p>
-     *
-     * @return the widget element
-     */
-    Element getElement();
+  /**
+   * The widget element.
+   *
+   * <p>
+   *
+   * @return the widget element
+   */
+  Element getElement();
 
-    /**
-     * Replaces the inner HTML of widget to reflect content data changes.<p>
-     *
-     * @param html the element HTML
-     */
-    void replaceHtml(String html);
-
+  /**
+   * Replaces the inner HTML of widget to reflect content data changes.
+   *
+   * <p>
+   *
+   * @param html the element HTML
+   */
+  void replaceHtml(String html);
 }

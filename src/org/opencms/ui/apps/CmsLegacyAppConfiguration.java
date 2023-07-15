@@ -27,6 +27,9 @@
 
 package org.opencms.ui.apps;
 
+import com.vaadin.server.ExternalResource;
+import com.vaadin.server.Resource;
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.main.OpenCms;
 import org.opencms.security.CmsRole;
@@ -34,118 +37,99 @@ import org.opencms.util.CmsMacroResolver;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.tools.I_CmsToolHandler;
 
-import java.util.Locale;
-
-import com.vaadin.server.ExternalResource;
-import com.vaadin.server.Resource;
-
 /**
- * Holding configuration for legacy admin tools.<p>
+ * Holding configuration for legacy admin tools.
+ *
+ * <p>
  */
 public class CmsLegacyAppConfiguration implements I_CmsWorkplaceAppConfiguration {
 
-    /** The tool handler. */
-    private I_CmsToolHandler m_toolHandler;
+  /** The tool handler. */
+  private I_CmsToolHandler m_toolHandler;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param toolHandler the tool handler
-     */
-    public CmsLegacyAppConfiguration(I_CmsToolHandler toolHandler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param toolHandler the tool handler
+   */
+  public CmsLegacyAppConfiguration(I_CmsToolHandler toolHandler) {
 
-        m_toolHandler = toolHandler;
-    }
+    m_toolHandler = toolHandler;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppCategory()
-     */
-    public String getAppCategory() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppCategory() */
+  public String getAppCategory() {
 
-        return CmsWorkplaceAppManager.LEGACY_CATEGORY_ID;
-    }
+    return CmsWorkplaceAppManager.LEGACY_CATEGORY_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance()
-     */
-    public I_CmsWorkplaceApp getAppInstance() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance() */
+  public I_CmsWorkplaceApp getAppInstance() {
 
-        return new CmsLegacyApp(m_toolHandler);
-    }
+    return new CmsLegacyApp(m_toolHandler);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getButtonStyle()
-     */
-    public String getButtonStyle() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getButtonStyle() */
+  public String getButtonStyle() {
 
-        return I_CmsAppButtonProvider.BUTTON_STYLE_CLASSIC;
-    }
+    return I_CmsAppButtonProvider.BUTTON_STYLE_CLASSIC;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
-     */
-    public String getHelpText(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale) */
+  public String getHelpText(Locale locale) {
 
-        return CmsMacroResolver.newInstance().setMessages(
-            OpenCms.getWorkplaceManager().getMessages(locale)).resolveMacros(m_toolHandler.getHelpText());
-    }
+    return CmsMacroResolver.newInstance()
+        .setMessages(OpenCms.getWorkplaceManager().getMessages(locale))
+        .resolveMacros(m_toolHandler.getHelpText());
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon()
-     */
-    public Resource getIcon() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon() */
+  public Resource getIcon() {
 
-        return new ExternalResource(CmsWorkplace.getSkinUri() + m_toolHandler.getIconPath());
-    }
+    return new ExternalResource(CmsWorkplace.getSkinUri() + m_toolHandler.getIconPath());
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId() */
+  public String getId() {
 
-        return m_toolHandler.getPath();
-    }
+    return m_toolHandler.getPath();
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
-     */
-    public String getName(Locale locale) {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
+  public String getName(Locale locale) {
 
-        return CmsMacroResolver.newInstance().setMessages(
-            OpenCms.getWorkplaceManager().getMessages(locale)).resolveMacros(m_toolHandler.getName());
-    }
+    return CmsMacroResolver.newInstance()
+        .setMessages(OpenCms.getWorkplaceManager().getMessages(locale))
+        .resolveMacros(m_toolHandler.getName());
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getOrder()
-     */
-    public int getOrder() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getOrder() */
+  public int getOrder() {
 
-        return 10 + Math.round(m_toolHandler.getPosition());
-    }
+    return 10 + Math.round(m_toolHandler.getPosition());
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getPriority()
-     */
-    public int getPriority() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getPriority() */
+  public int getPriority() {
 
-        return I_CmsWorkplaceAppConfiguration.DEFAULT_PRIORIY;
-    }
+    return I_CmsWorkplaceAppConfiguration.DEFAULT_PRIORIY;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getRequiredRole()
-     */
-    public CmsRole getRequiredRole() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getRequiredRole() */
+  public CmsRole getRequiredRole() {
 
-        return CmsRole.WORKPLACE_USER;
-    }
+    return CmsRole.WORKPLACE_USER;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getVisibility(org.opencms.file.CmsObject)
-     */
-    public CmsAppVisibilityStatus getVisibility(CmsObject cms) {
+  /**
+   * @see
+   *     org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getVisibility(org.opencms.file.CmsObject)
+   */
+  public CmsAppVisibilityStatus getVisibility(CmsObject cms) {
 
-        boolean visible = cms.existsResource(m_toolHandler.getLink()) && m_toolHandler.isVisible(cms);
-        return new CmsAppVisibilityStatus(visible, m_toolHandler.isEnabled(cms), "");
-    }
-
+    boolean visible = cms.existsResource(m_toolHandler.getLink()) && m_toolHandler.isVisible(cms);
+    return new CmsAppVisibilityStatus(visible, m_toolHandler.isEnabled(cms), "");
+  }
 }

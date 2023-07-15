@@ -30,43 +30,41 @@ package org.opencms.util;
 import org.htmlparser.nodes.TagNode;
 
 /**
- * A <code>{@link TagNode}</code> with an arbitrary name which is misused for avoiding the creation of
- * the corresponding end tag in case the HTML to parse is not balanced.<p>
+ * A <code>{@link TagNode}</code> with an arbitrary name which is misused for avoiding the creation
+ * of the corresponding end tag in case the HTML to parse is not balanced.
  *
- * The trick is: The free name (constructor) is used by the tag factory which allows to use these
- * tags as replacement for the regular ones. And these tags do not extend
- * <code>{@link org.htmlparser.tags.CompositeTag}</code>: They are not supposed to have a closing tag and following tags are
- * not treated as their children but siblings. <p>
+ * <p>The trick is: The free name (constructor) is used by the tag factory which allows to use these
+ * tags as replacement for the regular ones. And these tags do not extend <code>
+ * {@link org.htmlparser.tags.CompositeTag}</code>: They are not supposed to have a closing tag and
+ * following tags are not treated as their children but siblings.
  *
- * @since  7.5.1
+ * <p>
  *
+ * @since 7.5.1
  */
 public class CmsNoAutoCloseTag extends TagNode {
 
-    /** Generated serial version UID. */
-    private static final long serialVersionUID = 7794834973417480443L;
+  /** Generated serial version UID. */
+  private static final long serialVersionUID = 7794834973417480443L;
 
-    /** The names of this tag. */
-    private String[] m_ids;
+  /** The names of this tag. */
+  private String[] m_ids;
 
-    /**
-     * Creates an instance with the given names.
-     *
-     * @param ids the names of this tag.
-     */
-    CmsNoAutoCloseTag(String[] ids) {
+  /**
+   * Creates an instance with the given names.
+   *
+   * @param ids the names of this tag.
+   */
+  CmsNoAutoCloseTag(String[] ids) {
 
-        super();
-        m_ids = ids;
-    }
+    super();
+    m_ids = ids;
+  }
 
-    /**
-     * @see org.htmlparser.nodes.TagNode#getIds()
-     */
-    @Override
-    public String[] getIds() {
+  /** @see org.htmlparser.nodes.TagNode#getIds() */
+  @Override
+  public String[] getIds() {
 
-        return m_ids;
-    }
-
+    return m_ids;
+  }
 }

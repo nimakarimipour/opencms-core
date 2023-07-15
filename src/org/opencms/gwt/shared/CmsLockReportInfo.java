@@ -27,60 +27,70 @@
 
 package org.opencms.gwt.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * A bean holding the lock report info.<p>
+ * A bean holding the lock report info.
+ *
+ * <p>
  *
  * @since 8.0.1
  */
 public class CmsLockReportInfo implements IsSerializable {
 
-    /** The locked child resources. */
-    private List<CmsListInfoBean> m_lockedResourceInfos;
+  /** The locked child resources. */
+  private List<CmsListInfoBean> m_lockedResourceInfos;
 
-    /** The report resource info. */
-    private CmsListInfoBean m_resourceInfo;
+  /** The report resource info. */
+  private CmsListInfoBean m_resourceInfo;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param resourceInfo the report resource info
-     * @param lockedResourceInfos the locked child resources
-     */
-    public CmsLockReportInfo(CmsListInfoBean resourceInfo, List<CmsListInfoBean> lockedResourceInfos) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param resourceInfo the report resource info
+   * @param lockedResourceInfos the locked child resources
+   */
+  public CmsLockReportInfo(
+      CmsListInfoBean resourceInfo, List<CmsListInfoBean> lockedResourceInfos) {
 
-        m_resourceInfo = resourceInfo;
-        m_lockedResourceInfos = lockedResourceInfos;
-    }
+    m_resourceInfo = resourceInfo;
+    m_lockedResourceInfos = lockedResourceInfos;
+  }
 
-    /**
-     * Constructor. Serialization only.<p>
-     */
-    protected CmsLockReportInfo() {
+  /**
+   * Constructor. Serialization only.
+   *
+   * <p>
+   */
+  protected CmsLockReportInfo() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Returns the lockedResourceInfos.<p>
-     *
-     * @return the lockedResourceInfos
-     */
-    public List<CmsListInfoBean> getLockedResourceInfos() {
+  /**
+   * Returns the lockedResourceInfos.
+   *
+   * <p>
+   *
+   * @return the lockedResourceInfos
+   */
+  public List<CmsListInfoBean> getLockedResourceInfos() {
 
-        return m_lockedResourceInfos;
-    }
+    return m_lockedResourceInfos;
+  }
 
-    /**
-     * Returns the resourceInfo.<p>
-     *
-     * @return the resourceInfo
-     */
-    public CmsListInfoBean getResourceInfo() {
+  /**
+   * Returns the resourceInfo.
+   *
+   * <p>
+   *
+   * @return the resourceInfo
+   */
+  public CmsListInfoBean getResourceInfo() {
 
-        return m_resourceInfo;
-    }
+    return m_resourceInfo;
+  }
 }

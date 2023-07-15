@@ -30,24 +30,29 @@ package org.opencms.ade.galleries.client.preview.util;
 import org.opencms.ade.galleries.shared.CmsPoint;
 
 /**
- * Interface for (invertible) coordinate system transformations.<p>
+ * Interface for (invertible) coordinate system transformations.
+ *
+ * <p>
  */
 public interface I_CmsTransform {
 
-    /**
-     * Applies the inverse of the transformation to a point.<p>
-     *
-     * @param point the point
-     * @return the transformed point
-     */
-    CmsPoint transformBack(CmsPoint point);
+  /**
+   * Applies the inverse of the transformation to a point.
+   *
+   * <p>
+   *
+   * @param point the point
+   * @return the transformed point
+   */
+  CmsPoint transformBack(CmsPoint point);
 
-    /**
-     * Applies the transformation to a point.<p>
-     *
-     * @param point the point
-     * @return the transformed point
-     */
-    CmsPoint transformForward(CmsPoint point);
-
+  /**
+   * Applies the transformation to a point.
+   *
+   * <p>
+   *
+   * @param point the point
+   * @return the transformed point
+   */
+  CmsPoint transformForward(CmsPoint point);
 }

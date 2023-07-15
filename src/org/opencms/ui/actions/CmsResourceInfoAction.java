@@ -27,6 +27,9 @@
 
 package org.opencms.ui.actions;
 
+import com.google.common.collect.Lists;
+import java.util.List;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.ui.A_CmsUI;
@@ -39,107 +42,100 @@ import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-import java.util.Map;
-
-import com.google.common.collect.Lists;
-
 /**
- * Action for showing locked resources by opening the GWT lock report.<p>
+ * Action for showing locked resources by opening the GWT lock report.
+ *
+ * <p>
  */
 public final class CmsResourceInfoAction extends A_CmsWorkplaceAction implements I_CmsADEAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "resourceinfo";
+  /** The action id. */
+  public static final String ACTION_ID = "resourceinfo";
 
-    /** The visibility check for this action. */
-    private I_CmsHasMenuItemVisibility m_visibility = new CmsMenuItemVisibilitySingleOnly(
-        CmsStandardVisibilityCheck.VISIBLE);
+  /** The visibility check for this action. */
+  private I_CmsHasMenuItemVisibility m_visibility =
+      new CmsMenuItemVisibilitySingleOnly(CmsStandardVisibilityCheck.VISIBLE);
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(final I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(final I_CmsDialogContext context) {
 
-        openDialog(context, null);
-    }
+    openDialog(context, null);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName()
-     */
-    public String getCommandClassName() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getCommandClassName() */
+  public String getCommandClassName() {
 
-        return "org.opencms.gwt.client.ui.contextmenu.CmsResourceInfo";
-    }
+    return "org.opencms.gwt.client.ui.contextmenu.CmsResourceInfo";
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
-    }
+    return ACTION_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
-     */
-    public String getJspPath() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getJspPath() */
+  public String getJspPath() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
-     */
-    public Map<String, String> getParams() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#getParams() */
+  public Map<String, String> getParams() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
 
-        return m_visibility.getVisibility(cms, resources);
-    }
+    return m_visibility.getVisibility(cms, resources);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported()
-     */
-    public boolean isAdeSupported() {
+  /** @see org.opencms.ui.actions.I_CmsADEAction#isAdeSupported() */
+  public boolean isAdeSupported() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * Opens the resource info dialog with the given start tab.<p>
-     *
-     * @param context the dialog context
-     * @param tabId the tab to open
-     */
-    public void openDialog(final I_CmsDialogContext context, String tabId) {
+  /**
+   * Opens the resource info dialog with the given start tab.
+   *
+   * <p>
+   *
+   * @param context the dialog context
+   * @param tabId the tab to open
+   */
+  public void openDialog(final I_CmsDialogContext context, String tabId) {
 
-        CmsGwtDialogExtension extension = new CmsGwtDialogExtension(A_CmsUI.get(), new I_CmsUpdateListener<String>() {
+    CmsGwtDialogExtension extension =
+        new CmsGwtDialogExtension(
+            A_CmsUI.get(),
+            new I_CmsUpdateListener<String>() {
 
-            public void onUpdate(List<String> updatedItems) {
+              public void onUpdate(List<String> updatedItems) {
 
                 List<CmsUUID> ids = Lists.newArrayList();
                 for (String item : updatedItems) {
-                    ids.add(new CmsUUID(item));
+                  ids.add(new CmsUUID(item));
                 }
                 context.finish(ids);
-            }
-        });
-        extension.openInfoDialog(context.getResources().get(0), tabId);
-    }
+              }
+            });
+    extension.openInfoDialog(context.getResources().get(0), tabId);
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return org.opencms.ui.Messages.GUI_RESOURCE_INFO_0;
-    }
+    return org.opencms.ui.Messages.GUI_RESOURCE_INFO_0;
+  }
 }

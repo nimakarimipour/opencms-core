@@ -31,75 +31,80 @@ import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.user.client.Timer;
 
 /**
- * Lazy list tree open handler abstract implementation.<p>
+ * Lazy list tree open handler abstract implementation.
+ *
+ * <p>
  *
  * @param <I> the specific lazy tree item implementation
- *
  * @since 8.0.0
- *
  * @see org.opencms.gwt.client.ui.tree.CmsLazyTree
  * @see org.opencms.gwt.client.ui.tree.CmsLazyTreeItem
  * @see org.opencms.gwt.client.ui.tree.I_CmsLazyOpenHandler
  */
-public abstract class A_CmsLazyOpenHandler<I extends CmsLazyTreeItem> implements I_CmsLazyOpenHandler<I> {
+public abstract class A_CmsLazyOpenHandler<I extends CmsLazyTreeItem>
+    implements I_CmsLazyOpenHandler<I> {
+
+  /**
+   * Timer for showing the loading message.
+   *
+   * <p>
+   */
+  private final class OpenTimer extends Timer {
+
+    /** The tree item to open. */
+    private I m_target;
 
     /**
-     * Timer for showing the loading message.<p>
-     */
-    private final class OpenTimer extends Timer {
-
-        /** The tree item to open. */
-        private I m_target;
-
-        /**
-         * Default constructor.<p>
-         *
-         * @param target the tree item to open
-         */
-        public OpenTimer(I target) {
-
-            m_target = target;
-        }
-
-        /**
-         * @see com.google.gwt.user.client.Timer#run()
-         */
-        @Override
-        public void run() {
-
-            m_target.setOpen(true, false);
-            onFinishOpen(m_target);
-        }
-
-    }
-
-    /**
-     * Called when the opening process has finished and the children (if any) are visible.
+     * Default constructor.
      *
-     * @param target the target tree item
+     * <p>
+     *
+     * @param target the tree item to open
      */
-    public void onFinishOpen(I target) {
+    public OpenTimer(I target) {
 
-        // do nothing
-
+      m_target = target;
     }
 
-    /**
-     * @see org.opencms.gwt.client.ui.tree.I_CmsLazyOpenHandler#onOpen(com.google.gwt.event.logical.shared.OpenEvent)
-     */
-    public void onOpen(OpenEvent<I> event) {
+    /** @see com.google.gwt.user.client.Timer#run() */
+    @Override
+    public void run() {
 
-        I target = event.getTarget();
-        if (target.getLoadState() != CmsLazyTreeItem.LoadState.UNLOADED) {
-            return;
-        }
-        final OpenTimer timer = new OpenTimer(target);
-        timer.schedule(500);
-        target.onStartLoading();
-        target.setOpen(false, false);
-        load(target, () -> {
-            timer.cancel();
-            timer.run();
+      m_target.setOpen(true, false);
+      onFinishOpen(m_target);
+    }
+  }
+
+  /**
+   * Called when the opening process has finished and the children (if any) are visible.
+   *
+   * @param target the target tree item
+   */
+  public void onFinishOpen(I target) {
+
+    // do nothing
+
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.tree.I_CmsLazyOpenHandler#onOpen(com.google.gwt.event.logical.shared.OpenEvent)
+   */
+  public void onOpen(OpenEvent<I> event) {
+
+    I target = event.getTarget();
+    if (target.getLoadState() != CmsLazyTreeItem.LoadState.UNLOADED) {
+      return;
+    }
+    final OpenTimer timer = new OpenTimer(target);
+    timer.schedule(500);
+    target.onStartLoading();
+    target.setOpen(false, false);
+    load(
+        target,
+        () -> {
+          timer.cancel();
+          timer.run();
         });
-    }
+  }
 }

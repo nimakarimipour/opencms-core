@@ -30,15 +30,17 @@ package org.opencms.ui.shared.rpc;
 import com.vaadin.shared.communication.ServerRpc;
 
 /**
- * Handles window close calls.<p>
+ * Handles window close calls.
+ *
+ * <p>
  */
 public interface I_CmsWindowCloseServerRpc extends ServerRpc {
 
-    /**
-     * Executed on window close.p>
-     *
-     * @param syncToken the sync token is used to trigger synchronous rpc requests,
-     *        it's value needs to be set to org.opencms.gwt.client.rpc.CmsRpcAction.SYNC_TOKEN
-     */
-    void windowClosed(String syncToken);
+  /**
+   * Executed on window close.p>
+   *
+   * @param syncToken the sync token is used to trigger synchronous rpc requests, it's value needs
+   *     to be set to org.opencms.gwt.client.rpc.CmsRpcAction.SYNC_TOKEN
+   */
+  void windowClosed(String syncToken);
 }

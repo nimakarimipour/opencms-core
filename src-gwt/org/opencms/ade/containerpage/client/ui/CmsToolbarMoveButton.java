@@ -27,65 +27,72 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.opencms.ade.containerpage.client.CmsContainerpageController;
 import org.opencms.ade.containerpage.client.CmsContainerpageHandler;
 import org.opencms.gwt.client.dnd.CmsDNDHandler;
 import org.opencms.gwt.client.ui.I_CmsButton;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-
 /**
- * The move button holding all move related methods.<p>
+ * The move button holding all move related methods.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsToolbarMoveButton extends A_CmsToolbarOptionButton {
 
-    /** The drag and drop handler. */
-    private CmsDNDHandler m_dndHandler;
+  /** The drag and drop handler. */
+  private CmsDNDHandler m_dndHandler;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param handler the container-page handler
-     * @param dndHandler the drag and drop handler
-     */
-    public CmsToolbarMoveButton(CmsContainerpageHandler handler, CmsDNDHandler dndHandler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param handler the container-page handler
+   * @param dndHandler the drag and drop handler
+   */
+  public CmsToolbarMoveButton(CmsContainerpageHandler handler, CmsDNDHandler dndHandler) {
 
-        super(I_CmsButton.ButtonData.MOVE, handler);
-        m_dndHandler = dndHandler;
+    super(I_CmsButton.ButtonData.MOVE, handler);
+    m_dndHandler = dndHandler;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#createOptionForElement(org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
+   */
+  @Override
+  public CmsElementOptionButton createOptionForElement(CmsContainerPageElementPanel element) {
+
+    CmsElementOptionButton button = super.createOptionForElement(element);
+    if (button != null) {
+      button.addMouseDownHandler(m_dndHandler);
     }
+    return button;
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#createOptionForElement(org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
-     */
-    @Override
-    public CmsElementOptionButton createOptionForElement(CmsContainerPageElementPanel element) {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#isOptionAvailable(org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
+   */
+  @Override
+  public boolean isOptionAvailable(CmsContainerPageElementPanel element) {
 
-        CmsElementOptionButton button = super.createOptionForElement(element);
-        if (button != null) {
-            button.addMouseDownHandler(m_dndHandler);
-        }
-        return button;
-    }
+    boolean disableButtons = CmsContainerpageController.get().isEditingDisabled();
+    return !element.getParentTarget().isDetailView() && !disableButtons;
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#isOptionAvailable(org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
-     */
-    @Override
-    public boolean isOptionAvailable(CmsContainerPageElementPanel element) {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#onElementClick(com.google.gwt.event.dom.client.ClickEvent,
+   *     org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
+   */
+  @Override
+  public void onElementClick(ClickEvent event, CmsContainerPageElementPanel element) {
 
-        boolean disableButtons = CmsContainerpageController.get().isEditingDisabled();
-        return !element.getParentTarget().isDetailView() && !disableButtons;
-    }
+    // do nothing
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsToolbarOptionButton#onElementClick(com.google.gwt.event.dom.client.ClickEvent, org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel)
-     */
-    @Override
-    public void onElementClick(ClickEvent event, CmsContainerPageElementPanel element) {
-
-        // do nothing
-
-    }
+  }
 }

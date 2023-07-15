@@ -27,193 +27,222 @@
 
 package org.opencms.gwt.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Bean class which represents a resource which is related to another resource.<p>
+ * Bean class which represents a resource which is related to another resource.
+ *
+ * <p>
  */
 public class CmsResourceStatusRelationBean implements IsSerializable {
 
-    /** The info bean for the resource. */
-    private CmsListInfoBean m_infoBean;
+  /** The info bean for the resource. */
+  private CmsListInfoBean m_infoBean;
 
-    /** True if the resource is an xml content. */
-    private boolean m_isXmlContent;
+  /** True if the resource is an xml content. */
+  private boolean m_isXmlContent;
 
-    /** A link to the resource. */
-    private String m_link;
+  /** A link to the resource. */
+  private String m_link;
 
-    /** The permission info. */
-    private CmsPermissionInfo m_permissionInfo;
+  /** The permission info. */
+  private CmsPermissionInfo m_permissionInfo;
 
-    /** The site path of the resource. */
-    private String m_sitePath;
+  /** The site path of the resource. */
+  private String m_sitePath;
 
-    /** The site root. */
-    private String m_siteRoot;
+  /** The site root. */
+  private String m_siteRoot;
 
-    /** The structure id of the resource. */
-    private CmsUUID m_structureId;
+  /** The structure id of the resource. */
+  private CmsUUID m_structureId;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param infoBean the list info bean
-     * @param link the link to the resource
-     * @param structureId the structure id of the resource
-     * @param permissionInfo the permission info
-     */
-    public CmsResourceStatusRelationBean(
-        CmsListInfoBean infoBean,
-        String link,
-        CmsUUID structureId,
-        CmsPermissionInfo permissionInfo) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param infoBean the list info bean
+   * @param link the link to the resource
+   * @param structureId the structure id of the resource
+   * @param permissionInfo the permission info
+   */
+  public CmsResourceStatusRelationBean(
+      CmsListInfoBean infoBean,
+      String link,
+      CmsUUID structureId,
+      CmsPermissionInfo permissionInfo) {
 
-        m_infoBean = infoBean;
-        m_link = link;
-        m_structureId = structureId;
-        m_permissionInfo = permissionInfo;
-    }
+    m_infoBean = infoBean;
+    m_link = link;
+    m_structureId = structureId;
+    m_permissionInfo = permissionInfo;
+  }
 
-    /**
-     * Default constructor for serialization.<p>
-     */
-    protected CmsResourceStatusRelationBean() {
+  /**
+   * Default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsResourceStatusRelationBean() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Gets the list info bean.<p>
-     *
-     * @return the list info bean
-     */
-    public CmsListInfoBean getInfoBean() {
+  /**
+   * Gets the list info bean.
+   *
+   * <p>
+   *
+   * @return the list info bean
+   */
+  public CmsListInfoBean getInfoBean() {
 
-        return m_infoBean;
-    }
+    return m_infoBean;
+  }
 
-    /**
-     * Gets the link to the resource.<p>
-     *
-     * @return the link to the resource
-     */
-    public String getLink() {
+  /**
+   * Gets the link to the resource.
+   *
+   * <p>
+   *
+   * @return the link to the resource
+   */
+  public String getLink() {
 
-        return m_link;
-    }
+    return m_link;
+  }
 
-    /**
-     * Returns the permission info.<p>
-     *
-     * @return the permission info
-     */
-    public CmsPermissionInfo getPermissionInfo() {
+  /**
+   * Returns the permission info.
+   *
+   * <p>
+   *
+   * @return the permission info
+   */
+  public CmsPermissionInfo getPermissionInfo() {
 
-        return m_permissionInfo;
-    }
+    return m_permissionInfo;
+  }
 
-    /**
-     * Gets the site path of the resource.<p>
-     *
-     * @return the site path of the resource
-     */
-    public String getSitePath() {
+  /**
+   * Gets the site path of the resource.
+   *
+   * <p>
+   *
+   * @return the site path of the resource
+   */
+  public String getSitePath() {
 
-        return m_sitePath;
-    }
+    return m_sitePath;
+  }
 
-    /**
-     * Returns the siteRoot.<p>
-     *
-     * @return the siteRoot
-     */
-    public String getSiteRoot() {
+  /**
+   * Returns the siteRoot.
+   *
+   * <p>
+   *
+   * @return the siteRoot
+   */
+  public String getSiteRoot() {
 
-        return m_siteRoot;
-    }
+    return m_siteRoot;
+  }
 
-    /**
-     * Returns the structure id of the resource.<p>
-     *
-     * @return the structure id of the resource
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Returns the structure id of the resource.
+   *
+   * <p>
+   *
+   * @return the structure id of the resource
+   */
+  public CmsUUID getStructureId() {
 
-        return m_structureId;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * Returns true if the resource is an XML content.<p>
-     *
-     * @return true if the resource is an XML content
-     */
-    public boolean isXmlContent() {
+  /**
+   * Returns true if the resource is an XML content.
+   *
+   * <p>
+   *
+   * @return true if the resource is an XML content
+   */
+  public boolean isXmlContent() {
 
-        return m_isXmlContent;
-    }
+    return m_isXmlContent;
+  }
 
-    /**
-     * Sets the list info bean.<p>
-     *
-     * @param infoBean the new list info bean
-     */
-    public void setInfoBean(CmsListInfoBean infoBean) {
+  /**
+   * Sets the list info bean.
+   *
+   * <p>
+   *
+   * @param infoBean the new list info bean
+   */
+  public void setInfoBean(CmsListInfoBean infoBean) {
 
-        m_infoBean = infoBean;
-    }
+    m_infoBean = infoBean;
+  }
 
-    /**
-     * Marks this bean as belonging to an XML content resource.<p>
-     *
-     * @param isXmlContent if the resource is an XML content
-     */
-    public void setIsXmlContent(boolean isXmlContent) {
+  /**
+   * Marks this bean as belonging to an XML content resource.
+   *
+   * <p>
+   *
+   * @param isXmlContent if the resource is an XML content
+   */
+  public void setIsXmlContent(boolean isXmlContent) {
 
-        m_isXmlContent = isXmlContent;
+    m_isXmlContent = isXmlContent;
+  }
 
-    }
+  /**
+   * Sets the link for the resource.
+   *
+   * <p>
+   *
+   * @param link the link for the resource
+   */
+  public void setLink(String link) {
 
-    /**
-     * Sets the link for the resource.<p>
-     *
-     * @param link the link for the resource
-     */
-    public void setLink(String link) {
+    m_link = link;
+  }
 
-        m_link = link;
-    }
+  /**
+   * Sets the site path for the resource.
+   *
+   * <p>
+   *
+   * @param path the new site path
+   */
+  public void setSitePath(String path) {
 
-    /**
-     * Sets the site path for the resource.<p>
-     *
-     * @param path the new site path
-     */
-    public void setSitePath(String path) {
+    m_sitePath = path;
+  }
 
-        m_sitePath = path;
-    }
+  /**
+   * Sets the siteRoot.
+   *
+   * <p>
+   *
+   * @param siteRoot the siteRoot to set
+   */
+  public void setSiteRoot(String siteRoot) {
 
-    /**
-     * Sets the siteRoot.<p>
-     *
-     * @param siteRoot the siteRoot to set
-     */
-    public void setSiteRoot(String siteRoot) {
+    m_siteRoot = siteRoot;
+  }
 
-        m_siteRoot = siteRoot;
-    }
+  /**
+   * Sets the structure id for the resource.
+   *
+   * <p>
+   *
+   * @param structureId the new structure id
+   */
+  public void setStructureId(CmsUUID structureId) {
 
-    /**
-     * Sets the structure id for the resource.<p>
-     *
-     * @param structureId the new structure id
-     */
-    public void setStructureId(CmsUUID structureId) {
-
-        m_structureId = structureId;
-    }
-
+    m_structureId = structureId;
+  }
 }

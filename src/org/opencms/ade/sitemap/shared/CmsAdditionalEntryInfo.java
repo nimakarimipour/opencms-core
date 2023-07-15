@@ -27,63 +27,70 @@
 
 package org.opencms.ade.sitemap.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+import java.util.Map;
 import org.opencms.db.CmsResourceState;
 
-import java.util.Map;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Bean for additional site-map entry information.<p>
+ * Bean for additional site-map entry information.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsAdditionalEntryInfo implements IsSerializable {
 
-    /** Other info, label / value mapping. */
-    private Map<String, String> m_additional;
+  /** Other info, label / value mapping. */
+  private Map<String, String> m_additional;
 
-    /** The resource state. */
-    private CmsResourceState m_resourceState;
+  /** The resource state. */
+  private CmsResourceState m_resourceState;
 
-    /**
-     * Returns the additional info map.<p>
-     *
-     * @return the additional info map
-     */
-    public Map<String, String> getAdditional() {
+  /**
+   * Returns the additional info map.
+   *
+   * <p>
+   *
+   * @return the additional info map
+   */
+  public Map<String, String> getAdditional() {
 
-        return m_additional;
-    }
+    return m_additional;
+  }
 
-    /**
-     * Returns the resource state.<p>
-     *
-     * @return the resource state
-     */
-    public CmsResourceState getResourceState() {
+  /**
+   * Returns the resource state.
+   *
+   * <p>
+   *
+   * @return the resource state
+   */
+  public CmsResourceState getResourceState() {
 
-        return m_resourceState;
-    }
+    return m_resourceState;
+  }
 
-    /**
-     * Sets the additional info map.<p>
-     *
-     * @param additional the additional info map to set
-     */
-    public void setAdditional(Map<String, String> additional) {
+  /**
+   * Sets the additional info map.
+   *
+   * <p>
+   *
+   * @param additional the additional info map to set
+   */
+  public void setAdditional(Map<String, String> additional) {
 
-        m_additional = additional;
-    }
+    m_additional = additional;
+  }
 
-    /**
-     * Sets the resource state.<p>
-     *
-     * @param resourceState the resource state to set
-     */
-    public void setResourceState(CmsResourceState resourceState) {
+  /**
+   * Sets the resource state.
+   *
+   * <p>
+   *
+   * @param resourceState the resource state to set
+   */
+  public void setResourceState(CmsResourceState resourceState) {
 
-        m_resourceState = resourceState;
-    }
-
+    m_resourceState = resourceState;
+  }
 }

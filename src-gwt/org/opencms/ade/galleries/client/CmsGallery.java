@@ -27,25 +27,28 @@
 
 package org.opencms.ade.galleries.client;
 
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.SimplePanel;
 import org.opencms.ade.galleries.client.ui.CmsGalleryDialog;
 import org.opencms.gwt.client.A_CmsEntryPoint;
 import org.opencms.gwt.client.ui.CmsPopup;
 import org.opencms.gwt.client.ui.CmsToolbarPopup;
 
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.SimplePanel;
-
 /**
- * Gallery Dialog entry class to be open from the vfs tree.<p>
+ * Gallery Dialog entry class to be open from the vfs tree.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsGallery extends A_CmsEntryPoint {
 
-    /**
-     * Closes the dialog.<p>
-     */
-    static native void closeDialog()/*-{
+  /**
+   * Closes the dialog.
+   *
+   * <p>
+   */
+  static native void closeDialog() /*-{
 
         if (typeof $wnd.closeDialog === 'function') {
             $wnd.closeDialog();
@@ -54,34 +57,32 @@ public class CmsGallery extends A_CmsEntryPoint {
         }
     }-*/;
 
-    /**
-     * @see org.opencms.gwt.client.A_CmsEntryPoint#onModuleLoad()
-     */
-    @Override
-    public void onModuleLoad() {
+  /** @see org.opencms.gwt.client.A_CmsEntryPoint#onModuleLoad() */
+  @Override
+  public void onModuleLoad() {
 
-        super.onModuleLoad();
-        int dialogHeight = CmsToolbarPopup.getAvailableHeight();
-        int dialogWidth = CmsToolbarPopup.getAvailableWidth();
-        CmsPopup popup = new CmsPopup(dialogWidth);
-        popup.setGlassEnabled(false);
+    super.onModuleLoad();
+    int dialogHeight = CmsToolbarPopup.getAvailableHeight();
+    int dialogWidth = CmsToolbarPopup.getAvailableWidth();
+    CmsPopup popup = new CmsPopup(dialogWidth);
+    popup.setGlassEnabled(false);
 
-        popup.removePadding();
-        SimplePanel container = new SimplePanel();
-        popup.setMainContent(container);
-        popup.addDialogClose(new Command() {
+    popup.removePadding();
+    SimplePanel container = new SimplePanel();
+    popup.setMainContent(container);
+    popup.addDialogClose(
+        new Command() {
 
-            public void execute() {
+          public void execute() {
 
-                closeDialog();
-            }
+            closeDialog();
+          }
         });
-        popup.center();
-        popup.catchNotifications();
-        CmsGalleryDialog dialog = CmsGalleryFactory.createDialog(popup);
-        container.setWidget(dialog);
-        dialog.setDialogSize(dialogWidth, dialogHeight);
-        popup.center();
-
-    }
+    popup.center();
+    popup.catchNotifications();
+    CmsGalleryDialog dialog = CmsGalleryFactory.createDialog(popup);
+    container.setWidget(dialog);
+    dialog.setDialogSize(dialogWidth, dialogHeight);
+    popup.center();
+  }
 }

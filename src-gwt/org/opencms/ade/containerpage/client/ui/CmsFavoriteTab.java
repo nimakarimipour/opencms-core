@@ -27,14 +27,6 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
-import org.opencms.ade.containerpage.client.Messages;
-import org.opencms.gwt.client.ui.CmsList;
-import org.opencms.gwt.client.ui.CmsListItem;
-import org.opencms.gwt.client.ui.CmsPushButton;
-import org.opencms.gwt.client.ui.CmsScrollPanel;
-
-import java.util.Iterator;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -42,170 +34,179 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
+import java.util.Iterator;
+import org.opencms.ade.containerpage.client.Messages;
+import org.opencms.gwt.client.ui.CmsList;
+import org.opencms.gwt.client.ui.CmsListItem;
+import org.opencms.gwt.client.ui.CmsPushButton;
+import org.opencms.gwt.client.ui.CmsScrollPanel;
 
 /**
- * Content of the tool-bar menu favorite tab.<p>
+ * Content of the tool-bar menu favorite tab.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsFavoriteTab extends A_CmsClipboardTab {
 
-    /** The ui-binder interface for this widget. */
-    interface I_CmsFavoriteTabUiBinder extends UiBinder<Widget, CmsFavoriteTab> {
-        // GWT interface, nothing to do here
+  /** The ui-binder interface for this widget. */
+  interface I_CmsFavoriteTabUiBinder extends UiBinder<Widget, CmsFavoriteTab> {
+    // GWT interface, nothing to do here
+  }
+
+  /** The ui-binder for this widget. */
+  private static I_CmsFavoriteTabUiBinder uiBinder = GWT.create(I_CmsFavoriteTabUiBinder.class);
+
+  /** Button panel shown while editing the favorites. */
+  @UiField protected FlowPanel m_buttonEditingPanel;
+
+  /** Button panel shown while using the favorites. */
+  @UiField protected FlowPanel m_buttonUsePanel;
+
+  /** The cancel edit button. */
+  @UiField protected CmsPushButton m_cancelButton;
+
+  /** The clip-board menu. */
+  protected CmsToolbarClipboardMenu m_clipboard;
+
+  /** The edit button. */
+  @UiField protected CmsPushButton m_editButton;
+
+  /** The list panel holding the favorite elements. */
+  @UiField(provided = true)
+  protected CmsList<CmsListItem> m_listPanel = new CmsList<CmsListItem>();
+
+  /** The save favorites button. */
+  @UiField protected CmsPushButton m_saveButton;
+
+  /** The scroll panel. */
+  @UiField protected CmsScrollPanel m_scrollPanel;
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param clipboard the clip-board menu
+   */
+  public CmsFavoriteTab(CmsToolbarClipboardMenu clipboard) {
+
+    initWidget(uiBinder.createAndBindUi(this));
+    m_clipboard = clipboard;
+    m_buttonEditingPanel.setVisible(false);
+    m_editButton.setText(Messages.get().key(Messages.GUI_BUTTON_EDITFAVORITES_TEXT_0));
+    m_editButton.setTitle(Messages.get().key(Messages.GUI_BUTTON_EDITFAVORITES_TEXT_0));
+    m_editButton.disable(Messages.get().key(Messages.GUI_TAB_FAVORITES_NO_ELEMENTS_0));
+    m_saveButton.setText(Messages.get().key(Messages.GUI_BUTTON_SAVE_TEXT_0));
+    m_saveButton.setTitle(Messages.get().key(Messages.GUI_BUTTON_SAVE_TEXT_0));
+    m_cancelButton.setText(Messages.get().key(Messages.GUI_BUTTON_CANCEL_TEXT_0));
+    m_cancelButton.setTitle(Messages.get().key(Messages.GUI_BUTTON_CANCEL_TEXT_0));
+    m_listPanel.setDropEnabled(true);
+  }
+
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.A_CmsClipboardTab#addListItem(org.opencms.gwt.client.ui.CmsListItem)
+   */
+  @Override
+  public void addListItem(CmsListItem item) {
+
+    super.addListItem(item);
+    if (m_listPanel.getWidgetCount() > 0) {
+      m_editButton.enable();
     }
+  }
 
-    /** The ui-binder for this widget. */
-    private static I_CmsFavoriteTabUiBinder uiBinder = GWT.create(I_CmsFavoriteTabUiBinder.class);
+  /** @see org.opencms.ade.containerpage.client.ui.A_CmsClipboardTab#clearList() */
+  @Override
+  public void clearList() {
 
-    /** Button panel shown while editing the favorites. */
-    @UiField
-    protected FlowPanel m_buttonEditingPanel;
+    super.clearList();
+    m_editButton.disable(Messages.get().key(Messages.GUI_TAB_FAVORITES_NO_ELEMENTS_0));
+  }
 
-    /** Button panel shown while using the favorites. */
-    @UiField
-    protected FlowPanel m_buttonUsePanel;
+  /** @see org.opencms.ade.containerpage.client.ui.A_CmsClipboardTab#getList() */
+  @Override
+  public CmsList<CmsListItem> getList() {
 
-    /** The cancel edit button. */
-    @UiField
-    protected CmsPushButton m_cancelButton;
+    return m_listPanel;
+  }
 
-    /** The clip-board menu. */
-    protected CmsToolbarClipboardMenu m_clipboard;
+  /** @see org.opencms.ade.containerpage.client.ui.A_CmsClipboardTab#getScrollPanel() */
+  @Override
+  public CmsScrollPanel getScrollPanel() {
 
-    /** The edit button. */
-    @UiField
-    protected CmsPushButton m_editButton;
+    return m_scrollPanel;
+  }
 
-    /** The list panel holding the favorite elements. */
-    @UiField(provided = true)
-    protected CmsList<CmsListItem> m_listPanel = new CmsList<CmsListItem>();
+  /**
+   * Returns the favorite list item iterator.
+   *
+   * <p>
+   *
+   * @return the iterator
+   */
+  public Iterator<Widget> iterator() {
 
-    /** The save favorites button. */
-    @UiField
-    protected CmsPushButton m_saveButton;
+    return m_listPanel.iterator();
+  }
 
-    /** The scroll panel. */
-    @UiField
-    protected CmsScrollPanel m_scrollPanel;
+  /**
+   * Saves the favorites.
+   *
+   * <p>
+   */
+  public void saveFavorites() {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param clipboard the clip-board menu
-     */
-    public CmsFavoriteTab(CmsToolbarClipboardMenu clipboard) {
-
-        initWidget(uiBinder.createAndBindUi(this));
-        m_clipboard = clipboard;
-        m_buttonEditingPanel.setVisible(false);
-        m_editButton.setText(Messages.get().key(Messages.GUI_BUTTON_EDITFAVORITES_TEXT_0));
-        m_editButton.setTitle(Messages.get().key(Messages.GUI_BUTTON_EDITFAVORITES_TEXT_0));
-        m_editButton.disable(Messages.get().key(Messages.GUI_TAB_FAVORITES_NO_ELEMENTS_0));
-        m_saveButton.setText(Messages.get().key(Messages.GUI_BUTTON_SAVE_TEXT_0));
-        m_saveButton.setTitle(Messages.get().key(Messages.GUI_BUTTON_SAVE_TEXT_0));
-        m_cancelButton.setText(Messages.get().key(Messages.GUI_BUTTON_CANCEL_TEXT_0));
-        m_cancelButton.setTitle(Messages.get().key(Messages.GUI_BUTTON_CANCEL_TEXT_0));
-        m_listPanel.setDropEnabled(true);
+    m_clipboard.saveFavorites();
+    if (m_listPanel.getWidgetCount() < 1) {
+      m_editButton.disable(Messages.get().key(Messages.GUI_TAB_FAVORITES_NO_ELEMENTS_0));
     }
+    m_buttonEditingPanel.setVisible(false);
+    m_buttonUsePanel.setVisible(true);
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsClipboardTab#addListItem(org.opencms.gwt.client.ui.CmsListItem)
-     */
-    @Override
-    public void addListItem(CmsListItem item) {
+  /**
+   * Cancels the editing.
+   *
+   * <p>
+   *
+   * @param event the click event
+   */
+  @UiHandler("m_cancelButton")
+  void cancelAction(ClickEvent event) {
 
-        super.addListItem(item);
-        if (m_listPanel.getWidgetCount() > 0) {
-            m_editButton.enable();
-        }
-    }
+    m_clipboard.reloadFavorites();
+    m_buttonEditingPanel.setVisible(false);
+    m_buttonUsePanel.setVisible(true);
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsClipboardTab#clearList()
-     */
-    @Override
-    public void clearList() {
+  /**
+   * Starts the editing.
+   *
+   * <p>
+   *
+   * @param event the click event
+   */
+  @UiHandler("m_editButton")
+  void editAction(ClickEvent event) {
 
-        super.clearList();
-        m_editButton.disable(Messages.get().key(Messages.GUI_TAB_FAVORITES_NO_ELEMENTS_0));
-    }
+    m_clipboard.enableFavoritesEdit();
+    m_buttonUsePanel.setVisible(false);
+    m_buttonEditingPanel.setVisible(true);
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsClipboardTab#getList()
-     */
-    @Override
-    public CmsList<CmsListItem> getList() {
+  /**
+   * Saves the favorite list.
+   *
+   * <p>
+   *
+   * @param event the click event
+   */
+  @UiHandler("m_saveButton")
+  void saveAction(ClickEvent event) {
 
-        return m_listPanel;
-    }
-
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.A_CmsClipboardTab#getScrollPanel()
-     */
-    @Override
-    public CmsScrollPanel getScrollPanel() {
-
-        return m_scrollPanel;
-    }
-
-    /**
-     * Returns the favorite list item iterator.<p>
-     *
-     * @return the iterator
-     */
-    public Iterator<Widget> iterator() {
-
-        return m_listPanel.iterator();
-    }
-
-    /**
-     * Saves the favorites.<p>
-     */
-    public void saveFavorites() {
-
-        m_clipboard.saveFavorites();
-        if (m_listPanel.getWidgetCount() < 1) {
-            m_editButton.disable(Messages.get().key(Messages.GUI_TAB_FAVORITES_NO_ELEMENTS_0));
-        }
-        m_buttonEditingPanel.setVisible(false);
-        m_buttonUsePanel.setVisible(true);
-    }
-
-    /**
-     * Cancels the editing.<p>
-     *
-     * @param event the click event
-     */
-    @UiHandler("m_cancelButton")
-    void cancelAction(ClickEvent event) {
-
-        m_clipboard.reloadFavorites();
-        m_buttonEditingPanel.setVisible(false);
-        m_buttonUsePanel.setVisible(true);
-    }
-
-    /**
-     * Starts the editing.<p>
-     *
-     * @param event the click event
-     */
-    @UiHandler("m_editButton")
-    void editAction(ClickEvent event) {
-
-        m_clipboard.enableFavoritesEdit();
-        m_buttonUsePanel.setVisible(false);
-        m_buttonEditingPanel.setVisible(true);
-    }
-
-    /**
-     * Saves the favorite list.<p>
-     *
-     * @param event the click event
-     */
-    @UiHandler("m_saveButton")
-    void saveAction(ClickEvent event) {
-
-        saveFavorites();
-    }
+    saveFavorites();
+  }
 }

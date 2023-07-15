@@ -30,92 +30,117 @@ package org.opencms.gwt.client.ui.contextmenu;
 import java.util.List;
 
 /**
- * Interface for a context menu entry.<p>
+ * Interface for a context menu entry.
+ *
+ * <p>
  *
  * @since version 8.0.0
  */
 public interface I_CmsContextMenuEntry {
 
-    /**
-     * Executes the context menu action.<p>
-     */
-    void execute();
+  /**
+   * Executes the context menu action.
+   *
+   * <p>
+   */
+  void execute();
 
-    /**
-     * Generates the context menu item.<p>
-     *
-     * @return the context menu item
-     */
-    A_CmsContextMenuItem generateMenuItem();
+  /**
+   * Generates the context menu item.
+   *
+   * <p>
+   *
+   * @return the context menu item
+   */
+  A_CmsContextMenuItem generateMenuItem();
 
-    /**
-     * Returns a CSS class which should be used to display an icon, or null if no icon is required.<p>
-     *
-     * @return the CSS class for the icon
-     */
-    String getIconClass();
+  /**
+   * Returns a CSS class which should be used to display an icon, or null if no icon is required.
+   *
+   * <p>
+   *
+   * @return the CSS class for the icon
+   */
+  String getIconClass();
 
-    /**
-     * Returns the JSP path for the command generation.<p>
-     *
-     * @return the JSP path
-     */
-    String getJspPath();
+  /**
+   * Returns the JSP path for the command generation.
+   *
+   * <p>
+   *
+   * @return the JSP path
+   */
+  String getJspPath();
 
-    /**
-     * Returns the label (text) for the menu entry.<p>
-     *
-     * @return the label
-     */
-    String getLabel();
+  /**
+   * Returns the label (text) for the menu entry.
+   *
+   * <p>
+   *
+   * @return the label
+   */
+  String getLabel();
 
-    /**
-     * Returns the name of the entry.<p>
-     *
-     * @return the name of the entry
-     */
-    String getName();
+  /**
+   * Returns the name of the entry.
+   *
+   * <p>
+   *
+   * @return the name of the entry
+   */
+  String getName();
 
-    /**
-     * Returns the reason if the entry is de-activated .<p>
-     *
-     * @return the reason
-     */
-    String getReason();
+  /**
+   * Returns the reason if the entry is de-activated .
+   *
+   * <p>
+   *
+   * @return the reason
+   */
+  String getReason();
 
-    /**
-     * Returns a list of {@link I_CmsContextMenuEntry} objects.<p>
-     *
-     * @return the sub menu entries
-     */
-    List<I_CmsContextMenuEntry> getSubMenu();
+  /**
+   * Returns a list of {@link I_CmsContextMenuEntry} objects.
+   *
+   * <p>
+   *
+   * @return the sub menu entries
+   */
+  List<I_CmsContextMenuEntry> getSubMenu();
 
-    /**
-     * Returns <code>true</code> if this menu entry has a sub menu <code>false</code> otherwise.<p>
-     *
-     * @return <code>true</code> if this menu entry has a sub menu <code>false</code> otherwise
-     */
-    boolean hasSubMenu();
+  /**
+   * Returns <code>true</code> if this menu entry has a sub menu <code>false</code> otherwise.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this menu entry has a sub menu <code>false</code> otherwise
+   */
+  boolean hasSubMenu();
 
-    /**
-     * Returns <code>true</code> if this menu entry is active <code>false</code> otherwise.<p>
-     *
-     * @return <code>true</code> if this menu entry is active <code>false</code> otherwise
-     */
-    boolean isActive();
+  /**
+   * Returns <code>true</code> if this menu entry is active <code>false</code> otherwise.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this menu entry is active <code>false</code> otherwise
+   */
+  boolean isActive();
 
-    /**
-     * Returns <code>true</code> if this menu entry is a separator <code>false</code> otherwise.<p>
-     *
-     * @return <code>true</code> if this menu entry is a separator <code>false</code> otherwise
-     */
-    boolean isSeparator();
+  /**
+   * Returns <code>true</code> if this menu entry is a separator <code>false</code> otherwise.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this menu entry is a separator <code>false</code> otherwise
+   */
+  boolean isSeparator();
 
-    /**
-     * Returns <code>true</code> if this menu entry is visible <code>false</code> otherwise.<p>
-     *
-     * @return <code>true</code> if this menu entry is visible <code>false</code> otherwise
-     */
-    boolean isVisible();
-
+  /**
+   * Returns <code>true</code> if this menu entry is visible <code>false</code> otherwise.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this menu entry is visible <code>false</code> otherwise
+   */
+  boolean isVisible();
 }

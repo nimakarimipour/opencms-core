@@ -30,76 +30,87 @@ package org.opencms.configuration.preferences;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
 /**
- * Bean representing the configurable attributes for a preference.<p>
+ * Bean representing the configurable attributes for a preference.
+ *
+ * <p>
  */
 public class CmsPreferenceData {
 
-    /** The pref name. */
-    private String m_name;
+  /** The pref name. */
+  private String m_name;
 
-    /** The pref default value. */
-    private String m_value;
+  /** The pref default value. */
+  private String m_value;
 
-    /** The pref tab. */
-    private String m_tab;
+  /** The pref tab. */
+  private String m_tab;
 
-    /** The preference widget configuration. */
-    private CmsXmlContentProperty m_propDef;
+  /** The preference widget configuration. */
+  private CmsXmlContentProperty m_propDef;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param name the preference name
-     * @param value the preference value
-     * @param prop the preference configuration
-     * @param tab the tab on which to display the preference
-     */
-    public CmsPreferenceData(String name, String value, CmsXmlContentProperty prop, String tab) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param name the preference name
+   * @param value the preference value
+   * @param prop the preference configuration
+   * @param tab the tab on which to display the preference
+   */
+  public CmsPreferenceData(String name, String value, CmsXmlContentProperty prop, String tab) {
 
-        m_name = name;
-        m_value = value;
-        m_propDef = prop;
-        m_tab = tab;
-    }
+    m_name = name;
+    m_value = value;
+    m_propDef = prop;
+    m_tab = tab;
+  }
 
-    /**
-     * Gets the default value for the preference.<p>
-     *
-     * @return the default value for the preference
-     */
-    public String getDefaultValue() {
+  /**
+   * Gets the default value for the preference.
+   *
+   * <p>
+   *
+   * @return the default value for the preference
+   */
+  public String getDefaultValue() {
 
-        return m_value;
-    }
+    return m_value;
+  }
 
-    /**
-     * Gets the name of the preference.<p>
-     *
-     * @return the preference name
-     */
-    public String getName() {
+  /**
+   * Gets the name of the preference.
+   *
+   * <p>
+   *
+   * @return the preference name
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Gets the preference definition.<p>
-     *
-     * @return the preference definition
-     */
-    public CmsXmlContentProperty getPropertyDefinition() {
+  /**
+   * Gets the preference definition.
+   *
+   * <p>
+   *
+   * @return the preference definition
+   */
+  public CmsXmlContentProperty getPropertyDefinition() {
 
-        return m_propDef;
-    }
+    return m_propDef;
+  }
 
-    /**
-     * Gets the tab on which the preference should be displayed.<p>
-     *
-     * @return the tab on which the preference should be displayed
-     */
-    public String getTab() {
+  /**
+   * Gets the tab on which the preference should be displayed.
+   *
+   * <p>
+   *
+   * @return the tab on which the preference should be displayed
+   */
+  public String getTab() {
 
-        return m_tab;
-    }
-
+    return m_tab;
+  }
 }

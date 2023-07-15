@@ -27,6 +27,8 @@
 
 package org.opencms.ade.sitemap.client.hoverbar;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
@@ -38,62 +40,61 @@ import org.opencms.gwt.shared.CmsGwtConstants;
 import org.opencms.gwt.shared.CmsModelResourceInfo;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Sitemap context menu new entry.<p>
+ * Sitemap context menu new entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsNewChoiceMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsNewChoiceMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsNewChoiceMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_NEW_0));
-        setActive(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_NEW_0));
+    setActive(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    @Override
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  @Override
+  public void execute() {
 
-        final CmsSitemapController controller = getHoverbar().getController();
-        final CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        List<CmsNewResourceInfo> infos = controller.getData().getNewElementInfos();
-        List<CmsModelResourceInfo> models = createModelInfos(infos);
-        I_CmsModelSelectHandler handler = new I_CmsModelSelectHandler() {
+    final CmsSitemapController controller = getHoverbar().getController();
+    final CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    List<CmsNewResourceInfo> infos = controller.getData().getNewElementInfos();
+    List<CmsModelResourceInfo> models = createModelInfos(infos);
+    I_CmsModelSelectHandler handler =
+        new I_CmsModelSelectHandler() {
 
-            public void onModelSelect(CmsUUID modelStructureId) {
+          public void onModelSelect(CmsUUID modelStructureId) {
 
-                controller.createSubEntry(entry, modelStructureId);
-                //Window.alert("creating sub-entry " + modelStructureId);
-            }
+            controller.createSubEntry(entry, modelStructureId);
+            // Window.alert("creating sub-entry " + modelStructureId);
+          }
         };
-        String title = Messages.get().key(Messages.GUI_SELECT_MODEL_TITLE_0);
-        String message = Messages.get().key(Messages.GUI_SELECT_MODEL_MESSAGE_0);
+    String title = Messages.get().key(Messages.GUI_SELECT_MODEL_TITLE_0);
+    String message = Messages.get().key(Messages.GUI_SELECT_MODEL_MESSAGE_0);
 
-        CmsModelSelectDialog dialog = new CmsModelSelectDialog(handler, models, title, message);
-        dialog.center();
-    }
+    CmsModelSelectDialog dialog = new CmsModelSelectDialog(handler, models, title, message);
+    dialog.center();
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        CmsSitemapController controller = getHoverbar().getController();
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        boolean show = getHoverbar().getController().isEditable()
+    CmsSitemapController controller = getHoverbar().getController();
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    boolean show =
+        getHoverbar().getController().isEditable()
             && !CmsSitemapView.getInstance().isSpecialMode()
             && (entry != null)
             && entry.isEditable()
@@ -102,27 +103,28 @@ public class CmsNewChoiceMenuEntry extends A_CmsSitemapMenuEntry {
             && entry.isInNavigation()
             && entry.isFolderType()
             && !entry.hasForeignFolderLock();
-        setVisible(show);
-    }
+    setVisible(show);
+  }
 
-    /**
-     * Helper method to create model resource info beans from new resource info beans.<p>
-     *
-     * @param resourceInfos the resource info beans
-     *
-     * @return the list of model resource info beans
-     */
-    protected List<CmsModelResourceInfo> createModelInfos(List<CmsNewResourceInfo> resourceInfos) {
+  /**
+   * Helper method to create model resource info beans from new resource info beans.
+   *
+   * <p>
+   *
+   * @param resourceInfos the resource info beans
+   * @return the list of model resource info beans
+   */
+  protected List<CmsModelResourceInfo> createModelInfos(List<CmsNewResourceInfo> resourceInfos) {
 
-        List<CmsModelResourceInfo> result = new ArrayList<CmsModelResourceInfo>();
-        for (CmsNewResourceInfo resInfo : resourceInfos) {
-            CmsModelResourceInfo model = new CmsModelResourceInfo();
-            model.setTitle(resInfo.getTitle());
-            model.setSubTitle(resInfo.getSubTitle());
-            model.setStructureId(resInfo.getCopyResourceId());
-            model.setResourceType(CmsGwtConstants.TYPE_CONTAINERPAGE);
-            result.add(model);
-        }
-        return result;
+    List<CmsModelResourceInfo> result = new ArrayList<CmsModelResourceInfo>();
+    for (CmsNewResourceInfo resInfo : resourceInfos) {
+      CmsModelResourceInfo model = new CmsModelResourceInfo();
+      model.setTitle(resInfo.getTitle());
+      model.setSubTitle(resInfo.getSubTitle());
+      model.setStructureId(resInfo.getCopyResourceId());
+      model.setResourceType(CmsGwtConstants.TYPE_CONTAINERPAGE);
+      result.add(model);
     }
+    return result;
+  }
 }

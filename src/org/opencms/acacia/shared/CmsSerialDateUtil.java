@@ -30,29 +30,33 @@ package org.opencms.acacia.shared;
 /** Utility methods for the serial date widget. */
 public final class CmsSerialDateUtil {
 
-    /**
-     * Returns the maximally allowed number of events in a series.
-     * @return the maximally allowed number of events in a series.
-     */
-    public static int getMaxEvents() {
+  /**
+   * Returns the maximally allowed number of events in a series.
+   *
+   * @return the maximally allowed number of events in a series.
+   */
+  public static int getMaxEvents() {
 
-        return 100;
+    return 100;
+  }
+
+  /**
+   * Parses int value and returns the provided default if the value can't be parsed.
+   *
+   * @param value the int to parse.
+   * @param defaultValue the default value.
+   * @return the parsed int, or the default value if parsing fails.
+   */
+  public static int toIntWithDefault(String value, int defaultValue) {
+
+    int result = defaultValue;
+    try {
+      result = Integer.parseInt(value);
+    } catch (
+        @SuppressWarnings("unused")
+        Exception e) {
+      // Do nothing, return default.
     }
-
-    /**
-     * Parses int value and returns the provided default if the value can't be parsed.
-     * @param value the int to parse.
-     * @param defaultValue the default value.
-     * @return the parsed int, or the default value if parsing fails.
-     */
-    public static int toIntWithDefault(String value, int defaultValue) {
-
-        int result = defaultValue;
-        try {
-            result = Integer.parseInt(value);
-        } catch (@SuppressWarnings("unused") Exception e) {
-            // Do nothing, return default.
-        }
-        return result;
-    }
+    return result;
+  }
 }

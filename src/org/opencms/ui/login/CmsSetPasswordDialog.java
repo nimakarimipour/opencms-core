@@ -27,6 +27,9 @@
 
 package org.opencms.ui.login;
 
+import com.vaadin.server.UserError;
+import java.util.Locale;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsUser;
 import org.opencms.main.CmsException;
@@ -42,98 +45,102 @@ import org.opencms.ui.Messages;
 import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.workplace.CmsWorkplaceLoginHandler;
 
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.server.UserError;
-
 /**
- * Dialog used to change the password.<p>
+ * Dialog used to change the password.
+ *
+ * <p>
  */
 public class CmsSetPasswordDialog extends CmsChangePasswordDialog {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsSetPasswordDialog.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsSetPasswordDialog.class);
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param cms the CMS context
-     * @param user the user
-     * @param locale the locale
-     */
-    public CmsSetPasswordDialog(final CmsObject cms, CmsUser user, Locale locale) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @param user the user
+   * @param locale the locale
+   */
+  public CmsSetPasswordDialog(final CmsObject cms, CmsUser user, Locale locale) {
 
-        super(cms, user, locale);
-        // hide the old password field, it's not required
-        m_form.hideOldPassword();
+    super(cms, user, locale);
+    // hide the old password field, it's not required
+    m_form.hideOldPassword();
+  }
+
+  /**
+   * Submits the password.
+   *
+   * <p>
+   */
+  @Override
+  void submit() {
+
+    if ((m_user == null) || m_user.isManaged()) {
+      return;
     }
-
-    /**
-     * Submits the password.<p>
-     */
-    @Override
-    void submit() {
-
-        if ((m_user == null) || m_user.isManaged()) {
-            return;
-        }
-        String password1 = m_form.getPassword1();
-        String password2 = m_form.getPassword2();
-        if (validatePasswords(password1, password2)) {
-            maybeCheckSecondFactor((CmsSecondFactorInfo secondFactorInfo) -> {
-                try {
-                    CmsTwoFactorAuthenticationHandler twoFactorHandler = OpenCms.getTwoFactorAuthenticationHandler();
-                    if (twoFactorHandler.needsTwoFactorAuthentication(m_user)
-                        && twoFactorHandler.hasSecondFactor(m_user)) {
-                        if (!twoFactorHandler.verifySecondFactor(m_user, secondFactorInfo)) {
-                            throw new CmsAuthentificationException(
-                                org.opencms.security.Messages.get().container(
-                                    org.opencms.security.Messages.ERR_VERIFICATION_FAILED_1,
-                                    m_user.getName()));
-                        }
-                    }
-                    m_cms.setPassword(m_user.getName(), password1);
-                    CmsUserLog.logPasswordChange(m_cms, m_user.getName());
-                    CmsTokenValidator.clearToken(CmsLoginUI.m_adminCms, m_user);
-                    showSetPasswordSuccess();
-                } catch (CmsException e) {
-                    String error = e.getLocalizedMessage(m_locale);
-                    m_form.setErrorPassword1(new UserError(error), OpenCmsTheme.SECURITY_INVALID);
-                    LOG.debug(e.getLocalizedMessage(), e);
-                } catch (Exception e) {
-                    String error = e.getLocalizedMessage();
-                    m_form.setErrorPassword1(new UserError(error), OpenCmsTheme.SECURITY_INVALID);
-                    LOG.error(e.getLocalizedMessage(), e);
+    String password1 = m_form.getPassword1();
+    String password2 = m_form.getPassword2();
+    if (validatePasswords(password1, password2)) {
+      maybeCheckSecondFactor(
+          (CmsSecondFactorInfo secondFactorInfo) -> {
+            try {
+              CmsTwoFactorAuthenticationHandler twoFactorHandler =
+                  OpenCms.getTwoFactorAuthenticationHandler();
+              if (twoFactorHandler.needsTwoFactorAuthentication(m_user)
+                  && twoFactorHandler.hasSecondFactor(m_user)) {
+                if (!twoFactorHandler.verifySecondFactor(m_user, secondFactorInfo)) {
+                  throw new CmsAuthentificationException(
+                      org.opencms.security.Messages.get()
+                          .container(
+                              org.opencms.security.Messages.ERR_VERIFICATION_FAILED_1,
+                              m_user.getName()));
                 }
-            });
-        }
+              }
+              m_cms.setPassword(m_user.getName(), password1);
+              CmsUserLog.logPasswordChange(m_cms, m_user.getName());
+              CmsTokenValidator.clearToken(CmsLoginUI.m_adminCms, m_user);
+              showSetPasswordSuccess();
+            } catch (CmsException e) {
+              String error = e.getLocalizedMessage(m_locale);
+              m_form.setErrorPassword1(new UserError(error), OpenCmsTheme.SECURITY_INVALID);
+              LOG.debug(e.getLocalizedMessage(), e);
+            } catch (Exception e) {
+              String error = e.getLocalizedMessage();
+              m_form.setErrorPassword1(new UserError(error), OpenCmsTheme.SECURITY_INVALID);
+              LOG.error(e.getLocalizedMessage(), e);
+            }
+          });
     }
+  }
 
-    /**
-     * Shows that setting the password was successful.
-     */
-    private void showSetPasswordSuccess() {
+  /** Shows that setting the password was successful. */
+  private void showSetPasswordSuccess() {
 
-        CmsVaadinUtils.showAlert(
-            Messages.get().getBundle(A_CmsUI.get().getLocale()).key(Messages.GUI_PWCHANGE_SUCCESS_HEADER_0),
-            Messages.get().getBundle(A_CmsUI.get().getLocale()).key(
-                Messages.GUI_PWCHANGE_GUI_PWCHANGE_SUCCESS_CONTENT_0),
-            new Runnable() {
+    CmsVaadinUtils.showAlert(
+        Messages.get()
+            .getBundle(A_CmsUI.get().getLocale())
+            .key(Messages.GUI_PWCHANGE_SUCCESS_HEADER_0),
+        Messages.get()
+            .getBundle(A_CmsUI.get().getLocale())
+            .key(Messages.GUI_PWCHANGE_GUI_PWCHANGE_SUCCESS_CONTENT_0),
+        new Runnable() {
 
-                public void run() {
+          public void run() {
 
-                    String target = OpenCms.getLinkManager().substituteLinkForUnknownTarget(
-                        CmsLoginUI.m_adminCms,
-                        CmsWorkplaceLoginHandler.LOGIN_HANDLER,
-                        false);
-                    target += "?" + CmsLoginHelper.PARAM_OUFQN + "=" + m_user.getOuFqn();
-                    A_CmsUI.get().getPage().setLocation(target);
-                }
-            });
-    }
+            String target =
+                OpenCms.getLinkManager()
+                    .substituteLinkForUnknownTarget(
+                        CmsLoginUI.m_adminCms, CmsWorkplaceLoginHandler.LOGIN_HANDLER, false);
+            target += "?" + CmsLoginHelper.PARAM_OUFQN + "=" + m_user.getOuFqn();
+            A_CmsUI.get().getPage().setLocation(target);
+          }
+        });
+  }
 }

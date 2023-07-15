@@ -34,84 +34,88 @@ import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.content.CmsXmlContentFactory;
 
 /**
- * Base class for context sensitive custom beans that supports creation via {@link CmsJspStandardContextBean#getBean(String className)}.
+ * Base class for context sensitive custom beans that supports creation via {@link
+ * CmsJspStandardContextBean#getBean(String className)}.
  *
- * It is the suitable base class for custom beans that need access to the OpenCms context.
+ * <p>It is the suitable base class for custom beans that need access to the OpenCms context.
  *
  * @since 11.0
  */
 public abstract class A_CmsJspCustomContextBean {
 
-    /** The standard context. */
-    private CmsJspStandardContextBean m_context;
-    /** The cms object from the standard context. */
-    private CmsObject m_cms;
+  /** The standard context. */
+  private CmsJspStandardContextBean m_context;
+  /** The cms object from the standard context. */
+  private CmsObject m_cms;
 
-    /**
-     * Returns the cms object for the current context.
-     * @return the cms object for the current context.
-     */
-    public CmsObject getCmsObject() {
+  /**
+   * Returns the cms object for the current context.
+   *
+   * @return the cms object for the current context.
+   */
+  public CmsObject getCmsObject() {
 
-        return m_cms;
+    return m_cms;
+  }
+
+  /**
+   * Set the context for the bean.
+   *
+   * @param context the context to set.
+   */
+  public void setContext(CmsJspStandardContextBean context) {
+
+    m_context = context;
+    m_cms = m_context.getVfs().getCmsObject();
+  }
+
+  /**
+   * Returns the standard context.
+   *
+   * @return the standard context.
+   */
+  protected CmsJspStandardContextBean getStandardContextBean() {
+
+    return m_context;
+  }
+
+  /**
+   * Convert the input to a CmsResource using the current context.
+   *
+   * @see CmsJspElFunctions#convertResource(CmsObject, Object)
+   * @param input the object to convert to a resource, e.g., a path, a structure id, an access
+   *     wrapper ...
+   * @return the resource for the input.
+   * @throws CmsException if resource conversion fails.
+   */
+  protected CmsResource toResource(Object input) throws CmsException {
+
+    return CmsJspElFunctions.convertRawResource(getCmsObject(), input);
+  }
+
+  /**
+   * Converts the input (typically a specification of an XML file) to an XML document.
+   *
+   * <p>If the input already is an XML document, it is returned. Otherwise the method assumes the
+   * input specifies an XML file and tries to determine and unmarshal that file.nd unmarshal that
+   * file
+   *
+   * <p>To determine the file {@link #toResource(Object)} is used.
+   *
+   * @param input the object to be converted to an XML document.
+   * @return the XML document specified by the input.
+   * @throws CmsException if converting the input to a XML document fails.
+   */
+  protected I_CmsXmlDocument toXml(Object input) throws CmsException {
+
+    if (input instanceof CmsJspContentAccessBean) {
+      return ((CmsJspContentAccessBean) input).getRawContent();
     }
-
-    /**
-     * Set the context for the bean.
-     * @param context the context to set.
-     */
-    public void setContext(CmsJspStandardContextBean context) {
-
-        m_context = context;
-        m_cms = m_context.getVfs().getCmsObject();
+    if (input instanceof I_CmsXmlDocument) {
+      return (I_CmsXmlDocument) input;
+    } else {
+      CmsResource res = toResource(input);
+      return CmsXmlContentFactory.unmarshal(getCmsObject(), getCmsObject().readFile(res));
     }
-
-    /**
-     * Returns the standard context.
-     * @return the standard context.
-     */
-    protected CmsJspStandardContextBean getStandardContextBean() {
-
-        return m_context;
-    }
-
-    /**
-     * Convert the input to a CmsResource using the current context.
-     *
-     * @see CmsJspElFunctions#convertResource(CmsObject, Object)
-     *
-     * @param input the object to convert to a resource, e.g., a path, a structure id, an access wrapper ...
-     * @return the resource for the input.
-     * @throws CmsException if resource conversion fails.
-     */
-    protected CmsResource toResource(Object input) throws CmsException {
-
-        return CmsJspElFunctions.convertRawResource(getCmsObject(), input);
-    }
-
-    /**
-     * Converts the input (typically a specification of an XML file) to an XML document.
-     *
-     * If the input already is an XML document, it is returned.
-     * Otherwise the method assumes the input specifies an XML file
-     * and tries to determine and unmarshal that file.nd unmarshal that file
-     *
-     * To determine the file {@link #toResource(Object)} is used.
-     *
-     * @param input the object to be converted to an XML document.
-     * @return the XML document specified by the input.
-     * @throws CmsException if converting the input to a XML document fails.
-     */
-    protected I_CmsXmlDocument toXml(Object input) throws CmsException {
-
-        if (input instanceof CmsJspContentAccessBean) {
-            return ((CmsJspContentAccessBean)input).getRawContent();
-        }
-        if (input instanceof I_CmsXmlDocument) {
-            return (I_CmsXmlDocument)input;
-        } else {
-            CmsResource res = toResource(input);
-            return CmsXmlContentFactory.unmarshal(getCmsObject(), getCmsObject().readFile(res));
-        }
-    }
+  }
 }

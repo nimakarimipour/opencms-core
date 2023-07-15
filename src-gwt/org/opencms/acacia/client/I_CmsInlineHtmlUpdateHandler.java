@@ -30,22 +30,28 @@ package org.opencms.acacia.client;
 import com.google.gwt.user.client.Command;
 
 /**
- * Handles updates on the HTML required due to entity data changes during inline editing.<p>
+ * Handles updates on the HTML required due to entity data changes during inline editing.
+ *
+ * <p>
  */
 public interface I_CmsInlineHtmlUpdateHandler {
 
-    /**
-     * Reinitializes the editing widget inside the form parent.<p>
-     *
-     * @param formParent the form parent
-     */
-    void reinitWidgets(I_CmsInlineFormParent formParent);
+  /**
+   * Reinitializes the editing widget inside the form parent.
+   *
+   * <p>
+   *
+   * @param formParent the form parent
+   */
+  void reinitWidgets(I_CmsInlineFormParent formParent);
 
-    /**
-     * Updates the HTML inside the form parent according to the currently edited entiy data.<p>
-     *
-     * @param formParent the form parent
-     * @param onSuccess the callback to execute on success
-     */
-    void updateHtml(I_CmsInlineFormParent formParent, Command onSuccess);
+  /**
+   * Updates the HTML inside the form parent according to the currently edited entiy data.
+   *
+   * <p>
+   *
+   * @param formParent the form parent
+   * @param onSuccess the callback to execute on success
+   */
+  void updateHtml(I_CmsInlineFormParent formParent, Command onSuccess);
 }

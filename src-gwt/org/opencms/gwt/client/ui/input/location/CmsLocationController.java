@@ -27,6 +27,15 @@
 
 package org.opencms.gwt.client.ui.input.location;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.SuggestOracle;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.opencms.gwt.client.Messages;
 import org.opencms.gwt.client.rpc.CmsLog;
 import org.opencms.gwt.client.ui.CmsErrorDialog;
@@ -35,239 +44,256 @@ import org.opencms.gwt.client.util.CmsClientStringUtil;
 import org.opencms.gwt.client.util.CmsDomUtil;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.SuggestOracle;
-
 /**
- * The location picker controller.<p>
+ * The location picker controller.
+ *
+ * <p>
  */
 public class CmsLocationController {
 
-    /** Flag indicating the API is currently being loaded. */
-    private static boolean loadingApi;
+  /** Flag indicating the API is currently being loaded. */
+  private static boolean loadingApi;
 
-    /** Flag indicating the dynamic error style has been inserted. */
-    private static boolean m_hasInsertedDynamicStyle;
+  /** Flag indicating the dynamic error style has been inserted. */
+  private static boolean m_hasInsertedDynamicStyle;
 
-    /** The main API param. */
-    private static final String MAPS_MAIN_PARAM = "v=3.exp";
+  /** The main API param. */
+  private static final String MAPS_MAIN_PARAM = "v=3.exp";
 
-    /** The places library param. */
-    private static final String MAPS_PLACES_PARAM = "libraries=places";
+  /** The places library param. */
+  private static final String MAPS_PLACES_PARAM = "libraries=places";
 
-    /** The URI of google maps API. */
-    private static final String MAPS_URI = "https://maps.googleapis.com/maps/api/js";
+  /** The URI of google maps API. */
+  private static final String MAPS_URI = "https://maps.googleapis.com/maps/api/js";
 
-    /** The callback to be executed once the API is loaded. */
-    private static List<Command> onApiReady = new ArrayList<Command>();
+  /** The callback to be executed once the API is loaded. */
+  private static List<Command> onApiReady = new ArrayList<Command>();
 
-    /** The parsed configuration JSON object. */
-    private JavaScriptObject m_config;
+  /** The parsed configuration JSON object. */
+  private JavaScriptObject m_config;
 
-    /** The previous value. */
-    private CmsLocationValue m_currentValue;
+  /** The previous value. */
+  private CmsLocationValue m_currentValue;
 
-    /** The current location value. */
-    private CmsLocationValue m_editValue;
+  /** The current location value. */
+  private CmsLocationValue m_editValue;
 
-    /** The goe coder instance. */
-    private JavaScriptObject m_geocoder;
+  /** The goe coder instance. */
+  private JavaScriptObject m_geocoder;
 
-    /** The map. */
-    private JavaScriptObject m_map;
+  /** The map. */
+  private JavaScriptObject m_map;
 
-    /** The map marker. */
-    private JavaScriptObject m_marker;
+  /** The map marker. */
+  private JavaScriptObject m_marker;
 
-    /** The picker widget. */
-    private CmsLocationPicker m_picker;
+  /** The picker widget. */
+  private CmsLocationPicker m_picker;
 
-    /** The popup displaying the map. */
-    private CmsPopup m_popup;
+  /** The popup displaying the map. */
+  private CmsPopup m_popup;
 
-    /** The popup content widget. */
-    private CmsLocationPopupContent m_popupContent;
+  /** The popup content widget. */
+  private CmsLocationPopupContent m_popupContent;
 
-    /** The preview map. */
-    private JavaScriptObject m_previewMap;
+  /** The preview map. */
+  private JavaScriptObject m_previewMap;
 
-    /** The preview map marker. */
-    private JavaScriptObject m_previewMarker;
+  /** The preview map marker. */
+  private JavaScriptObject m_previewMarker;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param picker the picker widget
-     * @param configuration the widget configuration
-     */
-    public CmsLocationController(CmsLocationPicker picker, String configuration) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param picker the picker widget
+   * @param configuration the widget configuration
+   */
+  public CmsLocationController(CmsLocationPicker picker, String configuration) {
 
-        parseConfig(configuration);
-        initDynamicStyle();
-        m_picker = picker;
-        m_editValue = CmsLocationValue.parse(
+    parseConfig(configuration);
+    initDynamicStyle();
+    m_picker = picker;
+    m_editValue =
+        CmsLocationValue.parse(
             "{\"address\": \"London\", \"lat\": 51.5001524, \"lng\": -0.1262362, \"height\": 300, \"width\": 400, \"mode\": \"\", \"type\":\"roadmap\", \"zoom\": 8}");
-        m_currentValue = m_editValue.cloneValue();
+    m_currentValue = m_editValue.cloneValue();
+  }
+
+  /**
+   * Called once the API is loaded.
+   *
+   * <p>
+   */
+  private static void apiReady() {
+
+    loadingApi = false;
+    for (Command callback : onApiReady) {
+      callback.execute();
     }
+    onApiReady.clear();
+  }
 
-    /**
-     * Called once the API is loaded.<p>
-     */
-    private static void apiReady() {
+  /**
+   * Returns the available map modes.
+   *
+   * <p>
+   *
+   * @return the available map modes
+   */
+  private static Map<String, String> getModeItems() {
 
-        loadingApi = false;
-        for (Command callback : onApiReady) {
-            callback.execute();
-        }
-        onApiReady.clear();
+    Map<String, String> modes = new LinkedHashMap<String, String>();
+    modes.put("dynamic", Messages.get().key(Messages.GUI_LOCATION_DYNAMIC_0));
+    modes.put("static", Messages.get().key(Messages.GUI_LOCATION_STATIC_0));
+    return modes;
+  }
+
+  /**
+   * Returns the available map types.
+   *
+   * <p>
+   *
+   * @return the available map types
+   */
+  private static Map<String, String> getTypeItems() {
+
+    Map<String, String> types = new LinkedHashMap<String, String>();
+    types.put("roadmap", Messages.get().key(Messages.GUI_LOCATION_ROADMAP_0));
+    types.put("hybrid", Messages.get().key(Messages.GUI_LOCATION_HYBRID_0));
+    types.put("satellite", Messages.get().key(Messages.GUI_LOCATION_SATELLITE_0));
+    types.put("terrain", Messages.get().key(Messages.GUI_LOCATION_TERRAIN_0));
+    return types;
+  }
+
+  /**
+   * Returns the available zoom levels.
+   *
+   * <p>
+   *
+   * @return the available zoom levels
+   */
+  private static Map<String, String> getZoomItems() {
+
+    Map<String, String> zoomItems = new LinkedHashMap<String, String>();
+    for (int i = 0; i < 21; i++) {
+      String value = String.valueOf(i);
+      zoomItems.put(value, value);
     }
+    return zoomItems;
+  }
 
-    /**
-     * Returns the available map modes.<p>
-     *
-     * @return the available map modes
-     */
-    private static Map<String, String> getModeItems() {
+  /**
+   * Returns if the google maps API is already loaded to the window context.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the google maps API is already loaded to the window context
+   */
+  private static boolean isApiLoaded() {
 
-        Map<String, String> modes = new LinkedHashMap<String, String>();
-        modes.put("dynamic", Messages.get().key(Messages.GUI_LOCATION_DYNAMIC_0));
-        modes.put("static", Messages.get().key(Messages.GUI_LOCATION_STATIC_0));
-        return modes;
-    }
+    return isMainApiLoaded() && isPlacesApiLoaded();
+  }
 
-    /**
-     * Returns the available map types.<p>
-     *
-     * @return the available map types
-     */
-    private static Map<String, String> getTypeItems() {
-
-        Map<String, String> types = new LinkedHashMap<String, String>();
-        types.put("roadmap", Messages.get().key(Messages.GUI_LOCATION_ROADMAP_0));
-        types.put("hybrid", Messages.get().key(Messages.GUI_LOCATION_HYBRID_0));
-        types.put("satellite", Messages.get().key(Messages.GUI_LOCATION_SATELLITE_0));
-        types.put("terrain", Messages.get().key(Messages.GUI_LOCATION_TERRAIN_0));
-        return types;
-    }
-
-    /**
-     * Returns the available zoom levels.<p>
-     *
-     * @return the available zoom levels
-     */
-    private static Map<String, String> getZoomItems() {
-
-        Map<String, String> zoomItems = new LinkedHashMap<String, String>();
-        for (int i = 0; i < 21; i++) {
-            String value = String.valueOf(i);
-            zoomItems.put(value, value);
-        }
-        return zoomItems;
-    }
-
-    /**
-     * Returns if the google maps API is already loaded to the window context.<p>
-     *
-     * @return <code>true</code>  if the google maps API is already loaded to the window context
-     */
-    private static boolean isApiLoaded() {
-
-        return isMainApiLoaded() && isPlacesApiLoaded();
-    }
-
-    /**
-     * Returns if the google maps API is already loaded to the window context.<p>
-     *
-     * @return <code>true</code>  if the google maps API is already loaded to the window context
-     */
-    private static native boolean isMainApiLoaded()/*-{
+  /**
+   * Returns if the google maps API is already loaded to the window context.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the google maps API is already loaded to the window context
+   */
+  private static native boolean isMainApiLoaded() /*-{
 		var result = $wnd.google !== undefined
 				&& $wnd.google.maps !== undefined
 				&& $wnd.google.maps.Map !== undefined;
 		return result;
     }-*/;
 
-    /**
-     * Returns if the google maps API is already loaded to the window context.<p>
-     *
-     * @return <code>true</code>  if the google maps API is already loaded to the window context
-     */
-    private static native boolean isPlacesApiLoaded()/*-{
+  /**
+   * Returns if the google maps API is already loaded to the window context.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the google maps API is already loaded to the window context
+   */
+  private static native boolean isPlacesApiLoaded() /*-{
 		var result = $wnd.google !== undefined
 				&& $wnd.google.maps !== undefined
 				&& $wnd.google.maps.places !== undefined;
 		return result;
     }-*/;
 
-    /**
-     * Returns the current location value.<p>
-     *
-     * @return the location value
-     */
-    public CmsLocationValue getLocationValue() {
+  /**
+   * Returns the current location value.
+   *
+   * <p>
+   *
+   * @return the location value
+   */
+  public CmsLocationValue getLocationValue() {
 
-        return m_editValue;
-    }
+    return m_editValue;
+  }
 
-    /**
-     * Returns the JSON string representation of the current value.<p>
-     *
-     * @return the JSON string representation
-     */
-    public String getStringValue() {
+  /**
+   * Returns the JSON string representation of the current value.
+   *
+   * <p>
+   *
+   * @return the JSON string representation
+   */
+  public String getStringValue() {
 
-        return m_currentValue == null ? "" : m_currentValue.toJSONString();
-    }
+    return m_currentValue == null ? "" : m_currentValue.toJSONString();
+  }
 
-    /** Sets the location value as string.
-     *
-     * @param value the string representation of the location value (JSON)
-     **/
-    public void setStringValue(String value) {
+  /**
+   * Sets the location value as string.
+   *
+   * @param value the string representation of the location value (JSON)
+   */
+  public void setStringValue(String value) {
 
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value)) {
-            try {
-                m_editValue = CmsLocationValue.parse(value);
-                m_currentValue = m_editValue.cloneValue();
-                displayValue();
-                if ((m_popup != null) && m_popup.isVisible()) {
-                    m_popupContent.displayValues(m_editValue);
-                    updateMarkerPosition();
-                }
-            } catch (Exception e) {
-                CmsLog.log(e.getLocalizedMessage() + "\n" + CmsClientStringUtil.getStackTrace(e, "\n"));
-            }
-        } else {
-            m_currentValue = null;
-            displayValue();
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value)) {
+      try {
+        m_editValue = CmsLocationValue.parse(value);
+        m_currentValue = m_editValue.cloneValue();
+        displayValue();
+        if ((m_popup != null) && m_popup.isVisible()) {
+          m_popupContent.displayValues(m_editValue);
+          updateMarkerPosition();
         }
+      } catch (Exception e) {
+        CmsLog.log(e.getLocalizedMessage() + "\n" + CmsClientStringUtil.getStackTrace(e, "\n"));
+      }
+    } else {
+      m_currentValue = null;
+      displayValue();
     }
+  }
 
-    /**
-     * Return a maps API position object according the the current location value.<p>
-     *
-     * @return the position object
-     */
-    protected native JavaScriptObject getCurrentPosition()/*-{
+  /**
+   * Return a maps API position object according the the current location value.
+   *
+   * <p>
+   *
+   * @return the position object
+   */
+  protected native JavaScriptObject getCurrentPosition() /*-{
 		var val = this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_editValue;
 		return new $wnd.google.maps.LatLng(val.lat, val.lng);
 
     }-*/;
 
-    /**
-     * Called on address value change.<p>
-     *
-     * @param address the new address
-     */
-    protected native void onAddressChange(String address) /*-{
+  /**
+   * Called on address value change.
+   *
+   * <p>
+   *
+   * @param address the new address
+   */
+  protected native void onAddressChange(String address) /*-{
 		var self = this;
 		this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_editValue.address = address;
 		this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_geocoder
@@ -289,96 +315,112 @@ public class CmsLocationController {
 						});
     }-*/;
 
-    /**
-     * Called on address suggestion selection.<p>
-     *
-     * @param suggestion the selected suggestion
-     */
-    protected void onAddressChange(SuggestOracle.Suggestion suggestion) {
+  /**
+   * Called on address suggestion selection.
+   *
+   * <p>
+   *
+   * @param suggestion the selected suggestion
+   */
+  protected void onAddressChange(SuggestOracle.Suggestion suggestion) {
 
-        try {
-            onAddressChange(suggestion.getDisplayString());
-        } catch (Throwable t) {
-            CmsErrorDialog.handleException(t);
-        }
+    try {
+      onAddressChange(suggestion.getDisplayString());
+    } catch (Throwable t) {
+      CmsErrorDialog.handleException(t);
     }
+  }
 
-    /**
-     * Cancels the location selection.<p>
-     */
-    protected void onCancel() {
+  /**
+   * Cancels the location selection.
+   *
+   * <p>
+   */
+  protected void onCancel() {
 
-        m_popup.hide();
-        if (m_currentValue != null) {
-            m_editValue = m_currentValue;
-        }
-        displayValue();
+    m_popup.hide();
+    if (m_currentValue != null) {
+      m_editValue = m_currentValue;
     }
+    displayValue();
+  }
 
-    /**
-     * Called on height value change.<p>
-     *
-     * @param height the height
-     */
-    protected void onHeightChange(String height) {
+  /**
+   * Called on height value change.
+   *
+   * <p>
+   *
+   * @param height the height
+   */
+  protected void onHeightChange(String height) {
 
-        m_editValue.setHeight(height);
+    m_editValue.setHeight(height);
+  }
+
+  /**
+   * Called on latitude value change.
+   *
+   * <p>
+   *
+   * @param latitude the latitude
+   */
+  protected void onLatitudeChange(String latitude) {
+
+    try {
+      m_editValue.setLatitude(latitude);
+      updateMarkerPosition();
+      updateAddress();
+    } catch (Throwable t) {
+      CmsErrorDialog.handleException(t);
     }
+  }
 
-    /**
-     * Called on latitude value change.<p>
-     *
-     * @param latitude the latitude
-     */
-    protected void onLatitudeChange(String latitude) {
+  /**
+   * Called on longitude value change.
+   *
+   * <p>
+   *
+   * @param longitude the longitude
+   */
+  protected void onLongitudeChange(String longitude) {
 
-        try {
-            m_editValue.setLatitude(latitude);
-            updateMarkerPosition();
-            updateAddress();
-        } catch (Throwable t) {
-            CmsErrorDialog.handleException(t);
-        }
+    try {
+      m_editValue.setLongitude(longitude);
+      updateMarkerPosition();
+      updateAddress();
+    } catch (Throwable t) {
+      CmsErrorDialog.handleException(t);
     }
+  }
 
-    /**
-     * Called on longitude value change.<p>
-     *
-     * @param longitude the longitude
-     */
-    protected void onLongitudeChange(String longitude) {
+  /**
+   * Called on mode value change.
+   *
+   * <p>
+   *
+   * @param mode the mode
+   */
+  protected void onModeChange(String mode) {
 
-        try {
-            m_editValue.setLongitude(longitude);
-            updateMarkerPosition();
-            updateAddress();
-        } catch (Throwable t) {
-            CmsErrorDialog.handleException(t);
-        }
-    }
+    m_editValue.setMode(mode);
+  }
 
-    /**
-     * Called on mode value change.<p>
-     *
-     * @param mode the mode
-     */
-    protected void onModeChange(String mode) {
+  /**
+   * Sets the selected location value.
+   *
+   * <p>
+   */
+  protected void onOk() {
 
-        m_editValue.setMode(mode);
-    }
+    ensureFormattedAddress();
+  }
 
-    /**
-     * Sets the selected location value.<p>
-     */
-    protected void onOk() {
-
-        ensureFormattedAddress();
-    }
-
-    /**
-     * Ensures the preview map has the right size and is centered.<p>
-     */
-    protected native void onPreviewResize()/*-{
+  /**
+   * Ensures the preview map has the right size and is centered.
+   *
+   * <p>
+   */
+  protected native void onPreviewResize() /*-{
 		var map = this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_previewMap;
 		if (map != null) {
 			$wnd.google.maps.event.trigger(map, 'resize');
@@ -387,33 +429,39 @@ public class CmsLocationController {
 		}
     }-*/;
 
-    /**
-     * Called on map type change.<p>
-     *
-     * @param type the map type
-     */
-    protected native void onTypeChange(String type)/*-{
+  /**
+   * Called on map type change.
+   *
+   * <p>
+   *
+   * @param type the map type
+   */
+  protected native void onTypeChange(String type) /*-{
 		this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_editValue.type = type;
 		this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_map
 				.setMapTypeId(type);
     }-*/;
 
-    /**
-     * Called on width value change.<p>
-     *
-     * @param width the width
-     */
-    protected void onWidthChange(String width) {
+  /**
+   * Called on width value change.
+   *
+   * <p>
+   *
+   * @param width the width
+   */
+  protected void onWidthChange(String width) {
 
-        m_editValue.setWidth(width);
-    }
+    m_editValue.setWidth(width);
+  }
 
-    /**
-     * Called on zoom value change.<p>
-     *
-     * @param zoom the zoom
-     */
-    protected native void onZoomChange(String zoom) /*-{
+  /**
+   * Called on zoom value change.
+   *
+   * <p>
+   *
+   * @param zoom the zoom
+   */
+  protected native void onZoomChange(String zoom) /*-{
 		var z = parseInt(zoom);
 		if (!isNaN(z)) {
 			this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_editValue.zoom = z;
@@ -425,25 +473,29 @@ public class CmsLocationController {
 		}
     }-*/;
 
-    /**
-    * Fires the value change event for the location picker.<p>
-    *
-    * @param force <code>true</code> to always fire the event
-    */
-    void fireChangeEventOnPicker(boolean force) {
+  /**
+   * Fires the value change event for the location picker.
+   *
+   * <p>
+   *
+   * @param force <code>true</code> to always fire the event
+   */
+  void fireChangeEventOnPicker(boolean force) {
 
-        String val = m_editValue.toJSONString();
-        if (force || (m_currentValue == null) || !val.equals(m_currentValue.toJSONString())) {
-            m_currentValue = m_editValue.cloneValue();
-            displayValue();
-            ValueChangeEvent.fire(m_picker, val);
-        }
+    String val = m_editValue.toJSONString();
+    if (force || (m_currentValue == null) || !val.equals(m_currentValue.toJSONString())) {
+      m_currentValue = m_editValue.cloneValue();
+      displayValue();
+      ValueChangeEvent.fire(m_picker, val);
     }
+  }
 
-    /**
-     * Displays the map for the current location.<p>
-     */
-    native void initMap() /*-{
+  /**
+   * Displays the map for the current location.
+   *
+   * <p>
+   */
+  native void initMap() /*-{
 		try {
 			if (this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_map == null) {
 				var value = this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_editValue;
@@ -472,81 +524,97 @@ public class CmsLocationController {
 		this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::updateMarkerPosition()();
     }-*/;
 
-    /**
-     * Opens the location picker popup.<p>
-     */
-    void openPopup() {
+  /**
+   * Opens the location picker popup.
+   *
+   * <p>
+   */
+  void openPopup() {
 
-        try {
-            if (m_popup == null) {
-                m_popup = new CmsPopup(Messages.get().key(Messages.GUI_LOCATION_DIALOG_TITLE_0), hasMap() ? 1020 : 420);
-                m_popupContent = new CmsLocationPopupContent(
-                    this,
-                    new CmsLocationSuggestOracle(this),
-                    getModeItems(),
-                    getTypeItems(),
-                    getZoomItems());
-                setFieldVisibility();
-                m_popup.setMainContent(m_popupContent);
-                m_popup.addDialogClose(null);
-            }
-            m_popup.center();
-            m_popup.show();
-            initialize();
-            updateForm();
-        } catch (Throwable t) {
-            CmsErrorDialog.handleException(t);
-        }
+    try {
+      if (m_popup == null) {
+        m_popup =
+            new CmsPopup(
+                Messages.get().key(Messages.GUI_LOCATION_DIALOG_TITLE_0), hasMap() ? 1020 : 420);
+        m_popupContent =
+            new CmsLocationPopupContent(
+                this,
+                new CmsLocationSuggestOracle(this),
+                getModeItems(),
+                getTypeItems(),
+                getZoomItems());
+        setFieldVisibility();
+        m_popup.setMainContent(m_popupContent);
+        m_popup.addDialogClose(null);
+      }
+      m_popup.center();
+      m_popup.show();
+      initialize();
+      updateForm();
+    } catch (Throwable t) {
+      CmsErrorDialog.handleException(t);
     }
+  }
 
-    /**
-     * Displays the values within the picker widget.<p>
-     */
-    private void displayValue() {
+  /**
+   * Displays the values within the picker widget.
+   *
+   * <p>
+   */
+  private void displayValue() {
 
-        if (m_currentValue == null) {
-            m_picker.displayValue("");
-            m_picker.setPreviewVisible(false);
-            m_picker.setLocationInfo(Collections.<String, String> emptyMap());
-        } else {
-            m_picker.displayValue(m_editValue.getAddress());
-            Map<String, String> infos = new LinkedHashMap<String, String>();
-            if (hasLatLng()) {
-                infos.put(Messages.get().key(Messages.GUI_LOCATION_LATITUDE_0), m_editValue.getLatitudeString());
-                infos.put(Messages.get().key(Messages.GUI_LOCATION_LONGITUDE_0), m_editValue.getLongitudeString());
-                infos.put(Messages.get().key(Messages.GUI_LOCATION_ZOOM_0), String.valueOf(m_editValue.getZoom()));
-            }
-            if (hasSize()) {
-                infos.put(
-                    Messages.get().key(Messages.GUI_LOCATION_SIZE_0),
-                    m_editValue.getWidth() + " x " + m_editValue.getHeight());
-            }
-            if (hasType()) {
-                infos.put(Messages.get().key(Messages.GUI_LOCATION_TYPE_0), m_editValue.getType());
-            }
-            if (hasMode()) {
-                infos.put(Messages.get().key(Messages.GUI_LOCATION_MODE_0), m_editValue.getMode());
-            }
-            m_picker.setLocationInfo(infos);
-            m_picker.setPreviewVisible(true);
-            if (!isApiLoaded()) {
+    if (m_currentValue == null) {
+      m_picker.displayValue("");
+      m_picker.setPreviewVisible(false);
+      m_picker.setLocationInfo(Collections.<String, String>emptyMap());
+    } else {
+      m_picker.displayValue(m_editValue.getAddress());
+      Map<String, String> infos = new LinkedHashMap<String, String>();
+      if (hasLatLng()) {
+        infos.put(
+            Messages.get().key(Messages.GUI_LOCATION_LATITUDE_0), m_editValue.getLatitudeString());
+        infos.put(
+            Messages.get().key(Messages.GUI_LOCATION_LONGITUDE_0),
+            m_editValue.getLongitudeString());
+        infos.put(
+            Messages.get().key(Messages.GUI_LOCATION_ZOOM_0),
+            String.valueOf(m_editValue.getZoom()));
+      }
+      if (hasSize()) {
+        infos.put(
+            Messages.get().key(Messages.GUI_LOCATION_SIZE_0),
+            m_editValue.getWidth() + " x " + m_editValue.getHeight());
+      }
+      if (hasType()) {
+        infos.put(Messages.get().key(Messages.GUI_LOCATION_TYPE_0), m_editValue.getType());
+      }
+      if (hasMode()) {
+        infos.put(Messages.get().key(Messages.GUI_LOCATION_MODE_0), m_editValue.getMode());
+      }
+      m_picker.setLocationInfo(infos);
+      m_picker.setPreviewVisible(true);
+      if (!isApiLoaded()) {
 
-                onApiReady(new Command() {
+        onApiReady(
+            new Command() {
 
-                    public void execute() {
+              public void execute() {
 
-                        return;
-                    }
-                });
-            }
-        }
+                return;
+              }
+            });
+      }
     }
+  }
 
-    /**
-     * Checks the current address with the google geocoder to ensure a well formatted address.<p>
-     * Will close the picker popup afterwards.<p>
-     */
-    private native void ensureFormattedAddress()/*-{
+  /**
+   * Checks the current address with the google geocoder to ensure a well formatted address.
+   *
+   * <p>Will close the picker popup afterwards.
+   *
+   * <p>
+   */
+  private native void ensureFormattedAddress() /*-{
 		var self = this;
 		var address = self.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_editValue.address;
 		if (address != null && address.trim().length > 0) {
@@ -568,165 +636,197 @@ public class CmsLocationController {
 		self.@org.opencms.gwt.client.ui.input.location.CmsLocationController::fireChangeAndClose()();
     }-*/;
 
-    /**
-     * Fires the value change event and closes the picker popup.<p>
-     */
-    private void fireChangeAndClose() {
+  /**
+   * Fires the value change event and closes the picker popup.
+   *
+   * <p>
+   */
+  private void fireChangeAndClose() {
 
-        fireChangeEventOnPicker(false);
-        m_popup.hide();
-    }
+    fireChangeEventOnPicker(false);
+    m_popup.hide();
+  }
 
-    /**
-     * Returns the Google API key.<p>
-     *
-     * @return the Google API key
-     */
-    private native String getAPIKey()/*-{
+  /**
+   * Returns the Google API key.
+   *
+   * <p>
+   *
+   * @return the Google API key
+   */
+  private native String getAPIKey() /*-{
 		return this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_config.apiKey;
     }-*/;
 
-    /**
-     * Returns the Google API key message.<p>
-     *
-     * @return the Google API key message
-     */
-    private native String getAPIKeyMessage()/*-{
+  /**
+   * Returns the Google API key message.
+   *
+   * <p>
+   *
+   * @return the Google API key message
+   */
+  private native String getAPIKeyMessage() /*-{
 		return this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_config.apiKeyMessage;
     }-*/;
 
-    /**
-     * Returns the value display string.<p>
-     *
-     * @return the value
-     */
-    private String getDisplayString() {
+  /**
+   * Returns the value display string.
+   *
+   * <p>
+   *
+   * @return the value
+   */
+  private String getDisplayString() {
 
-        return Messages.get().key(
+    return Messages.get()
+        .key(
             Messages.GUI_LOCATION_DISPLAY_3,
             m_editValue.getAddress(),
             m_editValue.getLatitudeString(),
             m_editValue.getLongitudeString());
-    }
+  }
 
-    /**
-     * Evaluates if the address field is configured.<p>
-     *
-     * @return <code>true</code> if the address field is configured
-     */
-    private native boolean hasAddress()/*-{
+  /**
+   * Evaluates if the address field is configured.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the address field is configured
+   */
+  private native boolean hasAddress() /*-{
 		return this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_config.edit
 				.indexOf('address') != -1;
     }-*/;
 
-    /**
-     * Evaluates if the Google API key is configured.<p>
-     *
-     * @return <code>true</code> if the Google API key is configured
-     */
-    private native boolean hasAPIKey()/*-{
+  /**
+   * Evaluates if the Google API key is configured.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the Google API key is configured
+   */
+  private native boolean hasAPIKey() /*-{
 		return this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_config != null
 				&& this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_config.apiKey != null;
     }-*/;
 
-    /**
-     * Evaluates if the lat. lng. fields are configured.<p>
-     *
-     * @return <code>true</code> if the lat. lng. fields are configured
-     */
-    private native boolean hasLatLng()/*-{
+  /**
+   * Evaluates if the lat. lng. fields are configured.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the lat. lng. fields are configured
+   */
+  private native boolean hasLatLng() /*-{
 		return this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_config.edit
 				.indexOf('coords') != -1;
     }-*/;
 
-    /**
-     * Evaluates if the map field is configured.<p>
-     *
-     * @return <code>true</code> if the map field is configured
-     */
-    private native boolean hasMap()/*-{
+  /**
+   * Evaluates if the map field is configured.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the map field is configured
+   */
+  private native boolean hasMap() /*-{
 		return this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_config.edit
 				.indexOf('map') != -1;
     }-*/;
 
-    /**
-     * Evaluates if the mode field is configured.<p>
-     *
-     * @return <code>true</code> if the mode field is configured
-     */
-    private native boolean hasMode()/*-{
+  /**
+   * Evaluates if the mode field is configured.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the mode field is configured
+   */
+  private native boolean hasMode() /*-{
 		return this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_config.edit
 				.indexOf('mode') != -1;
     }-*/;
 
-    /**
-     * Evaluates if the size fields are configured.<p>
-     *
-     * @return <code>true</code> if the size fields are configured
-     */
-    private native boolean hasSize()/*-{
+  /**
+   * Evaluates if the size fields are configured.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the size fields are configured
+   */
+  private native boolean hasSize() /*-{
 		return this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_config.edit
 				.indexOf('size') != -1;
     }-*/;
 
-    /**
-     * Evaluates if the type field is configured.<p>
-     *
-     * @return <code>true</code> if the type field is configured
-     */
-    private native boolean hasType()/*-{
+  /**
+   * Evaluates if the type field is configured.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the type field is configured
+   */
+  private native boolean hasType() /*-{
 		return this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_config.edit
 				.indexOf('type') != -1;
     }-*/;
 
-    /**
-     * Evaluates if the zoom field is configured.<p>
-     *
-     * @return <code>true</code> if the zoom field is configured
-     */
-    private native boolean hasZoom()/*-{
+  /**
+   * Evaluates if the zoom field is configured.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the zoom field is configured
+   */
+  private native boolean hasZoom() /*-{
 		return this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_config.edit
 				.indexOf('zoom') != -1;
     }-*/;
 
-    /**
-     * Adds a CSS style rule to display the localized error message on missing API key.<p>
-     */
-    private void initDynamicStyle() {
+  /**
+   * Adds a CSS style rule to display the localized error message on missing API key.
+   *
+   * <p>
+   */
+  private void initDynamicStyle() {
 
-        if (!m_hasInsertedDynamicStyle) {
-            String message = Messages.get().key(Messages.ERR_LOCATION_MISSING_API_KEY_1, "\\a");
-            message.replace("<br />", "\\\\a");
-            CmsDomUtil.addDynamicStyleRule(
-                "div.gm-err-content:after, div.mapPreview > div > div:empty:after{ content:'"
-                    + message
-                    + "' !important; }");
-            m_hasInsertedDynamicStyle = true;
-        }
+    if (!m_hasInsertedDynamicStyle) {
+      String message = Messages.get().key(Messages.ERR_LOCATION_MISSING_API_KEY_1, "\\a");
+      message.replace("<br />", "\\\\a");
+      CmsDomUtil.addDynamicStyleRule(
+          "div.gm-err-content:after, div.mapPreview > div > div:empty:after{ content:'"
+              + message
+              + "' !important; }");
+      m_hasInsertedDynamicStyle = true;
     }
+  }
 
-    /**
-     * Initializes the location picker.<p>
-     */
-    private void initialize() {
+  /**
+   * Initializes the location picker.
+   *
+   * <p>
+   */
+  private void initialize() {
 
-        if (isApiLoaded()) {
-            initMap();
-        } else {
-            onApiReady(new Command() {
+    if (isApiLoaded()) {
+      initMap();
+    } else {
+      onApiReady(
+          new Command() {
 
-                public void execute() {
+            public void execute() {
 
-                    initMap();
-                }
-            });
-        }
+              initMap();
+            }
+          });
     }
+  }
 
-    /**
-     * Loads the google maps API and initializes the map afterwards.<p>
-     */
-    private native void loadApi()/*-{
+  /**
+   * Loads the google maps API and initializes the map afterwards.
+   *
+   * <p>
+   */
+  private native void loadApi() /*-{
 		$wnd.cmsLocationPickerApiReady = function() {
 			@org.opencms.gwt.client.ui.input.location.CmsLocationController::apiReady()();
 		}
@@ -752,73 +852,85 @@ public class CmsLocationController {
 		$wnd.document.body.appendChild(script);
     }-*/;
 
-    /**
-     * Adds a callback to be executed once the API is ready. Will be executed right away if the API is already loaded.<p>
-     *
-     * @param callback the callback
-     */
-    private void onApiReady(Command callback) {
+  /**
+   * Adds a callback to be executed once the API is ready. Will be executed right away if the API is
+   * already loaded.
+   *
+   * <p>
+   *
+   * @param callback the callback
+   */
+  private void onApiReady(Command callback) {
 
-        if (isApiLoaded()) {
-            callback.execute();
-        } else {
-            onApiReady.add(callback);
-            if (!loadingApi) {
-                loadingApi = true;
-                loadApi();
-            }
-        }
+    if (isApiLoaded()) {
+      callback.execute();
+    } else {
+      onApiReady.add(callback);
+      if (!loadingApi) {
+        loadingApi = true;
+        loadApi();
+      }
     }
+  }
 
-    /**
-     * Parses the configuration string.<p>
-     *
-     * @param configuration the configuration
-     */
-    private native void parseConfig(String configuration)/*-{
+  /**
+   * Parses the configuration string.
+   *
+   * <p>
+   *
+   * @param configuration the configuration
+   */
+  private native void parseConfig(String configuration) /*-{
 		this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_config = JSON
 				.parse(configuration);
     }-*/;
 
-    /**
-     * Sets all editable fields visible.<p>
-     */
-    private void setFieldVisibility() {
+  /**
+   * Sets all editable fields visible.
+   *
+   * <p>
+   */
+  private void setFieldVisibility() {
 
-        m_popupContent.setMapVisible(hasMap());
-        m_popupContent.setAddressVisible(hasAddress());
-        m_popupContent.setLatLngVisible(hasLatLng());
-        m_popupContent.setSizeVisible(hasSize());
-        m_popupContent.setTypeVisible(hasType());
-        m_popupContent.setModeVisible(hasMode());
-        m_popupContent.setZoomVisible(hasZoom());
+    m_popupContent.setMapVisible(hasMap());
+    m_popupContent.setAddressVisible(hasAddress());
+    m_popupContent.setLatLngVisible(hasLatLng());
+    m_popupContent.setSizeVisible(hasSize());
+    m_popupContent.setTypeVisible(hasType());
+    m_popupContent.setModeVisible(hasMode());
+    m_popupContent.setZoomVisible(hasZoom());
+  }
+
+  /**
+   * Sets the position values and updates the map view.
+   *
+   * <p>
+   *
+   * @param latitude the latitude
+   * @param longitude the longitude
+   * @param updateMap <code>true</code> to update the map
+   * @param updateAddress <code>true</code> to update the address from the new position data
+   */
+  private void setPosition(
+      float latitude, float longitude, boolean updateMap, boolean updateAddress) {
+
+    m_editValue.setLatitude(latitude);
+    m_editValue.setLongitude(longitude);
+    m_popupContent.displayValues(m_editValue);
+    if (updateMap) {
+      updateMarkerPosition();
     }
-
-    /**
-     * Sets the position values and updates the map view.<p>
-     *
-     * @param latitude the latitude
-     * @param longitude the longitude
-     * @param updateMap <code>true</code> to update the map
-     * @param updateAddress <code>true</code> to update the address from the new position data
-     */
-    private void setPosition(float latitude, float longitude, boolean updateMap, boolean updateAddress) {
-
-        m_editValue.setLatitude(latitude);
-        m_editValue.setLongitude(longitude);
-        m_popupContent.displayValues(m_editValue);
-        if (updateMap) {
-            updateMarkerPosition();
-        }
-        if (updateAddress) {
-            updateAddress();
-        }
+    if (updateAddress) {
+      updateAddress();
     }
+  }
 
-    /**
-     * Updates the address according to the current position data.<p>
-     */
-    private native void updateAddress()/*-{
+  /**
+   * Updates the address according to the current position data.
+   *
+   * <p>
+   */
+  private native void updateAddress() /*-{
 		var self = this;
 		var pos = this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::getCurrentPosition()();
 		// try to evaluate the address from the current position
@@ -843,18 +955,22 @@ public class CmsLocationController {
 						});
     }-*/;
 
-    /**
-     * Displays the current location value within the popup form.<p>
-     */
-    private void updateForm() {
+  /**
+   * Displays the current location value within the popup form.
+   *
+   * <p>
+   */
+  private void updateForm() {
 
-        m_popupContent.displayValues(m_editValue);
-    }
+    m_popupContent.displayValues(m_editValue);
+  }
 
-    /**
-     * Updates the marker position according to the current location value.<p>
-     */
-    private native void updateMarkerPosition()/*-{
+  /**
+   * Updates the marker position according to the current location value.
+   *
+   * <p>
+   */
+  private native void updateMarkerPosition() /*-{
 		var map = this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_map;
 		var pos = this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::getCurrentPosition()();
 		var marker = this.@org.opencms.gwt.client.ui.input.location.CmsLocationController::m_marker;
@@ -886,5 +1002,4 @@ public class CmsLocationController {
 		map.panTo(pos);
 		map.setCenter(pos);
     }-*/;
-
 }

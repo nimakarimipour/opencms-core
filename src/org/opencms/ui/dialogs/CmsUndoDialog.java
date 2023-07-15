@@ -27,6 +27,16 @@
 
 package org.opencms.ui.dialogs;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.OptionGroup;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProject;
 import org.opencms.file.CmsResource;
@@ -47,250 +57,244 @@ import org.opencms.ui.components.CmsOkCancelActionHandler;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.explorer.CmsResourceUtil;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.v7.ui.CheckBox;
-import com.vaadin.v7.ui.Label;
-import com.vaadin.v7.ui.OptionGroup;
-
 /**
- * Dialog used to change resource modification times.<p>
+ * Dialog used to change resource modification times.
+ *
+ * <p>
  */
 public class CmsUndoDialog extends CmsBasicDialog {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsUndoDialog.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsUndoDialog.class);
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The dialog context. */
-    protected I_CmsDialogContext m_context;
+  /** The dialog context. */
+  protected I_CmsDialogContext m_context;
 
-    /** The Cancel button. */
-    private Button m_cancelButton;
+  /** The Cancel button. */
+  private Button m_cancelButton;
 
-    /** Check box to enable/disable modification of children. */
-    private OptionGroup m_modifySubresourcesField;
+  /** Check box to enable/disable modification of children. */
+  private OptionGroup m_modifySubresourcesField;
 
-    /** The OK  button. */
-    private Button m_okButton;
+  /** The OK button. */
+  private Button m_okButton;
 
-    /** Label with info text. */
-    private Label m_infoText;
+  /** Label with info text. */
+  private Label m_infoText;
 
-    /** Label for displaying last modification date / user. */
-    private Label m_modifiedText;
+  /** Label for displaying last modification date / user. */
+  private Label m_modifiedText;
 
-    /** The date selection field. */
-    private CheckBox m_undoMoveField;
+  /** The date selection field. */
+  private CheckBox m_undoMoveField;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param context the dialog context
-     */
-    public CmsUndoDialog(I_CmsDialogContext context) {
-        m_context = context;
-        CmsVaadinUtils.readAndLocalizeDesign(
-            this,
-            OpenCms.getWorkplaceManager().getMessages(A_CmsUI.get().getLocale()),
-            null);
-        m_infoText.setValue(
-            CmsVaadinUtils.getMessageText(org.opencms.workplace.commons.Messages.GUI_UNDO_CONFIRMATION_0));
-        boolean hasFolders = false;
-        boolean hasMoved = false;
-        if (context.getResources().size() == 1) {
-            CmsResource singleRes = context.getResources().get(0);
-            CmsResourceUtil resUtil = new CmsResourceUtil(context.getCms(), singleRes);
-            String fileName = CmsResource.getName(singleRes.getRootPath());
-            String date = CmsVfsService.formatDateTime(context.getCms(), singleRes.getDateLastModified());
-            String user = resUtil.getUserLastModified();
-            String key = org.opencms.workplace.commons.Messages.GUI_UNDO_LASTMODIFIED_INFO_3;
-            String message = CmsVaadinUtils.getMessageText(key, fileName, date, user);
-            m_modifiedText.setVisible(true);
-            m_modifiedText.setValue(message);
-        }
-        for (CmsResource resource : context.getResources()) {
-            if (resource.isFolder()) {
-                hasFolders = true;
-                break;
-            } else {
-                try {
-                    CmsObject cms = OpenCms.initCmsObject(context.getCms());
-                    cms.getRequestContext().setCurrentProject(cms.readProject(CmsProject.ONLINE_PROJECT_ID));
-                    CmsResource onlineres = cms.readResource(resource.getStructureId());
-                    hasMoved |= !onlineres.getRootPath().equals(resource.getRootPath());
-                } catch (CmsException e) {
-                    LOG.warn(e.getLocalizedMessage(), e);
-                }
-            }
-        }
-
-        boolean multi = context.getResources().size() > 1;
-        String undoMessage = getUndoMessage(multi, hasFolders);
-        m_infoText.setValue(undoMessage);
-        m_modifySubresourcesField.setVisible(hasFolders);
-        m_modifySubresourcesField.addItem("false");
-        m_modifySubresourcesField.setItemCaption("false", getNonRecursiveMessage(multi, hasFolders));
-        m_modifySubresourcesField.addItem("true");
-        m_modifySubresourcesField.setItemCaption("true", getRecursiveMessage(multi, hasFolders));
-        m_modifySubresourcesField.setValue("false");
-
-        m_undoMoveField.setVisible(hasFolders || hasMoved);
-        m_cancelButton.addClickListener(new ClickListener() {
-
-            private static final long serialVersionUID = 1L;
-
-            public void buttonClick(ClickEvent event) {
-
-                cancel();
-            }
-
-        });
-
-        m_okButton.addClickListener(new ClickListener() {
-
-            private static final long serialVersionUID = 1L;
-
-            public void buttonClick(ClickEvent event) {
-
-                undo();
-
-            }
-        });
-        displayResourceInfo(m_context.getResources());
-
-        setActionHandler(new CmsOkCancelActionHandler() {
-
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected void cancel() {
-
-                CmsUndoDialog.this.cancel();
-            }
-
-            @Override
-            protected void ok() {
-
-                undo();
-            }
-        });
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param context the dialog context
+   */
+  public CmsUndoDialog(I_CmsDialogContext context) {
+    m_context = context;
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, OpenCms.getWorkplaceManager().getMessages(A_CmsUI.get().getLocale()), null);
+    m_infoText.setValue(
+        CmsVaadinUtils.getMessageText(
+            org.opencms.workplace.commons.Messages.GUI_UNDO_CONFIRMATION_0));
+    boolean hasFolders = false;
+    boolean hasMoved = false;
+    if (context.getResources().size() == 1) {
+      CmsResource singleRes = context.getResources().get(0);
+      CmsResourceUtil resUtil = new CmsResourceUtil(context.getCms(), singleRes);
+      String fileName = CmsResource.getName(singleRes.getRootPath());
+      String date = CmsVfsService.formatDateTime(context.getCms(), singleRes.getDateLastModified());
+      String user = resUtil.getUserLastModified();
+      String key = org.opencms.workplace.commons.Messages.GUI_UNDO_LASTMODIFIED_INFO_3;
+      String message = CmsVaadinUtils.getMessageText(key, fileName, date, user);
+      m_modifiedText.setVisible(true);
+      m_modifiedText.setValue(message);
     }
-
-    /**
-     * Undoes the changes.<p>
-     */
-    protected void undo() {
-
+    for (CmsResource resource : context.getResources()) {
+      if (resource.isFolder()) {
+        hasFolders = true;
+        break;
+      } else {
         try {
-            boolean recursive = Boolean.parseBoolean(m_modifySubresourcesField.getValue().toString());
-            boolean undoMove = m_undoMoveField.getValue().booleanValue();
-            CmsObject cms = m_context.getCms();
-            Set<CmsUUID> updateResources = new HashSet<CmsUUID>();
-            for (CmsResource resource : m_context.getResources()) {
-                updateResources.add(resource.getStructureId());
-                if (undoMove) {
-                    // in case a move is undone, add the former parent folder
-                    updateResources.add(cms.readParentFolder(resource.getStructureId()).getStructureId());
-                }
-                CmsLockActionRecord actionRecord = null;
-                try {
-                    actionRecord = CmsLockUtil.ensureLock(m_context.getCms(), resource);
-                    CmsResourceUndoMode mode = CmsResourceUndoMode.getUndoMode(undoMove, recursive);
-                    cms.undoChanges(cms.getSitePath(resource), mode);
-                    if (undoMove) {
-                        // in case a move is undone, also add the new parent folder
-                        updateResources.add(cms.readParentFolder(resource.getStructureId()).getStructureId());
-                    }
-                } finally {
-                    if ((actionRecord != null) && (actionRecord.getChange() == LockChange.locked)) {
-                        try {
-                            m_context.getCms().unlockResource(cms.readResource(resource.getStructureId()));
-                        } catch (CmsLockException e) {
-                            LOG.warn(e.getLocalizedMessage(), e);
-                        }
-                    }
-
-                }
-
-            }
-            m_context.finish(updateResources);
-        } catch (Exception e) {
-            m_context.error(e);
+          CmsObject cms = OpenCms.initCmsObject(context.getCms());
+          cms.getRequestContext().setCurrentProject(cms.readProject(CmsProject.ONLINE_PROJECT_ID));
+          CmsResource onlineres = cms.readResource(resource.getStructureId());
+          hasMoved |= !onlineres.getRootPath().equals(resource.getRootPath());
+        } catch (CmsException e) {
+          LOG.warn(e.getLocalizedMessage(), e);
         }
-
+      }
     }
 
-    /**
-     * Cancels the dialog.<p>
-     */
-    void cancel() {
+    boolean multi = context.getResources().size() > 1;
+    String undoMessage = getUndoMessage(multi, hasFolders);
+    m_infoText.setValue(undoMessage);
+    m_modifySubresourcesField.setVisible(hasFolders);
+    m_modifySubresourcesField.addItem("false");
+    m_modifySubresourcesField.setItemCaption("false", getNonRecursiveMessage(multi, hasFolders));
+    m_modifySubresourcesField.addItem("true");
+    m_modifySubresourcesField.setItemCaption("true", getRecursiveMessage(multi, hasFolders));
+    m_modifySubresourcesField.setValue("false");
 
-        m_context.finish(new ArrayList<CmsUUID>());
+    m_undoMoveField.setVisible(hasFolders || hasMoved);
+    m_cancelButton.addClickListener(
+        new ClickListener() {
+
+          private static final long serialVersionUID = 1L;
+
+          public void buttonClick(ClickEvent event) {
+
+            cancel();
+          }
+        });
+
+    m_okButton.addClickListener(
+        new ClickListener() {
+
+          private static final long serialVersionUID = 1L;
+
+          public void buttonClick(ClickEvent event) {
+
+            undo();
+          }
+        });
+    displayResourceInfo(m_context.getResources());
+
+    setActionHandler(
+        new CmsOkCancelActionHandler() {
+
+          private static final long serialVersionUID = 1L;
+
+          @Override
+          protected void cancel() {
+
+            CmsUndoDialog.this.cancel();
+          }
+
+          @Override
+          protected void ok() {
+
+            undo();
+          }
+        });
+  }
+
+  /**
+   * Undoes the changes.
+   *
+   * <p>
+   */
+  protected void undo() {
+
+    try {
+      boolean recursive = Boolean.parseBoolean(m_modifySubresourcesField.getValue().toString());
+      boolean undoMove = m_undoMoveField.getValue().booleanValue();
+      CmsObject cms = m_context.getCms();
+      Set<CmsUUID> updateResources = new HashSet<CmsUUID>();
+      for (CmsResource resource : m_context.getResources()) {
+        updateResources.add(resource.getStructureId());
+        if (undoMove) {
+          // in case a move is undone, add the former parent folder
+          updateResources.add(cms.readParentFolder(resource.getStructureId()).getStructureId());
+        }
+        CmsLockActionRecord actionRecord = null;
+        try {
+          actionRecord = CmsLockUtil.ensureLock(m_context.getCms(), resource);
+          CmsResourceUndoMode mode = CmsResourceUndoMode.getUndoMode(undoMove, recursive);
+          cms.undoChanges(cms.getSitePath(resource), mode);
+          if (undoMove) {
+            // in case a move is undone, also add the new parent folder
+            updateResources.add(cms.readParentFolder(resource.getStructureId()).getStructureId());
+          }
+        } finally {
+          if ((actionRecord != null) && (actionRecord.getChange() == LockChange.locked)) {
+            try {
+              m_context.getCms().unlockResource(cms.readResource(resource.getStructureId()));
+            } catch (CmsLockException e) {
+              LOG.warn(e.getLocalizedMessage(), e);
+            }
+          }
+        }
+      }
+      m_context.finish(updateResources);
+    } catch (Exception e) {
+      m_context.error(e);
     }
+  }
 
-    /**
-     * Gets the message for the non-recursive modification option.<p>
-     *
-     * @param multi true if selection contains multiple resources
-     * @param hasFolder true if selection contains a folder
-     *
-     * @return the message text
-     */
-    String getNonRecursiveMessage(boolean multi, boolean hasFolder) {
+  /**
+   * Cancels the dialog.
+   *
+   * <p>
+   */
+  void cancel() {
 
-        return CmsVaadinUtils.getMessageText(key("GUI_UNDO_NONRECURSIVE_", multi, hasFolder));
+    m_context.finish(new ArrayList<CmsUUID>());
+  }
 
-    }
+  /**
+   * Gets the message for the non-recursive modification option.
+   *
+   * <p>
+   *
+   * @param multi true if selection contains multiple resources
+   * @param hasFolder true if selection contains a folder
+   * @return the message text
+   */
+  String getNonRecursiveMessage(boolean multi, boolean hasFolder) {
 
-    /**
-     * Gets the message for the recursive modification option.<p>
-     *
-     * @param multi true if selection contains multiple resources
-     * @param hasFolder true if selection contains a folder
-     *
-     * @return the message text
-     */
-    String getRecursiveMessage(boolean multi, boolean hasFolder) {
+    return CmsVaadinUtils.getMessageText(key("GUI_UNDO_NONRECURSIVE_", multi, hasFolder));
+  }
 
-        return CmsVaadinUtils.getMessageText(key("GUI_UNDO_RECURSIVE_", multi, hasFolder));
+  /**
+   * Gets the message for the recursive modification option.
+   *
+   * <p>
+   *
+   * @param multi true if selection contains multiple resources
+   * @param hasFolder true if selection contains a folder
+   * @return the message text
+   */
+  String getRecursiveMessage(boolean multi, boolean hasFolder) {
 
-    }
+    return CmsVaadinUtils.getMessageText(key("GUI_UNDO_RECURSIVE_", multi, hasFolder));
+  }
 
-    /**
-     * Gets the undo message.<p>
-     *
-     * @param multi true if selection contains multiple resources
-     * @param hasFolder true if selection contains a folder
-     *
-     * @return the message text
-     */
-    String getUndoMessage(boolean multi, boolean hasFolder) {
+  /**
+   * Gets the undo message.
+   *
+   * <p>
+   *
+   * @param multi true if selection contains multiple resources
+   * @param hasFolder true if selection contains a folder
+   * @return the message text
+   */
+  String getUndoMessage(boolean multi, boolean hasFolder) {
 
-        return CmsVaadinUtils.getMessageText(key("GUI_UNDO_", multi, hasFolder));
-    }
+    return CmsVaadinUtils.getMessageText(key("GUI_UNDO_", multi, hasFolder));
+  }
 
-    /**
-     * Generates message key for a given combination of prefix, multi/single file , and folder/ no folder.<p>
-     *
-     * @param prefix the key prefix
-     * @param multi true if we have a multi-resource selection case
-     * @param hasFolder true if the selection contains a foldr
-     *
-     * @return the message key for the given input parameters
-     */
-    private String key(String prefix, boolean multi, boolean hasFolder) {
+  /**
+   * Generates message key for a given combination of prefix, multi/single file , and folder/ no
+   * folder.
+   *
+   * <p>
+   *
+   * @param prefix the key prefix
+   * @param multi true if we have a multi-resource selection case
+   * @param hasFolder true if the selection contains a foldr
+   * @return the message key for the given input parameters
+   */
+  private String key(String prefix, boolean multi, boolean hasFolder) {
 
-        return prefix + (multi ? "MULTI" : "SINGLE") + "_" + (hasFolder ? "FOLDER" : "FILE") + "_0";
-    }
-
+    return prefix + (multi ? "MULTI" : "SINGLE") + "_" + (hasFolder ? "FOLDER" : "FILE") + "_0";
+  }
 }

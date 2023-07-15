@@ -33,102 +33,106 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
 /**
- * Start gallery preference.<p>
+ * Start gallery preference.
+ *
+ * <p>
  */
 public class CmsStartGallleryPreference extends A_CmsPreference {
 
-    /** The default value. */
-    private String m_value;
+  /** The default value. */
+  private String m_value;
 
-    /** Prefix used for editor preference settings. */
-    public static final String GALLERY_PREFIX = "gallery.";
+  /** Prefix used for editor preference settings. */
+  public static final String GALLERY_PREFIX = "gallery.";
 
-    /** The gallery type for which this preference controls the start gallery. */
-    private String m_galleryType;
+  /** The gallery type for which this preference controls the start gallery. */
+  private String m_galleryType;
 
-    /**
-     * Creates a new instance.<o>
-     * @param galleryType the gallery type
-     * @param value the value
-     */
-    public CmsStartGallleryPreference(String galleryType, String value) {
+  /**
+   * Creates a new instance.<o>
+   *
+   * @param galleryType the gallery type
+   * @param value the value
+   */
+  public CmsStartGallleryPreference(String galleryType, String value) {
 
-        m_galleryType = galleryType;
-        m_value = value;
+    m_galleryType = galleryType;
+    m_value = value;
+  }
+
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue() */
+  public String getDefaultValue() {
+
+    return m_value;
+  }
+
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#getName() */
+  public String getName() {
+
+    return GALLERY_PREFIX + m_galleryType;
+  }
+
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.I_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
+   */
+  @Override
+  public CmsXmlContentProperty getPropertyDefinition() {
+
+    CmsXmlContentProperty prop =
+        new CmsXmlContentProperty(
+            getName(), // name
+            "string", // type
+            null, // widget
+            null, // widgetconfig
+            null, // regex
+            null, // ruletype
+            null, // default
+            null, // nicename
+            null, // description
+            null, // error
+            null // preferfolder
+            );
+    return prop;
+  }
+
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.A_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
+   */
+  @Override
+  public CmsXmlContentProperty getPropertyDefinition(CmsObject cms) {
+
+    return getPropertyDefinition();
+  }
+
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#getTab() */
+  public String getTab() {
+
+    return "hidden";
+  }
+
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.I_CmsPreference#getValue(org.opencms.configuration.CmsDefaultUserSettings)
+   */
+  public String getValue(CmsDefaultUserSettings userSettings) {
+
+    return userSettings.getStartGallery(m_galleryType);
+  }
+
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.I_CmsPreference#setValue(org.opencms.configuration.CmsDefaultUserSettings,
+   *     java.lang.String)
+   */
+  public void setValue(CmsDefaultUserSettings settings, String value) {
+
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value)
+        && value.contains("/")
+        && !(value.endsWith("/"))) {
+      value += "/";
     }
-
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue()
-     */
-    public String getDefaultValue() {
-
-        return m_value;
-    }
-
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getName()
-     */
-    public String getName() {
-
-        return GALLERY_PREFIX + m_galleryType;
-    }
-
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
-     */
-    @Override
-    public CmsXmlContentProperty getPropertyDefinition() {
-
-        CmsXmlContentProperty prop = new CmsXmlContentProperty(
-            getName(), //name
-            "string", //type
-            null, //widget
-            null, //widgetconfig
-            null, //regex
-            null, //ruletype
-            null, //default
-            null, //nicename
-            null, //description
-            null, //error
-            null//preferfolder
-        );
-        return prop;
-    }
-
-    /**
-     * @see org.opencms.configuration.preferences.A_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
-     */
-    @Override
-    public CmsXmlContentProperty getPropertyDefinition(CmsObject cms) {
-
-        return getPropertyDefinition();
-    }
-
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getTab()
-     */
-    public String getTab() {
-
-        return "hidden";
-    }
-
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getValue(org.opencms.configuration.CmsDefaultUserSettings)
-     */
-    public String getValue(CmsDefaultUserSettings userSettings) {
-
-        return userSettings.getStartGallery(m_galleryType);
-    }
-
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#setValue(org.opencms.configuration.CmsDefaultUserSettings, java.lang.String)
-     */
-    public void setValue(CmsDefaultUserSettings settings, String value) {
-
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value) && value.contains("/") && !(value.endsWith("/"))) {
-            value += "/";
-        }
-        settings.setStartGallery(m_galleryType, value);
-    }
-
+    settings.setStartGallery(m_galleryType, value);
+  }
 }

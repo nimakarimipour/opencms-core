@@ -28,60 +28,78 @@
 package org.opencms.gwt.shared;
 
 /**
- * Interface defining the data used to call a content collector.<p>
+ * Interface defining the data used to call a content collector.
+ *
+ * <p>
  */
 public interface I_CmsContentLoadCollectorInfo {
 
-    /**
-     * Returns the collector name.<p>
-     *
-     * @return the collector name
-     */
-    public String getCollectorName();
+  /**
+   * Returns the collector name.
+   *
+   * <p>
+   *
+   * @return the collector name
+   */
+  public String getCollectorName();
 
-    /**
-     * Returns the collectorParams.<p>
-     *
-     * @return the collectorParams
-     */
-    public String getCollectorParams();
+  /**
+   * Returns the collectorParams.
+   *
+   * <p>
+   *
+   * @return the collectorParams
+   */
+  public String getCollectorParams();
 
-    /**
-     * Sets the collectorName.<p>
-     *
-     * @param collectorName the collectorName to set
-     */
-    public void setCollectorName(String collectorName);
+  /**
+   * Sets the collectorName.
+   *
+   * <p>
+   *
+   * @param collectorName the collectorName to set
+   */
+  public void setCollectorName(String collectorName);
 
-    /**
-     * Sets the collectorParams.<p>
-     *
-     * @param collectorParams the collectorParams to set
-     */
-    public void setCollectorParams(String collectorParams);
+  /**
+   * Sets the collectorParams.
+   *
+   * <p>
+   *
+   * @param collectorParams the collectorParams to set
+   */
+  public void setCollectorParams(String collectorParams);
 
-    /** Returns the fully qualified class name of the used collector. It has to be specified only if the collector name is not set.
-     * @return the fully qualified class name of the used collector.
-     */
-    String getCollectorClass();
+  /**
+   * Returns the fully qualified class name of the used collector. It has to be specified only if
+   * the collector name is not set.
+   *
+   * @return the fully qualified class name of the used collector.
+   */
+  String getCollectorClass();
 
-    /**
-     * Gets the id.<p>
-     *
-     * @return the id
-     */
-    String getId();
+  /**
+   * Gets the id.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  String getId();
 
-    /** Sets the class name to identify the collector implementation.
-     * @param className the fully qualified class name.
-     */
-    void setCollectorClass(String className);
+  /**
+   * Sets the class name to identify the collector implementation.
+   *
+   * @param className the fully qualified class name.
+   */
+  void setCollectorClass(String className);
 
-    /**
-     * Sets the id.<p>
-     *
-     * @param id the id
-     */
-    void setId(String id);
-
+  /**
+   * Sets the id.
+   *
+   * <p>
+   *
+   * @param id the id
+   */
+  void setId(String id);
 }

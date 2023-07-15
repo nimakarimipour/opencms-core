@@ -27,68 +27,74 @@
 
 package org.opencms.widgets;
 
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.i18n.CmsMessages;
 
-import java.util.List;
-
 /**
- * Enables a dynamic configuration of values for the {@link CmsVfsImageWidget}.<p>
+ * Enables a dynamic configuration of values for the {@link CmsVfsImageWidget}.
  *
- * The following values can be configured dynamically:
+ * <p>The following values can be configured dynamically:
+ *
  * <ul>
- * <li>The list of image format values for the corresponding format names</li>
- * <li>The type of the preselected image list (gallery or category)</li>
- * <li>The preselected image list (i.e. a gallery folder or category)</li>
+ *   <li>The list of image format values for the corresponding format names
+ *   <li>The type of the preselected image list (gallery or category)
+ *   <li>The preselected image list (i.e. a gallery folder or category)
  * </ul>
  *
  * @since 7.5.0
  */
 public interface I_CmsImageWidgetDynamicConfiguration {
 
-    /**
-     * Returns the matching format values for the given format select options.<p>
-     *
-     * A format value should look like this:
-     * <ul>
-     * <li>320x480: The width and height as fixed values</li>
-     * <li>320x?: A fixed width and dynamic height</li>
-     * </ul>
-     *
-     * @param cms an initialized instance of a CmsObject
-     * @param widgetDialog the dialog where the widget is used on
-     * @param param the widget parameter to generate the widget for
-     * @param selectFormat the list of format select options ({@link CmsSelectWidgetOption}) for the widget
-     * @param formatValues the list of predefined format values for the widget
-     * @return  the matching format values for the given format select options
-     */
-    List<String> getFormatValues(
-        CmsObject cms,
-        CmsMessages widgetDialog,
-        I_CmsWidgetParameter param,
-        List<CmsSelectWidgetOption> selectFormat,
-        List<String> formatValues);
+  /**
+   * Returns the matching format values for the given format select options.
+   *
+   * <p>A format value should look like this:
+   *
+   * <ul>
+   *   <li>320x480: The width and height as fixed values
+   *   <li>320x?: A fixed width and dynamic height
+   * </ul>
+   *
+   * @param cms an initialized instance of a CmsObject
+   * @param widgetDialog the dialog where the widget is used on
+   * @param param the widget parameter to generate the widget for
+   * @param selectFormat the list of format select options ({@link CmsSelectWidgetOption}) for the
+   *     widget
+   * @param formatValues the list of predefined format values for the widget
+   * @return the matching format values for the given format select options
+   */
+  List<String> getFormatValues(
+      CmsObject cms,
+      CmsMessages widgetDialog,
+      I_CmsWidgetParameter param,
+      List<CmsSelectWidgetOption> selectFormat,
+      List<String> formatValues);
 
-    /**
-     * Returns the required information for the initial image list to load.<p>
-     *
-     * If a gallery should be shown, the path to the gallery must be specified,
-     * for a category the category path.<p>
-     *
-     * @param cms an initialized instance of a CmsObject
-     * @param widgetDialog the dialog where the widget is used on
-     * @param param the widget parameter to generate the widget for
-     * @return the required information for the initial image list to load
-     */
-    String getStartup(CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param);
+  /**
+   * Returns the required information for the initial image list to load.
+   *
+   * <p>If a gallery should be shown, the path to the gallery must be specified, for a category the
+   * category path.
+   *
+   * <p>
+   *
+   * @param cms an initialized instance of a CmsObject
+   * @param widgetDialog the dialog where the widget is used on
+   * @param param the widget parameter to generate the widget for
+   * @return the required information for the initial image list to load
+   */
+  String getStartup(CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param);
 
-    /**
-     * Returns the type of the initial image list to load, either gallery or category.<p>
-     *
-     * @param cms an initialized instance of a CmsObject
-     * @param widgetDialog the dialog where the widget is used on
-     * @param param the widget parameter to generate the widget for
-     * @return the type of the initial image list to load, either gallery or category
-     */
-    String getType(CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param);
+  /**
+   * Returns the type of the initial image list to load, either gallery or category.
+   *
+   * <p>
+   *
+   * @param cms an initialized instance of a CmsObject
+   * @param widgetDialog the dialog where the widget is used on
+   * @param param the widget parameter to generate the widget for
+   * @return the type of the initial image list to load, either gallery or category
+   */
+  String getType(CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param);
 }

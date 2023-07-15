@@ -32,94 +32,113 @@ import org.opencms.i18n.I_CmsMessageBundle;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.
+ *
  * <p>
  *
  * @since 7.5.1
  */
 public final class Messages extends A_CmsMessageBundle {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LIST_PROPERTYVIEW_COL_ICON_HELP_0 = "GUI_LIST_PROPERTYVIEW_COL_ICON_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LIST_PROPERTYVIEW_COL_ICON_HELP_0 =
+      "GUI_LIST_PROPERTYVIEW_COL_ICON_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LIST_PROPERTYVIEW_COL_ICON_NAME_0 = "GUI_LIST_PROPERTYVIEW_COL_ICON_NAME_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LIST_PROPERTYVIEW_COL_ICON_NAME_0 =
+      "GUI_LIST_PROPERTYVIEW_COL_ICON_NAME_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LIST_PROPERTYVIEW_COL_ID_HELP_0 = "GUI_LIST_PROPERTYVIEW_COL_ID_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LIST_PROPERTYVIEW_COL_ID_HELP_0 =
+      "GUI_LIST_PROPERTYVIEW_COL_ID_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LIST_PROPERTYVIEW_COL_ID_NAME_0 = "GUI_LIST_PROPERTYVIEW_COL_ID_NAME_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LIST_PROPERTYVIEW_COL_ID_NAME_0 =
+      "GUI_LIST_PROPERTYVIEW_COL_ID_NAME_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LIST_PROPERTYVIEW_COL_PATH_HELP_0 = "GUI_LIST_PROPERTYVIEW_COL_PATH_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LIST_PROPERTYVIEW_COL_PATH_HELP_0 =
+      "GUI_LIST_PROPERTYVIEW_COL_PATH_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LIST_PROPERTYVIEW_COL_PATH_NAME_0 = "GUI_LIST_PROPERTYVIEW_COL_PATH_NAME_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LIST_PROPERTYVIEW_COL_PATH_NAME_0 =
+      "GUI_LIST_PROPERTYVIEW_COL_PATH_NAME_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LIST_PROPERTYVIEW_COL_PROPERTY_HELP_0 = "GUI_LIST_PROPERTYVIEW_COL_PROPERTY_HELP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LIST_PROPERTYVIEW_COL_PROPERTY_HELP_0 =
+      "GUI_LIST_PROPERTYVIEW_COL_PROPERTY_HELP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LIST_PROPERTYVIEW_COL_PROPERTY_NAME_1 = "GUI_LIST_PROPERTYVIEW_COL_PROPERTY_NAME_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LIST_PROPERTYVIEW_COL_PROPERTY_NAME_1 =
+      "GUI_LIST_PROPERTYVIEW_COL_PROPERTY_NAME_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LIST_PROPERTYVIEW_NAME_0 = "GUI_LIST_PROPERTYVIEW_NAME_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LIST_PROPERTYVIEW_NAME_0 = "GUI_LIST_PROPERTYVIEW_NAME_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_LIST_PROPERTYVIEW_NOTFOUND_0 = "GUI_LIST_PROPERTYVIEW_NOTFOUND_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_LIST_PROPERTYVIEW_NOTFOUND_0 = "GUI_LIST_PROPERTYVIEW_NOTFOUND_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_MODULES_DETAIL_DIALOG_MESSAGE_0 = "GUI_MODULES_DETAIL_DIALOG_MESSAGE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_MODULES_DETAIL_DIALOG_MESSAGE_0 =
+      "GUI_MODULES_DETAIL_DIALOG_MESSAGE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_PROPERTYVIEW_ADMIN_TOOL_BLOCK_0 = "GUI_PROPERTYVIEW_ADMIN_TOOL_BLOCK_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_PROPERTYVIEW_ADMIN_TOOL_BLOCK_0 =
+      "GUI_PROPERTYVIEW_ADMIN_TOOL_BLOCK_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_ERR_PROPERTYVIEWER_READALLPROPS_0 = "LOG_ERR_PROPERTYVIEWER_READALLPROPS_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_ERR_PROPERTYVIEWER_READALLPROPS_0 =
+      "LOG_ERR_PROPERTYVIEWER_READALLPROPS_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_ERR_PROPERTYVIEWER_READONEPROP_2 = "LOG_ERR_PROPERTYVIEWER_READONEPROP_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_ERR_PROPERTYVIEWER_READONEPROP_2 =
+      "LOG_ERR_PROPERTYVIEWER_READONEPROP_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_ERR_PROPERTYVIEWER_READRESOURCES_0 = "LOG_ERR_PROPERTYVIEWER_READRESOURCES_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_ERR_PROPERTYVIEWER_READRESOURCES_0 =
+      "LOG_ERR_PROPERTYVIEWER_READRESOURCES_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String LOG_ERR_PROPERTYVIEWER_READSIBL_1 = "LOG_ERR_PROPERTYVIEWER_READSIBL_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String LOG_ERR_PROPERTYVIEWER_READSIBL_1 =
+      "LOG_ERR_PROPERTYVIEWER_READSIBL_1";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.workplace.tools.content.propertyviewer.messages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME =
+      "org.opencms.workplace.tools.content.propertyviewer.messages";
 
-    /** Static instance member. */
-    private static final I_CmsMessageBundle INSTANCE = new Messages();
+  /** Static instance member. */
+  private static final I_CmsMessageBundle INSTANCE = new Messages();
 
-    /**
-     * Hides the public constructor for this utility class.
-     * <p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
-    }
+    // hide the constructor
+  }
 
-    /**
-     * Returns an instance of this localized message accessor.
-     * <p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static I_CmsMessageBundle get() {
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static I_CmsMessageBundle get() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the bundle name for this OpenCms package.
-     * <p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
 
-        return BUNDLE_NAME;
-    }
+    return BUNDLE_NAME;
+  }
 }

@@ -27,75 +27,81 @@
 
 package org.opencms.util;
 
+import com.google.common.collect.Lists;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 /**
- * Generic tree node which can contain an object of generic type T as data, and which has a mutable list
- * of child nodes.
+ * Generic tree node which can contain an object of generic type T as data, and which has a mutable
+ * list of child nodes.
  *
  * @param <T> the type of data associated with the tree node
  */
 public class CmsTreeNode<T> {
 
-    /** The list of child nodes. */
-    private List<CmsTreeNode<T>> m_children = Lists.newArrayList();
+  /** The list of child nodes. */
+  private List<CmsTreeNode<T>> m_children = Lists.newArrayList();
 
-    /** The data associated with this node. */
-    private T m_data;
+  /** The data associated with this node. */
+  private T m_data;
 
-    /**
-     * Adds a child node.<p>
-     *
-     * @param cmsTreeNode the child node to add
-     */
-    public void addChild(CmsTreeNode<T> cmsTreeNode) {
+  /**
+   * Adds a child node.
+   *
+   * <p>
+   *
+   * @param cmsTreeNode the child node to add
+   */
+  public void addChild(CmsTreeNode<T> cmsTreeNode) {
 
-        m_children.add(cmsTreeNode);
+    m_children.add(cmsTreeNode);
+  }
+
+  /**
+   * Adds the enclosed data of this node and its children to the given list, in preorder.
+   *
+   * @param result the list to add the data to
+   */
+  public void addDataInPreOrder(List<T> result) {
+
+    result.add(m_data);
+    for (CmsTreeNode<T> child : m_children) {
+      child.addDataInPreOrder(result);
     }
+  }
 
-    /**
-     * Adds the enclosed data of this node and its children to the given list, in preorder.
-     *
-     * @param result the list to add the data to
-     */
-    public void addDataInPreOrder(List<T> result) {
+  /**
+   * Gets the (mutable) list of child nodes.
+   *
+   * <p>
+   *
+   * @return the list of child nodes
+   */
+  public List<CmsTreeNode<T>> getChildren() {
 
-        result.add(m_data);
-        for (CmsTreeNode<T> child : m_children) {
-            child.addDataInPreOrder(result);
-        }
-    }
+    return m_children;
+  }
 
-    /**
-     * Gets the (mutable) list of child nodes.<p>
-     *
-     * @return the list of child nodes
-     */
-    public List<CmsTreeNode<T>> getChildren() {
+  /**
+   * Gets the data associated with this node.
+   *
+   * <p>
+   *
+   * @return the data for this node
+   */
+  public T getData() {
 
-        return m_children;
-    }
+    return m_data;
+  }
 
-    /**
-     * Gets the data associated with this node.<p>
-     *
-     * @return the data for this node
-     */
-    public T getData() {
+  /**
+   * Sets the data for this node.
+   *
+   * <p>
+   *
+   * @param data the data to set
+   */
+  public void setData(T data) {
 
-        return m_data;
-    }
-
-    /**
-     * Sets the data for this node.<p>
-     *
-     * @param data the data to set
-     */
-    public void setData(T data) {
-
-        m_data = data;
-    }
-
+    m_data = data;
+  }
 }

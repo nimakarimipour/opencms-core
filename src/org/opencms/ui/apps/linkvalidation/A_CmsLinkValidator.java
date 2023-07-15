@@ -27,83 +27,95 @@
 
 package org.opencms.ui.apps.linkvalidation;
 
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.ui.components.CmsResourceTable.I_ResourcePropertyProvider;
 import org.opencms.ui.components.CmsResourceTableProperty;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import com.vaadin.v7.data.Item;
-import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
-
 /**
- * Validator for links.<p>
+ * Validator for links.
+ *
+ * <p>
  */
 public abstract class A_CmsLinkValidator implements I_ResourcePropertyProvider {
 
-    /** Property.*/
-    protected CmsResourceTableProperty property;
+  /** Property. */
+  protected CmsResourceTableProperty property;
 
-    /**
-     * Empty constructor.<p>
-     */
-    public A_CmsLinkValidator() {
+  /**
+   * Empty constructor.
+   *
+   * <p>
+   */
+  public A_CmsLinkValidator() {}
 
+  /**
+   * @see
+   *     org.opencms.ui.components.CmsResourceTable.I_ResourcePropertyProvider#addItemProperties(com.vaadin.v7.data.Item,
+   *     org.opencms.file.CmsObject, org.opencms.file.CmsResource, java.util.Locale)
+   */
+  public void addItemProperties(
+      Item resourceItem, CmsObject cms, CmsResource resource, Locale locale) {
+
+    String val = "";
+    if (!CmsStringUtil.isEmptyOrWhitespaceOnly(failMessage(resource))) {
+      val = failMessage(resource);
     }
+    resourceItem.getItemProperty(property).setValue(val);
+  }
 
-    /**
-     * @see org.opencms.ui.components.CmsResourceTable.I_ResourcePropertyProvider#addItemProperties(com.vaadin.v7.data.Item, org.opencms.file.CmsObject, org.opencms.file.CmsResource, java.util.Locale)
-     */
-    public void addItemProperties(Item resourceItem, CmsObject cms, CmsResource resource, Locale locale) {
+  /**
+   * Returns resources which fail the validations.
+   *
+   * <p>
+   *
+   * @param resources to check
+   * @return List of failed resources
+   */
+  public abstract List<CmsResource> failedResources(List<String> resources);
 
-        String val = "";
-        if (!CmsStringUtil.isEmptyOrWhitespaceOnly(failMessage(resource))) {
-            val = failMessage(resource);
-        }
-        resourceItem.getItemProperty(property).setValue(val);
+  /**
+   * Get fail message for resource.
+   *
+   * @param resource to get message for
+   * @return Message
+   */
+  public abstract String failMessage(CmsResource resource);
 
-    }
+  /**
+   * Get click listener
+   *
+   * @return ItemClickListener or null
+   */
+  public abstract ItemClickListener getClickListener();
 
-    /**
-     * Returns resources which fail the validations.<p>
-     *
-     * @param resources to check
-     * @return List of failed resources
-     */
-    public abstract List<CmsResource> failedResources(List<String> resources);
+  /**
+   * Get property Name.
+   *
+   * @return Name of property
+   */
+  public abstract String getPropertyName();
 
-    /**
-     *  Get fail message for resource.
-     * @param resource to get message for
-     * @return Message
-     * */
-    public abstract String failMessage(CmsResource resource);
+  /**
+   * Get all properties.
+   *
+   * @return Map of table properties
+   */
+  public abstract Map<CmsResourceTableProperty, Integer> getTableProperties();
 
-    /** Get click listener
-     * @return ItemClickListener or null
-     * */
-    public abstract ItemClickListener getClickListener();
+  /**
+   * Get table property.
+   *
+   * @return property
+   */
+  public CmsResourceTableProperty getTableProperty() {
 
-    /** Get property Name.
-     * @return Name of property
-     * */
-    public abstract String getPropertyName();
-
-    /** Get all properties.
-     * @return Map of table properties
-     * */
-    public abstract Map<CmsResourceTableProperty, Integer> getTableProperties();
-
-    /**Get  table property.
-     * @return property
-     * */
-    public CmsResourceTableProperty getTableProperty() {
-
-        return property;
-    }
-
+    return property;
+  }
 }

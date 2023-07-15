@@ -27,56 +27,64 @@
 
 package org.opencms.setup.db.update6to7.postgresql;
 
-import org.opencms.setup.CmsSetupDb;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import org.opencms.setup.CmsSetupDb;
 
 /**
- * PostgreSQL implementation to create the history principals table and contents.<p>
+ * PostgreSQL implementation to create the history principals table and contents.
+ *
+ * <p>
  *
  * @since 7.0.2
  */
-public class CmsUpdateDBHistoryPrincipals extends org.opencms.setup.db.update6to7.CmsUpdateDBHistoryPrincipals {
+public class CmsUpdateDBHistoryPrincipals
+    extends org.opencms.setup.db.update6to7.CmsUpdateDBHistoryPrincipals {
 
-    /** Constant for the SQL query properties.<p> */
-    private static final String QUERY_PROPERTY_FILE = "cms_history_principals_queries.properties";
+  /**
+   * Constant for the SQL query properties.
+   *
+   * <p>
+   */
+  private static final String QUERY_PROPERTY_FILE = "cms_history_principals_queries.properties";
 
-    /** Constant for the replacement in the sql query. */
-    private static final String REPLACEMENT_TABLEINDEX_SPACE = "${indexTablespace}";
+  /** Constant for the replacement in the sql query. */
+  private static final String REPLACEMENT_TABLEINDEX_SPACE = "${indexTablespace}";
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the sql queries properties file could not be read
-     */
-    public CmsUpdateDBHistoryPrincipals()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the sql queries properties file could not be read
+   */
+  public CmsUpdateDBHistoryPrincipals() throws IOException {
 
-        super();
-        loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+    super();
+    loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+  }
+
+  /**
+   * @see
+   *     org.opencms.setup.db.update6to7.CmsUpdateDBHistoryPrincipals#createHistPrincipalsTable(org.opencms.setup.CmsSetupDb)
+   */
+  @Override
+  protected void createHistPrincipalsTable(CmsSetupDb dbCon) throws SQLException {
+
+    String indexTablespace = m_poolData.get("indexTablespace");
+
+    System.out.println(new Exception().getStackTrace()[0].toString());
+    if (!dbCon.hasTableOrColumn(TABLE_CMS_HISTORY_PRINCIPALS, null)) {
+      String createStatement = readQuery(QUERY_HISTORY_PRINCIPALS_CREATE_TABLE);
+
+      Map<String, String> replacer = new HashMap<String, String>();
+      replacer.put(REPLACEMENT_TABLEINDEX_SPACE, indexTablespace);
+
+      dbCon.updateSqlStatement(createStatement, replacer, null);
+    } else {
+      System.out.println("table " + TABLE_CMS_HISTORY_PRINCIPALS + " already exists");
     }
-
-    /**
-     * @see org.opencms.setup.db.update6to7.CmsUpdateDBHistoryPrincipals#createHistPrincipalsTable(org.opencms.setup.CmsSetupDb)
-     */
-    @Override
-    protected void createHistPrincipalsTable(CmsSetupDb dbCon) throws SQLException {
-
-        String indexTablespace = m_poolData.get("indexTablespace");
-
-        System.out.println(new Exception().getStackTrace()[0].toString());
-        if (!dbCon.hasTableOrColumn(TABLE_CMS_HISTORY_PRINCIPALS, null)) {
-            String createStatement = readQuery(QUERY_HISTORY_PRINCIPALS_CREATE_TABLE);
-
-            Map<String, String> replacer = new HashMap<String, String>();
-            replacer.put(REPLACEMENT_TABLEINDEX_SPACE, indexTablespace);
-
-            dbCon.updateSqlStatement(createStatement, replacer, null);
-        } else {
-            System.out.println("table " + TABLE_CMS_HISTORY_PRINCIPALS + " already exists");
-        }
-    }
+  }
 }

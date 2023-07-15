@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -31,34 +31,33 @@ import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.rpc.impl.RpcStatsContext;
 import com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter.ResponseReader;
 
 /**
- * Superclass for client-side
- * {@link com.google.gwt.user.client.rpc.RemoteService RemoteService} proxies.
- * 
- * For internal use only.
- * 
- * 
- * IMPORTANT:<p>
- * 
- * Code changes to allow synchronised RPC calls:<p>
- * 
- * Changed function {@link com.google.gwt.user.client.rpc.impl.RemoteServiceProxy#doPrepareRequestBuilderImpl(ResponseReader, String, RpcStatsContext, String, AsyncCallback<T>)}<p>
- * Added function {@link com.google.gwt.user.client.rpc.impl.RemoteServiceProxy#isSync(String)}<p>
+ * Superclass for client-side {@link com.google.gwt.user.client.rpc.RemoteService RemoteService}
+ * proxies.
+ *
+ * <p>For internal use only.
+ *
+ * <p>IMPORTANT:
+ *
+ * <p>Code changes to allow synchronised RPC calls:
+ *
+ * <p>Changed function {@link
+ * com.google.gwt.user.client.rpc.impl.RemoteServiceProxy#doPrepareRequestBuilderImpl(ResponseReader,
+ * String, RpcStatsContext, String, AsyncCallback<T>)}
+ *
+ * <p>Added function {@link com.google.gwt.user.client.rpc.impl.RemoteServiceProxy#isSync(String)}
+ *
+ * <p>
  */
-public abstract class RemoteServiceProxy implements SerializationStreamFactory,
-    ServiceDefTarget, HasRpcToken {
+public abstract class RemoteServiceProxy
+    implements SerializationStreamFactory, ServiceDefTarget, HasRpcToken {
 
-  /**
-   * The content type to be used in HTTP requests.
-   */
+  /** The content type to be used in HTTP requests. */
   private static final String RPC_CONTENT_TYPE = "text/x-gwt-rpc; charset=utf-8";
-  
-  /**
-   * A helper class that prepares the service to serialize data.
-   */
+
+  /** A helper class that prepares the service to serialize data. */
   public class ServiceHelper {
 
     private final String fullServiceName;
@@ -72,36 +71,33 @@ public abstract class RemoteServiceProxy implements SerializationStreamFactory,
       this.statsContext = new RpcStatsContext();
     }
 
-    /**
-     * Finishes the serialization.
-     */
+    /** Finishes the serialization. */
     public Request finish(AsyncCallback callback, ResponseReader responseHeader)
         throws SerializationException {
       String payload = streamWriter.toString();
-      boolean toss = statsContext.isStatsAvailable()
-          && statsContext.stats(statsContext.timeStat(fullServiceName,  "requestSerialized"));
+      boolean toss =
+          statsContext.isStatsAvailable()
+              && statsContext.stats(statsContext.timeStat(fullServiceName, "requestSerialized"));
       return doInvoke(responseHeader, fullServiceName, statsContext, payload, callback);
     }
 
-    /**
-     * Finishes the serialization and return a RequestBuilder.
-     */
-    public RequestBuilder finishForRequestBuilder(AsyncCallback callback,
-        ResponseReader responseHeader) throws SerializationException {
+    /** Finishes the serialization and return a RequestBuilder. */
+    public RequestBuilder finishForRequestBuilder(
+        AsyncCallback callback, ResponseReader responseHeader) throws SerializationException {
       String payload = streamWriter.toString();
-      boolean toss = statsContext.isStatsAvailable()
-          && statsContext.stats(statsContext.timeStat(fullServiceName,  "requestSerialized"));
+      boolean toss =
+          statsContext.isStatsAvailable()
+              && statsContext.stats(statsContext.timeStat(fullServiceName, "requestSerialized"));
       return doPrepareRequestBuilder(
           responseHeader, fullServiceName, statsContext, payload, callback);
     }
 
-    /**
-     * Starts the serialization.
-     */
-    public SerializationStreamWriter start(String remoteServiceInterfaceName,
-        int paramCount) throws SerializationException {
-      boolean toss = statsContext.isStatsAvailable()
-          && statsContext.stats(statsContext.timeStat(fullServiceName, "begin"));
+    /** Starts the serialization. */
+    public SerializationStreamWriter start(String remoteServiceInterfaceName, int paramCount)
+        throws SerializationException {
+      boolean toss =
+          statsContext.isStatsAvailable()
+              && statsContext.stats(statsContext.timeStat(fullServiceName, "begin"));
       streamWriter = createStreamWriter();
       if (getRpcToken() != null) {
         streamWriter.writeObject(getRpcToken());
@@ -113,12 +109,9 @@ public abstract class RemoteServiceProxy implements SerializationStreamFactory,
     }
   }
 
-  /**
-   * @deprecated use {@link RpcStatsContext}.
-   */
+  /** @deprecated use {@link RpcStatsContext}. */
   @Deprecated
-  public static JavaScriptObject bytesStat(String method, int count,
-      int bytes, String eventType) {
+  public static JavaScriptObject bytesStat(String method, int count, int bytes, String eventType) {
     return new RpcStatsContext(count).bytesStat(method, bytes, eventType);
   }
 
@@ -133,8 +126,7 @@ public abstract class RemoteServiceProxy implements SerializationStreamFactory,
   }
 
   /**
-   * Always use this as {@link #isStatsAvailable()} &amp;&amp;
-   * {@link #stats(JavaScriptObject)}.
+   * Always use this as {@link #isStatsAvailable()} &amp;&amp; {@link #stats(JavaScriptObject)}.
    *
    * @deprecated use {link RpcStatsContext}.
    */
@@ -143,59 +135,52 @@ public abstract class RemoteServiceProxy implements SerializationStreamFactory,
     return new RpcStatsContext(0).stats(data);
   }
 
-  /**
-   * @deprecated use {@link RpcStatsContext}.
-   */
+  /** @deprecated use {@link RpcStatsContext}. */
   @Deprecated
-  public static JavaScriptObject timeStat(String method, int count,
-      String eventType) {
+  public static JavaScriptObject timeStat(String method, int count, String eventType) {
     return new RpcStatsContext(count).timeStat(method, eventType);
   }
 
-  /**
-   * @deprected use {@link RpcStatsContext}.
-   */
+  /** @deprected use {@link RpcStatsContext}. */
   @Deprecated
   protected static int getNextRequestId() {
     return RpcStatsContext.getNextRequestId();
   }
 
-  /**
-   * @deprecated Use {@link RpcRequestBuilder} instead.
-   */
+  /** @deprecated Use {@link RpcRequestBuilder} instead. */
   @Deprecated
   protected static int getRequestId() {
     return RpcStatsContext.getLastRequestId();
   }
 
   /**
-   * Return <code>true</code> if the encoded response contains a value returned
-   * by the method invocation.
-   * 
+   * Return <code>true</code> if the encoded response contains a value returned by the method
+   * invocation.
+   *
    * @param encodedResponse
-   * @return <code>true</code> if the encoded response contains a value returned
-   *         by the method invocation
+   * @return <code>true</code> if the encoded response contains a value returned by the method
+   *     invocation
    */
   static boolean isReturnValue(String encodedResponse) {
     return encodedResponse.startsWith("//OK");
   }
 
   /**
-   * Return <code>true</code> if the encoded response contains a checked
-   * exception that was thrown by the method invocation.
-   * 
+   * Return <code>true</code> if the encoded response contains a checked exception that was thrown
+   * by the method invocation.
+   *
    * @param encodedResponse
-   * @return <code>true</code> if the encoded response contains a checked
-   *         exception that was thrown by the method invocation
+   * @return <code>true</code> if the encoded response contains a checked exception that was thrown
+   *     by the method invocation
    */
   static boolean isThrownException(String encodedResponse) {
     return encodedResponse.startsWith("//EX");
   }
 
   /**
-   * Returns a string that encodes the result of a method invocation.
-   * Effectively, this just removes any headers from the encoded response.
-   * 
+   * Returns a string that encodes the result of a method invocation. Effectively, this just removes
+   * any headers from the encoded response.
+   *
    * @param encodedResponse
    * @return string that encodes the result of a method invocation
    */
@@ -207,15 +192,10 @@ public abstract class RemoteServiceProxy implements SerializationStreamFactory,
     return encodedResponse;
   }
 
-  /**
-   * The module base URL as specified during construction.
-   */
+  /** The module base URL as specified during construction. */
   private final String moduleBaseURL;
 
-  /**
-   * URL of the {@link com.google.gwt.user.client.rpc.RemoteService
-   * RemoteService}.
-   */
+  /** URL of the {@link com.google.gwt.user.client.rpc.RemoteService RemoteService}. */
   private String remoteServiceURL;
 
   private RpcRequestBuilder rpcRequestBuilder;
@@ -223,20 +203,17 @@ public abstract class RemoteServiceProxy implements SerializationStreamFactory,
   private RpcToken rpcToken;
 
   private RpcTokenExceptionHandler rpcTokenExceptionHandler;
-  
-  /**
-   * The name of the serialization policy file specified during construction.
-   */
+
+  /** The name of the serialization policy file specified during construction. */
   private final String serializationPolicyName;
 
-  /**
-   * The {@link Serializer} instance used to serialize and deserialize
-   * instances.
-   */
+  /** The {@link Serializer} instance used to serialize and deserialize instances. */
   private final Serializer serializer;
 
-  protected RemoteServiceProxy(String moduleBaseURL,
-      String remoteServiceRelativePath, String serializationPolicyName,
+  protected RemoteServiceProxy(
+      String moduleBaseURL,
+      String remoteServiceRelativePath,
+      String serializationPolicyName,
       Serializer serializer) {
     this.moduleBaseURL = moduleBaseURL;
     if (remoteServiceRelativePath != null) {
@@ -255,61 +232,53 @@ public abstract class RemoteServiceProxy implements SerializationStreamFactory,
   /**
    * Returns a {@link com.google.gwt.user.client.rpc.SerializationStreamReader
    * SerializationStreamReader} that is ready for reading.
-   * 
+   *
    * @param encoded string that encodes the response of an RPC request
    * @return {@link com.google.gwt.user.client.rpc.SerializationStreamReader
-   *         SerializationStreamReader} that is ready for reading
+   *     SerializationStreamReader} that is ready for reading
    * @throws SerializationException
    */
   public SerializationStreamReader createStreamReader(String encoded)
       throws SerializationException {
-    ClientSerializationStreamReader clientSerializationStreamReader = new ClientSerializationStreamReader(
-        serializer);
+    ClientSerializationStreamReader clientSerializationStreamReader =
+        new ClientSerializationStreamReader(serializer);
     clientSerializationStreamReader.prepareToRead(getEncodedInstance(encoded));
     return clientSerializationStreamReader;
   }
 
   /**
    * Returns a {@link com.google.gwt.user.client.rpc.SerializationStreamWriter
-   * SerializationStreamWriter} that has had
-   * {@link ClientSerializationStreamWriter#prepareToWrite()} called on it and
-   * it has already had had the name of the remote service interface written as
-   * well.
-   * 
+   * SerializationStreamWriter} that has had {@link
+   * ClientSerializationStreamWriter#prepareToWrite()} called on it and it has already had had the
+   * name of the remote service interface written as well.
+   *
    * @return {@link com.google.gwt.user.client.rpc.SerializationStreamWriter
-   *         SerializationStreamWriter} that has had
-   *         {@link ClientSerializationStreamWriter#prepareToWrite()} called on
-   *         it and it has already had had the name of the remote service
-   *         interface written as well
+   *     SerializationStreamWriter} that has had {@link
+   *     ClientSerializationStreamWriter#prepareToWrite()} called on it and it has already had had
+   *     the name of the remote service interface written as well
    */
   public SerializationStreamWriter createStreamWriter() {
-    ClientSerializationStreamWriter clientSerializationStreamWriter = new ClientSerializationStreamWriter(
-        serializer, moduleBaseURL, serializationPolicyName);
+    ClientSerializationStreamWriter clientSerializationStreamWriter =
+        new ClientSerializationStreamWriter(serializer, moduleBaseURL, serializationPolicyName);
     clientSerializationStreamWriter.prepareToWrite();
     return clientSerializationStreamWriter;
   }
-  
-  /**
-   * @see ServiceDefTarget#getRpcToken()
-   */
+
+  /** @see ServiceDefTarget#getRpcToken() */
   public RpcToken getRpcToken() {
     return rpcToken;
   }
-  
-  /**
-   * @see ServiceDefTarget#getRpcTokenExceptionHandler()
-   */
+
+  /** @see ServiceDefTarget#getRpcTokenExceptionHandler() */
   public RpcTokenExceptionHandler getRpcTokenExceptionHandler() {
     return rpcTokenExceptionHandler;
-  }  
-  
+  }
+
   public String getSerializationPolicyName() {
     return serializationPolicyName;
   }
 
-  /**
-   * @see ServiceDefTarget#getServiceEntryPoint()
-   */
+  /** @see ServiceDefTarget#getServiceEntryPoint() */
   public String getServiceEntryPoint() {
     return remoteServiceURL;
   }
@@ -318,140 +287,136 @@ public abstract class RemoteServiceProxy implements SerializationStreamFactory,
     this.rpcRequestBuilder = builder;
   }
 
-  /**
-   * @see HasRpcToken#setRpcToken(RpcToken)
-   */  
+  /** @see HasRpcToken#setRpcToken(RpcToken) */
   public void setRpcToken(RpcToken token) {
-    checkRpcTokenType(token); 
+    checkRpcTokenType(token);
     this.rpcToken = token;
   }
-  
-  /**
-   * @see HasRpcToken#setRpcTokenExceptionHandler(RpcTokenExceptionHandler)
-   */
+
+  /** @see HasRpcToken#setRpcTokenExceptionHandler(RpcTokenExceptionHandler) */
   public void setRpcTokenExceptionHandler(RpcTokenExceptionHandler handler) {
     this.rpcTokenExceptionHandler = handler;
   }
-  
-  /**
-   * @see ServiceDefTarget#setServiceEntryPoint(String)
-   */
+
+  /** @see ServiceDefTarget#setServiceEntryPoint(String) */
   public void setServiceEntryPoint(String url) {
     this.remoteServiceURL = url;
   }
-  
+
   /**
-   * This method is overridden by generated proxy classes to ensure that
-   * current service's {@link RpcToken} is of the type specified in {@link
-   * RpcToken.RpcTokenImplementation} annotation.
+   * This method is overridden by generated proxy classes to ensure that current service's {@link
+   * RpcToken} is of the type specified in {@link RpcToken.RpcTokenImplementation} annotation.
    *
    * @param token currently set {@link RpcToken}.
    * @throws RpcTokenException if types mismatch.
    */
-  protected void checkRpcTokenType(RpcToken token) {
-  }
+  protected void checkRpcTokenType(RpcToken token) {}
 
   protected <T> RequestCallback doCreateRequestCallback(
-      ResponseReader responseReader, String methodName, RpcStatsContext statsContext,
+      ResponseReader responseReader,
+      String methodName,
+      RpcStatsContext statsContext,
       AsyncCallback<T> callback) {
-    return new RequestCallbackAdapter<T>(this, methodName, statsContext,
-        callback, getRpcTokenExceptionHandler(), responseReader);
+    return new RequestCallbackAdapter<T>(
+        this, methodName, statsContext, callback, getRpcTokenExceptionHandler(), responseReader);
   }
 
   /**
-   * Performs a remote service method invocation. This method is called by
-   * generated proxy classes.
-   * 
+   * Performs a remote service method invocation. This method is called by generated proxy classes.
+   *
    * @param <T> return type for the AsyncCallback
-   * @param responseReader instance used to read the return value of the
-   *          invocation
-   * @param requestData payload that encodes the addressing and arguments of the
-   *          RPC call
+   * @param responseReader instance used to read the return value of the invocation
+   * @param requestData payload that encodes the addressing and arguments of the RPC call
    * @param callback callback handler
-   * 
    * @return a {@link Request} object that can be used to track the request
    */
-  protected <T> Request doInvoke(ResponseReader responseReader,
-      String methodName, RpcStatsContext statsContext, String requestData,
+  protected <T> Request doInvoke(
+      ResponseReader responseReader,
+      String methodName,
+      RpcStatsContext statsContext,
+      String requestData,
       AsyncCallback<T> callback) {
 
-    RequestBuilder rb = doPrepareRequestBuilderImpl(responseReader, methodName,
-        statsContext, requestData, callback);
+    RequestBuilder rb =
+        doPrepareRequestBuilderImpl(
+            responseReader, methodName, statsContext, requestData, callback);
 
     try {
       return rb.send();
     } catch (RequestException ex) {
-        InvocationException iex = new InvocationException(
-            "Unable to initiate the asynchronous service invocation (" +
-            methodName + ") -- check the network connection",
-            ex);
+      InvocationException iex =
+          new InvocationException(
+              "Unable to initiate the asynchronous service invocation ("
+                  + methodName
+                  + ") -- check the network connection",
+              ex);
       callback.onFailure(iex);
     } finally {
       if (statsContext.isStatsAvailable()) {
-        statsContext.stats(statsContext.bytesStat(methodName,
-            requestData.length(), "requestSent"));
+        statsContext.stats(statsContext.bytesStat(methodName, requestData.length(), "requestSent"));
       }
     }
     return null;
   }
 
   /**
-   * Configures a RequestBuilder to send an RPC request when the RequestBuilder
-   * is intended to be returned through the asynchronous proxy interface.
-   * 
+   * Configures a RequestBuilder to send an RPC request when the RequestBuilder is intended to be
+   * returned through the asynchronous proxy interface.
+   *
    * @param <T> return type for the AsyncCallback
-   * @param responseReader instance used to read the return value of the
-   *          invocation
-   * @param requestData payload that encodes the addressing and arguments of the
-   *          RPC call
+   * @param responseReader instance used to read the return value of the invocation
+   * @param requestData payload that encodes the addressing and arguments of the RPC call
    * @param callback callback handler
-   * 
-   * @return a RequestBuilder object that is ready to have its
-   *         {@link RequestBuilder#send()} method invoked.
+   * @return a RequestBuilder object that is ready to have its {@link RequestBuilder#send()} method
+   *     invoked.
    */
   protected <T> RequestBuilder doPrepareRequestBuilder(
-      ResponseReader responseReader, String methodName, RpcStatsContext statsContext,
-      String requestData, AsyncCallback<T> callback) {
+      ResponseReader responseReader,
+      String methodName,
+      RpcStatsContext statsContext,
+      String requestData,
+      AsyncCallback<T> callback) {
 
-    RequestBuilder rb = doPrepareRequestBuilderImpl(responseReader, methodName,
-        statsContext, requestData, callback);
+    RequestBuilder rb =
+        doPrepareRequestBuilderImpl(
+            responseReader, methodName, statsContext, requestData, callback);
 
     return rb;
   }
 
   /**
    * Configures a RequestBuilder to send an RPC request.
-   * 
+   *
    * @param <T> return type for the AsyncCallback
-   * @param responseReader instance used to read the return value of the
-   *          invocation
-   * @param requestData payload that encodes the addressing and arguments of the
-   *          RPC call
+   * @param responseReader instance used to read the return value of the invocation
+   * @param requestData payload that encodes the addressing and arguments of the RPC call
    * @param callback callback handler
-   * 
-   * @return a RequestBuilder object that is ready to have its
-   *         {@link RequestBuilder#send()} method invoked.
+   * @return a RequestBuilder object that is ready to have its {@link RequestBuilder#send()} method
+   *     invoked.
    */
   private <T> RequestBuilder doPrepareRequestBuilderImpl(
-      ResponseReader responseReader, String methodName, RpcStatsContext statsContext,
-      String requestData, AsyncCallback<T> callback) {
+      ResponseReader responseReader,
+      String methodName,
+      RpcStatsContext statsContext,
+      String requestData,
+      AsyncCallback<T> callback) {
 
     if (getServiceEntryPoint() == null) {
       throw new NoServiceEntryPointSpecifiedException();
     }
 
-    RequestCallback responseHandler = doCreateRequestCallback(responseReader,
-        methodName, statsContext, callback);
+    RequestCallback responseHandler =
+        doCreateRequestCallback(responseReader, methodName, statsContext, callback);
 
     ensureRpcRequestBuilder();
 
     rpcRequestBuilder.create(getServiceEntryPoint());
     rpcRequestBuilder.setCallback(responseHandler);
-    
+
     // changed code
     rpcRequestBuilder.setSync(isSync(methodName));
     // changed code
-    
+
     rpcRequestBuilder.setContentType(RPC_CONTENT_TYPE);
     rpcRequestBuilder.setRequestData(requestData);
     rpcRequestBuilder.setRequestId(statsContext.getRequestId());
@@ -463,15 +428,16 @@ public abstract class RemoteServiceProxy implements SerializationStreamFactory,
       rpcRequestBuilder = new RpcRequestBuilder();
     }
   }
-  
+
   /**
-   * Added function to allow syncronised RPC calls by implementations overriding this function.<p>
-   * 
+   * Added function to allow syncronised RPC calls by implementations overriding this function.
+   *
+   * <p>
+   *
    * @param methodName the method name
-   * 
    * @return <code>true</code> to set the method call synchronised
    */
   protected boolean isSync(String methodName) {
-      return false;
+    return false;
   }
 }

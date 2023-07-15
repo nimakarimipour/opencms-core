@@ -30,17 +30,19 @@ package org.opencms.gwt.client.ui.contextmenu;
 import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 
 /**
- * Context menu command with its own visibility check.<p>
+ * Context menu command with its own visibility check.
+ *
+ * <p>
  */
 public interface I_CmsValidatingContextMenuCommand extends I_CmsContextMenuCommand {
 
-    /**
-     * Validates whether the context menu command should be visible.<p>
-     *
-     * @param entry the context menu entry bean
-     *
-     * @return true if the context menu entry should be visible
-     */
-    boolean validate(CmsContextMenuEntryBean entry);
-
+  /**
+   * Validates whether the context menu command should be visible.
+   *
+   * <p>
+   *
+   * @param entry the context menu entry bean
+   * @return true if the context menu entry should be visible
+   */
+  boolean validate(CmsContextMenuEntryBean entry);
 }

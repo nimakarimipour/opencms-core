@@ -27,128 +27,136 @@
 
 package org.opencms.ade.containerpage.client;
 
-import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
-import org.opencms.gwt.shared.CmsClientVariantInfo;
-import org.opencms.gwt.shared.CmsGwtConstants;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
+import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
+import org.opencms.gwt.shared.CmsClientVariantInfo;
+import org.opencms.gwt.shared.CmsGwtConstants;
 
 /**
- * Class used to display a client variant of a template context.<p>
+ * Class used to display a client variant of a template context.
+ *
+ * <p>
  */
 public class CmsClientVariantDisplay {
 
+  /**
+   * Popup subclass which exposes the getGlassElement method.
+   *
+   * <p>
+   */
+  class VariantPopup extends PopupPanel {
+
     /**
-     * Popup subclass which exposes the getGlassElement method.<p>
+     * Creates a new instance.
+     *
+     * <p>
      */
-    class VariantPopup extends PopupPanel {
+    public VariantPopup() {
 
-        /**
-         * Creates a new instance.<p>
-         */
-        public VariantPopup() {
-
-            super(true, true);
-            addStyleName(I_CmsLayoutBundle.INSTANCE.dialogCss().popup());
-            addStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().opencms());
-        }
-
-        /**
-         * @see com.google.gwt.user.client.ui.PopupPanel#getGlassElement()
-         */
-        @Override
-        public Element getGlassElement() {
-
-            return super.getGlassElement();
-        }
+      super(true, true);
+      addStyleName(I_CmsLayoutBundle.INSTANCE.dialogCss().popup());
+      addStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().opencms());
     }
 
-    /** the container page handler. */
-    CmsContainerpageHandler m_containerpageHandler;
+    /** @see com.google.gwt.user.client.ui.PopupPanel#getGlassElement() */
+    @Override
+    public Element getGlassElement() {
 
-    /** The popup. */
-    private VariantPopup m_popup;
-
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param handler the container page handler
-     */
-    public CmsClientVariantDisplay(CmsContainerpageHandler handler) {
-
-        m_containerpageHandler = handler;
+      return super.getGlassElement();
     }
+  }
 
-    /**
-     * Clears a currently displayed popup.<p>
-     *
-     */
-    public void clear() {
+  /** the container page handler. */
+  CmsContainerpageHandler m_containerpageHandler;
 
-        if (m_popup != null) {
-            m_popup.hide();
-        }
-        m_popup = null;
+  /** The popup. */
+  private VariantPopup m_popup;
 
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param handler the container page handler
+   */
+  public CmsClientVariantDisplay(CmsContainerpageHandler handler) {
+
+    m_containerpageHandler = handler;
+  }
+
+  /**
+   * Clears a currently displayed popup.
+   *
+   * <p>
+   */
+  public void clear() {
+
+    if (m_popup != null) {
+      m_popup.hide();
     }
+    m_popup = null;
+  }
 
-    /**
-     * Shows the given context/variant combination.<p>
-     *
-     * @param context the template context
-     * @param info the client variant
-     */
-    public void show(String context, CmsClientVariantInfo info) {
+  /**
+   * Shows the given context/variant combination.
+   *
+   * <p>
+   *
+   * @param context the template context
+   * @param info the client variant
+   */
+  public void show(String context, CmsClientVariantInfo info) {
 
-        clear();
-        String url = buildClientVariantUrl(context, info);
-        CmsClientVariantFrame container = new CmsClientVariantFrame(
-            url,
-            info.getScreenWidth(),
-            info.getScreenHeight(),
-            m_containerpageHandler);
-        VariantPopup popup = new VariantPopup();
-        popup.setGlassEnabled(true);
-        popup.add(container);
-        m_popup = popup;
-        m_popup.getGlassElement().addClassName(I_CmsLayoutBundle.INSTANCE.dialogCss().popupOverlay());
-        m_popup.getGlassElement().addClassName(I_CmsLayoutBundle.INSTANCE.generalCss().opencms());
-        m_popup.getGlassElement().getStyle().setBackgroundColor("white");
-        m_popup.getGlassElement().getStyle().setOpacity(0.8);
-        m_popup.getElement().getStyle().setZIndex(200000);
-        popup.center();
+    clear();
+    String url = buildClientVariantUrl(context, info);
+    CmsClientVariantFrame container =
+        new CmsClientVariantFrame(
+            url, info.getScreenWidth(), info.getScreenHeight(), m_containerpageHandler);
+    VariantPopup popup = new VariantPopup();
+    popup.setGlassEnabled(true);
+    popup.add(container);
+    m_popup = popup;
+    m_popup.getGlassElement().addClassName(I_CmsLayoutBundle.INSTANCE.dialogCss().popupOverlay());
+    m_popup.getGlassElement().addClassName(I_CmsLayoutBundle.INSTANCE.generalCss().opencms());
+    m_popup.getGlassElement().getStyle().setBackgroundColor("white");
+    m_popup.getGlassElement().getStyle().setOpacity(0.8);
+    m_popup.getElement().getStyle().setZIndex(200000);
+    popup.center();
 
-        popup.addCloseHandler(new CloseHandler<PopupPanel>() {
+    popup.addCloseHandler(
+        new CloseHandler<PopupPanel>() {
 
-            public void onClose(CloseEvent<PopupPanel> event) {
+          public void onClose(CloseEvent<PopupPanel> event) {
 
-                m_containerpageHandler.activateSelection();
-            }
+            m_containerpageHandler.activateSelection();
+          }
         });
-    }
+  }
 
-    /**
-     * Builds the URL for the client variant.<p>
-     *
-     * @param context the template context name
-     * @param info the client variant info
-     *
-     * @return the URL for the variant
-     */
-    private String buildClientVariantUrl(String context, CmsClientVariantInfo info) {
+  /**
+   * Builds the URL for the client variant.
+   *
+   * <p>
+   *
+   * @param context the template context name
+   * @param info the client variant info
+   * @return the URL for the variant
+   */
+  private String buildClientVariantUrl(String context, CmsClientVariantInfo info) {
 
-        String currentUrl = Window.Location.getHref();
-        // remove fragment
-        currentUrl = currentUrl.replaceFirst("#.*$", "");
-        String connector = "?";
-        if (currentUrl.indexOf('?') >= 0) {
-            connector = "&";
-        }
-        String targetUrl = currentUrl + connector + CmsGwtConstants.PARAM_TEMPLATE_CONTEXT + "=" + context;
-        return targetUrl;
+    String currentUrl = Window.Location.getHref();
+    // remove fragment
+    currentUrl = currentUrl.replaceFirst("#.*$", "");
+    String connector = "?";
+    if (currentUrl.indexOf('?') >= 0) {
+      connector = "&";
     }
+    String targetUrl =
+        currentUrl + connector + CmsGwtConstants.PARAM_TEMPLATE_CONTEXT + "=" + context;
+    return targetUrl;
+  }
 }

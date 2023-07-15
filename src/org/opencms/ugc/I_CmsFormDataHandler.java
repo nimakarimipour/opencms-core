@@ -30,17 +30,19 @@ package org.opencms.ugc;
 import java.util.Map;
 
 /**
- * Interface for classes which want to process data submitted by form posts.<p>
+ * Interface for classes which want to process data submitted by form posts.
+ *
+ * <p>
  */
 public interface I_CmsFormDataHandler {
 
-    /**
-     * Processes the map of form data.<p>
-     *
-     * @param item a map with the form field names as keys and the corresponding data items as valus
-     *
-     * @throws Exception if something goes wrong
-     */
-    void handleFormData(Map<String, I_CmsFormDataItem> item) throws Exception;
-
+  /**
+   * Processes the map of form data.
+   *
+   * <p>
+   *
+   * @param item a map with the form field names as keys and the corresponding data items as valus
+   * @throws Exception if something goes wrong
+   */
+  void handleFormData(Map<String, I_CmsFormDataItem> item) throws Exception;
 }

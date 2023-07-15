@@ -27,20 +27,23 @@
 
 package org.opencms.ade.contenteditor.widgetregistry.client;
 
+import com.google.gwt.dom.client.Element;
 import org.opencms.acacia.client.I_CmsWidgetFactory;
 import org.opencms.acacia.client.widgets.I_CmsFormEditWidget;
 
-import com.google.gwt.dom.client.Element;
-
 /**
- * Use this widget factory to use stand alone widgets.<p>
+ * Use this widget factory to use stand alone widgets.
+ *
+ * <p>
  */
 public abstract class A_NativeWidgetFactory implements I_CmsWidgetFactory {
 
-    /**
-     * Exports the widget factory.<p>
-     */
-    public native void exportFactory()/*-{
+  /**
+   * Exports the widget factory.
+   *
+   * <p>
+   */
+  public native void exportFactory() /*-{
                                       var self = this;
                                       $wnd[this.@org.opencms.ade.contenteditor.widgetregistry.client.A_NativeWidgetFactory::getInitCallName()()] = function() {
                                       var factory = {
@@ -65,44 +68,49 @@ public abstract class A_NativeWidgetFactory implements I_CmsWidgetFactory {
                                       }
                                       }-*/;
 
-    /**
-     * Returns the name of the initialization call.<p>
-     *
-     * @return the name of the initialization call
-     */
-    protected abstract String getInitCallName();
+  /**
+   * Returns the name of the initialization call.
+   *
+   * <p>
+   *
+   * @return the name of the initialization call
+   */
+  protected abstract String getInitCallName();
 
-    /**
-     * Returns the widget name.<p>
-     *
-     * @return the widget name
-     */
-    protected abstract String getWidgetName();
+  /**
+   * Returns the widget name.
+   *
+   * <p>
+   *
+   * @return the widget name
+   */
+  protected abstract String getWidgetName();
 
-    /**
-     * Creates a widget wrapped in a native java script object.<p>
-     *
-     * @param configuration the widget configuration
-     *
-     * @return the wrapped widget
-     */
-    private NativeEditWidget createNativeWidget(String configuration) {
+  /**
+   * Creates a widget wrapped in a native java script object.
+   *
+   * <p>
+   *
+   * @param configuration the widget configuration
+   * @return the wrapped widget
+   */
+  private NativeEditWidget createNativeWidget(String configuration) {
 
-        I_CmsFormEditWidget widget = createFormWidget(configuration);
-        return NativeEditWidget.wrapWidget(widget, true);
-    }
+    I_CmsFormEditWidget widget = createFormWidget(configuration);
+    return NativeEditWidget.wrapWidget(widget, true);
+  }
 
-    /**
-     * Creates a widget wrapped in a native java script object.<p>
-     *
-     * @param configuration the widget configuration
-     * @param element the element to use
-     *
-     * @return the wrapped widget
-     */
-    private NativeEditWidget createNativeWrapedElement(String configuration, Element element) {
+  /**
+   * Creates a widget wrapped in a native java script object.
+   *
+   * <p>
+   *
+   * @param configuration the widget configuration
+   * @param element the element to use
+   * @return the wrapped widget
+   */
+  private NativeEditWidget createNativeWrapedElement(String configuration, Element element) {
 
-        return NativeEditWidget.wrapWidget(createInlineWidget(configuration, element), false);
-    }
-
+    return NativeEditWidget.wrapWidget(createInlineWidget(configuration, element), false);
+  }
 }

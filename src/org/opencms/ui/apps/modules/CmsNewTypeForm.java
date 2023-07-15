@@ -27,14 +27,13 @@
 
 package org.opencms.ui.apps.modules;
 
-import org.opencms.ui.CmsVaadinUtils;
-
 import com.vaadin.ui.FormLayout;
+import org.opencms.ui.CmsVaadinUtils;
 
 public class CmsNewTypeForm extends FormLayout {
 
-    public CmsNewTypeForm() {
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-    }
-
+  public CmsNewTypeForm() {
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+  }
 }

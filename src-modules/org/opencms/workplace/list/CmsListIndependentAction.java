@@ -33,76 +33,84 @@ import org.opencms.workplace.tools.A_CmsHtmlIconButton;
 import org.opencms.workplace.tools.CmsHtmlIconButtonStyleEnum;
 
 /**
- * Default implementation of a independent action for a html list.<p>
+ * Default implementation of a independent action for a html list.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListIndependentAction extends A_CmsListAction {
 
-    /** List independent action id constant. */
-    public static final String ACTION_EXPLORER_SWITCH_ID = "iaes";
+  /** List independent action id constant. */
+  public static final String ACTION_EXPLORER_SWITCH_ID = "iaes";
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id unique id
-     */
-    public CmsListIndependentAction(String id) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id unique id
+   */
+  public CmsListIndependentAction(String id) {
 
-        super(id);
+    super(id);
+  }
+
+  /**
+   * Help method to resolve the on clic text to use.
+   *
+   * <p>
+   *
+   * @param wp the workplace context
+   * @return the on clic text
+   */
+  protected String resolveOnClic(CmsWorkplace wp) {
+
+    return "listIndepAction('"
+        + getListId()
+        + "','"
+        + getId()
+        + "', '"
+        + CmsStringUtil.escapeJavaScript(
+            wp.resolveMacros(getConfirmationMessage().key(wp.getLocale())))
+        + "');";
+  }
+
+  /** @see org.opencms.workplace.tools.I_CmsHtmlIconButton#buttonHtml(CmsWorkplace) */
+  public String buttonHtml(CmsWorkplace wp) {
+
+    if (!isVisible()) {
+      return "";
     }
+    return A_CmsHtmlIconButton.defaultButtonHtml(
+        CmsHtmlIconButtonStyleEnum.SMALL_ICON_TEXT,
+        getId(),
+        getName().key(wp.getLocale()),
+        getHelpText().key(wp.getLocale()),
+        isEnabled(),
+        getIconPath(),
+        null,
+        resolveOnClic(wp));
+  }
 
-    /**
-     * Help method to resolve the on clic text to use.<p>
-     *
-     * @param wp the workplace context
-     *
-     * @return the on clic text
-     */
-    protected String resolveOnClic(CmsWorkplace wp) {
+  /**
+   * Returns the default explorer switch action for explorer list dialogs.
+   *
+   * <p>
+   *
+   * @return the default explorer switch action
+   */
+  public static CmsListIndependentAction getDefaultExplorerSwitchAction() {
 
-        return "listIndepAction('"
-            + getListId()
-            + "','"
-            + getId()
-            + "', '"
-            + CmsStringUtil.escapeJavaScript(wp.resolveMacros(getConfirmationMessage().key(wp.getLocale())))
-            + "');";
-    }
-
-    /**
-     * @see org.opencms.workplace.tools.I_CmsHtmlIconButton#buttonHtml(CmsWorkplace)
-     */
-    public String buttonHtml(CmsWorkplace wp) {
-
-        if (!isVisible()) {
-            return "";
-        }
-        return A_CmsHtmlIconButton.defaultButtonHtml(
-            CmsHtmlIconButtonStyleEnum.SMALL_ICON_TEXT,
-            getId(),
-            getName().key(wp.getLocale()),
-            getHelpText().key(wp.getLocale()),
-            isEnabled(),
-            getIconPath(),
-            null,
-            resolveOnClic(wp));
-    }
-
-    /**
-     * Returns the default explorer switch action for explorer list dialogs.<p>
-     *
-     * @return the default explorer switch action
-     */
-    public static CmsListIndependentAction getDefaultExplorerSwitchAction() {
-
-        CmsListIndependentAction defAction = new CmsListIndependentAction(ACTION_EXPLORER_SWITCH_ID);
-        defAction.setName(Messages.get().container(Messages.GUI_LIST_ACTION_EXPLORER_SWITCH_NAME_0));
-        defAction.setHelpText(Messages.get().container(Messages.GUI_LIST_ACTION_EXPLORER_SWITCH_HELP_0));
-        defAction.setConfirmationMessage(Messages.get().container(Messages.GUI_LIST_ACTION_EXPLORER_SWITCH_CONF_0));
-        defAction.setIconPath("list/explorer.png");
-        defAction.setEnabled(true);
-        defAction.setVisible(true);
-        return defAction;
-    }
+    CmsListIndependentAction defAction = new CmsListIndependentAction(ACTION_EXPLORER_SWITCH_ID);
+    defAction.setName(Messages.get().container(Messages.GUI_LIST_ACTION_EXPLORER_SWITCH_NAME_0));
+    defAction.setHelpText(
+        Messages.get().container(Messages.GUI_LIST_ACTION_EXPLORER_SWITCH_HELP_0));
+    defAction.setConfirmationMessage(
+        Messages.get().container(Messages.GUI_LIST_ACTION_EXPLORER_SWITCH_CONF_0));
+    defAction.setIconPath("list/explorer.png");
+    defAction.setEnabled(true);
+    defAction.setVisible(true);
+    return defAction;
+  }
 }

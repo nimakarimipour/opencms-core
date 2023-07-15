@@ -35,50 +35,53 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
 /**
- * Validator class for the URL name field in the property editor.<p>
+ * Validator class for the URL name field in the property editor.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsUrlNameValidator implements I_CmsValidator {
 
-    /** The server-side validator class. */
-    private static final String SERVER_VALIDATOR = "org.opencms.gwt.CmsUrlNameValidationService";
+  /** The server-side validator class. */
+  private static final String SERVER_VALIDATOR = "org.opencms.gwt.CmsUrlNameValidationService";
 
-    /** The path of the parent folder of the edited resource. */
-    private String m_parentPath;
+  /** The path of the parent folder of the edited resource. */
+  private String m_parentPath;
 
-    /** The structure id of the edited resource. */
-    private CmsUUID m_structureId;
+  /** The structure id of the edited resource. */
+  private CmsUUID m_structureId;
 
-    /**
-     * Creates a new URL name validator.<p>
-     *
-     * @param parentPath the parent path of the resource for which the URL name is being validated
-     * @param id the id of the resource whose URL name is being validated
-     */
-    public CmsUrlNameValidator(String parentPath, CmsUUID id) {
+  /**
+   * Creates a new URL name validator.
+   *
+   * <p>
+   *
+   * @param parentPath the parent path of the resource for which the URL name is being validated
+   * @param id the id of the resource whose URL name is being validated
+   */
+  public CmsUrlNameValidator(String parentPath, CmsUUID id) {
 
-        m_parentPath = parentPath;
-        m_structureId = id;
+    m_parentPath = parentPath;
+    m_structureId = id;
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.validation.I_CmsValidator#validate(org.opencms.gwt.client.ui.input.I_CmsFormField,
+   *     org.opencms.gwt.client.validation.I_CmsValidationController)
+   */
+  public void validate(I_CmsFormField field, I_CmsValidationController controller) {
+
+    String value = field.getWidget().getFormValueAsString();
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(value)) {
+      String message =
+          org.opencms.gwt.client.Messages.get()
+              .key(org.opencms.gwt.client.Messages.GUI_URLNAME_CANT_BE_EMPTY_0);
+      controller.provideValidationResult(field.getId(), new CmsValidationResult(message));
+      return;
     }
-
-    /**
-     * @see org.opencms.gwt.client.validation.I_CmsValidator#validate(org.opencms.gwt.client.ui.input.I_CmsFormField, org.opencms.gwt.client.validation.I_CmsValidationController)
-     */
-    public void validate(I_CmsFormField field, I_CmsValidationController controller) {
-
-        String value = field.getWidget().getFormValueAsString();
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(value)) {
-            String message = org.opencms.gwt.client.Messages.get().key(
-                org.opencms.gwt.client.Messages.GUI_URLNAME_CANT_BE_EMPTY_0);
-            controller.provideValidationResult(field.getId(), new CmsValidationResult(message));
-            return;
-        }
-        controller.validateAsync(
-            field.getId(),
-            value,
-            SERVER_VALIDATOR,
-            "parent:" + m_parentPath + "|id:" + m_structureId);
-    }
-
+    controller.validateAsync(
+        field.getId(), value, SERVER_VALIDATOR, "parent:" + m_parentPath + "|id:" + m_structureId);
+  }
 }

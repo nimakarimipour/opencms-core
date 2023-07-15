@@ -30,8 +30,6 @@ package org.opencms.acacia.client.widgets.serialdate;
 /** Interface for a value change observer. */
 public interface I_CmsSerialDateValueChangeObserver {
 
-    /**
-     * Method called, when a value change event is fired.
-     */
-    void onValueChange();
+  /** Method called, when a value change event is fired. */
+  void onValueChange();
 }

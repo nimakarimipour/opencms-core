@@ -27,60 +27,65 @@
 
 package org.opencms.gwt.client.ui.contextmenu;
 
+import com.google.gwt.user.client.Window;
+import java.util.HashSet;
+import java.util.Set;
 import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.gwt.shared.CmsGwtConstants;
 import org.opencms.util.CmsUUID;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import com.google.gwt.user.client.Window;
-
 /**
- * Context menu handler to be used within overlay dialogs.<p>
+ * Context menu handler to be used within overlay dialogs.
+ *
+ * <p>
  */
 public class CmsDialogContextMenuHandler extends CmsContextMenuHandler {
 
-    /** Set of context menu actions which we do not want to appear in the context menu for the relation source items. */
-    protected static Set<String> m_filteredActions;
+  /**
+   * Set of context menu actions which we do not want to appear in the context menu for the relation
+   * source items.
+   */
+  protected static Set<String> m_filteredActions;
 
-    static {
-        m_filteredActions = new HashSet<String>();
-        m_filteredActions.add(CmsGwtConstants.ACTION_TEMPLATECONTEXTS);
-        m_filteredActions.add(CmsGwtConstants.ACTION_EDITSMALLELEMENTS);
-        m_filteredActions.add(CmsGwtConstants.ACTION_SELECTELEMENTVIEW);
-        m_filteredActions.add(CmsGwtConstants.ACTION_SHOWLOCALE);
-        m_filteredActions.add(CmsGwtConstants.ACTION_VIEW_ONLINE);
+  static {
+    m_filteredActions = new HashSet<String>();
+    m_filteredActions.add(CmsGwtConstants.ACTION_TEMPLATECONTEXTS);
+    m_filteredActions.add(CmsGwtConstants.ACTION_EDITSMALLELEMENTS);
+    m_filteredActions.add(CmsGwtConstants.ACTION_SELECTELEMENTVIEW);
+    m_filteredActions.add(CmsGwtConstants.ACTION_SHOWLOCALE);
+    m_filteredActions.add(CmsGwtConstants.ACTION_VIEW_ONLINE);
 
-        for (Class<?> cls : new Class[] {
-            CmsEditUserSettings.class,
-            CmsAbout.class,
-            CmsOpenSeoDialog.class,
-            CmsLogout.class}) {
-            m_filteredActions.add(cls.getName());
-        }
+    for (Class<?> cls :
+        new Class[] {
+          CmsEditUserSettings.class, CmsAbout.class, CmsOpenSeoDialog.class, CmsLogout.class
+        }) {
+      m_filteredActions.add(cls.getName());
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.CmsContextMenuHandler#refreshResource(org.opencms.util.CmsUUID)
-     */
-    @Override
-    public void refreshResource(CmsUUID structureId) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.CmsContextMenuHandler#refreshResource(org.opencms.util.CmsUUID)
+   */
+  @Override
+  public void refreshResource(CmsUUID structureId) {
 
-        Window.Location.reload();
+    Window.Location.reload();
+  }
+
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.CmsContextMenuHandler#transformSingleEntry(org.opencms.gwt.shared.CmsContextMenuEntryBean,
+   *     org.opencms.util.CmsUUID)
+   */
+  @Override
+  protected I_CmsContextMenuEntry transformSingleEntry(
+      CmsContextMenuEntryBean entryBean, CmsUUID structureId) {
+
+    if (m_filteredActions.contains(entryBean.getName())) {
+      return null;
+    } else {
+      return super.transformSingleEntry(entryBean, structureId);
     }
-
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.CmsContextMenuHandler#transformSingleEntry(org.opencms.gwt.shared.CmsContextMenuEntryBean, org.opencms.util.CmsUUID)
-     */
-    @Override
-    protected I_CmsContextMenuEntry transformSingleEntry(CmsContextMenuEntryBean entryBean, CmsUUID structureId) {
-
-        if (m_filteredActions.contains(entryBean.getName())) {
-            return null;
-        } else {
-            return super.transformSingleEntry(entryBean, structureId);
-        }
-    }
-
+  }
 }

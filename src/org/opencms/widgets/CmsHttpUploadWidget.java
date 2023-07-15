@@ -30,57 +30,61 @@ package org.opencms.widgets;
 import org.opencms.file.CmsObject;
 
 /**
- * Provides a http upload widget, for use on a widget dialog.<p>
+ * Provides a http upload widget, for use on a widget dialog.
+ *
+ * <p>
  *
  * @since 6.5.6
  */
 public class CmsHttpUploadWidget extends A_CmsWidget {
 
-    /**
-     * Creates a new input widget.<p>
-     */
-    public CmsHttpUploadWidget() {
+  /**
+   * Creates a new input widget.
+   *
+   * <p>
+   */
+  public CmsHttpUploadWidget() {
 
-        // empty constructor is required for class registration
-        this("");
-    }
+    // empty constructor is required for class registration
+    this("");
+  }
 
-    /**
-     * Creates a new input widget with the given configuration.<p>
-     *
-     * @param configuration the configuration to use
-     */
-    public CmsHttpUploadWidget(String configuration) {
+  /**
+   * Creates a new input widget with the given configuration.
+   *
+   * <p>
+   *
+   * @param configuration the configuration to use
+   */
+  public CmsHttpUploadWidget(String configuration) {
 
-        super(configuration);
-    }
+    super(configuration);
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsWidget#getDialogWidget(org.opencms.file.CmsObject, org.opencms.widgets.I_CmsWidgetDialog, org.opencms.widgets.I_CmsWidgetParameter)
-     */
-    public String getDialogWidget(CmsObject cms, I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
+  /**
+   * @see org.opencms.widgets.I_CmsWidget#getDialogWidget(org.opencms.file.CmsObject,
+   *     org.opencms.widgets.I_CmsWidgetDialog, org.opencms.widgets.I_CmsWidgetParameter)
+   */
+  public String getDialogWidget(
+      CmsObject cms, I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
 
-        String id = param.getId();
+    String id = param.getId();
 
-        StringBuffer result = new StringBuffer(16);
+    StringBuffer result = new StringBuffer(16);
 
-        result.append("<td class=\"xmlTd\">");
-        result.append("<input type=\"file\" name=\"");
-        result.append(id);
-        // accept has to be set dynamically
-        result.append("\" class=\"maxwidth\" accept=\"text/comma-separated-values\">");
-        result.append("</td>");
+    result.append("<td class=\"xmlTd\">");
+    result.append("<input type=\"file\" name=\"");
+    result.append(id);
+    // accept has to be set dynamically
+    result.append("\" class=\"maxwidth\" accept=\"text/comma-separated-values\">");
+    result.append("</td>");
 
-        return result.toString();
+    return result.toString();
+  }
 
-    }
+  /** @see org.opencms.widgets.I_CmsWidget#newInstance() */
+  public I_CmsWidget newInstance() {
 
-    /**
-     * @see org.opencms.widgets.I_CmsWidget#newInstance()
-     */
-    public I_CmsWidget newInstance() {
-
-        return new CmsHttpUploadWidget(getConfiguration());
-    }
-
+    return new CmsHttpUploadWidget(getConfiguration());
+  }
 }

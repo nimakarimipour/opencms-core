@@ -27,25 +27,6 @@
 
 package org.opencms.ui;
 
-import org.opencms.file.CmsObject;
-import org.opencms.file.CmsProject;
-import org.opencms.main.CmsUIServlet;
-import org.opencms.main.OpenCms;
-import org.opencms.ui.components.CmsBasicDialog;
-import org.opencms.ui.components.CmsBasicDialog.DialogWidth;
-import org.opencms.ui.components.extensions.CmsWindowExtension;
-import org.opencms.ui.login.CmsLoginHelper;
-import org.opencms.ui.util.CmsDisplayType;
-import org.opencms.util.CmsRequestUtil;
-import org.opencms.workplace.CmsWorkplaceManager;
-import org.opencms.workplace.CmsWorkplaceSettings;
-
-import java.io.Serializable;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.servlet.http.HttpSession;
-
 import com.google.common.collect.Multimap;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinService;
@@ -60,286 +41,341 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import java.io.Serializable;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.servlet.http.HttpSession;
+import org.opencms.file.CmsObject;
+import org.opencms.file.CmsProject;
+import org.opencms.main.CmsUIServlet;
+import org.opencms.main.OpenCms;
+import org.opencms.ui.components.CmsBasicDialog;
+import org.opencms.ui.components.CmsBasicDialog.DialogWidth;
+import org.opencms.ui.components.extensions.CmsWindowExtension;
+import org.opencms.ui.login.CmsLoginHelper;
+import org.opencms.ui.util.CmsDisplayType;
+import org.opencms.util.CmsRequestUtil;
+import org.opencms.workplace.CmsWorkplaceManager;
+import org.opencms.workplace.CmsWorkplaceSettings;
 
 /**
- * Abstract UI class providing access to the OpenCms context.<p>
+ * Abstract UI class providing access to the OpenCms context.
+ *
+ * <p>
  */
 public abstract class A_CmsUI extends UI {
 
-    /** The last offline project attribute key. */
-    public static final String LAST_OFFLINE_PROJECT = "lastOfflineProject";
+  /** The last offline project attribute key. */
+  public static final String LAST_OFFLINE_PROJECT = "lastOfflineProject";
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 989182479322461838L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 989182479322461838L;
 
-    /** UI attribute storage. */
-    private Map<String, Serializable> m_attributes;
+  /** UI attribute storage. */
+  private Map<String, Serializable> m_attributes;
 
-    /** The display type at the time the UI was initialized. */
-    private CmsDisplayType m_displayType;
+  /** The display type at the time the UI was initialized. */
+  private CmsDisplayType m_displayType;
 
-    /** Extension used for opening new browser windows. */
-    private CmsWindowExtension m_windowExtension;
+  /** Extension used for opening new browser windows. */
+  private CmsWindowExtension m_windowExtension;
 
-    /**
-     * Constructor.<p>
-     */
-    public A_CmsUI() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public A_CmsUI() {
 
-        m_windowExtension = new CmsWindowExtension(this);
-        m_attributes = new ConcurrentHashMap<String, Serializable>();
-        getLoadingIndicatorConfiguration().setFirstDelay(600);
-        TooltipConfiguration tooltipConfig = getTooltipConfiguration();
-        tooltipConfig.setOpenDelay(750);
-        tooltipConfig.setQuickOpenDelay(750);
+    m_windowExtension = new CmsWindowExtension(this);
+    m_attributes = new ConcurrentHashMap<String, Serializable>();
+    getLoadingIndicatorConfiguration().setFirstDelay(600);
+    TooltipConfiguration tooltipConfig = getTooltipConfiguration();
+    tooltipConfig.setOpenDelay(750);
+    tooltipConfig.setQuickOpenDelay(750);
+  }
 
+  /**
+   * Returns the current UI.
+   *
+   * <p>
+   *
+   * @return the current UI
+   */
+  public static A_CmsUI get() {
+
+    return (A_CmsUI) (UI.getCurrent());
+  }
+
+  /**
+   * Returns the current cms context.
+   *
+   * <p>
+   *
+   * @return the current cms context
+   */
+  public static CmsObject getCmsObject() {
+
+    return ((CmsUIServlet) VaadinServlet.getCurrent()).getCmsObject();
+  }
+
+  /**
+   * Changes to the given project. Will update session and workplace settings.
+   *
+   * <p>
+   *
+   * @param project the project to change to
+   */
+  public void changeProject(CmsProject project) {
+
+    CmsObject cms = getCmsObject();
+    if (!cms.getRequestContext().getCurrentProject().equals(project)) {
+      cms.getRequestContext().setCurrentProject(project);
+      getWorkplaceSettings().setProject(project.getUuid());
+      OpenCms.getSessionManager().updateSessionInfo(cms, getHttpSession());
+      if (!project.isOnlineProject()) {
+        setAttribute(LAST_OFFLINE_PROJECT, project);
+      }
     }
+  }
 
-    /**
-     * Returns the current UI.<p>
-     *
-     * @return the current UI
-     */
-    public static A_CmsUI get() {
+  /**
+   * Changes to the given site. Will update session and workplace settings.
+   *
+   * <p>
+   *
+   * @param siteRoot the site to change to
+   */
+  public void changeSite(String siteRoot) {
 
-        return (A_CmsUI)(UI.getCurrent());
+    if (!getCmsObject().getRequestContext().getSiteRoot().equals(siteRoot)) {
+      getCmsObject().getRequestContext().setSiteRoot(siteRoot);
+      getWorkplaceSettings().setSite(siteRoot);
+      OpenCms.getSessionManager().updateSessionInfo(getCmsObject(), getHttpSession());
     }
+  }
 
-    /**
-     * Returns the current cms context.<p>
-     *
-     * @return the current cms context
-     */
-    public static CmsObject getCmsObject() {
+  /**
+   * Closes all opened dialog windows.
+   *
+   * <p>
+   */
+  public void closeWindows() {
 
-        return ((CmsUIServlet)VaadinServlet.getCurrent()).getCmsObject();
+    for (Window window : getWindows()) {
+      window.close();
     }
+  }
 
-    /**
-     * Changes to the given project. Will update session and workplace settings.<p>
-     *
-     * @param project the project to change to
-     */
-    public void changeProject(CmsProject project) {
+  /**
+   * Returns the requested UI attribute.
+   *
+   * <p>
+   *
+   * @param key the attribute key
+   * @return the attribute
+   */
+  public Serializable getAttribute(String key) {
 
-        CmsObject cms = getCmsObject();
-        if (!cms.getRequestContext().getCurrentProject().equals(project)) {
-            cms.getRequestContext().setCurrentProject(project);
-            getWorkplaceSettings().setProject(project.getUuid());
-            OpenCms.getSessionManager().updateSessionInfo(cms, getHttpSession());
-            if (!project.isOnlineProject()) {
-                setAttribute(LAST_OFFLINE_PROJECT, project);
-            }
-        }
+    return m_attributes.get(key);
+  }
+
+  /**
+   * Gets the display type from the time when the UI was initialized.
+   *
+   * <p>
+   *
+   * @return the display type
+   */
+  public CmsDisplayType getDisplayType() {
+
+    return m_displayType;
+  }
+
+  /**
+   * Returns the HTTP session.
+   *
+   * <p>
+   *
+   * @return the HTTP session
+   */
+  public HttpSession getHttpSession() {
+
+    return ((WrappedHttpSession) getSession().getSession()).getHttpSession();
+  }
+
+  /**
+   * Returns the last used offline project.
+   *
+   * <p>
+   *
+   * @return the last used offline project
+   */
+  public CmsProject getLastOfflineProject() {
+
+    return (CmsProject) getAttribute(LAST_OFFLINE_PROJECT);
+  }
+
+  /**
+   * Gets the request parameters with which the application was loaded.
+   *
+   * <p>
+   *
+   * @return the request parameters
+   */
+  public Multimap<String, String> getParameters() {
+
+    return CmsRequestUtil.getParameters(getPage().getLocation());
+  }
+
+  /**
+   * Returns the workplace settings.
+   *
+   * <p>
+   *
+   * @return the workplace settings
+   */
+  public CmsWorkplaceSettings getWorkplaceSettings() {
+
+    CmsWorkplaceSettings settings =
+        (CmsWorkplaceSettings)
+            getSession().getSession().getAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS);
+    if (settings == null) {
+      settings = CmsLoginHelper.initSiteAndProject(getCmsObject());
+      VaadinService.getCurrentRequest()
+          .getWrappedSession()
+          .setAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS, settings);
     }
+    return settings;
+  }
 
-    /**
-     * Changes to the given site. Will update session and workplace settings.<p>
-     *
-     * @param siteRoot the site to change to
-     */
-    public void changeSite(String siteRoot) {
+  /**
+   * Tries to open a new browser window, and shows a warning if opening the window fails (usually
+   * because of popup blockers).
+   *
+   * <p>
+   *
+   * @param link the URL to open in the new window
+   * @param target the target window name
+   */
+  public void openPageOrWarn(String link, String target) {
 
-        if (!getCmsObject().getRequestContext().getSiteRoot().equals(siteRoot)) {
-            getCmsObject().getRequestContext().setSiteRoot(siteRoot);
-            getWorkplaceSettings().setSite(siteRoot);
-            OpenCms.getSessionManager().updateSessionInfo(getCmsObject(), getHttpSession());
-        }
-    }
+    openPageOrWarn(
+        link, target, CmsVaadinUtils.getMessageText(org.opencms.ui.Messages.GUI_POPUP_BLOCKED_0));
+  }
 
-    /**
-     * Closes all opened dialog windows.<p>
-     */
-    public void closeWindows() {
+  /**
+   * Tries to open a new browser window, and shows a warning if opening the window fails (usually
+   * because of popup blockers).
+   *
+   * <p>
+   *
+   * @param link the URL to open in the new window
+   * @param target the target window name
+   * @param warning the warning to show if opening the window fails
+   */
+  public void openPageOrWarn(String link, String target, final String warning) {
 
-        for (Window window : getWindows()) {
-            window.close();
-        }
-    }
+    m_windowExtension.open(
+        link,
+        target,
+        new Runnable() {
 
-    /**
-     * Returns the requested UI attribute.<p>
-     *
-     * @param key the attribute key
-     *
-     * @return the attribute
-     */
-    public Serializable getAttribute(String key) {
+          public void run() {
 
-        return m_attributes.get(key);
-    }
-
-    /**
-     * Gets the display type from the time when the UI was initialized.<p>
-     *
-     * @return the display type
-     */
-    public CmsDisplayType getDisplayType() {
-
-        return m_displayType;
-    }
-
-    /**
-     * Returns the HTTP session.<p>
-     *
-     * @return the HTTP session
-     */
-    public HttpSession getHttpSession() {
-
-        return ((WrappedHttpSession)getSession().getSession()).getHttpSession();
-    }
-
-    /**
-     * Returns the last used offline project.<p>
-     *
-     * @return the last used offline project
-     */
-    public CmsProject getLastOfflineProject() {
-
-        return (CmsProject)getAttribute(LAST_OFFLINE_PROJECT);
-    }
-
-    /**
-     * Gets the request parameters with which the application was loaded.<p>
-     *
-     * @return the request parameters
-     */
-    public Multimap<String, String> getParameters() {
-
-        return CmsRequestUtil.getParameters(getPage().getLocation());
-    }
-
-    /**
-     * Returns the workplace settings.<p>
-     *
-     * @return the workplace settings
-     */
-    public CmsWorkplaceSettings getWorkplaceSettings() {
-
-        CmsWorkplaceSettings settings = (CmsWorkplaceSettings)getSession().getSession().getAttribute(
-            CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS);
-        if (settings == null) {
-            settings = CmsLoginHelper.initSiteAndProject(getCmsObject());
-            VaadinService.getCurrentRequest().getWrappedSession().setAttribute(
-                CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS,
-                settings);
-        }
-        return settings;
-    }
-
-    /**
-     * Tries to open a new browser window, and shows a warning if opening the window fails (usually because of popup blockers).<p>
-     *
-     * @param link the URL to open in the new window
-     * @param target the target window name
-     */
-    public void openPageOrWarn(String link, String target) {
-
-        openPageOrWarn(link, target, CmsVaadinUtils.getMessageText(org.opencms.ui.Messages.GUI_POPUP_BLOCKED_0));
-    }
-
-    /**
-     * Tries to open a new browser window, and shows a warning if opening the window fails (usually because of popup blockers).<p>
-     *
-     * @param link the URL to open in the new window
-     * @param target the target window name
-     * @param warning the warning to show if opening the window fails
-     */
-    public void openPageOrWarn(String link, String target, final String warning) {
-
-        m_windowExtension.open(link, target, new Runnable() {
-
-            public void run() {
-
-                Notification.show(warning, Type.ERROR_MESSAGE);
-            }
+            Notification.show(warning, Type.ERROR_MESSAGE);
+          }
         });
+  }
+
+  /**
+   * Reloads the current UI.
+   *
+   * <p>
+   */
+  public void reload() {
+
+    getPage().reload();
+  }
+
+  /**
+   * Sets an UI attribute.
+   *
+   * <p>
+   *
+   * @param key the attribute key
+   * @param value the attribute value
+   */
+  public void setAttribute(String key, Serializable value) {
+
+    m_attributes.put(key, value);
+  }
+
+  /**
+   * Replaces the ui content with a single dialog.
+   *
+   * <p>
+   *
+   * @param caption the caption
+   * @param dialog the dialog content
+   */
+  public void setContentToDialog(String caption, CmsBasicDialog dialog) {
+
+    setContent(new Label());
+    Window window = CmsBasicDialog.prepareWindow(DialogWidth.narrow);
+    window.setContent(dialog);
+    window.setCaption(caption);
+    window.setClosable(false);
+    addWindow(window);
+    window.center();
+  }
+
+  /**
+   * Replaces the ui content with a single dialog.
+   *
+   * <p>TODO: In the future this should only handle window creation, refactor dialog contents to
+   * CmsBasicDialog
+   *
+   * @param caption the caption
+   * @param component the dialog content
+   */
+  public void setContentToDialog(String caption, Component component) {
+
+    setContent(new Label());
+    Window window = CmsBasicDialog.prepareWindow(DialogWidth.narrow);
+    CmsBasicDialog dialog = new CmsBasicDialog();
+    VerticalLayout result = new VerticalLayout();
+    dialog.setContent(result);
+    window.setContent(dialog);
+    window.setCaption(caption);
+    window.setClosable(false);
+    addWindow(window);
+    window.center();
+    if (component instanceof I_CmsHasButtons) {
+      I_CmsHasButtons hasButtons = (I_CmsHasButtons) component;
+      for (Button button : hasButtons.getButtons()) {
+        dialog.addButton(button);
+      }
     }
+    result.addComponent(component);
+  }
 
-    /**
-     * Reloads the current UI.<p>
-     */
-    public void reload() {
+  /**
+   * Displays an error message in a centered box.
+   *
+   * <p>
+   *
+   * @param error the error message to display
+   */
+  public void setError(String error) {
 
-        getPage().reload();
-    }
+    setContentToDialog("Error", new Label(error));
+  }
 
-    /**
-     * Sets an UI attribute.<p>
-     *
-     * @param key the attribute key
-     * @param value the attribute value
-     */
-    public void setAttribute(String key, Serializable value) {
+  /** @see com.vaadin.ui.UI#init(com.vaadin.server.VaadinRequest) */
+  @Override
+  protected void init(VaadinRequest request) {
 
-        m_attributes.put(key, value);
-    }
-
-    /**
-     * Replaces the ui content with a single dialog.<p>
-     *
-     * @param caption the caption
-     * @param dialog the dialog content
-     */
-    public void setContentToDialog(String caption, CmsBasicDialog dialog) {
-
-        setContent(new Label());
-        Window window = CmsBasicDialog.prepareWindow(DialogWidth.narrow);
-        window.setContent(dialog);
-        window.setCaption(caption);
-        window.setClosable(false);
-        addWindow(window);
-        window.center();
-    }
-
-    /**
-     * Replaces the ui content with a single dialog.<p>
-     *
-     * TODO: In the future this should only handle window creation, refactor dialog contents to CmsBasicDialog
-     *
-     * @param caption the caption
-     * @param component the dialog content
-     */
-    public void setContentToDialog(String caption, Component component) {
-
-        setContent(new Label());
-        Window window = CmsBasicDialog.prepareWindow(DialogWidth.narrow);
-        CmsBasicDialog dialog = new CmsBasicDialog();
-        VerticalLayout result = new VerticalLayout();
-        dialog.setContent(result);
-        window.setContent(dialog);
-        window.setCaption(caption);
-        window.setClosable(false);
-        addWindow(window);
-        window.center();
-        if (component instanceof I_CmsHasButtons) {
-            I_CmsHasButtons hasButtons = (I_CmsHasButtons)component;
-            for (Button button : hasButtons.getButtons()) {
-                dialog.addButton(button);
-            }
-
-        }
-        result.addComponent(component);
-
-    }
-
-    /**
-     * Displays an error message in a centered box.<p>
-     *
-     * @param error the error message to display
-     */
-    public void setError(String error) {
-
-        setContentToDialog("Error", new Label(error));
-    }
-
-    /**
-     * @see com.vaadin.ui.UI#init(com.vaadin.server.VaadinRequest)
-     */
-    @Override
-    protected void init(VaadinRequest request) {
-
-        m_displayType = CmsDisplayType.getDisplayType(getPage().getBrowserWindowWidth());
-    }
-
+    m_displayType = CmsDisplayType.getDisplayType(getPage().getBrowserWindowWidth());
+  }
 }

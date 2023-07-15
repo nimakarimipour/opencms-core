@@ -27,108 +27,113 @@
 
 package org.opencms.notification;
 
+import java.io.Serializable;
 import org.opencms.util.CmsUUID;
 
-import java.io.Serializable;
-
 /**
- * Objects of this class are serialized in the additional infos of a user to store, which resources were
- * already confirmed by the user.
- * This class is the counterpart to <code>{@link org.opencms.notification.CmsExtendedNotificationCause}</code>, to be used
- * for serialization in the AdditionalInfos of a <code>{@link org.opencms.file.CmsUser}</code>, and therefore only
- * contains the essential information
- * <p>
+ * Objects of this class are serialized in the additional infos of a user to store, which resources
+ * were already confirmed by the user. This class is the counterpart to <code>
+ * {@link org.opencms.notification.CmsExtendedNotificationCause}</code>, to be used for
+ * serialization in the AdditionalInfos of a <code>{@link org.opencms.file.CmsUser}</code>, and
+ * therefore only contains the essential information
  *
+ * <p>
  */
 public class CmsNotificationCause implements Serializable {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 257325098377830418L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 257325098377830418L;
 
-    /** The reason that the resource occures in the notification. */
-    private int m_cause;
+  /** The reason that the resource occures in the notification. */
+  private int m_cause;
 
-    /** The resource. */
-    private CmsUUID m_resourceId;
+  /** The resource. */
+  private CmsUUID m_resourceId;
 
-    /**
-     * Creates a new CmsNotificationResourceInfo.<p>
-     *
-     * @param resource the specific resource
-     * @param cause that the resource occures in the notification
-     */
-    public CmsNotificationCause(CmsUUID resource, int cause) {
+  /**
+   * Creates a new CmsNotificationResourceInfo.
+   *
+   * <p>
+   *
+   * @param resource the specific resource
+   * @param cause that the resource occures in the notification
+   */
+  public CmsNotificationCause(CmsUUID resource, int cause) {
 
-        m_resourceId = resource;
-        m_cause = cause;
+    m_resourceId = resource;
+    m_cause = cause;
+  }
+
+  /**
+   * Returns true if the Object equals to the corresponding CmsNotificationCause, that means a
+   * notification cause with the same resource and cause.
+   *
+   * @return true if the resource info is equal to a notification cause or resource info with the
+   *     same resource and cause
+   * @param o the object to check for equality
+   * @see org.opencms.notification.CmsExtendedNotificationCause#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object o) {
+
+    if (!((o instanceof CmsExtendedNotificationCause) || (o instanceof CmsNotificationCause))) {
+      return false;
     }
+    return hashCode() == o.hashCode();
+  }
 
-    /**
-     * Returns true if the Object equals to the corresponding CmsNotificationCause, that means a notification cause
-     * with the same resource and cause.
-     *
-     * @return true if the resource info is equal to a notification cause or resource info with the same resource and cause
-     *
-     * @param o the object to check for equality
-     *
-     * @see org.opencms.notification.CmsExtendedNotificationCause#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object o) {
+  /**
+   * Returns the cause.
+   *
+   * <p>
+   *
+   * @return the cause
+   */
+  public int getCause() {
 
-        if (!((o instanceof CmsExtendedNotificationCause) || (o instanceof CmsNotificationCause))) {
-            return false;
-        }
-        return hashCode() == o.hashCode();
-    }
+    return m_cause;
+  }
 
-    /**
-     * Returns the cause.<p>
-     *
-     * @return the cause
-     */
-    public int getCause() {
+  /**
+   * Returns the resource.
+   *
+   * <p>
+   *
+   * @return the resource
+   */
+  public CmsUUID getResourceId() {
 
-        return m_cause;
-    }
+    return m_resourceId;
+  }
 
-    /**
-     * Returns the resource.<p>
-     *
-     * @return the resource
-     */
-    public CmsUUID getResourceId() {
+  /** @see java.lang.Object#hashCode() */
+  @Override
+  public int hashCode() {
 
-        return m_resourceId;
-    }
+    return m_cause + m_resourceId.hashCode();
+  }
 
-    /**
-     *
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
+  /**
+   * Sets the cause.
+   *
+   * <p>
+   *
+   * @param cause the cause to set
+   */
+  public void setCause(int cause) {
 
-        return m_cause + m_resourceId.hashCode();
-    }
+    m_cause = cause;
+  }
 
-    /**
-     * Sets the cause.<p>
-     *
-     * @param cause the cause to set
-     */
-    public void setCause(int cause) {
+  /**
+   * Sets the resource.
+   *
+   * <p>
+   *
+   * @param resourceId the resource to set
+   */
+  public void setResourceId(CmsUUID resourceId) {
 
-        m_cause = cause;
-    }
-
-    /**
-     * Sets the resource.<p>
-     *
-     * @param resourceId the resource to set
-     */
-    public void setResourceId(CmsUUID resourceId) {
-
-        m_resourceId = resourceId;
-    }
+    m_resourceId = resourceId;
+  }
 }

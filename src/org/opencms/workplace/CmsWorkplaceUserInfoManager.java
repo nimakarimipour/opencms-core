@@ -31,43 +31,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Manages the configuration of the additional information of users.<p>
+ * Manages the configuration of the additional information of users.
  *
- * This class reads the settings from the "opencms-workplace.xml" and stores them in member variables.
- * For each setting one or more get methods are provided.<p>
+ * <p>This class reads the settings from the "opencms-workplace.xml" and stores them in member
+ * variables. For each setting one or more get methods are provided.
+ *
+ * <p>
  *
  * @since 6.5.6
  */
 public final class CmsWorkplaceUserInfoManager {
 
-    /** The list of defined blocks. */
-    private List<CmsWorkplaceUserInfoBlock> m_blocks;
+  /** The list of defined blocks. */
+  private List<CmsWorkplaceUserInfoBlock> m_blocks;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsWorkplaceUserInfoManager() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsWorkplaceUserInfoManager() {
 
-        m_blocks = new ArrayList<CmsWorkplaceUserInfoBlock>();
-    }
+    m_blocks = new ArrayList<CmsWorkplaceUserInfoBlock>();
+  }
 
-    /**
-     * Adds the given block.<p>
-     *
-     * @param block the block to add
-     */
-    public void addBlock(CmsWorkplaceUserInfoBlock block) {
+  /**
+   * Adds the given block.
+   *
+   * <p>
+   *
+   * @param block the block to add
+   */
+  public void addBlock(CmsWorkplaceUserInfoBlock block) {
 
-        m_blocks.add(block);
-    }
+    m_blocks.add(block);
+  }
 
-    /**
-     * Returns a list of all configured additional information blocks.<p>
-     *
-     * @return a list of {@link CmsWorkplaceUserInfoBlock} objects
-     */
-    public List<CmsWorkplaceUserInfoBlock> getBlocks() {
+  /**
+   * Returns a list of all configured additional information blocks.
+   *
+   * <p>
+   *
+   * @return a list of {@link CmsWorkplaceUserInfoBlock} objects
+   */
+  public List<CmsWorkplaceUserInfoBlock> getBlocks() {
 
-        return m_blocks;
-    }
+    return m_blocks;
+  }
 }

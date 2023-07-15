@@ -30,51 +30,63 @@ package org.opencms.ui.apps;
 import java.util.List;
 
 /**
- * Interface for apps which perform CRUD operations on any kind of element like CmsSites or CmsScheduledJobs.
+ * Interface for apps which perform CRUD operations on any kind of element like CmsSites or
+ * CmsScheduledJobs.
+ *
  * @param <T> the type of element.
  */
 public interface I_CmsCRUDApp<T> {
 
-    /**
-     * Creates the element of type T in the system.<p>
-     *
-     * @param element to be saved
-     */
-    void createElement(T element);
+  /**
+   * Creates the element of type T in the system.
+   *
+   * <p>
+   *
+   * @param element to be saved
+   */
+  void createElement(T element);
 
-    /**
-     * Performs a default action.
-     *
-     * @param elementId id of element
-     */
-    void defaultAction(String elementId);
+  /**
+   * Performs a default action.
+   *
+   * @param elementId id of element
+   */
+  void defaultAction(String elementId);
 
-    /**
-     * Delete the given List of elements.<p>
-     *
-     * @param elementId of elements to be deleted
-     */
-    void deleteElements(List<String> elementId);
+  /**
+   * Delete the given List of elements.
+   *
+   * <p>
+   *
+   * @param elementId of elements to be deleted
+   */
+  void deleteElements(List<String> elementId);
 
-    /**
-     * Get all Elements.<p>
-     *
-     * @return a list of all elements
-     */
-    List<T> getAllElements();
+  /**
+   * Get all Elements.
+   *
+   * <p>
+   *
+   * @return a list of all elements
+   */
+  List<T> getAllElements();
 
-    /**
-     * Reads out an element.<p>
-     *
-     * @param elementId of the object
-     * @return the object of type T
-     */
-    T getElement(String elementId);
+  /**
+   * Reads out an element.
+   *
+   * <p>
+   *
+   * @param elementId of the object
+   * @return the object of type T
+   */
+  T getElement(String elementId);
 
-    /**
-     * Writes a changed element to the system which already exists.<p>
-     *
-     * @param element to be saved
-     */
-    void writeElement(T element);
+  /**
+   * Writes a changed element to the system which already exists.
+   *
+   * <p>
+   *
+   * @param element to be saved
+   */
+  void writeElement(T element);
 }

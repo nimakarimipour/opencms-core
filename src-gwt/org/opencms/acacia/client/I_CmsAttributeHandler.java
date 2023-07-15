@@ -28,74 +28,89 @@
 package org.opencms.acacia.client;
 
 /**
- * Attribute handler interface.<p>
+ * Attribute handler interface.
+ *
+ * <p>
  */
 public interface I_CmsAttributeHandler {
 
-    /**
-     * Returns the simple path.<p>
-     *
-     * @param childHandler the child attribute handler
-     *
-     * @return the simple path
-     */
-    String collectSimplePath(I_CmsAttributeHandler childHandler);
+  /**
+   * Returns the simple path.
+   *
+   * <p>
+   *
+   * @param childHandler the child attribute handler
+   * @return the simple path
+   */
+  String collectSimplePath(I_CmsAttributeHandler childHandler);
 
-    /**
-     * Returns the attribute name.<p>
-     *
-     * @return the attribute name
-     */
-    String getAttributeName();
+  /**
+   * Returns the attribute name.
+   *
+   * <p>
+   *
+   * @return the attribute name
+   */
+  String getAttributeName();
 
-    /**
-     * Returns the handler for the given attribute at the given index.<p>
-     *
-     * @param attributeName the attribute name
-     * @param index the value index
-     *
-     * @return the handler
-     */
-    CmsAttributeHandler getChildHandler(String attributeName, int index);
+  /**
+   * Returns the handler for the given attribute at the given index.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @param index the value index
+   * @return the handler
+   */
+  CmsAttributeHandler getChildHandler(String attributeName, int index);
 
-    /**
-     * Returns the child handler by simple name.<p>
-     *
-     * @param name the name
-     * @param index the value index
-     *
-     * @return the child handler if present
-     */
-    CmsAttributeHandler getChildHandlerBySimpleName(String name, int index);
+  /**
+   * Returns the child handler by simple name.
+   *
+   * <p>
+   *
+   * @param name the name
+   * @param index the value index
+   * @return the child handler if present
+   */
+  CmsAttributeHandler getChildHandlerBySimpleName(String name, int index);
 
-    /**
-     * Inserts a handler map at the given index.<p>
-     *
-     * @param index the value index
-     */
-    void insertHandlers(int index);
+  /**
+   * Inserts a handler map at the given index.
+   *
+   * <p>
+   *
+   * @param index the value index
+   */
+  void insertHandlers(int index);
 
-    /**
-     * Removes the handlers at the given index.<p>
-     *
-     * @param index the value index
-     */
-    void removeHandlers(int index);
+  /**
+   * Removes the handlers at the given index.
+   *
+   * <p>
+   *
+   * @param index the value index
+   */
+  void removeHandlers(int index);
 
-    /**
-     * Sets a child attribute handler.<p>
-     *
-     * @param index the value index
-     * @param attributeName the attribute name
-     * @param handler the handler
-     */
-    void setHandler(int index, String attributeName, CmsAttributeHandler handler);
+  /**
+   * Sets a child attribute handler.
+   *
+   * <p>
+   *
+   * @param index the value index
+   * @param attributeName the attribute name
+   * @param handler the handler
+   */
+  void setHandler(int index, String attributeName, CmsAttributeHandler handler);
 
-    /**
-     * Sets the handler by id.<p>
-     *
-     * @param attributeName the attribute name
-     * @param handler the handler
-     */
-    void setHandlerById(String attributeName, CmsAttributeHandler handler);
+  /**
+   * Sets the handler by id.
+   *
+   * <p>
+   *
+   * @param attributeName the attribute name
+   * @param handler the handler
+   */
+  void setHandlerById(String attributeName, CmsAttributeHandler handler);
 }

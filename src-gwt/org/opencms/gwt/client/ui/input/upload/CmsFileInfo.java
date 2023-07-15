@@ -27,66 +27,74 @@
 
 package org.opencms.gwt.client.ui.input.upload;
 
-import java.util.Comparator;
-
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.InputElement;
+import java.util.Comparator;
 
 /**
- * A file object.<p>
+ * A file object.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsFileInfo extends JavaScriptObject {
 
-    /** The file info comparator. */
-    public static final Comparator<CmsFileInfo> INFO_COMPARATOR = new Comparator<CmsFileInfo>() {
+  /** The file info comparator. */
+  public static final Comparator<CmsFileInfo> INFO_COMPARATOR =
+      new Comparator<CmsFileInfo>() {
 
-        /**
-         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-         */
+        /** @see java.util.Comparator#compare(java.lang.Object, java.lang.Object) */
         public int compare(CmsFileInfo o1, CmsFileInfo o2) {
 
-            return o1.getFileName().compareTo(o2.getFileName());
+          return o1.getFileName().compareTo(o2.getFileName());
         }
-    };
+      };
 
-    /**
-     * Creates a simple JS file object.<p>
-     */
-    protected CmsFileInfo() {
+  /**
+   * Creates a simple JS file object.
+   *
+   * <p>
+   */
+  protected CmsFileInfo() {
 
-        // noop
-    }
+    // noop
+  }
 
-    /**
-     * Returns the file name.<p>
-     *
-     * @return the file name
-     */
-    public final native String getFileName() /*-{
+  /**
+   * Returns the file name.
+   *
+   * <p>
+   *
+   * @return the file name
+   */
+  public final native String getFileName() /*-{
 
                                              return this.name ? this.name : this.fileName;
 
                                              }-*/;
 
-    /**
-     * Returns the file size.<p>
-     *
-     * @return the file size
-     */
-    public final native int getFileSize() /*-{
+  /**
+   * Returns the file size.
+   *
+   * <p>
+   *
+   * @return the file size
+   */
+  public final native int getFileSize() /*-{
 
                                           return this.size ? this.size : this.fileSize;
 
                                           }-*/;
 
-    /**
-     * Returns the suffix of the file name with the dot at the beginning e.g. <code>".zip"</code>.<p>
-     *
-     * @return the suffix of the file name
-     */
-    public final native String getFileSuffix() /*-{
+  /**
+   * Returns the suffix of the file name with the dot at the beginning e.g. <code>".zip"</code>.
+   *
+   * <p>
+   *
+   * @return the suffix of the file name
+   */
+  public final native String getFileSuffix() /*-{
 
                                                var filename = this.name ? this.name : this.fileName;
                                                var dot = filename.lastIndexOf(".");
@@ -97,31 +105,37 @@ public class CmsFileInfo extends JavaScriptObject {
 
                                                }-*/;
 
-    /**
-     * Returns the associated input element if available.<p>
-     *
-     * @return the input element
-     */
-    public final native InputElement getInputElement() /*-{
+  /**
+   * Returns the associated input element if available.
+   *
+   * <p>
+   *
+   * @return the input element
+   */
+  public final native InputElement getInputElement() /*-{
                                                        return this.input ? this.input : null;
                                                        }-*/;
 
-    /**
-     * Returns the file name to override the original one if set, or the original file name.<p>
-     *
-     * @return the override file name
-     */
-    public final native String getOverrideFileName() /*-{
+  /**
+   * Returns the file name to override the original one if set, or the original file name.
+   *
+   * <p>
+   *
+   * @return the override file name
+   */
+  public final native String getOverrideFileName() /*-{
                                                      return this.overrideFileName ? this.overrideFileName
                                                      : this.name ? this.name : this.fileName;
                                                      }-*/;
 
-    /**
-     * Sets the file name to override the original one.<p>
-     *
-     * @param overrideFileName the override file name
-     */
-    public final native void setOverrideFileName(String overrideFileName) /*-{
+  /**
+   * Sets the file name to override the original one.
+   *
+   * <p>
+   *
+   * @param overrideFileName the override file name
+   */
+  public final native void setOverrideFileName(String overrideFileName) /*-{
                                                                           this.overrideFileName = overrideFileName;
                                                                           }-*/;
 }

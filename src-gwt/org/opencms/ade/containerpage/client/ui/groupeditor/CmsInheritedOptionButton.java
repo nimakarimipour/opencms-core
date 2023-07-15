@@ -27,60 +27,68 @@
 
 package org.opencms.ade.containerpage.client.ui.groupeditor;
 
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.opencms.ade.containerpage.client.Messages;
 import org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel;
 import org.opencms.gwt.client.ui.CmsPushButton;
 import org.opencms.gwt.client.ui.I_CmsButton;
 import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-
 /**
- * The selection option.<p>
+ * The selection option.
+ *
+ * <p>
  *
  * @since 8.5.0
  */
 public class CmsInheritedOptionButton extends CmsPushButton implements I_CmsGroupEditorOption {
 
-    /** The element widget. */
-    private CmsContainerPageElementPanel m_elementWidget;
+  /** The element widget. */
+  private CmsContainerPageElementPanel m_elementWidget;
 
-    /**
-     * The constructor.<p>
-     *
-     * @param elementWidget the associated element widget
-     * @param editor the editor instance
-     */
-    public CmsInheritedOptionButton(CmsContainerPageElementPanel elementWidget, CmsInheritanceContainerEditor editor) {
+  /**
+   * The constructor.
+   *
+   * <p>
+   *
+   * @param elementWidget the associated element widget
+   * @param editor the editor instance
+   */
+  public CmsInheritedOptionButton(
+      CmsContainerPageElementPanel elementWidget, CmsInheritanceContainerEditor editor) {
 
-        super();
-        setImageClass(I_CmsButton.ButtonData.INHERITED.getSmallIconClass());
-        setButtonStyle(ButtonStyle.FONT_ICON, null);
+    super();
+    setImageClass(I_CmsButton.ButtonData.INHERITED.getSmallIconClass());
+    setButtonStyle(ButtonStyle.FONT_ICON, null);
 
-        String path = elementWidget.getInheritanceInfo().getPath();
-        String title = I_CmsButton.ButtonData.INHERITED.getTitle();
-        if (path != null) {
-            title = Messages.get().key(
-                Messages.GUI_TITLE_INHERITED_FROM_1,
-                elementWidget.getInheritanceInfo().getPath());
-        }
-        setTitle(title);
-        m_elementWidget = elementWidget;
+    String path = elementWidget.getInheritanceInfo().getPath();
+    String title = I_CmsButton.ButtonData.INHERITED.getTitle();
+    if (path != null) {
+      title =
+          Messages.get()
+              .key(
+                  Messages.GUI_TITLE_INHERITED_FROM_1,
+                  elementWidget.getInheritanceInfo().getPath());
     }
+    setTitle(title);
+    m_elementWidget = elementWidget;
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.groupeditor.I_CmsGroupEditorOption#checkVisibility()
-     */
-    public boolean checkVisibility() {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.groupeditor.I_CmsGroupEditorOption#checkVisibility()
+   */
+  public boolean checkVisibility() {
 
-        return !m_elementWidget.getInheritanceInfo().isNew();
-    }
+    return !m_elementWidget.getInheritanceInfo().isNew();
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.groupeditor.I_CmsGroupEditorOption#onClick(com.google.gwt.event.dom.client.ClickEvent)
-     */
-    public void onClick(ClickEvent event) {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.groupeditor.I_CmsGroupEditorOption#onClick(com.google.gwt.event.dom.client.ClickEvent)
+   */
+  public void onClick(ClickEvent event) {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 }

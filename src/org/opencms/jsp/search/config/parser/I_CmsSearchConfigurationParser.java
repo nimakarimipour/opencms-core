@@ -27,6 +27,7 @@
 
 package org.opencms.jsp.search.config.parser;
 
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.jsp.search.config.I_CmsSearchConfigurationCommon;
 import org.opencms.jsp.search.config.I_CmsSearchConfigurationDidYouMean;
@@ -38,54 +39,70 @@ import org.opencms.jsp.search.config.I_CmsSearchConfigurationHighlighting;
 import org.opencms.jsp.search.config.I_CmsSearchConfigurationPagination;
 import org.opencms.jsp.search.config.I_CmsSearchConfigurationSorting;
 
-import java.util.Map;
-
 /** The interface that must be implemented by search (form) configuration parsers. */
 public interface I_CmsSearchConfigurationParser {
 
-    /** Returns the common search configuration.
-     * @param cms the current context
-     * @return The common search configuration.
-     */
-    I_CmsSearchConfigurationCommon parseCommon(CmsObject cms);
+  /**
+   * Returns the common search configuration.
+   *
+   * @param cms the current context
+   * @return The common search configuration.
+   */
+  I_CmsSearchConfigurationCommon parseCommon(CmsObject cms);
 
-    /** Returns the configuration for the "Did you mean ...?" feature.
-     * @return The configuration for the "Did you mean ...?" feature.
-     */
-    I_CmsSearchConfigurationDidYouMean parseDidYouMean();
+  /**
+   * Returns the configuration for the "Did you mean ...?" feature.
+   *
+   * @return The configuration for the "Did you mean ...?" feature.
+   */
+  I_CmsSearchConfigurationDidYouMean parseDidYouMean();
 
-    /** Returns the configuration for the field facets.
-     * @return The configuration for the field facets.
-     */
-    Map<String, I_CmsSearchConfigurationFacetField> parseFieldFacets();
+  /**
+   * Returns the configuration for the field facets.
+   *
+   * @return The configuration for the field facets.
+   */
+  Map<String, I_CmsSearchConfigurationFacetField> parseFieldFacets();
 
-    /** Returns the configuration for the Geo filter.
-     * @return The configuration for the Geo filter.
-     */
-    I_CmsSearchConfigurationGeoFilter parseGeoFilter();
+  /**
+   * Returns the configuration for the Geo filter.
+   *
+   * @return The configuration for the Geo filter.
+   */
+  I_CmsSearchConfigurationGeoFilter parseGeoFilter();
 
-    /** Returns the configuration for the highlighting.
-     * @return The configuration for the highlighting.
-     */
-    I_CmsSearchConfigurationHighlighting parseHighlighter();
+  /**
+   * Returns the configuration for the highlighting.
+   *
+   * @return The configuration for the highlighting.
+   */
+  I_CmsSearchConfigurationHighlighting parseHighlighter();
 
-    /** Returns the configuration for the pagination.
-     * @return The configuration for the pagination.
-     */
-    I_CmsSearchConfigurationPagination parsePagination();
+  /**
+   * Returns the configuration for the pagination.
+   *
+   * @return The configuration for the pagination.
+   */
+  I_CmsSearchConfigurationPagination parsePagination();
 
-    /** Returns the configuration for the query facet.
-     * @return The configuration for the query facet.
-     */
-    I_CmsSearchConfigurationFacetQuery parseQueryFacet();
+  /**
+   * Returns the configuration for the query facet.
+   *
+   * @return The configuration for the query facet.
+   */
+  I_CmsSearchConfigurationFacetQuery parseQueryFacet();
 
-    /** Returns the configuration for the range facets.
-     * @return The configuration for the range facets.
-     */
-    Map<String, I_CmsSearchConfigurationFacetRange> parseRangeFacets();
+  /**
+   * Returns the configuration for the range facets.
+   *
+   * @return The configuration for the range facets.
+   */
+  Map<String, I_CmsSearchConfigurationFacetRange> parseRangeFacets();
 
-    /** Returns the configuration for sorting.
-     * @return The configuration for sorting.
-     */
-    I_CmsSearchConfigurationSorting parseSorting();
+  /**
+   * Returns the configuration for sorting.
+   *
+   * @return The configuration for sorting.
+   */
+  I_CmsSearchConfigurationSorting parseSorting();
 }

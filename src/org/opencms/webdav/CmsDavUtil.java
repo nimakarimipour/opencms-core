@@ -27,43 +27,39 @@
 
 package org.opencms.webdav;
 
-import org.opencms.main.CmsException;
-import org.opencms.security.CmsPermissionViolationException;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
-
 import javax.servlet.http.HttpServletResponse;
+import org.opencms.main.CmsException;
+import org.opencms.security.CmsPermissionViolationException;
 
-/**
- * Various utilities for the WebDAV implementation.
- */
+/** Various utilities for the WebDAV implementation. */
 public class CmsDavUtil {
 
-    /** Default date format to use for date-valued properties. */
-    public static final DateFormat DATE_FORMAT;
-    public static final String PARAM_REPOSITORY = "repository";
+  /** Default date format to use for date-valued properties. */
+  public static final DateFormat DATE_FORMAT;
 
-    static {
-        DATE_FORMAT = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.US);
-        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
+  public static final String PARAM_REPOSITORY = "repository";
+
+  static {
+    DATE_FORMAT = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.US);
+    DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
+  }
+
+  /**
+   * Gets the HTTP status code to use for an exception.
+   *
+   * @param e the exception
+   * @return the status code
+   */
+  public static int getStatusForException(CmsException e) {
+
+    if (e instanceof CmsPermissionViolationException) {
+      return HttpServletResponse.SC_FORBIDDEN;
+    } else {
+      return HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
     }
-
-    /**
-     * Gets the HTTP status code to use for an exception.
-     *
-     * @param e the exception
-     * @return the status code
-     */
-    public static int getStatusForException(CmsException e) {
-
-        if (e instanceof CmsPermissionViolationException) {
-            return HttpServletResponse.SC_FORBIDDEN;
-        } else {
-            return HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-        }
-    }
-
+  }
 }

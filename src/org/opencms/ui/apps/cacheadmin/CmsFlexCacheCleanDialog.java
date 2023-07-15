@@ -27,6 +27,13 @@
 
 package org.opencms.ui.apps.cacheadmin;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.OptionGroup;
+import java.util.Collections;
 import org.opencms.flex.CmsFlexCache;
 import org.opencms.main.CmsEvent;
 import org.opencms.main.I_CmsEventListener;
@@ -36,134 +43,137 @@ import org.opencms.ui.FontOpenCms;
 import org.opencms.ui.apps.cacheadmin.CmsFlushCache.I_CloseableDialog;
 import org.opencms.ui.components.CmsBasicDialog;
 
-import java.util.Collections;
-
-import com.vaadin.v7.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.v7.ui.Label;
-import com.vaadin.v7.ui.OptionGroup;
-
 /**
- * Dialog for clean flex cache.<p>
+ * Dialog for clean flex cache.
+ *
+ * <p>
  */
 public class CmsFlexCacheCleanDialog extends CmsBasicDialog implements I_CloseableDialog {
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = 142178694100824093L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 142178694100824093L;
 
-    /**Runnable for close action.*/
-    Runnable m_closeRunnable;
+  /** Runnable for close action. */
+  Runnable m_closeRunnable;
 
-    /**Runnable for ok button.*/
-    Runnable m_okRunnable;
+  /** Runnable for ok button. */
+  Runnable m_okRunnable;
 
-    /**Vaadin component.*/
-    private Button m_cancelButton;
+  /** Vaadin component. */
+  private Button m_cancelButton;
 
-    /**Vaadin label for icon.*/
-    private Label m_icon;
+  /** Vaadin label for icon. */
+  private Label m_icon;
 
-    /**Vaadin component.*/
-    private OptionGroup m_mode;
+  /** Vaadin component. */
+  private OptionGroup m_mode;
 
-    /**Vaadin component.*/
-    private Button m_okButton;
+  /** Vaadin component. */
+  private Button m_okButton;
 
-    /**
-     * Public constructor.<p>
-     *
-     */
-    public CmsFlexCacheCleanDialog() {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   */
+  public CmsFlexCacheCleanDialog() {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
-        setDefaultValues();
+    setDefaultValues();
 
-        //Set Clicklistener
-        m_cancelButton.addClickListener(new ClickListener() {
+    // Set Clicklistener
+    m_cancelButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = -5769891739879269176L;
+          private static final long serialVersionUID = -5769891739879269176L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                m_closeRunnable.run();
-            }
+            m_closeRunnable.run();
+          }
         });
-        m_okButton.addClickListener(new ClickListener() {
+    m_okButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 6932464669055039855L;
+          private static final long serialVersionUID = 6932464669055039855L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                submit();
-                m_closeRunnable.run();
-                if (m_okRunnable != null) {
-                    m_okRunnable.run();
-                }
+            submit();
+            m_closeRunnable.run();
+            if (m_okRunnable != null) {
+              m_okRunnable.run();
             }
+          }
         });
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.apps.cacheadmin.CmsFlushCache.I_CloseableDialog#setCloseRunnable(java.lang.Runnable)
+   */
+  public void setCloseRunnable(Runnable closeRunnable) {
+
+    m_closeRunnable = closeRunnable;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.apps.cacheadmin.CmsFlushCache.I_CloseableDialog#setOkRunnable(java.lang.Runnable)
+   */
+  public void setOkRunnable(Runnable okRunnable) {
+
+    m_okRunnable = okRunnable;
+  }
+
+  /**
+   * Reads out Checkboxes and chosen mode.
+   *
+   * <p>
+   */
+  void submit() {
+
+    int action = -1;
+
+    if (isModeAll()) {
+      action = CmsFlexCache.CLEAR_ONLINE_ALL;
+    } else {
+      action = CmsFlexCache.CLEAR_ONLINE_ENTRIES;
     }
 
-    /**
-     * @see org.opencms.ui.apps.cacheadmin.CmsFlushCache.I_CloseableDialog#setCloseRunnable(java.lang.Runnable)
-     */
-    public void setCloseRunnable(Runnable closeRunnable) {
+    OpenCms.fireCmsEvent(
+        new CmsEvent(
+            I_CmsEventListener.EVENT_FLEX_CACHE_CLEAR,
+            Collections.<String, Object>singletonMap(
+                CmsFlexCache.CACHE_ACTION, new Integer(action))));
+  }
 
-        m_closeRunnable = closeRunnable;
+  /**
+   * Reads out option group for mode.
+   *
+   * <p>
+   *
+   * @return true if clear all
+   */
+  private boolean isModeAll() {
 
-    }
+    return m_mode.getValue().equals("keysAndVariations");
+  }
 
-    /**
-     * @see org.opencms.ui.apps.cacheadmin.CmsFlushCache.I_CloseableDialog#setOkRunnable(java.lang.Runnable)
-     */
-    public void setOkRunnable(Runnable okRunnable) {
+  /**
+   * Set defautl values to vaadin components.
+   *
+   * <p>
+   */
+  private void setDefaultValues() {
 
-        m_okRunnable = okRunnable;
+    // Setup icon
+    m_icon.setContentMode(ContentMode.HTML);
+    m_icon.setValue(FontOpenCms.WARNING.getHtml());
 
-    }
-
-    /**
-     * Reads out Checkboxes and chosen mode.<p>
-     */
-    void submit() {
-
-        int action = -1;
-
-        if (isModeAll()) {
-            action = CmsFlexCache.CLEAR_ONLINE_ALL;
-        } else {
-            action = CmsFlexCache.CLEAR_ONLINE_ENTRIES;
-        }
-
-        OpenCms.fireCmsEvent(
-            new CmsEvent(
-                I_CmsEventListener.EVENT_FLEX_CACHE_CLEAR,
-                Collections.<String, Object> singletonMap(CmsFlexCache.CACHE_ACTION, new Integer(action))));
-    }
-
-    /**
-     * Reads out option group for mode.<p>
-     *
-     * @return true if clear all
-     */
-    private boolean isModeAll() {
-
-        return m_mode.getValue().equals("keysAndVariations");
-    }
-
-    /**
-     * Set defautl values to vaadin components.<p>
-     */
-    private void setDefaultValues() {
-
-        //Setup icon
-        m_icon.setContentMode(ContentMode.HTML);
-        m_icon.setValue(FontOpenCms.WARNING.getHtml());
-
-        //Set Mode option.
-        m_mode.setValue("keysAndVariations");
-    }
-
+    // Set Mode option.
+    m_mode.setValue("keysAndVariations");
+  }
 }

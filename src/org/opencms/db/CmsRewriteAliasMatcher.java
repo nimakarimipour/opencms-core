@@ -27,107 +27,117 @@
 
 package org.opencms.db;
 
-import org.opencms.main.CmsLog;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
 import org.apache.commons.logging.Log;
+import org.opencms.main.CmsLog;
 
 /**
- * Helper class used for matching rewrite aliases to incoming request URIs.<p>
+ * Helper class used for matching rewrite aliases to incoming request URIs.
+ *
+ * <p>
  */
 public class CmsRewriteAliasMatcher {
 
-    /**
-     * The result of a match operation.<p>
-     */
-    public static class RewriteResult {
+  /**
+   * The result of a match operation.
+   *
+   * <p>
+   */
+  public static class RewriteResult {
 
-        /** The rewrite alias which matched the given path. */
-        private CmsRewriteAlias m_alias;
+    /** The rewrite alias which matched the given path. */
+    private CmsRewriteAlias m_alias;
 
-        /** The path resulting from the rewrite. */
-        private String m_newPath;
-
-        /**
-         * Creates a new instance.<p>
-         *
-         * @param newPath the path resulting from the rewrite
-         * @param alias the alias that matched the path
-         */
-        public RewriteResult(String newPath, CmsRewriteAlias alias) {
-
-            m_newPath = newPath;
-            m_alias = alias;
-
-        }
-
-        /**
-         * Gets the alias which matched the given path.<p>
-         *
-         * @return the matching alias
-         */
-        public CmsRewriteAlias getAlias() {
-
-            return m_alias;
-        }
-
-        /**
-         * Gets the path resulting from the rewrite.<p>
-         *
-         * @return the new path
-         */
-        public String getNewPath() {
-
-            return m_newPath;
-        }
-
-    }
-
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsRewriteAliasMatcher.class);
-
-    /** The list of rewrite aliases to use for matching. */
-    private List<CmsRewriteAlias> m_aliases;
+    /** The path resulting from the rewrite. */
+    private String m_newPath;
 
     /**
-     * Creates a new matcher instance for the given list of rewrite aliases.<p>
+     * Creates a new instance.
      *
-     * @param aliases the list of rewrite aliases to be used for matching
+     * <p>
+     *
+     * @param newPath the path resulting from the rewrite
+     * @param alias the alias that matched the path
      */
-    public CmsRewriteAliasMatcher(Collection<CmsRewriteAlias> aliases) {
+    public RewriteResult(String newPath, CmsRewriteAlias alias) {
 
-        m_aliases = new ArrayList<CmsRewriteAlias>(aliases);
+      m_newPath = newPath;
+      m_alias = alias;
     }
 
     /**
-     * Tries to rewrite a given path, and either returns the rewrite result or null if no
-     * rewrite alias matched the path.<p>
+     * Gets the alias which matched the given path.
      *
-     * @param path the path to match
-     * @return the rewrite result or null if no rewrite alias matched
+     * <p>
+     *
+     * @return the matching alias
      */
-    public RewriteResult match(String path) {
+    public CmsRewriteAlias getAlias() {
 
-        for (CmsRewriteAlias alias : m_aliases) {
-            try {
-                Pattern pattern = Pattern.compile(alias.getPatternString());
-                Matcher matcher = pattern.matcher(path);
-                if (matcher.matches()) {
-                    String newPath = matcher.replaceFirst(alias.getReplacementString());
-                    return new RewriteResult(newPath, alias);
-                }
-            } catch (PatternSyntaxException e) {
-                LOG.warn(e.getLocalizedMessage(), e);
-            } catch (IndexOutOfBoundsException e) {
-                LOG.warn(e.getLocalizedMessage(), e);
-            }
-        }
-        return null;
+      return m_alias;
     }
+
+    /**
+     * Gets the path resulting from the rewrite.
+     *
+     * <p>
+     *
+     * @return the new path
+     */
+    public String getNewPath() {
+
+      return m_newPath;
+    }
+  }
+
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsRewriteAliasMatcher.class);
+
+  /** The list of rewrite aliases to use for matching. */
+  private List<CmsRewriteAlias> m_aliases;
+
+  /**
+   * Creates a new matcher instance for the given list of rewrite aliases.
+   *
+   * <p>
+   *
+   * @param aliases the list of rewrite aliases to be used for matching
+   */
+  public CmsRewriteAliasMatcher(Collection<CmsRewriteAlias> aliases) {
+
+    m_aliases = new ArrayList<CmsRewriteAlias>(aliases);
+  }
+
+  /**
+   * Tries to rewrite a given path, and either returns the rewrite result or null if no rewrite
+   * alias matched the path.
+   *
+   * <p>
+   *
+   * @param path the path to match
+   * @return the rewrite result or null if no rewrite alias matched
+   */
+  public RewriteResult match(String path) {
+
+    for (CmsRewriteAlias alias : m_aliases) {
+      try {
+        Pattern pattern = Pattern.compile(alias.getPatternString());
+        Matcher matcher = pattern.matcher(path);
+        if (matcher.matches()) {
+          String newPath = matcher.replaceFirst(alias.getReplacementString());
+          return new RewriteResult(newPath, alias);
+        }
+      } catch (PatternSyntaxException e) {
+        LOG.warn(e.getLocalizedMessage(), e);
+      } catch (IndexOutOfBoundsException e) {
+        LOG.warn(e.getLocalizedMessage(), e);
+      }
+    }
+    return null;
+  }
 }

@@ -28,43 +28,56 @@
 package org.opencms.newsletter;
 
 /**
- * Interface for recipients of {@link I_CmsNewsletter} objects.<p>
+ * Interface for recipients of {@link I_CmsNewsletter} objects.
+ *
+ * <p>
  */
 public interface I_CmsNewsletterRecipient {
 
-    /**
-     * Returns the email address of the recipient.<p>
-     *
-     * @return the email address of the recipient.
-     */
-    String getEmail();
+  /**
+   * Returns the email address of the recipient.
+   *
+   * <p>
+   *
+   * @return the email address of the recipient.
+   */
+  String getEmail();
 
-    /**
-     * Returns the firstname of the recipient.<p>
-     *
-     * @return the firstname of the recipient.
-     */
-    String getFirstname();
+  /**
+   * Returns the firstname of the recipient.
+   *
+   * <p>
+   *
+   * @return the firstname of the recipient.
+   */
+  String getFirstname();
 
-    /**
-     * Returns the nicename of the recipient.<p>
-     *
-     * @return the nicename of the recipient.
-     */
-    String getFullName();
+  /**
+   * Returns the nicename of the recipient.
+   *
+   * <p>
+   *
+   * @return the nicename of the recipient.
+   */
+  String getFullName();
 
-    /**
-     * Returns the lastname of the recipient.<p>
-     *
-     * @return the lastname of the recipient.
-     */
-    String getLastname();
+  /**
+   * Returns the lastname of the recipient.
+   *
+   * <p>
+   *
+   * @return the lastname of the recipient.
+   */
+  String getLastname();
 
-    /**
-     * Returns <code>true</code> in case this newsletter recipient has subscribed to the given content.<p>
-     *
-     * @param content the content to check for subscription
-     * @return <code>true</code> in case this newsletter recipient has subscribed to the given content
-     */
-    boolean isSubscriber(I_CmsNewsletterContent content);
+  /**
+   * Returns <code>true</code> in case this newsletter recipient has subscribed to the given
+   * content.
+   *
+   * <p>
+   *
+   * @param content the content to check for subscription
+   * @return <code>true</code> in case this newsletter recipient has subscribed to the given content
+   */
+  boolean isSubscriber(I_CmsNewsletterContent content);
 }

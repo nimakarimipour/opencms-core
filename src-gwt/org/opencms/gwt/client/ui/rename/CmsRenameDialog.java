@@ -27,6 +27,7 @@
 
 package org.opencms.gwt.client.ui.rename;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.client.rpc.CmsRpcAction;
 import org.opencms.gwt.client.ui.CmsPopup;
@@ -34,61 +35,67 @@ import org.opencms.gwt.client.ui.CmsPushButton;
 import org.opencms.gwt.shared.CmsRenameInfoBean;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * The dialog for renaming a given resource.<p>
+ * The dialog for renaming a given resource.
+ *
+ * <p>
  */
 public class CmsRenameDialog extends CmsPopup {
 
-    /** The handler which should be called when the resource has been successfully renamed. */
-    AsyncCallback<String> m_renameHandler;
+  /** The handler which should be called when the resource has been successfully renamed. */
+  AsyncCallback<String> m_renameHandler;
 
-    /** The structure id of the resource to be renamed. */
-    CmsUUID m_structureId;
+  /** The structure id of the resource to be renamed. */
+  CmsUUID m_structureId;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param structureId the structure id of the resource to be renamed
-     * @param renameHandler the handler which should be called when the resource has been renamed
-     */
-    public CmsRenameDialog(CmsUUID structureId, AsyncCallback<String> renameHandler) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource to be renamed
+   * @param renameHandler the handler which should be called when the resource has been renamed
+   */
+  public CmsRenameDialog(CmsUUID structureId, AsyncCallback<String> renameHandler) {
 
-        super(CmsRenameMessages.messageDialogTitle());
-        setModal(true);
-        setGlassEnabled(true);
-        m_structureId = structureId;
-        m_renameHandler = renameHandler;
-    }
+    super(CmsRenameMessages.messageDialogTitle());
+    setModal(true);
+    setGlassEnabled(true);
+    m_structureId = structureId;
+    m_renameHandler = renameHandler;
+  }
 
-    /**
-     * Loads the necessary data for the rename dialog from the server and then displays the rename dialog.<p>
-     */
-    public void loadAndShow() {
+  /**
+   * Loads the necessary data for the rename dialog from the server and then displays the rename
+   * dialog.
+   *
+   * <p>
+   */
+  public void loadAndShow() {
 
-        CmsRpcAction<CmsRenameInfoBean> infoAction = new CmsRpcAction<CmsRenameInfoBean>() {
+    CmsRpcAction<CmsRenameInfoBean> infoAction =
+        new CmsRpcAction<CmsRenameInfoBean>() {
 
-            @Override
-            public void execute() {
+          @Override
+          public void execute() {
 
-                start(0, true);
-                CmsCoreProvider.getVfsService().getRenameInfo(m_structureId, this);
+            start(0, true);
+            CmsCoreProvider.getVfsService().getRenameInfo(m_structureId, this);
+          }
+
+          @Override
+          protected void onResponse(CmsRenameInfoBean renameInfo) {
+
+            stop(false);
+            CmsRenameView view = new CmsRenameView(renameInfo, m_renameHandler);
+            for (CmsPushButton button : view.getDialogButtons()) {
+              addButton(button);
             }
-
-            @Override
-            protected void onResponse(CmsRenameInfoBean renameInfo) {
-
-                stop(false);
-                CmsRenameView view = new CmsRenameView(renameInfo, m_renameHandler);
-                for (CmsPushButton button : view.getDialogButtons()) {
-                    addButton(button);
-                }
-                setMainContent(view);
-                view.setDialog(CmsRenameDialog.this);
-                center();
-            }
+            setMainContent(view);
+            view.setDialog(CmsRenameDialog.this);
+            center();
+          }
         };
-        infoAction.execute();
-    }
+    infoAction.execute();
+  }
 }

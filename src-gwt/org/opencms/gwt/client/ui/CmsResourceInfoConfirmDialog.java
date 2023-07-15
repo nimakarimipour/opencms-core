@@ -27,153 +27,170 @@
 
 package org.opencms.gwt.client.ui;
 
-import org.opencms.gwt.client.ui.I_CmsButton.ButtonColor;
-import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
-import org.opencms.gwt.shared.CmsListInfoBean;
-import org.opencms.gwt.shared.CmsResourceStatusBean;
-
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import org.opencms.gwt.client.ui.I_CmsButton.ButtonColor;
+import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
+import org.opencms.gwt.shared.CmsListInfoBean;
+import org.opencms.gwt.shared.CmsResourceStatusBean;
 
 /**
- * Confirm dialog with a resource info box.<p>
+ * Confirm dialog with a resource info box.
+ *
+ * <p>
  */
 public class CmsResourceInfoConfirmDialog {
 
-    /** The cancel button. */
-    private CmsPushButton m_cancelButton;
+  /** The cancel button. */
+  private CmsPushButton m_cancelButton;
 
-    /** Center panel. */
-    private FlowPanel m_centerPanel = new FlowPanel();
+  /** Center panel. */
+  private FlowPanel m_centerPanel = new FlowPanel();
 
-    /** The dialog content. */
-    private FlowPanel m_content = new FlowPanel();
+  /** The dialog content. */
+  private FlowPanel m_content = new FlowPanel();
 
-    /** The dialog. */
-    private CmsPopup m_dialog;
+  /** The dialog. */
+  private CmsPopup m_dialog;
 
-    /** The OK button. */
-    private CmsPushButton m_okButton;
+  /** The OK button. */
+  private CmsPushButton m_okButton;
 
-    /**
-     * Creates a new dialog instance for the given resource info.<p>
-     *
-     * @param resourceStatus the resource information
-     */
-    public CmsResourceInfoConfirmDialog(CmsResourceStatusBean resourceStatus) {
+  /**
+   * Creates a new dialog instance for the given resource info.
+   *
+   * <p>
+   *
+   * @param resourceStatus the resource information
+   */
+  public CmsResourceInfoConfirmDialog(CmsResourceStatusBean resourceStatus) {
 
-        CmsListInfoBean info = resourceStatus.getListInfo();
-        CmsListItemWidget itemWidget = new CmsListItemWidget(info);
-        m_content.add(itemWidget);
-        m_centerPanel.add(new Label(getText()));
-        m_centerPanel.getElement().getStyle().setPadding(7, Unit.PX);
+    CmsListInfoBean info = resourceStatus.getListInfo();
+    CmsListItemWidget itemWidget = new CmsListItemWidget(info);
+    m_content.add(itemWidget);
+    m_centerPanel.add(new Label(getText()));
+    m_centerPanel.getElement().getStyle().setPadding(7, Unit.PX);
 
-        m_content.add(m_centerPanel);
-        m_okButton = createButton(getOkText());
-        m_okButton.addClickHandler(new ClickHandler() {
+    m_content.add(m_centerPanel);
+    m_okButton = createButton(getOkText());
+    m_okButton.addClickHandler(
+        new ClickHandler() {
 
-            @SuppressWarnings("synthetic-access")
-            public void onClick(ClickEvent event) {
+          @SuppressWarnings("synthetic-access")
+          public void onClick(ClickEvent event) {
 
-                m_dialog.hide();
-                onConfirm();
-            }
+            m_dialog.hide();
+            onConfirm();
+          }
         });
-        m_cancelButton = createButton(getCancelText());
-        m_cancelButton.addClickHandler(new ClickHandler() {
+    m_cancelButton = createButton(getCancelText());
+    m_cancelButton.addClickHandler(
+        new ClickHandler() {
 
-            @SuppressWarnings("synthetic-access")
-            public void onClick(ClickEvent event) {
+          @SuppressWarnings("synthetic-access")
+          public void onClick(ClickEvent event) {
 
-                m_dialog.hide();
-            }
+            m_dialog.hide();
+          }
         });
 
-        m_dialog = new CmsPopup();
-        m_dialog.setModal(true);
-        m_dialog.setGlassEnabled(true);
-        m_dialog.setCaption(getCaption());
+    m_dialog = new CmsPopup();
+    m_dialog.setModal(true);
+    m_dialog.setGlassEnabled(true);
+    m_dialog.setCaption(getCaption());
 
-        m_dialog.addButton(m_cancelButton);
-        m_dialog.addButton(m_okButton);
-        m_okButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.GREEN);
+    m_dialog.addButton(m_cancelButton);
+    m_dialog.addButton(m_okButton);
+    m_okButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.GREEN);
 
-        m_dialog.setMainContent(m_content);
+    m_dialog.setMainContent(m_content);
+  }
 
-    }
+  /**
+   * Displays the dialog.
+   *
+   * <p>
+   */
+  public void display() {
 
-    /**
-     * Displays the dialog.<p>
-     */
-    public void display() {
+    m_dialog.center();
+  }
 
-        m_dialog.center();
-    }
+  /**
+   * Gets the cancel button text.
+   *
+   * <p>
+   *
+   * @return the cancel button text
+   */
+  public String getCancelText() {
 
-    /**
-     * Gets the cancel button text.<p>
-     *
-     * @return the cancel button text
-     */
-    public String getCancelText() {
+    return "??? Cancel";
+  }
 
-        return "??? Cancel";
-    }
+  /**
+   * Gets the dialog title.
+   *
+   * <p>
+   *
+   * @return the dialog title
+   */
+  public String getCaption() {
 
-    /**
-     * Gets the dialog title.<p>
-     *
-     * @return the dialog title
-     */
-    public String getCaption() {
+    return "??? Confirm";
+  }
 
-        return "??? Confirm";
-    }
+  /**
+   * Gets the OK button text.
+   *
+   * <p>
+   *
+   * @return the OK button text
+   */
+  public String getOkText() {
 
-    /**
-     * Gets the OK button text.<p>
-     *
-     * @return the OK button text
-     */
-    public String getOkText() {
+    return "??? OK";
+  }
 
-        return "??? OK";
-    }
+  /**
+   * Gets the dialog text.
+   *
+   * <p>
+   *
+   * @return the dialog text
+   */
+  public String getText() {
 
-    /**
-     * Gets the dialog text.<p>
-     *
-     * @return the dialog text
-     */
-    public String getText() {
+    return "??? Confirm";
+  }
 
-        return "??? Confirm";
-    }
+  /**
+   * Method to execute when the user confirms the action.
+   *
+   * <p>
+   */
+  public void onConfirm() {
 
-    /**
-     * Method to execute when the user confirms the action.<p>
-     */
-    public void onConfirm() {
+    // do nothing
 
-        // do nothing
+  }
 
-    }
+  /**
+   * Creates a button for the dialog.
+   *
+   * <p>
+   *
+   * @param text the button text
+   * @return the created button
+   */
+  private CmsPushButton createButton(String text) {
 
-    /**
-     * Creates a button for the dialog.<p>
-     *
-     * @param text the button text
-     *
-     * @return the created button
-     */
-    private CmsPushButton createButton(String text) {
-
-        CmsPushButton result = new CmsPushButton();
-        result.setText(text);
-        result.setUseMinWidth(true);
-        return result;
-    }
+    CmsPushButton result = new CmsPushButton();
+    result.setText(text);
+    result.setUseMinWidth(true);
+    return result;
+  }
 }

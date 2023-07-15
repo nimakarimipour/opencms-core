@@ -30,47 +30,37 @@ package org.opencms.jsp.search.state;
 /** Class for keeping the state for the pagination. */
 public class CmsSearchStatePagination implements I_CmsSearchStatePagination {
 
-    /** The current page. */
-    int m_current;
-    /** Flag, indicating if the chosen page should be ignored. */
-    // It's important that this is false by default.
-    boolean m_ignorePage;
+  /** The current page. */
+  int m_current;
+  /** Flag, indicating if the chosen page should be ignored. */
+  // It's important that this is false by default.
+  boolean m_ignorePage;
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStatePagination#getCurrentPage()
-     */
-    @Override
-    public int getCurrentPage() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStatePagination#getCurrentPage() */
+  @Override
+  public int getCurrentPage() {
 
-        return m_current;
-    }
+    return m_current;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStatePagination#getIgnorePage()
-     */
-    @Override
-    public boolean getIgnorePage() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStatePagination#getIgnorePage() */
+  @Override
+  public boolean getIgnorePage() {
 
-        return m_ignorePage;
-    }
+    return m_ignorePage;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStatePagination#setCurrentPage(int)
-     */
-    @Override
-    public void setCurrentPage(final int page) {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStatePagination#setCurrentPage(int) */
+  @Override
+  public void setCurrentPage(final int page) {
 
-        m_current = page;
+    m_current = page;
+  }
 
-    }
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStatePagination#setIgnorePage(boolean) */
+  @Override
+  public void setIgnorePage(final boolean ignore) {
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStatePagination#setIgnorePage(boolean)
-     */
-    @Override
-    public void setIgnorePage(final boolean ignore) {
-
-        m_ignorePage = ignore;
-    }
-
+    m_ignorePage = ignore;
+  }
 }

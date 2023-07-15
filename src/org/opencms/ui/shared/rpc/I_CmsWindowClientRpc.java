@@ -30,18 +30,20 @@ package org.opencms.ui.shared.rpc;
 import com.vaadin.shared.communication.ClientRpc;
 
 /**
- * Server-to-client RPC for CmsWindowExtension.<p>
+ * Server-to-client RPC for CmsWindowExtension.
+ *
+ * <p>
  */
 public interface I_CmsWindowClientRpc extends ClientRpc {
 
-    /**
-     * Opens a new window.<p>
-     *
-     * @param url the URL to open
-     * @param target the target window id
-     *
-     * @param id an id used to identify the RPC call
-     */
-    void open(String url, String target, String id);
-
+  /**
+   * Opens a new window.
+   *
+   * <p>
+   *
+   * @param url the URL to open
+   * @param target the target window id
+   * @param id an id used to identify the RPC call
+   */
+  void open(String url, String target, String id);
 }

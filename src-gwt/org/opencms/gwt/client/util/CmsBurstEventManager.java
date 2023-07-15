@@ -27,16 +27,16 @@
 
 package org.opencms.gwt.client.util;
 
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Timer;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Timer;
-
 /**
- * Takes care of the burst of the same event, by skipping the first ones and executing only the last one.<p>
+ * Takes care of the burst of the same event, by skipping the first ones and executing only the last
+ * one.
  *
- * Usage example:
+ * <p>Usage example:
  *
  * <pre>
  *   Window.addResizeHandler(new ResizeHandler() {
@@ -51,112 +51,126 @@ import com.google.gwt.user.client.Timer;
  * </pre>
  *
  * @since 8.0.0
- *
- * @see <a href="http://ui-programming.blogspot.com/2010/02/gwt-how-to-implement-delayedtask-in.html">Original implementation</a>
+ * @see <a
+ *     href="http://ui-programming.blogspot.com/2010/02/gwt-how-to-implement-delayedtask-in.html">Original
+ *     implementation</a>
  */
 public final class CmsBurstEventManager {
 
-    /**
-     * The class is model of one 'burst' event that is added to the manager.<p>
-     */
-    private static class BurstEvent {
+  /**
+   * The class is model of one 'burst' event that is added to the manager.
+   *
+   * <p>
+   */
+  private static class BurstEvent {
 
-        /** The timer. */
-        private final Timer m_timer;
-
-        /**
-         * Constructor of the 'burst' event.<p>
-         *
-         * @param name the unique name, which identifies the event
-         * @param command command to execute when the timer expires
-         */
-        public BurstEvent(final String name, final Command command) {
-
-            m_timer = new Timer() {
-
-                /**
-                 * @see com.google.gwt.user.client.Timer#run()
-                 */
-                @Override
-                public void run() {
-
-                    if (command != null) {
-                        command.execute();
-                    }
-                    CmsBurstEventManager.get().cancel(name);
-                }
-            };
-        }
-
-        /**
-         * Returns the timer.<p>
-         *
-         * @return the timer
-         */
-        public Timer getTimer() {
-
-            return m_timer;
-        }
-    }
-
-    /** The singleton instance. */
-    private static CmsBurstEventManager INSTANCE;
-
-    /** The internal memory. */
-    private Map<String, BurstEvent> m_memory = new HashMap<String, BurstEvent>();
+    /** The timer. */
+    private final Timer m_timer;
 
     /**
-     * Hidden constructor.<p>
-     */
-    private CmsBurstEventManager() {
-
-        // emtpy
-    }
-
-    /**
-     * Returns the singleton instance.<p>
+     * Constructor of the 'burst' event.
      *
-     * @return the singleton instance
-     */
-    protected static CmsBurstEventManager get() {
-
-        if (INSTANCE == null) {
-            INSTANCE = new CmsBurstEventManager();
-        }
-        return INSTANCE;
-    }
-
-    /**
-     * Adds an 'burst' event to the manager.<p>
+     * <p>
      *
      * @param name the unique name, which identifies the event
      * @param command command to execute when the timer expires
-     * @param delayMsec the timer delay (it's reseted if multiple events are added)
      */
-    public void schedule(final String name, final Command command, final int delayMsec) {
+    public BurstEvent(final String name, final Command command) {
 
-        BurstEvent e = m_memory.remove(name);
-        if (e != null) {
-            // disable the old event
-            e.getTimer().cancel();
-        }
-        // put the new event and schedule it
-        e = new BurstEvent(name, command);
-        m_memory.put(name, e);
-        e.getTimer().schedule(delayMsec);
+      m_timer =
+          new Timer() {
+
+            /** @see com.google.gwt.user.client.Timer#run() */
+            @Override
+            public void run() {
+
+              if (command != null) {
+                command.execute();
+              }
+              CmsBurstEventManager.get().cancel(name);
+            }
+          };
     }
 
     /**
-     * Removes the event from the manager.<p>
+     * Returns the timer.
      *
-     * @param eventName the name of the event that we need to remove
+     * <p>
+     *
+     * @return the timer
      */
-    public void cancel(final String eventName) {
+    public Timer getTimer() {
 
-        BurstEvent oe = m_memory.remove(eventName);
-        if (oe != null) {
-            // disable the old event.
-            oe.getTimer().cancel();
-        }
+      return m_timer;
     }
+  }
+
+  /** The singleton instance. */
+  private static CmsBurstEventManager INSTANCE;
+
+  /** The internal memory. */
+  private Map<String, BurstEvent> m_memory = new HashMap<String, BurstEvent>();
+
+  /**
+   * Hidden constructor.
+   *
+   * <p>
+   */
+  private CmsBurstEventManager() {
+
+    // emtpy
+  }
+
+  /**
+   * Returns the singleton instance.
+   *
+   * <p>
+   *
+   * @return the singleton instance
+   */
+  protected static CmsBurstEventManager get() {
+
+    if (INSTANCE == null) {
+      INSTANCE = new CmsBurstEventManager();
+    }
+    return INSTANCE;
+  }
+
+  /**
+   * Adds an 'burst' event to the manager.
+   *
+   * <p>
+   *
+   * @param name the unique name, which identifies the event
+   * @param command command to execute when the timer expires
+   * @param delayMsec the timer delay (it's reseted if multiple events are added)
+   */
+  public void schedule(final String name, final Command command, final int delayMsec) {
+
+    BurstEvent e = m_memory.remove(name);
+    if (e != null) {
+      // disable the old event
+      e.getTimer().cancel();
+    }
+    // put the new event and schedule it
+    e = new BurstEvent(name, command);
+    m_memory.put(name, e);
+    e.getTimer().schedule(delayMsec);
+  }
+
+  /**
+   * Removes the event from the manager.
+   *
+   * <p>
+   *
+   * @param eventName the name of the event that we need to remove
+   */
+  public void cancel(final String eventName) {
+
+    BurstEvent oe = m_memory.remove(eventName);
+    if (oe != null) {
+      // disable the old event.
+      oe.getTimer().cancel();
+    }
+  }
 }

@@ -27,98 +27,107 @@
 
 package org.opencms.gwt.client.util.impl;
 
+import com.google.gwt.dom.client.Element;
 import org.opencms.gwt.client.util.CmsDomUtil;
 
-import com.google.gwt.dom.client.Element;
-
 /**
- * Helper class to retrieve the computed style of an element.<p>
+ * Helper class to retrieve the computed style of an element.
  *
- * This implementation is used for all none MSIE browsers.<p>
+ * <p>This implementation is used for all none MSIE browsers.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class DocumentStyleImpl {
 
-    /**
-     * Transforms a CSS property name to its javascript property name (font-size >> fontSize).<p>
-     *
-     * @param s the property name
-     *
-     * @return the javascript property name
-     */
-    protected static native String camelize(String s)/*-{
+  /**
+   * Transforms a CSS property name to its javascript property name (font-size >> fontSize).
+   *
+   * <p>
+   *
+   * @param s the property name
+   * @return the javascript property name
+   */
+  protected static native String camelize(String s) /*-{
                                                      return s.replace(/\-(\w)/g, function(all, letter) {
                                                      return letter.toUpperCase();
                                                      });
                                                      }-*/;
 
-    /**
-     * Removes the opacity attribute from the element's inline-style.<p>
-     *
-     * @param element the DOM element to manipulate
-     */
-    public native void clearOpacity(Element element) /*-{
+  /**
+   * Removes the opacity attribute from the element's inline-style.
+   *
+   * <p>
+   *
+   * @param element the DOM element to manipulate
+   */
+  public native void clearOpacity(Element element) /*-{
                                                      element.style.removeProperty("opacity");
                                                      }-*/;
 
-    /**
-     * Returns the computed style of the given element.<p>
-     *
-     * @param elem the element
-     * @param name the name of the CSS property
-     *
-     * @return the currently computed style
-     */
-    public String getCurrentStyle(Element elem, String name) {
+  /**
+   * Returns the computed style of the given element.
+   *
+   * <p>
+   *
+   * @param elem the element
+   * @param name the name of the CSS property
+   * @return the currently computed style
+   */
+  public String getCurrentStyle(Element elem, String name) {
 
-        name = hyphenize(name);
-        String propVal = getComputedStyle(elem, name);
-        if (CmsDomUtil.Style.opacity.name().equals(name) && ((propVal == null) || (propVal.trim().length() == 0))) {
-            propVal = "1";
-        }
-        return propVal;
+    name = hyphenize(name);
+    String propVal = getComputedStyle(elem, name);
+    if (CmsDomUtil.Style.opacity.name().equals(name)
+        && ((propVal == null) || (propVal.trim().length() == 0))) {
+      propVal = "1";
     }
+    return propVal;
+  }
 
-    /**
-     * Transforms the CSS style name to the name of the javascript style property.<p>
-     *
-     * @param name the name of the CSS property
-     *
-     * @return the javascript property name
-     */
-    public String getPropertyName(String name) {
+  /**
+   * Transforms the CSS style name to the name of the javascript style property.
+   *
+   * <p>
+   *
+   * @param name the name of the CSS property
+   * @return the javascript property name
+   */
+  public String getPropertyName(String name) {
 
-        if ("float".equals(name)) {
-            return "cssFloat";
-        } else if ("class".equals(name)) {
-            return "className";
-        } else if ("for".equals(name)) {
-            return "htmlFor";
-        }
-        return camelize(name);
+    if ("float".equals(name)) {
+      return "cssFloat";
+    } else if ("class".equals(name)) {
+      return "className";
+    } else if ("for".equals(name)) {
+      return "htmlFor";
     }
+    return camelize(name);
+  }
 
-    /**
-     * Hyphenizes the given string.<p>
-     *
-     * @param name the string to hyphenize
-     *
-     * @return the result
-     */
-    protected native String hyphenize(String name) /*-{
+  /**
+   * Hyphenizes the given string.
+   *
+   * <p>
+   *
+   * @param name the string to hyphenize
+   * @return the result
+   */
+  protected native String hyphenize(String name) /*-{
                                                    return name.replace(/([A-Z])/g, "-$1").toLowerCase();
                                                    }-*/;
 
-    /**
-     * Returns the computed style from the DOM object.<p>
-     *
-     * @param elem the element object
-     * @param name name of the CSS property
-     *
-     * @return the property value
-     */
-    protected native String getComputedStyle(Element elem, String name) /*-{
+  /**
+   * Returns the computed style from the DOM object.
+   *
+   * <p>
+   *
+   * @param elem the element object
+   * @param name name of the CSS property
+   * @return the property value
+   */
+  protected native String getComputedStyle(Element elem, String name) /*-{
                                                                         var cStyle = $doc.defaultView.getComputedStyle(elem, null);
                                                                         if (cStyle == null) {
                                                                         return null;

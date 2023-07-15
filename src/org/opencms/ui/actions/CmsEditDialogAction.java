@@ -27,6 +27,9 @@
 
 package org.opencms.ui.actions;
 
+import com.vaadin.navigator.View;
+import com.vaadin.ui.UI;
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.types.CmsResourceTypeJsp;
@@ -50,97 +53,104 @@ import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.explorer.Messages;
 
-import java.util.List;
-
-import com.vaadin.navigator.View;
-import com.vaadin.ui.UI;
-
 /**
- * The edit dialog action. Used for all but container page contents.<p>
+ * The edit dialog action. Used for all but container page contents.
+ *
+ * <p>
  */
 public class CmsEditDialogAction extends A_CmsWorkplaceAction implements I_CmsDefaultAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "edit";
+  /** The action id. */
+  public static final String ACTION_ID = "edit";
 
-    /** The action visibility. */
-    public static final I_CmsHasMenuItemVisibility VISIBILITY = new CmsMenuItemVisibilitySingleOnly(
-        CmsStandardVisibilityCheck.EDIT);
+  /** The action visibility. */
+  public static final I_CmsHasMenuItemVisibility VISIBILITY =
+      new CmsMenuItemVisibilitySingleOnly(CmsStandardVisibilityCheck.EDIT);
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        View view = CmsAppWorkplaceUi.get().getCurrentView();
-        if (view instanceof CmsAppView) {
-            ((CmsAppView)view).setCacheStatus(CacheStatus.cacheOnce);
-        }
-        CmsResource resource = context.getResources().get(0);
-        String editState = CmsEditor.getEditState(
-            resource.getStructureId(),
-            false,
-            UI.getCurrent().getPage().getLocation().toString());
+    View view = CmsAppWorkplaceUi.get().getCurrentView();
+    if (view instanceof CmsAppView) {
+      ((CmsAppView) view).setCacheStatus(CacheStatus.cacheOnce);
+    }
+    CmsResource resource = context.getResources().get(0);
+    String editState =
+        CmsEditor.getEditState(
+            resource.getStructureId(), false, UI.getCurrent().getPage().getLocation().toString());
 
-        CmsAppWorkplaceUi.get().showApp(
+    CmsAppWorkplaceUi.get()
+        .showApp(
             OpenCms.getWorkplaceAppManager().getAppConfiguration(CmsEditorConfiguration.APP_ID),
             editState);
-    }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsDefaultAction#getDefaultActionRank(org.opencms.ui.I_CmsDialogContext)
-     */
-    public int getDefaultActionRank(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsDefaultAction#getDefaultActionRank(org.opencms.ui.I_CmsDialogContext)
+   */
+  public int getDefaultActionRank(I_CmsDialogContext context) {
 
-        CmsResource res = context.getResources().get(0);
+    CmsResource res = context.getResources().get(0);
 
-        boolean editAsDefault = (CmsResourceTypeXmlContent.isXmlContent(res)
-            || (CmsResourceTypePlain.getStaticTypeId() == res.getTypeId())
-            || CmsResourceTypeXmlPage.isXmlPage(res))
-            && !OpenCms.getResourceManager().getResourceType(res).getTypeName().equals(
-                CmsListManager.RES_TYPE_LIST_CONFIG)
+    boolean editAsDefault =
+        (CmsResourceTypeXmlContent.isXmlContent(res)
+                || (CmsResourceTypePlain.getStaticTypeId() == res.getTypeId())
+                || CmsResourceTypeXmlPage.isXmlPage(res))
+            && !OpenCms.getResourceManager()
+                .getResourceType(res)
+                .getTypeName()
+                .equals(CmsListManager.RES_TYPE_LIST_CONFIG)
             && (!(res.getName().endsWith(".html") || res.getName().endsWith(".htm"))
-                || CmsStringUtil.isEmptyOrWhitespaceOnly(context.getCms().getRequestContext().getSiteRoot()));
+                || CmsStringUtil.isEmptyOrWhitespaceOnly(
+                    context.getCms().getRequestContext().getSiteRoot()));
 
-        editAsDefault = editAsDefault
-            || (CmsResourceTypeJsp.isJsp(res) && !(res.getName().endsWith(".html") || res.getName().endsWith(".htm")));
+    editAsDefault =
+        editAsDefault
+            || (CmsResourceTypeJsp.isJsp(res)
+                && !(res.getName().endsWith(".html") || res.getName().endsWith(".htm")));
 
-        boolean isPropertyBundle = OpenCms.getResourceManager().getResourceType(res).getTypeName().equals(
-            CmsVfsBundleManager.TYPE_PROPERTIES_BUNDLE);
-        editAsDefault = editAsDefault || isPropertyBundle;
+    boolean isPropertyBundle =
+        OpenCms.getResourceManager()
+            .getResourceType(res)
+            .getTypeName()
+            .equals(CmsVfsBundleManager.TYPE_PROPERTIES_BUNDLE);
+    editAsDefault = editAsDefault || isPropertyBundle;
 
-        if (editAsDefault) {
-            return 20;
-        }
-        return 0;
+    if (editAsDefault) {
+      return 20;
     }
+    return 0;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
+    return ACTION_ID;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+
+    if ((resources.size() == 1)
+        && !CmsResourceTypeXmlContainerPage.isContainerPage(resources.get(0))) {
+      return VISIBILITY.getVisibility(cms, resources);
+    } else {
+      return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
     }
+  }
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        if ((resources.size() == 1) && !CmsResourceTypeXmlContainerPage.isContainerPage(resources.get(0))) {
-            return VISIBILITY.getVisibility(cms, resources);
-        } else {
-            return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
-        }
-    }
-
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
-
-        return Messages.GUI_EXPLORER_CONTEXT_EDIT_0;
-    }
+    return Messages.GUI_EXPLORER_CONTEXT_EDIT_0;
+  }
 }

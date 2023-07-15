@@ -30,15 +30,18 @@ package org.opencms.ade.contenteditor.client;
 import org.opencms.acacia.shared.CmsEntity;
 
 /**
- * The entity change listener interface.<p>
+ * The entity change listener interface.
+ *
+ * <p>
  */
 public interface I_CmsEntityChangeListener {
 
-    /**
-     * Called on entity changes.<p>
-     *
-     * @param entity the changed entity
-     */
-    void onEntityChange(CmsEntity entity);
-
+  /**
+   * Called on entity changes.
+   *
+   * <p>
+   *
+   * @param entity the changed entity
+   */
+  void onEntityChange(CmsEntity entity);
 }

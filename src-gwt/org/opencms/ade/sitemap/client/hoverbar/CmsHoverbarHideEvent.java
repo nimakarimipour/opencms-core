@@ -30,50 +30,53 @@ package org.opencms.ade.sitemap.client.hoverbar;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
- * Hoverbar detach event.<p>
+ * Hoverbar detach event.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.ade.sitemap.client.control.CmsSitemapController
  */
 public class CmsHoverbarHideEvent extends GwtEvent<I_CmsHoverbarHideHandler> {
 
-    /** Event type for sitemap change events. */
-    private static final Type<I_CmsHoverbarHideHandler> TYPE = new Type<I_CmsHoverbarHideHandler>();
+  /** Event type for sitemap change events. */
+  private static final Type<I_CmsHoverbarHideHandler> TYPE = new Type<I_CmsHoverbarHideHandler>();
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsHoverbarHideEvent() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsHoverbarHideEvent() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * Gets the event type associated with change events.<p>
-     *
-     * @return the handler type
-     */
-    public static Type<I_CmsHoverbarHideHandler> getType() {
+  /**
+   * Gets the event type associated with change events.
+   *
+   * <p>
+   *
+   * @return the handler type
+   */
+  public static Type<I_CmsHoverbarHideHandler> getType() {
 
-        return TYPE;
-    }
+    return TYPE;
+  }
 
-    /**
-     * @see com.google.gwt.event.shared.GwtEvent#getAssociatedType()
-     */
-    @Override
-    public final Type<I_CmsHoverbarHideHandler> getAssociatedType() {
+  /** @see com.google.gwt.event.shared.GwtEvent#getAssociatedType() */
+  @Override
+  public final Type<I_CmsHoverbarHideHandler> getAssociatedType() {
 
-        return TYPE;
-    }
+    return TYPE;
+  }
 
-    /**
-     * @see com.google.gwt.event.shared.GwtEvent#dispatch(com.google.gwt.event.shared.EventHandler)
-     */
-    @Override
-    protected void dispatch(I_CmsHoverbarHideHandler handler) {
+  /**
+   * @see com.google.gwt.event.shared.GwtEvent#dispatch(com.google.gwt.event.shared.EventHandler)
+   */
+  @Override
+  protected void dispatch(I_CmsHoverbarHideHandler handler) {
 
-        handler.onHide(this);
-    }
+    handler.onHide(this);
+  }
 }

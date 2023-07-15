@@ -27,94 +27,98 @@
 
 package org.opencms.gwt.client.ui.contextmenu;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle;
 import org.opencms.gwt.client.ui.input.upload.CmsUploadButton;
 import org.opencms.gwt.client.ui.replace.CmsReplaceHandler;
 import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-
 /**
- * The replace resource context menu entry.<p>
+ * The replace resource context menu entry.
+ *
+ * <p>
  */
 public class CmsReplace extends A_CmsContextMenuItem implements I_CmsHasContextMenuCommand {
 
-    /** The replace handler. */
-    private CmsReplaceHandler m_replaceHandler;
+  /** The replace handler. */
+  private CmsReplaceHandler m_replaceHandler;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param structureId the structure id of the resource to replace
-     * @param handler the context menu handler
-     * @param bean the menu entry bean
-     */
-    protected CmsReplace(
-        final CmsUUID structureId,
-        final I_CmsContextMenuHandler handler,
-        CmsContextMenuEntryBean bean) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource to replace
+   * @param handler the context menu handler
+   * @param bean the menu entry bean
+   */
+  protected CmsReplace(
+      final CmsUUID structureId,
+      final I_CmsContextMenuHandler handler,
+      CmsContextMenuEntryBean bean) {
 
-        super(bean.getLabel());
-        m_replaceHandler = new CmsReplaceHandler(structureId);
-        m_replaceHandler.setCloseHandler(new CloseHandler<PopupPanel>() {
+    super(bean.getLabel());
+    m_replaceHandler = new CmsReplaceHandler(structureId);
+    m_replaceHandler.setCloseHandler(
+        new CloseHandler<PopupPanel>() {
 
-            public void onClose(CloseEvent<PopupPanel> arg0) {
+          public void onClose(CloseEvent<PopupPanel> arg0) {
 
-                handler.refreshResource(structureId);
-            }
+            handler.refreshResource(structureId);
+          }
         });
-        CmsUploadButton button = new CmsUploadButton(m_replaceHandler);
-        button.setText(getText());
-        button.setStyleName(I_CmsLayoutBundle.INSTANCE.uploadButton().uploadButton());
-        SimplePanel panel = new SimplePanel();
-        panel.setWidget(button);
-        initWidget(panel);
-        setStyleName(I_CmsLayoutBundle.INSTANCE.contextmenuCss().cmsMenuItem());
+    CmsUploadButton button = new CmsUploadButton(m_replaceHandler);
+    button.setText(getText());
+    button.setStyleName(I_CmsLayoutBundle.INSTANCE.uploadButton().uploadButton());
+    SimplePanel panel = new SimplePanel();
+    panel.setWidget(button);
+    initWidget(panel);
+    setStyleName(I_CmsLayoutBundle.INSTANCE.contextmenuCss().cmsMenuItem());
+  }
 
-    }
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-    /**
-     * Returns the context menu command according to
-     * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-     *
-     * @return the context menu command
-     */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+    return new I_CmsContextMenuCommand() {
 
-        return new I_CmsContextMenuCommand() {
+      public void execute(
+          CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-            public void execute(CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
+        // nothing to do, will be handled by the widget
+      }
 
-                // nothing to do, will be handled by the widget
-            }
+      public A_CmsContextMenuItem getItemWidget(
+          CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-            public A_CmsContextMenuItem getItemWidget(
-                CmsUUID structureId,
-                I_CmsContextMenuHandler handler,
-                CmsContextMenuEntryBean bean) {
+        return new CmsReplace(structureId, handler, bean);
+      }
 
-                return new CmsReplace(structureId, handler, bean);
-            }
+      public boolean hasItemWidget() {
 
-            public boolean hasItemWidget() {
+        return true;
+      }
+    };
+  }
 
-                return true;
-            }
-        };
-    }
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.A_CmsContextMenuItem#onClick(com.google.gwt.event.dom.client.ClickEvent)
+   */
+  @Override
+  public void onClick(ClickEvent event) {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.A_CmsContextMenuItem#onClick(com.google.gwt.event.dom.client.ClickEvent)
-     */
-    @Override
-    public void onClick(ClickEvent event) {
-
-        m_replaceHandler.setMenuItem(this);
-    }
-
+    m_replaceHandler.setMenuItem(this);
+  }
 }

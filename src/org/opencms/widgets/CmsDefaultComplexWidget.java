@@ -31,34 +31,30 @@ import org.opencms.ade.contenteditor.shared.CmsComplexWidgetData;
 import org.opencms.file.CmsObject;
 
 /**
- * Dummy widget class that causes the Acacia editor to render a nested content normally without a special widget.<p>
- * This could be used to override a default widget defined for a nested content in its XSD on a per-attribute basis.
+ * Dummy widget class that causes the Acacia editor to render a nested content normally without a
+ * special widget.
+ *
+ * <p>This could be used to override a default widget defined for a nested content in its XSD on a
+ * per-attribute basis.
  */
 public class CmsDefaultComplexWidget implements I_CmsComplexWidget {
 
-    /**
-     * @see org.opencms.widgets.I_CmsComplexWidget#configure(java.lang.String)
-     */
-    public I_CmsComplexWidget configure(String configuration) {
+  /** @see org.opencms.widgets.I_CmsComplexWidget#configure(java.lang.String) */
+  public I_CmsComplexWidget configure(String configuration) {
 
-        return this;
-    }
+    return this;
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsComplexWidget#getName()
-     */
-    public String getName() {
+  /** @see org.opencms.widgets.I_CmsComplexWidget#getName() */
+  public String getName() {
 
-        return "default";
-    }
+    return "default";
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsComplexWidget#getWidgetData(org.opencms.file.CmsObject)
-     */
-    public CmsComplexWidgetData getWidgetData(CmsObject cms) {
+  /** @see org.opencms.widgets.I_CmsComplexWidget#getWidgetData(org.opencms.file.CmsObject) */
+  public CmsComplexWidgetData getWidgetData(CmsObject cms) {
 
-        CmsComplexWidgetData result = new CmsComplexWidgetData("default", "", null);
-        return result;
-    }
-
+    CmsComplexWidgetData result = new CmsComplexWidgetData("default", "", null);
+    return result;
+  }
 }

@@ -30,79 +30,93 @@ package org.opencms.gwt.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * The permission info bean.<p>
+ * The permission info bean.
+ *
+ * <p>
  */
 public class CmsPermissionInfo implements IsSerializable {
 
-    /** If view is permitted. */
-    private boolean m_hasViewPermission;
+  /** If view is permitted. */
+  private boolean m_hasViewPermission;
 
-    /** if write is permitted. */
-    private boolean m_hasWritePermission;
+  /** if write is permitted. */
+  private boolean m_hasWritePermission;
 
-    /** The no edit reason. */
-    private String m_noEditReason;
+  /** The no edit reason. */
+  private String m_noEditReason;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hasViewPermission if view is permitted
-     * @param hasWritePermission is write is permitted
-     * @param noEditReason the no edit reason
-     */
-    public CmsPermissionInfo(boolean hasViewPermission, boolean hasWritePermission, String noEditReason) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hasViewPermission if view is permitted
+   * @param hasWritePermission is write is permitted
+   * @param noEditReason the no edit reason
+   */
+  public CmsPermissionInfo(
+      boolean hasViewPermission, boolean hasWritePermission, String noEditReason) {
 
-        m_hasViewPermission = hasViewPermission;
-        m_hasWritePermission = hasWritePermission;
-        m_noEditReason = noEditReason;
-    }
+    m_hasViewPermission = hasViewPermission;
+    m_hasWritePermission = hasWritePermission;
+    m_noEditReason = noEditReason;
+  }
 
-    /**
-     * Constructor for serialization only.<p>
-     */
-    protected CmsPermissionInfo() {
+  /**
+   * Constructor for serialization only.
+   *
+   * <p>
+   */
+  protected CmsPermissionInfo() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Returns the noEditReason.<p>
-     *
-     * @return the noEditReason
-     */
-    public String getNoEditReason() {
+  /**
+   * Returns the noEditReason.
+   *
+   * <p>
+   *
+   * @return the noEditReason
+   */
+  public String getNoEditReason() {
 
-        return m_noEditReason;
-    }
+    return m_noEditReason;
+  }
 
-    /**
-     * Returns the hasViewPermission.<p>
-     *
-     * @return the hasViewPermission
-     */
-    public boolean hasViewPermission() {
+  /**
+   * Returns the hasViewPermission.
+   *
+   * <p>
+   *
+   * @return the hasViewPermission
+   */
+  public boolean hasViewPermission() {
 
-        return m_hasViewPermission;
-    }
+    return m_hasViewPermission;
+  }
 
-    /**
-     * Returns the hasWritePermission.<p>
-     *
-     * @return the hasWritePermission
-     */
-    public boolean hasWritePermission() {
+  /**
+   * Returns the hasWritePermission.
+   *
+   * <p>
+   *
+   * @return the hasWritePermission
+   */
+  public boolean hasWritePermission() {
 
-        return m_hasWritePermission;
-    }
+    return m_hasWritePermission;
+  }
 
-    /**
-     * Sets the no edit reason.<p>
-     *
-     * @param noEditReason the no edit reason
-     */
-    public void setNoEditReason(String noEditReason) {
+  /**
+   * Sets the no edit reason.
+   *
+   * <p>
+   *
+   * @param noEditReason the no edit reason
+   */
+  public void setNoEditReason(String noEditReason) {
 
-        m_noEditReason = noEditReason;
-    }
-
+    m_noEditReason = noEditReason;
+  }
 }

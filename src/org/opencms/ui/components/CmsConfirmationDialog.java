@@ -27,9 +27,6 @@
 
 package org.opencms.ui.components;
 
-import org.opencms.ui.CmsVaadinUtils;
-import org.opencms.ui.FontOpenCms;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -37,206 +34,225 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
+import org.opencms.ui.CmsVaadinUtils;
+import org.opencms.ui.FontOpenCms;
 
 /**
- * Basic confirmation dialog.<p>
+ * Basic confirmation dialog.
+ *
+ * <p>
  */
 public class CmsConfirmationDialog extends CmsBasicDialog {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** OK button .*/
-    private Button m_okButton;
+  /** OK button . */
+  private Button m_okButton;
 
-    /** Cancel button. */
-    private Button m_cancelButton;
+  /** Cancel button. */
+  private Button m_cancelButton;
 
-    /** Label to display text. */
-    private Label m_label;
+  /** Label to display text. */
+  private Label m_label;
 
-    /** Warning icon. */
-    private Label m_icon;
+  /** Warning icon. */
+  private Label m_icon;
 
-    /** Action to execute when confirmed. */
-    Runnable m_okAction;
+  /** Action to execute when confirmed. */
+  Runnable m_okAction;
 
-    /** Action to execute when cancelled. */
-    Runnable m_cancelAction;
+  /** Action to execute when cancelled. */
+  Runnable m_cancelAction;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param message the message
-     * @param okAction the action for the confirmation case
-     * @param cancelAction the action for the cancel case
-     */
-    public CmsConfirmationDialog(String message, Runnable okAction, Runnable cancelAction) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param message the message
+   * @param okAction the action for the confirmation case
+   * @param cancelAction the action for the cancel case
+   */
+  public CmsConfirmationDialog(String message, Runnable okAction, Runnable cancelAction) {
 
-        m_okAction = okAction;
+    m_okAction = okAction;
 
-        m_cancelAction = cancelAction;
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        m_label.setValue(message);
-        m_icon.setContentMode(ContentMode.HTML);
-        m_icon.setValue(FontOpenCms.WARNING.getHtml());
-        m_okButton.addClickListener(new ClickListener() {
+    m_cancelAction = cancelAction;
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    m_label.setValue(message);
+    m_icon.setContentMode(ContentMode.HTML);
+    m_icon.setValue(FontOpenCms.WARNING.getHtml());
+    m_okButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                if (m_okAction != null) {
-                    m_okAction.run();
-                }
+            if (m_okAction != null) {
+              m_okAction.run();
             }
+          }
         });
-        m_cancelButton.addClickListener(new ClickListener() {
+    m_cancelButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                if (m_cancelAction != null) {
-                    m_cancelAction.run();
-                }
-
+            if (m_cancelAction != null) {
+              m_cancelAction.run();
             }
+          }
         });
-    }
+  }
 
-    /**
-     * Shows the confirmation dialog in a window.<p>
-     *
-     * @param title the window title
-     * @param message the message to display in the dialog
-     * @param okAction the action to execute when the user clicks OK
-     *
-     * @return the dialog instance
-     */
-    public static CmsConfirmationDialog show(String title, String message, final Runnable okAction) {
+  /**
+   * Shows the confirmation dialog in a window.
+   *
+   * <p>
+   *
+   * @param title the window title
+   * @param message the message to display in the dialog
+   * @param okAction the action to execute when the user clicks OK
+   * @return the dialog instance
+   */
+  public static CmsConfirmationDialog show(String title, String message, final Runnable okAction) {
 
-        return show(title, message, okAction, null);
-    }
+    return show(title, message, okAction, null);
+  }
 
-    /**
-     * Shows the confirmation dialog in a window.<p>
-     *
-     * @param title the window title
-     * @param message the message to display in the dialog
-     * @param okAction the action to execute when the user clicks OK
-     * @param cancelAction the action for the cancel case
-     *
-     * @return the dialog instance
-     */
-    public static CmsConfirmationDialog show(
-        String title,
-        String message,
-        final Runnable okAction,
-        final Runnable cancelAction) {
+  /**
+   * Shows the confirmation dialog in a window.
+   *
+   * <p>
+   *
+   * @param title the window title
+   * @param message the message to display in the dialog
+   * @param okAction the action to execute when the user clicks OK
+   * @param cancelAction the action for the cancel case
+   * @return the dialog instance
+   */
+  public static CmsConfirmationDialog show(
+      String title, String message, final Runnable okAction, final Runnable cancelAction) {
 
-        final Window window = CmsBasicDialog.prepareWindow();
-        window.setCaption(title);
-        CmsConfirmationDialog dialog = new CmsConfirmationDialog(message, new Runnable() {
+    final Window window = CmsBasicDialog.prepareWindow();
+    window.setCaption(title);
+    CmsConfirmationDialog dialog =
+        new CmsConfirmationDialog(
+            message,
+            new Runnable() {
 
-            public void run() {
+              public void run() {
 
                 window.close();
                 okAction.run();
-            }
-        }, new Runnable() {
+              }
+            },
+            new Runnable() {
+
+              public void run() {
+
+                if (cancelAction != null) {
+                  cancelAction.run();
+                }
+                window.close();
+              }
+            });
+    window.setContent(dialog);
+    UI.getCurrent().addWindow(window);
+    return dialog;
+  }
+
+  /**
+   * Shows the confirmation dialog in a window.
+   *
+   * <p>
+   *
+   * @param title the window title
+   * @param message the message to display in the dialog
+   * @param okAction the action to execute when the user clicks OK
+   * @param cancelAction the action for the cancel case
+   * @param hideUnused boolean
+   * @return the dialog instance
+   */
+  public static CmsConfirmationDialog show(
+      String title,
+      String message,
+      final Runnable okAction,
+      final Runnable cancelAction,
+      boolean hideUnused) {
+
+    final Window window = CmsBasicDialog.prepareWindow();
+    window.setCaption(title);
+    Runnable newOk = null;
+    Runnable newCancel = null;
+    if (okAction != null) {
+      newOk =
+          new Runnable() {
 
             public void run() {
 
-                if (cancelAction != null) {
-                    cancelAction.run();
-                }
-                window.close();
+              window.close();
+              okAction.run();
             }
-        });
-        window.setContent(dialog);
-        UI.getCurrent().addWindow(window);
-        return dialog;
+          };
     }
+    if (cancelAction != null) {
+      newCancel =
+          new Runnable() {
 
-    /**
-     * Shows the confirmation dialog in a window.<p>
-     *
-     * @param title the window title
-     * @param message the message to display in the dialog
-     * @param okAction the action to execute when the user clicks OK
-     * @param cancelAction the action for the cancel case
-     * @param hideUnused boolean
-     *
-     * @return the dialog instance
-     */
-    public static CmsConfirmationDialog show(
-        String title,
-        String message,
-        final Runnable okAction,
-        final Runnable cancelAction,
-        boolean hideUnused) {
+            public void run() {
 
-        final Window window = CmsBasicDialog.prepareWindow();
-        window.setCaption(title);
-        Runnable newOk = null;
-        Runnable newCancel = null;
-        if (okAction != null) {
-            newOk = new Runnable() {
-
-                public void run() {
-
-                    window.close();
-                    okAction.run();
-                }
-            };
-        }
-        if (cancelAction != null) {
-            newCancel = new Runnable() {
-
-                public void run() {
-
-                    window.close();
-                    cancelAction.run();
-                }
-            };
-        }
-        CmsConfirmationDialog dialog = new CmsConfirmationDialog(message, newOk, newCancel);
-        dialog.setHideUnusedButtons(hideUnused);
-        window.setContent(dialog);
-        UI.getCurrent().addWindow(window);
-        return dialog;
+              window.close();
+              cancelAction.run();
+            }
+          };
     }
+    CmsConfirmationDialog dialog = new CmsConfirmationDialog(message, newOk, newCancel);
+    dialog.setHideUnusedButtons(hideUnused);
+    window.setContent(dialog);
+    UI.getCurrent().addWindow(window);
+    return dialog;
+  }
 
-    /**
-     * Gets the label.<p>
-     *
-     * @return the label
-     */
-    public Label getLabel() {
+  /**
+   * Gets the label.
+   *
+   * <p>
+   *
+   * @return the label
+   */
+  public Label getLabel() {
 
-        return m_label;
-    }
+    return m_label;
+  }
 
-    /**
-     * Hides button without a runnable.<p>
-     *
-     * @param hide boolean
-     */
-    public void setHideUnusedButtons(boolean hide) {
+  /**
+   * Hides button without a runnable.
+   *
+   * <p>
+   *
+   * @param hide boolean
+   */
+  public void setHideUnusedButtons(boolean hide) {
 
-        m_okButton.setVisible(!hide || (m_okAction != null));
-        m_cancelButton.setVisible(!hide || (m_cancelAction != null));
-    }
+    m_okButton.setVisible(!hide || (m_okAction != null));
+    m_cancelButton.setVisible(!hide || (m_cancelAction != null));
+  }
 
-    /**
-     * Sets the message.<p>
-     *
-     * @param message the message
-     */
-    public void setMessage(String message) {
+  /**
+   * Sets the message.
+   *
+   * <p>
+   *
+   * @param message the message
+   */
+  public void setMessage(String message) {
 
-        m_label.setValue(message);
-    }
-
+    m_label.setValue(message);
+  }
 }

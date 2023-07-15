@@ -27,6 +27,11 @@
 
 package org.opencms.ade.upload.client.ui;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
+import com.google.gwt.user.client.ui.HTML;
+import java.util.ArrayList;
+import java.util.List;
 import org.opencms.ade.upload.client.Messages;
 import org.opencms.ade.upload.client.ui.css.I_CmsLayoutBundle;
 import org.opencms.gwt.client.CmsCoreProvider;
@@ -35,161 +40,170 @@ import org.opencms.gwt.client.ui.input.upload.CmsFileInfo;
 import org.opencms.gwt.client.ui.input.upload.CmsUploadButton;
 import org.opencms.gwt.shared.CmsListInfoBean;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArray;
-import com.google.gwt.user.client.ui.HTML;
-
 /**
- * Provides the upload dialog for form data support.<p>
+ * Provides the upload dialog for form data support.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsUploadDialogFormDataImpl extends A_CmsUploadDialog {
 
-    /** The highlighted state color. */
-    private String m_hightLightColor = I_CmsConstantsBundle.INSTANCE.css().backgroundColorHighlight();
+  /** The highlighted state color. */
+  private String m_hightLightColor = I_CmsConstantsBundle.INSTANCE.css().backgroundColorHighlight();
 
-    /** The normal state color. */
-    private String m_normalColor = I_CmsLayoutBundle.INSTANCE.constants().css().backgroundColorDialog();
+  /** The normal state color. */
+  private String m_normalColor =
+      I_CmsLayoutBundle.INSTANCE.constants().css().backgroundColorDialog();
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsUploadDialogFormDataImpl() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsUploadDialogFormDataImpl() {
 
-        super();
-        addUploadZone(m_scrollPanel.getElement(), this);
-    }
+    super();
+    addUploadZone(m_scrollPanel.getElement(), this);
+  }
 
-    /**
-     * @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#createInfoBean(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
-     */
-    @Override
-    public CmsListInfoBean createInfoBean(CmsFileInfo file) {
+  /**
+   * @see
+   *     org.opencms.ade.upload.client.ui.A_CmsUploadDialog#createInfoBean(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
+   */
+  @Override
+  public CmsListInfoBean createInfoBean(CmsFileInfo file) {
 
-        return new CmsListInfoBean(
-            file.getFileName(),
-            CmsUploadButton.formatBytes(file.getFileSize()) + " (" + getResourceType(file) + ")",
-            null);
-    }
+    return new CmsListInfoBean(
+        file.getFileName(),
+        CmsUploadButton.formatBytes(file.getFileSize()) + " (" + getResourceType(file) + ")",
+        null);
+  }
 
-    /**
-     * @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#getFileSizeTooLargeMessage(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
-     */
-    @Override
-    public String getFileSizeTooLargeMessage(CmsFileInfo file) {
+  /**
+   * @see
+   *     org.opencms.ade.upload.client.ui.A_CmsUploadDialog#getFileSizeTooLargeMessage(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
+   */
+  @Override
+  public String getFileSizeTooLargeMessage(CmsFileInfo file) {
 
-        return Messages.get().key(
+    return Messages.get()
+        .key(
             Messages.GUI_UPLOAD_FILE_TOO_LARGE_2,
             CmsUploadButton.formatBytes(file.getFileSize()),
-            CmsUploadButton.formatBytes(new Long(CmsCoreProvider.get().getUploadFileSizeLimit()).intValue()));
+            CmsUploadButton.formatBytes(
+                new Long(CmsCoreProvider.get().getUploadFileSizeLimit()).intValue()));
+  }
+
+  /**
+   * @see
+   *     org.opencms.ade.upload.client.ui.A_CmsUploadDialog#isTooLarge(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
+   */
+  @Override
+  public boolean isTooLarge(CmsFileInfo cmsFileInfo) {
+
+    long maxFileSize = CmsCoreProvider.get().getUploadFileSizeLimit();
+    if (maxFileSize < 0) {
+      return false;
     }
+    return cmsFileInfo.getFileSize() > maxFileSize;
+  }
 
-    /**
-     * @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#isTooLarge(org.opencms.gwt.client.ui.input.upload.CmsFileInfo)
-     */
-    @Override
-    public boolean isTooLarge(CmsFileInfo cmsFileInfo) {
+  /** @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#updateSummary() */
+  @Override
+  public void updateSummary() {
 
-        long maxFileSize = CmsCoreProvider.get().getUploadFileSizeLimit();
-        if (maxFileSize < 0) {
-            return false;
-        }
-        return cmsFileInfo.getFileSize() > maxFileSize;
-    }
-
-    /**
-     * @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#updateSummary()
-     */
-    @Override
-    public void updateSummary() {
-
-        setContentLength(calculateContentLength());
-        StringBuffer buffer = new StringBuffer(64);
-        buffer.append("<p class=\"").append(
-            org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.uploadButton().dialogMessage()).append("\">");
-        buffer.append("<b>" + Messages.get().key(Messages.GUI_UPLOAD_SUMMARY_FILES_0) + "</b> ");
-        buffer.append(
-            Messages.get().key(
+    setContentLength(calculateContentLength());
+    StringBuffer buffer = new StringBuffer(64);
+    buffer
+        .append("<p class=\"")
+        .append(
+            org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.uploadButton().dialogMessage())
+        .append("\">");
+    buffer.append("<b>" + Messages.get().key(Messages.GUI_UPLOAD_SUMMARY_FILES_0) + "</b> ");
+    buffer.append(
+        Messages.get()
+            .key(
                 Messages.GUI_UPLOAD_SUMMARY_FILES_VALUE_3,
                 new Integer(getFilesToUpload().size()),
                 getFileText(),
                 CmsUploadButton.formatBytes(new Long(getContentLength()).intValue())));
-        buffer.append("</p>");
-        setSummaryHTML(buffer.toString());
+    buffer.append("</p>");
+    setSummaryHTML(buffer.toString());
+  }
+
+  /**
+   * Adds a javascript file array to the list of files to upload.
+   *
+   * <p>
+   *
+   * @param files a javascript file array
+   */
+  protected void addJsFiles(JavaScriptObject files) {
+
+    JsArray<CmsFileInfo> cmsFiles = files.cast();
+    List<CmsFileInfo> fileObjects = new ArrayList<CmsFileInfo>();
+    for (int i = 0; i < cmsFiles.length(); ++i) {
+      fileObjects.add(cmsFiles.get(i));
     }
+    addFiles(fileObjects);
+  }
 
-    /**
-     * Adds a javascript file array to the list of files to upload.<p>
-     *
-     * @param files a javascript file array
-     */
-    protected void addJsFiles(JavaScriptObject files) {
+  /**
+   * Returns the content length.
+   *
+   * <p>
+   *
+   * @return the content length
+   */
+  protected long calculateContentLength() {
 
-        JsArray<CmsFileInfo> cmsFiles = files.cast();
-        List<CmsFileInfo> fileObjects = new ArrayList<CmsFileInfo>();
-        for (int i = 0; i < cmsFiles.length(); ++i) {
-            fileObjects.add(cmsFiles.get(i));
-        }
-        addFiles(fileObjects);
+    int result = 0;
+    for (CmsFileInfo file : getFilesToUpload().values()) {
+      result += file.getFileSize();
     }
+    return new Long(result).longValue();
+  }
 
-    /**
-     * Returns the content length.<p>
-     *
-     * @return the content length
-     */
-    protected long calculateContentLength() {
+  /** @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#removeDragAndDropMessage() */
+  @Override
+  protected void removeDragAndDropMessage() {
 
-        int result = 0;
-        for (CmsFileInfo file : getFilesToUpload().values()) {
-            result += file.getFileSize();
-        }
-        return new Long(result).longValue();
+    if (m_dragAndDropMessage != null) {
+      m_dragAndDropMessage.removeFromParent();
+      m_dragAndDropMessage = null;
+      m_normalColor = I_CmsLayoutBundle.INSTANCE.constants().css().backgroundColorDialog();
+      m_scrollPanel.getElement().getStyle().setBackgroundColor(m_normalColor);
+      doResize();
     }
+  }
 
-    /**
-     * @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#removeDragAndDropMessage()
-     */
-    @Override
-    protected void removeDragAndDropMessage() {
+  /** @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#setDragAndDropMessage() */
+  @Override
+  protected void setDragAndDropMessage() {
 
-        if (m_dragAndDropMessage != null) {
-            m_dragAndDropMessage.removeFromParent();
-            m_dragAndDropMessage = null;
-            m_normalColor = I_CmsLayoutBundle.INSTANCE.constants().css().backgroundColorDialog();
-            m_scrollPanel.getElement().getStyle().setBackgroundColor(m_normalColor);
-            doResize();
-        }
+    if (m_dragAndDropMessage == null) {
+      m_dragAndDropMessage = new HTML();
+      m_dragAndDropMessage.setStyleName(
+          I_CmsLayoutBundle.INSTANCE.uploadCss().dragAndDropMessage());
+      m_dragAndDropMessage.setText(Messages.get().key(Messages.GUI_UPLOAD_DRAG_AND_DROP_ENABLED_0));
     }
+    getContentWrapper().add(m_dragAndDropMessage);
+    m_normalColor = I_CmsConstantsBundle.INSTANCE.css().notificationNormalBg();
+    m_scrollPanel.getElement().getStyle().setBackgroundColor(m_normalColor);
+    doResize();
+  }
 
-    /**
-     * @see org.opencms.ade.upload.client.ui.A_CmsUploadDialog#setDragAndDropMessage()
-     */
-    @Override
-    protected void setDragAndDropMessage() {
-
-        if (m_dragAndDropMessage == null) {
-            m_dragAndDropMessage = new HTML();
-            m_dragAndDropMessage.setStyleName(I_CmsLayoutBundle.INSTANCE.uploadCss().dragAndDropMessage());
-            m_dragAndDropMessage.setText(Messages.get().key(Messages.GUI_UPLOAD_DRAG_AND_DROP_ENABLED_0));
-        }
-        getContentWrapper().add(m_dragAndDropMessage);
-        m_normalColor = I_CmsConstantsBundle.INSTANCE.css().notificationNormalBg();
-        m_scrollPanel.getElement().getStyle().setBackgroundColor(m_normalColor);
-        doResize();
-    }
-
-    /**
-     * Adds a upload drop zone to the given element.<p>
-     *
-     * @param element the element to add the upload zone
-     * @param dialog this dialog
-     */
-    private native void addUploadZone(JavaScriptObject element, CmsUploadDialogFormDataImpl dialog)/*-{
+  /**
+   * Adds a upload drop zone to the given element.
+   *
+   * <p>
+   *
+   * @param element the element to add the upload zone
+   * @param dialog this dialog
+   */
+  private native void addUploadZone(
+      JavaScriptObject element, CmsUploadDialogFormDataImpl dialog) /*-{
 
         function dragover(event) {
             event.stopPropagation();

@@ -27,9 +27,6 @@
 
 package org.opencms.ui.client.login;
 
-import org.opencms.gwt.shared.CmsGwtConstants;
-import org.opencms.ui.shared.login.I_CmsLoginTargetRpc;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.FormElement;
@@ -38,65 +35,72 @@ import com.google.gwt.user.client.Window;
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
 import com.vaadin.shared.ui.Connect;
+import org.opencms.gwt.shared.CmsGwtConstants;
+import org.opencms.ui.shared.login.I_CmsLoginTargetRpc;
 
 /**
- * Connector for the login target opener widget.<p>
+ * Connector for the login target opener widget.
+ *
+ * <p>
  */
 @Connect(org.opencms.ui.login.CmsLoginTargetOpener.class)
 public class CmsLoginTargetOpenerConnector extends AbstractExtensionConnector {
 
-    /** Default version id. */
-    private static final long serialVersionUID = 1L;
+  /** Default version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsLoginTargetOpenerConnector() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsLoginTargetOpenerConnector() {}
 
-    }
+  /**
+   * @see
+   *     com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
+   */
+  @Override
+  protected void extend(ServerConnector extendedComponent) {
 
-    /**
-     * @see com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
-     */
-    @Override
-    protected void extend(ServerConnector extendedComponent) {
+    registerRpc(
+        I_CmsLoginTargetRpc.class,
+        new I_CmsLoginTargetRpc() {
 
-        registerRpc(I_CmsLoginTargetRpc.class, new I_CmsLoginTargetRpc() {
+          private static final long serialVersionUID = 1L;
 
-            private static final long serialVersionUID = 1L;
+          public void openTargetForPrivatePc(String target) {
 
-            public void openTargetForPrivatePc(String target) {
+            // Post a hidden form with user name and password fields,
+            // to hopefully trigger the browser's password manager
+            Document doc = Document.get();
+            FormElement formEl = (FormElement) doc.getElementById("opencms-login-form");
 
-                // Post a hidden form with user name and password fields,
-                // to hopefully trigger the browser's password manager
-                Document doc = Document.get();
-                FormElement formEl = (FormElement)doc.getElementById("opencms-login-form");
+            // make sure user name and password are children of the form
+            Element user = doc.getElementById("hidden-username");
+            Element password = doc.getElementById("hidden-password");
 
-                // make sure user name and password are children of the form
-                Element user = doc.getElementById("hidden-username");
-                Element password = doc.getElementById("hidden-password");
-
-                if ((user != null) && !formEl.isOrHasChild(user)) {
-                    formEl.appendChild(user);
-                }
-                if ((password != null) && !formEl.isOrHasChild(password)) {
-                    formEl.appendChild(password);
-                }
-
-                InputElement requestedResourceField = doc.createTextInputElement();
-                requestedResourceField.setName(CmsGwtConstants.PARAM_LOGIN_REDIRECT);
-                requestedResourceField.setValue(target);
-
-                formEl.appendChild(requestedResourceField);
-                formEl.submit();
+            if ((user != null) && !formEl.isOrHasChild(user)) {
+              formEl.appendChild(user);
+            }
+            if ((password != null) && !formEl.isOrHasChild(password)) {
+              formEl.appendChild(password);
             }
 
-            public void openTargetForPublicPc(String target) {
+            InputElement requestedResourceField = doc.createTextInputElement();
+            requestedResourceField.setName(CmsGwtConstants.PARAM_LOGIN_REDIRECT);
+            requestedResourceField.setValue(target);
 
-                // in this case we do not want to trigger the browsers password manager, just call the login target
-                Window.Location.assign(target);
-            }
+            formEl.appendChild(requestedResourceField);
+            formEl.submit();
+          }
+
+          public void openTargetForPublicPc(String target) {
+
+            // in this case we do not want to trigger the browsers password manager, just call the
+            // login target
+            Window.Location.assign(target);
+          }
         });
-    }
-
+  }
 }

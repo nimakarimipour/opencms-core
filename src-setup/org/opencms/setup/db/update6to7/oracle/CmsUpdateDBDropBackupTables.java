@@ -27,34 +27,35 @@
 
 package org.opencms.setup.db.update6to7.oracle;
 
+import java.io.IOException;
 import org.opencms.file.CmsResource;
 
-import java.io.IOException;
-
 /**
- * Oracle implementation of the generic class to drop the backup tables from the database.<p>
+ * Oracle implementation of the generic class to drop the backup tables from the database.
+ *
+ * <p>
  *
  * @since 7.0.0
  */
-public class CmsUpdateDBDropBackupTables extends org.opencms.setup.db.update6to7.CmsUpdateDBDropBackupTables {
+public class CmsUpdateDBDropBackupTables
+    extends org.opencms.setup.db.update6to7.CmsUpdateDBDropBackupTables {
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the sql queries properties file could not be read
-     */
-    public CmsUpdateDBDropBackupTables()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the sql queries properties file could not be read
+   */
+  public CmsUpdateDBDropBackupTables() throws IOException {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation()
-     */
-    @Override
-    protected String getPropertyFileLocation() {
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation() */
+  @Override
+  protected String getPropertyFileLocation() {
 
-        return CmsResource.getParentFolder(super.getPropertyFileLocation());
-    }
+    return CmsResource.getParentFolder(super.getPropertyFileLocation());
+  }
 }

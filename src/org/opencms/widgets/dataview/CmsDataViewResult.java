@@ -33,47 +33,50 @@ import java.util.List;
 /**
  * Represents the result of a search query returned by an implementation of I_CmsDataView.
  *
- * This contains both a list of result items and a total hit count for the given query.
+ * <p>This contains both a list of result items and a total hit count for the given query.
  */
 public class CmsDataViewResult {
 
-    /** The list of results. */
-    private List<I_CmsDataViewItem> m_resultItems;
+  /** The list of results. */
+  private List<I_CmsDataViewItem> m_resultItems;
 
-    /** The total hit count. */
-    private int m_hitCount;
+  /** The total hit count. */
+  private int m_hitCount;
 
-    /**
-     * Creates a new result.<p>
-     *
-     * @param items the list of result items
-     * @param hitCount the total hit count
-     */
-    public CmsDataViewResult(List<I_CmsDataViewItem> items, int hitCount) {
-        m_resultItems = new ArrayList<I_CmsDataViewItem>(items);
-        m_hitCount = hitCount;
-    }
+  /**
+   * Creates a new result.
+   *
+   * <p>
+   *
+   * @param items the list of result items
+   * @param hitCount the total hit count
+   */
+  public CmsDataViewResult(List<I_CmsDataViewItem> items, int hitCount) {
+    m_resultItems = new ArrayList<I_CmsDataViewItem>(items);
+    m_hitCount = hitCount;
+  }
 
-    /**
-     * Gets the total number of results, disregarding paging.
-     *
-     * This count should be as accurate as possible.
-     *
-     * @return the total hit count
-     */
-    public int getHitCount() {
+  /**
+   * Gets the total number of results, disregarding paging.
+   *
+   * <p>This count should be as accurate as possible.
+   *
+   * @return the total hit count
+   */
+  public int getHitCount() {
 
-        return m_hitCount;
-    }
+    return m_hitCount;
+  }
 
-    /**
-     * Gets the list of result items.<p>
-     *
-     * @return the list of result items
-     */
-    public List<I_CmsDataViewItem> getItems() {
+  /**
+   * Gets the list of result items.
+   *
+   * <p>
+   *
+   * @return the list of result items
+   */
+  public List<I_CmsDataViewItem> getItems() {
 
-        return m_resultItems;
-    }
-
+    return m_resultItems;
+  }
 }

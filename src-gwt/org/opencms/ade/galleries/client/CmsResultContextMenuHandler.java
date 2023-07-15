@@ -31,30 +31,34 @@ import org.opencms.gwt.client.ui.contextmenu.CmsContextMenuHandler;
 import org.opencms.util.CmsUUID;
 
 /**
- * Context menu handler for the gallery search results.<p>
+ * Context menu handler for the gallery search results.
+ *
+ * <p>
  */
 public class CmsResultContextMenuHandler extends CmsContextMenuHandler {
 
-    /** The results tab handler. */
-    private CmsResultsTabHandler m_resultsTabHandler;
+  /** The results tab handler. */
+  private CmsResultsTabHandler m_resultsTabHandler;
 
-    /**
-     * Creates a new context menu handler.<p>
-     *
-     * @param resultTabHandler the result tab handler to use
-     */
-    public CmsResultContextMenuHandler(CmsResultsTabHandler resultTabHandler) {
+  /**
+   * Creates a new context menu handler.
+   *
+   * <p>
+   *
+   * @param resultTabHandler the result tab handler to use
+   */
+  public CmsResultContextMenuHandler(CmsResultsTabHandler resultTabHandler) {
 
-        m_resultsTabHandler = resultTabHandler;
-    }
+    m_resultsTabHandler = resultTabHandler;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#refreshResource(org.opencms.util.CmsUUID)
-     */
-    @Override
-    public void refreshResource(CmsUUID structureId) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuHandler#refreshResource(org.opencms.util.CmsUUID)
+   */
+  @Override
+  public void refreshResource(CmsUUID structureId) {
 
-        m_resultsTabHandler.updateIndex();
-    }
-
+    m_resultsTabHandler.updateIndex();
+  }
 }

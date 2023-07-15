@@ -27,6 +27,11 @@
 
 package org.opencms.xml.containerpage;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Locale;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsFile;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
@@ -39,69 +44,69 @@ import org.opencms.xml.content.CmsDefaultXmlContentHandler;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Content handler for HTML redirects.<p>
+ * Content handler for HTML redirects.
+ *
+ * <p>
  */
 public class CmsHtmlRedirectHandler extends CmsDefaultXmlContentHandler {
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsHtmlRedirectHandler.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsHtmlRedirectHandler.class);
 
-    /**
-     * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#prepareForWrite(org.opencms.file.CmsObject, org.opencms.xml.content.CmsXmlContent, org.opencms.file.CmsFile)
-     */
-    @Override
-    public CmsFile prepareForWrite(CmsObject cms, CmsXmlContent content, CmsFile file) throws CmsException {
+  /**
+   * @see
+   *     org.opencms.xml.content.CmsDefaultXmlContentHandler#prepareForWrite(org.opencms.file.CmsObject,
+   *     org.opencms.xml.content.CmsXmlContent, org.opencms.file.CmsFile)
+   */
+  @Override
+  public CmsFile prepareForWrite(CmsObject cms, CmsXmlContent content, CmsFile file)
+      throws CmsException {
 
-        CmsFile result = super.prepareForWrite(cms, content, file);
+    CmsFile result = super.prepareForWrite(cms, content, file);
+    try {
+      String linkStr = getStringValue(cms, content, "Link");
+      String typeStr = getStringValue(cms, content, "Type");
+
+      if ("sublevel".equals(typeStr)) {
+        Locale locale = OpenCms.getLocaleManager().getDefaultLocale(cms, file);
+        String title =
+            org.opencms.xml.containerpage.Messages.get()
+                .getBundle(locale)
+                .key(org.opencms.xml.containerpage.Messages.GUI_REDIRECT_SUBLEVEL_TITLE_0);
+        CmsProperty titleProp = new CmsProperty(CmsPropertyDefinition.PROPERTY_TITLE, title, null);
+        cms.writePropertyObjects(file, Arrays.asList(titleProp));
+      } else if (!CmsStringUtil.isEmptyOrWhitespaceOnly(linkStr)) {
+        boolean hasScheme = false;
         try {
-            String linkStr = getStringValue(cms, content, "Link");
-            String typeStr = getStringValue(cms, content, "Type");
-
-            if ("sublevel".equals(typeStr)) {
-                Locale locale = OpenCms.getLocaleManager().getDefaultLocale(cms, file);
-                String title = org.opencms.xml.containerpage.Messages.get().getBundle(locale).key(
-                    org.opencms.xml.containerpage.Messages.GUI_REDIRECT_SUBLEVEL_TITLE_0);
-                CmsProperty titleProp = new CmsProperty(CmsPropertyDefinition.PROPERTY_TITLE, title, null);
-                cms.writePropertyObjects(file, Arrays.asList(titleProp));
-            } else if (!CmsStringUtil.isEmptyOrWhitespaceOnly(linkStr)) {
-                boolean hasScheme = false;
-                try {
-                    URI uri = new URI(linkStr);
-                    hasScheme = uri.getScheme() != null;
-                } catch (URISyntaxException e) {
-                    LOG.debug(e.getLocalizedMessage(), e);
-                }
-                if (!hasScheme) {
-                    linkStr = cms.getRequestContext().removeSiteRoot(linkStr);
-                }
-                Locale locale = OpenCms.getLocaleManager().getDefaultLocale(cms, file);
-                String title = org.opencms.xml.containerpage.Messages.get().getBundle(locale).key(
-                    org.opencms.xml.containerpage.Messages.GUI_REDIRECT_TITLE_1,
-                    linkStr);
-                CmsProperty titleProp = new CmsProperty(CmsPropertyDefinition.PROPERTY_TITLE, title, null);
-                cms.writePropertyObjects(file, Arrays.asList(titleProp));
-            }
-        } catch (CmsException e) {
-            LOG.error(e.getLocalizedMessage(), e);
+          URI uri = new URI(linkStr);
+          hasScheme = uri.getScheme() != null;
+        } catch (URISyntaxException e) {
+          LOG.debug(e.getLocalizedMessage(), e);
         }
-        return result;
-    }
-
-    private String getStringValue(CmsObject cms, CmsXmlContent content, String node) {
-
-        I_CmsXmlContentValue val = content.getValue(node, Locale.ENGLISH);
-        if (val == null) {
-            return null;
+        if (!hasScheme) {
+          linkStr = cms.getRequestContext().removeSiteRoot(linkStr);
         }
-        return val.getStringValue(cms);
+        Locale locale = OpenCms.getLocaleManager().getDefaultLocale(cms, file);
+        String title =
+            org.opencms.xml.containerpage.Messages.get()
+                .getBundle(locale)
+                .key(org.opencms.xml.containerpage.Messages.GUI_REDIRECT_TITLE_1, linkStr);
+        CmsProperty titleProp = new CmsProperty(CmsPropertyDefinition.PROPERTY_TITLE, title, null);
+        cms.writePropertyObjects(file, Arrays.asList(titleProp));
+      }
+    } catch (CmsException e) {
+      LOG.error(e.getLocalizedMessage(), e);
     }
+    return result;
+  }
 
+  private String getStringValue(CmsObject cms, CmsXmlContent content, String node) {
+
+    I_CmsXmlContentValue val = content.getValue(node, Locale.ENGLISH);
+    if (val == null) {
+      return null;
+    }
+    return val.getStringValue(cms);
+  }
 }

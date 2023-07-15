@@ -28,14 +28,18 @@
 package org.opencms.ui.apps.user;
 
 /**
- * Interface for fetching randomly generated passwords.<p>
+ * Interface for fetching randomly generated passwords.
+ *
+ * <p>
  */
 public interface I_CmsPasswordFetcher {
 
-    /**
-     * Fetches password.<p>
-     *
-     * @param password string
-     */
-    public void fetchPassword(String password);
+  /**
+   * Fetches password.
+   *
+   * <p>
+   *
+   * @param password string
+   */
+  public void fetchPassword(String password);
 }

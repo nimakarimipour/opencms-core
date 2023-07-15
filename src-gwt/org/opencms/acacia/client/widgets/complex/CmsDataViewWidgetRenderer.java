@@ -27,6 +27,9 @@
 
 package org.opencms.acacia.client.widgets.complex;
 
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Panel;
+import java.util.List;
 import org.opencms.acacia.client.CmsAttributeHandler;
 import org.opencms.acacia.client.I_CmsAttributeHandler;
 import org.opencms.acacia.client.I_CmsEntityRenderer;
@@ -39,133 +42,143 @@ import org.opencms.gwt.client.ui.CmsTabbedPanel;
 import org.opencms.gwt.shared.CmsDataViewConstants;
 import org.opencms.gwt.shared.CmsGwtConstants;
 
-import java.util.List;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Panel;
-
 /**
- * Special renderer for DataView widgets.<p>
+ * Special renderer for DataView widgets.
+ *
+ * <p>
  */
 public class CmsDataViewWidgetRenderer implements I_CmsEntityRenderer {
 
-    /** The entity CSS class. */
-    public static final String ENTITY_CLASS = I_CmsLayoutBundle.INSTANCE.form().entity();
+  /** The entity CSS class. */
+  public static final String ENTITY_CLASS = I_CmsLayoutBundle.INSTANCE.form().entity();
 
-    /** The attribute label CSS class. */
-    public static final String LABEL_CLASS = I_CmsLayoutBundle.INSTANCE.form().label();
+  /** The attribute label CSS class. */
+  public static final String LABEL_CLASS = I_CmsLayoutBundle.INSTANCE.form().label();
 
-    /** The widget holder CSS class. */
-    public static final String WIDGET_HOLDER_CLASS = I_CmsLayoutBundle.INSTANCE.form().widgetHolder();
+  /** The widget holder CSS class. */
+  public static final String WIDGET_HOLDER_CLASS = I_CmsLayoutBundle.INSTANCE.form().widgetHolder();
 
-    /** The configuration string. */
-    private String m_configuration;
+  /** The configuration string. */
+  private String m_configuration;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsDataViewWidgetRenderer() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsDataViewWidgetRenderer() {}
 
+  /**
+   * Creates a new configured instance.
+   *
+   * <p>
+   *
+   * @param configuration the configuration string
+   */
+  public CmsDataViewWidgetRenderer(String configuration) {
+
+    m_configuration = configuration;
+    if (m_configuration == null) {
+      m_configuration = "";
     }
+  }
 
-    /**
-     * Creates a new configured instance.<p>
-     *
-     * @param configuration the configuration string
-     */
-    public CmsDataViewWidgetRenderer(String configuration) {
+  /** @see org.opencms.acacia.client.I_CmsEntityRenderer#configure(java.lang.String) */
+  public CmsDataViewWidgetRenderer configure(String configuration) {
 
-        m_configuration = configuration;
-        if (m_configuration == null) {
-            m_configuration = "";
-        }
-    }
+    return new CmsDataViewWidgetRenderer(configuration);
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsEntityRenderer#configure(java.lang.String)
-     */
-    public CmsDataViewWidgetRenderer configure(String configuration) {
+  /** @see org.opencms.acacia.client.I_CmsEntityRenderer#getName() */
+  public String getName() {
 
-        return new CmsDataViewWidgetRenderer(configuration);
-    }
+    return CmsDataViewConstants.RENDERER_ID;
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsEntityRenderer#getName()
-     */
-    public String getName() {
+  /**
+   * @see
+   *     org.opencms.acacia.client.I_CmsEntityRenderer#renderAttributeValue(org.opencms.acacia.shared.CmsEntity,
+   *     org.opencms.acacia.client.CmsAttributeHandler, int, com.google.gwt.user.client.ui.Panel)
+   */
+  public void renderAttributeValue(
+      CmsEntity parentEntity,
+      CmsAttributeHandler attributeHandler,
+      int attributeIndex,
+      Panel context) {
 
-        return CmsDataViewConstants.RENDERER_ID;
-    }
+    // ignore
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsEntityRenderer#renderAttributeValue(org.opencms.acacia.shared.CmsEntity, org.opencms.acacia.client.CmsAttributeHandler, int, com.google.gwt.user.client.ui.Panel)
-     */
-    public void renderAttributeValue(
-        CmsEntity parentEntity,
-        CmsAttributeHandler attributeHandler,
-        int attributeIndex,
-        Panel context) {
+  }
 
-        // ignore
+  /**
+   * @see
+   *     org.opencms.acacia.client.I_CmsEntityRenderer#renderForm(org.opencms.acacia.shared.CmsEntity,
+   *     java.util.List, com.google.gwt.user.client.ui.Panel,
+   *     org.opencms.acacia.client.I_CmsAttributeHandler, int)
+   */
+  public CmsTabbedPanel<FlowPanel> renderForm(
+      CmsEntity entity,
+      List<CmsTabInfo> tabInfos,
+      Panel context,
+      I_CmsAttributeHandler parentHandler,
+      int attributeIndex) {
 
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsEntityRenderer#renderForm(org.opencms.acacia.shared.CmsEntity, java.util.List, com.google.gwt.user.client.ui.Panel, org.opencms.acacia.client.I_CmsAttributeHandler, int)
-     */
-    public CmsTabbedPanel<FlowPanel> renderForm(
-        CmsEntity entity,
-        List<CmsTabInfo> tabInfos,
-        Panel context,
-        I_CmsAttributeHandler parentHandler,
-        int attributeIndex) {
+  /**
+   * @see
+   *     org.opencms.acacia.client.I_CmsEntityRenderer#renderForm(org.opencms.acacia.shared.CmsEntity,
+   *     com.google.gwt.user.client.ui.Panel, org.opencms.acacia.client.I_CmsAttributeHandler, int)
+   */
+  public void renderForm(
+      final CmsEntity entity,
+      Panel context,
+      final I_CmsAttributeHandler parentHandler,
+      final int attributeIndex) {
 
-        return null;
+    context.addStyleName(ENTITY_CLASS);
+    context.getElement().setAttribute("typeof", entity.getTypeName());
+    context.getElement().setAttribute(CmsGwtConstants.ATTR_DATA_ID, entity.getId());
+    CmsDataViewValueAccessor accessor =
+        new CmsDataViewValueAccessor(entity, parentHandler, attributeIndex);
+    context.add(new CmsDataViewClientWidget(accessor, m_configuration));
+  }
 
-    }
+  /**
+   * @see
+   *     org.opencms.acacia.client.I_CmsEntityRenderer#renderInline(org.opencms.acacia.shared.CmsEntity,
+   *     org.opencms.acacia.client.I_CmsInlineFormParent,
+   *     org.opencms.acacia.client.I_CmsInlineHtmlUpdateHandler,
+   *     org.opencms.acacia.client.I_CmsAttributeHandler, int)
+   */
+  public void renderInline(
+      CmsEntity entity,
+      I_CmsInlineFormParent formParent,
+      I_CmsInlineHtmlUpdateHandler updateHandler,
+      I_CmsAttributeHandler parentHandler,
+      int attributeIndex) {
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsEntityRenderer#renderForm(org.opencms.acacia.shared.CmsEntity, com.google.gwt.user.client.ui.Panel, org.opencms.acacia.client.I_CmsAttributeHandler, int)
-     */
-    public void renderForm(
-        final CmsEntity entity,
-        Panel context,
-        final I_CmsAttributeHandler parentHandler,
-        final int attributeIndex) {
+    // ignore
+  }
 
-        context.addStyleName(ENTITY_CLASS);
-        context.getElement().setAttribute("typeof", entity.getTypeName());
-        context.getElement().setAttribute(CmsGwtConstants.ATTR_DATA_ID, entity.getId());
-        CmsDataViewValueAccessor accessor = new CmsDataViewValueAccessor(entity, parentHandler, attributeIndex);
-        context.add(new CmsDataViewClientWidget(accessor, m_configuration));
-    }
+  /**
+   * @see
+   *     org.opencms.acacia.client.I_CmsEntityRenderer#renderInline(org.opencms.acacia.shared.CmsEntity,
+   *     java.lang.String, org.opencms.acacia.client.I_CmsInlineFormParent,
+   *     org.opencms.acacia.client.I_CmsInlineHtmlUpdateHandler,
+   *     org.opencms.acacia.client.I_CmsAttributeHandler, int, int, int)
+   */
+  public void renderInline(
+      CmsEntity parentEntity,
+      String attributeName,
+      I_CmsInlineFormParent formParent,
+      I_CmsInlineHtmlUpdateHandler updateHandler,
+      I_CmsAttributeHandler parentHandler,
+      int attributeIndex,
+      int minOccurrence,
+      int maxOccurrence) {
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsEntityRenderer#renderInline(org.opencms.acacia.shared.CmsEntity, org.opencms.acacia.client.I_CmsInlineFormParent, org.opencms.acacia.client.I_CmsInlineHtmlUpdateHandler, org.opencms.acacia.client.I_CmsAttributeHandler, int)
-     */
-    public void renderInline(
-        CmsEntity entity,
-        I_CmsInlineFormParent formParent,
-        I_CmsInlineHtmlUpdateHandler updateHandler,
-        I_CmsAttributeHandler parentHandler,
-        int attributeIndex) {
-
-        // ignore
-    }
-
-    /**
-     * @see org.opencms.acacia.client.I_CmsEntityRenderer#renderInline(org.opencms.acacia.shared.CmsEntity, java.lang.String, org.opencms.acacia.client.I_CmsInlineFormParent, org.opencms.acacia.client.I_CmsInlineHtmlUpdateHandler, org.opencms.acacia.client.I_CmsAttributeHandler, int, int, int)
-     */
-    public void renderInline(
-        CmsEntity parentEntity,
-        String attributeName,
-        I_CmsInlineFormParent formParent,
-        I_CmsInlineHtmlUpdateHandler updateHandler,
-        I_CmsAttributeHandler parentHandler,
-        int attributeIndex,
-        int minOccurrence,
-        int maxOccurrence) {
-
-        // ignore
-    }
+    // ignore
+  }
 }

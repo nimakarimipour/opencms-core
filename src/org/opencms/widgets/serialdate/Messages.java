@@ -31,79 +31,95 @@ import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
 
 /**
- * Convenience class to access the localized messages of this OpenCms package.<p>
+ * Convenience class to access the localized messages of this OpenCms package.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public final class Messages extends A_CmsMessageBundle {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_SERIALDATE_INVALID_VALUE_0 = "ERR_SERIALDATE_INVALID_VALUE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_SERIALDATE_INVALID_VALUE_0 = "ERR_SERIALDATE_INVALID_VALUE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_SERIALDATE_START_MISSING_0 = "ERR_SERIALDATE_START_MISSING_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_SERIALDATE_START_MISSING_0 = "ERR_SERIALDATE_START_MISSING_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_SERIALDATE_END_BEFORE_START_0 = "ERR_SERIALDATE_END_BEFORE_START_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_SERIALDATE_END_BEFORE_START_0 =
+      "ERR_SERIALDATE_END_BEFORE_START_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_SERIALDATE_INVALID_INTERVAL_0 = "ERR_SERIALDATE_INVALID_INTERVAL_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_SERIALDATE_INVALID_INTERVAL_0 =
+      "ERR_SERIALDATE_INVALID_INTERVAL_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_SERIALDATE_INVALID_DAY_OF_MONTH_0 = "ERR_SERIALDATE_INVALID_DAY_OF_MONTH_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_SERIALDATE_INVALID_DAY_OF_MONTH_0 =
+      "ERR_SERIALDATE_INVALID_DAY_OF_MONTH_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_SERIALDATE_TOO_MANY_EVENTS_1 = "ERR_SERIALDATE_TOO_MANY_EVENTS_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_SERIALDATE_TOO_MANY_EVENTS_1 = "ERR_SERIALDATE_TOO_MANY_EVENTS_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_SERIALDATE_NO_WEEKDAY_SPECIFIED_0 = "ERR_SERIALDATE_NO_WEEKDAY_SPECIFIED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_SERIALDATE_NO_WEEKDAY_SPECIFIED_0 =
+      "ERR_SERIALDATE_NO_WEEKDAY_SPECIFIED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_SERIALDATE_NO_WEEK_OF_MONTH_SPECIFIED_0 = "ERR_SERIALDATE_NO_WEEK_OF_MONTH_SPECIFIED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_SERIALDATE_NO_WEEK_OF_MONTH_SPECIFIED_0 =
+      "ERR_SERIALDATE_NO_WEEK_OF_MONTH_SPECIFIED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_SERIALDATE_SERIES_END_BEFORE_START_0 = "ERR_SERIALDATE_SERIES_END_BEFORE_START_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_SERIALDATE_SERIES_END_BEFORE_START_0 =
+      "ERR_SERIALDATE_SERIES_END_BEFORE_START_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_SERIALDATE_INVALID_OCCURRENCES_0 = "ERR_SERIALDATE_INVALID_OCCURRENCES_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_SERIALDATE_INVALID_OCCURRENCES_0 =
+      "ERR_SERIALDATE_INVALID_OCCURRENCES_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_SERIALDATE_NO_MONTH_SET_0 = "ERR_SERIALDATE_NO_MONTH_SET_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_SERIALDATE_NO_MONTH_SET_0 = "ERR_SERIALDATE_NO_MONTH_SET_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_SERIALDATE_INVALID_END_TYPE_FOR_PATTERN_0 = "ERR_SERIALDATE_INVALID_END_TYPE_FOR_PATTERN_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_SERIALDATE_INVALID_END_TYPE_FOR_PATTERN_0 =
+      "ERR_SERIALDATE_INVALID_END_TYPE_FOR_PATTERN_0";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.widgets.serialdate.messages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME = "org.opencms.widgets.serialdate.messages";
 
-    /** Static instance member. */
-    private static final I_CmsMessageBundle INSTANCE = new Messages();
+  /** Static instance member. */
+  private static final I_CmsMessageBundle INSTANCE = new Messages();
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
-    }
+    // hide the constructor
+  }
 
-    /**
-     * Returns an instance of this localized message accessor.<p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static I_CmsMessageBundle get() {
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static I_CmsMessageBundle get() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the bundle name for this OpenCms package.<p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
 
-        return BUNDLE_NAME;
-    }
+    return BUNDLE_NAME;
+  }
 }

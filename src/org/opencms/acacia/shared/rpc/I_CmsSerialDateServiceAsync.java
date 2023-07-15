@@ -27,28 +27,28 @@
 
 package org.opencms.acacia.shared.rpc;
 
-import org.opencms.util.CmsPair;
-
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.Collection;
 import java.util.Date;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import org.opencms.util.CmsPair;
 
 /** Asynchronous interface for the serial date service. */
 public interface I_CmsSerialDateServiceAsync {
 
-    /**
-     * Get the dates of the specified series.
-     * @param config series specification (widget's string value)
-     * @param callback the callback function that takes the dates of the specified series, each with a flag, indicating if it is really taking place (or excluded as an exception).
-     */
-    void getDates(String config, AsyncCallback<Collection<CmsPair<Date, Boolean>>> callback);
+  /**
+   * Get the dates of the specified series.
+   *
+   * @param config series specification (widget's string value)
+   * @param callback the callback function that takes the dates of the specified series, each with a
+   *     flag, indicating if it is really taking place (or excluded as an exception).
+   */
+  void getDates(String config, AsyncCallback<Collection<CmsPair<Date, Boolean>>> callback);
 
-    /**
-     * Get information on the series specified by the current value.
-     * @param config series specification (widget's string value)
-     * @param callback the callback function that takes the status information.
-     */
-    void getStatus(String config, AsyncCallback<CmsPair<Boolean, String>> callback);
-
+  /**
+   * Get information on the series specified by the current value.
+   *
+   * @param config series specification (widget's string value)
+   * @param callback the callback function that takes the status information.
+   */
+  void getStatus(String config, AsyncCallback<CmsPair<Boolean, String>> callback);
 }

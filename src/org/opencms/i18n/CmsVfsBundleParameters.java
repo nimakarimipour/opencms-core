@@ -30,90 +30,101 @@ package org.opencms.i18n;
 import java.util.Locale;
 
 /**
- * Data class containing the parameters for a VFS-based resource bundle.<p>
+ * Data class containing the parameters for a VFS-based resource bundle.
+ *
+ * <p>
  */
 public class CmsVfsBundleParameters {
 
-    /** The base path in the VFS. */
-    private String m_basePath;
+  /** The base path in the VFS. */
+  private String m_basePath;
 
-    /** True if this is the set of parameters for the default message bundle. */
-    private boolean m_isDefault;
+  /** True if this is the set of parameters for the default message bundle. */
+  private boolean m_isDefault;
 
-    /** The locale of the message bundle. */
-    private Locale m_locale;
+  /** The locale of the message bundle. */
+  private Locale m_locale;
 
-    /** The name of the message bundle. */
-    private String m_name;
+  /** The name of the message bundle. */
+  private String m_name;
 
-    /** A string constant indicating the type of the VFS bundle. */
-    private String m_type;
+  /** A string constant indicating the type of the VFS bundle. */
+  private String m_type;
 
-    /**
-     *
-     * @param name the name of the message bundle
-     * @param basePath the root base path of the message bundle
-     * @param locale the locale of the message bundle
-     * @param isDefault true if this is the set of parameters for the default locale
-     * @param type a string constant indicating the type of the resource bundle
-     */
-    public CmsVfsBundleParameters(String name, String basePath, Locale locale, boolean isDefault, String type) {
+  /**
+   * @param name the name of the message bundle
+   * @param basePath the root base path of the message bundle
+   * @param locale the locale of the message bundle
+   * @param isDefault true if this is the set of parameters for the default locale
+   * @param type a string constant indicating the type of the resource bundle
+   */
+  public CmsVfsBundleParameters(
+      String name, String basePath, Locale locale, boolean isDefault, String type) {
 
-        m_name = name;
-        m_basePath = basePath;
-        m_locale = locale;
-        m_isDefault = isDefault;
-        m_type = type;
-    }
+    m_name = name;
+    m_basePath = basePath;
+    m_locale = locale;
+    m_isDefault = isDefault;
+    m_type = type;
+  }
 
-    /**
-     * Gets the base path of the resource bundle.<p>
-     *
-     * @return the base path of the resource bundle
-     */
-    public String getBasePath() {
+  /**
+   * Gets the base path of the resource bundle.
+   *
+   * <p>
+   *
+   * @return the base path of the resource bundle
+   */
+  public String getBasePath() {
 
-        return m_basePath;
-    }
+    return m_basePath;
+  }
 
-    /**
-     * Gets the locale.<p>
-     *
-     * @return the locale
-     */
-    public Locale getLocale() {
+  /**
+   * Gets the locale.
+   *
+   * <p>
+   *
+   * @return the locale
+   */
+  public Locale getLocale() {
 
-        return m_locale;
-    }
+    return m_locale;
+  }
 
-    /**
-     * Gets the name of the message bundle.<p>
-     *
-     * @return the name of the message bundle
-     */
-    public String getName() {
+  /**
+   * Gets the name of the message bundle.
+   *
+   * <p>
+   *
+   * @return the name of the message bundle
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Gets the resource bundle type.<p>
-     *
-     * @return the resource bundle type
-     */
-    public String getType() {
+  /**
+   * Gets the resource bundle type.
+   *
+   * <p>
+   *
+   * @return the resource bundle type
+   */
+  public String getType() {
 
-        return m_type;
-    }
+    return m_type;
+  }
 
-    /**
-     * Returns true if this is the set of parameters for the default message bundle.<p>
-     *
-     * @return true if this is the set of parameters for the default message bundle
-     */
-    public boolean isDefault() {
+  /**
+   * Returns true if this is the set of parameters for the default message bundle.
+   *
+   * <p>
+   *
+   * @return true if this is the set of parameters for the default message bundle
+   */
+  public boolean isDefault() {
 
-        return m_isDefault;
-    }
-
+    return m_isDefault;
+  }
 }

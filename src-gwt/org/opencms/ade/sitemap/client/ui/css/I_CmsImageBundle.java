@@ -27,37 +27,42 @@
 
 package org.opencms.ade.sitemap.client.ui.css;
 
-import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsDragCss;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsDragCss;
 
 /**
- * Resource bundle to access CSS and image resources.<p>
+ * Resource bundle to access CSS and image resources.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsImageBundle extends ClientBundle {
 
-    /** The button CSS. */
-    public interface I_CmsButtonCss extends I_CmsDragCss {
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String hoverbar();
-    }
-
-    /** The bundle instance. */
-    I_CmsImageBundle INSTANCE = GWT.create(I_CmsImageBundle.class);
+  /** The button CSS. */
+  public interface I_CmsButtonCss extends I_CmsDragCss {
 
     /**
-     * Access method.<p>
+     * Access method.
      *
-     * @return the button CSS
+     * <p>
+     *
+     * @return the CSS class name
      */
-    @Source("button.gss")
-    I_CmsButtonCss buttonCss();
+    String hoverbar();
+  }
+
+  /** The bundle instance. */
+  I_CmsImageBundle INSTANCE = GWT.create(I_CmsImageBundle.class);
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the button CSS
+   */
+  @Source("button.gss")
+  I_CmsButtonCss buttonCss();
 }

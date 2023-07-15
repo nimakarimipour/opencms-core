@@ -27,53 +27,46 @@
 
 package org.opencms.widgets.serialdate;
 
-import org.opencms.acacia.shared.I_CmsSerialDateValue.EndType;
-
 import java.util.Calendar;
 import java.util.Date;
+import org.opencms.acacia.shared.I_CmsSerialDateValue.EndType;
 
 /**
- * Implementation of @{link org.opencms.widgets.serialdate.I_CmsSerialDateBean}
- * that handles single events.
+ * Implementation of @{link org.opencms.widgets.serialdate.I_CmsSerialDateBean} that handles single
+ * events.
  */
 public class CmsSerialDateBeanSingle extends A_CmsSerialDateBean {
 
-    /**
-     * Constructor for the serial date bean for single events.
-     * @param startDate the start date of the single event.
-     * @param endDate the end date of the single event.
-     * @param isWholeDay flag, indicating if the event lasts the whole day.
-     */
-    public CmsSerialDateBeanSingle(Date startDate, Date endDate, boolean isWholeDay) {
-        super(startDate, endDate, isWholeDay, EndType.SINGLE, null, 1, null);
+  /**
+   * Constructor for the serial date bean for single events.
+   *
+   * @param startDate the start date of the single event.
+   * @param endDate the end date of the single event.
+   * @param isWholeDay flag, indicating if the event lasts the whole day.
+   */
+  public CmsSerialDateBeanSingle(Date startDate, Date endDate, boolean isWholeDay) {
+    super(startDate, endDate, isWholeDay, EndType.SINGLE, null, 1, null);
+  }
 
-    }
+  /** @see org.opencms.widgets.serialdate.A_CmsSerialDateBean#getFirstDate() */
+  @Override
+  protected Calendar getFirstDate() {
 
-    /**
-     * @see org.opencms.widgets.serialdate.A_CmsSerialDateBean#getFirstDate()
-     */
-    @Override
-    protected Calendar getFirstDate() {
+    return m_startDate;
+  }
 
-        return m_startDate;
-    }
+  /** @see org.opencms.widgets.serialdate.A_CmsSerialDateBean#isAnyDatePossible() */
+  @Override
+  protected boolean isAnyDatePossible() {
 
-    /**
-     * @see org.opencms.widgets.serialdate.A_CmsSerialDateBean#isAnyDatePossible()
-     */
-    @Override
-    protected boolean isAnyDatePossible() {
+    return true;
+  }
 
-        return true;
-    }
+  /** @see org.opencms.widgets.serialdate.A_CmsSerialDateBean#toNextDate(java.util.Calendar) */
+  @Override
+  protected void toNextDate(Calendar date) {
 
-    /**
-     * @see org.opencms.widgets.serialdate.A_CmsSerialDateBean#toNextDate(java.util.Calendar)
-     */
-    @Override
-    protected void toNextDate(Calendar date) {
+    // noop, there will never be a second date.
 
-        // noop, there will never be a second date.
-
-    }
+  }
 }

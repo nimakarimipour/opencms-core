@@ -30,22 +30,27 @@ package org.opencms.report;
 import org.opencms.util.CmsUUID;
 
 /**
- * Identifies a class that can be used as a report thread .<p>
+ * Identifies a class that can be used as a report thread .
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsReportThread {
 
-    /**
-     * Returns the OpenCms UUID of this report thread.<p>
-     *
-     * @return the OpenCms UUID of this report thread
-     */
-    CmsUUID getUUID();
+  /**
+   * Returns the OpenCms UUID of this report thread.
+   *
+   * <p>
+   *
+   * @return the OpenCms UUID of this report thread
+   */
+  CmsUUID getUUID();
 
-    /**
-     * Starts the report thread.<p>
-     */
-    void start();
-
+  /**
+   * Starts the report thread.
+   *
+   * <p>
+   */
+  void start();
 }

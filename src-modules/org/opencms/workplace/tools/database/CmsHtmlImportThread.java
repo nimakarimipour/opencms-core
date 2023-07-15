@@ -27,61 +27,64 @@
 
 package org.opencms.workplace.tools.database;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 import org.opencms.report.A_CmsReportThread;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Thread for extended html import. <p>
+ * Thread for extended html import.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsHtmlImportThread extends A_CmsReportThread {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsHtmlImportThread.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsHtmlImportThread.class);
 
-    /** reference to the HtmlImport. */
-    private CmsHtmlImport m_htmlImport;
+  /** reference to the HtmlImport. */
+  private CmsHtmlImport m_htmlImport;
 
-    /**
-     * Constructor, creates a new HtmlImportThreat.<p>
-     *
-     * @param cms the current CmsObject
-     * @param imp the HtmlImport Object
-     */
-    public CmsHtmlImportThread(CmsObject cms, CmsHtmlImport imp) {
+  /**
+   * Constructor, creates a new HtmlImportThreat.
+   *
+   * <p>
+   *
+   * @param cms the current CmsObject
+   * @param imp the HtmlImport Object
+   */
+  public CmsHtmlImportThread(CmsObject cms, CmsHtmlImport imp) {
 
-        super(cms, "test test");
-        initHtmlReport(cms.getRequestContext().getLocale());
-        m_htmlImport = imp;
+    super(cms, "test test");
+    initHtmlReport(cms.getRequestContext().getLocale());
+    m_htmlImport = imp;
+  }
+
+  /** @see org.opencms.report.A_CmsReportThread#getReportUpdate() */
+  @Override
+  public String getReportUpdate() {
+
+    return getReport().getReportUpdate();
+  }
+
+  /**
+   * The run method which starts the import process.
+   *
+   * <p>
+   */
+  @Override
+  public void run() {
+
+    try {
+      // do the import
+      m_htmlImport.startImport(getReport());
+    } catch (Exception e) {
+      getReport().println(e);
+      if (LOG.isErrorEnabled()) {
+        LOG.error(e.getLocalizedMessage());
+      }
     }
-
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
-
-        return getReport().getReportUpdate();
-    }
-
-    /**
-     * The run method which starts the import process.<p>
-     */
-    @Override
-    public void run() {
-
-        try {
-            // do the import
-            m_htmlImport.startImport(getReport());
-        } catch (Exception e) {
-            getReport().println(e);
-            if (LOG.isErrorEnabled()) {
-                LOG.error(e.getLocalizedMessage());
-            }
-        }
-    }
+  }
 }

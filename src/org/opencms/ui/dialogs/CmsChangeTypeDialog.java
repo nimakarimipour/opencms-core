@@ -27,6 +27,8 @@
 
 package org.opencms.ui.dialogs;
 
+import java.util.Arrays;
+import org.apache.commons.logging.Log;
 import org.opencms.ade.configuration.CmsResourceTypeConfig;
 import org.opencms.ade.containerpage.CmsAddDialogTypeHelper;
 import org.opencms.ade.galleries.shared.CmsResourceTypeBean;
@@ -43,112 +45,113 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
 
-import java.util.Arrays;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Dialog for changing the resource type.<p>
+ * Dialog for changing the resource type.
+ *
+ * <p>
  */
 public class CmsChangeTypeDialog extends CmsNewDialog {
 
-    /** Logger instance for this class. */
-    static final Log LOG = CmsLog.getLog(CmsChangeTypeDialog.class);
+  /** Logger instance for this class. */
+  static final Log LOG = CmsLog.getLog(CmsChangeTypeDialog.class);
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param context the dialog context
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public CmsChangeTypeDialog(I_CmsDialogContext context)
-    throws CmsException {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param context the dialog context
+   * @throws CmsException if something goes wrong
+   */
+  public CmsChangeTypeDialog(I_CmsDialogContext context) throws CmsException {
 
-        super(A_CmsUI.getCmsObject().readParentFolder(context.getResources().get(0).getStructureId()), context);
-        displayResourceInfo(context.getResources());
-        m_defaultLocationCheckbox.setVisible(false);
-    }
+    super(
+        A_CmsUI.getCmsObject().readParentFolder(context.getResources().get(0).getStructureId()),
+        context);
+    displayResourceInfo(context.getResources());
+    m_defaultLocationCheckbox.setVisible(false);
+  }
 
-    /**
-     * @see org.opencms.ui.dialogs.CmsNewDialog#handleSelection(org.opencms.ade.galleries.shared.CmsResourceTypeBean)
-     */
-    @Override
-    public void handleSelection(CmsResourceTypeBean typeBean) {
+  /**
+   * @see
+   *     org.opencms.ui.dialogs.CmsNewDialog#handleSelection(org.opencms.ade.galleries.shared.CmsResourceTypeBean)
+   */
+  @Override
+  public void handleSelection(CmsResourceTypeBean typeBean) {
 
-        CmsResource changeRes = m_dialogContext.getResources().get(0);
-        CmsObject cms = A_CmsUI.getCmsObject();
-        CmsLockActionRecord lockRecord = null;
+    CmsResource changeRes = m_dialogContext.getResources().get(0);
+    CmsObject cms = A_CmsUI.getCmsObject();
+    CmsLockActionRecord lockRecord = null;
+    try {
+      lockRecord = CmsLockUtil.ensureLock(cms, changeRes);
+      cms.chtype(
+          cms.getSitePath(changeRes),
+          OpenCms.getResourceManager().getResourceType(typeBean.getType()));
+      m_dialogContext.finish(Arrays.asList(changeRes.getStructureId()));
+    } catch (CmsException e) {
+      m_dialogContext.error(e);
+    } finally {
+      if ((lockRecord != null) && (lockRecord.getChange() == LockChange.locked)) {
         try {
-            lockRecord = CmsLockUtil.ensureLock(cms, changeRes);
-            cms.chtype(cms.getSitePath(changeRes), OpenCms.getResourceManager().getResourceType(typeBean.getType()));
-            m_dialogContext.finish(Arrays.asList(changeRes.getStructureId()));
+          cms.unlockResource(changeRes);
+          m_dialogContext.finish(Arrays.asList(changeRes.getStructureId()));
         } catch (CmsException e) {
-            m_dialogContext.error(e);
-        } finally {
-            if ((lockRecord != null) && (lockRecord.getChange() == LockChange.locked)) {
-                try {
-                    cms.unlockResource(changeRes);
-                    m_dialogContext.finish(Arrays.asList(changeRes.getStructureId()));
-                } catch (CmsException e) {
-                    LOG.error(e.getLocalizedMessage());
-                }
-            }
+          LOG.error(e.getLocalizedMessage());
+        }
+      }
+    }
+  }
+
+  /** @see org.opencms.ui.dialogs.CmsNewDialog#createTypeHelper() */
+  @Override
+  protected CmsAddDialogTypeHelper createTypeHelper() {
+
+    return new CmsAddDialogTypeHelper(CmsResourceTypeConfig.AddMenuType.workplace) {
+
+      @Override
+      protected boolean exclude(CmsResourceTypeBean type) {
+
+        boolean sameType =
+            OpenCms.getResourceManager()
+                .matchResourceType(
+                    type.getType(), m_dialogContext.getResources().get(0).getTypeId());
+        if (sameType) {
+          return true;
         }
 
-    }
-
-    /**
-     * @see org.opencms.ui.dialogs.CmsNewDialog#createTypeHelper()
-     */
-    @Override
-    protected CmsAddDialogTypeHelper createTypeHelper() {
-
-        return new CmsAddDialogTypeHelper(CmsResourceTypeConfig.AddMenuType.workplace) {
-
-            @Override
-            protected boolean exclude(CmsResourceTypeBean type) {
-
-                boolean sameType = OpenCms.getResourceManager().matchResourceType(
-                    type.getType(),
-                    m_dialogContext.getResources().get(0).getTypeId());
-                if (sameType) {
-                    return true;
-                }
-
-                String typeName = type.getType();
-                try {
-                    boolean isFolder = m_dialogContext.getResources().get(0).isFolder();
-                    boolean identicalTypeGroup = OpenCms.getResourceManager().getResourceType(
-                        typeName).isFolder() == isFolder;
-                    return !identicalTypeGroup;
-                } catch (Exception e) {
-                    LOG.debug(e.getLocalizedMessage(), e);
-                    return false;
-                }
-            }
-        };
-    }
-
-    /**
-     *
-     * @see org.opencms.ui.dialogs.CmsNewDialog#getSubtitle(org.opencms.ade.galleries.shared.CmsResourceTypeBean, boolean)
-     */
-    @Override
-    protected String getSubtitle(CmsResourceTypeBean type, boolean useDefault) {
-
-        CmsExplorerTypeSettings explorerType = OpenCms.getWorkplaceManager().getExplorerTypeSetting(type.getType());
-        if (explorerType != null) {
-            String explorerInfo = explorerType.getInfo();
-            if (explorerInfo != null) {
-                return CmsVaadinUtils.getMessageText(explorerInfo);
-            }
+        String typeName = type.getType();
+        try {
+          boolean isFolder = m_dialogContext.getResources().get(0).isFolder();
+          boolean identicalTypeGroup =
+              OpenCms.getResourceManager().getResourceType(typeName).isFolder() == isFolder;
+          return !identicalTypeGroup;
+        } catch (Exception e) {
+          LOG.debug(e.getLocalizedMessage(), e);
+          return false;
         }
-        return "";
+      }
+    };
+  }
 
+  /**
+   * @see
+   *     org.opencms.ui.dialogs.CmsNewDialog#getSubtitle(org.opencms.ade.galleries.shared.CmsResourceTypeBean,
+   *     boolean)
+   */
+  @Override
+  protected String getSubtitle(CmsResourceTypeBean type, boolean useDefault) {
+
+    CmsExplorerTypeSettings explorerType =
+        OpenCms.getWorkplaceManager().getExplorerTypeSetting(type.getType());
+    if (explorerType != null) {
+      String explorerInfo = explorerType.getInfo();
+      if (explorerInfo != null) {
+        return CmsVaadinUtils.getMessageText(explorerInfo);
+      }
     }
-
+    return "";
+  }
 }

@@ -27,53 +27,53 @@
 
 package org.opencms.ui.components.extensions;
 
+import com.vaadin.server.AbstractExtension;
+import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.AbstractComponent;
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 import org.opencms.main.CmsUIServlet;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.apps.CmsAppWorkplaceUi;
 import org.opencms.ui.shared.rpc.I_CmsPollServerRpc;
 
-import org.apache.commons.logging.Log;
-
-import com.vaadin.server.AbstractExtension;
-import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.AbstractComponent;
-
 /**
- * Allows the use of max height in combination with vaadin layout components.<p>
+ * Allows the use of max height in combination with vaadin layout components.
+ *
+ * <p>
  */
 public class CmsPollServerExtension extends AbstractExtension implements I_CmsPollServerRpc {
 
-    /** Logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsPollServerExtension.class);
+  /** Logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsPollServerExtension.class);
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 3978957151754705873L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 3978957151754705873L;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param component the component to extend
-     */
-    public CmsPollServerExtension(AbstractComponent component) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param component the component to extend
+   */
+  public CmsPollServerExtension(AbstractComponent component) {
 
-        extend(component);
-        registerRpc(this);
+    extend(component);
+    registerRpc(this);
+  }
+
+  /** @see org.opencms.ui.shared.rpc.I_CmsPollServerRpc#poll() */
+  public void poll() {
+
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Client poll recieved.");
     }
 
-    /**
-     * @see org.opencms.ui.shared.rpc.I_CmsPollServerRpc#poll()
-     */
-    public void poll() {
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Client poll recieved.");
-        }
-
-        ((CmsUIServlet)VaadinServlet.getCurrent()).setBroadcastPoll();
-        A_CmsUI ui = A_CmsUI.get();
-        if (ui instanceof CmsAppWorkplaceUi) {
-            ((CmsAppWorkplaceUi)ui).checkBroadcasts();
-        }
+    ((CmsUIServlet) VaadinServlet.getCurrent()).setBroadcastPoll();
+    A_CmsUI ui = A_CmsUI.get();
+    if (ui instanceof CmsAppWorkplaceUi) {
+      ((CmsAppWorkplaceUi) ui).checkBroadcasts();
     }
+  }
 }

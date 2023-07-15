@@ -27,6 +27,12 @@
 
 package org.opencms.ade.galleries.client;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
 import org.opencms.ade.galleries.client.ui.CmsVfsTab;
 import org.opencms.ade.galleries.shared.CmsSiteSelectorOption;
 import org.opencms.ade.galleries.shared.CmsVfsEntryBean;
@@ -35,234 +41,239 @@ import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * Handler class for the VFS tree tab.<p>
+ * Handler class for the VFS tree tab.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsVfsTabHandler extends A_CmsTabHandler {
 
-    /** The structure ids of open entries to save. */
-    Collection<CmsUUID> m_openItemIds = new HashSet<CmsUUID>();
+  /** The structure ids of open entries to save. */
+  Collection<CmsUUID> m_openItemIds = new HashSet<CmsUUID>();
 
-    /** The VFS tab which this handler belongs to. */
-    CmsVfsTab m_tab;
+  /** The VFS tab which this handler belongs to. */
+  CmsVfsTab m_tab;
 
-    /** The site root to use for loading / saving tree state. */
-    private String m_siteRoot;
+  /** The site root to use for loading / saving tree state. */
+  private String m_siteRoot;
 
-    /**
-     * Creates a new VFS tab handler.<p>
-     *
-     * @param controller the gallery controller
-     */
-    public CmsVfsTabHandler(CmsGalleryController controller) {
+  /**
+   * Creates a new VFS tab handler.
+   *
+   * <p>
+   *
+   * @param controller the gallery controller
+   */
+  public CmsVfsTabHandler(CmsGalleryController controller) {
 
-        super(controller);
+    super(controller);
+  }
 
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#clearParams() */
+  @Override
+  public void clearParams() {
+
+    m_controller.clearFolders(false);
+  }
+
+  /**
+   * Gets the path which should be set as a value when a VFS entry is selected in the VFS tab.
+   *
+   * <p>
+   *
+   * @param vfsEntry the VFS entry which has been selected
+   * @return the selection path for the given VFS entry
+   */
+  public String getSelectPath(CmsVfsEntryBean vfsEntry) {
+
+    String normalizedSiteRoot = CmsStringUtil.joinPaths(CmsCoreProvider.get().getSiteRoot(), "/");
+    String rootPath = vfsEntry.getRootPath();
+    if (rootPath.startsWith(normalizedSiteRoot)) {
+      return rootPath.substring(normalizedSiteRoot.length() - 1);
     }
+    return vfsEntry.getRootPath();
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#clearParams()
-     */
-    @Override
-    public void clearParams() {
+  /**
+   * Gets the sort list for the tab.
+   *
+   * <p>
+   *
+   * @return the sort list for the tab
+   */
+  public LinkedHashMap<String, String> getSortList() {
 
-        m_controller.clearFolders(false);
+    if (!m_controller.isShowSiteSelector()
+        || !(m_controller.getVfsSiteSelectorOptions().size() > 1)) {
+      return null;
     }
-
-    /**
-     * Gets the path which should be set as a value when a VFS entry is selected in the VFS tab.<p>
-     *
-     * @param vfsEntry the VFS entry which has been selected
-     *
-     * @return the selection path for the given VFS entry
-     */
-    public String getSelectPath(CmsVfsEntryBean vfsEntry) {
-
-        String normalizedSiteRoot = CmsStringUtil.joinPaths(CmsCoreProvider.get().getSiteRoot(), "/");
-        String rootPath = vfsEntry.getRootPath();
-        if (rootPath.startsWith(normalizedSiteRoot)) {
-            return rootPath.substring(normalizedSiteRoot.length() - 1);
-        }
-        return vfsEntry.getRootPath();
+    LinkedHashMap<String, String> options = new LinkedHashMap<String, String>();
+    for (CmsSiteSelectorOption option : m_controller.getVfsSiteSelectorOptions()) {
+      options.put(option.getSiteRoot(), option.getMessage());
     }
+    return options;
+  }
 
-    /**
-     * Gets the sort list for the tab.<p>
-     *
-     * @return the sort list for the tab
-     */
-    public LinkedHashMap<String, String> getSortList() {
+  /**
+   * Gets the sub-folders of a given folder.
+   *
+   * <p>
+   *
+   * @param path the path of the folder whose subfolders should be retrieved
+   * @param callback the callback for processing the subfolders
+   */
+  public void getSubFolders(String path, AsyncCallback<List<CmsVfsEntryBean>> callback) {
 
-        if (!m_controller.isShowSiteSelector() || !(m_controller.getVfsSiteSelectorOptions().size() > 1)) {
-            return null;
-        }
-        LinkedHashMap<String, String> options = new LinkedHashMap<String, String>();
-        for (CmsSiteSelectorOption option : m_controller.getVfsSiteSelectorOptions()) {
-            options.put(option.getSiteRoot(), option.getMessage());
-        }
-        return options;
+    m_controller.getSubFolders(path, callback);
+  }
 
+  /**
+   * Returns if this tab should offer select resource buttons.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if this tab should offer select resource buttons
+   */
+  public boolean hasSelectResource() {
+
+    return m_controller.hasSelectFolder();
+  }
+
+  /**
+   * This method is called when the tree open state is changed.
+   *
+   * <p>
+   *
+   * @param openItemIds the structure ids of open tree items
+   */
+  public void onChangeTreeState(Collection<CmsUUID> openItemIds) {
+
+    m_openItemIds = openItemIds;
+    saveTreeState();
+  }
+
+  /**
+   * This method is called when a folder is selected or deselected in the VFS tab.
+   *
+   * <p>
+   *
+   * @param folder the folder which is selected or deselected
+   * @param selected true if the folder has been selected, false if it has been deselected
+   */
+  public void onSelectFolder(String folder, boolean selected) {
+
+    if (selected) {
+      m_controller.addFolder(folder);
+    } else {
+      m_controller.removeFolder(folder);
     }
+  }
 
-    /**
-     * Gets the sub-folders of a given folder.<p>
-     *
-     * @param path the path of the folder whose subfolders should be retrieved
-     * @param callback the callback for processing the subfolders
-     */
-    public void getSubFolders(String path, AsyncCallback<List<CmsVfsEntryBean>> callback) {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSelection() */
+  @Override
+  public void onSelection() {
 
-        m_controller.getSubFolders(path, callback);
-    }
-
-    /**
-     * Returns if this tab should offer select resource buttons.<p>
-     *
-     * @return <code>true</code> if this tab should offer select resource buttons
-     */
-    public boolean hasSelectResource() {
-
-        return m_controller.hasSelectFolder();
-    }
-
-    /**
-     * This method is called when the tree open state is changed.<p>
-     *
-     * @param openItemIds the structure ids of open tree items
-     */
-    public void onChangeTreeState(Collection<CmsUUID> openItemIds) {
-
-        m_openItemIds = openItemIds;
-        saveTreeState();
-    }
-
-    /**
-     * This method is called when a folder is selected or deselected in the VFS tab.<p>
-     *
-     * @param folder the folder which is selected or deselected
-     *
-     * @param selected true if the folder has been selected, false if it has been deselected
-     */
-    public void onSelectFolder(String folder, boolean selected) {
-
-        if (selected) {
-            m_controller.addFolder(folder);
-        } else {
-            m_controller.removeFolder(folder);
-        }
-    }
-
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSelection()
-     */
-    @Override
-    public void onSelection() {
-
-        if (m_tab.isInitialized()) {
-            m_tab.onContentChange();
-        } else {
-            String siteRoot = m_controller.getPreselectOption(
-                m_controller.getStartSiteRoot(),
-                m_controller.getVfsSiteSelectorOptions());
-            m_tab.setSortSelectBoxValue(siteRoot, true);
-            if (siteRoot == null) {
-                siteRoot = m_controller.getDefaultVfsTabSiteRoot();
-            }
-            m_siteRoot = siteRoot;
-            m_controller.loadVfsEntryBean(siteRoot, null, new AsyncCallback<CmsVfsEntryBean>() {
-
-                public void onFailure(Throwable caught) {
-
-                    // will never be called
-                }
-
-                public void onSuccess(CmsVfsEntryBean result) {
-
-                    m_tab.fillInitially(Collections.singletonList(result));
-                    m_tab.onContentChange();
-
-                }
-            });
-
-        }
-    }
-
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSort(java.lang.String,java.lang.String)
-     */
-    @Override
-    public void onSort(final String sortParams, String filter) {
-
-        m_controller.loadVfsEntryBean(sortParams, filter, new AsyncCallback<CmsVfsEntryBean>() {
+    if (m_tab.isInitialized()) {
+      m_tab.onContentChange();
+    } else {
+      String siteRoot =
+          m_controller.getPreselectOption(
+              m_controller.getStartSiteRoot(), m_controller.getVfsSiteSelectorOptions());
+      m_tab.setSortSelectBoxValue(siteRoot, true);
+      if (siteRoot == null) {
+        siteRoot = m_controller.getDefaultVfsTabSiteRoot();
+      }
+      m_siteRoot = siteRoot;
+      m_controller.loadVfsEntryBean(
+          siteRoot,
+          null,
+          new AsyncCallback<CmsVfsEntryBean>() {
 
             public void onFailure(Throwable caught) {
 
-                // will never be called.
+              // will never be called
             }
 
             public void onSuccess(CmsVfsEntryBean result) {
 
-                m_tab.fillInitially(Collections.singletonList(result));
-                setSiteRoot(sortParams);
-                m_openItemIds.clear();
-                if (result != null) {
-                    m_openItemIds.add(result.getStructureId());
-                }
-                saveTreeState();
+              m_tab.fillInitially(Collections.singletonList(result));
+              m_tab.onContentChange();
             }
+          });
+    }
+  }
 
+  /**
+   * @see org.opencms.ade.galleries.client.A_CmsTabHandler#onSort(java.lang.String,java.lang.String)
+   */
+  @Override
+  public void onSort(final String sortParams, String filter) {
+
+    m_controller.loadVfsEntryBean(
+        sortParams,
+        filter,
+        new AsyncCallback<CmsVfsEntryBean>() {
+
+          public void onFailure(Throwable caught) {
+
+            // will never be called.
+          }
+
+          public void onSuccess(CmsVfsEntryBean result) {
+
+            m_tab.fillInitially(Collections.singletonList(result));
+            setSiteRoot(sortParams);
+            m_openItemIds.clear();
+            if (result != null) {
+              m_openItemIds.add(result.getStructureId());
+            }
+            saveTreeState();
+          }
         });
-        m_controller.clearFolders(true);
-    }
+    m_controller.clearFolders(true);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.A_CmsTabHandler#removeParam(java.lang.String)
-     */
-    @Override
-    public void removeParam(String paramKey) {
+  /** @see org.opencms.ade.galleries.client.A_CmsTabHandler#removeParam(java.lang.String) */
+  @Override
+  public void removeParam(String paramKey) {
 
-        m_controller.removeFolderParam(paramKey);
-    }
+    m_controller.removeFolderParam(paramKey);
+  }
 
-    /**
-     * Sets the tab which this handler is bound to.<p>
-     *
-     * @param tab the VFS tab
-     */
-    public void setTab(CmsVfsTab tab) {
+  /**
+   * Sets the tab which this handler is bound to.
+   *
+   * <p>
+   *
+   * @param tab the VFS tab
+   */
+  public void setTab(CmsVfsTab tab) {
 
-        m_tab = tab;
-    }
+    m_tab = tab;
+  }
 
-    /**
-     * Saves the tree state.<p>
-     */
-    protected void saveTreeState() {
+  /**
+   * Saves the tree state.
+   *
+   * <p>
+   */
+  protected void saveTreeState() {
 
-        m_controller.saveTreeState(
-            I_CmsGalleryProviderConstants.TREE_VFS,
-            m_siteRoot,
-            new HashSet<CmsUUID>(m_openItemIds));
-    }
+    m_controller.saveTreeState(
+        I_CmsGalleryProviderConstants.TREE_VFS, m_siteRoot, new HashSet<CmsUUID>(m_openItemIds));
+  }
 
-    /**
-     * Sets the site root to use for loading/saving tree state.<p>
-     *
-     * @param siteRoot the site root to set
-     */
-    protected void setSiteRoot(String siteRoot) {
+  /**
+   * Sets the site root to use for loading/saving tree state.
+   *
+   * <p>
+   *
+   * @param siteRoot the site root to set
+   */
+  protected void setSiteRoot(String siteRoot) {
 
-        m_siteRoot = siteRoot;
-    }
-
+    m_siteRoot = siteRoot;
+  }
 }

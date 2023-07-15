@@ -27,87 +27,92 @@
 
 package org.opencms.gwt.client.ui.input;
 
+import com.google.gwt.dom.client.Element;
 import org.opencms.gwt.client.util.CmsDomUtil;
 import org.opencms.gwt.client.util.CmsTextMetrics;
 import org.opencms.util.CmsStringUtil;
 
-import com.google.gwt.dom.client.Element;
-
 /**
- * Single line label implementation that acts like doing CSS 'text-overflow:ellipsis;', but cutting text on the left-hand side.<p>
+ * Single line label implementation that acts like doing CSS 'text-overflow:ellipsis;', but cutting
+ * text on the left-hand side.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsLabelLeftTruncating extends CmsLabel {
 
-    /**
-     * Creates an empty label.<p>
-     */
-    public CmsLabelLeftTruncating() {
+  /**
+   * Creates an empty label.
+   *
+   * <p>
+   */
+  public CmsLabelLeftTruncating() {
 
-        super();
+    super();
+  }
+
+  /**
+   * Creates an empty label using the given element.
+   *
+   * <p>
+   *
+   * @param element the element to use
+   */
+  public CmsLabelLeftTruncating(Element element) {
+
+    super(element);
+  }
+
+  /**
+   * Creates a label with the specified text.
+   *
+   * <p>
+   *
+   * @param text the new label's text
+   */
+  public CmsLabelLeftTruncating(String text) {
+
+    super(text);
+  }
+
+  /** @see org.opencms.gwt.client.ui.I_CmsTruncable#truncate(java.lang.String, int) */
+  @Override
+  public void truncate(String textMetricsKey, int labelWidth) {
+
+    super.setText(m_originalText);
+
+    // measure the actual text width
+    Element element = getElement();
+    CmsTextMetrics tm = CmsTextMetrics.get(element, textMetricsKey);
+    String text = element.getInnerText();
+    int textWidth = tm.getWidth(text);
+    tm.release();
+
+    if (labelWidth >= textWidth) {
+      updateTitle(false);
+      return;
     }
+    updateTitle(true);
 
-    /**
-     * Creates an empty label using the given element.<p>
-     *
-     * @param element the element to use
-     */
-    public CmsLabelLeftTruncating(Element element) {
-
-        super(element);
+    text = (new StringBuilder(text)).reverse().toString();
+    // if the text does not have enough space, fix it
+    int maxChars = (int) (((float) labelWidth / (float) textWidth) * text.length());
+    if (maxChars < 1) {
+      maxChars = 1;
     }
-
-    /**
-     * Creates a label with the specified text.<p>
-     *
-     * @param text the new label's text
-     */
-    public CmsLabelLeftTruncating(String text) {
-
-        super(text);
+    text = text.substring(0, maxChars - 1);
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(text)) {
+      // if empty, it could break the layout
+      text = CmsDomUtil.Entity.nbsp.html();
     }
-
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsTruncable#truncate(java.lang.String, int)
-     */
-    @Override
-    public void truncate(String textMetricsKey, int labelWidth) {
-
-        super.setText(m_originalText);
-
-        // measure the actual text width
-        Element element = getElement();
-        CmsTextMetrics tm = CmsTextMetrics.get(element, textMetricsKey);
-        String text = element.getInnerText();
-        int textWidth = tm.getWidth(text);
-        tm.release();
-
-        if (labelWidth >= textWidth) {
-            updateTitle(false);
-            return;
-        }
-        updateTitle(true);
-
-        text = (new StringBuilder(text)).reverse().toString();
-        // if the text does not have enough space, fix it
-        int maxChars = (int)(((float)labelWidth / (float)textWidth) * text.length());
-        if (maxChars < 1) {
-            maxChars = 1;
-        }
-        text = text.substring(0, maxChars - 1);
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(text)) {
-            // if empty, it could break the layout
-            text = CmsDomUtil.Entity.nbsp.html();
-        }
-        // text = CmsClientStringUtil.shortenString(text, maxChars);
-        text = (new StringBuilder(text)).reverse().toString();
-        if (maxChars > 2) {
-            // enough space for ellipsis?
-            text = CmsDomUtil.Entity.hellip.html() + text;
-        }
-        // use html instead of text because of the entities
-        setHTML(text);
+    // text = CmsClientStringUtil.shortenString(text, maxChars);
+    text = (new StringBuilder(text)).reverse().toString();
+    if (maxChars > 2) {
+      // enough space for ellipsis?
+      text = CmsDomUtil.Entity.hellip.html() + text;
     }
-
+    // use html instead of text because of the entities
+    setHTML(text);
+  }
 }

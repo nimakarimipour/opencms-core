@@ -27,133 +27,134 @@
 
 package org.opencms.ade.galleries.client.preview;
 
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.Widget;
+import java.util.Map;
 import org.opencms.ade.galleries.client.Messages;
 import org.opencms.ade.galleries.client.ui.CmsGalleryDialog;
 import org.opencms.ade.galleries.shared.CmsResourceInfoBean;
 import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryMode;
 
-import java.util.Map;
-
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * Preview dialog handler.<p>
+ * Preview dialog handler.
  *
- * Delegates the actions of the preview controller to the preview dialog.<p>
+ * <p>Delegates the actions of the preview controller to the preview dialog.
+ *
+ * <p>
  *
  * @param <T> the resource info bean type
- *
  * @since 8.0.0
  */
-public abstract class A_CmsPreviewHandler<T extends CmsResourceInfoBean> implements I_CmsPreviewHandler<T> {
+public abstract class A_CmsPreviewHandler<T extends CmsResourceInfoBean>
+    implements I_CmsPreviewHandler<T> {
 
-    /** The resource info. */
-    protected T m_resourceInfo;
+  /** The resource info. */
+  protected T m_resourceInfo;
 
-    /** The resource preview instance. */
-    protected I_CmsResourcePreview<T> m_resourcePreview;
+  /** The resource preview instance. */
+  protected I_CmsResourcePreview<T> m_resourcePreview;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param resourcePreview the resource preview instance
-     */
-    public A_CmsPreviewHandler(I_CmsResourcePreview<T> resourcePreview) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param resourcePreview the resource preview instance
+   */
+  public A_CmsPreviewHandler(I_CmsResourcePreview<T> resourcePreview) {
 
-        m_resourcePreview = resourcePreview;
+    m_resourcePreview = resourcePreview;
+  }
+
+  /** @see org.opencms.ade.galleries.client.preview.I_CmsPreviewHandler#closePreview() */
+  public void closePreview() {
+
+    if (m_resourcePreview.getPreviewDialog().getGalleryMode() == GalleryMode.editor) {
+      CmsPreviewUtil.enableEditorOk(false);
     }
+    m_resourcePreview.getGalleryDialog().setPreviewVisible(false);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsPreviewHandler#closePreview()
-     */
-    public void closePreview() {
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.I_CmsPreviewHandler#getAdditionalWidgetForPropertyTab()
+   */
+  public Widget getAdditionalWidgetForPropertyTab() {
 
-        if (m_resourcePreview.getPreviewDialog().getGalleryMode() == GalleryMode.editor) {
-            CmsPreviewUtil.enableEditorOk(false);
-        }
-        m_resourcePreview.getGalleryDialog().setPreviewVisible(false);
-    }
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsPreviewHandler#getAdditionalWidgetForPropertyTab()
-     */
-    public Widget getAdditionalWidgetForPropertyTab() {
+  /** @see org.opencms.ade.galleries.client.preview.I_CmsPreviewHandler#getGalleryDialog() */
+  public CmsGalleryDialog getGalleryDialog() {
 
-        // TODO Auto-generated method stub
-        return null;
-    }
+    return m_resourcePreview.getGalleryDialog();
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsPreviewHandler#getGalleryDialog()
-     */
-    public CmsGalleryDialog getGalleryDialog() {
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.I_CmsPropertiesHandler#saveProperties(java.util.Map,
+   *     com.google.gwt.user.client.Command)
+   */
+  public void saveProperties(Map<String, String> properties, Command afterSaveCallback) {
 
-        return m_resourcePreview.getGalleryDialog();
-    }
+    m_resourcePreview.saveProperties(properties, afterSaveCallback);
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsPropertiesHandler#saveProperties(java.util.Map, com.google.gwt.user.client.Command)
-     */
-    public void saveProperties(Map<String, String> properties, Command afterSaveCallback) {
+  /** @see org.opencms.ade.galleries.client.preview.I_CmsPropertiesHandler#selectResource() */
+  public void selectResource() {
 
-        m_resourcePreview.saveProperties(properties, afterSaveCallback);
-    }
+    m_resourcePreview.setResource();
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsPropertiesHandler#selectResource()
-     */
-    public void selectResource() {
+  /** @see org.opencms.ade.galleries.client.preview.I_CmsPreviewHandler#setDataInEditor() */
+  public boolean setDataInEditor() {
 
-        m_resourcePreview.setResource();
-    }
+    if (m_resourcePreview.getGalleryMode() == GalleryMode.editor) {
+      if (m_resourcePreview.getPreviewDialog().hasChanges()) {
+        m_resourcePreview
+            .getPreviewDialog()
+            .confirmSaveChanges(
+                Messages.get().key(Messages.GUI_PREVIEW_CONFIRM_LEAVE_SAVE_0),
+                new Command() {
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsPreviewHandler#setDataInEditor()
-     */
-    public boolean setDataInEditor() {
+                  /** @see com.google.gwt.user.client.Command#execute() */
+                  public void execute() {
 
-        if (m_resourcePreview.getGalleryMode() == GalleryMode.editor) {
-            if (m_resourcePreview.getPreviewDialog().hasChanges()) {
-                m_resourcePreview.getPreviewDialog().confirmSaveChanges(
-                    Messages.get().key(Messages.GUI_PREVIEW_CONFIRM_LEAVE_SAVE_0),
-                    new Command() {
+                    m_resourcePreview
+                        .getPreviewDialog()
+                        .saveChanges(
+                            new Command() {
 
-                        /**
-                         * @see com.google.gwt.user.client.Command#execute()
-                         */
-                        public void execute() {
+                              public void execute() {
 
-                            m_resourcePreview.getPreviewDialog().saveChanges(new Command() {
-
-                                public void execute() {
-
-                                    CmsPreviewUtil.setDataAndCloseDialog();
-                                }
+                                CmsPreviewUtil.setDataAndCloseDialog();
+                              }
                             });
-                        }
-                    },
-                    null);
-                return false;
-            } else {
-                m_resourcePreview.setResource();
-                return true;
-            }
-        } else {
-            throw new UnsupportedOperationException();
-        }
+                  }
+                },
+                null);
+        return false;
+      } else {
+        m_resourcePreview.setResource();
+        return true;
+      }
+    } else {
+      throw new UnsupportedOperationException();
     }
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsPreviewHandler#showData(org.opencms.ade.galleries.shared.CmsResourceInfoBean)
-     */
-    public void showData(T resourceInfo) {
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.I_CmsPreviewHandler#showData(org.opencms.ade.galleries.shared.CmsResourceInfoBean)
+   */
+  public void showData(T resourceInfo) {
 
-        m_resourceInfo = resourceInfo;
-        // once the resource info is displayed, enable the OK button for editor mode
-        if (m_resourcePreview.getGalleryMode().equals(GalleryMode.editor)) {
-            CmsPreviewUtil.enableEditorOk(true);
-        }
-        m_resourcePreview.getPreviewDialog().fillContent(resourceInfo);
+    m_resourceInfo = resourceInfo;
+    // once the resource info is displayed, enable the OK button for editor mode
+    if (m_resourcePreview.getGalleryMode().equals(GalleryMode.editor)) {
+      CmsPreviewUtil.enableEditorOk(true);
     }
+    m_resourcePreview.getPreviewDialog().fillContent(resourceInfo);
+  }
 }

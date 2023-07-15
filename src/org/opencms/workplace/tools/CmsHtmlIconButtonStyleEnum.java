@@ -27,101 +27,109 @@
 
 package org.opencms.workplace.tools;
 
-import org.opencms.main.CmsIllegalArgumentException;
-import org.opencms.workplace.list.Messages;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import org.opencms.main.CmsIllegalArgumentException;
+import org.opencms.workplace.list.Messages;
 
 /**
- * Wrapper class for
- * the different style of icon buttons.<p>
+ * Wrapper class for the different style of icon buttons.
  *
- * The possibles values are:<br>
+ * <p>The possibles values are:<br>
+ *
  * <ul>
- *   <li>BigIconText</li>
- *   <li>SmallIconText</li>
- *   <li>SmallIconOnly</li>
+ *   <li>BigIconText
+ *   <li>SmallIconText
+ *   <li>SmallIconOnly
  * </ul>
+ *
  * <p>
  *
  * @since 6.0.0
  */
 public final class CmsHtmlIconButtonStyleEnum {
 
-    /** Constant for ascending ordering. */
-    public static final CmsHtmlIconButtonStyleEnum BIG_ICON_TEXT = new CmsHtmlIconButtonStyleEnum("bigicontext");
+  /** Constant for ascending ordering. */
+  public static final CmsHtmlIconButtonStyleEnum BIG_ICON_TEXT =
+      new CmsHtmlIconButtonStyleEnum("bigicontext");
 
-    /** Constant for none ordering. */
-    public static final CmsHtmlIconButtonStyleEnum SMALL_ICON_ONLY = new CmsHtmlIconButtonStyleEnum("smallicononly");
+  /** Constant for none ordering. */
+  public static final CmsHtmlIconButtonStyleEnum SMALL_ICON_ONLY =
+      new CmsHtmlIconButtonStyleEnum("smallicononly");
 
-    /** Constant for descending ordering. */
-    public static final CmsHtmlIconButtonStyleEnum SMALL_ICON_TEXT = new CmsHtmlIconButtonStyleEnum("smallicontext");
+  /** Constant for descending ordering. */
+  public static final CmsHtmlIconButtonStyleEnum SMALL_ICON_TEXT =
+      new CmsHtmlIconButtonStyleEnum("smallicontext");
 
-    /** Array constant for column sorting. */
-    private static final CmsHtmlIconButtonStyleEnum[] VALUE_ARRAY = {BIG_ICON_TEXT, SMALL_ICON_TEXT, SMALL_ICON_ONLY};
+  /** Array constant for column sorting. */
+  private static final CmsHtmlIconButtonStyleEnum[] VALUE_ARRAY = {
+    BIG_ICON_TEXT, SMALL_ICON_TEXT, SMALL_ICON_ONLY
+  };
 
-    /** List of ordering constants.     */
-    public static final List<CmsHtmlIconButtonStyleEnum> VALUES = Collections.unmodifiableList(
-        Arrays.asList(VALUE_ARRAY));
+  /** List of ordering constants. */
+  public static final List<CmsHtmlIconButtonStyleEnum> VALUES =
+      Collections.unmodifiableList(Arrays.asList(VALUE_ARRAY));
 
-    /** Internal representation. */
-    private final String m_style;
+  /** Internal representation. */
+  private final String m_style;
 
-    /**
-     * Private constructor.<p>
-     *
-     * @param style internal representation
-     */
-    private CmsHtmlIconButtonStyleEnum(String style) {
+  /**
+   * Private constructor.
+   *
+   * <p>
+   *
+   * @param style internal representation
+   */
+  private CmsHtmlIconButtonStyleEnum(String style) {
 
-        m_style = style;
+    m_style = style;
+  }
+
+  /**
+   * Parses an string into an element of this enumeration.
+   *
+   * <p>
+   *
+   * @param value the style to parse
+   * @return the enumeration element
+   * @throws CmsIllegalArgumentException if the given instance for the argument is not found
+   */
+  public static CmsHtmlIconButtonStyleEnum valueOf(String value)
+      throws CmsIllegalArgumentException {
+
+    Iterator<CmsHtmlIconButtonStyleEnum> iter = VALUES.iterator();
+    while (iter.hasNext()) {
+      CmsHtmlIconButtonStyleEnum target = iter.next();
+      if (value.equals(target.getStyle())) {
+        return target;
+      }
     }
-
-    /**
-     * Parses an string into an element of this enumeration.<p>
-     *
-     * @param value the style to parse
-     *
-     * @return the enumeration element
-     *
-     * @throws CmsIllegalArgumentException if the given instance for the argument is not found
-     */
-    public static CmsHtmlIconButtonStyleEnum valueOf(String value) throws CmsIllegalArgumentException {
-
-        Iterator<CmsHtmlIconButtonStyleEnum> iter = VALUES.iterator();
-        while (iter.hasNext()) {
-            CmsHtmlIconButtonStyleEnum target = iter.next();
-            if (value.equals(target.getStyle())) {
-                return target;
-            }
-        }
-        throw new CmsIllegalArgumentException(
-            Messages.get().container(
+    throw new CmsIllegalArgumentException(
+        Messages.get()
+            .container(
                 Messages.ERR_LIST_ENUM_PARSE_2,
                 new Integer(value),
                 CmsHtmlIconButtonStyleEnum.class.getName()));
-    }
+  }
 
-    /**
-     * Returns the style string.<p>
-     *
-     * @return the style string
-     */
-    public String getStyle() {
+  /**
+   * Returns the style string.
+   *
+   * <p>
+   *
+   * @return the style string
+   */
+  public String getStyle() {
 
-        return m_style;
-    }
+    return m_style;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_style;
-    }
-
+    return m_style;
+  }
 }

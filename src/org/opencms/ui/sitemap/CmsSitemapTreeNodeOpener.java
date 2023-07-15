@@ -27,45 +27,48 @@
 
 package org.opencms.ui.sitemap;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.themes.ValoTheme;
 import org.opencms.ui.FontOpenCms;
 import org.opencms.ui.components.OpenCmsTheme;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.themes.ValoTheme;
-
 /**
- * Button used for opening / closing tree levels.<p>
+ * Button used for opening / closing tree levels.
+ *
+ * <p>
  */
 public class CmsSitemapTreeNodeOpener extends Button {
 
-    /** 'Minus' icon for the open state. */
-    public static final String MINUS = new String(new int[] {FontOpenCms.TREE_MINUS.getCodepoint()}, 0, 1);
+  /** 'Minus' icon for the open state. */
+  public static final String MINUS =
+      new String(new int[] {FontOpenCms.TREE_MINUS.getCodepoint()}, 0, 1);
 
-    /** 'Plus' icon for the closed state. */
-    public static final String PLUS = new String(new int[] {FontOpenCms.TREE_PLUS.getCodepoint()}, 0, 1);
+  /** 'Plus' icon for the closed state. */
+  public static final String PLUS =
+      new String(new int[] {FontOpenCms.TREE_PLUS.getCodepoint()}, 0, 1);
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.<p<
-     */
-    public CmsSitemapTreeNodeOpener() {
-        super();
-        addStyleName("opencms-font-icon");
-        addStyleName("o-sitemap-tree-opener");
-        addStyleName(ValoTheme.BUTTON_BORDERLESS);
-        addStyleName(OpenCmsTheme.BUTTON_UNPADDED);
-        setStyleOpen(false);
-    }
+  /** Creates a new instance.<p< */
+  public CmsSitemapTreeNodeOpener() {
+    super();
+    addStyleName("opencms-font-icon");
+    addStyleName("o-sitemap-tree-opener");
+    addStyleName(ValoTheme.BUTTON_BORDERLESS);
+    addStyleName(OpenCmsTheme.BUTTON_UNPADDED);
+    setStyleOpen(false);
+  }
 
-    /**
-     * Sets the style of the button.<p>
-     *
-     * @param open true if the button should be set to 'open' state, false for the 'closed' state
-     */
-    public void setStyleOpen(boolean open) {
+  /**
+   * Sets the style of the button.
+   *
+   * <p>
+   *
+   * @param open true if the button should be set to 'open' state, false for the 'closed' state
+   */
+  public void setStyleOpen(boolean open) {
 
-        setCaption(open ? MINUS : PLUS);
-    }
+    setCaption(open ? MINUS : PLUS);
+  }
 }

@@ -30,84 +30,87 @@ package org.opencms.gwt.client.ui;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
- * Event to be fired by a widget being activated or deactivated.<p>
+ * Event to be fired by a widget being activated or deactivated.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  */
 public class CmsToggleEvent extends GwtEvent<I_CmsToggleHandler> {
 
-    /** Handler type. */
-    private static Type<I_CmsToggleHandler> TYPE;
+  /** Handler type. */
+  private static Type<I_CmsToggleHandler> TYPE;
 
-    /** If the event source has been activated. */
-    private boolean m_isActivated;
+  /** If the event source has been activated. */
+  private boolean m_isActivated;
 
-    /**
-     * Creates a new open event.<p>
-     *
-     * @param isActivated if the source has been activated
-     */
-    protected CmsToggleEvent(boolean isActivated) {
+  /**
+   * Creates a new open event.
+   *
+   * <p>
+   *
+   * @param isActivated if the source has been activated
+   */
+  protected CmsToggleEvent(boolean isActivated) {
 
-        m_isActivated = isActivated;
+    m_isActivated = isActivated;
+  }
+
+  /**
+   * Fires a toggle event on all registered handlers in the handler manager.If no such handlers
+   * exist, this method will do nothing.
+   *
+   * <p>
+   *
+   * @param source the event source
+   * @param isActivated if the source has been activated
+   */
+  public static void fire(I_CmsHasToggleHandlers source, boolean isActivated) {
+
+    if (TYPE != null) {
+      CmsToggleEvent event = new CmsToggleEvent(isActivated);
+      source.fireEvent(event);
     }
+  }
 
-    /**
-     * Fires a toggle event on all registered handlers in the handler manager.If no
-     * such handlers exist, this method will do nothing.<p>
-     *
-     * @param source the event source
-     * @param isActivated if the source has been activated
-     */
-    public static void fire(I_CmsHasToggleHandlers source, boolean isActivated) {
+  /**
+   * Gets the type associated with this event.
+   *
+   * @return returns the handler type
+   */
+  public static com.google.gwt.event.shared.GwtEvent.Type<I_CmsToggleHandler> getType() {
 
-        if (TYPE != null) {
-            CmsToggleEvent event = new CmsToggleEvent(isActivated);
-            source.fireEvent(event);
-        }
+    if (TYPE == null) {
+      TYPE = new Type<I_CmsToggleHandler>();
     }
+    return TYPE;
+  }
 
-    /**
-     * Gets the type associated with this event.
-     *
-     * @return returns the handler type
-     */
-    public static com.google.gwt.event.shared.GwtEvent.Type<I_CmsToggleHandler> getType() {
+  /** @see com.google.gwt.event.shared.GwtEvent#getAssociatedType() */
+  @Override
+  public com.google.gwt.event.shared.GwtEvent.Type<I_CmsToggleHandler> getAssociatedType() {
 
-        if (TYPE == null) {
-            TYPE = new Type<I_CmsToggleHandler>();
-        }
-        return TYPE;
-    }
+    return CmsToggleEvent.getType();
+  }
 
-    /**
-     * @see com.google.gwt.event.shared.GwtEvent#getAssociatedType()
-     */
-    @Override
-    public com.google.gwt.event.shared.GwtEvent.Type<I_CmsToggleHandler> getAssociatedType() {
+  /**
+   * Returns if the source has been activated.
+   *
+   * <p>
+   *
+   * @return if the source has been activated
+   */
+  public boolean isActivated() {
 
-        return CmsToggleEvent.getType();
-    }
+    return m_isActivated;
+  }
 
-    /**
-     * Returns if the source has been activated.<p>
-     *
-     * @return if the source has been activated
-     */
-    public boolean isActivated() {
+  /**
+   * @see com.google.gwt.event.shared.GwtEvent#dispatch(com.google.gwt.event.shared.EventHandler)
+   */
+  @Override
+  protected void dispatch(I_CmsToggleHandler handler) {
 
-        return m_isActivated;
-    }
-
-    /**
-     * @see com.google.gwt.event.shared.GwtEvent#dispatch(com.google.gwt.event.shared.EventHandler)
-     */
-    @Override
-    protected void dispatch(I_CmsToggleHandler handler) {
-
-        handler.onToggle(this);
-
-    }
-
+    handler.onToggle(this);
+  }
 }

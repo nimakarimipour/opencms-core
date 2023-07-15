@@ -27,6 +27,9 @@
 
 package org.opencms.ade.containerpage.client.ui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import org.opencms.ade.containerpage.client.CmsContainerpageController;
 import org.opencms.ade.containerpage.client.CmsContainerpageHandler;
 import org.opencms.ade.containerpage.shared.CmsCntPageData;
@@ -38,61 +41,51 @@ import org.opencms.gwt.shared.CmsCoreData;
 import org.opencms.gwt.shared.CmsGwtConstants;
 import org.opencms.util.CmsUUID;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * The toolbar button for the favorite dialog.
- */
+/** The toolbar button for the favorite dialog. */
 public class CmsToolbarFavLocationButton extends A_CmsToolbarButton<CmsContainerpageHandler> {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param handler the container page handler
-     */
-    public CmsToolbarFavLocationButton(CmsContainerpageHandler handler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param handler the container page handler
+   */
+  public CmsToolbarFavLocationButton(CmsContainerpageHandler handler) {
 
-        super(I_CmsButton.ButtonData.BOOKMARKS_BUTTON, handler);
-    }
+    super(I_CmsButton.ButtonData.BOOKMARKS_BUTTON, handler);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate()
-     */
-    public void onToolbarActivate() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate() */
+  public void onToolbarActivate() {
 
-        // not used
+    // not used
 
-    }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.A_CmsToolbarButton#onToolbarClick()
-     */
-    @Override
-    public void onToolbarClick() {
+  /** @see org.opencms.gwt.client.ui.A_CmsToolbarButton#onToolbarClick() */
+  @Override
+  public void onToolbarClick() {
 
-        CmsEmbeddedDialogHandler handler = new CmsEmbeddedDialogHandler();
-        Map<String, String> params = new HashMap<>();
-        CmsCntPageData pageData = CmsContainerpageController.get().getData();
-        CmsCoreData coreData = CmsCoreProvider.get();
-        CmsUUID projectId = coreData.getProjectId();
-        CmsUUID pageId = coreData.getStructureId();
-        CmsUUID detailId = pageData.getDetailId();
-        String siteRoot = coreData.getSiteRoot();
-        params.put(CmsGwtConstants.Favorites.PARAM_DETAIL, "" + detailId);
-        params.put(CmsGwtConstants.Favorites.PARAM_PAGE, "" + pageId);
-        params.put(CmsGwtConstants.Favorites.PARAM_SITE, siteRoot);
-        params.put(CmsGwtConstants.Favorites.PARAM_PROJECT, "" + projectId);
-        handler.openDialog("org.opencms.ui.actions.CmsFavoriteDialogAction", null, new ArrayList<CmsUUID>(), params);
-    }
+    CmsEmbeddedDialogHandler handler = new CmsEmbeddedDialogHandler();
+    Map<String, String> params = new HashMap<>();
+    CmsCntPageData pageData = CmsContainerpageController.get().getData();
+    CmsCoreData coreData = CmsCoreProvider.get();
+    CmsUUID projectId = coreData.getProjectId();
+    CmsUUID pageId = coreData.getStructureId();
+    CmsUUID detailId = pageData.getDetailId();
+    String siteRoot = coreData.getSiteRoot();
+    params.put(CmsGwtConstants.Favorites.PARAM_DETAIL, "" + detailId);
+    params.put(CmsGwtConstants.Favorites.PARAM_PAGE, "" + pageId);
+    params.put(CmsGwtConstants.Favorites.PARAM_SITE, siteRoot);
+    params.put(CmsGwtConstants.Favorites.PARAM_PROJECT, "" + projectId);
+    handler.openDialog(
+        "org.opencms.ui.actions.CmsFavoriteDialogAction", null, new ArrayList<CmsUUID>(), params);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate()
-     */
-    public void onToolbarDeactivate() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate() */
+  public void onToolbarDeactivate() {
 
-        // not used
-    }
-
+    // not used
+  }
 }

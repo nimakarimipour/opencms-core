@@ -27,6 +27,7 @@
 
 package org.opencms.ade.sitemap.client.hoverbar;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.client.ui.CmsCopyModelPageDialog;
@@ -34,70 +35,71 @@ import org.opencms.ade.sitemap.shared.CmsClientSitemapEntry;
 import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * Context menu entry for copying a model page to be used as a model group page.<p>
+ * Context menu entry for copying a model page to be used as a model group page.
+ *
+ * <p>
  */
 public class CmsCopyAsModelGroupPageMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /** The instance of the dialog for copying a model page. */
-    CmsCopyModelPageDialog m_dialog;
+  /** The instance of the dialog for copying a model page. */
+  CmsCopyModelPageDialog m_dialog;
 
-    /**
-     * Creates a new model page menu entry.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsCopyAsModelGroupPageMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Creates a new model page menu entry.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsCopyAsModelGroupPageMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_COPY_AS_MODEL_GROUP_PAGE_0));
-        setActive(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_COPY_AS_MODEL_GROUP_PAGE_0));
+    setActive(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        final CmsUUID id = entry.getId();
-        CmsListInfoBean listInfo = CmsSitemapView.getInstance().getModelPageEntry(id).getListInfoBean();
-        m_dialog = new CmsCopyModelPageDialog(listInfo, true, new AsyncCallback<String>() {
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    final CmsUUID id = entry.getId();
+    CmsListInfoBean listInfo = CmsSitemapView.getInstance().getModelPageEntry(id).getListInfoBean();
+    m_dialog =
+        new CmsCopyModelPageDialog(
+            listInfo,
+            true,
+            new AsyncCallback<String>() {
 
-            public void onFailure(Throwable caught) {
+              public void onFailure(Throwable caught) {
 
                 // do nothing
 
-            }
+              }
 
-            public void onSuccess(String title) {
+              public void onSuccess(String title) {
 
                 if (title != null) {
-                    CmsSitemapView.getInstance().getController().createNewModelPage(
-                        title,
-                        m_dialog.getDescription(),
-                        id,
-                        true);
+                  CmsSitemapView.getInstance()
+                      .getController()
+                      .createNewModelPage(title, m_dialog.getDescription(), id, true);
                 }
-            }
-        });
-        m_dialog.center();
-    }
+              }
+            });
+    m_dialog.center();
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        final CmsUUID id = entry.getId();
-        boolean show = getHoverbar().getController().isEditable()
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    final CmsUUID id = entry.getId();
+    boolean show =
+        getHoverbar().getController().isEditable()
             && CmsSitemapView.getInstance().isModelPageMode()
-            && (CmsSitemapView.getInstance().isModelPageEntry(id) || CmsSitemapView.getInstance().isParentModelPageEntry(
-                id));
-        setVisible(show);
-    }
+            && (CmsSitemapView.getInstance().isModelPageEntry(id)
+                || CmsSitemapView.getInstance().isParentModelPageEntry(id));
+    setVisible(show);
+  }
 }

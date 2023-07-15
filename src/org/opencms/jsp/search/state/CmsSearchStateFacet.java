@@ -27,117 +27,97 @@
 
 package org.opencms.jsp.search.state;
 
-import org.opencms.util.CmsCollectionsGenericWrapper;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.collections.Transformer;
+import org.opencms.util.CmsCollectionsGenericWrapper;
 
 /** Class for keeping the state common for all facet types. */
 public class CmsSearchStateFacet implements I_CmsSearchStateFacet {
 
-    /** The checked facet entries. */
-    List<String> m_checked;
-    /** Map with "facet entry" - "isChecked" pairs. */
-    private Map<String, Boolean> m_checkedMap;
-    /** Indicator if the configured limit for the maximal number of facet entries should be used. */
-    private boolean m_useLimit;
-    /** Indicator if checked facet entries should be ignored (when building the Solr query). */
-    private boolean m_ignoreChecked;
+  /** The checked facet entries. */
+  List<String> m_checked;
+  /** Map with "facet entry" - "isChecked" pairs. */
+  private Map<String, Boolean> m_checkedMap;
+  /** Indicator if the configured limit for the maximal number of facet entries should be used. */
+  private boolean m_useLimit;
+  /** Indicator if checked facet entries should be ignored (when building the Solr query). */
+  private boolean m_ignoreChecked;
 
-    /** Default constructor. */
-    public CmsSearchStateFacet() {
+  /** Default constructor. */
+  public CmsSearchStateFacet() {
 
-        m_checked = new LinkedList<String>();
-        m_useLimit = true;
-        m_ignoreChecked = false;
-    }
+    m_checked = new LinkedList<String>();
+    m_useLimit = true;
+    m_ignoreChecked = false;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#addChecked(java.lang.String)
-     */
-    @Override
-    public void addChecked(final String entry) {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#addChecked(java.lang.String) */
+  @Override
+  public void addChecked(final String entry) {
 
-        m_checked.add(entry);
+    m_checked.add(entry);
+  }
 
-    }
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#clearChecked() */
+  @Override
+  public void clearChecked() {
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#clearChecked()
-     */
-    @Override
-    public void clearChecked() {
+    m_checked.clear();
+  }
 
-        m_checked.clear();
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#getCheckedEntries() */
+  @Override
+  public List<String> getCheckedEntries() {
 
-    }
+    return m_checked;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#getCheckedEntries()
-     */
-    @Override
-    public List<String> getCheckedEntries() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#getIgnoreChecked() */
+  @Override
+  public boolean getIgnoreChecked() {
 
-        return m_checked;
-    }
+    return m_ignoreChecked;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#getIgnoreChecked()
-     */
-    @Override
-    public boolean getIgnoreChecked() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#getIsChecked() */
+  @Override
+  public Map<String, Boolean> getIsChecked() {
 
-        return m_ignoreChecked;
-    }
-
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#getIsChecked()
-     */
-    @Override
-    public Map<String, Boolean> getIsChecked() {
-
-        if (m_checkedMap == null) {
-            m_checkedMap = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
+    if (m_checkedMap == null) {
+      m_checkedMap =
+          CmsCollectionsGenericWrapper.createLazyMap(
+              new Transformer() {
 
                 @Override
                 public Object transform(final Object option) {
 
-                    return Boolean.valueOf(m_checked.contains(option));
+                  return Boolean.valueOf(m_checked.contains(option));
                 }
-            });
-        }
-        return m_checkedMap;
+              });
     }
+    return m_checkedMap;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#getUseLimit()
-     */
-    @Override
-    public boolean getUseLimit() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#getUseLimit() */
+  @Override
+  public boolean getUseLimit() {
 
-        return m_useLimit;
-    }
+    return m_useLimit;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#setIgnoreChecked(boolean)
-     */
-    @Override
-    public void setIgnoreChecked(final boolean ignore) {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#setIgnoreChecked(boolean) */
+  @Override
+  public void setIgnoreChecked(final boolean ignore) {
 
-        m_ignoreChecked = ignore;
-    }
+    m_ignoreChecked = ignore;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#setUseLimit(boolean)
-     */
-    @Override
-    public void setUseLimit(final boolean useLimit) {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateFacet#setUseLimit(boolean) */
+  @Override
+  public void setUseLimit(final boolean useLimit) {
 
-        m_useLimit = useLimit;
-
-    }
-
+    m_useLimit = useLimit;
+  }
 }

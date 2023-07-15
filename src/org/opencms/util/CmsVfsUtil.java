@@ -27,6 +27,10 @@
 
 package org.opencms.util;
 
+import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsVfsResourceAlreadyExistsException;
@@ -35,70 +39,68 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
-import com.google.common.collect.Lists;
-
 /**
- * Provides Vfs utility functions.<p>
+ * Provides Vfs utility functions.
+ *
+ * <p>
  *
  * @since 11.0.0
  */
 public final class CmsVfsUtil {
 
-    /** The log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsVfsUtil.class);
+  /** The log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsVfsUtil.class);
 
-    /**
-     * Hides the public constructor.<p>
-     */
-    private CmsVfsUtil() {
+  /**
+   * Hides the public constructor.
+   *
+   * <p>
+   */
+  private CmsVfsUtil() {
 
-        // empty
+    // empty
+  }
+
+  /**
+   * Creates a folder and its parent folders if they don't exist.
+   *
+   * <p>
+   *
+   * @param cms the CMS context to use
+   * @param rootPath the folder root path
+   * @throws CmsException if something goes wrong
+   */
+  public static void createFolder(CmsObject cms, String rootPath) throws CmsException {
+
+    CmsObject rootCms = OpenCms.initCmsObject(cms);
+    rootCms.getRequestContext().setSiteRoot("");
+    List<String> parents = new ArrayList<String>();
+    String currentPath = rootPath;
+    while (currentPath != null) {
+      if (rootCms.existsResource(currentPath)) {
+        break;
+      }
+      parents.add(currentPath);
+      currentPath = CmsResource.getParentFolder(currentPath);
     }
-
-    /**
-     * Creates a folder and its parent folders if they don't exist.<p>
-     *
-     * @param cms the CMS context to use
-     * @param rootPath the folder root path
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public static void createFolder(CmsObject cms, String rootPath) throws CmsException {
-
-        CmsObject rootCms = OpenCms.initCmsObject(cms);
-        rootCms.getRequestContext().setSiteRoot("");
-        List<String> parents = new ArrayList<String>();
-        String currentPath = rootPath;
-        while (currentPath != null) {
-            if (rootCms.existsResource(currentPath)) {
-                break;
-            }
-            parents.add(currentPath);
-            currentPath = CmsResource.getParentFolder(currentPath);
+    parents = Lists.reverse(parents);
+    for (String parent : parents) {
+      try {
+        rootCms.createResource(
+            parent,
+            OpenCms.getResourceManager()
+                .getResourceType(CmsResourceTypeFolder.getStaticTypeName()));
+        try {
+          rootCms.unlockResource(parent);
+        } catch (CmsException e) {
+          // may happen if parent folder is locked also
+          if (LOG.isInfoEnabled()) {
+            LOG.info(e.getLocalizedMessage(), e);
+          }
         }
-        parents = Lists.reverse(parents);
-        for (String parent : parents) {
-            try {
-                rootCms.createResource(
-                    parent,
-                    OpenCms.getResourceManager().getResourceType(CmsResourceTypeFolder.getStaticTypeName()));
-                try {
-                    rootCms.unlockResource(parent);
-                } catch (CmsException e) {
-                    // may happen if parent folder is locked also
-                    if (LOG.isInfoEnabled()) {
-                        LOG.info(e.getLocalizedMessage(), e);
-                    }
-                }
-            } catch (CmsVfsResourceAlreadyExistsException e) {
-                // nop
-            }
-        }
+      } catch (CmsVfsResourceAlreadyExistsException e) {
+        // nop
+      }
     }
-
+  }
 }

@@ -27,94 +27,101 @@
 
 package org.opencms.gwt.client.rpc;
 
-import org.opencms.gwt.client.CmsCoreProvider;
-import org.opencms.gwt.shared.rpc.I_CmsLogService;
-import org.opencms.gwt.shared.rpc.I_CmsLogServiceAsync;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import org.opencms.gwt.client.CmsCoreProvider;
+import org.opencms.gwt.shared.rpc.I_CmsLogService;
+import org.opencms.gwt.shared.rpc.I_CmsLogServiceAsync;
 
 /**
- * Handles client side logging.<p>
+ * Handles client side logging.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.gwt.CmsLogService
  * @see org.opencms.gwt.shared.rpc.I_CmsLogService
  * @see org.opencms.gwt.shared.rpc.I_CmsLogServiceAsync
  */
 public final class CmsLog {
 
-    /** The service instance. */
-    private static I_CmsLogServiceAsync m_loggingService;
+  /** The service instance. */
+  private static I_CmsLogServiceAsync m_loggingService;
 
-    /**
-     * Prevent instantiation.<p>
-     */
-    private CmsLog() {
+  /**
+   * Prevent instantiation.
+   *
+   * <p>
+   */
+  private CmsLog() {
 
-        // Prevent instantiation
+    // Prevent instantiation
+  }
+
+  /**
+   * Logs client messages on the server.
+   *
+   * <p>
+   *
+   * @param message the message to log
+   * @return the generated ticket
+   */
+  public static String log(final String message) {
+
+    final String ticket = String.valueOf(System.currentTimeMillis());
+    // using a deferred command just to be more responsible
+    // since we do not expect any feed back from it
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+
+              /** @see com.google.gwt.user.client.Command#execute() */
+              public void execute() {
+
+                getLoggingService()
+                    .log(
+                        ticket,
+                        message,
+                        new AsyncCallback<Void>() {
+
+                          /**
+                           * @see
+                           *     com.google.gwt.user.client.rpc.AsyncCallback#onFailure(java.lang.Throwable)
+                           */
+                          public void onFailure(Throwable caught) {
+
+                            // logging failed, really bad
+                            // but the only thing we can do is to ignore it
+                          }
+
+                          /** @see com.google.gwt.user.client.rpc.AsyncCallback#onSuccess(Object) */
+                          public void onSuccess(Void result) {
+
+                            // logged successfully
+                          }
+                        });
+              }
+            });
+    return ticket;
+  }
+
+  /**
+   * Returns the service instance, using lazy initialization.
+   *
+   * <p>
+   *
+   * @return the service instance
+   */
+  protected static I_CmsLogServiceAsync getLoggingService() {
+
+    if (m_loggingService == null) {
+      m_loggingService = GWT.create(I_CmsLogService.class);
+      String serviceUrl = CmsCoreProvider.get().link("org.opencms.gwt.CmsLogService.gwt");
+      ((ServiceDefTarget) m_loggingService).setServiceEntryPoint(serviceUrl);
     }
-
-    /**
-     * Logs client messages on the server.<p>
-     *
-     * @param message the message to log
-     *
-     * @return the generated ticket
-     */
-    public static String log(final String message) {
-
-        final String ticket = String.valueOf(System.currentTimeMillis());
-        // using a deferred command just to be more responsible
-        // since we do not expect any feed back from it
-        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-            /**
-             * @see com.google.gwt.user.client.Command#execute()
-             */
-            public void execute() {
-
-                getLoggingService().log(ticket, message, new AsyncCallback<Void>() {
-
-                    /**
-                     * @see com.google.gwt.user.client.rpc.AsyncCallback#onFailure(java.lang.Throwable)
-                     */
-                    public void onFailure(Throwable caught) {
-
-                        // logging failed, really bad
-                        // but the only thing we can do is to ignore it
-                    }
-
-                    /**
-                     * @see com.google.gwt.user.client.rpc.AsyncCallback#onSuccess(Object)
-                     */
-                    public void onSuccess(Void result) {
-
-                        // logged successfully
-                    }
-                });
-            }
-        });
-        return ticket;
-    }
-
-    /**
-     * Returns the service instance, using lazy initialization.<p>
-     *
-     * @return the service instance
-     */
-    protected static I_CmsLogServiceAsync getLoggingService() {
-
-        if (m_loggingService == null) {
-            m_loggingService = GWT.create(I_CmsLogService.class);
-            String serviceUrl = CmsCoreProvider.get().link("org.opencms.gwt.CmsLogService.gwt");
-            ((ServiceDefTarget)m_loggingService).setServiceEntryPoint(serviceUrl);
-
-        }
-        return m_loggingService;
-    }
+    return m_loggingService;
+  }
 }

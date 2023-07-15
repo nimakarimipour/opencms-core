@@ -35,69 +35,71 @@ import org.opencms.gwt.client.ui.css.I_CmsInputLayoutBundle;
 import org.opencms.util.CmsUUID;
 
 /**
- * Sitemap context menu disable model page entry.<p>
+ * Sitemap context menu disable model page entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsDisableMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsDisableMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsDisableMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_DISABLED_PAGE_0));
-        setActive(true);
-    }
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_DISABLED_PAGE_0));
+    setActive(true);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        final CmsUUID id = entry.getId();
-        CmsSitemapController controller = getHoverbar().getController();
-        controller.disableModelPage(id, !isEntryDisabled());
-    }
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    final CmsUUID id = entry.getId();
+    CmsSitemapController controller = getHoverbar().getController();
+    controller.disableModelPage(id, !isEntryDisabled());
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#getIconClass()
-     */
-    @Override
-    public String getIconClass() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#getIconClass() */
+  @Override
+  public String getIconClass() {
 
-        return isEntryDisabled()
+    return isEntryDisabled()
         ? I_CmsInputLayoutBundle.INSTANCE.inputCss().checkBoxImageChecked()
         : I_CmsInputLayoutBundle.INSTANCE.inputCss().checkBoxImageUnchecked();
-    }
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        final CmsUUID id = entry.getId();
-        boolean show = CmsSitemapView.getInstance().isModelPageMode()
-            && (CmsSitemapView.getInstance().isModelPageEntry(id) || CmsSitemapView.getInstance().isParentModelPageEntry(
-                id));
-        setVisible(show);
-    }
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    final CmsUUID id = entry.getId();
+    boolean show =
+        CmsSitemapView.getInstance().isModelPageMode()
+            && (CmsSitemapView.getInstance().isModelPageEntry(id)
+                || CmsSitemapView.getInstance().isParentModelPageEntry(id));
+    setVisible(show);
+  }
 
-    /**
-     * Checks if the entry is disabled.<p>
-     *
-     * @return <code>true</code> if the entry is disabled
-     */
-    private boolean isEntryDisabled() {
+  /**
+   * Checks if the entry is disabled.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the entry is disabled
+   */
+  private boolean isEntryDisabled() {
 
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        final CmsUUID id = entry.getId();
-        return getHoverbar().getController().isEditable() && CmsSitemapView.getInstance().isDisabledModelPageEntry(id);
-    }
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    final CmsUUID id = entry.getId();
+    return getHoverbar().getController().isEditable()
+        && CmsSitemapView.getInstance().isDisabledModelPageEntry(id);
+  }
 }

@@ -28,85 +28,85 @@
 package org.opencms.staticexport;
 
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 /**
- * Response wrapper for static export requests, required to access the status code of the response.<p>
+ * Response wrapper for static export requests, required to access the status code of the response.
  *
- * The <code>{@link org.opencms.loader.I_CmsResourceLoader#export(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, HttpServletResponse)}</code>
- * method is called by the static export manager. Many implementations set the http status codes for the response.
- * This wrapper enables the export manager to return the status code set on the response
- * in <code>{@link org.opencms.staticexport.CmsStaticExportManager#export(javax.servlet.http.HttpServletRequest, HttpServletResponse, org.opencms.file.CmsObject, CmsStaticExportData)}</code>.<p>
+ * <p>The <code>
+ * {@link org.opencms.loader.I_CmsResourceLoader#export(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, HttpServletResponse)}
+ * </code> method is called by the static export manager. Many implementations set the http status
+ * codes for the response. This wrapper enables the export manager to return the status code set on
+ * the response in <code>
+ * {@link org.opencms.staticexport.CmsStaticExportManager#export(javax.servlet.http.HttpServletRequest, HttpServletResponse, org.opencms.file.CmsObject, CmsStaticExportData)}
+ * </code>.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsStaticExportResponseWrapper extends HttpServletResponseWrapper {
 
-    /** The status code. */
-    protected int m_status;
+  /** The status code. */
+  protected int m_status;
 
-    /**
-     * Creates a new export response wrapper.<p>
-     *
-     * @param res the original response to wrap
-     */
-    public CmsStaticExportResponseWrapper(HttpServletResponse res) {
+  /**
+   * Creates a new export response wrapper.
+   *
+   * <p>
+   *
+   * @param res the original response to wrap
+   */
+  public CmsStaticExportResponseWrapper(HttpServletResponse res) {
 
-        super(res);
-        m_status = -1;
-    }
+    super(res);
+    m_status = -1;
+  }
 
-    /**
-     * Returns the status code of this export response, if no status code was set so far,
-     * <code>-1</code> is returned.<p>
-     *
-     * @return the status code of this export response
-     */
-    @Override
-    public int getStatus() {
+  /**
+   * Returns the status code of this export response, if no status code was set so far, <code>-1
+   * </code> is returned.
+   *
+   * <p>
+   *
+   * @return the status code of this export response
+   */
+  @Override
+  public int getStatus() {
 
-        return m_status;
-    }
+    return m_status;
+  }
 
-    /**
-     * @see javax.servlet.http.HttpServletResponse#sendError(int)
-     */
-    @Override
-    public void sendError(int status) throws IOException {
+  /** @see javax.servlet.http.HttpServletResponse#sendError(int) */
+  @Override
+  public void sendError(int status) throws IOException {
 
-        m_status = status;
-        super.sendError(status);
-    }
+    m_status = status;
+    super.sendError(status);
+  }
 
-    /**
-     * @see javax.servlet.http.HttpServletResponse#sendError(int, java.lang.String)
-     */
-    @Override
-    public void sendError(int status, String message) throws IOException {
+  /** @see javax.servlet.http.HttpServletResponse#sendError(int, java.lang.String) */
+  @Override
+  public void sendError(int status, String message) throws IOException {
 
-        m_status = status;
-        super.sendError(status, message);
-    }
+    m_status = status;
+    super.sendError(status, message);
+  }
 
-    /**
-     * @see javax.servlet.http.HttpServletResponseWrapper#setStatus(int)
-     */
-    @Override
-    public void setStatus(int status) {
+  /** @see javax.servlet.http.HttpServletResponseWrapper#setStatus(int) */
+  @Override
+  public void setStatus(int status) {
 
-        m_status = status;
-        super.setStatus(status);
-    }
+    m_status = status;
+    super.setStatus(status);
+  }
 
-    /**
-     * @see javax.servlet.http.HttpServletResponseWrapper#setStatus(int, java.lang.String)
-     */
-    @Override
-    public void setStatus(int status, String message) {
+  /** @see javax.servlet.http.HttpServletResponseWrapper#setStatus(int, java.lang.String) */
+  @Override
+  public void setStatus(int status, String message) {
 
-        m_status = status;
-        super.setStatus(status, message);
-    }
+    m_status = status;
+    super.setStatus(status, message);
+  }
 }

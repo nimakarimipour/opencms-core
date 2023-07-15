@@ -28,16 +28,18 @@
 package org.opencms.ui.shared;
 
 /**
- * Shared constants used both in client and server side code.<p>
+ * Shared constants used both in client and server side code.
+ *
+ * <p>
  */
 public class CmsVaadinConstants {
 
-    /** Inner HTML which should be added to the loading indicator. */
-    public static final String LOADING_INDICATOR_HTML = "<div class='o-loading-indicator opencms-font'><div class=\"oc-spin-center\">\n"
-        + "<span class=\"oc-spinner-bg\"></span>\n"
-        + "<span class=\"oc-spinner oc-spin-outer\"></span><br>\n"
-        + "<span class=\"oc-spinner-circle oc-spin-inner\"></span><br>\n"
-        + "<span class=\"oc-spinner-dots oc-spin-dots\"></span>\n"
-        + "</div></div>";
-
+  /** Inner HTML which should be added to the loading indicator. */
+  public static final String LOADING_INDICATOR_HTML =
+      "<div class='o-loading-indicator opencms-font'><div class=\"oc-spin-center\">\n"
+          + "<span class=\"oc-spinner-bg\"></span>\n"
+          + "<span class=\"oc-spinner oc-spin-outer\"></span><br>\n"
+          + "<span class=\"oc-spinner-circle oc-spin-inner\"></span><br>\n"
+          + "<span class=\"oc-spinner-dots oc-spin-dots\"></span>\n"
+          + "</div></div>";
 }

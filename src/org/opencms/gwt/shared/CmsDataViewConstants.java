@@ -28,73 +28,77 @@
 package org.opencms.gwt.shared;
 
 /**
- * Constants used by the data view widget code (client/server side).<p>
+ * Constants used by the data view widget code (client/server side).
+ *
+ * <p>
  */
 public final class CmsDataViewConstants {
 
-    /** Key used for the callback. */
-    public static final String PARAM_CALLBACK = "cb";
+  /** Key used for the callback. */
+  public static final String PARAM_CALLBACK = "cb";
 
-    /** Key used for the callback argument. */
-    public static final String PARAM_CALLBACK_ARG = "cbp";
+  /** Key used for the callback argument. */
+  public static final String PARAM_CALLBACK_ARG = "cbp";
 
-    /** JSON Key used for the view class. */
-    public static final String CONFIG_VIEW_CLASS = "class";
+  /** JSON Key used for the view class. */
+  public static final String CONFIG_VIEW_CLASS = "class";
 
-    /** JSON key used for the view configuration. */
-    public static final String CONFIG_VIEW_ARG = "config";
+  /** JSON key used for the view configuration. */
+  public static final String CONFIG_VIEW_ARG = "config";
 
-    /** JSON key for enabling / disabling multiselect. */
-    public static final String CONFIG_MULTI_SELECT = "multiselect";
+  /** JSON key for enabling / disabling multiselect. */
+  public static final String CONFIG_MULTI_SELECT = "multiselect";
 
-    /** Name of the request parameter used to send the widget configuration from the client to the embedded Vaadin dialog. */
-    public static final String PARAM_CONFIG = "config";
+  /**
+   * Name of the request parameter used to send the widget configuration from the client to the
+   * embedded Vaadin dialog.
+   */
+  public static final String PARAM_CONFIG = "config";
 
-    /** The renderer id. */
-    public static final String RENDERER_ID = "dataview";
+  /** The renderer id. */
+  public static final String RENDERER_ID = "dataview";
 
-    /** JSON key for the result. */
-    public static final String KEY_RESULT = "result";
+  /** JSON key for the result. */
+  public static final String KEY_RESULT = "result";
 
-    /** JSON key for a result's id. */
-    public static final String FIELD_ID = "id";
+  /** JSON key for a result's id. */
+  public static final String FIELD_ID = "id";
 
-    /** JSON key for a results's title. */
-    public static final String FIELD_TITLE = "title";
+  /** JSON key for a results's title. */
+  public static final String FIELD_TITLE = "title";
 
-    /** JSON key for a result's description. */
-    public static final String FIELD_DESCRIPTION = "description";
+  /** JSON key for a result's description. */
+  public static final String FIELD_DESCRIPTION = "description";
 
-    /** JSON key for a result's additional data. */
-    public static final String FIELD_DATA = "data";
+  /** JSON key for a result's additional data. */
+  public static final String FIELD_DATA = "data";
 
-    /** JSON key for the dialog name. */
-    public static final String DATAVIEW_DIALOG = "org.opencms.ui.dialogs.embedded.CmsDataViewAction";
+  /** JSON key for the dialog name. */
+  public static final String DATAVIEW_DIALOG = "org.opencms.ui.dialogs.embedded.CmsDataViewAction";
 
-    /** JSON key for the preview option. */
-    public static final String CONFIG_PREVIEW = "preview";
+  /** JSON key for the preview option. */
+  public static final String CONFIG_PREVIEW = "preview";
 
-    /** The accessor. */
-    public static final String ACCESSOR = "acc";
+  /** The accessor. */
+  public static final String ACCESSOR = "acc";
 
-    /** JSON key for the icon option. */
-    public static final String CONFIG_ICON = "icon";
+  /** JSON key for the icon option. */
+  public static final String CONFIG_ICON = "icon";
 
-    /** Title content field name. */
-    public static final String VALUE_TITLE = "Title";
+  /** Title content field name. */
+  public static final String VALUE_TITLE = "Title";
 
-    /** Description content field name. */
-    public static final String VALUE_DESCRIPTION = "Description";
+  /** Description content field name. */
+  public static final String VALUE_DESCRIPTION = "Description";
 
-    /** Id content field name. */
-    public static final String VALUE_ID = "Id";
+  /** Id content field name. */
+  public static final String VALUE_ID = "Id";
 
-    /** Data content field name. */
-    public static final String VALUE_DATA = "Data";
+  /** Data content field name. */
+  public static final String VALUE_DATA = "Data";
 
-    /** Default constructor. */
-    private CmsDataViewConstants() {
-        // do nothing
-    }
-
+  /** Default constructor. */
+  private CmsDataViewConstants() {
+    // do nothing
+  }
 }

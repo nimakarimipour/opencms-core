@@ -31,62 +31,68 @@ import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.HorizontalLayout;
 
 /**
- * Default implementation for row for multivalue field lists.<p>
+ * Default implementation for row for multivalue field lists.
  *
- * Wraps an input widget and a button bar for manipulating the row.<p>
+ * <p>Wraps an input widget and a button bar for manipulating the row.
+ *
+ * <p>
  */
 public class CmsEditableGroupRow extends HorizontalLayout implements I_CmsEditableGroupRow {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The text input field. */
-    private Component m_component;
+  /** The text input field. */
+  private Component m_component;
 
-    /** Group of rows for a multivalue field list. */
-    private CmsEditableGroup m_group;
+  /** Group of rows for a multivalue field list. */
+  private CmsEditableGroup m_group;
 
-    /** The button bar. */
-    private CmsEditableGroupButtons m_buttonBar;
+  /** The button bar. */
+  private CmsEditableGroupButtons m_buttonBar;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param group the multivalue widget group
-     * @param component the wrapped input widget
-     */
-    public CmsEditableGroupRow(CmsEditableGroup group, Component component) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param group the multivalue widget group
+   * @param component the wrapped input widget
+   */
+  public CmsEditableGroupRow(CmsEditableGroup group, Component component) {
 
-        m_component = component;
-        m_group = group;
-        setWidth("100%");
-        setSpacing(true);
-        component.setWidth("100%");
-        addComponent(component);
-        setExpandRatio(component, 1f);
-        m_buttonBar = new CmsEditableGroupButtons(new CmsDefaultActionHandler(group, this));
-        addComponent(m_buttonBar);
-    }
+    m_component = component;
+    m_group = group;
+    setWidth("100%");
+    setSpacing(true);
+    component.setWidth("100%");
+    addComponent(component);
+    setExpandRatio(component, 1f);
+    m_buttonBar = new CmsEditableGroupButtons(new CmsDefaultActionHandler(group, this));
+    addComponent(m_buttonBar);
+  }
 
-    /**
-     * Gets the button bar.<p>
-     *
-     * @return the button bar
-     */
-    public CmsEditableGroupButtons getButtonBar() {
+  /**
+   * Gets the button bar.
+   *
+   * <p>
+   *
+   * @return the button bar
+   */
+  public CmsEditableGroupButtons getButtonBar() {
 
-        return m_buttonBar;
+    return m_buttonBar;
+  }
 
-    }
+  /**
+   * Returns the input field.
+   *
+   * <p>
+   *
+   * @return the input field
+   */
+  public Component getComponent() {
 
-    /**
-     * Returns the input field.<p>
-     *
-     * @return the input field
-     */
-    public Component getComponent() {
-
-        return m_component;
-    }
-
+    return m_component;
+  }
 }

@@ -27,6 +27,9 @@
 
 package org.opencms.workplace.tools.content.check;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.workplace.explorer.CmsResourceUtil;
 import org.opencms.workplace.list.A_CmsListExplorerDialog;
@@ -34,80 +37,82 @@ import org.opencms.workplace.list.A_CmsListResourceCollector;
 import org.opencms.workplace.list.CmsListItem;
 import org.opencms.workplace.list.I_CmsListResourceCollector;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 /**
- * Collector for receiving {@link org.opencms.file.CmsResource} objects from a {@link CmsContentCheckResult}.<p>
+ * Collector for receiving {@link org.opencms.file.CmsResource} objects from a {@link
+ * CmsContentCheckResult}.
+ *
+ * <p>
  *
  * @since 6.1.2
  */
 public class CmsContentCheckCollector extends A_CmsListResourceCollector {
 
-    /** Parameter of the default collector name. */
-    public static final String COLLECTOR_NAME = "checkresources";
+  /** Parameter of the default collector name. */
+  public static final String COLLECTOR_NAME = "checkresources";
 
-    /** Parameter to get all resources with errors and warnings. */
-    public static final String PARAM_ALL = "all";
+  /** Parameter to get all resources with errors and warnings. */
+  public static final String PARAM_ALL = "all";
 
-    /** Parameter to get all resources with errors. */
-    public static final String PARAM_ERROR = "error";
+  /** Parameter to get all resources with errors. */
+  public static final String PARAM_ERROR = "error";
 
-    /** Parameter to get all resources with  warnings. */
-    public static final String PARAM_WARNING = "warning";
+  /** Parameter to get all resources with warnings. */
+  public static final String PARAM_WARNING = "warning";
 
-    /** The list of resources delivered by the collector. */
-    private CmsContentCheckResult m_results;
+  /** The list of resources delivered by the collector. */
+  private CmsContentCheckResult m_results;
 
-    /**
-     * Constructor, creates a new CmsContentCheckCollector.<p>
-     *
-     * @param wp the workplace object
-     *
-     * @param results a CmsContentCheckResult object, containing the results of the content check.
-     */
-    public CmsContentCheckCollector(A_CmsListExplorerDialog wp, CmsContentCheckResult results) {
+  /**
+   * Constructor, creates a new CmsContentCheckCollector.
+   *
+   * <p>
+   *
+   * @param wp the workplace object
+   * @param results a CmsContentCheckResult object, containing the results of the content check.
+   */
+  public CmsContentCheckCollector(A_CmsListExplorerDialog wp, CmsContentCheckResult results) {
 
-        super(wp);
-        m_collectorParameter += I_CmsListResourceCollector.SEP_PARAM + PARAM_ALL;
-        m_results = results;
+    super(wp);
+    m_collectorParameter += I_CmsListResourceCollector.SEP_PARAM + PARAM_ALL;
+    m_results = results;
+  }
+
+  /** @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames() */
+  public List getCollectorNames() {
+
+    List names = new ArrayList();
+    names.add(COLLECTOR_NAME);
+    return names;
+  }
+
+  /**
+   * @see
+   *     org.opencms.workplace.list.A_CmsListResourceCollector#getResources(org.opencms.file.CmsObject,
+   *     java.util.Map)
+   */
+  @Override
+  public List getResources(CmsObject cms, Map params) {
+
+    if (params.containsKey(PARAM_ERROR)) {
+      return m_results.getErrorResources();
+    } else if (params.containsKey(PARAM_WARNING)) {
+      return m_results.getWarningResources();
+    } else if (params.containsKey(PARAM_ALL)) {
+      return m_results.getAllResources();
+    } else {
+      // the default is to return all resources
+      return m_results.getAllResources();
     }
+  }
 
-    /**
-     * @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames()
-     */
-    public List getCollectorNames() {
+  /**
+   * @see
+   *     org.opencms.workplace.list.A_CmsListResourceCollector#setAdditionalColumns(org.opencms.workplace.list.CmsListItem,
+   *     org.opencms.workplace.explorer.CmsResourceUtil)
+   */
+  @Override
+  protected void setAdditionalColumns(CmsListItem item, CmsResourceUtil resUtil) {
 
-        List names = new ArrayList();
-        names.add(COLLECTOR_NAME);
-        return names;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.A_CmsListResourceCollector#getResources(org.opencms.file.CmsObject, java.util.Map)
-     */
-    @Override
-    public List getResources(CmsObject cms, Map params) {
-
-        if (params.containsKey(PARAM_ERROR)) {
-            return m_results.getErrorResources();
-        } else if (params.containsKey(PARAM_WARNING)) {
-            return m_results.getWarningResources();
-        } else if (params.containsKey(PARAM_ALL)) {
-            return m_results.getAllResources();
-        } else {
-            // the default is to return all resources
-            return m_results.getAllResources();
-        }
-    }
-
-    /**
-     * @see org.opencms.workplace.list.A_CmsListResourceCollector#setAdditionalColumns(org.opencms.workplace.list.CmsListItem, org.opencms.workplace.explorer.CmsResourceUtil)
-     */
-    @Override
-    protected void setAdditionalColumns(CmsListItem item, CmsResourceUtil resUtil) {
-
-        // no-op
-    }
+    // no-op
+  }
 }

@@ -27,131 +27,146 @@
 
 package org.opencms.acacia.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+import java.util.Map;
 import org.opencms.util.CmsPair;
 
-import java.util.Map;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * The entity validation result containing all errors and warnings for a set of entities.<p>
+ * The entity validation result containing all errors and warnings for a set of entities.
+ *
+ * <p>
  */
 public class CmsValidationResult implements IsSerializable {
 
-    /** The error messages by entity and attribute. */
-    private Map<String, Map<String[], CmsPair<String, String>>> m_errors;
+  /** The error messages by entity and attribute. */
+  private Map<String, Map<String[], CmsPair<String, String>>> m_errors;
 
-    /** The warning messages by entity and attribute. */
-    private Map<String, Map<String[], CmsPair<String, String>>> m_warnings;
+  /** The warning messages by entity and attribute. */
+  private Map<String, Map<String[], CmsPair<String, String>>> m_warnings;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param errors the error messages by entity and attribute
-     * @param warnings the warning messages by entity and attribute
-     */
-    public CmsValidationResult(
-        Map<String, Map<String[], CmsPair<String, String>>> errors,
-        Map<String, Map<String[], CmsPair<String, String>>> warnings) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param errors the error messages by entity and attribute
+   * @param warnings the warning messages by entity and attribute
+   */
+  public CmsValidationResult(
+      Map<String, Map<String[], CmsPair<String, String>>> errors,
+      Map<String, Map<String[], CmsPair<String, String>>> warnings) {
 
-        m_errors = errors;
-        m_warnings = warnings;
-    }
+    m_errors = errors;
+    m_warnings = warnings;
+  }
 
-    /**
-     * Constructor. For serialization only.<p>
-     */
-    protected CmsValidationResult() {
+  /**
+   * Constructor. For serialization only.
+   *
+   * <p>
+   */
+  protected CmsValidationResult() {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 
-    /**
-     * Returns all error messages by entity id and attribute.<p>
-     *
-     * @return the error messages by entity id and attribute
-     */
-    public Map<String, Map<String[], CmsPair<String, String>>> getErrors() {
+  /**
+   * Returns all error messages by entity id and attribute.
+   *
+   * <p>
+   *
+   * @return the error messages by entity id and attribute
+   */
+  public Map<String, Map<String[], CmsPair<String, String>>> getErrors() {
 
-        return m_errors;
-    }
+    return m_errors;
+  }
 
-    /**
-     * Returns the error messages for the given entity.<p>
-     *
-     * @param entityId the entity id
-     *
-     * @return the error messages for the given entity
-     */
-    public Map<String[], CmsPair<String, String>> getErrors(String entityId) {
+  /**
+   * Returns the error messages for the given entity.
+   *
+   * <p>
+   *
+   * @param entityId the entity id
+   * @return the error messages for the given entity
+   */
+  public Map<String[], CmsPair<String, String>> getErrors(String entityId) {
 
-        return m_errors != null ? m_errors.get(entityId) : null;
-    }
+    return m_errors != null ? m_errors.get(entityId) : null;
+  }
 
-    /**
-     * Returns all warning messages by entity id and attribute.<p>
-     *
-     * @return the warning messages by entity id and attribute
-     */
-    public Map<String, Map<String[], CmsPair<String, String>>> getWarnings() {
+  /**
+   * Returns all warning messages by entity id and attribute.
+   *
+   * <p>
+   *
+   * @return the warning messages by entity id and attribute
+   */
+  public Map<String, Map<String[], CmsPair<String, String>>> getWarnings() {
 
-        return m_warnings;
-    }
+    return m_warnings;
+  }
 
-    /**
-     * Returns the warning messages for the given entity.<p>
-     *
-     * @param entityId the entity id
-     *
-     * @return the warning messages for the given entity
-     */
-    public Map<String[], CmsPair<String, String>> getWarnings(String entityId) {
+  /**
+   * Returns the warning messages for the given entity.
+   *
+   * <p>
+   *
+   * @param entityId the entity id
+   * @return the warning messages for the given entity
+   */
+  public Map<String[], CmsPair<String, String>> getWarnings(String entityId) {
 
-        return m_warnings != null ? m_warnings.get(entityId) : null;
-    }
+    return m_warnings != null ? m_warnings.get(entityId) : null;
+  }
 
-    /**
-     * Returns if there are any errors.<p>
-     *
-     * @return <code>true</code> if there are any errors
-     */
-    public boolean hasErrors() {
+  /**
+   * Returns if there are any errors.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if there are any errors
+   */
+  public boolean hasErrors() {
 
-        return (m_errors != null) && !m_errors.isEmpty();
-    }
+    return (m_errors != null) && !m_errors.isEmpty();
+  }
 
-    /**
-     * Returns if the entity of the given id has errors.<p>
-     *
-     * @param entityId the entity id
-     *
-     * @return <code>true</code> if the entity of the given id has errors
-     */
-    public boolean hasErrors(String entityId) {
+  /**
+   * Returns if the entity of the given id has errors.
+   *
+   * <p>
+   *
+   * @param entityId the entity id
+   * @return <code>true</code> if the entity of the given id has errors
+   */
+  public boolean hasErrors(String entityId) {
 
-        return (m_errors != null) && (m_errors.get(entityId) != null);
-    }
+    return (m_errors != null) && (m_errors.get(entityId) != null);
+  }
 
-    /**
-     * Returns if there are any warnings.<p>
-     *
-     * @return <code>true</code> if there are any warnings
-     */
-    public boolean hasWarnings() {
+  /**
+   * Returns if there are any warnings.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if there are any warnings
+   */
+  public boolean hasWarnings() {
 
-        return (m_warnings != null) && !m_warnings.isEmpty();
-    }
+    return (m_warnings != null) && !m_warnings.isEmpty();
+  }
 
-    /**
-     * Returns if the entity of the given id has warnings.<p>
-     *
-     * @param entityId the entity id
-     *
-     * @return <code>true</code> if the entity of the given id has warnings
-     */
-    public boolean hasWarnings(String entityId) {
+  /**
+   * Returns if the entity of the given id has warnings.
+   *
+   * <p>
+   *
+   * @param entityId the entity id
+   * @return <code>true</code> if the entity of the given id has warnings
+   */
+  public boolean hasWarnings(String entityId) {
 
-        return (m_warnings != null) && (m_warnings.get(entityId) != null);
-    }
-
+    return (m_warnings != null) && (m_warnings.get(entityId) != null);
+  }
 }

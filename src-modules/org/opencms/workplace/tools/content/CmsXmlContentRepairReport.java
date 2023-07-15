@@ -27,59 +27,63 @@
 
 package org.opencms.workplace.tools.content;
 
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.report.I_CmsReportThread;
 import org.opencms.workplace.list.A_CmsListReport;
 import org.opencms.workplace.threads.CmsXmlContentRepairSettings;
 import org.opencms.workplace.threads.CmsXmlContentRepairThread;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Provides a report for repairing XML content resources according to their XSD.<p>
+ * Provides a report for repairing XML content resources according to their XSD.
+ *
+ * <p>
  *
  * @since 6.2.0
  */
 public class CmsXmlContentRepairReport extends A_CmsListReport {
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsXmlContentRepairReport(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsXmlContentRepairReport(CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsXmlContentRepairReport(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsXmlContentRepairReport(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListReport#initializeThread()
-     */
-    @Override
-    public I_CmsReportThread initializeThread() {
+  /** @see org.opencms.workplace.list.A_CmsListReport#initializeThread() */
+  @Override
+  public I_CmsReportThread initializeThread() {
 
-        // get the settings to use from the session
-        CmsXmlContentRepairSettings settings = (CmsXmlContentRepairSettings)((Map)getSettings().getDialogObject()).get(
-            CmsXmlContentRepairDialog.class.getName());
+    // get the settings to use from the session
+    CmsXmlContentRepairSettings settings =
+        (CmsXmlContentRepairSettings)
+            ((Map) getSettings().getDialogObject()).get(CmsXmlContentRepairDialog.class.getName());
 
-        I_CmsReportThread repairThread = new CmsXmlContentRepairThread(getCms(), settings);
+    I_CmsReportThread repairThread = new CmsXmlContentRepairThread(getCms(), settings);
 
-        return repairThread;
-    }
+    return repairThread;
+  }
 }

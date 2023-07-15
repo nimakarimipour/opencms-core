@@ -32,44 +32,48 @@ import com.google.gwt.user.client.Command;
 /** Controller for the daily pattern. */
 public class CmsPatternPanelDailyController extends A_CmsPatternPanelController {
 
-    /** The controlled view. */
-    private final CmsPatternPanelDailyView m_view;
+  /** The controlled view. */
+  private final CmsPatternPanelDailyView m_view;
 
-    /**
-     * Constructor for the daily pattern panel controller
-     * @param model the model to read data from.
-     * @param changeHandler the value change handler.
-     */
-    CmsPatternPanelDailyController(final CmsSerialDateValue model, final I_ChangeHandler changeHandler) {
-        super(model, changeHandler);
-        m_view = new CmsPatternPanelDailyView(this, m_model);
+  /**
+   * Constructor for the daily pattern panel controller
+   *
+   * @param model the model to read data from.
+   * @param changeHandler the value change handler.
+   */
+  CmsPatternPanelDailyController(
+      final CmsSerialDateValue model, final I_ChangeHandler changeHandler) {
+    super(model, changeHandler);
+    m_view = new CmsPatternPanelDailyView(this, m_model);
+  }
+
+  /**
+   * @see org.opencms.acacia.client.widgets.serialdate.I_CmsSerialDatePatternController#getView()
+   */
+  @Override
+  public CmsPatternPanelDailyView getView() {
+
+    return m_view;
+  }
+
+  /**
+   * Set the "everyWorkingDay" flag.
+   *
+   * @param isEveryWorkingDay flag, indicating if the event should take place every working day.
+   */
+  public void setEveryWorkingDay(final boolean isEveryWorkingDay) {
+
+    if (m_model.isEveryWorkingDay() != isEveryWorkingDay) {
+      removeExceptionsOnChange(
+          new Command() {
+
+            public void execute() {
+
+              m_model.setEveryWorkingDay(Boolean.valueOf(isEveryWorkingDay));
+              m_model.setInterval(getPatternDefaultValues().getInterval());
+              onValueChange();
+            }
+          });
     }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.serialdate.I_CmsSerialDatePatternController#getView()
-     */
-    @Override
-    public CmsPatternPanelDailyView getView() {
-
-        return m_view;
-    }
-
-    /**
-     * Set the "everyWorkingDay" flag.
-     * @param isEveryWorkingDay flag, indicating if the event should take place every working day.
-     */
-    public void setEveryWorkingDay(final boolean isEveryWorkingDay) {
-
-        if (m_model.isEveryWorkingDay() != isEveryWorkingDay) {
-            removeExceptionsOnChange(new Command() {
-
-                public void execute() {
-
-                    m_model.setEveryWorkingDay(Boolean.valueOf(isEveryWorkingDay));
-                    m_model.setInterval(getPatternDefaultValues().getInterval());
-                    onValueChange();
-                }
-            });
-        }
-    }
+  }
 }

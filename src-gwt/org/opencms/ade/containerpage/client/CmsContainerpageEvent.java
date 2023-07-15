@@ -30,61 +30,62 @@ package org.opencms.ade.containerpage.client;
 import com.google.web.bindery.event.shared.Event;
 
 /**
- * This event is fired when a container page's elements or the page itself are edited.<p>
+ * This event is fired when a container page's elements or the page itself are edited.
+ *
+ * <p>
  */
 public class CmsContainerpageEvent extends Event<I_CmsContainerpageEventHandler> {
 
-    /** Enum for the event type. */
-    public enum EventType {
-        /** Fired when an element has been edited. */
-        elementEdited, /** Fired when the page has been saved. */
-        pageSaved;
-    }
+  /** Enum for the event type. */
+  public enum EventType {
+    /** Fired when an element has been edited. */
+    elementEdited,
+    /** Fired when the page has been saved. */
+    pageSaved;
+  }
 
-    /**
-     * Handler type.
-     */
-    public static Type<I_CmsContainerpageEventHandler> TYPE = new Type<I_CmsContainerpageEventHandler>();
+  /** Handler type. */
+  public static Type<I_CmsContainerpageEventHandler> TYPE =
+      new Type<I_CmsContainerpageEventHandler>();
 
-    /** The type the event. */
-    private EventType m_type;
+  /** The type the event. */
+  private EventType m_type;
 
-    /**
-     * Creates a new event with a given type.<p>
-     *
-     * @param type the event type
-     */
-    public CmsContainerpageEvent(EventType type) {
+  /**
+   * Creates a new event with a given type.
+   *
+   * <p>
+   *
+   * @param type the event type
+   */
+  public CmsContainerpageEvent(EventType type) {
 
-        m_type = type;
-    }
+    m_type = type;
+  }
 
-    /**
-     * @see com.google.web.bindery.event.shared.Event#getAssociatedType()
-     */
-    @Override
-    public Event.Type<I_CmsContainerpageEventHandler> getAssociatedType() {
+  /** @see com.google.web.bindery.event.shared.Event#getAssociatedType() */
+  @Override
+  public Event.Type<I_CmsContainerpageEventHandler> getAssociatedType() {
 
-        return TYPE;
+    return TYPE;
+  }
 
-    }
+  /**
+   * Gets the type of the event.
+   *
+   * <p>
+   *
+   * @return the type of the event
+   */
+  public EventType getEventType() {
 
-    /**
-     * Gets the type of the event.<p>
-     *
-     * @return the type of the event
-     */
-    public EventType getEventType() {
+    return m_type;
+  }
 
-        return m_type;
-    }
+  /** @see com.google.web.bindery.event.shared.Event#dispatch(java.lang.Object) */
+  @Override
+  protected void dispatch(I_CmsContainerpageEventHandler handler) {
 
-    /**
-     * @see com.google.web.bindery.event.shared.Event#dispatch(java.lang.Object)
-     */
-    @Override
-    protected void dispatch(I_CmsContainerpageEventHandler handler) {
-
-        handler.onContainerpageEvent(this);
-    }
+    handler.onContainerpageEvent(this);
+  }
 }

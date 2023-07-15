@@ -27,6 +27,12 @@
 
 package org.opencms.workplace.tools.link;
 
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.report.I_CmsReportThread;
 import org.opencms.ui.apps.linkvalidation.CmsExternalLinksValidatorThread;
@@ -34,122 +40,123 @@ import org.opencms.workplace.CmsWorkplaceSettings;
 import org.opencms.workplace.list.A_CmsListReport;
 import org.opencms.workplace.tools.CmsToolManager;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Provides an output window for a CmsReport.<p>
+ * Provides an output window for a CmsReport.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsPointerLinkValidatorReport extends A_CmsListReport {
 
-    /** The dialog type. */
-    public static final String DIALOG_TYPE = "imp";
+  /** The dialog type. */
+  public static final String DIALOG_TYPE = "imp";
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsPointerLinkValidatorReport(CmsJspActionElement jsp) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsPointerLinkValidatorReport(CmsJspActionElement jsp) {
 
-        super(jsp);
+    super(jsp);
+  }
+
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsPointerLinkValidatorReport(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
+
+    this(new CmsJspActionElement(context, req, res));
+  }
+
+  /**
+   * Performs the pointer link validation report, will be called by the JSP page.
+   *
+   * <p>
+   *
+   * @throws JspException if problems including sub-elements occur
+   */
+  public void actionReport() throws JspException {
+
+    // save initialized instance of this class in request attribute for included sub-elements
+    getJsp().getRequest().setAttribute(SESSION_WORKPLACE_CLASS, this);
+    switch (getAction()) {
+      case ACTION_REPORT_END:
+        actionCloseDialog();
+        break;
+      case ACTION_REPORT_UPDATE:
+        setParamAction(REPORT_UPDATE);
+        getJsp().include(FILE_REPORT_OUTPUT);
+        break;
+      case ACTION_REPORT_BEGIN:
+      case ACTION_CONFIRMED:
+      default:
+        CmsExternalLinksValidatorThread thread =
+            new CmsExternalLinksValidatorThread(getCms(), null);
+        thread.start();
+        setParamAction(REPORT_BEGIN);
+        setParamThread(thread.getUUID().toString());
+        Map params = new HashMap(1);
+        params.put(PARAM_CLOSELINK, CmsToolManager.linkForToolPath(getJsp(), "/linkchecking"));
+        getJsp().include(FILE_REPORT_OUTPUT, null, params);
+        break;
     }
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsPointerLinkValidatorReport(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /** @see org.opencms.workplace.list.A_CmsListReport#initializeThread() */
+  @Override
+  public I_CmsReportThread initializeThread() {
 
-        this(new CmsJspActionElement(context, req, res));
+    return new CmsExternalLinksValidatorThread(getCms(), null);
+  }
+
+  /** @see org.opencms.workplace.CmsWorkplace#initMessages() */
+  @Override
+  protected void initMessages() {
+
+    addMessages(Messages.get().getBundleName());
+    super.initMessages();
+  }
+
+  /**
+   * @see
+   *     org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings,
+   *     javax.servlet.http.HttpServletRequest)
+   */
+  @Override
+  protected void initWorkplaceRequestValues(
+      CmsWorkplaceSettings settings, HttpServletRequest request) {
+
+    // fill the parameter values in the get/set methods
+    fillParamValues(request);
+    // set the dialog type
+    setParamDialogtype(DIALOG_TYPE);
+    // set the action for the JSP switch
+    if (DIALOG_CONFIRMED.equals(getParamAction())) {
+      setAction(ACTION_CONFIRMED);
+    } else if (REPORT_UPDATE.equals(getParamAction())) {
+      setAction(ACTION_REPORT_UPDATE);
+    } else if (REPORT_BEGIN.equals(getParamAction())) {
+      setAction(ACTION_REPORT_BEGIN);
+    } else if (REPORT_END.equals(getParamAction())) {
+      setAction(ACTION_REPORT_END);
+    } else if (DIALOG_CANCEL.equals(getParamAction())) {
+      setAction(ACTION_CANCEL);
+    } else {
+      setAction(ACTION_DEFAULT);
+      // add the title for the dialog
+      setParamTitle(
+          Messages.get().getBundle(getLocale()).key(Messages.GUI_EXTERNALLINK_ADMIN_TOOL_NAME_0));
     }
-
-    /**
-     * Performs the pointer link validation report, will be called by the JSP page.<p>
-     *
-     * @throws JspException if problems including sub-elements occur
-     */
-    public void actionReport() throws JspException {
-
-        // save initialized instance of this class in request attribute for included sub-elements
-        getJsp().getRequest().setAttribute(SESSION_WORKPLACE_CLASS, this);
-        switch (getAction()) {
-            case ACTION_REPORT_END:
-                actionCloseDialog();
-                break;
-            case ACTION_REPORT_UPDATE:
-                setParamAction(REPORT_UPDATE);
-                getJsp().include(FILE_REPORT_OUTPUT);
-                break;
-            case ACTION_REPORT_BEGIN:
-            case ACTION_CONFIRMED:
-            default:
-                CmsExternalLinksValidatorThread thread = new CmsExternalLinksValidatorThread(getCms(), null);
-                thread.start();
-                setParamAction(REPORT_BEGIN);
-                setParamThread(thread.getUUID().toString());
-                Map params = new HashMap(1);
-                params.put(PARAM_CLOSELINK, CmsToolManager.linkForToolPath(getJsp(), "/linkchecking"));
-                getJsp().include(FILE_REPORT_OUTPUT, null, params);
-                break;
-        }
-    }
-
-    /**
-     *
-     * @see org.opencms.workplace.list.A_CmsListReport#initializeThread()
-     */
-    @Override
-    public I_CmsReportThread initializeThread() {
-
-        return new CmsExternalLinksValidatorThread(getCms(), null);
-    }
-
-    /**
-     * @see org.opencms.workplace.CmsWorkplace#initMessages()
-     */
-    @Override
-    protected void initMessages() {
-
-        addMessages(Messages.get().getBundleName());
-        super.initMessages();
-    }
-
-    /**
-     * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
-
-        // fill the parameter values in the get/set methods
-        fillParamValues(request);
-        // set the dialog type
-        setParamDialogtype(DIALOG_TYPE);
-        // set the action for the JSP switch
-        if (DIALOG_CONFIRMED.equals(getParamAction())) {
-            setAction(ACTION_CONFIRMED);
-        } else if (REPORT_UPDATE.equals(getParamAction())) {
-            setAction(ACTION_REPORT_UPDATE);
-        } else if (REPORT_BEGIN.equals(getParamAction())) {
-            setAction(ACTION_REPORT_BEGIN);
-        } else if (REPORT_END.equals(getParamAction())) {
-            setAction(ACTION_REPORT_END);
-        } else if (DIALOG_CANCEL.equals(getParamAction())) {
-            setAction(ACTION_CANCEL);
-        } else {
-            setAction(ACTION_DEFAULT);
-            // add the title for the dialog
-            setParamTitle(Messages.get().getBundle(getLocale()).key(Messages.GUI_EXTERNALLINK_ADMIN_TOOL_NAME_0));
-        }
-    }
+  }
 }

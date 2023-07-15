@@ -27,6 +27,7 @@
 
 package org.opencms.ui.dialogs.history.diff;
 
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.gwt.shared.CmsHistoryResourceBean;
 import org.opencms.main.CmsException;
@@ -35,34 +36,31 @@ import org.opencms.ui.Messages;
 import org.opencms.workplace.comparison.CmsAttributeComparison;
 import org.opencms.workplace.comparison.CmsResourceComparison;
 
-import java.util.List;
-
 /**
- * Displays changes between attributes (size, modification date, etc. ).<p>
+ * Displays changes between attributes (size, modification date, etc. ).
+ *
+ * <p>
  */
 public class CmsAttributeDiff extends A_CmsAttributeDiff {
 
-    /**
-     * @see org.opencms.ui.dialogs.history.diff.A_CmsAttributeDiff#getCaption()
-     */
-    @Override
-    public String getCaption() {
+  /** @see org.opencms.ui.dialogs.history.diff.A_CmsAttributeDiff#getCaption() */
+  @Override
+  public String getCaption() {
 
-        return CmsVaadinUtils.getMessageText(Messages.GUI_HISTORY_DIALOG_ATTRIBUTES_CAPTION_0);
-    }
+    return CmsVaadinUtils.getMessageText(Messages.GUI_HISTORY_DIALOG_ATTRIBUTES_CAPTION_0);
+  }
 
-    /**
-     * @see org.opencms.ui.dialogs.history.diff.A_CmsAttributeDiff#getDifferences(org.opencms.file.CmsObject, org.opencms.gwt.shared.CmsHistoryResourceBean, org.opencms.gwt.shared.CmsHistoryResourceBean)
-     */
-    @Override
-    public List<CmsAttributeComparison> getDifferences(
-        CmsObject cms,
-        CmsHistoryResourceBean v1,
-        CmsHistoryResourceBean v2) throws CmsException {
+  /**
+   * @see
+   *     org.opencms.ui.dialogs.history.diff.A_CmsAttributeDiff#getDifferences(org.opencms.file.CmsObject,
+   *     org.opencms.gwt.shared.CmsHistoryResourceBean,
+   *     org.opencms.gwt.shared.CmsHistoryResourceBean)
+   */
+  @Override
+  public List<CmsAttributeComparison> getDifferences(
+      CmsObject cms, CmsHistoryResourceBean v1, CmsHistoryResourceBean v2) throws CmsException {
 
-        return filterDifferent(
-            CmsResourceComparison.compareAttributes(cms, readResource(cms, v1), readResource(cms, v2)));
-
-    }
-
+    return filterDifferent(
+        CmsResourceComparison.compareAttributes(cms, readResource(cms, v1), readResource(cms, v2)));
+  }
 }

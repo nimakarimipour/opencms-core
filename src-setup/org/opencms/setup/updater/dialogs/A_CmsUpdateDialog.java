@@ -27,180 +27,191 @@
 
 package org.opencms.setup.updater.dialogs;
 
+import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Label;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import org.opencms.setup.CmsUpdateBean;
 import org.opencms.setup.CmsUpdateUI;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-
-import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Label;
-
 /**
- * The abstract class for the update dialogs.<p>
+ * The abstract class for the update dialogs.
+ *
+ * <p>
  */
 public abstract class A_CmsUpdateDialog extends CmsBasicDialog {
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = 1L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 1L;
 
-    /**Ui. */
-    protected CmsUpdateUI m_ui;
+  /** Ui. */
+  protected CmsUpdateUI m_ui;
 
-    /**Continue button. */
-    Button m_ok;
+  /** Continue button. */
+  Button m_ok;
 
-    /**Back button. */
-    Button m_back;
+  /** Back button. */
+  Button m_back;
 
-    /**
-     * Returns the back button.<p>
-     *
-     * @return Button
-     */
-    public Button getBackButton() {
+  /**
+   * Returns the back button.
+   *
+   * <p>
+   *
+   * @return Button
+   */
+  public Button getBackButton() {
 
-        return new Button("Back");
+    return new Button("Back");
+  }
+
+  /**
+   * Returns the continue button.
+   *
+   * <p>
+   *
+   * @return Button
+   */
+  public Button getOkButton() {
+
+    return new Button("Continue");
+  }
+
+  /**
+   * Creates a new HTML-formatted label with the given content.
+   *
+   * @param html the label content
+   * @return Label
+   */
+  public Label htmlLabel(String html) {
+
+    Label label = new Label();
+    label.setContentMode(ContentMode.HTML);
+    label.setValue(html);
+    return label;
+  }
+
+  /**
+   * Inits the dialog.
+   *
+   * <p>(The constructor is empty)
+   *
+   * @param ui UI
+   * @return true if dialog should be displayed
+   */
+  public abstract boolean init(CmsUpdateUI ui);
+
+  /**
+   * Init called from implementations of this class.
+   *
+   * <p>
+   *
+   * @param ui ui
+   * @param hasPrev has preview dialog
+   * @param hasNext has next dialog
+   */
+  public void init(CmsUpdateUI ui, boolean hasPrev, boolean hasNext) {
+
+    m_ui = ui;
+
+    if (hasPrev) {
+      m_back = getBackButton();
+      m_back.addClickListener(
+          new ClickListener() {
+
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+
+              ui.displayDialog(getPreviousDialog());
+            }
+          });
+      addButton(m_back, true);
     }
 
-    /**
-     * Returns the continue button.<p>
-     *
-     * @return Button
-     */
-    public Button getOkButton() {
+    if (hasNext) {
+      m_ok = getOkButton();
+      m_ok.addClickListener(
+          new ClickListener() {
 
-        return new Button("Continue");
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+
+              if (submitDialog()) {
+                ui.displayDialog(getNextDialog());
+              }
+            }
+          });
+      addButton(m_ok, true);
     }
+  }
 
-    /**
-     * Creates a new HTML-formatted label with the given content.
-     *
-     * @param html the label content
-     * @return Label
-     */
-    public Label htmlLabel(String html) {
+  /**
+   * Reads an HTML snipped with the given name.
+   *
+   * @param name name of file
+   * @return the HTML data
+   */
+  public String readSnippet(String name) {
 
-        Label label = new Label();
-        label.setContentMode(ContentMode.HTML);
-        label.setValue(html);
-        return label;
-
+    String path =
+        CmsStringUtil.joinPaths(
+            m_ui.getUpdateBean().getWebAppRfsPath(), CmsUpdateBean.FOLDER_UPDATE, "html", name);
+    try (InputStream stream = new FileInputStream(path)) {
+      byte[] data = CmsFileUtil.readFully(stream, false);
+      String result = new String(data, "UTF-8");
+      return result;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    /**
-     * Inits the dialog.<p>
-     * (The constructor is empty)
-     *
-     * @param ui UI
-     * @return true if dialog should be displayed
-     */
-    public abstract boolean init(CmsUpdateUI ui);
+  /**
+   * En / Disables the continue button.
+   *
+   * <p>
+   *
+   * @param enable boolean
+   */
+  protected void enableOK(boolean enable) {
 
-    /**
-     * Init called from implementations of this class.<p>
-     *
-     * @param ui ui
-     * @param hasPrev has preview dialog
-     * @param hasNext has next dialog
-     */
-    public void init(CmsUpdateUI ui, boolean hasPrev, boolean hasNext) {
+    m_ok.setEnabled(enable);
+  }
 
-        m_ui = ui;
+  /**
+   * Submit method.
+   *
+   * <p>
+   *
+   * @return true if next dialog should be loaded
+   */
+  protected boolean submitDialog() {
 
-        if (hasPrev) {
-            m_back = getBackButton();
-            m_back.addClickListener(new ClickListener() {
+    return true;
+  }
 
-                private static final long serialVersionUID = 1L;
+  /**
+   * Returns next Dialog (not initialized).
+   *
+   * <p>
+   *
+   * @return A_CmsUpdateDialog
+   */
+  abstract A_CmsUpdateDialog getNextDialog();
 
-                public void buttonClick(ClickEvent event) {
-
-                    ui.displayDialog(getPreviousDialog());
-                }
-
-            });
-            addButton(m_back, true);
-        }
-
-        if (hasNext) {
-            m_ok = getOkButton();
-            m_ok.addClickListener(new ClickListener() {
-
-                private static final long serialVersionUID = 1L;
-
-                public void buttonClick(ClickEvent event) {
-
-                    if (submitDialog()) {
-                        ui.displayDialog(getNextDialog());
-                    }
-                }
-
-            });
-            addButton(m_ok, true);
-        }
-    }
-
-    /**
-     * Reads an HTML snipped with the given name.
-     * @param name name of file
-     *
-     * @return the HTML data
-     */
-    public String readSnippet(String name) {
-
-        String path = CmsStringUtil.joinPaths(
-            m_ui.getUpdateBean().getWebAppRfsPath(),
-            CmsUpdateBean.FOLDER_UPDATE,
-            "html",
-            name);
-        try (InputStream stream = new FileInputStream(path)) {
-            byte[] data = CmsFileUtil.readFully(stream, false);
-            String result = new String(data, "UTF-8");
-            return result;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * En / Disables the continue button.<p>
-     *
-     * @param enable boolean
-     */
-    protected void enableOK(boolean enable) {
-
-        m_ok.setEnabled(enable);
-    }
-
-    /**
-     * Submit method.<p>
-     *
-     * @return true if next dialog should be loaded
-     */
-    protected boolean submitDialog() {
-
-        return true;
-    }
-
-    /**
-     * Returns next Dialog (not initialized).<p>
-     *
-     * @return A_CmsUpdateDialog
-     */
-    abstract A_CmsUpdateDialog getNextDialog();
-
-    /**
-     * Returns previous Dialog (not initialized).<p>
-     *
-     * @return A_CmsUpdateDialog
-     */
-    abstract A_CmsUpdateDialog getPreviousDialog();
-
+  /**
+   * Returns previous Dialog (not initialized).
+   *
+   * <p>
+   *
+   * @return A_CmsUpdateDialog
+   */
+  abstract A_CmsUpdateDialog getPreviousDialog();
 }

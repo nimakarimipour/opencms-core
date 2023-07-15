@@ -27,12 +27,11 @@
 
 package org.opencms.file.types;
 
+import java.util.Arrays;
+import java.util.List;
 import org.opencms.configuration.CmsConfigurationCopyResource;
 import org.opencms.file.CmsObject;
 import org.opencms.util.CmsMacroResolver;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Content type class for subsitemap content folders.
@@ -41,53 +40,55 @@ import java.util.List;
  */
 public class CmsResourceTypeSubsitemapContentFolder extends CmsResourceTypeFolderExtended {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = -4763516920316525304L;
+  /** Serial version id. */
+  private static final long serialVersionUID = -4763516920316525304L;
 
-    /** The default value for the config file copy source. */
-    public static final String DEFAULT_CONFIG_SOURCE = "/system/modules/org.opencms.base/copyresources/sitemap.config";
+  /** The default value for the config file copy source. */
+  public static final String DEFAULT_CONFIG_SOURCE =
+      "/system/modules/org.opencms.base/copyresources/sitemap.config";
 
-    /** True if the 'use formatter keys' option should be enabled by default in newly created sitemap configurations. */
-    private static boolean m_enableNewPageFormatByDefault = true;
+  /**
+   * True if the 'use formatter keys' option should be enabled by default in newly created sitemap
+   * configurations.
+   */
+  private static boolean m_enableNewPageFormatByDefault = true;
 
-    /**
-     * Checks if the 'use formatter keys' option should be enabled by default in generated sitemap configurations.
-     *
-     * @return true if the 'use formatter keys' option should be enabled by default
-     */
-    public static boolean isEnableNewPageFormatByDefault() {
+  /**
+   * Checks if the 'use formatter keys' option should be enabled by default in generated sitemap
+   * configurations.
+   *
+   * @return true if the 'use formatter keys' option should be enabled by default
+   */
+  public static boolean isEnableNewPageFormatByDefault() {
 
-        return m_enableNewPageFormatByDefault;
+    return m_enableNewPageFormatByDefault;
+  }
+
+  /**
+   * Enables / disables the default value to use for 'use formatter keys' option in generated
+   * sitemap configurations.
+   *
+   * @param enabled the default value for the 'use formatter keys' option
+   */
+  public static void setEnableNewPageFormatByDefault(boolean enabled) {
+
+    m_enableNewPageFormatByDefault = enabled;
+  }
+
+  /**
+   * @see org.opencms.file.types.A_CmsResourceType#getCopyResources(org.opencms.file.CmsObject,
+   *     java.lang.String, org.opencms.util.CmsMacroResolver)
+   */
+  @Override
+  protected List<CmsConfigurationCopyResource> getCopyResources(
+      CmsObject cms, String resourcename, CmsMacroResolver resolver) {
+
+    String source = DEFAULT_CONFIG_SOURCE;
+    if (!m_enableNewPageFormatByDefault) {
+      source = source + ".nokeys";
     }
-
-    /**
-     * Enables / disables the default value to use for 'use formatter keys' option in generated sitemap configurations.
-     *
-     * @param enabled the default value for the 'use formatter keys' option
-     */
-    public static void setEnableNewPageFormatByDefault(boolean enabled) {
-
-        m_enableNewPageFormatByDefault = enabled;
-    }
-
-    /**
-     * @see org.opencms.file.types.A_CmsResourceType#getCopyResources(org.opencms.file.CmsObject, java.lang.String, org.opencms.util.CmsMacroResolver)
-     */
-    @Override
-    protected List<CmsConfigurationCopyResource> getCopyResources(
-        CmsObject cms,
-        String resourcename,
-        CmsMacroResolver resolver) {
-
-        String source = DEFAULT_CONFIG_SOURCE;
-        if (!m_enableNewPageFormatByDefault) {
-            source = source + ".nokeys";
-        }
-        CmsConfigurationCopyResource res = new CmsConfigurationCopyResource(
-            source,
-            "${resource.folder.path}/.config",
-            "new");
-        return Arrays.asList(res);
-    }
-
+    CmsConfigurationCopyResource res =
+        new CmsConfigurationCopyResource(source, "${resource.folder.path}/.config", "new");
+    return Arrays.asList(res);
+  }
 }

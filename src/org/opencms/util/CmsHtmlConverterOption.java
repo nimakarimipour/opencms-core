@@ -28,74 +28,87 @@
 package org.opencms.util;
 
 /**
- * Represents a single HTML converter configuration as defined in the OpenCms configuration file <code>opencms-vfs.xml</code>.<p>
+ * Represents a single HTML converter configuration as defined in the OpenCms configuration file
+ * <code>opencms-vfs.xml</code>.
  *
- * This is only used to write back the definitions to the configuration file.<p>
+ * <p>This is only used to write back the definitions to the configuration file.
+ *
+ * <p>
  */
 public class CmsHtmlConverterOption {
 
-    /** The class used for HTML conversion of the configured option. */
-    private String m_className;
+  /** The class used for HTML conversion of the configured option. */
+  private String m_className;
 
-    /** Flag indicating if this is an automatically generated default option. */
-    private boolean m_default;
+  /** Flag indicating if this is an automatically generated default option. */
+  private boolean m_default;
 
-    /** The name of the configured option. */
-    private String m_name;
+  /** The name of the configured option. */
+  private String m_name;
 
-    /**
-     * Constructor, with parameters.<p>
-     *
-     * @param name the name of the configured option
-     * @param className the class used for HTML conversion of the configured option
-     */
-    public CmsHtmlConverterOption(String name, String className) {
+  /**
+   * Constructor, with parameters.
+   *
+   * <p>
+   *
+   * @param name the name of the configured option
+   * @param className the class used for HTML conversion of the configured option
+   */
+  public CmsHtmlConverterOption(String name, String className) {
 
-        this(name, className, false);
-    }
+    this(name, className, false);
+  }
 
-    /**
-     * Constructor, with parameters.<p>
-     *
-     * @param name the name of the configured option
-     * @param className the class used for HTML conversion of the configured option
-     * @param isDefault the flag indicating if this is an automatically generated default option
-     */
-    public CmsHtmlConverterOption(String name, String className, boolean isDefault) {
+  /**
+   * Constructor, with parameters.
+   *
+   * <p>
+   *
+   * @param name the name of the configured option
+   * @param className the class used for HTML conversion of the configured option
+   * @param isDefault the flag indicating if this is an automatically generated default option
+   */
+  public CmsHtmlConverterOption(String name, String className, boolean isDefault) {
 
-        m_name = name;
-        m_className = className;
-        m_default = isDefault;
-    }
+    m_name = name;
+    m_className = className;
+    m_default = isDefault;
+  }
 
-    /**
-     * Returns the class used for HTML conversion of the configured option.<p>
-     *
-     * @return the class used for HTML conversion of the configured option
-     */
-    public String getClassName() {
+  /**
+   * Returns the class used for HTML conversion of the configured option.
+   *
+   * <p>
+   *
+   * @return the class used for HTML conversion of the configured option
+   */
+  public String getClassName() {
 
-        return m_className;
-    }
+    return m_className;
+  }
 
-    /**
-     * Returns the name of the configured option.<p>
-     *
-     * @return the name of the configured option
-     */
-    public String getName() {
+  /**
+   * Returns the name of the configured option.
+   *
+   * <p>
+   *
+   * @return the name of the configured option
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns if the option is an automatically generated default option.<p>
-     *
-     * @return <code>true</code> if the option is an automatically generated default option, otherwise <code>false</code>
-     */
-    public boolean isDefault() {
+  /**
+   * Returns if the option is an automatically generated default option.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the option is an automatically generated default option, otherwise
+   *     <code>false</code>
+   */
+  public boolean isDefault() {
 
-        return m_default;
-    }
-
+    return m_default;
+  }
 }

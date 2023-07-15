@@ -30,29 +30,37 @@ package org.opencms.gwt.client.ui.contextmenu;
 import org.opencms.util.CmsUUID;
 
 /**
- * Handles actions.<p>
+ * Handles actions.
+ *
+ * <p>
  */
 public interface I_CmsActionHandler {
 
-    /**
-     * Leaves the current page calling the target URI.<p>
-     *
-     * @param targetUri the target URI
-     */
-    void leavePage(String targetUri);
+  /**
+   * Leaves the current page calling the target URI.
+   *
+   * <p>
+   *
+   * @param targetUri the target URI
+   */
+  void leavePage(String targetUri);
 
-    /**
-     * Called when site and or project have been changed.<p>
-     *
-     * @param sitePath the site path to the target resource
-     * @param serverLink the server link to the resource
-     */
-    void onSiteOrProjectChange(String sitePath, String serverLink);
+  /**
+   * Called when site and or project have been changed.
+   *
+   * <p>
+   *
+   * @param sitePath the site path to the target resource
+   * @param serverLink the server link to the resource
+   */
+  void onSiteOrProjectChange(String sitePath, String serverLink);
 
-    /**
-     * Reloads the resource edited.<p>
-     *
-     * @param structureId the structure id of the resource to lock
-     */
-    void refreshResource(CmsUUID structureId);
+  /**
+   * Reloads the resource edited.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource to lock
+   */
+  void refreshResource(CmsUUID structureId);
 }

@@ -33,77 +33,80 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 
 /**
- * Changes the elements height until the target height is reached.<p>
+ * Changes the elements height until the target height is reached.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsChangeHeightAnimation extends A_CmsAnimation {
 
-    /** The element style. */
-    private Style m_elementStyle;
+  /** The element style. */
+  private Style m_elementStyle;
 
-    /** The height of the fully visible element. */
-    private int m_height;
+  /** The height of the fully visible element. */
+  private int m_height;
 
-    /** The difference between the target height and the original height. */
-    private int m_heightDiff;
+  /** The difference between the target height and the original height. */
+  private int m_heightDiff;
 
-    /** The height when the animation should stop. */
-    private int m_targetHeight;
+  /** The height when the animation should stop. */
+  private int m_targetHeight;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param element the element to animate
-     * @param targetHeight the height when the animation should stop
-     * @param callback the callback executed after the animation is completed
-     */
-    public CmsChangeHeightAnimation(Element element, int targetHeight, Command callback) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param element the element to animate
+   * @param targetHeight the height when the animation should stop
+   * @param callback the callback executed after the animation is completed
+   */
+  public CmsChangeHeightAnimation(Element element, int targetHeight, Command callback) {
 
-        super(callback);
+    super(callback);
 
-        m_elementStyle = element.getStyle();
+    m_elementStyle = element.getStyle();
 
-        m_height = CmsDomUtil.getCurrentStyleInt(element, CmsDomUtil.Style.height);
-        m_targetHeight = targetHeight;
-        m_heightDiff = m_targetHeight - m_height;
+    m_height = CmsDomUtil.getCurrentStyleInt(element, CmsDomUtil.Style.height);
+    m_targetHeight = targetHeight;
+    m_heightDiff = m_targetHeight - m_height;
+  }
+
+  /**
+   * Slides the given element into view executing the callback afterwards.
+   *
+   * <p>
+   *
+   * @param element the element to slide in
+   * @param targetHeight the height when the animation should stop
+   * @param callback the callback executed after the animation is completed
+   * @param duration the animation duration
+   * @return the running animation object
+   */
+  public static CmsChangeHeightAnimation change(
+      Element element, int targetHeight, Command callback, int duration) {
+
+    CmsChangeHeightAnimation animation =
+        new CmsChangeHeightAnimation(element, targetHeight, callback);
+    animation.run(duration);
+    return animation;
+  }
+
+  /** @see com.google.gwt.animation.client.Animation#onComplete() */
+  @Override
+  protected void onComplete() {
+
+    m_elementStyle.setHeight(m_targetHeight, Unit.PX);
+    if (m_callback != null) {
+      m_callback.execute();
     }
+  }
 
-    /**
-     * Slides the given element into view executing the callback afterwards.<p>
-     *
-     * @param element the element to slide in
-     * @param targetHeight the height when the animation should stop
-     * @param callback the callback executed after the animation is completed
-     * @param duration the animation duration
-     *
-     * @return the running animation object
-     */
-    public static CmsChangeHeightAnimation change(Element element, int targetHeight, Command callback, int duration) {
+  /** @see com.google.gwt.animation.client.Animation#onUpdate(double) */
+  @Override
+  protected void onUpdate(double progress) {
 
-        CmsChangeHeightAnimation animation = new CmsChangeHeightAnimation(element, targetHeight, callback);
-        animation.run(duration);
-        return animation;
-    }
-
-    /**
-     * @see com.google.gwt.animation.client.Animation#onComplete()
-     */
-    @Override
-    protected void onComplete() {
-
-        m_elementStyle.setHeight(m_targetHeight, Unit.PX);
-        if (m_callback != null) {
-            m_callback.execute();
-        }
-    }
-
-    /**
-     * @see com.google.gwt.animation.client.Animation#onUpdate(double)
-     */
-    @Override
-    protected void onUpdate(double progress) {
-
-        m_elementStyle.setHeight((m_heightDiff * progress * progress) + m_height, Unit.PX);
-    }
+    m_elementStyle.setHeight((m_heightDiff * progress * progress) + m_height, Unit.PX);
+  }
 }

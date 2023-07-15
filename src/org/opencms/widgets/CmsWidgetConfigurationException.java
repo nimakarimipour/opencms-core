@@ -28,39 +28,46 @@
 package org.opencms.widgets;
 
 /**
- * Exception thrown by widgets when they can'T parse their configuration.<p>
+ * Exception thrown by widgets when they can'T parse their configuration.
+ *
+ * <p>
  */
 public class CmsWidgetConfigurationException extends RuntimeException {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param message the error message
-     */
-    public CmsWidgetConfigurationException(String message) {
-        super(message);
-    }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param message the error message
+   */
+  public CmsWidgetConfigurationException(String message) {
+    super(message);
+  }
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param message the message
-     * @param cause the cause
-     */
-    public CmsWidgetConfigurationException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param message the message
+   * @param cause the cause
+   */
+  public CmsWidgetConfigurationException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param cause the cause
-     */
-    public CmsWidgetConfigurationException(Throwable cause) {
-        super(cause);
-    }
-
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param cause the cause
+   */
+  public CmsWidgetConfigurationException(Throwable cause) {
+    super(cause);
+  }
 }

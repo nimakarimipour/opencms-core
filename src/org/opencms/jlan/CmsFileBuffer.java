@@ -28,114 +28,129 @@
 package org.opencms.jlan;
 
 /**
- * Buffer class which holds file contents for JLAN file access in memory before they are written to the VFS.<p>
+ * Buffer class which holds file contents for JLAN file access in memory before they are written to
+ * the VFS.
  *
- * This is implemented as a CmsByteBuffer instance together with a 'position' index which marks the next write position
+ * <p>This is implemented as a CmsByteBuffer instance together with a 'position' index which marks
+ * the next write position
  */
 public class CmsFileBuffer {
 
-    /** The buffer used to store the file contents. */
-    CmsByteBuffer m_buffer = new CmsByteBuffer(8192);
+  /** The buffer used to store the file contents. */
+  CmsByteBuffer m_buffer = new CmsByteBuffer(8192);
 
-    /** The current write position. */
-    long m_position;
+  /** The current write position. */
+  long m_position;
 
-    /**
-     * Gets the contents of this buffer as a byte array.<p>
-     *
-     * @return the file content
-     */
-    public byte[] getContents() {
+  /**
+   * Gets the contents of this buffer as a byte array.
+   *
+   * <p>
+   *
+   * @return the file content
+   */
+  public byte[] getContents() {
 
-        byte[] contents = new byte[m_buffer.size()];
-        m_buffer.readBytes(contents, 0, 0, m_buffer.size());
-        return contents;
+    byte[] contents = new byte[m_buffer.size()];
+    m_buffer.readBytes(contents, 0, 0, m_buffer.size());
+    return contents;
+  }
+
+  /**
+   * Gets the length of the file content.
+   *
+   * <p>
+   *
+   * @return the content length
+   */
+  public long getLength() {
+
+    return m_buffer.size();
+  }
+
+  /**
+   * Gets the current write position.
+   *
+   * <p>
+   *
+   * @return the current write position
+   */
+  public long getPosition() {
+
+    return m_position;
+  }
+
+  /**
+   * Initializes the file content data.
+   *
+   * <p>
+   *
+   * @param data the file content data
+   */
+  public void init(byte[] data) {
+
+    m_position = 0;
+    m_buffer.writeBytes(data, 0, 0, data.length);
+  }
+
+  /**
+   * Transfers data from this buffer to a byte array.
+   *
+   * <p>
+   *
+   * @param dest the target byte array
+   * @param length the number of bytes to transfer
+   * @param bufferOffset the start index for the target buffer
+   * @param fileOffset the start index for this instance
+   * @return the number of bytes read, or -1 if we are at the end of the file
+   */
+  public int read(byte[] dest, int length, int bufferOffset, int fileOffset) {
+
+    if (fileOffset >= m_buffer.size()) {
+      return -1;
     }
-
-    /**
-     * Gets the length of the file content.<p>
-     *
-     * @return the content length
-     *
-     */
-    public long getLength() {
-
-        return m_buffer.size();
+    int readEnd = fileOffset + length;
+    if (readEnd > m_buffer.size()) {
+      length = length - (readEnd - m_buffer.size());
     }
+    m_buffer.readBytes(dest, fileOffset, bufferOffset, length);
+    return length;
+  }
 
-    /**
-     * Gets the current write position.<p>
-     *
-     * @return the current write position
-     */
-    public long getPosition() {
+  /**
+   * Changes the write position.
+   *
+   * <p>
+   *
+   * @param newPos the new write position
+   */
+  public void seek(long newPos) {
 
-        return m_position;
-    }
+    m_position = newPos;
+  }
 
-    /**
-     * Initializes the file content data.<p>
-     *
-     * @param data the file content data
-     */
-    public void init(byte[] data) {
+  /**
+   * Changes the size of this buffer.
+   *
+   * <p>
+   *
+   * @param size the new size
+   */
+  public void truncate(int size) {
 
-        m_position = 0;
-        m_buffer.writeBytes(data, 0, 0, data.length);
-    }
+    m_buffer.truncate(size);
+    m_position = Math.min(size, m_position);
+  }
 
-    /**
-     * Transfers data from this buffer to a byte array.<p>
-     *
-     * @param dest the target byte array
-     *
-     * @param length the number of bytes to transfer
-     * @param bufferOffset the start index for the target buffer
-     * @param fileOffset the start index for this instance
-     *
-     * @return the number of bytes read, or -1 if we are at the end of the file
-     */
-    public int read(byte[] dest, int length, int bufferOffset, int fileOffset) {
+  /**
+   * Writes the data to the internal buffer.
+   *
+   * <p>
+   *
+   * @param data the data to write
+   */
+  public void write(byte[] data) {
 
-        if (fileOffset >= m_buffer.size()) {
-            return -1;
-        }
-        int readEnd = fileOffset + length;
-        if (readEnd > m_buffer.size()) {
-            length = length - (readEnd - m_buffer.size());
-        }
-        m_buffer.readBytes(dest, fileOffset, bufferOffset, length);
-        return length;
-    }
-
-    /**
-     * Changes the write position.<p>
-     *
-     * @param newPos the new write position
-     */
-    public void seek(long newPos) {
-
-        m_position = newPos;
-    }
-
-    /**
-     * Changes the size of this buffer.<p>
-     *
-     * @param size the new size
-     */
-    public void truncate(int size) {
-
-        m_buffer.truncate(size);
-        m_position = Math.min(size, m_position);
-    }
-
-    /**
-     * Writes the data to the internal buffer.<p>
-     *
-     * @param data the data to write
-     */
-    public void write(byte[] data) {
-
-        m_buffer.writeBytes(data, 0, (int)m_position, data.length);
-    }
+    m_buffer.writeBytes(data, 0, (int) m_position, data.length);
+  }
 }

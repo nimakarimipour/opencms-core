@@ -27,6 +27,13 @@
 
 package org.opencms.gwt.client.ui.externallink;
 
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Widget;
 import org.opencms.file.CmsResource;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.client.Messages;
@@ -47,351 +54,370 @@ import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * Dialog to create and edit external link resources.<p>
+ * Dialog to create and edit external link resources.
+ *
+ * <p>
  */
-public final class CmsEditExternalLinkDialog extends CmsPopup implements ValueChangeHandler<String> {
+public final class CmsEditExternalLinkDialog extends CmsPopup
+    implements ValueChangeHandler<String> {
 
-    /** The link gallery resource type name. */
-    public static final String LINK_GALLERY_RESOURCE_TYPE_NAME = "linkgallery";
+  /** The link gallery resource type name. */
+  public static final String LINK_GALLERY_RESOURCE_TYPE_NAME = "linkgallery";
 
-    /** The pointer resource type name. */
-    public static final String POINTER_RESOURCE_TYPE_NAME = "pointer";
+  /** The pointer resource type name. */
+  public static final String POINTER_RESOURCE_TYPE_NAME = "pointer";
 
-    /** The text metrics key. */
-    private static final String METRICS_KEY = "CREATE_NEW_GALLERY_DIALOG";
+  /** The text metrics key. */
+  private static final String METRICS_KEY = "CREATE_NEW_GALLERY_DIALOG";
 
-    /** The context menu handler. */
-    I_CmsContextMenuHandler m_contextMenuHandler;
+  /** The context menu handler. */
+  I_CmsContextMenuHandler m_contextMenuHandler;
 
-    /** The link info bean. */
-    CmsExternalLinkInfoBean m_linkInfo;
+  /** The link info bean. */
+  CmsExternalLinkInfoBean m_linkInfo;
 
-    /** The parent folder path. */
-    String m_parentFolderPath;
+  /** The parent folder path. */
+  String m_parentFolderPath;
 
-    /** The pointer resource structure id. */
-    CmsUUID m_structureId;
+  /** The pointer resource structure id. */
+  CmsUUID m_structureId;
 
-    /** The dialog content panel. */
-    private CmsFieldsetFormFieldPanel m_dialogContent;
+  /** The dialog content panel. */
+  private CmsFieldsetFormFieldPanel m_dialogContent;
 
-    /** The file name input. */
-    private CmsTextBox m_fileName;
+  /** The file name input. */
+  private CmsTextBox m_fileName;
 
-    /** The create new flag. */
-    private boolean m_isCreateNew;
+  /** The create new flag. */
+  private boolean m_isCreateNew;
 
-    /** The folder name input. */
-    private CmsTextBox m_linkContent;
+  /** The folder name input. */
+  private CmsTextBox m_linkContent;
 
-    /** The title input. */
-    private CmsTextBox m_linkTitle;
+  /** The title input. */
+  private CmsTextBox m_linkTitle;
 
-    /** The OK button. */
-    private CmsPushButton m_okButton;
+  /** The OK button. */
+  private CmsPushButton m_okButton;
 
-    /** The previous link. */
-    private String m_previousLink;
+  /** The previous link. */
+  private String m_previousLink;
 
-    /** The previous link title. */
-    private String m_previousTitle;
+  /** The previous link title. */
+  private String m_previousTitle;
 
-    /**
-     * Constructor. Use to create new link resources.<p>
-     *
-     * @param typeInfo the 'pointer' type info
-     * @param parentFolderPath the parent folder path
-     */
-    private CmsEditExternalLinkDialog(CmsListInfoBean typeInfo, String parentFolderPath) {
+  /**
+   * Constructor. Use to create new link resources.
+   *
+   * <p>
+   *
+   * @param typeInfo the 'pointer' type info
+   * @param parentFolderPath the parent folder path
+   */
+  private CmsEditExternalLinkDialog(CmsListInfoBean typeInfo, String parentFolderPath) {
 
-        this(Messages.get().key(Messages.GUI_CREATE_NEW_LINK_DIALOG_TITLE_0));
-        m_isCreateNew = true;
-        m_parentFolderPath = parentFolderPath;
-        CmsExternalLinkInfoBean linkInfo = new CmsExternalLinkInfoBean();
-        linkInfo.setTitle(typeInfo.getTitle());
-        linkInfo.setSubTitle(typeInfo.getSubTitle());
-        linkInfo.setResourceType(POINTER_RESOURCE_TYPE_NAME);
-        linkInfo.setBigIconClasses(typeInfo.getBigIconClasses());
-        initContent(linkInfo);
+    this(Messages.get().key(Messages.GUI_CREATE_NEW_LINK_DIALOG_TITLE_0));
+    m_isCreateNew = true;
+    m_parentFolderPath = parentFolderPath;
+    CmsExternalLinkInfoBean linkInfo = new CmsExternalLinkInfoBean();
+    linkInfo.setTitle(typeInfo.getTitle());
+    linkInfo.setSubTitle(typeInfo.getSubTitle());
+    linkInfo.setResourceType(POINTER_RESOURCE_TYPE_NAME);
+    linkInfo.setBigIconClasses(typeInfo.getBigIconClasses());
+    initContent(linkInfo);
+  }
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource to edit
+   */
+  private CmsEditExternalLinkDialog(CmsUUID structureId) {
+
+    this(Messages.get().key(Messages.GUI_EDIT_LINK_DIALOG_TITLE_0));
+    m_structureId = structureId;
+  }
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param title the dialog title
+   */
+  private CmsEditExternalLinkDialog(String title) {
+
+    super(title, CmsFormDialog.STANDARD_DIALOG_WIDTH);
+  }
+
+  /**
+   * Loads the link info and shows the edit dialog.
+   *
+   * <p>
+   *
+   * @param structureId the structure id
+   * @return the dialog object
+   */
+  public static CmsEditExternalLinkDialog loadAndShowDialog(final CmsUUID structureId) {
+
+    final CmsEditExternalLinkDialog dialog = new CmsEditExternalLinkDialog(structureId);
+    CmsRpcAction<CmsExternalLinkInfoBean> action =
+        new CmsRpcAction<CmsExternalLinkInfoBean>() {
+
+          @Override
+          public void execute() {
+
+            CmsCoreProvider.getVfsService().loadLinkInfo(structureId, this);
+          }
+
+          @Override
+          protected void onResponse(CmsExternalLinkInfoBean result) {
+
+            dialog.initContent(result);
+          }
+        };
+    action.execute();
+    dialog.center();
+    return dialog;
+  }
+
+  /**
+   * Shows the create new link dialog.
+   *
+   * <p>
+   *
+   * @param typeInfo the 'pointer' type info
+   * @param parentFolderPath the parent folder site path
+   * @return the dialog object
+   */
+  public static CmsEditExternalLinkDialog showNewLinkDialog(
+      CmsListInfoBean typeInfo, String parentFolderPath) {
+
+    CmsEditExternalLinkDialog dialog = new CmsEditExternalLinkDialog(typeInfo, parentFolderPath);
+    dialog.center();
+    return dialog;
+  }
+
+  /**
+   * Validates the form input.
+   *
+   * <p>
+   *
+   * @see
+   *     com.google.gwt.event.logical.shared.ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)
+   */
+  public void onValueChange(ValueChangeEvent<String> event) {
+
+    String message = null;
+    boolean enableOk = true;
+    if (m_isCreateNew) {
+      if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_fileName.getFormValueAsString())) {
+        enableOk = false;
+        message = Messages.get().key(Messages.GUI_EDIT_LINK_NO_FILE_NAME_0);
+      } else if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_linkContent.getFormValueAsString())) {
+        enableOk = false;
+        message = Messages.get().key(Messages.GUI_EDIT_LINK_NO_LINK_0);
+      }
+    } else {
+      if ((m_linkContent.getFormValueAsString().equals(m_previousLink)
+          && (m_linkTitle.getFormValueAsString().equals(m_previousTitle)))) {
+        enableOk = false;
+        message = Messages.get().key(Messages.GUI_EDIT_LINK_NO_CHANGES_0);
+      } else if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_linkContent.getFormValueAsString())) {
+        enableOk = false;
+        message = Messages.get().key(Messages.GUI_EDIT_LINK_NO_LINK_0);
+      }
+    }
+    setOkEnabled(enableOk, message);
+  }
+
+  /**
+   * Sets the context menu handler.
+   *
+   * <p>
+   *
+   * @param contextMenuHandler the context menu handler to set
+   */
+  public void setContextMenuHandler(I_CmsContextMenuHandler contextMenuHandler) {
+
+    m_contextMenuHandler = contextMenuHandler;
+  }
+
+  /**
+   * Initializes the dialog content.
+   *
+   * <p>
+   *
+   * @param linkInfo the link info bean
+   */
+  protected void initContent(CmsExternalLinkInfoBean linkInfo) {
+
+    CmsPushButton closeButton = new CmsPushButton();
+    closeButton.setText(Messages.get().key(Messages.GUI_CANCEL_0));
+    closeButton.setUseMinWidth(true);
+    closeButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.BLUE);
+    closeButton.addClickHandler(
+        new ClickHandler() {
+
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          public void onClick(ClickEvent event) {
+
+            hide();
+          }
+        });
+    addButton(closeButton);
+
+    m_okButton = new CmsPushButton();
+    m_okButton.setText(Messages.get().key(Messages.GUI_OK_0));
+    m_okButton.setUseMinWidth(true);
+    m_okButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.RED);
+    m_okButton.addClickHandler(
+        new ClickHandler() {
+
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          public void onClick(ClickEvent event) {
+
+            onOk();
+          }
+        });
+    addButton(m_okButton);
+
+    m_linkInfo = linkInfo;
+    m_previousLink = m_linkInfo.getLink() != null ? m_linkInfo.getLink() : "";
+    m_previousTitle = m_linkInfo.getTitle() != null ? m_linkInfo.getTitle() : "";
+    m_dialogContent = new CmsFieldsetFormFieldPanel(m_linkInfo, null);
+    m_dialogContent.addStyleName(I_CmsInputLayoutBundle.INSTANCE.inputCss().highTextBoxes());
+    m_dialogContent.getFieldSet().setOpenerVisible(false);
+    m_dialogContent.getFieldSet().getElement().getStyle().setMarginTop(4, Style.Unit.PX);
+    setMainContent(m_dialogContent);
+    if (m_isCreateNew) {
+      m_fileName = new CmsTextBox();
+      m_fileName.setTriggerChangeOnKeyPress(true);
+      m_fileName.addValueChangeHandler(this);
+      addInputRow(Messages.get().key(Messages.GUI_EDIT_LINK_LABEL_FILE_NAME_0), m_fileName);
     }
 
-    /**
-     * Constructor.<p>
-     *
-     * @param structureId the structure id of the resource to edit
-     */
-    private CmsEditExternalLinkDialog(CmsUUID structureId) {
+    m_linkTitle = new CmsTextBox();
+    m_linkTitle.setFormValueAsString(m_previousTitle);
+    m_linkTitle.setTriggerChangeOnKeyPress(true);
+    m_linkTitle.addValueChangeHandler(this);
+    addInputRow(Messages.get().key(Messages.GUI_EDIT_LINK_LABEL_TITLE_0), m_linkTitle);
+    m_linkContent = new CmsTextBox();
+    m_linkContent.setFormValueAsString(m_previousLink);
+    m_linkContent.setTriggerChangeOnKeyPress(true);
+    m_linkContent.addValueChangeHandler(this);
+    addInputRow(Messages.get().key(Messages.GUI_EDIT_LINK_LABEL_LINK_0), m_linkContent);
+    addDialogClose(null);
+    setOkEnabled(
+        false,
+        m_isCreateNew
+            ? Messages.get().key(Messages.GUI_EDIT_LINK_NO_FILE_NAME_0)
+            : Messages.get().key(Messages.GUI_EDIT_LINK_NO_CHANGES_0));
+  }
 
-        this(Messages.get().key(Messages.GUI_EDIT_LINK_DIALOG_TITLE_0));
-        m_structureId = structureId;
-    }
+  /**
+   * Called on dialog OK.
+   *
+   * <p>
+   */
+  protected void onOk() {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param title the dialog title
-     */
-    private CmsEditExternalLinkDialog(String title) {
-
-        super(title, CmsFormDialog.STANDARD_DIALOG_WIDTH);
-    }
-
-    /**
-     * Loads the link info and shows the edit dialog.<p>
-     *
-     * @param structureId the structure id
-     *
-     * @return the dialog object
-     */
-    public static CmsEditExternalLinkDialog loadAndShowDialog(final CmsUUID structureId) {
-
-        final CmsEditExternalLinkDialog dialog = new CmsEditExternalLinkDialog(structureId);
-        CmsRpcAction<CmsExternalLinkInfoBean> action = new CmsRpcAction<CmsExternalLinkInfoBean>() {
+    final String title = m_linkTitle.getFormValueAsString();
+    final String link = m_linkContent.getFormValueAsString();
+    m_linkTitle.setEnabled(false);
+    m_linkContent.setEnabled(false);
+    m_okButton.setEnabled(false);
+    if (m_isCreateNew) {
+      final String fileName = m_fileName.getFormValueAsString();
+      CmsRpcAction<Void> action =
+          new CmsRpcAction<Void>() {
 
             @Override
             public void execute() {
 
-                CmsCoreProvider.getVfsService().loadLinkInfo(structureId, this);
+              CmsCoreProvider.getVfsService()
+                  .createNewExternalLink(title, link, fileName, m_parentFolderPath, this);
             }
 
             @Override
-            protected void onResponse(CmsExternalLinkInfoBean result) {
+            protected void onResponse(Void result) {
 
-                dialog.initContent(result);
+              hide();
             }
-        };
-        action.execute();
-        dialog.center();
-        return dialog;
-    }
+          };
+      action.execute();
+    } else {
+      CmsRpcAction<Void> action =
+          new CmsRpcAction<Void>() {
 
-    /**
-     * Shows the create new link dialog.<p>
-     *
-     * @param typeInfo the 'pointer' type info
-     * @param parentFolderPath the parent folder site path
-     *
-     * @return the dialog object
-     */
-    public static CmsEditExternalLinkDialog showNewLinkDialog(CmsListInfoBean typeInfo, String parentFolderPath) {
+            @Override
+            public void execute() {
 
-        CmsEditExternalLinkDialog dialog = new CmsEditExternalLinkDialog(typeInfo, parentFolderPath);
-        dialog.center();
-        return dialog;
-    }
-
-    /**
-     * Validates the form input.<p>
-     *
-     * @see com.google.gwt.event.logical.shared.ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)
-     */
-    public void onValueChange(ValueChangeEvent<String> event) {
-
-        String message = null;
-        boolean enableOk = true;
-        if (m_isCreateNew) {
-            if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_fileName.getFormValueAsString())) {
-                enableOk = false;
-                message = Messages.get().key(Messages.GUI_EDIT_LINK_NO_FILE_NAME_0);
-            } else if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_linkContent.getFormValueAsString())) {
-                enableOk = false;
-                message = Messages.get().key(Messages.GUI_EDIT_LINK_NO_LINK_0);
+              CmsCoreProvider.getVfsService()
+                  .saveExternalLink(
+                      m_structureId,
+                      title,
+                      link,
+                      CmsResource.getName(m_linkInfo.getSitePath()),
+                      this);
             }
-        } else {
-            if ((m_linkContent.getFormValueAsString().equals(m_previousLink)
-                && (m_linkTitle.getFormValueAsString().equals(m_previousTitle)))) {
-                enableOk = false;
-                message = Messages.get().key(Messages.GUI_EDIT_LINK_NO_CHANGES_0);
-            } else if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_linkContent.getFormValueAsString())) {
-                enableOk = false;
-                message = Messages.get().key(Messages.GUI_EDIT_LINK_NO_LINK_0);
+
+            @Override
+            protected void onResponse(Void result) {
+
+              if (m_contextMenuHandler != null) {
+                m_contextMenuHandler.refreshResource(m_structureId);
+              }
+              hide();
             }
-        }
-        setOkEnabled(enableOk, message);
+          };
+      action.execute();
     }
+  }
 
-    /**
-     * Sets the context menu handler.<p>
-     *
-     * @param contextMenuHandler the context menu handler to set
-     */
-    public void setContextMenuHandler(I_CmsContextMenuHandler contextMenuHandler) {
+  /**
+   * Enables or disables the OK button.
+   *
+   * <p>
+   *
+   * @param enabled <code>true</code> to enable the button
+   * @param message the disabled reason
+   */
+  protected void setOkEnabled(boolean enabled, String message) {
 
-        m_contextMenuHandler = contextMenuHandler;
+    if (enabled) {
+      m_okButton.enable();
+    } else {
+      m_okButton.disable(message);
     }
+  }
 
-    /**
-     * Initializes the dialog content.<p>
-     *
-     * @param linkInfo the link info bean
-     */
-    protected void initContent(CmsExternalLinkInfoBean linkInfo) {
+  /**
+   * Adds a row to the form.
+   *
+   * <p>
+   *
+   * @param label the label
+   * @param inputWidget the input widget
+   */
+  private void addInputRow(String label, Widget inputWidget) {
 
-        CmsPushButton closeButton = new CmsPushButton();
-        closeButton.setText(Messages.get().key(Messages.GUI_CANCEL_0));
-        closeButton.setUseMinWidth(true);
-        closeButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.BLUE);
-        closeButton.addClickHandler(new ClickHandler() {
-
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
-
-                hide();
-            }
-        });
-        addButton(closeButton);
-
-        m_okButton = new CmsPushButton();
-        m_okButton.setText(Messages.get().key(Messages.GUI_OK_0));
-        m_okButton.setUseMinWidth(true);
-        m_okButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.RED);
-        m_okButton.addClickHandler(new ClickHandler() {
-
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
-
-                onOk();
-            }
-        });
-        addButton(m_okButton);
-
-        m_linkInfo = linkInfo;
-        m_previousLink = m_linkInfo.getLink() != null ? m_linkInfo.getLink() : "";
-        m_previousTitle = m_linkInfo.getTitle() != null ? m_linkInfo.getTitle() : "";
-        m_dialogContent = new CmsFieldsetFormFieldPanel(m_linkInfo, null);
-        m_dialogContent.addStyleName(I_CmsInputLayoutBundle.INSTANCE.inputCss().highTextBoxes());
-        m_dialogContent.getFieldSet().setOpenerVisible(false);
-        m_dialogContent.getFieldSet().getElement().getStyle().setMarginTop(4, Style.Unit.PX);
-        setMainContent(m_dialogContent);
-        if (m_isCreateNew) {
-            m_fileName = new CmsTextBox();
-            m_fileName.setTriggerChangeOnKeyPress(true);
-            m_fileName.addValueChangeHandler(this);
-            addInputRow(Messages.get().key(Messages.GUI_EDIT_LINK_LABEL_FILE_NAME_0), m_fileName);
-        }
-
-        m_linkTitle = new CmsTextBox();
-        m_linkTitle.setFormValueAsString(m_previousTitle);
-        m_linkTitle.setTriggerChangeOnKeyPress(true);
-        m_linkTitle.addValueChangeHandler(this);
-        addInputRow(Messages.get().key(Messages.GUI_EDIT_LINK_LABEL_TITLE_0), m_linkTitle);
-        m_linkContent = new CmsTextBox();
-        m_linkContent.setFormValueAsString(m_previousLink);
-        m_linkContent.setTriggerChangeOnKeyPress(true);
-        m_linkContent.addValueChangeHandler(this);
-        addInputRow(Messages.get().key(Messages.GUI_EDIT_LINK_LABEL_LINK_0), m_linkContent);
-        addDialogClose(null);
-        setOkEnabled(
-            false,
-            m_isCreateNew
-            ? Messages.get().key(Messages.GUI_EDIT_LINK_NO_FILE_NAME_0)
-            : Messages.get().key(Messages.GUI_EDIT_LINK_NO_CHANGES_0));
-
-    }
-
-    /**
-     * Called on dialog OK.<p>
-     */
-    protected void onOk() {
-
-        final String title = m_linkTitle.getFormValueAsString();
-        final String link = m_linkContent.getFormValueAsString();
-        m_linkTitle.setEnabled(false);
-        m_linkContent.setEnabled(false);
-        m_okButton.setEnabled(false);
-        if (m_isCreateNew) {
-            final String fileName = m_fileName.getFormValueAsString();
-            CmsRpcAction<Void> action = new CmsRpcAction<Void>() {
-
-                @Override
-                public void execute() {
-
-                    CmsCoreProvider.getVfsService().createNewExternalLink(
-                        title,
-                        link,
-                        fileName,
-                        m_parentFolderPath,
-                        this);
-                }
-
-                @Override
-                protected void onResponse(Void result) {
-
-                    hide();
-                }
-            };
-            action.execute();
-        } else {
-            CmsRpcAction<Void> action = new CmsRpcAction<Void>() {
-
-                @Override
-                public void execute() {
-
-                    CmsCoreProvider.getVfsService().saveExternalLink(
-                        m_structureId,
-                        title,
-                        link,
-                        CmsResource.getName(m_linkInfo.getSitePath()),
-                        this);
-                }
-
-                @Override
-                protected void onResponse(Void result) {
-
-                    if (m_contextMenuHandler != null) {
-                        m_contextMenuHandler.refreshResource(m_structureId);
-                    }
-                    hide();
-                }
-            };
-            action.execute();
-        }
-    }
-
-    /**
-     * Enables or disables the OK button.<p>
-     *
-     * @param enabled <code>true</code> to enable the button
-     * @param message the disabled reason
-     */
-    protected void setOkEnabled(boolean enabled, String message) {
-
-        if (enabled) {
-            m_okButton.enable();
-        } else {
-            m_okButton.disable(message);
-        }
-    }
-
-    /**
-     * Adds a row to the form.<p>
-     *
-     * @param label the label
-     * @param inputWidget the input widget
-     */
-    private void addInputRow(String label, Widget inputWidget) {
-
-        FlowPanel row = new FlowPanel();
-        row.setStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().simpleFormRow());
-        CmsLabel labelWidget = new CmsLabel(label);
-        labelWidget.setStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().simpleFormLabel());
-        row.add(labelWidget);
-        inputWidget.addStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().simpleFormInputBox());
-        row.add(inputWidget);
-        m_dialogContent.getFieldSet().add(row);
-    }
-
+    FlowPanel row = new FlowPanel();
+    row.setStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().simpleFormRow());
+    CmsLabel labelWidget = new CmsLabel(label);
+    labelWidget.setStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().simpleFormLabel());
+    row.add(labelWidget);
+    inputWidget.addStyleName(I_CmsLayoutBundle.INSTANCE.generalCss().simpleFormInputBox());
+    row.add(inputWidget);
+    m_dialogContent.getFieldSet().add(row);
+  }
 }

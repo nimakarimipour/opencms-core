@@ -27,8 +27,6 @@
 
 package org.opencms.acacia.client.widgets.complex;
 
-import org.opencms.gwt.client.CmsCoreProvider;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -39,142 +37,153 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import org.opencms.gwt.client.CmsCoreProvider;
 
 /**
- * Data view widget which fetches a preview image for the selected item from the server.<p>
+ * Data view widget which fetches a preview image for the selected item from the server.
+ *
+ * <p>
  */
 public class CmsDataViewPreviewWidget extends Composite {
 
+  /**
+   * Loads image from data source.
+   *
+   * <p>
+   */
+  public static class ContentImageLoader implements I_ImageProvider {
+
     /**
-     * Loads image from data source.<p>
+     * @see
+     *     org.opencms.acacia.client.widgets.complex.CmsDataViewPreviewWidget.I_ImageProvider#loadImage(java.lang.String,
+     *     java.lang.String, com.google.gwt.user.client.rpc.AsyncCallback)
      */
-    public static class ContentImageLoader implements I_ImageProvider {
+    public void loadImage(String config, String id, AsyncCallback<String> callback) {
 
-        /**
-         * @see org.opencms.acacia.client.widgets.complex.CmsDataViewPreviewWidget.I_ImageProvider#loadImage(java.lang.String, java.lang.String, com.google.gwt.user.client.rpc.AsyncCallback)
-         */
-        public void loadImage(String config, String id, AsyncCallback<String> callback) {
-
-            CmsCoreProvider.getVfsService().getDataViewThumbnail(config, id, callback);
-        }
+      CmsCoreProvider.getVfsService().getDataViewThumbnail(config, id, callback);
     }
+  }
+
+  /** Interface to load the thumbnail (potentially asynchronously). */
+  public static interface I_ImageProvider {
 
     /**
-     * Interface to load the thumbnail (potentially asynchronously).
-     */
-    public static interface I_ImageProvider {
-
-        /**
-         * Loads the thumbnail.<p>
-         *
-         * @param config the widget configuration
-         * @param id the data id
-         * @param callback the callback to call with the result (the image URL)
-         */
-        void loadImage(String config, String id, AsyncCallback<String> callback);
-    }
-
-    /**
-     * Loads image from a fixed URL.<p>
-     */
-    public static class SimpleImageLoader implements I_ImageProvider {
-
-        /** The thumbnail url. */
-        private String m_url;
-
-        /**
-         * Creates a new URL.<p>
-         *
-         * @param url the URL of the image to load
-         */
-        public SimpleImageLoader(String url) {
-            m_url = url;
-        }
-
-        /**
-         * @see org.opencms.acacia.client.widgets.complex.CmsDataViewPreviewWidget.I_ImageProvider#loadImage(java.lang.String, java.lang.String, com.google.gwt.user.client.rpc.AsyncCallback)
-         */
-        public void loadImage(String config, String id, AsyncCallback<String> callback) {
-
-            callback.onSuccess(m_url);
-        }
-
-    }
-
-    /** The ui-binder interface for this widget. */
-    interface I_CmsPreviewUiBinder extends UiBinder<Widget, CmsDataViewPreviewWidget> {
-        // GWT interface, nothing to do here
-    }
-
-    /** The widget configuration. */
-    private String m_config;
-
-    /** The object used to access the editor value. */
-    private CmsDataViewValueAccessor m_accessor;
-
-    /** The container for the image. */
-    @UiField
-    protected FlowPanel m_imageContainer;
-
-    /** The preview image. */
-    @UiField
-    protected Image m_image;
-
-    /** The label to the right of the preview image. */
-    @UiField
-    protected Label m_label;
-
-    /** The label with the description text. */
-    @UiField
-    protected HTML m_descriptionLabel;
-
-    /** The image provider. */
-    private I_ImageProvider m_imageProvider;
-
-    /**
-     * Creates a new instance.<p>
+     * Loads the thumbnail.
+     *
+     * <p>
      *
      * @param config the widget configuration
-     * @param accessor the accessor for the editor values
-     * @param provider the image provider
+     * @param id the data id
+     * @param callback the callback to call with the result (the image URL)
      */
-    public CmsDataViewPreviewWidget(String config, CmsDataViewValueAccessor accessor, I_ImageProvider provider) {
-        I_CmsPreviewUiBinder binder = GWT.create(I_CmsPreviewUiBinder.class);
-        initWidget(binder.createAndBindUi(this));
-        m_config = config;
-        m_accessor = accessor;
-        m_label.setText(m_accessor.getValue().getTitle());
-        m_imageProvider = provider;
-        if (provider == null) {
-            m_imageContainer.setVisible(false);
-        }
-        m_descriptionLabel.setHTML(m_accessor.getValue().getDescription());
+    void loadImage(String config, String id, AsyncCallback<String> callback);
+  }
+
+  /**
+   * Loads image from a fixed URL.
+   *
+   * <p>
+   */
+  public static class SimpleImageLoader implements I_ImageProvider {
+
+    /** The thumbnail url. */
+    private String m_url;
+
+    /**
+     * Creates a new URL.
+     *
+     * <p>
+     *
+     * @param url the URL of the image to load
+     */
+    public SimpleImageLoader(String url) {
+      m_url = url;
     }
 
     /**
-     * @see com.google.gwt.user.client.ui.Widget#onLoad()
+     * @see
+     *     org.opencms.acacia.client.widgets.complex.CmsDataViewPreviewWidget.I_ImageProvider#loadImage(java.lang.String,
+     *     java.lang.String, com.google.gwt.user.client.rpc.AsyncCallback)
      */
-    @Override
-    protected void onLoad() {
+    public void loadImage(String config, String id, AsyncCallback<String> callback) {
 
-        super.onLoad();
-        if (m_imageProvider != null) {
-            m_imageProvider.loadImage(m_config, m_accessor.getValue().getId(), new AsyncCallback<String>() {
-
-                public void onFailure(Throwable caught) {
-                    // do nothing
-
-                }
-
-                public void onSuccess(String imageUrl) {
-
-                    if (imageUrl == null) {
-                        imageUrl = "";
-                    }
-                    m_image.setUrl(imageUrl);
-                }
-            });
-        }
+      callback.onSuccess(m_url);
     }
+  }
 
+  /** The ui-binder interface for this widget. */
+  interface I_CmsPreviewUiBinder extends UiBinder<Widget, CmsDataViewPreviewWidget> {
+    // GWT interface, nothing to do here
+  }
+
+  /** The widget configuration. */
+  private String m_config;
+
+  /** The object used to access the editor value. */
+  private CmsDataViewValueAccessor m_accessor;
+
+  /** The container for the image. */
+  @UiField protected FlowPanel m_imageContainer;
+
+  /** The preview image. */
+  @UiField protected Image m_image;
+
+  /** The label to the right of the preview image. */
+  @UiField protected Label m_label;
+
+  /** The label with the description text. */
+  @UiField protected HTML m_descriptionLabel;
+
+  /** The image provider. */
+  private I_ImageProvider m_imageProvider;
+
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param config the widget configuration
+   * @param accessor the accessor for the editor values
+   * @param provider the image provider
+   */
+  public CmsDataViewPreviewWidget(
+      String config, CmsDataViewValueAccessor accessor, I_ImageProvider provider) {
+    I_CmsPreviewUiBinder binder = GWT.create(I_CmsPreviewUiBinder.class);
+    initWidget(binder.createAndBindUi(this));
+    m_config = config;
+    m_accessor = accessor;
+    m_label.setText(m_accessor.getValue().getTitle());
+    m_imageProvider = provider;
+    if (provider == null) {
+      m_imageContainer.setVisible(false);
+    }
+    m_descriptionLabel.setHTML(m_accessor.getValue().getDescription());
+  }
+
+  /** @see com.google.gwt.user.client.ui.Widget#onLoad() */
+  @Override
+  protected void onLoad() {
+
+    super.onLoad();
+    if (m_imageProvider != null) {
+      m_imageProvider.loadImage(
+          m_config,
+          m_accessor.getValue().getId(),
+          new AsyncCallback<String>() {
+
+            public void onFailure(Throwable caught) {
+              // do nothing
+
+            }
+
+            public void onSuccess(String imageUrl) {
+
+              if (imageUrl == null) {
+                imageUrl = "";
+              }
+              m_image.setUrl(imageUrl);
+            }
+          });
+    }
+  }
 }

@@ -27,86 +27,82 @@
 
 package org.opencms.gwt.client;
 
-import org.opencms.gwt.client.util.CmsMediaQuery;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
+import org.opencms.gwt.client.util.CmsMediaQuery;
 
 /**
- * Singleton class that evaluates, and keeps track of changes for, a fixed set of media queries and sets CSS classes
- * on the body element depending on which of the media queries match.
+ * Singleton class that evaluates, and keeps track of changes for, a fixed set of media queries and
+ * sets CSS classes on the body element depending on which of the media queries match.
  */
 public class CmsMediaQueryRuleManager {
 
-    /** The instance. */
-    protected static CmsMediaQueryRuleManager instance;
+  /** The instance. */
+  protected static CmsMediaQueryRuleManager instance;
 
-    /**
-     * Initializes the rules.
-     */
-    protected CmsMediaQueryRuleManager() {
+  /** Initializes the rules. */
+  protected CmsMediaQueryRuleManager() {
 
-        addRule("oc-touch-only", "(hover: none)");
-        addRule("oc-screensize-small", "(max-width: " + CmsWidthConstants.smallHigh() + ")");
-        addRule(
-            "oc-screensize-medium",
-            "(min-width: "
-                + CmsWidthConstants.mediumLow()
-                + ") and (max-width: "
-                + CmsWidthConstants.mediumHigh()
-                + ")");
-        addRule("oc-screensize-large", "(min-width: " + CmsWidthConstants.largeLow() + ")");
+    addRule("oc-touch-only", "(hover: none)");
+    addRule("oc-screensize-small", "(max-width: " + CmsWidthConstants.smallHigh() + ")");
+    addRule(
+        "oc-screensize-medium",
+        "(min-width: "
+            + CmsWidthConstants.mediumLow()
+            + ") and (max-width: "
+            + CmsWidthConstants.mediumHigh()
+            + ")");
+    addRule("oc-screensize-large", "(min-width: " + CmsWidthConstants.largeLow() + ")");
+  }
+
+  /**
+   * Gets the instance.
+   *
+   * @return the instance
+   */
+  public static CmsMediaQueryRuleManager get() {
+
+    if (instance == null) {
+      instance = new CmsMediaQueryRuleManager();
     }
+    return instance;
+  }
 
-    /**
-     * Gets the instance.
-     *
-     * @return the instance
-     */
-    public static CmsMediaQueryRuleManager get() {
+  /** Initializes the manager and sets up the rules. */
+  public static void initialize() {
 
-        if (instance == null) {
-            instance = new CmsMediaQueryRuleManager();
-        }
-        return instance;
-    }
+    CmsMediaQueryRuleManager.get();
+  }
 
-    /** Initializes the manager and sets up the rules. */
-    public static void initialize() {
+  /**
+   * Installs a new media query rule.
+   *
+   * @param cssClass the CSS class to add if the media query matches
+   * @param mediaQueryText the text of the media query
+   */
+  public void addRule(String cssClass, String mediaQueryText) {
 
-        CmsMediaQueryRuleManager.get();
-
-    }
-
-    /**
-     * Installs a new media query rule.
-     *
-     * @param cssClass the CSS class to add if the media query matches
-     * @param mediaQueryText the text of the media query
-     */
-    public void addRule(String cssClass, String mediaQueryText) {
-
-        CmsMediaQuery mediaQuery = CmsMediaQuery.parse(mediaQueryText);
-        updateBodyClass(cssClass, mediaQuery.matches());
-        mediaQuery.addListener(match -> {
-            updateBodyClass(cssClass, match.booleanValue());
+    CmsMediaQuery mediaQuery = CmsMediaQuery.parse(mediaQueryText);
+    updateBodyClass(cssClass, mediaQuery.matches());
+    mediaQuery.addListener(
+        match -> {
+          updateBodyClass(cssClass, match.booleanValue());
         });
+  }
+
+  /**
+   * Adds or removes a CSS class from the body.
+   *
+   * @param cssClass the CSS class
+   * @param enabled true if the class should be added, false to remove it
+   */
+  public void updateBodyClass(String cssClass, boolean enabled) {
+
+    Element body = RootPanel.getBodyElement();
+    if (enabled) {
+      body.addClassName(cssClass);
+    } else {
+      body.removeClassName(cssClass);
     }
-
-    /**
-     * Adds or removes a CSS class from the body.
-     *
-     * @param cssClass the CSS class
-     * @param enabled true if the class should be added, false to remove it
-     */
-    public void updateBodyClass(String cssClass, boolean enabled) {
-
-        Element body = RootPanel.getBodyElement();
-        if (enabled) {
-            body.addClassName(cssClass);
-        } else {
-            body.removeClassName(cssClass);
-        }
-    }
-
+  }
 }

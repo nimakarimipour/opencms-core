@@ -32,71 +32,71 @@ import java.util.List;
 /** Configuration for sorting in general. */
 public class CmsSearchConfigurationSorting implements I_CmsSearchConfigurationSorting {
 
-    /** Default request parameter holding the selected sort option. */
-    public static final String DEFAULT_SORT_PARAM = "sort";
-    /** The request parameter used to send the currently chosen search option. */
-    private final String m_sortParam;
-    /** The available sort options. */
-    private final List<I_CmsSearchConfigurationSortOption> m_options;
+  /** Default request parameter holding the selected sort option. */
+  public static final String DEFAULT_SORT_PARAM = "sort";
+  /** The request parameter used to send the currently chosen search option. */
+  private final String m_sortParam;
+  /** The available sort options. */
+  private final List<I_CmsSearchConfigurationSortOption> m_options;
 
-    /** The default sort option. */
-    private final I_CmsSearchConfigurationSortOption m_defaultOption;
+  /** The default sort option. */
+  private final I_CmsSearchConfigurationSortOption m_defaultOption;
 
-    /** Constructor setting all options.
-     * @param sortParam The request parameter used to send the currently chosen search option.
-     * @param options The available sort options.
-     * @param defaultOption The default sort option.
-     */
-    public CmsSearchConfigurationSorting(
-        final String sortParam,
-        final List<I_CmsSearchConfigurationSortOption> options,
-        final I_CmsSearchConfigurationSortOption defaultOption) {
+  /**
+   * Constructor setting all options.
+   *
+   * @param sortParam The request parameter used to send the currently chosen search option.
+   * @param options The available sort options.
+   * @param defaultOption The default sort option.
+   */
+  public CmsSearchConfigurationSorting(
+      final String sortParam,
+      final List<I_CmsSearchConfigurationSortOption> options,
+      final I_CmsSearchConfigurationSortOption defaultOption) {
 
-        m_sortParam = sortParam == null ? DEFAULT_SORT_PARAM : sortParam;
-        m_options = options;
-        m_defaultOption = defaultOption;
-    }
+    m_sortParam = sortParam == null ? DEFAULT_SORT_PARAM : sortParam;
+    m_options = options;
+    m_defaultOption = defaultOption;
+  }
 
-    /** Creates a sort configuration iff at least one of the parameters is not null and the options list is not empty.
-     * @param sortParam The request parameter used to send the currently chosen search option.
-     * @param options The available sort options.
-     * @param defaultOption The default sort option.
-     * @return the sort configuration or null, depending on the arguments.
-     */
-    public static CmsSearchConfigurationSorting create(
-        final String sortParam,
-        final List<I_CmsSearchConfigurationSortOption> options,
-        final I_CmsSearchConfigurationSortOption defaultOption) {
+  /**
+   * Creates a sort configuration iff at least one of the parameters is not null and the options
+   * list is not empty.
+   *
+   * @param sortParam The request parameter used to send the currently chosen search option.
+   * @param options The available sort options.
+   * @param defaultOption The default sort option.
+   * @return the sort configuration or null, depending on the arguments.
+   */
+  public static CmsSearchConfigurationSorting create(
+      final String sortParam,
+      final List<I_CmsSearchConfigurationSortOption> options,
+      final I_CmsSearchConfigurationSortOption defaultOption) {
 
-        return (null != sortParam) || ((null != options) && !options.isEmpty()) || (null != defaultOption)
+    return (null != sortParam)
+            || ((null != options) && !options.isEmpty())
+            || (null != defaultOption)
         ? new CmsSearchConfigurationSorting(sortParam, options, defaultOption)
         : null;
-    }
+  }
 
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationSorting#getDefaultSortOption()
-     */
-    public I_CmsSearchConfigurationSortOption getDefaultSortOption() {
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationSorting#getDefaultSortOption() */
+  public I_CmsSearchConfigurationSortOption getDefaultSortOption() {
 
-        return m_defaultOption;
-    }
+    return m_defaultOption;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationSorting#getSortOptions()
-     */
-    @Override
-    public List<I_CmsSearchConfigurationSortOption> getSortOptions() {
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationSorting#getSortOptions() */
+  @Override
+  public List<I_CmsSearchConfigurationSortOption> getSortOptions() {
 
-        return m_options;
-    }
+    return m_options;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationSorting#getSortParam()
-     */
-    @Override
-    public String getSortParam() {
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationSorting#getSortParam() */
+  @Override
+  public String getSortParam() {
 
-        return m_sortParam;
-    }
-
+    return m_sortParam;
+  }
 }

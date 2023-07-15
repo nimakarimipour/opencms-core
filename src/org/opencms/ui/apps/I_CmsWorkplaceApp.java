@@ -28,22 +28,29 @@
 package org.opencms.ui.apps;
 
 /**
- * Common interface for all workplace apps.<p>
+ * Common interface for all workplace apps.
+ *
+ * <p>
  */
 public interface I_CmsWorkplaceApp {
 
-    /**
-     * Within this method the app UI should be initialized.<p>
-     * Use the context to add the app's components to the UI.<p>
-     *
-     * @param context the UI context
-     */
-    void initUI(I_CmsAppUIContext context);
+  /**
+   * Within this method the app UI should be initialized.
+   *
+   * <p>Use the context to add the app's components to the UI.
+   *
+   * <p>
+   *
+   * @param context the UI context
+   */
+  void initUI(I_CmsAppUIContext context);
 
-    /**
-     * Called on navigation events.<p>
-     *
-     * @param state the app state to show
-     */
-    void onStateChange(String state);
+  /**
+   * Called on navigation events.
+   *
+   * <p>
+   *
+   * @param state the app state to show
+   */
+  void onStateChange(String state);
 }

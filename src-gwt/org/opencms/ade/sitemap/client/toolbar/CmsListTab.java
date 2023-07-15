@@ -27,6 +27,10 @@
 
 package org.opencms.ade.sitemap.client.toolbar;
 
+import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.client.ui.css.I_CmsSitemapLayoutBundle;
 import org.opencms.gwt.client.ui.CmsList;
@@ -35,104 +39,110 @@ import org.opencms.gwt.client.ui.CmsScrollPanel;
 import org.opencms.gwt.client.ui.I_CmsListItem;
 import org.opencms.gwt.client.ui.I_CmsTruncable;
 
-import com.google.gwt.core.shared.GWT;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-
 /**
- * Tab widget to display a CmsList.<p>
+ * Tab widget to display a CmsList.
+ *
+ * <p>
  */
 public class CmsListTab extends Composite implements I_CmsTruncable {
 
-    /** Text metrics key for truncation. */
-    public static final String TM_LITST_MENU = "TM_LITST_MENU";
+  /** Text metrics key for truncation. */
+  public static final String TM_LITST_MENU = "TM_LITST_MENU";
 
-    /** The optional clear list button. */
-    private CmsPushButton m_clearButton;
+  /** The optional clear list button. */
+  private CmsPushButton m_clearButton;
 
-    /** The list. */
-    private CmsList<? extends I_CmsListItem> m_list;
+  /** The list. */
+  private CmsList<? extends I_CmsListItem> m_list;
 
-    /** The main panel. */
-    private FlowPanel m_panel;
+  /** The main panel. */
+  private FlowPanel m_panel;
 
-    /** The scroll panel. */
-    private CmsScrollPanel m_scrollPanel;
+  /** The scroll panel. */
+  private CmsScrollPanel m_scrollPanel;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param list the list
-     */
-    public CmsListTab(CmsList<? extends I_CmsListItem> list) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param list the list
+   */
+  public CmsListTab(CmsList<? extends I_CmsListItem> list) {
 
-        m_list = list;
-        m_panel = new FlowPanel();
-        initWidget(m_panel);
-        setStyleName(org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.tabbedPanelCss().tabPanel());
-        m_scrollPanel = GWT.create(CmsScrollPanel.class);
-        m_scrollPanel.addStyleName(
-            org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.generalCss().buttonCornerAll());
-        m_scrollPanel.addStyleName(I_CmsSitemapLayoutBundle.INSTANCE.clipboardCss().clipboardList());
-        m_panel.add(m_scrollPanel);
-        m_scrollPanel.add(m_list);
+    m_list = list;
+    m_panel = new FlowPanel();
+    initWidget(m_panel);
+    setStyleName(
+        org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.tabbedPanelCss().tabPanel());
+    m_scrollPanel = GWT.create(CmsScrollPanel.class);
+    m_scrollPanel.addStyleName(
+        org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.INSTANCE.generalCss().buttonCornerAll());
+    m_scrollPanel.addStyleName(I_CmsSitemapLayoutBundle.INSTANCE.clipboardCss().clipboardList());
+    m_panel.add(m_scrollPanel);
+    m_scrollPanel.add(m_list);
+  }
+
+  /**
+   * Adds a clear list button to the tab.
+   *
+   * <p>
+   *
+   * @param clickHandler the button click handler
+   */
+  public void addClearListButton(ClickHandler clickHandler) {
+
+    m_clearButton = new CmsPushButton();
+    m_clearButton.setText(Messages.get().key(Messages.GUI_CLIPBOARD_CLEAR_LIST_0));
+    m_clearButton.setTitle(Messages.get().key(Messages.GUI_CLIPBOARD_CLEAR_LIST_0));
+    m_clearButton.addClickHandler(clickHandler);
+    m_clearButton.addStyleName(I_CmsSitemapLayoutBundle.INSTANCE.clipboardCss().listClearButton());
+    m_panel.add(m_clearButton);
+  }
+
+  /**
+   * Returns the required height.
+   *
+   * <p>
+   *
+   * @return the height
+   */
+  public int getRequiredHeight() {
+
+    return m_list.getElement().getClientHeight() + 12;
+  }
+
+  /**
+   * Returns the scroll panel.
+   *
+   * <p>
+   *
+   * @return the scroll panel
+   */
+  public CmsScrollPanel getScrollPanel() {
+
+    return m_scrollPanel;
+  }
+
+  /**
+   * Sets the clear list button enabled.
+   *
+   * <p>
+   *
+   * @param enabled <code>true</code> to enable the button
+   */
+  public void setClearButtonEnabled(boolean enabled) {
+
+    if (enabled) {
+      m_clearButton.enable();
+    } else {
+      m_clearButton.disable(Messages.get().key(Messages.GUI_DISABLE_CLEAR_LIST_0));
     }
+  }
 
-    /**
-     * Adds a clear list button to the tab.<p>
-     *
-     * @param clickHandler the button click handler
-     */
-    public void addClearListButton(ClickHandler clickHandler) {
+  /** @see org.opencms.gwt.client.ui.I_CmsTruncable#truncate(java.lang.String, int) */
+  public void truncate(String textMetricsKey, int clientWidth) {
 
-        m_clearButton = new CmsPushButton();
-        m_clearButton.setText(Messages.get().key(Messages.GUI_CLIPBOARD_CLEAR_LIST_0));
-        m_clearButton.setTitle(Messages.get().key(Messages.GUI_CLIPBOARD_CLEAR_LIST_0));
-        m_clearButton.addClickHandler(clickHandler);
-        m_clearButton.addStyleName(I_CmsSitemapLayoutBundle.INSTANCE.clipboardCss().listClearButton());
-        m_panel.add(m_clearButton);
-    }
-
-    /**
-     * Returns the required height.<p>
-     *
-     * @return the height
-     */
-    public int getRequiredHeight() {
-
-        return m_list.getElement().getClientHeight() + 12;
-    }
-
-    /**
-     * Returns the scroll panel.<p>
-     *
-     * @return the scroll panel
-     */
-    public CmsScrollPanel getScrollPanel() {
-
-        return m_scrollPanel;
-    }
-
-    /**
-     * Sets the clear list button enabled.<p>
-     *
-     * @param enabled <code>true</code> to enable the button
-     */
-    public void setClearButtonEnabled(boolean enabled) {
-
-        if (enabled) {
-            m_clearButton.enable();
-        } else {
-            m_clearButton.disable(Messages.get().key(Messages.GUI_DISABLE_CLEAR_LIST_0));
-        }
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsTruncable#truncate(java.lang.String, int)
-     */
-    public void truncate(String textMetricsKey, int clientWidth) {
-
-        m_list.truncate(TM_LITST_MENU, clientWidth);
-    }
+    m_list.truncate(TM_LITST_MENU, clientWidth);
+  }
 }

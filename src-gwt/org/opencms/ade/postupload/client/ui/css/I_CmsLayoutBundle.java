@@ -27,11 +27,10 @@
 
 package org.opencms.ade.postupload.client.ui.css;
 
-import org.opencms.gwt.client.ui.css.I_CmsConstantsBundle;
-import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsPopupCss;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import org.opencms.gwt.client.ui.css.I_CmsConstantsBundle;
+import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsPopupCss;
 
 /**
  * Resource bundle to access CSS and image resources.
@@ -40,89 +39,110 @@ import com.google.gwt.resources.client.ClientBundle;
  */
 public interface I_CmsLayoutBundle extends ClientBundle {
 
-    /** The dialog CSS classes. */
-    public interface I_CmsDialogCss extends I_CmsPopupCss {
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String block();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String fieldsetSpacer();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String inlineBlock();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String inputCombination();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String inputLineHeight();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String labelColumn();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String popupOverlay();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String propertyDialog();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String warningBox();
-
-    }
-
-    /** The bundle instance. */
-    I_CmsLayoutBundle INSTANCE = GWT.create(I_CmsLayoutBundle.class);
+  /** The dialog CSS classes. */
+  public interface I_CmsDialogCss extends I_CmsPopupCss {
 
     /**
-     * The CSS constants bundle.<p>
+     * Access method.
      *
-     * @return a bundle of CSS constants
+     * <p>
+     *
+     * @return the CSS class name
      */
-    I_CmsConstantsBundle constants();
+    String block();
 
     /**
-     * Access method.<p>
+     * Access method.
      *
-     * @return the constants CSS
+     * <p>
+     *
+     * @return the CSS class name
      */
-    @Source("dialog.gss")
-    I_CmsDialogCss dialogCss();
+    String fieldsetSpacer();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String inlineBlock();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String inputCombination();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String inputLineHeight();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String labelColumn();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String popupOverlay();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String propertyDialog();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String warningBox();
+  }
+
+  /** The bundle instance. */
+  I_CmsLayoutBundle INSTANCE = GWT.create(I_CmsLayoutBundle.class);
+
+  /**
+   * The CSS constants bundle.
+   *
+   * <p>
+   *
+   * @return a bundle of CSS constants
+   */
+  I_CmsConstantsBundle constants();
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the constants CSS
+   */
+  @Source("dialog.gss")
+  I_CmsDialogCss dialogCss();
 }

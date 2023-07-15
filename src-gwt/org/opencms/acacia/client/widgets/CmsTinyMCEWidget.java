@@ -27,11 +27,6 @@
 
 package org.opencms.acacia.client.widgets;
 
-import org.opencms.acacia.client.CmsEditorBase;
-import org.opencms.acacia.client.css.I_CmsLayoutBundle;
-import org.opencms.gwt.client.util.CmsDomUtil;
-import org.opencms.gwt.client.util.CmsDomUtil.Style;
-
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -48,376 +43,392 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
+import org.opencms.acacia.client.CmsEditorBase;
+import org.opencms.acacia.client.css.I_CmsLayoutBundle;
+import org.opencms.gwt.client.util.CmsDomUtil;
+import org.opencms.gwt.client.util.CmsDomUtil.Style;
 
 /**
- * This class is used to start TinyMCE for editing the content of an element.<p>
+ * This class is used to start TinyMCE for editing the content of an element.
  *
- * After constructing the instance, the actual editor is opened using the init() method, and destroyed with the close()
- * method. While the editor is opened, the edited contents can be accessed using the methods of the HasValue interface.
+ * <p>After constructing the instance, the actual editor is opened using the init() method, and
+ * destroyed with the close() method. While the editor is opened, the edited contents can be
+ * accessed using the methods of the HasValue interface.
  */
-public final class CmsTinyMCEWidget extends A_CmsEditWidget implements HasResizeHandlers, I_CmsHasDisplayDirection {
+public final class CmsTinyMCEWidget extends A_CmsEditWidget
+    implements HasResizeHandlers, I_CmsHasDisplayDirection {
 
-    /** Use as option to disallow any HTML or formatting the content. */
-    public static final String NO_HTML_EDIT = "no_html_edit";
+  /** Use as option to disallow any HTML or formatting the content. */
+  public static final String NO_HTML_EDIT = "no_html_edit";
 
-    /** The disabled style element id. */
-    private static final String DISABLED_STYLE_ID = "editorDisabledStyle";
+  /** The disabled style element id. */
+  private static final String DISABLED_STYLE_ID = "editorDisabledStyle";
 
-    /** The minimum editor height. */
-    private static final int MIN_EDITOR_HEIGHT = 70;
+  /** The minimum editor height. */
+  private static final int MIN_EDITOR_HEIGHT = 70;
 
-    /** A flag which indicates whether the editor is currently active. */
-    protected boolean m_active;
+  /** A flag which indicates whether the editor is currently active. */
+  protected boolean m_active;
 
-    /** The current content. */
-    protected String m_currentContent;
+  /** The current content. */
+  protected String m_currentContent;
 
-    /** The TinyMCE editor instance. */
-    protected JavaScriptObject m_editor;
+  /** The TinyMCE editor instance. */
+  protected JavaScriptObject m_editor;
 
-    /** The DOM ID of the editable element. */
-    protected String m_id;
+  /** The DOM ID of the editable element. */
+  protected String m_id;
 
-    /** The original HTML content of the editable element. */
-    protected String m_originalContent;
+  /** The original HTML content of the editable element. */
+  protected String m_originalContent;
 
-    /** The maximal width of the widget. */
-    protected int m_width;
+  /** The maximal width of the widget. */
+  protected int m_width;
 
-    /** The editor height to set. */
-    int m_editorHeight;
+  /** The editor height to set. */
+  int m_editorHeight;
 
-    /** Flag indicating the editor has been initialized. */
-    boolean m_initialized;
+  /** Flag indicating the editor has been initialized. */
+  boolean m_initialized;
 
-    /** The element to store the widget content in. */
-    private Element m_contentElement;
+  /** The element to store the widget content in. */
+  private Element m_contentElement;
 
-    /** Indicates the value has been set from external, not from within the widget. */
-    private boolean m_externalValueChange;
+  /** Indicates the value has been set from external, not from within the widget. */
+  private boolean m_externalValueChange;
 
-    /** Indicating if the widget has been attached yet. */
-    private boolean m_hasBeenAttached;
+  /** Indicating if the widget has been attached yet. */
+  private boolean m_hasBeenAttached;
 
-    /** Flag indicating if in line editing is used. */
-    private boolean m_inline;
+  /** Flag indicating if in line editing is used. */
+  private boolean m_inline;
 
-    /** The editor options. */
-    private Object m_options;
+  /** The editor options. */
+  private Object m_options;
 
-    /**
-     * Creates a new instance for the given element. Use this constructor for in line editing.<p>
-     *
-     * @param element the DOM element
-     * @param options the tinyMCE editor options to extend the default settings
-     */
-    public CmsTinyMCEWidget(Element element, Object options) {
+  /**
+   * Creates a new instance for the given element. Use this constructor for in line editing.
+   *
+   * <p>
+   *
+   * @param element the DOM element
+   * @param options the tinyMCE editor options to extend the default settings
+   */
+  public CmsTinyMCEWidget(Element element, Object options) {
 
-        this(element, options, true);
+    this(element, options, true);
+  }
+
+  /**
+   * Creates a new instance with the given options. Use this constructor for form based editing.
+   *
+   * <p>
+   *
+   * @param options the tinyMCE editor options to extend the default settings
+   */
+  public CmsTinyMCEWidget(Object options) {
+
+    this(DOM.createDiv(), options, false);
+  }
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param element the DOM element
+   * @param options the tinyMCE editor options to extend the default settings
+   * @param inline flag indicating if in line editing is used
+   */
+  private CmsTinyMCEWidget(Element element, Object options, boolean inline) {
+
+    super(element);
+    m_originalContent = "";
+    m_options = options;
+    m_active = true;
+    m_inline = inline;
+    if (m_inline) {
+      m_contentElement = element;
+    } else {
+      // using a child DIV as content element
+      m_contentElement = getElement().appendChild(DOM.createDiv());
     }
+  }
 
-    /**
-     * Creates a new instance with the given options. Use this constructor for form based editing.<p>
-     *
-     * @param options the tinyMCE editor options to extend the default settings
-     */
-    public CmsTinyMCEWidget(Object options) {
+  /**
+   * Returns the disabled text color.
+   *
+   * <p>
+   *
+   * @return the disabled text color
+   */
+  private static String getDisabledTextColor() {
 
-        this(DOM.createDiv(), options, false);
+    return I_CmsLayoutBundle.INSTANCE.constants().css().textColorDisabled();
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasResizeHandlers#addResizeHandler(com.google.gwt.event.logical.shared.ResizeHandler)
+   */
+  public HandlerRegistration addResizeHandler(ResizeHandler handler) {
+
+    return addHandler(handler, ResizeEvent.getType());
+  }
+
+  /**
+   * @see
+   *     org.opencms.acacia.client.widgets.A_CmsEditWidget#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  @Override
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+
+    return addHandler(handler, ValueChangeEvent.getType());
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsHasDisplayDirection#getDisplayingDirection() */
+  public Direction getDisplayingDirection() {
+
+    return Direction.above;
+  }
+
+  /**
+   * Gets the main editable element.
+   *
+   * <p>
+   *
+   * @return the editable element
+   */
+  public Element getMainElement() {
+
+    return m_contentElement;
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#getValue() */
+  @Override
+  public String getValue() {
+
+    if (m_editor != null) {
+      return getContent().trim();
     }
+    return m_originalContent.trim();
+  }
 
-    /**
-     * Constructor.<p>
-     *
-     * @param element the DOM element
-     * @param options the tinyMCE editor options to extend the default settings
-     * @param inline flag indicating if in line editing is used
-     */
-    private CmsTinyMCEWidget(Element element, Object options, boolean inline) {
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive() */
+  public boolean isActive() {
 
-        super(element);
-        m_originalContent = "";
-        m_options = options;
-        m_active = true;
-        m_inline = inline;
-        if (m_inline) {
-            m_contentElement = element;
-        } else {
-            // using a child DIV as content element
-            m_contentElement = getElement().appendChild(DOM.createDiv());
-        }
+    return m_active;
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean) */
+  public void setActive(boolean active) {
+
+    if (m_active == active) {
+      return;
     }
-
-    /**
-     * Returns the disabled text color.<p>
-     *
-     * @return the disabled text color
-     */
-    private static String getDisabledTextColor() {
-
-        return I_CmsLayoutBundle.INSTANCE.constants().css().textColorDisabled();
+    m_active = active;
+    if (m_editor != null) {
+      if (m_active) {
+        getElement().removeClassName(I_CmsLayoutBundle.INSTANCE.form().inActive());
+        removeEditorDisabledStyle();
+        fireValueChange(true);
+      } else {
+        getElement().addClassName(I_CmsLayoutBundle.INSTANCE.form().inActive());
+        setEditorDisabledStyle();
+      }
     }
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasResizeHandlers#addResizeHandler(com.google.gwt.event.logical.shared.ResizeHandler)
-     */
-    public HandlerRegistration addResizeHandler(ResizeHandler handler) {
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String) */
+  public void setName(String name) {
 
-        return addHandler(handler, ResizeEvent.getType());
+    // no input field so nothing to do
+
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object) */
+  public void setValue(String value) {
+
+    setValue(value, false);
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean) */
+  public void setValue(String value, boolean fireEvents) {
+
+    if (value != null) {
+      value = value.trim();
     }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.A_CmsEditWidget#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    @Override
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
-
-        return addHandler(handler, ValueChangeEvent.getType());
+    setPreviousValue(value);
+    if (m_editor == null) {
+      // editor has not been initialized yet
+      m_originalContent = value;
+    } else {
+      m_externalValueChange = true;
+      setContent(value);
     }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsHasDisplayDirection#getDisplayingDirection()
-     */
-    public Direction getDisplayingDirection() {
-
-        return Direction.above;
+    if (fireEvents) {
+      fireValueChange(true);
     }
+  }
 
-    /**
-     * Gets the main editable element.<p>
-     *
-     * @return the editable element
-     */
-    public Element getMainElement() {
-
-        return m_contentElement;
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#getValue()
-     */
-    @Override
-    public String getValue() {
-
-        if (m_editor != null) {
-            return getContent().trim();
-        }
-        return m_originalContent.trim();
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive()
-     */
-    public boolean isActive() {
-
-        return m_active;
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean)
-     */
-    public void setActive(boolean active) {
-
-        if (m_active == active) {
-            return;
-        }
-        m_active = active;
-        if (m_editor != null) {
-            if (m_active) {
-                getElement().removeClassName(I_CmsLayoutBundle.INSTANCE.form().inActive());
-                removeEditorDisabledStyle();
-                fireValueChange(true);
-            } else {
-                getElement().addClassName(I_CmsLayoutBundle.INSTANCE.form().inActive());
-                setEditorDisabledStyle();
-            }
-        }
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String)
-     */
-    public void setName(String name) {
-
-        // no input field so nothing to do
-
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
-     */
-    public void setValue(String value) {
-
-        setValue(value, false);
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
-     */
-    public void setValue(String value, boolean fireEvents) {
-
-        if (value != null) {
-            value = value.trim();
-        }
-        setPreviousValue(value);
-        if (m_editor == null) {
-            // editor has not been initialized yet
-            m_originalContent = value;
-        } else {
-            m_externalValueChange = true;
-            setContent(value);
-        }
-        if (fireEvents) {
-            fireValueChange(true);
-        }
-    }
-
-    /**
-     * Checks whether the necessary Javascript libraries are available by accessing them.
-     */
-    protected native void checkLibraries() /*-{
+  /** Checks whether the necessary Javascript libraries are available by accessing them. */
+  protected native void checkLibraries() /*-{
 		// fail early if tinymce is not available
 		var w = $wnd;
 		var init = w.tinyMCE.init;
     }-*/;
 
-    /**
-     * Gives an element an id if it doesn't already have an id, and then returns the element's id.<p>
-     *
-     * @param element the element for which we want to add the id
-     *
-     * @return the id
-     */
-    protected String ensureId(Element element) {
+  /**
+   * Gives an element an id if it doesn't already have an id, and then returns the element's id.
+   *
+   * <p>
+   *
+   * @param element the element for which we want to add the id
+   * @return the id
+   */
+  protected String ensureId(Element element) {
 
-        String id = element.getId();
-        if ((id == null) || "".equals(id)) {
-            id = Document.get().createUniqueId();
-            element.setId(id);
-        }
-        return id;
+    String id = element.getId();
+    if ((id == null) || "".equals(id)) {
+      id = Document.get().createUniqueId();
+      element.setId(id);
     }
+    return id;
+  }
 
-    /**
-     * Returns the editor parent element.<p>
-     *
-     * @return the editor parent element
-     */
-    protected Element getEditorParentElement() {
+  /**
+   * Returns the editor parent element.
+   *
+   * <p>
+   *
+   * @return the editor parent element
+   */
+  protected Element getEditorParentElement() {
 
-        String parentId = m_id + "_parent";
-        Element result = getElementById(parentId);
-        return result;
-    }
+    String parentId = m_id + "_parent";
+    Element result = getElementById(parentId);
+    return result;
+  }
 
-    /**
-     * Gets an element by its id.<p>
-     *
-     * @param id the id
-     * @return the element with the given id
-     */
-    protected native Element getElementById(String id) /*-{
+  /**
+   * Gets an element by its id.
+   *
+   * <p>
+   *
+   * @param id the id
+   * @return the element with the given id
+   */
+  protected native Element getElementById(String id) /*-{
 		return $doc.getElementById(id);
     }-*/;
 
-    /**
-     * Gets the toolbar element.<p>
-     *
-     * @return the toolbar element
-     */
-    protected Element getToolbarElement() {
+  /**
+   * Gets the toolbar element.
+   *
+   * <p>
+   *
+   * @return the toolbar element
+   */
+  protected Element getToolbarElement() {
 
-        String toolbarId = m_id + "_external";
-        Element result = getElementById(toolbarId);
-        return result;
-    }
+    String toolbarId = m_id + "_external";
+    Element result = getElementById(toolbarId);
+    return result;
+  }
 
-    /**
-     * Returns if the widget is used in inline mode.<p>
-     *
-     * @return <code>true</code> if the widget is used in inline mode
-     */
-    protected boolean isInline() {
+  /**
+   * Returns if the widget is used in inline mode.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the widget is used in inline mode
+   */
+  protected boolean isInline() {
 
-        return m_inline;
-    }
+    return m_inline;
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.FocusWidget#onAttach()
-     */
-    @Override
-    protected void onAttach() {
+  /** @see com.google.gwt.user.client.ui.FocusWidget#onAttach() */
+  @Override
+  protected void onAttach() {
 
-        super.onAttach();
-        if (!m_hasBeenAttached) {
-            m_hasBeenAttached = true;
-            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+    super.onAttach();
+    if (!m_hasBeenAttached) {
+      m_hasBeenAttached = true;
+      Scheduler.get()
+          .scheduleDeferred(
+              new ScheduledCommand() {
 
                 public void execute() {
 
-                    if (isAttached()) {
-                        m_editorHeight = calculateEditorHeight();
-                        m_id = ensureId(getMainElement());
-                        m_width = calculateWidth();
-                        checkLibraries();
-                        if (isInline()) {
-                            if (CmsDomUtil.getCurrentStyleInt(getElement(), Style.zIndex) < 1) {
-                                getElement().getStyle().setZIndex(1);
+                  if (isAttached()) {
+                    m_editorHeight = calculateEditorHeight();
+                    m_id = ensureId(getMainElement());
+                    m_width = calculateWidth();
+                    checkLibraries();
+                    if (isInline()) {
+                      if (CmsDomUtil.getCurrentStyleInt(getElement(), Style.zIndex) < 1) {
+                        getElement().getStyle().setZIndex(1);
+                      }
+                      addDomHandler(
+                          new ClickHandler() {
+
+                            public void onClick(ClickEvent event) {
+
+                              // prevent event propagation while editing inline, to avoid following
+                              // links in ancestor nodes
+                              event.stopPropagation();
+                              event.preventDefault();
                             }
-                            addDomHandler(new ClickHandler() {
-
-                                public void onClick(ClickEvent event) {
-
-                                    // prevent event propagation while editing inline, to avoid following links in ancestor nodes
-                                    event.stopPropagation();
-                                    event.preventDefault();
-                                }
-                            }, ClickEvent.getType());
-                        }
-                        initNative();
-                        if (!m_active) {
-                            getElement().addClassName(I_CmsLayoutBundle.INSTANCE.form().inActive());
-                        }
-                    } else {
-                        resetAtachedFlag();
+                          },
+                          ClickEvent.getType());
                     }
+                    initNative();
+                    if (!m_active) {
+                      getElement().addClassName(I_CmsLayoutBundle.INSTANCE.form().inActive());
+                    }
+                  } else {
+                    resetAtachedFlag();
+                  }
                 }
-            });
-        }
+              });
     }
+  }
 
-    /**
-     * @see com.google.gwt.user.client.ui.Widget#onDetach()
-     */
-    @Override
-    protected void onDetach() {
+  /** @see com.google.gwt.user.client.ui.Widget#onDetach() */
+  @Override
+  protected void onDetach() {
 
-        try {
-            detachEditor();
-        } catch (Throwable t) {
-            // may happen in rare cases, can be ignored
-        }
-        super.onDetach();
+    try {
+      detachEditor();
+    } catch (Throwable t) {
+      // may happen in rare cases, can be ignored
     }
+    super.onDetach();
+  }
 
-    /**
-     * Propagates the a focus event.<p>
-     */
-    protected void propagateFocusEvent() {
+  /**
+   * Propagates the a focus event.
+   *
+   * <p>
+   */
+  protected void propagateFocusEvent() {
 
-        if (m_initialized) {
-            NativeEvent nativeEvent = Document.get().createFocusEvent();
-            DomEvent.fireNativeEvent(nativeEvent, this, getElement());
-        }
+    if (m_initialized) {
+      NativeEvent nativeEvent = Document.get().createFocusEvent();
+      DomEvent.fireNativeEvent(nativeEvent, this, getElement());
     }
+  }
 
-    /**
-     * Propagates a native mouse event.<p>
-     *
-     * @param eventType the mouse event type
-     * @param eventSource the event source
-     */
-    protected native void propagateMouseEvent(String eventType, Element eventSource) /*-{
+  /**
+   * Propagates a native mouse event.
+   *
+   * <p>
+   *
+   * @param eventType the mouse event type
+   * @param eventSource the event source
+   */
+  protected native void propagateMouseEvent(String eventType, Element eventSource) /*-{
 		var doc = $wnd.document;
 		var event;
 		if (doc.createEvent) {
@@ -429,71 +440,79 @@ public final class CmsTinyMCEWidget extends A_CmsEditWidget implements HasResize
 		}
     }-*/;
 
-    /**
-     * Removes the editor instance.<p>
-     */
-    protected native void removeEditor() /*-{
+  /**
+   * Removes the editor instance.
+   *
+   * <p>
+   */
+  protected native void removeEditor() /*-{
 		var editor = this.@org.opencms.acacia.client.widgets.CmsTinyMCEWidget::m_editor;
 		editor.remove();
     }-*/;
 
-    /**
-     * Sets the main content of the element which is inline editable.<p>
-     *
-     * @param html the new content html
-     */
-    protected native void setMainElementContent(String html) /*-{
+  /**
+   * Sets the main content of the element which is inline editable.
+   *
+   * <p>
+   *
+   * @param html the new content html
+   */
+  protected native void setMainElementContent(String html) /*-{
 		var instance = this;
 		var elementId = instance.@org.opencms.acacia.client.widgets.CmsTinyMCEWidget::m_id;
 		var mainElement = $wnd.document.getElementById(elementId);
 		mainElement.innerHTML = html;
     }-*/;
 
-    /**
-     * Checks if the main element contains the current text selection.<p>
-     *
-     * @return <code>true</code> if the main element contains the current text selection
-     */
-    protected boolean shouldReceiveFocus() {
+  /**
+   * Checks if the main element contains the current text selection.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the main element contains the current text selection
+   */
+  protected boolean shouldReceiveFocus() {
 
-        return m_inline && CmsEditorBase.shouldFocusOnInlineEdit(getElement());
+    return m_inline && CmsEditorBase.shouldFocusOnInlineEdit(getElement());
+  }
+
+  /**
+   * Calculates the needed editor height.
+   *
+   * <p>
+   *
+   * @return the calculated editor height
+   */
+  int calculateEditorHeight() {
+
+    int result = getElement().getOffsetHeight() + 30;
+    return result > MIN_EDITOR_HEIGHT ? result : MIN_EDITOR_HEIGHT;
+  }
+
+  /**
+   * Calculates the widget width.
+   *
+   * <p>
+   *
+   * @return the widget width
+   */
+  int calculateWidth() {
+
+    int result;
+    if (m_inline && CmsDomUtil.getCurrentStyle(getElement(), Style.display).equals("inline")) {
+      com.google.gwt.dom.client.Element parentBlock = getElement().getParentElement();
+      while (CmsDomUtil.getCurrentStyle(parentBlock, Style.display).equals("inline")) {
+        parentBlock = parentBlock.getParentElement();
+      }
+      result = parentBlock.getOffsetWidth();
+    } else {
+      result = getElement().getOffsetWidth();
     }
+    return result - 2;
+  }
 
-    /**
-     * Calculates the needed editor height.<p>
-     *
-     * @return the calculated editor height
-     */
-    int calculateEditorHeight() {
-
-        int result = getElement().getOffsetHeight() + 30;
-        return result > MIN_EDITOR_HEIGHT ? result : MIN_EDITOR_HEIGHT;
-    }
-
-    /**
-     * Calculates the widget width.<p>
-     *
-     * @return the widget width
-     */
-    int calculateWidth() {
-
-        int result;
-        if (m_inline && CmsDomUtil.getCurrentStyle(getElement(), Style.display).equals("inline")) {
-            com.google.gwt.dom.client.Element parentBlock = getElement().getParentElement();
-            while (CmsDomUtil.getCurrentStyle(parentBlock, Style.display).equals("inline")) {
-                parentBlock = parentBlock.getParentElement();
-            }
-            result = parentBlock.getOffsetWidth();
-        } else {
-            result = getElement().getOffsetWidth();
-        }
-        return result - 2;
-    }
-
-    /**
-     * Initializes the TinyMCE instance.
-     */
-    native void initNative() /*-{
+  /** Initializes the TinyMCE instance. */
+  native void initNative() /*-{
 
 		function merge() {
 			var result = {}, length = arguments.length;
@@ -643,10 +662,12 @@ public final class CmsTinyMCEWidget extends A_CmsEditWidget implements HasResize
 		$wnd.tinymce.init(defaults);
     }-*/;
 
-    /**
-     * Removes the disabled editor styling.<p>
-     */
-    native void removeEditorDisabledStyle()/*-{
+  /**
+   * Removes the disabled editor styling.
+   *
+   * <p>
+   */
+  native void removeEditorDisabledStyle() /*-{
 		var ed = this.@org.opencms.acacia.client.widgets.CmsTinyMCEWidget::m_editor;
 		var styleEl = ed
 				.getDoc()
@@ -657,37 +678,45 @@ public final class CmsTinyMCEWidget extends A_CmsEditWidget implements HasResize
 		}
     }-*/;
 
-    /**
-     * Resets the attached flag.<p>
-     */
-    void resetAtachedFlag() {
+  /**
+   * Resets the attached flag.
+   *
+   * <p>
+   */
+  void resetAtachedFlag() {
 
-        m_hasBeenAttached = false;
-    }
+    m_hasBeenAttached = false;
+  }
 
-    /**
-     * Scheduling to set the initialized flag.<p>
-     */
-    void scheduleInitializationDone() {
+  /**
+   * Scheduling to set the initialized flag.
+   *
+   * <p>
+   */
+  void scheduleInitializationDone() {
 
-        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
 
-            public void execute() {
+              public void execute() {
 
                 m_initialized = true;
                 if (m_active) {
-                    removeEditorDisabledStyle();
+                  removeEditorDisabledStyle();
                 } else {
-                    setEditorDisabledStyle();
+                  setEditorDisabledStyle();
                 }
-            }
-        });
-    }
+              }
+            });
+  }
 
-    /**
-     * Sets the editor disabled styling.<p>
-     */
-    native void setEditorDisabledStyle()/*-{
+  /**
+   * Sets the editor disabled styling.
+   *
+   * <p>
+   */
+  native void setEditorDisabledStyle() /*-{
 		var ed = this.@org.opencms.acacia.client.widgets.CmsTinyMCEWidget::m_editor;
 		if (ed
 				.getDoc()
@@ -708,10 +737,12 @@ public final class CmsTinyMCEWidget extends A_CmsEditWidget implements HasResize
 		}
     }-*/;
 
-    /**
-     * Removes the editor.<p>
-     */
-    private native void detachEditor() /*-{
+  /**
+   * Removes the editor.
+   *
+   * <p>
+   */
+  private native void detachEditor() /*-{
 
 		var ed = this.@org.opencms.acacia.client.widgets.CmsTinyMCEWidget::m_editor;
 		if (ed != null) {
@@ -723,55 +754,64 @@ public final class CmsTinyMCEWidget extends A_CmsEditWidget implements HasResize
 		}
     }-*/;
 
-    /**
-     * Used to fire the value changed event from native code.<p>
-     */
-    private void fireChangeFromNative() {
+  /**
+   * Used to fire the value changed event from native code.
+   *
+   * <p>
+   */
+  private void fireChangeFromNative() {
 
-        // skip firing the change event, if the external flag is set
-        if (m_initialized && !m_externalValueChange && m_active) {
-            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+    // skip firing the change event, if the external flag is set
+    if (m_initialized && !m_externalValueChange && m_active) {
+      Scheduler.get()
+          .scheduleDeferred(
+              new ScheduledCommand() {
 
                 public void execute() {
 
-                    try {
-                        fireValueChange(false);
-                    } catch (Throwable t) {
-                        // this may happen when returning from full screen mode, nothing to be done
-                    }
+                  try {
+                    fireValueChange(false);
+                  } catch (Throwable t) {
+                    // this may happen when returning from full screen mode, nothing to be done
+                  }
                 }
-            });
-        }
-        // reset the external flag
-        m_externalValueChange = false;
+              });
     }
+    // reset the external flag
+    m_externalValueChange = false;
+  }
 
-    /**
-     * Fires the resize event.<p>
-     */
-    private void fireResizeEvent() {
+  /**
+   * Fires the resize event.
+   *
+   * <p>
+   */
+  private void fireResizeEvent() {
 
-        ResizeEvent.fire(this, getOffsetWidth(), getOffsetHeight());
-    }
+    ResizeEvent.fire(this, getOffsetWidth(), getOffsetHeight());
+  }
 
-    /**
-     * Returns the editor content.<p>
-     *
-     * @return the editor content
-     */
-    private native String getContent() /*-{
+  /**
+   * Returns the editor content.
+   *
+   * <p>
+   *
+   * @return the editor content
+   */
+  private native String getContent() /*-{
 		var editor = this.@org.opencms.acacia.client.widgets.CmsTinyMCEWidget::m_editor;
 		return editor.getContent();
     }-*/;
 
-    /**
-     * Sets the content of the TinyMCE editor.<p>
-     *
-     * @param newContent the new content
-     */
-    private native void setContent(String newContent) /*-{
+  /**
+   * Sets the content of the TinyMCE editor.
+   *
+   * <p>
+   *
+   * @param newContent the new content
+   */
+  private native void setContent(String newContent) /*-{
 		var editor = this.@org.opencms.acacia.client.widgets.CmsTinyMCEWidget::m_editor;
 		editor.setContent(newContent);
     }-*/;
-
 }

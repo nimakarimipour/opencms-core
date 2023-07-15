@@ -32,36 +32,35 @@ import org.opencms.gwt.client.ui.A_CmsToolbarButton;
 import org.opencms.gwt.client.ui.I_CmsButton;
 
 /**
- * The save button holding all related methods.<p>
+ * The save button holding all related methods.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsToolbarSaveButton extends A_CmsToolbarButton<CmsContainerpageHandler> {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param handler the container-page handler
-     */
-    public CmsToolbarSaveButton(CmsContainerpageHandler handler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param handler the container-page handler
+   */
+  public CmsToolbarSaveButton(CmsContainerpageHandler handler) {
 
-        super(I_CmsButton.ButtonData.SAVE_BUTTON, handler);
-    }
+    super(I_CmsButton.ButtonData.SAVE_BUTTON, handler);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate()
-     */
-    public void onToolbarActivate() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate() */
+  public void onToolbarActivate() {
 
-        getHandler().savePage();
-    }
+    getHandler().savePage();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate()
-     */
-    public void onToolbarDeactivate() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate() */
+  public void onToolbarDeactivate() {
 
-        // TODO: Auto-generated method stub
-    }
-
+    // TODO: Auto-generated method stub
+  }
 }

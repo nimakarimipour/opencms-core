@@ -30,56 +30,63 @@ package org.opencms.acacia.shared;
 import java.io.Serializable;
 
 /**
- * The entity HTML representation including validation data.<p>
+ * The entity HTML representation including validation data.
+ *
+ * <p>
  */
 public class CmsEntityHtml implements Serializable {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 8744574711101111191L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 8744574711101111191L;
 
-    /** The HTML representation. */
-    private String m_htmlContent;
+  /** The HTML representation. */
+  private String m_htmlContent;
 
-    /** The validation result. */
-    private CmsValidationResult m_validationResult;
+  /** The validation result. */
+  private CmsValidationResult m_validationResult;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param htmlContent the HTML representation
-     * @param validationResult the validation result
-     */
-    public CmsEntityHtml(String htmlContent, CmsValidationResult validationResult) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param htmlContent the HTML representation
+   * @param validationResult the validation result
+   */
+  public CmsEntityHtml(String htmlContent, CmsValidationResult validationResult) {
 
-        m_htmlContent = htmlContent;
-        m_validationResult = validationResult;
-    }
+    m_htmlContent = htmlContent;
+    m_validationResult = validationResult;
+  }
 
-    /**
-     * Constructor needed for serialization.<p>
-     */
-    protected CmsEntityHtml() {
+  /**
+   * Constructor needed for serialization.
+   *
+   * <p>
+   */
+  protected CmsEntityHtml() {}
 
-    }
+  /**
+   * Returns the HTML representation.
+   *
+   * <p>
+   *
+   * @return the HTML representation
+   */
+  public String getHtmlContent() {
 
-    /**
-     * Returns the HTML representation.<p>
-     *
-     * @return the HTML representation
-     */
-    public String getHtmlContent() {
+    return m_htmlContent;
+  }
 
-        return m_htmlContent;
-    }
+  /**
+   * Returns the validation result.
+   *
+   * <p>
+   *
+   * @return the validation result
+   */
+  public CmsValidationResult getValidationResult() {
 
-    /**
-     * Returns the validation result.<p>
-     *
-     * @return the validation result
-     */
-    public CmsValidationResult getValidationResult() {
-
-        return m_validationResult;
-    }
-
+    return m_validationResult;
+  }
 }

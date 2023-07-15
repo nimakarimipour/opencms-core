@@ -29,6 +29,5 @@ package org.opencms.ade.contenteditor.client;
 
 public interface I_CmsEditorCloseHandler {
 
-    void onClose(boolean hasChangedSettings, boolean usedPublishDialog);
-
+  void onClose(boolean hasChangedSettings, boolean usedPublishDialog);
 }

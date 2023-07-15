@@ -27,63 +27,59 @@
 
 package org.opencms.setup.ui;
 
-import org.opencms.setup.CmsSetupBean;
-import org.opencms.ui.CmsVaadinUtils;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.opencms.setup.CmsSetupBean;
+import org.opencms.ui.CmsVaadinUtils;
 
 public class CmsSetupStep01License extends A_CmsSetupStep {
 
-    /** Forward button. */
-    private Button m_forwardButton;
+  /** Forward button. */
+  private Button m_forwardButton;
 
-    /** License container. */
-    private VerticalLayout m_licenseContainer;
+  /** License container. */
+  private VerticalLayout m_licenseContainer;
 
-    /** Main layout. */
-    private VerticalLayout m_mainLayout;
+  /** Main layout. */
+  private VerticalLayout m_mainLayout;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param context the setup context
-     *
-     * @throws Exception if something goes wrong
-     */
-    public CmsSetupStep01License(I_SetupUiContext context)
-    throws Exception {
+  /**
+   * Creates a new instance.
+   *
+   * @param context the setup context
+   * @throws Exception if something goes wrong
+   */
+  public CmsSetupStep01License(I_SetupUiContext context) throws Exception {
 
-        super(context);
-        CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
-        CmsSetupBean setupBean = context.getSetupBean();
-        m_forwardButton.setEnabled(false);
-        if (setupBean == null) {
-            m_mainLayout.addComponent(htmlLabel(readSnippet("notInitialized.html")));
-        } else if (!setupBean.getWizardEnabled()) {
-            m_mainLayout.addComponent(htmlLabel(readSnippet("wizardDisabled.html")));
-        } else {
-            Label label = htmlLabel(readSnippet("license.html"));
-            label.setWidth("100%");
-            m_licenseContainer.addComponent(label);
+    super(context);
+    CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
+    CmsSetupBean setupBean = context.getSetupBean();
+    m_forwardButton.setEnabled(false);
+    if (setupBean == null) {
+      m_mainLayout.addComponent(htmlLabel(readSnippet("notInitialized.html")));
+    } else if (!setupBean.getWizardEnabled()) {
+      m_mainLayout.addComponent(htmlLabel(readSnippet("wizardDisabled.html")));
+    } else {
+      Label label = htmlLabel(readSnippet("license.html"));
+      label.setWidth("100%");
+      m_licenseContainer.addComponent(label);
 
-            CheckBox confirmation = new CheckBox();
-            confirmation.setCaption("I accept all the terms of the preceding license agreement");
-            m_mainLayout.addComponent(confirmation);
-            confirmation.addValueChangeListener(evt -> {
-                m_forwardButton.setEnabled(evt.getValue().booleanValue());
-            });
-            m_forwardButton.addClickListener(evt -> m_context.stepForward());
-        }
-
+      CheckBox confirmation = new CheckBox();
+      confirmation.setCaption("I accept all the terms of the preceding license agreement");
+      m_mainLayout.addComponent(confirmation);
+      confirmation.addValueChangeListener(
+          evt -> {
+            m_forwardButton.setEnabled(evt.getValue().booleanValue());
+          });
+      m_forwardButton.addClickListener(evt -> m_context.stepForward());
     }
+  }
 
-    @Override
-    protected boolean isEnableMaxHeight() {
+  @Override
+  protected boolean isEnableMaxHeight() {
 
-        return false;
-    }
-
+    return false;
+  }
 }

@@ -31,19 +31,21 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
 
 /**
- * Interface to indicate that the implementing widget may have toggle event handlers.<p>
+ * Interface to indicate that the implementing widget may have toggle event handlers.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  */
 public interface I_CmsHasToggleHandlers extends HasHandlers {
 
-    /**
-     * Registers the toggle event handler.<p>
-     *
-     * @param handler the event handler
-     *
-     * @return the handler registration of this widget, may be used to remove the event handler
-     */
-    HandlerRegistration addToggleHandler(I_CmsToggleHandler handler);
+  /**
+   * Registers the toggle event handler.
+   *
+   * <p>
+   *
+   * @param handler the event handler
+   * @return the handler registration of this widget, may be used to remove the event handler
+   */
+  HandlerRegistration addToggleHandler(I_CmsToggleHandler handler);
 }

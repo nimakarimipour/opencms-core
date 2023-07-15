@@ -27,6 +27,8 @@
 
 package org.opencms.file.collectors;
 
+import java.util.Arrays;
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.lock.CmsLockUtil;
@@ -34,78 +36,86 @@ import org.opencms.main.CmsException;
 import org.opencms.relations.CmsCategory;
 import org.opencms.relations.CmsCategoryService;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
- * A post create handler that adds categories to newly created resources (that are not a copy of an existing resource).<p>
+ * A post create handler that adds categories to newly created resources (that are not a copy of an
+ * existing resource).
  *
- * To configure it for adding the categories with category paths "cat1/subcat1/", "cat1/subcat2/" and "cat2/"
- * add the attribute
- *  <code>postCreateHandler="org.opencms.file.collectors.CmsAddCategoriesPostCreateHandler|cat1/subcat1/,cat1/subcat2/,cat2/"</code>
- * to the tag that provides the create option (i.e., <cms:contentload>, <cms:edit> or <cms:display>.<p>
+ * <p>To configure it for adding the categories with category paths "cat1/subcat1/", "cat1/subcat2/"
+ * and "cat2/" add the attribute <code>
+ * postCreateHandler="org.opencms.file.collectors.CmsAddCategoriesPostCreateHandler|cat1/subcat1/,cat1/subcat2/,cat2/"
+ * </code> to the tag that provides the create option (i.e., <cms:contentload>, <cms:edit> or
+ * <cms:display>.
  *
- * Instead of providing category paths, one can also use site or root paths of the folders representing the categories.
- * If a category path starts with "/" it is assumed to be site or root path. Otherwise it is treated as category path, i.e.,
- * the path without the category repositories base path.<p>
+ * <p>Instead of providing category paths, one can also use site or root paths of the folders
+ * representing the categories. If a category path starts with "/" it is assumed to be site or root
+ * path. Otherwise it is treated as category path, i.e., the path without the category repositories
+ * base path.
  *
- * @see I_CmsCollectorPostCreateHandler for more information on where post create handlers can be configured.
+ * <p>
+ *
+ * @see I_CmsCollectorPostCreateHandler for more information on where post create handlers can be
+ *     configured.
  */
 public class CmsAddCategoriesPostCreateHandler implements I_CmsCollectorPostCreateHandler {
 
-    /**
-     * @see org.opencms.file.collectors.I_CmsCollectorPostCreateHandler#onCreate(org.opencms.file.CmsObject, org.opencms.file.CmsResource, boolean)
-     */
-    public void onCreate(CmsObject cms, CmsResource createdResource, boolean copyMode) {
+  /**
+   * @see
+   *     org.opencms.file.collectors.I_CmsCollectorPostCreateHandler#onCreate(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, boolean)
+   */
+  public void onCreate(CmsObject cms, CmsResource createdResource, boolean copyMode) {
 
-        // there are no categories configured that should be added. Just return without modifying the created resource.
-        return;
+    // there are no categories configured that should be added. Just return without modifying the
+    // created resource.
+    return;
+  }
 
-    }
+  /**
+   * Adds the categories specified via <code>config</code> to the newly created resource iff not in
+   * copy mode.
+   *
+   * @param cms the current user's CMS context
+   * @param createdResource the resource which has been created
+   * @param copyMode <code>true</code> if the user chose one of the elements in the collector list
+   *     as a model
+   * @param config a comma separted list of category, site or root paths that specify the categories
+   *     to be added to the created resource if <code>copyMode</code> is <code>false</code>.
+   * @see
+   *     org.opencms.file.collectors.I_CmsCollectorPostCreateHandler#onCreate(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, boolean, java.lang.String)
+   */
+  public void onCreate(
+      CmsObject cms, CmsResource createdResource, boolean copyMode, String config) {
 
-    /**
-     * Adds the categories specified via <code>config</code> to the newly created resource iff not in copy mode.
-     *
-     * @param cms the current user's CMS context
-     * @param createdResource the resource which has been created
-     * @param copyMode <code>true</code> if the user chose one of the elements in the collector list as a model
-     * @param config a comma separted list of category, site or root paths that specify the categories to be added to the created resource
-     *        if <code>copyMode</code> is <code>false</code>.
-     *
-     * @see org.opencms.file.collectors.I_CmsCollectorPostCreateHandler#onCreate(org.opencms.file.CmsObject, org.opencms.file.CmsResource, boolean, java.lang.String)
-     */
-    public void onCreate(CmsObject cms, CmsResource createdResource, boolean copyMode, String config) {
-
-        if ((null != config) && !copyMode) {
-            List<String> cats = Arrays.asList(config.split(","));
-            CmsCategoryService catService = CmsCategoryService.getInstance();
-            try {
-                try (AutoCloseable c = CmsLockUtil.withLockedResources(cms, createdResource)) {
-                    String sitePath = cms.getRequestContext().getSitePath(createdResource);
-                    for (String catPath : cats) {
-                        if (!catPath.isEmpty()) {
-                            try {
-                                CmsCategory cat;
-                                if (catPath.startsWith("/")) { // assume we have a site or rootpath
-                                    cat = catService.getCategory(cms, catPath);
-                                } else { // assume we have the category path
-                                    cat = catService.readCategory(cms, catPath, sitePath);
-                                }
-                                if (null != cat) {
-                                    catService.addResourceToCategory(cms, sitePath, cat);
-                                }
-                            } catch (CmsException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-                        }
-                    }
+    if ((null != config) && !copyMode) {
+      List<String> cats = Arrays.asList(config.split(","));
+      CmsCategoryService catService = CmsCategoryService.getInstance();
+      try {
+        try (AutoCloseable c = CmsLockUtil.withLockedResources(cms, createdResource)) {
+          String sitePath = cms.getRequestContext().getSitePath(createdResource);
+          for (String catPath : cats) {
+            if (!catPath.isEmpty()) {
+              try {
+                CmsCategory cat;
+                if (catPath.startsWith("/")) { // assume we have a site or rootpath
+                  cat = catService.getCategory(cms, catPath);
+                } else { // assume we have the category path
+                  cat = catService.readCategory(cms, catPath, sitePath);
                 }
-            } catch (Exception e1) {
+                if (null != cat) {
+                  catService.addResourceToCategory(cms, sitePath, cat);
+                }
+              } catch (CmsException e) {
                 // TODO Auto-generated catch block
-                e1.printStackTrace();
+                e.printStackTrace();
+              }
             }
+          }
         }
+      } catch (Exception e1) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      }
     }
-
+  }
 }

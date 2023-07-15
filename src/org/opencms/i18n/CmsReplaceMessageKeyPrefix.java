@@ -27,42 +27,43 @@
 
 package org.opencms.i18n;
 
+import com.google.common.base.Optional;
+import java.util.Map;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.Map;
-
-import com.google.common.base.Optional;
-
 /**
- * Message key fallback handler which replaces a given set of prefixes with alternative prefixes.<p>
+ * Message key fallback handler which replaces a given set of prefixes with alternative prefixes.
+ *
+ * <p>
  */
 public class CmsReplaceMessageKeyPrefix implements CmsMultiMessages.I_KeyFallbackHandler {
 
-    /** The prefix substitutions. */
-    private Map<String, String> m_substitutions;
+  /** The prefix substitutions. */
+  private Map<String, String> m_substitutions;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param configuration a pipe-separated list of colon-separated key-value pairs, where the key is the prefix and the value is the replacement
-     */
-    public CmsReplaceMessageKeyPrefix(String configuration) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param configuration a pipe-separated list of colon-separated key-value pairs, where the key is
+   *     the prefix and the value is the replacement
+   */
+  public CmsReplaceMessageKeyPrefix(String configuration) {
 
-        m_substitutions = CmsStringUtil.splitAsMap(configuration, "|", ":");
+    m_substitutions = CmsStringUtil.splitAsMap(configuration, "|", ":");
+  }
 
+  /**
+   * @see org.opencms.i18n.CmsMultiMessages.I_KeyFallbackHandler#getFallbackKey(java.lang.String)
+   */
+  public Optional<String> getFallbackKey(String key) {
+
+    for (String prefix : m_substitutions.keySet()) {
+      if (key.startsWith(prefix)) {
+        return Optional.fromNullable(m_substitutions.get(prefix) + key.substring(prefix.length()));
+      }
     }
-
-    /**
-     * @see org.opencms.i18n.CmsMultiMessages.I_KeyFallbackHandler#getFallbackKey(java.lang.String)
-     */
-    public Optional<String> getFallbackKey(String key) {
-
-        for (String prefix : m_substitutions.keySet()) {
-            if (key.startsWith(prefix)) {
-                return Optional.fromNullable(m_substitutions.get(prefix) + key.substring(prefix.length()));
-            }
-        }
-        return Optional.absent();
-    }
-
+    return Optional.absent();
+  }
 }

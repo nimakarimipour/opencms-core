@@ -27,6 +27,7 @@
 
 package org.opencms.ade.sitemap.client.hoverbar;
 
+import java.util.List;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
@@ -39,168 +40,168 @@ import org.opencms.gwt.client.ui.I_CmsConfirmDialogHandler;
 import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.List;
-
 /**
- * Sitemap context menu create sub sitemap entry.<p>
+ * Sitemap context menu create sub sitemap entry.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsSubSitemapMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Selection dialog for sitemap folder types.<p>
-     */
-    protected class SitemapTypeDialog extends A_CmsListItemSelectDialog<CmsListInfoBean> {
-
-        /**
-         * Creates a new instance.<p>
-         *
-         * @param itemInfos the list info beans for the different sitemap types
-         */
-        public SitemapTypeDialog(List<CmsListInfoBean> itemInfos) {
-
-            super(itemInfos, Messages.get().key(Messages.GUI_SITEMAP_TYPE_CHOICE_TITLE_0), Messages.get().key(
-                Messages.GUI_SITEMAP_TYPE_CHOICE_TEXT_0));
-
-        }
-
-        /**
-         * @see org.opencms.gwt.client.ui.A_CmsListItemSelectDialog#handleSelection(org.opencms.gwt.shared.CmsListInfoBean)
-         */
-        @Override
-        protected void handleSelection(CmsListInfoBean info) {
-
-            CmsSitemapController controller = CmsSitemapView.getInstance().getController();
-            String typeName = info.getResourceType();
-            final CmsClientSitemapEntry entry = getHoverbar().getEntry();
-            controller.createSitemapSubEntry(entry, typeName);
-        }
-
-    }
+  /**
+   * Selection dialog for sitemap folder types.
+   *
+   * <p>
+   */
+  protected class SitemapTypeDialog extends A_CmsListItemSelectDialog<CmsListInfoBean> {
 
     /**
-     * Constructor.<p>
+     * Creates a new instance.
      *
-     * @param hoverbar the hoverbar
+     * <p>
+     *
+     * @param itemInfos the list info beans for the different sitemap types
      */
-    public CmsSubSitemapMenuEntry(CmsSitemapHoverbar hoverbar) {
+    public SitemapTypeDialog(List<CmsListInfoBean> itemInfos) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_SUBSITEMAP_0));
-        setActive(true);
+      super(
+          itemInfos,
+          Messages.get().key(Messages.GUI_SITEMAP_TYPE_CHOICE_TITLE_0),
+          Messages.get().key(Messages.GUI_SITEMAP_TYPE_CHOICE_TEXT_0));
     }
 
     /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
-
-        if (isCreateFolderMode()) {
-            executeFolderMode();
-        } else {
-            executeConvertMode();
-        }
-    }
-
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
+     * @see
+     *     org.opencms.gwt.client.ui.A_CmsListItemSelectDialog#handleSelection(org.opencms.gwt.shared.CmsListInfoBean)
      */
     @Override
-    public void onShow() {
+    protected void handleSelection(CmsListInfoBean info) {
 
-        CmsSitemapController controller = getHoverbar().getController();
-        CmsClientSitemapEntry entry = getHoverbar().getEntry();
-        boolean show = controller.isEditable()
+      CmsSitemapController controller = CmsSitemapView.getInstance().getController();
+      String typeName = info.getResourceType();
+      final CmsClientSitemapEntry entry = getHoverbar().getEntry();
+      controller.createSitemapSubEntry(entry, typeName);
+    }
+  }
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsSubSitemapMenuEntry(CmsSitemapHoverbar hoverbar) {
+
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_SUBSITEMAP_0));
+    setActive(true);
+  }
+
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
+
+    if (isCreateFolderMode()) {
+      executeFolderMode();
+    } else {
+      executeConvertMode();
+    }
+  }
+
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
+
+    CmsSitemapController controller = getHoverbar().getController();
+    CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    boolean show =
+        controller.isEditable()
             && CmsSitemapView.getInstance().isNavigationMode()
             && entry.isInNavigation()
             && entry.isFolderType()
             && !controller.isRoot(entry.getSitePath());
-        if (isCreateFolderMode()) {
-            setVisible(show);
-            setActive(show);
-            setDisabledReason(null);
-        } else {
-            setVisible(show);
-            if (show && !entry.isEditable()) {
-                setActive(false);
-                setDisabledReason(controller.getNoEditReason(entry));
-            } else {
-                setActive(true);
-                setDisabledReason(null);
-            }
-        }
+    if (isCreateFolderMode()) {
+      setVisible(show);
+      setActive(show);
+      setDisabledReason(null);
+    } else {
+      setVisible(show);
+      if (show && !entry.isEditable()) {
+        setActive(false);
+        setDisabledReason(controller.getNoEditReason(entry));
+      } else {
+        setActive(true);
+        setDisabledReason(null);
+      }
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    private void executeConvertMode() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  private void executeConvertMode() {
 
-        final CmsSitemapController controller = getHoverbar().getController();
-        String confirmTitle = Messages.get().key(Messages.GUI_SUBSITEMAP_CONFIRM_TITLE_0);
-        String confirmMessage = Messages.get().key(Messages.GUI_SUBSITEMAP_CONFIRM_TEXT_0);
-        CmsConfirmDialog confirmDialog = new CmsConfirmDialog(confirmTitle, confirmMessage);
+    final CmsSitemapController controller = getHoverbar().getController();
+    String confirmTitle = Messages.get().key(Messages.GUI_SUBSITEMAP_CONFIRM_TITLE_0);
+    String confirmMessage = Messages.get().key(Messages.GUI_SUBSITEMAP_CONFIRM_TEXT_0);
+    CmsConfirmDialog confirmDialog = new CmsConfirmDialog(confirmTitle, confirmMessage);
 
-        final CmsClientSitemapEntry entry = getHoverbar().getEntry();
+    final CmsClientSitemapEntry entry = getHoverbar().getEntry();
 
-        CmsListInfoBean infoBean = new CmsListInfoBean();
-        infoBean.setTitle(entry.getTitle());
-        infoBean.setSubTitle(entry.getSitePath());
-        infoBean.addAdditionalInfo(Messages.get().key(Messages.GUI_NAME_0), entry.getName());
-        String shownPath = entry.getVfsPath();
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(shownPath)) {
-            shownPath = "-";
-        }
-        infoBean.addAdditionalInfo(Messages.get().key(Messages.GUI_VFS_PATH_0), shownPath);
-        // showing the resource type icon of the default file in navigation mode
-        infoBean.setResourceType(CmsStringUtil.isNotEmptyOrWhitespaceOnly(entry.getDefaultFileType())
-        ? entry.getDefaultFileType()
-        : entry.getResourceTypeName());
-        confirmDialog.addTopWidget(new CmsListItemWidget(infoBean));
-        confirmDialog.setHandler(new I_CmsConfirmDialogHandler() {
+    CmsListInfoBean infoBean = new CmsListInfoBean();
+    infoBean.setTitle(entry.getTitle());
+    infoBean.setSubTitle(entry.getSitePath());
+    infoBean.addAdditionalInfo(Messages.get().key(Messages.GUI_NAME_0), entry.getName());
+    String shownPath = entry.getVfsPath();
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(shownPath)) {
+      shownPath = "-";
+    }
+    infoBean.addAdditionalInfo(Messages.get().key(Messages.GUI_VFS_PATH_0), shownPath);
+    // showing the resource type icon of the default file in navigation mode
+    infoBean.setResourceType(
+        CmsStringUtil.isNotEmptyOrWhitespaceOnly(entry.getDefaultFileType())
+            ? entry.getDefaultFileType()
+            : entry.getResourceTypeName());
+    confirmDialog.addTopWidget(new CmsListItemWidget(infoBean));
+    confirmDialog.setHandler(
+        new I_CmsConfirmDialogHandler() {
 
-            /**
-             * @see org.opencms.gwt.client.ui.I_CmsCloseDialogHandler#onClose()
-             */
-            public void onClose() {
+          /** @see org.opencms.gwt.client.ui.I_CmsCloseDialogHandler#onClose() */
+          public void onClose() {
 
-                // do nothing
-            }
+            // do nothing
+          }
 
-            /**
-             * @see org.opencms.gwt.client.ui.I_CmsConfirmDialogHandler#onOk()
-             */
-            public void onOk() {
+          /** @see org.opencms.gwt.client.ui.I_CmsConfirmDialogHandler#onOk() */
+          public void onOk() {
 
-                controller.createSubSitemap(entry.getId());
-            }
+            controller.createSubSitemap(entry.getId());
+          }
         });
-        confirmDialog.center();
-    }
+    confirmDialog.center();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    private void executeFolderMode() {
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  private void executeFolderMode() {
 
-        final CmsSitemapController controller = getHoverbar().getController();
-        SitemapTypeDialog dialog = new SitemapTypeDialog(controller.getData().getSubsitemapFolderTypeInfos());
-        dialog.center();
-    }
+    final CmsSitemapController controller = getHoverbar().getController();
+    SitemapTypeDialog dialog =
+        new SitemapTypeDialog(controller.getData().getSubsitemapFolderTypeInfos());
+    dialog.center();
+  }
 
-    /**
-     * Checks if new folders should be created for subsitemaps.<p>
-     *
-     * @return true if new folders should be created for subsitemaps
-     */
-    private boolean isCreateFolderMode() {
+  /**
+   * Checks if new folders should be created for subsitemaps.
+   *
+   * <p>
+   *
+   * @return true if new folders should be created for subsitemaps
+   */
+  private boolean isCreateFolderMode() {
 
-        CmsSitemapController controller = getHoverbar().getController();
-        CmsSitemapData data = controller.getData();
-        return data.isCreateNewFoldersForSubsitemaps()
-            && (data.getSubsitemapFolderTypeInfos() != null)
-            && !data.getSubsitemapFolderTypeInfos().isEmpty();
-    }
-
+    CmsSitemapController controller = getHoverbar().getController();
+    CmsSitemapData data = controller.getData();
+    return data.isCreateNewFoldersForSubsitemaps()
+        && (data.getSubsitemapFolderTypeInfos() != null)
+        && !data.getSubsitemapFolderTypeInfos().isEmpty();
+  }
 }

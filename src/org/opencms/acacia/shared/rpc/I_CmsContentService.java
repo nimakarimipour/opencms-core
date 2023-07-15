@@ -27,79 +27,84 @@
 
 package org.opencms.acacia.shared.rpc;
 
+import com.google.gwt.user.client.rpc.RemoteService;
+import java.util.List;
 import org.opencms.acacia.shared.CmsContentDefinition;
 import org.opencms.acacia.shared.CmsEntity;
 import org.opencms.acacia.shared.CmsEntityHtml;
 import org.opencms.acacia.shared.CmsValidationResult;
 
-import java.util.List;
-
-import com.google.gwt.user.client.rpc.RemoteService;
-
 /**
- * The content service used to load and persist entity and type information.<p>
+ * The content service used to load and persist entity and type information.
  *
- * Implement this on the server side.<p>
+ * <p>Implement this on the server side.
+ *
+ * <p>
  */
 public interface I_CmsContentService extends RemoteService {
 
-    /**
-     * Loads the content definition for a given entity.<p>
-     *
-     * @param entityId the entity id/URI
-     *
-     * @return the content type definition
-     *
-     * @throws Exception if something goes wrong processing the request
-     */
-    CmsContentDefinition loadContentDefinition(String entityId) throws Exception;
+  /**
+   * Loads the content definition for a given entity.
+   *
+   * <p>
+   *
+   * @param entityId the entity id/URI
+   * @return the content type definition
+   * @throws Exception if something goes wrong processing the request
+   */
+  CmsContentDefinition loadContentDefinition(String entityId) throws Exception;
 
-    /**
-     * Saves the given entities and returns a validation result in case of invalid entities.<p>
-     * Invalid entities will not be saved.<p>
-     *
-     * @param entities the entities to save
-     *
-     * @return the validation result in case of invalid entities
-     *
-     * @throws Exception if something goes wrong processing the request
-     */
-    CmsValidationResult saveEntities(List<CmsEntity> entities) throws Exception;
+  /**
+   * Saves the given entities and returns a validation result in case of invalid entities.
+   *
+   * <p>Invalid entities will not be saved.
+   *
+   * <p>
+   *
+   * @param entities the entities to save
+   * @return the validation result in case of invalid entities
+   * @throws Exception if something goes wrong processing the request
+   */
+  CmsValidationResult saveEntities(List<CmsEntity> entities) throws Exception;
 
-    /**
-     * Saves the given entity and returns a validation result in case of invalid entities.<p>
-     * Invalid entities will not be saved.<p>
-     *
-     * @param entity the entity to save
-     *
-     * @return the validation result in case of invalid entities
-     *
-     * @throws Exception if something goes wrong processing the request
-     */
-    CmsValidationResult saveEntity(CmsEntity entity) throws Exception;
+  /**
+   * Saves the given entity and returns a validation result in case of invalid entities.
+   *
+   * <p>Invalid entities will not be saved.
+   *
+   * <p>
+   *
+   * @param entity the entity to save
+   * @return the validation result in case of invalid entities
+   * @throws Exception if something goes wrong processing the request
+   */
+  CmsValidationResult saveEntity(CmsEntity entity) throws Exception;
 
-    /**
-     * Retrieves the updated entity HTML representation.<p>
-     * The entity data will be validated but not persisted on the server.<p>
-     *
-     * @param entity the entity
-     * @param contextUri the context URI
-     * @param htmlContextInfo information about the HTML context
-     *
-     * @return the HTML representation including the validation result
-     *
-     * @throws Exception if something goes wrong processing the request
-     */
-    CmsEntityHtml updateEntityHtml(CmsEntity entity, String contextUri, String htmlContextInfo) throws Exception;
+  /**
+   * Retrieves the updated entity HTML representation.
+   *
+   * <p>The entity data will be validated but not persisted on the server.
+   *
+   * <p>
+   *
+   * @param entity the entity
+   * @param contextUri the context URI
+   * @param htmlContextInfo information about the HTML context
+   * @return the HTML representation including the validation result
+   * @throws Exception if something goes wrong processing the request
+   */
+  CmsEntityHtml updateEntityHtml(CmsEntity entity, String contextUri, String htmlContextInfo)
+      throws Exception;
 
-    /**
-     * Validates the given entity and returns maps of error and warning messages in case of invalid attributes.<p>
-     *
-     * @param changedEntity the entity to validate
-     *
-     * @return the validation result
-     *
-     * @throws Exception if something goes wrong processing the request
-     */
-    CmsValidationResult validateEntity(CmsEntity changedEntity) throws Exception;
+  /**
+   * Validates the given entity and returns maps of error and warning messages in case of invalid
+   * attributes.
+   *
+   * <p>
+   *
+   * @param changedEntity the entity to validate
+   * @return the validation result
+   * @throws Exception if something goes wrong processing the request
+   */
+  CmsValidationResult validateEntity(CmsEntity changedEntity) throws Exception;
 }

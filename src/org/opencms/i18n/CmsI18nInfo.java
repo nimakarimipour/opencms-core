@@ -30,48 +30,55 @@ package org.opencms.i18n;
 import java.util.Locale;
 
 /**
- * Bundle of i18n setting to be used to setup a new request context.<p>
+ * Bundle of i18n setting to be used to setup a new request context.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsI18nInfo {
 
-    /** The locale to use. */
-    private String m_encoding;
+  /** The locale to use. */
+  private String m_encoding;
 
-    /** The encoding to use. */
-    private Locale m_locale;
+  /** The encoding to use. */
+  private Locale m_locale;
 
-    /**
-     * Generates a new i18n info object.<p>
-     *
-     * @param locale the locale to use
-     * @param encoding the encoding to use
-     */
-    public CmsI18nInfo(Locale locale, String encoding) {
+  /**
+   * Generates a new i18n info object.
+   *
+   * <p>
+   *
+   * @param locale the locale to use
+   * @param encoding the encoding to use
+   */
+  public CmsI18nInfo(Locale locale, String encoding) {
 
-        m_encoding = encoding;
-        m_locale = locale;
-    }
+    m_encoding = encoding;
+    m_locale = locale;
+  }
 
-    /**
-     * Returns the encoding to use.<p>
-     *
-     * @return the encoding to use
-     */
-    public String getEncoding() {
+  /**
+   * Returns the encoding to use.
+   *
+   * <p>
+   *
+   * @return the encoding to use
+   */
+  public String getEncoding() {
 
-        return m_encoding;
-    }
+    return m_encoding;
+  }
 
-    /**
-     * Returns the locale to use.<p>
-     *
-     * @return the locale to use
-     */
-    public Locale getLocale() {
+  /**
+   * Returns the locale to use.
+   *
+   * <p>
+   *
+   * @return the locale to use
+   */
+  public Locale getLocale() {
 
-        return m_locale;
-    }
-
+    return m_locale;
+  }
 }

@@ -31,43 +31,50 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * A role violation occurs if a user without permissions tries to access a protected OpenCms system feature that can only
- * be accessed by users in certain roles.<p>
+ * A role violation occurs if a user without permissions tries to access a protected OpenCms system
+ * feature that can only be accessed by users in certain roles.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsRoleViolationException extends CmsSecurityException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 8952798944116480269L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 8952798944116480269L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsRoleViolationException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsRoleViolationException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsRoleViolationException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsRoleViolationException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsRoleViolationException(container, cause);
-    }
+    return new CmsRoleViolationException(container, cause);
+  }
 }

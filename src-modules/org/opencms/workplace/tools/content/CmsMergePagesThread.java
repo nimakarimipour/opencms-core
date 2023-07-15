@@ -27,61 +27,64 @@
 
 package org.opencms.workplace.tools.content;
 
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 import org.opencms.report.A_CmsReportThread;
 
-import org.apache.commons.logging.Log;
-
 /**
- * Thread for merging content pages.<p>
+ * Thread for merging content pages.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsMergePagesThread extends A_CmsReportThread {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsMergePagesThread.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsMergePagesThread.class);
 
-    private CmsMergePages m_mergePages;
+  private CmsMergePages m_mergePages;
 
-    /**
-     * Constructor, creates a new  CmsMergePagesThread.<p>
-     *
-     * @param cms the current CmsObject
-     * @param mergePages the initialized CmsMergePages Object
-     */
-    public CmsMergePagesThread(CmsObject cms, CmsMergePages mergePages) {
+  /**
+   * Constructor, creates a new CmsMergePagesThread.
+   *
+   * <p>
+   *
+   * @param cms the current CmsObject
+   * @param mergePages the initialized CmsMergePages Object
+   */
+  public CmsMergePagesThread(CmsObject cms, CmsMergePages mergePages) {
 
-        super(cms, Messages.get().getBundle().key(Messages.GUI_MERGE_PAGES_THREAD_NAME_0));
-        cms.getRequestContext().setUpdateSessionEnabled(false);
-        initHtmlReport(cms.getRequestContext().getLocale());
-        m_mergePages = mergePages;
+    super(cms, Messages.get().getBundle().key(Messages.GUI_MERGE_PAGES_THREAD_NAME_0));
+    cms.getRequestContext().setUpdateSessionEnabled(false);
+    initHtmlReport(cms.getRequestContext().getLocale());
+    m_mergePages = mergePages;
+  }
+
+  /** @see org.opencms.report.A_CmsReportThread#getReportUpdate() */
+  @Override
+  public String getReportUpdate() {
+
+    return getReport().getReportUpdate();
+  }
+
+  /**
+   * The run method which starts the merging process.
+   *
+   * <p>
+   */
+  @Override
+  public synchronized void run() {
+
+    try {
+      // do the rename operation
+      m_mergePages.actionMerge(getReport());
+    } catch (Exception e) {
+      getReport().println(e);
+      if (LOG.isErrorEnabled()) {
+        LOG.error(e.getLocalizedMessage());
+      }
     }
-
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
-
-        return getReport().getReportUpdate();
-    }
-
-    /**
-     * The run method which starts the merging process.<p>
-     */
-    @Override
-    public synchronized void run() {
-
-        try {
-            // do the rename operation
-            m_mergePages.actionMerge(getReport());
-        } catch (Exception e) {
-            getReport().println(e);
-            if (LOG.isErrorEnabled()) {
-                LOG.error(e.getLocalizedMessage());
-            }
-        }
-    }
+  }
 }

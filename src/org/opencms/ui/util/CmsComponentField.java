@@ -30,47 +30,53 @@ package org.opencms.ui.util;
 import com.vaadin.ui.Component;
 
 /**
- * Container wrapping a single UI component.<p>
+ * Container wrapping a single UI component.
  *
- * This seemingly useless class is used as a typesafe way to add component-valued fields to component classes which use the Vaadin declarative UI mechanism
- * when you don't want them to be bound automatically to something in the declarative UI HTML file.
- * We could just use arrays of size 1 instead, but using a custom class is probably easier to understand.
+ * <p>This seemingly useless class is used as a typesafe way to add component-valued fields to
+ * component classes which use the Vaadin declarative UI mechanism when you don't want them to be
+ * bound automatically to something in the declarative UI HTML file. We could just use arrays of
+ * size 1 instead, but using a custom class is probably easier to understand.
  *
  * @param <T> the tpye of the wrapped component
  */
 public class CmsComponentField<T extends Component> {
 
-    /** The wrapped component. */
-    private T m_value;
+  /** The wrapped component. */
+  private T m_value;
 
-    /**
-     * Convenience method for creating a new instance.<p>
-     *
-     * @return the new instance
-     */
-    public static <U extends Component> CmsComponentField<U> newInstance() {
+  /**
+   * Convenience method for creating a new instance.
+   *
+   * <p>
+   *
+   * @return the new instance
+   */
+  public static <U extends Component> CmsComponentField<U> newInstance() {
 
-        return new CmsComponentField<U>();
-    }
+    return new CmsComponentField<U>();
+  }
 
-    /**
-     * Gets the wrapped component.<p>
-     *
-     * @return the wrapped component
-     */
-    public T get() {
+  /**
+   * Gets the wrapped component.
+   *
+   * <p>
+   *
+   * @return the wrapped component
+   */
+  public T get() {
 
-        return m_value;
-    }
+    return m_value;
+  }
 
-    /**
-     * Sets the wrapped component.<p>
-     *
-     * @param value the wrapped component
-     */
-    public void set(T value) {
+  /**
+   * Sets the wrapped component.
+   *
+   * <p>
+   *
+   * @param value the wrapped component
+   */
+  public void set(T value) {
 
-        m_value = value;
-    }
-
+    m_value = value;
+  }
 }

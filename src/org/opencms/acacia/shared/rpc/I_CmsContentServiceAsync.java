@@ -27,66 +27,78 @@
 
 package org.opencms.acacia.shared.rpc;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.List;
 import org.opencms.acacia.shared.CmsContentDefinition;
 import org.opencms.acacia.shared.CmsEntity;
 import org.opencms.acacia.shared.CmsEntityHtml;
 import org.opencms.acacia.shared.CmsValidationResult;
 
-import java.util.List;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * The content service used to load and persist entity and type information.<p>
+ * The content service used to load and persist entity and type information.
  *
- * Use this asynchronous interface on the client side.<p>
+ * <p>Use this asynchronous interface on the client side.
+ *
+ * <p>
  */
 public interface I_CmsContentServiceAsync {
 
-    /**
-     * Loads the content definition for a given type.<p>
-     *
-     * @param entityId the entity id/URI
-     * @param callback the asynchronous callback
-     */
-    void loadContentDefinition(String entityId, AsyncCallback<CmsContentDefinition> callback);
+  /**
+   * Loads the content definition for a given type.
+   *
+   * <p>
+   *
+   * @param entityId the entity id/URI
+   * @param callback the asynchronous callback
+   */
+  void loadContentDefinition(String entityId, AsyncCallback<CmsContentDefinition> callback);
 
-    /**
-     * Saves the given entities and returns a validation result in case of invalid entities.<p>
-     *
-     * @param entities the entities to save
-     * @param callback the asynchronous callback
-     */
-    void saveEntities(List<CmsEntity> entities, AsyncCallback<CmsValidationResult> callback);
+  /**
+   * Saves the given entities and returns a validation result in case of invalid entities.
+   *
+   * <p>
+   *
+   * @param entities the entities to save
+   * @param callback the asynchronous callback
+   */
+  void saveEntities(List<CmsEntity> entities, AsyncCallback<CmsValidationResult> callback);
 
-    /**
-     * Saves the given entity and returns a validation result in case of invalid entities.<p>
-     *
-     * @param entity the entity to save
-     * @param callback the asynchronous callback
-     */
-    void saveEntity(CmsEntity entity, AsyncCallback<CmsValidationResult> callback);
+  /**
+   * Saves the given entity and returns a validation result in case of invalid entities.
+   *
+   * <p>
+   *
+   * @param entity the entity to save
+   * @param callback the asynchronous callback
+   */
+  void saveEntity(CmsEntity entity, AsyncCallback<CmsValidationResult> callback);
 
-    /**
-     * Retrieves the updated entity HTML representation.<p>
-     * The entity data will be validated but not persisted on the server.<p>
-     *
-     * @param entity the entity
-     * @param contextUri the context URI
-     * @param htmlContextInfo information about the HTML context
-     * @param callback the asynchronous callback
-     */
-    void updateEntityHtml(
-        CmsEntity entity,
-        String contextUri,
-        String htmlContextInfo,
-        AsyncCallback<CmsEntityHtml> callback);
+  /**
+   * Retrieves the updated entity HTML representation.
+   *
+   * <p>The entity data will be validated but not persisted on the server.
+   *
+   * <p>
+   *
+   * @param entity the entity
+   * @param contextUri the context URI
+   * @param htmlContextInfo information about the HTML context
+   * @param callback the asynchronous callback
+   */
+  void updateEntityHtml(
+      CmsEntity entity,
+      String contextUri,
+      String htmlContextInfo,
+      AsyncCallback<CmsEntityHtml> callback);
 
-    /**
-     * Validates the given entity and returns maps of error and warning messages in case of invalid attributes.<p>
-     *
-     * @param changedEntity the entity to validate
-     * @param callback the asynchronous callback
-     */
-    void validateEntity(CmsEntity changedEntity, AsyncCallback<CmsValidationResult> callback);
+  /**
+   * Validates the given entity and returns maps of error and warning messages in case of invalid
+   * attributes.
+   *
+   * <p>
+   *
+   * @param changedEntity the entity to validate
+   * @param callback the asynchronous callback
+   */
+  void validateEntity(CmsEntity changedEntity, AsyncCallback<CmsValidationResult> callback);
 }

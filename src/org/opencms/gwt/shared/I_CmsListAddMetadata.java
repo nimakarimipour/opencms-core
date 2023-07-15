@@ -29,37 +29,34 @@ package org.opencms.gwt.shared;
 
 import java.util.List;
 
-/**
- * AutoBean interface for the data injected into the page by the cms:enable-list-add tag.
- */
+/** AutoBean interface for the data injected into the page by the cms:enable-list-add tag. */
 public interface I_CmsListAddMetadata {
 
-    /**
-     * Gets the post create handler.
-     *
-     * @return the post create handler
-     */
-    String getPostCreateHandler();
+  /**
+   * Gets the post create handler.
+   *
+   * @return the post create handler
+   */
+  String getPostCreateHandler();
 
-    /**
-     * Gets the types that should be creatable.
-     *
-     * @return the types
-     */
-    List<String> getTypes();
+  /**
+   * Gets the types that should be creatable.
+   *
+   * @return the types
+   */
+  List<String> getTypes();
 
-    /**
-     * Sets the post create handler.
-     *
-     * @param postCreateHandler the new post create handler
-     */
-    void setPostCreateHandler(String postCreateHandler);
+  /**
+   * Sets the post create handler.
+   *
+   * @param postCreateHandler the new post create handler
+   */
+  void setPostCreateHandler(String postCreateHandler);
 
-    /**
-     * Sets the types that should be creatable.
-     *
-     * @param types the new types
-     */
-    void setTypes(List<String> types);
-
+  /**
+   * Sets the types that should be creatable.
+   *
+   * @param types the new types
+   */
+  void setTypes(List<String> types);
 }

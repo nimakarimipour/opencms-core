@@ -27,6 +27,14 @@
 
 package org.opencms.ui.apps.dbmanager.sqlconsole;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import org.opencms.db.CmsDbPoolV11;
 import org.opencms.main.OpenCms;
 import org.opencms.report.CmsStringBufferReport;
@@ -37,74 +45,65 @@ import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsBasicDialog.DialogWidth;
 import org.opencms.ui.components.CmsErrorDialog;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
-
 /**
- * Widget for the SQL console.<p>
+ * Widget for the SQL console.
+ *
+ * <p>
  */
 public class CmsSqlConsoleLayout extends VerticalLayout {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** The button to execute the SQL. */
-    protected Button m_ok;
+  /** The button to execute the SQL. */
+  protected Button m_ok;
 
-    /** Combo box for selecting the pool. */
-    protected ComboBox<String> m_pool;
+  /** Combo box for selecting the pool. */
+  protected ComboBox<String> m_pool;
 
-    /** Text area containing the SQL statements. */
-    protected TextArea m_script;
+  /** Text area containing the SQL statements. */
+  protected TextArea m_script;
 
-    /** The executor. */
-    private CmsSqlConsoleExecutor m_console;
+  /** The executor. */
+  private CmsSqlConsoleExecutor m_console;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param console the SQL executor
-     */
-    public CmsSqlConsoleLayout(CmsSqlConsoleExecutor console) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param console the SQL executor
+   */
+  public CmsSqlConsoleLayout(CmsSqlConsoleExecutor console) {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        m_console = console;
-        m_ok.addClickListener(evt -> runQuery());
-        m_pool.setItems(OpenCms.getDbPoolNames());
-        m_pool.setValue(CmsDbPoolV11.getDefaultDbPoolName());
-        m_pool.setEmptySelectionAllowed(false);
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    m_console = console;
+    m_ok.addClickListener(evt -> runQuery());
+    m_pool.setItems(OpenCms.getDbPoolNames());
+    m_pool.setValue(CmsDbPoolV11.getDefaultDbPoolName());
+    m_pool.setEmptySelectionAllowed(false);
+  }
+
+  /** Runs the currently entered query and displays the results. */
+  protected void runQuery() {
+
+    String pool = m_pool.getValue();
+    String stmt = m_script.getValue();
+    if (stmt.trim().isEmpty()) {
+      return;
     }
-
-    /**
-     * Runs the currently entered query and displays the results.
-     */
-    protected void runQuery() {
-
-        String pool = m_pool.getValue();
-        String stmt = m_script.getValue();
-        if (stmt.trim().isEmpty()) {
-            return;
-        }
-        CmsStringBufferReport report = new CmsStringBufferReport(Locale.ENGLISH);
-        List<Throwable> errors = new ArrayList<>();
-        CmsSqlConsoleResults result = m_console.execute(stmt, pool, report, errors);
-        if (errors.size() > 0) {
-            CmsErrorDialog.showErrorDialog(report.toString() +  errors.get(0).getMessage(), errors.get(0));
-        } else {
-            Window window = CmsBasicDialog.prepareWindow(DialogWidth.max);
-            window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_SQLCONSOLE_QUERY_RESULTS_0));
-            window.setContent(new CmsSqlConsoleResultsForm(result, report.toString()));
-            A_CmsUI.get().addWindow(window);
-            window.center();
-        }
-
+    CmsStringBufferReport report = new CmsStringBufferReport(Locale.ENGLISH);
+    List<Throwable> errors = new ArrayList<>();
+    CmsSqlConsoleResults result = m_console.execute(stmt, pool, report, errors);
+    if (errors.size() > 0) {
+      CmsErrorDialog.showErrorDialog(report.toString() + errors.get(0).getMessage(), errors.get(0));
+    } else {
+      Window window = CmsBasicDialog.prepareWindow(DialogWidth.max);
+      window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_SQLCONSOLE_QUERY_RESULTS_0));
+      window.setContent(new CmsSqlConsoleResultsForm(result, report.toString()));
+      A_CmsUI.get().addWindow(window);
+      window.center();
     }
-
+  }
 }

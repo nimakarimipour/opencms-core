@@ -27,119 +27,127 @@
 
 package org.opencms.ui.apps.scheduler;
 
+import com.vaadin.server.Resource;
+import java.util.Date;
 import org.opencms.scheduler.CmsScheduledJobInfo;
 import org.opencms.ui.CmsCssIcon;
 import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.util.CmsUUID;
 
-import java.util.Date;
-
-import com.vaadin.server.Resource;
-
 /**
- * Don't use CmsScheduledJobInfo directly, so we don't need to change it if we want to change how the values are
- * rendered, and having only the fields we want displayed in the table makes it easier to understand.
+ * Don't use CmsScheduledJobInfo directly, so we don't need to change it if we want to change how
+ * the values are rendered, and having only the fields we want displayed in the table makes it
+ * easier to understand.
  */
 public class CmsJobBean {
 
-    /** The job icon resource. */
-    private static CmsCssIcon ICON = new CmsCssIcon(OpenCmsTheme.ICON_JOB);
+  /** The job icon resource. */
+  private static CmsCssIcon ICON = new CmsCssIcon(OpenCmsTheme.ICON_JOB);
 
-    /** Internal id. */
-    private CmsUUID m_id = new CmsUUID();
+  /** Internal id. */
+  private CmsUUID m_id = new CmsUUID();
 
-    /** The wrapped scheduled job info. */
-    protected CmsScheduledJobInfo m_jobInfo;
+  /** The wrapped scheduled job info. */
+  protected CmsScheduledJobInfo m_jobInfo;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param info the scheduled job info to wrap
-     */
-    public CmsJobBean(CmsScheduledJobInfo info) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param info the scheduled job info to wrap
+   */
+  public CmsJobBean(CmsScheduledJobInfo info) {
 
-        m_jobInfo = info;
+    m_jobInfo = info;
+  }
+
+  /** @see java.lang.Object#equals(java.lang.Object) */
+  @Override
+  public boolean equals(Object obj) {
+
+    if (obj instanceof CmsJobBean) {
+      return ((CmsJobBean) obj).m_id.equals(m_id);
     }
+    return false;
+  }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
+  /**
+   * Gets the class name for the job.
+   *
+   * <p>
+   *
+   * @return the class name
+   */
+  public String getClassName() {
 
-        if (obj instanceof CmsJobBean) {
-            return ((CmsJobBean)obj).m_id.equals(m_id);
-        }
-        return false;
+    return m_jobInfo.getClassName();
+  }
 
-    }
+  /**
+   * Returns the job icon resource.
+   *
+   * <p>
+   *
+   * @return the job icon resource
+   */
+  public Resource getIcon() {
 
-    /**
-     * Gets the class name for the job.<p>
-     *
-     * @return the class name
-     */
-    public String getClassName() {
+    return ICON;
+  }
 
-        return m_jobInfo.getClassName();
-    }
+  /**
+   * Gets the scheduled job.
+   *
+   * <p>
+   *
+   * @return the scheduled job
+   */
+  public CmsScheduledJobInfo getJob() {
 
-    /**
-     * Returns the job icon resource.<p>
-     *
-     * @return the job icon resource
-     */
-    public Resource getIcon() {
+    return m_jobInfo;
+  }
 
-        return ICON;
-    }
+  /**
+   * Gets the last execution date.
+   *
+   * <p>
+   *
+   * @return the last execution date
+   */
+  public Date getLastExecution() {
 
-    /**
-     * Gets the scheduled job.<p>
-     *
-     * @return the scheduled job
-     */
-    public CmsScheduledJobInfo getJob() {
+    return m_jobInfo.getExecutionTimePrevious();
+  }
 
-        return m_jobInfo;
-    }
+  /**
+   * Gets the job name.
+   *
+   * <p>
+   *
+   * @return the job name
+   */
+  public String getName() {
 
-    /**
-     * Gets the last execution date.<p>
-     *
-     * @return the last execution date
-     */
-    public Date getLastExecution() {
+    return m_jobInfo.getJobName();
+  }
 
-        return m_jobInfo.getExecutionTimePrevious();
-    }
+  /**
+   * Gets the next execution date.
+   *
+   * <p>
+   *
+   * @return the next execution date
+   */
+  public Date getNextExecution() {
 
-    /**
-     * Gets the job name.<p>
-     *
-     * @return the job name
-     */
-    public String getName() {
+    return m_jobInfo.getExecutionTimeNext();
+  }
 
-        return m_jobInfo.getJobName();
-    }
+  /** @see java.lang.Object#hashCode() */
+  @Override
+  public int hashCode() {
 
-    /**
-     * Gets the next execution date.<p>
-     *
-     * @return the next execution date
-     */
-    public Date getNextExecution() {
-
-        return m_jobInfo.getExecutionTimeNext();
-    }
-
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-
-        return m_id.hashCode();
-    }
+    return m_id.hashCode();
+  }
 }

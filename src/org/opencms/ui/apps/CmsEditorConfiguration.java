@@ -27,80 +27,69 @@
 
 package org.opencms.ui.apps;
 
+import com.vaadin.server.Resource;
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.security.CmsRole;
 
-import java.util.Locale;
-
-import com.vaadin.server.Resource;
-
 /**
- * The editor app configuration.<p>
+ * The editor app configuration.
+ *
+ * <p>
  */
 public class CmsEditorConfiguration extends A_CmsWorkplaceAppConfiguration {
 
-    /** The app id. */
-    public static final String APP_ID = "editor";
+  /** The app id. */
+  public static final String APP_ID = "editor";
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getAppCategory()
-     */
-    @Override
-    public String getAppCategory() {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getAppCategory() */
+  @Override
+  public String getAppCategory() {
 
-        return "none";
-    }
+    return "none";
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance()
-     */
-    public I_CmsWorkplaceApp getAppInstance() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getAppInstance() */
+  public I_CmsWorkplaceApp getAppInstance() {
 
-        return new CmsEditor();
-    }
+    return new CmsEditor();
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon()
-     */
-    public Resource getIcon() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getIcon() */
+  public Resource getIcon() {
 
-        // no icon needed, the editor will not be called directly
-        return null;
-    }
+    // no icon needed, the editor will not be called directly
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getId() */
+  public String getId() {
 
-        return APP_ID;
-    }
+    return APP_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
-     */
-    @Override
-    public String getName(Locale locale) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
+  @Override
+  public String getName(Locale locale) {
 
-        return Messages.get().getBundle(locale).key(Messages.GUI_EDITOR_TITLE_0);
-    }
+    return Messages.get().getBundle(locale).key(Messages.GUI_EDITOR_TITLE_0);
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getRequiredRole()
-     */
-    @Override
-    public CmsRole getRequiredRole() {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getRequiredRole() */
+  @Override
+  public CmsRole getRequiredRole() {
 
-        return CmsRole.ELEMENT_AUTHOR;
-    }
+    return CmsRole.ELEMENT_AUTHOR;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getVisibility(org.opencms.file.CmsObject)
-     */
-    @Override
-    public CmsAppVisibilityStatus getVisibility(CmsObject cms) {
+  /**
+   * @see
+   *     org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getVisibility(org.opencms.file.CmsObject)
+   */
+  @Override
+  public CmsAppVisibilityStatus getVisibility(CmsObject cms) {
 
-        // the editor should no be called directly so it is hidden
-        return new CmsAppVisibilityStatus(false, true, "");
-    }
+    // the editor should no be called directly so it is hidden
+    return new CmsAppVisibilityStatus(false, true, "");
+  }
 }

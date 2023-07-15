@@ -31,159 +31,173 @@ import org.opencms.file.CmsObject;
 import org.opencms.main.CmsIllegalArgumentException;
 
 /**
- * Bean to hold the settings needed for the operation of converting xml files in
- * the OpenCms VFS.
+ * Bean to hold the settings needed for the operation of converting xml files in the OpenCms VFS.
+ *
  * <p>
  *
  * @since 7.0.5
- *
  */
 public final class CmsUpdateXmlSettings {
 
-    /**
-     * Property for the tag-replace contentool to know the files that have been processed before in
-     * case of early terminaton in previous runs.
-     */
-    public static final String PROPERTY_CONTENTOOLS_TAGREPLACE = "contenttools.convertxml";
+  /**
+   * Property for the tag-replace contentool to know the files that have been processed before in
+   * case of early terminaton in previous runs.
+   */
+  public static final String PROPERTY_CONTENTOOLS_TAGREPLACE = "contenttools.convertxml";
 
-    /** The boolean value if process files in subfolders, too. */
-    private boolean m_includeSubFolders;
+  /** The boolean value if process files in subfolders, too. */
+  private boolean m_includeSubFolders;
 
-    /** Only count files to transform. */
-    private boolean m_onlyCountFiles;
+  /** Only count files to transform. */
+  private boolean m_onlyCountFiles;
 
-    /** ResourceType. */
-    private int m_resourceType;
+  /** ResourceType. */
+  private int m_resourceType;
 
-    /** The root of all content files to process. */
-    private String m_vfsFolder;
+  /** The root of all content files to process. */
+  private String m_vfsFolder;
 
-    /** Xsl file. */
-    private String m_xslFile;
+  /** Xsl file. */
+  private String m_xslFile;
 
-    /**
-     * Bean constructor with cms object for path validation.
-     * <p>
-     *
-     * @param cms used to test the working path for valididty.
-     */
-    public CmsUpdateXmlSettings(CmsObject cms) {
+  /**
+   * Bean constructor with cms object for path validation.
+   *
+   * <p>
+   *
+   * @param cms used to test the working path for valididty.
+   */
+  public CmsUpdateXmlSettings(CmsObject cms) {
 
-        m_resourceType = 0;
-        m_vfsFolder = "";
-        m_includeSubFolders = false;
-        m_xslFile = "";
-        m_onlyCountFiles = false;
-    }
+    m_resourceType = 0;
+    m_vfsFolder = "";
+    m_includeSubFolders = false;
+    m_xslFile = "";
+    m_onlyCountFiles = false;
+  }
 
-    /**
-     * Gets if also files in sub folders shall become processed.<p>
-     *
-     * @return if also files in sub folders shall become processed.
-     */
-    public boolean getIncludeSubFolders() {
+  /**
+   * Gets if also files in sub folders shall become processed.
+   *
+   * <p>
+   *
+   * @return if also files in sub folders shall become processed.
+   */
+  public boolean getIncludeSubFolders() {
 
-        return m_includeSubFolders;
-    }
+    return m_includeSubFolders;
+  }
 
-    /**
-     * Gets if only count files to transform.<p>
-     *
-     * @return If only count files to transform.
-     */
-    public boolean getOnlyCountFiles() {
+  /**
+   * Gets if only count files to transform.
+   *
+   * <p>
+   *
+   * @return If only count files to transform.
+   */
+  public boolean getOnlyCountFiles() {
 
-        return m_onlyCountFiles;
-    }
+    return m_onlyCountFiles;
+  }
 
-    /**
-     * Gets resource type to transform.<p>
-     *
-     * @return Resource type to transform.
-     */
-    public int getResourceType() {
+  /**
+   * Gets resource type to transform.
+   *
+   * <p>
+   *
+   * @return Resource type to transform.
+   */
+  public int getResourceType() {
 
-        return m_resourceType;
-    }
+    return m_resourceType;
+  }
 
-    /**
-     * Returns the path under which files will be processed.
-     * <p>
-     *
-     * @return the path under which files will be processed.
-     */
-    public String getVfsFolder() {
+  /**
+   * Returns the path under which files will be processed.
+   *
+   * <p>
+   *
+   * @return the path under which files will be processed.
+   */
+  public String getVfsFolder() {
 
-        return m_vfsFolder;
-    }
+    return m_vfsFolder;
+  }
 
-    /**
-     * Gets path to xsl file.<p>
-     *
-     * @return Path to xsl file.
-     */
-    public String getXslFile() {
+  /**
+   * Gets path to xsl file.
+   *
+   * <p>
+   *
+   * @return Path to xsl file.
+   */
+  public String getXslFile() {
 
-        return m_xslFile;
-    }
+    return m_xslFile;
+  }
 
-    /**
-     * Sets value if also process files in sub folders.<p>
-     *
-     * @param subFolders True if process sub folders, too
-     *
-     * @throws CmsIllegalArgumentException if the argument is not valid.
-     */
-    public void setIncludeSubFolders(boolean subFolders) throws CmsIllegalArgumentException {
+  /**
+   * Sets value if also process files in sub folders.
+   *
+   * <p>
+   *
+   * @param subFolders True if process sub folders, too
+   * @throws CmsIllegalArgumentException if the argument is not valid.
+   */
+  public void setIncludeSubFolders(boolean subFolders) throws CmsIllegalArgumentException {
 
-        m_includeSubFolders = subFolders;
-    }
+    m_includeSubFolders = subFolders;
+  }
 
-    /**
-     * Sets if only count files to transform.<p>
-     *
-     * @param countFiles True, if only count files to transform
-     *
-     * @throws CmsIllegalArgumentException if the argument is not valid.
-     */
-    public void setOnlyCountFiles(boolean countFiles) throws CmsIllegalArgumentException {
+  /**
+   * Sets if only count files to transform.
+   *
+   * <p>
+   *
+   * @param countFiles True, if only count files to transform
+   * @throws CmsIllegalArgumentException if the argument is not valid.
+   */
+  public void setOnlyCountFiles(boolean countFiles) throws CmsIllegalArgumentException {
 
-        m_onlyCountFiles = countFiles;
-    }
+    m_onlyCountFiles = countFiles;
+  }
 
-    /**
-     * Sets resource type to transform.<p>
-     *
-     * @param resourceType File format to transform
-     *
-     * @throws CmsIllegalArgumentException if the argument is not valid.
-     */
-    public void setResourceType(int resourceType) throws CmsIllegalArgumentException {
+  /**
+   * Sets resource type to transform.
+   *
+   * <p>
+   *
+   * @param resourceType File format to transform
+   * @throws CmsIllegalArgumentException if the argument is not valid.
+   */
+  public void setResourceType(int resourceType) throws CmsIllegalArgumentException {
 
-        m_resourceType = resourceType;
-    }
+    m_resourceType = resourceType;
+  }
 
-    /**
-     * Sets vfs folder to process files in.<p>
-     *
-     * @param vfsFolder The vfs folder to process files in
-     *
-     * @throws CmsIllegalArgumentException if the argument is not valid.
-     */
-    public void setVfsFolder(String vfsFolder) throws CmsIllegalArgumentException {
+  /**
+   * Sets vfs folder to process files in.
+   *
+   * <p>
+   *
+   * @param vfsFolder The vfs folder to process files in
+   * @throws CmsIllegalArgumentException if the argument is not valid.
+   */
+  public void setVfsFolder(String vfsFolder) throws CmsIllegalArgumentException {
 
-        m_vfsFolder = vfsFolder;
-    }
+    m_vfsFolder = vfsFolder;
+  }
 
-    /**
-     * Sets path to xsl file.<p>
-     *
-     * @param xslFile Path to xsl file
-     *
-     * @throws CmsIllegalArgumentException if the argument is not valid.
-     */
-    public void setXslFile(String xslFile) throws CmsIllegalArgumentException {
+  /**
+   * Sets path to xsl file.
+   *
+   * <p>
+   *
+   * @param xslFile Path to xsl file
+   * @throws CmsIllegalArgumentException if the argument is not valid.
+   */
+  public void setXslFile(String xslFile) throws CmsIllegalArgumentException {
 
-        m_xslFile = xslFile;
-    }
+    m_xslFile = xslFile;
+  }
 }

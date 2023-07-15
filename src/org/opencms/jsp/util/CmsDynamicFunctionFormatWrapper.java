@@ -27,99 +27,106 @@
 
 package org.opencms.jsp.util;
 
+import java.util.Collections;
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.xml.containerpage.CmsDynamicFunctionBean;
 
-import java.util.Collections;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Wrapper class for dynamic function formats which can be used from JSP EL.<p>
+ * Wrapper class for dynamic function formats which can be used from JSP EL.
+ *
+ * <p>
  */
 public class CmsDynamicFunctionFormatWrapper {
 
-    /** The log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsDynamicFunctionFormatWrapper.class);
+  /** The log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsDynamicFunctionFormatWrapper.class);
 
-    /** The current cms context. */
-    private CmsObject m_cms;
+  /** The current cms context. */
+  private CmsObject m_cms;
 
-    /** The dynamic function format. */
-    private CmsDynamicFunctionBean.Format m_format;
+  /** The dynamic function format. */
+  private CmsDynamicFunctionBean.Format m_format;
 
-    /** The jsp resource of the dynamic function format. */
-    private CmsResource m_jspResource;
+  /** The jsp resource of the dynamic function format. */
+  private CmsResource m_jspResource;
 
-    /**
-     * Creates a new wrapper instance for a given format.<p>
-     *
-     * The format parameter may be null.
-     *
-     * @param cms the current CMS context
-     * @param format the dynamic function format
-     */
-    public CmsDynamicFunctionFormatWrapper(CmsObject cms, CmsDynamicFunctionBean.Format format) {
+  /**
+   * Creates a new wrapper instance for a given format.
+   *
+   * <p>The format parameter may be null.
+   *
+   * @param cms the current CMS context
+   * @param format the dynamic function format
+   */
+  public CmsDynamicFunctionFormatWrapper(CmsObject cms, CmsDynamicFunctionBean.Format format) {
 
-        m_cms = cms;
-        m_format = format;
-        if (format != null) {
-            try {
-                m_jspResource = cms.readResource(format.getJspStructureId());
-            } catch (CmsException e) {
-                LOG.warn(e.getLocalizedMessage(), e);
-            }
-        }
+    m_cms = cms;
+    m_format = format;
+    if (format != null) {
+      try {
+        m_jspResource = cms.readResource(format.getJspStructureId());
+      } catch (CmsException e) {
+        LOG.warn(e.getLocalizedMessage(), e);
+      }
     }
+  }
 
-    /**
-     * Check if this format is actually valid, i.e. was not created with a null format argument.<p>
-     *
-     * @return true if this format is valid
-     */
-    public boolean getExists() {
+  /**
+   * Check if this format is actually valid, i.e. was not created with a null format argument.
+   *
+   * <p>
+   *
+   * @return true if this format is valid
+   */
+  public boolean getExists() {
 
-        return m_jspResource != null;
+    return m_jspResource != null;
+  }
+
+  /**
+   * Gets the jsp site path for this dynamic function format.
+   *
+   * <p>
+   *
+   * @return the jsp site path for this dynamic function format
+   */
+  public String getJsp() {
+
+    if (m_jspResource != null) {
+      return m_cms.getSitePath(m_jspResource);
     }
+    return "";
+  }
 
-    /**
-     * Gets the jsp site path for this dynamic function format.<p>
-     *
-     * @return the jsp site path for this dynamic function format
-     */
-    public String getJsp() {
+  /**
+   * Gets the parameters for this dynamic function format.
+   *
+   * <p>
+   *
+   * @return the map of parameters for the dynamic function
+   */
+  public Map<String, String> getParam() {
 
-        if (m_jspResource != null) {
-            return m_cms.getSitePath(m_jspResource);
-        }
-        return "";
+    return getParameters();
+  }
+
+  /**
+   * Gets the parameters for this dynamic function format.
+   *
+   * <p>
+   *
+   * @return the map of parameters for the dynamic function
+   */
+  public Map<String, String> getParameters() {
+
+    if (m_format != null) {
+      return m_format.getParameters();
     }
-
-    /**
-     * Gets the parameters for this dynamic function format.<p>
-     *
-     * @return the map of parameters for the dynamic function
-     */
-    public Map<String, String> getParam() {
-
-        return getParameters();
-    }
-
-    /**
-     * Gets the parameters for this dynamic function format.<p>
-     *
-     * @return the map of parameters for the dynamic function
-     */
-    public Map<String, String> getParameters() {
-
-        if (m_format != null) {
-            return m_format.getParameters();
-        }
-        return Collections.emptyMap();
-    }
-
+    return Collections.emptyMap();
+  }
 }

@@ -30,33 +30,39 @@ package org.opencms.ui.shared.components;
 import com.vaadin.shared.AbstractComponentState;
 
 /**
- * The bread crumb state.<p>
+ * The bread crumb state.
+ *
+ * <p>
  */
 public class CmsBreadCrumbState extends AbstractComponentState {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -3379155393168861167L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -3379155393168861167L;
 
-    /** The bread crumb entries. */
-    private String[][] m_entries;
+  /** The bread crumb entries. */
+  private String[][] m_entries;
 
-    /**
-     * Returns the bread crumb entries.<p>
-     *
-     * @return the bread crumb entries
-     */
-    public String[][] getEntries() {
+  /**
+   * Returns the bread crumb entries.
+   *
+   * <p>
+   *
+   * @return the bread crumb entries
+   */
+  public String[][] getEntries() {
 
-        return m_entries;
-    }
+    return m_entries;
+  }
 
-    /**
-     * Sets the bread crumb entries.<p>
-     *
-     * @param entries the bread crumb entries to set
-     */
-    public void setEntries(String[][] entries) {
+  /**
+   * Sets the bread crumb entries.
+   *
+   * <p>
+   *
+   * @param entries the bread crumb entries to set
+   */
+  public void setEntries(String[][] entries) {
 
-        m_entries = entries;
-    }
+    m_entries = entries;
+  }
 }

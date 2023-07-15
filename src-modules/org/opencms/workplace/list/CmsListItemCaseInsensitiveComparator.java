@@ -32,54 +32,56 @@ import java.util.Comparator;
 import java.util.Locale;
 
 /**
- * Comparator for case insensitive column sorting with string localization.<p>
+ * Comparator for case insensitive column sorting with string localization.
  *
- * If both list items column values are Strings then a localized collector is used for sorting;
- * if not, the <code>{@link Comparable}</code> interface is used.<p>
+ * <p>If both list items column values are Strings then a localized collector is used for sorting;
+ * if not, the <code>{@link Comparable}</code> interface is used.
+ *
+ * <p>
  *
  * @since 6.0.0
- *
  * @see org.opencms.workplace.list.CmsListColumnDefinition
  */
 public class CmsListItemCaseInsensitiveComparator implements I_CmsListItemComparator {
 
-    /**
-     * Default Constructor.<p>
-     */
-    public CmsListItemCaseInsensitiveComparator() {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   */
+  public CmsListItemCaseInsensitiveComparator() {
 
-        // no-op
-    }
+    // no-op
+  }
 
-    /**
-     * @see org.opencms.workplace.list.I_CmsListItemComparator#getComparator(java.lang.String, java.util.Locale)
-     */
-    public Comparator<CmsListItem> getComparator(final String columnId, final Locale locale) {
+  /**
+   * @see org.opencms.workplace.list.I_CmsListItemComparator#getComparator(java.lang.String,
+   *     java.util.Locale)
+   */
+  public Comparator<CmsListItem> getComparator(final String columnId, final Locale locale) {
 
-        final Collator collator = Collator.getInstance(locale);
+    final Collator collator = Collator.getInstance(locale);
 
-        return new Comparator<CmsListItem>() {
+    return new Comparator<CmsListItem>() {
 
-            /**
-             * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-             */
-            @SuppressWarnings({"rawtypes", "unchecked"})
-            public int compare(CmsListItem o1, CmsListItem o2) {
+      /** @see java.util.Comparator#compare(java.lang.Object, java.lang.Object) */
+      @SuppressWarnings({"rawtypes", "unchecked"})
+      public int compare(CmsListItem o1, CmsListItem o2) {
 
-                Comparable c1 = (Comparable)o1.get(columnId);
-                Comparable c2 = (Comparable)o2.get(columnId);
-                if ((c1 instanceof String) && (c2 instanceof String)) {
-                    return collator.compare(((String)c1).toUpperCase(), ((String)c2).toUpperCase());
-                } else if (c1 != null) {
-                    if (c2 == null) {
-                        return 1;
-                    }
-                    return c1.compareTo(c2);
-                } else if (c2 != null) {
-                    return -1;
-                }
-                return 0;
-            }
-        };
-    }
+        Comparable c1 = (Comparable) o1.get(columnId);
+        Comparable c2 = (Comparable) o2.get(columnId);
+        if ((c1 instanceof String) && (c2 instanceof String)) {
+          return collator.compare(((String) c1).toUpperCase(), ((String) c2).toUpperCase());
+        } else if (c1 != null) {
+          if (c2 == null) {
+            return 1;
+          }
+          return c1.compareTo(c2);
+        } else if (c2 != null) {
+          return -1;
+        }
+        return 0;
+      }
+    };
+  }
 }

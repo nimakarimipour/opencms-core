@@ -28,18 +28,21 @@
 package org.opencms.gwt.shared.sort;
 
 /**
- * Marker interface for objects with a path property to allow easy sorting.<p>
+ * Marker interface for objects with a path property to allow easy sorting.
+ *
+ * <p>
  *
  * @see CmsComparatorPath
- *
  * @since 8.0.0
  */
 public interface I_CmsHasPath {
 
-    /**
-     * Returns the id.<p>
-     *
-     * @return the id
-     */
-    String getPath();
+  /**
+   * Returns the id.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  String getPath();
 }

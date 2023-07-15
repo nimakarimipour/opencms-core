@@ -28,133 +28,146 @@
 package org.opencms.acacia.client.export;
 
 import org.opencms.acacia.shared.CmsType;
-
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.ExportPackage;
 import org.timepedia.exporter.client.Exportable;
 
 /**
- * Exportable wrapper for entity types.<p>
+ * Exportable wrapper for entity types.
+ *
+ * <p>
  */
 @Export
 @ExportPackage(value = "acacia")
 public class CmsTypeWrapper implements Exportable {
 
-    /** The wrapped type object. */
-    private CmsType m_type;
+  /** The wrapped type object. */
+  private CmsType m_type;
 
-    /**
-     * Default constructor.
-     */
-    public CmsTypeWrapper() {
+  /** Default constructor. */
+  public CmsTypeWrapper() {}
 
-    }
+  /**
+   * Wrapper constructor.
+   *
+   * <p>
+   *
+   * @param type the type object to wrap
+   */
+  public CmsTypeWrapper(CmsType type) {
 
-    /**
-     * Wrapper constructor.<p>
-     *
-     * @param type the type object to wrap
-     */
-    public CmsTypeWrapper(CmsType type) {
+    m_type = type;
+  }
 
-        m_type = type;
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName parameter for the wrapped method
+   * @return the result of the wrapped method
+   */
+  public int getAttributeMaxOccurrence(String attributeName) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName parameter for the wrapped method
-     *
-     * @return the result of the wrapped method
-     */
-    public int getAttributeMaxOccurrence(String attributeName) {
+    return m_type.getAttributeMaxOccurrence(attributeName);
+  }
 
-        return m_type.getAttributeMaxOccurrence(attributeName);
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName parameter for the wrapped method
+   * @return the result of the wrapped method
+   */
+  public int getAttributeMinOccurrence(String attributeName) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName parameter for the wrapped method
-     *
-     * @return the result of the wrapped method
-     */
-    public int getAttributeMinOccurrence(String attributeName) {
+    return m_type.getAttributeMinOccurrence(attributeName);
+  }
 
-        return m_type.getAttributeMinOccurrence(attributeName);
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public String[] getAttributeNames() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public String[] getAttributeNames() {
+    return CmsWrapperUtils.arrayFromStringList(m_type.getAttributeNames());
+  }
 
-        return CmsWrapperUtils.arrayFromStringList(m_type.getAttributeNames());
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName parameter for the wrapped method
+   * @return the result of the wrapped method
+   */
+  public CmsTypeWrapper getAttributeType(String attributeName) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName parameter for the wrapped method
-     *
-     * @return the result of the wrapped method
-     */
-    public CmsTypeWrapper getAttributeType(String attributeName) {
+    return new CmsTypeWrapper(m_type.getAttributeType(attributeName));
+  }
 
-        return new CmsTypeWrapper(m_type.getAttributeType(attributeName));
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @param attributeName parameter for the wrapped method
+   * @return the result of the wrapped method
+   */
+  public String getAttributeTypeName(String attributeName) {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @param attributeName parameter for the wrapped method
-     *
-     * @return the result of the wrapped method
-     */
-    public String getAttributeTypeName(String attributeName) {
+    return m_type.getAttributeTypeName(attributeName);
+  }
 
-        return m_type.getAttributeTypeName(attributeName);
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public int getChoiceMaxOccurrence() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public int getChoiceMaxOccurrence() {
+    return m_type.getChoiceMaxOccurrence();
+  }
 
-        return m_type.getChoiceMaxOccurrence();
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public String getId() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public String getId() {
+    return m_type.getId();
+  }
 
-        return m_type.getId();
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public boolean isChoice() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public boolean isChoice() {
+    return m_type.isChoice();
+  }
 
-        return m_type.isChoice();
-    }
+  /**
+   * Wrapper method.
+   *
+   * <p>
+   *
+   * @return the result of the wrapped method
+   */
+  public boolean isSimpleType() {
 
-    /**
-     * Wrapper method.<p>
-     *
-     * @return the result of the wrapped method
-     */
-    public boolean isSimpleType() {
-
-        return m_type.isSimpleType();
-    }
+    return m_type.isSimpleType();
+  }
 }

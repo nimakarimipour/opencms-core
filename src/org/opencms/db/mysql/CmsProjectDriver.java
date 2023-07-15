@@ -30,19 +30,18 @@ package org.opencms.db.mysql;
 import org.opencms.db.generic.CmsSqlManager;
 
 /**
- * MySQL implementation of the project driver methods.<p>
+ * MySQL implementation of the project driver methods.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsProjectDriver extends org.opencms.db.generic.CmsProjectDriver {
 
-    /**
-     * @see org.opencms.db.I_CmsProjectDriver#initSqlManager(String)
-     */
-    @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  /** @see org.opencms.db.I_CmsProjectDriver#initSqlManager(String) */
+  @Override
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
 
-        return CmsSqlManager.getInstance(classname);
-    }
-
+    return CmsSqlManager.getInstance(classname);
+  }
 }

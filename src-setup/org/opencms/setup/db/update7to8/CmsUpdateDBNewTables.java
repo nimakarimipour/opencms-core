@@ -27,61 +27,64 @@
 
 package org.opencms.setup.db.update7to8;
 
-import org.opencms.setup.CmsSetupDb;
-import org.opencms.setup.db.A_CmsUpdateDBPart;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.opencms.setup.CmsSetupDb;
+import org.opencms.setup.db.A_CmsUpdateDBPart;
 
 /**
- * This class creates the new tables for the database of OpenCms.<p>
+ * This class creates the new tables for the database of OpenCms.
  *
- * The new tables in OpenCms 8 are:
+ * <p>The new tables in OpenCms 8 are:
+ *
  * <ul>
- * <li><code>CMS_LOG</code></li>
+ *   <li><code>CMS_LOG</code>
  * </ul>
  *
  * @since 8.0.0
  */
 public class CmsUpdateDBNewTables extends A_CmsUpdateDBPart {
 
-    /** Constant for the SQL query properties.<p> */
-    private static final String QUERY_PROPERTY_FILE = "cms_new_tables_queries.properties";
+  /**
+   * Constant for the SQL query properties.
+   *
+   * <p>
+   */
+  private static final String QUERY_PROPERTY_FILE = "cms_new_tables_queries.properties";
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the sql queries properties file could not be read
-     */
-    public CmsUpdateDBNewTables()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the sql queries properties file could not be read
+   */
+  public CmsUpdateDBNewTables() throws IOException {
 
-        super();
-        loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+    super();
+    loadQueryProperties(getPropertyFileLocation() + QUERY_PROPERTY_FILE);
+  }
+
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#internalExecute(org.opencms.setup.CmsSetupDb) */
+  @Override
+  protected void internalExecute(CmsSetupDb dbCon) throws SQLException {
+
+    System.out.println(new Exception().getStackTrace()[0].toString());
+
+    List<String> elements = new ArrayList<String>();
+    elements.add("CMS_LOG");
+
+    for (Iterator<String> it = elements.iterator(); it.hasNext(); ) {
+      String table = it.next();
+      if (!dbCon.hasTableOrColumn(table, null)) {
+        String query = readQuery(table);
+        dbCon.updateSqlStatement(query, null, null);
+      } else {
+        System.out.println("table " + table + " already exists");
+      }
     }
-
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#internalExecute(org.opencms.setup.CmsSetupDb)
-     */
-    @Override
-    protected void internalExecute(CmsSetupDb dbCon) throws SQLException {
-
-        System.out.println(new Exception().getStackTrace()[0].toString());
-
-        List<String> elements = new ArrayList<String>();
-        elements.add("CMS_LOG");
-
-        for (Iterator<String> it = elements.iterator(); it.hasNext();) {
-            String table = it.next();
-            if (!dbCon.hasTableOrColumn(table, null)) {
-                String query = readQuery(table);
-                dbCon.updateSqlStatement(query, null, null);
-            } else {
-                System.out.println("table " + table + " already exists");
-            }
-        }
-    }
+  }
 }

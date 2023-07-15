@@ -32,15 +32,17 @@ import org.opencms.acacia.shared.I_CmsSerialDateValue;
 /** Extension of {@link I_CmsSerialDateValue} that makes value changes observable. */
 public interface I_CmsObservableSerialDateValue extends I_CmsSerialDateValue {
 
-    /**
-     * Register an observer.
-     * @param obs the observer to register.
-     */
-    void registerValueChangeObserver(I_CmsSerialDateValueChangeObserver obs);
+  /**
+   * Register an observer.
+   *
+   * @param obs the observer to register.
+   */
+  void registerValueChangeObserver(I_CmsSerialDateValueChangeObserver obs);
 
-    /**
-     * Unregister an observer.
-     * @param obs the observer to unregister.
-     */
-    void unregisterValueChangeObserver(I_CmsSerialDateValueChangeObserver obs);
+  /**
+   * Unregister an observer.
+   *
+   * @param obs the observer to unregister.
+   */
+  void unregisterValueChangeObserver(I_CmsSerialDateValueChangeObserver obs);
 }

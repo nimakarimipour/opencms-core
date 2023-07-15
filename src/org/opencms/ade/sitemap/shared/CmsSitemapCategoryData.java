@@ -27,13 +27,6 @@
 
 package org.opencms.ade.sitemap.shared;
 
-import org.opencms.gwt.shared.CmsCategoryTreeEntry;
-import org.opencms.util.CmsUUID;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
@@ -41,112 +34,131 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Sets;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import org.opencms.gwt.shared.CmsCategoryTreeEntry;
+import org.opencms.util.CmsUUID;
 
 /**
- * The category data for the current sitemap.<p>
+ * The category data for the current sitemap.
+ *
+ * <p>
  */
 public class CmsSitemapCategoryData implements IsSerializable {
 
-    /** The base path for the categories. */
-    private String m_basePath;
+  /** The base path for the categories. */
+  private String m_basePath;
 
-    /** A forest of categories. */
-    private List<CmsCategoryTreeEntry> m_categoryEntries = Lists.newArrayList();
+  /** A forest of categories. */
+  private List<CmsCategoryTreeEntry> m_categoryEntries = Lists.newArrayList();
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsSitemapCategoryData() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsSitemapCategoryData() {}
 
-    }
+  /**
+   * Adds a new category entry.
+   *
+   * <p>
+   *
+   * @param item the category entry
+   */
+  public void add(CmsCategoryTreeEntry item) {
 
-    /**
-     * Adds a new category entry.<p>
-     *
-     * @param item the category entry
-     */
-    public void add(CmsCategoryTreeEntry item) {
+    m_categoryEntries.add(item);
+  }
 
-        m_categoryEntries.add(item);
-    }
+  /**
+   * Gets a multimap of the top-level entries, indexed by whether they are local categories or not.
+   *
+   * <p>A category counts as local if all of its parent categories are defined in the current
+   * sitemap.
+   *
+   * @return the multimap of entries
+   */
+  public Multimap<Boolean, CmsCategoryTreeEntry> getEntriesIndexedByLocality() {
 
-    /**
-     * Gets a multimap of the top-level entries, indexed by whether they are local categories or not.<p>
-     *
-     * A category counts as local if all of its parent categories are defined in the current sitemap.
-     *
-     * @return the multimap of entries
-     */
-    public Multimap<Boolean, CmsCategoryTreeEntry> getEntriesIndexedByLocality() {
+    return ArrayListMultimap.create(
+        Multimaps.index(
+            m_categoryEntries,
+            new Function<CmsCategoryTreeEntry, Boolean>() {
 
-        return ArrayListMultimap.create(
-            Multimaps.index(m_categoryEntries, new Function<CmsCategoryTreeEntry, Boolean>() {
+              @SuppressWarnings("synthetic-access")
+              public Boolean apply(CmsCategoryTreeEntry entry) {
 
-                @SuppressWarnings("synthetic-access")
-                public Boolean apply(CmsCategoryTreeEntry entry) {
-
-                    return Boolean.valueOf(entry.getBasePath().equals(m_basePath));
-                }
+                return Boolean.valueOf(entry.getBasePath().equals(m_basePath));
+              }
             }));
+  }
+
+  /**
+   * Gets the category bean by id.
+   *
+   * <p>
+   *
+   * @param id a structure id
+   * @return the entry with the given id, or null if no such entry was found
+   */
+  public CmsCategoryTreeEntry getEntryById(CmsUUID id) {
+
+    for (CmsCategoryTreeEntry entry : getFlatList()) {
+      if (id.equals(entry.getId())) {
+        return entry;
+      }
     }
+    return null;
+  }
 
-    /**
-     * Gets the category bean by id.<p>
-     *
-     * @param id a structure id
-     * @return the entry with the given id, or null if no such entry was found
-     */
-    public CmsCategoryTreeEntry getEntryById(CmsUUID id) {
+  /**
+   * Sets the base path.
+   *
+   * <p>
+   *
+   * @param basePath the base path
+   */
+  public void setBasePath(String basePath) {
 
-        for (CmsCategoryTreeEntry entry : getFlatList()) {
-            if (id.equals(entry.getId())) {
-                return entry;
-            }
-        }
-        return null;
+    m_basePath = basePath;
+  }
+
+  /**
+   * Returns the category entries in a flat list instead of a tree structure.
+   *
+   * <p>
+   *
+   * @return the list of all tree entries
+   */
+  List<CmsCategoryTreeEntry> getFlatList() {
+
+    List<CmsCategoryTreeEntry> toProcess = Lists.newArrayList(m_categoryEntries);
+    List<CmsCategoryTreeEntry> result = Lists.newArrayList();
+    Set<CmsUUID> visited = Sets.newHashSet();
+    while (!toProcess.isEmpty()) {
+      Iterator<CmsCategoryTreeEntry> iter = toProcess.iterator();
+      CmsCategoryTreeEntry entry = iter.next();
+      iter.remove();
+      if (!visited.contains(entry.getId())) {
+        result.add(entry);
+        visited.add(entry.getId());
+        toProcess.addAll(entry.getChildren());
+      }
     }
+    return result;
+  }
 
-    /**
-     * Sets the base path.<p>
-     *
-     * @param basePath the base path
-     */
-    public void setBasePath(String basePath) {
+  /**
+   * Gets the top-level entries.
+   *
+   * <p>
+   *
+   * @return the top-level entries
+   */
+  List<CmsCategoryTreeEntry> getRootEntries() {
 
-        m_basePath = basePath;
-    }
-
-    /**
-     * Returns the category entries in a flat list instead of a tree structure.<p>
-     *
-     * @return the list of all tree entries
-     */
-    List<CmsCategoryTreeEntry> getFlatList() {
-
-        List<CmsCategoryTreeEntry> toProcess = Lists.newArrayList(m_categoryEntries);
-        List<CmsCategoryTreeEntry> result = Lists.newArrayList();
-        Set<CmsUUID> visited = Sets.newHashSet();
-        while (!toProcess.isEmpty()) {
-            Iterator<CmsCategoryTreeEntry> iter = toProcess.iterator();
-            CmsCategoryTreeEntry entry = iter.next();
-            iter.remove();
-            if (!visited.contains(entry.getId())) {
-                result.add(entry);
-                visited.add(entry.getId());
-                toProcess.addAll(entry.getChildren());
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Gets the top-level entries.<p>
-     *
-     * @return the top-level entries
-     */
-    List<CmsCategoryTreeEntry> getRootEntries() {
-
-        return m_categoryEntries;
-    }
-
+    return m_categoryEntries;
+  }
 }

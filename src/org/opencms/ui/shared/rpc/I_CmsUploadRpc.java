@@ -27,19 +27,22 @@
 
 package org.opencms.ui.shared.rpc;
 
+import com.vaadin.shared.communication.ServerRpc;
 import java.util.List;
 
-import com.vaadin.shared.communication.ServerRpc;
-
 /**
- * The upload RPC interface.<p>
+ * The upload RPC interface.
+ *
+ * <p>
  */
 public interface I_CmsUploadRpc extends ServerRpc {
 
-    /**
-     * Called once the upload is finished.<p>
-     *
-     * @param uploadedFiles the uploaded file root paths
-     */
-    void onUploadFinished(List<String> uploadedFiles);
+  /**
+   * Called once the upload is finished.
+   *
+   * <p>
+   *
+   * @param uploadedFiles the uploaded file root paths
+   */
+  void onUploadFinished(List<String> uploadedFiles);
 }

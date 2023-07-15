@@ -27,56 +27,58 @@
 
 package org.opencms.ui.util;
 
-/**
- * Represents the three possible display types (small, medium, wide).
- */
+/** Represents the three possible display types (small, medium, wide). */
 public enum CmsDisplayType {
-    /** Wide. */
-    wide(1241),
-    /** Medium. *s*/
-    medium(984),
-    /** Small. **/
-    small(0);
+  /** Wide. */
+  wide(1241),
+  /** Medium. *s */
+  medium(984),
+  /** Small. * */
+  small(0);
 
-    /** The minimum width. */
-    private int m_minWidth;
+  /** The minimum width. */
+  private int m_minWidth;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param width the minimum width
-     */
-    private CmsDisplayType(int width) {
-        m_minWidth = width;
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param width the minimum width
+   */
+  private CmsDisplayType(int width) {
+    m_minWidth = width;
+  }
+
+  /**
+   * Gets the display type corresponding to a given width.
+   *
+   * <p>
+   *
+   * @param width the window width
+   * @return the matching display type
+   */
+  public static CmsDisplayType getDisplayType(int width) {
+
+    CmsDisplayType[] values = CmsDisplayType.values();
+    for (CmsDisplayType type : values) {
+      if (width >= type.minWidth()) {
+        return type;
+      }
     }
 
-    /**
-     * Gets the display type corresponding to a given width.<p>
-     *
-     * @param width the window width
-     *
-     * @return the matching display type
-     */
-    public static CmsDisplayType getDisplayType(int width) {
+    return wide;
+  }
 
-        CmsDisplayType[] values = CmsDisplayType.values();
-        for (CmsDisplayType type : values) {
-            if (width >= type.minWidth()) {
-                return type;
-            }
-        }
+  /**
+   * Gets the minimum window width for this size.
+   *
+   * <p>
+   *
+   * @return the minimum window width
+   */
+  public int minWidth() {
 
-        return wide;
-    }
-
-    /**
-     * Gets the minimum window width for this size.<p>
-     *
-     * @return the minimum window width
-     */
-    public int minWidth() {
-
-        return m_minWidth;
-    }
-
+    return m_minWidth;
+  }
 }

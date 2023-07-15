@@ -27,6 +27,8 @@
 
 package org.opencms.ui.actions;
 
+import com.vaadin.server.VaadinRequest;
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
@@ -44,74 +46,70 @@ import org.opencms.ui.favorites.CmsFavoriteDAO;
 import org.opencms.ui.favorites.CmsFavoriteDialog;
 import org.opencms.ui.favorites.CmsPageEditorFavoriteContext;
 
-import java.util.List;
-
-import com.vaadin.server.VaadinRequest;
-
 /**
  * The action for the favorite dialog.
  *
- * This is only used for the favorite dialog opened from the page editor.
+ * <p>This is only used for the favorite dialog opened from the page editor.
  */
 public class CmsFavoriteDialogAction extends A_CmsWorkplaceAction {
 
-    /** The action id. */
-    public static final String ACTION_ID = "favorite";
+  /** The action id. */
+  public static final String ACTION_ID = "favorite";
 
-    /** The action visibility. */
-    public static final I_CmsHasMenuItemVisibility VISIBILITY = CmsStandardVisibilityCheck.DEFAULT;
+  /** The action visibility. */
+  public static final I_CmsHasMenuItemVisibility VISIBILITY = CmsStandardVisibilityCheck.DEFAULT;
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
-     */
-    public void executeAction(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.I_CmsWorkplaceAction#executeAction(org.opencms.ui.I_CmsDialogContext)
+   */
+  public void executeAction(I_CmsDialogContext context) {
 
-        try {
-            VaadinRequest req = VaadinRequest.getCurrent();
-            CmsFavoriteDialog dialog = new CmsFavoriteDialog(
-                new CmsPageEditorFavoriteContext((CmsEmbeddedDialogContext)context),
-                new CmsFavoriteDAO(A_CmsUI.getCmsObject()));
-            context.start(
-                CmsVaadinUtils.getMessageText(Messages.GUI_FAVORITES_DIALOG_TITLE_0),
-                dialog,
-                DialogWidth.max);
-        } catch (CmsException e) {
-            CmsErrorDialog.showErrorDialog(e);
-        }
-
+    try {
+      VaadinRequest req = VaadinRequest.getCurrent();
+      CmsFavoriteDialog dialog =
+          new CmsFavoriteDialog(
+              new CmsPageEditorFavoriteContext((CmsEmbeddedDialogContext) context),
+              new CmsFavoriteDAO(A_CmsUI.getCmsObject()));
+      context.start(
+          CmsVaadinUtils.getMessageText(Messages.GUI_FAVORITES_DIALOG_TITLE_0),
+          dialog,
+          DialogWidth.max);
+    } catch (CmsException e) {
+      CmsErrorDialog.showErrorDialog(e);
     }
+  }
 
-    /**
-     * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId()
-     */
-    public String getId() {
+  /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getId() */
+  public String getId() {
 
-        return ACTION_ID;
-    }
+    return ACTION_ID;
+  }
 
-    /**
-     * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
-     */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+  /**
+   * @see
+   *     org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject,
+   *     java.util.List)
+   */
+  public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
 
-        return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
-    }
+    return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
-     */
-    @Override
-    public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
+  /**
+   * @see
+   *     org.opencms.ui.actions.A_CmsWorkplaceAction#getVisibility(org.opencms.ui.I_CmsDialogContext)
+   */
+  @Override
+  public CmsMenuItemVisibilityMode getVisibility(I_CmsDialogContext context) {
 
-        return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
-    }
+    return CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE;
+  }
 
-    /**
-     * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
-     */
-    @Override
-    protected String getTitleKey() {
+  /** @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey() */
+  @Override
+  protected String getTitleKey() {
 
-        return "FAVORITE";
-    }
+    return "FAVORITE";
+  }
 }

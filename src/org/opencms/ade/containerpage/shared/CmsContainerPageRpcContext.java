@@ -27,65 +27,76 @@
 
 package org.opencms.ade.containerpage.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Bean containing the 'context' of the edited container page for use in RPC calls.<p>
+ * Bean containing the 'context' of the edited container page for use in RPC calls.
+ *
+ * <p>
  */
 public class CmsContainerPageRpcContext implements IsSerializable {
 
-    /**
-     * Structure id of the page.<p>
-     */
-    private CmsUUID m_pageStructureId;
+  /**
+   * Structure id of the page.
+   *
+   * <p>
+   */
+  private CmsUUID m_pageStructureId;
 
-    /**
-     * Template context key.<p>
-     */
-    private String m_templateContext;
+  /**
+   * Template context key.
+   *
+   * <p>
+   */
+  private String m_templateContext;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param pageStructureId the page structure id
-     * @param templateContext the template context key
-     */
-    public CmsContainerPageRpcContext(CmsUUID pageStructureId, String templateContext) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param pageStructureId the page structure id
+   * @param templateContext the template context key
+   */
+  public CmsContainerPageRpcContext(CmsUUID pageStructureId, String templateContext) {
 
-        m_pageStructureId = pageStructureId;
-        m_templateContext = templateContext;
+    m_pageStructureId = pageStructureId;
+    m_templateContext = templateContext;
+  }
 
-    }
+  /**
+   * Default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsContainerPageRpcContext() {
 
-    /**
-     * Default constructor for serialization.<p>
-     */
-    protected CmsContainerPageRpcContext() {
+    // empty
 
-        // empty
+  }
 
-    }
+  /**
+   * Returns the pageStructureId.
+   *
+   * <p>
+   *
+   * @return the pageStructureId
+   */
+  public CmsUUID getPageStructureId() {
 
-    /**
-     * Returns the pageStructureId.<p>
-     *
-     * @return the pageStructureId
-     */
-    public CmsUUID getPageStructureId() {
+    return m_pageStructureId;
+  }
 
-        return m_pageStructureId;
-    }
+  /**
+   * Returns the templateContext.
+   *
+   * <p>
+   *
+   * @return the templateContext
+   */
+  public String getTemplateContext() {
 
-    /**
-     * Returns the templateContext.<p>
-     *
-     * @return the templateContext
-     */
-    public String getTemplateContext() {
-
-        return m_templateContext;
-    }
-
+    return m_templateContext;
+  }
 }

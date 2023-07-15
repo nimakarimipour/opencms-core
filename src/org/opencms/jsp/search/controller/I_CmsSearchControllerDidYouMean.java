@@ -33,14 +33,17 @@ import org.opencms.jsp.search.state.I_CmsSearchStateDidYouMean;
 /** Interface the "Did you mean ...?" controller must implement. */
 public interface I_CmsSearchControllerDidYouMean extends I_CmsSearchController {
 
-    /** Returns the configuration.
-     * @return The configuration.
-     */
-    I_CmsSearchConfigurationDidYouMean getConfig();
+  /**
+   * Returns the configuration.
+   *
+   * @return The configuration.
+   */
+  I_CmsSearchConfigurationDidYouMean getConfig();
 
-    /** Returns the configuration.
-     * @return The configuration.
-     */
-    I_CmsSearchStateDidYouMean getState();
-
+  /**
+   * Returns the configuration.
+   *
+   * @return The configuration.
+   */
+  I_CmsSearchStateDidYouMean getState();
 }

@@ -27,183 +27,200 @@
 
 package org.opencms.gwt.client.ui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import org.opencms.gwt.client.ui.I_CmsButton.ButtonColor;
 import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-
 /**
- * Provides a confirmation dialog with yes, no and cancel button.<p>
+ * Provides a confirmation dialog with yes, no and cancel button.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsAcceptDeclineCancelDialog extends CmsAlertDialog {
 
-    /** The 'accept' button. */
-    private CmsPushButton m_acceptButton;
+  /** The 'accept' button. */
+  private CmsPushButton m_acceptButton;
 
-    /** The 'decline' button. */
-    private CmsPushButton m_declineButton;
+  /** The 'decline' button. */
+  private CmsPushButton m_declineButton;
 
-    /** The dialog handler. */
-    private I_CmsAcceptDeclineCancelHandler m_handler;
+  /** The dialog handler. */
+  private I_CmsAcceptDeclineCancelHandler m_handler;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param title the dialog title
-     * @param content the dialog content
-     */
-    public CmsAcceptDeclineCancelDialog(String title, String content) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param title the dialog title
+   * @param content the dialog content
+   */
+  public CmsAcceptDeclineCancelDialog(String title, String content) {
 
-        super(title, content);
-        m_acceptButton = new CmsPushButton();
-        m_acceptButton.setUseMinWidth(true);
-        m_acceptButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.GREEN);
-        m_acceptButton.addClickHandler(new ClickHandler() {
+    super(title, content);
+    m_acceptButton = new CmsPushButton();
+    m_acceptButton.setUseMinWidth(true);
+    m_acceptButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.GREEN);
+    m_acceptButton.addClickHandler(
+        new ClickHandler() {
 
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          public void onClick(ClickEvent event) {
 
-                onAccept();
-            }
+            onAccept();
+          }
         });
-        m_declineButton = new CmsPushButton();
-        m_declineButton.setUseMinWidth(true);
-        m_declineButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.RED);
-        m_declineButton.addClickHandler(new ClickHandler() {
+    m_declineButton = new CmsPushButton();
+    m_declineButton.setUseMinWidth(true);
+    m_declineButton.setButtonStyle(ButtonStyle.TEXT, ButtonColor.RED);
+    m_declineButton.addClickHandler(
+        new ClickHandler() {
 
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          public void onClick(ClickEvent event) {
 
-                onDecline();
-            }
+            onDecline();
+          }
         });
-        addButton(m_declineButton);
-        addButton(m_acceptButton);
+    addButton(m_declineButton);
+    addButton(m_acceptButton);
+  }
+
+  /** @see org.opencms.gwt.client.ui.CmsAlertDialog#center() */
+  @Override
+  public void center() {
+
+    activateButtons(true);
+    super.center();
+  }
+
+  /**
+   * Sets the accept button icon class.
+   *
+   * <p>
+   *
+   * @param iconClass the icon class
+   */
+  public void setAcceptIconClass(String iconClass) {
+
+    m_acceptButton.setImageClass(iconClass);
+  }
+
+  /**
+   * Sets the accept button text.
+   *
+   * <p>
+   *
+   * @param text the button text
+   */
+  public void setAcceptText(String text) {
+
+    m_acceptButton.setText(text);
+  }
+
+  /**
+   * Sets the decline button icon class.
+   *
+   * <p>
+   *
+   * @param iconClass the icon class
+   */
+  public void setDeclineIconClass(String iconClass) {
+
+    m_declineButton.setImageClass(iconClass);
+  }
+
+  /**
+   * Sets the decline button text.
+   *
+   * <p>
+   *
+   * @param text the button text
+   */
+  public void setDeclineText(String text) {
+
+    m_declineButton.setText(text);
+  }
+
+  /**
+   * Sets the dialog handler.
+   *
+   * <p>
+   *
+   * @param handler the handler to set
+   */
+  public void setHandler(I_CmsAcceptDeclineCancelHandler handler) {
+
+    m_handler = handler;
+    super.setHandler(handler);
+  }
+
+  /**
+   * Sets the buttons enabled.
+   *
+   * <p>
+   *
+   * @param activate <code>true</code> to activate, <code>false</code> to deactivate
+   */
+  protected void activateButtons(boolean activate) {
+
+    m_acceptButton.setEnabled(activate);
+    m_declineButton.setEnabled(activate);
+    getCloseButton().setEnabled(activate);
+  }
+
+  /** @see org.opencms.gwt.client.ui.CmsAlertDialog#getHandler() */
+  @Override
+  protected I_CmsAcceptDeclineCancelHandler getHandler() {
+
+    return m_handler;
+  }
+
+  /**
+   * Executed on accept click.
+   *
+   * <p>
+   */
+  protected void onAccept() {
+
+    activateButtons(false);
+    if (getHandler() != null) {
+      getHandler().onAccept();
     }
+    hide();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.CmsAlertDialog#center()
-     */
-    @Override
-    public void center() {
+  /** @see org.opencms.gwt.client.ui.CmsAlertDialog#onClose() */
+  @Override
+  protected void onClose() {
 
-        activateButtons(true);
-        super.center();
+    activateButtons(false);
+    if (getHandler() != null) {
+      getHandler().onClose();
     }
+    hide();
+  }
 
-    /**
-     * Sets the accept button icon class.<p>
-     *
-     * @param iconClass the icon class
-     */
-    public void setAcceptIconClass(String iconClass) {
+  /**
+   * Executed on decline click.
+   *
+   * <p>
+   */
+  protected void onDecline() {
 
-        m_acceptButton.setImageClass(iconClass);
+    activateButtons(false);
+    if (getHandler() != null) {
+      getHandler().onDecline();
     }
-
-    /**
-     * Sets the accept button text.<p>
-     *
-     * @param text the button text
-     */
-    public void setAcceptText(String text) {
-
-        m_acceptButton.setText(text);
-    }
-
-    /**
-     * Sets the decline button icon class.<p>
-     *
-     * @param iconClass the icon class
-     */
-    public void setDeclineIconClass(String iconClass) {
-
-        m_declineButton.setImageClass(iconClass);
-    }
-
-    /**
-     * Sets the decline button text.<p>
-     *
-     * @param text the button text
-     */
-    public void setDeclineText(String text) {
-
-        m_declineButton.setText(text);
-    }
-
-    /**
-     * Sets the dialog handler.<p>
-     *
-     * @param handler the handler to set
-     */
-    public void setHandler(I_CmsAcceptDeclineCancelHandler handler) {
-
-        m_handler = handler;
-        super.setHandler(handler);
-    }
-
-    /**
-     * Sets the buttons enabled.<p>
-     *
-     * @param activate <code>true</code> to activate, <code>false</code> to deactivate
-     */
-    protected void activateButtons(boolean activate) {
-
-        m_acceptButton.setEnabled(activate);
-        m_declineButton.setEnabled(activate);
-        getCloseButton().setEnabled(activate);
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.CmsAlertDialog#getHandler()
-     */
-    @Override
-    protected I_CmsAcceptDeclineCancelHandler getHandler() {
-
-        return m_handler;
-    }
-
-    /**
-     * Executed on accept click.<p>
-     */
-    protected void onAccept() {
-
-        activateButtons(false);
-        if (getHandler() != null) {
-            getHandler().onAccept();
-        }
-        hide();
-    }
-
-    /**
-     * @see org.opencms.gwt.client.ui.CmsAlertDialog#onClose()
-     */
-    @Override
-    protected void onClose() {
-
-        activateButtons(false);
-        if (getHandler() != null) {
-            getHandler().onClose();
-        }
-        hide();
-    }
-
-    /**
-     * Executed on decline click.<p>
-     */
-    protected void onDecline() {
-
-        activateButtons(false);
-        if (getHandler() != null) {
-            getHandler().onDecline();
-        }
-        hide();
-    }
+    hide();
+  }
 }

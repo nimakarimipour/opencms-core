@@ -30,18 +30,18 @@ package org.opencms.db.as400;
 import org.opencms.db.generic.CmsSqlManager;
 
 /**
- * AS400 implementation of the project driver methods.<p>
+ * AS400 implementation of the project driver methods.
+ *
+ * <p>
  *
  * @since 7.0.4
  */
 public class CmsProjectDriver extends org.opencms.db.generic.CmsProjectDriver {
 
-    /**
-     * @see org.opencms.db.I_CmsProjectDriver#initSqlManager(String)
-     */
-    @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  /** @see org.opencms.db.I_CmsProjectDriver#initSqlManager(String) */
+  @Override
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
 
-        return CmsSqlManager.getInstance(classname);
-    }
+    return CmsSqlManager.getInstance(classname);
+  }
 }

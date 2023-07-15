@@ -27,43 +27,47 @@
 
 package org.opencms.acacia.client.widgets;
 
+import com.google.gwt.dom.client.Element;
 import org.opencms.acacia.client.I_CmsWidgetFactory;
 import org.opencms.ade.contenteditor.client.Messages;
 import org.opencms.ade.contenteditor.widgetregistry.client.WidgetRegistry;
 import org.opencms.gwt.client.I_CmsHasInit;
 
-import com.google.gwt.dom.client.Element;
-
 /**
- * Factory to generate basic input widget.<p>
+ * Factory to generate basic input widget.
+ *
+ * <p>
  */
 public class CmsAdeImageGalleryWidgetFactory implements I_CmsWidgetFactory, I_CmsHasInit {
 
-    /** The widget name. */
-    private static final String WIDGET_NAME = "org.opencms.widgets.CmsAdeImageGalleryWidget";
+  /** The widget name. */
+  private static final String WIDGET_NAME = "org.opencms.widgets.CmsAdeImageGalleryWidget";
 
-    /**
-     * Initializes this class.<p>
-     */
-    public static void initClass() {
+  /**
+   * Initializes this class.
+   *
+   * <p>
+   */
+  public static void initClass() {
 
-        WidgetRegistry.getInstance().registerWidgetFactory(WIDGET_NAME, new CmsAdeImageGalleryWidgetFactory());
-    }
+    WidgetRegistry.getInstance()
+        .registerWidgetFactory(WIDGET_NAME, new CmsAdeImageGalleryWidgetFactory());
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetFactory#createFormWidget(java.lang.String)
-     */
-    public I_CmsFormEditWidget createFormWidget(String configuration) {
+  /** @see org.opencms.acacia.client.I_CmsWidgetFactory#createFormWidget(java.lang.String) */
+  public I_CmsFormEditWidget createFormWidget(String configuration) {
 
-        return new CmsFormWidgetWrapper(
-            new CmsGalleryWidget(Messages.get().key(Messages.GUI_IMAGE_GALLERY_OPEN_0), configuration, true, true));
-    }
+    return new CmsFormWidgetWrapper(
+        new CmsGalleryWidget(
+            Messages.get().key(Messages.GUI_IMAGE_GALLERY_OPEN_0), configuration, true, true));
+  }
 
-    /**
-     * @see org.opencms.acacia.client.I_CmsWidgetFactory#createInlineWidget(java.lang.String, com.google.gwt.dom.client.Element)
-     */
-    public I_CmsEditWidget createInlineWidget(String configuration, Element element) {
+  /**
+   * @see org.opencms.acacia.client.I_CmsWidgetFactory#createInlineWidget(java.lang.String,
+   *     com.google.gwt.dom.client.Element)
+   */
+  public I_CmsEditWidget createInlineWidget(String configuration, Element element) {
 
-        return null;
-    }
+    return null;
+  }
 }

@@ -27,47 +27,45 @@
 
 package org.opencms.ade.sitemap.client.hoverbar;
 
+import java.util.HashMap;
 import org.opencms.ade.sitemap.client.CmsSitemapView;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.gwt.client.ui.resourceinfo.CmsResourceInfoDialog;
 
-import java.util.HashMap;
-
 /**
- * Sitemap context menu resource info entry.<p>
+ * Sitemap context menu resource info entry.
+ *
+ * <p>
  *
  * @since 8.0.1
  */
 public class CmsResourceInfoMenuEntry extends A_CmsSitemapMenuEntry {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param hoverbar the hoverbar
-     */
-    public CmsResourceInfoMenuEntry(CmsSitemapHoverbar hoverbar) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param hoverbar the hoverbar
+   */
+  public CmsResourceInfoMenuEntry(CmsSitemapHoverbar hoverbar) {
 
-        super(hoverbar);
-        setLabel(Messages.get().key(Messages.GUI_HOVERBAR_RESOURCE_INFO_0));
-        setActive(true);
+    super(hoverbar);
+    setLabel(Messages.get().key(Messages.GUI_HOVERBAR_RESOURCE_INFO_0));
+    setActive(true);
+  }
 
-    }
+  /** @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute() */
+  public void execute() {
 
-    /**
-     * @see org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuEntry#execute()
-     */
-    public void execute() {
+    CmsResourceInfoDialog.load(
+        getHoverbar().getEntry().getId(), true, null, new HashMap<String, String>(), null);
+  }
 
-        CmsResourceInfoDialog.load(getHoverbar().getEntry().getId(), true, null, new HashMap<String, String>(), null);
-    }
+  /** @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow() */
+  @Override
+  public void onShow() {
 
-    /**
-     * @see org.opencms.ade.sitemap.client.hoverbar.A_CmsSitemapMenuEntry#onShow()
-     */
-    @Override
-    public void onShow() {
-
-        setVisible(!CmsSitemapView.getInstance().isSpecialMode());
-    }
-
+    setVisible(!CmsSitemapView.getInstance().isSpecialMode());
+  }
 }

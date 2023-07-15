@@ -27,39 +27,38 @@
 
 package org.opencms.ui.components.extensions;
 
+import com.vaadin.server.AbstractExtension;
 import org.opencms.ui.dialogs.CmsEmbeddedDialogsUI;
 import org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC;
 import org.opencms.ui.shared.rpc.I_CmsEmbeddingServerRpc;
 
-import com.vaadin.server.AbstractExtension;
-
 /**
- * The extension that provides RPC communication between the client and server side of embedded VAADIN dialogs.
+ * The extension that provides RPC communication between the client and server side of embedded
+ * VAADIN dialogs.
  */
 public class CmsEmbeddedDialogExtension extends AbstractExtension {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.
-     * @param ui the UI instance to use
-     *
-     */
-    public CmsEmbeddedDialogExtension(CmsEmbeddedDialogsUI ui) {
+  /**
+   * Creates a new instance.
+   *
+   * @param ui the UI instance to use
+   */
+  public CmsEmbeddedDialogExtension(CmsEmbeddedDialogsUI ui) {
 
-        super(ui);
-        registerRpc(ui, I_CmsEmbeddingServerRpc.class);
-    }
+    super(ui);
+    registerRpc(ui, I_CmsEmbeddingServerRpc.class);
+  }
 
-    /**
-     * Gets the client RPC instance.
-     *
-     * @return the client RPC instance
-     */
-    public I_CmsEmbeddedDialogClientRPC getClientRPC() {
+  /**
+   * Gets the client RPC instance.
+   *
+   * @return the client RPC instance
+   */
+  public I_CmsEmbeddedDialogClientRPC getClientRPC() {
 
-        return getRpcProxy(I_CmsEmbeddedDialogClientRPC.class);
-    }
-
+    return getRpcProxy(I_CmsEmbeddedDialogClientRPC.class);
+  }
 }

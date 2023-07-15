@@ -28,59 +28,63 @@
 package org.opencms.jsp.search.config.parser.simplesearch.daterestrictions;
 
 /**
- * Interface for date restrictions used in list configurations.<p>
+ * Interface for date restrictions used in list configurations.
+ *
+ * <p>
  */
 public interface I_CmsDateRestriction {
 
-    /**
-     * Enum representing a direction in time (past / future).
-     */
-    enum TimeDirection {
-        /** Going backward in time. */
-        past,
+  /** Enum representing a direction in time (past / future). */
+  enum TimeDirection {
+    /** Going backward in time. */
+    past,
 
-        /** Going forward in time. */
-        future
-    }
+    /** Going forward in time. */
+    future
+  }
 
-    /**
-     * Enum representing a time unit.<p>
-     */
-    enum TimeUnit {
-        /** Days. */
-        DAYS,
+  /**
+   * Enum representing a time unit.
+   *
+   * <p>
+   */
+  enum TimeUnit {
+    /** Days. */
+    DAYS,
 
-        /** Weeks. */
-        WEEKS,
+    /** Weeks. */
+    WEEKS,
 
-        /** Months. */
-        MONTHS,
+    /** Months. */
+    MONTHS,
 
-        /** Years. */
-        YEARS;
-
-        /**
-         * Formats a positive integer amount of the given unit for use in Solr range queries.<p>
-         *
-         * @param count the number
-         *
-         * @return the formatted value
-         */
-        public String formatForRange(int count) {
-
-            if (this == WEEKS) {
-                return (7 * count) + "DAYS";
-            } else {
-                return "" + count + toString();
-            }
-        }
-    }
+    /** Years. */
+    YEARS;
 
     /**
-     * Gets the formatted range expression for this restriction, for use in Solr date range queries.<p>
+     * Formats a positive integer amount of the given unit for use in Solr range queries.
      *
-     * @return the date range expression
+     * <p>
+     *
+     * @param count the number
+     * @return the formatted value
      */
-    String getRange();
+    public String formatForRange(int count) {
 
+      if (this == WEEKS) {
+        return (7 * count) + "DAYS";
+      } else {
+        return "" + count + toString();
+      }
+    }
+  }
+
+  /**
+   * Gets the formatted range expression for this restriction, for use in Solr date range queries.
+   *
+   * <p>
+   *
+   * @return the date range expression
+   */
+  String getRange();
 }

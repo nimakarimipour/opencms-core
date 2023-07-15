@@ -33,85 +33,115 @@ import org.opencms.gwt.client.dnd.I_CmsDraggable;
 import org.opencms.gwt.client.dnd.I_CmsDropTarget;
 
 /**
- * A DND controller which only records whether a drop operation has happened.<p>
+ * A DND controller which only records whether a drop operation has happened.
+ *
+ * <p>
  */
 public class CmsDropListener implements I_CmsDNDController {
 
-    /** A flag which indicates whether an element has been dropped.<p> */
-    private boolean m_dropped;
+  /**
+   * A flag which indicates whether an element has been dropped.
+   *
+   * <p>
+   */
+  private boolean m_dropped;
 
-    /**
-     * Returns true if an element has been dropped.<p>
-     *
-     * @return true if an element has been dropped
-     */
-    public boolean isDropped() {
+  /**
+   * Returns true if an element has been dropped.
+   *
+   * <p>
+   *
+   * @return true if an element has been dropped
+   */
+  public boolean isDropped() {
 
-        return m_dropped;
-    }
+    return m_dropped;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.dnd.I_CmsDNDController#onAnimationStart(org.opencms.gwt.client.dnd.I_CmsDraggable, org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
-     */
-    public void onAnimationStart(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.dnd.I_CmsDNDController#onAnimationStart(org.opencms.gwt.client.dnd.I_CmsDraggable,
+   *     org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
+   */
+  public void onAnimationStart(
+      I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * @see org.opencms.gwt.client.dnd.I_CmsDNDController#onBeforeDrop(org.opencms.gwt.client.dnd.I_CmsDraggable, org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
-     */
-    public boolean onBeforeDrop(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.dnd.I_CmsDNDController#onBeforeDrop(org.opencms.gwt.client.dnd.I_CmsDraggable,
+   *     org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
+   */
+  public boolean onBeforeDrop(
+      I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.dnd.I_CmsDNDController#onDragCancel(org.opencms.gwt.client.dnd.I_CmsDraggable, org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
-     */
-    public void onDragCancel(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.dnd.I_CmsDNDController#onDragCancel(org.opencms.gwt.client.dnd.I_CmsDraggable,
+   *     org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
+   */
+  public void onDragCancel(
+      I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * @see org.opencms.gwt.client.dnd.I_CmsDNDController#onDragStart(org.opencms.gwt.client.dnd.I_CmsDraggable, org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
-     */
-    public boolean onDragStart(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.dnd.I_CmsDNDController#onDragStart(org.opencms.gwt.client.dnd.I_CmsDraggable,
+   *     org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
+   */
+  public boolean onDragStart(
+      I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.dnd.I_CmsDNDController#onDrop(org.opencms.gwt.client.dnd.I_CmsDraggable, org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
-     */
-    public void onDrop(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.dnd.I_CmsDNDController#onDrop(org.opencms.gwt.client.dnd.I_CmsDraggable,
+   *     org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
+   */
+  public void onDrop(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
 
-        m_dropped = true;
-    }
+    m_dropped = true;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.dnd.I_CmsDNDController#onPositionedPlaceholder(org.opencms.gwt.client.dnd.I_CmsDraggable, org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
-     */
-    public void onPositionedPlaceholder(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.dnd.I_CmsDNDController#onPositionedPlaceholder(org.opencms.gwt.client.dnd.I_CmsDraggable,
+   *     org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
+   */
+  public void onPositionedPlaceholder(
+      I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * @see org.opencms.gwt.client.dnd.I_CmsDNDController#onTargetEnter(org.opencms.gwt.client.dnd.I_CmsDraggable, org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
-     */
-    public boolean onTargetEnter(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.dnd.I_CmsDNDController#onTargetEnter(org.opencms.gwt.client.dnd.I_CmsDraggable,
+   *     org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
+   */
+  public boolean onTargetEnter(
+      I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.dnd.I_CmsDNDController#onTargetLeave(org.opencms.gwt.client.dnd.I_CmsDraggable, org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
-     */
-    public void onTargetLeave(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.dnd.I_CmsDNDController#onTargetLeave(org.opencms.gwt.client.dnd.I_CmsDraggable,
+   *     org.opencms.gwt.client.dnd.I_CmsDropTarget, org.opencms.gwt.client.dnd.CmsDNDHandler)
+   */
+  public void onTargetLeave(
+      I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler) {
 
-        // do nothing
-    }
-
+    // do nothing
+  }
 }

@@ -27,86 +27,100 @@
 
 package org.opencms.ade.publish.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * A publish group.<p>
+ * A publish group.
+ *
+ * <p>
  *
  * @since 7.6
  */
 public class CmsPublishGroup implements IsSerializable {
 
-    /** Flag which indicates whether the resource group is auto-selectable. */
-    private boolean m_autoSelectable = true;
+  /** Flag which indicates whether the resource group is auto-selectable. */
+  private boolean m_autoSelectable = true;
 
-    /** The group name.*/
-    private String m_name;
+  /** The group name. */
+  private String m_name;
 
-    /** The group resources.*/
-    private List<CmsPublishResource> m_resources;
+  /** The group resources. */
+  private List<CmsPublishResource> m_resources;
 
-    /**
-     * Creates a new publish group bean.<p>
-     *
-     * @param name the group name
-     * @param resources the resources
-     **/
-    public CmsPublishGroup(String name, List<CmsPublishResource> resources) {
+  /**
+   * Creates a new publish group bean.
+   *
+   * <p>
+   *
+   * @param name the group name
+   * @param resources the resources
+   */
+  public CmsPublishGroup(String name, List<CmsPublishResource> resources) {
 
-        m_name = name;
-        m_resources = ((resources == null)
-        ? new ArrayList<CmsPublishResource>()
-        : new ArrayList<CmsPublishResource>(resources));
-    }
+    m_name = name;
+    m_resources =
+        ((resources == null)
+            ? new ArrayList<CmsPublishResource>()
+            : new ArrayList<CmsPublishResource>(resources));
+  }
 
-    /**
-     * For serialization.<p>
-     */
-    protected CmsPublishGroup() {
+  /**
+   * For serialization.
+   *
+   * <p>
+   */
+  protected CmsPublishGroup() {
 
-        // for serialization
-    }
+    // for serialization
+  }
 
-    /**
-     * Returns the name.<p>
-     *
-     * @return the name
-     */
-    public String getName() {
+  /**
+   * Returns the name.
+   *
+   * <p>
+   *
+   * @return the name
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the resources.<p>
-     *
-     * @return the resources
-     */
-    public List<CmsPublishResource> getResources() {
+  /**
+   * Returns the resources.
+   *
+   * <p>
+   *
+   * @return the resources
+   */
+  public List<CmsPublishResource> getResources() {
 
-        return m_resources;
-    }
+    return m_resources;
+  }
 
-    /**
-     * Returns true if the GUI should be able to automatically select this group.<p>
-     *
-     * @return the value of the auto-selectable flag
-     */
-    public boolean isAutoSelectable() {
+  /**
+   * Returns true if the GUI should be able to automatically select this group.
+   *
+   * <p>
+   *
+   * @return the value of the auto-selectable flag
+   */
+  public boolean isAutoSelectable() {
 
-        return m_autoSelectable;
-    }
+    return m_autoSelectable;
+  }
 
-    /**
-     * Sets the auto-selectable flag.<p>
-     *
-     * @param autoSelectable the new flag value
-     */
-    public void setAutoSelectable(boolean autoSelectable) {
+  /**
+   * Sets the auto-selectable flag.
+   *
+   * <p>
+   *
+   * @param autoSelectable the new flag value
+   */
+  public void setAutoSelectable(boolean autoSelectable) {
 
-        m_autoSelectable = autoSelectable;
-    }
+    m_autoSelectable = autoSelectable;
+  }
 }

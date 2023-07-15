@@ -30,39 +30,37 @@ package org.opencms.setup.comptest;
 import org.opencms.setup.CmsSetupBean;
 
 /**
- * Tests the operating system.<p>
+ * Tests the operating system.
+ *
+ * <p>
  *
  * @since 6.1.8
  */
 public class CmsSetupTestOperatingSystem implements I_CmsSetupTest {
 
-    /** The test name. */
-    public static final String TEST_NAME = "Operating System";
+  /** The test name. */
+  public static final String TEST_NAME = "Operating System";
 
-    /**
-     * @see org.opencms.setup.comptest.I_CmsSetupTest#getName()
-     */
-    public String getName() {
+  /** @see org.opencms.setup.comptest.I_CmsSetupTest#getName() */
+  public String getName() {
 
-        return TEST_NAME;
-    }
+    return TEST_NAME;
+  }
 
-    /**
-     * @see org.opencms.setup.comptest.I_CmsSetupTest#execute(org.opencms.setup.CmsSetupBean)
-     */
-    public CmsSetupTestResult execute(CmsSetupBean setupBean) {
+  /** @see org.opencms.setup.comptest.I_CmsSetupTest#execute(org.opencms.setup.CmsSetupBean) */
+  public CmsSetupTestResult execute(CmsSetupBean setupBean) {
 
-        CmsSetupTestResult testResult = new CmsSetupTestResult(this);
+    CmsSetupTestResult testResult = new CmsSetupTestResult(this);
 
-        String osName = System.getProperty("os.name");
-        String osVersion = System.getProperty("os.version");
+    String osName = System.getProperty("os.name");
+    String osVersion = System.getProperty("os.version");
 
-        testResult.setResult(osName + " " + osVersion);
-        testResult.setHelp("Your operating system version");
+    testResult.setResult(osName + " " + osVersion);
+    testResult.setHelp("Your operating system version");
 
-        // there is still no handling to test the operating system
-        testResult.setGreen();
+    // there is still no handling to test the operating system
+    testResult.setGreen();
 
-        return testResult;
-    }
+    return testResult;
+  }
 }

@@ -31,38 +31,37 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 
 /**
- * Signals that an attempt to read an object from a data source, that
- * is supposed to exist, was not successfull.<p>
+ * Signals that an attempt to read an object from a data source, that is supposed to exist, was not
+ * successfull.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDbEntryNotFoundException extends CmsDbException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -2579588428436942854L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -2579588428436942854L;
 
-    /**
-     * @see org.opencms.main.CmsException#CmsException(CmsMessageContainer)
-     */
-    public CmsDbEntryNotFoundException(CmsMessageContainer container) {
+  /** @see org.opencms.main.CmsException#CmsException(CmsMessageContainer) */
+  public CmsDbEntryNotFoundException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#CmsException(CmsMessageContainer, Throwable)
-     */
-    public CmsDbEntryNotFoundException(CmsMessageContainer container, Throwable cause) {
+  /** @see org.opencms.main.CmsException#CmsException(CmsMessageContainer, Throwable) */
+  public CmsDbEntryNotFoundException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsDbEntryNotFoundException(container, cause);
-    }
+    return new CmsDbEntryNotFoundException(container, cause);
+  }
 }

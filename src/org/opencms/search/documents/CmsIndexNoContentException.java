@@ -32,44 +32,49 @@ import org.opencms.main.CmsException;
 import org.opencms.search.CmsIndexException;
 
 /**
- * Signals an error during content extraction of an empty document.<p>
+ * Signals an error during content extraction of an empty document.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsIndexNoContentException extends CmsIndexException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 3349103125695597197L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 3349103125695597197L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsIndexNoContentException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsIndexNoContentException(CmsMessageContainer container) {
 
-        super(container);
+    super(container);
+  }
 
-    }
+  /**
+   * Creates a new localized Exception that also contains a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsIndexNoContentException(CmsMessageContainer container, Throwable cause) {
 
-    /**
-     * Creates a new localized Exception that also contains a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsIndexNoContentException(CmsMessageContainer container, Throwable cause) {
+    super(container, cause);
+  }
 
-        super(container, cause);
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-    }
-
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
-
-        return new CmsIndexNoContentException(container, cause);
-    }
+    return new CmsIndexNoContentException(container, cause);
+  }
 }

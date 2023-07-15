@@ -32,42 +32,49 @@ import org.opencms.main.CmsException;
 
 /**
  * A permission violation occurs if a user without tries to access or maipulate a VFS resource
- * without the required permissions.<p>
+ * without the required permissions.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsPermissionViolationException extends CmsSecurityException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 4290853205159735250L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 4290853205159735250L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsPermissionViolationException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsPermissionViolationException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsPermissionViolationException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsPermissionViolationException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsPermissionViolationException(container, cause);
-    }
+    return new CmsPermissionViolationException(container, cause);
+  }
 }

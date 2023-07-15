@@ -30,22 +30,25 @@ package org.opencms.gwt.shared.rpc;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * Handles client side logging.<p>
+ * Handles client side logging.
+ *
+ * <p>
  *
  * @since 8.0.0
- *
  * @see org.opencms.gwt.CmsLogService
  * @see org.opencms.gwt.shared.rpc.I_CmsLogService
  * @see org.opencms.gwt.shared.rpc.I_CmsLogServiceAsync
  */
 public interface I_CmsLogServiceAsync {
 
-    /**
-     * Logs client messages on the server.<p>
-     *
-     * @param ticket the optional client-side generated ticket
-     * @param message the message to log
-     * @param callback the async callback
-     */
-    void log(String ticket, String message, AsyncCallback<Void> callback);
+  /**
+   * Logs client messages on the server.
+   *
+   * <p>
+   *
+   * @param ticket the optional client-side generated ticket
+   * @param message the message to log
+   * @param callback the async callback
+   */
+  void log(String ticket, String message, AsyncCallback<Void> callback);
 }

@@ -27,118 +27,136 @@
 
 package org.opencms.publish;
 
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.util.CmsUUID;
 
-import java.util.Locale;
-
 /**
- * Defines a read-only publish job.<p>
+ * Defines a read-only publish job.
+ *
+ * <p>
  *
  * @since 6.5.5
  */
 public class CmsPublishJobBase {
 
-    /** The delegate publish job. */
-    protected CmsPublishJobInfoBean m_publishJob;
+  /** The delegate publish job. */
+  protected CmsPublishJobInfoBean m_publishJob;
 
-    /**
-     * Internal constructor.<p>
-     *
-     * @param job the job used to initialize
-     */
-    protected CmsPublishJobBase(CmsPublishJobBase job) {
+  /**
+   * Internal constructor.
+   *
+   * <p>
+   *
+   * @param job the job used to initialize
+   */
+  protected CmsPublishJobBase(CmsPublishJobBase job) {
 
-        m_publishJob = job.m_publishJob;
+    m_publishJob = job.m_publishJob;
+  }
+
+  /**
+   * Default constructor.
+   *
+   * <p>
+   *
+   * @param publishJob the delegate publish job
+   */
+  protected CmsPublishJobBase(CmsPublishJobInfoBean publishJob) {
+
+    m_publishJob = publishJob;
+  }
+
+  /**
+   * Returns the locale for this publish job.
+   *
+   * <p>
+   *
+   * @return the locale for this publish job
+   */
+  public Locale getLocale() {
+
+    return m_publishJob.getLocale();
+  }
+
+  /**
+   * Returns the project name or {@link
+   * org.opencms.publish.Messages#GUI_DIRECT_PUBLISH_PROJECT_NAME_0} if it is a direct publish job.
+   *
+   * <p>
+   *
+   * @return the project name
+   */
+  public String getProjectName() {
+
+    return m_publishJob.getProjectName();
+  }
+
+  /**
+   * Returns the publish history id.
+   *
+   * <p>
+   *
+   * @return the publish history id
+   */
+  public CmsUUID getPublishHistoryId() {
+
+    return m_publishJob.getPublishHistoryId();
+  }
+
+  /**
+   * Returns the number of resources in the publish list.
+   *
+   * <p>
+   *
+   * @return the number of resources in the publish list
+   */
+  public int getSize() {
+
+    return m_publishJob.getSize();
+  }
+
+  /**
+   * Returns the id of the user who initialized this publish job.
+   *
+   * <p>
+   *
+   * @return the id of the user who initialized this publish job
+   */
+  public CmsUUID getUserId() {
+
+    return m_publishJob.getUserId();
+  }
+
+  /**
+   * Returns the name of the user who initialized this publish job.
+   *
+   * <p>
+   *
+   * @param cms the cms object
+   * @return the name of the user who initialized this publish job
+   */
+  public String getUserName(CmsObject cms) {
+
+    String userName = getUserId().toString();
+    try {
+      userName = cms.readUser(getUserId()).getName();
+    } catch (CmsException e) {
+      // ignore
     }
+    return userName;
+  }
 
-    /**
-     * Default constructor.<p>
-     *
-     * @param publishJob the delegate publish job
-     */
-    protected CmsPublishJobBase(CmsPublishJobInfoBean publishJob) {
+  /**
+   * Returns the direct publish state.
+   *
+   * <p>
+   *
+   * @return the direct publish state
+   */
+  public boolean isDirectPublish() {
 
-        m_publishJob = publishJob;
-    }
-
-    /**
-     * Returns the locale for this publish job.<p>
-     *
-     * @return the locale for this publish job
-     */
-    public Locale getLocale() {
-
-        return m_publishJob.getLocale();
-    }
-
-    /**
-     * Returns the project name or {@link org.opencms.publish.Messages#GUI_DIRECT_PUBLISH_PROJECT_NAME_0}
-     * if it is a direct publish job.<p>
-     *
-     * @return the project name
-     */
-    public String getProjectName() {
-
-        return m_publishJob.getProjectName();
-    }
-
-    /**
-     * Returns the publish history id.<p>
-     *
-     * @return the publish history id
-     */
-    public CmsUUID getPublishHistoryId() {
-
-        return m_publishJob.getPublishHistoryId();
-    }
-
-    /**
-     * Returns the number of resources in the publish list.<p>
-     *
-     * @return the number of resources in the publish list
-     */
-    public int getSize() {
-
-        return m_publishJob.getSize();
-    }
-
-    /**
-     * Returns the id of the user who initialized this publish job.<p>
-     *
-     * @return the id of the user who initialized this publish job
-     */
-    public CmsUUID getUserId() {
-
-        return m_publishJob.getUserId();
-    }
-
-    /**
-     * Returns the name of the user who initialized this publish job.<p>
-     *
-     * @param cms the cms object
-     *
-     * @return the name of the user who initialized this publish job
-     */
-    public String getUserName(CmsObject cms) {
-
-        String userName = getUserId().toString();
-        try {
-            userName = cms.readUser(getUserId()).getName();
-        } catch (CmsException e) {
-            // ignore
-        }
-        return userName;
-    }
-
-    /**
-     * Returns the direct publish state.<p>
-     *
-     * @return the direct publish state
-     */
-    public boolean isDirectPublish() {
-
-        return m_publishJob.isDirectPublish();
-    }
+    return m_publishJob.isDirectPublish();
+  }
 }

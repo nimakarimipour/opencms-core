@@ -27,27 +27,30 @@
 
 package org.opencms.ade.publish;
 
+import java.util.Collections;
+import java.util.Set;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 
-import java.util.Collections;
-import java.util.Set;
-
 /**
- * Dummy implementation of the I_CmsRelatedResourceProvider interface which doesn't actually add any related resources.<p>
+ * Dummy implementation of the I_CmsRelatedResourceProvider interface which doesn't actually add any
+ * related resources.
+ *
+ * <p>
  */
 public class CmsDummyRelatedResourceProvider implements I_CmsPublishRelatedResourceProvider {
 
-    /** Static instance of this class (we don't need more than one). **/
-    public static final I_CmsPublishRelatedResourceProvider INSTANCE = new CmsDummyRelatedResourceProvider();
+  /** Static instance of this class (we don't need more than one). * */
+  public static final I_CmsPublishRelatedResourceProvider INSTANCE =
+      new CmsDummyRelatedResourceProvider();
 
-    /**
-     * @see org.opencms.ade.publish.I_CmsPublishRelatedResourceProvider#getAdditionalRelatedResources(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
-     */
-    public Set<CmsResource> getAdditionalRelatedResources(CmsObject cms, CmsResource res) {
+  /**
+   * @see
+   *     org.opencms.ade.publish.I_CmsPublishRelatedResourceProvider#getAdditionalRelatedResources(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource)
+   */
+  public Set<CmsResource> getAdditionalRelatedResources(CmsObject cms, CmsResource res) {
 
-        return Collections.emptySet();
-
-    }
-
+    return Collections.emptySet();
+  }
 }

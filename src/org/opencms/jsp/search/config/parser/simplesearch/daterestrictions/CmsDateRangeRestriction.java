@@ -33,56 +33,61 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Restriction to a date between a fixed start and end date, but only one of them has to be given.<p>
+ * Restriction to a date between a fixed start and end date, but only one of them has to be given.
+ *
+ * <p>
  */
 public class CmsDateRangeRestriction implements I_CmsDateRestriction {
 
-    /** A constant for the Solr date format. */
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-    static {
-        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+  /** A constant for the Solr date format. */
+  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+  static {
+    DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+  }
+
+  /** The start date. */
+  private Date m_from;
+
+  /** The end date. */
+  private Date m_to;
+
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param fromDate the start date
+   * @param toDate the end date
+   */
+  public CmsDateRangeRestriction(Date fromDate, Date toDate) {
+
+    m_from = fromDate;
+    m_to = toDate;
+  }
+
+  /**
+   * @see
+   *     org.opencms.jsp.search.config.parser.simplesearch.daterestrictions.I_CmsDateRestriction#getRange()
+   */
+  public String getRange() {
+
+    return "[" + formatDate(m_from) + " TO " + formatDate(m_to) + "]";
+  }
+
+  /**
+   * Formats the date for use in Solr range queries.
+   *
+   * <p>If null is passed as the date, "*" will be returned.
+   *
+   * @param date the date to format
+   * @return the formatted date
+   */
+  private String formatDate(Date date) {
+
+    if (date == null) {
+      return "*";
     }
-
-    /** The start date. */
-    private Date m_from;
-
-    /** The end date. */
-    private Date m_to;
-
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param fromDate the start date
-     * @param toDate the end date
-     */
-    public CmsDateRangeRestriction(Date fromDate, Date toDate) {
-
-        m_from = fromDate;
-        m_to = toDate;
-    }
-
-    /**
-     * @see org.opencms.jsp.search.config.parser.simplesearch.daterestrictions.I_CmsDateRestriction#getRange()
-     */
-    public String getRange() {
-
-        return "[" + formatDate(m_from) + " TO " + formatDate(m_to) + "]";
-    }
-
-    /**
-     * Formats the date for use in Solr range queries.<p>
-     *
-     * If null is passed as the date, "*" will be returned.
-     *
-     * @param date the date to format
-     * @return the formatted date
-     */
-    private String formatDate(Date date) {
-
-        if (date == null) {
-            return "*";
-        }
-        return DATE_FORMAT.format(date);
-    }
-
+    return DATE_FORMAT.format(date);
+  }
 }

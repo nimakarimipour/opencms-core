@@ -27,54 +27,55 @@
 
 package org.opencms.ui.apps.dbmanager;
 
+import com.vaadin.ui.FormLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.List;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.apps.linkvalidation.I_CmsUpdatableComponent;
 import org.opencms.ui.report.CmsReportWidget;
 
-import java.util.List;
-
-import com.vaadin.ui.FormLayout;
-import com.vaadin.v7.ui.Label;
-import com.vaadin.v7.ui.VerticalLayout;
-
 /**
- * Remove publish locks.<p>
+ * Remove publish locks.
+ *
+ * <p>
  */
 public class CmsDbRemovePublishLocks extends VerticalLayout implements I_CmsUpdatableComponent {
 
-    /**Vaadin serial id. */
-    private static final long serialVersionUID = 2234620713671506530L;
+  /** Vaadin serial id. */
+  private static final long serialVersionUID = 2234620713671506530L;
 
-    /**Vaadin component.*/
-    private FormLayout m_panel;
+  /** Vaadin component. */
+  private FormLayout m_panel;
 
-    /**Vaadin component.*/
-    private Label m_report;
+  /** Vaadin component. */
+  private Label m_report;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsDbRemovePublishLocks() {
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsDbRemovePublishLocks() {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
-        m_report.setHeight("500px");
-        m_report.addStyleName("v-scrollable");
-        m_report.addStyleName("o-report");
-        m_report.setValue(CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_REPAIR_INTRO_0));
-    }
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    m_report.setHeight("500px");
+    m_report.addStyleName("v-scrollable");
+    m_report.addStyleName("o-report");
+    m_report.setValue(CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_REPAIR_INTRO_0));
+  }
 
-    /**
-     * @see org.opencms.ui.apps.linkvalidation.I_CmsUpdatableComponent#update(java.util.List)
-     */
-    public void update(List<String> resources) {
+  /** @see org.opencms.ui.apps.linkvalidation.I_CmsUpdatableComponent#update(java.util.List) */
+  public void update(List<String> resources) {
 
-        m_panel.removeAllComponents();
-        CmsRemovePubLocksThread thread = new CmsRemovePubLocksThread(A_CmsUI.getCmsObject(), resources);
-        thread.start();
-        CmsReportWidget widget = new CmsReportWidget(thread);
-        widget.setHeight("500px");
-        m_panel.addComponent(widget);
-    }
+    m_panel.removeAllComponents();
+    CmsRemovePubLocksThread thread = new CmsRemovePubLocksThread(A_CmsUI.getCmsObject(), resources);
+    thread.start();
+    CmsReportWidget widget = new CmsReportWidget(thread);
+    widget.setHeight("500px");
+    m_panel.addComponent(widget);
+  }
 }

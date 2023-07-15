@@ -34,87 +34,96 @@ import org.opencms.main.I_CmsEventListener;
 import org.opencms.report.I_CmsReport;
 
 /**
- * Module action classes in OpenCms must implement this interface.<p>
+ * Module action classes in OpenCms must implement this interface.
  *
- * A module action class allows to perform special functions on certain
- * OpenCms lifecycle system events, like {@link #initialize(CmsObject, CmsConfigurationManager, CmsModule)} or
- * {@link #shutDown(CmsModule)}.<p>
+ * <p>A module action class allows to perform special functions on certain OpenCms lifecycle system
+ * events, like {@link #initialize(CmsObject, CmsConfigurationManager, CmsModule)} or {@link
+ * #shutDown(CmsModule)}.
+ *
+ * <p>
  *
  * @since 6.0.0
- *
  * @see org.opencms.module.A_CmsModuleAction
  */
 public interface I_CmsModuleAction extends I_CmsEventListener {
 
-    /**
-     * Will be called by the OpenCms system during server startup.<p>
-     *
-     * If a module requires special initialization code, this
-     * is a good place to to implement this functions.<p>
-     *
-     * Moreover, if the module requires special "one time" setup code,
-     * this should also be implemented here. For example if the module
-     * requires special DB tables to be created, you should implement
-     * a check if theses tables exist in this method, and if they don't
-     * exist create them as needed.<p>
-     *
-     * @param adminCms an initialized CmsObject with "Admin" permissions
-     * @param configurationManager the initialized OpenCms configuration manager
-     * @param module the module of this action instance
-     */
-    void initialize(CmsObject adminCms, CmsConfigurationManager configurationManager, CmsModule module);
+  /**
+   * Will be called by the OpenCms system during server startup.
+   *
+   * <p>If a module requires special initialization code, this is a good place to to implement this
+   * functions.
+   *
+   * <p>Moreover, if the module requires special "one time" setup code, this should also be
+   * implemented here. For example if the module requires special DB tables to be created, you
+   * should implement a check if theses tables exist in this method, and if they don't exist create
+   * them as needed.
+   *
+   * <p>
+   *
+   * @param adminCms an initialized CmsObject with "Admin" permissions
+   * @param configurationManager the initialized OpenCms configuration manager
+   * @param module the module of this action instance
+   */
+  void initialize(
+      CmsObject adminCms, CmsConfigurationManager configurationManager, CmsModule module);
 
-    /**
-     * Will be called if a module is uninstalled from an OpenCms system.<p>
-     *
-     * If you require special code to be executed if a module is uninstalled,
-     * implement it in this function.<p>
-     *
-     * Please note that there is no <code>install()</code> method.
-     * This is because the class loader will not have the module class
-     * instance available after module installation/upload. If you
-     * need to execute setup/install code, do this in the {@link #initialize(CmsObject, CmsConfigurationManager, CmsModule)}
-     * method during the next server startup.<p>
-     *
-     * This method is <i>not</i> called if the module this action instance belongs to
-     * is "replaced". In this case {@link #moduleUpdate(CmsModule)} is called after the
-     * new version of the module is installed.<p>
-     *
-     * @param module the module of this action instance
-     *
-     * @see #initialize(CmsObject, CmsConfigurationManager, CmsModule)
-     */
-    void moduleUninstall(CmsModule module);
+  /**
+   * Will be called if a module is uninstalled from an OpenCms system.
+   *
+   * <p>If you require special code to be executed if a module is uninstalled, implement it in this
+   * function.
+   *
+   * <p>Please note that there is no <code>install()</code> method. This is because the class loader
+   * will not have the module class instance available after module installation/upload. If you need
+   * to execute setup/install code, do this in the {@link #initialize(CmsObject,
+   * CmsConfigurationManager, CmsModule)} method during the next server startup.
+   *
+   * <p>This method is <i>not</i> called if the module this action instance belongs to is
+   * "replaced". In this case {@link #moduleUpdate(CmsModule)} is called after the new version of
+   * the module is installed.
+   *
+   * <p>
+   *
+   * @param module the module of this action instance
+   * @see #initialize(CmsObject, CmsConfigurationManager, CmsModule)
+   */
+  void moduleUninstall(CmsModule module);
 
-    /**
-     * Will be called if the module this action instance belongs to is updated.<p>
-     *
-     * @param module the module of this action instance with the updated values
-     */
-    void moduleUpdate(CmsModule module);
+  /**
+   * Will be called if the module this action instance belongs to is updated.
+   *
+   * <p>
+   *
+   * @param module the module of this action instance with the updated values
+   */
+  void moduleUpdate(CmsModule module);
 
-    /**
-     * Will be called during a the publish process after the resources have been published,
-     * but before the publish event is fired.<p>
-     *
-     * If you require special code to be executed after a resource is published,
-     * implement it in this function any analyze the publish list for "interesting" resources.<p>
-     *
-     * @param cms the user context the publish was executed with
-     * @param publishList the list of published resources
-     * @param publishTag the publish tag
-     * @param report the report to write messages to
-     */
-    void publishProject(CmsObject cms, CmsPublishList publishList, int publishTag, I_CmsReport report);
+  /**
+   * Will be called during a the publish process after the resources have been published, but before
+   * the publish event is fired.
+   *
+   * <p>If you require special code to be executed after a resource is published, implement it in
+   * this function any analyze the publish list for "interesting" resources.
+   *
+   * <p>
+   *
+   * @param cms the user context the publish was executed with
+   * @param publishList the list of published resources
+   * @param publishTag the publish tag
+   * @param report the report to write messages to
+   */
+  void publishProject(
+      CmsObject cms, CmsPublishList publishList, int publishTag, I_CmsReport report);
 
-    /**
-     * Will be called by the OpenCms system during server shutdown.<p>
-     *
-     * If a module requires special "clean up" functions,
-     * for example removing temporary files, this is a good place
-     * to implement this functions.<p>
-     *
-     * @param module the module of this action instance
-     */
-    void shutDown(CmsModule module);
+  /**
+   * Will be called by the OpenCms system during server shutdown.
+   *
+   * <p>If a module requires special "clean up" functions, for example removing temporary files,
+   * this is a good place to implement this functions.
+   *
+   * <p>
+   *
+   * @param module the module of this action instance
+   */
+  void shutDown(CmsModule module);
 }

@@ -27,112 +27,121 @@
 
 package org.opencms.file;
 
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 import org.opencms.test.OpenCmsTestResourceFilter;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
- * Unit test for the "chflags" method of the CmsObject.<p>
+ * Unit test for the "chflags" method of the CmsObject.
+ *
+ * <p>
  *
  * @since 6.0 alpha 2
  */
 public class TestChflags extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestChflags(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestChflags(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestChflags.class.getName());
+    TestSuite suite = new TestSuite();
+    suite.setName(TestChflags.class.getName());
 
-        suite.addTest(new TestChflags("testAddFlagInternal"));
+    suite.addTest(new TestChflags("testAddFlagInternal"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
-    }
+    return wrapper;
+  }
 
-    /**
-     * Tests setting the "internal" flag on a resource.<p>
-     *
-     * @throws Throwable if something goes wrong
-     */
-    public void testAddFlagInternal() throws Throwable {
+  /**
+   * Tests setting the "internal" flag on a resource.
+   *
+   * <p>
+   *
+   * @throws Throwable if something goes wrong
+   */
+  public void testAddFlagInternal() throws Throwable {
 
-        CmsObject cms = getCmsObject();
+    CmsObject cms = getCmsObject();
 
-        echo("Tests setting the \"internal\" flag on a resource");
-        addFlagInternal(this, cms);
-    }
+    echo("Tests setting the \"internal\" flag on a resource");
+    addFlagInternal(this, cms);
+  }
 
-    /**
-     * Tests setting the "internal" flag on a resource.<p>
-     *
-     * @param tc the OpenCmsTestCase
-     * @param cms the CmsObject
-     * @throws Throwable if something goes wrong
-     */
-    public static void addFlagInternal(OpenCmsTestCase tc, CmsObject cms) throws Throwable {
+  /**
+   * Tests setting the "internal" flag on a resource.
+   *
+   * <p>
+   *
+   * @param tc the OpenCmsTestCase
+   * @param cms the CmsObject
+   * @throws Throwable if something goes wrong
+   */
+  public static void addFlagInternal(OpenCmsTestCase tc, CmsObject cms) throws Throwable {
 
-        String resource1 = "/index.html";
+    String resource1 = "/index.html";
 
-        CmsResource resource = cms.readResource(resource1, CmsResourceFilter.ALL);
-        tc.storeResources(cms, resource1);
+    CmsResource resource = cms.readResource(resource1, CmsResourceFilter.ALL);
+    tc.storeResources(cms, resource1);
 
-        int existingFlags = resource.getFlags();
-        int flags = existingFlags;
-        long timestamp = System.currentTimeMillis();
+    int existingFlags = resource.getFlags();
+    int flags = existingFlags;
+    long timestamp = System.currentTimeMillis();
 
-        // the "internal" flag is not set
-        assertFalse(resource.isInternal());
+    // the "internal" flag is not set
+    assertFalse(resource.isInternal());
 
-        // add the "internal" flag
-        flags += CmsResource.FLAG_INTERNAL;
+    // add the "internal" flag
+    flags += CmsResource.FLAG_INTERNAL;
 
-        // change the flag
-        cms.lockResource(resource1);
-        cms.chflags(resource1, flags);
-        cms.unlockResource(resource1);
+    // change the flag
+    cms.lockResource(resource1);
+    cms.chflags(resource1, flags);
+    cms.unlockResource(resource1);
 
-        // check the status of the changed file
-        tc.assertFilter(cms, resource1, OpenCmsTestResourceFilter.FILTER_CHFLAGS);
-        tc.assertDateLastModifiedAfter(cms, resource1, timestamp);
-        tc.assertState(cms, resource1, CmsResource.STATE_CHANGED);
-        tc.assertUserLastModified(cms, resource1, cms.getRequestContext().getCurrentUser());
-        tc.assertFlags(cms, resource1, CmsResource.FLAG_INTERNAL);
-        tc.assertProject(cms, resource1, cms.getRequestContext().getCurrentProject());
-    }
-
+    // check the status of the changed file
+    tc.assertFilter(cms, resource1, OpenCmsTestResourceFilter.FILTER_CHFLAGS);
+    tc.assertDateLastModifiedAfter(cms, resource1, timestamp);
+    tc.assertState(cms, resource1, CmsResource.STATE_CHANGED);
+    tc.assertUserLastModified(cms, resource1, cms.getRequestContext().getCurrentUser());
+    tc.assertFlags(cms, resource1, CmsResource.FLAG_INTERNAL);
+    tc.assertProject(cms, resource1, cms.getRequestContext().getCurrentProject());
+  }
 }

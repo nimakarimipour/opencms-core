@@ -31,29 +31,26 @@ import org.opencms.file.CmsObject;
 import org.opencms.workplace.tools.A_CmsToolHandler;
 
 /**
- * Units management tool handler that hides the tool if the current user
- * has not the needed privileges.<p>
+ * Units management tool handler that hides the tool if the current user has not the needed
+ * privileges.
+ *
+ * <p>
  *
  * @since 6.5.6
  */
 public class CmsOrgUnitsToolHandler extends A_CmsToolHandler {
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject)
-     */
-    public boolean isEnabled(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.I_CmsToolHandler#isEnabled(org.opencms.file.CmsObject) */
+  public boolean isEnabled(CmsObject cms) {
 
-        // TODO Auto-generated method stub
-        return false;
-    }
+    // TODO Auto-generated method stub
+    return false;
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.I_CmsToolHandler#isVisible(org.opencms.file.CmsObject)
-     */
-    public boolean isVisible(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.I_CmsToolHandler#isVisible(org.opencms.file.CmsObject) */
+  public boolean isVisible(CmsObject cms) {
 
-        // TODO Auto-generated method stub
-        return false;
-    }
-
+    // TODO Auto-generated method stub
+    return false;
+  }
 }

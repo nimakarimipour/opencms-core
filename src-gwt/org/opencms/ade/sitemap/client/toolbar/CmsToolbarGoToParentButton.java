@@ -27,6 +27,8 @@
 
 package org.opencms.ade.sitemap.client.toolbar;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import org.opencms.ade.sitemap.client.Messages;
 import org.opencms.ade.sitemap.client.control.CmsSitemapController;
 import org.opencms.gwt.client.ui.CmsPushButton;
@@ -34,38 +36,42 @@ import org.opencms.gwt.client.ui.I_CmsButton;
 import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
 import org.opencms.gwt.client.ui.I_CmsButton.Size;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-
 /**
- * The toolbar button for jumping to the parent sitemap.<p>
+ * The toolbar button for jumping to the parent sitemap.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsToolbarGoToParentButton extends CmsPushButton {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param toolbar the toolbar instance
-     * @param controller the sitemap controller
-     */
-    public CmsToolbarGoToParentButton(final CmsSitemapToolbar toolbar, final CmsSitemapController controller) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param toolbar the toolbar instance
+   * @param controller the sitemap controller
+   */
+  public CmsToolbarGoToParentButton(
+      final CmsSitemapToolbar toolbar, final CmsSitemapController controller) {
 
-        setImageClass(I_CmsButton.EDIT_UP_SMALL);
-        setTitle(Messages.get().key(Messages.GUI_HOVERBAR_PARENT_0));
-        setButtonStyle(ButtonStyle.FONT_ICON, null);
-        setSize(Size.big);
-        addClickHandler(new ClickHandler() {
+    setImageClass(I_CmsButton.EDIT_UP_SMALL);
+    setTitle(Messages.get().key(Messages.GUI_HOVERBAR_PARENT_0));
+    setButtonStyle(ButtonStyle.FONT_ICON, null);
+    setSize(Size.big);
+    addClickHandler(
+        new ClickHandler() {
 
-            /**
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
+          /**
+           * @see
+           *     com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+           */
+          public void onClick(ClickEvent event) {
 
-                toolbar.onButtonActivation(CmsToolbarGoToParentButton.this);
-                controller.gotoParentSitemap();
-            }
+            toolbar.onButtonActivation(CmsToolbarGoToParentButton.this);
+            controller.gotoParentSitemap();
+          }
         });
-    }
+  }
 }

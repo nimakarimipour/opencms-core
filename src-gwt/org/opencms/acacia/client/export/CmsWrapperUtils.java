@@ -27,68 +27,76 @@
 
 package org.opencms.acacia.client.export;
 
+import java.util.List;
 import org.opencms.acacia.shared.CmsEntity;
 import org.opencms.acacia.shared.CmsEntityAttribute;
 
-import java.util.List;
-
 /**
- * Utility class with helper methods for wrapping objects.<p>
+ * Utility class with helper methods for wrapping objects.
+ *
+ * <p>
  */
 public final class CmsWrapperUtils {
 
-    /**
-     * Hiding constructor.<p>
-     */
-    private CmsWrapperUtils() {
+  /**
+   * Hiding constructor.
+   *
+   * <p>
+   */
+  private CmsWrapperUtils() {
 
-        // nothing to do
+    // nothing to do
+  }
+
+  /**
+   * Creates an array of entity attribute wrappers for a list of entity attributes.
+   *
+   * <p>
+   *
+   * @param attributes the list of attributes
+   * @return the array of attribute wrappers
+   */
+  public static CmsEntityAttributeWrapper[] arrayFromEntityAttributeList(
+      List<CmsEntityAttribute> attributes) {
+
+    CmsEntityAttributeWrapper[] result = new CmsEntityAttributeWrapper[attributes.size()];
+    for (int i = 0; i < attributes.size(); i++) {
+      result[i] = new CmsEntityAttributeWrapper(attributes.get(i));
     }
+    return result;
+  }
 
-    /**
-     * Creates an array of entity attribute wrappers for a list of entity attributes.<p>
-     *
-     * @param attributes the list of attributes
-     * @return the array of attribute wrappers
-     */
-    public static CmsEntityAttributeWrapper[] arrayFromEntityAttributeList(List<CmsEntityAttribute> attributes) {
+  /**
+   * Creates an array of entity wrappers for a list of entities.
+   *
+   * <p>
+   *
+   * @param entities the list of entities
+   * @return the array of entity wrappers
+   */
+  public static CmsEntityWrapper[] arrayFromEntityList(List<CmsEntity> entities) {
 
-        CmsEntityAttributeWrapper[] result = new CmsEntityAttributeWrapper[attributes.size()];
-        for (int i = 0; i < attributes.size(); i++) {
-            result[i] = new CmsEntityAttributeWrapper(attributes.get(i));
-        }
-        return result;
+    CmsEntityWrapper[] result = new CmsEntityWrapper[entities.size()];
+    for (int i = 0; i < entities.size(); i++) {
+      result[i] = new CmsEntityWrapper(entities.get(i));
     }
+    return result;
+  }
 
-    /**
-     * Creates an array of entity wrappers for a list of entities.<p>
-     *
-     * @param entities the list of entities
-     * @return the array of entity wrappers
-     */
-    public static CmsEntityWrapper[] arrayFromEntityList(List<CmsEntity> entities) {
+  /**
+   * Converts a list of strings to an array.
+   *
+   * <p>
+   *
+   * @param strings the string list
+   * @return the array of strings
+   */
+  public static String[] arrayFromStringList(List<String> strings) {
 
-        CmsEntityWrapper[] result = new CmsEntityWrapper[entities.size()];
-        for (int i = 0; i < entities.size(); i++) {
-            result[i] = new CmsEntityWrapper(entities.get(i));
-        }
-        return result;
+    String[] result = new String[strings.size()];
+    for (int i = 0; i < strings.size(); i++) {
+      result[i] = strings.get(i);
     }
-
-    /**
-     * Converts a list of strings to an array.<p>
-     *
-     * @param strings the string list
-     *
-     * @return the array of strings
-     */
-    public static String[] arrayFromStringList(List<String> strings) {
-
-        String[] result = new String[strings.size()];
-        for (int i = 0; i < strings.size(); i++) {
-            result[i] = strings.get(i);
-        }
-        return result;
-    }
-
+    return result;
+  }
 }

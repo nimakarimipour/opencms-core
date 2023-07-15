@@ -33,60 +33,68 @@ import org.apache.chemistry.opencmis.commons.data.ObjectData;
 import org.apache.chemistry.opencmis.commons.enums.IncludeRelationships;
 
 /**
- * Interface containing the basic CRUD operations for CMIS objects.<p>
+ * Interface containing the basic CRUD operations for CMIS objects.
+ *
+ * <p>
  */
 public interface I_CmsCmisObjectHelper {
 
-    /**
-     * Deletes a CMIS object.<p>
-     *
-     * @param context the call context
-     * @param objectId the id of the object to delete
-     * @param allVersions flag to delete all version
-     */
-    void deleteObject(CmsCmisCallContext context, String objectId, boolean allVersions);
+  /**
+   * Deletes a CMIS object.
+   *
+   * <p>
+   *
+   * @param context the call context
+   * @param objectId the id of the object to delete
+   * @param allVersions flag to delete all version
+   */
+  void deleteObject(CmsCmisCallContext context, String objectId, boolean allVersions);
 
-    /**
-     * Gets the ACL for an object.<p>
-     *
-     * @param context the call context
-     * @param objectId the object id
-     * @param onlyBasicPermissions flag to only get basic permissions
-     *
-     * @return the ACL for the object
-     */
-    Acl getAcl(CmsCmisCallContext context, String objectId, boolean onlyBasicPermissions);
+  /**
+   * Gets the ACL for an object.
+   *
+   * <p>
+   *
+   * @param context the call context
+   * @param objectId the object id
+   * @param onlyBasicPermissions flag to only get basic permissions
+   * @return the ACL for the object
+   */
+  Acl getAcl(CmsCmisCallContext context, String objectId, boolean onlyBasicPermissions);
 
-    /**
-     * Gets the allowable actions for an object.<p>
-     *
-     * @param context the call context
-     * @param objectId the object id
-     * @return the allowable actions
-     */
-    AllowableActions getAllowableActions(CmsCmisCallContext context, String objectId);
+  /**
+   * Gets the allowable actions for an object.
+   *
+   * <p>
+   *
+   * @param context the call context
+   * @param objectId the object id
+   * @return the allowable actions
+   */
+  AllowableActions getAllowableActions(CmsCmisCallContext context, String objectId);
 
-    /**
-     * Gets the data for a CMIS object.<p>
-     *
-     * @param context the CMIS call context
-     * @param objectId the id of the object
-     * @param filter the property filter
-     * @param includeAllowableActions flag to include allowable actions
-     * @param includeRelationships flag to include relationships
-     * @param renditionFilter the rendition filter string
-     * @param includePolicyIds flag to include policy ids
-     * @param includeAcl flag to include ACLs
-     *
-     * @return the CMIS object data
-     */
-    ObjectData getObject(
-        CmsCmisCallContext context,
-        String objectId,
-        String filter,
-        boolean includeAllowableActions,
-        IncludeRelationships includeRelationships,
-        String renditionFilter,
-        boolean includePolicyIds,
-        boolean includeAcl);
+  /**
+   * Gets the data for a CMIS object.
+   *
+   * <p>
+   *
+   * @param context the CMIS call context
+   * @param objectId the id of the object
+   * @param filter the property filter
+   * @param includeAllowableActions flag to include allowable actions
+   * @param includeRelationships flag to include relationships
+   * @param renditionFilter the rendition filter string
+   * @param includePolicyIds flag to include policy ids
+   * @param includeAcl flag to include ACLs
+   * @return the CMIS object data
+   */
+  ObjectData getObject(
+      CmsCmisCallContext context,
+      String objectId,
+      String filter,
+      boolean includeAllowableActions,
+      IncludeRelationships includeRelationships,
+      String renditionFilter,
+      boolean includePolicyIds,
+      boolean includeAcl);
 }

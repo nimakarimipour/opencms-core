@@ -27,62 +27,59 @@
 
 package org.opencms.workplace.tools.content.updatexml;
 
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.report.I_CmsReportThread;
 import org.opencms.workplace.list.A_CmsListReport;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
  * Provides a report for replacing html tags in xmlpages.
+ *
  * <p>
  *
  * @since 7.0.5
  */
 public class CmsUpdateXmlReport extends A_CmsListReport {
 
-    /**
-     * Public constructor with JSP action element.
-     * <p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsUpdateXmlReport(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsUpdateXmlReport(CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Public constructor with JSP variables.
-     * <p>
-     *
-     * @param context the JSP page context.
-     *
-     * @param req the JSP request.
-     *
-     * @param res the JSP response.
-     */
-    public CmsUpdateXmlReport(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context.
+   * @param req the JSP request.
+   * @param res the JSP response.
+   */
+  public CmsUpdateXmlReport(PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-    /**
-     *
-     * @see org.opencms.workplace.list.A_CmsListReport#initializeThread()
-     */
-    @Override
-    public I_CmsReportThread initializeThread() {
+  /** @see org.opencms.workplace.list.A_CmsListReport#initializeThread() */
+  @Override
+  public I_CmsReportThread initializeThread() {
 
-        CmsUpdateXmlSettings settings = (CmsUpdateXmlSettings)((Map)getSettings().getDialogObject()).get(
-            CmsUpdateXmlDialog.class.getName());
+    CmsUpdateXmlSettings settings =
+        (CmsUpdateXmlSettings)
+            ((Map) getSettings().getDialogObject()).get(CmsUpdateXmlDialog.class.getName());
 
-        I_CmsReportThread changeThread = new CmsUpdateXmlThread(getCms(), settings);
+    I_CmsReportThread changeThread = new CmsUpdateXmlThread(getCms(), settings);
 
-        return changeThread;
-    }
+    return changeThread;
+  }
 }

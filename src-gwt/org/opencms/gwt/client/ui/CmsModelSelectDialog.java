@@ -27,47 +27,50 @@
 
 package org.opencms.gwt.client.ui;
 
+import java.util.List;
 import org.opencms.gwt.shared.CmsModelResourceInfo;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-
 /**
- * Dialog to select a resource model for a new resource.<p>
+ * Dialog to select a resource model for a new resource.
+ *
+ * <p>
  *
  * @since 8.0.3
  */
 public class CmsModelSelectDialog extends A_CmsListItemSelectDialog<CmsModelResourceInfo> {
 
-    /** The handler instance for selecting a model. */
-    protected I_CmsModelSelectHandler m_selectHandler;
+  /** The handler instance for selecting a model. */
+  protected I_CmsModelSelectHandler m_selectHandler;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param selectHandler the handler object for handling model selection
-     * @param modelResources the available resource models
-     * @param title the title for the model selection dialog
-     * @param message the message to display in the model selection dialog
-     */
-    public CmsModelSelectDialog(
-        I_CmsModelSelectHandler selectHandler,
-        List<CmsModelResourceInfo> modelResources,
-        String title,
-        String message) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param selectHandler the handler object for handling model selection
+   * @param modelResources the available resource models
+   * @param title the title for the model selection dialog
+   * @param message the message to display in the model selection dialog
+   */
+  public CmsModelSelectDialog(
+      I_CmsModelSelectHandler selectHandler,
+      List<CmsModelResourceInfo> modelResources,
+      String title,
+      String message) {
 
-        super(modelResources, title, message);
-        m_selectHandler = selectHandler;
-    }
+    super(modelResources, title, message);
+    m_selectHandler = selectHandler;
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.A_CmsListItemSelectDialog#handleSelection(org.opencms.gwt.shared.CmsListInfoBean)
-     */
-    @Override
-    protected void handleSelection(CmsModelResourceInfo info) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.A_CmsListItemSelectDialog#handleSelection(org.opencms.gwt.shared.CmsListInfoBean)
+   */
+  @Override
+  protected void handleSelection(CmsModelResourceInfo info) {
 
-        CmsUUID structureId = info.getStructureId();
-        m_selectHandler.onModelSelect(structureId);
-    }
-
+    CmsUUID structureId = info.getStructureId();
+    m_selectHandler.onModelSelect(structureId);
+  }
 }

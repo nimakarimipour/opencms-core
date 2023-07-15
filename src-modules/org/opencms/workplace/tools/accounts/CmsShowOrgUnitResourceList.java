@@ -27,6 +27,9 @@
 
 package org.opencms.workplace.tools.accounts;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import org.opencms.db.CmsUserSettings;
 import org.opencms.file.CmsResource;
 import org.opencms.jsp.CmsJspActionElement;
@@ -38,150 +41,144 @@ import org.opencms.workplace.list.CmsListItem;
 import org.opencms.workplace.list.CmsListMetadata;
 import org.opencms.workplace.list.I_CmsListResourceCollector;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /**
- * List for org unit resources.<p>
+ * List for org unit resources.
+ *
+ * <p>
  *
  * @since 6.5.4
  */
 public class CmsShowOrgUnitResourceList extends A_CmsListExplorerDialog {
 
-    /** list id constant. */
-    public static final String LIST_ID = "our";
+  /** list id constant. */
+  public static final String LIST_ID = "our";
 
-    /** The internal collector instance. */
-    private I_CmsListResourceCollector m_collector;
+  /** The internal collector instance. */
+  private I_CmsListResourceCollector m_collector;
 
-    /** Stores the value of the request parameter for the user id. */
-    private String m_paramOufqn;
+  /** Stores the value of the request parameter for the user id. */
+  private String m_paramOufqn;
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsShowOrgUnitResourceList(CmsJspActionElement jsp) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsShowOrgUnitResourceList(CmsJspActionElement jsp) {
 
-        super(jsp, LIST_ID, Messages.get().container(Messages.GUI_ORGUNIT_RESOURCES_LIST_NAME_0));
-        List<CmsResource> resourceList;
-        try {
-            resourceList = OpenCms.getOrgUnitManager().getResourcesForOrganizationalUnit(getCms(), getParamOufqn());
-        } catch (CmsException e) {
-            resourceList = new ArrayList<CmsResource>();
-        }
-        Collections.sort(resourceList);
-        m_collector = new CmsShowOrgUnitResourcesCollector(this, resourceList);
-        getList().getMetadata().getIndependentAction(CmsListIndependentAction.ACTION_EXPLORER_SWITCH_ID).setVisible(
-            false);
+    super(jsp, LIST_ID, Messages.get().container(Messages.GUI_ORGUNIT_RESOURCES_LIST_NAME_0));
+    List<CmsResource> resourceList;
+    try {
+      resourceList =
+          OpenCms.getOrgUnitManager().getResourcesForOrganizationalUnit(getCms(), getParamOufqn());
+    } catch (CmsException e) {
+      resourceList = new ArrayList<CmsResource>();
     }
+    Collections.sort(resourceList);
+    m_collector = new CmsShowOrgUnitResourcesCollector(this, resourceList);
+    getList()
+        .getMetadata()
+        .getIndependentAction(CmsListIndependentAction.ACTION_EXPLORER_SWITCH_ID)
+        .setVisible(false);
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListDialog#executeListMultiActions()
-     */
-    @Override
-    public void executeListMultiActions() {
+  /** @see org.opencms.workplace.list.A_CmsListDialog#executeListMultiActions() */
+  @Override
+  public void executeListMultiActions() {
 
-        throwListUnsupportedActionException();
+    throwListUnsupportedActionException();
+  }
+
+  /** @see org.opencms.workplace.list.A_CmsListDialog#executeListSingleActions() */
+  @Override
+  public void executeListSingleActions() {
+
+    throwListUnsupportedActionException();
+  }
+
+  /** @see org.opencms.workplace.list.A_CmsListExplorerDialog#getCollector() */
+  @Override
+  public I_CmsListResourceCollector getCollector() {
+
+    return m_collector;
+  }
+
+  /**
+   * Returns the organizational unit fqn parameter value.
+   *
+   * <p>
+   *
+   * @return the organizational unit fqn parameter value
+   */
+  public String getParamOufqn() {
+
+    return m_paramOufqn;
+  }
+
+  /**
+   * Sets the organizational unit fqn parameter value.
+   *
+   * <p>
+   *
+   * @param ouFqn the organizational unit fqn parameter value
+   */
+  public void setParamOufqn(String ouFqn) {
+
+    if (ouFqn == null) {
+      ouFqn = "";
     }
+    m_paramOufqn = ouFqn;
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListDialog#executeListSingleActions()
-     */
-    @Override
-    public void executeListSingleActions() {
+  /** @see org.opencms.workplace.list.A_CmsListDialog#defaultActionHtmlStart() */
+  @Override
+  protected String defaultActionHtmlStart() {
 
-        throwListUnsupportedActionException();
+    return getList().listJs() + dialogContentStart(getParamTitle());
+  }
+
+  /** @see org.opencms.workplace.list.A_CmsListDialog#fillDetails(java.lang.String) */
+  @Override
+  protected void fillDetails(String detailId) {
+
+    // no op
+  }
+
+  /** @see org.opencms.workplace.list.A_CmsListExplorerDialog#getListItems() */
+  @Override
+  protected List<CmsListItem> getListItems() throws CmsException {
+
+    String storedSiteRoot = getCms().getRequestContext().getSiteRoot();
+    try {
+      getCms().getRequestContext().setSiteRoot("");
+      return super.getListItems();
+    } finally {
+      getCms().getRequestContext().setSiteRoot(storedSiteRoot);
     }
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListExplorerDialog#getCollector()
-     */
-    @Override
-    public I_CmsListResourceCollector getCollector() {
+  /** @see org.opencms.workplace.list.A_CmsListExplorerDialog#isColumnVisible(int) */
+  @Override
+  protected boolean isColumnVisible(int colFlag) {
 
-        return m_collector;
-    }
+    boolean isVisible = (colFlag == CmsUserSettings.FILELIST_TITLE);
+    isVisible = isVisible || (colFlag == LIST_COLUMN_TYPEICON.hashCode());
+    isVisible = isVisible || (colFlag == LIST_COLUMN_LOCKICON.hashCode());
+    isVisible = isVisible || (colFlag == LIST_COLUMN_PROJSTATEICON.hashCode());
+    isVisible = isVisible || (colFlag == LIST_COLUMN_NAME.hashCode());
+    return isVisible;
+  }
 
-    /**
-     * Returns the organizational unit fqn parameter value.<p>
-     *
-     * @return the organizational unit fqn parameter value
-     */
-    public String getParamOufqn() {
+  /**
+   * @see
+   *     org.opencms.workplace.list.A_CmsListDialog#setMultiActions(org.opencms.workplace.list.CmsListMetadata)
+   */
+  @Override
+  protected void setMultiActions(CmsListMetadata metadata) {
 
-        return m_paramOufqn;
-    }
-
-    /**
-     * Sets the organizational unit fqn parameter value.<p>
-     *
-     * @param ouFqn the organizational unit fqn parameter value
-     */
-    public void setParamOufqn(String ouFqn) {
-
-        if (ouFqn == null) {
-            ouFqn = "";
-        }
-        m_paramOufqn = ouFqn;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.A_CmsListDialog#defaultActionHtmlStart()
-     */
-    @Override
-    protected String defaultActionHtmlStart() {
-
-        return getList().listJs() + dialogContentStart(getParamTitle());
-    }
-
-    /**
-     * @see org.opencms.workplace.list.A_CmsListDialog#fillDetails(java.lang.String)
-     */
-    @Override
-    protected void fillDetails(String detailId) {
-
-        // no op
-    }
-
-    /**
-     * @see org.opencms.workplace.list.A_CmsListExplorerDialog#getListItems()
-     */
-    @Override
-    protected List<CmsListItem> getListItems() throws CmsException {
-
-        String storedSiteRoot = getCms().getRequestContext().getSiteRoot();
-        try {
-            getCms().getRequestContext().setSiteRoot("");
-            return super.getListItems();
-        } finally {
-            getCms().getRequestContext().setSiteRoot(storedSiteRoot);
-        }
-    }
-
-    /**
-     * @see org.opencms.workplace.list.A_CmsListExplorerDialog#isColumnVisible(int)
-     */
-    @Override
-    protected boolean isColumnVisible(int colFlag) {
-
-        boolean isVisible = (colFlag == CmsUserSettings.FILELIST_TITLE);
-        isVisible = isVisible || (colFlag == LIST_COLUMN_TYPEICON.hashCode());
-        isVisible = isVisible || (colFlag == LIST_COLUMN_LOCKICON.hashCode());
-        isVisible = isVisible || (colFlag == LIST_COLUMN_PROJSTATEICON.hashCode());
-        isVisible = isVisible || (colFlag == LIST_COLUMN_NAME.hashCode());
-        return isVisible;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.A_CmsListDialog#setMultiActions(org.opencms.workplace.list.CmsListMetadata)
-     */
-    @Override
-    protected void setMultiActions(CmsListMetadata metadata) {
-
-        // no LMAs, and remove default search action
-        metadata.setSearchAction(null);
-    }
+    // no LMAs, and remove default search action
+    metadata.setSearchAction(null);
+  }
 }

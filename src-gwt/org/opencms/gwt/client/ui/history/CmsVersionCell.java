@@ -27,45 +27,47 @@
 
 package org.opencms.gwt.client.ui.history;
 
+import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import org.opencms.gwt.shared.CmsHistoryResourceBean;
 import org.opencms.gwt.shared.CmsHistoryVersion;
 
-import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-
 /**
- * Cell used to display a file version in the history dialog.<p>
+ * Cell used to display a file version in the history dialog.
+ *
+ * <p>
  */
 public final class CmsVersionCell extends AbstractCell<CmsHistoryResourceBean> {
 
-    /**
-     * @see com.google.gwt.cell.client.AbstractCell#render(com.google.gwt.cell.client.Cell.Context, java.lang.Object, com.google.gwt.safehtml.shared.SafeHtmlBuilder)
-     */
-    @Override
-    public void render(
-        com.google.gwt.cell.client.Cell.Context context,
-        CmsHistoryResourceBean value,
-        SafeHtmlBuilder sb) {
+  /**
+   * @see com.google.gwt.cell.client.AbstractCell#render(com.google.gwt.cell.client.Cell.Context,
+   *     java.lang.Object, com.google.gwt.safehtml.shared.SafeHtmlBuilder)
+   */
+  @Override
+  public void render(
+      com.google.gwt.cell.client.Cell.Context context,
+      CmsHistoryResourceBean value,
+      SafeHtmlBuilder sb) {
 
-        CmsHistoryVersion version = value.getVersion();
-        Integer versionNumber = version.getVersionNumber();
+    CmsHistoryVersion version = value.getVersion();
+    Integer versionNumber = version.getVersionNumber();
 
-        String versionText = "";
-        String versionTitle = "";
+    String versionText = "";
+    String versionTitle = "";
 
-        if (versionNumber != null) {
-            versionText = "" + versionNumber + (version.isOnline() ? "*" : "");
-        } else if (version.isOffline()) {
-            versionText = "--";
-        } else if (version.isOnline()) {
-            versionText = "*";
-        }
-
-        if (version.isOffline()) {
-            versionTitle = CmsHistoryMessages.offline();
-        } else if (version.isOnline()) {
-            versionTitle = CmsHistoryMessages.online();
-        }
-        sb.append(CmsResourceHistoryTable.templates.textSpanWithTitle(versionText, versionTitle));
+    if (versionNumber != null) {
+      versionText = "" + versionNumber + (version.isOnline() ? "*" : "");
+    } else if (version.isOffline()) {
+      versionText = "--";
+    } else if (version.isOnline()) {
+      versionText = "*";
     }
+
+    if (version.isOffline()) {
+      versionTitle = CmsHistoryMessages.offline();
+    } else if (version.isOnline()) {
+      versionTitle = CmsHistoryMessages.online();
+    }
+    sb.append(CmsResourceHistoryTable.templates.textSpanWithTitle(versionText, versionTitle));
+  }
 }

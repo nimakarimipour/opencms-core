@@ -27,95 +27,99 @@
 
 package org.opencms.notification;
 
+import java.util.Iterator;
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsUser;
 import org.opencms.i18n.CmsMessages;
 import org.opencms.main.OpenCms;
 import org.opencms.report.I_CmsReport;
 
-import java.util.Iterator;
-import java.util.List;
-
 /**
- * Class to send a notification to an OpenCms user with a summary of warnings and
- * errors occurred while publishing the project.<p>
+ * Class to send a notification to an OpenCms user with a summary of warnings and errors occurred
+ * while publishing the project.
+ *
+ * <p>
  *
  * @since 6.5.3
  */
 public class CmsPublishNotification extends A_CmsNotification {
 
-    /** The path to the xml content with the subject, header and footer of the notification e-mail.<p> */
-    public static final String NOTIFICATION_CONTENT = "notification/publish-notification";
+  /**
+   * The path to the xml content with the subject, header and footer of the notification e-mail.
+   *
+   * <p>
+   */
+  public static final String NOTIFICATION_CONTENT = "notification/publish-notification";
 
-    /** The report containing the errors and warnings to put into the notification. */
-    private I_CmsReport m_report;
+  /** The report containing the errors and warnings to put into the notification. */
+  private I_CmsReport m_report;
 
-    /**
-     * Creates a new CmsPublishNotification.<p>
-     *
-     * @param cms the cms object to use
-     * @param receiver the notification receiver
-     * @param report the report to write the output to
-     */
-    public CmsPublishNotification(CmsObject cms, CmsUser receiver, I_CmsReport report) {
+  /**
+   * Creates a new CmsPublishNotification.
+   *
+   * <p>
+   *
+   * @param cms the cms object to use
+   * @param receiver the notification receiver
+   * @param report the report to write the output to
+   */
+  public CmsPublishNotification(CmsObject cms, CmsUser receiver, I_CmsReport report) {
 
-        super(cms, receiver);
-        m_report = report;
+    super(cms, receiver);
+    m_report = report;
+  }
+
+  /** @see org.opencms.notification.A_CmsNotification#generateHtmlMsg() */
+  @Override
+  protected String generateHtmlMsg() {
+
+    StringBuffer buffer = new StringBuffer();
+
+    CmsMessages messages = Messages.get().getBundle(getLocale());
+
+    // add warnings to the notification
+    if (m_report.hasWarning()) {
+      buffer.append("<b>");
+      buffer.append(messages.key(Messages.GUI_PUBLISH_WARNING_HEADER_0));
+      buffer.append("</b><br/>\n");
+      appendList(buffer, m_report.getWarnings());
+      buffer.append("<br/>\n");
     }
 
-    /**
-     * @see org.opencms.notification.A_CmsNotification#generateHtmlMsg()
-     */
-    @Override
-    protected String generateHtmlMsg() {
-
-        StringBuffer buffer = new StringBuffer();
-
-        CmsMessages messages = Messages.get().getBundle(getLocale());
-
-        // add warnings to the notification
-        if (m_report.hasWarning()) {
-            buffer.append("<b>");
-            buffer.append(messages.key(Messages.GUI_PUBLISH_WARNING_HEADER_0));
-            buffer.append("</b><br/>\n");
-            appendList(buffer, m_report.getWarnings());
-            buffer.append("<br/>\n");
-        }
-
-        // add errors to the notification
-        if (m_report.hasError()) {
-            buffer.append("<b>");
-            buffer.append(messages.key(Messages.GUI_PUBLISH_ERROR_HEADER_0));
-            buffer.append("</b><br/>\n");
-            appendList(buffer, m_report.getErrors());
-            buffer.append("<br/>\n");
-        }
-
-        return buffer.toString();
+    // add errors to the notification
+    if (m_report.hasError()) {
+      buffer.append("<b>");
+      buffer.append(messages.key(Messages.GUI_PUBLISH_ERROR_HEADER_0));
+      buffer.append("</b><br/>\n");
+      appendList(buffer, m_report.getErrors());
+      buffer.append("<br/>\n");
     }
 
-    /**
-     * @see org.opencms.notification.A_CmsNotification#getNotificationContent()
-     */
-    @Override
-    protected String getNotificationContent() {
+    return buffer.toString();
+  }
 
-        return OpenCms.getSystemInfo().getConfigFilePath(m_cms, NOTIFICATION_CONTENT);
+  /** @see org.opencms.notification.A_CmsNotification#getNotificationContent() */
+  @Override
+  protected String getNotificationContent() {
+
+    return OpenCms.getSystemInfo().getConfigFilePath(m_cms, NOTIFICATION_CONTENT);
+  }
+
+  /**
+   * Appends the contents of a list to the buffer with every entry in a new line.
+   *
+   * <p>
+   *
+   * @param buffer The buffer were the entries of the list will be appended.
+   * @param list The list with the entries to append to the buffer.
+   */
+  private void appendList(StringBuffer buffer, List<Object> list) {
+
+    Iterator<Object> iter = list.iterator();
+    while (iter.hasNext()) {
+      Object entry = iter.next();
+      buffer.append(entry).append("<br/>\n");
     }
-
-    /**
-     * Appends the contents of a list to the buffer with every entry in a new line.<p>
-     *
-     * @param buffer The buffer were the entries of the list will be appended.
-     * @param list The list with the entries to append to the buffer.
-     */
-    private void appendList(StringBuffer buffer, List<Object> list) {
-
-        Iterator<Object> iter = list.iterator();
-        while (iter.hasNext()) {
-            Object entry = iter.next();
-            buffer.append(entry).append("<br/>\n");
-        }
-    }
-
+  }
 }

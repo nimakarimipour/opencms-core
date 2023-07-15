@@ -27,6 +27,10 @@
 
 package org.opencms.scheduler.jobs;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.ServletException;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsEvent;
 import org.opencms.main.CmsException;
@@ -37,53 +41,49 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.scheduler.I_CmsScheduledJob;
 import org.opencms.staticexport.Messages;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-
 /**
- * A schedulable OpenCms job to write a complete static export (e.g. nightly exports).<p>
+ * A schedulable OpenCms job to write a complete static export (e.g. nightly exports).
  *
- * This job does not have any parameters.<p>
+ * <p>This job does not have any parameters.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsStaticExportJob implements I_CmsScheduledJob {
 
-    /**
-     * @see org.opencms.scheduler.I_CmsScheduledJob#launch(CmsObject, Map)
-     */
-    public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  /** @see org.opencms.scheduler.I_CmsScheduledJob#launch(CmsObject, Map) */
+  public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
-        I_CmsReport report = null;
+    I_CmsReport report = null;
 
-        try {
-            report = new CmsLogReport(cms.getRequestContext().getLocale(), CmsStaticExportJob.class);
-            OpenCms.getStaticExportManager().exportFullStaticRender(true, report);
-            Map<String, Object> eventData = new HashMap<String, Object>();
-            eventData.put("purge", Boolean.TRUE);
-            eventData.put(I_CmsEventListener.KEY_REPORT, report);
-            OpenCms.fireCmsEvent(new CmsEvent(I_CmsEventListener.EVENT_FULLSTATIC_EXPORT, eventData));
-        } catch (CmsException e) {
-            report.println(e);
-        } catch (IOException e) {
-            report.println(e);
-        } catch (ServletException e) {
-            report.println(e);
-        } finally {
-            // append runtime statistics to the report
-            if (report != null) {
-                report.print(org.opencms.report.Messages.get().container(org.opencms.report.Messages.RPT_STAT_0));
-                report.println(
-                    org.opencms.report.Messages.get().container(
-                        org.opencms.report.Messages.RPT_STAT_DURATION_1,
-                        report.formatRuntime()));
-                report.println(Messages.get().container(Messages.RPT_STATICEXPORT_END_0), I_CmsReport.FORMAT_HEADLINE);
-            }
-        }
-
-        return null;
+    try {
+      report = new CmsLogReport(cms.getRequestContext().getLocale(), CmsStaticExportJob.class);
+      OpenCms.getStaticExportManager().exportFullStaticRender(true, report);
+      Map<String, Object> eventData = new HashMap<String, Object>();
+      eventData.put("purge", Boolean.TRUE);
+      eventData.put(I_CmsEventListener.KEY_REPORT, report);
+      OpenCms.fireCmsEvent(new CmsEvent(I_CmsEventListener.EVENT_FULLSTATIC_EXPORT, eventData));
+    } catch (CmsException e) {
+      report.println(e);
+    } catch (IOException e) {
+      report.println(e);
+    } catch (ServletException e) {
+      report.println(e);
+    } finally {
+      // append runtime statistics to the report
+      if (report != null) {
+        report.print(
+            org.opencms.report.Messages.get().container(org.opencms.report.Messages.RPT_STAT_0));
+        report.println(
+            org.opencms.report.Messages.get()
+                .container(
+                    org.opencms.report.Messages.RPT_STAT_DURATION_1, report.formatRuntime()));
+        report.println(
+            Messages.get().container(Messages.RPT_STATICEXPORT_END_0), I_CmsReport.FORMAT_HEADLINE);
+      }
     }
+
+    return null;
+  }
 }

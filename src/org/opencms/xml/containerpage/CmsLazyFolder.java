@@ -35,137 +35,146 @@ import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 
 /**
- * Helper class for creating a folder if it doesn'T already exist.<p>
+ * Helper class for creating a folder if it doesn'T already exist.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsLazyFolder {
 
-    /** The folder, if it already exists. */
-    private CmsResource m_folder;
+  /** The folder, if it already exists. */
+  private CmsResource m_folder;
 
-    /** The path at which the folder should be created if it doesn'T exist. */
-    private String m_path;
+  /** The path at which the folder should be created if it doesn'T exist. */
+  private String m_path;
 
-    /**
-     * Initializes this object with an existing folder.<p>
-     *
-     * @param folder the existing folder
-     */
-    public CmsLazyFolder(CmsResource folder) {
+  /**
+   * Initializes this object with an existing folder.
+   *
+   * <p>
+   *
+   * @param folder the existing folder
+   */
+  public CmsLazyFolder(CmsResource folder) {
 
-        assert folder != null;
-        m_folder = folder;
-        m_path = null;
+    assert folder != null;
+    m_folder = folder;
+    m_path = null;
+  }
+
+  /**
+   * Initializes this object with a path at which the folder should be created.
+   *
+   * <p>
+   *
+   * @param path the path at which the folder should be created
+   */
+  public CmsLazyFolder(String path) {
+
+    assert path != null;
+    m_path = path;
+    m_folder = null;
+  }
+
+  /**
+   * Creates the folder with the given name if it doesn't already exist, and returns it.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @return the created folder or the already existing folder
+   * @throws CmsException if something goes wrong
+   */
+  public CmsResource createFolder(CmsObject cms) throws CmsException {
+
+    if (m_folder != null) {
+      return m_folder;
     }
+    return cms.createResource(
+        m_path,
+        OpenCms.getResourceManager()
+            .getResourceType(CmsResourceTypeFolder.RESOURCE_TYPE_NAME)
+            .getTypeId());
+  }
 
-    /**
-     * Initializes this object with a path at which the folder should be created.<p>
-     *
-     * @param path the path at which the folder should be created
-     */
-    public CmsLazyFolder(String path) {
+  /**
+   * Returns the folder if it already exists, or null if it doesn't.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @return the folder if it exists, else null
+   * @throws CmsException if something goes wrong
+   */
+  public CmsResource getFolder(CmsObject cms) throws CmsException {
 
-        assert path != null;
-        m_path = path;
-        m_folder = null;
+    if (m_folder != null) {
+      return m_folder;
     }
-
-    /**
-     * Creates the folder with the given name if it doesn't already exist, and returns it.<p>
-     *
-     * @param cms the current CMS context
-     *
-     * @return the created folder or the already existing folder
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public CmsResource createFolder(CmsObject cms) throws CmsException {
-
-        if (m_folder != null) {
-            return m_folder;
-        }
-        return cms.createResource(
-            m_path,
-            OpenCms.getResourceManager().getResourceType(CmsResourceTypeFolder.RESOURCE_TYPE_NAME).getTypeId());
+    try {
+      CmsResource folder = cms.readResource(m_path);
+      return folder;
+    } catch (CmsVfsResourceNotFoundException e) {
+      return null;
     }
+  }
 
-    /**
-     * Returns the folder if it already exists, or null if it doesn't.<p>
-     *
-     * @param cms the current CMS context
-     *
-     * @return the folder if it exists, else null
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public CmsResource getFolder(CmsObject cms) throws CmsException {
+  /**
+   * Returns the folder if it already exists, or creates and returns it if it doesn't.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @return the folder
+   * @throws CmsException if something goes wrong
+   */
+  public CmsResource getOrCreateFolder(CmsObject cms) throws CmsException {
 
-        if (m_folder != null) {
-            return m_folder;
-        }
-        try {
-            CmsResource folder = cms.readResource(m_path);
-            return folder;
-        } catch (CmsVfsResourceNotFoundException e) {
-            return null;
-        }
+    CmsResource result = getFolder(cms);
+    if (result != null) {
+      return result;
     }
+    return createFolder(cms);
+  }
 
-    /**
-     * Returns the folder if it already exists, or creates and returns it if it doesn't.<p>
-     *
-     * @param cms the current CMS context
-     *
-     * @return the folder
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public CmsResource getOrCreateFolder(CmsObject cms) throws CmsException {
+  /**
+   * Returns the folder to check for permissions, which is either the folder itself if it already
+   * exists, or the parent folder if it doesn't.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @return the folder to check for permissions
+   * @throws CmsException if something goes wrong
+   */
+  public CmsResource getPermissionCheckFolder(CmsObject cms) throws CmsException {
 
-        CmsResource result = getFolder(cms);
-        if (result != null) {
-            return result;
-        }
-        return createFolder(cms);
+    CmsResource folder = getFolder(cms);
+    if (folder != null) {
+      return folder;
     }
+    String parentPath = CmsResource.getParentFolder(m_path);
+    CmsResource parent = cms.readResource(parentPath);
+    return parent;
+  }
 
-    /**
-     * Returns the folder to check for permissions, which is either the folder itself if it already exists,
-     * or the parent folder if it doesn't.<p>
-     *
-     * @param cms the current CMS context
-     *
-     * @return the folder to check for permissions
-     *
-     * @throws CmsException if something goes wrong
-     */
-    public CmsResource getPermissionCheckFolder(CmsObject cms) throws CmsException {
+  /**
+   * Computes the site path of the folder, which is either the original path constructor argument,
+   * or the site path of the original resource constructor argument.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @return the site path of the lazy folder
+   */
+  public String getSitePath(CmsObject cms) {
 
-        CmsResource folder = getFolder(cms);
-        if (folder != null) {
-            return folder;
-        }
-        String parentPath = CmsResource.getParentFolder(m_path);
-        CmsResource parent = cms.readResource(parentPath);
-        return parent;
+    if (m_path != null) {
+      return m_path;
+    } else if (m_folder != null) {
+      return cms.getRequestContext().removeSiteRoot(m_folder.getRootPath());
     }
-
-    /**
-     * Computes the site path of the folder, which is either the original path constructor argument, or the site
-     * path of the original resource constructor argument.<p>
-     *
-     * @param cms the current CMS context
-     * @return the site path of the lazy folder
-     */
-    public String getSitePath(CmsObject cms) {
-
-        if (m_path != null) {
-            return m_path;
-        } else if (m_folder != null) {
-            return cms.getRequestContext().removeSiteRoot(m_folder.getRootPath());
-        }
-        return null;
-    }
-
+    return null;
+  }
 }

@@ -27,45 +27,42 @@
 
 package org.opencms.jsp.util;
 
+import java.util.Map;
 import org.opencms.ade.configuration.CmsADEConfigDataInternal.AttributeValue;
 import org.opencms.util.CmsCollectionsGenericWrapper;
 
-import java.util.Map;
-
-/**
- * Wrapper object for accessing sitemap configuration information from JSPs.
- */
+/** Wrapper object for accessing sitemap configuration information from JSPs. */
 public class CmsJspSitemapConfigWrapper {
 
-    /** The standard context bean instance. */
-    private CmsJspStandardContextBean m_context;
+  /** The standard context bean instance. */
+  private CmsJspStandardContextBean m_context;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param context the standard context bean whose sitemap configuration / CmsObject should be used
-     */
-    public CmsJspSitemapConfigWrapper(CmsJspStandardContextBean context) {
+  /**
+   * Creates a new instance.
+   *
+   * @param context the standard context bean whose sitemap configuration / CmsObject should be used
+   */
+  public CmsJspSitemapConfigWrapper(CmsJspStandardContextBean context) {
 
-        m_context = context;
-    }
+    m_context = context;
+  }
 
-    /**
-     * Returns a lazy map that maps sitemap attribute names to sitemap attribute values (as CmsJspObjectValueWrapper instances)
-     *
-     * @return the lazy map
-     */
-    public Map<String, CmsJspObjectValueWrapper> getAttribute() {
+  /**
+   * Returns a lazy map that maps sitemap attribute names to sitemap attribute values (as
+   * CmsJspObjectValueWrapper instances)
+   *
+   * @return the lazy map
+   */
+  public Map<String, CmsJspObjectValueWrapper> getAttribute() {
 
-        return CmsCollectionsGenericWrapper.createLazyMap(key -> {
-            Map<String, AttributeValue> attrs = m_context.getSitemapConfigInternal().getAttributes();
-            AttributeValue value = attrs.get(key);
-            String strValue = value == null ? null : value.getValue();
-            CmsJspObjectValueWrapper wrapper = CmsJspObjectValueWrapper.createWrapper(
-                m_context.getCmsObject(),
-                strValue);
-            return wrapper;
+    return CmsCollectionsGenericWrapper.createLazyMap(
+        key -> {
+          Map<String, AttributeValue> attrs = m_context.getSitemapConfigInternal().getAttributes();
+          AttributeValue value = attrs.get(key);
+          String strValue = value == null ? null : value.getValue();
+          CmsJspObjectValueWrapper wrapper =
+              CmsJspObjectValueWrapper.createWrapper(m_context.getCmsObject(), strValue);
+          return wrapper;
         });
-    }
-
+  }
 }

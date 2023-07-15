@@ -30,15 +30,18 @@ package org.opencms.ui.apps.user;
 import java.util.List;
 
 /**
- * Interface for providers of tree types in the account management overview tree.<p>
+ * Interface for providers of tree types in the account management overview tree.
+ *
+ * <p>
  */
 public interface I_CmsTreeTypeProvider {
 
-    /**
-     * Gets the list of available tree types.<p>
-     *
-     * @return the available tree types
-     */
-    List<I_CmsOuTreeType> getTreeTypes();
-
+  /**
+   * Gets the list of available tree types.
+   *
+   * <p>
+   *
+   * @return the available tree types
+   */
+  List<I_CmsOuTreeType> getTreeTypes();
 }

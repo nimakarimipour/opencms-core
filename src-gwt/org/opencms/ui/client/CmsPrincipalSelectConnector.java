@@ -27,68 +27,74 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.ui.dialogs.permissions.CmsPrincipalSelectExtension;
-import org.opencms.ui.shared.rpc.I_CmsPrincipalSelectRpc;
-
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
 import com.vaadin.shared.ui.Connect;
+import org.opencms.ui.dialogs.permissions.CmsPrincipalSelectExtension;
+import org.opencms.ui.shared.rpc.I_CmsPrincipalSelectRpc;
 
 /**
- * The client principal select dialog connector.<p>
+ * The client principal select dialog connector.
+ *
+ * <p>
  */
 @Connect(CmsPrincipalSelectExtension.class)
 public class CmsPrincipalSelectConnector extends AbstractExtensionConnector {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -4612206679727401825L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -4612206679727401825L;
 
-    /** The select service instance. */
-    private I_CmsPrincipalSelectRpc m_rpc;
+  /** The select service instance. */
+  private I_CmsPrincipalSelectRpc m_rpc;
 
-    /**
-     * Constructor.<p>
-     */
-    public CmsPrincipalSelectConnector() {
-        m_rpc = getRpcProxy(I_CmsPrincipalSelectRpc.class);
-    }
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public CmsPrincipalSelectConnector() {
+    m_rpc = getRpcProxy(I_CmsPrincipalSelectRpc.class);
+  }
 
-    /**
-     * @see com.vaadin.client.ui.AbstractConnector#onUnregister()
-     */
-    @Override
-    public void onUnregister() {
+  /** @see com.vaadin.client.ui.AbstractConnector#onUnregister() */
+  @Override
+  public void onUnregister() {
 
-        super.onUnregister();
-        removeExportedFunctions();
-    }
+    super.onUnregister();
+    removeExportedFunctions();
+  }
 
-    /**
-     * @see com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
-     */
-    @Override
-    protected void extend(ServerConnector target) {
+  /**
+   * @see
+   *     com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
+   */
+  @Override
+  protected void extend(ServerConnector target) {
 
-        exportFunctions();
-    }
+    exportFunctions();
+  }
 
-    /**
-     * Sets the principal.<p>
-     *
-     * @param type the principal type
-     * @param principalName the principal name
-     */
-    void setPrincipal(int type, String principalName) {
+  /**
+   * Sets the principal.
+   *
+   * <p>
+   *
+   * @param type the principal type
+   * @param principalName the principal name
+   */
+  void setPrincipal(int type, String principalName) {
 
-        m_rpc.setPrincipal(type, principalName);
-        // forcing the RPC to be executed immediately
-        getConnection().getHeartbeat().send();
-    }
+    m_rpc.setPrincipal(type, principalName);
+    // forcing the RPC to be executed immediately
+    getConnection().getHeartbeat().send();
+  }
 
-    /**
-     * Exports the setPrincipalFormValue function to the window context.<p>
-     */
-    private native void exportFunctions()/*-{
+  /**
+   * Exports the setPrincipalFormValue function to the window context.
+   *
+   * <p>
+   */
+  private native void exportFunctions() /*-{
         var self = this;
         $wnd.setPrincipalFormValue = function(type, name) {
             self.@org.opencms.ui.client.CmsPrincipalSelectConnector::setPrincipal(ILjava/lang/String;)(type,name);
@@ -96,12 +102,13 @@ public class CmsPrincipalSelectConnector extends AbstractExtensionConnector {
 
     }-*/;
 
-    /**
-     * Removes the setPrincipalFormValue function from the window context.<p>
-     */
-    private native void removeExportedFunctions()/*-{
+  /**
+   * Removes the setPrincipalFormValue function from the window context.
+   *
+   * <p>
+   */
+  private native void removeExportedFunctions() /*-{
         $wnd.setPrincipalFormValue = null;
 
     }-*/;
-
 }

@@ -34,35 +34,37 @@ import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.ui.UI;
 
 /**
- * Custom navigator subclass used to prevent "slash accumulation" in the URL fragment if the navigateTo(...) methods are called
- * multiple names in the same navigation.
+ * Custom navigator subclass used to prevent "slash accumulation" in the URL fragment if the
+ * navigateTo(...) methods are called multiple names in the same navigation.
  */
 public class CmsAppNavigator extends Navigator {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param ui the UI
-     * @param stateManager the state manager
-     * @param display the display
-     */
-    public CmsAppNavigator(UI ui, NavigationStateManager stateManager, ViewDisplay display) {
-        super(ui, stateManager, display);
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param ui the UI
+   * @param stateManager the state manager
+   * @param display the display
+   */
+  public CmsAppNavigator(UI ui, NavigationStateManager stateManager, ViewDisplay display) {
+    super(ui, stateManager, display);
+  }
+
+  /**
+   * @see com.vaadin.navigator.Navigator#navigateTo(com.vaadin.navigator.View, java.lang.String,
+   *     java.lang.String)
+   */
+  @Override
+  protected void navigateTo(View view, String viewName, String parameters) {
+
+    if ((parameters != null) && parameters.startsWith("/")) {
+      parameters = parameters.substring(1);
     }
-
-    /**
-     * @see com.vaadin.navigator.Navigator#navigateTo(com.vaadin.navigator.View, java.lang.String, java.lang.String)
-     */
-    @Override
-    protected void navigateTo(View view, String viewName, String parameters) {
-
-        if ((parameters != null) && parameters.startsWith("/")) {
-            parameters = parameters.substring(1);
-        }
-        super.navigateTo(view, viewName, parameters);
-    }
-
+    super.navigateTo(view, viewName, parameters);
+  }
 }

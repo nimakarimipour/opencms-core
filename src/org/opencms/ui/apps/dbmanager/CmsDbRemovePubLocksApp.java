@@ -27,6 +27,12 @@
 
 package org.opencms.ui.apps.dbmanager;
 
+import com.vaadin.server.Sizeable.Unit;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalSplitPanel;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.A_CmsAttributeAwareApp;
 import org.opencms.ui.apps.CmsFileExplorer;
@@ -34,73 +40,66 @@ import org.opencms.ui.apps.Messages;
 import org.opencms.ui.apps.linkvalidation.CmsInternalResources;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import com.vaadin.server.Sizeable.Unit;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalSplitPanel;
-
 /**
- * App for the remove publish-locks function.<p>
+ * App for the remove publish-locks function.
+ *
+ * <p>
  */
 public class CmsDbRemovePubLocksApp extends A_CmsAttributeAwareApp {
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String)
-     */
-    @Override
-    protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String) */
+  @Override
+  protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
 
-        LinkedHashMap<String, String> crumbs = new LinkedHashMap<String, String>();
+    LinkedHashMap<String, String> crumbs = new LinkedHashMap<String, String>();
 
-        //Deeper path
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
-            crumbs.put("", CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_DB_PUBLOCKS_ADMIN_TOOL_NAME_0));
-            return crumbs;
-        }
-        return new LinkedHashMap<String, String>();
+    // Deeper path
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
+      crumbs.put(
+          "",
+          CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_DB_PUBLOCKS_ADMIN_TOOL_NAME_0));
+      return crumbs;
     }
+    return new LinkedHashMap<String, String>();
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String)
-     */
-    @Override
-    protected Component getComponentForState(String state) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String) */
+  @Override
+  protected Component getComponentForState(String state) {
 
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
-            return getRemovePublishLocksView();
-        }
-        return null;
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
+      return getRemovePublishLocksView();
     }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String)
-     */
-    @Override
-    protected List<NavEntry> getSubNavEntries(String state) {
+  /** @see org.opencms.ui.apps.A_CmsWorkplaceApp#getSubNavEntries(java.lang.String) */
+  @Override
+  protected List<NavEntry> getSubNavEntries(String state) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * Component for remove publish lock surface.<p>
-     *
-     * @return HorizontalSplitPanel
-     */
-    private HorizontalSplitPanel getRemovePublishLocksView() {
+  /**
+   * Component for remove publish lock surface.
+   *
+   * <p>
+   *
+   * @return HorizontalSplitPanel
+   */
+  private HorizontalSplitPanel getRemovePublishLocksView() {
 
-        HorizontalSplitPanel sp = new HorizontalSplitPanel();
-        sp.setData(Collections.singletonMap(A_CmsAttributeAwareApp.ATTR_MAIN_HEIGHT_FULL, Boolean.TRUE));
-        sp.setSizeFull();
+    HorizontalSplitPanel sp = new HorizontalSplitPanel();
+    sp.setData(
+        Collections.singletonMap(A_CmsAttributeAwareApp.ATTR_MAIN_HEIGHT_FULL, Boolean.TRUE));
+    sp.setSizeFull();
 
-        CmsDbRemovePublishLocks publishLocksView = new CmsDbRemovePublishLocks();
+    CmsDbRemovePublishLocks publishLocksView = new CmsDbRemovePublishLocks();
 
-        sp.setFirstComponent(new CmsInternalResources(publishLocksView));
-        sp.setSecondComponent(publishLocksView);
-        sp.addStyleName("v-align-center");
-        sp.setSplitPosition(CmsFileExplorer.LAYOUT_SPLIT_POSITION, Unit.PIXELS);
-        return sp;
-    }
+    sp.setFirstComponent(new CmsInternalResources(publishLocksView));
+    sp.setSecondComponent(publishLocksView);
+    sp.addStyleName("v-align-center");
+    sp.setSplitPosition(CmsFileExplorer.LAYOUT_SPLIT_POSITION, Unit.PIXELS);
+    return sp;
+  }
 }

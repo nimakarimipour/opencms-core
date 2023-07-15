@@ -28,20 +28,22 @@
 package org.opencms.workplace;
 
 /**
- * Interface for transforming group names into a more human-readable form.<p>
+ * Interface for transforming group names into a more human-readable form.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsGroupNameTranslation {
 
-    /**
-     * Translates a fully qualified group name into a more user-friendly form.<p>
-     *
-     * @param groupFqn the fully qualified group name
-     * @param keepOu if true, the OU will be prepended to the resulting name
-     *
-     * @return the translated group name
-     */
-    String translateGroupName(String groupFqn, boolean keepOu);
-
+  /**
+   * Translates a fully qualified group name into a more user-friendly form.
+   *
+   * <p>
+   *
+   * @param groupFqn the fully qualified group name
+   * @param keepOu if true, the OU will be prepended to the resulting name
+   * @return the translated group name
+   */
+  String translateGroupName(String groupFqn, boolean keepOu);
 }

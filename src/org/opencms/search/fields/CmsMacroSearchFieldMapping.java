@@ -27,6 +27,9 @@
 
 package org.opencms.search.fields;
 
+import java.util.List;
+import java.util.Locale;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsFile;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
@@ -40,20 +43,18 @@ import org.opencms.util.CmsMacroResolver;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-
 /**
  * Field mapping to resolve macros as for gallery names.
  *
- * The main purpose is to use stringtemplates for special mappings to Solr fields.
+ * <p>The main purpose is to use stringtemplates for special mappings to Solr fields.
  *
- * For this use case, define a parameter (via <code>xsd:annotation/xsd:appinfo/parameters/param</code> and use a stringtemplate as value.
- * In the solr mapping, you just place <code>%(stringtemplate:paramName)</code>.
+ * <p>For this use case, define a parameter (via <code>xsd:annotation/xsd:appinfo/parameters/param
+ * </code> and use a stringtemplate as value. In the solr mapping, you just place <code>
+ * %(stringtemplate:paramName)</code>.
  *
- * Example (there is some element "Type" and in the parameters section of the schema, there's a param "eventKind"):
+ * <p>Example (there is some element "Type" and in the parameters section of the schema, there's a
+ * param "eventKind"):
+ *
  * <pre>
  *   &lt;searchsetting element="Type"&gt;
  *     &lt;solrfield targetfield="event-kind" sourcefield="*_s"&gt;
@@ -64,149 +65,134 @@ import org.apache.commons.logging.Log;
  */
 public class CmsMacroSearchFieldMapping implements I_CmsSearchFieldMapping {
 
-    /** Serialization id */
-    private static final long serialVersionUID = 1L;
+  /** Serialization id */
+  private static final long serialVersionUID = 1L;
 
-    /** Logger for the class */
-    protected static final Log LOG = CmsLog.getLog(CmsMacroSearchFieldMapping.class);
+  /** Logger for the class */
+  protected static final Log LOG = CmsLog.getLog(CmsMacroSearchFieldMapping.class);
 
-    /** The configuration parameter as handed over to the mapping. */
-    private String m_param;
+  /** The configuration parameter as handed over to the mapping. */
+  private String m_param;
 
-    /** The mapping type. */
-    private CmsSearchFieldMappingType m_type;
+  /** The mapping type. */
+  private CmsSearchFieldMappingType m_type;
 
-    /** The default value set via the interface method. */
-    private String m_defaultValue = null;
+  /** The default value set via the interface method. */
+  private String m_defaultValue = null;
 
-    /** The content locale to index for. */
-    private Locale m_locale = null;
+  /** The content locale to index for. */
+  private Locale m_locale = null;
 
-    /**
-     * Public constructor for a new search field mapping.
-     * <p>
-     */
-    public CmsMacroSearchFieldMapping() {
+  /**
+   * Public constructor for a new search field mapping.
+   *
+   * <p>
+   */
+  public CmsMacroSearchFieldMapping() {
 
-        m_param = null;
-        setType(CmsSearchFieldMappingType.DYNAMIC);
-    }
+    m_param = null;
+    setType(CmsSearchFieldMappingType.DYNAMIC);
+  }
 
-    /**
-     * Public constructor for a new search field mapping.
-     * <p>
-     *
-     * @param type
-     *            the type to use, see
-     *            {@link #setType(CmsSearchFieldMappingType)}
-     * @param param
-     *            the mapping parameter, see {@link #setParam(String)}
-     */
-    public CmsMacroSearchFieldMapping(CmsSearchFieldMappingType type, String param) {
+  /**
+   * Public constructor for a new search field mapping.
+   *
+   * <p>
+   *
+   * @param type the type to use, see {@link #setType(CmsSearchFieldMappingType)}
+   * @param param the mapping parameter, see {@link #setParam(String)}
+   */
+  public CmsMacroSearchFieldMapping(CmsSearchFieldMappingType type, String param) {
 
-        this();
-        setParam(param);
-        setType(type);
-    }
+    this();
+    setParam(param);
+    setType(type);
+  }
 
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldMapping#getDefaultValue()
-     */
-    public String getDefaultValue() {
+  /** @see org.opencms.search.fields.I_CmsSearchFieldMapping#getDefaultValue() */
+  public String getDefaultValue() {
 
-        return m_defaultValue;
-    }
+    return m_defaultValue;
+  }
 
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldMapping#getParam()
-     */
-    public String getParam() {
+  /** @see org.opencms.search.fields.I_CmsSearchFieldMapping#getParam() */
+  public String getParam() {
 
-        return m_param;
-    }
+    return m_param;
+  }
 
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldMapping#getStringValue(org.opencms.file.CmsObject, org.opencms.file.CmsResource, org.opencms.search.extractors.I_CmsExtractionResult, java.util.List, java.util.List)
-     */
-    public String getStringValue(
-        CmsObject cms,
-        CmsResource res,
-        I_CmsExtractionResult extractionResult,
-        List<CmsProperty> properties,
-        List<CmsProperty> propertiesSearched) {
+  /**
+   * @see
+   *     org.opencms.search.fields.I_CmsSearchFieldMapping#getStringValue(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource, org.opencms.search.extractors.I_CmsExtractionResult,
+   *     java.util.List, java.util.List)
+   */
+  public String getStringValue(
+      CmsObject cms,
+      CmsResource res,
+      I_CmsExtractionResult extractionResult,
+      List<CmsProperty> properties,
+      List<CmsProperty> propertiesSearched) {
 
-        if (m_param != null) {
-            try {
-                CmsObject cmsClone = OpenCms.initCmsObject(cms);
-                if (null != m_locale) {
-                    cmsClone.getRequestContext().setLocale(m_locale);
-                }
-                CmsFile file = cmsClone.readFile(res);
-                CmsXmlContent content = CmsXmlContentFactory.unmarshal(cmsClone, file);
-                CmsMacroResolver resolver = new CmsGalleryNameMacroResolver(cms, content, m_locale);
-                return resolver.resolveMacros(m_param);
-            } catch (CmsException e) {
-                LOG.error("Failed to resolve search field mapping value. Returning null.", e);
-            }
+    if (m_param != null) {
+      try {
+        CmsObject cmsClone = OpenCms.initCmsObject(cms);
+        if (null != m_locale) {
+          cmsClone.getRequestContext().setLocale(m_locale);
         }
-        return null;
+        CmsFile file = cmsClone.readFile(res);
+        CmsXmlContent content = CmsXmlContentFactory.unmarshal(cmsClone, file);
+        CmsMacroResolver resolver = new CmsGalleryNameMacroResolver(cms, content, m_locale);
+        return resolver.resolveMacros(m_param);
+      } catch (CmsException e) {
+        LOG.error("Failed to resolve search field mapping value. Returning null.", e);
+      }
     }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldMapping#getType()
-     */
-    @Override
-    public CmsSearchFieldMappingType getType() {
+  /** @see org.opencms.search.fields.I_CmsSearchFieldMapping#getType() */
+  @Override
+  public CmsSearchFieldMappingType getType() {
 
-        return m_type;
-    }
+    return m_type;
+  }
 
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldMapping#setDefaultValue(java.lang.String)
-     */
-    @Override
-    public void setDefaultValue(String defaultValue) {
+  /** @see org.opencms.search.fields.I_CmsSearchFieldMapping#setDefaultValue(java.lang.String) */
+  @Override
+  public void setDefaultValue(String defaultValue) {
 
-        m_defaultValue = defaultValue;
-    }
+    m_defaultValue = defaultValue;
+  }
 
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldMapping#setLocale(java.util.Locale)
-     */
-    @Override
-    public void setLocale(Locale locale) {
+  /** @see org.opencms.search.fields.I_CmsSearchFieldMapping#setLocale(java.util.Locale) */
+  @Override
+  public void setLocale(Locale locale) {
 
-        m_locale = locale;
-    }
+    m_locale = locale;
+  }
 
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldMapping#setParam(java.lang.String)
-     */
-    @Override
-    public void setParam(String param) {
+  /** @see org.opencms.search.fields.I_CmsSearchFieldMapping#setParam(java.lang.String) */
+  @Override
+  public void setParam(String param) {
 
-        m_param = param;
+    m_param = param;
+  }
 
-    }
+  /**
+   * @see
+   *     org.opencms.search.fields.I_CmsSearchFieldMapping#setType(org.opencms.search.fields.CmsSearchFieldMappingType)
+   */
+  @Override
+  public void setType(CmsSearchFieldMappingType type) {
 
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldMapping#setType(org.opencms.search.fields.CmsSearchFieldMappingType)
-     */
-    @Override
-    public void setType(CmsSearchFieldMappingType type) {
+    m_type = type;
+  }
 
-        m_type = type;
+  /** @see org.opencms.search.fields.I_CmsSearchFieldMapping#setType(java.lang.String) */
+  @Override
+  public void setType(String type) {
 
-    }
-
-    /**
-     * @see org.opencms.search.fields.I_CmsSearchFieldMapping#setType(java.lang.String)
-     */
-    @Override
-    public void setType(String type) {
-
-        m_type = CmsSearchFieldMappingType.valueOf(type);
-
-    }
-
+    m_type = CmsSearchFieldMappingType.valueOf(type);
+  }
 }

@@ -30,15 +30,18 @@ package org.opencms.ade.containerpage.client;
 import com.google.gwt.event.shared.EventHandler;
 
 /**
- * Container page event handler interface.<p>
+ * Container page event handler interface.
+ *
+ * <p>
  */
 public interface I_CmsContainerpageEventHandler extends EventHandler {
 
-    /**
-     * Method which is called when container page events are received.<p>
-     *
-     * @param event the container page event
-     */
-    void onContainerpageEvent(CmsContainerpageEvent event);
-
+  /**
+   * Method which is called when container page events are received.
+   *
+   * <p>
+   *
+   * @param event the container page event
+   */
+  void onContainerpageEvent(CmsContainerpageEvent event);
 }

@@ -27,10 +27,6 @@
 
 package org.opencms.ui.client.editablegroup;
 
-import org.opencms.gwt.client.ui.CmsPushButton;
-import org.opencms.gwt.client.ui.I_CmsButton;
-import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
-
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -39,182 +35,192 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import org.opencms.gwt.client.ui.CmsPushButton;
+import org.opencms.gwt.client.ui.I_CmsButton;
+import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
 
 /**
- * Client side button bar widget for multivalue widget groups.<p>
+ * Client side button bar widget for multivalue widget groups.
+ *
+ * <p>
  */
 public class CmsClientEditableGroupButtons extends Composite {
 
-    /** The UI binder interface. */
-    interface I_UiBinder extends UiBinder<FlowPanel, CmsClientEditableGroupButtons> {
-        // nothing to do
+  /** The UI binder interface. */
+  interface I_UiBinder extends UiBinder<FlowPanel, CmsClientEditableGroupButtons> {
+    // nothing to do
+  }
+
+  /** Indicates whether we have already flushed the UiBinder style. */
+  private static boolean flushedStyle;
+
+  /** The UI binder instance. */
+  private static I_UiBinder uiBinder = GWT.create(I_UiBinder.class);
+
+  /** The 'add' button. */
+  @UiField protected CmsPushButton m_addButton;
+
+  /** The 'delete' button. */
+  @UiField protected CmsPushButton m_deleteButton;
+
+  /** The 'down' button. */
+  @UiField protected CmsPushButton m_downButton;
+
+  /** OpenCms 'bullseye' dummy button, does nothing. */
+  @UiField protected CmsPushButton m_dummyButton;
+
+  /** The 'edit' button. */
+  @UiField protected CmsPushButton m_editButton;
+
+  /** The 'up' button. */
+  @UiField protected CmsPushButton m_upButton;
+
+  /** The connector instance. */
+  private CmsEditableGroupButtonsConnector m_connector;
+
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param connector the connector for which the widget should be created
+   */
+  public CmsClientEditableGroupButtons(CmsEditableGroupButtonsConnector connector) {
+
+    FlowPanel panel = uiBinder.createAndBindUi(this);
+    if (!flushedStyle) {
+      StyleInjector
+          .flush(); // make sure UiBinder CSS is loaded synchronously, otherwise Vaadin width
+                    // calculation will go wrong
+      flushedStyle = true;
+    }
+    initWidget(panel);
+    m_connector = connector;
+    for (CmsPushButton button :
+        new CmsPushButton[] {
+          m_dummyButton, m_upButton, m_downButton, m_deleteButton, m_addButton, m_editButton
+        }) {
+      button.setButtonStyle(ButtonStyle.FONT_ICON, null);
     }
 
-    /** Indicates whether we have already flushed the UiBinder style. */
-    private static boolean flushedStyle;
+    m_downButton.setImageClass(I_CmsButton.EDIT_DOWN_SMALL);
+    m_upButton.setImageClass(I_CmsButton.EDIT_UP_SMALL);
+    m_deleteButton.setImageClass(I_CmsButton.CUT_SMALL);
+    m_addButton.setImageClass(I_CmsButton.ADD_SMALL);
+    m_editButton.setImageClass(I_CmsButton.EDIT_SMALL);
+    m_dummyButton.setImageClass(I_CmsButton.EDIT_POINT_SMALL);
+  }
 
-    /** The UI binder instance. */
-    private static I_UiBinder uiBinder = GWT.create(I_UiBinder.class);
+  /**
+   * Shows / hides the edit button.
+   *
+   * @param editEnabled true if edit button should be shown
+   */
+  public void setEditVisible(boolean editEnabled) {
 
-    /** The 'add' button. */
-    @UiField
-    protected CmsPushButton m_addButton;
+    m_editButton.setVisible(editEnabled);
+  }
 
-    /** The 'delete' button. */
-    @UiField
-    protected CmsPushButton m_deleteButton;
+  /**
+   * Sets the 'first' status of the button bar.
+   *
+   * <p>
+   *
+   * @param first true if this is the button bar of the first row of a multivalue field
+   */
+  public void setFirst(boolean first) {
 
-    /** The 'down' button. */
-    @UiField
-    protected CmsPushButton m_downButton;
+    m_upButton.setVisible(!first);
+  }
 
-    /** OpenCms 'bullseye' dummy button, does nothing. */
-    @UiField
-    protected CmsPushButton m_dummyButton;
+  /**
+   * Hides the add button.
+   *
+   * <p>
+   *
+   * @param hideAdd true-> hide the add button
+   */
+  public void setHideAdd(boolean hideAdd) {
 
-    /** The 'edit' button. */
-    @UiField
-    protected CmsPushButton m_editButton;
+    m_addButton.setVisible(!hideAdd);
+  }
 
-    /** The 'up' button. */
-    @UiField
-    protected CmsPushButton m_upButton;
+  /**
+   * Sets the 'last' status of the button bar.
+   *
+   * <p>
+   *
+   * @param last true if this is the button bar of the last row of a multivalue field
+   */
+  public void setLast(boolean last) {
 
-    /** The connector instance. */
-    private CmsEditableGroupButtonsConnector m_connector;
+    m_downButton.setVisible(!last);
+  }
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param connector the connector for which the widget should be created
-     */
-    public CmsClientEditableGroupButtons(CmsEditableGroupButtonsConnector connector) {
+  /**
+   * UI handler for the 'add' button.
+   *
+   * <p>
+   *
+   * @param event the click event
+   */
+  @UiHandler("m_addButton")
+  void clickAdd(ClickEvent event) {
 
-        FlowPanel panel = uiBinder.createAndBindUi(this);
-        if (!flushedStyle) {
-            StyleInjector.flush(); // make sure UiBinder CSS is loaded synchronously, otherwise Vaadin width calculation will go wrong
-            flushedStyle = true;
-        }
-        initWidget(panel);
-        m_connector = connector;
-        for (CmsPushButton button : new CmsPushButton[] {
-            m_dummyButton,
-            m_upButton,
-            m_downButton,
-            m_deleteButton,
-            m_addButton,
-            m_editButton}) {
-            button.setButtonStyle(ButtonStyle.FONT_ICON, null);
-        }
+    // HANDLER.closeAll();
+    m_connector.getRpc().onAdd();
+  }
 
-        m_downButton.setImageClass(I_CmsButton.EDIT_DOWN_SMALL);
-        m_upButton.setImageClass(I_CmsButton.EDIT_UP_SMALL);
-        m_deleteButton.setImageClass(I_CmsButton.CUT_SMALL);
-        m_addButton.setImageClass(I_CmsButton.ADD_SMALL);
-        m_editButton.setImageClass(I_CmsButton.EDIT_SMALL);
-        m_dummyButton.setImageClass(I_CmsButton.EDIT_POINT_SMALL);
+  /**
+   * UI handler for the 'delete' button.
+   *
+   * <p>
+   *
+   * @param event the click event
+   */
+  @UiHandler("m_deleteButton")
+  void clickDelete(ClickEvent event) {
 
-    }
+    // HANDLER.closeAll();
+    m_connector.getRpc().onDelete();
+  }
 
-    /**
-     * Shows / hides the edit button.
-     *
-     * @param editEnabled true if edit button should be shown
-     */
-    public void setEditVisible(boolean editEnabled) {
+  /**
+   * UI handler for the 'down' button.
+   *
+   * <p>
+   *
+   * @param event the click event
+   */
+  @UiHandler("m_downButton")
+  void clickDown(ClickEvent event) {
 
-        m_editButton.setVisible(editEnabled);
-    }
+    // HANDLER.closeAll();
+    m_connector.getRpc().onDown();
+  }
 
-    /**
-     * Sets the 'first' status of the button bar.<p>
-     *
-     * @param first true if this is the button bar of the first row of a multivalue field
-     */
-    public void setFirst(boolean first) {
+  /**
+   * Handler for the edit button.
+   *
+   * @param event the event
+   */
+  @UiHandler("m_editButton")
+  void clickEdit(ClickEvent event) {
 
-        m_upButton.setVisible(!first);
-    }
+    m_connector.getRpc().onEdit();
+  }
 
-    /**
-     * Hides the add button.<p>
-     *
-     * @param hideAdd true-> hide the add button
-     */
-    public void setHideAdd(boolean hideAdd) {
+  /**
+   * UI handler for the 'up' button.
+   *
+   * <p>
+   *
+   * @param event the click event
+   */
+  @UiHandler("m_upButton")
+  void clickUp(ClickEvent event) {
 
-        m_addButton.setVisible(!hideAdd);
-    }
-
-    /**
-     * Sets the 'last' status of the button bar.<p>
-     *
-     * @param last true if this is the button bar of the last row of a multivalue field
-     */
-    public void setLast(boolean last) {
-
-        m_downButton.setVisible(!last);
-    }
-
-    /**
-     * UI handler for the 'add' button.<p>
-     *
-     * @param event the click event
-     */
-    @UiHandler("m_addButton")
-    void clickAdd(ClickEvent event) {
-
-        //HANDLER.closeAll();
-        m_connector.getRpc().onAdd();
-
-    }
-
-    /**
-     * UI handler for the 'delete' button.<p>
-     *
-     * @param event the click event
-     */
-    @UiHandler("m_deleteButton")
-    void clickDelete(ClickEvent event) {
-
-        //HANDLER.closeAll();
-        m_connector.getRpc().onDelete();
-
-    }
-
-    /**
-     * UI handler for the 'down' button.<p>
-     *
-     * @param event the click event
-     */
-    @UiHandler("m_downButton")
-    void clickDown(ClickEvent event) {
-
-        //HANDLER.closeAll();
-        m_connector.getRpc().onDown();
-    }
-
-    /**
-     * Handler for the edit button.
-     *
-     * @param event the event
-     */
-    @UiHandler("m_editButton")
-    void clickEdit(ClickEvent event) {
-
-        m_connector.getRpc().onEdit();
-    }
-
-    /**
-     * UI handler for the 'up' button.<p>
-     *
-     * @param event the click event
-     */
-    @UiHandler("m_upButton")
-    void clickUp(ClickEvent event) {
-
-        //HANDLER.closeAll();
-        m_connector.getRpc().onUp();
-    }
-
+    // HANDLER.closeAll();
+    m_connector.getRpc().onUp();
+  }
 }

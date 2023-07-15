@@ -27,71 +27,74 @@
 
 package org.opencms.ui.apps.logfile;
 
-import org.opencms.main.CmsLog;
-import org.opencms.main.OpenCms;
-
 import java.io.File;
 import java.util.List;
 import java.util.TreeSet;
-
 import org.apache.commons.logging.Log;
+import org.opencms.main.CmsLog;
+import org.opencms.main.OpenCms;
 
 /**
- * Provides log files which should be available as options in the OpenCms log file viewer.<p>
+ * Provides log files which should be available as options in the OpenCms log file viewer.
  *
+ * <p>
  */
 public final class CmsLogFileOptionProvider {
 
-    /** Environment variable used to configure additional log files. */
-    public static final String ENV_LOGFILES = "OCCO_ADDITIONAL_LOG_DIRS";
+  /** Environment variable used to configure additional log files. */
+  public static final String ENV_LOGFILES = "OCCO_ADDITIONAL_LOG_DIRS";
 
-    /** Logger for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsLogFileOptionProvider.class);
+  /** Logger for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsLogFileOptionProvider.class);
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    private CmsLogFileOptionProvider() {
-        // hidden default constructor
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  private CmsLogFileOptionProvider() {
+    // hidden default constructor
+  }
+
+  /**
+   * Gets the additional configured log folders.
+   *
+   * <p>
+   *
+   * @return the additional configured log folders
+   */
+  public static List<String> getAdditionalLogDirectories() {
+
+    return OpenCms.getWorkplaceManager().getAdditionalLogFolderConfiguration().getLogFolders();
+  }
+
+  /**
+   * Gets the log file options.
+   *
+   * <p>
+   *
+   * @return the log file options
+   */
+  public static TreeSet<File> getLogFiles() {
+
+    TreeSet<File> result = new TreeSet<>();
+    for (File file : new File(CmsLogFileApp.LOG_FOLDER).listFiles()) {
+      result.add(file);
     }
-
-    /**
-     * Gets the additional configured log folders.<p>
-     *
-     * @return the additional configured log folders
-     */
-    public static List<String> getAdditionalLogDirectories() {
-
-        return OpenCms.getWorkplaceManager().getAdditionalLogFolderConfiguration().getLogFolders();
-
-    }
-
-    /**
-     * Gets the log file options.<p>
-     *
-     * @return the log file options
-     */
-    public static TreeSet<File> getLogFiles() {
-
-        TreeSet<File> result = new TreeSet<>();
-        for (File file : new File(CmsLogFileApp.LOG_FOLDER).listFiles()) {
-            result.add(file);
-        }
-        for (String dir : getAdditionalLogDirectories()) {
-            File file = new File(dir);
-            if (file.exists()) {
-                if (file.isDirectory()) {
-                    for (File child : file.listFiles()) {
-                        if (child.canRead()) {
-                            result.add(child);
-                        } else {
-                            LOG.error("Can not read " + child.getAbsolutePath());
-                        }
-                    }
-                }
+    for (String dir : getAdditionalLogDirectories()) {
+      File file = new File(dir);
+      if (file.exists()) {
+        if (file.isDirectory()) {
+          for (File child : file.listFiles()) {
+            if (child.canRead()) {
+              result.add(child);
+            } else {
+              LOG.error("Can not read " + child.getAbsolutePath());
             }
+          }
         }
-        return result;
+      }
     }
-
+    return result;
+  }
 }

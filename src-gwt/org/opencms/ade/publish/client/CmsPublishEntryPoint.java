@@ -27,6 +27,10 @@
 
 package org.opencms.ade.publish.client;
 
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.PopupPanel;
 import org.opencms.ade.publish.shared.CmsPublishData;
 import org.opencms.gwt.client.A_CmsEntryPoint;
 import org.opencms.gwt.client.CmsCoreProvider;
@@ -36,11 +40,6 @@ import org.opencms.gwt.client.ui.contenteditor.I_CmsContentEditorHandler;
 import org.opencms.gwt.client.util.CmsJsUtil;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.PopupPanel;
-
 /**
  * The entry point for the publish module.
  *
@@ -48,64 +47,66 @@ import com.google.gwt.user.client.ui.PopupPanel;
  */
 public class CmsPublishEntryPoint extends A_CmsEntryPoint {
 
-    /**
-     * @see org.opencms.gwt.client.A_CmsEntryPoint#onModuleLoad()
-     */
-    @Override
-    public void onModuleLoad() {
+  /** @see org.opencms.gwt.client.A_CmsEntryPoint#onModuleLoad() */
+  @Override
+  public void onModuleLoad() {
 
-        super.onModuleLoad();
-        CmsPublishData initData = null;
-        try {
-            initData = (CmsPublishData)CmsRpcPrefetcher.getSerializedObjectFromDictionary(
-                CmsPublishDialog.getService(),
-                CmsPublishData.DICT_NAME);
-            String closeLink = initData.getCloseLink();
-            if (closeLink == null) {
-                closeLink = CmsCoreProvider.get().getDefaultWorkplaceLink();
+    super.onModuleLoad();
+    CmsPublishData initData = null;
+    try {
+      initData =
+          (CmsPublishData)
+              CmsRpcPrefetcher.getSerializedObjectFromDictionary(
+                  CmsPublishDialog.getService(), CmsPublishData.DICT_NAME);
+      String closeLink = initData.getCloseLink();
+      if (closeLink == null) {
+        closeLink = CmsCoreProvider.get().getDefaultWorkplaceLink();
+      }
+      final String constCloseLink = closeLink;
+      final boolean confirm = initData.isShowConfirmation();
+      CloseHandler<PopupPanel> closeHandler =
+          new CloseHandler<PopupPanel>() {
+
+            public void onClose(CloseEvent<PopupPanel> event) {
+
+              CmsPublishDialog dialog = (CmsPublishDialog) (event.getTarget());
+              if (confirm && (dialog.hasSucceeded() || dialog.hasFailed())) {
+                CmsPublishConfirmationDialog confirmation =
+                    new CmsPublishConfirmationDialog(dialog, constCloseLink);
+                confirmation.center();
+              } else {
+                // 'cancel' case
+                CmsJsUtil.closeWindow();
+                // in case the window isn't successfully closed, go to the workplace
+                Window.Location.assign(constCloseLink);
+              }
             }
-            final String constCloseLink = closeLink;
-            final boolean confirm = initData.isShowConfirmation();
-            CloseHandler<PopupPanel> closeHandler = new CloseHandler<PopupPanel>() {
+          };
 
-                public void onClose(CloseEvent<PopupPanel> event) {
+      CmsPublishDialog.showPublishDialog(
+          initData,
+          closeHandler,
+          new Runnable() {
 
-                    CmsPublishDialog dialog = (CmsPublishDialog)(event.getTarget());
-                    if (confirm && (dialog.hasSucceeded() || dialog.hasFailed())) {
-                        CmsPublishConfirmationDialog confirmation = new CmsPublishConfirmationDialog(
-                            dialog,
-                            constCloseLink);
-                        confirmation.center();
-                    } else {
-                        // 'cancel' case
-                        CmsJsUtil.closeWindow();
-                        // in case the window isn't successfully closed, go to the workplace
-                        Window.Location.assign(constCloseLink);
-                    }
-                }
-            };
+            public void run() {
 
-            CmsPublishDialog.showPublishDialog(initData, closeHandler, new Runnable() {
+              Window.Location.reload();
+            }
+          },
+          new I_CmsContentEditorHandler() {
 
-                public void run() {
+            public void onClose(
+                String sitePath,
+                CmsUUID structureId,
+                boolean isNew,
+                boolean hasChangedSettings,
+                boolean usedPublishDialog) {
 
-                    Window.Location.reload();
-                }
-
-            }, new I_CmsContentEditorHandler() {
-
-                public void onClose(
-                    String sitePath,
-                    CmsUUID structureId,
-                    boolean isNew,
-                    boolean hasChangedSettings,
-                    boolean usedPublishDialog) {
-
-                    // nothing to do
-                }
-            });
-        } catch (Exception e) {
-            CmsErrorDialog.handleException(e);
-        }
+              // nothing to do
+            }
+          });
+    } catch (Exception e) {
+      CmsErrorDialog.handleException(e);
     }
+  }
 }

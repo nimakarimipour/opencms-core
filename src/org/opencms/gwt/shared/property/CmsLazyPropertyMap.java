@@ -31,38 +31,43 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A lazy initialized map of properties. Will return a property object for any key.<p>
+ * A lazy initialized map of properties. Will return a property object for any key.
+ *
+ * <p>
  */
 public class CmsLazyPropertyMap extends HashMap<String, CmsClientProperty> {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = -404780265142470052L;
+  /** Serial version id. */
+  private static final long serialVersionUID = -404780265142470052L;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param original properties that will be added to this map
-     */
-    public CmsLazyPropertyMap(Map<String, CmsClientProperty> original) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param original properties that will be added to this map
+   */
+  public CmsLazyPropertyMap(Map<String, CmsClientProperty> original) {
 
-        super(original);
+    super(original);
+  }
+
+  /**
+   * Returns the property with the given name.
+   *
+   * <p>
+   *
+   * @param key the property name
+   * @return the property
+   */
+  @Override
+  public CmsClientProperty get(Object key) {
+
+    CmsClientProperty result = super.get(key);
+    if (result == null) {
+      result = new CmsClientProperty((String) key, "", "");
+      put((String) key, result);
     }
-
-    /**
-     * Returns the property with the given name.<p>
-     *
-     * @param key the property name
-     *
-     * @return the property
-     */
-    @Override
-    public CmsClientProperty get(Object key) {
-
-        CmsClientProperty result = super.get(key);
-        if (result == null) {
-            result = new CmsClientProperty((String)key, "", "");
-            put((String)key, result);
-        }
-        return result;
-    }
+    return result;
+  }
 }

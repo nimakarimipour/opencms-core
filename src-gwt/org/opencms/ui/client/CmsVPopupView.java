@@ -34,56 +34,59 @@ import com.google.gwt.user.client.Timer;
 import com.vaadin.client.ui.VPopupView;
 
 /**
- * Extending the VAADIN popup view only to add a corner element pointing at the opening button.<p>
+ * Extending the VAADIN popup view only to add a corner element pointing at the opening button.
+ *
+ * <p>
  */
 public class CmsVPopupView extends VPopupView {
 
-    /** The drop down marker CSS class. */
-    private static final String DROP_DOWN_CLASS = "o-navigator-dropdown";
+  /** The drop down marker CSS class. */
+  private static final String DROP_DOWN_CLASS = "o-navigator-dropdown";
 
-    /** The pointy corner CSS class. */
-    private static final int OFFSET = -4;
+  /** The pointy corner CSS class. */
+  private static final int OFFSET = -4;
 
-    /** The corner element. */
-    private Element m_corner;
+  /** The corner element. */
+  private Element m_corner;
 
-    /**
-     * @see com.vaadin.client.ui.VPopupView#center()
-     */
-    @Override
-    public void center() {
+  /** @see com.vaadin.client.ui.VPopupView#center() */
+  @Override
+  public void center() {
 
-        super.center();
-        if (getElement().hasClassName(DROP_DOWN_CLASS)) {
-            if (m_corner == null) {
-                m_corner = Document.get().createDivElement();
-                m_corner.setClassName("o-toolbar-menu-corner");
-                popup.getElement().appendChild(m_corner);
+    super.center();
+    if (getElement().hasClassName(DROP_DOWN_CLASS)) {
+      if (m_corner == null) {
+        m_corner = Document.get().createDivElement();
+        m_corner.setClassName("o-toolbar-menu-corner");
+        popup.getElement().appendChild(m_corner);
+      }
+      updateCornerLeft();
+
+      // wait to reposition the corner, as their may be an animation effecting the position
+      Timer timer =
+          new Timer() {
+
+            @Override
+            public void run() {
+
+              updateCornerLeft();
             }
-            updateCornerLeft();
-
-            // wait to reposition the corner, as their may be an animation effecting the position
-            Timer timer = new Timer() {
-
-                @Override
-                public void run() {
-
-                    updateCornerLeft();
-                }
-            };
-            timer.schedule(100);
-        }
+          };
+      timer.schedule(100);
     }
+  }
 
-    /**
-     * Updates the corner element left position.<p>
-     */
-    void updateCornerLeft() {
+  /**
+   * Updates the corner element left position.
+   *
+   * <p>
+   */
+  void updateCornerLeft() {
 
-        if (m_corner != null) {
-            int popupLeft = popup.getPopupLeft();
-            int dif = (getAbsoluteLeft() - popupLeft) + OFFSET;
-            m_corner.getStyle().setLeft(dif, Unit.PX);
-        }
+    if (m_corner != null) {
+      int popupLeft = popup.getPopupLeft();
+      int dif = (getAbsoluteLeft() - popupLeft) + OFFSET;
+      m_corner.getStyle().setLeft(dif, Unit.PX);
     }
+  }
 }

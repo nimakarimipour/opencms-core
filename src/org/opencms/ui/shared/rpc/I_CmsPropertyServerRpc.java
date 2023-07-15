@@ -30,33 +30,43 @@ package org.opencms.ui.shared.rpc;
 import com.vaadin.shared.communication.ServerRpc;
 
 /**
- * Client-to-server rpc interface for the GWT dialog extension.<p>
+ * Client-to-server rpc interface for the GWT dialog extension.
+ *
+ * <p>
  */
 public interface I_CmsPropertyServerRpc extends ServerRpc {
 
-    /**
-     * Disposes of the extension, and tells the server which resources have changed.<p>
-     *
-     * @param delayMillis time to delay the RPC (for allowing short background operations to finish)
-     */
-    void onClose(long delayMillis);
+  /**
+   * Disposes of the extension, and tells the server which resources have changed.
+   *
+   * <p>
+   *
+   * @param delayMillis time to delay the RPC (for allowing short background operations to finish)
+   */
+  void onClose(long delayMillis);
 
-    /**
-     * Removes the extension on the server side.<p>
-     */
-    void removeExtension();
+  /**
+   * Removes the extension on the server side.
+   *
+   * <p>
+   */
+  void removeExtension();
 
-    /**
-     * Requests the id of the next file.<p>
-     *
-     * @param offset should be +1 for the next file, or -1 for the previous file
-     */
-    void requestNextFile(int offset);
+  /**
+   * Requests the id of the next file.
+   *
+   * <p>
+   *
+   * @param offset should be +1 for the next file, or -1 for the previous file
+   */
+  void requestNextFile(int offset);
 
-    /**
-     * Saves the properties for a new resource.<p>
-     *
-     * @param data the serialized property data (CmsPropertyChangeSet)
-     */
-    void savePropertiesForNewResource(String data);
+  /**
+   * Saves the properties for a new resource.
+   *
+   * <p>
+   *
+   * @param data the serialized property data (CmsPropertyChangeSet)
+   */
+  void savePropertiesForNewResource(String data);
 }

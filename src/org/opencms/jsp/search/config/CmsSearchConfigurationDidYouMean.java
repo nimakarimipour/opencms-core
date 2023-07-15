@@ -30,53 +30,48 @@ package org.opencms.jsp.search.config;
 /** Class keeping the configuration of the "Did you mean ...?" feature of the search form. */
 public class CmsSearchConfigurationDidYouMean implements I_CmsSearchConfigurationDidYouMean {
 
-    /** The default collate setting. */
-    private static final boolean DEFAULT_COLLATE = true;
-    /** Default for maximal number of suggestions. */
-    private static final int DEFAULT_COUNT = 5;
+  /** The default collate setting. */
+  private static final boolean DEFAULT_COLLATE = true;
+  /** Default for maximal number of suggestions. */
+  private static final int DEFAULT_COUNT = 5;
 
-    /** A modifier for the search query. */
-    private final boolean m_collate;
-    /** Parameter used to transmit the query used for spellchecking. */
-    private final String m_param;
-    /** Maximal number of suggestions. */
-    private final int m_count;
+  /** A modifier for the search query. */
+  private final boolean m_collate;
+  /** Parameter used to transmit the query used for spellchecking. */
+  private final String m_param;
+  /** Maximal number of suggestions. */
+  private final int m_count;
 
-    /** Constructor setting all the state.
-     * @param param The request parameter used to send the spellcheck query.
-     * @param collate Flag, indicating if the results should be collated.
-     * @param count The maximal number of suggestions.
-     */
-    public CmsSearchConfigurationDidYouMean(final String param, final Boolean collate, final Integer count) {
+  /**
+   * Constructor setting all the state.
+   *
+   * @param param The request parameter used to send the spellcheck query.
+   * @param collate Flag, indicating if the results should be collated.
+   * @param count The maximal number of suggestions.
+   */
+  public CmsSearchConfigurationDidYouMean(
+      final String param, final Boolean collate, final Integer count) {
 
-        m_param = param;
-        m_collate = null == collate ? DEFAULT_COLLATE : collate.booleanValue();
-        m_count = null == count ? DEFAULT_COUNT : count.intValue();
+    m_param = param;
+    m_collate = null == collate ? DEFAULT_COLLATE : collate.booleanValue();
+    m_count = null == count ? DEFAULT_COUNT : count.intValue();
+  }
 
-    }
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationDidYouMean#getCollate() */
+  public boolean getCollate() {
 
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationDidYouMean#getCollate()
-     */
-    public boolean getCollate() {
+    return m_collate;
+  }
 
-        return m_collate;
-    }
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationDidYouMean#getCount() */
+  public int getCount() {
 
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationDidYouMean#getCount()
-     */
-    public int getCount() {
+    return m_count;
+  }
 
-        return m_count;
-    }
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationDidYouMean#getQueryParam() */
+  public String getQueryParam() {
 
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationDidYouMean#getQueryParam()
-     */
-    public String getQueryParam() {
-
-        return m_param;
-    }
-
+    return m_param;
+  }
 }

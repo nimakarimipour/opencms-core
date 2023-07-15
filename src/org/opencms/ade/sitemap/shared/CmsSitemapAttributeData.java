@@ -27,112 +27,102 @@
 
 package org.opencms.ade.sitemap.shared;
 
-import org.opencms.gwt.shared.CmsListInfoBean;
-import org.opencms.xml.content.CmsXmlContentProperty;
-
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.opencms.gwt.shared.CmsListInfoBean;
+import org.opencms.xml.content.CmsXmlContentProperty;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
-/**
- * The data needed by the sitemap attribute editor dialog in the sitemap editor.
- */
+/** The data needed by the sitemap attribute editor dialog in the sitemap editor. */
 public class CmsSitemapAttributeData implements IsSerializable {
 
-    /** The attribute definitions. */
-    protected LinkedHashMap<String, CmsXmlContentProperty> m_attributeDefinitions;
+  /** The attribute definitions. */
+  protected LinkedHashMap<String, CmsXmlContentProperty> m_attributeDefinitions;
 
-    /** The attribute values. */
-    protected Map<String, String> m_attributeValues;
+  /** The attribute values. */
+  protected Map<String, String> m_attributeValues;
 
-    /** The list info bean for the sitemap configuration file. */
-    protected CmsListInfoBean m_sitemapInfo;
+  /** The list info bean for the sitemap configuration file. */
+  protected CmsListInfoBean m_sitemapInfo;
 
-    /** The URL to call to unlock the sitemap configuration file. */
-    protected String m_unlockUrl;
+  /** The URL to call to unlock the sitemap configuration file. */
+  protected String m_unlockUrl;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param sitemapInfo the list info bean for the sitemap configuration file
-     * @param attributeDefinitions the attribute definitions
-     * @param attributeValues the attribute values
-     * @param unlockUrl the URL used to unlock the configuration file
-     */
-    public CmsSitemapAttributeData(
-        CmsListInfoBean sitemapInfo,
-        Map<String, CmsXmlContentProperty> attributeDefinitions,
-        Map<String, String> attributeValues,
-        String unlockUrl) {
+  /**
+   * Creates a new instance.
+   *
+   * @param sitemapInfo the list info bean for the sitemap configuration file
+   * @param attributeDefinitions the attribute definitions
+   * @param attributeValues the attribute values
+   * @param unlockUrl the URL used to unlock the configuration file
+   */
+  public CmsSitemapAttributeData(
+      CmsListInfoBean sitemapInfo,
+      Map<String, CmsXmlContentProperty> attributeDefinitions,
+      Map<String, String> attributeValues,
+      String unlockUrl) {
 
-        m_sitemapInfo = sitemapInfo;
-        m_attributeDefinitions = new LinkedHashMap<>(attributeDefinitions);
-        m_attributeValues = new HashMap<>(attributeValues);
-        m_unlockUrl = unlockUrl;
-    }
+    m_sitemapInfo = sitemapInfo;
+    m_attributeDefinitions = new LinkedHashMap<>(attributeDefinitions);
+    m_attributeValues = new HashMap<>(attributeValues);
+    m_unlockUrl = unlockUrl;
+  }
 
-    /**
-     * Default constructor for serialization.
-     */
-    protected CmsSitemapAttributeData() {
+  /** Default constructor for serialization. */
+  protected CmsSitemapAttributeData() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * Gets the attribute definitions.
-     *
-     * @return the attribute definitions
-     */
-    public LinkedHashMap<String, CmsXmlContentProperty> getAttributeDefinitions() {
+  /**
+   * Gets the attribute definitions.
+   *
+   * @return the attribute definitions
+   */
+  public LinkedHashMap<String, CmsXmlContentProperty> getAttributeDefinitions() {
 
-        return m_attributeDefinitions;
-    }
+    return m_attributeDefinitions;
+  }
 
-    /**
-     * Gets the attribute values
-     *
-     * @return the attribute values
-     */
-    public Map<String, String> getAttributeValues() {
+  /**
+   * Gets the attribute values
+   *
+   * @return the attribute values
+   */
+  public Map<String, String> getAttributeValues() {
 
-        return m_attributeValues;
-    }
+    return m_attributeValues;
+  }
 
-    /**
-     * Gets the list info for the sitemap configuration file.
-     *
-     * @return the list info for the sitemap configuration
-     */
-    public CmsListInfoBean getInfo() {
+  /**
+   * Gets the list info for the sitemap configuration file.
+   *
+   * @return the list info for the sitemap configuration
+   */
+  public CmsListInfoBean getInfo() {
 
-        return m_sitemapInfo;
+    return m_sitemapInfo;
+  }
 
-    }
+  /**
+   * Gets the URL which should be called to unlock the sitemap configuration
+   *
+   * @return the URL to unlock the sitemap configuration
+   */
+  public String getUnlockUrl() {
 
-    /**
-     * Gets the URL which should be called to unlock the sitemap configuration
-     *
-     * @return the URL to unlock the sitemap configuration
-     */
-    public String getUnlockUrl() {
+    return m_unlockUrl;
+  }
 
-        return m_unlockUrl;
-    }
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-
-        return "[CmsSitemapAttributeData: definitions="
-            + m_attributeDefinitions
-            + ", values="
-            + m_attributeValues
-            + "]";
-    }
-
+    return "[CmsSitemapAttributeData: definitions="
+        + m_attributeDefinitions
+        + ", values="
+        + m_attributeValues
+        + "]";
+  }
 }

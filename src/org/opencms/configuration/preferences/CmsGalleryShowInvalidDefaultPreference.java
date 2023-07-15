@@ -30,48 +30,48 @@ package org.opencms.configuration.preferences;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
 /**
- * Class for the preference which controls whether invalid elements should be shown by default in the gallery result tab.
+ * Class for the preference which controls whether invalid elements should be shown by default in
+ * the gallery result tab.
  */
 public class CmsGalleryShowInvalidDefaultPreference extends CmsBuiltinPreference {
 
-    /** The nice name. */
-    private static final String NICE_NAME = "%(key."
-        + org.opencms.workplace.commons.Messages.GUI_PREF_GALLERY_SHOW_INVALID_DEFAULT_0
-        + ")";
+  /** The nice name. */
+  private static final String NICE_NAME =
+      "%(key."
+          + org.opencms.workplace.commons.Messages.GUI_PREF_GALLERY_SHOW_INVALID_DEFAULT_0
+          + ")";
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param propName the property name
-     */
-    public CmsGalleryShowInvalidDefaultPreference(String propName) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param propName the property name
+   */
+  public CmsGalleryShowInvalidDefaultPreference(String propName) {
 
-        super(propName);
-        m_basic = true;
+    super(propName);
+    m_basic = true;
+  }
 
-    }
+  /** @see org.opencms.configuration.preferences.CmsBuiltinPreference#getPropertyDefinition() */
+  @Override
+  public CmsXmlContentProperty getPropertyDefinition() {
 
-    /**
-     * @see org.opencms.configuration.preferences.CmsBuiltinPreference#getPropertyDefinition()
-     */
-    @Override
-    public CmsXmlContentProperty getPropertyDefinition() {
-
-        CmsXmlContentProperty prop = new CmsXmlContentProperty(
-            getName(), //name
-            "string", //type
-            "checkbox", //widget
-            null, //widgetconfig
-            null, //regex
-            null, //ruletype
-            "false", //default
-            NICE_NAME, //nicename
-            null, //description
-            null, //error
-            null //preferfolder
-        );
-        return prop;
-
-    }
-
+    CmsXmlContentProperty prop =
+        new CmsXmlContentProperty(
+            getName(), // name
+            "string", // type
+            "checkbox", // widget
+            null, // widgetconfig
+            null, // regex
+            null, // ruletype
+            "false", // default
+            NICE_NAME, // nicename
+            null, // description
+            null, // error
+            null // preferfolder
+            );
+    return prop;
+  }
 }

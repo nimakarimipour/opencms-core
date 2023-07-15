@@ -27,82 +27,88 @@
 
 package org.opencms.workplace.tools.database;
 
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.report.I_CmsReportThread;
 import org.opencms.workplace.list.A_CmsListReport;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Provides an output window for a CmsReport.<p>
+ * Provides an output window for a CmsReport.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsHtmlImportReport extends A_CmsListReport {
 
-    /** Request parameter name for the class name to get the dialog object from. */
-    public static final String PARAM_CLASSNAME = "classname";
+  /** Request parameter name for the class name to get the dialog object from. */
+  public static final String PARAM_CLASSNAME = "classname";
 
-    /** Request parameter for the class name to get the dialog object from. */
-    private String m_paramClassname;
+  /** Request parameter for the class name to get the dialog object from. */
+  private String m_paramClassname;
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsHtmlImportReport(CmsJspActionElement jsp) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsHtmlImportReport(CmsJspActionElement jsp) {
 
-        super(jsp);
-    }
+    super(jsp);
+  }
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsHtmlImportReport(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsHtmlImportReport(PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        this(new CmsJspActionElement(context, req, res));
-    }
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-    /**
-     * Returns the request parameter value for the class name to get the dialog object from.<p>
-     *
-     * @return the request parameter value for the class name to get the dialog object from
-     */
-    public String getParamClassname() {
+  /**
+   * Returns the request parameter value for the class name to get the dialog object from.
+   *
+   * <p>
+   *
+   * @return the request parameter value for the class name to get the dialog object from
+   */
+  public String getParamClassname() {
 
-        return m_paramClassname;
-    }
+    return m_paramClassname;
+  }
 
-    /**
-     *
-     * @see org.opencms.workplace.list.A_CmsListReport#initializeThread()
-     */
-    @Override
-    public I_CmsReportThread initializeThread() {
+  /** @see org.opencms.workplace.list.A_CmsListReport#initializeThread() */
+  @Override
+  public I_CmsReportThread initializeThread() {
 
-        CmsHtmlImport htmlImport = (CmsHtmlImport)((Map)getSettings().getDialogObject()).get(getParamClassname());
+    CmsHtmlImport htmlImport =
+        (CmsHtmlImport) ((Map) getSettings().getDialogObject()).get(getParamClassname());
 
-        I_CmsReportThread importThread = new CmsHtmlImportThread(getCms(), htmlImport);
+    I_CmsReportThread importThread = new CmsHtmlImportThread(getCms(), htmlImport);
 
-        return importThread;
-    }
+    return importThread;
+  }
 
-    /**
-     * Sets the request parameter value for the class name to get the dialog object from.<p>
-     *
-     * @param className the request parameter value for the class name to get the dialog object from
-     */
-    public void setParamClassname(String className) {
+  /**
+   * Sets the request parameter value for the class name to get the dialog object from.
+   *
+   * <p>
+   *
+   * @param className the request parameter value for the class name to get the dialog object from
+   */
+  public void setParamClassname(String className) {
 
-        m_paramClassname = className;
-    }
+    m_paramClassname = className;
+  }
 }

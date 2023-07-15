@@ -27,19 +27,14 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.gwt.client.util.I_CmsEmbeddedDialogHandlerJsCallbacks;
-
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
+import org.opencms.gwt.client.util.I_CmsEmbeddedDialogHandlerJsCallbacks;
 
-/**
- * Helper class to provide access to embedded dialog handlers set by the parent frame.
- */
+/** Helper class to provide access to embedded dialog handlers set by the parent frame. */
 @JsType(name = "window", namespace = JsPackage.GLOBAL, isNative = true)
 public class CmsEmbedWrapper {
 
-    /**
-     * The embedded dialog handler set by the parent frame.
-     */
-    public static I_CmsEmbeddedDialogHandlerJsCallbacks connector;
+  /** The embedded dialog handler set by the parent frame. */
+  public static I_CmsEmbeddedDialogHandlerJsCallbacks connector;
 }

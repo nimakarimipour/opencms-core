@@ -27,145 +27,163 @@
 
 package org.opencms.gwt.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Parameters used by the quick launch provider.<p>
+ * Parameters used by the quick launch provider.
+ *
+ * <p>
  */
 public class CmsQuickLaunchParams implements IsSerializable {
 
-    /** Context (sitmap or page editor). */
-    private String m_context;
+  /** Context (sitmap or page editor). */
+  private String m_context;
 
-    /** Page id. */
-    private CmsUUID m_pageId;
+  /** Page id. */
+  private CmsUUID m_pageId;
 
-    /** Detail content id. */
-    private CmsUUID m_detailId;
+  /** Detail content id. */
+  private CmsUUID m_detailId;
 
-    /** The last opened page id from the session storage. */
-    private CmsUUID m_sessionPageId;
+  /** The last opened page id from the session storage. */
+  private CmsUUID m_sessionPageId;
 
-    /** Return code. */
-    private String m_returnCode;
+  /** Return code. */
+  private String m_returnCode;
 
-    /** Path. */
-    private String m_path;
+  /** Path. */
+  private String m_path;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param context the quick launch context
-     * @param pageId the page id
-     * @param detailId the detail content id
-     * @param returnCode the return code
-     * @param path  the path
-     * @param sessionPageId the id of the last opened page from the browser sessionStorage
-     */
-    public CmsQuickLaunchParams(
-        String context,
-        CmsUUID pageId,
-        CmsUUID detailId,
-        String returnCode,
-        String path,
-        CmsUUID sessionPageId) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param context the quick launch context
+   * @param pageId the page id
+   * @param detailId the detail content id
+   * @param returnCode the return code
+   * @param path the path
+   * @param sessionPageId the id of the last opened page from the browser sessionStorage
+   */
+  public CmsQuickLaunchParams(
+      String context,
+      CmsUUID pageId,
+      CmsUUID detailId,
+      String returnCode,
+      String path,
+      CmsUUID sessionPageId) {
 
-        m_context = context;
-        m_pageId = pageId;
-        m_detailId = detailId;
-        m_returnCode = returnCode;
-        m_path = path;
-        m_sessionPageId = sessionPageId;
-    }
+    m_context = context;
+    m_pageId = pageId;
+    m_detailId = detailId;
+    m_returnCode = returnCode;
+    m_path = path;
+    m_sessionPageId = sessionPageId;
+  }
 
-    /**
-     * Default constructor for serialization.<p>
-     */
-    protected CmsQuickLaunchParams() {
+  /**
+   * Default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsQuickLaunchParams() {
 
-        // do nothing
-    }
+    // do nothing
+  }
 
-    /**
-     * Returns the context.<p>
-     *
-     * @return the context
-     */
-    public String getContext() {
+  /**
+   * Returns the context.
+   *
+   * <p>
+   *
+   * @return the context
+   */
+  public String getContext() {
 
-        return m_context;
-    }
+    return m_context;
+  }
 
-    /**
-     * Returns the detailId.<p>
-     *
-     * @return the detailId
-     */
-    public CmsUUID getDetailId() {
+  /**
+   * Returns the detailId.
+   *
+   * <p>
+   *
+   * @return the detailId
+   */
+  public CmsUUID getDetailId() {
 
-        return m_detailId;
-    }
+    return m_detailId;
+  }
 
-    /**
-     * Returns the pageId.<p>
-     *
-     * @return the pageId
-     */
-    public CmsUUID getPageId() {
+  /**
+   * Returns the pageId.
+   *
+   * <p>
+   *
+   * @return the pageId
+   */
+  public CmsUUID getPageId() {
 
-        return m_pageId;
-    }
+    return m_pageId;
+  }
 
-    /**
-     * Gets the path.<p>
-     *
-     * @return the path
-     */
-    public String getPath() {
+  /**
+   * Gets the path.
+   *
+   * <p>
+   *
+   * @return the path
+   */
+  public String getPath() {
 
-        return m_path;
-    }
+    return m_path;
+  }
 
-    /**
-     * Returns the returnCode.<p>
-     *
-     * @return the returnCode
-     */
-    public String getReturnCode() {
+  /**
+   * Returns the returnCode.
+   *
+   * <p>
+   *
+   * @return the returnCode
+   */
+  public String getReturnCode() {
 
-        return m_returnCode;
-    }
+    return m_returnCode;
+  }
 
-    /**
-     * Gets the id of the last edited container page.
-     *
-     * @return the id of the last edited container page
-     */
-    public CmsUUID getSessionPageId() {
+  /**
+   * Gets the id of the last edited container page.
+   *
+   * @return the id of the last edited container page
+   */
+  public CmsUUID getSessionPageId() {
 
-        return m_sessionPageId;
-    }
+    return m_sessionPageId;
+  }
 
-    /**
-     * Returns true if the quick launcher is called from the page editor.<p>
-     *
-     * @return true if the quick launcher was called from the page editor
-     */
-    public boolean isPageContext() {
+  /**
+   * Returns true if the quick launcher is called from the page editor.
+   *
+   * <p>
+   *
+   * @return true if the quick launcher was called from the page editor
+   */
+  public boolean isPageContext() {
 
-        return CmsGwtConstants.QuickLaunch.CONTEXT_PAGE.equals(m_context);
-    }
+    return CmsGwtConstants.QuickLaunch.CONTEXT_PAGE.equals(m_context);
+  }
 
-    /**
-     * Returns true if the quick launcher is called from the sitemap editor.<p>
-     *
-     * @return true if the quick launcher was called from the sitemap editor
-     */
-    public boolean isSitemapContext() {
+  /**
+   * Returns true if the quick launcher is called from the sitemap editor.
+   *
+   * <p>
+   *
+   * @return true if the quick launcher was called from the sitemap editor
+   */
+  public boolean isSitemapContext() {
 
-        return CmsGwtConstants.QuickLaunch.CONTEXT_SITEMAP.equals(m_context);
-    }
-
+    return CmsGwtConstants.QuickLaunch.CONTEXT_SITEMAP.equals(m_context);
+  }
 }

@@ -31,74 +31,93 @@ import com.google.common.base.Optional;
 import com.google.gwt.dom.client.Element;
 
 /**
- * Interface defining all methods used by drag and drop on a draggable element.<p>
+ * Interface defining all methods used by drag and drop on a draggable element.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsDraggable {
 
-    /**
-     * Gets an optional pair of integers which are to be used as an "offset delta" for the drag and drop process.<p>
-     *
-     * @return an optional array containing exactly 2 entries [x,y]
-     */
-    Optional<int[]> getCursorOffsetDelta();
+  /**
+   * Gets an optional pair of integers which are to be used as an "offset delta" for the drag and
+   * drop process.
+   *
+   * <p>
+   *
+   * @return an optional array containing exactly 2 entries [x,y]
+   */
+  Optional<int[]> getCursorOffsetDelta();
 
-    /**
-     * Creates the drag helper element and attaches it into the DOM.<p>
-     *
-     * @param target the drop target
-     *
-     * @return the drag helper element
-     */
-    Element getDragHelper(I_CmsDropTarget target);
+  /**
+   * Creates the drag helper element and attaches it into the DOM.
+   *
+   * <p>
+   *
+   * @param target the drop target
+   * @return the drag helper element
+   */
+  Element getDragHelper(I_CmsDropTarget target);
 
-    /**
-     * Returns the draggable element.<p>
-     *
-     * @return the element
-     */
-    Element getElement();
+  /**
+   * Returns the draggable element.
+   *
+   * <p>
+   *
+   * @return the element
+   */
+  Element getElement();
 
-    /**
-     * Returns the draggable id.<p>
-     *
-     * @return the id
-     */
-    String getId();
+  /**
+   * Returns the draggable id.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  String getId();
 
-    /**
-     * Returns the parent drop target or <code>null</code> if there is none.<p>
-     *
-     * @return the parent drop target
-     */
-    I_CmsDropTarget getParentTarget();
+  /**
+   * Returns the parent drop target or <code>null</code> if there is none.
+   *
+   * <p>
+   *
+   * @return the parent drop target
+   */
+  I_CmsDropTarget getParentTarget();
 
-    /**
-     * Creates the drag placeholder element.<p>
-     *
-     * @param target the drop target
-     *
-     * @return the drag placeholder element
-     */
-    Element getPlaceholder(I_CmsDropTarget target);
+  /**
+   * Creates the drag placeholder element.
+   *
+   * <p>
+   *
+   * @param target the drop target
+   * @return the drag placeholder element
+   */
+  Element getPlaceholder(I_CmsDropTarget target);
 
-    /**
-     * Executed on drag cancel.<p>
-     */
-    void onDragCancel();
+  /**
+   * Executed on drag cancel.
+   *
+   * <p>
+   */
+  void onDragCancel();
 
-    /**
-     * Executed on drop.<p>
-     *
-     * @param target the drop target
-     */
-    void onDrop(I_CmsDropTarget target);
+  /**
+   * Executed on drop.
+   *
+   * <p>
+   *
+   * @param target the drop target
+   */
+  void onDrop(I_CmsDropTarget target);
 
-    /**
-     * Executed on drag start.<p>
-     *
-     * @param target the current drop target
-     */
-    void onStartDrag(I_CmsDropTarget target);
+  /**
+   * Executed on drag start.
+   *
+   * <p>
+   *
+   * @param target the current drop target
+   */
+  void onStartDrag(I_CmsDropTarget target);
 }

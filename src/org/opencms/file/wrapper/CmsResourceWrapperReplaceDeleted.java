@@ -27,6 +27,7 @@
 
 package org.opencms.file.wrapper;
 
+import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
 import org.opencms.file.CmsResource;
@@ -36,51 +37,49 @@ import org.opencms.lock.CmsLock;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 
-import java.util.List;
-
 /**
- * Resource wrapper which intercepts createResource calls and substitutes them with replaceResource if there is already a deleted file at the same path.<p>
+ * Resource wrapper which intercepts createResource calls and substitutes them with replaceResource
+ * if there is already a deleted file at the same path.
  *
- * This is useful because when accessing a repository, users can neither see nor publish deleted files, and thus can not re-create a file of state "deleted".
+ * <p>This is useful because when accessing a repository, users can neither see nor publish deleted
+ * files, and thus can not re-create a file of state "deleted".
  */
 public class CmsResourceWrapperReplaceDeleted extends A_CmsResourceWrapper {
 
-    /**
-     * @see org.opencms.file.wrapper.A_CmsResourceWrapper#createResource(org.opencms.file.CmsObject, java.lang.String, int, byte[], java.util.List)
-     */
-    @Override
-    public CmsResource createResource(
-        CmsObject cms,
-        String resourcename,
-        int type,
-        byte[] content,
-        List<CmsProperty> properties) throws CmsException, CmsIllegalArgumentException {
+  /**
+   * @see org.opencms.file.wrapper.A_CmsResourceWrapper#createResource(org.opencms.file.CmsObject,
+   *     java.lang.String, int, byte[], java.util.List)
+   */
+  @Override
+  public CmsResource createResource(
+      CmsObject cms, String resourcename, int type, byte[] content, List<CmsProperty> properties)
+      throws CmsException, CmsIllegalArgumentException {
 
-        try {
-            CmsResource resource = cms.readResource(resourcename, CmsResourceFilter.ALL);
-            if (!resource.getState().isDeleted()) {
-                return null;
-            }
-            CmsLock lock = cms.getLock(resource);
-            if (lock.isUnlocked()) {
-                cms.lockResourceTemporary(resourcename);
-            }
-            cms.undeleteResource(resourcename, false);
-            cms.replaceResource(resourcename, type, content, properties);
-            CmsResource result = cms.readResource(resourcename);
-            return result;
-        } catch (CmsVfsResourceNotFoundException e) {
-            return null;
-        }
-
+    try {
+      CmsResource resource = cms.readResource(resourcename, CmsResourceFilter.ALL);
+      if (!resource.getState().isDeleted()) {
+        return null;
+      }
+      CmsLock lock = cms.getLock(resource);
+      if (lock.isUnlocked()) {
+        cms.lockResourceTemporary(resourcename);
+      }
+      cms.undeleteResource(resourcename, false);
+      cms.replaceResource(resourcename, type, content, properties);
+      CmsResource result = cms.readResource(resourcename);
+      return result;
+    } catch (CmsVfsResourceNotFoundException e) {
+      return null;
     }
+  }
 
-    /**
-     * @see org.opencms.file.wrapper.I_CmsResourceWrapper#isWrappedResource(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
-     */
-    public boolean isWrappedResource(CmsObject cms, CmsResource res) {
+  /**
+   * @see
+   *     org.opencms.file.wrapper.I_CmsResourceWrapper#isWrappedResource(org.opencms.file.CmsObject,
+   *     org.opencms.file.CmsResource)
+   */
+  public boolean isWrappedResource(CmsObject cms, CmsResource res) {
 
-        return false;
-    }
-
+    return false;
+  }
 }

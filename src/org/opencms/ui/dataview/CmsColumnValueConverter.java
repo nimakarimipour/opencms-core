@@ -27,57 +27,62 @@
 
 package org.opencms.ui.dataview;
 
-import org.opencms.widgets.dataview.CmsDataViewColumn;
-import org.opencms.widgets.dataview.CmsDataViewColumn.Type;
-
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Image;
+import org.opencms.widgets.dataview.CmsDataViewColumn;
+import org.opencms.widgets.dataview.CmsDataViewColumn.Type;
 
 /**
- * Converts column values to the correct types.<p>
+ * Converts column values to the correct types.
+ *
+ * <p>
  */
 public final class CmsColumnValueConverter {
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    private CmsColumnValueConverter() {
-        // do nothing
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  private CmsColumnValueConverter() {
+    // do nothing
+  }
+
+  /**
+   * Gets the actual value class which the given type enum represents.
+   *
+   * <p>
+   *
+   * @param type the type enum
+   * @return the actual value class to use
+   */
+  public static Class<?> getColumnClass(CmsDataViewColumn.Type type) {
+
+    if (type == Type.imageType) {
+      return Component.class;
+    } else {
+      return type.getValueClass();
     }
+  }
 
-    /**
-     * Gets the actual value class which the given type enum represents.<p>
-     *
-     * @param type the type enum
-     * @return the actual value class to use
-     */
-    public static Class<?> getColumnClass(CmsDataViewColumn.Type type) {
+  /**
+   * Gets the actual column value for the given data value.
+   *
+   * <p>
+   *
+   * @param value the data value
+   * @param type the column type enum
+   * @return the actual column value to use
+   */
+  public static Object getColumnValue(Object value, CmsDataViewColumn.Type type) {
 
-        if (type == Type.imageType) {
-            return Component.class;
-        } else {
-            return type.getValueClass();
-        }
+    if (type == Type.imageType) {
+      Image image = new Image("", new ExternalResource((String) value));
+      image.addStyleName("o-table-image");
+      return image;
+    } else {
+      return value;
     }
-
-    /**
-     * Gets the actual column value for the given data value.<p>
-     *
-     * @param value the data value
-     * @param type the column type enum
-     *
-     * @return the actual column value to use
-     */
-    public static Object getColumnValue(Object value, CmsDataViewColumn.Type type) {
-
-        if (type == Type.imageType) {
-            Image image = new Image("", new ExternalResource((String)value));
-            image.addStyleName("o-table-image");
-            return image;
-        } else {
-            return value;
-        }
-    }
-
+  }
 }

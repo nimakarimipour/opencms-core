@@ -27,48 +27,50 @@
 
 package org.opencms.ade.sitemap.client.alias.simple;
 
+import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.dom.client.Style.Unit;
 import org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn;
 import org.opencms.gwt.shared.alias.CmsAliasTableRow;
 
-import com.google.gwt.cell.client.CheckboxCell;
-import com.google.gwt.dom.client.Style.Unit;
-
 /**
- * The column used to select rows in the alias table.<p>
+ * The column used to select rows in the alias table.
+ *
+ * <p>
  */
-public class CmsAliasSelectionColumn extends A_CmsAliasTableColumn<CmsAliasTableRow, Boolean, CmsAliasCellTable> {
+public class CmsAliasSelectionColumn
+    extends A_CmsAliasTableColumn<CmsAliasTableRow, Boolean, CmsAliasCellTable> {
 
-    /** The table in which this column is used. */
-    private CmsAliasCellTable m_table;
+  /** The table in which this column is used. */
+  private CmsAliasCellTable m_table;
 
-    /**
-     * Creates a new column instance.<p>
-     *
-     * @param table the table
-     */
-    public CmsAliasSelectionColumn(CmsAliasCellTable table) {
+  /**
+   * Creates a new column instance.
+   *
+   * <p>
+   *
+   * @param table the table
+   */
+  public CmsAliasSelectionColumn(CmsAliasCellTable table) {
 
-        super(new CheckboxCell());
-        m_table = table;
-    }
+    super(new CheckboxCell());
+    m_table = table;
+  }
 
-    /**
-     * @see org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn#addToTable(com.google.gwt.user.cellview.client.CellTable)
-     */
-    @Override
-    public void addToTable(CmsAliasCellTable table) {
+  /**
+   * @see
+   *     org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn#addToTable(com.google.gwt.user.cellview.client.CellTable)
+   */
+  @Override
+  public void addToTable(CmsAliasCellTable table) {
 
-        table.addColumn(this, "X");
-        table.setColumnWidth(this, 25, Unit.PX);
-    }
+    table.addColumn(this, "X");
+    table.setColumnWidth(this, 25, Unit.PX);
+  }
 
-    /**
-     * @see com.google.gwt.user.cellview.client.Column#getValue(java.lang.Object)
-     */
-    @Override
-    public Boolean getValue(CmsAliasTableRow row) {
+  /** @see com.google.gwt.user.cellview.client.Column#getValue(java.lang.Object) */
+  @Override
+  public Boolean getValue(CmsAliasTableRow row) {
 
-        return Boolean.valueOf(m_table.getSelectionModel().isSelected(row));
-    }
-
+    return Boolean.valueOf(m_table.getSelectionModel().isSelected(row));
+  }
 }

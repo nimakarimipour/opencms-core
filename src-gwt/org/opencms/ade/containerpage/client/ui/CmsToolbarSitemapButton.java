@@ -32,36 +32,35 @@ import org.opencms.gwt.client.ui.A_CmsToolbarButton;
 import org.opencms.gwt.client.ui.I_CmsButton;
 
 /**
- * The sitemap button holding all related methods.<p>
+ * The sitemap button holding all related methods.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsToolbarSitemapButton extends A_CmsToolbarButton<CmsContainerpageHandler> {
 
-    /**
-     * Constructor.<p>
-     *
-     * @param handler the container-page handler
-     */
-    public CmsToolbarSitemapButton(CmsContainerpageHandler handler) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param handler the container-page handler
+   */
+  public CmsToolbarSitemapButton(CmsContainerpageHandler handler) {
 
-        super(I_CmsButton.ButtonData.SITEMAP_BUTTON, handler);
-    }
+    super(I_CmsButton.ButtonData.SITEMAP_BUTTON, handler);
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate()
-     */
-    public void onToolbarActivate() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarActivate() */
+  public void onToolbarActivate() {
 
-        getHandler().gotoSitemap();
-    }
+    getHandler().gotoSitemap();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate()
-     */
-    public void onToolbarDeactivate() {
+  /** @see org.opencms.gwt.client.ui.I_CmsToolbarButton#onToolbarDeactivate() */
+  public void onToolbarDeactivate() {
 
-        // nothing to do here
-    }
-
+    // nothing to do here
+  }
 }

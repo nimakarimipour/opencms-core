@@ -27,22 +27,24 @@
 
 package org.opencms.ui.util;
 
-import java.util.Collection;
-
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.ItemSorter;
+import java.util.Collection;
 
 /**
- * Interface for item sorters that evaluate the sortable container properties.<p>
+ * Interface for item sorters that evaluate the sortable container properties.
+ *
+ * <p>
  */
 public interface I_CmsItemSorter extends ItemSorter {
 
-    /**
-     * Returns the sortable container property ids.<p>
-     *
-     * @param container the container to be sorted
-     *
-     * @return the sortable container property ids
-     */
-    Collection<?> getSortableContainerPropertyIds(Container container);
+  /**
+   * Returns the sortable container property ids.
+   *
+   * <p>
+   *
+   * @param container the container to be sorted
+   * @return the sortable container property ids
+   */
+  Collection<?> getSortableContainerPropertyIds(Container container);
 }

@@ -31,24 +31,32 @@ import com.vaadin.v7.data.Validator;
 import com.vaadin.v7.event.FieldEvents.TextChangeListener;
 
 /**
- * File table inline edit handler.<p>
+ * File table inline edit handler.
+ *
+ * <p>
  */
 public interface I_CmsFilePropertyEditHandler extends Validator, TextChangeListener {
 
-    /**
-     * Cancels the edit process.<p>
-     */
-    void cancel();
+  /**
+   * Cancels the edit process.
+   *
+   * <p>
+   */
+  void cancel();
 
-    /**
-     * Saves the value.<p>
-     *
-     * @param value the value to save
-     */
-    void save(String value);
+  /**
+   * Saves the value.
+   *
+   * <p>
+   *
+   * @param value the value to save
+   */
+  void save(String value);
 
-    /**
-     * Starts the edit process.<p>
-     */
-    void start();
+  /**
+   * Starts the edit process.
+   *
+   * <p>
+   */
+  void start();
 }

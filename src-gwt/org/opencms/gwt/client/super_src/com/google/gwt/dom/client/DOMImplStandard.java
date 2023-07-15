@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,18 +15,20 @@
  */
 package com.google.gwt.dom.client;
 
-/** Fixing positioning issue due to API changes in Chrome. See https://github.com/gwtproject/gwt/commit/88a028f6b74ecc529a4b878301448d057d2c6e89 */
+/**
+ * Fixing positioning issue due to API changes in Chrome. See
+ * https://github.com/gwtproject/gwt/commit/88a028f6b74ecc529a4b878301448d057d2c6e89
+ */
 
 /**
- * Base implementation of {@link com.google.gwt.user.client.impl.DOMImpl} shared
- * by those browsers that come a bit closer to supporting a common standard (ie,
- * not IE).
+ * Base implementation of {@link com.google.gwt.user.client.impl.DOMImpl} shared by those browsers
+ * that come a bit closer to supporting a common standard (ie, not IE).
  */
 abstract class DOMImplStandard extends DOMImpl {
 
   @Override
-  public native NativeEvent createHtmlEvent(Document doc, String type,
-      boolean canBubble, boolean cancelable) /*-{
+  public native NativeEvent createHtmlEvent(
+      Document doc, String type, boolean canBubble, boolean cancelable) /*-{
     var evt = doc.createEvent('HTMLEvents');
     evt.initEvent(type, canBubble, cancelable);
 
@@ -43,10 +45,22 @@ abstract class DOMImplStandard extends DOMImpl {
 }-*/;
 
   @Override
-  public native NativeEvent createMouseEvent(Document doc, String type,
-      boolean canBubble, boolean cancelable, int detail, int screenX,
-      int screenY, int clientX, int clientY, boolean ctrlKey, boolean altKey,
-      boolean shiftKey, boolean metaKey, int button, Element relatedTarget) /*-{
+  public native NativeEvent createMouseEvent(
+      Document doc,
+      String type,
+      boolean canBubble,
+      boolean cancelable,
+      int detail,
+      int screenX,
+      int screenY,
+      int clientX,
+      int clientY,
+      boolean ctrlKey,
+      boolean altKey,
+      boolean shiftKey,
+      boolean metaKey,
+      int button,
+      Element relatedTarget) /*-{
     // Because Event.getButton() returns bitfield values [1, 4, 2] for [left,
     // middle, right], we need to translate them to the standard [0, 1, 2]
     // button constants.
@@ -115,7 +129,7 @@ abstract class DOMImplStandard extends DOMImpl {
    *     does not convert <br>'s to new lines.
    * 2 - textContent is faster on retreival because WebKit
    *     does not recalculate styles as it does for innerText.
-   */ 
+   */
   @Override
   public native String getInnerText(Element elem) /*-{
     return elem.textContent;
@@ -133,23 +147,23 @@ abstract class DOMImplStandard extends DOMImpl {
   public native void setInnerText(Element elem, String text) /*-{
     elem.textContent = text || '';
 }-*/;
-  
+
   @Override
-    Element getDocumentScrollingElement(Document doc) {
-      // Uses http://dev.w3.org/csswg/cssom-view/#dom-document-scrolling element to
-      // avoid trying to guess about browser behavior.
-      if (getNativeDocumentScrollingElement(doc) != null) {
-        return getNativeDocumentScrollingElement(doc);
-      }
-  
-      return getLegacyDocumentScrollingElement(doc);
+  Element getDocumentScrollingElement(Document doc) {
+    // Uses http://dev.w3.org/csswg/cssom-view/#dom-document-scrolling element to
+    // avoid trying to guess about browser behavior.
+    if (getNativeDocumentScrollingElement(doc) != null) {
+      return getNativeDocumentScrollingElement(doc);
     }
-  
-    Element getLegacyDocumentScrollingElement(Document doc) {
-      return doc.getViewportElement();
-    }
-  
-    final native Element getNativeDocumentScrollingElement(Document doc) /*-{
+
+    return getLegacyDocumentScrollingElement(doc);
+  }
+
+  Element getLegacyDocumentScrollingElement(Document doc) {
+    return doc.getViewportElement();
+  }
+
+  final native Element getNativeDocumentScrollingElement(Document doc) /*-{
         return doc.scrollingElement;
     }-*/;
 }

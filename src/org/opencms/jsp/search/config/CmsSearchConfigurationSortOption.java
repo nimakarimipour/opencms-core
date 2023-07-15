@@ -30,49 +30,46 @@ package org.opencms.jsp.search.config;
 /** Configuration for a single sort option. */
 public class CmsSearchConfigurationSortOption implements I_CmsSearchConfigurationSortOption {
 
-    /** The label shown when the sort option is displayed. */
-    private final String m_label;
-    /** The value send in the request that identifies the option. */
-    private final String m_paramValue;
-    /** The sort option as given to Solr. */
-    private final String m_solrValue;
+  /** The label shown when the sort option is displayed. */
+  private final String m_label;
+  /** The value send in the request that identifies the option. */
+  private final String m_paramValue;
+  /** The sort option as given to Solr. */
+  private final String m_solrValue;
 
-    /** Constructor setting all options.
-     * @param label The label shown when the sort option is displayed.
-     * @param paramValue The value send in the request that identifies the option.
-     * @param solrValue The sort option as given to Solr.
-     */
-    public CmsSearchConfigurationSortOption(final String label, final String paramValue, final String solrValue) {
+  /**
+   * Constructor setting all options.
+   *
+   * @param label The label shown when the sort option is displayed.
+   * @param paramValue The value send in the request that identifies the option.
+   * @param solrValue The sort option as given to Solr.
+   */
+  public CmsSearchConfigurationSortOption(
+      final String label, final String paramValue, final String solrValue) {
 
-        m_solrValue = solrValue;
-        m_paramValue = paramValue == null ? solrValue : paramValue;
-        m_label = label == null ? m_paramValue : label;
-    }
+    m_solrValue = solrValue;
+    m_paramValue = paramValue == null ? solrValue : paramValue;
+    m_label = label == null ? m_paramValue : label;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationSortOption#getLabel()
-     */
-    @Override
-    public String getLabel() {
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationSortOption#getLabel() */
+  @Override
+  public String getLabel() {
 
-        return m_label;
-    }
+    return m_label;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationSortOption#getParamValue()
-     */
-    @Override
-    public String getParamValue() {
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationSortOption#getParamValue() */
+  @Override
+  public String getParamValue() {
 
-        return m_paramValue;
-    }
+    return m_paramValue;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationSortOption#getSolrValue()
-     */
-    @Override
-    public String getSolrValue() {
+  /** @see org.opencms.jsp.search.config.I_CmsSearchConfigurationSortOption#getSolrValue() */
+  @Override
+  public String getSolrValue() {
 
-        return m_solrValue;
-    }
+    return m_solrValue;
+  }
 }

@@ -30,163 +30,184 @@ package org.opencms.gwt.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * Bean representing an entry in the quick launch menu.<p>
+ * Bean representing an entry in the quick launch menu.
+ *
+ * <p>
  */
 public class CmsQuickLaunchData implements IsSerializable {
 
-    /** Default URL (may be null). */
-    private String m_defaultUrl;
+  /** Default URL (may be null). */
+  private String m_defaultUrl;
 
-    /** Content for error alert box. */
-    private String m_errorMessage;
+  /** Content for error alert box. */
+  private String m_errorMessage;
 
-    /** Title for error alert box. */
-    private String m_errorTitle;
+  /** Title for error alert box. */
+  private String m_errorTitle;
 
-    /** The icon URL. */
-    private String m_iconUrl;
+  /** The icon URL. */
+  private String m_iconUrl;
 
-    /** True if this is a legacy tool (necessary because the icons for legacy tools are smaller). */
-    private boolean m_legacy;
+  /** True if this is a legacy tool (necessary because the icons for legacy tools are smaller). */
+  private boolean m_legacy;
 
-    /** Flag to force page reload. */
-    private boolean m_reload;
+  /** Flag to force page reload. */
+  private boolean m_reload;
 
-    /** User readable title of the quick launch item. */
-    private String m_title;
+  /** User readable title of the quick launch item. */
+  private String m_title;
 
-    /** Additional button style classes. */
-    private String m_buttonStyle;
+  /** Additional button style classes. */
+  private String m_buttonStyle;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param defaultUrl the default URL
-     * @param title the title
-     * @param iconUrl the icon URL
-     * @param buttonStyle the additional button style classes
-     * @param errorTitle the title for the error alert box
-     * @param errorMessage the content for the error alert box
-     * @param legacy true if this is a legacy dialog
-     * @param reload true if the page should just be reloaded when this is selected
-     */
-    public CmsQuickLaunchData(
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param defaultUrl the default URL
+   * @param title the title
+   * @param iconUrl the icon URL
+   * @param buttonStyle the additional button style classes
+   * @param errorTitle the title for the error alert box
+   * @param errorMessage the content for the error alert box
+   * @param legacy true if this is a legacy dialog
+   * @param reload true if the page should just be reloaded when this is selected
+   */
+  public CmsQuickLaunchData(
+      String defaultUrl,
+      String title,
+      String iconUrl,
+      String buttonStyle,
+      String errorTitle,
+      String errorMessage,
+      boolean legacy,
+      boolean reload) {
 
-        String defaultUrl,
-        String title,
-        String iconUrl,
-        String buttonStyle,
-        String errorTitle,
-        String errorMessage,
-        boolean legacy,
-        boolean reload) {
+    m_title = title;
+    m_defaultUrl = defaultUrl;
+    m_iconUrl = iconUrl;
+    m_buttonStyle = buttonStyle;
+    m_legacy = legacy;
+    m_reload = reload;
+    m_errorTitle = errorTitle;
+    m_errorMessage = errorMessage;
+  }
 
-        m_title = title;
-        m_defaultUrl = defaultUrl;
-        m_iconUrl = iconUrl;
-        m_buttonStyle = buttonStyle;
-        m_legacy = legacy;
-        m_reload = reload;
-        m_errorTitle = errorTitle;
-        m_errorMessage = errorMessage;
+  /**
+   * Default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsQuickLaunchData() {
+    // Default constructor for serialization
+  }
 
-    }
+  /**
+   * Returns the additional button style classes.
+   *
+   * <p>
+   *
+   * @return the additional button style classes
+   */
+  public String getButtonStyle() {
 
-    /**
-     * Default constructor for serialization.<p>
-     */
-    protected CmsQuickLaunchData() {
-        // Default constructor for serialization
-    }
+    return m_buttonStyle;
+  }
 
-    /**
-     * Returns the additional button style classes.<p>
-     *
-     * @return the additional button style classes
-     */
-    public String getButtonStyle() {
+  /**
+   * Returns the defaultUrl.
+   *
+   * <p>
+   *
+   * @return the defaultUrl
+   */
+  public String getDefaultUrl() {
 
-        return m_buttonStyle;
-    }
+    return m_defaultUrl;
+  }
 
-    /**
-     * Returns the defaultUrl.<p>
-     *
-     * @return the defaultUrl
-     */
-    public String getDefaultUrl() {
+  /**
+   * Gets the error message.
+   *
+   * <p>
+   *
+   * @return the error message
+   */
+  public String getErrorMessage() {
 
-        return m_defaultUrl;
-    }
+    return m_errorMessage;
+  }
 
-    /**
-     * Gets the error message.<p>
-     *
-     * @return the error message
-     */
-    public String getErrorMessage() {
+  /**
+   * Gets the title for the error alert box.
+   *
+   * <p>
+   *
+   * @return the title for the error alert box
+   */
+  public String getErrorTitle() {
 
-        return m_errorMessage;
-    }
+    return m_errorTitle;
+  }
 
-    /**
-     * Gets the title for the error alert box.<p>
-     *
-     * @return the title for the error alert box
-     */
-    public String getErrorTitle() {
+  /**
+   * Returns the iconUrl.
+   *
+   * <p>
+   *
+   * @return the iconUrl
+   */
+  public String getIconUrl() {
 
-        return m_errorTitle;
-    }
+    return m_iconUrl;
+  }
 
-    /**
-     * Returns the iconUrl.<p>
-     *
-     * @return the iconUrl
-     */
-    public String getIconUrl() {
+  /**
+   * Returns the title.
+   *
+   * <p>
+   *
+   * @return the title
+   */
+  public String getTitle() {
 
-        return m_iconUrl;
-    }
+    return m_title;
+  }
 
-    /**
-     * Returns the title.<p>
-     *
-     * @return the title
-     */
-    public String getTitle() {
+  /**
+   * Returns true if this item opens a legacy dialog.
+   *
+   * <p>
+   *
+   * @return true if this item opens a legacy dialog
+   */
+  public boolean isLegacy() {
 
-        return m_title;
-    }
+    return m_legacy;
+  }
 
-    /**
-     * Returns true if this item opens a legacy dialog.<p>
-     *
-     * @return true if this item opens a legacy dialog
-     */
-    public boolean isLegacy() {
+  /**
+   * Return true if the page should be reloaded when this is selected.
+   *
+   * <p>
+   *
+   * @return true if the page should be reloaded
+   */
+  public boolean isReload() {
 
-        return m_legacy;
-    }
+    return m_reload;
+  }
 
-    /**
-     * Return true if the page should be reloaded when this is selected.<p>
-     *
-     * @return true if the page should be reloaded
-     */
-    public boolean isReload() {
+  /**
+   * Sets the 'reload' flag.
+   *
+   * <p>
+   *
+   * @param reload the new value for the 'reload' flag
+   */
+  public void setReload(boolean reload) {
 
-        return m_reload;
-    }
-
-    /**
-     * Sets the 'reload' flag.<p>
-     *
-     * @param reload the new value for the 'reload' flag
-     */
-    public void setReload(boolean reload) {
-
-        m_reload = reload;
-    }
-
+    m_reload = reload;
+  }
 }

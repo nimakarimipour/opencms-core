@@ -27,104 +27,123 @@
 
 package org.opencms.gwt.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * A bean which represents the information for the delete dialog.<p>
+ * A bean which represents the information for the delete dialog.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsDeleteResourceBean implements IsSerializable {
 
-    /** The list of broken links. */
-    private List<CmsBrokenLinkBean> m_brokenLinks;
+  /** The list of broken links. */
+  private List<CmsBrokenLinkBean> m_brokenLinks;
 
-    /** The page info for displaying the CmsListItemWidget. */
-    private CmsListInfoBean m_pageInfo;
+  /** The page info for displaying the CmsListItemWidget. */
+  private CmsListInfoBean m_pageInfo;
 
-    /** The site path of the resource that to get the broken links for. */
-    private String m_sitePath;
+  /** The site path of the resource that to get the broken links for. */
+  private String m_sitePath;
 
-    /**
-     * Constructor.<p>
-     * @param sitePath site path of the resource that to get the broken links for
-     * @param pageInfo page info
-     * @param brokenLinks list of broken links
-     */
-    public CmsDeleteResourceBean(String sitePath, CmsListInfoBean pageInfo, List<CmsBrokenLinkBean> brokenLinks) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param sitePath site path of the resource that to get the broken links for
+   * @param pageInfo page info
+   * @param brokenLinks list of broken links
+   */
+  public CmsDeleteResourceBean(
+      String sitePath, CmsListInfoBean pageInfo, List<CmsBrokenLinkBean> brokenLinks) {
 
-        m_sitePath = sitePath;
-        m_pageInfo = pageInfo;
-        m_brokenLinks = brokenLinks;
-    }
+    m_sitePath = sitePath;
+    m_pageInfo = pageInfo;
+    m_brokenLinks = brokenLinks;
+  }
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    protected CmsDeleteResourceBean() {
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  protected CmsDeleteResourceBean() {
 
-        // noop
-    }
+    // noop
+  }
 
-    /**
-     * Returns the broken links.<p>
-     *
-     * @return the broken links
-     */
-    public List<CmsBrokenLinkBean> getBrokenLinks() {
+  /**
+   * Returns the broken links.
+   *
+   * <p>
+   *
+   * @return the broken links
+   */
+  public List<CmsBrokenLinkBean> getBrokenLinks() {
 
-        return m_brokenLinks;
-    }
+    return m_brokenLinks;
+  }
 
-    /**
-     * Returns the pageInfo.<p>
-     *
-     * @return the pageInfo
-     */
-    public CmsListInfoBean getPageInfo() {
+  /**
+   * Returns the pageInfo.
+   *
+   * <p>
+   *
+   * @return the pageInfo
+   */
+  public CmsListInfoBean getPageInfo() {
 
-        return m_pageInfo;
-    }
+    return m_pageInfo;
+  }
 
-    /**
-     * Returns the sitePath.<p>
-     *
-     * @return the sitePath
-     */
-    public String getSitePath() {
+  /**
+   * Returns the sitePath.
+   *
+   * <p>
+   *
+   * @return the sitePath
+   */
+  public String getSitePath() {
 
-        return m_sitePath;
-    }
+    return m_sitePath;
+  }
 
-    /**
-     * Sets the broken links.<p>
-     *
-     * @param brokenLinks the broken links to set
-     */
-    public void setBrokenLinks(List<CmsBrokenLinkBean> brokenLinks) {
+  /**
+   * Sets the broken links.
+   *
+   * <p>
+   *
+   * @param brokenLinks the broken links to set
+   */
+  public void setBrokenLinks(List<CmsBrokenLinkBean> brokenLinks) {
 
-        m_brokenLinks = brokenLinks;
-    }
+    m_brokenLinks = brokenLinks;
+  }
 
-    /**
-     * Sets the pageInfo.<p>
-     *
-     * @param pageInfo the pageInfo to set
-     */
-    public void setPageInfo(CmsListInfoBean pageInfo) {
+  /**
+   * Sets the pageInfo.
+   *
+   * <p>
+   *
+   * @param pageInfo the pageInfo to set
+   */
+  public void setPageInfo(CmsListInfoBean pageInfo) {
 
-        m_pageInfo = pageInfo;
-    }
+    m_pageInfo = pageInfo;
+  }
 
-    /**
-     * Sets the sitePath.<p>
-     *
-     * @param sitePath the sitePath to set
-     */
-    public void setSitePath(String sitePath) {
+  /**
+   * Sets the sitePath.
+   *
+   * <p>
+   *
+   * @param sitePath the sitePath to set
+   */
+  public void setSitePath(String sitePath) {
 
-        m_sitePath = sitePath;
-    }
+    m_sitePath = sitePath;
+  }
 }

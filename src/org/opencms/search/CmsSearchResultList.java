@@ -31,88 +31,100 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * A search result object returned as result of a search in
- * <code>{@link org.opencms.search.CmsSearchIndex}</code>.<p>
+ * A search result object returned as result of a search in <code>
+ * {@link org.opencms.search.CmsSearchIndex}</code>.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsSearchResultList extends ArrayList<CmsSearchResult> {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 606716301025993114L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 606716301025993114L;
 
-    /** The (optional) categories found in the last the search. */
-    private Map<String, Integer> m_categories;
+  /** The (optional) categories found in the last the search. */
+  private Map<String, Integer> m_categories;
 
-    /** The total size of all results found in the last search. */
-    private int m_hitCount;
+  /** The total size of all results found in the last search. */
+  private int m_hitCount;
 
-    /**
-     * Creates a new result list with a default initial capacity of 100.<p>
-     */
-    public CmsSearchResultList() {
+  /**
+   * Creates a new result list with a default initial capacity of 100.
+   *
+   * <p>
+   */
+  public CmsSearchResultList() {
 
-        this(100);
-    }
+    this(100);
+  }
 
-    /**
-     * Creates a new result list with the specified initial capacity.<p>
-     *
-     * @param initialCapacity the initial capacity
-     */
-    public CmsSearchResultList(int initialCapacity) {
+  /**
+   * Creates a new result list with the specified initial capacity.
+   *
+   * <p>
+   *
+   * @param initialCapacity the initial capacity
+   */
+  public CmsSearchResultList(int initialCapacity) {
 
-        super(initialCapacity);
-    }
+    super(initialCapacity);
+  }
 
-    /**
-     * Returns the (otional) categories found in the last the search, or <code>null</code>
-     * if the category list was not requested in the search.<p>
-     *
-     * @return the (otional) categories found in the last the search
-     *
-     * @see CmsSearch#getCalculateCategories()
-     */
-    public Map<String, Integer> getCategories() {
+  /**
+   * Returns the (otional) categories found in the last the search, or <code>null</code> if the
+   * category list was not requested in the search.
+   *
+   * <p>
+   *
+   * @return the (otional) categories found in the last the search
+   * @see CmsSearch#getCalculateCategories()
+   */
+  public Map<String, Integer> getCategories() {
 
-        return m_categories;
-    }
+    return m_categories;
+  }
 
-    /**
-     * Returns the hit count of all results found in the last search.<p>
-     *
-     * Since this list will only contain the result objects for the current display page,
-     * the size of the list is usually much less then the hit count of all results found.<p>
-     *
-     * @return the hit count of all results found in the last search
-     */
-    public int getHitCount() {
+  /**
+   * Returns the hit count of all results found in the last search.
+   *
+   * <p>Since this list will only contain the result objects for the current display page, the size
+   * of the list is usually much less then the hit count of all results found.
+   *
+   * <p>
+   *
+   * @return the hit count of all results found in the last search
+   */
+  public int getHitCount() {
 
-        return m_hitCount;
-    }
+    return m_hitCount;
+  }
 
-    /**
-     * Sets the categories found in the last the search.<p>
-     *
-     * @param categories the categories to set
-     *
-     * @see CmsSearch#setCalculateCategories(boolean)
-     */
-    public void setCategories(Map<String, Integer> categories) {
+  /**
+   * Sets the categories found in the last the search.
+   *
+   * <p>
+   *
+   * @param categories the categories to set
+   * @see CmsSearch#setCalculateCategories(boolean)
+   */
+  public void setCategories(Map<String, Integer> categories) {
 
-        m_categories = categories;
-    }
+    m_categories = categories;
+  }
 
-    /**
-     * Sets the hit count of all results found in the last search.<p>
-     *
-     * Since this list will only contain the result objects for the current display page,
-     * the size of the list is usually much less then the hit count of all results found.<p>
-     *
-     *  @param hitCount the hit count to set
-     */
-    public void setHitCount(int hitCount) {
+  /**
+   * Sets the hit count of all results found in the last search.
+   *
+   * <p>Since this list will only contain the result objects for the current display page, the size
+   * of the list is usually much less then the hit count of all results found.
+   *
+   * <p>
+   *
+   * @param hitCount the hit count to set
+   */
+  public void setHitCount(int hitCount) {
 
-        m_hitCount = hitCount;
-    }
+    m_hitCount = hitCount;
+  }
 }

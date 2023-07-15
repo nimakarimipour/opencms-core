@@ -32,16 +32,20 @@ import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.core.linker.IFrameLinker;
 
 /**
- * Custom linker to display error message if no permutation is available for client browser version.<p>
+ * Custom linker to display error message if no permutation is available for client browser version.
+ *
+ * <p>
  */
 public class CmsIFrameLinker extends IFrameLinker {
 
-    /**
-     * @see com.google.gwt.core.linker.IFrameLinker#getSelectionScriptTemplate(com.google.gwt.core.ext.TreeLogger, com.google.gwt.core.ext.LinkerContext)
-     */
-    @Override
-    protected String getSelectionScriptTemplate(TreeLogger logger, LinkerContext context) {
+  /**
+   * @see
+   *     com.google.gwt.core.linker.IFrameLinker#getSelectionScriptTemplate(com.google.gwt.core.ext.TreeLogger,
+   *     com.google.gwt.core.ext.LinkerContext)
+   */
+  @Override
+  protected String getSelectionScriptTemplate(TreeLogger logger, LinkerContext context) {
 
-        return "org/opencms/gwt/linker/IFrameTemplate.js";
-    }
+    return "org/opencms/gwt/linker/IFrameTemplate.js";
+  }
 }

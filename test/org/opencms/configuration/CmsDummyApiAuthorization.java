@@ -27,30 +27,29 @@
 
 package org.opencms.configuration;
 
+import javax.servlet.http.HttpServletRequest;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.xml.xml2json.I_CmsApiAuthorizationHandler;
 
-import javax.servlet.http.HttpServletRequest;
-
 public class CmsDummyApiAuthorization implements I_CmsApiAuthorizationHandler {
 
-    public CmsObject initCmsObject(CmsObject adminCms, HttpServletRequest request) throws CmsException {
+  public CmsObject initCmsObject(CmsObject adminCms, HttpServletRequest request)
+      throws CmsException {
 
-        // TODO Auto-generated method stub
-        return null;
-    }
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-    public void initialize(CmsObject cms) {
+  public void initialize(CmsObject cms) {
 
-        // TODO Auto-generated method stub
+    // TODO Auto-generated method stub
 
-    }
+  }
 
-    public void setParameters(CmsParameterConfiguration params) {
+  public void setParameters(CmsParameterConfiguration params) {
 
-        // TODO Auto-generated method stub
+    // TODO Auto-generated method stub
 
-    }
-
+  }
 }

@@ -32,69 +32,77 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Generic database utility functions.<p>
+ * Generic database utility functions.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public final class CmsDbUtil {
 
-    /**
-     * Private constructor for static utility class.<p>
-     */
-    private CmsDbUtil() {
+  /**
+   * Private constructor for static utility class.
+   *
+   * <p>
+   */
+  private CmsDbUtil() {
 
-        // do nothing
+    // do nothing
 
+  }
+
+  /**
+   * Fills a given prepared statement with parameters from a list of objects.
+   *
+   * <p>
+   *
+   * @param stmt the prepared statement
+   * @param params the parameter objects
+   * @throws SQLException if something goes wrong
+   */
+  public static void fillParameters(PreparedStatement stmt, List<Object> params)
+      throws SQLException {
+
+    int i = 1;
+    for (Object param : params) {
+      if (param instanceof String) {
+        stmt.setString(i, (String) param);
+      } else if (param instanceof Integer) {
+        stmt.setInt(i, ((Integer) param).intValue());
+      } else if (param instanceof Long) {
+        stmt.setLong(i, ((Long) param).longValue());
+      } else {
+        throw new IllegalArgumentException();
+      }
+      i += 1;
     }
+  }
 
-    /**
-     * Fills a given prepared statement with parameters from a list of objects.<p>
-     *
-     * @param stmt the prepared statement
-     * @param params the parameter objects
-     *
-     * @throws SQLException if something goes wrong
-     */
-    public static void fillParameters(PreparedStatement stmt, List<Object> params) throws SQLException {
+  /**
+   * Creates an expression for comparing a column with a constant.
+   *
+   * <p>
+   *
+   * @param column the column name
+   * @param o the constant
+   * @return the query expression
+   */
+  public static CmsSimpleQueryFragment columnEquals(String column, Object o) {
 
-        int i = 1;
-        for (Object param : params) {
-            if (param instanceof String) {
-                stmt.setString(i, (String)param);
-            } else if (param instanceof Integer) {
-                stmt.setInt(i, ((Integer)param).intValue());
-            } else if (param instanceof Long) {
-                stmt.setLong(i, ((Long)param).longValue());
-            } else {
-                throw new IllegalArgumentException();
-            }
-            i += 1;
-        }
-    }
+    return new CmsSimpleQueryFragment(column + " = ?", o);
+  }
 
-    /**
-     * Creates an expression for comparing a column with a constant.<p>
-     *
-     * @param column the column name
-     * @param o the constant
-     *
-     * @return the query expression
-     */
-    public static CmsSimpleQueryFragment columnEquals(String column, Object o) {
+  /**
+   * Creates an expression for matching a column with a constant pattern.
+   *
+   * <p>
+   *
+   * @param column the column name
+   * @param str the pattern string
+   * @return the query expression
+   */
+  public static CmsSimpleQueryFragment columnLike(String column, String str) {
 
-        return new CmsSimpleQueryFragment(column + " = ?", o);
-    }
-
-    /**
-     * Creates an expression for matching a column with a constant pattern.<p>
-     *
-     * @param column the column name
-     * @param str the pattern string
-     *
-     * @return the query expression
-     */
-    public static CmsSimpleQueryFragment columnLike(String column, String str) {
-
-        return new CmsSimpleQueryFragment(column + " LIKE ? ", str);
-    }
+    return new CmsSimpleQueryFragment(column + " LIKE ? ", str);
+  }
 }

@@ -27,32 +27,33 @@
 
 package org.opencms.setup.db.update6to7.mysql;
 
+import java.io.IOException;
 import org.opencms.file.CmsResource;
 
-import java.io.IOException;
-
 /**
- * This class creates all the indexes that are used in the database version 7.<p>
+ * This class creates all the indexes that are used in the database version 7.
+ *
+ * <p>
  */
-public class CmsUpdateDBCreateIndexes7 extends org.opencms.setup.db.update6to7.CmsUpdateDBCreateIndexes7 {
+public class CmsUpdateDBCreateIndexes7
+    extends org.opencms.setup.db.update6to7.CmsUpdateDBCreateIndexes7 {
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the query properties cannot be read
-     */
-    public CmsUpdateDBCreateIndexes7()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the query properties cannot be read
+   */
+  public CmsUpdateDBCreateIndexes7() throws IOException {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation()
-     */
-    @Override
-    protected String getPropertyFileLocation() {
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation() */
+  @Override
+  protected String getPropertyFileLocation() {
 
-        return CmsResource.getParentFolder(super.getPropertyFileLocation());
-    }
+    return CmsResource.getParentFolder(super.getPropertyFileLocation());
+  }
 }

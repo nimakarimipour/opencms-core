@@ -27,71 +27,73 @@
 
 package org.opencms.main;
 
-import org.opencms.configuration.CmsParameterConfiguration;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.opencms.configuration.CmsParameterConfiguration;
 
 /**
- * Describes an OpenCms request handler.<p>
+ * Describes an OpenCms request handler.
  *
- * Request handlers are used for special requests to OpenCms
- * that should NOT be mapped to a VFS resource.
- * A request handler URI always start with <code>/handle</code> and then
- * one or more possible handler names as defined with the {@link #getHandlerNames()}
- * method.<p>
+ * <p>Request handlers are used for special requests to OpenCms that should NOT be mapped to a VFS
+ * resource. A request handler URI always start with <code>/handle</code> and then one or more
+ * possible handler names as defined with the {@link #getHandlerNames()} method.
  *
- * For example, if a registerd request handler has the name <code>"MyName"</code>,
- * any request (in a simple setup) to <code>/opencms/opencms/handlerMyName...</code> will directly be transfered
- * to the {@link #handle(HttpServletRequest, HttpServletResponse, String)} method of this
- * handler.<p>
+ * <p>For example, if a registerd request handler has the name <code>"MyName"</code>, any request
+ * (in a simple setup) to <code>/opencms/opencms/handlerMyName...</code> will directly be transfered
+ * to the {@link #handle(HttpServletRequest, HttpServletResponse, String)} method of this handler.
  *
- * In essence, the request handlers are like simplified mini-servlets that run inside OpenCms.
- * Of course they are not intended as replacements for real servlets.
- * In case you require sophisticated lifecycle support use a genuine servlet instead.<p>
+ * <p>In essence, the request handlers are like simplified mini-servlets that run inside OpenCms. Of
+ * course they are not intended as replacements for real servlets. In case you require sophisticated
+ * lifecycle support use a genuine servlet instead.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public interface I_CmsRequestHandler {
 
-    /**
-     * Gets the configuration.
-     *
-     * @return the configuration
-     */
-    default CmsParameterConfiguration getConfiguration() {
+  /**
+   * Gets the configuration.
+   *
+   * @return the configuration
+   */
+  default CmsParameterConfiguration getConfiguration() {
 
-        return new CmsParameterConfiguration();
-    }
+    return new CmsParameterConfiguration();
+  }
 
-    /**
-     * Returns the handler name.<p>
-     *
-     * @return the handler name
-     */
-    String[] getHandlerNames();
+  /**
+   * Returns the handler name.
+   *
+   * <p>
+   *
+   * @return the handler name
+   */
+  String[] getHandlerNames();
 
-    /**
-     * Handles an OpenCms request.<p>
-     *
-     * @param req the current request
-     * @param res the current response
-     * @param name the handler name to invoke
-     * @throws ServletException in case an error occurs
-     * @throws IOException in case an error occurs
-     */
-    void handle(HttpServletRequest req, HttpServletResponse res, String name) throws IOException, ServletException;
+  /**
+   * Handles an OpenCms request.
+   *
+   * <p>
+   *
+   * @param req the current request
+   * @param res the current response
+   * @param name the handler name to invoke
+   * @throws ServletException in case an error occurs
+   * @throws IOException in case an error occurs
+   */
+  void handle(HttpServletRequest req, HttpServletResponse res, String name)
+      throws IOException, ServletException;
 
-    /**
-     * Initializes parameters.
-     *
-     * @param params the map of parameters
-     */
-    default void initParameters(CmsParameterConfiguration params) {
+  /**
+   * Initializes parameters.
+   *
+   * @param params the map of parameters
+   */
+  default void initParameters(CmsParameterConfiguration params) {
 
-        // do nothing
-    }
+    // do nothing
+  }
 }

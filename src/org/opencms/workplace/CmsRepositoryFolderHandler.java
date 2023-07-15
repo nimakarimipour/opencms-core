@@ -36,39 +36,41 @@ import org.opencms.security.CmsPermissionSet;
 import org.opencms.util.CmsStringUtil;
 
 /**
- * The default upload folder handler.<p>
+ * The default upload folder handler.
+ *
+ * <p>
  */
 public class CmsRepositoryFolderHandler implements I_CmsRepositoryFolderHandler {
 
-    /**
-     * @see org.opencms.workplace.I_CmsRepositoryFolderHandler#getRepositoryFolder(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
-     */
-    public String getRepositoryFolder(CmsObject cms, String reference, String type) {
+  /**
+   * @see
+   *     org.opencms.workplace.I_CmsRepositoryFolderHandler#getRepositoryFolder(org.opencms.file.CmsObject,
+   *     java.lang.String, java.lang.String)
+   */
+  public String getRepositoryFolder(CmsObject cms, String reference, String type) {
 
-        String result = null;
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(reference)) {
-            try {
-                CmsProperty prop = cms.readPropertyObject(reference, "repositoryfolder_" + type, true);
-                // check if the resource exists, is a folder and the user has write permissions to it
-                if (!prop.isNullProperty()
-                    && cms.existsResource(prop.getValue(), CmsResourceFilter.ONLY_VISIBLE_NO_DELETED)) {
-                    CmsResource uploadFolder = cms.readResource(
-                        prop.getValue(),
-                        CmsResourceFilter.ONLY_VISIBLE_NO_DELETED);
-                    if (uploadFolder.isFolder()
-                        && cms.hasPermissions(
-                            uploadFolder,
-                            CmsPermissionSet.ACCESS_WRITE,
-                            false,
-                            CmsResourceFilter.ONLY_VISIBLE_NO_DELETED)) {
-                        result = cms.getSitePath(uploadFolder);
-                    }
-
-                }
-            } catch (CmsException e) {
-                // ignore
-            }
+    String result = null;
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(reference)) {
+      try {
+        CmsProperty prop = cms.readPropertyObject(reference, "repositoryfolder_" + type, true);
+        // check if the resource exists, is a folder and the user has write permissions to it
+        if (!prop.isNullProperty()
+            && cms.existsResource(prop.getValue(), CmsResourceFilter.ONLY_VISIBLE_NO_DELETED)) {
+          CmsResource uploadFolder =
+              cms.readResource(prop.getValue(), CmsResourceFilter.ONLY_VISIBLE_NO_DELETED);
+          if (uploadFolder.isFolder()
+              && cms.hasPermissions(
+                  uploadFolder,
+                  CmsPermissionSet.ACCESS_WRITE,
+                  false,
+                  CmsResourceFilter.ONLY_VISIBLE_NO_DELETED)) {
+            result = cms.getSitePath(uploadFolder);
+          }
         }
-        return result;
+      } catch (CmsException e) {
+        // ignore
+      }
     }
+    return result;
+  }
 }

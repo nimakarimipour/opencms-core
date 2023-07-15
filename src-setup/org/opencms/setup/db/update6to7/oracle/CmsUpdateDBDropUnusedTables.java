@@ -27,35 +27,36 @@
 
 package org.opencms.setup.db.update6to7.oracle;
 
+import java.io.IOException;
 import org.opencms.file.CmsResource;
 
-import java.io.IOException;
-
 /**
- * Oracle implementation to drop the unused tables from the database.<p>
+ * Oracle implementation to drop the unused tables from the database.
+ *
+ * <p>
  *
  * @since 7.0.0
  */
-public class CmsUpdateDBDropUnusedTables extends org.opencms.setup.db.update6to7.CmsUpdateDBDropUnusedTables {
+public class CmsUpdateDBDropUnusedTables
+    extends org.opencms.setup.db.update6to7.CmsUpdateDBDropUnusedTables {
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the sql queries properties file could not be read
-     */
-    public CmsUpdateDBDropUnusedTables()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the sql queries properties file could not be read
+   */
+  public CmsUpdateDBDropUnusedTables() throws IOException {
 
-        super();
-        // No need for further implementation
-    }
+    super();
+    // No need for further implementation
+  }
 
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation()
-     */
-    @Override
-    protected String getPropertyFileLocation() {
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation() */
+  @Override
+  protected String getPropertyFileLocation() {
 
-        return CmsResource.getParentFolder(super.getPropertyFileLocation());
-    }
+    return CmsResource.getParentFolder(super.getPropertyFileLocation());
+  }
 }

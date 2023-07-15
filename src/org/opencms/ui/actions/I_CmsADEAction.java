@@ -30,35 +30,45 @@ package org.opencms.ui.actions;
 import java.util.Map;
 
 /**
- * Interface for actions used within the ADE context.<p>
+ * Interface for actions used within the ADE context.
+ *
+ * <p>
  */
 public interface I_CmsADEAction {
 
-    /**
-     * Returns the client side command to execute.<p>
-     *
-     * @return the client side command
-     */
-    String getCommandClassName();
+  /**
+   * Returns the client side command to execute.
+   *
+   * <p>
+   *
+   * @return the client side command
+   */
+  String getCommandClassName();
 
-    /**
-     * Returns the optional dialog JSP.<p>
-     *
-     * @return the dialog JSP
-     */
-    String getJspPath();
+  /**
+   * Returns the optional dialog JSP.
+   *
+   * <p>
+   *
+   * @return the dialog JSP
+   */
+  String getJspPath();
 
-    /**
-     * Returns the optional command parameters.<p>
-     *
-     * @return the command parameters
-     */
-    Map<String, String> getParams();
+  /**
+   * Returns the optional command parameters.
+   *
+   * <p>
+   *
+   * @return the command parameters
+   */
+  Map<String, String> getParams();
 
-    /**
-     * Returns whether the ADE context is supported.<p>
-     *
-     * @return <code>true</code> in case the ADE context is supported
-     */
-    boolean isAdeSupported();
+  /**
+   * Returns whether the ADE context is supported.
+   *
+   * <p>
+   *
+   * @return <code>true</code> in case the ADE context is supported
+   */
+  boolean isAdeSupported();
 }

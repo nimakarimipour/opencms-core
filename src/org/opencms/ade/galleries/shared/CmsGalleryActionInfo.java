@@ -27,60 +27,54 @@
 
 package org.opencms.ade.galleries.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
-/**
- * Represents information about whether a gallery folder should use a custom upload action.
- */
+/** Represents information about whether a gallery folder should use a custom upload action. */
 public class CmsGalleryActionInfo implements IsSerializable {
 
-    /** The structure id of the folder. */
-    private CmsUUID m_structureId;
+  /** The structure id of the folder. */
+  private CmsUUID m_structureId;
 
-    /** The upload action. */
-    private String m_uploadAction;
+  /** The upload action. */
+  private String m_uploadAction;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param structureId the structure id of the folder
-     * @param uploadAction the upload action
-     */
-    public CmsGalleryActionInfo(CmsUUID structureId, String uploadAction) {
+  /**
+   * Creates a new instance.
+   *
+   * @param structureId the structure id of the folder
+   * @param uploadAction the upload action
+   */
+  public CmsGalleryActionInfo(CmsUUID structureId, String uploadAction) {
 
-        super();
-        m_structureId = structureId;
-        m_uploadAction = uploadAction;
-    }
+    super();
+    m_structureId = structureId;
+    m_uploadAction = uploadAction;
+  }
 
-    /**
-     * Default constructor for serialization.
-     */
-    protected CmsGalleryActionInfo() {
+  /** Default constructor for serialization. */
+  protected CmsGalleryActionInfo() {
 
-        // do nothing.
-    }
+    // do nothing.
+  }
 
-    /**
-     * Gets the structure id of the folder.
-     *
-     * @return the structure id
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Gets the structure id of the folder.
+   *
+   * @return the structure id
+   */
+  public CmsUUID getStructureId() {
 
-        return m_structureId;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * Gets the upload action (may be null).
-     *
-     * @return the upload action
-     */
-    public String getUploadAction() {
+  /**
+   * Gets the upload action (may be null).
+   *
+   * @return the upload action
+   */
+  public String getUploadAction() {
 
-        return m_uploadAction;
-    }
-
+    return m_uploadAction;
+  }
 }

@@ -34,46 +34,46 @@ import org.opencms.main.OpenCms;
 import org.opencms.notification.A_CmsNotification;
 
 /**
- * Notification used to send password change link to user.<p>
+ * Notification used to send password change link to user.
+ *
+ * <p>
  */
 public class CmsPasswordChangeNotification extends A_CmsNotification {
 
-    /** The link to change the password. */
-    private String m_link;
+  /** The link to change the password. */
+  private String m_link;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param cms the CMS context
-     * @param receiver the receiver
-     * @param link the link
-     * @param expiration the formatted link expiration date
-     */
-    public CmsPasswordChangeNotification(CmsObject cms, CmsUser receiver, String link, String expiration) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @param receiver the receiver
+   * @param link the link
+   * @param expiration the formatted link expiration date
+   */
+  public CmsPasswordChangeNotification(
+      CmsObject cms, CmsUser receiver, String link, String expiration) {
 
-        super(cms, receiver);
-        m_link = CmsEncoder.escapeXml(link);
-        addMacro("user", receiver.getName());
-        addMacro("expiration", expiration);
-    }
+    super(cms, receiver);
+    m_link = CmsEncoder.escapeXml(link);
+    addMacro("user", receiver.getName());
+    addMacro("expiration", expiration);
+  }
 
-    /**
-     * @see org.opencms.notification.A_CmsNotification#generateHtmlMsg()
-     */
-    @Override
-    protected String generateHtmlMsg() {
+  /** @see org.opencms.notification.A_CmsNotification#generateHtmlMsg() */
+  @Override
+  protected String generateHtmlMsg() {
 
-        return "<a href=\"" + m_link + "\">" + m_link + "</a>";
+    return "<a href=\"" + m_link + "\">" + m_link + "</a>";
+  }
 
-    }
+  /** @see org.opencms.notification.A_CmsNotification#getNotificationContent() */
+  @Override
+  protected String getNotificationContent() {
 
-    /**
-     * @see org.opencms.notification.A_CmsNotification#getNotificationContent()
-     */
-    @Override
-    protected String getNotificationContent() {
-
-        return OpenCms.getSystemInfo().getConfigFilePath(m_cms, "notification/password-change-notification");
-    }
-
+    return OpenCms.getSystemInfo()
+        .getConfigFilePath(m_cms, "notification/password-change-notification");
+  }
 }

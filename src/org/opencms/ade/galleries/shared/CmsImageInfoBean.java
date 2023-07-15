@@ -28,171 +28,200 @@
 package org.opencms.ade.galleries.shared;
 
 /**
- * Bean holding image info to be display in the resource preview dialog.<p>
+ * Bean holding image info to be display in the resource preview dialog.
+ *
+ * <p>
  *
  * @since 8.0.
  */
 public class CmsImageInfoBean extends CmsResourceInfoBean {
 
-    /** The image copyright information. */
-    private String m_copyright;
+  /** The image copyright information. */
+  private String m_copyright;
 
-    /** Focal point of the image (null if not set). */
-    private CmsPoint m_focalPoint;
+  /** Focal point of the image (null if not set). */
+  private CmsPoint m_focalPoint;
 
-    /** The structure id hash. */
-    private int m_hash;
+  /** The structure id hash. */
+  private int m_hash;
 
-    /** The image height. */
-    private int m_height;
+  /** The image height. */
+  private int m_height;
 
-    /** The selected image path (used for editor and widget mode). */
-    private String m_selectedPath;
+  /** The selected image path (used for editor and widget mode). */
+  private String m_selectedPath;
 
-    /** The view link for displaying the image. */
-    private String m_viewLink;
+  /** The view link for displaying the image. */
+  private String m_viewLink;
 
-    /** The image width. */
-    private int m_width;
+  /** The image width. */
+  private int m_width;
 
-    /**
-     * Returns the image copyright  information.<p>
-     *
-     * @return the image copyright information
-     */
-    public String getCopyright() {
+  /**
+   * Returns the image copyright information.
+   *
+   * <p>
+   *
+   * @return the image copyright information
+   */
+  public String getCopyright() {
 
-        return m_copyright;
-    }
+    return m_copyright;
+  }
 
-    /**
-     * Gets the focal point of the image (null if not set).<p>
-     *
-     * @return the focal point of the image
-     */
-    public CmsPoint getFocalPoint() {
+  /**
+   * Gets the focal point of the image (null if not set).
+   *
+   * <p>
+   *
+   * @return the focal point of the image
+   */
+  public CmsPoint getFocalPoint() {
 
-        return m_focalPoint;
-    }
+    return m_focalPoint;
+  }
 
-    /**
-     * Returns the structure id hash.<p>
-     *
-     * @return the hash
-     */
-    public int getHash() {
+  /**
+   * Returns the structure id hash.
+   *
+   * <p>
+   *
+   * @return the hash
+   */
+  public int getHash() {
 
-        return m_hash;
-    }
+    return m_hash;
+  }
 
-    /**
-     * Returns the height.<p>
-     *
-     * @return the height
-     */
-    public int getHeight() {
+  /**
+   * Returns the height.
+   *
+   * <p>
+   *
+   * @return the height
+   */
+  public int getHeight() {
 
-        return m_height;
-    }
+    return m_height;
+  }
 
-    /**
-     * Returns the selected path.<p>
-     *
-     * @return the selected path
-     */
-    public String getSelectedPath() {
+  /**
+   * Returns the selected path.
+   *
+   * <p>
+   *
+   * @return the selected path
+   */
+  public String getSelectedPath() {
 
-        return m_selectedPath;
-    }
+    return m_selectedPath;
+  }
 
-    /**
-     * The view link for displaying the image.<p>
-     *
-     * @return the link for displaying the image
-     */
-    public String getViewLink() {
+  /**
+   * The view link for displaying the image.
+   *
+   * <p>
+   *
+   * @return the link for displaying the image
+   */
+  public String getViewLink() {
 
-        return m_viewLink;
-    }
+    return m_viewLink;
+  }
 
-    /**
-     * Returns the width.<p>
-     *
-     * @return the width
-     */
-    public int getWidth() {
+  /**
+   * Returns the width.
+   *
+   * <p>
+   *
+   * @return the width
+   */
+  public int getWidth() {
 
-        return m_width;
-    }
+    return m_width;
+  }
 
-    /**
-     * Sets the image copyright information.<p>
-     *
-     * @param copyright the image copyright information to set
-     */
-    public void setCopyright(String copyright) {
+  /**
+   * Sets the image copyright information.
+   *
+   * <p>
+   *
+   * @param copyright the image copyright information to set
+   */
+  public void setCopyright(String copyright) {
 
-        m_copyright = copyright;
-    }
+    m_copyright = copyright;
+  }
 
-    /**
-     * Sets the focal point for the image.<p>
-     *
-     * @param imagePoint the focal point
-     */
-    public void setFocalPoint(CmsPoint imagePoint) {
+  /**
+   * Sets the focal point for the image.
+   *
+   * <p>
+   *
+   * @param imagePoint the focal point
+   */
+  public void setFocalPoint(CmsPoint imagePoint) {
 
-        m_focalPoint = imagePoint;
-    }
+    m_focalPoint = imagePoint;
+  }
 
-    /**
-     * Sets the hash.<p>
-     *
-     * @param hash the hash
-     */
-    public void setHash(int hash) {
+  /**
+   * Sets the hash.
+   *
+   * <p>
+   *
+   * @param hash the hash
+   */
+  public void setHash(int hash) {
 
-        m_hash = hash;
-    }
+    m_hash = hash;
+  }
 
-    /**
-     * Sets the height.<p>
-     *
-     * @param height the height to set
-     */
-    public void setHeight(int height) {
+  /**
+   * Sets the height.
+   *
+   * <p>
+   *
+   * @param height the height to set
+   */
+  public void setHeight(int height) {
 
-        m_height = height;
-    }
+    m_height = height;
+  }
 
-    /**
-     * Sets the selected path.<p>
-     *
-     * @param selectedPath the selected path to set
-     */
-    public void setSelectedPath(String selectedPath) {
+  /**
+   * Sets the selected path.
+   *
+   * <p>
+   *
+   * @param selectedPath the selected path to set
+   */
+  public void setSelectedPath(String selectedPath) {
 
-        m_selectedPath = selectedPath;
-    }
+    m_selectedPath = selectedPath;
+  }
 
-    /**
-     * Sets the link for displaying the image.<p>
-     *
-     * @param viewLink the link for displaying the image
-     */
-    public void setViewLink(String viewLink) {
+  /**
+   * Sets the link for displaying the image.
+   *
+   * <p>
+   *
+   * @param viewLink the link for displaying the image
+   */
+  public void setViewLink(String viewLink) {
 
-        m_viewLink = viewLink;
-    }
+    m_viewLink = viewLink;
+  }
 
-    /**
-     * Sets the width.<p>
-     *
-     * @param width the width to set
-     */
-    public void setWidth(int width) {
+  /**
+   * Sets the width.
+   *
+   * <p>
+   *
+   * @param width the width to set
+   */
+  public void setWidth(int width) {
 
-        m_width = width;
-    }
-
+    m_width = width;
+  }
 }

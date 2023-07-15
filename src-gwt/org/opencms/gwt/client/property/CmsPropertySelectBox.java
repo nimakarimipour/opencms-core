@@ -27,72 +27,76 @@
 
 package org.opencms.gwt.client.property;
 
+import java.util.Map;
 import org.opencms.gwt.client.Messages;
 import org.opencms.gwt.client.ui.input.CmsLabelSelectCell;
 import org.opencms.gwt.client.ui.input.CmsSelectBox;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.Map;
-
 /**
- * This is just a select box with some special text messages for use in the property dialog.<p>
+ * This is just a select box with some special text messages for use in the property dialog.
+ *
+ * <p>
  */
 public class CmsPropertySelectBox extends CmsSelectBox {
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param options the widget options
-     */
-    public CmsPropertySelectBox(Map<String, String> options) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param options the widget options
+   */
+  public CmsPropertySelectBox(Map<String, String> options) {
 
-        super(options, true);
-    }
+    super(options, true);
+  }
 
-    /**
-     * Initializes this class.<p>
-     */
-    public static void initClass() {
+  /**
+   * Initializes this class.
+   *
+   * <p>
+   */
+  public static void initClass() {
 
-        // do nothing, we just have to implement this method because the superclass inherits the I_CmsHasInit interface
-    }
+    // do nothing, we just have to implement this method because the superclass inherits the
+    // I_CmsHasInit interface
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.CmsSelectBox#updateCell(org.opencms.gwt.client.ui.input.CmsLabelSelectCell)
-     */
-    @Override
-    public void updateCell(CmsLabelSelectCell cell) {
+  /**
+   * @see
+   *     org.opencms.gwt.client.ui.input.CmsSelectBox#updateCell(org.opencms.gwt.client.ui.input.CmsLabelSelectCell)
+   */
+  @Override
+  public void updateCell(CmsLabelSelectCell cell) {
 
-        String value = cell.getValue();
-        if ("".equals(value)) {
-            if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_ghostValue)) {
-                String unselected = Messages.get().key(Messages.GUI_SELECTBOX_UNSELECTED_0);
-                cell.setText(unselected);
-                cell.setOpenerText(unselected);
-            } else {
-                CmsLabelSelectCell ghostCell = m_selectCells.get(m_ghostValue);
-                String ghostValueMessage = m_ghostValue;
-                if (ghostCell != null) {
-                    ghostValueMessage = ghostCell.getText();
-                }
-                String inheritMsg = Messages.get().key(Messages.GUI_SELECTBOX_INHERIT_1, ghostValueMessage);
-                cell.setText(inheritMsg);
-                cell.setOpenerText(ghostValueMessage);
-            }
+    String value = cell.getValue();
+    if ("".equals(value)) {
+      if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_ghostValue)) {
+        String unselected = Messages.get().key(Messages.GUI_SELECTBOX_UNSELECTED_0);
+        cell.setText(unselected);
+        cell.setOpenerText(unselected);
+      } else {
+        CmsLabelSelectCell ghostCell = m_selectCells.get(m_ghostValue);
+        String ghostValueMessage = m_ghostValue;
+        if (ghostCell != null) {
+          ghostValueMessage = ghostCell.getText();
         }
+        String inheritMsg = Messages.get().key(Messages.GUI_SELECTBOX_INHERIT_1, ghostValueMessage);
+        cell.setText(inheritMsg);
+        cell.setOpenerText(ghostValueMessage);
+      }
     }
+  }
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.CmsSelectBox#updateStyle()
-     */
-    @Override
-    public void updateStyle() {
+  /** @see org.opencms.gwt.client.ui.input.CmsSelectBox#updateStyle() */
+  @Override
+  public void updateStyle() {
 
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_selectedValue)) {
-            addStyleName(CSS.noSelectionSelectBox());
-        } else {
-            removeStyleName(CSS.noSelectionSelectBox());
-        }
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_selectedValue)) {
+      addStyleName(CSS.noSelectionSelectBox());
+    } else {
+      removeStyleName(CSS.noSelectionSelectBox());
     }
-
+  }
 }

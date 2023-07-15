@@ -36,10 +36,10 @@ import java.util.List;
  */
 public interface I_CmsUserDataDomainProvider {
 
-    /**
-     * Gets a list of user data domains.
-     * @return the user data domains
-     */
-    List<I_CmsUserDataDomain> getUserDataDomains();
-
+  /**
+   * Gets a list of user data domains.
+   *
+   * @return the user data domains
+   */
+  List<I_CmsUserDataDomain> getUserDataDomains();
 }

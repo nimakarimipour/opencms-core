@@ -27,88 +27,79 @@
 
 package org.opencms.db.mssql;
 
+import com.google.common.base.Joiner;
 import org.opencms.db.generic.CmsSqlManager;
 import org.opencms.db.generic.CmsUserQueryBuilder;
 
-import com.google.common.base.Joiner;
-
 /**
- * MS SQL implementation of the user driver methods.<p>
+ * MS SQL implementation of the user driver methods.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsUserDriver extends org.opencms.db.generic.CmsUserDriver {
 
-    /** Records whether this driver class has been instantiated. */
-    private static boolean m_isInstantiated;
+  /** Records whether this driver class has been instantiated. */
+  private static boolean m_isInstantiated;
 
-    /**
-     * Creates a new driver instance.<p>
-     */
-    public CmsUserDriver() {
+  /**
+   * Creates a new driver instance.
+   *
+   * <p>
+   */
+  public CmsUserDriver() {
 
-        m_isInstantiated = true;
-    }
+    m_isInstantiated = true;
+  }
 
-    /**
-     * Returns true if the user driver has been instantiated.<p>
-     *
-     * We use this to check whether the used database is MSSQL.
-     *
-     * TODO: Make lazy user lists work with MSSQL, too.
-     *
-     * @return true if the user driver has been instantiated
-     */
-    public static boolean isInstantiated() {
+  /**
+   * Returns true if the user driver has been instantiated.
+   *
+   * <p>We use this to check whether the used database is MSSQL.
+   *
+   * <p>TODO: Make lazy user lists work with MSSQL, too.
+   *
+   * @return true if the user driver has been instantiated
+   */
+  public static boolean isInstantiated() {
 
-        return m_isInstantiated;
-    }
+    return m_isInstantiated;
+  }
 
-    /**
-     * @see org.opencms.db.generic.CmsUserDriver#createUserQueryBuilder()
-     */
-    @Override
-    public CmsUserQueryBuilder createUserQueryBuilder() {
+  /** @see org.opencms.db.generic.CmsUserDriver#createUserQueryBuilder() */
+  @Override
+  public CmsUserQueryBuilder createUserQueryBuilder() {
 
-        return new CmsUserQueryBuilder() {
+    return new CmsUserQueryBuilder() {
 
-            /**
-             * @see org.opencms.db.generic.CmsUserQueryBuilder#generateConcat(java.lang.String[])
-             */
-            @Override
-            protected String generateConcat(String... expressions) {
+      /** @see org.opencms.db.generic.CmsUserQueryBuilder#generateConcat(java.lang.String[]) */
+      @Override
+      protected String generateConcat(String... expressions) {
 
-                return Joiner.on(" + ").join(expressions);
-            }
+        return Joiner.on(" + ").join(expressions);
+      }
 
-            /**
-             * @see org.opencms.db.generic.CmsUserQueryBuilder#generateTrim(java.lang.String)
-             */
-            @Override
-            protected String generateTrim(String expression) {
+      /** @see org.opencms.db.generic.CmsUserQueryBuilder#generateTrim(java.lang.String) */
+      @Override
+      protected String generateTrim(String expression) {
 
-                return "LTRIM(RTRIM(" + expression + "))";
-            }
+        return "LTRIM(RTRIM(" + expression + "))";
+      }
 
-            /**
-             * @see org.opencms.db.generic.CmsUserQueryBuilder#useWindowFunctionsForPaging()
-             */
-            @Override
-            protected boolean useWindowFunctionsForPaging() {
+      /** @see org.opencms.db.generic.CmsUserQueryBuilder#useWindowFunctionsForPaging() */
+      @Override
+      protected boolean useWindowFunctionsForPaging() {
 
-                return true;
-            }
-        };
+        return true;
+      }
+    };
+  }
 
-    }
+  /** @see org.opencms.db.I_CmsUserDriver#initSqlManager(String) */
+  @Override
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
 
-    /**
-     * @see org.opencms.db.I_CmsUserDriver#initSqlManager(String)
-     */
-    @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
-
-        return CmsSqlManager.getInstance(classname);
-    }
-
+    return CmsSqlManager.getInstance(classname);
+  }
 }

@@ -32,30 +32,35 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
- * Implements the close handler for the menu.<p>
+ * Implements the close handler for the menu.
+ *
+ * <p>
  *
  * @since version 8.0.0
  */
 public class CmsContextMenuCloseHandler implements CloseHandler<PopupPanel> {
 
-    /** The menu. */
-    private CmsContextMenu m_menu;
+  /** The menu. */
+  private CmsContextMenu m_menu;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param menu the menu
-     */
-    public CmsContextMenuCloseHandler(CmsContextMenu menu) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param menu the menu
+   */
+  public CmsContextMenuCloseHandler(CmsContextMenu menu) {
 
-        m_menu = menu;
-    }
+    m_menu = menu;
+  }
 
-    /**
-     * @see com.google.gwt.event.logical.shared.CloseHandler#onClose(com.google.gwt.event.logical.shared.CloseEvent)
-     */
-    public void onClose(CloseEvent<PopupPanel> event) {
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.CloseHandler#onClose(com.google.gwt.event.logical.shared.CloseEvent)
+   */
+  public void onClose(CloseEvent<PopupPanel> event) {
 
-        m_menu.onClose();
-    }
+    m_menu.onClose();
+  }
 }

@@ -30,24 +30,18 @@ package org.opencms.jsp.search.state;
 /** Class for handling the state of the "Did you mean?" search options. */
 public class CmsSearchStateDidYouMean implements I_CmsSearchStateDidYouMean {
 
-    /** The current query string (as given by the user). */
-    private String m_query = "";
+  /** The current query string (as given by the user). */
+  private String m_query = "";
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateDidYouMean#getQuery()
-     */
-    public String getQuery() {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateDidYouMean#getQuery() */
+  public String getQuery() {
 
-        return m_query;
-    }
+    return m_query;
+  }
 
-    /**
-     * @see org.opencms.jsp.search.state.I_CmsSearchStateDidYouMean#setQuery(java.lang.String)
-     */
-    public void setQuery(String query) {
+  /** @see org.opencms.jsp.search.state.I_CmsSearchStateDidYouMean#setQuery(java.lang.String) */
+  public void setQuery(String query) {
 
-        m_query = query;
-
-    }
-
+    m_query = query;
+  }
 }

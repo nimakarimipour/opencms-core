@@ -27,161 +27,165 @@
 
 package org.opencms.ade.configuration;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-
 /**
- * This class represents the property configuration for a sitemap region.<p>
+ * This class represents the property configuration for a sitemap region.
  *
- * (This is mostly a wrapper around CmsXmlContentProperty. We don't use that class directly because
- *  we may want to put server-specific logic in here, and CmsXmlContentProperty is used as a bean for
- *  RPC data transfer to the client.)
+ * <p>(This is mostly a wrapper around CmsXmlContentProperty. We don't use that class directly
+ * because we may want to put server-specific logic in here, and CmsXmlContentProperty is used as a
+ * bean for RPC data transfer to the client.)
  *
  * @author Georg Westenberger
- *
  * @version $Revision: 1.0 $
- *
  * @since 8.0.1
  */
 public class CmsPropertyConfig implements I_CmsConfigurationObject<CmsPropertyConfig>, Cloneable {
 
-    /** True if this property is disabled. */
-    private boolean m_disabled;
+  /** True if this property is disabled. */
+  private boolean m_disabled;
 
-    /** The order. **/
-    private int m_order;
+  /** The order. * */
+  private int m_order;
 
-    /** The internal property data. */
-    private CmsXmlContentProperty m_propData;
+  /** The internal property data. */
+  private CmsXmlContentProperty m_propData;
 
-    /** Is top property (should be displayed near the top of a property list). */
-    private boolean m_top;
+  /** Is top property (should be displayed near the top of a property list). */
+  private boolean m_top;
 
-    /**
-     * Creates a new propery configuration bean.<p>
-     *
-     * @param propData the property data
-     * @param disabled true if this property is disabled
-     */
-    public CmsPropertyConfig(CmsXmlContentProperty propData, boolean disabled) {
+  /**
+   * Creates a new propery configuration bean.
+   *
+   * <p>
+   *
+   * @param propData the property data
+   * @param disabled true if this property is disabled
+   */
+  public CmsPropertyConfig(CmsXmlContentProperty propData, boolean disabled) {
 
-        this(propData, disabled, I_CmsConfigurationObject.DEFAULT_ORDER);
+    this(propData, disabled, I_CmsConfigurationObject.DEFAULT_ORDER);
+  }
+
+  /**
+   * Creates a new property configuration bean.
+   *
+   * <p>
+   *
+   * @param propData the property data
+   * @param disabled true if this property is disabled
+   * @param order the number used for sorting the property configurations
+   */
+  public CmsPropertyConfig(CmsXmlContentProperty propData, boolean disabled, int order) {
+
+    m_propData = propData;
+    m_disabled = disabled;
+    m_order = order;
+  }
+
+  /** @see java.lang.Object#clone() */
+  @Override
+  public CmsPropertyConfig clone() {
+
+    try {
+      return (CmsPropertyConfig) (super.clone());
+    } catch (CloneNotSupportedException e) {
+      return null;
     }
+  }
 
-    /**
-     * Creates a new property configuration bean.<p>
-     *
-     * @param propData the property data
-     * @param disabled true if this property is disabled
-     * @param order the number used for sorting the property configurations
-     */
-    public CmsPropertyConfig(CmsXmlContentProperty propData, boolean disabled, int order) {
+  /**
+   * Creates a clone and sets the 'top' property in the clone.
+   *
+   * @param top the value for the top property in the clone
+   * @return the clone
+   */
+  public CmsPropertyConfig cloneWithTop(boolean top) {
 
-        m_propData = propData;
-        m_disabled = disabled;
-        m_order = order;
-    }
+    CmsPropertyConfig result = (this.clone());
+    result.m_top = top;
+    return result;
+  }
 
-    /**
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    public CmsPropertyConfig clone() {
+  /** @see org.opencms.ade.configuration.I_CmsConfigurationObject#getKey() */
+  public String getKey() {
 
-        try {
-            return (CmsPropertyConfig)(super.clone());
-        } catch (CloneNotSupportedException e) {
-            return null;
-        }
-    }
+    return getName();
+  }
 
-    /**
-     * Creates a clone and sets the 'top' property in the clone.
-     *
-     * @param top the value for the top property in the clone
-     *
-     * @return the clone
-     */
-    public CmsPropertyConfig cloneWithTop(boolean top) {
+  /**
+   * Gets the name of the property.
+   *
+   * <p>
+   *
+   * @return the name of the property
+   */
+  public String getName() {
 
-        CmsPropertyConfig result = (this.clone());
-        result.m_top = top;
-        return result;
-    }
+    return m_propData.getName();
+  }
 
-    /**
-     * @see org.opencms.ade.configuration.I_CmsConfigurationObject#getKey()
-     */
-    public String getKey() {
+  /**
+   * Gets the order.
+   *
+   * <p>
+   *
+   * @return the order
+   */
+  public int getOrder() {
 
-        return getName();
-    }
+    return m_order;
+  }
 
-    /**
-     * Gets the name of the property.<p>
-     *
-     * @return the name of the property
-     */
-    public String getName() {
+  /**
+   * Returns the property configuration data.
+   *
+   * <p>
+   *
+   * @return the property configuration data
+   */
+  public CmsXmlContentProperty getPropertyData() {
 
-        return m_propData.getName();
-    }
+    return m_propData;
+  }
 
-    /**
-     * Gets the order.<p>
-     *
-     * @return the order
-     */
-    public int getOrder() {
+  /**
+   * Returns true if the entry disables a property, rather than adding it.
+   *
+   * <p>
+   *
+   * @return true if the property should be disabled
+   */
+  public boolean isDisabled() {
 
-        return m_order;
-    }
+    return m_disabled;
+  }
 
-    /**
-     * Returns the property configuration data.<p>
-     *
-     * @return the property configuration data
-     */
-    public CmsXmlContentProperty getPropertyData() {
+  /**
+   * Returns true if this is a 'top property' which should be displayed near the top of a property
+   * list.
+   *
+   * @return true if this is a top property
+   */
+  public boolean isTop() {
 
-        return m_propData;
-    }
+    return m_top;
+  }
 
-    /**
-     * Returns true if the entry disables a property, rather than adding it.<p>
-     *
-     * @return true if the property should be disabled
-     */
-    public boolean isDisabled() {
+  /**
+   * @see
+   *     org.opencms.ade.configuration.I_CmsConfigurationObject#merge(org.opencms.ade.configuration.I_CmsConfigurationObject)
+   */
+  public CmsPropertyConfig merge(CmsPropertyConfig child) {
 
-        return m_disabled;
-    }
+    return child.cloneWithTop(m_top);
+  }
 
-    /**
-     * Returns true if this is a 'top property' which should be displayed near the top of a property list.
-     *
-     * @return true if this is a top property
-     */
-    public boolean isTop() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_top;
-    }
-
-    /**
-     * @see org.opencms.ade.configuration.I_CmsConfigurationObject#merge(org.opencms.ade.configuration.I_CmsConfigurationObject)
-     */
-    public CmsPropertyConfig merge(CmsPropertyConfig child) {
-
-        return child.cloneWithTop(m_top);
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-
-        return ReflectionToStringBuilder.toString(this);
-    }
+    return ReflectionToStringBuilder.toString(this);
+  }
 }

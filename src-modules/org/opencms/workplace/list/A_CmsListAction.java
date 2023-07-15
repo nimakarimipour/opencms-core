@@ -33,115 +33,113 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.tools.A_CmsHtmlIconButton;
 
 /**
- * The default skeleton for a list action.<p>
+ * The default skeleton for a list action.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public abstract class A_CmsListAction extends A_CmsHtmlIconButton implements I_CmsListAction {
 
-    /** Confirmation Message. */
-    private CmsMessageContainer m_confirmationMsg;
+  /** Confirmation Message. */
+  private CmsMessageContainer m_confirmationMsg;
 
-    /** The id of the associated list. */
-    private String m_listId;
+  /** The id of the associated list. */
+  private String m_listId;
 
-    /** The related workplace dialog object. */
-    private A_CmsListDialog m_wp;
+  /** The related workplace dialog object. */
+  private A_CmsListDialog m_wp;
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param id unique id
-     */
-    public A_CmsListAction(String id) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param id unique id
+   */
+  public A_CmsListAction(String id) {
 
-        super(id);
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(id)) {
-            throw new CmsIllegalArgumentException(Messages.get().container(Messages.ERR_LIST_INVALID_NULL_ARG_1, "id"));
-        }
-        setConfirmationMessage(null);
+    super(id);
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(id)) {
+      throw new CmsIllegalArgumentException(
+          Messages.get().container(Messages.ERR_LIST_INVALID_NULL_ARG_1, "id"));
     }
+    setConfirmationMessage(null);
+  }
 
-    /**
-     * Generates html for the confirmation message when having one confirmation message
-     * for several actions.<p>
-     *
-     * @param confId the id of the confirmation message
-     * @param confText the confirmation message
-     *
-     * @return html code
-     */
-    public static String defaultConfirmationHtml(String confId, String confText) {
+  /**
+   * Generates html for the confirmation message when having one confirmation message for several
+   * actions.
+   *
+   * <p>
+   *
+   * @param confId the id of the confirmation message
+   * @param confText the confirmation message
+   * @return html code
+   */
+  public static String defaultConfirmationHtml(String confId, String confText) {
 
-        StringBuffer html = new StringBuffer(1024);
-        html.append("<div class='hide' id='conf");
-        html.append(confId);
-        html.append("'>");
-        html.append(CmsStringUtil.isEmptyOrWhitespaceOnly(confText) ? "null" : confText);
-        html.append("</div>\n");
-        return html.toString();
+    StringBuffer html = new StringBuffer(1024);
+    html.append("<div class='hide' id='conf");
+    html.append(confId);
+    html.append("'>");
+    html.append(CmsStringUtil.isEmptyOrWhitespaceOnly(confText) ? "null" : confText);
+    html.append("</div>\n");
+    return html.toString();
+  }
+
+  /** @see org.opencms.workplace.list.I_CmsListAction#buttonHtml() */
+  public String buttonHtml() {
+
+    return buttonHtml(getWp());
+  }
+
+  /** @see org.opencms.workplace.list.I_CmsListAction#getConfirmationMessage() */
+  public CmsMessageContainer getConfirmationMessage() {
+
+    return m_confirmationMsg;
+  }
+
+  /** @see org.opencms.workplace.list.I_CmsListAction#getListId() */
+  public String getListId() {
+
+    return m_listId;
+  }
+
+  /** @see org.opencms.workplace.list.I_CmsListAction#getWp() */
+  public A_CmsListDialog getWp() {
+
+    return m_wp;
+  }
+
+  /**
+   * @see
+   *     org.opencms.workplace.list.I_CmsListAction#setConfirmationMessage(org.opencms.i18n.CmsMessageContainer)
+   */
+  public void setConfirmationMessage(CmsMessageContainer confirmationMsg) {
+
+    if (confirmationMsg == null) {
+      confirmationMsg = EMPTY_MESSAGE;
     }
+    m_confirmationMsg = confirmationMsg;
+  }
 
-    /**
-     * @see org.opencms.workplace.list.I_CmsListAction#buttonHtml()
-     */
-    public String buttonHtml() {
+  /** @see org.opencms.workplace.list.I_CmsListAction#setListId(java.lang.String) */
+  public void setListId(String listId) {
 
-        return buttonHtml(getWp());
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(listId)) {
+      throw new CmsIllegalArgumentException(
+          Messages.get().container(Messages.ERR_LIST_INVALID_NULL_ARG_1, "listId"));
     }
+    m_listId = listId;
+  }
 
-    /**
-     * @see org.opencms.workplace.list.I_CmsListAction#getConfirmationMessage()
-     */
-    public CmsMessageContainer getConfirmationMessage() {
+  /**
+   * @see
+   *     org.opencms.workplace.list.I_CmsListAction#setWp(org.opencms.workplace.list.A_CmsListDialog)
+   */
+  public void setWp(A_CmsListDialog wp) {
 
-        return m_confirmationMsg;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.I_CmsListAction#getListId()
-     */
-    public String getListId() {
-
-        return m_listId;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.I_CmsListAction#getWp()
-     */
-    public A_CmsListDialog getWp() {
-
-        return m_wp;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.I_CmsListAction#setConfirmationMessage(org.opencms.i18n.CmsMessageContainer)
-     */
-    public void setConfirmationMessage(CmsMessageContainer confirmationMsg) {
-
-        if (confirmationMsg == null) {
-            confirmationMsg = EMPTY_MESSAGE;
-        }
-        m_confirmationMsg = confirmationMsg;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.I_CmsListAction#setListId(java.lang.String)
-     */
-    public void setListId(String listId) {
-
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(listId)) {
-            throw new CmsIllegalArgumentException(
-                Messages.get().container(Messages.ERR_LIST_INVALID_NULL_ARG_1, "listId"));
-        }
-        m_listId = listId;
-    }
-
-    /**
-     * @see org.opencms.workplace.list.I_CmsListAction#setWp(org.opencms.workplace.list.A_CmsListDialog)
-     */
-    public void setWp(A_CmsListDialog wp) {
-
-        m_wp = wp;
-    }
+    m_wp = wp;
+  }
 }

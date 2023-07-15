@@ -29,42 +29,37 @@ package org.opencms.ade.upload.client.lists;
 
 import org.opencms.gwt.client.Messages;
 
-/**
- * Class with static accessor methods for text messages.
- */
+/** Class with static accessor methods for text messages. */
 public class CmsUploadMessages {
 
-    /**
-     * Message text accessor.
-     *
-     * @return the message text
-     */
-    public static String dialogTitle() {
+  /**
+   * Message text accessor.
+   *
+   * @return the message text
+   */
+  public static String dialogTitle() {
 
-        return Messages.get().key(Messages.GUI_BINARY_UPLOAD_DIALOG_TITLE_0);
-    }
+    return Messages.get().key(Messages.GUI_BINARY_UPLOAD_DIALOG_TITLE_0);
+  }
 
-    /**
-     * Message text accessor.
-     *
-     * @param folder the folder path
-     *
-     * @return the message text
-     */
-    public static String innerText(String folder) {
+  /**
+   * Message text accessor.
+   *
+   * @param folder the folder path
+   * @return the message text
+   */
+  public static String innerText(String folder) {
 
-        return Messages.get().key(Messages.GUI_BINARY_UPLOAD_DIALOG_CONTENT_0, folder);
-    }
+    return Messages.get().key(Messages.GUI_BINARY_UPLOAD_DIALOG_CONTENT_0, folder);
+  }
 
-    /**
-     * Message text accessor.
-     *
-     * @return the message text
-     */
-    public static String upload() {
+  /**
+   * Message text accessor.
+   *
+   * @return the message text
+   */
+  public static String upload() {
 
-        return Messages.get().key(Messages.GUI_OK_0);
-
-    }
-
+    return Messages.get().key(Messages.GUI_OK_0);
+  }
 }

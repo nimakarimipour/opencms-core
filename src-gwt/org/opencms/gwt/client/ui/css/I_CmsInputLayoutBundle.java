@@ -27,36 +27,41 @@
 
 package org.opencms.gwt.client.ui.css;
 
-import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsButtonCss;
-import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsFieldsetCss;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource.Import;
+import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsButtonCss;
+import org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsFieldsetCss;
 
 /**
- * Layout bundle.<p>
+ * Layout bundle.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsInputLayoutBundle extends ClientBundle {
 
-    /** The bundle instance. */
-    I_CmsInputLayoutBundle INSTANCE = GWT.create(I_CmsInputLayoutBundle.class);
+  /** The bundle instance. */
+  I_CmsInputLayoutBundle INSTANCE = GWT.create(I_CmsInputLayoutBundle.class);
 
-    /**
-     * The CSS constants bundle.<p>
-     *
-     * @return a bundle of CSS constants
-     */
-    I_CmsConstantsBundle constants();
+  /**
+   * The CSS constants bundle.
+   *
+   * <p>
+   *
+   * @return a bundle of CSS constants
+   */
+  I_CmsConstantsBundle constants();
 
-    /**
-     * Accessor for css resource.<p>
-     *
-     * @return the css resource
-     */
-    @Source("input.gss")
-    @Import(value = {I_CmsFieldsetCss.class, I_CmsPropertiesCss.class, I_CmsButtonCss.class})
-    I_CmsInputCss inputCss();
+  /**
+   * Accessor for css resource.
+   *
+   * <p>
+   *
+   * @return the css resource
+   */
+  @Source("input.gss")
+  @Import(value = {I_CmsFieldsetCss.class, I_CmsPropertiesCss.class, I_CmsButtonCss.class})
+  I_CmsInputCss inputCss();
 }

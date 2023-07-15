@@ -28,51 +28,57 @@
 package org.opencms.ugc.shared;
 
 /**
- * Shared constants used by the client- and server-side components of the form editing module.<p>
+ * Shared constants used by the client- and server-side components of the form editing module.
+ *
+ * <p>
  */
 public class CmsUgcConstants {
 
-    /** Enum representing the different types of errors. The string values of these enum values are intended for use in JavaScript error handling functions. */
-    public enum ErrorCode {
-        /** Invalid action error. */
-        errInvalidAction,
+  /**
+   * Enum representing the different types of errors. The string values of these enum values are
+   * intended for use in JavaScript error handling functions.
+   */
+  public enum ErrorCode {
+    /** Invalid action error. */
+    errInvalidAction,
 
-        /** Configuration error. */
-        errConfiguration,
+    /** Configuration error. */
+    errConfiguration,
 
-        /** Error when trying to upload a file and uploads are not allowed. */
-        errNoUploadAllowed,
+    /** Error when trying to upload a file and uploads are not allowed. */
+    errNoUploadAllowed,
 
-        /** Error when the  maximum number of contents in the content directory is reached. */
-        errMaxContentsExceeded,
+    /** Error when the maximum number of contents in the content directory is reached. */
+    errMaxContentsExceeded,
 
-        /** Error when the maximum number of entries in the form session request queue is reached. */
-        errMaxQueueLengthExceeded,
+    /** Error when the maximum number of entries in the form session request queue is reached. */
+    errMaxQueueLengthExceeded,
 
-        /** Error when user tries to upload a file with a file extension which is not among the configured file extensions. */
-        errInvalidExtension,
+    /**
+     * Error when user tries to upload a file with a file extension which is not among the
+     * configured file extensions.
+     */
+    errInvalidExtension,
 
-        /** Validation error. */
-        errValidation,
+    /** Validation error. */
+    errValidation,
 
-        /** Miscellaneous other errors. */
-        errMisc,
+    /** Miscellaneous other errors. */
+    errMisc,
 
-        /** Error when uploaded files exceed the configured maximum upload size. */
-        errMaxUploadSizeExceeded;
+    /** Error when uploaded files exceed the configured maximum upload size. */
+    errMaxUploadSizeExceeded;
+  }
 
-    }
+  /** The request parameter used for identifying form submits. */
+  public static final String PARAM_FORM_DATA_ID = "formDataId";
 
-    /** The request parameter used for identifying form submits. */
-    public static final String PARAM_FORM_DATA_ID = "formDataId";
+  /** Name of the parameter containing the session id. */
+  public static final String PARAM_SESSION_ID = "formSessionId";
 
-    /** Name of the parameter containing the session id. */
-    public static final String PARAM_SESSION_ID = "formSessionId";
+  /** Javascript attribute name. */
+  public static final String JS_ATTR_ERROR = "error";
 
-    /** Javascript attribute name. */
-    public static final String JS_ATTR_ERROR = "error";
-
-    /** JavaScript attribute name. */
-    public static final String JS_ATTR_VALIDATION_ERRORS = "validationErrors";
-
+  /** JavaScript attribute name. */
+  public static final String JS_ATTR_VALIDATION_ERRORS = "validationErrors";
 }

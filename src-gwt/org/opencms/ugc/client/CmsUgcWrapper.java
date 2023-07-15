@@ -27,16 +27,6 @@
 
 package org.opencms.ugc.client;
 
-import org.opencms.ugc.client.export.CmsClientUgcSession;
-import org.opencms.ugc.client.export.CmsXmlContentUgcApi;
-import org.opencms.ugc.client.export.I_CmsErrorCallback;
-import org.opencms.ugc.shared.CmsUgcConstants;
-import org.opencms.util.CmsUUID;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gwt.dom.client.Element;
@@ -46,159 +36,186 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FormPanel;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.opencms.ugc.client.export.CmsClientUgcSession;
+import org.opencms.ugc.client.export.CmsXmlContentUgcApi;
+import org.opencms.ugc.client.export.I_CmsErrorCallback;
+import org.opencms.ugc.shared.CmsUgcConstants;
+import org.opencms.util.CmsUUID;
 
 /**
- * Widget used to wrap and manage the state of forms for which the form editing API is used.<p>
+ * Widget used to wrap and manage the state of forms for which the form editing API is used.
+ *
+ * <p>
  */
 public class CmsUgcWrapper extends FormPanel {
 
-    /** The client form session. */
-    private CmsClientUgcSession m_formSession;
+  /** The client form session. */
+  private CmsClientUgcSession m_formSession;
 
-    /**
-     * Wraps an existing form element with this widget.<p>
-     *
-     * @param element the form element to wrap
-     * @param formSessionId the form session  id
-     */
-    public CmsUgcWrapper(Element element, String formSessionId) {
+  /**
+   * Wraps an existing form element with this widget.
+   *
+   * <p>
+   *
+   * @param element the form element to wrap
+   * @param formSessionId the form session id
+   */
+  public CmsUgcWrapper(Element element, String formSessionId) {
 
-        super(element, true);
-        setEncoding(FormPanel.ENCODING_MULTIPART);
-        onAttach();
-    }
+    super(element, true);
+    setEncoding(FormPanel.ENCODING_MULTIPART);
+    onAttach();
+  }
 
-    /**
-     * Checks if a form field is a file input field.<p>
-     *
-     * @param elem the form field to check
-     * @return true if the given field is a file input field
-     */
-    public static boolean isFileField(InputElement elem) {
+  /**
+   * Checks if a form field is a file input field.
+   *
+   * <p>
+   *
+   * @param elem the form field to check
+   * @return true if the given field is a file input field
+   */
+  public static boolean isFileField(InputElement elem) {
 
-        return "file".equalsIgnoreCase(elem.getType());
-    }
+    return "file".equalsIgnoreCase(elem.getType());
+  }
 
-    /**
-     * Sets the form session.<p>
-     *
-     * @param session the form session
-     */
-    public void setFormSession(CmsClientUgcSession session) {
+  /**
+   * Sets the form session.
+   *
+   * <p>
+   *
+   * @param session the form session
+   */
+  public void setFormSession(CmsClientUgcSession session) {
 
-        m_formSession = session;
-    }
+    m_formSession = session;
+  }
 
-    /**
-     * Uploads files from the given file input fields.<p<
-     *
-     * @param fields the set of names of fields containing the files to upload
-     * @param filenameCallback the callback to call with the resulting map from field names to file paths
-     * @param errorCallback the callback to call with an error message
-     */
-    public void uploadFields(
-        final Set<String> fields,
-        final Function<Map<String, String>, Void> filenameCallback,
-        final I_CmsErrorCallback errorCallback) {
+  /**
+   * Uploads files from the given file input fields.<p<
+   *
+   * @param fields the set of names of fields containing the files to upload
+   * @param filenameCallback the callback to call with the resulting map from field names to file
+   *     paths
+   * @param errorCallback the callback to call with an error message
+   */
+  public void uploadFields(
+      final Set<String> fields,
+      final Function<Map<String, String>, Void> filenameCallback,
+      final I_CmsErrorCallback errorCallback) {
 
-        disableAllFileFieldsExcept(fields);
-        final String id = CmsJsUtils.generateRandomId();
-        updateFormAction(id);
-        // Using an array here because we can only store the handler registration after it has been created , but
-        final HandlerRegistration[] registration = {null};
-        registration[0] = addSubmitCompleteHandler(new SubmitCompleteHandler() {
+    disableAllFileFieldsExcept(fields);
+    final String id = CmsJsUtils.generateRandomId();
+    updateFormAction(id);
+    // Using an array here because we can only store the handler registration after it has been
+    // created , but
+    final HandlerRegistration[] registration = {null};
+    registration[0] =
+        addSubmitCompleteHandler(
+            new SubmitCompleteHandler() {
 
-            @SuppressWarnings("synthetic-access")
-            public void onSubmitComplete(SubmitCompleteEvent event) {
+              @SuppressWarnings("synthetic-access")
+              public void onSubmitComplete(SubmitCompleteEvent event) {
 
                 enableAllFileFields();
                 registration[0].removeHandler();
                 CmsUUID sessionId = m_formSession.internalGetSessionId();
-                RequestBuilder requestBuilder = CmsXmlContentUgcApi.SERVICE.uploadFiles(
-                    sessionId,
-                    fields,
-                    id,
-                    new AsyncCallback<Map<String, String>>() {
+                RequestBuilder requestBuilder =
+                    CmsXmlContentUgcApi.SERVICE.uploadFiles(
+                        sessionId,
+                        fields,
+                        id,
+                        new AsyncCallback<Map<String, String>>() {
 
-                    public void onFailure(Throwable caught) {
+                          public void onFailure(Throwable caught) {
 
-                        m_formSession.getContentFormApi().handleError(caught, errorCallback);
+                            m_formSession.getContentFormApi().handleError(caught, errorCallback);
+                          }
 
-                    }
+                          public void onSuccess(Map<String, String> fileNames) {
 
-                    public void onSuccess(Map<String, String> fileNames) {
-
-                        filenameCallback.apply(fileNames);
-
-                    }
-                });
+                            filenameCallback.apply(fileNames);
+                          }
+                        });
                 m_formSession.getContentFormApi().getRpcHelper().executeRpc(requestBuilder);
                 m_formSession.getContentFormApi().getRequestCounter().decrement();
-            }
-        });
-        m_formSession.getContentFormApi().getRequestCounter().increment();
-        submit();
+              }
+            });
+    m_formSession.getContentFormApi().getRequestCounter().increment();
+    submit();
+  }
+
+  /**
+   * Disables all file input fields except the one with the given name.
+   *
+   * <p>
+   *
+   * @param fieldNames the set of names of fields that should not be disabled
+   */
+  void disableAllFileFieldsExcept(Set<String> fieldNames) {
+
+    for (InputElement field : getAllFields()) {
+      if (isFileField(field)) {
+        boolean shouldDisable = !fieldNames.contains(field.getName());
+        field.setDisabled(shouldDisable);
+      }
     }
+  }
 
-    /**
-     * Disables all file input fields except the one with the given name.<p>
-     *
-     * @param fieldNames the set of names of fields that should not be disabled
-     */
-    void disableAllFileFieldsExcept(Set<String> fieldNames) {
+  /**
+   * Enables all file input fields.
+   *
+   * <p>
+   */
+  void enableAllFileFields() {
 
-        for (InputElement field : getAllFields()) {
-            if (isFileField(field)) {
-                boolean shouldDisable = !fieldNames.contains(field.getName());
-                field.setDisabled(shouldDisable);
-            }
-        }
+    for (InputElement field : getAllFields()) {
+      if (isFileField(field)) {
+        field.setDisabled(false);
+      }
     }
+  }
 
-    /**
-     * Enables all file input fields.<p>
-     */
-    void enableAllFileFields() {
+  /**
+   * Gets all form fields.
+   *
+   * <p>
+   *
+   * @return the list of form fields
+   */
+  List<InputElement> getAllFields() {
 
-        for (InputElement field : getAllFields()) {
-            if (isFileField(field)) {
-                field.setDisabled(false);
-            }
-        }
+    NodeList<Element> fields = getElement().getElementsByTagName(InputElement.TAG);
+    List<InputElement> result = Lists.newArrayList();
+    for (int i = 0; i < fields.getLength(); i++) {
+      InputElement field = InputElement.as(fields.getItem(i));
+      result.add(field);
     }
+    return result;
+  }
 
-    /**
-     * Gets all form fields.<p>
-     *
-     * @return the list of form fields
-     */
-    List<InputElement> getAllFields() {
+  /**
+   * Updates the form's action attribute.
+   *
+   * <p>
+   *
+   * @param id the current form data id
+   */
+  private void updateFormAction(String id) {
 
-        NodeList<Element> fields = getElement().getElementsByTagName(InputElement.TAG);
-        List<InputElement> result = Lists.newArrayList();
-        for (int i = 0; i < fields.getLength(); i++) {
-            InputElement field = InputElement.as(fields.getItem(i));
-            result.add(field);
-        }
-        return result;
-    }
-
-    /**
-     * Updates the form's action attribute.<p>
-     *
-     * @param id the current form data id
-     */
-    private void updateFormAction(String id) {
-
-        setAction(
-            CmsXmlContentUgcApi.SERVICE_URL
-                + "?"
-                + CmsUgcConstants.PARAM_FORM_DATA_ID
-                + "="
-                + id
-                + "&"
-                + CmsUgcConstants.PARAM_SESSION_ID
-                + "="
-                + m_formSession.getSessionId());
-    }
+    setAction(
+        CmsXmlContentUgcApi.SERVICE_URL
+            + "?"
+            + CmsUgcConstants.PARAM_FORM_DATA_ID
+            + "="
+            + id
+            + "&"
+            + CmsUgcConstants.PARAM_SESSION_ID
+            + "="
+            + m_formSession.getSessionId());
+  }
 }

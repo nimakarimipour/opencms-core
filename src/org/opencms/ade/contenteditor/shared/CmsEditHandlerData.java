@@ -27,90 +27,103 @@
 
 package org.opencms.ade.contenteditor.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Data which needs to be passed to the edit handler when using the 'new' button for an editable list element.<p>
+ * Data which needs to be passed to the edit handler when using the 'new' button for an editable
+ * list element.
+ *
+ * <p>
  */
 public class CmsEditHandlerData implements IsSerializable {
 
-    /** The client id of the editable element. */
-    private String m_clientId;
+  /** The client id of the editable element. */
+  private String m_clientId;
 
-    /** The option chosen by the user. */
-    private String m_option;
+  /** The option chosen by the user. */
+  private String m_option;
 
-    /** The container page's structure id. */
-    private CmsUUID m_pageContextId;
+  /** The container page's structure id. */
+  private CmsUUID m_pageContextId;
 
-    /** The string containing the request parameters. */
-    private String m_requestParams;
+  /** The string containing the request parameters. */
+  private String m_requestParams;
 
-    /**
-     * Default constructor for serialization.<p>
-     */
-    public CmsEditHandlerData() {
+  /**
+   * Default constructor for serialization.
+   *
+   * <p>
+   */
+  public CmsEditHandlerData() {
 
-        // hidden default constructor for serialization
-    }
+    // hidden default constructor for serialization
+  }
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param clientId the client id of the editable element
-     * @param option the option chosen by the user
-     * @param pageContextId the structure id of the container page
-     * @param requestParams the string containing the request parameters
-     */
-    public CmsEditHandlerData(String clientId, String option, CmsUUID pageContextId, String requestParams) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param clientId the client id of the editable element
+   * @param option the option chosen by the user
+   * @param pageContextId the structure id of the container page
+   * @param requestParams the string containing the request parameters
+   */
+  public CmsEditHandlerData(
+      String clientId, String option, CmsUUID pageContextId, String requestParams) {
 
-        m_clientId = clientId;
-        m_option = option;
-        m_pageContextId = pageContextId;
-        m_requestParams = requestParams;
+    m_clientId = clientId;
+    m_option = option;
+    m_pageContextId = pageContextId;
+    m_requestParams = requestParams;
+  }
 
-    }
+  /**
+   * Gets the client id of the element.
+   *
+   * <p>
+   *
+   * @return the client id of the element
+   */
+  public String getClientId() {
 
-    /**
-     * Gets the client id of the element.<p>
-     *
-     * @return the client id of the element
-     */
-    public String getClientId() {
+    return m_clientId;
+  }
 
-        return m_clientId;
-    }
+  /**
+   * Gets the option chosen by the user.
+   *
+   * <p>
+   *
+   * @return the option chosen by the user
+   */
+  public String getOption() {
 
-    /**
-     * Gets the option chosen by the user.<p>
-     *
-     * @return the option chosen by the user
-     */
-    public String getOption() {
+    return m_option;
+  }
 
-        return m_option;
-    }
+  /**
+   * Gets the container page's structure id.
+   *
+   * <p>
+   *
+   * @return the container page's structure id
+   */
+  public CmsUUID getPageContextId() {
 
-    /**
-     * Gets the container page's structure id.<p>
-     *
-     * @return the container page's structure id
-     */
-    public CmsUUID getPageContextId() {
+    return m_pageContextId;
+  }
 
-        return m_pageContextId;
-    }
+  /**
+   * Gets the string containing the request parameters from the URL.
+   *
+   * <p>
+   *
+   * @return the string with the request parameters from the URL
+   */
+  public String getRequestParams() {
 
-    /**
-     * Gets the string containing the request parameters from the URL.<p>
-     *
-     * @return the string with the request parameters from the URL
-     */
-    public String getRequestParams() {
-
-        return m_requestParams;
-    }
-
+    return m_requestParams;
+  }
 }

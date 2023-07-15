@@ -28,54 +28,63 @@
 package org.opencms.gwt.shared;
 
 /**
- * Provides information about an external link.<p>
+ * Provides information about an external link.
+ *
+ * <p>
  */
 public class CmsExternalLinkInfoBean extends CmsListInfoBean {
 
-    /** The link. */
-    private String m_link;
+  /** The link. */
+  private String m_link;
 
-    /** The resource site path. */
-    private String m_sitePath;
+  /** The resource site path. */
+  private String m_sitePath;
 
-    /**
-     * Returns the link.<p>
-     *
-     * @return the link
-     */
-    public String getLink() {
+  /**
+   * Returns the link.
+   *
+   * <p>
+   *
+   * @return the link
+   */
+  public String getLink() {
 
-        return m_link;
-    }
+    return m_link;
+  }
 
-    /**
-     * Returns the site path.<p>
-     *
-     * @return the site path
-     */
-    public String getSitePath() {
+  /**
+   * Returns the site path.
+   *
+   * <p>
+   *
+   * @return the site path
+   */
+  public String getSitePath() {
 
-        return m_sitePath;
-    }
+    return m_sitePath;
+  }
 
-    /**
-     * Sets the link.<p>
-     *
-     * @param link the link to set
-     */
-    public void setLink(String link) {
+  /**
+   * Sets the link.
+   *
+   * <p>
+   *
+   * @param link the link to set
+   */
+  public void setLink(String link) {
 
-        m_link = link;
-    }
+    m_link = link;
+  }
 
-    /**
-     * Sets the site path.<p>
-     *
-     * @param sitePath the site path to set
-     */
-    public void setSitePath(String sitePath) {
+  /**
+   * Sets the site path.
+   *
+   * <p>
+   *
+   * @param sitePath the site path to set
+   */
+  public void setSitePath(String sitePath) {
 
-        m_sitePath = sitePath;
-    }
-
+    m_sitePath = sitePath;
+  }
 }

@@ -27,116 +27,108 @@
 
 package org.opencms.widgets;
 
+import java.util.List;
+import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.i18n.CmsMessages;
 import org.opencms.xml.content.I_CmsXmlContentHandler.DisplayType;
 import org.opencms.xml.types.A_CmsXmlContentValue;
 
-import java.util.List;
-import java.util.Locale;
-
 /**
- * Provides a serial date widget, for use on a widget dialog.<p>
+ * Provides a serial date widget, for use on a widget dialog.
+ *
+ * <p>
  *
  * @author Daniel Seidel
- *
  * @version $Revision: 1.0 $
- *
  * @since 11.0.0
  */
 public class CmsSerialDateWidget extends A_CmsWidget implements I_CmsADEWidget {
 
-    /**
-     * Creates a new calendar widget.<p>
-     */
-    public CmsSerialDateWidget() {
+  /**
+   * Creates a new calendar widget.
+   *
+   * <p>
+   */
+  public CmsSerialDateWidget() {
 
-        // empty constructor is required for class registration
-        super();
-    }
+    // empty constructor is required for class registration
+    super();
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getConfiguration(org.opencms.file.CmsObject, org.opencms.xml.types.A_CmsXmlContentValue, org.opencms.i18n.CmsMessages, org.opencms.file.CmsResource, java.util.Locale)
-     */
-    public String getConfiguration(
-        CmsObject cms,
-        A_CmsXmlContentValue contentValue,
-        CmsMessages messages,
-        CmsResource resource,
-        Locale contentLocale) {
+  /**
+   * @see org.opencms.widgets.I_CmsADEWidget#getConfiguration(org.opencms.file.CmsObject,
+   *     org.opencms.xml.types.A_CmsXmlContentValue, org.opencms.i18n.CmsMessages,
+   *     org.opencms.file.CmsResource, java.util.Locale)
+   */
+  public String getConfiguration(
+      CmsObject cms,
+      A_CmsXmlContentValue contentValue,
+      CmsMessages messages,
+      CmsResource resource,
+      Locale contentLocale) {
 
-        return "";
-    }
+    return "";
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getCssResourceLinks(org.opencms.file.CmsObject)
-     */
-    public List<String> getCssResourceLinks(CmsObject cms) {
+  /** @see org.opencms.widgets.I_CmsADEWidget#getCssResourceLinks(org.opencms.file.CmsObject) */
+  public List<String> getCssResourceLinks(CmsObject cms) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getDefaultDisplayType()
-     */
-    public DisplayType getDefaultDisplayType() {
+  /** @see org.opencms.widgets.I_CmsADEWidget#getDefaultDisplayType() */
+  public DisplayType getDefaultDisplayType() {
 
-        return DisplayType.singleline;
-    }
+    return DisplayType.singleline;
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsWidget#getDialogWidget(org.opencms.file.CmsObject, org.opencms.widgets.I_CmsWidgetDialog, org.opencms.widgets.I_CmsWidgetParameter)
-     */
-    @Override
-    public String getDialogWidget(CmsObject cms, I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
+  /**
+   * @see org.opencms.widgets.I_CmsWidget#getDialogWidget(org.opencms.file.CmsObject,
+   *     org.opencms.widgets.I_CmsWidgetDialog, org.opencms.widgets.I_CmsWidgetParameter)
+   */
+  @Override
+  public String getDialogWidget(
+      CmsObject cms, I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getInitCall()
-     */
-    @Override
-    public String getInitCall() {
+  /** @see org.opencms.widgets.I_CmsADEWidget#getInitCall() */
+  @Override
+  public String getInitCall() {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getJavaScriptResourceLinks(org.opencms.file.CmsObject)
-     */
-    @Override
-    public List<String> getJavaScriptResourceLinks(CmsObject cms) {
+  /**
+   * @see org.opencms.widgets.I_CmsADEWidget#getJavaScriptResourceLinks(org.opencms.file.CmsObject)
+   */
+  @Override
+  public List<String> getJavaScriptResourceLinks(CmsObject cms) {
 
-        return null;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
-     */
-    @Override
-    public String getWidgetName() {
+  /** @see org.opencms.widgets.I_CmsADEWidget#getWidgetName() */
+  @Override
+  public String getWidgetName() {
 
-        return CmsSerialDateWidget.class.getName();
-    }
+    return CmsSerialDateWidget.class.getName();
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsADEWidget#isInternal()
-     */
-    @Override
-    public boolean isInternal() {
+  /** @see org.opencms.widgets.I_CmsADEWidget#isInternal() */
+  @Override
+  public boolean isInternal() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.widgets.I_CmsWidget#newInstance()
-     */
-    @Override
-    public I_CmsWidget newInstance() {
+  /** @see org.opencms.widgets.I_CmsWidget#newInstance() */
+  @Override
+  public I_CmsWidget newInstance() {
 
-        return new CmsSerialDateWidget();
-    }
-
+    return new CmsSerialDateWidget();
+  }
 }

@@ -31,60 +31,74 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Annotation used to mark up bean properties with metadata for table columns.<p>
+ * Annotation used to mark up bean properties with metadata for table columns.
+ *
+ * <p>
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Column {
 
-    /**
-     * Expand ratio for the column (use negative values for no expand ratio).<p>
-     *
-     * @return the expand ratoio
-     */
-    float expandRatio() default -1.0f;
+  /**
+   * Expand ratio for the column (use negative values for no expand ratio).
+   *
+   * <p>
+   *
+   * @return the expand ratoio
+   */
+  float expandRatio() default -1.0f;
 
-    /**
-     * Flag indicating whether column should be filterable by default.
-     *
-     * @return true if the column should be filterable
-     */
-    boolean filterable() default true;
+  /**
+   * Flag indicating whether column should be filterable by default.
+   *
+   * @return true if the column should be filterable
+   */
+  boolean filterable() default true;
 
-    /**
-     * The message key for the column header (if no given message is found, will be used as a literal header).<p>
-     *
-     * @return the message key for the column header
-     */
-    String header();
+  /**
+   * The message key for the column header (if no given message is found, will be used as a literal
+   * header).
+   *
+   * <p>
+   *
+   * @return the message key for the column header
+   */
+  String header();
 
-    /**
-     * The order key.<p>
-     *
-     * The ordering of columns is determined by the relative sizes of their order keys.<p>
-     *
-     * @return the order key
-     */
-    int order() default -1;
+  /**
+   * The order key.
+   *
+   * <p>The ordering of columns is determined by the relative sizes of their order keys.
+   *
+   * <p>
+   *
+   * @return the order key
+   */
+  int order() default -1;
 
-    /**
-     * The style which should be used for a cell in this column.<p>
-     *
-     * @return the style
-     */
-    String styleName() default "";
+  /**
+   * The style which should be used for a cell in this column.
+   *
+   * <p>
+   *
+   * @return the style
+   */
+  String styleName() default "";
 
-    /**
-     * The view in which the column should be displayed.<p>
-     *
-     * @return the view
-     */
-    String view() default "";
+  /**
+   * The view in which the column should be displayed.
+   *
+   * <p>
+   *
+   * @return the view
+   */
+  String view() default "";
 
-    /**
-     * The width (use -1 to not set the width).<p>
-     *
-     * @return the width
-     */
-    int width() default -1;
-
+  /**
+   * The width (use -1 to not set the width).
+   *
+   * <p>
+   *
+   * @return the width
+   */
+  int width() default -1;
 }

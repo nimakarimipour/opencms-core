@@ -27,6 +27,12 @@
 
 package org.opencms.acacia.client.widgets.complex;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Node;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
+import java.util.List;
 import org.opencms.acacia.client.CmsAttributeHandler;
 import org.opencms.acacia.client.I_CmsAttributeHandler;
 import org.opencms.acacia.client.css.I_CmsLayoutBundle;
@@ -36,149 +42,157 @@ import org.opencms.acacia.shared.CmsEntityAttribute;
 import org.opencms.gwt.client.util.CmsDomUtil;
 import org.opencms.gwt.shared.CmsDataViewConstants;
 
-import java.util.List;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Node;
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * Class responsible for reading data view values from the editor, and writing them back to the editor.<p>
+ * Class responsible for reading data view values from the editor, and writing them back to the
+ * editor.
+ *
+ * <p>
  */
 public class CmsDataViewValueAccessor {
 
-    /** The id of this accessor. */
-    private String m_id = "" + Math.random();
+  /** The id of this accessor. */
+  private String m_id = "" + Math.random();
 
-    /** Entity which the data view widget is currently displaying. */
-    private CmsEntity m_entity;
+  /** Entity which the data view widget is currently displaying. */
+  private CmsEntity m_entity;
 
-    /** The attribute handler. */
-    private I_CmsAttributeHandler m_handler;
+  /** The attribute handler. */
+  private I_CmsAttributeHandler m_handler;
 
-    /** The value index. */
-    private int m_index;
+  /** The value index. */
+  private int m_index;
 
-    /** The widget instance. */
-    private Widget m_widget;
+  /** The widget instance. */
+  private Widget m_widget;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param entity the entity
-     * @param handler the attribute handler
-     * @param index the value index
-     */
-    public CmsDataViewValueAccessor(CmsEntity entity, I_CmsAttributeHandler handler, int index) {
-        m_entity = entity;
-        m_handler = handler;
-        m_index = index;
-    }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param entity the entity
+   * @param handler the attribute handler
+   * @param index the value index
+   */
+  public CmsDataViewValueAccessor(CmsEntity entity, I_CmsAttributeHandler handler, int index) {
+    m_entity = entity;
+    m_handler = handler;
+    m_index = index;
+  }
 
-    /**
-     * Gets the id of this accessor.<p>
-     *
-     * @return the id
-     */
-    public String getId() {
+  /**
+   * Gets the id of this accessor.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  public String getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Gets the current value in the editor.<p>
-     *
-     * @return the value in the editor
-     */
-    public CmsDataViewValue getValue() {
+  /**
+   * Gets the current value in the editor.
+   *
+   * <p>
+   *
+   * @return the value in the editor
+   */
+  public CmsDataViewValue getValue() {
 
-        return new CmsDataViewValue(
-            getString(CmsDataViewConstants.VALUE_ID),
-            getString(CmsDataViewConstants.VALUE_TITLE),
-            getString(CmsDataViewConstants.VALUE_DESCRIPTION),
-            getString(CmsDataViewConstants.VALUE_DATA));
+    return new CmsDataViewValue(
+        getString(CmsDataViewConstants.VALUE_ID),
+        getString(CmsDataViewConstants.VALUE_TITLE),
+        getString(CmsDataViewConstants.VALUE_DESCRIPTION),
+        getString(CmsDataViewConstants.VALUE_DATA));
+  }
 
-    }
+  /**
+   * Replaces the value in the editor with a list of other values.
+   *
+   * <p>
+   *
+   * @param replacementValues the list of replacement values
+   */
+  public void replaceValue(List<CmsDataViewValue> replacementValues) {
 
-    /**
-     * Replaces the value in the editor with a list of other values.<p>
-     *
-     * @param replacementValues the list of replacement values
-     */
-    public void replaceValue(List<CmsDataViewValue> replacementValues) {
-
-        CmsAttributeHandler handler = (CmsAttributeHandler)m_handler;
-        Element parent = CmsDomUtil.getAncestor(
-            m_widget.getElement(),
-            I_CmsLayoutBundle.INSTANCE.form().attributeValue()).getParentElement();
-        NodeList<Node> siblings = parent.getChildNodes();
-        for (int j = 0; j < siblings.getLength(); j++) {
-            Node node = siblings.getItem(j);
-            if (node instanceof Element) {
-                Element elem = (Element)node;
-                if (elem.isOrHasChild(m_widget.getElement())) {
-                    m_index = j;
-                    break;
-                }
-            }
+    CmsAttributeHandler handler = (CmsAttributeHandler) m_handler;
+    Element parent =
+        CmsDomUtil.getAncestor(
+                m_widget.getElement(), I_CmsLayoutBundle.INSTANCE.form().attributeValue())
+            .getParentElement();
+    NodeList<Node> siblings = parent.getChildNodes();
+    for (int j = 0; j < siblings.getLength(); j++) {
+      Node node = siblings.getItem(j);
+      if (node instanceof Element) {
+        Element elem = (Element) node;
+        if (elem.isOrHasChild(m_widget.getElement())) {
+          m_index = j;
+          break;
         }
-        Panel container = handler.removeAttributeValueAndReturnPrevParent(m_index, true);
-        int i = m_index;
-        for (CmsDataViewValue value : replacementValues) {
-            CmsEntity entity = CmsEntityBackend.getInstance().createEntity(null, m_entity.getTypeName());
+      }
+    }
+    Panel container = handler.removeAttributeValueAndReturnPrevParent(m_index, true);
+    int i = m_index;
+    for (CmsDataViewValue value : replacementValues) {
+      CmsEntity entity = CmsEntityBackend.getInstance().createEntity(null, m_entity.getTypeName());
 
-            writeValueToEntity(value, entity);
+      writeValueToEntity(value, entity);
 
-            // handler.addNewAttributeValue(entity);
-            handler.insertNewAttributeValue(entity, i, container);
-            i += 1;
-        }
-
-        handler.updateButtonVisisbility();
+      // handler.addNewAttributeValue(entity);
+      handler.insertNewAttributeValue(entity, i, container);
+      i += 1;
     }
 
-    /**
-     * Sets the widget instance.<p>
-     *
-     * @param cmsDataViewClientWidget the widget instance
-     */
-    public void setWidget(CmsDataViewClientWidget cmsDataViewClientWidget) {
+    handler.updateButtonVisisbility();
+  }
 
-        m_widget = cmsDataViewClientWidget;
+  /**
+   * Sets the widget instance.
+   *
+   * <p>
+   *
+   * @param cmsDataViewClientWidget the widget instance
+   */
+  public void setWidget(CmsDataViewClientWidget cmsDataViewClientWidget) {
+
+    m_widget = cmsDataViewClientWidget;
+  }
+
+  /**
+   * Gets a string-valued attribute from this accessor's entity.
+   *
+   * <p>
+   *
+   * @param valueKey the key
+   * @return the attribute value
+   */
+  private String getString(String valueKey) {
+
+    String realKey = m_entity.getTypeName() + "/" + valueKey;
+    CmsEntityAttribute attr = m_entity.getAttribute(realKey);
+    if (attr == null) {
+      return "";
+    } else {
+      return attr.getSimpleValue();
     }
+  }
 
-    /**
-     * Gets a string-valued attribute from this accessor's entity.<p>
-     *
-     * @param valueKey the key
-     * @return the attribute value
-     */
-    private String getString(String valueKey) {
+  /**
+   * Writes the value to the given entity.
+   *
+   * <p>
+   *
+   * @param val the value
+   * @param entity the entity
+   */
+  private void writeValueToEntity(CmsDataViewValue val, CmsEntity entity) {
 
-        String realKey = m_entity.getTypeName() + "/" + valueKey;
-        CmsEntityAttribute attr = m_entity.getAttribute(realKey);
-        if (attr == null) {
-            return "";
-        } else {
-            return attr.getSimpleValue();
-        }
-    }
-
-    /**
-     * Writes the value to the given entity.<p>
-     *
-     * @param val the value
-     * @param entity the entity
-     */
-    private void writeValueToEntity(CmsDataViewValue val, CmsEntity entity) {
-
-        String prefix = entity.getTypeName() + "/";
-        entity.setAttributeValue(prefix + CmsDataViewConstants.VALUE_ID, val.getId());
-        entity.setAttributeValue(prefix + CmsDataViewConstants.VALUE_TITLE, val.getTitle());
-        entity.setAttributeValue(prefix + CmsDataViewConstants.VALUE_DESCRIPTION, val.getDescription());
-        entity.setAttributeValue(prefix + CmsDataViewConstants.VALUE_DATA, val.getData());
-    }
-
+    String prefix = entity.getTypeName() + "/";
+    entity.setAttributeValue(prefix + CmsDataViewConstants.VALUE_ID, val.getId());
+    entity.setAttributeValue(prefix + CmsDataViewConstants.VALUE_TITLE, val.getTitle());
+    entity.setAttributeValue(prefix + CmsDataViewConstants.VALUE_DESCRIPTION, val.getDescription());
+    entity.setAttributeValue(prefix + CmsDataViewConstants.VALUE_DATA, val.getData());
+  }
 }

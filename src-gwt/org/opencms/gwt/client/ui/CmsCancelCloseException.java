@@ -28,21 +28,24 @@
 package org.opencms.gwt.client.ui;
 
 /**
- * An exception class used to signal that the closing of a dialog should be cancelled.<p>
+ * An exception class used to signal that the closing of a dialog should be cancelled.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsCancelCloseException extends RuntimeException {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = -5018075156658159707L;
+  /** Serial version id. */
+  private static final long serialVersionUID = -5018075156658159707L;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsCancelCloseException() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsCancelCloseException() {
 
-        super();
-    }
-
+    super();
+  }
 }

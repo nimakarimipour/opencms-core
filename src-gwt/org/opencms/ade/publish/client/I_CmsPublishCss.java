@@ -30,171 +30,218 @@ package org.opencms.ade.publish.client;
 import com.google.gwt.resources.client.CssResource;
 
 /**
+ * The CSS bundle for the publish dialog.
  *
- * The CSS bundle for the publish dialog.<p>
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsPublishCss extends CssResource {
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String checkboxes();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String checkboxes();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String checkmark();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String checkmark();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String clear();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String clear();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String groupHeader();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String groupHeader();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String groupPanel();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String groupPanel();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String indentedPublishRow();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String indentedPublishRow();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String itemToKeep();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String itemToKeep();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String label();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String label();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String noResources();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String noResources();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String problemPanel();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String problemPanel();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String publishDialog();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String publishDialog();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String publishListItem();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String publishListItem();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String publishRow();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String publishRow();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String relatedItem();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String relatedItem();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String scrollPanel();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String scrollPanel();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String selectButtons();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String selectButtons();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String selector();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String selector();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String selectorLabel();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String selectorLabel();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String selectorPanel();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String selectorPanel();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String selectPanel();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String selectPanel();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String spacer();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String spacer();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String text();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String text();
 
-    /**
-     * Access method.<p>
-     *
-     * @return the CSS class name
-     */
-    String topBar();
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the CSS class name
+   */
+  String topBar();
 }

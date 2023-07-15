@@ -45,411 +45,410 @@
 
 package org.opencms.configuration;
 
-import org.opencms.file.CmsObject;
-import org.opencms.main.CmsLog;
-
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.MethodUtils;
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.digester3.Rule;
 import org.apache.commons.logging.Log;
-
+import org.opencms.file.CmsObject;
+import org.opencms.main.CmsLog;
 import org.xml.sax.Attributes;
 
 /**
- * Rule implementation that invokes a method on the (top-1) (parent) object,
- * passing as implicit first argument of type <code>{@link org.opencms.file.CmsObject}</code>
- * and as a further argument the top stack instance. <p>
+ * Rule implementation that invokes a method on the (top-1) (parent) object, passing as implicit
+ * first argument of type <code>{@link org.opencms.file.CmsObject}</code> and as a further argument
+ * the top stack instance.
  *
- * If no subsequent <code>CallParamRule</code> are matched for <code>CmsObject</code>
- * which is the case in the OpenCms usage the first argument <code>CmsObject</code>
- * will be null at method invocation time. <p>
-
- * This is an alternative for <code>{@link org.apache.commons.digester3.SetNextRule}</code>
- * if a parent to child-property configuration has been done but the setter for that
- * property requires additional arguments that are only available at real runtime
- * of the application.<p>
+ * <p>If no subsequent <code>CallParamRule</code> are matched for <code>CmsObject</code> which is
+ * the case in the OpenCms usage the first argument <code>CmsObject</code> will be null at method
+ * invocation time.
  *
- * The top stack element (child) that has to be set is matched against the constructor
- * given <code>{@link java.lang.Class}[]</code>: It is used as argument on the position
- * where the <code>Class[]</code> has an instance of the same type as it's own <code>Class</code>.<p>
+ * <p>This is an alternative for <code>{@link org.apache.commons.digester3.SetNextRule}</code> if a
+ * parent to child-property configuration has been done but the setter for that property requires
+ * additional arguments that are only available at real runtime of the application.
+ *
+ * <p>The top stack element (child) that has to be set is matched against the constructor given
+ * <code>{@link java.lang.Class}[]</code>: It is used as argument on the position where the <code>
+ * Class[]</code> has an instance of the same type as it's own <code>Class</code>.
+ *
+ * <p>
  *
  * @see org.apache.commons.digester3.CallMethodRule
  * @see org.apache.commons.digester3.SetNextRule
- *
  * @since 6.0.0
  */
-
 public class CmsSetNextRule extends Rule {
 
-    /** The log object of this class. */
-    private static final Log LOG = CmsLog.getLog(CmsSetNextRule.class);
-    /**
-     * The body text collected from this element.
-     */
-    protected String m_bodyText;
+  /** The log object of this class. */
+  private static final Log LOG = CmsLog.getLog(CmsSetNextRule.class);
+  /** The body text collected from this element. */
+  protected String m_bodyText;
 
-    /**
-     * The method name to call on the parent object.
-     */
-    protected String m_methodName;
+  /** The method name to call on the parent object. */
+  protected String m_methodName;
 
-    /**
-     * The number of parameters to collect from <code>MethodParam</code> rules.
-     * If this value is zero, a single parameter will be collected from the
-     * body of this element.
-     */
-    protected int m_paramCount;
+  /**
+   * The number of parameters to collect from <code>MethodParam</code> rules. If this value is zero,
+   * a single parameter will be collected from the body of this element.
+   */
+  protected int m_paramCount;
 
-    /**
-     * The parameter types of the parameters to be collected.
-     */
-    protected Class<?>[] m_paramTypes;
+  /** The parameter types of the parameters to be collected. */
+  protected Class<?>[] m_paramTypes;
 
-    /**
-     * Should <code>MethodUtils.invokeExactMethod</code> be used for reflection.
-     */
-    protected boolean m_useExactMatch;
+  /** Should <code>MethodUtils.invokeExactMethod</code> be used for reflection. */
+  protected boolean m_useExactMatch;
 
-    /**
-     * location of the target object for the call, relative to the
-     * top of the digester object stack. The default value of zero
-     * means the target object is the one on top of the stack.
-     */
-    private int m_targetOffset;
+  /**
+   * location of the target object for the call, relative to the top of the digester object stack.
+   * The default value of zero means the target object is the one on top of the stack.
+   */
+  private int m_targetOffset;
 
-    /**
-     * Construct a "call method" rule with the specified method name.<p>
-     *
-     *
-     * The 1<sup>st</sup> argument of the method will be of type <code>{@link CmsObject}</code>.
-     * It's value will remain null (except subsequent
-     * <code>{@link org.apache.commons.digester3.CallParamRule}</code> would put a value
-     * which currently is impossible at initialization time within OpenCms).<p>
-     *
-     * The 2<sup>nd</sup> argument will be the top-stack element at digestion time.
-     * That instance has to be of the same type as the <code>clazz</code> argument to succeed.<p>
-     *
-     *
-     * @param methodName Method name of the parent method to call
-     * @param clazz The class of the top-stack element (child) that will be present at digestion-time
-     */
-    public CmsSetNextRule(String methodName, Class<?> clazz) {
+  /**
+   * Construct a "call method" rule with the specified method name.
+   *
+   * <p>The 1<sup>st</sup> argument of the method will be of type <code>{@link CmsObject}</code>.
+   * It's value will remain null (except subsequent <code>
+   * {@link org.apache.commons.digester3.CallParamRule}</code> would put a value which currently is
+   * impossible at initialization time within OpenCms).
+   *
+   * <p>The 2<sup>nd</sup> argument will be the top-stack element at digestion time. That instance
+   * has to be of the same type as the <code>clazz</code> argument to succeed.
+   *
+   * <p>
+   *
+   * @param methodName Method name of the parent method to call
+   * @param clazz The class of the top-stack element (child) that will be present at digestion-time
+   */
+  public CmsSetNextRule(String methodName, Class<?> clazz) {
 
-        this(methodName, new Class[] {clazz});
+    this(methodName, new Class[] {clazz});
+  }
+
+  /**
+   * Construct a "call method" rule with the specified method name and additional parameters.
+   *
+   * <p>The 1<sup>st</sup> argument of the method will be of type <code>{@link CmsObject}</code>.
+   * It's value will remain null (except subsequent <code>
+   * {@link org.apache.commons.digester3.CallParamRule}</code> would put a value which currently is
+   * impossible at initialization time within OpenCms).
+   *
+   * <p>The further arguments will be filled by the subsequent <code>
+   * {@link org.apache.commons.digester3.CallParamRule}</code> matches. If the first <code>Class
+   * </code> in the given array matches the top stack element (child) that value will be used. If at
+   * digestion time no parameters are found for the given types their values for invocation of the
+   * method remain null.
+   *
+   * <p>
+   *
+   * @param methodName Method name of the parent method to call
+   * @param clazzes an array with all parameter types for the method to invoke at digestion time
+   */
+  public CmsSetNextRule(String methodName, Class<?>[] clazzes) {
+
+    m_targetOffset = 0;
+    m_methodName = methodName;
+    m_paramCount = clazzes.length + 1;
+    m_paramTypes = new Class[m_paramCount];
+    m_paramTypes[0] = CmsObject.class;
+    System.arraycopy(clazzes, 0, m_paramTypes, 1, clazzes.length);
+  }
+
+  /**
+   * Process the start of this element.
+   *
+   * @param attributes The attribute list for this element
+   * @param namespace the namespace URI of the matching element, or an empty string if the parser is
+   *     not namespace aware or the element has no namespace
+   * @param name the local name if the parser is namespace aware, or just the element name otherwise
+   * @throws Exception if something goes wrong
+   */
+  @Override
+  public void begin(String namespace, String name, Attributes attributes) throws Exception {
+
+    // not now: 6.0.0
+    // digester.setLogger(CmsLog.getLog(digester.getClass()));
+
+    // Push an array to capture the parameter values if necessary
+    if (m_paramCount > 0) {
+      Object[] parameters = new Object[m_paramCount];
+      for (int i = 0; i < parameters.length; i++) {
+        parameters[i] = null;
+      }
+      getDigester().pushParams(parameters);
     }
+  }
 
-    /**
-     * Construct a "call method" rule with the specified method name
-     * and additional parameters.<p>
-     *
-     *
-     * The 1<sup>st</sup> argument of the method will be of type <code>{@link CmsObject}</code>.
-     * It's value will remain null (except subsequent
-     * <code>{@link org.apache.commons.digester3.CallParamRule}</code> would put a value
-     * which currently is impossible at initialization time within OpenCms).<p>
-     *
-     * The further arguments will be filled by the subsequent <code>{@link org.apache.commons.digester3.CallParamRule}</code>
-     * matches. If the first <code>Class</code> in the given array matches the top stack element
-     * (child) that value will be used. If at digestion time no parameters are found for the given
-     * types their values for invocation of the method remain null.<p>
-     *
-     *
-     * @param methodName Method name of the parent method to call
-     * @param clazzes an array with all parameter types for the method to invoke at digestion time
-     */
-    public CmsSetNextRule(String methodName, Class<?>[] clazzes) {
+  /**
+   * Process the body text of this element.
+   *
+   * <p>
+   *
+   * @param bodyText The body text of this element
+   * @param namespace the namespace URI of the matching element, or an empty string if the parser is
+   *     not namespace aware or the element has no namespace
+   * @param name the local name if the parser is namespace aware, or just the element name otherwise
+   * @throws Exception if something goes wrong
+   */
+  @Override
+  public void body(String namespace, String name, String bodyText) throws Exception {
 
-        m_targetOffset = 0;
-        m_methodName = methodName;
-        m_paramCount = clazzes.length + 1;
-        m_paramTypes = new Class[m_paramCount];
-        m_paramTypes[0] = CmsObject.class;
-        System.arraycopy(clazzes, 0, m_paramTypes, 1, clazzes.length);
+    if (m_paramCount == 0) {
+      m_bodyText = bodyText.trim();
     }
+  }
 
-    /**
-     * Process the start of this element.
-     *
-     * @param attributes The attribute list for this element
-     * @param namespace  the namespace URI of the matching element, or an empty string if the parser is not namespace
-     *        aware or the element has no namespace
-     * @param name the local name if the parser is namespace aware, or just the element name otherwise
-     * @throws Exception if something goes wrong
-     */
-    @Override
-    public void begin(String namespace, String name, Attributes attributes) throws Exception {
+  /**
+   * Process the end of this element.
+   *
+   * <p>
+   *
+   * @param namespace the namespace URI of the matching element, or an empty string if the parser is
+   *     not namespace aware or the element has no namespace
+   * @param name the local name if the parser is namespace aware, or just the element name otherwise
+   * @throws Exception if something goes wrong
+   */
+  @Override
+  public void end(String namespace, String name) throws Exception {
 
-        // not now: 6.0.0
-        // digester.setLogger(CmsLog.getLog(digester.getClass()));
+    // Determine the target object for the method call: the parent object
+    Object parent = getDigester().peek(1);
+    Object child = getDigester().peek(0);
 
-        // Push an array to capture the parameter values if necessary
-        if (m_paramCount > 0) {
-            Object[] parameters = new Object[m_paramCount];
-            for (int i = 0; i < parameters.length; i++) {
-                parameters[i] = null;
-            }
-            getDigester().pushParams(parameters);
+    // Retrieve or construct the parameter values array
+    Object[] parameters = null;
+    if (m_paramCount > 0) {
+      parameters = getDigester().popParams();
+      if (LOG.isTraceEnabled()) {
+        for (int i = 0, size = parameters.length; i < size; i++) {
+          LOG.trace("[SetNextRuleWithParams](" + i + ")" + parameters[i]);
         }
+      }
+
+      // In the case where the target method takes a single parameter
+      // and that parameter does not exist (the CallParamRule never
+      // executed or the CallParamRule was intended to set the parameter
+      // from an attribute but the attribute wasn't present etc) then
+      // skip the method call.
+      //
+      // This is useful when a class has a "default" value that should
+      // only be overridden if data is present in the XML. I don't
+      // know why this should only apply to methods taking *one*
+      // parameter, but it always has been so we can't change it now.
+      if ((m_paramCount == 1) && (parameters[0] == null)) {
+        return;
+      }
+
+    } else if (m_paramTypes.length != 0) {
+      // Having paramCount == 0 and paramTypes.length == 1 indicates
+      // that we have the special case where the target method has one
+      // parameter being the body text of the current element.
+
+      // There is no body text included in the source XML file,
+      // so skip the method call
+      if (m_bodyText == null) {
+        return;
+      }
+
+      parameters = new Object[1];
+      parameters[0] = m_bodyText;
+      if (m_paramTypes.length == 0) {
+        m_paramTypes = new Class[1];
+        m_paramTypes[0] = String.class;
+      }
+
+    } else {
+      // When paramCount is zero and paramTypes.length is zero it
+      // means that we truly are calling a method with no parameters.
+      // Nothing special needs to be done here.
+      parameters = new Object[0];
     }
 
-    /**
-     * Process the body text of this element.<p>
-     *
-     * @param bodyText The body text of this element
-     * @param namespace the namespace URI of the matching element, or an empty string if the parser is not namespace
-     *                  aware or the element has no namespace
-     * @param name the local name if the parser is namespace aware, or just the element name otherwise
-     * @throws Exception if something goes wrong
-     */
-    @Override
-    public void body(String namespace, String name, String bodyText) throws Exception {
+    // Construct the parameter values array we will need
+    // We only do the conversion if the param value is a String and
+    // the specified paramType is not String.
+    Object[] paramValues = new Object[m_paramTypes.length];
 
-        if (m_paramCount == 0) {
-            m_bodyText = bodyText.trim();
-        }
-    }
-
-    /**
-     * Process the end of this element.<p>
-     *
-     * @param namespace the namespace URI of the matching element, or an empty string if the parser is not namespace
-     *                  aware or the element has no namespace
-     * @param name the local name if the parser is namespace aware, or just the element name otherwise
-     * @throws Exception if something goes wrong
-     */
-    @Override
-    public void end(String namespace, String name) throws Exception {
-
-        // Determine the target object for the method call: the parent object
-        Object parent = getDigester().peek(1);
-        Object child = getDigester().peek(0);
-
-        // Retrieve or construct the parameter values array
-        Object[] parameters = null;
-        if (m_paramCount > 0) {
-            parameters = getDigester().popParams();
-            if (LOG.isTraceEnabled()) {
-                for (int i = 0, size = parameters.length; i < size; i++) {
-                    LOG.trace("[SetNextRuleWithParams](" + i + ")" + parameters[i]);
-                }
-            }
-
-            // In the case where the target method takes a single parameter
-            // and that parameter does not exist (the CallParamRule never
-            // executed or the CallParamRule was intended to set the parameter
-            // from an attribute but the attribute wasn't present etc) then
-            // skip the method call.
-            //
-            // This is useful when a class has a "default" value that should
-            // only be overridden if data is present in the XML. I don't
-            // know why this should only apply to methods taking *one*
-            // parameter, but it always has been so we can't change it now.
-            if ((m_paramCount == 1) && (parameters[0] == null)) {
-                return;
-            }
-
-        } else if (m_paramTypes.length != 0) {
-            // Having paramCount == 0 and paramTypes.length == 1 indicates
-            // that we have the special case where the target method has one
-            // parameter being the body text of the current element.
-
-            // There is no body text included in the source XML file,
-            // so skip the method call
-            if (m_bodyText == null) {
-                return;
-            }
-
-            parameters = new Object[1];
-            parameters[0] = m_bodyText;
-            if (m_paramTypes.length == 0) {
-                m_paramTypes = new Class[1];
-                m_paramTypes[0] = String.class;
-            }
-
+    Class<?> propertyClass = child.getClass();
+    for (int i = 0; i < m_paramTypes.length; i++) {
+      if (m_paramTypes[i] == propertyClass) {
+        // implant the original child to set if Class matches:
+        paramValues[i] = child;
+      } else if ((parameters[i] == null)
+          || ((parameters[i] instanceof String)
+              && !String.class.isAssignableFrom(m_paramTypes[i]))) {
+        // convert nulls and convert stringy parameters
+        // for non-stringy param types
+        if (parameters[i] == null) {
+          paramValues[i] = null;
         } else {
-            // When paramCount is zero and paramTypes.length is zero it
-            // means that we truly are calling a method with no parameters.
-            // Nothing special needs to be done here.
-            parameters = new Object[0];
+          paramValues[i] = ConvertUtils.convert((String) parameters[i], m_paramTypes[i]);
         }
 
-        // Construct the parameter values array we will need
-        // We only do the conversion if the param value is a String and
-        // the specified paramType is not String.
-        Object[] paramValues = new Object[m_paramTypes.length];
+      } else {
+        paramValues[i] = parameters[i];
+      }
+    }
 
-        Class<?> propertyClass = child.getClass();
-        for (int i = 0; i < m_paramTypes.length; i++) {
-            if (m_paramTypes[i] == propertyClass) {
-                // implant the original child to set if Class matches:
-                paramValues[i] = child;
-            } else if ((parameters[i] == null)
-                || ((parameters[i] instanceof String) && !String.class.isAssignableFrom(m_paramTypes[i]))) {
-                // convert nulls and convert stringy parameters
-                // for non-stringy param types
-                if (parameters[i] == null) {
-                    paramValues[i] = null;
-                } else {
-                    paramValues[i] = ConvertUtils.convert((String)parameters[i], m_paramTypes[i]);
-                }
+    if (parent == null) {
+      StringBuffer sb = new StringBuffer();
+      sb.append("[SetNextRuleWithParams]{");
+      sb.append(getDigester().getMatch());
+      sb.append("} Call target is null (");
+      sb.append("targetOffset=");
+      sb.append(m_targetOffset);
+      sb.append(",stackdepth=");
+      sb.append(getDigester().getCount());
+      sb.append(")");
+      throw new org.xml.sax.SAXException(sb.toString());
+    }
 
-            } else {
-                paramValues[i] = parameters[i];
-            }
+    // Invoke the required method on the top object
+    if (LOG.isDebugEnabled()) {
+      StringBuffer sb = new StringBuffer("[SetNextRuleWithParams]{");
+      sb.append(getDigester().getMatch());
+      sb.append("} Call ");
+      sb.append(parent.getClass().getName());
+      sb.append(".");
+      sb.append(m_methodName);
+      sb.append("(");
+      for (int i = 0; i < paramValues.length; i++) {
+        if (i > 0) {
+          sb.append(",");
         }
-
-        if (parent == null) {
-            StringBuffer sb = new StringBuffer();
-            sb.append("[SetNextRuleWithParams]{");
-            sb.append(getDigester().getMatch());
-            sb.append("} Call target is null (");
-            sb.append("targetOffset=");
-            sb.append(m_targetOffset);
-            sb.append(",stackdepth=");
-            sb.append(getDigester().getCount());
-            sb.append(")");
-            throw new org.xml.sax.SAXException(sb.toString());
-        }
-
-        // Invoke the required method on the top object
-        if (LOG.isDebugEnabled()) {
-            StringBuffer sb = new StringBuffer("[SetNextRuleWithParams]{");
-            sb.append(getDigester().getMatch());
-            sb.append("} Call ");
-            sb.append(parent.getClass().getName());
-            sb.append(".");
-            sb.append(m_methodName);
-            sb.append("(");
-            for (int i = 0; i < paramValues.length; i++) {
-                if (i > 0) {
-                    sb.append(",");
-                }
-                if (paramValues[i] == null) {
-                    sb.append("null");
-                } else {
-                    sb.append(paramValues[i].toString());
-                }
-                sb.append("/");
-                if (m_paramTypes[i] == null) {
-                    sb.append("null");
-                } else {
-                    sb.append(m_paramTypes[i].getName());
-                }
-            }
-            sb.append(")");
-            LOG.debug(sb.toString());
-        }
-
-        Object result = null;
-        if (m_useExactMatch) {
-            // invoke using exact match
-            result = MethodUtils.invokeExactMethod(parent, m_methodName, paramValues, m_paramTypes);
-
+        if (paramValues[i] == null) {
+          sb.append("null");
         } else {
-            // invoke using fuzzier match
-            result = MethodUtils.invokeMethod(parent, m_methodName, paramValues, m_paramTypes);
+          sb.append(paramValues[i].toString());
         }
-
-        processMethodCallResult(result);
-    }
-
-    /**
-     * Clean up after parsing is complete.<p>
-     *
-     * @param namespace the namespace URI of the matching element, or an empty string if the parser is not namespace
-     *                  aware or the element has no namespace
-     * @param name the local name if the parser is namespace aware, or just the element name otherwise
-     * @throws Exception if something goes wrong
-     */
-    public void finish(String namespace, String name) throws Exception {
-
-        String dummy = name;
-        dummy = namespace;
-        dummy = null;
-        m_bodyText = dummy;
-    }
-
-    /**
-     * Returns true if <code>MethodUtils.invokeExactMethod</code>
-     * shall be used for the reflection.<p>
-     *
-     * @return true if <code>MethodUtils.invokeExactMethod</code>
-     *                 shall be used for the reflection.
-     */
-    public boolean getUseExactMatch() {
-
-        return m_useExactMatch;
-    }
-
-    /**
-     * Set the associated digester.<p>
-     *
-     * The digester gets assigned to use the OpenCms conform logging
-     *
-     * If needed, this class loads the parameter classes from their names.<p>
-     *
-     * @param aDigester the associated digester to set
-     */
-    @Override
-    public void setDigester(Digester aDigester) {
-
-        aDigester.setLogger(CmsLog.getLog(aDigester.getClass()));
-        // call superclass
-        super.setDigester(aDigester);
-    }
-
-    /**
-     * Set the value to use for <code>MethodUtils.invokeExactMethod</code>
-     * to use.<p>
-     *
-     * @param useExactMatch the value to use for <code>MethodUtils.invokeExactMethod</code>
-     *                      to use
-     */
-    public void setUseExactMatch(boolean useExactMatch) {
-
-        m_useExactMatch = useExactMatch;
-    }
-
-    /**
-     * Returns a printable version of this Rule.<p>
-     *
-     * @return a printable version of this Rule
-     */
-    @Override
-    public String toString() {
-
-        StringBuffer sb = new StringBuffer("CallMethodRule[");
-        sb.append("methodName=");
-        sb.append(m_methodName);
-        sb.append(", paramCount=");
-        sb.append(m_paramCount);
-        sb.append(", paramTypes={");
-        if (m_paramTypes != null) {
-            for (int i = 0; i < m_paramTypes.length; i++) {
-                if (i > 0) {
-                    sb.append(", ");
-                }
-                sb.append(m_paramTypes[i].getName());
-            }
+        sb.append("/");
+        if (m_paramTypes[i] == null) {
+          sb.append("null");
+        } else {
+          sb.append(m_paramTypes[i].getName());
         }
-        sb.append("}");
-        sb.append("]");
-        return (sb.toString());
-
+      }
+      sb.append(")");
+      LOG.debug(sb.toString());
     }
 
-    /**
-     * Subclasses may override this method to perform additional processing of the
-     * invoked method's result.<p>
-     *
-     * @param result the Object returned by the method invoked, possibly null
-     */
-    protected void processMethodCallResult(Object result) {
+    Object result = null;
+    if (m_useExactMatch) {
+      // invoke using exact match
+      result = MethodUtils.invokeExactMethod(parent, m_methodName, paramValues, m_paramTypes);
 
-        // do nothing but to fool checkstyle
-        if (result != null) {
-            // nop
+    } else {
+      // invoke using fuzzier match
+      result = MethodUtils.invokeMethod(parent, m_methodName, paramValues, m_paramTypes);
+    }
+
+    processMethodCallResult(result);
+  }
+
+  /**
+   * Clean up after parsing is complete.
+   *
+   * <p>
+   *
+   * @param namespace the namespace URI of the matching element, or an empty string if the parser is
+   *     not namespace aware or the element has no namespace
+   * @param name the local name if the parser is namespace aware, or just the element name otherwise
+   * @throws Exception if something goes wrong
+   */
+  public void finish(String namespace, String name) throws Exception {
+
+    String dummy = name;
+    dummy = namespace;
+    dummy = null;
+    m_bodyText = dummy;
+  }
+
+  /**
+   * Returns true if <code>MethodUtils.invokeExactMethod</code> shall be used for the reflection.
+   *
+   * <p>
+   *
+   * @return true if <code>MethodUtils.invokeExactMethod</code> shall be used for the reflection.
+   */
+  public boolean getUseExactMatch() {
+
+    return m_useExactMatch;
+  }
+
+  /**
+   * Set the associated digester.
+   *
+   * <p>The digester gets assigned to use the OpenCms conform logging
+   *
+   * <p>If needed, this class loads the parameter classes from their names.
+   *
+   * <p>
+   *
+   * @param aDigester the associated digester to set
+   */
+  @Override
+  public void setDigester(Digester aDigester) {
+
+    aDigester.setLogger(CmsLog.getLog(aDigester.getClass()));
+    // call superclass
+    super.setDigester(aDigester);
+  }
+
+  /**
+   * Set the value to use for <code>MethodUtils.invokeExactMethod</code> to use.
+   *
+   * <p>
+   *
+   * @param useExactMatch the value to use for <code>MethodUtils.invokeExactMethod</code> to use
+   */
+  public void setUseExactMatch(boolean useExactMatch) {
+
+    m_useExactMatch = useExactMatch;
+  }
+
+  /**
+   * Returns a printable version of this Rule.
+   *
+   * <p>
+   *
+   * @return a printable version of this Rule
+   */
+  @Override
+  public String toString() {
+
+    StringBuffer sb = new StringBuffer("CallMethodRule[");
+    sb.append("methodName=");
+    sb.append(m_methodName);
+    sb.append(", paramCount=");
+    sb.append(m_paramCount);
+    sb.append(", paramTypes={");
+    if (m_paramTypes != null) {
+      for (int i = 0; i < m_paramTypes.length; i++) {
+        if (i > 0) {
+          sb.append(", ");
         }
+        sb.append(m_paramTypes[i].getName());
+      }
     }
+    sb.append("}");
+    sb.append("]");
+    return (sb.toString());
+  }
+
+  /**
+   * Subclasses may override this method to perform additional processing of the invoked method's
+   * result.
+   *
+   * <p>
+   *
+   * @param result the Object returned by the method invoked, possibly null
+   */
+  protected void processMethodCallResult(Object result) {
+
+    // do nothing but to fool checkstyle
+    if (result != null) {
+      // nop
+    }
+  }
 }

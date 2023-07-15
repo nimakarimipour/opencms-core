@@ -27,6 +27,9 @@
 
 package org.opencms.workplace;
 
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.opencms.test.OpenCmsTestCase;
 import org.opencms.test.OpenCmsTestProperties;
 import org.opencms.workplace.galleries.A_CmsAjaxGallery;
@@ -34,99 +37,100 @@ import org.opencms.workplace.galleries.CmsAjaxDownloadGallery;
 import org.opencms.workplace.galleries.CmsAjaxImageGallery;
 import org.opencms.workplace.galleries.CmsAjaxLinkGallery;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
-/**
- * @since 6.0.0
- */
+/** @since 6.0.0 */
 public class TestWorkplace extends OpenCmsTestCase {
 
-    /**
-     * Default JUnit constructor.<p>
-     *
-     * @param arg0 JUnit parameters
-     */
-    public TestWorkplace(String arg0) {
+  /**
+   * Default JUnit constructor.
+   *
+   * <p>
+   *
+   * @param arg0 JUnit parameters
+   */
+  public TestWorkplace(String arg0) {
 
-        super(arg0);
-    }
+    super(arg0);
+  }
 
-    /**
-     * Test suite for this test class.<p>
-     *
-     * @return the test suite
-     */
-    public static Test suite() {
+  /**
+   * Test suite for this test class.
+   *
+   * <p>
+   *
+   * @return the test suite
+   */
+  public static Test suite() {
 
-        OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
+    OpenCmsTestProperties.initialize(org.opencms.test.AllTests.TEST_PROPERTIES_PATH);
 
-        TestSuite suite = new TestSuite();
-        suite.setName(TestWorkplace.class.getName());
+    TestSuite suite = new TestSuite();
+    suite.setName(TestWorkplace.class.getName());
 
-        suite.addTest(new TestWorkplace("testGalleryClassCreation"));
+    suite.addTest(new TestWorkplace("testGalleryClassCreation"));
 
-        TestSetup wrapper = new TestSetup(suite) {
+    TestSetup wrapper =
+        new TestSetup(suite) {
 
-            @Override
-            protected void setUp() {
+          @Override
+          protected void setUp() {
 
-                setupOpenCms("simpletest", "/");
-            }
+            setupOpenCms("simpletest", "/");
+          }
 
-            @Override
-            protected void tearDown() {
+          @Override
+          protected void tearDown() {
 
-                removeOpenCms();
-            }
+            removeOpenCms();
+          }
         };
 
-        return wrapper;
+    return wrapper;
+  }
+
+  /**
+   * Tests dynamic creation of gallery classes.
+   *
+   * <p>
+   *
+   * @throws Exception in case the test fails
+   */
+  public void testGalleryClassCreation() throws Exception {
+
+    A_CmsAjaxGallery gallery;
+
+    gallery = A_CmsAjaxGallery.createInstance("imagegallery", null);
+    assertEquals(gallery.getClass().getName(), CmsAjaxImageGallery.class.getName());
+    // assertEquals("imagegallery", gallery.getGalleryTypeName());
+    assertEquals(8, gallery.getGalleryTypeId());
+
+    gallery = A_CmsAjaxGallery.createInstance("downloadgallery", null);
+    assertEquals(gallery.getClass().getName(), CmsAjaxDownloadGallery.class.getName());
+    // assertEquals("downloadgallery", gallery.getGalleryTypeName());
+    assertEquals(9, gallery.getGalleryTypeId());
+
+    gallery = A_CmsAjaxGallery.createInstance("linkgallery", null);
+    assertEquals(gallery.getClass().getName(), CmsAjaxLinkGallery.class.getName());
+    // assertEquals("linkgallery", gallery.getGalleryTypeName());
+    assertEquals(10, gallery.getGalleryTypeId());
+
+    boolean error = true;
+    try {
+      A_CmsAjaxGallery.createInstance("unknowngallery", null);
+    } catch (RuntimeException e) {
+      error = false;
+    }
+    if (error) {
+      fail("Unknown gallery instance class could be created");
     }
 
-    /**
-     * Tests dynamic creation of gallery classes.<p>
-     *
-     * @throws Exception in case the test fails
-     */
-    public void testGalleryClassCreation() throws Exception {
-
-        A_CmsAjaxGallery gallery;
-
-        gallery = A_CmsAjaxGallery.createInstance("imagegallery", null);
-        assertEquals(gallery.getClass().getName(), CmsAjaxImageGallery.class.getName());
-        //assertEquals("imagegallery", gallery.getGalleryTypeName());
-        assertEquals(8, gallery.getGalleryTypeId());
-
-        gallery = A_CmsAjaxGallery.createInstance("downloadgallery", null);
-        assertEquals(gallery.getClass().getName(), CmsAjaxDownloadGallery.class.getName());
-        //assertEquals("downloadgallery", gallery.getGalleryTypeName());
-        assertEquals(9, gallery.getGalleryTypeId());
-
-        gallery = A_CmsAjaxGallery.createInstance("linkgallery", null);
-        assertEquals(gallery.getClass().getName(), CmsAjaxLinkGallery.class.getName());
-        //assertEquals("linkgallery", gallery.getGalleryTypeName());
-        assertEquals(10, gallery.getGalleryTypeId());
-
-        boolean error = true;
-        try {
-            A_CmsAjaxGallery.createInstance("unknowngallery", null);
-        } catch (RuntimeException e) {
-            error = false;
-        }
-        if (error) {
-            fail("Unknown gallery instance class could be created");
-        }
-
-        error = true;
-        try {
-            A_CmsAjaxGallery.createInstance(null, null);
-        } catch (RuntimeException e) {
-            error = false;
-        }
-        if (error) {
-            fail("Null gallery instance class could be created");
-        }
+    error = true;
+    try {
+      A_CmsAjaxGallery.createInstance(null, null);
+    } catch (RuntimeException e) {
+      error = false;
     }
+    if (error) {
+      fail("Null gallery instance class could be created");
+    }
+  }
 }

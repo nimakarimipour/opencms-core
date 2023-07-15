@@ -31,47 +31,63 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
 
 /**
- * Content editor CSS resources bundle.<p>
+ * Content editor CSS resources bundle.
+ *
+ * <p>
  */
 public interface I_CmsLayoutBundle extends org.opencms.gwt.client.ui.css.I_CmsLayoutBundle {
 
-    /** The XML content editor CSS. */
-    interface I_CmsXmlEditorCss extends CssResource {
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String basePanel();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        @ClassName("oc-inline-editable")
-        String inlineEditable();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String integratedEditor();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String standAloneEditor();
-    }
-
-    /** The bundle instance. */
-    I_CmsLayoutBundle INSTANCE = GWT.create(I_CmsLayoutBundle.class);
+  /** The XML content editor CSS. */
+  interface I_CmsXmlEditorCss extends CssResource {
 
     /**
-     * Access method.<p>
+     * Access method.
      *
-     * @return the XML content editor CSS
+     * <p>
+     *
+     * @return the CSS class name
      */
-    @Source("editor.gss")
-    I_CmsXmlEditorCss editorCss();
+    String basePanel();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    @ClassName("oc-inline-editable")
+    String inlineEditable();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String integratedEditor();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String standAloneEditor();
+  }
+
+  /** The bundle instance. */
+  I_CmsLayoutBundle INSTANCE = GWT.create(I_CmsLayoutBundle.class);
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the XML content editor CSS
+   */
+  @Source("editor.gss")
+  I_CmsXmlEditorCss editorCss();
 }

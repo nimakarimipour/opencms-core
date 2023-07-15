@@ -31,41 +31,48 @@ import org.opencms.i18n.CmsEncoder;
 import org.opencms.test.OpenCmsTestCase;
 
 /**
- * Test case for <code>{@link org.opencms.util.CmsHtmlParser}</code>.<p>
+ * Test case for <code>{@link org.opencms.util.CmsHtmlParser}</code>.
+ *
+ * <p>
  *
  * @since 6.2.0
  */
 public class TestCmsHtmlParser extends OpenCmsTestCase {
 
-    /**
-     * Tests the HTML extractor.<p>
-     *
-     * @throws Exception in case the test fails
-     */
-    public void testHtmlExtractor() throws Exception {
+  /**
+   * Tests the HTML extractor.
+   *
+   * <p>
+   *
+   * @throws Exception in case the test fails
+   */
+  public void testHtmlExtractor() throws Exception {
 
-        I_CmsHtmlNodeVisitor visitor1 = new CmsHtmlParser(true);
-        String content1 = CmsFileUtil.readFile("org/opencms/util/testHtml_01.html", CmsEncoder.ENCODING_ISO_8859_1);
-        String result1 = visitor1.process(content1, CmsEncoder.ENCODING_ISO_8859_1);
-        System.out.println(result1 + "\n\n");
-        // assertEquals(content1, result1);
+    I_CmsHtmlNodeVisitor visitor1 = new CmsHtmlParser(true);
+    String content1 =
+        CmsFileUtil.readFile("org/opencms/util/testHtml_01.html", CmsEncoder.ENCODING_ISO_8859_1);
+    String result1 = visitor1.process(content1, CmsEncoder.ENCODING_ISO_8859_1);
+    System.out.println(result1 + "\n\n");
+    // assertEquals(content1, result1);
 
-        I_CmsHtmlNodeVisitor visitor2 = new CmsHtmlParser(true);
-        String content2 = CmsFileUtil.readFile("org/opencms/util/testHtml_02.html", CmsEncoder.ENCODING_ISO_8859_1);
-        String result2 = visitor2.process(content2, CmsEncoder.ENCODING_ISO_8859_1);
-        System.out.println(result2 + "\n\n");
-        assertEquals(content2, result2);
+    I_CmsHtmlNodeVisitor visitor2 = new CmsHtmlParser(true);
+    String content2 =
+        CmsFileUtil.readFile("org/opencms/util/testHtml_02.html", CmsEncoder.ENCODING_ISO_8859_1);
+    String result2 = visitor2.process(content2, CmsEncoder.ENCODING_ISO_8859_1);
+    System.out.println(result2 + "\n\n");
+    assertEquals(content2, result2);
 
-        I_CmsHtmlNodeVisitor visitor3 = new CmsHtmlParser(true);
-        String content3 = CmsFileUtil.readFile("org/opencms/util/testHtml_03.html", CmsEncoder.ENCODING_ISO_8859_1);
-        String result3 = visitor3.process(content3, CmsEncoder.ENCODING_ISO_8859_1);
-        System.out.println(result3 + "\n\n");
-        assertEquals(content3, result3);
+    I_CmsHtmlNodeVisitor visitor3 = new CmsHtmlParser(true);
+    String content3 =
+        CmsFileUtil.readFile("org/opencms/util/testHtml_03.html", CmsEncoder.ENCODING_ISO_8859_1);
+    String result3 = visitor3.process(content3, CmsEncoder.ENCODING_ISO_8859_1);
+    System.out.println(result3 + "\n\n");
+    assertEquals(content3, result3);
 
-        // check with non-echo visitor, no output should be produced
-        I_CmsHtmlNodeVisitor visitor4 = new CmsHtmlParser();
-        result3 = visitor4.process(content3, CmsEncoder.ENCODING_ISO_8859_1);
-        System.out.println(result3 + "\n\n");
-        assertEquals("", result3);
-    }
+    // check with non-echo visitor, no output should be produced
+    I_CmsHtmlNodeVisitor visitor4 = new CmsHtmlParser();
+    result3 = visitor4.process(content3, CmsEncoder.ENCODING_ISO_8859_1);
+    System.out.println(result3 + "\n\n");
+    assertEquals("", result3);
+  }
 }

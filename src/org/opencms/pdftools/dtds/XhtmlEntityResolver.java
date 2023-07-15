@@ -29,64 +29,69 @@ package org.opencms.pdftools.dtds;
 
 import java.io.IOException;
 import java.net.URL;
-
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * Entity resolver for XHTML entities.<p>
+ * Entity resolver for XHTML entities.
+ *
+ * <p>
  */
 public class XhtmlEntityResolver implements EntityResolver {
 
-    /** The XHTML prefix. */
-    static final String XHTML_PREFIX = "http://www.w3.org/TR/xhtml1/DTD/";
+  /** The XHTML prefix. */
+  static final String XHTML_PREFIX = "http://www.w3.org/TR/xhtml1/DTD/";
 
-    /** The next entity resolver. */
-    private final EntityResolver m_next;
+  /** The next entity resolver. */
+  private final EntityResolver m_next;
 
-    /**
-     * Constructor.<p>
-     **/
-    public XhtmlEntityResolver() {
-        this(null);
+  /**
+   * Constructor.
+   *
+   * <p>
+   */
+  public XhtmlEntityResolver() {
+    this(null);
+  }
+
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param next the next entity resolver.
+   *     <p>
+   */
+  public XhtmlEntityResolver(EntityResolver next) {
+    m_next = next;
+  }
+
+  /** @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String, java.lang.String) */
+  @Override
+  public InputSource resolveEntity(String publicId, String systemId)
+      throws SAXException, IOException {
+
+    if (systemId.startsWith(XHTML_PREFIX)) {
+      String name = systemId.substring(XHTML_PREFIX.length());
+      // final InputStream resourceAsStream = getClass().getResourceAsStream(name);
+      URL resource = getClass().getResource(name);
+      if (resource != null) {
+        InputSource inputSource = new InputSource(resource.toExternalForm());
+        inputSource.setPublicId(publicId);
+        // inputSource.setByteStream(resourceAsStream);
+        return inputSource;
+      }
     }
 
-    /**
-     * Constructor.<p>
-     *
-     * @param next the next entity resolver.<p>
-     */
-    public XhtmlEntityResolver(EntityResolver next) {
-        m_next = next;
+    // Let file: URLs just get loaded using the default mechanism
+    if (systemId.startsWith("file:") || systemId.startsWith("jar:")) {
+      return null;
     }
-
-    /**
-     * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String, java.lang.String)
-     */
-    @Override
-    public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
-
-        if (systemId.startsWith(XHTML_PREFIX)) {
-            String name = systemId.substring(XHTML_PREFIX.length());
-            //final InputStream resourceAsStream = getClass().getResourceAsStream(name);
-            URL resource = getClass().getResource(name);
-            if (resource != null) {
-                InputSource inputSource = new InputSource(resource.toExternalForm());
-                inputSource.setPublicId(publicId);
-                //inputSource.setByteStream(resourceAsStream);
-                return inputSource;
-            }
-        }
-
-        // Let file: URLs just get loaded using the default mechanism
-        if (systemId.startsWith("file:") || systemId.startsWith("jar:")) {
-            return null;
-        }
-        if (m_next != null) {
-            return m_next.resolveEntity(publicId, systemId);
-        } else {
-            return null;
-        }
+    if (m_next != null) {
+      return m_next.resolveEntity(publicId, systemId);
+    } else {
+      return null;
     }
+  }
 }

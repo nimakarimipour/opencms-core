@@ -31,21 +31,27 @@ import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.VerticalLayout;
 
 /**
- * Interface for tables which support a filter function.<p>
+ * Interface for tables which support a filter function.
+ *
+ * <p>
  */
 public interface I_CmsFilterableTable extends Component {
 
-    /**
-     * Method which gets called to filter table.<p>
-     *
-     * @param data to be matched
-     */
-    void filter(String data);
+  /**
+   * Method which gets called to filter table.
+   *
+   * <p>
+   *
+   * @param data to be matched
+   */
+  void filter(String data);
 
-    /**
-     * Gets a layout in case of empty table.<p>
-     *
-     * @return VerticalLayout
-     */
-    VerticalLayout getEmptyLayout();
+  /**
+   * Gets a layout in case of empty table.
+   *
+   * <p>
+   *
+   * @return VerticalLayout
+   */
+  VerticalLayout getEmptyLayout();
 }

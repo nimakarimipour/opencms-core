@@ -28,99 +28,101 @@
 package org.opencms.ui.contextmenu;
 
 /**
- * Flag to control which visibility checks should be performed by CmsStandardVisibilityCheck.<p>
+ * Flag to control which visibility checks should be performed by CmsStandardVisibilityCheck.
+ *
+ * <p>
  */
 public enum CmsVisibilityCheckFlag {
-    /** Check that we have control permission. */
-    controlpermission,
+  /** Check that we have control permission. */
+  controlpermission,
 
-    /** Check that resource is a defaultfile. */
-    defaultfile,
+  /** Check that resource is a defaultfile. */
+  defaultfile,
 
-    /** Checks if resource is deleted. */
-    deleted,
+  /** Checks if resource is deleted. */
+  deleted,
 
-    /** Check that the resource is a file. */
-    file,
+  /** Check that the resource is a file. */
+  file,
 
-    /** Check that the resource is a folder. */
-    folder,
+  /** Check that the resource is a folder. */
+  folder,
 
-    /** Checks if an editor is available. */
-    haseditor,
+  /** Checks if an editor is available. */
+  haseditor,
 
-    /** Checks if a sourcecode editor is available. */
-    hassourcecodeeditor,
+  /** Checks if a sourcecode editor is available. */
+  hassourcecodeeditor,
 
-    /** Check that the resource is in the current project. */
-    inproject,
+  /** Check that the resource is in the current project. */
+  inproject,
 
-    /** Checks if resource is locked by current user. */
-    mylock,
+  /** Checks if resource is locked by current user. */
+  mylock,
 
-    /** Checks that lock is not inherited. */
-    noinheritedlock,
+  /** Checks that lock is not inherited. */
+  noinheritedlock,
 
-    /** Checks if resource is not locked by different user. */
-    nootherlock,
+  /** Checks if resource is not locked by different user. */
+  nootherlock,
 
-    /** Checks if resource is not deleted. */
-    notdeleted,
+  /** Checks if resource is not deleted. */
+  notdeleted,
 
-    /** Checks that the resource is not in the current project. */
-    notinproject,
+  /** Checks that the resource is not in the current project. */
+  notinproject,
 
-    /** Checks that the resource is not new. */
-    notnew,
+  /** Checks that the resource is not new. */
+  notnew,
 
-    /** Check that we are in an Offline project. */
-    notonline,
+  /** Check that we are in an Offline project. */
+  notonline,
 
-    /** Checks if resource is not a pointer. */
-    notpointer,
+  /** Checks if resource is not a pointer. */
+  notpointer,
 
-    /** Checks that the resource is a file which is not unchanged. */
-    notunchangedfile,
+  /** Checks that the resource is a file which is not unchanged. */
+  notunchangedfile,
 
-    /** Checks if resource is locked by different user. */
-    otherlock,
+  /** Checks if resource is locked by different user. */
+  otherlock,
 
-    /** Folder with container page default file. */
-    pagefolder,
+  /** Folder with container page default file. */
+  pagefolder,
 
-    /** Checks if resource is a pointer. */
-    pointer,
+  /** Checks if resource is a pointer. */
+  pointer,
 
-    /** Checks if user has publish permissions. */
-    publishpermission,
+  /** Checks if user has publish permissions. */
+  publishpermission,
 
-    /** Checks that replace operations are valid for the type. */
-    replacable,
+  /** Checks that replace operations are valid for the type. */
+  replacable,
 
-    /** Check root administrator rule. */
-    rolerootadmin,
+  /** Check root administrator rule. */
+  rolerootadmin,
 
-    /** Check editor rule. */
-    roleeditor,
+  /** Check editor rule. */
+  roleeditor,
 
-    /** Check VFS manager role. */
-    rolevfsmanager,
+  /** Check VFS manager role. */
+  rolevfsmanager,
 
-    /** Check workplace user role. */
-    rolewpuser,
+  /** Check workplace user role. */
+  rolewpuser,
 
-    /** Checks if resource is unlocked. */
-    unlocked,
+  /** Checks if resource is unlocked. */
+  unlocked,
 
-    /** Check that we have write permission. */
-    writepermisssion,
+  /** Check that we have write permission. */
+  writepermisssion,
 
-    /** Checks if resource is xml content. */
-    xml,
+  /** Checks if resource is xml content. */
+  xml,
 
-    /** Checks if the file shouldn't be edited by the current user (used for sitemap config). */
-    restrictedconfig,
+  /** Checks if the file shouldn't be edited by the current user (used for sitemap config). */
+  restrictedconfig,
 
-    /** If resource is an XML content, check if unmarshalling succeeds. */
-    xmlunmarshal;
+  /** If resource is an XML content, check if unmarshalling succeeds. */
+  xmlunmarshal;
 }

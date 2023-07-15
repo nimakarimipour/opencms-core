@@ -31,183 +31,222 @@ import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
 
 /**
- * Message bundle class.<p>
+ * Message bundle class.
+ *
+ * <p>
  */
 public class Messages extends A_CmsMessageBundle {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_DAILOG_INSTANTIATION_FAILED_1 = "ERR_DAILOG_INSTANTIATION_FAILED_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_DAILOG_INSTANTIATION_FAILED_1 =
+      "ERR_DAILOG_INSTANTIATION_FAILED_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_DIALOG_NOT_AVAILABLE_1 = "ERR_DIALOG_NOT_AVAILABLE_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String ERR_DIALOG_NOT_AVAILABLE_1 = "ERR_DIALOG_NOT_AVAILABLE_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_COPY_MOVE_AUTOMATIC_0 = "GUI_COPY_MOVE_AUTOMATIC_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_COPY_MOVE_AUTOMATIC_0 = "GUI_COPY_MOVE_AUTOMATIC_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_COPY_MOVE_CONFIRM_OVERWRITE_MESSAGE_0 = "GUI_COPY_MOVE_CONFIRM_OVERWRITE_MESSAGE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_COPY_MOVE_CONFIRM_OVERWRITE_MESSAGE_0 =
+      "GUI_COPY_MOVE_CONFIRM_OVERWRITE_MESSAGE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_COPY_MOVE_CONFIRM_OVERWRITE_TITLE_0 = "GUI_COPY_MOVE_CONFIRM_OVERWRITE_TITLE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_COPY_MOVE_CONFIRM_OVERWRITE_TITLE_0 =
+      "GUI_COPY_MOVE_CONFIRM_OVERWRITE_TITLE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_COPY_MOVE_CONTAINERPAGE_COPY_0 = "GUI_COPY_MOVE_CONTAINERPAGE_COPY_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_COPY_MOVE_CONTAINERPAGE_COPY_0 =
+      "GUI_COPY_MOVE_CONTAINERPAGE_COPY_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_COPY_MOVE_CONTAINERPAGE_REUSE_0 = "GUI_COPY_MOVE_CONTAINERPAGE_REUSE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_COPY_MOVE_CONTAINERPAGE_REUSE_0 =
+      "GUI_COPY_MOVE_CONTAINERPAGE_REUSE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_COPY_MOVE_SELECT_TARGET_CAPTION_0 = "GUI_COPY_MOVE_SELECT_TARGET_CAPTION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_COPY_MOVE_SELECT_TARGET_CAPTION_0 =
+      "GUI_COPY_MOVE_SELECT_TARGET_CAPTION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_COPY_MOVE_SET_MACRO_VALUES_TITLE_0 = "GUI_COPY_MOVE_SET_MACRO_VALUES_TITLE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_COPY_MOVE_SET_MACRO_VALUES_TITLE_0 =
+      "GUI_COPY_MOVE_SET_MACRO_VALUES_TITLE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_COPY_MOVE_SUBSITEMAP_0 = "GUI_COPY_MOVE_SUBSITEMAP_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_COPY_MOVE_SUBSITEMAP_0 = "GUI_COPY_MOVE_SUBSITEMAP_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_DIALOG_0 = "GUI_DIALOG_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_DIALOG_0 = "GUI_DIALOG_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_DIRECTLY_USED_1 = "GUI_GALLERY_DIRECTLY_USED_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_DIRECTLY_USED_1 = "GUI_GALLERY_DIRECTLY_USED_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_LASTMODIFIED_BY_2 = "GUI_GALLERY_OPTIMIZE_LASTMODIFIED_BY_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_LASTMODIFIED_BY_2 =
+      "GUI_GALLERY_OPTIMIZE_LASTMODIFIED_BY_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_CONFIRM_CANCEL_0 = "GUI_GALLERY_OPTIMIZE_CONFIRM_CANCEL_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_CONFIRM_CANCEL_0 =
+      "GUI_GALLERY_OPTIMIZE_CONFIRM_CANCEL_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_CONFIRM_CANCEL_TITLE_0 = "GUI_GALLERY_OPTIMIZE_CONFIRM_CANCEL_TITLE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_CONFIRM_CANCEL_TITLE_0 =
+      "GUI_GALLERY_OPTIMIZE_CONFIRM_CANCEL_TITLE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_CONFIRM_DELETE_0 = "GUI_GALLERY_OPTIMIZE_CONFIRM_DELETE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_CONFIRM_DELETE_0 =
+      "GUI_GALLERY_OPTIMIZE_CONFIRM_DELETE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_CONFIRM_DELETE_TITLE_0 = "GUI_GALLERY_OPTIMIZE_CONFIRM_DELETE_TITLE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_CONFIRM_DELETE_TITLE_0 =
+      "GUI_GALLERY_OPTIMIZE_CONFIRM_DELETE_TITLE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_INPUT_DESCRIPTION_0 = "GUI_GALLERY_OPTIMIZE_INPUT_DESCRIPTION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_INPUT_DESCRIPTION_0 =
+      "GUI_GALLERY_OPTIMIZE_INPUT_DESCRIPTION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_INPUT_DELETE_UNUSED_0 = "GUI_GALLERY_OPTIMIZE_INPUT_DELETE_UNUSED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_INPUT_DELETE_UNUSED_0 =
+      "GUI_GALLERY_OPTIMIZE_INPUT_DELETE_UNUSED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_LABEL_IN_ONLINE_PROJECT_0 = "GUI_GALLERY_OPTIMIZE_LABEL_IN_ONLINE_PROJECT_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_LABEL_IN_ONLINE_PROJECT_0 =
+      "GUI_GALLERY_OPTIMIZE_LABEL_IN_ONLINE_PROJECT_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_LABEL_IN_USE_0 = "GUI_GALLERY_OPTIMIZE_LABEL_IN_USE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_LABEL_IN_USE_0 =
+      "GUI_GALLERY_OPTIMIZE_LABEL_IN_USE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_LABEL_NOT_IN_USE_0 = "GUI_GALLERY_OPTIMIZE_LABEL_NOT_IN_USE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_LABEL_NOT_IN_USE_0 =
+      "GUI_GALLERY_OPTIMIZE_LABEL_NOT_IN_USE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_LABEL_SUCCESSFULLY_SAVED_0 = "GUI_GALLERY_OPTIMIZE_LABEL_SUCCESSFULLY_SAVED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_LABEL_SUCCESSFULLY_SAVED_0 =
+      "GUI_GALLERY_OPTIMIZE_LABEL_SUCCESSFULLY_SAVED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_LABEL_PAGE_INFO_1 = "GUI_GALLERY_OPTIMIZE_LABEL_PAGE_INFO_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_LABEL_PAGE_INFO_1 =
+      "GUI_GALLERY_OPTIMIZE_LABEL_PAGE_INFO_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_LABEL_PAGE_INFO_3 = "GUI_GALLERY_OPTIMIZE_LABEL_PAGE_INFO_3";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_LABEL_PAGE_INFO_3 =
+      "GUI_GALLERY_OPTIMIZE_LABEL_PAGE_INFO_3";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_LABEL_PAGE_INFO_ONE_0 = "GUI_GALLERY_OPTIMIZE_LABEL_PAGE_INFO_ONE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_LABEL_PAGE_INFO_ONE_0 =
+      "GUI_GALLERY_OPTIMIZE_LABEL_PAGE_INFO_ONE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_SORT_DATE_MODIFIED_ASCENDING_0 = "GUI_GALLERY_OPTIMIZE_SORT_DATE_MODIFIED_ASCENDING_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_SORT_DATE_MODIFIED_ASCENDING_0 =
+      "GUI_GALLERY_OPTIMIZE_SORT_DATE_MODIFIED_ASCENDING_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_SORT_DATE_MODIFIED_DESCENDING_0 = "GUI_GALLERY_OPTIMIZE_SORT_DATE_MODIFIED_DESCENDING_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_SORT_DATE_MODIFIED_DESCENDING_0 =
+      "GUI_GALLERY_OPTIMIZE_SORT_DATE_MODIFIED_DESCENDING_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_SORT_PATH_ASCENDING_0 = "GUI_GALLERY_OPTIMIZE_SORT_PATH_ASCENDING_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_SORT_PATH_ASCENDING_0 =
+      "GUI_GALLERY_OPTIMIZE_SORT_PATH_ASCENDING_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_SORT_PATH_DESCENDING_0 = "GUI_GALLERY_OPTIMIZE_SORT_PATH_DESCENDING_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_SORT_PATH_DESCENDING_0 =
+      "GUI_GALLERY_OPTIMIZE_SORT_PATH_DESCENDING_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_SELECTED_PAGE_2 = "GUI_GALLERY_OPTIMIZE_SELECTED_PAGE_2";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_SELECTED_PAGE_2 =
+      "GUI_GALLERY_OPTIMIZE_SELECTED_PAGE_2";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_SORT_TITLE_ASCENDING_0 = "GUI_GALLERY_OPTIMIZE_SORT_TITLE_ASCENDING_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_SORT_TITLE_ASCENDING_0 =
+      "GUI_GALLERY_OPTIMIZE_SORT_TITLE_ASCENDING_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_SORT_TITLE_DESCENDING_0 = "GUI_GALLERY_OPTIMIZE_SORT_TITLE_DESCENDING_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_SORT_TITLE_DESCENDING_0 =
+      "GUI_GALLERY_OPTIMIZE_SORT_TITLE_DESCENDING_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_SORT_UNUSED_FIRST_0 = "GUI_GALLERY_OPTIMIZE_SORT_UNUSED_FIRST_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_SORT_UNUSED_FIRST_0 =
+      "GUI_GALLERY_OPTIMIZE_SORT_UNUSED_FIRST_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_GALLERY_OPTIMIZE_SORT_NOCOPYRIGHT_FIRST_0 = "GUI_GALLERY_OPTIMIZE_SORT_NOCOPYRIGHT_FIRST_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_GALLERY_OPTIMIZE_SORT_NOCOPYRIGHT_FIRST_0 =
+      "GUI_GALLERY_OPTIMIZE_SORT_NOCOPYRIGHT_FIRST_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_USER_DATA_ADDRESS_0 = "GUI_USER_DATA_ADDRESS_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_USER_DATA_ADDRESS_0 = "GUI_USER_DATA_ADDRESS_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_USER_DATA_CHECK_INFO_0 = "GUI_USER_DATA_CHECK_INFO_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_USER_DATA_CHECK_INFO_0 = "GUI_USER_DATA_CHECK_INFO_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_USER_DATA_CITY_0 = "GUI_USER_DATA_CITY_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_USER_DATA_CITY_0 = "GUI_USER_DATA_CITY_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_USER_DATA_COUNTRY_0 = "GUI_USER_DATA_COUNTRY_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_USER_DATA_COUNTRY_0 = "GUI_USER_DATA_COUNTRY_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_USER_DATA_DELETE_IMAGE_0 = "GUI_USER_DATA_DELETE_IMAGE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_USER_DATA_DELETE_IMAGE_0 = "GUI_USER_DATA_DELETE_IMAGE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_USER_DATA_EMAIL_0 = "GUI_USER_DATA_EMAIL_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_USER_DATA_EMAIL_0 = "GUI_USER_DATA_EMAIL_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_USER_DATA_EMAIL_VALIDATION_ERROR_0 = "GUI_USER_DATA_EMAIL_VALIDATION_ERROR_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_USER_DATA_EMAIL_VALIDATION_ERROR_0 =
+      "GUI_USER_DATA_EMAIL_VALIDATION_ERROR_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_USER_DATA_FIRSTNAME_0 = "GUI_USER_DATA_FIRSTNAME_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_USER_DATA_FIRSTNAME_0 = "GUI_USER_DATA_FIRSTNAME_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_USER_DATA_INSTITUTION_0 = "GUI_USER_DATA_INSTITUTION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_USER_DATA_INSTITUTION_0 = "GUI_USER_DATA_INSTITUTION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_USER_DATA_LASTNAME_0 = "GUI_USER_DATA_LASTNAME_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_USER_DATA_LASTNAME_0 = "GUI_USER_DATA_LASTNAME_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_USER_DATA_NOT_EMPTY_VALIDATION_ERROR_1 = "GUI_USER_DATA_NOT_EMPTY_VALIDATION_ERROR_1";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_USER_DATA_NOT_EMPTY_VALIDATION_ERROR_1 =
+      "GUI_USER_DATA_NOT_EMPTY_VALIDATION_ERROR_1";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_USER_DATA_ZIPCODE_0 = "GUI_USER_DATA_ZIPCODE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_USER_DATA_ZIPCODE_0 = "GUI_USER_DATA_ZIPCODE_0";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.ui.dialogs.messages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME = "org.opencms.ui.dialogs.messages";
 
-    /** Static instance member. */
-    private static final I_CmsMessageBundle INSTANCE = new Messages();
+  /** Static instance member. */
+  private static final I_CmsMessageBundle INSTANCE = new Messages();
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
-    }
+    // hide the constructor
+  }
 
-    /**
-     * Returns an instance of this localized message accessor.<p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static I_CmsMessageBundle get() {
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static I_CmsMessageBundle get() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns the bundle name for this OpenCms package.<p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
 
-        return BUNDLE_NAME;
-    }
-
+    return BUNDLE_NAME;
+  }
 }

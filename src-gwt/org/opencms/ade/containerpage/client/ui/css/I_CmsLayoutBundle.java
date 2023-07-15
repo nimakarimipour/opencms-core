@@ -27,13 +27,12 @@
 
 package org.opencms.ade.containerpage.client.ui.css;
 
-import org.opencms.gwt.client.ui.css.I_CmsConstantsBundle;
-import org.opencms.gwt.client.ui.css.I_CmsDirectEditCss;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.CssResource.Shared;
+import org.opencms.gwt.client.ui.css.I_CmsConstantsBundle;
+import org.opencms.gwt.client.ui.css.I_CmsDirectEditCss;
 
 /**
  * Resource bundle to access CSS and image resources.
@@ -42,295 +41,394 @@ import com.google.gwt.resources.client.CssResource.Shared;
  */
 public interface I_CmsLayoutBundle extends ClientBundle {
 
-    /** Container-page CSS. */
-    public interface I_CmsContainerpageCss extends I_CmsDirectEditCss, I_CmsDragDropCss {
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String clipboardList();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String emptyGroupContainer();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        @ClassName("oc-enlarge-small-elements")
-        String enlargeSmallElements();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String expired();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String expiredOverlay();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String functionElement();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        @ClassName("oc-groupcontainer")
-        String groupContainer();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String groupcontainerEditing();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String groupcontainerEditor();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String groupcontainerOverlay();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String groupcontainerPlaceholder();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String hiddenElement();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String hiddenElementOverlay();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String hideElements();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        @ClassName("oc-ignore-small-elements")
-        String ignoreSmallElements();
-
-        /** Access method.<p>
-        *
-        * @return the CSS class name
-        */
-        String lockedElement();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String menuTabContainer();
-
-        /** Access method.<p>
-        *
-        * @return the CSS class name
-        */
-        @ClassName("oc-nondefault-view")
-        String nonDefaultView();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        @ClassName("oc-small-element")
-        String smallElement();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String toolbarToggle();
-    }
-
-    /** The drag and drop CSS classes used also within the container-page CSS. */
-    @Shared
-    public interface I_CmsDragDropCss extends org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsDragCss {
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        @ClassName("oc-drag-element")
-        String dragElement();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String dragging();
-
-    }
-
-    /** The drag and drop CSS classes. */
-    public interface I_CmsDragDropExtendedCss extends I_CmsDragDropCss {
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String clearFix();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String currentTarget();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String dragElementBackground();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String dragElementBorder();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String dragGroupContainer();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String dragHandle();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String dragOverlay();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        @ClassName("oc-drag-target")
-        String dragTarget();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String overlayShow();
-
-        /**
-         * Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String placeholderOverlay();
-
-    }
-
-    /** Group container editor CSS. */
-    public interface I_CmsGroupContainer extends CssResource {
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String containerMarker();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String inputBox();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String inputLabel();
-
-        /** Access method.<p>
-         *
-         * @return the CSS class name
-         */
-        String inputRow();
-    }
-
-    /** The bundle instance. */
-    I_CmsLayoutBundle INSTANCE = GWT.create(I_CmsLayoutBundle.class);
+  /** Container-page CSS. */
+  public interface I_CmsContainerpageCss extends I_CmsDirectEditCss, I_CmsDragDropCss {
 
     /**
-     * The accessor for the CSS constants bundle.<p>
+     * Access method.
      *
-     * @return the constants bundle
+     * <p>
+     *
+     * @return the CSS class name
      */
-    I_CmsConstantsBundle constants();
+    String clipboardList();
 
     /**
-     * Access method.<p>
+     * Access method.
      *
-     * @return the container-page CSS
+     * <p>
+     *
+     * @return the CSS class name
      */
-    @Source("containerpage.gss")
-    I_CmsContainerpageCss containerpageCss();
+    String emptyGroupContainer();
 
     /**
-     * Access method.<p>
+     * Access method.
      *
-     * @return the drag and drop CSS
+     * <p>
+     *
+     * @return the CSS class name
      */
-    @Source("dragdrop.gss")
-    I_CmsDragDropExtendedCss dragdropCss();
+    @ClassName("oc-enlarge-small-elements")
+    String enlargeSmallElements();
 
     /**
-     * Access method.<p>
+     * Access method.
      *
-     * @return the container-page CSS
+     * <p>
+     *
+     * @return the CSS class name
      */
-    @Source("groupcontainer.gss")
-    I_CmsGroupContainer groupcontainerCss();
+    String expired();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String expiredOverlay();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String functionElement();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    @ClassName("oc-groupcontainer")
+    String groupContainer();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String groupcontainerEditing();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String groupcontainerEditor();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String groupcontainerOverlay();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String groupcontainerPlaceholder();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String hiddenElement();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String hiddenElementOverlay();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String hideElements();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    @ClassName("oc-ignore-small-elements")
+    String ignoreSmallElements();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String lockedElement();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String menuTabContainer();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    @ClassName("oc-nondefault-view")
+    String nonDefaultView();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    @ClassName("oc-small-element")
+    String smallElement();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String toolbarToggle();
+  }
+
+  /** The drag and drop CSS classes used also within the container-page CSS. */
+  @Shared
+  public interface I_CmsDragDropCss
+      extends org.opencms.gwt.client.ui.css.I_CmsLayoutBundle.I_CmsDragCss {
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    @ClassName("oc-drag-element")
+    String dragElement();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String dragging();
+  }
+
+  /** The drag and drop CSS classes. */
+  public interface I_CmsDragDropExtendedCss extends I_CmsDragDropCss {
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String clearFix();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String currentTarget();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String dragElementBackground();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String dragElementBorder();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String dragGroupContainer();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String dragHandle();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String dragOverlay();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    @ClassName("oc-drag-target")
+    String dragTarget();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String overlayShow();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String placeholderOverlay();
+  }
+
+  /** Group container editor CSS. */
+  public interface I_CmsGroupContainer extends CssResource {
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String containerMarker();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String inputBox();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String inputLabel();
+
+    /**
+     * Access method.
+     *
+     * <p>
+     *
+     * @return the CSS class name
+     */
+    String inputRow();
+  }
+
+  /** The bundle instance. */
+  I_CmsLayoutBundle INSTANCE = GWT.create(I_CmsLayoutBundle.class);
+
+  /**
+   * The accessor for the CSS constants bundle.
+   *
+   * <p>
+   *
+   * @return the constants bundle
+   */
+  I_CmsConstantsBundle constants();
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the container-page CSS
+   */
+  @Source("containerpage.gss")
+  I_CmsContainerpageCss containerpageCss();
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the drag and drop CSS
+   */
+  @Source("dragdrop.gss")
+  I_CmsDragDropExtendedCss dragdropCss();
+
+  /**
+   * Access method.
+   *
+   * <p>
+   *
+   * @return the container-page CSS
+   */
+  @Source("groupcontainer.gss")
+  I_CmsGroupContainer groupcontainerCss();
 }

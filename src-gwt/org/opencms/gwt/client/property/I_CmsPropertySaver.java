@@ -27,21 +27,23 @@
 
 package org.opencms.gwt.client.property;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.opencms.gwt.shared.property.CmsPropertyChangeSet;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * Interface used to send property changes to the server to save them.<p>
+ * Interface used to send property changes to the server to save them.
+ *
+ * <p>
  */
 public interface I_CmsPropertySaver {
 
-    /**
-     * Saves the given property changes.<<p>
-     *
-     * @param changes the property changes
-     * @param callback the callback to call when done
-     */
-    void saveProperties(CmsPropertyChangeSet changes, AsyncCallback<Void> callback);
-
+  /**
+   * Saves the given property changes.<
+   *
+   * <p>
+   *
+   * @param changes the property changes
+   * @param callback the callback to call when done
+   */
+  void saveProperties(CmsPropertyChangeSet changes, AsyncCallback<Void> callback);
 }

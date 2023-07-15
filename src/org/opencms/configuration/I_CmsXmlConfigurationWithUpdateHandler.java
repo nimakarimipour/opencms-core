@@ -30,22 +30,26 @@ package org.opencms.configuration;
 import org.opencms.file.CmsObject;
 
 /**
- * Interface for configurations which should run custom logic when the configuration is written back by OpenCms.<p>
+ * Interface for configurations which should run custom logic when the configuration is written back
+ * by OpenCms.
+ *
+ * <p>
  */
 public interface I_CmsXmlConfigurationWithUpdateHandler extends I_CmsXmlConfiguration {
 
-    /**
-     * Called when OpenCms has written the configuration to the file system.<p>
-     *
-     * @throws Exception if something goes wrong
-     */
-    void handleUpdate() throws Exception;
+  /**
+   * Called when OpenCms has written the configuration to the file system.
+   *
+   * <p>
+   *
+   * @throws Exception if something goes wrong
+   */
+  void handleUpdate() throws Exception;
 
-    /**
-     * Called during startup with a CmsObject with admin privileges.
-     *
-     * @param cms the CMS context
-     */
-    void setCmsObject(CmsObject cms);
-
+  /**
+   * Called during startup with a CmsObject with admin privileges.
+   *
+   * @param cms the CMS context
+   */
+  void setCmsObject(CmsObject cms);
 }

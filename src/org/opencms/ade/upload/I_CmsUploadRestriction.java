@@ -33,16 +33,17 @@ import org.opencms.file.CmsObject;
 import org.opencms.gwt.shared.CmsUploadRestrictionInfo;
 
 /**
- * Interface that provides upload restriction information, based on which upload buttons may be disabled or restricted to specific types.
+ * Interface that provides upload restriction information, based on which upload buttons may be
+ * disabled or restricted to specific types.
  */
-public interface I_CmsUploadRestriction extends I_CmsConfigurationParameterHandler, I_CmsNeedsAdminCmsObject {
+public interface I_CmsUploadRestriction
+    extends I_CmsConfigurationParameterHandler, I_CmsNeedsAdminCmsObject {
 
-    /**
-     * Gets the upload restriction information for the given CMS context
-     *
-     * @param cms the CMS context
-     * @return the upload restriction information
-     */
-    CmsUploadRestrictionInfo getUploadRestrictionInfo(CmsObject cms);
-
+  /**
+   * Gets the upload restriction information for the given CMS context
+   *
+   * @param cms the CMS context
+   * @return the upload restriction information
+   */
+  CmsUploadRestrictionInfo getUploadRestrictionInfo(CmsObject cms);
 }

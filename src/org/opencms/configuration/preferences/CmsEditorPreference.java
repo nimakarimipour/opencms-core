@@ -32,101 +32,96 @@ import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
 /**
- * Preference subclass for preferred editors.<p>
+ * Preference subclass for preferred editors.
+ *
+ * <p>
  */
 public class CmsEditorPreference extends A_CmsPreference {
 
-    /** Prefix used for editor preference settings. */
-    public static final String EDITOR_PREFIX = "editor.";
+  /** Prefix used for editor preference settings. */
+  public static final String EDITOR_PREFIX = "editor.";
 
-    /** The preference default value. */
-    private String m_value;
+  /** The preference default value. */
+  private String m_value;
 
-    /** The resource type for which this preference controls the editor to use. */
-    private String m_editorType;
+  /** The resource type for which this preference controls the editor to use. */
+  private String m_editorType;
 
-    /**
-     *
-     * @param editorType the type for which this is the editor preference
-     *
-     * @param value the default value
-     */
-    public CmsEditorPreference(String editorType, String value) {
+  /**
+   * @param editorType the type for which this is the editor preference
+   * @param value the default value
+   */
+  public CmsEditorPreference(String editorType, String value) {
 
-        m_editorType = editorType;
-        m_value = value;
-    }
+    m_editorType = editorType;
+    m_value = value;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue()
-     */
-    public String getDefaultValue() {
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue() */
+  public String getDefaultValue() {
 
-        return m_value;
-    }
+    return m_value;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getName()
-     */
-    public String getName() {
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#getName() */
+  public String getName() {
 
-        return EDITOR_PREFIX + m_editorType;
-    }
+    return EDITOR_PREFIX + m_editorType;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
-     */
-    @Override
-    public CmsXmlContentProperty getPropertyDefinition() {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.I_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
+   */
+  @Override
+  public CmsXmlContentProperty getPropertyDefinition() {
 
-        CmsXmlContentProperty prop = new CmsXmlContentProperty(
-            getName(), //name
-            "string", //type
-            null, //widget
-            null, //widgetconfig
-            null, //regex
-            null, //ruletype
-            null, //default
-            null, //nicename
-            null, //description
-            null, //error
-            null//preferfolder
-        );
-        return prop;
-    }
+    CmsXmlContentProperty prop =
+        new CmsXmlContentProperty(
+            getName(), // name
+            "string", // type
+            null, // widget
+            null, // widgetconfig
+            null, // regex
+            null, // ruletype
+            null, // default
+            null, // nicename
+            null, // description
+            null, // error
+            null // preferfolder
+            );
+    return prop;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getTab()
-     */
-    public String getTab() {
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#getTab() */
+  public String getTab() {
 
-        return "hidden";
-    }
+    return "hidden";
+  }
 
-    /**
-     *
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getValue(org.opencms.configuration.CmsDefaultUserSettings)
-     */
-    public String getValue(CmsDefaultUserSettings userSettings) {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.I_CmsPreference#getValue(org.opencms.configuration.CmsDefaultUserSettings)
+   */
+  public String getValue(CmsDefaultUserSettings userSettings) {
 
-        return userSettings.getPreferredEditor(m_editorType);
-    }
+    return userSettings.getPreferredEditor(m_editorType);
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#isDisabled(CmsObject)
-     */
-    @Override
-    public boolean isDisabled(CmsObject cms) {
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#isDisabled(CmsObject) */
+  @Override
+  public boolean isDisabled(CmsObject cms) {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#setValue(org.opencms.configuration.CmsDefaultUserSettings, java.lang.String)
-     */
-    public void setValue(CmsDefaultUserSettings settings, String value) {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.I_CmsPreference#setValue(org.opencms.configuration.CmsDefaultUserSettings,
+   *     java.lang.String)
+   */
+  public void setValue(CmsDefaultUserSettings settings, String value) {
 
-        settings.setPreferredEditor(m_editorType, value);
-    }
-
+    settings.setPreferredEditor(m_editorType, value);
+  }
 }

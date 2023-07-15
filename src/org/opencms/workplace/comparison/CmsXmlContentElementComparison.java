@@ -30,44 +30,55 @@ package org.opencms.workplace.comparison;
 import java.util.Locale;
 
 /**
- * Comparison of two xml content elements.<p>
+ * Comparison of two xml content elements.
+ *
+ * <p>
  */
 public class CmsXmlContentElementComparison extends CmsElementComparison {
 
-    /** The element type.<p> */
-    private String m_type;
+  /**
+   * The element type.
+   *
+   * <p>
+   */
+  private String m_type;
 
-    /**
-     * Creates a new element comparison.<p>
-     *
-     * @param locale the locale of the compared element
-     * @param type the type of the compared element
-     * @param name the name of the compared element
-     */
-    public CmsXmlContentElementComparison(Locale locale, String name, String type) {
+  /**
+   * Creates a new element comparison.
+   *
+   * <p>
+   *
+   * @param locale the locale of the compared element
+   * @param type the type of the compared element
+   * @param name the name of the compared element
+   */
+  public CmsXmlContentElementComparison(Locale locale, String name, String type) {
 
-        super(locale, name);
-        m_type = type;
-    }
+    super(locale, name);
+    m_type = type;
+  }
 
-    /**
-     * Returns the type.<p>
-     *
-     * @return the type
-     */
-    public String getType() {
+  /**
+   * Returns the type.
+   *
+   * <p>
+   *
+   * @return the type
+   */
+  public String getType() {
 
-        return m_type;
-    }
+    return m_type;
+  }
 
-    /**
-     * Sets the type.<p>
-     *
-     * @param type the type to set
-     */
-    public void setType(String type) {
+  /**
+   * Sets the type.
+   *
+   * <p>
+   *
+   * @param type the type to set
+   */
+  public void setType(String type) {
 
-        m_type = type;
-    }
-
+    m_type = type;
+  }
 }

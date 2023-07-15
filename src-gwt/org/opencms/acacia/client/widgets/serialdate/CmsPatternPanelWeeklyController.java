@@ -27,56 +27,56 @@
 
 package org.opencms.acacia.client.widgets.serialdate;
 
-import org.opencms.acacia.shared.I_CmsSerialDateValue.WeekDay;
-
+import com.google.gwt.user.client.Command;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import com.google.gwt.user.client.Command;
+import org.opencms.acacia.shared.I_CmsSerialDateValue.WeekDay;
 
 /** Controller for the weekly pattern panel. */
 public class CmsPatternPanelWeeklyController extends A_CmsPatternPanelController {
 
-    /** The controlled view. */
-    private final CmsPatternPanelWeeklyView m_view;
+  /** The controlled view. */
+  private final CmsPatternPanelWeeklyView m_view;
 
-    /**
-     * Constructor for the weekly pattern panel controller
-     * @param model the model to read data from.
-     * @param changeHandler the value change handler.
-     */
-    CmsPatternPanelWeeklyController(final CmsSerialDateValue model, final I_ChangeHandler changeHandler) {
-        super(model, changeHandler);
-        m_view = new CmsPatternPanelWeeklyView(this, m_model);
+  /**
+   * Constructor for the weekly pattern panel controller
+   *
+   * @param model the model to read data from.
+   * @param changeHandler the value change handler.
+   */
+  CmsPatternPanelWeeklyController(
+      final CmsSerialDateValue model, final I_ChangeHandler changeHandler) {
+    super(model, changeHandler);
+    m_view = new CmsPatternPanelWeeklyView(this, m_model);
+  }
+
+  /** @see org.opencms.acacia.client.widgets.serialdate.A_CmsPatternPanelController#getView() */
+  @Override
+  public I_CmsSerialDatePatternView getView() {
+
+    return m_view;
+  }
+
+  /**
+   * Set the weekdays at which the event should take place.
+   *
+   * @param weekDays the weekdays at which the event should take place.
+   */
+  public void setWeekDays(SortedSet<WeekDay> weekDays) {
+
+    final SortedSet<WeekDay> newWeekDays = null == weekDays ? new TreeSet<WeekDay>() : weekDays;
+    SortedSet<WeekDay> currentWeekDays = m_model.getWeekDays();
+    if (!currentWeekDays.equals(newWeekDays)) {
+      conditionallyRemoveExceptionsOnChange(
+          new Command() {
+
+            public void execute() {
+
+              m_model.setWeekDays(newWeekDays);
+              onValueChange();
+            }
+          },
+          !newWeekDays.containsAll(m_model.getWeekDays()));
     }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.serialdate.A_CmsPatternPanelController#getView()
-     */
-    @Override
-    public I_CmsSerialDatePatternView getView() {
-
-        return m_view;
-    }
-
-    /**
-     * Set the weekdays at which the event should take place.
-     * @param weekDays the weekdays at which the event should take place.
-     */
-    public void setWeekDays(SortedSet<WeekDay> weekDays) {
-
-        final SortedSet<WeekDay> newWeekDays = null == weekDays ? new TreeSet<WeekDay>() : weekDays;
-        SortedSet<WeekDay> currentWeekDays = m_model.getWeekDays();
-        if (!currentWeekDays.equals(newWeekDays)) {
-            conditionallyRemoveExceptionsOnChange(new Command() {
-
-                public void execute() {
-
-                    m_model.setWeekDays(newWeekDays);
-                    onValueChange();
-                }
-            }, !newWeekDays.containsAll(m_model.getWeekDays()));
-        }
-    }
-
+  }
 }

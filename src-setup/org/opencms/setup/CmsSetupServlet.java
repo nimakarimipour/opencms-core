@@ -27,26 +27,24 @@
 
 package org.opencms.setup;
 
+import com.vaadin.server.VaadinServlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
-import com.vaadin.server.VaadinServlet;
-
 public class CmsSetupServlet extends VaadinServlet {
 
-    static CmsSetupServlet instance;
-    private ServletConfig m_config;
+  static CmsSetupServlet instance;
+  private ServletConfig m_config;
 
-    public static CmsSetupServlet getInstance() {
+  public static CmsSetupServlet getInstance() {
 
-        return instance;
-    }
+    return instance;
+  }
 
-    @Override
-    public void init(ServletConfig servletConfig) throws ServletException {
+  @Override
+  public void init(ServletConfig servletConfig) throws ServletException {
 
-        super.init(servletConfig);
-        instance = this;
-    }
-
+    super.init(servletConfig);
+    instance = this;
+  }
 }

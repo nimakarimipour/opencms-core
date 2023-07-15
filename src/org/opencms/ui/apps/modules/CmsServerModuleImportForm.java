@@ -27,16 +27,6 @@
 
 package org.opencms.ui.apps.modules;
 
-import org.opencms.main.CmsLog;
-import org.opencms.main.OpenCms;
-import org.opencms.ui.components.CmsAutoItemCreatingComboBox;
-
-import java.io.File;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-
 import com.google.common.collect.Lists;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.data.Property.ValueChangeEvent;
@@ -45,83 +35,96 @@ import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import java.io.File;
+import java.util.Collections;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.opencms.main.CmsLog;
+import org.opencms.main.OpenCms;
+import org.opencms.ui.components.CmsAutoItemCreatingComboBox;
 
 /**
- * The form for importing a module from the application server.<p>
+ * The form for importing a module from the application server.
+ *
+ * <p>
  */
 public class CmsServerModuleImportForm extends A_CmsModuleImportForm {
 
-    /** The log instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsServerModuleImportForm.class);
+  /** The log instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsServerModuleImportForm.class);
 
-    /** The Cancel button. */
-    private Button m_cancel;
+  /** The Cancel button. */
+  private Button m_cancel;
 
-    /** The select box used to select the module. */
-    private ComboBox m_moduleSelect;
+  /** The select box used to select the module. */
+  private ComboBox m_moduleSelect;
 
-    /** The OK button. */
-    private Button m_ok;
+  /** The OK button. */
+  private Button m_ok;
 
-    /** The site selector. */
-    private CmsAutoItemCreatingComboBox m_siteSelect;
+  /** The site selector. */
+  private CmsAutoItemCreatingComboBox m_siteSelect;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param app the module manager app
-     */
-    public CmsServerModuleImportForm(CmsModuleApp app, VerticalLayout start, VerticalLayout report, Runnable run) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param app the module manager app
+   */
+  public CmsServerModuleImportForm(
+      CmsModuleApp app, VerticalLayout start, VerticalLayout report, Runnable run) {
 
-        super(app, start, report, run);
-        IndexedContainer options = new IndexedContainer();
-        options.addContainerProperty("label", String.class, "");
-        m_moduleSelect.setContainerDataSource(options);
-        m_moduleSelect.setItemCaptionMode(ItemCaptionMode.PROPERTY);
-        m_moduleSelect.setItemCaptionPropertyId("label");
-        m_moduleSelect.setNullSelectionAllowed(false);
-        String moduleDir = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf("packages/modules");
-        File moduleDirFile = new File(moduleDir);
-        if (moduleDirFile.exists()) {
-            List<File> files = Lists.newArrayList(moduleDirFile.listFiles());
-            Collections.sort(files);
-            for (File file : files) {
-                if (file.isDirectory()) {
-                    continue;
-                }
-                String path = file.getAbsolutePath();
-                String name = file.getName();
-                options.addItem(path).getItemProperty("label").setValue(name);
-            }
+    super(app, start, report, run);
+    IndexedContainer options = new IndexedContainer();
+    options.addContainerProperty("label", String.class, "");
+    m_moduleSelect.setContainerDataSource(options);
+    m_moduleSelect.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+    m_moduleSelect.setItemCaptionPropertyId("label");
+    m_moduleSelect.setNullSelectionAllowed(false);
+    String moduleDir =
+        OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf("packages/modules");
+    File moduleDirFile = new File(moduleDir);
+    if (moduleDirFile.exists()) {
+      List<File> files = Lists.newArrayList(moduleDirFile.listFiles());
+      Collections.sort(files);
+      for (File file : files) {
+        if (file.isDirectory()) {
+          continue;
         }
-        m_moduleSelect.addValueChangeListener(new ValueChangeListener() {
+        String path = file.getAbsolutePath();
+        String name = file.getName();
+        options.addItem(path).getItemProperty("label").setValue(name);
+      }
+    }
+    m_moduleSelect.addValueChangeListener(
+        new ValueChangeListener() {
 
-            public void valueChange(ValueChangeEvent event) {
+          public void valueChange(ValueChangeEvent event) {
 
-                String path = (String)(event.getProperty().getValue());
-                m_importFile = new CmsModuleImportFile(path);
-                m_ok.setEnabled(false);
-                validateModuleFile();
-            }
+            String path = (String) (event.getProperty().getValue());
+            m_importFile = new CmsModuleImportFile(path);
+            m_ok.setEnabled(false);
+            validateModuleFile();
+          }
         });
-    }
+  }
 
-    @Override
-    protected Button getCancelButton() {
+  @Override
+  protected Button getCancelButton() {
 
-        return m_cancel;
-    }
+    return m_cancel;
+  }
 
-    @Override
-    protected Button getOkButton() {
+  @Override
+  protected Button getOkButton() {
 
-        return m_ok;
-    }
+    return m_ok;
+  }
 
-    @Override
-    protected CmsAutoItemCreatingComboBox getSiteSelector() {
+  @Override
+  protected CmsAutoItemCreatingComboBox getSiteSelector() {
 
-        return m_siteSelect;
-    }
-
+    return m_siteSelect;
+  }
 }

@@ -27,27 +27,28 @@
 
 package org.opencms.acacia.shared.rpc;
 
-import org.opencms.util.CmsPair;
-
+import com.google.gwt.user.client.rpc.RemoteService;
 import java.util.Collection;
 import java.util.Date;
-
-import com.google.gwt.user.client.rpc.RemoteService;
+import org.opencms.util.CmsPair;
 
 /** Synchronous interface for the serial date service. */
 public interface I_CmsSerialDateService extends RemoteService {
 
-    /**
-     * Get the dates of the specified series
-     * @param config series specification (widget's string value)
-     * @return the dates of the specified series, each with a flag, indicating if it is really taking place (or excluded as an exception).
-     */
-    Collection<CmsPair<Date, Boolean>> getDates(String config);
+  /**
+   * Get the dates of the specified series
+   *
+   * @param config series specification (widget's string value)
+   * @return the dates of the specified series, each with a flag, indicating if it is really taking
+   *     place (or excluded as an exception).
+   */
+  Collection<CmsPair<Date, Boolean>> getDates(String config);
 
-    /**
-     * Get information on the series specified by the current value.
-     * @param config series specification (widget's string value)
-     * @return a flag, indicating if the value is valid, accompanied with a suitable status message.
-     */
-    CmsPair<Boolean, String> getStatus(String config);
+  /**
+   * Get information on the series specified by the current value.
+   *
+   * @param config series specification (widget's string value)
+   * @return a flag, indicating if the value is valid, accompanied with a suitable status message.
+   */
+  CmsPair<Boolean, String> getStatus(String config);
 }

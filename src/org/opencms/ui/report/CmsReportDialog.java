@@ -27,70 +27,68 @@
 
 package org.opencms.ui.report;
 
-import org.opencms.report.A_CmsReportThread;
-import org.opencms.ui.A_CmsUI;
-import org.opencms.ui.components.CmsBasicDialog;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.opencms.report.A_CmsReportThread;
+import org.opencms.ui.A_CmsUI;
+import org.opencms.ui.components.CmsBasicDialog;
 
-/**
- * Simple dialog for displaying a report.
- */
+/** Simple dialog for displaying a report. */
 public class CmsReportDialog extends CmsBasicDialog {
 
-    /** Vaadin serial id.*/
-    private static final long serialVersionUID = 1L;
+  /** Vaadin serial id. */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Public constructor.<p>
-     *
-     * @param thread to be run
-     * @param window holds the dialog
-     */
-    public CmsReportDialog(A_CmsReportThread thread, final Window window) {
+  /**
+   * Public constructor.
+   *
+   * <p>
+   *
+   * @param thread to be run
+   * @param window holds the dialog
+   */
+  public CmsReportDialog(A_CmsReportThread thread, final Window window) {
 
-        Button close = createButtonClose();
-        close.addClickListener(new ClickListener() {
+    Button close = createButtonClose();
+    close.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                window.close();
-            }
-
+            window.close();
+          }
         });
-        addButton(close, true);
-        CmsReportWidget report = new CmsReportWidget(thread);
-        setHeight("100%");
-        report.setWidth("100%");
-        report.setHeight("100%");
-        VerticalLayout container = new VerticalLayout();
-        container.setHeight("100%");
-        container.addComponent(report);
-        setContent(container);
-    }
+    addButton(close, true);
+    CmsReportWidget report = new CmsReportWidget(thread);
+    setHeight("100%");
+    report.setWidth("100%");
+    report.setHeight("100%");
+    VerticalLayout container = new VerticalLayout();
+    container.setHeight("100%");
+    container.addComponent(report);
+    setContent(container);
+  }
 
-    /**
-     * Creates a new window and displays the given report thread's output in it.
-     *
-     * <p>Does <i>not</i> start the thread.
-     *
-     * @param title the title for the window
-     * @param thread the thread whose report should be displayed
-     */
-    public static void showReportDialog(String title, A_CmsReportThread thread) {
+  /**
+   * Creates a new window and displays the given report thread's output in it.
+   *
+   * <p>Does <i>not</i> start the thread.
+   *
+   * @param title the title for the window
+   * @param thread the thread whose report should be displayed
+   */
+  public static void showReportDialog(String title, A_CmsReportThread thread) {
 
-        Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
-        window.setCaption(title);
-        window.setHeight("500px");
-        window.setContent(new CmsReportDialog(thread, window));
-        A_CmsUI.get().addWindow(window);
-        thread.start();
-    }
-
+    Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
+    window.setCaption(title);
+    window.setHeight("500px");
+    window.setContent(new CmsReportDialog(thread, window));
+    A_CmsUI.get().addWindow(window);
+    thread.start();
+  }
 }

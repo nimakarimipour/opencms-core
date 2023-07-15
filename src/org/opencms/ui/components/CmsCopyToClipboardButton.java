@@ -27,52 +27,57 @@
 
 package org.opencms.ui.components;
 
+import com.vaadin.ui.Button;
 import org.opencms.ui.shared.components.CmsCopyToClipboardState;
 
-import com.vaadin.ui.Button;
-
 /**
- * The copy to clip-board/select text button.<p>
+ * The copy to clip-board/select text button.
+ *
+ * <p>
  */
 public class CmsCopyToClipboardButton extends Button {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = -5962296601420539691L;
+  /** The serial version id. */
+  private static final long serialVersionUID = -5962296601420539691L;
 
-    /**
-     * Hiding the constructor.<p>
-     */
-    public CmsCopyToClipboardButton() {
-        super();
-    }
+  /**
+   * Hiding the constructor.
+   *
+   * <p>
+   */
+  public CmsCopyToClipboardButton() {
+    super();
+  }
 
-    /**
-     * Constructor.<p>
-     *
-     * @param text the button text
-     * @param selector the selector string to the element to select
-     */
-    public CmsCopyToClipboardButton(String text, String selector) {
-        super(text);
-        getState().setSelector(selector);
-    }
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param text the button text
+   * @param selector the selector string to the element to select
+   */
+  public CmsCopyToClipboardButton(String text, String selector) {
+    super(text);
+    getState().setSelector(selector);
+  }
 
-    /**
-     * Sets the element selector.<p>
-     *
-     * @param selector the element selector
-     */
-    public void setSelector(String selector) {
+  /**
+   * Sets the element selector.
+   *
+   * <p>
+   *
+   * @param selector the element selector
+   */
+  public void setSelector(String selector) {
 
-        getState().setSelector(selector);
-    }
+    getState().setSelector(selector);
+  }
 
-    /**
-     * @see com.vaadin.server.AbstractClientConnector#getState()
-     */
-    @Override
-    protected CmsCopyToClipboardState getState() {
+  /** @see com.vaadin.server.AbstractClientConnector#getState() */
+  @Override
+  protected CmsCopyToClipboardState getState() {
 
-        return (CmsCopyToClipboardState)super.getState();
-    }
+    return (CmsCopyToClipboardState) super.getState();
+  }
 }

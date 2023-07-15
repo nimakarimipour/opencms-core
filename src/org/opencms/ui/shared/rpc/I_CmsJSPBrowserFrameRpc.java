@@ -30,14 +30,18 @@ package org.opencms.ui.shared.rpc;
 import com.vaadin.shared.communication.ServerRpc;
 
 /**
- * Rpc -interface for handling results from JSP displayed on an extended BrowserFrame.<p>
+ * Rpc -interface for handling results from JSP displayed on an extended BrowserFrame.
+ *
+ * <p>
  */
 public interface I_CmsJSPBrowserFrameRpc extends ServerRpc {
 
-    /**
-     * Cancels parent window on server side and returns an Array of changed resources.<p>
-     *
-     * @param resources which are returned
-     */
-    void cancelParentWindow(String[] resources);
+  /**
+   * Cancels parent window on server side and returns an Array of changed resources.
+   *
+   * <p>
+   *
+   * @param resources which are returned
+   */
+  void cancelParentWindow(String[] resources);
 }

@@ -40,60 +40,61 @@ import org.opencms.search.extractors.CmsExtractorHtml;
 import org.opencms.search.extractors.I_CmsExtractionResult;
 
 /**
- * Lucene document factory class to extract index data from a cms resource
- * containing plain html data.<p>
+ * Lucene document factory class to extract index data from a cms resource containing plain html
+ * data.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDocumentHtml extends A_CmsVfsDocument {
 
-    /**
-     * Creates a new instance of this lucene document factory.<p>
-     *
-     * @param name name of the documenttype
-     */
-    public CmsDocumentHtml(String name) {
+  /**
+   * Creates a new instance of this lucene document factory.
+   *
+   * <p>
+   *
+   * @param name name of the documenttype
+   */
+  public CmsDocumentHtml(String name) {
 
-        super(name);
+    super(name);
+  }
+
+  /**
+   * Returns the raw text content of a given VFS resource containing HTML data.
+   *
+   * <p>
+   *
+   * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource,
+   *     I_CmsSearchIndex)
+   */
+  public I_CmsExtractionResult extractContent(
+      CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+      throws CmsIndexException, CmsException {
+
+    logContentExtraction(resource, index);
+    CmsFile file = readFile(cms, resource);
+    try {
+      CmsProperty encProp =
+          cms.readPropertyObject(resource, CmsPropertyDefinition.PROPERTY_CONTENT_ENCODING, true);
+      String encoding = encProp.getValue(OpenCms.getSystemInfo().getDefaultEncoding());
+      return CmsExtractorHtml.getExtractor().extractText(file.getContents(), encoding);
+    } catch (Exception e) {
+      throw new CmsIndexException(
+          Messages.get().container(Messages.ERR_TEXT_EXTRACTION_1, resource.getRootPath()), e);
     }
+  }
 
-    /**
-     * Returns the raw text content of a given VFS resource containing HTML data.<p>
-     *
-     * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
-     */
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
-    throws CmsIndexException, CmsException {
+  /** @see org.opencms.search.documents.I_CmsDocumentFactory#isLocaleDependend() */
+  public boolean isLocaleDependend() {
 
-        logContentExtraction(resource, index);
-        CmsFile file = readFile(cms, resource);
-        try {
-            CmsProperty encProp = cms.readPropertyObject(
-                resource,
-                CmsPropertyDefinition.PROPERTY_CONTENT_ENCODING,
-                true);
-            String encoding = encProp.getValue(OpenCms.getSystemInfo().getDefaultEncoding());
-            return CmsExtractorHtml.getExtractor().extractText(file.getContents(), encoding);
-        } catch (Exception e) {
-            throw new CmsIndexException(
-                Messages.get().container(Messages.ERR_TEXT_EXTRACTION_1, resource.getRootPath()),
-                e);
-        }
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.search.documents.I_CmsDocumentFactory#isLocaleDependend()
-     */
-    public boolean isLocaleDependend() {
+  /** @see org.opencms.search.documents.I_CmsDocumentFactory#isUsingCache() */
+  public boolean isUsingCache() {
 
-        return false;
-    }
-
-    /**
-     * @see org.opencms.search.documents.I_CmsDocumentFactory#isUsingCache()
-     */
-    public boolean isUsingCache() {
-
-        return true;
-    }
+    return true;
+  }
 }

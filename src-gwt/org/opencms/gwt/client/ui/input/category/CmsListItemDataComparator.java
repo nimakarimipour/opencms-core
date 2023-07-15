@@ -27,61 +27,63 @@
 
 package org.opencms.gwt.client.ui.input.category;
 
+import java.util.Comparator;
 import org.opencms.gwt.client.ui.CmsListItem;
 
-import java.util.Comparator;
-
 /**
- * Comparator for list items with a data value widget as there main widget.<p>
+ * Comparator for list items with a data value widget as there main widget.
+ *
+ * <p>
  */
 public class CmsListItemDataComparator implements Comparator<CmsListItem> {
 
-    /** The parameter index to compare. */
-    private int m_paramIndex;
+  /** The parameter index to compare. */
+  private int m_paramIndex;
 
-    /** Flag to indicate sorting ascending or descending. */
-    private boolean m_ascending;
+  /** Flag to indicate sorting ascending or descending. */
+  private boolean m_ascending;
 
-    /**
-     * Default Constructor.<p>
-     *
-     * @param paramIndex the parameter index to compare
-     * @param ascending the sort order
-     */
-    public CmsListItemDataComparator(int paramIndex, boolean ascending) {
+  /**
+   * Default Constructor.
+   *
+   * <p>
+   *
+   * @param paramIndex the parameter index to compare
+   * @param ascending the sort order
+   */
+  public CmsListItemDataComparator(int paramIndex, boolean ascending) {
 
-        m_paramIndex = paramIndex;
-        m_ascending = ascending;
+    m_paramIndex = paramIndex;
+    m_ascending = ascending;
+  }
+
+  /** @see java.util.Comparator#compare(java.lang.Object, java.lang.Object) */
+  public int compare(CmsListItem o1, CmsListItem o2) {
+
+    int result = 0;
+    String val1 = null;
+    String val2 = null;
+    try {
+      CmsDataValue d1 = (CmsDataValue) o1.getMainWidget();
+      CmsDataValue d2 = (CmsDataValue) o2.getMainWidget();
+      if (m_paramIndex == 0) {
+        val1 = d1.getLabel();
+        val2 = d2.getLabel();
+      } else {
+        val1 = d1.getParameter(m_paramIndex);
+        val2 = d2.getParameter(m_paramIndex);
+      }
+    } catch (
+        @SuppressWarnings("unused")
+        Exception e) {
+      // ignore class cast exceptions
     }
 
-    /**
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */
-    public int compare(CmsListItem o1, CmsListItem o2) {
-
-        int result = 0;
-        String val1 = null;
-        String val2 = null;
-        try {
-            CmsDataValue d1 = (CmsDataValue)o1.getMainWidget();
-            CmsDataValue d2 = (CmsDataValue)o2.getMainWidget();
-            if (m_paramIndex == 0) {
-                val1 = d1.getLabel();
-                val2 = d2.getLabel();
-            } else {
-                val1 = d1.getParameter(m_paramIndex);
-                val2 = d2.getParameter(m_paramIndex);
-            }
-        } catch (@SuppressWarnings("unused") Exception e) {
-            // ignore class cast exceptions
-        }
-
-        if (val1 != null) {
-            result = val1.compareTo(val2);
-        } else if (val2 != null) {
-            result = 1;
-        }
-        return m_ascending ? result : -result;
+    if (val1 != null) {
+      result = val1.compareTo(val2);
+    } else if (val2 != null) {
+      result = 1;
     }
-
+    return m_ascending ? result : -result;
+  }
 }

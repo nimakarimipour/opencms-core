@@ -27,39 +27,41 @@
 
 package org.opencms.workplace.list;
 
+import java.util.Locale;
 import org.opencms.util.CmsStringUtil;
 
-import java.util.Locale;
-
 /**
- * Simple formatter for time intervals.<p>
+ * Simple formatter for time intervals.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListTimeIntervalFormatter implements I_CmsListFormatter {
 
-    /**
-     * Default constructor.<p>
-     *
-     * Use dd:hh:mm:ss style.<p>
-     */
-    public CmsListTimeIntervalFormatter() {
+  /**
+   * Default constructor.
+   *
+   * <p>Use dd:hh:mm:ss style.
+   *
+   * <p>
+   */
+  public CmsListTimeIntervalFormatter() {
 
-        //noop
+    // noop
+  }
+
+  /**
+   * @see org.opencms.workplace.list.I_CmsListFormatter#format(java.lang.Object, java.util.Locale)
+   */
+  public String format(Object data, Locale locale) {
+
+    if (data == null) {
+      return "";
     }
-
-    /**
-     * @see org.opencms.workplace.list.I_CmsListFormatter#format(java.lang.Object, java.util.Locale)
-     */
-    public String format(Object data, Locale locale) {
-
-        if (data == null) {
-            return "";
-        }
-        if (!(data instanceof Long)) {
-            return data.toString();
-        }
-        return CmsStringUtil.formatRuntime(((Long)data).longValue());
+    if (!(data instanceof Long)) {
+      return data.toString();
     }
-
+    return CmsStringUtil.formatRuntime(((Long) data).longValue());
+  }
 }

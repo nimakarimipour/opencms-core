@@ -27,172 +27,188 @@
 
 package org.opencms.configuration;
 
+import java.io.Serializable;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResource.CmsResourceCopyMode;
 import org.opencms.file.types.A_CmsResourceType;
 import org.opencms.util.CmsMacroResolver;
 
-import java.io.Serializable;
-
 /**
- * Describes a resource to copy during the creation of a new resource.<p>
+ * Describes a resource to copy during the creation of a new resource.
  *
- * Usually used in folder types to copy some default resources to the folder,
- * but also usable for file resources.<p>
+ * <p>Usually used in folder types to copy some default resources to the folder, but also usable for
+ * file resources.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsConfigurationCopyResource implements Serializable {
 
-    /** Indicates "copy resources" should be copied with type {@link CmsResource#COPY_AS_NEW}. */
-    public static final String COPY_AS_NEW = "new";
+  /** Indicates "copy resources" should be copied with type {@link CmsResource#COPY_AS_NEW}. */
+  public static final String COPY_AS_NEW = "new";
 
-    /** Indicates "copy resources" should be copied with type {@link CmsResource#COPY_PRESERVE_SIBLING}. */
-    public static final String COPY_AS_PRESERVE = "preserve";
+  /**
+   * Indicates "copy resources" should be copied with type {@link
+   * CmsResource#COPY_PRESERVE_SIBLING}.
+   */
+  public static final String COPY_AS_PRESERVE = "preserve";
 
-    /** Indicates "copy resources" should be copied with type {@link CmsResource#COPY_AS_SIBLING}. */
-    public static final String COPY_AS_SIBLING = "sibling";
+  /** Indicates "copy resources" should be copied with type {@link CmsResource#COPY_AS_SIBLING}. */
+  public static final String COPY_AS_SIBLING = "sibling";
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 3698327414935524194L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 3698327414935524194L;
 
-    /** The source resource. */
-    private String m_source;
+  /** The source resource. */
+  private String m_source;
 
-    /** The target resource (may contain macros). */
-    private String m_target;
+  /** The target resource (may contain macros). */
+  private String m_target;
 
-    /** Indicates that the original configured target was <code>null</code>.*/
-    private boolean m_targetWasNull;
+  /** Indicates that the original configured target was <code>null</code>. */
+  private boolean m_targetWasNull;
 
-    /** The type of the copy, for example "as new", "as sibling" etc.*/
-    private CmsResourceCopyMode m_type;
+  /** The type of the copy, for example "as new", "as sibling" etc. */
+  private CmsResourceCopyMode m_type;
 
-    /** Indicates that the original configured type setting was <code>null</code>.*/
-    private boolean m_typeWasNull;
+  /** Indicates that the original configured type setting was <code>null</code>. */
+  private boolean m_typeWasNull;
 
-    /**
-     * Creates a new copy resource info container.<p>
-     *
-     * If target is <code>null</code>, the macro {@link A_CmsResourceType#MACRO_RESOURCE_FOLDER_PATH} is used as default.
-     * If type is <code>null</code>, the copy type {@link CmsResource#COPY_AS_NEW} is used as default.<p>
-     *
-     * @param source the source resource
-     * @param target the target resource (may contain macros)
-     * @param type the type of the copy, for example "as new", "as sibling" etc
-     */
-    public CmsConfigurationCopyResource(String source, String target, String type) {
+  /**
+   * Creates a new copy resource info container.
+   *
+   * <p>If target is <code>null</code>, the macro {@link
+   * A_CmsResourceType#MACRO_RESOURCE_FOLDER_PATH} is used as default. If type is <code>null</code>,
+   * the copy type {@link CmsResource#COPY_AS_NEW} is used as default.
+   *
+   * <p>
+   *
+   * @param source the source resource
+   * @param target the target resource (may contain macros)
+   * @param type the type of the copy, for example "as new", "as sibling" etc
+   */
+  public CmsConfigurationCopyResource(String source, String target, String type) {
 
-        m_source = source;
+    m_source = source;
 
-        if (target == null) {
-            m_target = CmsMacroResolver.formatMacro(A_CmsResourceType.MACRO_RESOURCE_FOLDER_PATH);
-            m_targetWasNull = true;
-        } else {
-            m_target = target;
-        }
-
-        m_type = CmsResource.COPY_AS_NEW;
-        if (type != null) {
-            if (type.equalsIgnoreCase(CmsConfigurationCopyResource.COPY_AS_SIBLING)) {
-                m_type = CmsResource.COPY_AS_SIBLING;
-            } else if (type.equalsIgnoreCase(CmsConfigurationCopyResource.COPY_AS_PRESERVE)) {
-                m_type = CmsResource.COPY_PRESERVE_SIBLING;
-            }
-        } else {
-            m_typeWasNull = true;
-        }
+    if (target == null) {
+      m_target = CmsMacroResolver.formatMacro(A_CmsResourceType.MACRO_RESOURCE_FOLDER_PATH);
+      m_targetWasNull = true;
+    } else {
+      m_target = target;
     }
 
-    /**
-     * Returns the source resource.<p>
-     *
-     * @return the source resource
-     */
-    public String getSource() {
-
-        return m_source;
+    m_type = CmsResource.COPY_AS_NEW;
+    if (type != null) {
+      if (type.equalsIgnoreCase(CmsConfigurationCopyResource.COPY_AS_SIBLING)) {
+        m_type = CmsResource.COPY_AS_SIBLING;
+      } else if (type.equalsIgnoreCase(CmsConfigurationCopyResource.COPY_AS_PRESERVE)) {
+        m_type = CmsResource.COPY_PRESERVE_SIBLING;
+      }
+    } else {
+      m_typeWasNull = true;
     }
+  }
 
-    /**
-     * Returns the target resource (may contain macros).<p>
-     *
-     * @return the target resource (may contain macros)
-     */
-    public String getTarget() {
+  /**
+   * Returns the source resource.
+   *
+   * <p>
+   *
+   * @return the source resource
+   */
+  public String getSource() {
 
-        return m_target;
+    return m_source;
+  }
+
+  /**
+   * Returns the target resource (may contain macros).
+   *
+   * <p>
+   *
+   * @return the target resource (may contain macros)
+   */
+  public String getTarget() {
+
+    return m_target;
+  }
+
+  /**
+   * Returns the type of the copy, for example "as new", "as sibling" etc.
+   *
+   * <p>Possible types are {@link org.opencms.file.CmsResource#COPY_AS_NEW}, {@link
+   * org.opencms.file.CmsResource#COPY_AS_SIBLING} and {@link
+   * org.opencms.file.CmsResource#COPY_PRESERVE_SIBLING}.
+   *
+   * <p>
+   *
+   * @return the type of the copy, for example "as new", "as sibling" etc
+   */
+  public CmsResourceCopyMode getType() {
+
+    return m_type;
+  }
+
+  /**
+   * Returns the copy type as String.
+   *
+   * <p>
+   *
+   * @see #getType()
+   * @return the copy type as String
+   */
+  public String getTypeString() {
+
+    if (CmsResource.COPY_AS_SIBLING == m_type) {
+      return CmsConfigurationCopyResource.COPY_AS_SIBLING;
+    } else if (CmsResource.COPY_PRESERVE_SIBLING == m_type) {
+      return CmsConfigurationCopyResource.COPY_AS_PRESERVE;
     }
+    return CmsConfigurationCopyResource.COPY_AS_NEW;
+  }
 
-    /**
-     * Returns the type of the copy, for example "as new", "as sibling" etc.<p>
-     *
-     * Possible types are {@link org.opencms.file.CmsResource#COPY_AS_NEW},
-     * {@link org.opencms.file.CmsResource#COPY_AS_SIBLING} and
-     * {@link org.opencms.file.CmsResource#COPY_PRESERVE_SIBLING}.<p>
-     *
-     * @return the type of the copy, for example "as new", "as sibling" etc
-     */
-    public CmsResourceCopyMode getType() {
+  /**
+   * Returns <code>true</code> if the original target configuration was <code>null</code>.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the original target configuration was <code>null</code>
+   */
+  public boolean isTargetWasNull() {
 
-        return m_type;
-    }
+    return m_targetWasNull;
+  }
 
-    /**
-     * Returns the copy type as String.<p>
-     *
-     * @see #getType()
-     *
-     * @return the copy type as String
-     */
-    public String getTypeString() {
+  /**
+   * Returns <code>true</code> if the original type configuration was <code>null</code>.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the original type configuration was <code>null</code>
+   */
+  public boolean isTypeWasNull() {
 
-        if (CmsResource.COPY_AS_SIBLING == m_type) {
-            return CmsConfigurationCopyResource.COPY_AS_SIBLING;
-        } else if (CmsResource.COPY_PRESERVE_SIBLING == m_type) {
-            return CmsConfigurationCopyResource.COPY_AS_PRESERVE;
-        }
-        return CmsConfigurationCopyResource.COPY_AS_NEW;
-    }
+    return m_typeWasNull;
+  }
 
-    /**
-     * Returns <code>true</code> if the original target configuration was <code>null</code>.<p>
-     *
-     * @return  <code>true</code> if the original target configuration was <code>null</code>
-     */
-    public boolean isTargetWasNull() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_targetWasNull;
-    }
+    StringBuffer result = new StringBuffer();
 
-    /**
-     * Returns <code>true</code> if the original type configuration was <code>null</code>.<p>
-     *
-     * @return  <code>true</code> if the original type configuration was <code>null</code>
-     */
-    public boolean isTypeWasNull() {
+    result.append("[");
+    result.append(this.getClass().getName());
+    result.append(", source=");
+    result.append(getSource());
+    result.append(", target=");
+    result.append(getTarget());
+    result.append(", type=");
+    result.append(getTypeString());
+    result.append("]");
 
-        return m_typeWasNull;
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-
-        StringBuffer result = new StringBuffer();
-
-        result.append("[");
-        result.append(this.getClass().getName());
-        result.append(", source=");
-        result.append(getSource());
-        result.append(", target=");
-        result.append(getTarget());
-        result.append(", type=");
-        result.append(getTypeString());
-        result.append("]");
-
-        return result.toString();
-    }
+    return result.toString();
+  }
 }

@@ -27,74 +27,71 @@
 
 package org.opencms.setup.updater.dialogs;
 
-import org.opencms.setup.CmsUpdateUI;
-import org.opencms.ui.CmsVaadinUtils;
-
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.v7.data.Property.ValueChangeEvent;
 import com.vaadin.v7.data.Property.ValueChangeListener;
 import com.vaadin.v7.ui.CheckBox;
+import org.opencms.setup.CmsUpdateUI;
+import org.opencms.ui.CmsVaadinUtils;
 
 /**
- * License dialog.<p>
+ * License dialog.
+ *
+ * <p>
  */
 public class CmsUpdateStep01LicenseDialog extends A_CmsUpdateDialog {
 
-    /**vaadin serial id. */
-    private static final long serialVersionUID = 1L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 1L;
 
-    /**vaadin component.*/
-    VerticalLayout m_licenseContainer;
+  /** vaadin component. */
+  VerticalLayout m_licenseContainer;
 
-    /**vaadin component.*/
-    CheckBox m_accept;
+  /** vaadin component. */
+  CheckBox m_accept;
 
-    /**
-     * @see org.opencms.setup.updater.dialogs.A_CmsUpdateDialog#init(org.opencms.setup.CmsUpdateUI)
-     */
-    @Override
-    public boolean init(CmsUpdateUI ui) {
+  /**
+   * @see org.opencms.setup.updater.dialogs.A_CmsUpdateDialog#init(org.opencms.setup.CmsUpdateUI)
+   */
+  @Override
+  public boolean init(CmsUpdateUI ui) {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
-        super.init(ui, false, true);
-        setCaption("OpenCms Update-Wizard - License Agreement");
+    CmsVaadinUtils.readAndLocalizeDesign(this, null, null);
+    super.init(ui, false, true);
+    setCaption("OpenCms Update-Wizard - License Agreement");
 
-        Label label = htmlLabel(readSnippet("license.html"));
-        label.setWidth("100%");
+    Label label = htmlLabel(readSnippet("license.html"));
+    label.setWidth("100%");
 
-        m_licenseContainer.addComponent(label);
+    m_licenseContainer.addComponent(label);
 
-        m_accept.addValueChangeListener(new ValueChangeListener() {
+    m_accept.addValueChangeListener(
+        new ValueChangeListener() {
 
-            private static final long serialVersionUID = 1L;
+          private static final long serialVersionUID = 1L;
 
-            public void valueChange(ValueChangeEvent event) {
+          public void valueChange(ValueChangeEvent event) {
 
-                enableOK(m_accept.getValue().booleanValue());
-            }
+            enableOK(m_accept.getValue().booleanValue());
+          }
         });
 
-        enableOK(false);
-        return true;
-    }
+    enableOK(false);
+    return true;
+  }
 
-    /**
-     * @see org.opencms.setup.updater.dialogs.A_CmsUpdateDialog#getNextDialog()
-     */
-    @Override
-    A_CmsUpdateDialog getNextDialog() {
+  /** @see org.opencms.setup.updater.dialogs.A_CmsUpdateDialog#getNextDialog() */
+  @Override
+  A_CmsUpdateDialog getNextDialog() {
 
-        return new CmsUpdateStep02DBDialog();
-    }
+    return new CmsUpdateStep02DBDialog();
+  }
 
-    /**
-     * @see org.opencms.setup.updater.dialogs.A_CmsUpdateDialog#getPreviousDialog()
-     */
-    @Override
-    A_CmsUpdateDialog getPreviousDialog() {
+  /** @see org.opencms.setup.updater.dialogs.A_CmsUpdateDialog#getPreviousDialog() */
+  @Override
+  A_CmsUpdateDialog getPreviousDialog() {
 
-        return null;
-    }
-
+    return null;
+  }
 }

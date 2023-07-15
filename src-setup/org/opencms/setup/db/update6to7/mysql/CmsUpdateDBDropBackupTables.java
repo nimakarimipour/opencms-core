@@ -27,42 +27,43 @@
 
 package org.opencms.setup.db.update6to7.mysql;
 
+import java.io.IOException;
 import org.opencms.file.CmsResource;
 
-import java.io.IOException;
-
 /**
- * This class drops the CMS_BACKUP tables that are no longer used after all the transfers are finished.<p>
+ * This class drops the CMS_BACKUP tables that are no longer used after all the transfers are
+ * finished.
  *
- * The tables to drop are
+ * <p>The tables to drop are
+ *
  * <ul>
- * <li>CMS_BACKUP_PROJECTRESOURCES</li>
- * <li>CMS_BACKUP_PROJECTS</li>
- * <li>CMS_BACKUP_PROPERTIES</li>
- * <li>CMS_BACKUP_PROPERTYDEF</li>
- * <li>CMS_BACKUP_RESOURCES</li>
- * <li>CMS_BACKUP_STRUCTURE</li>
+ *   <li>CMS_BACKUP_PROJECTRESOURCES
+ *   <li>CMS_BACKUP_PROJECTS
+ *   <li>CMS_BACKUP_PROPERTIES
+ *   <li>CMS_BACKUP_PROPERTYDEF
+ *   <li>CMS_BACKUP_RESOURCES
+ *   <li>CMS_BACKUP_STRUCTURE
  * </ul>
  */
-public class CmsUpdateDBDropBackupTables extends org.opencms.setup.db.update6to7.CmsUpdateDBDropBackupTables {
+public class CmsUpdateDBDropBackupTables
+    extends org.opencms.setup.db.update6to7.CmsUpdateDBDropBackupTables {
 
-    /**
-     * Constructor.<p>
-     *
-     * @throws IOException if the query properties cannot be read
-     */
-    public CmsUpdateDBDropBackupTables()
-    throws IOException {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @throws IOException if the query properties cannot be read
+   */
+  public CmsUpdateDBDropBackupTables() throws IOException {
 
-        super();
-    }
+    super();
+  }
 
-    /**
-     * @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation()
-     */
-    @Override
-    protected String getPropertyFileLocation() {
+  /** @see org.opencms.setup.db.A_CmsUpdateDBPart#getPropertyFileLocation() */
+  @Override
+  protected String getPropertyFileLocation() {
 
-        return CmsResource.getParentFolder(super.getPropertyFileLocation());
-    }
+    return CmsResource.getParentFolder(super.getPropertyFileLocation());
+  }
 }

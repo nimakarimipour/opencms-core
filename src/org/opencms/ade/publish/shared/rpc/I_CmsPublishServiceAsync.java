@@ -27,6 +27,8 @@
 
 package org.opencms.ade.publish.shared.rpc;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.HashMap;
 import org.opencms.ade.publish.shared.CmsPublishData;
 import org.opencms.ade.publish.shared.CmsPublishGroupList;
 import org.opencms.ade.publish.shared.CmsPublishOptions;
@@ -35,56 +37,63 @@ import org.opencms.ade.publish.shared.CmsWorkflowAction;
 import org.opencms.ade.publish.shared.CmsWorkflowActionParams;
 import org.opencms.ade.publish.shared.CmsWorkflowResponse;
 
-import java.util.HashMap;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * The asynchronous interface to the publish service.<p>
+ * The asynchronous interface to the publish service.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsPublishServiceAsync {
 
-    /**
-     * Executes a workflow action.<p>
-     *
-     * @param action the workflow action
-     * @param params the workflow parameters
-     * @param callback the result callback
-     */
-    void executeAction(
-        CmsWorkflowAction action,
-        CmsWorkflowActionParams params,
-        AsyncCallback<CmsWorkflowResponse> callback);
+  /**
+   * Executes a workflow action.
+   *
+   * <p>
+   *
+   * @param action the workflow action
+   * @param params the workflow parameters
+   * @param callback the result callback
+   */
+  void executeAction(
+      CmsWorkflowAction action,
+      CmsWorkflowActionParams params,
+      AsyncCallback<CmsWorkflowResponse> callback);
 
-    /**
-     * Asynchronous version of {@link I_CmsPublishService#getInitData(HashMap)}.<p>
-     *
-     * @param params the additional publish parameters
-     * @param callback the result callback
-     */
-    void getInitData(HashMap<String, String> params, AsyncCallback<CmsPublishData> callback);
+  /**
+   * Asynchronous version of {@link I_CmsPublishService#getInitData(HashMap)}.
+   *
+   * <p>
+   *
+   * @param params the additional publish parameters
+   * @param callback the result callback
+   */
+  void getInitData(HashMap<String, String> params, AsyncCallback<CmsPublishData> callback);
 
-    /**
-     * Asynchronous version of {@link I_CmsPublishService#getResourceGroups(CmsWorkflow,CmsPublishOptions,boolean)}.<p>
-     *
-     * @param workflow the selected workflow
-     * @param options the publish list options
-     * @param callback the result callback
-     * @param projectChanged indicates whether the reason we get the resource groups is because the user changed the project
-     */
-    void getResourceGroups(
-        CmsWorkflow workflow,
-        CmsPublishOptions options,
-        boolean projectChanged,
-        AsyncCallback<CmsPublishGroupList> callback);
+  /**
+   * Asynchronous version of {@link
+   * I_CmsPublishService#getResourceGroups(CmsWorkflow,CmsPublishOptions,boolean)}.
+   *
+   * <p>
+   *
+   * @param workflow the selected workflow
+   * @param options the publish list options
+   * @param callback the result callback
+   * @param projectChanged indicates whether the reason we get the resource groups is because the
+   *     user changed the project
+   */
+  void getResourceGroups(
+      CmsWorkflow workflow,
+      CmsPublishOptions options,
+      boolean projectChanged,
+      AsyncCallback<CmsPublishGroupList> callback);
 
-    /**
-     * Asynchronous version of {@link I_CmsPublishService#getResourceOptions()}.<p>
-     *
-     * @param callback the result callback
-     */
-    void getResourceOptions(AsyncCallback<CmsPublishOptions> callback);
-
+  /**
+   * Asynchronous version of {@link I_CmsPublishService#getResourceOptions()}.
+   *
+   * <p>
+   *
+   * @param callback the result callback
+   */
+  void getResourceOptions(AsyncCallback<CmsPublishOptions> callback);
 }

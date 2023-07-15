@@ -27,10 +27,6 @@
 
 package org.opencms.gwt.rebind;
 
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.GeneratorContext;
 import com.google.gwt.core.ext.TreeLogger;
@@ -42,99 +38,116 @@ import com.google.gwt.core.ext.typeinfo.NotFoundException;
 import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Context menu command init generator.<p>
+ * Context menu command init generator.
+ *
+ * <p>
  *
  * @since version 8.0.1
  */
 public class CmsCommandInitGenerator extends Generator {
 
-    /** The name of the class to generate. */
-    private static final String CLASS_NAME = "CmsContextMenuCommandInitializer";
+  /** The name of the class to generate. */
+  private static final String CLASS_NAME = "CmsContextMenuCommandInitializer";
 
-    /** The name of the interface passed into GWT.create(). */
-    private static final String INIT_INTERFACE_NAME = "org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommandInitializer";
+  /** The name of the interface passed into GWT.create(). */
+  private static final String INIT_INTERFACE_NAME =
+      "org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommandInitializer";
 
-    /** The name of the marker interface for the generator. */
-    private static final String MARKER_INTERFACE_NAME = "org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand";
+  /** The name of the marker interface for the generator. */
+  private static final String MARKER_INTERFACE_NAME =
+      "org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand";
 
-    /** The name of the context menu command interface. */
-    private static final String COMMAND_INTERFACE = "org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand";
+  /** The name of the context menu command interface. */
+  private static final String COMMAND_INTERFACE =
+      "org.opencms.gwt.client.ui.contextmenu.I_CmsContextMenuCommand";
 
-    /** The name of the get context menu command method. */
-    private static final String GET_COMMAND_METHOD = "getContextMenuCommand";
+  /** The name of the get context menu command method. */
+  private static final String GET_COMMAND_METHOD = "getContextMenuCommand";
 
-    /** The package of the class to generate. */
-    private static final String PACKAGE_NAME = "org.opencms.gwt.client";
+  /** The package of the class to generate. */
+  private static final String PACKAGE_NAME = "org.opencms.gwt.client";
 
-    /**
-     * @see com.google.gwt.core.ext.Generator#generate(com.google.gwt.core.ext.TreeLogger, com.google.gwt.core.ext.GeneratorContext, java.lang.String)
-     */
-    @Override
-    public String generate(TreeLogger logger, GeneratorContext context, String typeName)
-    throws UnableToCompleteException {
+  /**
+   * @see com.google.gwt.core.ext.Generator#generate(com.google.gwt.core.ext.TreeLogger,
+   *     com.google.gwt.core.ext.GeneratorContext, java.lang.String)
+   */
+  @Override
+  public String generate(TreeLogger logger, GeneratorContext context, String typeName)
+      throws UnableToCompleteException {
 
-        TypeOracle oracle = context.getTypeOracle();
-        JClassType initClass = oracle.findType(MARKER_INTERFACE_NAME);
-        List<JClassType> initTypes = new ArrayList<JClassType>();
-        for (JClassType subtype : initClass.getSubtypes()) {
-            try {
-                JMethod method = subtype.getMethod(GET_COMMAND_METHOD, new JType[] {});
-                if (!method.isStatic()) {
-                    throw new NotFoundException();
-                }
-                initTypes.add(subtype);
-            } catch (NotFoundException e) {
-                logger.log(
-                    TreeLogger.ERROR,
-                    "Could not find " + GET_COMMAND_METHOD + "() method in class " + subtype.getQualifiedSourceName());
-                throw new UnableToCompleteException();
-            }
+    TypeOracle oracle = context.getTypeOracle();
+    JClassType initClass = oracle.findType(MARKER_INTERFACE_NAME);
+    List<JClassType> initTypes = new ArrayList<JClassType>();
+    for (JClassType subtype : initClass.getSubtypes()) {
+      try {
+        JMethod method = subtype.getMethod(GET_COMMAND_METHOD, new JType[] {});
+        if (!method.isStatic()) {
+          throw new NotFoundException();
         }
-        generateClass(logger, context, initTypes);
-        return PACKAGE_NAME + "." + CLASS_NAME;
+        initTypes.add(subtype);
+      } catch (NotFoundException e) {
+        logger.log(
+            TreeLogger.ERROR,
+            "Could not find "
+                + GET_COMMAND_METHOD
+                + "() method in class "
+                + subtype.getQualifiedSourceName());
+        throw new UnableToCompleteException();
+      }
     }
+    generateClass(logger, context, initTypes);
+    return PACKAGE_NAME + "." + CLASS_NAME;
+  }
 
-    /**
-     * This method generates the source code for the class initializer class.<p>
-     *
-     * @param logger the logger to be used
-     * @param context the generator context
-     * @param subclasses the classes for which the generated code should the initClass() method
-     */
-    public void generateClass(TreeLogger logger, GeneratorContext context, List<JClassType> subclasses) {
+  /**
+   * This method generates the source code for the class initializer class.
+   *
+   * <p>
+   *
+   * @param logger the logger to be used
+   * @param context the generator context
+   * @param subclasses the classes for which the generated code should the initClass() method
+   */
+  public void generateClass(
+      TreeLogger logger, GeneratorContext context, List<JClassType> subclasses) {
 
-        PrintWriter printWriter = context.tryCreate(logger, PACKAGE_NAME, CLASS_NAME);
-        if (printWriter == null) {
-            return;
-        }
-        ClassSourceFileComposerFactory composer = new ClassSourceFileComposerFactory(PACKAGE_NAME, CLASS_NAME);
-        composer.addImplementedInterface(INIT_INTERFACE_NAME);
-        SourceWriter sourceWriter = composer.createSourceWriter(context, printWriter);
-        sourceWriter.println("public java.util.Map<String, " + COMMAND_INTERFACE + "> initCommands() {");
-        sourceWriter.indent();
-        sourceWriter.println(
-            "java.util.Map<String, "
-                + COMMAND_INTERFACE
-                + "> result=new java.util.HashMap<String, "
-                + COMMAND_INTERFACE
-                + ">();");
-        for (JClassType type : subclasses) {
-            sourceWriter.println(
-                "result.put(\""
-                    + type.getQualifiedSourceName()
-                    + "\","
-                    + type.getQualifiedSourceName()
-                    + "."
-                    + GET_COMMAND_METHOD
-                    + "());");
-        }
-        sourceWriter.println("return result;");
-        sourceWriter.outdent();
-        sourceWriter.println("}");
-        sourceWriter.outdent();
-        sourceWriter.println("}");
-        context.commit(logger, printWriter);
+    PrintWriter printWriter = context.tryCreate(logger, PACKAGE_NAME, CLASS_NAME);
+    if (printWriter == null) {
+      return;
     }
+    ClassSourceFileComposerFactory composer =
+        new ClassSourceFileComposerFactory(PACKAGE_NAME, CLASS_NAME);
+    composer.addImplementedInterface(INIT_INTERFACE_NAME);
+    SourceWriter sourceWriter = composer.createSourceWriter(context, printWriter);
+    sourceWriter.println(
+        "public java.util.Map<String, " + COMMAND_INTERFACE + "> initCommands() {");
+    sourceWriter.indent();
+    sourceWriter.println(
+        "java.util.Map<String, "
+            + COMMAND_INTERFACE
+            + "> result=new java.util.HashMap<String, "
+            + COMMAND_INTERFACE
+            + ">();");
+    for (JClassType type : subclasses) {
+      sourceWriter.println(
+          "result.put(\""
+              + type.getQualifiedSourceName()
+              + "\","
+              + type.getQualifiedSourceName()
+              + "."
+              + GET_COMMAND_METHOD
+              + "());");
+    }
+    sourceWriter.println("return result;");
+    sourceWriter.outdent();
+    sourceWriter.println("}");
+    sourceWriter.outdent();
+    sourceWriter.println("}");
+    context.commit(logger, printWriter);
+  }
 }

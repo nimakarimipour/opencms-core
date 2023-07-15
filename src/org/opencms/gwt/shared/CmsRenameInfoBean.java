@@ -27,74 +27,84 @@
 
 package org.opencms.gwt.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import org.opencms.util.CmsUUID;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * Bean class containing the information needed for the Rename dialog.<p>
+ * Bean class containing the information needed for the Rename dialog.
+ *
+ * <p>
  */
 public class CmsRenameInfoBean implements IsSerializable {
 
-    /** The list info bean. */
-    private CmsListInfoBean m_listInfo;
+  /** The list info bean. */
+  private CmsListInfoBean m_listInfo;
 
-    /** The resource site path. */
-    private String m_sitePath;
+  /** The resource site path. */
+  private String m_sitePath;
 
-    /** The resource structure id. */
-    private CmsUUID m_structureId;
+  /** The resource structure id. */
+  private CmsUUID m_structureId;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param sitePath the site path of the resource
-     * @param structureId the structure id of the resource
-     * @param listInfo the list info bean for the resource
-     */
-    public CmsRenameInfoBean(String sitePath, CmsUUID structureId, CmsListInfoBean listInfo) {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param sitePath the site path of the resource
+   * @param structureId the structure id of the resource
+   * @param listInfo the list info bean for the resource
+   */
+  public CmsRenameInfoBean(String sitePath, CmsUUID structureId, CmsListInfoBean listInfo) {
 
-        m_listInfo = listInfo;
-        m_sitePath = sitePath;
-        m_structureId = structureId;
-    }
+    m_listInfo = listInfo;
+    m_sitePath = sitePath;
+    m_structureId = structureId;
+  }
 
-    /**
-     * Empty default constructor for serialization.<p>
-     */
-    protected CmsRenameInfoBean() {
+  /**
+   * Empty default constructor for serialization.
+   *
+   * <p>
+   */
+  protected CmsRenameInfoBean() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * Gets the list info bean for the resource.<p>
-     *
-     * @return the list info bean
-     */
-    public CmsListInfoBean getListInfo() {
+  /**
+   * Gets the list info bean for the resource.
+   *
+   * <p>
+   *
+   * @return the list info bean
+   */
+  public CmsListInfoBean getListInfo() {
 
-        return m_listInfo;
-    }
+    return m_listInfo;
+  }
 
-    /**
-     * Gets the site path of the resource.<p>
-     *
-     * @return the site path
-     */
-    public String getSitePath() {
+  /**
+   * Gets the site path of the resource.
+   *
+   * <p>
+   *
+   * @return the site path
+   */
+  public String getSitePath() {
 
-        return m_sitePath;
-    }
+    return m_sitePath;
+  }
 
-    /**
-     * Gets the structure id of the resource.<p>
-     *
-     * @return the structure id
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Gets the structure id of the resource.
+   *
+   * <p>
+   *
+   * @return the structure id
+   */
+  public CmsUUID getStructureId() {
 
-        return m_structureId;
-    }
-
+    return m_structureId;
+  }
 }

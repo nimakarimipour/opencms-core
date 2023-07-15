@@ -27,6 +27,11 @@
 
 package org.opencms.ade.containerpage.shared.rpc;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.opencms.ade.containerpage.shared.CmsCntPageData;
 import org.opencms.ade.containerpage.shared.CmsContainer;
 import org.opencms.ade.containerpage.shared.CmsContainerElement;
@@ -44,543 +49,628 @@ import org.opencms.gwt.CmsRpcException;
 import org.opencms.gwt.shared.CmsListElementCreationDialogData;
 import org.opencms.util.CmsUUID;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * The RPC service asynchronous interface used by the container-page editor.<p>
+ * The RPC service asynchronous interface used by the container-page editor.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsContainerpageServiceAsync {
 
-    /**
-    * Adds an element specified by it's id to the favorite list.<p>
-    *
-    * @param context the rpc context
-    * @param clientId the element id
-    * @param callback the call-back executed on response
-    */
-    void addToFavoriteList(CmsContainerPageRpcContext context, String clientId, AsyncCallback<Void> callback);
+  /**
+   * Adds an element specified by it's id to the favorite list.
+   *
+   * <p>
+   *
+   * @param context the rpc context
+   * @param clientId the element id
+   * @param callback the call-back executed on response
+   */
+  void addToFavoriteList(
+      CmsContainerPageRpcContext context, String clientId, AsyncCallback<Void> callback);
 
-    /**
-     * Adds an element specified by it's id to the recent list.<p>
-     *
-     * @param context the rpc context
-     * @param clientId the element id
-     * @param callback the call-back executed on response
-     */
-    void addToRecentList(CmsContainerPageRpcContext context, String clientId, AsyncCallback<Void> callback);
+  /**
+   * Adds an element specified by it's id to the recent list.
+   *
+   * <p>
+   *
+   * @param context the rpc context
+   * @param clientId the element id
+   * @param callback the call-back executed on response
+   */
+  void addToRecentList(
+      CmsContainerPageRpcContext context, String clientId, AsyncCallback<Void> callback);
 
-    /**
-     * Check if a page or its elements have been changed.<p>
-     *
-     * @param structureId the id of the container page
-     * @param detailContentId the structure id of the detail content (may be null)
-     * @param contentLocale the content locale
-     * @param callback the callback for the result
-     */
-    void checkContainerpageOrElementsChanged(
-        CmsUUID structureId,
-        CmsUUID detailContentId,
-        String contentLocale,
-        AsyncCallback<Boolean> callback);
+  /**
+   * Check if a page or its elements have been changed.
+   *
+   * <p>
+   *
+   * @param structureId the id of the container page
+   * @param detailContentId the structure id of the detail content (may be null)
+   * @param contentLocale the content locale
+   * @param callback the callback for the result
+   */
+  void checkContainerpageOrElementsChanged(
+      CmsUUID structureId,
+      CmsUUID detailContentId,
+      String contentLocale,
+      AsyncCallback<Boolean> callback);
 
-    /**
-     * To create a new element of the given type this method will check if a model resource needs to be selected, otherwise creates the new element.
-     * Returns a bean containing either the new element data or a list of model resources to select.<p>
-     *
-     * @param pageStructureId the container page structure id
-     * @param clientId the client id of the new element (this will be the structure id of the configured new resource)
-     * @param resourceType the resource tape of the new element
-     * @param container the parent container
-     * @param locale the content locale
-     * @param callback the call-back executed on response
-     */
-    void checkCreateNewElement(
-        CmsUUID pageStructureId,
-        String clientId,
-        String resourceType,
-        CmsContainer container,
-        String locale,
-        AsyncCallback<CmsCreateElementData> callback);
+  /**
+   * To create a new element of the given type this method will check if a model resource needs to
+   * be selected, otherwise creates the new element. Returns a bean containing either the new
+   * element data or a list of model resources to select.
+   *
+   * <p>
+   *
+   * @param pageStructureId the container page structure id
+   * @param clientId the client id of the new element (this will be the structure id of the
+   *     configured new resource)
+   * @param resourceType the resource tape of the new element
+   * @param container the parent container
+   * @param locale the content locale
+   * @param callback the call-back executed on response
+   */
+  void checkCreateNewElement(
+      CmsUUID pageStructureId,
+      String clientId,
+      String resourceType,
+      CmsContainer container,
+      String locale,
+      AsyncCallback<CmsCreateElementData> callback);
 
-    /**
-     * Checks whether the Acacia widgets are available for all fields of the content.<p>
-     *
-     * @param structureId the structure id of the content to check.<p>
-     *
-     * @param resultCallback the callback for the result
-     */
-    void checkNewWidgetsAvailable(CmsUUID structureId, AsyncCallback<Boolean> resultCallback);
+  /**
+   * Checks whether the Acacia widgets are available for all fields of the content.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the content to check.
+   *     <p>
+   * @param resultCallback the callback for the result
+   */
+  void checkNewWidgetsAvailable(CmsUUID structureId, AsyncCallback<Boolean> resultCallback);
 
-    /**
-     * Creates  a new element with a given model element and returns the copy'S structure id.<p>
-     *
-     * @param pageId the container page id
-     * @param originalElementId the model element id
-     * @param locale the content locale
-     * @param resultCallback the callback for the result
-     */
-    void copyElement(CmsUUID pageId, CmsUUID originalElementId, String locale, AsyncCallback<CmsUUID> resultCallback);
+  /**
+   * Creates a new element with a given model element and returns the copy'S structure id.
+   *
+   * <p>
+   *
+   * @param pageId the container page id
+   * @param originalElementId the model element id
+   * @param locale the content locale
+   * @param resultCallback the callback for the result
+   */
+  void copyElement(
+      CmsUUID pageId,
+      CmsUUID originalElementId,
+      String locale,
+      AsyncCallback<CmsUUID> resultCallback);
 
-    /**
-     * Creates a new element of the given type and returns the new element data containing structure id and site path.<p>
-     *
-     * @param pageStructureId the container page structure id
-     * @param clientId the client id of the new element (this will be the structure id of the configured new resource)
-     * @param resourceType the resource tape of the new element
-     * @param modelResourceStructureId the model resource structure id
-     * @param locale the content locale
-     * @param callback the call-back executed on response
-     */
-    void createNewElement(
-        CmsUUID pageStructureId,
-        String clientId,
-        String resourceType,
-        CmsUUID modelResourceStructureId,
-        String locale,
-        AsyncCallback<CmsContainerElement> callback);
+  /**
+   * Creates a new element of the given type and returns the new element data containing structure
+   * id and site path.
+   *
+   * <p>
+   *
+   * @param pageStructureId the container page structure id
+   * @param clientId the client id of the new element (this will be the structure id of the
+   *     configured new resource)
+   * @param resourceType the resource tape of the new element
+   * @param modelResourceStructureId the model resource structure id
+   * @param locale the content locale
+   * @param callback the call-back executed on response
+   */
+  void createNewElement(
+      CmsUUID pageStructureId,
+      String clientId,
+      String resourceType,
+      CmsUUID modelResourceStructureId,
+      String locale,
+      AsyncCallback<CmsContainerElement> callback);
 
-    /**
-     * This method is used for serialization purposes only.<p>
-     *
-     * @param callback the callback
-     */
-    void getContainerInfo(AsyncCallback<CmsContainer> callback);
+  /**
+   * This method is used for serialization purposes only.
+   *
+   * <p>
+   *
+   * @param callback the callback
+   */
+  void getContainerInfo(AsyncCallback<CmsContainer> callback);
 
-    /**
-     * Returns the delete options.<p>
-     *
-     * @param clientId the client element id
-     * @param pageStructureId the current page structure id
-     * @param requestParams optional request parameters
-     * @param callback the async callback
-     */
-    void getDeleteOptions(
-        String clientId,
-        CmsUUID pageStructureId,
-        String requestParams,
-        AsyncCallback<CmsDialogOptionsAndInfo> callback);
+  /**
+   * Returns the delete options.
+   *
+   * <p>
+   *
+   * @param clientId the client element id
+   * @param pageStructureId the current page structure id
+   * @param requestParams optional request parameters
+   * @param callback the async callback
+   */
+  void getDeleteOptions(
+      String clientId,
+      CmsUUID pageStructureId,
+      String requestParams,
+      AsyncCallback<CmsDialogOptionsAndInfo> callback);
 
-    /**
-     * Returns the edit options.<p>
-     *
-     * @param clientId the client element id
-     * @param pageStructureId the current page structure id
-     * @param requestParams optional request parameters
-     * @param isListElement in case a list element, not a container element is about to be edited
-     * @param callback the async callback
-     */
-    void getEditOptions(
-        String clientId,
-        CmsUUID pageStructureId,
-        String requestParams,
-        boolean isListElement,
-        AsyncCallback<CmsDialogOptionsAndInfo> callback);
+  /**
+   * Returns the edit options.
+   *
+   * <p>
+   *
+   * @param clientId the client element id
+   * @param pageStructureId the current page structure id
+   * @param requestParams optional request parameters
+   * @param isListElement in case a list element, not a container element is about to be edited
+   * @param callback the async callback
+   */
+  void getEditOptions(
+      String clientId,
+      CmsUUID pageStructureId,
+      String requestParams,
+      boolean isListElement,
+      AsyncCallback<CmsDialogOptionsAndInfo> callback);
 
-    /**
-     * This method is used for serialization purposes only.<p>
-     *
-     * @param callback the callback
-     */
-    void getElementInfo(AsyncCallback<CmsContainerElement> callback);
+  /**
+   * This method is used for serialization purposes only.
+   *
+   * <p>
+   *
+   * @param callback the callback
+   */
+  void getElementInfo(AsyncCallback<CmsContainerElement> callback);
 
-    /**
-     * Requests container element data by client id.<p>
-     *
-     * @param context the RPC context
-     * @param detailContentId the detail content structure id
-     * @param reqParams optional request parameters
-     * @param clientIds the requested element id's
-     * @param containers the containers of the current page
-     * @param alwaysCopy <code>true</code> in case reading data for a clipboard element used as a copy group
-     * @param dndSource in the DND case, the id of the origin container from which the element is dragged
-     * @param locale the content locale
-     * @param callback the call-back executed on response
-     */
-    void getElementsData(
-        CmsContainerPageRpcContext context,
-        CmsUUID detailContentId,
-        String reqParams,
-        Collection<String> clientIds,
-        Collection<CmsContainer> containers,
-        boolean alwaysCopy,
-        String dndSource,
-        String locale,
-        AsyncCallback<Map<String, CmsContainerElementData>> callback);
+  /**
+   * Requests container element data by client id.
+   *
+   * <p>
+   *
+   * @param context the RPC context
+   * @param detailContentId the detail content structure id
+   * @param reqParams optional request parameters
+   * @param clientIds the requested element id's
+   * @param containers the containers of the current page
+   * @param alwaysCopy <code>true</code> in case reading data for a clipboard element used as a copy
+   *     group
+   * @param dndSource in the DND case, the id of the origin container from which the element is
+   *     dragged
+   * @param locale the content locale
+   * @param callback the call-back executed on response
+   */
+  void getElementsData(
+      CmsContainerPageRpcContext context,
+      CmsUUID detailContentId,
+      String reqParams,
+      Collection<String> clientIds,
+      Collection<CmsContainer> containers,
+      boolean alwaysCopy,
+      String dndSource,
+      String locale,
+      AsyncCallback<Map<String, CmsContainerElementData>> callback);
 
-    /**
-     * Returns container element settings config data.<p>
-     *
-     * @param  context the rpc context
-     * @param clientId the requested element id
-     * @param containerId the parent container id
-     * @param containers the containers of the current page
-     * @param locale the content locale
-     * @param callback the call-back executed on response
-     */
-    void getElementSettingsConfig(
-        CmsContainerPageRpcContext context,
-        String clientId,
-        String containerId,
-        Collection<CmsContainer> containers,
-        String locale,
-        AsyncCallback<CmsElementSettingsConfig> callback);
+  /**
+   * Returns container element settings config data.
+   *
+   * <p>
+   *
+   * @param context the rpc context
+   * @param clientId the requested element id
+   * @param containerId the parent container id
+   * @param containers the containers of the current page
+   * @param locale the content locale
+   * @param callback the call-back executed on response
+   */
+  void getElementSettingsConfig(
+      CmsContainerPageRpcContext context,
+      String clientId,
+      String containerId,
+      Collection<CmsContainer> containers,
+      String locale,
+      AsyncCallback<CmsElementSettingsConfig> callback);
 
-    /**
-     * Checks which structure ids of a given set belong to resources locked for publishing by the current user, and then returns those.
-     *
-     * @param idsToCheck the set of ids to check
-     * @param callback the callback to call with the result
-     */
-    void getElementsLockedForPublishing(Set<CmsUUID> idsToCheck, AsyncCallback<Set<CmsUUID>> callback);
+  /**
+   * Checks which structure ids of a given set belong to resources locked for publishing by the
+   * current user, and then returns those.
+   *
+   * @param idsToCheck the set of ids to check
+   * @param callback the callback to call with the result
+   */
+  void getElementsLockedForPublishing(
+      Set<CmsUUID> idsToCheck, AsyncCallback<Set<CmsUUID>> callback);
 
-    /**
-     * Gets the element data for an id and a map of settings.<p>
-     *
-     * @param context the RPC context
-     * @param detailContentId the detail content structure id
-     * @param reqParams optional request parameters
-     * @param clientId the requested element ids
-     * @param settings the settings for which the element data should be loaded
-     * @param containers the containers of the current page
-     * @param locale the content locale
-     * @param callback the callback for receiving the element data
-     */
-    void getElementWithSettings(
-        CmsContainerPageRpcContext context,
-        CmsUUID detailContentId,
-        String reqParams,
-        String clientId,
-        Map<String, String> settings,
-        Collection<CmsContainer> containers,
-        String locale,
-        AsyncCallback<CmsContainerElementData> callback);
+  /**
+   * Gets the element data for an id and a map of settings.
+   *
+   * <p>
+   *
+   * @param context the RPC context
+   * @param detailContentId the detail content structure id
+   * @param reqParams optional request parameters
+   * @param clientId the requested element ids
+   * @param settings the settings for which the element data should be loaded
+   * @param containers the containers of the current page
+   * @param locale the content locale
+   * @param callback the callback for receiving the element data
+   */
+  void getElementWithSettings(
+      CmsContainerPageRpcContext context,
+      CmsUUID detailContentId,
+      String reqParams,
+      String clientId,
+      Map<String, String> settings,
+      Collection<CmsContainer> containers,
+      String locale,
+      AsyncCallback<CmsContainerElementData> callback);
 
-    /**
-     * Requests the container element data of the favorite list.<p>
-     *
-     * @param pageStructureId the container page structure id
-     * @param detailContentId the detail content structure id
-     * @param containers the containers of the current page
-     * @param locale the content locale
-     * @param callback the call-back executed on response
-     */
-    void getFavoriteList(
-        CmsUUID pageStructureId,
-        CmsUUID detailContentId,
-        Collection<CmsContainer> containers,
-        String locale,
-        AsyncCallback<List<CmsContainerElementData>> callback);
+  /**
+   * Requests the container element data of the favorite list.
+   *
+   * <p>
+   *
+   * @param pageStructureId the container page structure id
+   * @param detailContentId the detail content structure id
+   * @param containers the containers of the current page
+   * @param locale the content locale
+   * @param callback the call-back executed on response
+   */
+  void getFavoriteList(
+      CmsUUID pageStructureId,
+      CmsUUID detailContentId,
+      Collection<CmsContainer> containers,
+      String locale,
+      AsyncCallback<List<CmsContainerElementData>> callback);
 
-    /**
-     * Returns the gallery configuration data according to the current page containers and the selected element view.<p>
-     *
-     * @param containers the page containers
-     * @param elementView the element view
-     * @param uri the page URI
-     * @param locale the content locale
-     * @param callback the call-back executed on response
-     */
-    void getGalleryDataForPage(
-        List<CmsContainer> containers,
-        CmsUUID elementView,
-        String uri,
-        String locale,
-        AsyncCallback<CmsContainerPageGalleryData> callback);
+  /**
+   * Returns the gallery configuration data according to the current page containers and the
+   * selected element view.
+   *
+   * <p>
+   *
+   * @param containers the page containers
+   * @param elementView the element view
+   * @param uri the page URI
+   * @param locale the content locale
+   * @param callback the call-back executed on response
+   */
+  void getGalleryDataForPage(
+      List<CmsContainer> containers,
+      CmsUUID elementView,
+      String uri,
+      String locale,
+      AsyncCallback<CmsContainerPageGalleryData> callback);
 
-    /**
-     * Loads the data for the list element creation dialog.
-     *
-     * @param structureId the structure id of the container element for which we want to load the options
-     * @param jsonListAddData the list-add metadata read from the DOM
-     * @param callback the callback for the result
-     */
-    void getListElementCreationOptions(
-        CmsUUID structureId,
-        String jsonListAddData,
-        AsyncCallback<CmsListElementCreationDialogData> callback);
+  /**
+   * Loads the data for the list element creation dialog.
+   *
+   * @param structureId the structure id of the container element for which we want to load the
+   *     options
+   * @param jsonListAddData the list-add metadata read from the DOM
+   * @param callback the callback for the result
+   */
+  void getListElementCreationOptions(
+      CmsUUID structureId,
+      String jsonListAddData,
+      AsyncCallback<CmsListElementCreationDialogData> callback);
 
-    /**
-     * Returns new container element data for the given resource type name.<p>
-     *
-     * @param context the RPC context
-     * @param detailContentId the detail content structure id
-     * @param reqParams optional request parameters
-     * @param resourceType the requested element resource type name
-     * @param containers the containers of the current page
-     * @param locale the content locale
-     * @param callback the call-back executed on response
-     */
-    void getNewElementData(
-        CmsContainerPageRpcContext context,
-        CmsUUID detailContentId,
-        String reqParams,
-        String resourceType,
-        Collection<CmsContainer> containers,
-        String locale,
-        AsyncCallback<CmsContainerElementData> callback);
+  /**
+   * Returns new container element data for the given resource type name.
+   *
+   * <p>
+   *
+   * @param context the RPC context
+   * @param detailContentId the detail content structure id
+   * @param reqParams optional request parameters
+   * @param resourceType the requested element resource type name
+   * @param containers the containers of the current page
+   * @param locale the content locale
+   * @param callback the call-back executed on response
+   */
+  void getNewElementData(
+      CmsContainerPageRpcContext context,
+      CmsUUID detailContentId,
+      String reqParams,
+      String resourceType,
+      Collection<CmsContainer> containers,
+      String locale,
+      AsyncCallback<CmsContainerElementData> callback);
 
-    /**
-     * Gets the edit handler options for creating a new element.<p>
-     *
-     * @param clientId the client id of the selected element
-     * @param pageStructureId the container page structure id
-     * @param requestParams the request parameter string
-     * @param callback the callback to call when done
-     */
-    void getNewOptions(
-        String clientId,
-        CmsUUID pageStructureId,
-        String requestParams,
-        AsyncCallback<CmsDialogOptionsAndInfo> callback);
+  /**
+   * Gets the edit handler options for creating a new element.
+   *
+   * <p>
+   *
+   * @param clientId the client id of the selected element
+   * @param pageStructureId the container page structure id
+   * @param requestParams the request parameter string
+   * @param callback the callback to call when done
+   */
+  void getNewOptions(
+      String clientId,
+      CmsUUID pageStructureId,
+      String requestParams,
+      AsyncCallback<CmsDialogOptionsAndInfo> callback);
 
-    /**
-     * Requests the container element data of the recent list.<p>
-     *
-     * @param pageStructureId the container page structure id
-     * @param detailContentId the detail content structure id
-     * @param containers the containers of the current page
-     * @param locale the content locale
-     * @param callback the call-back executed on response
-     */
-    void getRecentList(
-        CmsUUID pageStructureId,
-        CmsUUID detailContentId,
-        Collection<CmsContainer> containers,
-        String locale,
-        AsyncCallback<List<CmsContainerElementData>> callback);
+  /**
+   * Requests the container element data of the recent list.
+   *
+   * <p>
+   *
+   * @param pageStructureId the container page structure id
+   * @param detailContentId the detail content structure id
+   * @param containers the containers of the current page
+   * @param locale the content locale
+   * @param callback the call-back executed on response
+   */
+  void getRecentList(
+      CmsUUID pageStructureId,
+      CmsUUID detailContentId,
+      Collection<CmsContainer> containers,
+      String locale,
+      AsyncCallback<List<CmsContainerElementData>> callback);
 
-    /**
-     * Gets the status of a removed element.<p>
-     *
-     * @param id the element's client id
-     * @param containerpageId the id of the container page which should be excluded from the relation check, or null if no page should be excluded
-     *
-     * @param callback the asynchronous callback to execute with the results
-     */
-    void getRemovedElementStatus(String id, CmsUUID containerpageId, AsyncCallback<CmsRemovedElementStatus> callback);
+  /**
+   * Gets the status of a removed element.
+   *
+   * <p>
+   *
+   * @param id the element's client id
+   * @param containerpageId the id of the container page which should be excluded from the relation
+   *     check, or null if no page should be excluded
+   * @param callback the asynchronous callback to execute with the results
+   */
+  void getRemovedElementStatus(
+      String id, CmsUUID containerpageId, AsyncCallback<CmsRemovedElementStatus> callback);
 
-    /**
-     * Handles the element deletion.<p>
-     *
-     * @param clientId the client element id
-     * @param deleteOption the selected delete option
-     * @param pageStructureId the current page structure id
-     * @param requestParams optional request parameters
-     * @param callback the asynchronous callback to execute with the results
-     */
-    void handleDelete(
-        String clientId,
-        String deleteOption,
-        CmsUUID pageStructureId,
-        String requestParams,
-        AsyncCallback<Void> callback);
+  /**
+   * Handles the element deletion.
+   *
+   * <p>
+   *
+   * @param clientId the client element id
+   * @param deleteOption the selected delete option
+   * @param pageStructureId the current page structure id
+   * @param requestParams optional request parameters
+   * @param callback the asynchronous callback to execute with the results
+   */
+  void handleDelete(
+      String clientId,
+      String deleteOption,
+      CmsUUID pageStructureId,
+      String requestParams,
+      AsyncCallback<Void> callback);
 
-    /**
-     * Loads the clipboard tab to initially select.<p>
-     *
-     * @param resultCallback the result callback
-     */
-    void loadClipboardTab(AsyncCallback<Integer> resultCallback);
+  /**
+   * Loads the clipboard tab to initially select.
+   *
+   * <p>
+   *
+   * @param resultCallback the result callback
+   */
+  void loadClipboardTab(AsyncCallback<Integer> resultCallback);
 
-    /**
-     * Returns the initialization data.<p>
-     *
-     * @param callback the async callback
-     */
-    void prefetch(AsyncCallback<CmsCntPageData> callback);
+  /**
+   * Returns the initialization data.
+   *
+   * <p>
+   *
+   * @param callback the async callback
+   */
+  void prefetch(AsyncCallback<CmsCntPageData> callback);
 
-    /**
-     * Prepares an element to be edited.<p>
-     *
-     * @param clientId the client element id
-     * @param editOption the selected delete option
-     * @param pageStructureId the current page structure id
-     * @param requestParams optional request parameters
-     * @param callback the async callback
-     */
-    void prepareForEdit(
-        String clientId,
-        String editOption,
-        CmsUUID pageStructureId,
-        String requestParams,
-        AsyncCallback<CmsUUID> callback);
+  /**
+   * Prepares an element to be edited.
+   *
+   * <p>
+   *
+   * @param clientId the client element id
+   * @param editOption the selected delete option
+   * @param pageStructureId the current page structure id
+   * @param requestParams optional request parameters
+   * @param callback the async callback
+   */
+  void prepareForEdit(
+      String clientId,
+      String editOption,
+      CmsUUID pageStructureId,
+      String requestParams,
+      AsyncCallback<CmsUUID> callback);
 
-    /**
-     * Returns the element data to replace a given content element with another while keeping it's settings.<p>
-     *
-     * @param  context the rpc context
-     * @param detailContentId the detail content structure id
-     * @param reqParams optional request parameters
-     * @param clientId the id of the element to replace
-     * @param replaceId the id of the replacing element
-     * @param containers the containers of the current page
-     * @param locale the content locale
-     * @param callback the async callback
-     */
-    void replaceElement(
-        CmsContainerPageRpcContext context,
-        CmsUUID detailContentId,
-        String reqParams,
-        String clientId,
-        String replaceId,
-        Collection<CmsContainer> containers,
-        String locale,
-        AsyncCallback<CmsContainerElementData> callback);
+  /**
+   * Returns the element data to replace a given content element with another while keeping it's
+   * settings.
+   *
+   * <p>
+   *
+   * @param context the rpc context
+   * @param detailContentId the detail content structure id
+   * @param reqParams optional request parameters
+   * @param clientId the id of the element to replace
+   * @param replaceId the id of the replacing element
+   * @param containers the containers of the current page
+   * @param locale the content locale
+   * @param callback the async callback
+   */
+  void replaceElement(
+      CmsContainerPageRpcContext context,
+      CmsUUID detailContentId,
+      String reqParams,
+      String clientId,
+      String replaceId,
+      Collection<CmsContainer> containers,
+      String locale,
+      AsyncCallback<CmsContainerElementData> callback);
 
-    /**
-     * Saves the selected clipboard tab.<p>
-     *
-     * @param tabIndex the index of the selected clipboard tab
-     * @param callback the result callback
-     */
-    void saveClipboardTab(int tabIndex, AsyncCallback<Void> callback);
+  /**
+   * Saves the selected clipboard tab.
+   *
+   * <p>
+   *
+   * @param tabIndex the index of the selected clipboard tab
+   * @param callback the result callback
+   */
+  void saveClipboardTab(int tabIndex, AsyncCallback<Void> callback);
 
-    /**
-     * Saves the container-page. Returning the save time stamp.<p>
-     *
-     * @param pageStructureId the container page structure id
-     * @param containers the container-page's containers
-     * @param callback the call-back executed on response
-     */
-    void saveContainerpage(CmsUUID pageStructureId, List<CmsContainer> containers, AsyncCallback<Long> callback);
+  /**
+   * Saves the container-page. Returning the save time stamp.
+   *
+   * <p>
+   *
+   * @param pageStructureId the container page structure id
+   * @param containers the container-page's containers
+   * @param callback the call-back executed on response
+   */
+  void saveContainerpage(
+      CmsUUID pageStructureId, List<CmsContainer> containers, AsyncCallback<Long> callback);
 
-    /**
-     * Saves the detail containers. Returning the save time stamp.<p>
-     *
-     * @param detailId the detail content id
-     * @param detailContainerResource the detail container resource path
-     * @param containers the container-page's containers
-     * @param callback the call-back executed on response
-     */
-    void saveDetailContainers(
-        CmsUUID detailId,
-        String detailContainerResource,
-        List<CmsContainer> containers,
+  /**
+   * Saves the detail containers. Returning the save time stamp.
+   *
+   * <p>
+   *
+   * @param detailId the detail content id
+   * @param detailContainerResource the detail container resource path
+   * @param containers the container-page's containers
+   * @param callback the call-back executed on response
+   */
+  void saveDetailContainers(
+      CmsUUID detailId,
+      String detailContainerResource,
+      List<CmsContainer> containers,
+      AsyncCallback<Long> callback);
 
-        AsyncCallback<Long> callback);
+  /**
+   * Saves the settings for the given element to the container page and returns the updated element
+   * data.
+   *
+   * <p>
+   *
+   * @param context the RPC context
+   * @param detailContentId the detail content structure id
+   * @param reqParams optional request parameters
+   * @param clientId the requested element ids
+   * @param settings the settings for which the element data should be loaded
+   * @param containers the containers of the current page
+   * @param locale the content locale
+   * @param callback the callback for receiving the element data
+   */
+  void saveElementSettings(
+      CmsContainerPageRpcContext context,
+      CmsUUID detailContentId,
+      String reqParams,
+      String clientId,
+      Map<String, String> settings,
+      List<CmsContainer> containers,
+      String locale,
+      AsyncCallback<CmsContainerElementData> callback);
 
-    /**
-     * Saves the settings for the given element to the container page and returns the updated element data.<p>
-     *
-     * @param context the RPC context
-     * @param detailContentId the detail content structure id
-     * @param reqParams optional request parameters
-     * @param clientId the requested element ids
-     * @param settings the settings for which the element data should be loaded
-     * @param containers the containers of the current page
-     * @param locale the content locale
-     * @param callback the callback for receiving the element data
-     */
-    void saveElementSettings(
-        CmsContainerPageRpcContext context,
-        CmsUUID detailContentId,
-        String reqParams,
-        String clientId,
-        Map<String, String> settings,
-        List<CmsContainer> containers,
-        String locale,
-        AsyncCallback<CmsContainerElementData> callback);
+  /**
+   * Saves the favorite list.
+   *
+   * <p>
+   *
+   * @param clientIds favorite list element id's
+   * @param uri the container page URI
+   * @param callback the call-back executed on response
+   */
+  void saveFavoriteList(List<String> clientIds, String uri, AsyncCallback<Void> callback);
 
-    /**
-     * Saves the favorite list.<p>
-     *
-     * @param clientIds favorite list element id's
-     * @param uri the container page URI
-     * @param callback the call-back executed on response
-     */
-    void saveFavoriteList(List<String> clientIds, String uri, AsyncCallback<Void> callback);
+  /**
+   * Saves a group-container element.
+   *
+   * <p>
+   *
+   * @param context the RPC context
+   * @param detailContentId the detail content structure id
+   * @param reqParams optional request parameters
+   * @param groupContainer the group-container to save
+   * @param containers the containers of the current page
+   * @param locale the content locale
+   * @param callback the call-back executed on response
+   */
+  void saveGroupContainer(
+      CmsContainerPageRpcContext context,
+      CmsUUID detailContentId,
+      String reqParams,
+      CmsGroupContainer groupContainer,
+      Collection<CmsContainer> containers,
+      String locale,
+      AsyncCallback<CmsGroupContainerSaveResult> callback);
 
-    /**
-     * Saves a group-container element.<p>
-     *
-     * @param context the RPC context
-     * @param detailContentId the detail content structure id
-     * @param reqParams optional request parameters
-     * @param groupContainer the group-container to save
-     * @param containers the containers of the current page
-     * @param locale the content locale
-     * @param callback the call-back executed on response
-     */
-    void saveGroupContainer(
-        CmsContainerPageRpcContext context,
-        CmsUUID detailContentId,
-        String reqParams,
-        CmsGroupContainer groupContainer,
-        Collection<CmsContainer> containers,
-        String locale,
-        AsyncCallback<CmsGroupContainerSaveResult> callback);
+  /**
+   * Saves an inheritance container.
+   *
+   * <p>
+   *
+   * @param pageStructureId the current page's structure id
+   * @param detailContentId the detail content structure id
+   * @param inheritanceContainer the inheritance container to save
+   * @param containers the containers of the current page
+   * @param locale the requested locale
+   * @param callback the callback
+   */
+  void saveInheritanceContainer(
+      CmsUUID pageStructureId,
+      CmsUUID detailContentId,
+      CmsInheritanceContainer inheritanceContainer,
+      Collection<CmsContainer> containers,
+      String locale,
+      AsyncCallback<Map<String, CmsContainerElementData>> callback);
 
-    /**
-     * Saves an inheritance container.<p>
-     *
-     * @param pageStructureId the current page's structure id
-     * @param detailContentId the detail content structure id
-     * @param inheritanceContainer the inheritance container to save
-     * @param containers the containers of the current page
-     * @param locale the requested locale
-     * @param callback the callback
-     */
-    void saveInheritanceContainer(
-        CmsUUID pageStructureId,
-        CmsUUID detailContentId,
-        CmsInheritanceContainer inheritanceContainer,
-        Collection<CmsContainer> containers,
-        String locale,
-        AsyncCallback<Map<String, CmsContainerElementData>> callback);
+  /**
+   * Saves the recent list.
+   *
+   * <p>
+   *
+   * @param clientIds recent list element id's
+   * @param uri the container page URI
+   * @param callback the call-back executed on response
+   */
+  void saveRecentList(List<String> clientIds, String uri, AsyncCallback<Void> callback);
 
-    /**
-     * Saves the recent list.<p>
-     *
-     * @param clientIds recent list element id's
-     * @param uri the container page URI
-     * @param callback the call-back executed on response
-     */
-    void saveRecentList(List<String> clientIds, String uri, AsyncCallback<Void> callback);
+  /**
+   * Saves the default value for small element editability on page load.
+   *
+   * <p>
+   *
+   * @param editSmallElements the default value
+   * @param callback the callback for the response
+   */
+  void setEditSmallElements(boolean editSmallElements, AsyncCallback<Void> callback);
 
-    /**
-     * Saves the default value for small element editability on page load.<p>
-     *
-     * @param editSmallElements the default value
-     *
-     * @param callback the callback for the response
-     */
-    void setEditSmallElements(boolean editSmallElements, AsyncCallback<Void> callback);
+  /**
+   * Sets the element view.
+   *
+   * <p>
+   *
+   * @param elementView the element view
+   * @param callback the call-back executed on response
+   */
+  void setElementView(CmsUUID elementView, AsyncCallback<Void> callback);
 
-    /**
-     * Sets the element view.<p>
-     *
-     * @param elementView the element view
-     * @param callback the call-back executed on response
-     */
-    void setElementView(CmsUUID elementView, AsyncCallback<Void> callback);
+  /**
+   * Stores information about the container page last edited.
+   *
+   * <p>
+   *
+   * @param pageId the page id
+   * @param detailId the detail content id
+   * @param callback the callback
+   */
+  void setLastPage(CmsUUID pageId, CmsUUID detailId, AsyncCallback<Void> callback);
 
-    /**
-     * Stores information about the container page last edited.<p>
-     *
-     * @param pageId the page id
-     * @param detailId the detail content id
-     * @param callback the callback
-     */
-    void setLastPage(CmsUUID pageId, CmsUUID detailId, AsyncCallback<Void> callback);
-
-    /**
-     * Updates the formatter setting for an element in the server-side element cache.
-     *
-     * @param clientId the client id of the element
-     * @param containerId the id of the container containing the element
-     * @param settings the settings of the element
-     * @throws CmsRpcException if something goes wrong
-     */
-    void updateServerElementFormatter(
-        String clientId,
-        String containerId,
-        Map<String, String> settings,
-        AsyncCallback<Void> callback);
+  /**
+   * Updates the formatter setting for an element in the server-side element cache.
+   *
+   * @param clientId the client id of the element
+   * @param containerId the id of the container containing the element
+   * @param settings the settings of the element
+   * @throws CmsRpcException if something goes wrong
+   */
+  void updateServerElementFormatter(
+      String clientId,
+      String containerId,
+      Map<String, String> settings,
+      AsyncCallback<Void> callback);
 }

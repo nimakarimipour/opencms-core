@@ -31,45 +31,52 @@ import org.opencms.i18n.CmsMessageContainer;
 
 /**
  * A replacement for <code>{@link java.lang.IllegalArgumentException}</code> to obtain fully
- * localized exception messages for OpenCms.<p>
+ * localized exception messages for OpenCms.
  *
- * Please note that this class does not extend <code>{@link java.lang.IllegalArgumentException}</code> due to
- * the lack of multiple inheritance for Java.<p>
+ * <p>Please note that this class does not extend <code>{@link java.lang.IllegalArgumentException}
+ * </code> due to the lack of multiple inheritance for Java.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsIllegalArgumentException extends CmsRuntimeException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = 6191423585672273507L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = 6191423585672273507L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsIllegalArgumentException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsIllegalArgumentException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsIllegalArgumentException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsIllegalArgumentException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsRuntimeException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsRuntimeException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsRuntimeException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsRuntimeException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsIllegalArgumentException(container, cause);
-    }
+    return new CmsIllegalArgumentException(container, cause);
+  }
 }

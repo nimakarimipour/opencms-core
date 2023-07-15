@@ -31,23 +31,26 @@ import org.opencms.file.CmsObject;
 import org.opencms.gwt.shared.CmsValidationResult;
 
 /**
- * This interface is the server-side counterpart to the <code>org.opencms.gwt.client.validation.I_CmsValidator</code>.<p>
+ * This interface is the server-side counterpart to the <code>
+ * org.opencms.gwt.client.validation.I_CmsValidator</code>.
  *
- * It contains a method for validating a single field value.<p>
+ * <p>It contains a method for validating a single field value.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsValidationService {
 
-    /**
-     * Validates a single form field value.<p>
-     *
-     * @param cms the CMS context
-     * @param value the value to validate
-     * @param config the configuration string for the validator
-     *
-     * @return the result of the validation
-     */
-    CmsValidationResult validate(CmsObject cms, String value, String config);
-
+  /**
+   * Validates a single form field value.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @param value the value to validate
+   * @param config the configuration string for the validator
+   * @return the result of the validation
+   */
+  CmsValidationResult validate(CmsObject cms, String value, String config);
 }

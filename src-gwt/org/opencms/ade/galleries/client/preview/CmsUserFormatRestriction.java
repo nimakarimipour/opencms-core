@@ -30,108 +30,98 @@ package org.opencms.ade.galleries.client.preview;
 import org.opencms.util.CmsStringUtil;
 
 /**
- * User defined image format restriction. To be used within the image format tab of the image preview.<p>
+ * User defined image format restriction. To be used within the image format tab of the image
+ * preview.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsUserFormatRestriction implements I_CmsFormatRestriction {
 
-    /** The format label. */
-    private String m_label;
+  /** The format label. */
+  private String m_label;
 
-    /** The format name. */
-    private String m_name;
+  /** The format name. */
+  private String m_name;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param name the format name
-     * @param label the format label
-     */
-    public CmsUserFormatRestriction(String name, String label) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param name the format name
+   * @param label the format label
+   */
+  public CmsUserFormatRestriction(String name, String label) {
 
-        m_name = name;
-        m_label = label;
-    }
+    m_name = name;
+    m_label = label;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#adjustCroppingParam(org.opencms.ade.galleries.client.preview.CmsCroppingParamBean)
-     */
-    public void adjustCroppingParam(CmsCroppingParamBean croppingParam) {
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#adjustCroppingParam(org.opencms.ade.galleries.client.preview.CmsCroppingParamBean)
+   */
+  public void adjustCroppingParam(CmsCroppingParamBean croppingParam) {
 
-        croppingParam.setFormatName(getName());
-    }
+    croppingParam.setFormatName(getName());
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#getHeight(int, int)
-     */
-    public int getHeight(int orgHeight, int orgWidth) {
+  /** @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#getHeight(int, int) */
+  public int getHeight(int orgHeight, int orgWidth) {
 
-        return orgHeight;
-    }
+    return orgHeight;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#getLabel()
-     */
-    public String getLabel() {
+  /** @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#getLabel() */
+  public String getLabel() {
 
-        return m_label;
-    }
+    return m_label;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#getName()
-     */
-    public String getName() {
+  /** @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#getName() */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#getWidth(int, int)
-     */
-    public int getWidth(int orgHeight, int orgWidth) {
+  /** @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#getWidth(int, int) */
+  public int getWidth(int orgHeight, int orgWidth) {
 
-        return orgWidth;
-    }
+    return orgWidth;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#isCroppingEnabled()
-     */
-    public boolean isCroppingEnabled() {
+  /** @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#isCroppingEnabled() */
+  public boolean isCroppingEnabled() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#isFixedRatio()
-     */
-    public boolean isFixedRatio() {
+  /** @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#isFixedRatio() */
+  public boolean isFixedRatio() {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#isHeightEditable()
-     */
-    public boolean isHeightEditable() {
+  /** @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#isHeightEditable() */
+  public boolean isHeightEditable() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#isWidthEditable()
-     */
-    public boolean isWidthEditable() {
+  /** @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#isWidthEditable() */
+  public boolean isWidthEditable() {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#matchesCroppingParam(org.opencms.ade.galleries.client.preview.CmsCroppingParamBean)
-     */
-    public boolean matchesCroppingParam(CmsCroppingParamBean croppingParam) {
+  /**
+   * @see
+   *     org.opencms.ade.galleries.client.preview.I_CmsFormatRestriction#matchesCroppingParam(org.opencms.ade.galleries.client.preview.CmsCroppingParamBean)
+   */
+  public boolean matchesCroppingParam(CmsCroppingParamBean croppingParam) {
 
-        return CmsStringUtil.isNotEmptyOrWhitespaceOnly(croppingParam.toString());
-    }
-
+    return CmsStringUtil.isNotEmptyOrWhitespaceOnly(croppingParam.toString());
+  }
 }

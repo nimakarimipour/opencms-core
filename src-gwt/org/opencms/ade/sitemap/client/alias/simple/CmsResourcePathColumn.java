@@ -27,102 +27,111 @@
 
 package org.opencms.ade.sitemap.client.alias.simple;
 
+import com.google.gwt.cell.client.EditTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import java.util.Comparator;
 import org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn;
 import org.opencms.ade.sitemap.client.alias.CmsAliasMessages;
 import org.opencms.gwt.client.ui.css.I_CmsCellTableResources;
 import org.opencms.gwt.shared.alias.CmsAliasTableRow;
 
-import java.util.Comparator;
-
-import com.google.gwt.cell.client.EditTextCell;
-import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
-
 /**
- * The table column for editing/displaying the alias resource path.<p>
+ * The table column for editing/displaying the alias resource path.
+ *
+ * <p>
  */
-public class CmsResourcePathColumn extends A_CmsAliasTableColumn<CmsAliasTableRow, String, CmsAliasCellTable> {
+public class CmsResourcePathColumn
+    extends A_CmsAliasTableColumn<CmsAliasTableRow, String, CmsAliasCellTable> {
 
-    /** The table for which this column is used. */
-    CmsAliasCellTable m_table;
+  /** The table for which this column is used. */
+  CmsAliasCellTable m_table;
 
-    /**
-     * Creates a new column instance.<p>
-     *
-     * @param table the table for which this column is used
-     */
-    public CmsResourcePathColumn(CmsAliasCellTable table) {
+  /**
+   * Creates a new column instance.
+   *
+   * <p>
+   *
+   * @param table the table for which this column is used
+   */
+  public CmsResourcePathColumn(CmsAliasCellTable table) {
 
-        super(new EditTextCell());
-        m_table = table;
-        FieldUpdater<CmsAliasTableRow, String> updater = new FieldUpdater<CmsAliasTableRow, String>() {
+    super(new EditTextCell());
+    m_table = table;
+    FieldUpdater<CmsAliasTableRow, String> updater =
+        new FieldUpdater<CmsAliasTableRow, String>() {
 
-            public void update(int index, CmsAliasTableRow object, String value) {
+          public void update(int index, CmsAliasTableRow object, String value) {
 
-                m_table.getController().editResourcePath(object, value);
-            }
+            m_table.getController().editResourcePath(object, value);
+          }
         };
-        setFieldUpdater(updater);
-        setSortable(true);
+    setFieldUpdater(updater);
+    setSortable(true);
+  }
+
+  /**
+   * Gets the comparator which should be used for this column.
+   *
+   * <p>
+   *
+   * @return the comparator to be used for this column
+   */
+  public static Comparator<CmsAliasTableRow> getComparator() {
+
+    return new Comparator<CmsAliasTableRow>() {
+
+      public int compare(CmsAliasTableRow o1, CmsAliasTableRow o2) {
+
+        return o1.getResourcePath().toString().compareTo(o2.getResourcePath().toString());
+      }
+    };
+  }
+
+  /**
+   * @see
+   *     org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn#addToTable(com.google.gwt.user.cellview.client.CellTable)
+   */
+  @Override
+  public void addToTable(CmsAliasCellTable table) {
+
+    table.addColumn(this, CmsAliasMessages.messageColumnPath());
+    table.setColumnWidth(this, 300, Unit.PX);
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.user.cellview.client.Column#getCellStyleNames(com.google.gwt.cell.client.Cell.Context,
+   *     java.lang.Object)
+   */
+  @Override
+  public String getCellStyleNames(
+      com.google.gwt.cell.client.Cell.Context context, CmsAliasTableRow object) {
+
+    if (object.getPathError() != null) {
+      return super.getCellStyleNames(context, object)
+          + " "
+          + I_CmsCellTableResources.INSTANCE.cellTableStyle().cmsCellError();
+    } else {
+      return super.getCellStyleNames(context, object);
     }
+  }
 
-    /**
-     * Gets the comparator which should be used for this column.<p>
-     *
-     * @return the comparator to be used for this column
-     */
-    public static Comparator<CmsAliasTableRow> getComparator() {
+  /** @see com.google.gwt.user.cellview.client.Column#getValue(java.lang.Object) */
+  @Override
+  public String getValue(CmsAliasTableRow row) {
 
-        return new Comparator<CmsAliasTableRow>() {
+    return row.getResourcePath();
+  }
 
-            public int compare(CmsAliasTableRow o1, CmsAliasTableRow o2) {
+  /**
+   * @see
+   *     org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn#initSortHandler(com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler)
+   */
+  @Override
+  public void initSortHandler(ListHandler<CmsAliasTableRow> sortHandler) {
 
-                return o1.getResourcePath().toString().compareTo(o2.getResourcePath().toString());
-            }
-        };
-    }
-
-    /**
-     * @see org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn#addToTable(com.google.gwt.user.cellview.client.CellTable)
-     */
-    @Override
-    public void addToTable(CmsAliasCellTable table) {
-
-        table.addColumn(this, CmsAliasMessages.messageColumnPath());
-        table.setColumnWidth(this, 300, Unit.PX);
-    }
-
-    /**
-     * @see com.google.gwt.user.cellview.client.Column#getCellStyleNames(com.google.gwt.cell.client.Cell.Context, java.lang.Object)
-     */
-    @Override
-    public String getCellStyleNames(com.google.gwt.cell.client.Cell.Context context, CmsAliasTableRow object) {
-
-        if (object.getPathError() != null) {
-            return super.getCellStyleNames(context, object)
-                + " "
-                + I_CmsCellTableResources.INSTANCE.cellTableStyle().cmsCellError();
-        } else {
-            return super.getCellStyleNames(context, object);
-        }
-    }
-
-    /**
-     * @see com.google.gwt.user.cellview.client.Column#getValue(java.lang.Object)
-     */
-    @Override
-    public String getValue(CmsAliasTableRow row) {
-
-        return row.getResourcePath();
-    }
-
-    /**
-     * @see org.opencms.ade.sitemap.client.alias.A_CmsAliasTableColumn#initSortHandler(com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler)
-     */
-    @Override
-    public void initSortHandler(ListHandler<CmsAliasTableRow> sortHandler) {
-
-        sortHandler.setComparator(this, getComparator());
-    }
+    sortHandler.setComparator(this, getComparator());
+  }
 }

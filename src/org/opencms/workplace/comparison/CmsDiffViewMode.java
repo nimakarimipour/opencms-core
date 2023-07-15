@@ -27,122 +27,126 @@
 
 package org.opencms.workplace.comparison;
 
-import org.opencms.i18n.CmsMessageContainer;
-import org.opencms.main.CmsIllegalArgumentException;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import org.opencms.i18n.CmsMessageContainer;
+import org.opencms.main.CmsIllegalArgumentException;
 
 /**
- * Wrapper class for the different types of diff modes.<p>
+ * Wrapper class for the different types of diff modes.
  *
- * The possibles values are:<br>
+ * <p>The possibles values are:<br>
+ *
  * <ul>
- * <li>{@link #ALL}</li>
- * <li>{@link #DIFF_ONLY}</li>
+ *   <li>{@link #ALL}
+ *   <li>{@link #DIFF_ONLY}
  * </ul>
+ *
  * <p>
  *
  * @since 6.0.0
  */
 public final class CmsDiffViewMode implements Serializable {
 
-    /** Constant for viewing all lines. */
-    public static final CmsDiffViewMode ALL = new CmsDiffViewMode(
-        "all",
-        Messages.get().container(Messages.GUI_DIFF_MODE_DIFFONLY_NAME_0));
+  /** Constant for viewing all lines. */
+  public static final CmsDiffViewMode ALL =
+      new CmsDiffViewMode("all", Messages.get().container(Messages.GUI_DIFF_MODE_DIFFONLY_NAME_0));
 
-    /** Constant for viewing only the different lines. */
-    public static final CmsDiffViewMode DIFF_ONLY = new CmsDiffViewMode(
-        "diff_only",
-        Messages.get().container(Messages.GUI_DIFF_MODE_ALL_NAME_0));
+  /** Constant for viewing only the different lines. */
+  public static final CmsDiffViewMode DIFF_ONLY =
+      new CmsDiffViewMode("diff_only", Messages.get().container(Messages.GUI_DIFF_MODE_ALL_NAME_0));
 
-    /** uid for serialization. */
-    private static final long serialVersionUID = -9107946096096683776L;
+  /** uid for serialization. */
+  private static final long serialVersionUID = -9107946096096683776L;
 
-    /** Array constant for all available align types. */
-    private static final CmsDiffViewMode[] VALUE_ARRAY = {ALL, DIFF_ONLY};
+  /** Array constant for all available align types. */
+  private static final CmsDiffViewMode[] VALUE_ARRAY = {ALL, DIFF_ONLY};
 
-    /** List of mode constants. */
-    public static final List<CmsDiffViewMode> VALUES = Collections.unmodifiableList(Arrays.asList(VALUE_ARRAY));
+  /** List of mode constants. */
+  public static final List<CmsDiffViewMode> VALUES =
+      Collections.unmodifiableList(Arrays.asList(VALUE_ARRAY));
 
-    /** Internal representation. */
-    private final String m_mode;
+  /** Internal representation. */
+  private final String m_mode;
 
-    /** Name to show. */
-    private final CmsMessageContainer m_name;
+  /** Name to show. */
+  private final CmsMessageContainer m_name;
 
-    /**
-     * Private constructor.
-     * <p>
-     *
-     * @param mode the view mode
-     * @param name the name to show
-     */
-    private CmsDiffViewMode(String mode, CmsMessageContainer name) {
+  /**
+   * Private constructor.
+   *
+   * <p>
+   *
+   * @param mode the view mode
+   * @param name the name to show
+   */
+  private CmsDiffViewMode(String mode, CmsMessageContainer name) {
 
-        m_mode = mode;
-        m_name = name;
+    m_mode = mode;
+    m_name = name;
+  }
+
+  /**
+   * Parses an string into an element of this enumeration.
+   *
+   * <p>
+   *
+   * @param value the mode to parse
+   * @return the enumeration element
+   * @throws CmsIllegalArgumentException if the given value could not be matched against an element
+   *     of this type.
+   */
+  public static CmsDiffViewMode valueOf(String value) throws CmsIllegalArgumentException {
+
+    if (value == null) {
+      return null;
     }
-
-    /**
-     * Parses an string into an element of this enumeration.<p>
-     *
-     * @param value the mode to parse
-     *
-     * @return the enumeration element
-     *
-     * @throws CmsIllegalArgumentException if the given value could not be matched against an
-     *             element of this type.
-     */
-    public static CmsDiffViewMode valueOf(String value) throws CmsIllegalArgumentException {
-
-        if (value == null) {
-            return null;
-        }
-        Iterator<CmsDiffViewMode> iter = VALUES.iterator();
-        while (iter.hasNext()) {
-            CmsDiffViewMode target = iter.next();
-            if (value.equals(target.getMode())) {
-                return target;
-            }
-        }
-        throw new CmsIllegalArgumentException(
-            org.opencms.db.Messages.get().container(
+    Iterator<CmsDiffViewMode> iter = VALUES.iterator();
+    while (iter.hasNext()) {
+      CmsDiffViewMode target = iter.next();
+      if (value.equals(target.getMode())) {
+        return target;
+      }
+    }
+    throw new CmsIllegalArgumentException(
+        org.opencms.db.Messages.get()
+            .container(
                 org.opencms.db.Messages.ERR_MODE_ENUM_PARSE_2,
                 value,
                 CmsDiffViewMode.class.getName()));
-    }
+  }
 
-    /**
-     * Returns the mode string.<p>
-     *
-     * @return the mode string
-     */
-    public String getMode() {
+  /**
+   * Returns the mode string.
+   *
+   * <p>
+   *
+   * @return the mode string
+   */
+  public String getMode() {
 
-        return m_mode;
-    }
+    return m_mode;
+  }
 
-    /**
-     * Returns the name to show.<p>
-     *
-     * @return the name to show
-     */
-    public CmsMessageContainer getName() {
+  /**
+   * Returns the name to show.
+   *
+   * <p>
+   *
+   * @return the name to show
+   */
+  public CmsMessageContainer getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        return m_mode;
-    }
+    return m_mode;
+  }
 }

@@ -32,42 +32,49 @@ import org.opencms.main.CmsException;
 
 /**
  * Signals that a foreign key in the VFS STRUCTURE, RESOURCES or FILES database tables is either
- * invalid or empty.<p>
+ * invalid or empty.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDbKeyException extends CmsDbException {
 
-    /** Serial version UID required for safe serialization. */
-    private static final long serialVersionUID = -7443542835892758391L;
+  /** Serial version UID required for safe serialization. */
+  private static final long serialVersionUID = -7443542835892758391L;
 
-    /**
-     * Creates a new localized Exception.<p>
-     *
-     * @param container the localized message container to use
-     */
-    public CmsDbKeyException(CmsMessageContainer container) {
+  /**
+   * Creates a new localized Exception.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   */
+  public CmsDbKeyException(CmsMessageContainer container) {
 
-        super(container);
-    }
+    super(container);
+  }
 
-    /**
-     * Creates a new localized Exception that also containes a root cause.<p>
-     *
-     * @param container the localized message container to use
-     * @param cause the Exception root cause
-     */
-    public CmsDbKeyException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * Creates a new localized Exception that also containes a root cause.
+   *
+   * <p>
+   *
+   * @param container the localized message container to use
+   * @param cause the Exception root cause
+   */
+  public CmsDbKeyException(CmsMessageContainer container, Throwable cause) {
 
-        super(container, cause);
-    }
+    super(container, cause);
+  }
 
-    /**
-     * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer, java.lang.Throwable)
-     */
-    @Override
-    public CmsException createException(CmsMessageContainer container, Throwable cause) {
+  /**
+   * @see org.opencms.main.CmsException#createException(org.opencms.i18n.CmsMessageContainer,
+   *     java.lang.Throwable)
+   */
+  @Override
+  public CmsException createException(CmsMessageContainer container, Throwable cause) {
 
-        return new CmsDbKeyException(container, cause);
-    }
+    return new CmsDbKeyException(container, cause);
+  }
 }

@@ -28,47 +28,52 @@
 package org.opencms.configuration;
 
 /**
- * RMI shell server configuration.<p>
+ * RMI shell server configuration.
+ *
+ * <p>
  */
 public class CmsRemoteShellConfiguration {
 
-    /** True if the remote shell should be enabled. */
-    private boolean m_enabled;
+  /** True if the remote shell should be enabled. */
+  private boolean m_enabled;
 
-    /** The port to use for creating the RMI registry used by the remote shell. */
-    private int m_port;
+  /** The port to use for creating the RMI registry used by the remote shell. */
+  private int m_port;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param enabled true if the remote shell should be enabled
-     * @param port the port to use for creating the RMI registry used by the remote shell.
-     */
-    public CmsRemoteShellConfiguration(boolean enabled, int port) {
-        m_enabled = enabled;
-        m_port = port;
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param enabled true if the remote shell should be enabled
+   * @param port the port to use for creating the RMI registry used by the remote shell.
+   */
+  public CmsRemoteShellConfiguration(boolean enabled, int port) {
+    m_enabled = enabled;
+    m_port = port;
+  }
 
-    }
+  /**
+   * Gets the RMI registry port.
+   *
+   * <p>
+   *
+   * @return the RMI registry port
+   */
+  public int getPort() {
 
-    /**
-     * Gets the RMI registry port.<p>
-     *
-     * @return the RMI registry port
-     */
-    public int getPort() {
+    return m_port;
+  }
 
-        return m_port;
-    }
+  /**
+   * Returns true if the remote shell should be enabled.
+   *
+   * <p>
+   *
+   * @return true if enabled
+   */
+  public boolean isEnabled() {
 
-    /**
-     * Returns true if the remote shell should be enabled.<p>
-     *
-     * @return true if enabled
-     */
-    public boolean isEnabled() {
-
-        return m_enabled;
-
-    }
-
+    return m_enabled;
+  }
 }

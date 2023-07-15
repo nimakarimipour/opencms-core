@@ -27,6 +27,11 @@
 
 package org.opencms.ade.publish;
 
+import com.google.common.collect.Lists;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import org.apache.commons.logging.Log;
 import org.opencms.ade.publish.shared.CmsProjectBean;
 import org.opencms.ade.publish.shared.CmsPublishOptions;
 import org.opencms.file.CmsObject;
@@ -36,75 +41,68 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsUUID;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-
-import com.google.common.collect.Lists;
-
 /**
- * Virtual project for the "My changes" mode in the publish dialog.<p>
+ * Virtual project for the "My changes" mode in the publish dialog.
+ *
+ * <p>
  */
 public class CmsMyChangesProject implements I_CmsVirtualProject {
 
-    /** The project id. */
-    public static final CmsUUID ID = CmsUUID.getNullUUID();
+  /** The project id. */
+  public static final CmsUUID ID = CmsUUID.getNullUUID();
 
-    /** The logger for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsMyChangesProject.class);
+  /** The logger for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsMyChangesProject.class);
 
-    /**
-     * @see org.opencms.ade.publish.I_CmsVirtualProject#getProjectBean(org.opencms.file.CmsObject, java.util.Map)
-     */
-    public CmsProjectBean getProjectBean(CmsObject cms, Map<String, String> params) {
+  /**
+   * @see org.opencms.ade.publish.I_CmsVirtualProject#getProjectBean(org.opencms.file.CmsObject,
+   *     java.util.Map)
+   */
+  public CmsProjectBean getProjectBean(CmsObject cms, Map<String, String> params) {
 
-        Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
-        String title = Messages.get().getBundle(locale).key(Messages.GUI_MYCHANGES_PROJECT_0);
-        CmsProjectBean bean = new CmsProjectBean(ID, 0, title, title);
-        bean.setRank(200);
-        bean.setDefaultGroupName("");
-        return bean;
+    Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
+    String title = Messages.get().getBundle(locale).key(Messages.GUI_MYCHANGES_PROJECT_0);
+    CmsProjectBean bean = new CmsProjectBean(ID, 0, title, title);
+    bean.setRank(200);
+    bean.setDefaultGroupName("");
+    return bean;
+  }
+
+  /** @see org.opencms.ade.publish.I_CmsVirtualProject#getProjectId() */
+  public CmsUUID getProjectId() {
+
+    return ID;
+  }
+
+  /**
+   * @see
+   *     org.opencms.ade.publish.I_CmsVirtualProject#getRelatedResourceProvider(org.opencms.file.CmsObject,
+   *     org.opencms.ade.publish.shared.CmsPublishOptions)
+   */
+  public I_CmsPublishRelatedResourceProvider getRelatedResourceProvider(
+      CmsObject cmsObject, CmsPublishOptions options) {
+
+    return CmsDummyRelatedResourceProvider.INSTANCE;
+  }
+
+  /**
+   * @see org.opencms.ade.publish.I_CmsVirtualProject#getResources(org.opencms.file.CmsObject,
+   *     java.util.Map, java.lang.String)
+   */
+  public List<CmsResource> getResources(
+      CmsObject cms, Map<String, String> params, String workflowId) {
+
+    try {
+      return Lists.newArrayList(OpenCms.getPublishManager().getUsersPubList(cms));
+    } catch (CmsException e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      return Lists.newArrayList();
     }
+  }
 
-    /**
-     * @see org.opencms.ade.publish.I_CmsVirtualProject#getProjectId()
-     */
-    public CmsUUID getProjectId() {
+  /** @see org.opencms.ade.publish.I_CmsVirtualProject#isAutoSelectable() */
+  public boolean isAutoSelectable() {
 
-        return ID;
-    }
-
-    /**
-     * @see org.opencms.ade.publish.I_CmsVirtualProject#getRelatedResourceProvider(org.opencms.file.CmsObject, org.opencms.ade.publish.shared.CmsPublishOptions)
-     */
-    public I_CmsPublishRelatedResourceProvider getRelatedResourceProvider(
-        CmsObject cmsObject,
-        CmsPublishOptions options) {
-
-        return CmsDummyRelatedResourceProvider.INSTANCE;
-    }
-
-    /**
-     * @see org.opencms.ade.publish.I_CmsVirtualProject#getResources(org.opencms.file.CmsObject, java.util.Map, java.lang.String)
-     */
-    public List<CmsResource> getResources(CmsObject cms, Map<String, String> params, String workflowId) {
-
-        try {
-            return Lists.newArrayList(OpenCms.getPublishManager().getUsersPubList(cms));
-        } catch (CmsException e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            return Lists.newArrayList();
-        }
-    }
-
-    /**
-     * @see org.opencms.ade.publish.I_CmsVirtualProject#isAutoSelectable()
-     */
-    public boolean isAutoSelectable() {
-
-        return true;
-    }
-
+    return true;
+  }
 }

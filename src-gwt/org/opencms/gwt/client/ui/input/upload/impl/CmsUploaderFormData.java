@@ -27,75 +27,79 @@
 
 package org.opencms.gwt.client.ui.input.upload.impl;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
+import java.util.List;
 import org.opencms.gwt.client.ui.input.upload.CmsFileInfo;
 import org.opencms.gwt.client.ui.input.upload.I_CmsUploadDialog;
 import org.opencms.gwt.client.ui.input.upload.I_CmsUploader;
 import org.opencms.gwt.client.util.CmsClientStringUtil;
 
-import java.util.List;
-
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArray;
-
 /**
- * Form data implementation of the file uploader.<p>
+ * Form data implementation of the file uploader.
+ *
+ * <p>
  */
 public class CmsUploaderFormData implements I_CmsUploader {
 
-    /**
-     * @see org.opencms.gwt.client.ui.input.upload.I_CmsUploader#uploadFiles(java.lang.String, java.lang.String, boolean, java.lang.String, java.util.List, java.util.List, boolean, org.opencms.gwt.client.ui.input.upload.I_CmsUploadDialog)
-     */
-    public void uploadFiles(
-        String uploadUri,
-        String targetFolder,
-        boolean isRootPath,
-        String postCreateHandler,
-        List<CmsFileInfo> filesToUpload,
-        List<String> filesToUnzip,
-        boolean keepFileNames,
-        I_CmsUploadDialog dialog) {
+  /**
+   * @see org.opencms.gwt.client.ui.input.upload.I_CmsUploader#uploadFiles(java.lang.String,
+   *     java.lang.String, boolean, java.lang.String, java.util.List, java.util.List, boolean,
+   *     org.opencms.gwt.client.ui.input.upload.I_CmsUploadDialog)
+   */
+  public void uploadFiles(
+      String uploadUri,
+      String targetFolder,
+      boolean isRootPath,
+      String postCreateHandler,
+      List<CmsFileInfo> filesToUpload,
+      List<String> filesToUnzip,
+      boolean keepFileNames,
+      I_CmsUploadDialog dialog) {
 
-        JsArray<CmsFileInfo> filesToUploadArray = JavaScriptObject.createArray().cast();
-        for (CmsFileInfo fileInfo : filesToUpload) {
-            filesToUploadArray.push(fileInfo);
-        }
-
-        // create a array that contains the names of the files that should be unziped
-        JavaScriptObject filesToUnzipArray = JavaScriptObject.createArray();
-        for (String filename : filesToUnzip) {
-            CmsClientStringUtil.pushArray(filesToUnzipArray, filename);
-        }
-        upload(
-            uploadUri,
-            targetFolder,
-            isRootPath,
-            postCreateHandler,
-            filesToUploadArray,
-            filesToUnzipArray,
-            keepFileNames,
-            dialog);
+    JsArray<CmsFileInfo> filesToUploadArray = JavaScriptObject.createArray().cast();
+    for (CmsFileInfo fileInfo : filesToUpload) {
+      filesToUploadArray.push(fileInfo);
     }
 
-    /**
-     * Sends a post request to the upload JSP.<p>
-     *
-     * @param uploadUri the URI of the JSP that performs the upload
-     * @param targetFolder the target folder to upload
-     * @param isRootPath true if the target folder is given as a root path
-     * @param postCreateHandler the post-create handler
-     * @param filesToUpload the files to upload
-     * @param filesToUnzip the file names to unzip
-     * @param dialog this dialog
-     */
-    protected native void upload(
-        String uploadUri,
-        String targetFolder,
-        boolean isRootPath,
-        String postCreateHandler,
-        JsArray<CmsFileInfo> filesToUpload,
-        JavaScriptObject filesToUnzip,
-        boolean keepFileNames,
-        I_CmsUploadDialog dialog) /*-{
+    // create a array that contains the names of the files that should be unziped
+    JavaScriptObject filesToUnzipArray = JavaScriptObject.createArray();
+    for (String filename : filesToUnzip) {
+      CmsClientStringUtil.pushArray(filesToUnzipArray, filename);
+    }
+    upload(
+        uploadUri,
+        targetFolder,
+        isRootPath,
+        postCreateHandler,
+        filesToUploadArray,
+        filesToUnzipArray,
+        keepFileNames,
+        dialog);
+  }
+
+  /**
+   * Sends a post request to the upload JSP.
+   *
+   * <p>
+   *
+   * @param uploadUri the URI of the JSP that performs the upload
+   * @param targetFolder the target folder to upload
+   * @param isRootPath true if the target folder is given as a root path
+   * @param postCreateHandler the post-create handler
+   * @param filesToUpload the files to upload
+   * @param filesToUnzip the file names to unzip
+   * @param dialog this dialog
+   */
+  protected native void upload(
+      String uploadUri,
+      String targetFolder,
+      boolean isRootPath,
+      String postCreateHandler,
+      JsArray<CmsFileInfo> filesToUpload,
+      JavaScriptObject filesToUnzip,
+      boolean keepFileNames,
+      I_CmsUploadDialog dialog) /*-{
 
         var data = new FormData();
         if (keepFileNames) {

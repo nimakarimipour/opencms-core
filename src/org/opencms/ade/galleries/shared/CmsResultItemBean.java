@@ -32,354 +32,411 @@ import org.opencms.gwt.shared.sort.I_CmsHasPath;
 import org.opencms.util.CmsStringUtil;
 
 /**
- * A specific bean holding all info to be displayed in {@link org.opencms.ade.galleries.client.ui.CmsResultListItem}s.<p>
+ * A specific bean holding all info to be displayed in {@link
+ * org.opencms.ade.galleries.client.ui.CmsResultListItem}s.
+ *
+ * <p>
  *
  * @see org.opencms.ade.galleries.client.ui.CmsResultListItem
- *
  * @since 8.0.0
  */
 public class CmsResultItemBean extends CmsListInfoBean implements I_CmsHasPath {
 
-    /** The structured id of the resource. */
-    private String m_clientId;
+  /** The structured id of the resource. */
+  private String m_clientId;
 
-    /** The formatted date of the last modification. */
-    private String m_dateLastModified;
+  /** The formatted date of the last modification. */
+  private String m_dateLastModified;
 
-    /** The result item description. */
-    private String m_description;
+  /** The result item description. */
+  private String m_description;
 
-    /** The image dimensions. */
-    private String m_dimension;
+  /** The image dimensions. */
+  private String m_dimension;
 
-    /** Flag which indicates whether the resource for this result is a copy model. */
-    private boolean m_isCopyModel;
+  /** Flag which indicates whether the resource for this result is a copy model. */
+  private boolean m_isCopyModel;
 
-    /** A flag which indicates whether this result item corresponds to a preset value in the editor.<p> */
-    private boolean m_isPreset;
+  /**
+   * A flag which indicates whether this result item corresponds to a preset value in the editor.
+   *
+   * <p>
+   */
+  private boolean m_isPreset;
 
-    /** The reason this resource may not be edited. Editable if empty. */
-    private String m_noEditReson;
+  /** The reason this resource may not be edited. Editable if empty. */
+  private String m_noEditReson;
 
-    /** The resource path as a unique resource id. */
-    private String m_path;
+  /** The resource path as a unique resource id. */
+  private String m_path;
 
-    /** The raw title, without any status information attached. */
-    private String m_rawTitle = "";
+  /** The raw title, without any status information attached. */
+  private String m_rawTitle = "";
 
-    /** Flag indicating if the result item resource is currently released and not expired. */
-    private boolean m_releasedAndNotExpired;
+  /** Flag indicating if the result item resource is currently released and not expired. */
+  private boolean m_releasedAndNotExpired;
 
-    /** The name of the user who last modified the resource. */
-    private String m_userLastModified;
+  /** The name of the user who last modified the resource. */
+  private String m_userLastModified;
 
-    /** The link for displaying the resource. */
-    private String m_viewLink;
+  /** The link for displaying the resource. */
+  private String m_viewLink;
 
-    /** True if the result is deactivated. */
-    private boolean m_deactivated;
+  /** True if the result is deactivated. */
+  private boolean m_deactivated;
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsResultItemBean() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsResultItemBean() {
 
-        // empty default constructor
+    // empty default constructor
+  }
+
+  /**
+   * Returns the structured id.
+   *
+   * <p>
+   *
+   * @return the structured id
+   */
+  public String getClientId() {
+
+    return m_clientId;
+  }
+
+  /**
+   * Returns the formatted last modification date.
+   *
+   * <p>
+   *
+   * @return the formatted last modification date
+   */
+  public String getDateLastModified() {
+
+    return m_dateLastModified;
+  }
+
+  /**
+   * Returns the description.
+   *
+   * <p>
+   *
+   * @return the description
+   */
+  public String getDescription() {
+
+    return m_description;
+  }
+
+  /**
+   * Returns the dimension.
+   *
+   * <p>
+   *
+   * @return the dimension
+   */
+  public String getDimension() {
+
+    return m_dimension;
+  }
+
+  /**
+   * Returns the noEditReson.
+   *
+   * <p>
+   *
+   * @return the noEditReson
+   */
+  public String getNoEditReson() {
+
+    return m_noEditReson;
+  }
+
+  /**
+   * Returns the resourcePath.
+   *
+   * <p>
+   *
+   * @return the resourcePath
+   */
+  public String getPath() {
+
+    return m_path;
+  }
+
+  /**
+   * Gets the raw title, without status information attached.
+   *
+   * <p>
+   *
+   * @return the raw title
+   */
+  public String getRawTitle() {
+
+    return m_rawTitle;
+  }
+
+  /** @see org.opencms.gwt.shared.CmsListInfoBean#getSubTitle() */
+  @Override
+  public String getSubTitle() {
+
+    String fieldSubTitle = super.getSubTitle();
+    if (fieldSubTitle != null) {
+      return fieldSubTitle;
     }
+    return m_userLastModified + " / " + m_dateLastModified;
+  }
 
-    /**
-     * Returns the structured id.<p>
-     *
-     * @return the structured id
-     */
-    public String getClientId() {
+  /**
+   * Gets the name of the user who last modified the resource.
+   *
+   * <p>
+   *
+   * @return the name of the user who last modified the resource
+   */
+  public String getUserLastModified() {
 
-        return m_clientId;
-    }
+    return m_userLastModified;
+  }
 
-    /**
-     * Returns the formatted last modification date.<p>
-     *
-     * @return the formatted last modification date
-     */
-    public String getDateLastModified() {
+  /**
+   * Gets the link for displaying the resource.
+   *
+   * <p>
+   *
+   * @return the link for displaying the resource
+   */
+  public String getViewLink() {
 
-        return m_dateLastModified;
-    }
+    return m_viewLink;
+  }
 
-    /**
-     * Returns the description.<p>
-     *
-     * @return the description
-     */
-    public String getDescription() {
+  /**
+   * Returns true if the result resource is a copy model.
+   *
+   * <p>
+   *
+   * @return true if the resource is a copy model
+   */
+  public boolean isCopyModel() {
 
-        return m_description;
-    }
+    return m_isCopyModel;
+  }
 
-    /**
-     * Returns the dimension.<p>
-     *
-     * @return the dimension
-     */
-    public String getDimension() {
+  /**
+   * Checks if the result is deactivated.
+   *
+   * @return true if the result is deactivated
+   */
+  public boolean isDeactivated() {
 
-        return m_dimension;
-    }
+    return m_deactivated;
+  }
 
-    /**
-     * Returns the noEditReson.<p>
-     *
-     * @return the noEditReson
-     */
-    public String getNoEditReson() {
+  /**
+   * Returns if the represented resource is editable by the current user.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if editable
+   */
+  public boolean isEditable() {
 
-        return m_noEditReson;
-    }
+    return CmsStringUtil.isEmptyOrWhitespaceOnly(m_noEditReson);
+  }
 
-    /**
-     * Returns the resourcePath.<p>
-     *
-     * @return the resourcePath
-     */
-    public String getPath() {
+  /**
+   * True if this is result item corresponds to a preset value in the editor.
+   *
+   * <p>
+   *
+   * @return true if this corresponds to a preset value
+   */
+  public boolean isPreset() {
 
-        return m_path;
-    }
+    return m_isPreset;
+  }
 
-    /**
-     * Gets the raw title, without status information attached.<p>
-     *
-     * @return the raw title
-     */
-    public String getRawTitle() {
+  /**
+   * Returns if the result item resource is currently released and not expired.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the result item resource is currently released and not expired
+   */
+  public boolean isReleasedAndNotExpired() {
 
-        return m_rawTitle;
-    }
+    return m_releasedAndNotExpired;
+  }
 
-    /**
-     * @see org.opencms.gwt.shared.CmsListInfoBean#getSubTitle()
-     */
-    @Override
-    public String getSubTitle() {
+  /**
+   * Sets the structure id.
+   *
+   * <p>
+   *
+   * @param clientId the structure id to set
+   */
+  public void setClientId(String clientId) {
 
-        String fieldSubTitle = super.getSubTitle();
-        if (fieldSubTitle != null) {
-            return fieldSubTitle;
-        }
-        return m_userLastModified + " / " + m_dateLastModified;
-    }
+    m_clientId = clientId;
+  }
 
-    /**
-     * Gets the name of the user who last modified the resource.<p>
-     *
-     * @return the name of the user who last modified the resource
-     */
-    public String getUserLastModified() {
+  /**
+   * Sets the formatted last modification date.
+   *
+   * <p>
+   *
+   * @param formattedDate the formatted last modification date
+   */
+  public void setDateLastModified(String formattedDate) {
 
-        return m_userLastModified;
-    }
+    m_dateLastModified = formattedDate;
+  }
 
-    /**
-     * Gets the link for displaying the resource.<p>
-     *
-     * @return the link for displaying the resource
-     */
-    public String getViewLink() {
+  /**
+   * Sets the 'deactivated' state.
+   *
+   * @param deactivated the 'deactivated' state
+   */
+  public void setDeactivated(boolean deactivated) {
 
-        return m_viewLink;
-    }
+    m_deactivated = deactivated;
+  }
 
-    /**
-     * Returns true if the result resource is a copy model.<p>
-     *
-     * @return true if the resource is a copy model
-     */
-    public boolean isCopyModel() {
+  /**
+   * Sets the description.
+   *
+   * <p>Also used as sub-title.
+   *
+   * <p>
+   *
+   * @param description the description to set
+   */
+  public void setDescription(String description) {
 
-        return m_isCopyModel;
-    }
+    m_description = description;
+  }
 
-    /**
-     * Checks if the result is deactivated.
-     *
-     * @return true if the result is deactivated
-     */
-    public boolean isDeactivated() {
+  /**
+   * Sets the dimension.
+   *
+   * <p>
+   *
+   * @param dimension the dimension to set
+   */
+  public void setDimension(String dimension) {
 
-        return m_deactivated;
-    }
+    m_dimension = dimension;
+  }
 
-    /**
-     * Returns if the represented resource is editable by the current user.<p>
-     *
-     * @return <code>true</code> if editable
-     */
-    public boolean isEditable() {
+  /**
+   * Sets the "copy model" status of this result bean.
+   *
+   * <p>
+   *
+   * @param isCopyModel true if this result should be marked as a copy model
+   */
+  public void setIsCopyModel(boolean isCopyModel) {
 
-        return CmsStringUtil.isEmptyOrWhitespaceOnly(m_noEditReson);
-    }
+    m_isCopyModel = isCopyModel;
+  }
 
-    /**
-     * True if this is result item corresponds to a preset value in the editor.<p>
-     *
-     * @return true if this corresponds to a preset value
-     */
-    public boolean isPreset() {
+  /**
+   * Sets the reason this resource may not be edited.
+   *
+   * <p>
+   *
+   * @param noEditReson the reason this resource may not be edited to set
+   */
+  public void setNoEditReson(String noEditReson) {
 
-        return m_isPreset;
-    }
+    m_noEditReson = noEditReson;
+  }
 
-    /**
-     * Returns if the result item resource is currently released and not expired.<p>
-     *
-     * @return <code>true</code> if the result item resource is currently released and not expired
-     */
-    public boolean isReleasedAndNotExpired() {
+  /**
+   * Sets the resource path.
+   *
+   * <p>
+   *
+   * @param path the resource path to set
+   */
+  public void setPath(String path) {
 
-        return m_releasedAndNotExpired;
-    }
+    m_path = path;
+  }
 
-    /**
-     * Sets the structure id.<p>
-     *
-     * @param clientId the structure id to set
-     */
-    public void setClientId(String clientId) {
+  /**
+   * Sets the "is preset" flag.
+   *
+   * <p>
+   *
+   * @param preset the "is preset" flag
+   */
+  public void setPreset(boolean preset) {
 
-        m_clientId = clientId;
-    }
+    m_isPreset = preset;
+  }
 
-    /**
-     * Sets the formatted last modification date.<p>
-     *
-     * @param formattedDate the formatted last modification date
-     */
-    public void setDateLastModified(String formattedDate) {
+  /**
+   * Sets the raw title.
+   *
+   * <p>
+   *
+   * @param rawTitle the raw title
+   */
+  public void setRawTitle(String rawTitle) {
 
-        m_dateLastModified = formattedDate;
-    }
+    m_rawTitle = rawTitle;
+  }
 
-    /**
-     * Sets the 'deactivated' state.
-     *
-     * @param deactivated the 'deactivated' state
-     */
-    public void setDeactivated(boolean deactivated) {
+  /**
+   * Sets if the result item resource is currently released and not expired.
+   *
+   * <p>
+   *
+   * @param releasedAndNotExpired if the result item resource is currently released and not expired
+   */
+  public void setReleasedAndNotExpired(boolean releasedAndNotExpired) {
 
-        m_deactivated = deactivated;
-    }
+    m_releasedAndNotExpired = releasedAndNotExpired;
+  }
 
-    /**
-     * Sets the description.<p>
-     *
-     * Also used as sub-title.<p>
-     *
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
+  /**
+   * Sets the resource type name.
+   *
+   * <p>
+   *
+   * @param type the resource type name to set
+   */
+  public void setType(String type) {
 
-        m_description = description;
-    }
+    setResourceType(type);
+  }
 
-    /**
-     * Sets the dimension.<p>
-     *
-     * @param dimension the dimension to set
-     */
-    public void setDimension(String dimension) {
+  /**
+   * Sets the name of the user who last modified the resource.
+   *
+   * <p>
+   *
+   * @param userLastModified a user name
+   */
+  public void setUserLastModified(String userLastModified) {
 
-        m_dimension = dimension;
-    }
+    m_userLastModified = userLastModified;
+  }
 
-    /**
-     * Sets the "copy model" status of this result bean.<p>
-     *
-     * @param isCopyModel true if this result should be marked as a copy model
-     */
-    public void setIsCopyModel(boolean isCopyModel) {
+  /**
+   * Sets the link for displaying the resource.
+   *
+   * <p>
+   *
+   * @param viewLink the link for displaying the
+   */
+  public void setViewLink(String viewLink) {
 
-        m_isCopyModel = isCopyModel;
-    }
-
-    /**
-     * Sets the reason this resource may not be edited.<p>
-     *
-     * @param noEditReson the reason this resource may not be edited to set
-     */
-    public void setNoEditReson(String noEditReson) {
-
-        m_noEditReson = noEditReson;
-    }
-
-    /**
-     * Sets the resource path.<p>
-     *
-     * @param path the resource path to set
-     */
-    public void setPath(String path) {
-
-        m_path = path;
-    }
-
-    /**
-     * Sets the "is preset" flag.<p>
-     *
-     * @param preset the "is preset" flag
-     */
-    public void setPreset(boolean preset) {
-
-        m_isPreset = preset;
-    }
-
-    /**
-     * Sets the raw title.<p>
-     *
-     * @param rawTitle the raw title
-     */
-    public void setRawTitle(String rawTitle) {
-
-        m_rawTitle = rawTitle;
-    }
-
-    /**
-     * Sets if the result item resource is currently released and not expired.<p>
-     *
-     * @param releasedAndNotExpired if the result item resource is currently released and not expired
-     */
-    public void setReleasedAndNotExpired(boolean releasedAndNotExpired) {
-
-        m_releasedAndNotExpired = releasedAndNotExpired;
-    }
-
-    /**
-     * Sets the resource type name.<p>
-     *
-     * @param type the resource type name to set
-     */
-    public void setType(String type) {
-
-        setResourceType(type);
-    }
-
-    /**
-     * Sets the name of the user who last modified the resource.<p>
-     *
-     * @param userLastModified a user name
-     */
-    public void setUserLastModified(String userLastModified) {
-
-        m_userLastModified = userLastModified;
-    }
-
-    /**
-     * Sets the link for displaying the resource.<p>
-     *
-     * @param viewLink the link for displaying the
-     */
-    public void setViewLink(String viewLink) {
-
-        m_viewLink = viewLink;
-    }
-
+    m_viewLink = viewLink;
+  }
 }

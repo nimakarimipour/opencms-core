@@ -37,58 +37,66 @@ import java.util.List;
  */
 public class CmsPathMap<V> {
 
-    /** The tree used for storing the contents. */
-    private CmsPathTree<String, V> m_tree = new CmsPathTree<String, V>();
+  /** The tree used for storing the contents. */
+  private CmsPathTree<String, V> m_tree = new CmsPathTree<String, V>();
 
-    /**
-     * Adds an element for the given path, overwriting the previous element for that path if there is one.<p>
-     *
-     * @param path the path
-     * @param value the element to add
-     */
-    public void add(String path, V value) {
+  /**
+   * Adds an element for the given path, overwriting the previous element for that path if there is
+   * one.
+   *
+   * <p>
+   *
+   * @param path the path
+   * @param value the element to add
+   */
+  public void add(String path, V value) {
 
-        m_tree.setValue(splitPath(path), value);
+    m_tree.setValue(splitPath(path), value);
+  }
+
+  /**
+   * Gets the values for the direct children of the given path.
+   *
+   * <p>
+   *
+   * @param path the path
+   * @return the child values
+   */
+  public List<V> getChildValues(String path) {
+
+    return m_tree.getChildValues(splitPath(path));
+  }
+
+  /**
+   * Gets the values for the descendants of the path, including the path itself.
+   *
+   * <p>
+   *
+   * @param path the path
+   * @return the descendant values for the path
+   */
+  public List<V> getDescendantValues(String path) {
+
+    return m_tree.getDescendantValues(splitPath(path));
+  }
+
+  /**
+   * Converts a path into list form.
+   *
+   * <p>
+   *
+   * @param path the path to convert
+   * @return the list of the path elements
+   */
+  private List<String> splitPath(String path) {
+
+    List<String> result = new ArrayList<String>();
+    for (String token : path.split("/")) {
+      if ("".equals(token)) {
+        continue;
+      }
+      result.add(token);
     }
-
-    /**
-     * Gets the values for the direct children of the given path.<p>
-     *
-     * @param path the path
-     * @return the child values
-     */
-    public List<V> getChildValues(String path) {
-
-        return m_tree.getChildValues(splitPath(path));
-    }
-
-    /**
-     * Gets the values for the descendants of the path, including the path itself.<p>
-     *
-     * @param path the path
-     * @return the descendant values for the path
-     */
-    public List<V> getDescendantValues(String path) {
-
-        return m_tree.getDescendantValues(splitPath(path));
-    }
-
-    /**
-     * Converts a path into list form.<p>
-     *
-     * @param path the path to convert
-     * @return the list of the path elements
-     */
-    private List<String> splitPath(String path) {
-
-        List<String> result = new ArrayList<String>();
-        for (String token : path.split("/")) {
-            if ("".equals(token)) {
-                continue;
-            }
-            result.add(token);
-        }
-        return result;
-    }
-
+    return result;
+  }
 }

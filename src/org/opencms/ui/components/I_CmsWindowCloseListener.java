@@ -28,12 +28,16 @@
 package org.opencms.ui.components;
 
 /**
- * Window close listener.<p>
+ * Window close listener.
+ *
+ * <p>
  */
 public interface I_CmsWindowCloseListener {
 
-    /**
-     * Executed on window close.<p>
-     */
-    void onWindowClose();
+  /**
+   * Executed on window close.
+   *
+   * <p>
+   */
+  void onWindowClose();
 }

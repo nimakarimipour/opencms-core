@@ -27,6 +27,16 @@
 
 package org.opencms.ui.apps.user;
 
+import com.vaadin.event.LayoutEvents.LayoutClickEvent;
+import com.vaadin.event.LayoutEvents.LayoutClickListener;
+import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Window;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.Collections;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
@@ -39,157 +49,152 @@ import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsResourceInfo;
 import org.opencms.ui.components.OpenCmsTheme;
 
-import java.util.Collections;
-
-import com.vaadin.event.LayoutEvents.LayoutClickEvent;
-import com.vaadin.event.LayoutEvents.LayoutClickListener;
-import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Window;
-import com.vaadin.v7.ui.Label;
-import com.vaadin.v7.ui.VerticalLayout;
-
-/**
- * Dialog to create new element. (User, Group or OU).
- */
+/** Dialog to create new element. (User, Group or OU). */
 public class CmsNewElementDialog extends CmsBasicDialog {
 
-    /**ID for user.*/
-    private static String ID_USER = "user";
+  /** ID for user. */
+  private static String ID_USER = "user";
 
-    /**ID for group. */
-    private static String ID_GROUP = "group";
+  /** ID for group. */
+  private static String ID_GROUP = "group";
 
-    /**ID for OU. */
-    private static String ID_OU = "ou";
+  /** ID for OU. */
+  private static String ID_OU = "ou";
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = 2351253053915340926L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = 2351253053915340926L;
 
-    /**vaadin component.*/
-    private VerticalLayout m_container;
+  /** vaadin component. */
+  private VerticalLayout m_container;
 
-    /**vaadin component.*/
-    private Button m_cancelButton;
+  /** vaadin component. */
+  private Button m_cancelButton;
 
-    /**window. */
-    private Window m_window;
+  /** window. */
+  private Window m_window;
 
-    /**The cms object. */
-    private CmsObject m_cms;
+  /** The cms object. */
+  private CmsObject m_cms;
 
-    /**vaadin component. */
-    private Label m_ouLabel;
+  /** vaadin component. */
+  private Label m_ouLabel;
 
-    /**The ou. */
-    private String m_ou;
+  /** The ou. */
+  private String m_ou;
 
-    /**Accounts app. */
-    private CmsAccountsApp m_app;
+  /** Accounts app. */
+  private CmsAccountsApp m_app;
 
-    /**
-     * public constructor.<p>
-     * @param cms CmsObject
-     * @param ou ou
-     *
-     * @param window window holding the dialog
-     */
-    public CmsNewElementDialog(CmsObject cms, String ou, final Window window, CmsAccountsApp app) {
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param cms CmsObject
+   * @param ou ou
+   * @param window window holding the dialog
+   */
+  public CmsNewElementDialog(CmsObject cms, String ou, final Window window, CmsAccountsApp app) {
 
-        m_app = app;
-        m_window = window;
-        m_cms = cms;
-        m_ou = ou;
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    m_app = app;
+    m_window = window;
+    m_cms = cms;
+    m_ou = ou;
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
-        try {
-            displayResourceInfoDirectly(
-                Collections.singletonList(
-                    CmsAccountsApp.getOUInfo(
-                        OpenCms.getOrgUnitManager().readOrganizationalUnit(A_CmsUI.getCmsObject(), ou))));
-            m_ouLabel.setValue(
-                OpenCms.getOrgUnitManager().readOrganizationalUnit(m_cms, ou).getDisplayName(
-                    m_cms.getRequestContext().getLocale()));
-        } catch (CmsException e) {
-            //
-        }
-        m_cancelButton.addClickListener(new ClickListener() {
+    try {
+      displayResourceInfoDirectly(
+          Collections.singletonList(
+              CmsAccountsApp.getOUInfo(
+                  OpenCms.getOrgUnitManager().readOrganizationalUnit(A_CmsUI.getCmsObject(), ou))));
+      m_ouLabel.setValue(
+          OpenCms.getOrgUnitManager()
+              .readOrganizationalUnit(m_cms, ou)
+              .getDisplayName(m_cms.getRequestContext().getLocale()));
+    } catch (CmsException e) {
+      //
+    }
+    m_cancelButton.addClickListener(
+        new ClickListener() {
 
-            private static final long serialVersionUID = -7494631798452339165L;
+          private static final long serialVersionUID = -7494631798452339165L;
 
-            public void buttonClick(ClickEvent event) {
+          public void buttonClick(ClickEvent event) {
 
-                window.close();
-
-            }
+            window.close();
+          }
         });
-        CmsResourceInfo newUser = new CmsResourceInfo(
+    CmsResourceInfo newUser =
+        new CmsResourceInfo(
             CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_ADD_USER_0),
             CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_ADD_USER_HELP_0),
             new CmsCssIcon(OpenCmsTheme.ICON_USER));
-        newUser.setData(ID_USER);
-        CmsResourceInfo newGroup = new CmsResourceInfo(
+    newUser.setData(ID_USER);
+    CmsResourceInfo newGroup =
+        new CmsResourceInfo(
             CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_ADD_GROUP_0),
             CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_ADD_GROUP_HELP_0),
             new CmsCssIcon(OpenCmsTheme.ICON_GROUP));
-        newGroup.setData(ID_GROUP);
-        if (OpenCms.getRoleManager().hasRole(m_cms, CmsRole.ADMINISTRATOR.forOrgUnit(ou))) {
-            CmsResourceInfo newOU = new CmsResourceInfo(
-                CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_ADD_OU_0),
-                CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_ADD_OU_HELP_0),
-                new CmsCssIcon(OpenCmsTheme.ICON_OU));
-            newOU.setData(ID_OU);
-            m_container.addComponent(newOU);
-        }
-        m_container.addComponent(newUser);
-        m_container.addComponent(newGroup);
+    newGroup.setData(ID_GROUP);
+    if (OpenCms.getRoleManager().hasRole(m_cms, CmsRole.ADMINISTRATOR.forOrgUnit(ou))) {
+      CmsResourceInfo newOU =
+          new CmsResourceInfo(
+              CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_ADD_OU_0),
+              CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_ADD_OU_HELP_0),
+              new CmsCssIcon(OpenCmsTheme.ICON_OU));
+      newOU.setData(ID_OU);
+      m_container.addComponent(newOU);
+    }
+    m_container.addComponent(newUser);
+    m_container.addComponent(newGroup);
 
-        m_container.addLayoutClickListener(new LayoutClickListener() {
+    m_container.addLayoutClickListener(
+        new LayoutClickListener() {
 
-            private static final long serialVersionUID = 5189868437695349511L;
+          private static final long serialVersionUID = 5189868437695349511L;
 
-            public void layoutClick(LayoutClickEvent event) {
+          public void layoutClick(LayoutClickEvent event) {
 
-                AbstractComponent component = (AbstractComponent)event.getChildComponent();
-                if (component != null) {
-                    if (component.getData() instanceof String) {
-                        openNewDialog((String)component.getData());
-                    }
-                }
+            AbstractComponent component = (AbstractComponent) event.getChildComponent();
+            if (component != null) {
+              if (component.getData() instanceof String) {
+                openNewDialog((String) component.getData());
+              }
             }
+          }
         });
+  }
+
+  /**
+   * Opens the dialog.
+   *
+   * <p>
+   *
+   * @param id of selected item
+   */
+  protected void openNewDialog(String id) {
+
+    CmsBasicDialog dialog = null;
+    String caption = "";
+
+    if (id.equals(ID_GROUP)) {
+      dialog = new CmsGroupEditDialog(m_cms, m_window, m_ou, m_app);
+      caption = CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_ADD_GROUP_0);
+    }
+    if (id.equals(ID_OU)) {
+      dialog = new CmsOUEditDialog(m_cms, m_window, m_ou, m_app);
+      caption = CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_ADD_OU_0);
+    }
+    if (id.equals(ID_USER)) {
+      dialog = new CmsUserEditDialog(m_cms, m_window, m_ou, m_app);
+      caption = CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_ADD_USER_0);
     }
 
-    /**
-     * Opens the dialog.<p>
-     *
-     * @param id of selected item
-     */
-    protected void openNewDialog(String id) {
-
-        CmsBasicDialog dialog = null;
-        String caption = "";
-
-        if (id.equals(ID_GROUP)) {
-            dialog = new CmsGroupEditDialog(m_cms, m_window, m_ou, m_app);
-            caption = CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_ADD_GROUP_0);
-        }
-        if (id.equals(ID_OU)) {
-            dialog = new CmsOUEditDialog(m_cms, m_window, m_ou, m_app);
-            caption = CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_ADD_OU_0);
-
-        }
-        if (id.equals(ID_USER)) {
-            dialog = new CmsUserEditDialog(m_cms, m_window, m_ou, m_app);
-            caption = CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_ADD_USER_0);
-        }
-
-        if (dialog != null) {
-            m_window.setContent(dialog);
-            m_window.setCaption(caption);
-            m_window.center();
-        }
+    if (dialog != null) {
+      m_window.setContent(dialog);
+      m_window.setCaption(caption);
+      m_window.center();
     }
+  }
 }

@@ -27,6 +27,10 @@
 
 package org.opencms.xml.templatemapper;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResourceFilter;
@@ -49,195 +53,186 @@ import org.opencms.xml.containerpage.CmsXmlContainerPageFactory;
 import org.opencms.xml.containerpage.CmsXmlGroupContainer;
 import org.opencms.xml.containerpage.CmsXmlGroupContainerFactory;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-
 /**
- * Report thread for rewriting pages in a folder according to a given template mapper configuration.<p>
+ * Report thread for rewriting pages in a folder according to a given template mapper configuration.
+ *
+ * <p>
  */
 public class CmsTemplateMappingContentRewriter extends A_CmsReportThread {
 
-    /** Cache for the status. */
-    private static CmsExpiringValue<Boolean> m_moduleCheckCache = new CmsExpiringValue<>(2000);
+  /** Cache for the status. */
+  private static CmsExpiringValue<Boolean> m_moduleCheckCache = new CmsExpiringValue<>(2000);
 
-    /** The logger instance for the class. */
-    private static final Log LOG = CmsLog.getLog(CmsTemplateMappingContentRewriter.class);
+  /** The logger instance for the class. */
+  private static final Log LOG = CmsLog.getLog(CmsTemplateMappingContentRewriter.class);
 
-    /** The folder path. */
-    private String m_folder;
+  /** The folder path. */
+  private String m_folder;
 
-    /** The folder resource. */
-    private CmsResource m_folderRes;
+  /** The folder resource. */
+  private CmsResource m_folderRes;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param cms the CMS context
-     * @param folder the folder to process
-     *
-     * @throws CmsException if something goes wrong
-     */
-    protected CmsTemplateMappingContentRewriter(CmsObject cms, CmsResource folder)
-    throws CmsException {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param cms the CMS context
+   * @param folder the folder to process
+   * @throws CmsException if something goes wrong
+   */
+  protected CmsTemplateMappingContentRewriter(CmsObject cms, CmsResource folder)
+      throws CmsException {
 
-        super(
-            OpenCms.initCmsObject(cms),
-            CmsTemplateMappingContentRewriter.class.getName() + "-" + Thread.currentThread().getId());
-        m_folder = cms.getSitePath(folder);
-        m_folderRes = folder;
-        initHtmlReport(OpenCms.getWorkplaceManager().getWorkplaceLocale(cms));
+    super(
+        OpenCms.initCmsObject(cms),
+        CmsTemplateMappingContentRewriter.class.getName() + "-" + Thread.currentThread().getId());
+    m_folder = cms.getSitePath(folder);
+    m_folderRes = folder;
+    initHtmlReport(OpenCms.getWorkplaceManager().getWorkplaceLocale(cms));
+  }
+
+  /**
+   * Checks if template mapper is configured in modules.
+   *
+   * @return true if the template mapper is configured in modules
+   */
+  public static boolean checkConfiguredInModules() {
+
+    Boolean result = m_moduleCheckCache.get();
+    if (result == null) {
+      result = Boolean.valueOf(getConfiguredTemplateMapping() != null);
+      m_moduleCheckCache.set(result);
     }
+    return result.booleanValue();
+  }
 
-    /**
-     * Checks if template mapper is configured in modules.
-     *
-     * @return true if the template mapper is configured in modules
-     */
-    public static boolean checkConfiguredInModules() {
+  /**
+   * Tries to read the path to the template mapping file from module parameters.
+   *
+   * <p>
+   *
+   * @return the template mapping file path
+   */
+  public static String getConfiguredTemplateMapping() {
 
-        Boolean result = m_moduleCheckCache.get();
-        if (result == null) {
-            result = Boolean.valueOf(getConfiguredTemplateMapping() != null);
-            m_moduleCheckCache.set(result);
-        }
-        return result.booleanValue();
+    String param = null;
+    for (CmsModule module : OpenCms.getModuleManager().getAllInstalledModules()) {
+      param = module.getParameter("template-mapping");
+      if (param != null) {
+        break;
+      }
     }
+    return param;
+  }
 
-    /**
-     * Tries to read the path to the template mapping file from module parameters.<p>
-     *
-     * @return the template mapping file path
-     */
-    public static String getConfiguredTemplateMapping() {
+  /** @see org.opencms.report.A_CmsReportThread#getReportUpdate() */
+  @Override
+  public String getReportUpdate() {
 
-        String param = null;
-        for (CmsModule module : OpenCms.getModuleManager().getAllInstalledModules()) {
-            param = module.getParameter("template-mapping");
-            if (param != null) {
-                break;
-            }
-        }
-        return param;
-    }
+    return getReport().getReportUpdate();
+  }
 
-    /**
-     * @see org.opencms.report.A_CmsReportThread#getReportUpdate()
-     */
-    @Override
-    public String getReportUpdate() {
+  /** @see java.lang.Thread#run() */
+  @Override
+  public void run() {
 
-        return getReport().getReportUpdate();
-    }
-
-    /**
-     * @see java.lang.Thread#run()
-     */
-    @Override
-    public void run() {
-
-        CmsObject cms = getCms();
-        I_CmsReport report = getReport();
+    CmsObject cms = getCms();
+    I_CmsReport report = getReport();
+    try {
+      String file = getConfiguredTemplateMapping();
+      cms.readResource(file);
+      CmsLockUtil.ensureLock(cms, m_folderRes);
+      CmsTemplateMapper mapper = new CmsTemplateMapper(file);
+      mapper.setForSave(true);
+      List<CmsResource> pages =
+          resourcesForType(m_folder, CmsResourceTypeXmlContainerPage.getStaticTypeName());
+      int j = 0;
+      for (CmsResource page : pages) {
+        j++;
         try {
-            String file = getConfiguredTemplateMapping();
-            cms.readResource(file);
-            CmsLockUtil.ensureLock(cms, m_folderRes);
-            CmsTemplateMapper mapper = new CmsTemplateMapper(file);
-            mapper.setForSave(true);
-            List<CmsResource> pages = resourcesForType(m_folder, CmsResourceTypeXmlContainerPage.getStaticTypeName());
-            int j = 0;
-            for (CmsResource page : pages) {
-                j++;
-                try {
-                    report.println(
-                        message(
-                            Messages.RPT_TEMPLATEMAPPER_PROCESSING_PAGE_2,
-                            "" + j + "/" + pages.size(),
-                            page.getRootPath()));
-                    CmsXmlContainerPage pageXml = CmsXmlContainerPageFactory.unmarshal(cms, cms.readFile(page));
-                    CmsContainerPageBean bean = pageXml.getContainerPage(cms);
-                    CmsContainerPageBean transformedBean = mapper.transformContainerpageBean(
-                        cms,
-                        bean,
-                        page.getRootPath());
-                    pageXml.save(cms, transformedBean);
-                } catch (Exception e) {
-                    LOG.error(e.getLocalizedMessage(), e);
-                    getReport().println(e);
-                }
-
-            }
-
-            List<CmsResource> groups = resourcesForType(
-                m_folder,
-                CmsResourceTypeXmlContainerPage.GROUP_CONTAINER_TYPE_NAME);
-            j = 0;
-            for (CmsResource group : groups) {
-                try {
-                    j++;
-                    report.println(
-                        message(
-                            Messages.RPT_TEMPLATEMAPPER_PROCESSING_GROUP_2,
-                            "" + j + "/" + groups.size(),
-                            group.getRootPath()));
-                    CmsXmlGroupContainer groupXml = CmsXmlGroupContainerFactory.unmarshal(cms, cms.readFile(group));
-                    CmsGroupContainerBean groupContainer = groupXml.getGroupContainer(cms);
-                    CmsGroupContainerBean transformedContainer = mapper.transformGroupContainer(
-                        cms,
-                        groupContainer,
-                        group.getRootPath());
-
-                    groupXml.save(cms, transformedContainer, Locale.ENGLISH);
-                } catch (Exception e) {
-                    LOG.error(e.getLocalizedMessage(), e);
-                    getReport().println(e);
-                }
-            }
-            CmsLockUtil.tryUnlock(cms, m_folderRes);
-            report.println(message(Messages.RPT_TEMPLATEMAPPER_DONE_0));
+          report.println(
+              message(
+                  Messages.RPT_TEMPLATEMAPPER_PROCESSING_PAGE_2,
+                  "" + j + "/" + pages.size(),
+                  page.getRootPath()));
+          CmsXmlContainerPage pageXml =
+              CmsXmlContainerPageFactory.unmarshal(cms, cms.readFile(page));
+          CmsContainerPageBean bean = pageXml.getContainerPage(cms);
+          CmsContainerPageBean transformedBean =
+              mapper.transformContainerpageBean(cms, bean, page.getRootPath());
+          pageXml.save(cms, transformedBean);
         } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            getReport().println(e);
+          LOG.error(e.getLocalizedMessage(), e);
+          getReport().println(e);
         }
+      }
 
-    }
-
-    /**
-     * Gets a message container.<p>
-     *
-     * @param key the key
-     * @param args the message parameters
-     *
-     * @return the message container
-     */
-    CmsMessageContainer message(String key, String... args) {
-
-        return Messages.get().container(key, args);
-
-    }
-
-    /**
-     * Reads resources of some type in the given folder.<p>
-     *
-     * @param folder the folder
-     * @param name the type name
-     * @return the list of resources of the given type in the given folder
-     */
-    private List<CmsResource> resourcesForType(String folder, String name) {
-
+      List<CmsResource> groups =
+          resourcesForType(m_folder, CmsResourceTypeXmlContainerPage.GROUP_CONTAINER_TYPE_NAME);
+      j = 0;
+      for (CmsResource group : groups) {
         try {
-            CmsObject cms = getCms();
-            I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(name);
-            CmsResourceFilter filter = CmsResourceFilter.IGNORE_EXPIRATION.addRequireType(type);
-            return cms.readResources(folder, filter);
-        } catch (CmsException e) {
-            LOG.error(e.getLocalizedMessage(), e);
-            getReport().println(e);
-            return Collections.emptyList();
+          j++;
+          report.println(
+              message(
+                  Messages.RPT_TEMPLATEMAPPER_PROCESSING_GROUP_2,
+                  "" + j + "/" + groups.size(),
+                  group.getRootPath()));
+          CmsXmlGroupContainer groupXml =
+              CmsXmlGroupContainerFactory.unmarshal(cms, cms.readFile(group));
+          CmsGroupContainerBean groupContainer = groupXml.getGroupContainer(cms);
+          CmsGroupContainerBean transformedContainer =
+              mapper.transformGroupContainer(cms, groupContainer, group.getRootPath());
+
+          groupXml.save(cms, transformedContainer, Locale.ENGLISH);
+        } catch (Exception e) {
+          LOG.error(e.getLocalizedMessage(), e);
+          getReport().println(e);
         }
-
+      }
+      CmsLockUtil.tryUnlock(cms, m_folderRes);
+      report.println(message(Messages.RPT_TEMPLATEMAPPER_DONE_0));
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      getReport().println(e);
     }
+  }
 
+  /**
+   * Gets a message container.
+   *
+   * <p>
+   *
+   * @param key the key
+   * @param args the message parameters
+   * @return the message container
+   */
+  CmsMessageContainer message(String key, String... args) {
+
+    return Messages.get().container(key, args);
+  }
+
+  /**
+   * Reads resources of some type in the given folder.
+   *
+   * <p>
+   *
+   * @param folder the folder
+   * @param name the type name
+   * @return the list of resources of the given type in the given folder
+   */
+  private List<CmsResource> resourcesForType(String folder, String name) {
+
+    try {
+      CmsObject cms = getCms();
+      I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(name);
+      CmsResourceFilter filter = CmsResourceFilter.IGNORE_EXPIRATION.addRequireType(type);
+      return cms.readResources(folder, filter);
+    } catch (CmsException e) {
+      LOG.error(e.getLocalizedMessage(), e);
+      getReport().println(e);
+      return Collections.emptyList();
+    }
+  }
 }

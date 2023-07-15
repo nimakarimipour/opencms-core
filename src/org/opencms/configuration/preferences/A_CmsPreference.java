@@ -27,67 +27,66 @@
 
 package org.opencms.configuration.preferences;
 
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.opencms.configuration.CmsWorkplaceConfiguration;
 import org.opencms.configuration.I_CmsXmlConfiguration;
 import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-
 /**
- * Abstract superclass for preferences.<p>
+ * Abstract superclass for preferences.
+ *
+ * <p>
  */
 public abstract class A_CmsPreference implements I_CmsPreference {
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#createConfigurationItem()
-     */
-    public Element createConfigurationItem() {
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#createConfigurationItem() */
+  public Element createConfigurationItem() {
 
-        CmsXmlContentProperty prop = getPropertyDefinition();
-        Element elem = DocumentHelper.createElement(CmsWorkplaceConfiguration.N_PREFERENCE);
-        for (String[] attrToSet : new String[][] {
-            {I_CmsXmlConfiguration.A_NAME, getName()},
-            {I_CmsXmlConfiguration.A_VALUE, getDefaultValue()},
-            {CmsWorkplaceConfiguration.A_NICE_NAME, prop.getNiceName()},
-            {CmsWorkplaceConfiguration.A_DESCRIPTION, prop.getDescription()},
-            {CmsWorkplaceConfiguration.A_WIDGET, prop.getConfiguredWidget()},
-            {CmsWorkplaceConfiguration.A_WIDGET_CONFIG, prop.getWidgetConfiguration()},
-            {CmsWorkplaceConfiguration.A_RULE_REGEX, prop.getRuleRegex()},
-            {CmsWorkplaceConfiguration.A_ERROR, prop.getError()}}) {
-            String attrName = attrToSet[0];
-            String value = attrToSet[1];
-            if (value != null) {
-                elem.addAttribute(attrName, value);
-            }
-        }
-        return elem;
+    CmsXmlContentProperty prop = getPropertyDefinition();
+    Element elem = DocumentHelper.createElement(CmsWorkplaceConfiguration.N_PREFERENCE);
+    for (String[] attrToSet :
+        new String[][] {
+          {I_CmsXmlConfiguration.A_NAME, getName()},
+          {I_CmsXmlConfiguration.A_VALUE, getDefaultValue()},
+          {CmsWorkplaceConfiguration.A_NICE_NAME, prop.getNiceName()},
+          {CmsWorkplaceConfiguration.A_DESCRIPTION, prop.getDescription()},
+          {CmsWorkplaceConfiguration.A_WIDGET, prop.getConfiguredWidget()},
+          {CmsWorkplaceConfiguration.A_WIDGET_CONFIG, prop.getWidgetConfiguration()},
+          {CmsWorkplaceConfiguration.A_RULE_REGEX, prop.getRuleRegex()},
+          {CmsWorkplaceConfiguration.A_ERROR, prop.getError()}
+        }) {
+      String attrName = attrToSet[0];
+      String value = attrToSet[1];
+      if (value != null) {
+        elem.addAttribute(attrName, value);
+      }
     }
+    return elem;
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
-     */
-    public CmsXmlContentProperty getPropertyDefinition(CmsObject cms) {
+  /**
+   * @see
+   *     org.opencms.configuration.preferences.I_CmsPreference#getPropertyDefinition(org.opencms.file.CmsObject)
+   */
+  public CmsXmlContentProperty getPropertyDefinition(CmsObject cms) {
 
-        return getPropertyDefinition();
-    }
+    return getPropertyDefinition();
+  }
 
-    /**
-     * @see org.opencms.configuration.preferences.I_CmsPreference#isDisabled(CmsObject)
-     */
-    public boolean isDisabled(CmsObject cms) {
+  /** @see org.opencms.configuration.preferences.I_CmsPreference#isDisabled(CmsObject) */
+  public boolean isDisabled(CmsObject cms) {
 
-        return false;
-    }
+    return false;
+  }
 
-    /**
-     * Gets the user-independent property configuration.<p>
-     *
-     * This is what is used to write the preference back to the workplace configuration.
-     *
-     * @return the property configuration
-     */
-    protected abstract CmsXmlContentProperty getPropertyDefinition();
-
+  /**
+   * Gets the user-independent property configuration.
+   *
+   * <p>This is what is used to write the preference back to the workplace configuration.
+   *
+   * @return the property configuration
+   */
+  protected abstract CmsXmlContentProperty getPropertyDefinition();
 }

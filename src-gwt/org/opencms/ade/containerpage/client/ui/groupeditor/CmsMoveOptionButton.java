@@ -27,6 +27,7 @@
 
 package org.opencms.ade.containerpage.client.ui.groupeditor;
 
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.opencms.ade.containerpage.client.ui.CmsContainerPageElementPanel;
 import org.opencms.gwt.client.dnd.I_CmsDragHandle;
 import org.opencms.gwt.client.dnd.I_CmsDraggable;
@@ -34,54 +35,58 @@ import org.opencms.gwt.client.ui.CmsPushButton;
 import org.opencms.gwt.client.ui.I_CmsButton;
 import org.opencms.gwt.client.ui.I_CmsButton.ButtonStyle;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-
 /**
- * The selection option.<p>
+ * The selection option.
+ *
+ * <p>
  *
  * @since 8.5.0
  */
-public class CmsMoveOptionButton extends CmsPushButton implements I_CmsGroupEditorOption, I_CmsDragHandle {
+public class CmsMoveOptionButton extends CmsPushButton
+    implements I_CmsGroupEditorOption, I_CmsDragHandle {
 
-    /** The element widget. */
-    private CmsContainerPageElementPanel m_elementWidget;
+  /** The element widget. */
+  private CmsContainerPageElementPanel m_elementWidget;
 
-    /**
-     * The constructor.<p>
-     *
-     * @param elementWidget the associated element widget
-     * @param editor the editor instance
-     */
-    public CmsMoveOptionButton(CmsContainerPageElementPanel elementWidget, CmsInheritanceContainerEditor editor) {
+  /**
+   * The constructor.
+   *
+   * <p>
+   *
+   * @param elementWidget the associated element widget
+   * @param editor the editor instance
+   */
+  public CmsMoveOptionButton(
+      CmsContainerPageElementPanel elementWidget, CmsInheritanceContainerEditor editor) {
 
-        super();
-        setImageClass(I_CmsButton.ButtonData.MOVE.getSmallIconClass());
-        setButtonStyle(ButtonStyle.FONT_ICON, null);
-        setTitle(I_CmsButton.ButtonData.MOVE.getTitle());
-        m_elementWidget = elementWidget;
-    }
+    super();
+    setImageClass(I_CmsButton.ButtonData.MOVE.getSmallIconClass());
+    setButtonStyle(ButtonStyle.FONT_ICON, null);
+    setTitle(I_CmsButton.ButtonData.MOVE.getTitle());
+    m_elementWidget = elementWidget;
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.groupeditor.I_CmsGroupEditorOption#checkVisibility()
-     */
-    public boolean checkVisibility() {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.groupeditor.I_CmsGroupEditorOption#checkVisibility()
+   */
+  public boolean checkVisibility() {
 
-        return m_elementWidget.getInheritanceInfo().isVisible();
-    }
+    return m_elementWidget.getInheritanceInfo().isVisible();
+  }
 
-    /**
-     * @see org.opencms.gwt.client.dnd.I_CmsDragHandle#getDraggable()
-     */
-    public I_CmsDraggable getDraggable() {
+  /** @see org.opencms.gwt.client.dnd.I_CmsDragHandle#getDraggable() */
+  public I_CmsDraggable getDraggable() {
 
-        return m_elementWidget;
-    }
+    return m_elementWidget;
+  }
 
-    /**
-     * @see org.opencms.ade.containerpage.client.ui.groupeditor.I_CmsGroupEditorOption#onClick(com.google.gwt.event.dom.client.ClickEvent)
-     */
-    public void onClick(ClickEvent event) {
+  /**
+   * @see
+   *     org.opencms.ade.containerpage.client.ui.groupeditor.I_CmsGroupEditorOption#onClick(com.google.gwt.event.dom.client.ClickEvent)
+   */
+  public void onClick(ClickEvent event) {
 
-        // nothing to do
-    }
+    // nothing to do
+  }
 }

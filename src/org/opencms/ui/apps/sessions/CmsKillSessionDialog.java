@@ -27,6 +27,13 @@
 
 package org.opencms.ui.apps.sessions;
 
+import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Label;
+import java.util.Set;
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
@@ -37,83 +44,82 @@ import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.util.CmsUUID;
 
-import java.util.Set;
-
-import org.apache.commons.logging.Log;
-
-import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Label;
-
 /**
- * Class for the dialog to kill sessions.<p>
+ * Class for the dialog to kill sessions.
+ *
+ * <p>
  */
 public class CmsKillSessionDialog extends CmsBasicDialog {
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = -7281930091176835024L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -7281930091176835024L;
 
-    /** The logger for this class. */
-    static Log LOG = CmsLog.getLog(CmsKillSessionDialog.class.getName());
+  /** The logger for this class. */
+  static Log LOG = CmsLog.getLog(CmsKillSessionDialog.class.getName());
 
-    /**cancel button.*/
-    private Button m_cancelButton;
+  /** cancel button. */
+  private Button m_cancelButton;
 
-    /**warning icon.*/
-    private Label m_icon;
+  /** warning icon. */
+  private Label m_icon;
 
-    /**vaadin component. */
-    private Label m_label;
+  /** vaadin component. */
+  private Label m_label;
 
-    /**ok button.*/
-    private Button m_okButton;
+  /** ok button. */
+  private Button m_okButton;
 
-    /**
-     * public constructor. <p>
-     *
-     * @param sessionIds ids of sessions to be killed
-     * @param canelRunnable runnable to be runned on cancel
-     */
-    public CmsKillSessionDialog(final Set<String> sessionIds, final Runnable canelRunnable) {
+  /**
+   * public constructor.
+   *
+   * <p>
+   *
+   * @param sessionIds ids of sessions to be killed
+   * @param canelRunnable runnable to be runned on cancel
+   */
+  public CmsKillSessionDialog(final Set<String> sessionIds, final Runnable canelRunnable) {
 
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
-        displayResourceInfoDirectly(CmsSessionsApp.getUserInfos(sessionIds));
+    displayResourceInfoDirectly(CmsSessionsApp.getUserInfos(sessionIds));
 
-        m_icon.setContentMode(ContentMode.HTML);
-        m_icon.setValue(FontOpenCms.WARNING.getHtml());
+    m_icon.setContentMode(ContentMode.HTML);
+    m_icon.setValue(FontOpenCms.WARNING.getHtml());
 
-        if (sessionIds.size() == 1) {
-            m_label.setValue(CmsVaadinUtils.getMessageText(Messages.GUI_MESSAGES_CONFIRM_DESTROY_SESSION_SINGLE_0));
-        }
-
-        m_okButton.addClickListener(new ClickListener() {
-
-            private static final long serialVersionUID = 5044360626122683306L;
-
-            public void buttonClick(ClickEvent event) {
-
-                for (String sessionId : sessionIds) {
-                    try {
-                        OpenCms.getSessionManager().killSession(A_CmsUI.getCmsObject(), new CmsUUID(sessionId));
-                        LOG.info("Kill session of user with id '" + sessionId + "'");
-                    } catch (NumberFormatException | CmsException e) {
-                        //current session cannot be killed
-                    }
-                }
-                canelRunnable.run();
-            }
-        });
-        m_cancelButton.addClickListener(new ClickListener() {
-
-            private static final long serialVersionUID = 6872628835561250226L;
-
-            public void buttonClick(ClickEvent event) {
-
-                canelRunnable.run();
-            }
-        });
+    if (sessionIds.size() == 1) {
+      m_label.setValue(
+          CmsVaadinUtils.getMessageText(Messages.GUI_MESSAGES_CONFIRM_DESTROY_SESSION_SINGLE_0));
     }
+
+    m_okButton.addClickListener(
+        new ClickListener() {
+
+          private static final long serialVersionUID = 5044360626122683306L;
+
+          public void buttonClick(ClickEvent event) {
+
+            for (String sessionId : sessionIds) {
+              try {
+                OpenCms.getSessionManager()
+                    .killSession(A_CmsUI.getCmsObject(), new CmsUUID(sessionId));
+                LOG.info("Kill session of user with id '" + sessionId + "'");
+              } catch (NumberFormatException | CmsException e) {
+                // current session cannot be killed
+              }
+            }
+            canelRunnable.run();
+          }
+        });
+    m_cancelButton.addClickListener(
+        new ClickListener() {
+
+          private static final long serialVersionUID = 6872628835561250226L;
+
+          public void buttonClick(ClickEvent event) {
+
+            canelRunnable.run();
+          }
+        });
+  }
 }

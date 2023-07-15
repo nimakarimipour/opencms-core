@@ -30,19 +30,19 @@ package org.opencms.file.types;
 import org.opencms.loader.CmsSeoFileLoader;
 
 /**
- * The SEO file resource type.<p>
+ * The SEO file resource type.
+ *
+ * <p>
  */
 public class CmsResourceTypeSeoFile extends CmsResourceTypeXmlAdeConfiguration {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 5672681204848648111L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 5672681204848648111L;
 
-    /**
-     * @see org.opencms.file.types.CmsResourceTypeXmlContent#getLoaderId()
-     */
-    @Override
-    public int getLoaderId() {
+  /** @see org.opencms.file.types.CmsResourceTypeXmlContent#getLoaderId() */
+  @Override
+  public int getLoaderId() {
 
-        return CmsSeoFileLoader.LOADER_ID;
-    }
+    return CmsSeoFileLoader.LOADER_ID;
+  }
 }

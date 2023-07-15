@@ -27,21 +27,23 @@
 
 package org.opencms.ui.apps;
 
+import com.vaadin.ui.Component;
 import java.util.Locale;
 
-import com.vaadin.ui.Component;
-
 /**
- * Workplace view menu item.<p>
+ * Workplace view menu item.
+ *
+ * <p>
  */
 public interface I_CmsMenuItem {
 
-    /**
-     * Returns the item ui component.<p>
-     *
-     * @param locale the user locale
-     *
-     * @return the component
-     */
-    Component getItemComponent(Locale locale);
+  /**
+   * Returns the item ui component.
+   *
+   * <p>
+   *
+   * @param locale the user locale
+   * @return the component
+   */
+  Component getItemComponent(Locale locale);
 }

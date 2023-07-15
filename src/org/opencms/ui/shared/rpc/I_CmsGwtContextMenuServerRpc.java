@@ -29,15 +29,13 @@ package org.opencms.ui.shared.rpc;
 
 import com.vaadin.shared.communication.ServerRpc;
 
-/**
- * Server side RPC interface for the GWT based context menu buttons.
- */
+/** Server side RPC interface for the GWT based context menu buttons. */
 public interface I_CmsGwtContextMenuServerRpc extends ServerRpc {
 
-    /**
-     * Called when a resource has been modified through context menu options
-     * @param id the structure id of the resource
-     */
-    void refresh(String id);
-
+  /**
+   * Called when a resource has been modified through context menu options
+   *
+   * @param id the structure id of the resource
+   */
+  void refresh(String id);
 }

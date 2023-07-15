@@ -28,43 +28,51 @@
 package org.opencms.main;
 
 /**
- * Wrapper exception used to notify the shell that an error has occurred during execution of a shell command.<p>
+ * Wrapper exception used to notify the shell that an error has occurred during execution of a shell
+ * command.
+ *
+ * <p>
  */
 public class CmsShellCommandException extends RuntimeException {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 5501584058087027184L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 5501584058087027184L;
 
-    /** Indicates whether this exception was created because of a report error. */
-    private boolean m_fromReport;
+  /** Indicates whether this exception was created because of a report error. */
+  private boolean m_fromReport;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param fromReport true if this exception is being created because of a report error
-     */
-    public CmsShellCommandException(boolean fromReport) {
-        super("Shell command exception caused by report error");
-        m_fromReport = fromReport;
-    }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param fromReport true if this exception is being created because of a report error
+   */
+  public CmsShellCommandException(boolean fromReport) {
+    super("Shell command exception caused by report error");
+    m_fromReport = fromReport;
+  }
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param t the cause of this exception
-     */
-    public CmsShellCommandException(Throwable t) {
-        super("Shell command exception caused by different exception", t);
-    }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param t the cause of this exception
+   */
+  public CmsShellCommandException(Throwable t) {
+    super("Shell command exception caused by different exception", t);
+  }
 
-    /**
-     * Returns true if this exception was created because of a report error.<p>
-     *
-     * @return true if this exception was created because of a report error
-     */
-    public boolean isFromReport() {
+  /**
+   * Returns true if this exception was created because of a report error.
+   *
+   * <p>
+   *
+   * @return true if this exception was created because of a report error
+   */
+  public boolean isFromReport() {
 
-        return m_fromReport;
-    }
-
+    return m_fromReport;
+  }
 }

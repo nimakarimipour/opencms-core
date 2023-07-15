@@ -27,6 +27,9 @@
 
 package org.opencms.workplace.tools.modules;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.widgets.CmsCheckboxWidget;
@@ -35,126 +38,148 @@ import org.opencms.widgets.CmsInputWidget;
 import org.opencms.widgets.CmsTextareaWidget;
 import org.opencms.workplace.CmsWidgetDialogParameter;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Edit class to edit an exiting module.<p>
+ * Edit class to edit an exiting module.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsModulesEdit extends CmsModulesEditBase {
 
-    /**
-     * Public constructor with JSP action element.<p>
-     *
-     * @param jsp an initialized JSP action element
-     */
-    public CmsModulesEdit(CmsJspActionElement jsp) {
+  /**
+   * Public constructor with JSP action element.
+   *
+   * <p>
+   *
+   * @param jsp an initialized JSP action element
+   */
+  public CmsModulesEdit(CmsJspActionElement jsp) {
 
-        super(jsp);
+    super(jsp);
+  }
 
-    }
+  /**
+   * Public constructor with JSP variables.
+   *
+   * <p>
+   *
+   * @param context the JSP page context
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsModulesEdit(PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-    /**
-     * Public constructor with JSP variables.<p>
-     *
-     * @param context the JSP page context
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsModulesEdit(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    this(new CmsJspActionElement(context, req, res));
+  }
 
-        this(new CmsJspActionElement(context, req, res));
+  /**
+   * Creates the dialog HTML for all defined widgets of the named dialog (page).
+   *
+   * <p>
+   *
+   * @param dialog the dialog (page) to get the HTML for
+   * @return the dialog HTML for all defined widgets of the named dialog (page)
+   */
+  @Override
+  protected String createDialogHtml(String dialog) {
 
-    }
+    StringBuffer result = new StringBuffer(1024);
 
-    /**
-     * Creates the dialog HTML for all defined widgets of the named dialog (page).<p>
-     *
-     * @param dialog the dialog (page) to get the HTML for
-     * @return the dialog HTML for all defined widgets of the named dialog (page)
-     */
-    @Override
-    protected String createDialogHtml(String dialog) {
+    // create table
+    result.append(createWidgetTableStart());
 
-        StringBuffer result = new StringBuffer(1024);
+    // show error header once if there were validation errors
+    result.append(createWidgetErrorHeader());
 
-        // create table
+    if (dialog.equals(PAGES[0])) {
+      result.append(dialogBlockStart(key("label.moduleinformation")));
+      result.append(createWidgetTableStart());
+      result.append(createDialogRowsHtml(0, 7));
+      result.append(createWidgetTableEnd());
+      result.append(dialogBlockEnd());
+      result.append(dialogBlockStart(key("label.modulecreator")));
+      result.append(createWidgetTableStart());
+      result.append(createDialogRowsHtml(8, 9));
+      result.append(createWidgetTableEnd());
+      result.append(dialogBlockEnd());
+      result.append(dialogBlockStart(key("label.moduleexportmode")));
+      result.append(createWidgetTableStart());
+      result.append(createDialogRowsHtml(10, 10));
+      result.append(createWidgetTableEnd());
+      result.append(dialogBlockEnd());
+      if (CmsStringUtil.isEmpty(m_module.getName())) {
+        result.append(dialogBlockStart(key("label.modulefolder")));
         result.append(createWidgetTableStart());
-
-        // show error header once if there were validation errors
-        result.append(createWidgetErrorHeader());
-
-        if (dialog.equals(PAGES[0])) {
-            result.append(dialogBlockStart(key("label.moduleinformation")));
-            result.append(createWidgetTableStart());
-            result.append(createDialogRowsHtml(0, 7));
-            result.append(createWidgetTableEnd());
-            result.append(dialogBlockEnd());
-            result.append(dialogBlockStart(key("label.modulecreator")));
-            result.append(createWidgetTableStart());
-            result.append(createDialogRowsHtml(8, 9));
-            result.append(createWidgetTableEnd());
-            result.append(dialogBlockEnd());
-            result.append(dialogBlockStart(key("label.moduleexportmode")));
-            result.append(createWidgetTableStart());
-            result.append(createDialogRowsHtml(10, 10));
-            result.append(createWidgetTableEnd());
-            result.append(dialogBlockEnd());
-            if (CmsStringUtil.isEmpty(m_module.getName())) {
-                result.append(dialogBlockStart(key("label.modulefolder")));
-                result.append(createWidgetTableStart());
-                result.append(createDialogRowsHtml(11, 17));
-                result.append(createWidgetTableEnd());
-                result.append(dialogBlockEnd());
-            }
-        }
-
-        // close table
+        result.append(createDialogRowsHtml(11, 17));
         result.append(createWidgetTableEnd());
-
-        return result.toString();
+        result.append(dialogBlockEnd());
+      }
     }
 
-    /**
-     * Creates the list of widgets for this dialog.<p>
-     */
-    @Override
-    protected void defineWidgets() {
+    // close table
+    result.append(createWidgetTableEnd());
 
-        super.defineWidgets();
-        if (CmsStringUtil.isEmpty(m_module.getName())) {
-            addWidget(new CmsWidgetDialogParameter(m_module, "name", PAGES[0], new CmsInputWidget()));
-        } else {
-            addWidget(new CmsWidgetDialogParameter(m_module, "name", PAGES[0], new CmsDisplayWidget()));
-        }
-        addWidget(new CmsWidgetDialogParameter(m_module, "niceName", PAGES[0], new CmsInputWidget()));
-        addWidget(new CmsWidgetDialogParameter(m_module, "description", PAGES[0], new CmsTextareaWidget()));
-        addWidget(new CmsWidgetDialogParameter(m_module, "version.version", PAGES[0], new CmsInputWidget()));
-        addWidget(new CmsWidgetDialogParameter(m_module, "group", PAGES[0], new CmsInputWidget()));
-        addWidget(new CmsWidgetDialogParameter(m_module, "actionClass", PAGES[0], new CmsInputWidget()));
-        addWidget(new CmsWidgetDialogParameter(m_module, "importScript", PAGES[0], new CmsTextareaWidget()));
-        addWidget(new CmsWidgetDialogParameter(m_module, "importSite", PAGES[0], new CmsInputWidget()));
-        addWidget(new CmsWidgetDialogParameter(m_module, "authorName", PAGES[0], new CmsInputWidget()));
-        addWidget(new CmsWidgetDialogParameter(m_module, "authorEmail", PAGES[0], new CmsInputWidget()));
-        addWidget(new CmsWidgetDialogParameter(m_module, "reducedExportMode", PAGES[0], new CmsCheckboxWidget()));
-        // add the second page only when creating a new module
-        if (CmsStringUtil.isEmpty(m_module.getName())) {
-            addWidget(new CmsWidgetDialogParameter(m_module, "createModuleFolder", PAGES[0], new CmsCheckboxWidget()));
-            addWidget(
-                new CmsWidgetDialogParameter(m_module, "createTemplateFolder", PAGES[0], new CmsCheckboxWidget()));
-            addWidget(
-                new CmsWidgetDialogParameter(m_module, "createElementsFolder", PAGES[0], new CmsCheckboxWidget()));
-            addWidget(
-                new CmsWidgetDialogParameter(m_module, "createFormattersFolder", PAGES[0], new CmsCheckboxWidget()));
-            addWidget(
-                new CmsWidgetDialogParameter(m_module, "createResourcesFolder", PAGES[0], new CmsCheckboxWidget()));
-            addWidget(new CmsWidgetDialogParameter(m_module, "createSchemasFolder", PAGES[0], new CmsCheckboxWidget()));
-            addWidget(new CmsWidgetDialogParameter(m_module, "createClassesFolder", PAGES[0], new CmsCheckboxWidget()));
-            addWidget(new CmsWidgetDialogParameter(m_module, "createLibFolder", PAGES[0], new CmsCheckboxWidget()));
-        }
+    return result.toString();
+  }
+
+  /**
+   * Creates the list of widgets for this dialog.
+   *
+   * <p>
+   */
+  @Override
+  protected void defineWidgets() {
+
+    super.defineWidgets();
+    if (CmsStringUtil.isEmpty(m_module.getName())) {
+      addWidget(new CmsWidgetDialogParameter(m_module, "name", PAGES[0], new CmsInputWidget()));
+    } else {
+      addWidget(new CmsWidgetDialogParameter(m_module, "name", PAGES[0], new CmsDisplayWidget()));
     }
-
+    addWidget(new CmsWidgetDialogParameter(m_module, "niceName", PAGES[0], new CmsInputWidget()));
+    addWidget(
+        new CmsWidgetDialogParameter(m_module, "description", PAGES[0], new CmsTextareaWidget()));
+    addWidget(
+        new CmsWidgetDialogParameter(m_module, "version.version", PAGES[0], new CmsInputWidget()));
+    addWidget(new CmsWidgetDialogParameter(m_module, "group", PAGES[0], new CmsInputWidget()));
+    addWidget(
+        new CmsWidgetDialogParameter(m_module, "actionClass", PAGES[0], new CmsInputWidget()));
+    addWidget(
+        new CmsWidgetDialogParameter(m_module, "importScript", PAGES[0], new CmsTextareaWidget()));
+    addWidget(new CmsWidgetDialogParameter(m_module, "importSite", PAGES[0], new CmsInputWidget()));
+    addWidget(new CmsWidgetDialogParameter(m_module, "authorName", PAGES[0], new CmsInputWidget()));
+    addWidget(
+        new CmsWidgetDialogParameter(m_module, "authorEmail", PAGES[0], new CmsInputWidget()));
+    addWidget(
+        new CmsWidgetDialogParameter(
+            m_module, "reducedExportMode", PAGES[0], new CmsCheckboxWidget()));
+    // add the second page only when creating a new module
+    if (CmsStringUtil.isEmpty(m_module.getName())) {
+      addWidget(
+          new CmsWidgetDialogParameter(
+              m_module, "createModuleFolder", PAGES[0], new CmsCheckboxWidget()));
+      addWidget(
+          new CmsWidgetDialogParameter(
+              m_module, "createTemplateFolder", PAGES[0], new CmsCheckboxWidget()));
+      addWidget(
+          new CmsWidgetDialogParameter(
+              m_module, "createElementsFolder", PAGES[0], new CmsCheckboxWidget()));
+      addWidget(
+          new CmsWidgetDialogParameter(
+              m_module, "createFormattersFolder", PAGES[0], new CmsCheckboxWidget()));
+      addWidget(
+          new CmsWidgetDialogParameter(
+              m_module, "createResourcesFolder", PAGES[0], new CmsCheckboxWidget()));
+      addWidget(
+          new CmsWidgetDialogParameter(
+              m_module, "createSchemasFolder", PAGES[0], new CmsCheckboxWidget()));
+      addWidget(
+          new CmsWidgetDialogParameter(
+              m_module, "createClassesFolder", PAGES[0], new CmsCheckboxWidget()));
+      addWidget(
+          new CmsWidgetDialogParameter(
+              m_module, "createLibFolder", PAGES[0], new CmsCheckboxWidget()));
+    }
+  }
 }

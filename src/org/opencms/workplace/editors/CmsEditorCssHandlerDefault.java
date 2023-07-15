@@ -27,6 +27,7 @@
 
 package org.opencms.workplace.editors;
 
+import org.apache.commons.logging.Log;
 import org.opencms.ade.configuration.CmsADEConfigData;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsPropertyDefinition;
@@ -37,117 +38,129 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 
-import org.apache.commons.logging.Log;
-
 /**
- * A default editor CSS handler to obtain the CSS style sheet path from the template property value of the template itself.<p>
+ * A default editor CSS handler to obtain the CSS style sheet path from the template property value
+ * of the template itself.
+ *
+ * <p>
  *
  * @since 6.9.2
  */
 public class CmsEditorCssHandlerDefault implements I_CmsEditorCssHandler {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsEditorCssHandlerDefault.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsEditorCssHandlerDefault.class);
 
-    /** Sitemap attribute that can be used to configure the editor stylesheet. */
-    public static final String ATTR_TEMPLATE_EDITOR_CSS = "template.editor.css";
+  /** Sitemap attribute that can be used to configure the editor stylesheet. */
+  public static final String ATTR_TEMPLATE_EDITOR_CSS = "template.editor.css";
 
-    /** Request context attribute used to pass the editor stylesheet (normally defined as a meta tag) to the CSS handler. */
-    public static final String ATTRIBUTE_EDITOR_STYLESHEET = "cms-editor-stylesheet";
+  /**
+   * Request context attribute used to pass the editor stylesheet (normally defined as a meta tag)
+   * to the CSS handler.
+   */
+  public static final String ATTRIBUTE_EDITOR_STYLESHEET = "cms-editor-stylesheet";
 
-    /**
-     * @see org.opencms.workplace.editors.I_CmsEditorCssHandler#getUriStyleSheet(org.opencms.file.CmsObject, java.lang.String)
-     */
-    public String getUriStyleSheet(CmsObject cms, String editedResourcePath) {
+  /**
+   * @see
+   *     org.opencms.workplace.editors.I_CmsEditorCssHandler#getUriStyleSheet(org.opencms.file.CmsObject,
+   *     java.lang.String)
+   */
+  public String getUriStyleSheet(CmsObject cms, String editedResourcePath) {
 
-        String editContext = (String)(cms.getRequestContext().getAttribute(CmsXmlContentEditor.ATTRIBUTE_EDITCONTEXT));
-        String result = "";
-        if (!CmsStringUtil.isEmptyOrWhitespaceOnly(editContext)) {
-            // prefer the style sheet of the edit context (usually this will be a container page)
-            result = internalGetUriStyleSheet(cms, editContext);
-        }
-        if (CmsStringUtil.isEmptyOrWhitespaceOnly(result)) {
-            result = internalGetUriStyleSheet(cms, editedResourcePath);
-        }
-        return result;
+    String editContext =
+        (String) (cms.getRequestContext().getAttribute(CmsXmlContentEditor.ATTRIBUTE_EDITCONTEXT));
+    String result = "";
+    if (!CmsStringUtil.isEmptyOrWhitespaceOnly(editContext)) {
+      // prefer the style sheet of the edit context (usually this will be a container page)
+      result = internalGetUriStyleSheet(cms, editContext);
+    }
+    if (CmsStringUtil.isEmptyOrWhitespaceOnly(result)) {
+      result = internalGetUriStyleSheet(cms, editedResourcePath);
+    }
+    return result;
+  }
+
+  /**
+   * @see org.opencms.workplace.editors.I_CmsEditorCssHandler#matches(org.opencms.file.CmsObject,
+   *     java.lang.String)
+   */
+  public boolean matches(CmsObject cms, String editedResourcePath) {
+
+    // this returns always true, as it is the default CSS handler
+    return true;
+  }
+
+  /**
+   * Finds the style sheet by reading the template property of the template for a given path.
+   *
+   * <p>
+   *
+   * @param cms the current CMS context
+   * @param editedResourcePath the resource path
+   * @return the CSS uri from the template for the given path
+   */
+  private String internalGetUriStyleSheet(CmsObject cms, String editedResourcePath) {
+
+    if (editedResourcePath == null) {
+      return "";
+    }
+    String result = "";
+
+    Object attr = cms.getRequestContext().getAttribute(ATTRIBUTE_EDITOR_STYLESHEET);
+    if (attr instanceof String) {
+      String editorStylesheet = (String) attr;
+      return editorStylesheet;
     }
 
-    /**
-     * @see org.opencms.workplace.editors.I_CmsEditorCssHandler#matches(org.opencms.file.CmsObject, java.lang.String)
-     */
-    public boolean matches(CmsObject cms, String editedResourcePath) {
-
-        // this returns always true, as it is the default CSS handler
-        return true;
+    try {
+      CmsADEConfigData config =
+          OpenCms.getADEManager()
+              .lookupConfigurationWithCache(
+                  cms, cms.getRequestContext().addSiteRoot(editedResourcePath));
+      String cssPathFromSitemapConfig = config.getAttribute(ATTR_TEMPLATE_EDITOR_CSS, null);
+      if ((cssPathFromSitemapConfig != null) && cms.existsResource(cssPathFromSitemapConfig)) {
+        return cssPathFromSitemapConfig;
+      }
+    } catch (Exception e) {
+      LOG.error(e.getLocalizedMessage(), e);
     }
 
-    /**
-     * Finds the style sheet by reading the template property of the template for a given path.<p>
-     *
-     * @param cms the current CMS context
-     * @param editedResourcePath the resource path
-     *
-     * @return the CSS uri from the template for the given path
-     */
-    private String internalGetUriStyleSheet(CmsObject cms, String editedResourcePath) {
-
-        if (editedResourcePath == null) {
-            return "";
-        }
-        String result = "";
-
-        Object attr = cms.getRequestContext().getAttribute(ATTRIBUTE_EDITOR_STYLESHEET);
-        if (attr instanceof String) {
-            String editorStylesheet = (String)attr;
-            return editorStylesheet;
-        }
-
-        try {
-            CmsADEConfigData config = OpenCms.getADEManager().lookupConfigurationWithCache(
-                cms,
-                cms.getRequestContext().addSiteRoot(editedResourcePath));
-            String cssPathFromSitemapConfig = config.getAttribute(ATTR_TEMPLATE_EDITOR_CSS, null);
-            if ((cssPathFromSitemapConfig != null) && cms.existsResource(cssPathFromSitemapConfig)) {
-                return cssPathFromSitemapConfig;
+    try {
+      // determine the path of the template
+      String templatePath = "";
+      try {
+        templatePath =
+            cms.readPropertyObject(
+                    editedResourcePath, CmsPropertyDefinition.PROPERTY_TEMPLATE, true)
+                .getValue("");
+        if (CmsTemplateContextManager.isProvider(templatePath)) {
+          I_CmsTemplateContextProvider provider =
+              OpenCms.getTemplateContextManager().getTemplateContextProvider(templatePath);
+          if (provider != null) {
+            String providerResult = provider.getEditorStyleSheet(cms, editedResourcePath);
+            if (providerResult != null) {
+              return providerResult;
             }
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
+          }
         }
-
-        try {
-            // determine the path of the template
-            String templatePath = "";
-            try {
-                templatePath = cms.readPropertyObject(
-                    editedResourcePath,
-                    CmsPropertyDefinition.PROPERTY_TEMPLATE,
-                    true).getValue("");
-                if (CmsTemplateContextManager.isProvider(templatePath)) {
-                    I_CmsTemplateContextProvider provider = OpenCms.getTemplateContextManager().getTemplateContextProvider(
-                        templatePath);
-                    if (provider != null) {
-                        String providerResult = provider.getEditorStyleSheet(cms, editedResourcePath);
-                        if (providerResult != null) {
-                            return providerResult;
-                        }
-                    }
-                }
-            } catch (CmsException e) {
-                if (LOG.isWarnEnabled()) {
-                    LOG.warn(Messages.get().getBundle().key(Messages.LOG_READ_TEMPLATE_PROP_FAILED_0), e);
-                }
-            }
-            if (CmsStringUtil.isNotEmpty(templatePath)) {
-                // read the template property value from the template file where the absolute CSS path is (or should be) stored
-                result = cms.readPropertyObject(templatePath, CmsPropertyDefinition.PROPERTY_TEMPLATE, false).getValue(
-                    "");
-            }
-        } catch (CmsException e) {
-            if (LOG.isWarnEnabled()) {
-                LOG.warn(Messages.get().getBundle().key(Messages.LOG_READ_TEMPLATE_PROP_STYLESHEET_FAILED_0), e);
-            }
+      } catch (CmsException e) {
+        if (LOG.isWarnEnabled()) {
+          LOG.warn(Messages.get().getBundle().key(Messages.LOG_READ_TEMPLATE_PROP_FAILED_0), e);
         }
-        return result;
+      }
+      if (CmsStringUtil.isNotEmpty(templatePath)) {
+        // read the template property value from the template file where the absolute CSS path is
+        // (or should be) stored
+        result =
+            cms.readPropertyObject(templatePath, CmsPropertyDefinition.PROPERTY_TEMPLATE, false)
+                .getValue("");
+      }
+    } catch (CmsException e) {
+      if (LOG.isWarnEnabled()) {
+        LOG.warn(
+            Messages.get().getBundle().key(Messages.LOG_READ_TEMPLATE_PROP_STYLESHEET_FAILED_0), e);
+      }
     }
-
+    return result;
+  }
 }

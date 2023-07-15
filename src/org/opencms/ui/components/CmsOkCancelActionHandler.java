@@ -32,56 +32,57 @@ import com.vaadin.event.Action.Handler;
 import com.vaadin.event.ShortcutAction;
 
 /**
- * Shortcut handler triggered on 'Enter' and 'Esc' to trigger OK and Cancel actions.<p>
+ * Shortcut handler triggered on 'Enter' and 'Esc' to trigger OK and Cancel actions.
+ *
+ * <p>
  */
 public abstract class CmsOkCancelActionHandler implements Handler {
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 6114433920380720290L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 6114433920380720290L;
 
-    /** The enter action. */
-    protected static final ShortcutAction ENTER_ACTION = new ShortcutAction(
-        "Enter",
-        ShortcutAction.KeyCode.ENTER,
-        null);
+  /** The enter action. */
+  protected static final ShortcutAction ENTER_ACTION =
+      new ShortcutAction("Enter", ShortcutAction.KeyCode.ENTER, null);
 
-    /** The escape action. */
-    protected static final ShortcutAction ESC_ACTION = new ShortcutAction(
-        "Escape",
-        ShortcutAction.KeyCode.ESCAPE,
-        null);
+  /** The escape action. */
+  protected static final ShortcutAction ESC_ACTION =
+      new ShortcutAction("Escape", ShortcutAction.KeyCode.ESCAPE, null);
 
-    /** The shortcut actions. */
-    private static final ShortcutAction[] SHORTCUT_ACTIONS = new ShortcutAction[] {ENTER_ACTION, ESC_ACTION};
+  /** The shortcut actions. */
+  private static final ShortcutAction[] SHORTCUT_ACTIONS =
+      new ShortcutAction[] {ENTER_ACTION, ESC_ACTION};
 
-    /**
-     * @see com.vaadin.event.Action.Handler#getActions(java.lang.Object, java.lang.Object)
-     */
-    public Action[] getActions(Object target, Object sender) {
+  /** @see com.vaadin.event.Action.Handler#getActions(java.lang.Object, java.lang.Object) */
+  public Action[] getActions(Object target, Object sender) {
 
-        return SHORTCUT_ACTIONS;
+    return SHORTCUT_ACTIONS;
+  }
+
+  /**
+   * @see com.vaadin.event.Action.Handler#handleAction(com.vaadin.event.Action, java.lang.Object,
+   *     java.lang.Object)
+   */
+  public void handleAction(Action action, Object sender, Object target) {
+
+    if (ENTER_ACTION.equals(action)) {
+      ok();
+    } else if (ESC_ACTION.equals(action)) {
+      cancel();
     }
+  }
 
-    /**
-     * @see com.vaadin.event.Action.Handler#handleAction(com.vaadin.event.Action, java.lang.Object, java.lang.Object)
-     */
-    public void handleAction(Action action, Object sender, Object target) {
+  /**
+   * Called on key press 'Esc'.
+   *
+   * <p>
+   */
+  protected abstract void cancel();
 
-        if (ENTER_ACTION.equals(action)) {
-            ok();
-        } else if (ESC_ACTION.equals(action)) {
-            cancel();
-        }
-    }
-
-    /**
-     * Called on key press 'Esc'.<p>
-     */
-    protected abstract void cancel();
-
-    /**
-     * Called on key press 'Enter'.<p>
-     */
-    protected abstract void ok();
-
+  /**
+   * Called on key press 'Enter'.
+   *
+   * <p>
+   */
+  protected abstract void ok();
 }

@@ -28,17 +28,18 @@
 package org.opencms.gwt.shared;
 
 /**
- * Enum used for identifying tabs in the resource info dialog.<p>
+ * Enum used for identifying tabs in the resource info dialog.
+ *
+ * <p>
  */
 public enum CmsResourceStatusTabId {
-    /** Tab for relations from a resource. */
-    tabRelationsFrom,
-    /** Tab for relations to a resource. */
-    tabRelationsTo,
-    /** Tab for resource sibling information.*/
-    tabSiblings,
+  /** Tab for relations from a resource. */
+  tabRelationsFrom,
+  /** Tab for relations to a resource. */
+  tabRelationsTo,
+  /** Tab for resource sibling information. */
+  tabSiblings,
 
-    /** Tab for resource status information.*/
-    tabStatus;
-
+  /** Tab for resource status information. */
+  tabStatus;
 }

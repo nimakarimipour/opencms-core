@@ -28,43 +28,49 @@
 package org.opencms.search.extractors;
 
 import java.io.InputStream;
-
 import org.apache.tika.parser.rtf.RTFParser;
 
 /**
- * Extracts the text from a RTF  document.<p>
+ * Extracts the text from a RTF document.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public final class CmsExtractorRtf extends A_CmsTextExtractor {
 
-    /** Static member instance of the extractor. */
-    private static final CmsExtractorRtf INSTANCE = new CmsExtractorRtf();
+  /** Static member instance of the extractor. */
+  private static final CmsExtractorRtf INSTANCE = new CmsExtractorRtf();
 
-    /**
-     * Hide the public constructor.<p>
-     */
-    private CmsExtractorRtf() {
+  /**
+   * Hide the public constructor.
+   *
+   * <p>
+   */
+  private CmsExtractorRtf() {
 
-        // noop
-    }
+    // noop
+  }
 
-    /**
-     * Returns an instance of this text extractor.<p>
-     *
-     * @return an instance of this text extractor
-     */
-    public static I_CmsTextExtractor getExtractor() {
+  /**
+   * Returns an instance of this text extractor.
+   *
+   * <p>
+   *
+   * @return an instance of this text extractor
+   */
+  public static I_CmsTextExtractor getExtractor() {
 
-        return INSTANCE;
-    }
+    return INSTANCE;
+  }
 
-    /**
-     * @see org.opencms.search.extractors.I_CmsTextExtractor#extractText(java.io.InputStream, java.lang.String)
-     */
-    @Override
-    public I_CmsExtractionResult extractText(InputStream in) throws Exception {
+  /**
+   * @see org.opencms.search.extractors.I_CmsTextExtractor#extractText(java.io.InputStream,
+   *     java.lang.String)
+   */
+  @Override
+  public I_CmsExtractionResult extractText(InputStream in) throws Exception {
 
-        return extractText(in, new RTFParser());
-    }
+    return extractText(in, new RTFParser());
+  }
 }

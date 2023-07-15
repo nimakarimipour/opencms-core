@@ -31,72 +31,77 @@ import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 
 /**
- * This is a TagExtraInfo evaluation class that checks the attibutes of
- * the <code>&lt;cms:include /&gt;</code> tag.<p>
+ * This is a TagExtraInfo evaluation class that checks the attibutes of the <code>
+ * &lt;cms:include /&gt;</code> tag.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsJspTagIncludeTEI extends TagExtraInfo {
 
-    /** Attribute name. */
-    private static final String ATTR_ATTRIBUTE = "attribute";
+  /** Attribute name. */
+  private static final String ATTR_ATTRIBUTE = "attribute";
 
-    /** Attribute name. */
-    private static final String ATTR_FILE = "file";
+  /** Attribute name. */
+  private static final String ATTR_FILE = "file";
 
-    /** Attribute name. */
-    private static final String ATTR_PAGE = "page";
+  /** Attribute name. */
+  private static final String ATTR_PAGE = "page";
 
-    /** Attribute name. */
-    private static final String ATTR_PROPERTY = "property";
+  /** Attribute name. */
+  private static final String ATTR_PROPERTY = "property";
 
-    /** Attribute name. */
-    private static final String ATTR_SUFFIX = "suffix";
+  /** Attribute name. */
+  private static final String ATTR_SUFFIX = "suffix";
 
-    /**
-     * Returns true if the given attribute name is specified, false otherwise.<p>
-     *
-     * @param data the tag data
-     * @param attributeName the attribute name
-     * @return  true if the given attribute name is specified, false otherwise
-     */
-    public static boolean isSpecified(TagData data, String attributeName) {
+  /**
+   * Returns true if the given attribute name is specified, false otherwise.
+   *
+   * <p>
+   *
+   * @param data the tag data
+   * @param attributeName the attribute name
+   * @return true if the given attribute name is specified, false otherwise
+   */
+  public static boolean isSpecified(TagData data, String attributeName) {
 
-        return (data.getAttribute(attributeName) != null);
+    return (data.getAttribute(attributeName) != null);
+  }
+
+  /**
+   * Checks the validity of the <code>&lt;cms:include /&gt;</code> attributes.
+   *
+   * <p>The logic used is:
+   *
+   * <pre>
+   * if (hasFile && (hasSuffix || hasProperty || hasAttribute)) return false;
+   * if (hasProperty && hasAttribute) return false;
+   * if (hasSuffix && !(hasProperty || hasAttribute)) return false;
+   * </pre>
+   *
+   * @param data the tag data
+   * @return true if attributes are valid, false otherwise
+   */
+  @Override
+  public boolean isValid(TagData data) {
+
+    boolean hasFile = isSpecified(data, ATTR_FILE) || isSpecified(data, ATTR_PAGE);
+    boolean hasSuffix = isSpecified(data, ATTR_SUFFIX);
+    boolean hasProperty = isSpecified(data, ATTR_PROPERTY);
+    boolean hasAttribute = isSpecified(data, ATTR_ATTRIBUTE);
+    // boolean hasElement = isSpecified(data, C_ATTR_ELEMENT);
+
+    if (hasFile && (hasSuffix || hasProperty || hasAttribute)) {
+      return false;
+    }
+    if (hasProperty && hasAttribute) {
+      return false;
+    }
+    if (hasSuffix && !(hasProperty || hasAttribute)) {
+      return false;
     }
 
-    /**
-     * Checks the validity of the <code>&lt;cms:include /&gt;</code> attributes.<p>
-     *
-     * The logic used is:
-     * <pre>
-     * if (hasFile && (hasSuffix || hasProperty || hasAttribute)) return false;
-     * if (hasProperty && hasAttribute) return false;
-     * if (hasSuffix && !(hasProperty || hasAttribute)) return false;
-     * </pre>
-     *
-     * @param data the tag data
-     * @return true if attributes are valid, false otherwise
-     */
-    @Override
-    public boolean isValid(TagData data) {
-
-        boolean hasFile = isSpecified(data, ATTR_FILE) || isSpecified(data, ATTR_PAGE);
-        boolean hasSuffix = isSpecified(data, ATTR_SUFFIX);
-        boolean hasProperty = isSpecified(data, ATTR_PROPERTY);
-        boolean hasAttribute = isSpecified(data, ATTR_ATTRIBUTE);
-        // boolean hasElement = isSpecified(data, C_ATTR_ELEMENT);
-
-        if (hasFile && (hasSuffix || hasProperty || hasAttribute)) {
-            return false;
-        }
-        if (hasProperty && hasAttribute) {
-            return false;
-        }
-        if (hasSuffix && !(hasProperty || hasAttribute)) {
-            return false;
-        }
-
-        return true;
-    }
+    return true;
+  }
 }

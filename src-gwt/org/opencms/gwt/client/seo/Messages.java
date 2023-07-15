@@ -30,84 +30,91 @@ package org.opencms.gwt.client.seo;
 import org.opencms.gwt.client.util.CmsMessages;
 
 /**
- * The messages class for the SEO dialog.<p>
+ * The messages class for the SEO dialog.
+ *
+ * <p>
  */
 public final class Messages {
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_ADD_ALIAS_0 = "GUI_ADD_ALIAS_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_ADD_ALIAS_0 = "GUI_ADD_ALIAS_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_ALIAS_MOVED_0 = "GUI_ALIAS_MOVED_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_ALIAS_MOVED_0 = "GUI_ALIAS_MOVED_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_ALIAS_MOVED_DESCRIPTION_0 = "GUI_ALIAS_MOVED_DESCRIPTION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_ALIAS_MOVED_DESCRIPTION_0 = "GUI_ALIAS_MOVED_DESCRIPTION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_ALIAS_PAGE_0 = "GUI_ALIAS_PAGE_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_ALIAS_PAGE_0 = "GUI_ALIAS_PAGE_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_ALIAS_PAGE_DESCRIPTION_0 = "GUI_ALIAS_PAGE_DESCRIPTION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_ALIAS_PAGE_DESCRIPTION_0 = "GUI_ALIAS_PAGE_DESCRIPTION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_ALIAS_REDIRECT_0 = "GUI_ALIAS_REDIRECT_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_ALIAS_REDIRECT_0 = "GUI_ALIAS_REDIRECT_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_ALIAS_REDIRECT_DESCRIPTION_0 = "GUI_ALIAS_REDIRECT_DESCRIPTION_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_ALIAS_REDIRECT_DESCRIPTION_0 = "GUI_ALIAS_REDIRECT_DESCRIPTION_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_ALIASES_0 = "GUI_ALIASES_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_ALIASES_0 = "GUI_ALIASES_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_ENTER_ALIAS_0 = "GUI_ENTER_ALIAS_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_ENTER_ALIAS_0 = "GUI_ENTER_ALIAS_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_EXISTING_ALIASES_0 = "GUI_EXISTING_ALIASES_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_EXISTING_ALIASES_0 = "GUI_EXISTING_ALIASES_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_NEW_ALIAS_0 = "GUI_NEW_ALIAS_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_NEW_ALIAS_0 = "GUI_NEW_ALIAS_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_REMOVE_ALIAS_0 = "GUI_REMOVE_ALIAS_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_REMOVE_ALIAS_0 = "GUI_REMOVE_ALIAS_0";
 
-    /** Message constant for key in the resource bundle. */
-    public static final String GUI_SEO_OPTIONS_0 = "GUI_SEO_OPTIONS_0";
+  /** Message constant for key in the resource bundle. */
+  public static final String GUI_SEO_OPTIONS_0 = "GUI_SEO_OPTIONS_0";
 
-    /** Name of the used resource bundle. */
-    private static final String BUNDLE_NAME = "org.opencms.gwt.seo.clientmessages";
+  /** Name of the used resource bundle. */
+  private static final String BUNDLE_NAME = "org.opencms.gwt.seo.clientmessages";
 
-    /** Static instance member. */
-    private static CmsMessages INSTANCE;
+  /** Static instance member. */
+  private static CmsMessages INSTANCE;
 
-    /**
-     * Hides the public constructor for this utility class.<p>
-     */
-    private Messages() {
+  /**
+   * Hides the public constructor for this utility class.
+   *
+   * <p>
+   */
+  private Messages() {
 
-        // hide the constructor
+    // hide the constructor
+  }
+
+  /**
+   * Returns an instance of this localized message accessor.
+   *
+   * <p>
+   *
+   * @return an instance of this localized message accessor
+   */
+  public static CmsMessages get() {
+
+    if (INSTANCE == null) {
+      INSTANCE = new CmsMessages(BUNDLE_NAME);
     }
+    return INSTANCE;
+  }
 
-    /**
-     * Returns an instance of this localized message accessor.<p>
-     *
-     * @return an instance of this localized message accessor
-     */
-    public static CmsMessages get() {
+  /**
+   * Returns the bundle name for this OpenCms package.
+   *
+   * <p>
+   *
+   * @return the bundle name for this OpenCms package
+   */
+  public String getBundleName() {
 
-        if (INSTANCE == null) {
-            INSTANCE = new CmsMessages(BUNDLE_NAME);
-        }
-        return INSTANCE;
-    }
-
-    /**
-     * Returns the bundle name for this OpenCms package.<p>
-     *
-     * @return the bundle name for this OpenCms package
-     */
-    public String getBundleName() {
-
-        return BUNDLE_NAME;
-    }
-
+    return BUNDLE_NAME;
+  }
 }

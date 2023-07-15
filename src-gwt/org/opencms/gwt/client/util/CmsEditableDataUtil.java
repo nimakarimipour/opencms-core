@@ -27,41 +27,38 @@
 
 package org.opencms.gwt.client.util;
 
+import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import org.opencms.gwt.client.CmsCoreProvider;
 import org.opencms.gwt.shared.I_CmsEditableDataExtensions;
 
-import com.google.web.bindery.autobean.shared.AutoBeanCodex;
-
-/**
- * Helper functions to deal with editable data.
- */
+/** Helper functions to deal with editable data. */
 public class CmsEditableDataUtil {
 
-    /**
-     * Copies the given editable data extended attributes.
-     *
-     * @param data the data to copy
-     * @return the copied data
-     */
-    public static I_CmsEditableDataExtensions copy(I_CmsEditableDataExtensions data) {
+  /**
+   * Copies the given editable data extended attributes.
+   *
+   * @param data the data to copy
+   * @return the copied data
+   */
+  public static I_CmsEditableDataExtensions copy(I_CmsEditableDataExtensions data) {
 
-        String encoded = AutoBeanCodex.encode(CmsCoreProvider.AUTO_BEAN_FACTORY.wrapExtensions(data)).getPayload();
-        return AutoBeanCodex.decode(CmsCoreProvider.AUTO_BEAN_FACTORY, I_CmsEditableDataExtensions.class, encoded).as();
+    String encoded =
+        AutoBeanCodex.encode(CmsCoreProvider.AUTO_BEAN_FACTORY.wrapExtensions(data)).getPayload();
+    return AutoBeanCodex.decode(
+            CmsCoreProvider.AUTO_BEAN_FACTORY, I_CmsEditableDataExtensions.class, encoded)
+        .as();
+  }
 
-    }
+  /**
+   * Parses editable data extended attributes from JSON.
+   *
+   * @param jsonData the JSON data
+   * @return the editable data extended attributes
+   */
+  public static I_CmsEditableDataExtensions parseExtensions(String jsonData) {
 
-    /**
-     * Parses editable data extended attributes from JSON.
-     *
-     * @param jsonData the JSON data
-     * @return the editable data extended attributes
-     */
-    public static I_CmsEditableDataExtensions parseExtensions(String jsonData) {
-
-        return AutoBeanCodex.decode(
-            CmsCoreProvider.AUTO_BEAN_FACTORY,
-            I_CmsEditableDataExtensions.class,
-            jsonData).as();
-    }
-
+    return AutoBeanCodex.decode(
+            CmsCoreProvider.AUTO_BEAN_FACTORY, I_CmsEditableDataExtensions.class, jsonData)
+        .as();
+  }
 }

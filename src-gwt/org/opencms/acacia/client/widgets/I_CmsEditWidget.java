@@ -35,66 +35,77 @@ import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.IsWidget;
 
 /**
- * The edit widget interface.<p>
+ * The edit widget interface.
+ *
+ * <p>
  */
 public interface I_CmsEditWidget extends HasValue<String>, HasFocusHandlers, IsWidget {
 
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler);
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler);
 
-    /**
-     * Returns if the widget is active.<p>
-     *
-     * @return <code>true</code> if the widget is active
-     */
-    boolean isActive();
+  /**
+   * Returns if the widget is active.
+   *
+   * <p>
+   *
+   * @return <code>true</code> if the widget is active
+   */
+  boolean isActive();
 
-    /**
-     * This method is called when a widget is attached to the browser's document.<p>
-     * It needs to call the {@link com.google.gwt.user.client.ui.Widget#onAttach()} method.<p>
-     */
-    @SuppressWarnings("javadoc")
-    void onAttachWidget();
+  /**
+   * This method is called when a widget is attached to the browser's document.
+   *
+   * <p>It needs to call the {@link com.google.gwt.user.client.ui.Widget#onAttach()} method.
+   *
+   * <p>
+   */
+  @SuppressWarnings("javadoc")
+  void onAttachWidget();
 
-    /**
-     * Returns true if the element should be logically counted as part of the widget for the purpose of determining whether a mouse click is "outside".
-     *
-     * For example, this is needed if the widget uses a popup.
-     *
-     * @param element the element to check
-     *
-     * @return true if the element counts as part of the widget
-     */
-    boolean owns(Element element);
+  /**
+   * Returns true if the element should be logically counted as part of the widget for the purpose
+   * of determining whether a mouse click is "outside".
+   *
+   * <p>For example, this is needed if the widget uses a popup.
+   *
+   * @param element the element to check
+   * @return true if the element counts as part of the widget
+   */
+  boolean owns(Element element);
 
-    /**
-     * Sets the widget active/inactive.<p>
-     *
-     * @param active <code>true</code> to activate the widget
-     */
-    void setActive(boolean active);
+  /**
+   * Sets the widget active/inactive.
+   *
+   * <p>
+   *
+   * @param active <code>true</code> to activate the widget
+   */
+  void setActive(boolean active);
 
-    /**
-     * Sets the name of input fields.<p>
-     *
-     * @param name of the input field
-     */
-    void setName(String name);
+  /**
+   * Sets the name of input fields.
+   *
+   * <p>
+   *
+   * @param name of the input field
+   */
+  void setName(String name);
 
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
-     */
-    void setValue(String value, boolean fireEvent);
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean) */
+  void setValue(String value, boolean fireEvent);
 
-    /**
-     * If this returns true, the default value will also be set as the widget value if the widget is inactive (i.e. for optional values which don't exist yet).
-     *
-     * @return true if the default value should be set even if the widget is inactive
-     */
-    default boolean shouldSetDefaultWhenDisabled() {
+  /**
+   * If this returns true, the default value will also be set as the widget value if the widget is
+   * inactive (i.e. for optional values which don't exist yet).
+   *
+   * @return true if the default value should be set even if the widget is inactive
+   */
+  default boolean shouldSetDefaultWhenDisabled() {
 
-        return false;
-    }
+    return false;
+  }
 }

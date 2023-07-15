@@ -27,67 +27,72 @@
 
 package org.opencms.mail;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailException;
-
 /**
- * Contains utility methods for dealing with emails.<p>
+ * Contains utility methods for dealing with emails.
+ *
+ * <p>
  */
 public final class CmsMailUtil {
 
-    /** The logger instance for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsMailUtil.class);
+  /** The logger instance for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsMailUtil.class);
 
-    /** Value for 'security' attribute to enable SSL. */
-    public static final String SECURITY_SSL = "SSL";
+  /** Value for 'security' attribute to enable SSL. */
+  public static final String SECURITY_SSL = "SSL";
 
-    /** Value for 'security' attribute to enable TLS. */
-    public static final String SECURITY_STARTTLS = "STARTTLS";
+  /** Value for 'security' attribute to enable TLS. */
+  public static final String SECURITY_STARTTLS = "STARTTLS";
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    private CmsMailUtil() {
-        // hidden default constructor
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  private CmsMailUtil() {
+    // hidden default constructor
+  }
+
+  /**
+   * Configures the mail from the given mail host configuration data.
+   *
+   * <p>
+   *
+   * @param host the mail host configuration
+   * @param mail the email instance
+   */
+  public static void configureMail(CmsMailHost host, Email mail) {
+
+    // set the host to the default mail host
+    mail.setHostName(host.getHostname());
+    mail.setSmtpPort(host.getPort());
+
+    // check if username and password are provided
+    String userName = host.getUsername();
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(userName)) {
+      // authentication needed, set user name and password
+      mail.setAuthentication(userName, host.getPassword());
+    }
+    String security = host.getSecurity() != null ? host.getSecurity().trim() : null;
+    if (SECURITY_SSL.equalsIgnoreCase(security)) {
+      mail.setSslSmtpPort("" + host.getPort());
+      mail.setSSLOnConnect(true);
+    } else if (SECURITY_STARTTLS.equalsIgnoreCase(security)) {
+      mail.setStartTLSEnabled(true);
     }
 
-    /**
-     * Configures the mail from the given mail host configuration data.<p>
-     *
-     * @param host the mail host configuration
-     * @param mail the email instance
-     */
-    public static void configureMail(CmsMailHost host, Email mail) {
-
-        // set the host to the default mail host
-        mail.setHostName(host.getHostname());
-        mail.setSmtpPort(host.getPort());
-
-        // check if username and password are provided
-        String userName = host.getUsername();
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(userName)) {
-            // authentication needed, set user name and password
-            mail.setAuthentication(userName, host.getPassword());
-        }
-        String security = host.getSecurity() != null ? host.getSecurity().trim() : null;
-        if (SECURITY_SSL.equalsIgnoreCase(security)) {
-            mail.setSslSmtpPort("" + host.getPort());
-            mail.setSSLOnConnect(true);
-        } else if (SECURITY_STARTTLS.equalsIgnoreCase(security)) {
-            mail.setStartTLSEnabled(true);
-        }
-
-        try {
-            // set default mail from address
-            mail.setFrom(OpenCms.getSystemInfo().getMailSettings().getMailFromDefault());
-        } catch (EmailException e) {
-            // default email address is not valid, log error
-            LOG.error(Messages.get().getBundle().key(Messages.LOG_INVALID_SENDER_ADDRESS_0), e);
-        }
+    try {
+      // set default mail from address
+      mail.setFrom(OpenCms.getSystemInfo().getMailSettings().getMailFromDefault());
+    } catch (EmailException e) {
+      // default email address is not valid, log error
+      LOG.error(Messages.get().getBundle().key(Messages.LOG_INVALID_SENDER_ADDRESS_0), e);
     }
+  }
 }

@@ -27,81 +27,85 @@
 
 package org.opencms.xml;
 
+import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
-
-import org.apache.commons.logging.Log;
-
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- * Error hander for writing errors found during XML validation to the OpenCms log.<p>
+ * Error hander for writing errors found during XML validation to the OpenCms log.
  *
- * Exceptions caused by warnings are suppressed (but written to the log if level is set to WARN).<p>
+ * <p>Exceptions caused by warnings are suppressed (but written to the log if level is set to WARN).
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsXmlErrorHandler implements ErrorHandler {
 
-    /** The log object for this class. */
-    private static final Log LOG = CmsLog.getLog(CmsXmlErrorHandler.class);
+  /** The log object for this class. */
+  private static final Log LOG = CmsLog.getLog(CmsXmlErrorHandler.class);
 
-    /** The name of the resource that is parsed, for logging (optional). */
-    private String m_resourceName;
+  /** The name of the resource that is parsed, for logging (optional). */
+  private String m_resourceName;
 
-    /**
-     * Creates an OpenCms XML error handler.<p>
-     */
-    public CmsXmlErrorHandler() {
+  /**
+   * Creates an OpenCms XML error handler.
+   *
+   * <p>
+   */
+  public CmsXmlErrorHandler() {
 
-        this("");
+    this("");
+  }
+
+  /**
+   * Creates an OpenCms XML error handler with a resource name for error logging.
+   *
+   * <p>
+   *
+   * @param resourceName the name (path) of the XML resource that is handled, for logging
+   */
+  public CmsXmlErrorHandler(String resourceName) {
+
+    if (!CmsStringUtil.isEmptyOrWhitespaceOnly(resourceName)) {
+      m_resourceName = " " + resourceName;
+    } else {
+      m_resourceName = "";
     }
+  }
 
-    /**
-     * Creates an OpenCms XML error handler with a resource name for error logging.<p>
-     *
-     * @param resourceName the name (path) of the XML resource that is handled, for logging
-     */
-    public CmsXmlErrorHandler(String resourceName) {
+  /** @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException) */
+  public void error(SAXParseException exception) throws SAXException {
 
-        if (!CmsStringUtil.isEmptyOrWhitespaceOnly(resourceName)) {
-            m_resourceName = " " + resourceName;
-        } else {
-            m_resourceName = "";
-        }
+    LOG.error(
+        Messages.get().getBundle().key(Messages.LOG_PARSING_XML_RESOURCE_ERROR_1, m_resourceName),
+        exception);
+    throw exception;
+  }
+
+  /** @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException) */
+  public void fatalError(SAXParseException exception) throws SAXException {
+
+    LOG.error(
+        Messages.get()
+            .getBundle()
+            .key(Messages.LOG_PARSING_XML_RESOURCE_FATAL_ERROR_1, m_resourceName),
+        exception);
+    throw exception;
+  }
+
+  /** @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException) */
+  public void warning(SAXParseException exception) {
+
+    if (LOG.isWarnEnabled()) {
+      LOG.error(
+          Messages.get()
+              .getBundle()
+              .key(Messages.LOG_PARSING_XML_RESOURCE_WARNING_1, m_resourceName),
+          exception);
     }
-
-    /**
-     * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
-     */
-    public void error(SAXParseException exception) throws SAXException {
-
-        LOG.error(Messages.get().getBundle().key(Messages.LOG_PARSING_XML_RESOURCE_ERROR_1, m_resourceName), exception);
-        throw exception;
-    }
-
-    /**
-     * @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException)
-     */
-    public void fatalError(SAXParseException exception) throws SAXException {
-
-        LOG.error(
-            Messages.get().getBundle().key(Messages.LOG_PARSING_XML_RESOURCE_FATAL_ERROR_1, m_resourceName),
-            exception);
-        throw exception;
-    }
-
-    /**
-     * @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException)
-     */
-    public void warning(SAXParseException exception) {
-
-        if (LOG.isWarnEnabled()) {
-            LOG.error(
-                Messages.get().getBundle().key(Messages.LOG_PARSING_XML_RESOURCE_WARNING_1, m_resourceName),
-                exception);
-        }
-    }
+  }
 }

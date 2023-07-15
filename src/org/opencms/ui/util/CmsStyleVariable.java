@@ -27,54 +27,56 @@
 
 package org.opencms.ui.util;
 
+import com.vaadin.ui.Component;
 import org.opencms.util.CmsStringUtil;
 
-import com.vaadin.ui.Component;
-
-/**
- *
- */
+/** */
 public class CmsStyleVariable {
 
-    /** The component to set the CSS class to. */
-    private Component m_component;
+  /** The component to set the CSS class to. */
+  private Component m_component;
 
-    /** The current value. */
-    private String m_style;
+  /** The current value. */
+  private String m_style;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param component the component
-     */
-    public CmsStyleVariable(Component component) {
-        m_component = component;
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param component the component
+   */
+  public CmsStyleVariable(Component component) {
+    m_component = component;
+  }
+
+  /**
+   * Returns the style.
+   *
+   * <p>
+   *
+   * @return the style
+   */
+  public String getStyle() {
+
+    return m_style;
+  }
+
+  /**
+   * Sets the style.
+   *
+   * <p>
+   *
+   * @param style the style to set
+   */
+  public void setStyle(String style) {
+
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_style)) {
+      m_component.removeStyleName(m_style);
     }
-
-    /**
-     * Returns the style.<p>
-     *
-     * @return the style
-     */
-    public String getStyle() {
-
-        return m_style;
+    m_style = style;
+    if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_style)) {
+      m_component.addStyleName(m_style);
     }
-
-    /**
-     * Sets the style.<p>
-     *
-     * @param style the style to set
-     */
-    public void setStyle(String style) {
-
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_style)) {
-            m_component.removeStyleName(m_style);
-        }
-        m_style = style;
-        if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_style)) {
-            m_component.addStyleName(m_style);
-        }
-    }
-
+  }
 }

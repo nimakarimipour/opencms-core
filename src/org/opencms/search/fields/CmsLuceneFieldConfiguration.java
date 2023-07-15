@@ -27,8 +27,6 @@
 
 package org.opencms.search.fields;
 
-import org.opencms.file.CmsPropertyDefinition;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,71 +34,79 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
+import org.opencms.file.CmsPropertyDefinition;
 
 /**
- * Describes a configuration of fields that are used in building a search index.<p>
+ * Describes a configuration of fields that are used in building a search index.
+ *
+ * <p>
  *
  * @since 7.0.0
  */
 public class CmsLuceneFieldConfiguration extends CmsSearchFieldConfiguration {
 
-    /**
-     * The default for the standard search configuration.<p>
-     *
-     * This defines the default that is used in case no "standard" field configuration
-     * is defined in <code>opencms-search.xml</code>.<p>
-     */
-    public static final CmsLuceneFieldConfiguration DEFAULT_STANDARD = createStandardConfiguration();
+  /**
+   * The default for the standard search configuration.
+   *
+   * <p>This defines the default that is used in case no "standard" field configuration is defined
+   * in <code>opencms-search.xml</code>.
+   *
+   * <p>
+   */
+  public static final CmsLuceneFieldConfiguration DEFAULT_STANDARD = createStandardConfiguration();
 
-    /** The description for the standard field configuration. */
-    public static final String STR_STANDARD_DESCRIPTION = "The standard OpenCms search index field configuration.";
+  /** The description for the standard field configuration. */
+  public static final String STR_STANDARD_DESCRIPTION =
+      "The standard OpenCms search index field configuration.";
 
-    /** The fields that will be returned by a regular search (all stored and not lazy fields). */
-    private static Set<String> m_returnFields = new HashSet<String>();
+  /** The fields that will be returned by a regular search (all stored and not lazy fields). */
+  private static Set<String> m_returnFields = new HashSet<String>();
 
-    /** The serial version id. */
-    private static final long serialVersionUID = 8011265789649614792L;
+  /** The serial version id. */
+  private static final long serialVersionUID = 8011265789649614792L;
 
-    static {
-        m_returnFields.add(CmsSearchField.FIELD_CATEGORY);
-        m_returnFields.add(CmsSearchField.FIELD_DATE_CONTENT);
-        m_returnFields.add(CmsSearchField.FIELD_DATE_CREATED);
-        m_returnFields.add(CmsSearchField.FIELD_DATE_EXPIRED);
-        m_returnFields.add(CmsSearchField.FIELD_DATE_LASTMODIFIED);
-        m_returnFields.add(CmsSearchField.FIELD_DATE_RELEASED);
-        m_returnFields.add(CmsSearchField.FIELD_PARENT_FOLDERS);
-        m_returnFields.add(CmsSearchField.FIELD_PATH);
-        m_returnFields.add(CmsSearchField.FIELD_SUFFIX);
-        m_returnFields.add(CmsSearchField.FIELD_TYPE);
-    }
+  static {
+    m_returnFields.add(CmsSearchField.FIELD_CATEGORY);
+    m_returnFields.add(CmsSearchField.FIELD_DATE_CONTENT);
+    m_returnFields.add(CmsSearchField.FIELD_DATE_CREATED);
+    m_returnFields.add(CmsSearchField.FIELD_DATE_EXPIRED);
+    m_returnFields.add(CmsSearchField.FIELD_DATE_LASTMODIFIED);
+    m_returnFields.add(CmsSearchField.FIELD_DATE_RELEASED);
+    m_returnFields.add(CmsSearchField.FIELD_PARENT_FOLDERS);
+    m_returnFields.add(CmsSearchField.FIELD_PATH);
+    m_returnFields.add(CmsSearchField.FIELD_SUFFIX);
+    m_returnFields.add(CmsSearchField.FIELD_TYPE);
+  }
 
-    /** Contains all names of the fields that are used in the excerpt. */
-    private List<String> m_excerptFieldNames;
+  /** Contains all names of the fields that are used in the excerpt. */
+  private List<String> m_excerptFieldNames;
 
-    /** The field added flag. */
-    private boolean m_fieldAdded;
+  /** The field added flag. */
+  private boolean m_fieldAdded;
 
-    /**
-     * Creates the default standard search configuration.<p>
-     *
-     * This defines the default that is used in case no "standard" field configuration
-     * is defined in <code>opencms-search.xml</code>.<p>
-     *
-     * @return the default standard search configuration
-     */
-    private static CmsLuceneFieldConfiguration createStandardConfiguration() {
+  /**
+   * Creates the default standard search configuration.
+   *
+   * <p>This defines the default that is used in case no "standard" field configuration is defined
+   * in <code>opencms-search.xml</code>.
+   *
+   * <p>
+   *
+   * @return the default standard search configuration
+   */
+  private static CmsLuceneFieldConfiguration createStandardConfiguration() {
 
-        CmsLuceneFieldConfiguration result = new CmsLuceneFieldConfiguration();
-        result.setName(STR_STANDARD);
-        result.setDescription(STR_STANDARD_DESCRIPTION);
+    CmsLuceneFieldConfiguration result = new CmsLuceneFieldConfiguration();
+    result.setName(STR_STANDARD);
+    result.setDescription(STR_STANDARD_DESCRIPTION);
 
-        CmsLuceneField field;
-        // content mapping, store as compressed value
-        field = new CmsLuceneField(
+    CmsLuceneField field;
+    // content mapping, store as compressed value
+    field =
+        new CmsLuceneField(
             CmsSearchField.FIELD_CONTENT,
             "%(key.field.content)",
             true,
@@ -110,11 +116,12 @@ public class CmsLuceneFieldConfiguration extends CmsSearchFieldConfiguration {
             true,
             null,
             null);
-        field.addMapping(new CmsSearchFieldMapping(CmsSearchFieldMappingType.CONTENT, null, true));
-        result.addField(field);
+    field.addMapping(new CmsSearchFieldMapping(CmsSearchFieldMappingType.CONTENT, null, true));
+    result.addField(field);
 
-        // title mapping as a keyword
-        field = new CmsLuceneField(
+    // title mapping as a keyword
+    field =
+        new CmsLuceneField(
             CmsSearchField.FIELD_TITLE,
             CmsLuceneField.IGNORE_DISPLAY_NAME,
             true,
@@ -122,157 +129,166 @@ public class CmsLuceneFieldConfiguration extends CmsSearchFieldConfiguration {
             false,
             false,
             null);
-        field.addMapping(
-            new CmsSearchFieldMapping(CmsSearchFieldMappingType.PROPERTY, CmsPropertyDefinition.PROPERTY_TITLE, true));
-        result.addField(field);
+    field.addMapping(
+        new CmsSearchFieldMapping(
+            CmsSearchFieldMappingType.PROPERTY, CmsPropertyDefinition.PROPERTY_TITLE, true));
+    result.addField(field);
 
-        // title mapping as indexed field
-        field = new CmsLuceneField(CmsSearchField.FIELD_TITLE_UNSTORED, "%(key.field.title)", false, true);
-        field.addMapping(
-            new CmsSearchFieldMapping(CmsSearchFieldMappingType.PROPERTY, CmsPropertyDefinition.PROPERTY_TITLE, true));
-        result.addField(field);
+    // title mapping as indexed field
+    field =
+        new CmsLuceneField(CmsSearchField.FIELD_TITLE_UNSTORED, "%(key.field.title)", false, true);
+    field.addMapping(
+        new CmsSearchFieldMapping(
+            CmsSearchFieldMappingType.PROPERTY, CmsPropertyDefinition.PROPERTY_TITLE, true));
+    result.addField(field);
 
-        // mapping of "Keywords" property to search field with the same name
-        field = new CmsLuceneField(CmsSearchField.FIELD_KEYWORDS, "%(key.field.keywords)", true, true);
-        field.addMapping(
-            new CmsSearchFieldMapping(
-                CmsSearchFieldMappingType.PROPERTY,
-                CmsPropertyDefinition.PROPERTY_KEYWORDS,
-                true));
-        result.addField(field);
+    // mapping of "Keywords" property to search field with the same name
+    field = new CmsLuceneField(CmsSearchField.FIELD_KEYWORDS, "%(key.field.keywords)", true, true);
+    field.addMapping(
+        new CmsSearchFieldMapping(
+            CmsSearchFieldMappingType.PROPERTY, CmsPropertyDefinition.PROPERTY_KEYWORDS, true));
+    result.addField(field);
 
-        // mapping of "Description" property to search field with the same name
-        field = new CmsLuceneField(CmsSearchField.FIELD_DESCRIPTION, "%(key.field.description)", true, true);
-        field.addMapping(
-            new CmsSearchFieldMapping(
-                CmsSearchFieldMappingType.PROPERTY,
-                CmsPropertyDefinition.PROPERTY_DESCRIPTION,
-                true));
-        result.addField(field);
+    // mapping of "Description" property to search field with the same name
+    field =
+        new CmsLuceneField(
+            CmsSearchField.FIELD_DESCRIPTION, "%(key.field.description)", true, true);
+    field.addMapping(
+        new CmsSearchFieldMapping(
+            CmsSearchFieldMappingType.PROPERTY, CmsPropertyDefinition.PROPERTY_DESCRIPTION, true));
+    result.addField(field);
 
-        // "meta" field is a combination of "Title", "Keywords" and "Description" properties
-        field = new CmsLuceneField(CmsSearchField.FIELD_META, "%(key.field.meta)", false, true);
-        field.addMapping(
-            new CmsSearchFieldMapping(CmsSearchFieldMappingType.PROPERTY, CmsPropertyDefinition.PROPERTY_TITLE, true));
-        field.addMapping(
-            new CmsSearchFieldMapping(
-                CmsSearchFieldMappingType.PROPERTY,
-                CmsPropertyDefinition.PROPERTY_KEYWORDS,
-                true));
-        field.addMapping(
-            new CmsSearchFieldMapping(
-                CmsSearchFieldMappingType.PROPERTY,
-                CmsPropertyDefinition.PROPERTY_DESCRIPTION,
-                true));
-        result.addField(field);
+    // "meta" field is a combination of "Title", "Keywords" and "Description" properties
+    field = new CmsLuceneField(CmsSearchField.FIELD_META, "%(key.field.meta)", false, true);
+    field.addMapping(
+        new CmsSearchFieldMapping(
+            CmsSearchFieldMappingType.PROPERTY, CmsPropertyDefinition.PROPERTY_TITLE, true));
+    field.addMapping(
+        new CmsSearchFieldMapping(
+            CmsSearchFieldMappingType.PROPERTY, CmsPropertyDefinition.PROPERTY_KEYWORDS, true));
+    field.addMapping(
+        new CmsSearchFieldMapping(
+            CmsSearchFieldMappingType.PROPERTY, CmsPropertyDefinition.PROPERTY_DESCRIPTION, true));
+    result.addField(field);
 
-        return result;
+    return result;
+  }
+
+  /**
+   * @see
+   *     org.opencms.search.fields.CmsSearchFieldConfiguration#addField(org.opencms.search.fields.CmsSearchField)
+   */
+  @Override
+  public void addField(CmsSearchField field) {
+
+    super.addField(field);
+    m_fieldAdded = true;
+  }
+
+  /**
+   * Returns an analyzer that wraps the given base analyzer with the analyzers of this individual
+   * field configuration.
+   *
+   * <p>
+   *
+   * @param analyzer the base analyzer to wrap
+   * @return an analyzer that wraps the given base analyzer with the analyzers of this individual
+   *     field configuration
+   */
+  public Analyzer getAnalyzer(Analyzer analyzer) {
+
+    // parent folder and last modified lookup fields must use whitespace analyzer
+    WhitespaceAnalyzer ws = new WhitespaceAnalyzer();
+    Map<String, Analyzer> analyzers = new HashMap<String, Analyzer>();
+    // first make map the default hard coded fields
+    analyzers.put(CmsSearchField.FIELD_PARENT_FOLDERS, ws);
+    analyzers.put(CmsSearchField.FIELD_CATEGORY, ws);
+    analyzers.put(CmsSearchField.FIELD_DATE_LASTMODIFIED_LOOKUP, ws);
+    analyzers.put(CmsSearchField.FIELD_DATE_CREATED_LOOKUP, ws);
+
+    for (CmsLuceneField field : getLuceneFields()) {
+      Analyzer fieldAnalyzer = field.getAnalyzer();
+      if (fieldAnalyzer != null) {
+        // this field has an individual analyzer configured
+        analyzers.put(field.getName(), fieldAnalyzer);
+      }
     }
+    // return the individual field configured analyzer
+    return new PerFieldAnalyzerWrapper(analyzer, analyzers);
+  }
 
-    /**
-     *
-     * @see org.opencms.search.fields.CmsSearchFieldConfiguration#addField(org.opencms.search.fields.CmsSearchField)
-     */
-    @Override
-    public void addField(CmsSearchField field) {
+  /**
+   * Returns a list of all field names (Strings) that are used in generating the search excerpt.
+   *
+   * <p>
+   *
+   * @return a list of all field names (Strings) that are used in generating the search excerpt
+   */
+  public List<String> getExcerptFieldNames() {
 
-        super.addField(field);
-        m_fieldAdded = true;
-    }
-
-    /**
-     * Returns an analyzer that wraps the given base analyzer with the analyzers of this individual field configuration.<p>
-     *
-     * @param analyzer the base analyzer to wrap
-     *
-     * @return an analyzer that wraps the given base analyzer with the analyzers of this individual field configuration
-     */
-    public Analyzer getAnalyzer(Analyzer analyzer) {
-
-        // parent folder and last modified lookup fields must use whitespace analyzer
-        WhitespaceAnalyzer ws = new WhitespaceAnalyzer();
-        Map<String, Analyzer> analyzers = new HashMap<String, Analyzer>();
-        // first make map the default hard coded fields
-        analyzers.put(CmsSearchField.FIELD_PARENT_FOLDERS, ws);
-        analyzers.put(CmsSearchField.FIELD_CATEGORY, ws);
-        analyzers.put(CmsSearchField.FIELD_DATE_LASTMODIFIED_LOOKUP, ws);
-        analyzers.put(CmsSearchField.FIELD_DATE_CREATED_LOOKUP, ws);
-
-        for (CmsLuceneField field : getLuceneFields()) {
-            Analyzer fieldAnalyzer = field.getAnalyzer();
-            if (fieldAnalyzer != null) {
-                // this field has an individual analyzer configured
-                analyzers.put(field.getName(), fieldAnalyzer);
-            }
+    if (m_excerptFieldNames == null) {
+      // lazy initialize the field names
+      m_excerptFieldNames = new ArrayList<String>();
+      Iterator<CmsSearchField> i = getFields().iterator();
+      while (i.hasNext()) {
+        CmsLuceneField field = (CmsLuceneField) i.next();
+        if (field.isInExcerptAndStored()) {
+          m_excerptFieldNames.add(field.getName());
         }
-        // return the individual field configured analyzer
-        return new PerFieldAnalyzerWrapper(analyzer, analyzers);
+      }
     }
 
-    /**
-     * Returns a list of all field names (Strings) that are used in generating the search excerpt.<p>
-     *
-     * @return a list of all field names (Strings) that are used in generating the search excerpt
-     */
-    public List<String> getExcerptFieldNames() {
+    // create a copy of the list to prevent changes in other classes
+    return new ArrayList<String>(m_excerptFieldNames);
+  }
 
-        if (m_excerptFieldNames == null) {
-            // lazy initialize the field names
-            m_excerptFieldNames = new ArrayList<String>();
-            Iterator<CmsSearchField> i = getFields().iterator();
-            while (i.hasNext()) {
-                CmsLuceneField field = (CmsLuceneField)i.next();
-                if (field.isInExcerptAndStored()) {
-                    m_excerptFieldNames.add(field.getName());
-                }
-            }
+  /**
+   * Returns the field names used for the excerpt generation.
+   *
+   * <p>
+   *
+   * @return the field names used for the excerpt generation
+   */
+  public Set<String> getExcerptFields() {
+
+    return new HashSet<String>(getExcerptFieldNames());
+  }
+
+  /**
+   * Returns a list of the concrete Lucene search fields.
+   *
+   * <p>
+   *
+   * @return a list of lucene search fields
+   */
+  public List<CmsLuceneField> getLuceneFields() {
+
+    List<CmsLuceneField> result = new ArrayList<CmsLuceneField>();
+    for (CmsSearchField field : getFields()) {
+      if (field instanceof CmsLuceneField) {
+        result.add((CmsLuceneField) field);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Returns the field names used for a regular result.
+   *
+   * <p>
+   *
+   * @return the field names used for a regular result
+   */
+  public Set<String> getReturnFields() {
+
+    if (m_fieldAdded) {
+      for (CmsSearchField field : getLuceneFields()) {
+        if (field.isStored() && !LAZY_FIELDS.contains(field.getName())) {
+          m_returnFields.add(field.getName());
         }
-
-        // create a copy of the list to prevent changes in other classes
-        return new ArrayList<String>(m_excerptFieldNames);
+      }
     }
-
-    /**
-     * Returns the field names used for the excerpt generation.<p>
-     *
-     * @return the field names used for the excerpt generation
-     */
-    public Set<String> getExcerptFields() {
-
-        return new HashSet<String>(getExcerptFieldNames());
-    }
-
-    /**
-     * Returns a list of the concrete Lucene search fields.<p>
-     *
-     * @return a list of lucene search fields
-     */
-    public List<CmsLuceneField> getLuceneFields() {
-
-        List<CmsLuceneField> result = new ArrayList<CmsLuceneField>();
-        for (CmsSearchField field : getFields()) {
-            if (field instanceof CmsLuceneField) {
-                result.add((CmsLuceneField)field);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Returns the field names used for a regular result.<p>
-     *
-     * @return the field names used for a regular result
-     */
-    public Set<String> getReturnFields() {
-
-        if (m_fieldAdded) {
-            for (CmsSearchField field : getLuceneFields()) {
-                if (field.isStored() && !LAZY_FIELDS.contains(field.getName())) {
-                    m_returnFields.add(field.getName());
-                }
-            }
-        }
-        m_fieldAdded = false;
-        return m_returnFields;
-    }
+    m_fieldAdded = false;
+    return m_returnFields;
+  }
 }

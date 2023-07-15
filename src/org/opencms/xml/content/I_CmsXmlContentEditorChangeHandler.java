@@ -27,56 +27,72 @@
 
 package org.opencms.xml.content;
 
-import org.opencms.file.CmsObject;
-
 import java.util.Collection;
 import java.util.Locale;
+import org.opencms.file.CmsObject;
 
 /**
- * Handles changes during the xml content editor session.<p>
- * Allows to modify the content after certain content fields have been edited. The modifications will then be transfered to the editor.<p>
- * For example, if the user sets a value for the field /link the change handler may set the value of another field /linktitle to the title of the linked resource.<p>
+ * Handles changes during the xml content editor session.
+ *
+ * <p>Allows to modify the content after certain content fields have been edited. The modifications
+ * will then be transfered to the editor.
+ *
+ * <p>For example, if the user sets a value for the field /link the change handler may set the value
+ * of another field /linktitle to the title of the linked resource.
+ *
+ * <p>
  */
 public interface I_CmsXmlContentEditorChangeHandler {
 
-    /**
-     * Returns the handler configuration.<p>
-     *
-     * @return the handler configuration
-     */
-    String getConfiguration();
+  /**
+   * Returns the handler configuration.
+   *
+   * <p>
+   *
+   * @return the handler configuration
+   */
+  String getConfiguration();
 
-    /**
-     * Returns the handler scope.<p>
-     *
-     * @return the handler scope
-     */
-    String getScope();
+  /**
+   * Returns the handler scope.
+   *
+   * <p>
+   *
+   * @return the handler scope
+   */
+  String getScope();
 
-    /**
-     * Handles the content change.<p>
-     *
-     * @param cms the cms context
-     * @param content the changed content
-     * @param locale the edited locale
-     * @param changedPaths the changed content value paths
-     *
-     * @return the changed content
-     */
-    CmsXmlContent handleChange(CmsObject cms, CmsXmlContent content, Locale locale, Collection<String> changedPaths);
+  /**
+   * Handles the content change.
+   *
+   * <p>
+   *
+   * @param cms the cms context
+   * @param content the changed content
+   * @param locale the edited locale
+   * @param changedPaths the changed content value paths
+   * @return the changed content
+   */
+  CmsXmlContent handleChange(
+      CmsObject cms, CmsXmlContent content, Locale locale, Collection<String> changedPaths);
 
-    /**
-     * Sets the configuration.<p>
-     *
-     * @param configuration the configuration
-     */
-    void setConfiguration(String configuration);
+  /**
+   * Sets the configuration.
+   *
+   * <p>
+   *
+   * @param configuration the configuration
+   */
+  void setConfiguration(String configuration);
 
-    /**
-     * Sets the scope to observe for changes.<p>
-     * With a scope set to '/link' all changes below the path /link will be observed.<p>
-     *
-     * @param scope the scope
-     */
-    void setScope(String scope);
+  /**
+   * Sets the scope to observe for changes.
+   *
+   * <p>With a scope set to '/link' all changes below the path /link will be observed.
+   *
+   * <p>
+   *
+   * @param scope the scope
+   */
+  void setScope(String scope);
 }

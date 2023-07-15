@@ -27,163 +27,174 @@
 
 package org.opencms.db;
 
+import java.util.Date;
 import org.opencms.util.CmsUUID;
 
-import java.util.Date;
-
 /**
- * A filter which contains criteria for reading {@link CmsVisitEntry} instances from the database.<p>
+ * A filter which contains criteria for reading {@link CmsVisitEntry} instances from the database.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public final class CmsVisitEntryFilter implements Cloneable {
 
-    /** To filter all. */
-    public static final CmsVisitEntryFilter ALL = new CmsVisitEntryFilter();
+  /** To filter all. */
+  public static final CmsVisitEntryFilter ALL = new CmsVisitEntryFilter();
 
-    /** The starting date to filter. */
-    private long m_dateFrom;
+  /** The starting date to filter. */
+  private long m_dateFrom;
 
-    /** The end date to filter. */
-    private long m_dateTo = Long.MAX_VALUE;
+  /** The end date to filter. */
+  private long m_dateTo = Long.MAX_VALUE;
 
-    /** The structure id of the resource to filter. */
-    private CmsUUID m_structureId;
+  /** The structure id of the resource to filter. */
+  private CmsUUID m_structureId;
 
-    /** The user id to filter. */
-    private CmsUUID m_userId;
+  /** The user id to filter. */
+  private CmsUUID m_userId;
 
-    /**
-     * Private constructor.<p>
-     */
-    private CmsVisitEntryFilter() {
+  /**
+   * Private constructor.
+   *
+   * <p>
+   */
+  private CmsVisitEntryFilter() {
 
-        // empty
-    }
+    // empty
+  }
 
-    /**
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    public Object clone() {
+  /** @see java.lang.Object#clone() */
+  @Override
+  public Object clone() {
 
-        CmsVisitEntryFilter filter = new CmsVisitEntryFilter();
-        filter.m_structureId = m_structureId;
-        filter.m_userId = m_userId;
-        filter.m_dateFrom = m_dateFrom;
-        filter.m_dateTo = m_dateTo;
-        return filter;
-    }
+    CmsVisitEntryFilter filter = new CmsVisitEntryFilter();
+    filter.m_structureId = m_structureId;
+    filter.m_userId = m_userId;
+    filter.m_dateFrom = m_dateFrom;
+    filter.m_dateTo = m_dateTo;
+    return filter;
+  }
 
-    /**
-     * Returns an extended filter with the starting date restriction.<p>
-     *
-     * @param from the starting date to filter
-     *
-     * @return an extended filter with the starting date restriction
-     */
-    public CmsVisitEntryFilter filterFrom(long from) {
+  /**
+   * Returns an extended filter with the starting date restriction.
+   *
+   * <p>
+   *
+   * @param from the starting date to filter
+   * @return an extended filter with the starting date restriction
+   */
+  public CmsVisitEntryFilter filterFrom(long from) {
 
-        CmsVisitEntryFilter filter = (CmsVisitEntryFilter)clone();
-        filter.m_dateFrom = from;
-        return filter;
-    }
+    CmsVisitEntryFilter filter = (CmsVisitEntryFilter) clone();
+    filter.m_dateFrom = from;
+    return filter;
+  }
 
-    /**
-     * Returns an extended filter with the given resource restriction.<p>
-     *
-     * @param structureId the structure id to filter
-     *
-     * @return an extended filter with the given resource restriction
-     */
-    public CmsVisitEntryFilter filterResource(CmsUUID structureId) {
+  /**
+   * Returns an extended filter with the given resource restriction.
+   *
+   * <p>
+   *
+   * @param structureId the structure id to filter
+   * @return an extended filter with the given resource restriction
+   */
+  public CmsVisitEntryFilter filterResource(CmsUUID structureId) {
 
-        CmsVisitEntryFilter filter = (CmsVisitEntryFilter)clone();
-        filter.m_structureId = structureId;
-        return filter;
-    }
+    CmsVisitEntryFilter filter = (CmsVisitEntryFilter) clone();
+    filter.m_structureId = structureId;
+    return filter;
+  }
 
-    /**
-     * Returns an extended filter with the end date restriction.<p>
-     *
-     * @param to the end date to filter
-     *
-     * @return an extended filter with the end date restriction
-     */
-    public CmsVisitEntryFilter filterTo(long to) {
+  /**
+   * Returns an extended filter with the end date restriction.
+   *
+   * <p>
+   *
+   * @param to the end date to filter
+   * @return an extended filter with the end date restriction
+   */
+  public CmsVisitEntryFilter filterTo(long to) {
 
-        CmsVisitEntryFilter filter = (CmsVisitEntryFilter)clone();
-        filter.m_dateTo = to;
-        return filter;
-    }
+    CmsVisitEntryFilter filter = (CmsVisitEntryFilter) clone();
+    filter.m_dateTo = to;
+    return filter;
+  }
 
-    /**
-     * Returns an extended filter with the given user ID restriction.<p>
-     *
-     * @param userId the user ID to filter
-     *
-     * @return an extended filter with the given user ID restriction
-     */
-    public CmsVisitEntryFilter filterUser(CmsUUID userId) {
+  /**
+   * Returns an extended filter with the given user ID restriction.
+   *
+   * <p>
+   *
+   * @param userId the user ID to filter
+   * @return an extended filter with the given user ID restriction
+   */
+  public CmsVisitEntryFilter filterUser(CmsUUID userId) {
 
-        CmsVisitEntryFilter filter = (CmsVisitEntryFilter)clone();
-        filter.m_userId = userId;
-        return filter;
-    }
+    CmsVisitEntryFilter filter = (CmsVisitEntryFilter) clone();
+    filter.m_userId = userId;
+    return filter;
+  }
 
-    /**
-     * Returns the starting date restriction.<p>
-     *
-     * @return the starting date restriction
-     */
-    public long getDateFrom() {
+  /**
+   * Returns the starting date restriction.
+   *
+   * <p>
+   *
+   * @return the starting date restriction
+   */
+  public long getDateFrom() {
 
-        return m_dateFrom;
-    }
+    return m_dateFrom;
+  }
 
-    /**
-     * Returns the end date restriction.<p>
-     *
-     * @return the end date restriction
-     */
-    public long getDateTo() {
+  /**
+   * Returns the end date restriction.
+   *
+   * <p>
+   *
+   * @return the end date restriction
+   */
+  public long getDateTo() {
 
-        return m_dateTo;
-    }
+    return m_dateTo;
+  }
 
-    /**
-     * Returns the structure Id of the resource to filter.<p>
-     *
-     * @return the structure Id of the resource to filter
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Returns the structure Id of the resource to filter.
+   *
+   * <p>
+   *
+   * @return the structure Id of the resource to filter
+   */
+  public CmsUUID getStructureId() {
 
-        return m_structureId;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * Returns the user ID restriction.<p>
-     *
-     * @return the user ID restriction
-     */
-    public CmsUUID getUserId() {
+  /**
+   * Returns the user ID restriction.
+   *
+   * <p>
+   *
+   * @return the user ID restriction
+   */
+  public CmsUUID getUserId() {
 
-        return m_userId;
-    }
+    return m_userId;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        StringBuffer str = new StringBuffer(128);
-        str.append("[");
-        str.append("resource").append("=").append(m_structureId).append(", ");
-        str.append("user").append("=").append(m_userId).append(", ");
-        str.append("from").append("=").append(new Date(m_dateFrom)).append(", ");
-        str.append("to").append("=").append(new Date(m_dateTo));
-        str.append("]");
-        return str.toString();
-    }
+    StringBuffer str = new StringBuffer(128);
+    str.append("[");
+    str.append("resource").append("=").append(m_structureId).append(", ");
+    str.append("user").append("=").append(m_userId).append(", ");
+    str.append("from").append("=").append(new Date(m_dateFrom)).append(", ");
+    str.append("to").append("=").append(new Date(m_dateTo));
+    str.append("]");
+    return str.toString();
+  }
 }

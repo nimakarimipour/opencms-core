@@ -27,79 +27,87 @@
 
 package org.opencms.ui.components.fileselect;
 
+import com.vaadin.ui.FormLayout;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.components.CmsBasicDialog;
 
-import com.vaadin.v7.ui.ComboBox;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.v7.ui.VerticalLayout;
-
 /**
- * Contents of the resource select dialog, filled using the declarative layout mechanism.<p>
+ * Contents of the resource select dialog, filled using the declarative layout mechanism.
+ *
+ * <p>
  */
 public class CmsResourceSelectDialogContents extends CmsBasicDialog {
 
-    /** Serial version id. */
-    private static final long serialVersionUID = 1L;
+  /** Serial version id. */
+  private static final long serialVersionUID = 1L;
 
-    /** Panel for additional widgets to be displayed. */
-    protected FormLayout m_additionalWidgets;
+  /** Panel for additional widgets to be displayed. */
+  protected FormLayout m_additionalWidgets;
 
-    /** The whole content. */
-    private VerticalLayout m_container;
+  /** The whole content. */
+  private VerticalLayout m_container;
 
-    /** The site selector. */
-    private ComboBox m_siteSelector;
+  /** The site selector. */
+  private ComboBox m_siteSelector;
 
-    /** Container for the tree component. */
-    private VerticalLayout m_treeContainer;
+  /** Container for the tree component. */
+  private VerticalLayout m_treeContainer;
 
-    /**
-     * Creates a new widget instance.<p>
-     */
-    public CmsResourceSelectDialogContents() {
-        CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+  /**
+   * Creates a new widget instance.
+   *
+   * <p>
+   */
+  public CmsResourceSelectDialogContents() {
+    CmsVaadinUtils.readAndLocalizeDesign(
+        this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
+  }
 
-    }
+  /**
+   * Gets the panel for additional widgets.
+   *
+   * @return the panel for additional widgets
+   */
+  public FormLayout getAdditionalWidgets() {
 
-    /**
-     * Gets the panel for additional widgets.
-     *
-     * @return the panel for additional widgets
-     */
-    public FormLayout getAdditionalWidgets() {
+    return m_additionalWidgets;
+  }
 
-        return m_additionalWidgets;
-    }
+  /**
+   * Returns the content container.
+   *
+   * <p>
+   *
+   * @return the content container
+   */
+  public VerticalLayout getContainer() {
 
-    /**
-     * Returns the content container.<p>
-     *
-     * @return the content container
-     */
-    public VerticalLayout getContainer() {
+    return m_container;
+  }
 
-        return m_container;
-    }
+  /**
+   * Gets the site selector.
+   *
+   * <p>
+   *
+   * @return the site selector
+   */
+  public ComboBox getSiteSelector() {
 
-    /**
-     * Gets the site selector.<p>
-     *
-     * @return the site selector
-     */
-    public ComboBox getSiteSelector() {
+    return m_siteSelector;
+  }
 
-        return m_siteSelector;
-    }
+  /**
+   * Gets the tree data container.
+   *
+   * <p>
+   *
+   * @return the tree data container
+   */
+  public VerticalLayout getTreeContainer() {
 
-    /**
-     * Gets the tree data container.<p>
-     *
-     * @return the tree data container
-     */
-    public VerticalLayout getTreeContainer() {
-
-        return m_treeContainer;
-    }
-
+    return m_treeContainer;
+  }
 }

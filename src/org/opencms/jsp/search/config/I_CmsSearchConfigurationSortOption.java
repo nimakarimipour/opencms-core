@@ -30,18 +30,24 @@ package org.opencms.jsp.search.config;
 /** The interface a sort option configuration must implement. */
 public interface I_CmsSearchConfigurationSortOption {
 
-    /** Returns the label that can be used to display the sort option in the form.
-     * @return The label that can be used to display the sort option in the form.
-     */
-    String getLabel();
+  /**
+   * Returns the label that can be used to display the sort option in the form.
+   *
+   * @return The label that can be used to display the sort option in the form.
+   */
+  String getLabel();
 
-    /** Returns the request parameter's value that has to be send to choose that sort option.
-     * @return The request parameter's value that has to be send to choose that sort option.
-     */
-    String getParamValue();
+  /**
+   * Returns the request parameter's value that has to be send to choose that sort option.
+   *
+   * @return The request parameter's value that has to be send to choose that sort option.
+   */
+  String getParamValue();
 
-    /** Returns the sort value as send to Solr.
-     * @return The sort value as send to Solr.
-     */
-    String getSolrValue();
+  /**
+   * Returns the sort value as send to Solr.
+   *
+   * @return The sort value as send to Solr.
+   */
+  String getSolrValue();
 }

@@ -32,72 +32,70 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler;
 
 /**
- * Abstract implementation of the content editor change handler.<p>
+ * Abstract implementation of the content editor change handler.
+ *
+ * <p>
  */
-public abstract class A_CmsXmlContentEditorChangeHandler implements I_CmsXmlContentEditorChangeHandler {
+public abstract class A_CmsXmlContentEditorChangeHandler
+    implements I_CmsXmlContentEditorChangeHandler {
 
-    /** The configuration string. */
-    protected String m_configuration;
+  /** The configuration string. */
+  protected String m_configuration;
 
-    /** The content field to watch for changes. */
-    protected String m_scope;
+  /** The content field to watch for changes. */
+  protected String m_scope;
 
-    /**
-     * @see org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler#getConfiguration()
-     */
-    public String getConfiguration() {
+  /** @see org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler#getConfiguration() */
+  public String getConfiguration() {
 
-        return m_configuration;
+    return m_configuration;
+  }
+
+  /** @see org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler#getScope() */
+  public String getScope() {
+
+    return m_scope;
+  }
+
+  /**
+   * Resolves a relative content value path to an absolute one.
+   *
+   * <p>
+   *
+   * @param source the source path
+   * @param target the target path
+   * @return the resolved path
+   */
+  public String resolveRelativePath(String source, String target) {
+
+    String result = null;
+    if (target.startsWith(".")) {
+      if (target.startsWith("./")) {
+        target = target.substring(2);
+      }
+      while (target.startsWith("../")) {
+        source = CmsResource.getParentFolder(source);
+        target = target.substring(3);
+      }
+      result = CmsStringUtil.joinPaths(source, target);
+    } else {
+      result = target;
     }
+    return result;
+  }
 
-    /**
-     * @see org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler#getScope()
-     */
-    public String getScope() {
+  /**
+   * @see
+   *     org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler#setConfiguration(java.lang.String)
+   */
+  public void setConfiguration(String configuration) {
 
-        return m_scope;
-    }
+    m_configuration = configuration;
+  }
 
-    /**
-     * Resolves a relative content value path to an absolute one.<p>
-     *
-     * @param source the source path
-     * @param target the target path
-     *
-     * @return the resolved path
-     */
-    public String resolveRelativePath(String source, String target) {
+  /** @see org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler#setScope(java.lang.String) */
+  public void setScope(String scope) {
 
-        String result = null;
-        if (target.startsWith(".")) {
-            if (target.startsWith("./")) {
-                target = target.substring(2);
-            }
-            while (target.startsWith("../")) {
-                source = CmsResource.getParentFolder(source);
-                target = target.substring(3);
-            }
-            result = CmsStringUtil.joinPaths(source, target);
-        } else {
-            result = target;
-        }
-        return result;
-    }
-
-    /**
-     * @see org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler#setConfiguration(java.lang.String)
-     */
-    public void setConfiguration(String configuration) {
-
-        m_configuration = configuration;
-    }
-
-    /**
-     * @see org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler#setScope(java.lang.String)
-     */
-    public void setScope(String scope) {
-
-        m_scope = scope;
-    }
-
+    m_scope = scope;
+  }
 }

@@ -31,45 +31,49 @@ import org.opencms.gwt.shared.CmsContextMenuEntryBean;
 import org.opencms.util.CmsUUID;
 
 /**
- * Context menu entry for showing the old workplace.<p>
+ * Context menu entry for showing the old workplace.
+ *
+ * <p>
  */
 public final class CmsShowClassicWorkplace implements I_CmsHasContextMenuCommand {
 
-    /**
-     * Hidden default constructor.<p>
-     */
-    private CmsShowClassicWorkplace() {
-        // do nothing
-    }
+  /**
+   * Hidden default constructor.
+   *
+   * <p>
+   */
+  private CmsShowClassicWorkplace() {
+    // do nothing
+  }
 
-    /**
-    * Returns the context menu command according to
-    * {@link org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.<p>
-    *
-    * @return the context menu command
-    */
-    public static I_CmsContextMenuCommand getContextMenuCommand() {
+  /**
+   * Returns the context menu command according to {@link
+   * org.opencms.gwt.client.ui.contextmenu.I_CmsHasContextMenuCommand}.
+   *
+   * <p>
+   *
+   * @return the context menu command
+   */
+  public static I_CmsContextMenuCommand getContextMenuCommand() {
 
-        return new I_CmsContextMenuCommand() {
+    return new I_CmsContextMenuCommand() {
 
-            public void execute(CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
+      public void execute(
+          CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-                CmsShowWorkplace.openWorkplace(structureId, true);
-            }
+        CmsShowWorkplace.openWorkplace(structureId, true);
+      }
 
-            public A_CmsContextMenuItem getItemWidget(
-                CmsUUID structureId,
-                I_CmsContextMenuHandler handler,
-                CmsContextMenuEntryBean bean) {
+      public A_CmsContextMenuItem getItemWidget(
+          CmsUUID structureId, I_CmsContextMenuHandler handler, CmsContextMenuEntryBean bean) {
 
-                return null;
-            }
+        return null;
+      }
 
-            public boolean hasItemWidget() {
+      public boolean hasItemWidget() {
 
-                return false;
-            }
-        };
-    }
-
+        return false;
+      }
+    };
+  }
 }

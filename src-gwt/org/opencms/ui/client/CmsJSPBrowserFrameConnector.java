@@ -27,58 +27,66 @@
 
 package org.opencms.ui.client;
 
-import org.opencms.ui.components.extensions.CmsJSPBrowserFrameExtension;
-import org.opencms.ui.shared.rpc.I_CmsJSPBrowserFrameRpc;
-
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
 import com.vaadin.shared.ui.Connect;
+import org.opencms.ui.components.extensions.CmsJSPBrowserFrameExtension;
+import org.opencms.ui.shared.rpc.I_CmsJSPBrowserFrameRpc;
 
 /**
- * Client side connector for CmsJSPBrowserFrameExtension.<p>
+ * Client side connector for CmsJSPBrowserFrameExtension.
+ *
+ * <p>
  */
 @Connect(CmsJSPBrowserFrameExtension.class)
 public class CmsJSPBrowserFrameConnector extends AbstractExtensionConnector {
 
-    /**vaadin serial id.*/
-    private static final long serialVersionUID = -6067831572929214619L;
+  /** vaadin serial id. */
+  private static final long serialVersionUID = -6067831572929214619L;
 
-    /** The RPC proxy. */
-    private I_CmsJSPBrowserFrameRpc m_rpc;
+  /** The RPC proxy. */
+  private I_CmsJSPBrowserFrameRpc m_rpc;
 
-    /**
-     * Public constructor.<p>
-     */
-    public CmsJSPBrowserFrameConnector() {
-        super();
-        m_rpc = getRpcProxy(I_CmsJSPBrowserFrameRpc.class);
-    }
+  /**
+   * Public constructor.
+   *
+   * <p>
+   */
+  public CmsJSPBrowserFrameConnector() {
+    super();
+    m_rpc = getRpcProxy(I_CmsJSPBrowserFrameRpc.class);
+  }
 
-    /**
-     * Method to call interface to return resources which were changed.<p>
-     *
-     * @param resource which were changed
-     */
-    public void closeParentWindow(String[] resource) {
+  /**
+   * Method to call interface to return resources which were changed.
+   *
+   * <p>
+   *
+   * @param resource which were changed
+   */
+  public void closeParentWindow(String[] resource) {
 
-        m_rpc.cancelParentWindow(resource);
-        // forcing the RPC to be executed immediately
-        getConnection().getHeartbeat().send();
-    }
+    m_rpc.cancelParentWindow(resource);
+    // forcing the RPC to be executed immediately
+    getConnection().getHeartbeat().send();
+  }
 
-    /**
-     * @see com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
-     */
-    @Override
-    protected void extend(ServerConnector target) {
+  /**
+   * @see
+   *     com.vaadin.client.extensions.AbstractExtensionConnector#extend(com.vaadin.client.ServerConnector)
+   */
+  @Override
+  protected void extend(ServerConnector target) {
 
-        closeBrowserFrame();
-    }
+    closeBrowserFrame();
+  }
 
-    /**
-     * JavaScript method to run on client.<p>
-     */
-    private native void closeBrowserFrame()/*-{
+  /**
+   * JavaScript method to run on client.
+   *
+   * <p>
+   */
+  private native void closeBrowserFrame() /*-{
 		var self = this;
 		$wnd.changedResources = function(resources) {
 			self.@org.opencms.ui.client.CmsJSPBrowserFrameConnector::closeParentWindow([Ljava/lang/String;)(resources)

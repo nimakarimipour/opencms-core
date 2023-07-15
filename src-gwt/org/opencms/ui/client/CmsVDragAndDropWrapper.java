@@ -31,24 +31,20 @@ import com.vaadin.client.communication.MessageSender;
 import com.vaadin.client.ui.VDragAndDropWrapper;
 import com.vaadin.client.ui.draganddropwrapper.DragAndDropWrapperConnector;
 
-/**
- * Overrides VDragAndDropWrapper to solve RPC issue.
- */
+/** Overrides VDragAndDropWrapper to solve RPC issue. */
 public class CmsVDragAndDropWrapper extends VDragAndDropWrapper {
 
-    /**
-     * @see com.vaadin.client.ui.VDragAndDropWrapper#startNextUpload()
-     */
-    @Override
-    public void startNextUpload() {
+  /** @see com.vaadin.client.ui.VDragAndDropWrapper#startNextUpload() */
+  @Override
+  public void startNextUpload() {
 
-        // Workaround for mysterious bug where RPC calls would sometimes not be
-        // sent to the server after an upload until another UI event
-        // (e.g. mousemove) happened
+    // Workaround for mysterious bug where RPC calls would sometimes not be
+    // sent to the server after an upload until another UI event
+    // (e.g. mousemove) happened
 
-        final DragAndDropWrapperConnector connector = (DragAndDropWrapperConnector)getConnector();
-        final MessageSender sender = connector.getConnection().getMessageSender();
-        sender.sendInvocationsToServer();
-        super.startNextUpload();
-    }
+    final DragAndDropWrapperConnector connector = (DragAndDropWrapperConnector) getConnector();
+    final MessageSender sender = connector.getConnection().getMessageSender();
+    sender.sendInvocationsToServer();
+    super.startNextUpload();
+  }
 }

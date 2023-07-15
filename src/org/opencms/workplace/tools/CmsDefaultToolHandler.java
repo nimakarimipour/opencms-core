@@ -30,27 +30,25 @@ package org.opencms.workplace.tools;
 import org.opencms.file.CmsObject;
 
 /**
- * Default admin tool handler.<p>
+ * Default admin tool handler.
  *
- * Always enabled and visible.<p>
+ * <p>Always enabled and visible.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsDefaultToolHandler extends A_CmsToolHandler {
 
-    /**
-     * @see org.opencms.workplace.tools.A_CmsToolHandler#isEnabled(org.opencms.file.CmsObject)
-     */
-    public boolean isEnabled(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.A_CmsToolHandler#isEnabled(org.opencms.file.CmsObject) */
+  public boolean isEnabled(CmsObject cms) {
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @see org.opencms.workplace.tools.A_CmsToolHandler#isVisible(org.opencms.file.CmsObject)
-     */
-    public boolean isVisible(CmsObject cms) {
+  /** @see org.opencms.workplace.tools.A_CmsToolHandler#isVisible(org.opencms.file.CmsObject) */
+  public boolean isVisible(CmsObject cms) {
 
-        return true;
-    }
+    return true;
+  }
 }

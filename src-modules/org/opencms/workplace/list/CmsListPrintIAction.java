@@ -32,48 +32,53 @@ import org.opencms.main.OpenCms;
 import org.opencms.workplace.CmsWorkplace;
 
 /**
- * Generates a print preview for a list.<p>
+ * Generates a print preview for a list.
+ *
+ * <p>
  *
  * @since 6.0.0
  */
 public class CmsListPrintIAction extends A_CmsListIndependentJsAction {
 
-    /** List independent action id constant. */
-    public static final String LIST_ACTION_ID = "iap";
+  /** List independent action id constant. */
+  public static final String LIST_ACTION_ID = "iap";
 
-    /**
-     * Default constructor.<p>
-     */
-    public CmsListPrintIAction() {
+  /**
+   * Default constructor.
+   *
+   * <p>
+   */
+  public CmsListPrintIAction() {
 
-        super(LIST_ACTION_ID);
-        setName(Messages.get().container(Messages.GUI_LIST_ACTION_PRINT_NAME_0));
-        setHelpText(Messages.get().container(Messages.GUI_LIST_ACTION_PRINT_HELP_0));
-        setConfirmationMessage(Messages.get().container(Messages.GUI_LIST_ACTION_PRINT_CONF_0));
-        setIconPath("list/print.png");
-        setEnabled(true);
-        setVisible(true);
-    }
+    super(LIST_ACTION_ID);
+    setName(Messages.get().container(Messages.GUI_LIST_ACTION_PRINT_NAME_0));
+    setHelpText(Messages.get().container(Messages.GUI_LIST_ACTION_PRINT_HELP_0));
+    setConfirmationMessage(Messages.get().container(Messages.GUI_LIST_ACTION_PRINT_CONF_0));
+    setIconPath("list/print.png");
+    setEnabled(true);
+    setVisible(true);
+  }
 
-    /**
-     * @see org.opencms.workplace.list.A_CmsListIndependentJsAction#jsCode(CmsWorkplace)
-     */
-    @Override
-    public String jsCode(CmsWorkplace wp) {
+  /** @see org.opencms.workplace.list.A_CmsListIndependentJsAction#jsCode(CmsWorkplace) */
+  @Override
+  public String jsCode(CmsWorkplace wp) {
 
-        String url = OpenCms.getLinkManager().substituteLink(
-            wp.getCms(),
-            "/system/workplace/commons/list-print.jsp?"
-                + CmsListPrintDialog.PARAM_LISTCLASS
-                + "="
-                + CmsEncoder.encode(wp.getClass().getName()));
-        String opts = "toolbar=no,location=no,directories=no,status=yes,menubar=0,scrollbars=yes,resizable=yes,top=50,left=50,width=700,height=500";
-        StringBuffer js = new StringBuffer(512);
-        js.append("javascript:window.open('");
-        js.append(url);
-        js.append("', 'opencmsprintlist', '");
-        js.append(opts);
-        js.append("');");
-        return js.toString();
-    }
+    String url =
+        OpenCms.getLinkManager()
+            .substituteLink(
+                wp.getCms(),
+                "/system/workplace/commons/list-print.jsp?"
+                    + CmsListPrintDialog.PARAM_LISTCLASS
+                    + "="
+                    + CmsEncoder.encode(wp.getClass().getName()));
+    String opts =
+        "toolbar=no,location=no,directories=no,status=yes,menubar=0,scrollbars=yes,resizable=yes,top=50,left=50,width=700,height=500";
+    StringBuffer js = new StringBuffer(512);
+    js.append("javascript:window.open('");
+    js.append(url);
+    js.append("', 'opencmsprintlist', '");
+    js.append(opts);
+    js.append("');");
+    return js.toString();
+  }
 }

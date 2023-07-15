@@ -31,27 +31,29 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.IFrameElement;
 
 /**
- * Helper class for DOM operations not made available by the GWT core classes.<p>
+ * Helper class for DOM operations not made available by the GWT core classes.
  *
- * Implementation for all none MSIE browsers.<p>
+ * <p>Implementation for all none MSIE browsers.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class DOMImpl {
 
-    /**
-     * Creates an iFrame element with the given name attribute.<p>
-     *
-     * @param doc the document
-     * @param name the name attribute value
-     *
-     * @return the iFrame element
-     */
-    public com.google.gwt.dom.client.Element createIFrameElement(Document doc, String name) {
+  /**
+   * Creates an iFrame element with the given name attribute.
+   *
+   * <p>
+   *
+   * @param doc the document
+   * @param name the name attribute value
+   * @return the iFrame element
+   */
+  public com.google.gwt.dom.client.Element createIFrameElement(Document doc, String name) {
 
-        IFrameElement element = doc.createIFrameElement();
-        element.setName(name);
-        return element;
-    }
-
+    IFrameElement element = doc.createIFrameElement();
+    element.setName(name);
+    return element;
+  }
 }

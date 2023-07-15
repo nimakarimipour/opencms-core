@@ -27,80 +27,73 @@
 
 package org.opencms.util;
 
-import org.opencms.i18n.CmsEncoder;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import org.opencms.i18n.CmsEncoder;
 
-/**
- *
- */
+/** */
 public abstract class A_CmsHtmlConverter implements I_CmsHtmlConverter {
 
-    /** The encoding used for the HTML code conversion. */
-    private String m_encoding;
+  /** The encoding used for the HTML code conversion. */
+  private String m_encoding;
 
-    /** The conversion modes to use as List of String parameters. */
-    private List<String> m_modes;
+  /** The conversion modes to use as List of String parameters. */
+  private List<String> m_modes;
 
-    /**
-     * Empty constructor.<p>
-     *
-     * Initializes with encoding {@link CmsEncoder#ENCODING_UTF_8} and with an empty String as mode.<p>
-     */
-    public A_CmsHtmlConverter() {
+  /**
+   * Empty constructor.
+   *
+   * <p>Initializes with encoding {@link CmsEncoder#ENCODING_UTF_8} and with an empty String as
+   * mode.
+   *
+   * <p>
+   */
+  public A_CmsHtmlConverter() {
 
-        init(null, null);
+    init(null, null);
+  }
+
+  /**
+   * Constructor, with parameters.
+   *
+   * <p>
+   *
+   * @param encoding the encoding used for the HTML code conversion
+   * @param modes the conversion modes to use
+   */
+  public A_CmsHtmlConverter(String encoding, List<String> modes) {
+
+    init(encoding, modes);
+  }
+
+  /** @see org.opencms.util.I_CmsHtmlConverter#convertToString(java.lang.String) */
+  public abstract String convertToString(String htmlInput) throws UnsupportedEncodingException;
+
+  /** @see org.opencms.util.I_CmsHtmlConverter#getEncoding() */
+  public String getEncoding() {
+
+    return m_encoding;
+  }
+
+  /** @see org.opencms.util.I_CmsHtmlConverter#getModes() */
+  public List<String> getModes() {
+
+    return m_modes;
+  }
+
+  /** @see org.opencms.util.I_CmsHtmlConverter#init(java.lang.String, java.util.List) */
+  public void init(String encoding, List<String> modes) {
+
+    if (encoding == null) {
+      m_encoding = CmsEncoder.ENCODING_UTF_8;
+    } else {
+      m_encoding = encoding;
     }
-
-    /**
-     * Constructor, with parameters.<p>
-     *
-     * @param encoding the encoding used for the HTML code conversion
-     * @param modes the conversion modes to use
-     */
-    public A_CmsHtmlConverter(String encoding, List<String> modes) {
-
-        init(encoding, modes);
+    if (modes == null) {
+      m_modes = new ArrayList<String>();
+    } else {
+      m_modes = modes;
     }
-
-    /**
-     *
-     * @see org.opencms.util.I_CmsHtmlConverter#convertToString(java.lang.String)
-     */
-    public abstract String convertToString(String htmlInput) throws UnsupportedEncodingException;
-
-    /**
-     * @see org.opencms.util.I_CmsHtmlConverter#getEncoding()
-     */
-    public String getEncoding() {
-
-        return m_encoding;
-    }
-
-    /**
-     * @see org.opencms.util.I_CmsHtmlConverter#getModes()
-     */
-    public List<String> getModes() {
-
-        return m_modes;
-    }
-
-    /**
-     * @see org.opencms.util.I_CmsHtmlConverter#init(java.lang.String, java.util.List)
-     */
-    public void init(String encoding, List<String> modes) {
-
-        if (encoding == null) {
-            m_encoding = CmsEncoder.ENCODING_UTF_8;
-        } else {
-            m_encoding = encoding;
-        }
-        if (modes == null) {
-            m_modes = new ArrayList<String>();
-        } else {
-            m_modes = modes;
-        }
-    }
+  }
 }

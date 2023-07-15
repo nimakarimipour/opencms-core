@@ -27,12 +27,6 @@
 
 package org.opencms.acacia.client.widgets;
 
-import org.opencms.acacia.client.css.I_CmsWidgetsLayoutBundle;
-import org.opencms.gwt.client.ui.input.datebox.CmsDateBox;
-import org.opencms.gwt.client.util.CmsDomUtil;
-
-import java.util.Date;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -46,186 +40,187 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.ui.Composite;
+import java.util.Date;
+import org.opencms.acacia.client.css.I_CmsWidgetsLayoutBundle;
+import org.opencms.gwt.client.ui.input.datebox.CmsDateBox;
+import org.opencms.gwt.client.util.CmsDomUtil;
 
 /**
- * Provides a DHTML calendar widget, for use on a widget dialog.<p>
+ * Provides a DHTML calendar widget, for use on a widget dialog.
  *
- * */
-public class CmsCalendarWidget extends Composite implements I_CmsEditWidget, I_CmsHasDisplayDirection {
+ * <p>
+ */
+public class CmsCalendarWidget extends Composite
+    implements I_CmsEditWidget, I_CmsHasDisplayDirection {
 
-    /** Value of the activation. */
-    private boolean m_active = true;
+  /** Value of the activation. */
+  private boolean m_active = true;
 
-    /** The global select box. */
-    private CmsDateBox m_dateBox = new CmsDateBox();
+  /** The global select box. */
+  private CmsDateBox m_dateBox = new CmsDateBox();
 
-    /**
-     * Constructs an CmsComboWidget with the in XSD schema declared configuration.<p>
-     * @param config The configuration string given from OpenCms XSD.
-     */
-    public CmsCalendarWidget(String config) {
+  /**
+   * Constructs an CmsComboWidget with the in XSD schema declared configuration.
+   *
+   * <p>
+   *
+   * @param config The configuration string given from OpenCms XSD.
+   */
+  public CmsCalendarWidget(String config) {
 
-        JSONObject jsonConfig = JSONParser.parseStrict(config).isObject();
-        JSONValue jFixedTime = jsonConfig.get("fixedTime");
-        if ((jFixedTime != null) && (jFixedTime.isString() != null)) {
-            String fixedTime = jFixedTime.isString().stringValue();
-            m_dateBox.setFixedTime(fixedTime);
-            m_dateBox.setDateOnly(true);
-        }
-        m_dateBox.setAllowInvalidValue(true);
+    JSONObject jsonConfig = JSONParser.parseStrict(config).isObject();
+    JSONValue jFixedTime = jsonConfig.get("fixedTime");
+    if ((jFixedTime != null) && (jFixedTime.isString() != null)) {
+      String fixedTime = jFixedTime.isString().stringValue();
+      m_dateBox.setFixedTime(fixedTime);
+      m_dateBox.setDateOnly(true);
+    }
+    m_dateBox.setAllowInvalidValue(true);
 
-        // All composites must call initWidget() in their constructors.
-        initWidget(m_dateBox);
+    // All composites must call initWidget() in their constructors.
+    initWidget(m_dateBox);
 
-        m_dateBox.getTextField().getTextBoxContainer().addStyleName(
-            I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().calendarStyle());
-        ValueChangeHandler<Date> test = new ValueChangeHandler<Date>() {
+    m_dateBox
+        .getTextField()
+        .getTextBoxContainer()
+        .addStyleName(I_CmsWidgetsLayoutBundle.INSTANCE.widgetCss().calendarStyle());
+    ValueChangeHandler<Date> test =
+        new ValueChangeHandler<Date>() {
 
-            public void onValueChange(ValueChangeEvent<Date> arg0) {
+          public void onValueChange(ValueChangeEvent<Date> arg0) {
 
-                fireChangeEvent();
-
-            }
-
+            fireChangeEvent();
+          }
         };
 
-        m_dateBox.addValueChangeHandler(test);
-        m_dateBox.addKeyPressHandler(new KeyPressHandler() {
+    m_dateBox.addValueChangeHandler(test);
+    m_dateBox.addKeyPressHandler(
+        new KeyPressHandler() {
 
-            public void onKeyPress(KeyPressEvent arg0) {
+          public void onKeyPress(KeyPressEvent arg0) {
 
-                int keyCode = arg0.getUnicodeCharCode();
-                if (keyCode == 0) {
-                    // Probably Firefox
-                    keyCode = arg0.getNativeEvent().getKeyCode();
-                }
-                if (keyCode == KeyCodes.KEY_ENTER) {
-                    fireChangeEvent();
-                }
-
+            int keyCode = arg0.getUnicodeCharCode();
+            if (keyCode == 0) {
+              // Probably Firefox
+              keyCode = arg0.getNativeEvent().getKeyCode();
             }
+            if (keyCode == KeyCodes.KEY_ENTER) {
+              fireChangeEvent();
+            }
+          }
         });
-        m_dateBox.getTextField().addFocusHandler(new FocusHandler() {
+    m_dateBox
+        .getTextField()
+        .addFocusHandler(
+            new FocusHandler() {
 
-            public void onFocus(FocusEvent event) {
+              public void onFocus(FocusEvent event) {
 
                 CmsDomUtil.fireFocusEvent(CmsCalendarWidget.this);
-            }
-        });
+              }
+            });
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
+   */
+  public HandlerRegistration addFocusHandler(FocusHandler handler) {
+
+    return addDomHandler(handler, FocusEvent.getType());
+  }
+
+  /**
+   * @see
+   *     com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+   */
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+
+    return addHandler(handler, ValueChangeEvent.getType());
+  }
+
+  /**
+   * Represents a value change event.
+   *
+   * <p>
+   */
+  public void fireChangeEvent() {
+
+    ValueChangeEvent.fire(this, m_dateBox.getFormValueAsString());
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsHasDisplayDirection#getDisplayingDirection() */
+  public Direction getDisplayingDirection() {
+
+    return Direction.below;
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#getValue() */
+  public String getValue() {
+
+    String result = m_dateBox.getFormValueAsString();
+    return result;
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive() */
+  public boolean isActive() {
+
+    return m_active;
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget() */
+  public void onAttachWidget() {
+
+    super.onAttach();
+  }
+
+  /**
+   * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
+   */
+  public boolean owns(Element element) {
+
+    return getElement().isOrHasChild(element);
+  }
+
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean) */
+  public void setActive(boolean active) {
+
+    if (active == m_active) {
+      return;
     }
-
-    /**
-     * @see com.google.gwt.event.dom.client.HasFocusHandlers#addFocusHandler(com.google.gwt.event.dom.client.FocusHandler)
-     */
-    public HandlerRegistration addFocusHandler(FocusHandler handler) {
-
-        return addDomHandler(handler, FocusEvent.getType());
+    m_active = active;
+    if (m_active) {
+      getElement()
+          .removeClassName(
+              org.opencms.acacia.client.css.I_CmsLayoutBundle.INSTANCE.form().inActive());
+      getElement().focus();
+    } else {
+      getElement()
+          .addClassName(org.opencms.acacia.client.css.I_CmsLayoutBundle.INSTANCE.form().inActive());
     }
-
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
-
-        return addHandler(handler, ValueChangeEvent.getType());
+    if (active) {
+      fireChangeEvent();
     }
+  }
 
-    /**
-     * Represents a value change event.<p>
-     *
-     */
-    public void fireChangeEvent() {
+  /** @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String) */
+  public void setName(String name) {
 
-        ValueChangeEvent.fire(this, m_dateBox.getFormValueAsString());
+    m_dateBox.setName(name);
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object) */
+  public void setValue(String value) {
+
+    setValue(value, false);
+  }
+
+  /** @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean) */
+  public void setValue(String value, boolean fireEvents) {
+
+    m_dateBox.setFormValueAsString(value);
+    if (fireEvents) {
+      fireChangeEvent();
     }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsHasDisplayDirection#getDisplayingDirection()
-     */
-    public Direction getDisplayingDirection() {
-
-        return Direction.below;
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#getValue()
-     */
-    public String getValue() {
-
-        String result = m_dateBox.getFormValueAsString();
-        return result;
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#isActive()
-     */
-    public boolean isActive() {
-
-        return m_active;
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#onAttachWidget()
-     */
-    public void onAttachWidget() {
-
-        super.onAttach();
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#owns(com.google.gwt.dom.client.Element)
-     */
-    public boolean owns(Element element) {
-
-        return getElement().isOrHasChild(element);
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setActive(boolean)
-     */
-    public void setActive(boolean active) {
-
-        if (active == m_active) {
-            return;
-        }
-        m_active = active;
-        if (m_active) {
-            getElement().removeClassName(org.opencms.acacia.client.css.I_CmsLayoutBundle.INSTANCE.form().inActive());
-            getElement().focus();
-        } else {
-            getElement().addClassName(org.opencms.acacia.client.css.I_CmsLayoutBundle.INSTANCE.form().inActive());
-        }
-        if (active) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * @see org.opencms.acacia.client.widgets.I_CmsEditWidget#setName(java.lang.String)
-     */
-    public void setName(String name) {
-
-        m_dateBox.setName(name);
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
-     */
-    public void setValue(String value) {
-
-        setValue(value, false);
-
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
-     */
-    public void setValue(String value, boolean fireEvents) {
-
-        m_dateBox.setFormValueAsString(value);
-        if (fireEvents) {
-            fireChangeEvent();
-        }
-
-    }
+  }
 }

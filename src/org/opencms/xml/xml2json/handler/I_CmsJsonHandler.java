@@ -32,36 +32,35 @@ import org.opencms.xml.xml2json.CmsJsonResult;
 /**
  * Interface for individual JSON handlers.
  *
- * <p>The CmsJsonResourceHandler delegates the actual work of producing the JSON to a number of sub-handlers,
- * e.g. one for XML contents, one for folders, etc. This is the base interface for these sub-handlers. Handlers are explicitly
- * sorted by their order, and then the first matching handler is selected.
- *
+ * <p>The CmsJsonResourceHandler delegates the actual work of producing the JSON to a number of
+ * sub-handlers, e.g. one for XML contents, one for folders, etc. This is the base interface for
+ * these sub-handlers. Handlers are explicitly sorted by their order, and then the first matching
+ * handler is selected.
  */
 public interface I_CmsJsonHandler {
 
-    /**
-     * Gets the sort order for this handler.<p>
-     *
-     * Handlers are sorted by ascending order, and the first matching handler is selected.
-     *
-     * @return the sort order
-     */
-    double getOrder();
+  /**
+   * Gets the sort order for this handler.
+   *
+   * <p>Handlers are sorted by ascending order, and the first matching handler is selected.
+   *
+   * @return the sort order
+   */
+  double getOrder();
 
-    /**
-     * Returns true if the handler matches the given context.
-     *
-     * @param context the context
-     * @return true if the handler matches
-     */
-    boolean matches(CmsJsonHandlerContext context);
+  /**
+   * Returns true if the handler matches the given context.
+   *
+   * @param context the context
+   * @return true if the handler matches
+   */
+  boolean matches(CmsJsonHandlerContext context);
 
-    /**
-     * Renders the JSON.
-     *
-     * @param context the context (provides information about the path and resource)
-     * @return the JSON result
-     */
-    CmsJsonResult renderJson(CmsJsonHandlerContext context);
-
+  /**
+   * Renders the JSON.
+   *
+   * @param context the context (provides information about the path and resource)
+   * @return the JSON result
+   */
+  CmsJsonResult renderJson(CmsJsonHandlerContext context);
 }

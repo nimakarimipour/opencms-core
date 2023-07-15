@@ -37,6 +37,5 @@ import java.lang.annotation.Target;
 @Target(METHOD)
 public @interface HandlesAppAttribute {
 
-    String name();
-
+  String name();
 }

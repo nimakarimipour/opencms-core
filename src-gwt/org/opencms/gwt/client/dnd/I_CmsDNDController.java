@@ -28,89 +28,107 @@
 package org.opencms.gwt.client.dnd;
 
 /**
- * Drag and drop controller.<p>
+ * Drag and drop controller.
  *
- * Implement and assign to the {@link CmsDNDHandler} to control the drag process as well as the underlying model.<p>
+ * <p>Implement and assign to the {@link CmsDNDHandler} to control the drag process as well as the
+ * underlying model.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public interface I_CmsDNDController {
 
-    /**
-     * Executed when end animation starts.<p>
-     *
-     * @param draggable the draggable item
-     * @param target the current drop target
-     * @param handler the drag and drop handler instance
-     */
-    void onAnimationStart(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
+  /**
+   * Executed when end animation starts.
+   *
+   * <p>
+   *
+   * @param draggable the draggable item
+   * @param target the current drop target
+   * @param handler the drag and drop handler instance
+   */
+  void onAnimationStart(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
 
-    /**
-     * Executed before drop.<p>
-     *
-     * @param draggable the draggable item
-     * @param target the current drop target
-     * @param handler the drag and drop handler instance
-     *
-     * @return <code>false</code> to cancel dropping
-     */
-    boolean onBeforeDrop(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
+  /**
+   * Executed before drop.
+   *
+   * <p>
+   *
+   * @param draggable the draggable item
+   * @param target the current drop target
+   * @param handler the drag and drop handler instance
+   * @return <code>false</code> to cancel dropping
+   */
+  boolean onBeforeDrop(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
 
-    /**
-     * Executed on drag cancel.<p>
-     *
-     * @param draggable the draggable item
-     * @param target the current drop target
-     * @param handler the drag and drop handler instance
-     */
-    void onDragCancel(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
+  /**
+   * Executed on drag cancel.
+   *
+   * <p>
+   *
+   * @param draggable the draggable item
+   * @param target the current drop target
+   * @param handler the drag and drop handler instance
+   */
+  void onDragCancel(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
 
-    /**
-     * Executed on drag start.<p>
-     *
-     * @param draggable the draggable item
-     * @param target the current drop target
-     * @param handler the drag and drop handler instance
-     *
-     * @return <code>false</code> to cancel dragging
-     */
-    boolean onDragStart(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
+  /**
+   * Executed on drag start.
+   *
+   * <p>
+   *
+   * @param draggable the draggable item
+   * @param target the current drop target
+   * @param handler the drag and drop handler instance
+   * @return <code>false</code> to cancel dragging
+   */
+  boolean onDragStart(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
 
-    /**
-     * Executed on drop.<p>
-     *
-     * @param draggable the draggable item
-     * @param target the current drop target
-     * @param handler the drag and drop handler instance
-     */
-    void onDrop(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
+  /**
+   * Executed on drop.
+   *
+   * <p>
+   *
+   * @param draggable the draggable item
+   * @param target the current drop target
+   * @param handler the drag and drop handler instance
+   */
+  void onDrop(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
 
-    /**
-     * Executed after the placeholder has been positioned inside a drop target.<p>
-     *
-     * @param draggable the draggable item
-     * @param target the current drop target
-     * @param handler the drag and drop handler instance
-     */
-    void onPositionedPlaceholder(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
+  /**
+   * Executed after the placeholder has been positioned inside a drop target.
+   *
+   * <p>
+   *
+   * @param draggable the draggable item
+   * @param target the current drop target
+   * @param handler the drag and drop handler instance
+   */
+  void onPositionedPlaceholder(
+      I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
 
-    /**
-     * Executed when the helper is dragged into a drop target.<p>
-     *
-     * @param draggable the draggable item
-     * @param target the current drop target
-     * @param handler the drag and drop handler instance
-     *
-     * @return <code>false</code> to cancel entering target (placeholder will not positioned inside target)
-     */
-    boolean onTargetEnter(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
+  /**
+   * Executed when the helper is dragged into a drop target.
+   *
+   * <p>
+   *
+   * @param draggable the draggable item
+   * @param target the current drop target
+   * @param handler the drag and drop handler instance
+   * @return <code>false</code> to cancel entering target (placeholder will not positioned inside
+   *     target)
+   */
+  boolean onTargetEnter(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
 
-    /**
-     * Executed when the helper is dragged out of a drop target.<p>
-     *
-     * @param draggable the draggable item
-     * @param target the current drop target
-     * @param handler the drag and drop handler instance
-     */
-    void onTargetLeave(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
+  /**
+   * Executed when the helper is dragged out of a drop target.
+   *
+   * <p>
+   *
+   * @param draggable the draggable item
+   * @param target the current drop target
+   * @param handler the drag and drop handler instance
+   */
+  void onTargetLeave(I_CmsDraggable draggable, I_CmsDropTarget target, CmsDNDHandler handler);
 }

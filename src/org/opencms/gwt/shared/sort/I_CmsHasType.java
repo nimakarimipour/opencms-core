@@ -28,18 +28,21 @@
 package org.opencms.gwt.shared.sort;
 
 /**
- * Marker interface for objects with a type property to allow easy sorting.<p>
+ * Marker interface for objects with a type property to allow easy sorting.
+ *
+ * <p>
  *
  * @see CmsComparatorType
- *
  * @since 8.0.0
  */
 public interface I_CmsHasType {
 
-    /**
-     * Returns the type.<p>
-     *
-     * @return the type
-     */
-    String getType();
+  /**
+   * Returns the type.
+   *
+   * <p>
+   *
+   * @return the type
+   */
+  String getType();
 }

@@ -28,35 +28,40 @@
 package org.opencms.jsp.search.config.parser.simplesearch.daterestrictions;
 
 /**
- * A restriction which selects either all entries in the past (from the current time) or all entries in the future.<p>
+ * A restriction which selects either all entries in the past (from the current time) or all entries
+ * in the future.
+ *
+ * <p>
  */
 public class CmsDatePastFutureRestriction implements I_CmsDateRestriction {
 
-    /** The time direction. */
-    private TimeDirection m_direction;
+  /** The time direction. */
+  private TimeDirection m_direction;
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param direction the time direction
-     */
-    public CmsDatePastFutureRestriction(TimeDirection direction) {
-        m_direction = direction;
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param direction the time direction
+   */
+  public CmsDatePastFutureRestriction(TimeDirection direction) {
+    m_direction = direction;
+  }
+
+  /**
+   * @see
+   *     org.opencms.jsp.search.config.parser.simplesearch.daterestrictions.I_CmsDateRestriction#getRange()
+   */
+  public String getRange() {
+
+    switch (m_direction) {
+      case future:
+        return "[NOW TO *]";
+      case past:
+        return "[* TO NOW ]";
+      default:
+        return null;
     }
-
-    /**
-     * @see org.opencms.jsp.search.config.parser.simplesearch.daterestrictions.I_CmsDateRestriction#getRange()
-     */
-    public String getRange() {
-
-        switch (m_direction) {
-            case future:
-                return "[NOW TO *]";
-            case past:
-                return "[* TO NOW ]";
-            default:
-                return null;
-        }
-    }
-
+  }
 }

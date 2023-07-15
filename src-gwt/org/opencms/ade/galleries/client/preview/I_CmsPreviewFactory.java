@@ -30,18 +30,21 @@ package org.opencms.ade.galleries.client.preview;
 import org.opencms.ade.galleries.client.ui.CmsGalleryDialog;
 
 /**
- * The resource preview factory interface.<p>
+ * The resource preview factory interface.
+ *
+ * <p>
  *
  * @since 8.0.3
  */
 public interface I_CmsPreviewFactory {
 
-    /**
-     * Returns the resource preview instance for the given gallery dialog.<p>
-     *
-     * @param dialog the gallery dialog
-     *
-     * @return the resource preview
-     */
-    I_CmsResourcePreview<?> getPreview(CmsGalleryDialog dialog);
+  /**
+   * Returns the resource preview instance for the given gallery dialog.
+   *
+   * <p>
+   *
+   * @param dialog the gallery dialog
+   * @return the resource preview
+   */
+  I_CmsResourcePreview<?> getPreview(CmsGalleryDialog dialog);
 }

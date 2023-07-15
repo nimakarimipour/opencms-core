@@ -27,154 +27,169 @@
 
 package org.opencms.ade.postupload.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+import java.util.Map;
 import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.gwt.shared.property.CmsClientProperty;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
-import java.util.Map;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
- * A bean representing the state of a single resource to be edited in the upload property dialog.<p>
+ * A bean representing the state of a single resource to be edited in the upload property dialog.
+ *
+ * <p>
  */
 public class CmsPostUploadDialogPanelBean implements IsSerializable {
 
-    /** The warning to display. */ 
-    private String m_warning;
+  /** The warning to display. */
+  private String m_warning;
 
-    /** The page info for displaying the CmsListItemWidget. */
-    private CmsListInfoBean m_infoBean;
+  /** The page info for displaying the CmsListItemWidget. */
+  private CmsListInfoBean m_infoBean;
 
-    /** The properties of the resource. */
-    private Map<String, CmsClientProperty> m_properties;
+  /** The properties of the resource. */
+  private Map<String, CmsClientProperty> m_properties;
 
-    /** The property definitions for the resource type of the resource. */
-    private Map<String, CmsXmlContentProperty> m_propertyDefinitions;
+  /** The property definitions for the resource type of the resource. */
+  private Map<String, CmsXmlContentProperty> m_propertyDefinitions;
 
-    /** The structure id of the resource. */
-    private CmsUUID m_structureId;
+  /** The structure id of the resource. */
+  private CmsUUID m_structureId;
 
-    /**
-     * Creates a new instance.<p>
-     */
-    public CmsPostUploadDialogPanelBean() {
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   */
+  public CmsPostUploadDialogPanelBean() {}
 
-    }
+  /**
+   * Creates a new instance.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource
+   * @param infoBean the list info bean
+   */
+  public CmsPostUploadDialogPanelBean(CmsUUID structureId, CmsListInfoBean infoBean) {
 
-    /**
-     * Creates a new instance.<p>
-     *
-     * @param structureId the structure id of the resource
-     * @param infoBean the list info bean
-     */
-    public CmsPostUploadDialogPanelBean(CmsUUID structureId, CmsListInfoBean infoBean) {
+    m_structureId = structureId;
+    m_infoBean = infoBean;
+  }
 
-        m_structureId = structureId;
-        m_infoBean = infoBean;
+  /**
+   * Gets the info bean for the resource.
+   *
+   * <p>
+   *
+   * @return the info bean for the resource
+   */
+  public CmsListInfoBean getInfoBean() {
 
-    }
+    return m_infoBean;
+  }
 
-    /**
-     * Gets the info bean for the resource.<p>
-     *
-     * @return the info bean for the resource
-     */
-    public CmsListInfoBean getInfoBean() {
+  /**
+   * Gets the properties for the resource.
+   *
+   * <p>
+   *
+   * @return the map of properties by property name
+   */
+  public Map<String, CmsClientProperty> getProperties() {
 
-        return m_infoBean;
-    }
+    return m_properties;
+  }
 
-    /**
-     * Gets the properties for the resource.<p>
-     *
-     * @return the map of properties by property name
-     */
-    public Map<String, CmsClientProperty> getProperties() {
+  /**
+   * Gets the property definitions for the type of the resource.
+   *
+   * <p>
+   *
+   * @return the map of property definitions by property names
+   */
+  public Map<String, CmsXmlContentProperty> getPropertyDefinitions() {
 
-        return m_properties;
-    }
+    return m_propertyDefinitions;
+  }
 
-    /**
-     * Gets the property definitions for the type of the resource.<p>
-     *
-     * @return the map of property definitions by property names
-     */
-    public Map<String, CmsXmlContentProperty> getPropertyDefinitions() {
+  /**
+   * Gets the structure id of the resource.
+   *
+   * <p>
+   *
+   * @return the user id
+   */
+  public CmsUUID getStructureId() {
 
-        return m_propertyDefinitions;
-    }
+    return m_structureId;
+  }
 
-    /**
-     * Gets the structure id of the resource.<p>
-     *
-     * @return the user id
-     */
-    public CmsUUID getStructureId() {
+  /**
+   * Gets the warning to display.
+   *
+   * @return the warning to display
+   */
+  public String getWarning() {
 
-        return m_structureId;
-    }
+    return m_warning;
+  }
 
-    /**
-     * Gets the warning to display.
-     * 
-     * @return the warning to display
-     */
-    public String getWarning() {
+  /**
+   * Sets the list info bean for the resource.
+   *
+   * <p>
+   *
+   * @param info the list info bean for the resource
+   */
+  public void setInfoBean(CmsListInfoBean info) {
 
-        return m_warning;
-    }
+    m_infoBean = info;
+  }
 
-    /**
-     * Sets the list info bean for the resource.<p>
-     *
-     * @param info the list info bean for the resource
-     */
-    public void setInfoBean(CmsListInfoBean info) {
+  /**
+   * Sets the properties for the resource.
+   *
+   * <p>
+   *
+   * @param properties the properties for the resource
+   */
+  public void setProperties(Map<String, CmsClientProperty> properties) {
 
-        m_infoBean = info;
-    }
+    m_properties = properties;
+  }
 
-    /**
-     * Sets the properties for the resource.<p>
-     *
-     * @param properties the properties for the resource
-     */
-    public void setProperties(Map<String, CmsClientProperty> properties) {
+  /**
+   * Sets the property definitions for the type of the resource.
+   *
+   * <p>
+   *
+   * @param propertyDefinitions the map of property definitions
+   */
+  public void setPropertyDefinitions(Map<String, CmsXmlContentProperty> propertyDefinitions) {
 
-        m_properties = properties;
+    m_propertyDefinitions = propertyDefinitions;
+  }
 
-    }
+  /**
+   * Sets the structure id of the resource.
+   *
+   * <p>
+   *
+   * @param structureId the structure id of the resource
+   */
+  public void setStructureId(CmsUUID structureId) {
 
-    /**
-     * Sets the property definitions for the type of the resource.<p>
-     *
-     * @param propertyDefinitions the map of property definitions
-     */
-    public void setPropertyDefinitions(Map<String, CmsXmlContentProperty> propertyDefinitions) {
+    m_structureId = structureId;
+  }
 
-        m_propertyDefinitions = propertyDefinitions;
-    }
+  /**
+   * Sets the warning to display.
+   *
+   * @param warning the warning to display
+   */
+  public void setWarning(String warning) {
 
-    /**
-     * Sets the structure id of the resource.<p>
-     *
-     * @param structureId the structure id of the resource
-     */
-    public void setStructureId(CmsUUID structureId) {
-
-        m_structureId = structureId;
-    }
-
-    /**
-     * Sets the warning to display.
-     * 
-     * @param warning the warning to display
-     */
-    public void setWarning(String warning) {
-
-        m_warning = warning;
-    }
-
+    m_warning = warning;
+  }
 }

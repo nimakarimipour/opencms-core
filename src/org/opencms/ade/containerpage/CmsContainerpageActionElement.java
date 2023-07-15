@@ -27,6 +27,9 @@
 
 package org.opencms.ade.containerpage;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import org.opencms.ade.containerpage.shared.CmsCntPageData;
 import org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService;
 import org.opencms.gwt.CmsGwtActionElement;
@@ -35,87 +38,90 @@ import org.opencms.gwt.shared.CmsCoreData;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsRequestUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
 /**
- * Action element for container-page editor includes.<p>
+ * Action element for container-page editor includes.
+ *
+ * <p>
  *
  * @since 8.0.0
  */
 public class CmsContainerpageActionElement extends CmsGwtActionElement {
 
-    /** The OpenCms module name. */
-    public static final String CMS_MODULE_NAME = "org.opencms.ade.containerpage";
+  /** The OpenCms module name. */
+  public static final String CMS_MODULE_NAME = "org.opencms.ade.containerpage";
 
-    /** The GWT module name. */
-    public static final String GWT_MODULE_NAME = CmsCoreData.ModuleKey.containerpage.name();
+  /** The GWT module name. */
+  public static final String GWT_MODULE_NAME = CmsCoreData.ModuleKey.containerpage.name();
 
-    /** The current container page data. */
-    private CmsCntPageData m_cntPageData;
+  /** The current container page data. */
+  private CmsCntPageData m_cntPageData;
 
-    /**
-     * Constructor.<p>
-     *
-     * @param context the JSP page context object
-     * @param req the JSP request
-     * @param res the JSP response
-     */
-    public CmsContainerpageActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  /**
+   * Constructor.
+   *
+   * <p>
+   *
+   * @param context the JSP page context object
+   * @param req the JSP request
+   * @param res the JSP response
+   */
+  public CmsContainerpageActionElement(
+      PageContext context, HttpServletRequest req, HttpServletResponse res) {
 
-        super(context, req, res);
-    }
+    super(context, req, res);
+  }
 
-    /**
-     * @see org.opencms.gwt.CmsGwtActionElement#export()
-     */
-    @Override
-    public String export() throws Exception {
+  /** @see org.opencms.gwt.CmsGwtActionElement#export() */
+  @Override
+  public String export() throws Exception {
 
-        return "";
-    }
+    return "";
+  }
 
-    /**
-     * @see org.opencms.gwt.CmsGwtActionElement#exportAll()
-     */
-    @Override
-    public String exportAll() throws Exception {
+  /** @see org.opencms.gwt.CmsGwtActionElement#exportAll() */
+  @Override
+  public String exportAll() throws Exception {
 
-        CmsRequestUtil.disableCrossSiteFrameEmbedding(getResponse());
-        StringBuffer sb = new StringBuffer();
-        sb.append(super.export());
+    CmsRequestUtil.disableCrossSiteFrameEmbedding(getResponse());
+    StringBuffer sb = new StringBuffer();
+    sb.append(super.export());
 
-        String prefetchedData = exportDictionary(
+    String prefetchedData =
+        exportDictionary(
             CmsCntPageData.DICT_NAME,
             I_CmsContainerpageService.class.getMethod("prefetch"),
             getCntPageData());
-        sb.append(prefetchedData);
-        sb.append(exportModuleScriptTag(GWT_MODULE_NAME));
-        sb.append("<script src=\"");
-        sb.append(
-            OpenCms.getLinkManager().substituteLinkForRootPath(
-                getCmsObject(),
-                "/system/workplace/editors/tinymce/opencms_plugin.js"));
-        sb.append("\"></script>\n<style type=\"text/css\">\n    html {\n        overflow-y: scroll;\n    }\n</style>");
+    sb.append(prefetchedData);
+    sb.append(exportModuleScriptTag(GWT_MODULE_NAME));
+    sb.append("<script src=\"");
+    sb.append(
+        OpenCms.getLinkManager()
+            .substituteLinkForRootPath(
+                getCmsObject(), "/system/workplace/editors/tinymce/opencms_plugin.js"));
+    sb.append(
+        "\"></script>\n<style type=\"text/css\">\n    html {\n        overflow-y: scroll;\n    }\n</style>");
 
-        return sb.toString();
+    return sb.toString();
+  }
+
+  /**
+   * Returns the needed server data for client-side usage.
+   *
+   * <p>
+   *
+   * @return the needed server data for client-side usage
+   */
+  public CmsCntPageData getCntPageData() {
+
+    if (m_cntPageData == null) {
+      try {
+        m_cntPageData = CmsContainerpageService.prefetch(getRequest());
+      } catch (
+          @SuppressWarnings("unused")
+          CmsRpcException e) {
+        // ignore, should never happen, and it is already logged
+      }
     }
-
-    /**
-     * Returns the needed server data for client-side usage.<p>
-     *
-     * @return the needed server data for client-side usage
-     */
-    public CmsCntPageData getCntPageData() {
-
-        if (m_cntPageData == null) {
-            try {
-                m_cntPageData = CmsContainerpageService.prefetch(getRequest());
-            } catch (@SuppressWarnings("unused") CmsRpcException e) {
-                // ignore, should never happen, and it is already logged
-            }
-        }
-        return m_cntPageData;
-    }
+    return m_cntPageData;
+  }
 }

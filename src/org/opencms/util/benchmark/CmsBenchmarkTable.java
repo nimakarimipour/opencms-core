@@ -30,72 +30,70 @@ package org.opencms.util.benchmark;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Manages a set of benchmark timers.<p>
+ * Manages a set of benchmark timers.
  *
- * Each benchmark timer is started with start(name) and stopped with stop(name). When stop() is called,
- * the time between the start and stop calls for that name, in milliseconds, are sent to the configured benchmark
- * receiver instance.
+ * <p>Each benchmark timer is started with start(name) and stopped with stop(name). When stop() is
+ * called, the time between the start and stop calls for that name, in milliseconds, are sent to the
+ * configured benchmark receiver instance.
  */
 public class CmsBenchmarkTable {
 
-    /**
-     * Handler for benchmark samples.
-     */
-    interface Receiver {
-
-        /**
-         * Processes a sample.
-         *
-         * @param sampleName the sample name
-         * @param sampleTime the sample time
-         */
-        void receiveSample(String sampleName, long sampleTime);
-    }
-
-    /** The benchmark sample receiver. */
-    private Receiver m_receiver;
-
-    /** Records start times for each benchmark timer. */
-    private ConcurrentHashMap<String, Long> m_startTimes = new ConcurrentHashMap<>();
+  /** Handler for benchmark samples. */
+  interface Receiver {
 
     /**
-     * Creates a new instance.
+     * Processes a sample.
      *
-     * @param receiver the benchmark receiver to use
+     * @param sampleName the sample name
+     * @param sampleTime the sample time
      */
-    public CmsBenchmarkTable(Receiver receiver) {
+    void receiveSample(String sampleName, long sampleTime);
+  }
 
-        m_receiver = receiver;
+  /** The benchmark sample receiver. */
+  private Receiver m_receiver;
+
+  /** Records start times for each benchmark timer. */
+  private ConcurrentHashMap<String, Long> m_startTimes = new ConcurrentHashMap<>();
+
+  /**
+   * Creates a new instance.
+   *
+   * @param receiver the benchmark receiver to use
+   */
+  public CmsBenchmarkTable(Receiver receiver) {
+
+    m_receiver = receiver;
+  }
+
+  /**
+   * Starts the timer with the given name.
+   *
+   * <p>The name is just an arbitrary string.
+   *
+   * @param name the name of the timer
+   */
+  public void start(String name) {
+
+    if (m_startTimes.containsKey(name)) {
+      throw new IllegalStateException("Can't start timer for given key twice: " + name);
     }
+    m_startTimes.put(name, Long.valueOf(System.currentTimeMillis()));
+  }
 
-    /**
-     * Starts the timer with the given name.<p>
-     *
-     * The name is just an arbitrary string.
-     *
-     * @param name the name of the timer
-     */
-    public void start(String name) {
+  /**
+   * Stops the timer with the given name, and sends the value of the timer to the benchmark
+   * receiver.
+   *
+   * @param name the name of the timer
+   */
+  public void stop(String name) {
 
-        if (m_startTimes.containsKey(name)) {
-            throw new IllegalStateException("Can't start timer for given key twice: " + name);
-        }
-        m_startTimes.put(name, Long.valueOf(System.currentTimeMillis()));
+    if (!m_startTimes.containsKey(name)) {
+      throw new IllegalStateException("Can't stop a timer that wasn't started: " + name);
     }
-
-    /**
-     * Stops the timer with the given name, and sends the value of the timer to the benchmark receiver.
-     *
-     * @param name the name of the timer
-     */
-    public void stop(String name) {
-
-        if (!m_startTimes.containsKey(name)) {
-            throw new IllegalStateException("Can't stop a timer that wasn't started: " + name);
-        }
-        long duration = System.currentTimeMillis() - m_startTimes.get(name).longValue();
-        m_receiver.receiveSample(name, duration);
-        m_startTimes.remove(name);
-    }
-
+    long duration = System.currentTimeMillis() - m_startTimes.get(name).longValue();
+    m_receiver.receiveSample(name, duration);
+    m_startTimes.remove(name);
+  }
 }

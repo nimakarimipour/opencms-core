@@ -32,198 +32,225 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * Module group data.<p>
+ * Module group data.
+ *
+ * <p>
  *
  * @since 7.0.4
  */
 public class CmsSetupComponent {
 
-    /** The default check flag. */
-    private boolean m_checked;
+  /** The default check flag. */
+  private boolean m_checked;
 
-    /** The dependencies of the setup component. */
-    private List<String> m_dependencies;
+  /** The dependencies of the setup component. */
+  private List<String> m_dependencies;
 
-    /** The description for the setup component. */
-    private String m_description;
+  /** The description for the setup component. */
+  private String m_description;
 
-    /** The ID of the setup component. */
-    private String m_id;
+  /** The ID of the setup component. */
+  private String m_id;
 
-    /** The module's regex. */
-    private Pattern m_modulesRegex;
+  /** The module's regex. */
+  private Pattern m_modulesRegex;
 
-    /** The name of the setup component. */
-    private String m_name;
+  /** The name of the setup component. */
+  private String m_name;
 
-    /** The position of the setup component. */
-    private int m_position;
+  /** The position of the setup component. */
+  private int m_position;
 
-    /**
-     * Returns the dependencies.<p>
-     *
-     * @return the dependencies
-     */
-    public List<String> getDependencies() {
+  /**
+   * Returns the dependencies.
+   *
+   * <p>
+   *
+   * @return the dependencies
+   */
+  public List<String> getDependencies() {
 
-        return m_dependencies;
-    }
+    return m_dependencies;
+  }
 
-    /**
-     * Returns the description.<p>
-     *
-     * @return the description
-     */
-    public String getDescription() {
+  /**
+   * Returns the description.
+   *
+   * <p>
+   *
+   * @return the description
+   */
+  public String getDescription() {
 
-        return m_description;
-    }
+    return m_description;
+  }
 
-    /**
-     * Returns the id.<p>
-     *
-     * @return the id
-     */
-    public String getId() {
+  /**
+   * Returns the id.
+   *
+   * <p>
+   *
+   * @return the id
+   */
+  public String getId() {
 
-        return m_id;
-    }
+    return m_id;
+  }
 
-    /**
-     * Returns the modules regular expression.<p>
-     *
-     * @return the modules regular expression
-     */
-    public Pattern getModulesRegex() {
+  /**
+   * Returns the modules regular expression.
+   *
+   * <p>
+   *
+   * @return the modules regular expression
+   */
+  public Pattern getModulesRegex() {
 
-        return m_modulesRegex;
-    }
+    return m_modulesRegex;
+  }
 
-    /**
-     * Returns the name.<p>
-     *
-     * @return the name
-     */
-    public String getName() {
+  /**
+   * Returns the name.
+   *
+   * <p>
+   *
+   * @return the name
+   */
+  public String getName() {
 
-        return m_name;
-    }
+    return m_name;
+  }
 
-    /**
-     * Returns the position.<p>
-     *
-     * @return the position
-     */
-    public int getPosition() {
+  /**
+   * Returns the position.
+   *
+   * <p>
+   *
+   * @return the position
+   */
+  public int getPosition() {
 
-        return m_position;
-    }
+    return m_position;
+  }
 
-    /**
-     * Checks if checked by default.<p>
-     *
-     * @return if checked by default
-     */
-    public boolean isChecked() {
+  /**
+   * Checks if checked by default.
+   *
+   * <p>
+   *
+   * @return if checked by default
+   */
+  public boolean isChecked() {
 
-        return m_checked;
-    }
+    return m_checked;
+  }
 
-    /**
-     * Matches the module regular expression against the given module name.
-     *
-     * @param module the module name to match
-     *
-     * @return <code>true</code> if it matches
-     */
-    public boolean match(String module) {
+  /**
+   * Matches the module regular expression against the given module name.
+   *
+   * @param module the module name to match
+   * @return <code>true</code> if it matches
+   */
+  public boolean match(String module) {
 
-        return m_modulesRegex.matcher(module).matches();
-    }
+    return m_modulesRegex.matcher(module).matches();
+  }
 
-    /**
-     * Sets if checked by default.<p>
-     *
-     * @param checked the checked flag to set
-     */
-    public void setChecked(boolean checked) {
+  /**
+   * Sets if checked by default.
+   *
+   * <p>
+   *
+   * @param checked the checked flag to set
+   */
+  public void setChecked(boolean checked) {
 
-        m_checked = checked;
-    }
+    m_checked = checked;
+  }
 
-    /**
-     * Sets the dependencies.<p>
-     *
-     * @param dependencies the dependencies to set
-     */
-    public void setDependencies(List<String> dependencies) {
+  /**
+   * Sets the dependencies.
+   *
+   * <p>
+   *
+   * @param dependencies the dependencies to set
+   */
+  public void setDependencies(List<String> dependencies) {
 
-        m_dependencies = new ArrayList<String>(dependencies);
-    }
+    m_dependencies = new ArrayList<String>(dependencies);
+  }
 
-    /**
-     * Sets the description.<p>
-     *
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
+  /**
+   * Sets the description.
+   *
+   * <p>
+   *
+   * @param description the description to set
+   */
+  public void setDescription(String description) {
 
-        m_description = description;
-    }
+    m_description = description;
+  }
 
-    /**
-     * Sets the id.<p>
-     *
-     * @param id the id to set
-     */
-    public void setId(String id) {
+  /**
+   * Sets the id.
+   *
+   * <p>
+   *
+   * @param id the id to set
+   */
+  public void setId(String id) {
 
-        m_id = id;
-    }
+    m_id = id;
+  }
 
-    /**
-     * Sets the modules regular expression.<p>
-     *
-     * @param regex the regular expression to set
-     */
-    public void setModulesRegex(String regex) {
+  /**
+   * Sets the modules regular expression.
+   *
+   * <p>
+   *
+   * @param regex the regular expression to set
+   */
+  public void setModulesRegex(String regex) {
 
-        m_modulesRegex = Pattern.compile(regex);
-    }
+    m_modulesRegex = Pattern.compile(regex);
+  }
 
-    /**
-     * Sets the name.<p>
-     *
-     * @param name the name to set
-     */
-    public void setName(String name) {
+  /**
+   * Sets the name.
+   *
+   * <p>
+   *
+   * @param name the name to set
+   */
+  public void setName(String name) {
 
-        m_name = name;
-    }
+    m_name = name;
+  }
 
-    /**
-     * Sets the position.<p>
-     *
-     * @param position the position to set
-     */
-    public void setPosition(int position) {
+  /**
+   * Sets the position.
+   *
+   * <p>
+   *
+   * @param position the position to set
+   */
+  public void setPosition(int position) {
 
-        m_position = position;
-    }
+    m_position = position;
+  }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+  /** @see java.lang.Object#toString() */
+  @Override
+  public String toString() {
 
-        StringBuffer ret = new StringBuffer();
-        ret.append("[CmsSetupGroupBean: ");
-        ret.append("id=").append(m_id).append(", ");
-        ret.append("name=").append(m_name).append(", ");
-        ret.append("description=").append(m_description).append(", ");
-        ret.append("dependencies=").append(m_dependencies).append(", ");
-        ret.append("moduleRegex=").append(m_modulesRegex.pattern()).append("]");
-        return ret.toString();
-    }
+    StringBuffer ret = new StringBuffer();
+    ret.append("[CmsSetupGroupBean: ");
+    ret.append("id=").append(m_id).append(", ");
+    ret.append("name=").append(m_name).append(", ");
+    ret.append("description=").append(m_description).append(", ");
+    ret.append("dependencies=").append(m_dependencies).append(", ");
+    ret.append("moduleRegex=").append(m_modulesRegex.pattern()).append("]");
+    return ret.toString();
+  }
 }
