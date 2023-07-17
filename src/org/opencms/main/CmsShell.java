@@ -60,6 +60,7 @@ import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.benchmark.CmsBenchmarkTable;
 import org.opencms.util.benchmark.CmsFileBenchmarkReceiver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A command line interface to access OpenCms functions which is used for the initial setup and also
@@ -1056,7 +1057,7 @@ public class CmsShell {
    */
   public String getPrompt() {
 
-    String prompt = m_prompt;
+    @RUntainted String prompt = m_prompt;
     try {
       prompt =
           CmsStringUtil.substitute(

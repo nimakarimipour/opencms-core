@@ -39,6 +39,7 @@ import java.util.SortedMap;
 import javax.servlet.http.HttpSession;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.components.CmsBasicDialog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the log file view settings dialog.

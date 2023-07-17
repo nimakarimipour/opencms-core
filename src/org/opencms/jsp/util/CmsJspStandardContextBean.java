@@ -123,6 +123,7 @@ import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.content.CmsXmlContentProperty;
 import org.opencms.xml.templatemapper.CmsTemplateMapper;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows convenient access to the most important OpenCms functions on a JSP page, indented to be

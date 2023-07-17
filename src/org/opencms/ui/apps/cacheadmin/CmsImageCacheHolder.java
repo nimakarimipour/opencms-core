@@ -44,6 +44,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for getting information about cached images.
@@ -172,7 +173,7 @@ public class CmsImageCacheHolder {
    * @param oName Name of cached image file
    * @return vfs resource name (root path)
    */
-  String getVFSName(CmsObject cms, String oName) {
+  String getVFSName(CmsObject cms, @RUntainted String oName) {
 
     oName = CmsStringUtil.substitute(oName, "\\", "/");
     if (!oName.startsWith("/")) {

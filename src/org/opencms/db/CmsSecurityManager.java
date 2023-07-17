@@ -109,6 +109,7 @@ import org.opencms.security.twofactor.CmsSecondFactorInfo;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms security manager.

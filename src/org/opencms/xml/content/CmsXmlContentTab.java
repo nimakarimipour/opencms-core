@@ -28,6 +28,7 @@
 package org.opencms.xml.content;
 
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a configured tab to be used in the XML content editor for better usability.
@@ -40,7 +41,7 @@ public class CmsXmlContentTab {
   private boolean m_collapsed;
 
   /** The name for the tab ID, generated from the start name. */
-  private String m_idName;
+  private @RUntainted String m_idName;
 
   /** The XML element name where this tab starts. */
   private String m_startName;

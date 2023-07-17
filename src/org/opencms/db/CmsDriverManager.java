@@ -155,6 +155,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.util.PrintfFormat;
 import org.opencms.workflow.CmsDefaultWorkflowManager;
 import org.opencms.workplace.threads.A_CmsProgressThread;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms driver manager.

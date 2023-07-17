@@ -47,6 +47,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsPath;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a configured site in OpenCms.
@@ -734,7 +735,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    *
    * @return the server url
    */
-  public String getUrl() {
+  public @RUntainted String getUrl() {
 
     if (m_siteMatcher == null) {
       return null;

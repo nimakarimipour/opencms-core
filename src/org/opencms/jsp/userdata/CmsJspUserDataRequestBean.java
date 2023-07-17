@@ -51,6 +51,7 @@ import org.opencms.security.CmsAuthentificationException;
 import org.opencms.security.CmsOrganizationalUnit;
 import org.opencms.util.CmsCollectionsGenericWrapper;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean used by the dynamic function JSP for user data requests.

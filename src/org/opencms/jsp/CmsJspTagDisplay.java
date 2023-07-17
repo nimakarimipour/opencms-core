@@ -67,6 +67,7 @@ import org.opencms.xml.containerpage.CmsFormatterConfiguration;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
 import org.opencms.xml.types.CmsXmlDisplayFormatterValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The 'display' tag can be used to display a single resource using a formatter. It also allows to

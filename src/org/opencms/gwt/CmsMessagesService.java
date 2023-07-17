@@ -34,6 +34,7 @@ import javax.servlet.ServletResponse;
 import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Exports the register client messages into a single JavaScript resource.

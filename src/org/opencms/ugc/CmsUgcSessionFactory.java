@@ -38,6 +38,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.ugc.shared.CmsUgcConstants;
 import org.opencms.ugc.shared.CmsUgcException;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Factory to create the form editing sessions.

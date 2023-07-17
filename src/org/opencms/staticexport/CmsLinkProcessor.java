@@ -48,6 +48,7 @@ import org.opencms.util.CmsHtmlParser;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the HTML parser node visitor pattern to exchange all links on the page.
@@ -200,7 +201,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
    * @param source the String to unescape
    * @return the unescaped String
    */
-  public static String unescapeLink(String source) {
+  public static String unescapeLink(@RUntainted String source) {
 
     if (source == null) {
       return null;

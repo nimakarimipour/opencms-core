@@ -37,6 +37,7 @@ import org.opencms.site.CmsSiteMatcher;
 import org.opencms.util.CmsResourceTranslator;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores the information about the current users OpenCms context, for example the requested URI,

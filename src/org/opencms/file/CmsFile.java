@@ -29,6 +29,7 @@ package org.opencms.file;
 
 import org.opencms.db.CmsResourceState;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A file resource in the OpenCms VFS.

@@ -36,6 +36,7 @@ import org.opencms.i18n.CmsEncoder;
 import org.opencms.i18n.CmsMessages;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for XML editor widgets.
@@ -315,7 +316,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
 
     StringBuffer result = new StringBuffer(128);
     String locKey = getHelpKey(param);
-    String locValue = widgetDialog.getMessages().key(locKey, true);
+    @RUntainted String locValue = widgetDialog.getMessages().key(locKey, true);
     if (!widgetDialog.useNewStyle()) {
       // use real ID for XML contents to avoid display issues
       locKey = param.getId();

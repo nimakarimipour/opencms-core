@@ -61,6 +61,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.CmsSystemInfo;
 import org.opencms.main.OpenCms;
 import org.opencms.staticexport.CmsLinkManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides File utility functions.
@@ -517,7 +518,7 @@ public final class CmsFileUtil {
    * @param separatorChar the file separator char to use, for example {@link File#separatorChar}
    * @return the normalized path
    */
-  public static String normalizePath(String path, char separatorChar) {
+  public static String normalizePath(@RUntainted String path, char separatorChar) {
 
     if (CmsStringUtil.isNotEmpty(path)) {
 

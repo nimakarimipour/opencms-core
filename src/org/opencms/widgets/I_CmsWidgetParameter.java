@@ -28,6 +28,7 @@
 package org.opencms.widgets;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parameter value wrapper used by the OpenCms workplace widgets.
@@ -57,7 +58,7 @@ public interface I_CmsWidgetParameter {
    *
    * @return the form id of this parameter
    */
-  String getId();
+  @RUntainted String getId();
 
   /**
    * Returns the index of this widget parameter, starting with 0.

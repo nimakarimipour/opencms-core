@@ -52,6 +52,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.editors.directedit.CmsDirectEditJspIncludeProvider;
 import org.opencms.workplace.editors.directedit.CmsDirectEditMode;
 import org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean to be used in JSP scriptlet code that provides direct access to the functionality offered by

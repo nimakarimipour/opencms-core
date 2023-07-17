@@ -38,6 +38,7 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsLog;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.util.CmsRequestUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Superclass for OpenCms JSP beans that provides convient access to OpenCms core and VFS

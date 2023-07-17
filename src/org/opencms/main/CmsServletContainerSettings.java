@@ -35,6 +35,7 @@ import org.apache.commons.logging.Log;
 import org.opencms.util.A_CmsModeStringEnumeration;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores specific servlet container options, that might influence OpenCms behavior.

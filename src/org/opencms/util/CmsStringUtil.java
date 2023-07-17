@@ -64,6 +64,7 @@ import org.opencms.json.JSONObject;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides String utility functions.
@@ -404,7 +405,7 @@ public final class CmsStringUtil {
    * @param source the String to escape
    * @return the escaped String
    */
-  public static String escapeHtml(String source) {
+  public static @RUntainted String escapeHtml(@RUntainted String source) {
 
     if (source == null) {
       return null;
@@ -429,7 +430,7 @@ public final class CmsStringUtil {
    * @param source the String to escape
    * @return the escaped String
    */
-  public static String escapeJavaScript(String source) {
+  public static String escapeJavaScript(@RUntainted String source) {
 
     source = CmsStringUtil.substitute(source, "\\", "\\\\");
     source = CmsStringUtil.substitute(source, "\"", "\\\"");
@@ -1546,7 +1547,7 @@ public final class CmsStringUtil {
    * @return an Optional containing either the string with the replaced prefix, or an absent value
    *     if the prefix could not be replaced
    */
-  public static Optional<String> replacePrefix(
+  public static Optional<@RUntainted String> replacePrefix(
       String text, String origPrefix, String newPrefix, boolean ignoreCase) {
 
     String prefixTestString = ignoreCase ? text.toLowerCase() : text;
@@ -1768,7 +1769,7 @@ public final class CmsStringUtil {
    */
   public static String substitute(String source, Map<String, String> substitions) {
 
-    String result = source;
+    @RUntainted String result = source;
     Iterator<Map.Entry<String, String>> it = substitions.entrySet().iterator();
     while (it.hasNext()) {
       Map.Entry<String, String> entry = it.next();
@@ -1792,7 +1793,7 @@ public final class CmsStringUtil {
    * @param replaceString the String which replaces <code>searchString</code>
    * @return the substituted String
    */
-  public static String substitute(String source, String searchString, String replaceString) {
+  public static @RUntainted String substitute(@RUntainted String source, String searchString, String replaceString) {
 
     if (source == null) {
       return null;
@@ -1808,7 +1809,7 @@ public final class CmsStringUtil {
     int len = source.length();
     int sl = searchString.length();
     int rl = replaceString.length();
-    int length;
+    @RUntainted int length;
     if (sl == rl) {
       length = len;
     } else {
@@ -1830,7 +1831,7 @@ public final class CmsStringUtil {
     if (e == -1) {
       return source;
     }
-    StringBuffer sb = new StringBuffer(length);
+    @RUntainted StringBuffer sb = new StringBuffer(length);
     while (e != -1) {
       sb.append(source.substring(s, e));
       sb.append(replaceString);
@@ -2237,7 +2238,7 @@ public final class CmsStringUtil {
    * @param length the maximum length of the string to be returned
    * @return a substring of the source, which is at most length characters long
    */
-  public static String trimToSize(String source, int length) {
+  public static @RUntainted String trimToSize(String source, int length) {
 
     return trimToSize(source, length, length, " ...");
   }

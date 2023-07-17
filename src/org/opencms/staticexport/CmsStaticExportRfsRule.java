@@ -35,6 +35,7 @@ import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Help class for storing of rfs-rules.
@@ -264,7 +265,7 @@ public class CmsStaticExportRfsRule {
    * @param fileSeparator the file separator to use
    * @return the rfs name for the given locale
    */
-  public String getLocalizedRfsName(String rfsName, String fileSeparator) {
+  public String getLocalizedRfsName(@RUntainted String rfsName, String fileSeparator) {
 
     String locRfsName = null;
 

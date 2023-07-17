@@ -33,6 +33,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An option of a select type widget.
@@ -515,7 +516,7 @@ public class CmsSelectWidgetOption {
    *
    * @return the (optional) help text of this select option
    */
-  public String getHelp() {
+  public @RUntainted String getHelp() {
 
     return m_help;
   }

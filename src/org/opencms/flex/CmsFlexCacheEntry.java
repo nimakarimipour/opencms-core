@@ -47,6 +47,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.monitor.CmsMemoryMonitor;
 import org.opencms.monitor.I_CmsMemoryMonitorable;
 import org.opencms.util.CmsCollectionsGenericWrapper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the contents of a cached resource.

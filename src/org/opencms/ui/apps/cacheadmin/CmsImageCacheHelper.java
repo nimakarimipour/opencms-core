@@ -45,6 +45,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Image Cache helper.
@@ -301,7 +302,7 @@ public class CmsImageCacheHelper {
 
     m_variationsCount++;
     m_variationsSize += f.length();
-    String oName = f.getAbsolutePath().substring(CmsImageLoader.getImageRepositoryPath().length());
+    @RUntainted String oName = f.getAbsolutePath().substring(CmsImageLoader.getImageRepositoryPath().length());
     oName = CmsStringUtil.substitute(oName, "\\", "/");
     if (!oName.startsWith("/")) {
       oName = "/" + oName;

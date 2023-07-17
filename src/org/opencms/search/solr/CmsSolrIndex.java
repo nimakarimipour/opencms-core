@@ -100,6 +100,7 @@ import org.opencms.security.CmsRoleViolationException;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the search within an Solr index.

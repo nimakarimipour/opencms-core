@@ -39,6 +39,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsDialog;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a method to perform a user defined action when editing a page.

@@ -38,6 +38,7 @@ import org.opencms.main.CmsLog;
 import org.safehaus.uuid.EthernetAddress;
 import org.safehaus.uuid.UUID;
 import org.safehaus.uuid.UUIDGenerator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generates a UUID using spatial and temporal uniqueness.

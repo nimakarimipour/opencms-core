@@ -66,6 +66,7 @@ import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsPair;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic implementation of the user tracking and subscription driver interface.
@@ -357,7 +358,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
       }
 
       conn = m_sqlManager.getConnection(poolName);
-      String query = m_sqlManager.readQuery(dbc.currentProject(), "C_VISITED_USER_READ_4");
+      @RUntainted String query = m_sqlManager.readQuery(dbc.currentProject(), "C_VISITED_USER_READ_4");
       query = CmsStringUtil.substitute(query, "%(CONDITIONS)", conditions.toString());
       stmt = m_sqlManager.getPreparedStatementForSql(conn, query);
 
@@ -513,7 +514,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
     CmsResource currentResource = null;
     List<CmsResource> resources = new ArrayList<CmsResource>();
 
-    String queryBuf = m_sqlManager.readQuery(dbc.currentProject(), "C_SUBSCRIPTION_FILTER_READ");
+    @RUntainted String queryBuf = m_sqlManager.readQuery(dbc.currentProject(), "C_SUBSCRIPTION_FILTER_READ");
 
     StringBuffer conditions = new StringBuffer(256);
     List<I_CmsPreparedStatementParameter> params = new ArrayList<I_CmsPreparedStatementParameter>();

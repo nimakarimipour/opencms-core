@@ -34,6 +34,7 @@ import org.opencms.gwt.shared.CmsUploadProgessInfo;
 import org.opencms.gwt.shared.CmsUploadProgessInfo.UPLOAD_STATE;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the upload listener for the upload widget.

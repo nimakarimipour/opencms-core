@@ -49,6 +49,7 @@ import org.opencms.security.I_CmsPrincipal;
 import org.opencms.util.CmsPair;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation of the user query builder.
@@ -69,7 +70,7 @@ public class CmsUserQueryBuilder {
    *     returning them
    * @return a pair consisting of the query string and its parameters
    */
-  public CmsPair<String, List<Object>> createUserQuery(
+  public CmsPair<@RUntainted String, List<Object>> createUserQuery(
       CmsUserSearchParameters searchParams, boolean countOnly) {
 
     CmsSelectQuery select = new CmsSelectQuery();
@@ -727,7 +728,7 @@ public class CmsUserQueryBuilder {
    * @param params the query parameters
    * @return the paged version of the query
    */
-  protected CmsPair<String, List<Object>> makePaged(
+  protected CmsPair<@RUntainted String, List<Object>> makePaged(
       CmsSelectQuery select, CmsUserSearchParameters params) {
 
     CmsPagingQuery paging = new CmsPagingQuery(select);

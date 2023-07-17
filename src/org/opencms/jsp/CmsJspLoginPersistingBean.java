@@ -39,6 +39,7 @@ import org.opencms.security.CmsPersistentLoginAuthorizationHandler;
 import org.opencms.security.CmsPersistentLoginTokenHandler;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsRequestUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Login bean which sets a cookie that can be used by {@link CmsPersistentLoginAuthorizationHandler}

@@ -48,6 +48,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.security.CmsSecurityException;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This resource handler handles URLs of the form /pdflink/{locale}/{formatter-id}/{detailname} and

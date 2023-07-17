@@ -41,6 +41,7 @@ import org.apache.commons.collections.Transformer;
 import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a property (meta-information) mapped to a VFS resource.
@@ -1482,7 +1483,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
    * @param delimiterReplacement the replacement string for the delimiter character
    * @return the substituted string
    */
-  private String rebuildDelimiter(String value, char delimiter, String delimiterReplacement) {
+  private String rebuildDelimiter(@RUntainted String value, char delimiter, String delimiterReplacement) {
 
     return CmsStringUtil.substitute(value, delimiterReplacement, String.valueOf(delimiter));
   }
@@ -1497,7 +1498,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
    * @param delimiterReplacement the replacement string for the delimiter character
    * @return the substituted string
    */
-  private String replaceDelimiter(String value, char delimiter, String delimiterReplacement) {
+  private String replaceDelimiter(@RUntainted String value, char delimiter, String delimiterReplacement) {
 
     return CmsStringUtil.substitute(value, String.valueOf(delimiter), delimiterReplacement);
   }

@@ -57,6 +57,7 @@ import org.opencms.xml.types.A_CmsXmlContentValue;
 import org.opencms.xml.types.CmsXmlCategoryValue;
 import org.opencms.xml.types.CmsXmlDynamicCategoryValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for a category based dependent select boxes.
@@ -532,7 +533,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
    * @return html code
    */
   protected String buildSelectBox(
-      String baseId,
+      @RUntainted String baseId,
       int level,
       List<CmsSelectWidgetOption> options,
       String selected,

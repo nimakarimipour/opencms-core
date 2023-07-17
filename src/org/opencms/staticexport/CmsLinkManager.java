@@ -48,6 +48,7 @@ import org.opencms.site.CmsSite;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Does the link replacement for the &lg;link&gt; tags.
@@ -316,7 +317,7 @@ public class CmsLinkManager {
    * @return the online link for the given resource, with full server prefix
    * @see #getServerLink(CmsObject, String)
    */
-  public String getOnlineLink(CmsObject cms, String resourceName) {
+  public @RUntainted String getOnlineLink(CmsObject cms, String resourceName) {
 
     return getOnlineLink(cms, resourceName, false);
   }
@@ -341,9 +342,9 @@ public class CmsLinkManager {
    * @return the online link for the given resource, with full server prefix
    * @see #getServerLink(CmsObject, String)
    */
-  public String getOnlineLink(CmsObject cms, String resourceName, boolean forceSecure) {
+  public @RUntainted String getOnlineLink(CmsObject cms, String resourceName, boolean forceSecure) {
 
-    String result = "";
+    @RUntainted String result = "";
     try {
       CmsProject currentProject = cms.getRequestContext().getCurrentProject();
       try {

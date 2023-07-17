@@ -58,6 +58,7 @@ import org.opencms.security.CmsSecurityException;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract base implementation for the <code>{@link I_CmsStaticExportHandler}</code> interface.
@@ -730,7 +731,7 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
 
     CmsStaticExportManager manager = OpenCms.getStaticExportManager();
     String filePath = file.getAbsolutePath();
-    String result =
+    @RUntainted String result =
         CmsFileUtil.normalizePath(
             manager.getRfsPrefix(vfsName)
                 + filePath.substring(
@@ -751,7 +752,7 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
 
     for (File file : files) {
       purgeFile(file.getAbsolutePath(), vfsName);
-      String rfsName =
+      @RUntainted String rfsName =
           CmsFileUtil.normalizePath(
               OpenCms.getStaticExportManager().getRfsPrefix(vfsName)
                   + "/"

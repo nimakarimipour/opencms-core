@@ -103,6 +103,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.xml.CmsXmlFileTransformer;
 import org.opencms.xml.content.CmsXmlContent;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides additional commands for the CmsShell.

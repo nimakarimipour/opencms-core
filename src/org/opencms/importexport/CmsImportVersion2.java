@@ -68,6 +68,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.xml.CmsXmlException;
 import org.opencms.xml.CmsXmlUtils;
 import org.opencms.xml.page.CmsXmlPage;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -122,7 +123,7 @@ public class CmsImportVersion2 extends A_CmsImport {
 
     // get translation rules
     for (int i = 0; i < rules.length; i++) {
-      String actRule = rules[i];
+      @RUntainted String actRule = rules[i];
       // cut String "/default/vfs/" from rule
       actRule = CmsStringUtil.substitute(actRule, "/default/vfs", "");
       // divide rule into search and replace parts and delete regular expressions

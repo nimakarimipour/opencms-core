@@ -102,6 +102,7 @@ import org.opencms.staticexport.CmsStaticExportManager;
 import org.opencms.util.CmsPair;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) implementation of the project driver methods.
@@ -235,7 +236,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
           rowsAffected = stmt.executeUpdate();
           break;
         case allUnreferenced:
-          String statementText = m_sqlManager.readQuery("C_CLEANUP_PUBLISH_HISTORY_ALL");
+          @RUntainted String statementText = m_sqlManager.readQuery("C_CLEANUP_PUBLISH_HISTORY_ALL");
           if (filter.getExceptions().size() > 0) {
             List<String> parts = new ArrayList<>();
             // it's safe to construct the clause as a string here because UUIDs can only contain
@@ -750,7 +751,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
 
     try {
       conn = m_sqlManager.getConnection(dbc);
-      String sql = m_sqlManager.readQuery("C_USER_PUBLISH_LIST_DELETE_3");
+      @RUntainted String sql = m_sqlManager.readQuery("C_USER_PUBLISH_LIST_DELETE_3");
       stmt = m_sqlManager.getPreparedStatementForSql(conn, sql);
       for (CmsUserPublishListEntry entry : publishListDeletions) {
         stmt.setString(1, entry.getStructureId().toString());
@@ -944,7 +945,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     ResultSet res = null;
     try {
       conn = m_sqlManager.getConnection(dbc);
-      String sql = m_sqlManager.readQuery("C_USER_PUBLISH_LIST_READ_1");
+      @RUntainted String sql = m_sqlManager.readQuery("C_USER_PUBLISH_LIST_READ_1");
       sql = sql.replace("${PROJECT}", "OFFLINE");
       stmt = m_sqlManager.getPreparedStatementForSql(conn, sql);
       stmt.setString(1, userId.toString());
@@ -3175,7 +3176,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     PreparedStatement stmt = null;
     try {
       conn = m_sqlManager.getConnection(dbc);
-      String sql = m_sqlManager.readQuery("C_USER_PUBLISH_LIST_INSERT_3");
+      @RUntainted String sql = m_sqlManager.readQuery("C_USER_PUBLISH_LIST_INSERT_3");
       stmt = m_sqlManager.getPreparedStatementForSql(conn, sql);
       for (CmsUserPublishListEntry entry : publishListAdditions) {
         stmt.setString(1, entry.getUserId().toString());

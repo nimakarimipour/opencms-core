@@ -74,6 +74,7 @@ import org.opencms.workflow.I_CmsWorkflowManager;
 import org.opencms.workplace.CmsWorkplaceManager;
 import org.opencms.xml.CmsXmlContentTypeManager;
 import org.opencms.xml.xml2json.I_CmsApiAuthorizationHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms "operating system" that provides public static methods which can be used by other

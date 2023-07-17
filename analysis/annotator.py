@@ -22,12 +22,12 @@ def run_annotator():
     commands = []
     commands += ["java", "-jar", ANNOTATOR_JAR]
     commands += ['-d', OUT_DIR]
-    commands += ['-bc', 'cd {} && ./gradlew compileJava'.format(REPO)]
+    commands += ['-bc', 'cd {} && ./gradlew compileJava --rerun-tasks'.format(REPO)]
     commands += ['-cp', '{}/paths.tsv'.format(OUT_DIR)]
     commands += ['-i', 'edu.ucr.Initializer']
     commands += ['-n', 'edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted']
     commands += ['-cn', 'UCRTaint']
-    commands += ["--depth", "1"]
+    commands += ["--depth", "5"]
     # Uncomment to see build output
     # commands += ['-rboserr']
     # Uncomment to disable outer loop

@@ -41,6 +41,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsRequestUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Controller for getting access to the CmsObject, should be used as a request attribute.

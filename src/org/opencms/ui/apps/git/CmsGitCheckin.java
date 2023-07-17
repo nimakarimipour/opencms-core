@@ -69,6 +69,7 @@ import org.opencms.util.CmsFileUtil.FileWalkState;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.CmsXmlEntityResolver;
 import org.opencms.xml.CmsXmlUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The class provides methods to automatically export modules from OpenCms and check in the

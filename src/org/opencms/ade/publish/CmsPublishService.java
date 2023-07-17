@@ -72,6 +72,7 @@ import org.opencms.workflow.I_CmsPublishResourceFormatter;
 import org.opencms.workflow.I_CmsWorkflowManager;
 import org.opencms.workplace.CmsDialog;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The implementation of the publish service.

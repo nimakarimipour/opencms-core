@@ -30,6 +30,7 @@ package org.opencms.ui;
 import com.vaadin.server.FontIcon;
 import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An icon resource. Will be rendered as &lt;span class="v-icon

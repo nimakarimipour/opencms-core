@@ -46,6 +46,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.security.CmsAuthentificationException;
 import org.opencms.security.CmsUserLog;
 import org.opencms.security.twofactor.CmsSecondFactorInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides convenient wrappers useful to create user login pages.

@@ -165,6 +165,7 @@ import org.opencms.xml.CmsXmlContentTypeManager;
 import org.opencms.xml.CmsXmlUtils;
 import org.opencms.xml.containerpage.CmsFormatterConfiguration;
 import org.opencms.xml.xml2json.I_CmsApiAuthorizationHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The internal implementation of the core OpenCms "operating system" functions.
@@ -2411,7 +2412,7 @@ public final class OpenCmsCore {
             // if we used the request's query string for getRfsName, clients could cause an
             // unlimited number
             // of files to be exported just by varying the request parameters!
-            String url = m_linkManager.getOnlineLink(cms, uri);
+            @RUntainted String url = m_linkManager.getOnlineLink(cms, uri);
             res.sendRedirect(url);
             return;
           }
@@ -3322,9 +3323,9 @@ public final class OpenCmsCore {
                 Messages.get().container(Messages.ERR_REQUEST_SECURE_RESOURCE_0));
           } else {
             // redirect
-            String target = OpenCms.getLinkManager().getOnlineLink(cms, resourceName);
+            @RUntainted String target = OpenCms.getLinkManager().getOnlineLink(cms, resourceName);
             if (!target.toLowerCase().startsWith(secureUrl.toLowerCase())) {
-              Optional<String> targetWithReplacedHost =
+              Optional<@RUntainted String> targetWithReplacedHost =
                   CmsStringUtil.replacePrefix(
                       target, site.getSiteMatcher().getUrl(), secureUrl, true);
               if (targetWithReplacedHost.isPresent()) {

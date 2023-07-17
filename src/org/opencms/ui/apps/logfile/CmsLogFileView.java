@@ -44,6 +44,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.util.CmsRfsException;
 import org.opencms.util.CmsRfsFileViewer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the view of log files.

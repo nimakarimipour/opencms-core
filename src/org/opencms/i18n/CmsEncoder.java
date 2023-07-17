@@ -52,6 +52,7 @@ import org.opencms.json.JSONException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms CmsEncoder class provides static methods to decode and encode data.
@@ -368,7 +369,7 @@ public final class CmsEncoder {
    * @return the decoded parameter string
    * @see #encodeParameter(String)
    */
-  public static String decodeParameter(String input) {
+  public static String decodeParameter(@RUntainted String input) {
 
     String result = CmsStringUtil.substitute(input, ENTITY_REPLACEMENT, ENTITY_PREFIX);
     return CmsEncoder.decodeHtmlEntities(result, OpenCms.getSystemInfo().getDefaultEncoding());
@@ -431,7 +432,7 @@ public final class CmsEncoder {
    * @param encoding the encoding to use (if null, the system default is used)
    * @return the encoded source String
    */
-  public static String encode(String source, String encoding) {
+  public static @RUntainted String encode(String source, String encoding) {
 
     if (source == null) {
       return null;
@@ -548,7 +549,7 @@ public final class CmsEncoder {
    */
   public static String encodeParameter(String input) {
 
-    String result = CmsEncoder.encodeHtmlEntities(input, CmsEncoder.ENCODING_US_ASCII);
+    @RUntainted String result = CmsEncoder.encodeHtmlEntities(input, CmsEncoder.ENCODING_US_ASCII);
     result = CmsStringUtil.substitute(result, "+", PLUS_ENTITY);
     return CmsStringUtil.substitute(result, ENTITY_PREFIX, ENTITY_REPLACEMENT);
   }

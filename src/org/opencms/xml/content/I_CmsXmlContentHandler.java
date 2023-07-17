@@ -56,6 +56,7 @@ import org.opencms.xml.content.CmsDefaultXmlContentHandler.InvalidRelationAction
 import org.opencms.xml.types.I_CmsXmlContentValue;
 import org.opencms.xml.types.I_CmsXmlContentValue.SearchContentType;
 import org.opencms.xml.types.I_CmsXmlSchemaType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles special XML content livetime events, and also provides XML content editor rendering

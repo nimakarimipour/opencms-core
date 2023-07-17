@@ -40,6 +40,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.xml.CmsXmlException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides utility functions for XSLT transformations.
@@ -307,7 +308,7 @@ public final class CmsXsltUtil {
    */
   private static String removeStringDelimiters(String key) {
 
-    String k = key.trim();
+    @RUntainted String k = key.trim();
     if (CmsStringUtil.isNotEmpty(k)) {
       if (k.charAt(0) == TEXT_DELIMITER) {
         k = k.substring(1);

@@ -42,6 +42,7 @@ import org.opencms.security.I_CmsPrincipal;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A user principal in the OpenCms permission system.

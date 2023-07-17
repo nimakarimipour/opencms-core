@@ -30,6 +30,7 @@ package org.opencms.workplace.editors;
 import java.util.Locale;
 import org.opencms.file.CmsResource;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores editor session data.

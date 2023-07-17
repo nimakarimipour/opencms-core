@@ -48,6 +48,7 @@ import java.util.TreeMap;
 import org.dom4j.Element;
 import org.opencms.i18n.CmsEncoder;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides convenient access to configuration parameters.
@@ -366,7 +367,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
    * @param value the value to unescape
    * @return the unescaped String
    */
-  protected static String unescape(String value) {
+  protected static String unescape(@RUntainted String value) {
 
     value = CmsStringUtil.substitute(value, "\\,", ",");
     value = CmsStringUtil.substitute(value, "\\=", "=");

@@ -93,6 +93,7 @@ import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsPair;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) database server implementation of the user driver methods.
@@ -236,7 +237,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
   public long countUsers(CmsDbContext dbc, CmsUserSearchParameters searchParams)
       throws CmsDataAccessException {
 
-    CmsPair<String, List<Object>> queryAndParams = createUserQuery(searchParams, true);
+    CmsPair<@RUntainted String, List<Object>> queryAndParams = createUserQuery(searchParams, true);
     ResultSet res = null;
     PreparedStatement stmt = null;
     Connection conn = null;
@@ -878,7 +879,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
       throws CmsDataAccessException {
 
     // compose the query
-    String sqlQuery = createRoleQuery("C_GROUPS_GET_GROUPS_0", includeSubOus, readRoles);
+    @RUntainted String sqlQuery = createRoleQuery("C_GROUPS_GET_GROUPS_0", includeSubOus, readRoles);
     // adjust parameter to use with LIKE
     String ouFqn = CmsOrganizationalUnit.SEPARATOR + orgUnit.getName();
     if (includeSubOus) {
@@ -1342,7 +1343,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
       throws CmsDataAccessException {
 
     // compose the query
-    String sqlQuery = createRoleQuery("C_GROUPS_GET_GROUPS_OF_USER_1", includeChildOus, readRoles);
+    @RUntainted String sqlQuery = createRoleQuery("C_GROUPS_GET_GROUPS_OF_USER_1", includeChildOus, readRoles);
     // adjust parameter to use with LIKE
     String ouFqnParam = CmsOrganizationalUnit.SEPARATOR + ouFqn;
     if (includeChildOus) {
@@ -1847,7 +1848,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
       throws CmsDataAccessException {
 
     List<CmsUser> users = new ArrayList<CmsUser>();
-    CmsPair<String, List<Object>> queryAndParams = createUserQuery(searchParams, false);
+    CmsPair<@RUntainted String, List<Object>> queryAndParams = createUserQuery(searchParams, false);
     ResultSet res = null;
     PreparedStatement stmt = null;
     Connection conn = null;
@@ -2196,9 +2197,9 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @param readRoles if groups or roles whould be selected
    * @return a sql query to select groups
    */
-  protected String createRoleQuery(String mainQuery, boolean includeSubOus, boolean readRoles) {
+  protected @RUntainted String createRoleQuery(String mainQuery, boolean includeSubOus, boolean readRoles) {
 
-    String sqlQuery = m_sqlManager.readQuery(mainQuery);
+    @RUntainted String sqlQuery = m_sqlManager.readQuery(mainQuery);
     sqlQuery += " ";
     if (includeSubOus) {
       sqlQuery += m_sqlManager.readQuery("C_GROUPS_GROUP_OU_LIKE_1");
@@ -2226,7 +2227,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
    *     returning them
    * @return a pair consisting of the query string and its parameters
    */
-  protected CmsPair<String, List<Object>> createUserQuery(
+  protected CmsPair<@RUntainted String, List<Object>> createUserQuery(
       CmsUserSearchParameters searchParams, boolean countOnly) {
 
     CmsUserQueryBuilder queryBuilder = createUserQueryBuilder();

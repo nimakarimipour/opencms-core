@@ -38,6 +38,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.CmsXmlException;
 import org.opencms.xml.CmsXmlUtils;
 import org.opencms.xml.page.CmsXmlPage;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Converts legacy pages (OpenCms 5 and earlier) to XML pages (OpenCms 6).
@@ -108,7 +109,7 @@ public final class CmsXmlPageConverter {
         // no template name found, use the parameter body name
         bodyName = "body";
       }
-      String bodyContent = null;
+      @RUntainted String bodyContent = null;
 
       if (useEditTemplates) {
         // no content manipulation needed for edittemplates
