@@ -532,9 +532,8 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
       } else {
         noEditReason =
             messages.key(
-                Messages
-                    .GUI_DIRECTEDIT_CANNOT_BE_CREATED_OR_EDITED_0); // "Cannot be created or
-                                                                    // edited";
+                Messages.GUI_DIRECTEDIT_CANNOT_BE_CREATED_OR_EDITED_0); // "Cannot be created or
+        // edited";
       }
       if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(noEditReason)) {
         editableData.put("noEditReason", noEditReason);

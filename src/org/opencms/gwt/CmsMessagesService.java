@@ -27,6 +27,7 @@
 
 package org.opencms.gwt;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.util.Locale;
 import javax.servlet.ServletRequest;
@@ -78,7 +79,7 @@ public class CmsMessagesService extends CmsGwtService {
       // the default ISO-8859-1 is used."
       // (*): the OpenCms configured encoding (defaulting to UTF-8) is favoured over
       // ISO-8859-1 to allow for a wider charset support.
-      String characterEncoding = OpenCms.getSystemInfo().getDefaultEncoding();
+      @RUntainted String characterEncoding = OpenCms.getSystemInfo().getDefaultEncoding();
       response.setCharacterEncoding(characterEncoding);
       response.setContentType("text/javascript");
       Locale locale;

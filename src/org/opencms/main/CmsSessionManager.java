@@ -27,6 +27,7 @@
 
 package org.opencms.main;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collections;
@@ -1073,7 +1074,7 @@ public class CmsSessionManager {
    * @param request the current request
    * @return the client token
    */
-  private String generateClientToken(HttpServletRequest request) {
+  private @RUntainted String generateClientToken(HttpServletRequest request) {
 
     String ip = request.getHeader(HEADER_TRUE_CLIENT_IP);
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(ip)) {

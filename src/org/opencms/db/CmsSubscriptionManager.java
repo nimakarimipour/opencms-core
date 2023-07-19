@@ -27,6 +27,7 @@
 
 package org.opencms.db;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.List;
 import org.opencms.file.CmsGroup;
 import org.opencms.file.CmsObject;
@@ -243,8 +244,8 @@ public class CmsSubscriptionManager {
    * @return the resources that were visited by a user set in the filter
    * @throws CmsException if something goes wrong
    */
-  public List<CmsResource> readResourcesVisitedBy(CmsObject cms, CmsVisitedByFilter filter)
-      throws CmsException {
+  public @RUntainted List<CmsResource> readResourcesVisitedBy(
+      CmsObject cms, CmsVisitedByFilter filter) throws CmsException {
 
     return m_securityManager.readResourcesVisitedBy(cms.getRequestContext(), getPoolName(), filter);
   }
@@ -307,8 +308,8 @@ public class CmsSubscriptionManager {
    * @return the resources that were subscribed by a user or group set in the filter
    * @throws CmsException if something goes wrong
    */
-  public List<CmsResource> readSubscribedResources(CmsObject cms, CmsSubscriptionFilter filter)
-      throws CmsException {
+  public @RUntainted List<CmsResource> readSubscribedResources(
+      CmsObject cms, CmsSubscriptionFilter filter) throws CmsException {
 
     return m_securityManager.readSubscribedResources(
         cms.getRequestContext(), getPoolName(), filter);

@@ -27,6 +27,7 @@
 
 package org.opencms.workplace.tools;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -116,7 +117,7 @@ public class CmsToolManager {
    * @param toolPath the tool path
    * @return the OpenCms link for the given tool path which requires parameters
    */
-  public static String linkForToolPath(CmsJspActionElement jsp, String toolPath) {
+  public static @RUntainted String linkForToolPath(CmsJspActionElement jsp, String toolPath) {
 
     StringBuffer result = new StringBuffer();
     result.append(jsp.link(VIEW_JSPPAGE_LOCATION));
@@ -141,7 +142,7 @@ public class CmsToolManager {
    * @param params the map of required tool parameters
    * @return the OpenCms link for the given tool path which requires parameters
    */
-  public static String linkForToolPath(
+  public static @RUntainted String linkForToolPath(
       CmsJspActionElement jsp, String toolPath, Map<String, String[]> params) {
 
     if (params == null) {

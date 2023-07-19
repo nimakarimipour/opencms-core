@@ -28,6 +28,7 @@
 package org.opencms.ade.galleries.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.List;
 import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryMode;
 import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryTabId;
@@ -94,7 +95,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
   private CmsGalleryTabConfiguration m_tabConfiguration;
 
   /** The tree token. */
-  private String m_treeToken;
+  private @RUntainted String m_treeToken;
 
   /** The upload folder. */
   private String m_uploadFolder;
@@ -252,7 +253,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
   }
 
   /** @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getTreeToken() */
-  public String getTreeToken() {
+  public @RUntainted String getTreeToken() {
 
     return m_treeToken;
   }

@@ -27,6 +27,7 @@
 
 package org.opencms.loader;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Locale;
@@ -133,7 +134,7 @@ public class CmsDumpLoader implements I_CmsResourceLoader {
         String header = i.next();
 
         // set header only if format is "key: value"
-        String[] parts = CmsStringUtil.splitAsArray(header, ':');
+        @RUntainted String[] parts = CmsStringUtil.splitAsArray(header, ':');
         if (parts.length == 2) {
           res.setHeader(parts[0], parts[1]);
         }

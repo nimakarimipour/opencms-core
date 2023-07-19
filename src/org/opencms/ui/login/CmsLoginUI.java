@@ -41,6 +41,7 @@ import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -230,7 +231,8 @@ public class CmsLoginUI extends A_CmsUI {
    * @throws CmsException in case the user has not the required role
    */
   public static String displayVaadinLoginDialog(
-      HttpServletRequest request, HttpServletResponse response) throws IOException, CmsException {
+      @RUntainted HttpServletRequest request, HttpServletResponse response)
+      throws IOException, CmsException {
 
     CmsFlexController controller = CmsFlexController.getController(request);
     if (controller == null) {
@@ -257,7 +259,7 @@ public class CmsLoginUI extends A_CmsUI {
 
     if (!cms.getRequestContext().getCurrentUser().isGuestUser()) {
       String encryptedTarget = request.getParameter(CmsGwtConstants.PARAM_LOGIN_REDIRECT);
-      String target = null;
+      @RUntainted String target = null;
       if (CmsStringUtil.isEmptyOrWhitespaceOnly(encryptedTarget)) {
         target =
             CmsLoginController.getLoginTarget(
@@ -273,7 +275,8 @@ public class CmsLoginUI extends A_CmsUI {
       response.sendRedirect(target);
       return null;
     }
-    CmsLoginHelper.LoginParameters params = CmsLoginHelper.getLoginParameters(cms, request, false);
+    CmsLoginHelper.@RUntainted LoginParameters params =
+        CmsLoginHelper.getLoginParameters(cms, request, false);
     request.getSession().setAttribute(CmsLoginUI.INIT_DATA_SESSION_ATTR, params);
     try {
       byte[] pageBytes =
@@ -401,8 +404,10 @@ public class CmsLoginUI extends A_CmsUI {
    * @param session the session
    * @return the settings
    */
-  private static CmsWorkplaceSettings getWorkplaceSettings(CmsObject cms, HttpSession session) {
+  private static CmsWorkplaceSettings getWorkplaceSettings(
+      CmsObject cms, @RUntainted HttpSession session) {
 
+    @RUntainted
     CmsWorkplaceSettings settings =
         (CmsWorkplaceSettings) session.getAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS);
     if (settings == null) {
@@ -430,9 +435,9 @@ public class CmsLoginUI extends A_CmsUI {
    *
    * @return the selected org unit
    */
-  public String getOrgUnit() {
+  public @RUntainted String getOrgUnit() {
 
-    String result = m_loginForm.getOrgUnit();
+    @RUntainted String result = m_loginForm.getOrgUnit();
     if (result == null) {
       result = "";
     }
@@ -458,9 +463,9 @@ public class CmsLoginUI extends A_CmsUI {
    *
    * @return the PC type
    */
-  public String getPcType() {
+  public @RUntainted String getPcType() {
 
-    String result = m_loginForm.getPcType();
+    @RUntainted String result = m_loginForm.getPcType();
     if (result == null) {
       result = CmsLoginForm.PC_TYPE_PUBLIC;
     }
@@ -474,7 +479,7 @@ public class CmsLoginUI extends A_CmsUI {
    *
    * @return the user name
    */
-  public String getUser() {
+  public @RUntainted String getUser() {
 
     return m_loginForm.getUser();
   }

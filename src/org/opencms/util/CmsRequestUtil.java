@@ -29,6 +29,7 @@ package org.opencms.util;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -218,7 +219,8 @@ public final class CmsRequestUtil {
    * @param encode if <code>true</code>, the parameter values are encoded before they are appended
    * @return the URL with the given parameter appended
    */
-  public static String appendParameters(String url, Map<String, String[]> params, boolean encode) {
+  public static @RUntainted String appendParameters(
+      String url, Map<String, String[]> params, boolean encode) {
 
     if (CmsStringUtil.isEmpty(url)) {
       return null;
@@ -929,7 +931,7 @@ public final class CmsRequestUtil {
    * @param jsp the OpenCms JSP context
    * @param target the target link
    */
-  public static void redirectPermanently(CmsJspActionElement jsp, String target) {
+  public static void redirectPermanently(CmsJspActionElement jsp, @RUntainted String target) {
 
     target = OpenCms.getLinkManager().substituteLink(jsp.getCmsObject(), target);
     jsp.getResponse().setHeader(HEADER_CONNECTION, "close");
@@ -993,7 +995,8 @@ public final class CmsRequestUtil {
    * @param name the name of the cookie
    * @param value the value of the cookie
    */
-  public static void setCookieValue(CmsJspActionElement jsp, String name, String value) {
+  public static void setCookieValue(
+      CmsJspActionElement jsp, String name, @RUntainted String value) {
 
     Cookie[] cookies = jsp.getRequest().getCookies();
     for (int i = 0; (cookies != null) && (i < cookies.length); i++) {
@@ -1040,7 +1043,8 @@ public final class CmsRequestUtil {
    * @param key the key of the object to be stored in the session
    * @param value the object to be stored in the session
    */
-  public static void setSessionValue(HttpServletRequest request, String key, Object value) {
+  public static void setSessionValue(
+      HttpServletRequest request, @RUntainted String key, @RUntainted Object value) {
 
     HttpSession session = request.getSession(true);
     session.setAttribute(key, value);

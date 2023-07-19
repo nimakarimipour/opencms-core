@@ -27,6 +27,7 @@
 
 package org.opencms.db;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -495,6 +496,7 @@ public interface I_CmsVfsDriver {
    * @return a list of all sub folders or sub files
    * @throws CmsDataAccessException if something goes wrong
    */
+  @RUntainted
   List<CmsResource> readChildResources(
       CmsDbContext dbc,
       CmsProject currentProject,
@@ -687,6 +689,7 @@ public interface I_CmsVfsDriver {
    * @return a list with all resources that where read
    * @throws CmsDataAccessException if something goes wrong
    */
+  @RUntainted
   List<CmsResource> readResources(
       CmsDbContext dbc, CmsUUID currentProject, CmsResourceState state, int mode)
       throws CmsDataAccessException;
@@ -746,6 +749,7 @@ public interface I_CmsVfsDriver {
    *     specified property.
    * @throws CmsDataAccessException if something goes wrong
    */
+  @RUntainted
   List<CmsResource> readResourcesWithProperty(
       CmsDbContext dbc, CmsUUID projectId, CmsUUID propertyDefinition, String path, String value)
       throws CmsDataAccessException;
@@ -789,6 +793,7 @@ public interface I_CmsVfsDriver {
    * @return a list of CmsResource objects matching the given criteria
    * @throws CmsDataAccessException if something goes wrong
    */
+  @RUntainted
   List<CmsResource> readResourceTree(
       CmsDbContext dbc,
       CmsUUID projectId,

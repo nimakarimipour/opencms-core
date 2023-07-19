@@ -27,6 +27,7 @@
 
 package org.opencms.workplace;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -255,7 +256,7 @@ public class CmsDialog extends CmsToolDialog {
   private String m_paramAction;
 
   /** The close link parameter. */
-  private String m_paramCloseLink;
+  private @RUntainted String m_paramCloseLink;
 
   /** The dialog type. */
   private String m_paramDialogtype;
@@ -1250,7 +1251,7 @@ public class CmsDialog extends CmsToolDialog {
    *
    * @return the value of the close link parameter
    */
-  public String getParamCloseLink() {
+  public @RUntainted String getParamCloseLink() {
 
     if ((m_paramCloseLink == null) || "null".equals(m_paramCloseLink)) {
       return null;
@@ -1661,7 +1662,7 @@ public class CmsDialog extends CmsToolDialog {
    *
    * @param value the value to set
    */
-  public void setParamCloseLink(String value) {
+  public void setParamCloseLink(@RUntainted String value) {
 
     // ensure decoded chars are re-encoded again properly
 

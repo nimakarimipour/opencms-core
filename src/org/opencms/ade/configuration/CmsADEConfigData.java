@@ -884,7 +884,7 @@ public class CmsADEConfigData {
     List<CmsDetailPageInfo> detailPages = getAllDetailPages(true);
     Collections.reverse(
         detailPages); // make sure primary detail pages come later in the list and override other
-                      // detail pages for the same type
+    // detail pages for the same type
     Map<String, CmsDetailPageInfo> primaryDetailPageMapByType = Maps.newHashMap();
     for (CmsDetailPageInfo pageInfo : detailPages) {
       primaryDetailPageMapByType.put(pageInfo.getType(), pageInfo);
@@ -1879,7 +1879,7 @@ public class CmsADEConfigData {
             String typeName = config.getTypeName();
             if (!config
                 .isPageRelative()) { // elements stored with container pages can not be used as
-                                     // detail contents
+              // detail contents
               String folderPath = config.getFolderPath(cms, null);
               result.put(CmsStringUtil.joinPaths(folderPath, "/"), typeName);
             }
@@ -1892,7 +1892,7 @@ public class CmsADEConfigData {
           String typeName = config.getTypeName();
           if (!config
               .isPageRelative()) { // elements stored with container pages can not be used as detail
-                                   // contents
+            // contents
             String folderPath = config.getFolderPath(getCms(), null);
             result.put(CmsStringUtil.joinPaths(folderPath, "/"), typeName);
           }

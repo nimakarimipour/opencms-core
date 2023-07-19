@@ -27,6 +27,7 @@
 
 package org.opencms.gwt;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.Locale;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -107,7 +108,7 @@ public class CmsClientUserSettingConverter {
   private CmsMacroResolver m_macroResolver = new CmsMacroResolver();
 
   /** The current request. */
-  private HttpServletRequest m_request;
+  private @RUntainted HttpServletRequest m_request;
 
   /**
    * Creates a new instance.
@@ -119,7 +120,7 @@ public class CmsClientUserSettingConverter {
    * @param response the current response
    */
   public CmsClientUserSettingConverter(
-      CmsObject cms, HttpServletRequest request, HttpServletResponse response) {
+      CmsObject cms, @RUntainted HttpServletRequest request, HttpServletResponse response) {
 
     m_cms = cms;
     m_request = request;

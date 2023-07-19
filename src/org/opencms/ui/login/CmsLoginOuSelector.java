@@ -30,6 +30,7 @@ package org.opencms.ui.login;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.v7.shared.ui.combobox.FilteringMode;
 import com.vaadin.v7.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.List;
 import org.opencms.security.CmsOrganizationalUnit;
 import org.opencms.ui.A_CmsUI;
@@ -51,7 +52,7 @@ public class CmsLoginOuSelector extends CustomComponent {
   public static final String OU_NONE = "OU_NONE";
 
   /** The combo box containing the OU options. */
-  private ComboBox m_ouSelect = new ComboBox();
+  private @RUntainted ComboBox m_ouSelect = new ComboBox();
 
   /** Flag to always hide the selector. */
   private boolean m_alwaysHidden;
@@ -74,7 +75,7 @@ public class CmsLoginOuSelector extends CustomComponent {
    *
    * @return the selected OU
    */
-  public String getValue() {
+  public @RUntainted String getValue() {
 
     return (String) m_ouSelect.getValue();
   }

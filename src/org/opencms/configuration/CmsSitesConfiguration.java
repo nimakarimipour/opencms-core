@@ -27,6 +27,7 @@
 
 package org.opencms.configuration;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -225,7 +226,7 @@ public class CmsSitesConfiguration extends A_CmsXmlConfiguration
             getDigester().peekParams()[14] =
                 Optional
                     .empty(); // non-string parameters must be initialized to a non-null value, so
-                              // we have to use Optional
+            // we have to use Optional
           }
         });
     digester.addCallParam(siteXpath, 0, A_SERVER);
@@ -262,11 +263,12 @@ public class CmsSitesConfiguration extends A_CmsXmlConfiguration
         new Rule() {
 
           @Override
-          public void begin(String namespace, String name, Attributes attributes) throws Exception {
+          public void begin(String namespace, String name, @RUntainted Attributes attributes)
+              throws Exception {
 
             String server = attributes.getValue(A_SERVER);
             String redirect = attributes.getValue(A_REDIRECT);
-            String offset = attributes.getValue(A_OFFSET);
+            @RUntainted String offset = attributes.getValue(A_OFFSET);
             CmsSiteMatcher matcher =
                 CmsSiteManagerImpl.createAliasSiteMatcher(server, redirect, offset);
             Object[] params = getDigester().peekParams();

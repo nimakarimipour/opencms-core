@@ -27,6 +27,7 @@
 
 package org.opencms.jsp;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -140,7 +141,7 @@ public class CmsJspTagUserTracking extends TagSupport {
       String userName,
       boolean includeGroups,
       String groupName,
-      HttpServletRequest req)
+      @RUntainted HttpServletRequest req)
       throws JspException {
 
     String result = "";
@@ -237,7 +238,7 @@ public class CmsJspTagUserTracking extends TagSupport {
    * @param groups the groups that should be used
    * @return a unique session key
    */
-  protected static String generateSessionKey(
+  protected static @RUntainted String generateSessionKey(
       String prefix, String fileName, boolean subFolder, CmsUser user, List<CmsGroup> groups) {
 
     StringBuffer result = new StringBuffer(256);
@@ -280,16 +281,18 @@ public class CmsJspTagUserTracking extends TagSupport {
       boolean subFolder,
       CmsUser user,
       List<CmsGroup> groups,
-      HttpServletRequest req)
+      @RUntainted HttpServletRequest req)
       throws CmsException {
 
     CmsResource checkResource = cms.readResource(fileName);
 
-    HttpSession session = req.getSession(true);
+    @RUntainted HttpSession session = req.getSession(true);
+    @RUntainted
     String sessionKey =
         generateSessionKey(SESSION_PREFIX_SUBSCRIBED, fileName, subFolder, user, groups);
     // try to get the subscribed resources from a session attribute
     @SuppressWarnings("unchecked")
+    @RUntainted
     List<CmsResource> subscribedResources = (List<CmsResource>) session.getAttribute(sessionKey);
     if (subscribedResources == null) {
       // first call, read subscribed resources and store them to session attribute
@@ -320,15 +323,21 @@ public class CmsJspTagUserTracking extends TagSupport {
    * @throws CmsException if something goes wrong
    */
   protected static boolean isResourceVisited(
-      CmsObject cms, String fileName, boolean subFolder, CmsUser user, HttpServletRequest req)
+      CmsObject cms,
+      String fileName,
+      boolean subFolder,
+      CmsUser user,
+      @RUntainted HttpServletRequest req)
       throws CmsException {
 
     CmsResource checkResource = cms.readResource(fileName);
 
     HttpSession session = req.getSession(true);
+    @RUntainted
     String sessionKey = generateSessionKey(SESSION_PREFIX_VISITED, fileName, subFolder, user, null);
     // try to get the visited resources from a session attribute
     @SuppressWarnings("unchecked")
+    @RUntainted
     List<CmsResource> visitedResources =
         (List<CmsResource>) req.getSession(true).getAttribute(sessionKey);
     if (visitedResources == null) {
@@ -371,7 +380,7 @@ public class CmsJspTagUserTracking extends TagSupport {
   @Override
   public int doStartTag() throws JspException {
 
-    ServletRequest req = pageContext.getRequest();
+    @RUntainted ServletRequest req = pageContext.getRequest();
 
     // this will always be true if the page is called through OpenCms
     if (CmsFlexController.isCmsRequest(req)) {

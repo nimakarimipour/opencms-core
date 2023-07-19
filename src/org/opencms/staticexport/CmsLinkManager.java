@@ -28,6 +28,7 @@
 package org.opencms.staticexport;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -316,7 +317,7 @@ public class CmsLinkManager {
    * @return the online link for the given resource, with full server prefix
    * @see #getServerLink(CmsObject, String)
    */
-  public String getOnlineLink(CmsObject cms, String resourceName) {
+  public @RUntainted String getOnlineLink(CmsObject cms, String resourceName) {
 
     return getOnlineLink(cms, resourceName, false);
   }
@@ -341,7 +342,7 @@ public class CmsLinkManager {
    * @return the online link for the given resource, with full server prefix
    * @see #getServerLink(CmsObject, String)
    */
-  public String getOnlineLink(CmsObject cms, String resourceName, boolean forceSecure) {
+  public @RUntainted String getOnlineLink(CmsObject cms, String resourceName, boolean forceSecure) {
 
     String result = "";
     try {
@@ -679,7 +680,7 @@ public class CmsLinkManager {
    * @return a link <i>from</i> the URI stored in the provided OpenCms user context <i>to</i> the
    *     given VFS resource, for use on web pages
    */
-  public String substituteLink(CmsObject cms, CmsResource resource) {
+  public @RUntainted String substituteLink(CmsObject cms, CmsResource resource) {
 
     return substituteLinkForRootPath(cms, resource.getRootPath());
   }
@@ -790,7 +791,8 @@ public class CmsLinkManager {
    *     link substitution
    * @see CmsDefaultLinkSubstitutionHandler for the default link substitution handler
    */
-  public String substituteLink(CmsObject cms, String link, String siteRoot, boolean forceSecure) {
+  public @RUntainted String substituteLink(
+      CmsObject cms, String link, String siteRoot, boolean forceSecure) {
 
     return substituteLink(cms, link, siteRoot, null, forceSecure);
   }
@@ -837,7 +839,7 @@ public class CmsLinkManager {
    *     link substitution
    * @see CmsDefaultLinkSubstitutionHandler for the default link substitution handler
    */
-  public String substituteLink(
+  public @RUntainted String substituteLink(
       CmsObject cms, String link, String siteRoot, String targetDetailPage, boolean forceSecure) {
 
     if (targetDetailPage != null) {
@@ -866,7 +868,7 @@ public class CmsLinkManager {
    * @return a link <i>from</i> the URI stored in the provided OpenCms user context <i>to</i> the
    *     VFS resource indicated by the given root path
    */
-  public String substituteLinkForRootPath(CmsObject cms, String rootPath) {
+  public @RUntainted String substituteLinkForRootPath(CmsObject cms, String rootPath) {
 
     String siteRoot = OpenCms.getSiteManager().getSiteRoot(rootPath);
     if (siteRoot == null) {
@@ -934,7 +936,8 @@ public class CmsLinkManager {
    * @return a link <i>from</i> the URI stored in the provided OpenCms user context <i>to</i> the
    *     given <code>link</code>
    */
-  public String substituteLinkForUnknownTarget(CmsObject cms, String link, boolean forceSecure) {
+  public @RUntainted String substituteLinkForUnknownTarget(
+      CmsObject cms, String link, boolean forceSecure) {
 
     return substituteLinkForUnknownTarget(cms, link, null, forceSecure);
   }
@@ -963,7 +966,7 @@ public class CmsLinkManager {
    * @return a link <i>from</i> the URI stored in the provided OpenCms user context <i>to</i> the
    *     given <code>link</code>
    */
-  public String substituteLinkForUnknownTarget(
+  public @RUntainted String substituteLinkForUnknownTarget(
       CmsObject cms, String link, String targetDetailPage, boolean forceSecure) {
 
     if (CmsStringUtil.isEmpty(link)) {

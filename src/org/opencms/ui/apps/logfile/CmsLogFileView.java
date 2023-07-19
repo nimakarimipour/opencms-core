@@ -35,6 +35,7 @@ import com.vaadin.v7.shared.ui.combobox.FilteringMode;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
@@ -54,16 +55,16 @@ import org.opencms.util.CmsRfsFileViewer;
 public class CmsLogFileView extends VerticalLayout {
 
   /** Session attribute to store charset setting. */
-  protected static String ATTR_FILE_VIEW_CHARSET = "log-file-char";
+  protected static @RUntainted String ATTR_FILE_VIEW_CHARSET = "log-file-char";
 
   /** Session attribute to store currently viewed log file. */
-  protected static String ATTR_FILE_VIEW_PATH = "log-file";
+  protected static @RUntainted String ATTR_FILE_VIEW_PATH = "log-file";
 
   /** Session attribute to store line number to display. */
-  protected static String ATTR_FILE_VIEW_SIZE = "log-file-size";
+  protected static @RUntainted String ATTR_FILE_VIEW_SIZE = "log-file-size";
 
   /** Window size. */
-  protected static int WINDOW_SIZE = 1000;
+  protected static @RUntainted int WINDOW_SIZE = 1000;
 
   /** Logger instance for this class. */
   private static final Log LOG = CmsLog.getLog(CmsLogFileView.class);
@@ -81,7 +82,7 @@ public class CmsLogFileView extends VerticalLayout {
   private Label m_fileContent;
 
   /** Vaadin component. */
-  private ComboBox m_logfile;
+  private @RUntainted ComboBox m_logfile;
 
   /** RfsFileView holding data for log to show. */
   private CmsRfsFileViewer m_logView;
@@ -174,7 +175,7 @@ public class CmsLogFileView extends VerticalLayout {
    *
    * @return path of shown file
    */
-  protected String getCurrentFile() {
+  protected @RUntainted String getCurrentFile() {
 
     return (String) m_logfile.getValue();
   }
@@ -199,7 +200,7 @@ public class CmsLogFileView extends VerticalLayout {
    *
    * @return line number
    */
-  private int getSize() {
+  private @RUntainted int getSize() {
 
     return Integer.valueOf(
             (String) CmsVaadinUtils.getRequest().getSession().getAttribute(ATTR_FILE_VIEW_SIZE))

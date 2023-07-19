@@ -28,6 +28,7 @@
 package org.opencms.i18n;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.UnsupportedEncodingException;
 import java.net.IDN;
 import java.net.URI;
@@ -745,12 +746,12 @@ public final class CmsEncoder {
    * @param encoding the encoding type
    * @return The encoded String
    */
-  public static String escapeWBlanks(String source, String encoding) {
+  public static @RUntainted String escapeWBlanks(String source, String encoding) {
 
     if (CmsStringUtil.isEmpty(source)) {
       return source;
     }
-    StringBuffer ret = new StringBuffer(source.length() * 2);
+    @RUntainted StringBuffer ret = new StringBuffer(source.length() * 2);
 
     // URLEncode the text string
     // this produces a very similar encoding to JavaSscript encoding,

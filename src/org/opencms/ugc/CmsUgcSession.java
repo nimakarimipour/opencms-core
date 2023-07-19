@@ -30,6 +30,7 @@ package org.opencms.ugc;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -409,7 +410,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
    *
    * @return the session id
    */
-  public CmsUUID getId() {
+  public @RUntainted CmsUUID getId() {
 
     return getProject().getUuid();
   }

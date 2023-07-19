@@ -381,7 +381,7 @@ public final class CmsTemplateMapper {
                     } catch (Exception e) {
                       LOG.warn(e.getLocalizedMessage(), e);
                       return new CmsTemplateMapperConfiguration(); // empty configuration, does not
-                                                                   // do anything
+                      // do anything
                     }
                   }
                 }));

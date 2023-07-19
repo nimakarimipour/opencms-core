@@ -27,6 +27,7 @@
 
 package org.opencms.staticexport;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import org.opencms.file.CmsObject;
 
 /**
@@ -103,6 +104,7 @@ public interface I_CmsLinkSubstitutionHandler {
    *     VFS resource indicated by the given <code>link</code> and <code>siteRoot</code>
    * @see #getRootPath(CmsObject, String, String) for the reverse function, which creates a VFS
    */
+  @RUntainted
   String getLink(CmsObject cms, String link, String siteRoot, boolean forceSecure);
 
   /**
@@ -145,6 +147,7 @@ public interface I_CmsLinkSubstitutionHandler {
    *     VFS resource indicated by the given <code>link</code> and <code>siteRoot</code>
    * @see #getRootPath(CmsObject, String, String) for the reverse function, which creates a VFS
    */
+  @RUntainted
   String getLink(
       CmsObject cms, String link, String siteRoot, String targetDetailPage, boolean forceSecure);
 

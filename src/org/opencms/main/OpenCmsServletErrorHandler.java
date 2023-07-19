@@ -27,6 +27,7 @@
 
 package org.opencms.main;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -71,7 +72,7 @@ public class OpenCmsServletErrorHandler extends OpenCmsServlet {
    *     javax.servlet.http.HttpServletResponse)
    */
   @Override
-  public void doGet(HttpServletRequest req, HttpServletResponse res)
+  public void doGet(@RUntainted HttpServletRequest req, HttpServletResponse res)
       throws IOException, ServletException {
 
     // check the error status

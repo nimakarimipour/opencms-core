@@ -27,6 +27,7 @@
 
 package org.opencms.main;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -326,7 +327,7 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
     }
 
     // Set type mime type if we can determine it based on the filename
-    String mimetype = OpenCms.getResourceManager().getMimeType(filename, "UTF-8");
+    @RUntainted String mimetype = OpenCms.getResourceManager().getMimeType(filename, "UTF-8");
     if (mimetype != null) {
       response.setContentType(mimetype);
     }

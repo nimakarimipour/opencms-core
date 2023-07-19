@@ -32,6 +32,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -272,9 +273,9 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
    * @return the alias site matcher
    */
   public static CmsSiteMatcher createAliasSiteMatcher(
-      String alias, String redirect, String offset) {
+      String alias, String redirect, @RUntainted String offset) {
 
-    long timeOffset = 0;
+    @RUntainted long timeOffset = 0;
     try {
       timeOffset = Long.parseLong(offset);
     } catch (Throwable e) {

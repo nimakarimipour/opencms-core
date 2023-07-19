@@ -27,6 +27,7 @@
 
 package org.opencms.db;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -5474,10 +5475,10 @@ public final class CmsSecurityManager {
    * @return the resources that were visited by a user set in the filter
    * @throws CmsException if something goes wrong
    */
-  public List<CmsResource> readResourcesVisitedBy(
+  public @RUntainted List<CmsResource> readResourcesVisitedBy(
       CmsRequestContext context, String poolName, CmsVisitedByFilter filter) throws CmsException {
 
-    List<CmsResource> result = null;
+    @RUntainted List<CmsResource> result = null;
     CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
     try {
       result = m_driverManager.readResourcesVisitedBy(dbc, poolName, filter);
@@ -5742,11 +5743,11 @@ public final class CmsSecurityManager {
    * @return the resources that were subscribed by a user or group set in the filter
    * @throws CmsException if something goes wrong
    */
-  public List<CmsResource> readSubscribedResources(
+  public @RUntainted List<CmsResource> readSubscribedResources(
       CmsRequestContext context, String poolName, CmsSubscriptionFilter filter)
       throws CmsException {
 
-    List<CmsResource> result = null;
+    @RUntainted List<CmsResource> result = null;
     CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
     try {
       result = m_driverManager.readSubscribedResources(dbc, poolName, filter);

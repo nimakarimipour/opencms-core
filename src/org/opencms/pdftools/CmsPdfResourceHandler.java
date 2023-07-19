@@ -27,6 +27,7 @@
 
 package org.opencms.pdftools;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.ByteArrayInputStream;
 import java.util.Collections;
 import java.util.Locale;
@@ -65,7 +66,7 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
   public static final String IMAGE_MIMETYPECONFIG = "png:image/png|gif:image/gif|jpg:image/jpeg";
 
   /** Map of mime types for different file extensions. */
-  public static final Map<String, String> IMAGE_MIMETYPES =
+  public static final Map<String, @RUntainted String> IMAGE_MIMETYPES =
       Collections.unmodifiableMap(CmsStringUtil.splitAsMap(IMAGE_MIMETYPECONFIG, "|", ":"));
 
   /** The logger instance for this class. */

@@ -34,6 +34,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
@@ -179,7 +180,7 @@ public class CmsWebServerConfigForm extends CmsBasicDialog {
     m_form.setVisible(false);
     m_ok.setEnabled(false);
 
-    Map<String, String> webconfig = OpenCms.getSiteManager().getWebServerConfig();
+    Map<String, @RUntainted String> webconfig = OpenCms.getSiteManager().getWebServerConfig();
     if (webconfig == null) {
       webconfig = Maps.newHashMap();
     }

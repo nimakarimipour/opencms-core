@@ -27,6 +27,7 @@
 
 package org.opencms.loader;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -871,7 +872,7 @@ public class CmsResourceManager {
    * @param encoding the default encoding (charset) in case of MIME types is of type "text"
    * @return the MIME type for a specified file
    */
-  public String getMimeType(String filename, String encoding) {
+  public @RUntainted String getMimeType(String filename, String encoding) {
 
     return getMimeType(filename, encoding, MIMETYPE_HTML);
   }
@@ -892,7 +893,7 @@ public class CmsResourceManager {
    *     found
    * @return the MIME type for a specified file
    */
-  public String getMimeType(String filename, String encoding, String defaultMimeType) {
+  public @RUntainted String getMimeType(String filename, String encoding, String defaultMimeType) {
 
     String mimeType = null;
     int lastDot = filename.lastIndexOf('.');
@@ -907,7 +908,7 @@ public class CmsResourceManager {
         return null;
       }
     }
-    StringBuffer result = new StringBuffer(mimeType);
+    @RUntainted StringBuffer result = new StringBuffer(mimeType);
     if ((encoding != null)
         && (mimeType.startsWith("text") || mimeType.endsWith("javascript"))
         && (mimeType.indexOf("charset") == -1)) {

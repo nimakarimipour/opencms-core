@@ -28,6 +28,7 @@
 package org.opencms.db;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -154,7 +155,7 @@ public class CmsUserSettings {
   /** Key for additional info city. */
   public static final String ADDITIONAL_INFO_CITY =
       "USER_TOWN"; // Value must unfortunately still be "USER_TOWN" or existing serialized user
-                   // information will be lost
+  // information will be lost
 
   /** Key for additional info of resources that were confirmed by the user. */
   public static final String ADDITIONAL_INFO_CONFIRMED_RESOURCES =
@@ -976,7 +977,7 @@ public class CmsUserSettings {
    * @return the current users time warp time, or {@link
    *     org.opencms.main.CmsContextInfo#CURRENT_TIME} if this feature is disabled
    */
-  public long getTimeWarp() {
+  public @RUntainted long getTimeWarp() {
 
     return m_timeWarp;
   }

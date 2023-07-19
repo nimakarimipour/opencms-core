@@ -71,7 +71,7 @@ public class CmsPdfLink {
           + "/"
           + NOSLASH_GROUP
           + "(?:/[^/]+)?" // optional filename to make the download name more user-readable, not
-                          // used by the handler
+          // used by the handler
           + "\\.pdf/?";
 
   /** Compiled regular expression for parsing PDF links. */

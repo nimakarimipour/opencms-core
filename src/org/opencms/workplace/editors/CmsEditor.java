@@ -27,6 +27,7 @@
 
 package org.opencms.workplace.editors;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1112,7 +1113,7 @@ public abstract class CmsEditor extends CmsEditorBase {
       // ignore
     }
 
-    CmsEditorSessionInfo info = null;
+    @RUntainted CmsEditorSessionInfo info = null;
     if (editedResource != null) {
       HttpSession session = getSession();
       info =

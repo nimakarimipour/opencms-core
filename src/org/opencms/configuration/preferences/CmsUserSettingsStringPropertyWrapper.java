@@ -581,9 +581,8 @@ public class CmsUserSettingsStringPropertyWrapper {
     long warp = m_settings.getTimeWarp();
     return warp < 0
         ? ""
-        : ""
-            + warp; // if timewarp < 0 (i.e. time warp is not set), use the empty string because we
-                    // don't want the date selector widget to interpret the negative value
+        : "" + warp; // if timewarp < 0 (i.e. time warp is not set), use the empty string because we
+    // don't want the date selector widget to interpret the negative value
   }
 
   /**

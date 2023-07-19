@@ -27,6 +27,7 @@
 
 package org.opencms.jsp;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
@@ -212,7 +213,7 @@ public class CmsJspBean {
    * @param type the type to set
    * @see javax.servlet.ServletResponse#setContentType(java.lang.String)
    */
-  public void setContentType(String type) {
+  public void setContentType(@RUntainted String type) {
 
     // set the content type on the top level response
     m_controller.getTopResponse().setContentType(type);

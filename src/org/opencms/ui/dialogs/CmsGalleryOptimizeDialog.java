@@ -1988,9 +1988,8 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
   void handleDialogAttach() {
 
     Window window = CmsVaadinUtils.getWindow(CmsGalleryOptimizeDialog.this);
-    window
-        .removeAllCloseShortcuts(); // this is because Vaadin by default adds an ESC shortcut to
-                                    // every window
+    window.removeAllCloseShortcuts(); // this is because Vaadin by default adds an ESC shortcut to
+    // every window
     // this is because the grid view unintentionally catches the focus whenever the height of the
     // grid view
     // gets larger / smaller than it's containing layout, i.e., whenever the scroll-bar appears or

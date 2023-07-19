@@ -30,6 +30,7 @@ package org.opencms.ade.publish;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -247,7 +248,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
 
     boolean useCurrentPageAsDefault =
         params.containsKey(CmsPublishOptions.PARAM_START_WITH_CURRENT_PAGE);
-    CmsPublishOptions options = getCachedOptions();
+    @RUntainted CmsPublishOptions options = getCachedOptions();
     List<CmsProjectBean> projects = OpenCms.getWorkflowManager().getManageableProjects(cms, params);
     Set<CmsUUID> availableProjectIds = Sets.newHashSet();
     for (CmsProjectBean projectBean : projects) {
@@ -340,7 +341,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
    *     org.opencms.ade.publish.shared.CmsPublishOptions, boolean)
    */
   public CmsPublishGroupList getResourceGroups(
-      CmsWorkflow workflow, CmsPublishOptions options, boolean projectChanged)
+      CmsWorkflow workflow, @RUntainted CmsPublishOptions options, boolean projectChanged)
       throws CmsRpcException {
 
     List<CmsPublishGroup> results = null;
@@ -465,8 +466,9 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
    *
    * @return the cached publish options
    */
-  private CmsPublishOptions getCachedOptions() {
+  private @RUntainted CmsPublishOptions getCachedOptions() {
 
+    @RUntainted
     CmsPublishOptions cache =
         (CmsPublishOptions) getRequest().getSession().getAttribute(SESSION_ATTR_ADE_PUB_OPTS_CACHE);
     if (cache == null) {
@@ -573,7 +575,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
    *
    * @param options the options to save
    */
-  private void setCachedOptions(CmsPublishOptions options) {
+  private void setCachedOptions(@RUntainted CmsPublishOptions options) {
 
     getRequest().getSession().setAttribute(SESSION_ATTR_ADE_PUB_OPTS_CACHE, options);
   }

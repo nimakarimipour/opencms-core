@@ -27,6 +27,7 @@
 
 package org.opencms.main;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -322,7 +323,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
    *     javax.servlet.http.HttpServletResponse)
    */
   @Override
-  public void doGet(HttpServletRequest req, HttpServletResponse res)
+  public void doGet(@RUntainted HttpServletRequest req, HttpServletResponse res)
       throws IOException, ServletException {
 
     // we are using stacks for these because the doGet method may be called reentrantly, e.g. when
@@ -397,7 +398,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
    *     javax.servlet.http.HttpServletResponse)
    */
   @Override
-  public void doPost(HttpServletRequest req, HttpServletResponse res)
+  public void doPost(@RUntainted HttpServletRequest req, HttpServletResponse res)
       throws IOException, ServletException {
 
     doGet(req, res);

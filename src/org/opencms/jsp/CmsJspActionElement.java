@@ -27,6 +27,7 @@
 
 package org.opencms.jsp;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -755,7 +756,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @see org.opencms.jsp.CmsJspTagLink
    * @see #link(String, String)
    */
-  public String link(String target) {
+  public @RUntainted String link(String target) {
 
     return link(target, null);
   }

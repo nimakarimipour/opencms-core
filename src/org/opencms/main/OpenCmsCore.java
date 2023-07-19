@@ -30,6 +30,7 @@ package org.opencms.main;
 import com.google.common.base.Optional;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gwt.user.client.rpc.core.java.util.LinkedHashMap_CustomFieldSerializer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -1357,6 +1358,7 @@ public final class OpenCmsCore {
                             .startsWith(OpenCms.getSystemInfo().getWorkplaceContext()))
                     && getRoleManager().hasRole(newCms, CmsRole.ELEMENT_AUTHOR)) {
                   LOG.debug("Handling workplace login for user " + principal);
+                  @RUntainted
                   CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(newCms);
                   request
                       .getSession(true)
@@ -1675,7 +1677,7 @@ public final class OpenCmsCore {
 
     // check if the encoding setting is valid
     String setEncoding = systemConfiguration.getDefaultContentEncoding();
-    String defaultEncoding = CmsEncoder.lookupEncoding(setEncoding, null);
+    @RUntainted String defaultEncoding = CmsEncoder.lookupEncoding(setEncoding, null);
     if (defaultEncoding == null) {
       // we can not start without a valid encoding setting
       throw new CmsInitException(
@@ -2296,7 +2298,7 @@ public final class OpenCmsCore {
    */
   protected void invokeGwtService(
       String serviceName,
-      HttpServletRequest req,
+      @RUntainted HttpServletRequest req,
       HttpServletResponse res,
       ServletConfig servletConfig) {
 
@@ -2411,7 +2413,7 @@ public final class OpenCmsCore {
             // if we used the request's query string for getRfsName, clients could cause an
             // unlimited number
             // of files to be exported just by varying the request parameters!
-            String url = m_linkManager.getOnlineLink(cms, uri);
+            @RUntainted String url = m_linkManager.getOnlineLink(cms, uri);
             res.sendRedirect(url);
             return;
           }
@@ -3034,7 +3036,7 @@ public final class OpenCmsCore {
    * @param t the exception that occurred
    */
   private void errorHandling(
-      CmsObject cms, HttpServletRequest req, HttpServletResponse res, Throwable t) {
+      CmsObject cms, HttpServletRequest req, HttpServletResponse res, @RUntainted Throwable t) {
 
     // remove the controller attribute from the request
     CmsFlexController.removeController(req);
@@ -3322,9 +3324,9 @@ public final class OpenCmsCore {
                 Messages.get().container(Messages.ERR_REQUEST_SECURE_RESOURCE_0));
           } else {
             // redirect
-            String target = OpenCms.getLinkManager().getOnlineLink(cms, resourceName);
+            @RUntainted String target = OpenCms.getLinkManager().getOnlineLink(cms, resourceName);
             if (!target.toLowerCase().startsWith(secureUrl.toLowerCase())) {
-              Optional<String> targetWithReplacedHost =
+              Optional<@RUntainted String> targetWithReplacedHost =
                   CmsStringUtil.replacePrefix(
                       target, site.getSiteMatcher().getUrl(), secureUrl, true);
               if (targetWithReplacedHost.isPresent()) {

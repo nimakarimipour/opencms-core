@@ -12,7 +12,6 @@ REPO = subprocess.check_output(['git', 'rev-parse', '--show-toplevel']).strip().
 
 def prepare():
     os.makedirs(OUT_DIR, exist_ok=True)
-    shutil.rmtree('{}/0'.format(OUT_DIR), ignore_errors=True)
     with open('{}/paths.tsv'.format(OUT_DIR), 'w') as o:
         o.write("{}\t{}\n".format('{}/taint.xml'.format(OUT_DIR), '{}/scanner.xml'.format(OUT_DIR)))
 
@@ -27,7 +26,7 @@ def run_annotator():
     commands += ['-i', 'edu.ucr.Initializer']
     commands += ['-n', 'edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted']
     commands += ['-cn', 'UCRTaint']
-    commands += ["--depth", "1"]
+    commands += ["--depth", "5"]
     # Uncomment to see build output
     # commands += ['-rboserr']
     # Uncomment to disable outer loop

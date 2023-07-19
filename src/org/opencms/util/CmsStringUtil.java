@@ -31,6 +31,7 @@ import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.awt.Color;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -1268,9 +1269,9 @@ public final class CmsStringUtil {
    * @param paths the array of paths
    * @return the joined path
    */
-  public static String joinPaths(String... paths) {
+  public static @RUntainted String joinPaths(String... paths) {
 
-    StringBuffer result = new StringBuffer(paths.length * 32);
+    @RUntainted StringBuffer result = new StringBuffer(paths.length * 32);
     boolean noSlash = true;
     for (int i = 0; i < paths.length; i++) {
       for (int j = 0; j < paths[i].length(); j++) {
@@ -1546,8 +1547,8 @@ public final class CmsStringUtil {
    * @return an Optional containing either the string with the replaced prefix, or an absent value
    *     if the prefix could not be replaced
    */
-  public static Optional<String> replacePrefix(
-      String text, String origPrefix, String newPrefix, boolean ignoreCase) {
+  public static Optional<@RUntainted String> replacePrefix(
+      @RUntainted String text, String origPrefix, String newPrefix, boolean ignoreCase) {
 
     String prefixTestString = ignoreCase ? text.toLowerCase() : text;
     origPrefix = ignoreCase ? origPrefix.toLowerCase() : origPrefix;
@@ -1568,7 +1569,7 @@ public final class CmsStringUtil {
    * @param delimiter the delimiter to split at
    * @return the Array of splitted Substrings
    */
-  public static String[] splitAsArray(String source, char delimiter) {
+  public static @RUntainted String[] splitAsArray(String source, char delimiter) {
 
     List<String> result = splitAsList(source, delimiter);
     return result.toArray(new String[result.size()]);

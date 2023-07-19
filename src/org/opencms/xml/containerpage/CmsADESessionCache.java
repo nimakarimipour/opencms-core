@@ -375,7 +375,7 @@ public final class CmsADESessionCache {
                     new CmsUUID(
                         formatter
                             .getId())) // findFormatter may return inactive formatters, but here we
-                                       // only want active ones
+            // only want active ones
             && CmsFormatterConfiguration.matchFormatter(formatter, types, container.getWidth())) {
           result = formatter;
           break;

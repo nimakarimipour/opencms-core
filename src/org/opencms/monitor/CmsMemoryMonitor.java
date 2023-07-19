@@ -30,6 +30,7 @@ package org.opencms.monitor;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
@@ -217,7 +218,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
   private Map<String, CmsResource> m_cacheResource;
 
   /** Cache for resource lists. */
-  private Map<String, List<CmsResource>> m_cacheResourceList;
+  private Map<String, @RUntainted List<CmsResource>> m_cacheResourceList;
 
   /** Cache for role lists. */
   private Map<String, List<CmsRole>> m_cacheRoleLists;
@@ -846,7 +847,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
    * @param key the cache key
    * @param resourceList the resource list to cache
    */
-  public void cacheResourceList(String key, List<CmsResource> resourceList) {
+  public void cacheResourceList(String key, @RUntainted List<CmsResource> resourceList) {
 
     if (m_disabled.get(CacheType.RESOURCE_LIST) != null) {
       return;
@@ -1820,7 +1821,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
    * @param key the cache key to look for
    * @return the resource list cached with the given cache key
    */
-  public List<CmsResource> getCachedResourceList(String key) {
+  public @RUntainted List<CmsResource> getCachedResourceList(String key) {
 
     return m_cacheResourceList.get(key);
   }

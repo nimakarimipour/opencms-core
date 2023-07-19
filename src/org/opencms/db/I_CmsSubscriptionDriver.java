@@ -27,6 +27,7 @@
 
 package org.opencms.db;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.List;
 import org.opencms.file.CmsDataAccessException;
 import org.opencms.file.CmsGroup;
@@ -125,6 +126,7 @@ public interface I_CmsSubscriptionDriver {
    * @return all resources subscribed by the given user or group
    * @throws CmsDataAccessException if something goes wrong
    */
+  @RUntainted
   List<CmsResource> readAllSubscribedResources(
       CmsDbContext dbc, String poolName, CmsPrincipal principal) throws CmsDataAccessException;
 
@@ -139,6 +141,7 @@ public interface I_CmsSubscriptionDriver {
    * @return the resources that were visited by a user set in the filter
    * @throws CmsDataAccessException if something goes wrong
    */
+  @RUntainted
   List<CmsResource> readResourcesVisitedBy(
       CmsDbContext dbc, String poolName, CmsVisitedByFilter filter) throws CmsDataAccessException;
 
@@ -180,6 +183,7 @@ public interface I_CmsSubscriptionDriver {
    * @return the resources that were subscribed by a user or group set in the filter
    * @throws CmsDataAccessException if something goes wrong
    */
+  @RUntainted
   List<CmsResource> readSubscribedResources(
       CmsDbContext dbc, String poolName, CmsSubscriptionFilter filter)
       throws CmsDataAccessException;

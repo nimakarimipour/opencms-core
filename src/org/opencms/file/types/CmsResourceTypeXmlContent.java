@@ -785,7 +785,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
       CmsObject writeCms =
           OpenCms.initCmsObject(
               cms); // clone CmsObject  to get rid of the request attribute triggering the reverse
-                    // mapping
+      // mapping
       file.setContents(content.marshal());
       writeCms.writeFile(file);
       return true;

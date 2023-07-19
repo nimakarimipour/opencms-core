@@ -27,6 +27,7 @@
 
 package org.opencms.ade.upload;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.Serializable;
 import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.logging.Log;
@@ -69,7 +70,7 @@ public class CmsUploadListener implements ProgressListener, Serializable {
   private boolean m_finished;
 
   /** The UUID for this listener. */
-  private CmsUUID m_id;
+  private @RUntainted CmsUUID m_id;
 
   /** Stores the current item. */
   private int m_item;
@@ -146,7 +147,7 @@ public class CmsUploadListener implements ProgressListener, Serializable {
    *
    * @return the listeners UUID
    */
-  public CmsUUID getId() {
+  public @RUntainted CmsUUID getId() {
 
     return m_id;
   }

@@ -27,6 +27,7 @@
 
 package org.opencms.main;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import org.opencms.workplace.CmsWorkplace;
 
 /**
@@ -62,7 +63,7 @@ public class CmsHttpAuthenticationSettings {
   /**
    * The URI of the system wide login form if browser-based HTTP basic authentication is disabled.
    */
-  private String m_formBasedHttpAuthenticationUri;
+  private @RUntainted String m_formBasedHttpAuthenticationUri;
 
   /** Boolean flag to enable or disable browser-based HTTP basic authentication. */
   private boolean m_useBrowserBasedHttpAuthentication;
@@ -126,7 +127,7 @@ public class CmsHttpAuthenticationSettings {
    * @return the URI of the system wide login form if browser-based HTTP basic authentication is
    *     disabled
    */
-  public String getFormBasedHttpAuthenticationUri() {
+  public @RUntainted String getFormBasedHttpAuthenticationUri() {
 
     return m_formBasedHttpAuthenticationUri;
   }
@@ -140,7 +141,7 @@ public class CmsHttpAuthenticationSettings {
    * @param uri the URI of the system wide login form if browser-based HTTP basic authentication is
    *     disabled to set
    */
-  public void setFormBasedHttpAuthenticationUri(String uri) {
+  public void setFormBasedHttpAuthenticationUri(@RUntainted String uri) {
 
     m_formBasedHttpAuthenticationUri = uri;
   }

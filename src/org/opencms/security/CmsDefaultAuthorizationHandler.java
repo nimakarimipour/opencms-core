@@ -28,6 +28,7 @@
 package org.opencms.security;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -276,7 +277,8 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
    * @throws IOException if something goes wrong
    */
   public void requestAuthorization(
-      HttpServletRequest req, HttpServletResponse res, String loginFormURL) throws IOException {
+      HttpServletRequest req, HttpServletResponse res, @RUntainted String loginFormURL)
+      throws IOException {
 
     CmsHttpAuthenticationSettings httpAuthenticationSettings =
         OpenCms.getSystemInfo().getHttpAuthenticationSettings();
@@ -375,7 +377,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
       LOG.debug("initStartSettings = " + initStartSettings);
       OpenCms.getSiteManager().isWorkplaceRequest(req);
       if (initStartSettings) {
-        CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(cms);
+        @RUntainted CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(cms);
         session.setAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS, settings);
       }
 

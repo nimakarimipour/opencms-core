@@ -377,10 +377,9 @@ public class CmsJspTagSimpleSearch extends CmsJspScopedVarBodyTagSuport
       CmsSolrResultList solrResultList =
           m_index.search(
               cms,
-              query
-                  .clone(), // use a clone of the query, since the search function manipulates the
-                            // query (removes highlighting parts), but we want to keep the original
-                            // one.
+              query.clone(), // use a clone of the query, since the search function manipulates the
+              // query (removes highlighting parts), but we want to keep the original
+              // one.
               true,
               null,
               false,

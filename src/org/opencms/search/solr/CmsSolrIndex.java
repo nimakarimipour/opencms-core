@@ -32,6 +32,7 @@
 package org.opencms.search.solr;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -1007,7 +1008,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
                   end
                       + (end
                           / 5)); // request 20 percent more, but at least 10 results if permissions
-                                 // are filtered
+      // are filtered
       // use a set to prevent double entries if multiple check queries are performed.
       Set<String> resultSolrIds = new HashSet<>(rows); // rows are set before definitely.
 
@@ -1276,7 +1277,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
               rows > 0
                   ? (start / rows) + 1
                   : 0, // page - but matches only in case of equally sized pages and is zero for
-                       // rows=0 (because this was this way before!?!)
+              // rows=0 (because this was this way before!?!)
               visibleHitCount,
               finalMaxScore,
               startTime,
@@ -1738,7 +1739,9 @@ public class CmsSolrIndex extends CmsSearchIndex {
    * @throws UnsupportedEncodingException if sth. goes wrong
    */
   private void writeResp(
-      ServletResponse response, SolrQueryRequest queryRequest, SolrQueryResponse queryResponse)
+      ServletResponse response,
+      SolrQueryRequest queryRequest,
+      @RUntainted SolrQueryResponse queryResponse)
       throws IOException, UnsupportedEncodingException {
 
     if (m_solr instanceof EmbeddedSolrServer) {
@@ -1747,7 +1750,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
       try {
         QueryResponseWriter responseWriter = core.getQueryResponseWriter(queryRequest);
 
-        final String ct = responseWriter.getContentType(queryRequest, queryResponse);
+        final @RUntainted String ct = responseWriter.getContentType(queryRequest, queryResponse);
         if (null != ct) {
           response.setContentType(ct);
         }

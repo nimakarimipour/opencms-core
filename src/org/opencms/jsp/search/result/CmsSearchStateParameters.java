@@ -182,7 +182,7 @@ public class CmsSearchStateParameters implements I_CmsSearchStateParameters {
                               String facetParamKey = getFacetParamKey((String) facet);
                               if (facetParamKey
                                   != null) { // otherwise the facet was not configured, thus no item
-                                             // can be added
+                                // can be added
                                 if (parameters.containsKey(facetParamKey)) {
                                   String[] values = parameters.get(facetParamKey);
                                   if (!Arrays.asList(values).contains(facetItem)) {

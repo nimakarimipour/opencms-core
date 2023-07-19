@@ -28,6 +28,7 @@
 package org.opencms.ade.galleries.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +118,7 @@ public class CmsGalleryDataBean implements IsSerializable {
   private GalleryTabId[] m_tabIds;
 
   /** A token used to determine which tree state is loaded/saved . */
-  private String m_treeToken;
+  private @RUntainted String m_treeToken;
 
   /** The types to display in the list of available categories. */
   private List<CmsResourceTypeBean> m_types;
@@ -401,7 +402,7 @@ public class CmsGalleryDataBean implements IsSerializable {
    *
    * @return the tree token
    */
-  public String getTreeToken() {
+  public @RUntainted String getTreeToken() {
 
     return m_treeToken;
   }
@@ -704,7 +705,7 @@ public class CmsGalleryDataBean implements IsSerializable {
    *
    * @param treeToken the new tree token
    */
-  public void setTreeToken(String treeToken) {
+  public void setTreeToken(@RUntainted String treeToken) {
 
     m_treeToken = treeToken;
   }

@@ -27,6 +27,7 @@
 
 package org.opencms.ui.login;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -392,7 +393,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
    * @param workplaceUiRequest true if this is called from a workplace UI request
    * @return the login parameters
    */
-  public static LoginParameters getLoginParameters(
+  public static @RUntainted LoginParameters getLoginParameters(
       CmsObject cms, HttpServletRequest request, boolean workplaceUiRequest) {
 
     String authToken = request.getParameter(PARAM_AUTHTOKEN);
@@ -542,8 +543,9 @@ public class CmsLoginHelper extends CmsJspLoginBean {
    * @param cms the CMS context which should be initialized
    * @return the workplace set
    */
-  public static CmsWorkplaceSettings initSiteAndProject(CmsObject cms) {
+  public static @RUntainted CmsWorkplaceSettings initSiteAndProject(CmsObject cms) {
 
+    @RUntainted
     CmsWorkplaceSettings workplaceSettings = CmsWorkplace.initWorkplaceSettings(cms, null, false);
     String startSite = CmsWorkplace.getStartSiteRoot(cms, workplaceSettings);
     // switch to the preferred site
@@ -588,9 +590,9 @@ public class CmsLoginHelper extends CmsJspLoginBean {
    * @param response the current response
    */
   public static void setCookieData(
-      String pcType,
-      String username,
-      String oufqn,
+      @RUntainted String pcType,
+      @RUntainted String username,
+      @RUntainted String oufqn,
       HttpServletRequest request,
       HttpServletResponse response) {
 

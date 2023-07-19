@@ -136,8 +136,8 @@ public class CmsImportExportManager {
       ""
           + CmsImportVersion10
               .IMPORT_VERSION10; // TODO: when changing this to a newer import version, need to
-                                 // refactor the module updater so it dynamically uses the correct
-                                 // import version
+  // refactor the module updater so it dynamically uses the correct
+  // import version
 
   /**
    * The name of the XML manifest file used for the description of exported OpenCms VFS properties

@@ -27,6 +27,7 @@
 
 package org.opencms.crypto;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import org.opencms.configuration.I_CmsConfigurationParameterHandler;
 import org.opencms.file.CmsObject;
 
@@ -40,7 +41,7 @@ public interface I_CmsTextEncryption extends I_CmsConfigurationParameterHandler 
    * @return the decrypted data
    * @throws CmsEncryptionException if the data couldn't be decrypted
    */
-  public String decrypt(String input) throws CmsEncryptionException;
+  public @RUntainted String decrypt(String input) throws CmsEncryptionException;
 
   /**
    * Encrypts data.

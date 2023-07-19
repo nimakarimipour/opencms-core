@@ -27,6 +27,7 @@
 
 package org.opencms.main;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
@@ -144,12 +145,13 @@ public class CmsPermalinkResourceHandler implements I_CmsResourceInit {
             CmsResource pageResource = cms.readResource(pageId);
             if (res != null) {
               CmsResource detailResource = cms.readResource(detailId);
+              @RUntainted
               String detailName =
                   cms.getDetailName(
                       detailResource,
                       cms.getRequestContext()
                           .getLocale(), // the locale in the request context should be the locale of
-                                        // the container page
+                      // the container page
                       OpenCms.getLocaleManager().getDefaultLocales());
               CmsResource parentFolder;
               if (pageResource.isFile()) {
@@ -157,7 +159,9 @@ public class CmsPermalinkResourceHandler implements I_CmsResourceInit {
               } else {
                 parentFolder = pageResource;
               }
+              @RUntainted
               String baseLink = OpenCms.getLinkManager().substituteLink(cms, parentFolder);
+              @RUntainted
               String redirectLink = baseLink + (baseLink.endsWith("/") ? "" : "/") + detailName;
               CmsResourceInitException resInitException = new CmsResourceInitException(getClass());
 

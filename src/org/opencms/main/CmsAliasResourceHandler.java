@@ -27,6 +27,7 @@
 
 package org.opencms.main;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -166,7 +167,7 @@ public class CmsAliasResourceHandler implements I_CmsResourceInit {
    * @throws CmsResourceInitException
    */
   private void redirectToTarget(
-      HttpServletRequest req, HttpServletResponse res, String link, boolean isPermanent)
+      HttpServletRequest req, HttpServletResponse res, @RUntainted String link, boolean isPermanent)
       throws IOException, CmsResourceInitException {
 
     CmsResourceInitException resInitException = new CmsResourceInitException(getClass());

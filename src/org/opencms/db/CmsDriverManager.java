@@ -30,6 +30,7 @@ package org.opencms.db;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -2136,9 +2137,8 @@ public final class CmsDriverManager implements I_CmsEventListener {
                 1,
                 contentLength,
                 resource.getDateContent(),
-                resource
-                    .getVersion()); // version number does not matter since it will be computed
-                                    // later
+                resource.getVersion()); // version number does not matter since it will be computed
+        // later
 
         // ensure date is updated only if required
         if (resource.isTouched()) {
@@ -7005,6 +7005,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
   public List<CmsResource> readAllSubscribedResources(
       CmsDbContext dbc, String poolName, CmsPrincipal principal) throws CmsException {
 
+    @RUntainted
     List<CmsResource> result =
         getSubscriptionDriver().readAllSubscribedResources(dbc, poolName, principal);
     result = filterPermissions(dbc, result, CmsResourceFilter.DEFAULT);
@@ -7094,7 +7095,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
       throws CmsException {
 
     String cacheKey = null;
-    List<CmsResource> resourceList = null;
+    @RUntainted List<CmsResource> resourceList = null;
     if (m_monitor.isEnabled(
         CmsMemoryMonitor.CacheType
             .RESOURCE_LIST)) { // check this here to skip the complex cache key generation
@@ -7918,7 +7919,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
   public List<CmsResource> readProjectView(
       CmsDbContext dbc, CmsUUID projectId, CmsResourceState state) throws CmsException {
 
-    List<CmsResource> resources;
+    @RUntainted List<CmsResource> resources;
     if (state.isNew() || state.isChanged() || state.isDeleted()) {
       // get all resources form the database that match the selected state
       resources =
@@ -8320,7 +8321,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
             },
             dbc);
 
-    List<CmsResource> resourceList = m_monitor.getCachedResourceList(cacheKey);
+    @RUntainted List<CmsResource> resourceList = m_monitor.getCachedResourceList(cacheKey);
     if ((resourceList == null) || !dbc.getProjectId().isNullUUID()) {
       // read the result from the database
       resourceList =
@@ -8373,9 +8374,10 @@ public final class CmsDriverManager implements I_CmsEventListener {
    * @return the resources that were visited by a user set in the filter
    * @throws CmsException if something goes wrong
    */
-  public List<CmsResource> readResourcesVisitedBy(
+  public @RUntainted List<CmsResource> readResourcesVisitedBy(
       CmsDbContext dbc, String poolName, CmsVisitedByFilter filter) throws CmsException {
 
+    @RUntainted
     List<CmsResource> result =
         getSubscriptionDriver().readResourcesVisitedBy(dbc, poolName, filter);
     result = filterPermissions(dbc, result, CmsResourceFilter.DEFAULT);
@@ -8433,7 +8435,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
               },
               dbc);
     }
-    List<CmsResource> resourceList = m_monitor.getCachedResourceList(cacheKey);
+    @RUntainted List<CmsResource> resourceList = m_monitor.getCachedResourceList(cacheKey);
     if ((resourceList == null) || !dbc.getProjectId().isNullUUID()) {
 
       CmsPropertyDefinition propDef = null;
@@ -8634,9 +8636,10 @@ public final class CmsDriverManager implements I_CmsEventListener {
    * @return the resources that were subscribed by a user or group set in the filter
    * @throws CmsException if something goes wrong
    */
-  public List<CmsResource> readSubscribedResources(
+  public @RUntainted List<CmsResource> readSubscribedResources(
       CmsDbContext dbc, String poolName, CmsSubscriptionFilter filter) throws CmsException {
 
+    @RUntainted
     List<CmsResource> result =
         getSubscriptionDriver().readSubscribedResources(dbc, poolName, filter);
 
@@ -11736,15 +11739,15 @@ public final class CmsDriverManager implements I_CmsEventListener {
    * @return the filtered list of resources
    * @throws CmsException in case errors testing the permissions
    */
-  private List<CmsResource> filterPermissions(
-      CmsDbContext dbc, List<CmsResource> resourceList, CmsResourceFilter filter)
+  private @RUntainted List<CmsResource> filterPermissions(
+      CmsDbContext dbc, @RUntainted List<CmsResource> resourceList, CmsResourceFilter filter)
       throws CmsException {
 
     if (filter.requireTimerange()) {
       // never check time range here - this must be done later in #updateContextDates(...)
       filter = filter.addExcludeTimerange();
     }
-    ArrayList<CmsResource> result = new ArrayList<CmsResource>(resourceList.size());
+    @RUntainted ArrayList<CmsResource> result = new ArrayList<CmsResource>(resourceList.size());
     for (int i = 0; i < resourceList.size(); i++) {
       // check the permission of all resources
       CmsResource currentResource = resourceList.get(i);

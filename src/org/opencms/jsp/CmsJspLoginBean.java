@@ -27,6 +27,7 @@
 
 package org.opencms.jsp;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Date;
@@ -215,7 +216,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
    *
    * @return the link to the form that contains the login element
    */
-  public String getFormLink() {
+  public @RUntainted String getFormLink() {
 
     return link(getRequestContext().getUri());
   }

@@ -223,8 +223,8 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
           if ((site != null)
               && site
                   .isSubsiteSelectionEnabled()) { // only use subsites that are in an actual site;
-                                                  // also, subsite selection must be enabled on the
-                                                  // site
+            // also, subsite selection must be enabled on the
+            // site
             CmsPath siteRootPath = new CmsPath(site.getSiteRoot());
             if (!siteRootPath.equals(
                 new CmsPath(subsite))) { // Don't allow the site itself as a subsite

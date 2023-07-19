@@ -33,6 +33,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.text.Collator;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -511,7 +512,8 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
    * @param treeToken the tree token
    * @return the attribute name for the tree
    */
-  public static String getTreeOpenStateAttributeName(String treeName, String treeToken) {
+  public static @RUntainted String getTreeOpenStateAttributeName(
+      @RUntainted String treeName, @RUntainted String treeToken) {
 
     return "tree_" + treeName + "_" + treeToken;
   }
@@ -525,7 +527,8 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
    * @param treeToken the tree token (may be null)
    * @return the saved tree open state (may be null)
    */
-  public static CmsTreeOpenState getVfsTreeState(HttpServletRequest request, String treeToken) {
+  public static CmsTreeOpenState getVfsTreeState(
+      HttpServletRequest request, @RUntainted String treeToken) {
 
     return (CmsTreeOpenState)
         request
@@ -1334,20 +1337,23 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
    *     java.lang.String, java.lang.String, java.util.Set)
    */
   public void saveTreeOpenState(
-      String treeName, String treeToken, String siteRoot, Set<CmsUUID> openItems)
+      @RUntainted String treeName,
+      @RUntainted String treeToken,
+      @RUntainted String siteRoot,
+      @RUntainted Set<CmsUUID> openItems)
       throws CmsRpcException {
 
     try {
       HttpServletRequest request = getRequest();
       HttpSession session = request.getSession();
-      String attributeName = getTreeOpenStateAttributeName(treeName, treeToken);
+      @RUntainted String attributeName = getTreeOpenStateAttributeName(treeName, treeToken);
       if (openItems.isEmpty()) {
         CmsObject cms = OpenCms.initCmsObject(getCmsObject());
         cms.getRequestContext().setSiteRoot("");
         CmsResource resource = cms.readResource(siteRoot);
         openItems = Sets.newHashSet(resource.getStructureId());
       }
-      CmsTreeOpenState treeState = new CmsTreeOpenState(treeName, siteRoot, openItems);
+      @RUntainted CmsTreeOpenState treeState = new CmsTreeOpenState(treeName, siteRoot, openItems);
       session.setAttribute(attributeName, treeState);
     } catch (Throwable e) {
       error(e);
@@ -1579,7 +1585,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
    * @param treeToken the tree token to use
    * @return the sitemap tree open state
    */
-  CmsTreeOpenState getSitemapTreeState(String treeToken) {
+  CmsTreeOpenState getSitemapTreeState(@RUntainted String treeToken) {
 
     return (CmsTreeOpenState)
         (getRequest()
@@ -1597,7 +1603,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
    * @param treeToken the tree token
    * @return the VFS tree open state
    */
-  CmsTreeOpenState getVfsTreeState(String treeToken) {
+  CmsTreeOpenState getVfsTreeState(@RUntainted String treeToken) {
 
     return (CmsTreeOpenState)
         (getRequest()
@@ -3307,7 +3313,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     if ((searchObject.getGalleries() != null)
         && (searchObject.getGalleries().size()
             <= 1) // if the size is 0, the user has actively deselected the galleries, so we want to
-                  // handle this case too
+        // handle this case too
         && searchObject.haveGalleriesChanged()) {
       String galleryPath =
           searchObject.getGalleries().isEmpty() ? null : searchObject.getGalleries().get(0);

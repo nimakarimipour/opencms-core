@@ -27,6 +27,7 @@
 
 package org.opencms.jsp;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import javax.servlet.http.Cookie;
 import org.apache.commons.logging.Log;
@@ -68,7 +69,7 @@ public class CmsJspLoginPersistingBean extends CmsJspLoginBean {
    * @param resolveMacros if true, macros should be resolved
    * @return the authorization cookie path
    */
-  public String getCookiePath(boolean resolveMacros) {
+  public @RUntainted String getCookiePath(boolean resolveMacros) {
 
     String result = m_cookiePath;
     if (resolveMacros) {

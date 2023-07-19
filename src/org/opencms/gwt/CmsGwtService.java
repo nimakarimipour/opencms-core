@@ -29,6 +29,7 @@ package org.opencms.gwt;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.user.server.rpc.SerializationPolicy;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -154,7 +155,7 @@ public class CmsGwtService extends RemoteServiceServlet {
    * @return the current request
    * @see #getThreadLocalRequest()
    */
-  public HttpServletRequest getRequest() {
+  public @RUntainted HttpServletRequest getRequest() {
 
     return getThreadLocalRequest();
   }
@@ -225,7 +226,7 @@ public class CmsGwtService extends RemoteServiceServlet {
    *     javax.servlet.ServletResponse)
    */
   @Override
-  public void service(ServletRequest request, ServletResponse response)
+  public void service(@RUntainted ServletRequest request, ServletResponse response)
       throws ServletException, IOException {
 
     try {

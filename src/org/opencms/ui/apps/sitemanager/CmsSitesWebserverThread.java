@@ -31,6 +31,7 @@
 
 package org.opencms.ui.apps.sitemanager;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -82,13 +83,13 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
   private String m_scriptPath;
 
   /** The template to be used for secure site configurations. */
-  private String m_secureTemplate;
+  private @RUntainted String m_secureTemplate;
 
   /** The target path. */
   private String m_targetPath;
 
   /** The template path. */
-  private String m_templatePath;
+  private @RUntainted String m_templatePath;
 
   /** The files that have been written. */
   private List<String> m_writtenFiles = new ArrayList<String>();
@@ -109,11 +110,11 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
   public CmsSitesWebserverThread(
       CmsObject cms,
       String targetPath,
-      String templatePath,
+      @RUntainted String templatePath,
       String scriptPath,
       String filePrefix,
       String loggingDir,
-      String secureTemplate) {
+      @RUntainted String secureTemplate) {
 
     super(cms, "write-to-webserver");
 
@@ -171,6 +172,7 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
     for (CmsSite site : sites) {
       if ((site.getSiteMatcher() != null) && site.isWebserver()) {
 
+        @RUntainted
         String filename =
             m_targetPath
                 + m_filePrefix
@@ -180,12 +182,13 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
             .println(
                 Messages.get().container(Messages.RPT_CREATING_CONFIG_FOR_SITE_2, filename, site),
                 I_CmsReport.FORMAT_OK);
-        File newFile = new File(filename);
+        @RUntainted File newFile = new File(filename);
         if (!newFile.exists()) {
           newFile.getParentFile().mkdirs();
           newFile.createNewFile();
         }
 
+        @RUntainted
         String content =
             createConfigForSite(site, FileUtils.readFileToString(new File(m_templatePath)));
         if (site.hasSecureServer()) {
@@ -208,9 +211,9 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
    * @param templateContent the configuration template content
    * @return the file content for the configuration as String
    */
-  private String createConfigForSite(CmsSite site, String templateContent) {
+  private @RUntainted String createConfigForSite(CmsSite site, String templateContent) {
 
-    StringTemplate config = new StringTemplate(templateContent);
+    @RUntainted StringTemplate config = new StringTemplate(templateContent);
 
     // system info
     String webappPath = OpenCms.getSystemInfo().getWebApplicationRfsPath();

@@ -27,6 +27,7 @@
 
 package org.opencms.file;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.Serializable;
 import java.util.List;
 import org.opencms.main.CmsIllegalArgumentException;
@@ -160,7 +161,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
   private CmsUUID m_groupUsersId;
 
   /** The id of this project. */
-  private CmsUUID m_id;
+  private @RUntainted CmsUUID m_id;
 
   /** The name of this project. */
   private String m_name;
@@ -473,7 +474,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
    *
    * @return the id of this project
    */
-  public CmsUUID getUuid() {
+  public @RUntainted CmsUUID getUuid() {
 
     return m_id;
   }

@@ -1467,9 +1467,8 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         return false;
       }
       if (m_checkedUserPasswordReset.contains(
-          user
-              .getId())) { // was true before, true->false happens when user resets password. Only
-                           // check one time per table load.
+          user.getId())) { // was true before, true->false happens when user resets password. Only
+        // check one time per table load.
         return true; // Set gets flushed on reloading table
       }
     }

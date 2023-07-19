@@ -2695,7 +2695,7 @@ public class CmsImportVersion10 implements I_CmsImport {
    */
   @SuppressWarnings(
       "resource") // stream is closed always in finally block - don't know why the compiler
-                  // complains
+  // complains
   public boolean matches(CmsImportParameters parameters) throws CmsImportExportException {
 
     m_fileCounter = 1;

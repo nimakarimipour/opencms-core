@@ -1102,9 +1102,8 @@ public class CmsXmlContainerPage extends CmsXmlContent {
         (a, b) ->
             b.getName()
                 .compareTo(
-                    a
-                        .getName())); // we put them on a stack, so the last element should be the
-                                      // smallest one
+                    a.getName())); // we put them on a stack, so the last element should be the
+    // smallest one
     ArrayList<CmsContainerBean> stack = new ArrayList<>();
     stack.addAll(rootContainers);
     Map<String, Integer> order = new HashMap<>();

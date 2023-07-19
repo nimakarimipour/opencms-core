@@ -27,6 +27,7 @@
 
 package org.opencms.workplace;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -887,8 +888,8 @@ public abstract class CmsWorkplace {
    * @return the current users workplace settings
    * @see #initWorkplaceSettings(CmsObject, CmsWorkplaceSettings, boolean)
    */
-  public static CmsWorkplaceSettings initUserSettings(
-      CmsObject cms, CmsWorkplaceSettings settings, boolean update) {
+  public static @RUntainted CmsWorkplaceSettings initUserSettings(
+      CmsObject cms, @RUntainted CmsWorkplaceSettings settings, boolean update) {
 
     if (settings == null) {
       settings = new CmsWorkplaceSettings();
@@ -935,8 +936,8 @@ public abstract class CmsWorkplace {
    * @return the current users initialized workplace settings
    * @see #initUserSettings(CmsObject, CmsWorkplaceSettings, boolean)
    */
-  public static synchronized CmsWorkplaceSettings initWorkplaceSettings(
-      CmsObject cms, CmsWorkplaceSettings settings, boolean update) {
+  public static synchronized @RUntainted CmsWorkplaceSettings initWorkplaceSettings(
+      CmsObject cms, @RUntainted CmsWorkplaceSettings settings, boolean update) {
 
     // init the workplace user settings
     settings = initUserSettings(cms, settings, update);
@@ -1026,12 +1027,13 @@ public abstract class CmsWorkplace {
    * @param cms the current cms context
    * @param req the current http request
    */
-  public static void updateUserPreferences(CmsObject cms, HttpServletRequest req) {
+  public static void updateUserPreferences(CmsObject cms, @RUntainted HttpServletRequest req) {
 
-    HttpSession session = req.getSession(false);
+    @RUntainted HttpSession session = req.getSession(false);
     if (session == null) {
       return;
     }
+    @RUntainted
     CmsWorkplaceSettings settings =
         (CmsWorkplaceSettings) session.getAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS);
     if (settings == null) {
@@ -1052,7 +1054,7 @@ public abstract class CmsWorkplace {
    * @param session the session to store the settings in
    * @param settings the settings
    */
-  static void storeSettings(HttpSession session, CmsWorkplaceSettings settings) {
+  static void storeSettings(HttpSession session, @RUntainted CmsWorkplaceSettings settings) {
 
     // save the workplace settings in the session
     session.setAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS, settings);
@@ -2466,7 +2468,7 @@ public abstract class CmsWorkplace {
    */
   protected void initTimeWarp(CmsUserSettings settings, HttpSession session) {
 
-    long timeWarpConf = settings.getTimeWarp();
+    @RUntainted long timeWarpConf = settings.getTimeWarp();
     Long timeWarpSetLong = (Long) session.getAttribute(CmsContextInfo.ATTRIBUTE_REQUEST_TIME);
     long timeWarpSet =
         (timeWarpSetLong != null) ? timeWarpSetLong.longValue() : CmsContextInfo.CURRENT_TIME;

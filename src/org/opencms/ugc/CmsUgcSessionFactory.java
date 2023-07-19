@@ -27,6 +27,7 @@
 
 package org.opencms.ugc;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -106,7 +107,7 @@ public class CmsUgcSessionFactory {
       CmsObject cms, HttpServletRequest request, CmsUgcConfiguration config)
       throws CmsUgcException {
 
-    CmsUgcSession session = createSession(cms, config);
+    @RUntainted CmsUgcSession session = createSession(cms, config);
     HttpSession httpSession = request.getSession(true);
     httpSession.setAttribute("" + session.getId(), session);
     return session;
@@ -188,7 +189,7 @@ public class CmsUgcSessionFactory {
    * @return the form session
    * @throws CmsUgcException if the session creation fails
    */
-  private CmsUgcSession createSession(CmsObject cms, CmsUgcConfiguration config)
+  private @RUntainted CmsUgcSession createSession(CmsObject cms, CmsUgcConfiguration config)
       throws CmsUgcException {
 
     if (getQueue(config).waitForSlot()) {

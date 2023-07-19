@@ -33,6 +33,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.SortedMap;
@@ -51,7 +52,7 @@ public class CmsLogFileViewSettings extends CmsBasicDialog {
   private static final long serialVersionUID = 3564444938636162445L;
 
   /** Vaadin component. */
-  ComboBox m_charset;
+  @RUntainted ComboBox m_charset;
 
   /** Vaadin component. */
   TextField m_size;

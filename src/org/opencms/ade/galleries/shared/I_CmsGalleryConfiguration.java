@@ -27,6 +27,7 @@
 
 package org.opencms.ade.galleries.shared;
 
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.List;
 import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryMode;
 
@@ -181,6 +182,7 @@ public interface I_CmsGalleryConfiguration {
    *
    * @return the tree token
    */
+  @RUntainted
   String getTreeToken();
 
   /**
