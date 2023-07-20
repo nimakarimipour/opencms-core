@@ -39,6 +39,7 @@ import org.opencms.file.CmsPropertyDefinition;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Util class to find broken links in a bundle of resources to be published.
@@ -91,9 +92,9 @@ public class CmsRelationPublishValidator {
    * @param resourceName the entry name
    * @return the information bean for the given entry
    */
-  public CmsRelationValidatorInfoEntry getInfoEntry(String resourceName) {
+  public CmsRelationValidatorInfoEntry getInfoEntry(@RUntainted String resourceName) {
 
-    String resName = resourceName;
+    @RUntainted String resName = resourceName;
     String siteRoot = m_cms.getRequestContext().getSiteRoot();
     String siteName = null;
     if (resName.startsWith(m_cms.getRequestContext().getSiteRoot())) {

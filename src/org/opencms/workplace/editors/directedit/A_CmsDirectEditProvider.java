@@ -47,6 +47,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.security.CmsPermissionSet;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Basic functions for direct edit providers.
@@ -74,7 +75,7 @@ public abstract class A_CmsDirectEditProvider implements I_CmsDirectEditProvider
   protected int m_editButtonStyle;
 
   /** Value of the "fileName" parameter. */
-  protected String m_fileName;
+  protected @RUntainted String m_fileName;
 
   /** Used to access the editor messages. */
   protected CmsMessages m_messages;
@@ -119,7 +120,7 @@ public abstract class A_CmsDirectEditProvider implements I_CmsDirectEditProvider
    * @return the direct edit resource information for the given VFS resource
    */
   public CmsDirectEditResourceInfo getResourceInfo(
-      CmsDirectEditParams params, String resourceName) {
+      CmsDirectEditParams params, @RUntainted String resourceName) {
 
     try {
       // first check some simple preconditions for direct edit
@@ -181,7 +182,7 @@ public abstract class A_CmsDirectEditProvider implements I_CmsDirectEditProvider
    *     org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#init(org.opencms.file.CmsObject,
    *     org.opencms.workplace.editors.directedit.CmsDirectEditMode, java.lang.String)
    */
-  public void init(CmsObject cms, CmsDirectEditMode mode, String fileName) {
+  public void init(CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName) {
 
     m_cms = cms;
     m_fileName = fileName;

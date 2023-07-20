@@ -50,6 +50,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.xml.content.I_CmsXmlContentLocation;
 import org.opencms.xml.content.I_CmsXmlContentValueLocation;
 import org.opencms.xml.types.CmsXmlVfsFileValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Replacement configuration for the 'add content' dialog.
@@ -70,7 +71,7 @@ public class CmsAddContentRestriction {
     /**
      * The replacement titles for the search results, with the corresponding structure ids as keys.
      */
-    private Map<CmsUUID, String> m_replacedTitles = new HashMap<>();
+    private Map<CmsUUID, @RUntainted String> m_replacedTitles = new HashMap<>();
 
     /** The resources to replace the search result for the configured type with. */
     private List<CmsResource> m_resources = new ArrayList<>();
@@ -89,7 +90,7 @@ public class CmsAddContentRestriction {
     public TypeEntry(
         String type,
         List<CmsResource> resources,
-        Map<CmsUUID, String> titleReplacements,
+        Map<CmsUUID, @RUntainted String> titleReplacements,
         String origin) {
 
       m_type = type;
@@ -132,7 +133,7 @@ public class CmsAddContentRestriction {
 
           CmsGallerySearchResult singleResult =
               CmsGallerySearch.searchById(cms, res.getStructureId(), locale);
-          String replacementTitle = m_replacedTitles.get(currentRes.getStructureId());
+          @RUntainted String replacementTitle = m_replacedTitles.get(currentRes.getStructureId());
           if (replacementTitle != null) {
             replacementTitle = macroResolver.resolveMacros(replacementTitle);
             singleResult = singleResult.withTitle(replacementTitle);
@@ -209,7 +210,7 @@ public class CmsAddContentRestriction {
    * @return the content restriction
    */
   public static CmsAddContentRestriction read(
-      CmsObject cms, I_CmsXmlContentLocation parent, String nodeName) {
+      CmsObject cms, I_CmsXmlContentLocation parent, @RUntainted String nodeName) {
 
     List<TypeEntry> entries = new ArrayList<>();
     for (I_CmsXmlContentValueLocation entryLoc : parent.getSubValues(nodeName)) {
@@ -229,7 +230,7 @@ public class CmsAddContentRestriction {
   public static TypeEntry readEntry(CmsObject cms, I_CmsXmlContentValueLocation location) {
 
     String type = location.getSubValue(N_TYPE).getValue().getStringValue(cms).trim();
-    Map<CmsUUID, String> titleMap = new HashMap<>();
+    Map<CmsUUID, @RUntainted String> titleMap = new HashMap<>();
     List<CmsResource> resourceList = new ArrayList<>();
     for (I_CmsXmlContentValueLocation entryLoc : location.getSubValues(N_ENTRY)) {
       CmsXmlVfsFileValue resoureValue =

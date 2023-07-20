@@ -47,6 +47,7 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The representation of a RFS file along with the settings to provide access to certain portions
@@ -253,7 +254,7 @@ public class CmsRfsFileViewer implements Cloneable {
    *
    * @return the amount of lines to display per page
    */
-  public int getWindowSize() {
+  public @RUntainted int getWindowSize() {
 
     return m_windowSize;
   }

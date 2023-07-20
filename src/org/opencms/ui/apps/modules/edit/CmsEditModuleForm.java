@@ -96,6 +96,7 @@ import org.opencms.ui.util.CmsNullToEmptyConverter;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Form for editing a module.
@@ -221,7 +222,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
   private TextArea m_importScript;
 
   /** Select box for the module site. */
-  private CmsAutoItemCreatingComboBox m_importSite;
+  private @RUntainted CmsAutoItemCreatingComboBox m_importSite;
 
   /** Contains the widget used to display the module site information. */
   private CmsComponentField<CmsResourceInfo> m_info = new CmsComponentField<CmsResourceInfo>();
@@ -493,7 +494,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
           @SuppressWarnings("synthetic-access")
           public void valueChange(ValueChangeEvent event) {
 
-            String siteRoot = (String) (event.getProperty().getValue());
+            @RUntainted String siteRoot = (String) (event.getProperty().getValue());
             updateSiteInfo(siteRoot);
           }
         });
@@ -601,11 +602,11 @@ public class CmsEditModuleForm extends CmsBasicDialog {
       }
       m_module.setParameters(params);
 
-      List<CmsExportPoint> exportPoints = Lists.newArrayList();
+      List<@RUntainted CmsExportPoint> exportPoints = Lists.newArrayList();
       for (I_CmsEditableGroupRow row : m_exportPointGroup.getRows()) {
         CmsExportPointWidget widget = (CmsExportPointWidget) (row.getComponent());
-        String source = widget.getUri().trim();
-        String target = widget.getDestination().trim();
+        @RUntainted String source = widget.getUri().trim();
+        @RUntainted String target = widget.getDestination().trim();
         if (CmsStringUtil.isEmpty(source) || CmsStringUtil.isEmpty(target)) {
           continue;
         }
@@ -811,7 +812,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
    *
    * @return the currently selected module site
    */
-  String getSelectedSite() {
+  @RUntainted String getSelectedSite() {
 
     return (String) (m_importSite.getValue());
   }
@@ -849,7 +850,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
   private CmsModule createModuleFolders(CmsObject cms, CmsModule module) throws CmsException {
 
     String modulePath = CmsWorkplace.VFS_PATH_MODULES + module.getName() + "/";
-    List<CmsExportPoint> exportPoints = module.getExportPoints();
+    List<@RUntainted CmsExportPoint> exportPoints = module.getExportPoints();
     List<String> resources = module.getResources();
 
     // set the createModuleFolder flag if any other flag is set
@@ -1021,7 +1022,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
    *
    * @param siteRoot the new module site root
    */
-  private void updateSiteInfo(final String siteRoot) {
+  private void updateSiteInfo(final @RUntainted String siteRoot) {
 
     String top = "";
     String bottom = "";

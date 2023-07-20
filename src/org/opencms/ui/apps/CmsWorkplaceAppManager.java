@@ -110,6 +110,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.tools.CmsTool;
 import org.opencms.workplace.tools.CmsToolManager;
 import org.opencms.workplace.tools.I_CmsToolHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The workplace app manager.
@@ -740,7 +741,7 @@ public class CmsWorkplaceAppManager {
 
     JSONArray appIds = new JSONArray(apps);
     CmsUser user = cms.getRequestContext().getCurrentUser();
-    String infoValue = appIds.toString();
+    @RUntainted String infoValue = appIds.toString();
     String previousApps = (String) user.getAdditionalInfo(QUICK_LAUCH_APPS_KEY);
     // remove the additional info value to use default setting, in case the selected apps match the
     // default apps

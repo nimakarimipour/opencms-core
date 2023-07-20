@@ -52,6 +52,7 @@ import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.types.I_CmsXmlSchemaType;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides factory methods to unmarshal (read) an XML page object.
@@ -83,7 +84,7 @@ public final class CmsXmlPageFactory {
    * @param locale the locale to create the XML page for
    * @return a valid XML page document
    */
-  public static Document createDocument(Locale locale) {
+  public static @RUntainted Document createDocument(Locale locale) {
 
     Document doc = DocumentHelper.createDocument();
     Element pages = doc.addElement(CmsXmlPage.NODE_PAGES);
@@ -108,7 +109,7 @@ public final class CmsXmlPageFactory {
    * @param encoding the encoding to use when creating the String from the XML
    * @return a valid XML page document as a String
    */
-  public static String createDocument(Locale locale, String encoding) {
+  public static String createDocument(Locale locale, @RUntainted String encoding) {
 
     try {
       return CmsXmlUtils.marshal(createDocument(locale), encoding);
@@ -134,7 +135,7 @@ public final class CmsXmlPageFactory {
    * @return a XML page instance unmarshalled from the byte array
    * @throws CmsXmlException if something goes wrong
    */
-  public static CmsXmlPage unmarshal(byte[] xmlData, String encoding, EntityResolver resolver)
+  public static CmsXmlPage unmarshal(byte[] xmlData, @RUntainted String encoding, EntityResolver resolver)
       throws CmsXmlException {
 
     return new CmsXmlPage(CmsXmlUtils.unmarshalHelper(xmlData, resolver), encoding);
@@ -303,7 +304,7 @@ public final class CmsXmlPageFactory {
 
     // always use "ignore expiration" filter, date validity must be checked before calling this if
     // required
-    CmsFile file = cms.readFile(filename, CmsResourceFilter.IGNORE_EXPIRATION);
+    @RUntainted CmsFile file = cms.readFile(filename, CmsResourceFilter.IGNORE_EXPIRATION);
 
     if (CmsResourceTypeXmlPage.isXmlPage(file)) {
       // file is of type XML page
@@ -337,7 +338,7 @@ public final class CmsXmlPageFactory {
    * @return a XML page instance unmarshalled from the String
    * @throws CmsXmlException if something goes wrong
    */
-  public static CmsXmlPage unmarshal(String xmlData, String encoding, EntityResolver resolver)
+  public static CmsXmlPage unmarshal(String xmlData, @RUntainted String encoding, EntityResolver resolver)
       throws CmsXmlException {
 
     return new CmsXmlPage(CmsXmlUtils.unmarshalHelper(xmlData, resolver), encoding);

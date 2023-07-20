@@ -29,6 +29,7 @@ import org.opencms.ui.shared.CmsContextMenuState;
 import org.opencms.ui.shared.CmsContextMenuState.ContextMenuItemState;
 import org.opencms.ui.shared.rpc.I_CmsContextMenuClientRpc;
 import org.opencms.ui.shared.rpc.I_CmsContextMenuServerRpc;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * ContextMenu is an extension which can be attached to any Vaadin component to display a popup
@@ -115,7 +116,7 @@ public class CmsContextMenu extends AbstractExtension {
     private final List<CmsContextMenu.ContextMenuItemClickListener> m_clickListeners;
 
     /** The item data. */
-    private Object m_data;
+    private @RUntainted Object m_data;
 
     /** The parent item. */
     private ContextMenuItem m_parent;
@@ -251,7 +252,7 @@ public class CmsContextMenu extends AbstractExtension {
      *
      * @return Object associated with ContextMenuItem.
      */
-    public Object getData() {
+    public @RUntainted Object getData() {
 
       return m_data;
     }
@@ -389,7 +390,7 @@ public class CmsContextMenu extends AbstractExtension {
      *
      * @param data the data
      */
-    public void setData(Object data) {
+    public void setData(@RUntainted Object data) {
 
       m_data = data;
     }
@@ -1402,7 +1403,7 @@ public class CmsContextMenu extends AbstractExtension {
    * @param entries the entries
    * @param data the context data
    */
-  public <T> void setEntries(Collection<I_CmsSimpleContextMenuEntry<T>> entries, T data) {
+  public <T> void setEntries(Collection<I_CmsSimpleContextMenuEntry<T>> entries, @RUntainted T data) {
 
     removeAllItems();
     Locale locale = UI.getCurrent().getLocale();

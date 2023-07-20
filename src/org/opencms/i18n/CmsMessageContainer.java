@@ -29,6 +29,7 @@ package org.opencms.i18n;
 
 import java.io.Serializable;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains a localized message key, it's arguments and a <code>{@link I_CmsMessageBundle}</code>.
@@ -51,13 +52,13 @@ public class CmsMessageContainer implements Serializable, I_CmsMessageContainer 
   private static final long serialVersionUID = 2844402574674092147L;
 
   /** The message arguments to use. */
-  protected Object[] m_args;
+  protected @RUntainted Object[] m_args;
 
   /** The OpenCms message bundle to read the message from. */
   protected I_CmsMessageBundle m_bundle;
 
   /** The message key to use. */
-  protected String m_key;
+  protected @RUntainted String m_key;
 
   /**
    * Creates a new message container for a key without arguments.
@@ -67,7 +68,7 @@ public class CmsMessageContainer implements Serializable, I_CmsMessageContainer 
    * @param bundle the OpenCms message bundle to read the message from
    * @param key the message key to use
    */
-  public CmsMessageContainer(I_CmsMessageBundle bundle, String key) {
+  public CmsMessageContainer(I_CmsMessageBundle bundle, @RUntainted String key) {
 
     m_bundle = bundle;
     m_key = key;
@@ -82,7 +83,7 @@ public class CmsMessageContainer implements Serializable, I_CmsMessageContainer 
    * @param key the message key to use
    * @param args the message arguments to use
    */
-  public CmsMessageContainer(I_CmsMessageBundle bundle, String key, Object... args) {
+  public CmsMessageContainer(I_CmsMessageBundle bundle, @RUntainted String key, @RUntainted Object... args) {
 
     m_bundle = bundle;
     m_key = key;
@@ -96,7 +97,7 @@ public class CmsMessageContainer implements Serializable, I_CmsMessageContainer 
    *
    * @return the message arguments to use
    */
-  public Object[] getArgs() {
+  public @RUntainted Object[] getArgs() {
 
     return m_args;
   }
@@ -120,7 +121,7 @@ public class CmsMessageContainer implements Serializable, I_CmsMessageContainer 
    *
    * @return the message key to use
    */
-  public String getKey() {
+  public @RUntainted String getKey() {
 
     return m_key;
   }
@@ -132,7 +133,7 @@ public class CmsMessageContainer implements Serializable, I_CmsMessageContainer 
    *
    * @return the localized message described by this container for the OpenCms default locale
    */
-  public String key() {
+  public @RUntainted String key() {
 
     if (getBundle() == null) {
       return getKey();
@@ -148,7 +149,7 @@ public class CmsMessageContainer implements Serializable, I_CmsMessageContainer 
    * @param locale the locale to use
    * @return the localized message described by this container for the given locale
    */
-  public String key(Locale locale) {
+  public @RUntainted String key(@RUntainted Locale locale) {
 
     if (getBundle() == null) {
       return getKey();

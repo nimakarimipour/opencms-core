@@ -30,6 +30,7 @@ package org.opencms.util;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * GWT serializer for {@link CmsUUID}.
@@ -72,7 +73,7 @@ public final class CmsUUID_CustomFieldSerializer {
    * @return a new instance
    * @throws SerializationException if something goes wrong
    */
-  public static CmsUUID instantiate(SerializationStreamReader streamReader)
+  public static CmsUUID instantiate(@RUntainted SerializationStreamReader streamReader)
       throws SerializationException {
 
     return CmsUUID.valueOf(streamReader.readString());

@@ -43,6 +43,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the localized messages for the OpenCms workplace.
@@ -89,7 +90,7 @@ public class CmsWorkplaceMessages extends CmsMultiMessages {
    *
    * @param locale the locale to initialize
    */
-  public CmsWorkplaceMessages(Locale locale) {
+  public CmsWorkplaceMessages(@RUntainted Locale locale) {
 
     super(locale);
     setBundleName(WORKPLACE_BUNDLE_NAME);
@@ -111,7 +112,7 @@ public class CmsWorkplaceMessages extends CmsMultiMessages {
    * @param name the type to generate the title for
    * @return the title for the "new resource" dialog
    */
-  public static String getNewResourceTitle(CmsWorkplace wp, String name) {
+  public static String getNewResourceTitle(CmsWorkplace wp, @RUntainted String name) {
 
     // try to find the localized key
     String title = wp.key(GUI_NEW_RESOURCE_TITLE_PREFIX + name.toLowerCase());
@@ -133,10 +134,10 @@ public class CmsWorkplaceMessages extends CmsMultiMessages {
    * @param name the resource type name to generate the nice name for
    * @return the description of the given resource type name
    */
-  public static String getResourceTypeDescription(CmsWorkplace wp, String name) {
+  public static String getResourceTypeDescription(CmsWorkplace wp, @RUntainted String name) {
 
     // try to find the localized key
-    String key = OpenCms.getWorkplaceManager().getExplorerTypeSetting(name).getInfo();
+    @RUntainted String key = OpenCms.getWorkplaceManager().getExplorerTypeSetting(name).getInfo();
     return wp.keyDefault(key, name);
   }
 
@@ -151,12 +152,12 @@ public class CmsWorkplaceMessages extends CmsMultiMessages {
    * @param name the resource type name to generate the nice name for
    * @return the description of the given resource type name
    */
-  public static String getResourceTypeDescription(Locale locale, String name) {
+  public static String getResourceTypeDescription(@RUntainted Locale locale, @RUntainted String name) {
 
     CmsExplorerTypeSettings settings = OpenCms.getWorkplaceManager().getExplorerTypeSetting(name);
     if (settings != null) {
       // try to find the localized key
-      String key = settings.getInfo();
+      @RUntainted String key = settings.getInfo();
       if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(key)) {
         return OpenCms.getWorkplaceManager().getMessages(locale).keyDefault(key, name);
       }
@@ -175,7 +176,7 @@ public class CmsWorkplaceMessages extends CmsMultiMessages {
    * @param name the resource type name to generate the nice name for
    * @return the localized name of the given resource type name
    */
-  public static String getResourceTypeName(CmsWorkplace wp, String name) {
+  public static String getResourceTypeName(CmsWorkplace wp, @RUntainted String name) {
 
     // try to find the localized key
     CmsExplorerTypeSettings typeSettings =
@@ -183,7 +184,7 @@ public class CmsWorkplaceMessages extends CmsMultiMessages {
     if (typeSettings == null) {
       return name;
     }
-    String key = typeSettings.getKey();
+    @RUntainted String key = typeSettings.getKey();
     return wp.keyDefault(key, name);
   }
 
@@ -198,7 +199,7 @@ public class CmsWorkplaceMessages extends CmsMultiMessages {
    * @param name the resource type name to generate the nice name for
    * @return the localized name of the given resource type name
    */
-  public static String getResourceTypeName(Locale locale, String name) {
+  public static @RUntainted String getResourceTypeName(@RUntainted Locale locale, @RUntainted String name) {
 
     // try to find the localized key
     CmsExplorerTypeSettings typeSettings =
@@ -206,7 +207,7 @@ public class CmsWorkplaceMessages extends CmsMultiMessages {
     if (typeSettings == null) {
       return name;
     }
-    String key = typeSettings.getKey();
+    @RUntainted String key = typeSettings.getKey();
     return OpenCms.getWorkplaceManager().getMessages(locale).keyDefault(key, name);
   }
 
@@ -222,7 +223,7 @@ public class CmsWorkplaceMessages extends CmsMultiMessages {
    * @param locale the selected locale
    * @return an initialized set of module messages
    */
-  private static List<CmsMessages> collectModuleMessages(Locale locale) {
+  private static List<CmsMessages> collectModuleMessages(@RUntainted Locale locale) {
 
     // create a new list and add the base bundle
     ArrayList<CmsMessages> result = new ArrayList<CmsMessages>();
@@ -277,7 +278,7 @@ public class CmsWorkplaceMessages extends CmsMultiMessages {
     /////////// collect bundles configured in module configurations ////////
     if (OpenCms.getADEManager().isInitialized()) {
       Set<String> bundleNames = OpenCms.getADEManager().getConfiguredWorkplaceBundles();
-      for (String bundleName : bundleNames) {
+      for (@RUntainted String bundleName : bundleNames) {
         CmsMessages msg = new CmsMessages(bundleName, locale);
         if (msg.isInitialized()) {
           result.add(msg);

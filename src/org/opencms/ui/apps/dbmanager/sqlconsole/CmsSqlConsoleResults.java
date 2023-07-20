@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for storing query results.
@@ -122,7 +123,7 @@ public class CmsSqlConsoleResults {
    *
    * @return the row data
    */
-  public List<List<Object>> getData() {
+  public @RUntainted List<List<Object>> getData() {
 
     return m_data;
   }

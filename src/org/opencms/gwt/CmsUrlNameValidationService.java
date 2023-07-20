@@ -37,6 +37,7 @@ import org.opencms.main.CmsRuntimeException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validation class which both translates a sitemap URL name and checks whether it already exists in
@@ -52,9 +53,9 @@ public class CmsUrlNameValidationService implements I_CmsValidationService {
    * @see org.opencms.gwt.I_CmsValidationService#validate(org.opencms.file.CmsObject,
    *     java.lang.String, java.lang.String)
    */
-  public CmsValidationResult validate(CmsObject cms, String value, String config) {
+  public CmsValidationResult validate(CmsObject cms, @RUntainted String value, String config) {
 
-    String name = cms.getRequestContext().getFileTranslator().translateResource(value);
+    @RUntainted String name = cms.getRequestContext().getFileTranslator().translateResource(value);
     name = name.replace('/', '_');
 
     Map<String, String> configMap = CmsStringUtil.splitAsMap(config, "|", ":");

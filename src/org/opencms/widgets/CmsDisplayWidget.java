@@ -38,6 +38,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.I_CmsXmlContentHandler.DisplayType;
 import org.opencms.xml.types.A_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a display only widget, for use on a widget dialog.
@@ -156,7 +157,7 @@ public class CmsDisplayWidget extends A_CmsWidget implements I_CmsADEWidget {
       CmsObject cms, I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
 
     StringBuffer result = new StringBuffer(128);
-    String locKey = getDisabledHelpKey(param);
+    @RUntainted String locKey = getDisabledHelpKey(param);
     String locValue = widgetDialog.getMessages().key(locKey, true);
     if (locValue == null) {
       // there was no help message found for this key, so return a spacer cell
@@ -193,7 +194,7 @@ public class CmsDisplayWidget extends A_CmsWidget implements I_CmsADEWidget {
   @Override
   public String getHelpText(I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
 
-    String helpId = getDisabledHelpKey(param);
+    @RUntainted String helpId = getDisabledHelpKey(param);
     Set<String> helpIdsShown = widgetDialog.getHelpMessageIds();
     if (helpIdsShown.contains(helpId)) {
       // help hey has already been included in output
@@ -263,7 +264,7 @@ public class CmsDisplayWidget extends A_CmsWidget implements I_CmsADEWidget {
    * @param param the widget parameter to return the localized help key for
    * @return the localized help key for the provided widget parameter
    */
-  private String getDisabledHelpKey(I_CmsWidgetParameter param) {
+  private @RUntainted String getDisabledHelpKey(I_CmsWidgetParameter param) {
 
     StringBuffer result = new StringBuffer(64);
     result.append(LABEL_PREFIX);

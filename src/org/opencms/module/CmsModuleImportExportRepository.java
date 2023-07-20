@@ -63,6 +63,7 @@ import org.opencms.report.CmsLogReport;
 import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class which manages import/export of modules from repositories configured in
@@ -306,7 +307,7 @@ public class CmsModuleImportExportRepository {
         LOG.debug("Zero-length module import content, ignoring it...");
       } else {
         ensureFoldersExist();
-        String targetFilePath = createImportZipPath(name);
+        @RUntainted String targetFilePath = createImportZipPath(name);
         try {
           FileOutputStream out = new FileOutputStream(new File(targetFilePath));
           out.write(content);
@@ -418,7 +419,7 @@ public class CmsModuleImportExportRepository {
    * @param name the module name
    * @return the generated path
    */
-  private String createImportZipPath(String name) {
+  private @RUntainted String createImportZipPath(String name) {
 
     String path = "";
     do {

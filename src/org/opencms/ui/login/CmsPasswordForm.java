@@ -39,6 +39,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.components.CmsNewPasswordField;
 import org.opencms.ui.util.CmsStyleVariable;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The change password form.
@@ -103,7 +104,7 @@ public class CmsPasswordForm extends VerticalLayout {
    *
    * @param locale the user locale
    */
-  public CmsPasswordForm(Locale locale) {
+  public CmsPasswordForm(@RUntainted Locale locale) {
 
     CmsVaadinUtils.readAndLocalizeDesign(
         this, OpenCms.getWorkplaceManager().getMessages(locale), null);

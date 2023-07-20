@@ -28,6 +28,7 @@
 package org.opencms.jsp.search.config;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Interface the common search configuration must implement. */
 public interface I_CmsSearchConfigurationCommon {
@@ -100,7 +101,7 @@ public interface I_CmsSearchConfigurationCommon {
    *
    * @return number of maximally returned results,.
    */
-  int getMaxReturnedResults();
+  @RUntainted int getMaxReturnedResults();
 
   /**
    * Modifies the query string according to the specified query modifier.

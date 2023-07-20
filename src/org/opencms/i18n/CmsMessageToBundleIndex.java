@@ -46,6 +46,7 @@ import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A lookup table used to find out which VFS based message bundles (XML/property bundles) contain a
@@ -65,9 +66,9 @@ public class CmsMessageToBundleIndex {
    * @param bundleNames the set of bundle names from which to read the information
    * @param locale the locale to use
    */
-  public CmsMessageToBundleIndex(Collection<String> bundleNames, Locale locale) {
+  public CmsMessageToBundleIndex(Collection<String> bundleNames, @RUntainted Locale locale) {
 
-    for (String bundleName : bundleNames) {
+    for (@RUntainted String bundleName : bundleNames) {
       try {
         ResourceBundle bundle = CmsResourceBundleLoader.getBundle(bundleName, locale);
         if (bundle instanceof CmsVfsResourceBundle) {

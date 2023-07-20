@@ -35,6 +35,7 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience subclass of PopupDateField which comes preconfigured with a resolution and validation
@@ -81,12 +82,12 @@ public class CmsDateField extends DateTimeField {
    * @param local the local date time
    * @return the date
    */
-  public static Date localDateTimeToDate(LocalDateTime local) {
+  public static @RUntainted Date localDateTimeToDate(@RUntainted LocalDateTime local) {
 
     if (local == null) {
       return null;
     }
-    ZonedDateTime zdt = local.atZone(ZoneId.systemDefault());
+    @RUntainted ZonedDateTime zdt = local.atZone(ZoneId.systemDefault());
     return Date.from(zdt.toInstant());
   }
 
@@ -97,7 +98,7 @@ public class CmsDateField extends DateTimeField {
    *
    * @return the date
    */
-  public Date getDate() {
+  public @RUntainted Date getDate() {
 
     return localDateTimeToDate(getValue());
   }

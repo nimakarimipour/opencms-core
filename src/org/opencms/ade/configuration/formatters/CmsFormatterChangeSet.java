@@ -39,6 +39,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.xml.containerpage.CmsFunctionFormatterBean;
 import org.opencms.xml.containerpage.CmsXmlDynamicFunctionHandler;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class represents the changes which can be made to formatters in a sitemap configuration
@@ -246,14 +247,14 @@ public class CmsFormatterChangeSet {
 
     m_removeAllNonExplicitlyAdded = removeAllNonExplicitlyAdded;
 
-    for (String removeKey : toRemove) {
+    for (@RUntainted String removeKey : toRemove) {
       if (CmsUUID.isValidUUID(removeKey)) {
         m_updateSet.put(new CmsUUID(removeKey), Boolean.FALSE);
       } else if (removeKey.startsWith(PREFIX_TYPE)) {
         m_typeUpdateSet.put(removePrefix(removeKey), Boolean.FALSE);
       }
     }
-    for (String addKey : toAdd) {
+    for (@RUntainted String addKey : toAdd) {
       if (CmsUUID.isValidUUID(addKey)) {
         m_updateSet.put(new CmsUUID(addKey), Boolean.TRUE);
       } else if (addKey.startsWith(PREFIX_TYPE)) {

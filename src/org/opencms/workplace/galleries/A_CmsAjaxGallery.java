@@ -66,6 +66,7 @@ import org.opencms.workplace.CmsDialog;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.CmsWorkplaceManager;
 import org.opencms.workplace.CmsWorkplaceSettings;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the general helper methods to generate the content of a gallery dialog used in the XML
@@ -226,7 +227,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
    * @param jsp an initialized JSP action element
    * @return a new gallery instance of the given gallery type name
    */
-  public static A_CmsAjaxGallery createInstance(String galleryTypeName, CmsJspActionElement jsp) {
+  public static A_CmsAjaxGallery createInstance(@RUntainted String galleryTypeName, CmsJspActionElement jsp) {
 
     if (jsp != null) {
       // must have a valid JSP in order to read from the user session
@@ -572,7 +573,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
    *
    * @return the property value parameter
    */
-  public String getParamPropertyValue() {
+  public @RUntainted String getParamPropertyValue() {
 
     return m_paramPropertyValue;
   }
@@ -872,13 +873,13 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
     // check the value of last Used, if gallery is opened for the first time
     if (CmsStringUtil.isEmpty(lastUsed)) {
       // start gallery settings for this gallery type for the current user
-      String startGallerySetting =
+      @RUntainted String startGallerySetting =
           getSettings().getUserSettings().getStartGallery(getGalleryTypeName(), getCms());
       if (startGallerySetting != null) {
         // handle the case, "global settings" are selected
         if (startGallerySetting.equals(CmsWorkplace.INPUT_DEFAULT)) {
           // get selected value from workplace xml settings
-          String preselectedValue =
+          @RUntainted String preselectedValue =
               OpenCms.getWorkplaceManager()
                   .getDefaultUserSettings()
                   .getStartGallery(getGalleryTypeName());
@@ -970,7 +971,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
    * @param res the resource to create the object from
    * @param sitePath site path to the object
    */
-  protected void buildJsonItemCommonPart(JSONObject jsonObj, CmsResource res, String sitePath) {
+  protected void buildJsonItemCommonPart(JSONObject jsonObj, CmsResource res, @RUntainted String sitePath) {
 
     try {
       // 1: file item site path
@@ -993,7 +994,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
       // 6: file modification date (formatted)
       jsonObj.put("datelastmodified", getMessages().getDateTime(res.getDateLastModified()));
       // 7: file state, if the item is new or changed
-      CmsResourceState state = res.getState();
+      @RUntainted CmsResourceState state = res.getState();
       CmsLock lock = CmsLock.getNullLock();
       try {
         // obtain current lock state to determine correct resource state and editable flag
@@ -1051,7 +1052,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
       jsonObj.put("writepermission", writePermission);
       jsonObj.put("directpublish", directPublishPermission);
       // 11: item description
-      String desc = getJsp().property(CmsPropertyDefinition.PROPERTY_DESCRIPTION, sitePath, "");
+      @RUntainted String desc = getJsp().property(CmsPropertyDefinition.PROPERTY_DESCRIPTION, sitePath, "");
       jsonObj.put("description", CmsStringUtil.escapeJavaScript(desc));
     } catch (JSONException e) {
       if (LOG.isErrorEnabled()) {
@@ -1282,7 +1283,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
    */
   @Override
   protected void initWorkplaceRequestValues(
-      CmsWorkplaceSettings settings, HttpServletRequest request) {
+      CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
     // fill the parameter values in the get/set methods
     fillParamValues(request);
@@ -1312,7 +1313,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
   protected void writeTitleProperty(CmsResource res) {
 
     String resPath = getCms().getSitePath(res);
-    String currentPropertyValue = getParamPropertyValue();
+    @RUntainted String currentPropertyValue = getParamPropertyValue();
     try {
       CmsProperty currentProperty =
           getCms().readPropertyObject(resPath, CmsPropertyDefinition.PROPERTY_TITLE, false);

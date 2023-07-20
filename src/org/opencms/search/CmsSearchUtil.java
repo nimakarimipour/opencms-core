@@ -57,6 +57,7 @@ import org.opencms.search.galleries.CmsGallerySearchParameters;
 import org.opencms.site.CmsSiteManagerImpl;
 import org.opencms.util.CmsHtmlExtractor;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides common functions regarding searching.
@@ -140,7 +141,7 @@ public final class CmsSearchUtil {
    */
   public static List<String> computeScopeFolders(CmsObject cms, CmsGallerySearchParameters params) {
 
-    String subsite = null;
+    @RUntainted String subsite = null;
     if (params.getReferencePath() != null) {
       subsite =
           OpenCms.getADEManager()
@@ -369,7 +370,7 @@ public final class CmsSearchUtil {
    * @param value the properties value (possibly with HTML)
    * @return the value with HTML stripped of, or the original value, if stripping of the HTML fails.
    */
-  public static String stripHtmlFromPropertyIfNecessary(String propertyName, String value) {
+  public static String stripHtmlFromPropertyIfNecessary(String propertyName, @RUntainted String value) {
 
     if (propertyName.equals(CmsPropertyDefinition.PROPERTY_DESCRIPTION_HTML)) {
       try {

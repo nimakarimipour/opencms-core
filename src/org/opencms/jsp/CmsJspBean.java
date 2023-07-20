@@ -38,6 +38,7 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsLog;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.util.CmsRequestUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Superclass for OpenCms JSP beans that provides convient access to OpenCms core and VFS
@@ -76,10 +77,10 @@ public class CmsJspBean {
   private boolean m_isSupressingExceptions;
 
   /** OpenCms JSP request. */
-  private HttpServletRequest m_request;
+  private @RUntainted HttpServletRequest m_request;
 
   /** OpenCms JSP response. */
-  private HttpServletResponse m_response;
+  private @RUntainted HttpServletResponse m_response;
 
   /**
    * Empty constructor, required for every JavaBean.
@@ -129,7 +130,7 @@ public class CmsJspBean {
    *
    * @return the request this bean was initialized with
    */
-  public HttpServletRequest getRequest() {
+  public @RUntainted HttpServletRequest getRequest() {
 
     return m_request;
   }
@@ -153,7 +154,7 @@ public class CmsJspBean {
    *
    * @return the response wrapped by this element
    */
-  public HttpServletResponse getResponse() {
+  public @RUntainted HttpServletResponse getResponse() {
 
     return m_response;
   }
@@ -168,7 +169,7 @@ public class CmsJspBean {
    * @param req the JSP request
    * @param res the JSP response
    */
-  public void init(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+  public void init(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
     m_controller = CmsFlexController.getController(req);
     if (m_controller == null) {
@@ -212,7 +213,7 @@ public class CmsJspBean {
    * @param type the type to set
    * @see javax.servlet.ServletResponse#setContentType(java.lang.String)
    */
-  public void setContentType(String type) {
+  public void setContentType(@RUntainted String type) {
 
     // set the content type on the top level response
     m_controller.getTopResponse().setContentType(type);
@@ -282,7 +283,7 @@ public class CmsJspBean {
    * @return the message String of the container argument localized to the user's locale (if
    *     available) or to the default locale.
    */
-  protected String getMessage(CmsMessageContainer container) {
+  protected @RUntainted String getMessage(CmsMessageContainer container) {
 
     CmsObject cms = getCmsObject();
     String result;
@@ -315,7 +316,7 @@ public class CmsJspBean {
                 .getBundle()
                 .key(Messages.LOG_DEBUG_INTERRUPTED_EXCEPTION_1, getClass().getName()));
       }
-      String uri = null;
+      @RUntainted String uri = null;
       Throwable u = getController().getThrowable();
       if (u != null) {
         uri = getController().getThrowableResourceUri();

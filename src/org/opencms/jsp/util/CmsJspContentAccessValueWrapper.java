@@ -53,6 +53,7 @@ import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 import org.opencms.xml.xml2json.CmsXmlContentTree;
 import org.opencms.xml.xml2json.renderer.CmsJsonRendererXmlContent;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows direct access to XML content values, with possible iteration of sub-nodes.
@@ -78,7 +79,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
 
     /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
     @Override
-    public Object transform(Object input) {
+    public Object transform(@RUntainted Object input) {
 
       return Boolean.valueOf(
           getContentValue()
@@ -117,7 +118,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
 
     /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
     @Override
-    public Object transform(Object input) {
+    public Object transform(@RUntainted Object input) {
 
       List<I_CmsXmlContentValue> values =
           getContentValue()
@@ -145,7 +146,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
 
     /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
     @Override
-    public Object transform(Object input) {
+    public Object transform(@RUntainted Object input) {
 
       List<I_CmsXmlContentValue> values =
           getContentValue()
@@ -174,7 +175,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
 
     /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
     @Override
-    public Object transform(Object input) {
+    public Object transform(@RUntainted Object input) {
 
       I_CmsXmlContentValue value =
           getContentValue()
@@ -1216,7 +1217,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
    * @param input the additional path that is appended to the current path
    * @return the path to the XML content based on the current element path
    */
-  protected String createPath(Object input) {
+  protected String createPath(@RUntainted Object input) {
 
     return CmsXmlUtils.concatXpath(m_contentValue.getPath(), String.valueOf(input));
   }

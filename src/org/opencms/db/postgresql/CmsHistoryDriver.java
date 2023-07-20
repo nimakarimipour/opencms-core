@@ -41,6 +41,7 @@ import org.opencms.db.I_CmsHistoryDriver;
 import org.opencms.db.generic.CmsSqlManager;
 import org.opencms.file.CmsDataAccessException;
 import org.opencms.file.history.CmsHistoryProject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * PostgreSql implementation of the history driver methods.

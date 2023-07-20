@@ -48,6 +48,7 @@ import org.opencms.ui.components.CmsFileTable;
 import org.opencms.ui.components.CmsResourceTableProperty;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table to display the list manager search results.
@@ -127,7 +128,7 @@ public class CmsResultTable extends CmsFileTable {
 
   /** @see org.opencms.ui.components.CmsResourceTable#getUUIDFromItemID(java.lang.String) */
   @Override
-  public CmsUUID getUUIDFromItemID(String itemId) {
+  public @RUntainted CmsUUID getUUIDFromItemID(@RUntainted String itemId) {
 
     if (itemId.contains(ID_SEPARATOR)) {
       return super.getUUIDFromItemID(itemId.substring(0, itemId.indexOf(ID_SEPARATOR)));

@@ -53,6 +53,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A container for all new/changed/deteled Cms resources that are published together.
@@ -90,7 +91,7 @@ public class CmsPublishList implements Externalizable {
    *
    * <p>
    */
-  private List<CmsResource> m_deletedFolderList;
+  private List<@RUntainted CmsResource> m_deletedFolderList;
 
   /**
    * The list of deleted folder UUIDs to be published for later retrieval.
@@ -114,7 +115,7 @@ public class CmsPublishList implements Externalizable {
    *
    * <p>
    */
-  private List<CmsResource> m_fileList;
+  private List<@RUntainted CmsResource> m_fileList;
 
   /**
    * The list of new/changed/deleted file resource UUIDs to be published for later retrieval.
@@ -128,7 +129,7 @@ public class CmsPublishList implements Externalizable {
    *
    * <p>
    */
-  private List<CmsResource> m_folderList;
+  private List<@RUntainted CmsResource> m_folderList;
 
   /**
    * The list of new/changed folder resource UUIDs to be published for later retrieval.
@@ -151,7 +152,7 @@ public class CmsPublishList implements Externalizable {
    *
    * <p>
    */
-  private CmsUUID m_publishHistoryId;
+  private @RUntainted CmsUUID m_publishHistoryId;
 
   /** Indicates if siblings of the resources in the list should also be published. */
   private boolean m_publishSiblings;
@@ -289,9 +290,9 @@ public class CmsPublishList implements Externalizable {
    *
    * @return a list of {@link CmsResource} objects
    */
-  public List<CmsResource> getAllResources() {
+  public @RUntainted List<@RUntainted CmsResource> getAllResources() {
 
-    List<CmsResource> all = new ArrayList<CmsResource>();
+    List<@RUntainted CmsResource> all = new ArrayList<@RUntainted CmsResource>();
     all.addAll(m_folderList);
     all.addAll(m_fileList);
     all.addAll(m_deletedFolderList);
@@ -307,7 +308,7 @@ public class CmsPublishList implements Externalizable {
    *
    * @return a list of folder resources with the deleted state
    */
-  public List<CmsResource> getDeletedFolderList() {
+  public @RUntainted List<@RUntainted CmsResource> getDeletedFolderList() {
 
     if (m_needsRevive) {
       return null;
@@ -343,7 +344,7 @@ public class CmsPublishList implements Externalizable {
    *
    * @return the list with the files in this publish list
    */
-  public List<CmsResource> getFileList() {
+  public @RUntainted List<@RUntainted CmsResource> getFileList() {
 
     if (m_needsRevive) {
       return null;
@@ -359,7 +360,7 @@ public class CmsPublishList implements Externalizable {
    *
    * @return the list with the new/changed folders in this publish list
    */
-  public List<CmsResource> getFolderList() {
+  public @RUntainted List<CmsResource> getFolderList() {
 
     if (m_needsRevive) {
       return null;
@@ -388,7 +389,7 @@ public class CmsPublishList implements Externalizable {
    *
    * @return the publish history Id
    */
-  public CmsUUID getPublishHistoryId() {
+  public @RUntainted CmsUUID getPublishHistoryId() {
 
     return m_publishHistoryId;
   }
@@ -621,7 +622,7 @@ public class CmsPublishList implements Externalizable {
    *     the resource is ignored
    * @throws IllegalArgumentException if the specified resource is unchanged
    */
-  protected void add(CmsResource resource, boolean check) throws IllegalArgumentException {
+  protected void add(@RUntainted CmsResource resource, boolean check) throws IllegalArgumentException {
 
     if (check) {
       // it is essential that this method is only visible within the db package!
@@ -878,7 +879,7 @@ public class CmsPublishList implements Externalizable {
    * @param uuidList the list of structure IDs
    * @return a list of <code>CmsResource</code> instances
    */
-  private List<CmsResource> internalReadResourceList(CmsObject cms, List<CmsUUID> uuidList) {
+  private List<@RUntainted CmsResource> internalReadResourceList(CmsObject cms, List<CmsUUID> uuidList) {
 
     List<CmsResource> resList = new ArrayList<CmsResource>(uuidList.size());
     for (Iterator<CmsUUID> i = uuidList.iterator(); i.hasNext(); ) {
@@ -902,9 +903,9 @@ public class CmsPublishList implements Externalizable {
    * @return a UUID
    * @throws IOException
    */
-  private CmsUUID internalReadUUID(ObjectInput in) throws IOException {
+  private @RUntainted CmsUUID internalReadUUID(ObjectInput in) throws IOException {
 
-    byte[] bytes = new byte[UUID_LENGTH];
+    @RUntainted byte[] bytes = new byte[UUID_LENGTH];
     in.readFully(bytes, 0, UUID_LENGTH);
     return new CmsUUID(bytes);
   }

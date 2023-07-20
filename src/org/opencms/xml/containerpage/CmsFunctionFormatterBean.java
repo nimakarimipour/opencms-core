@@ -38,6 +38,7 @@ import org.opencms.ade.configuration.formatters.CmsSettingConfiguration;
 import org.opencms.ade.configuration.plugins.CmsTemplatePlugin;
 import org.opencms.file.types.CmsResourceTypeFunctionConfig;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean containing formatter configuration data as strings.
@@ -53,7 +54,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
   private Map<String, String[]> m_parameters = new HashMap<>();
 
   /** The real path of the configured jsp. */
-  private String m_realJspRootPath;
+  private @RUntainted String m_realJspRootPath;
 
   /**
    * Constructor for creating a new formatter configuration with resource structure id.
@@ -87,7 +88,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
    */
   public CmsFunctionFormatterBean(
       Set<String> containerTypes,
-      String jspRootPath,
+      @RUntainted String jspRootPath,
       CmsUUID jspStructureId,
       String key,
       Set<String> aliasKeys,
@@ -100,8 +101,8 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
       List<String> javascriptHeadIncludes,
       String inlineJavascript,
       List<CmsTemplatePlugin> plugins,
-      String niceName,
-      String description,
+      @RUntainted String niceName,
+      @RUntainted String description,
       String id,
       CmsSettingConfiguration settingConfig,
       boolean isAllowsSettingsInEditor,
@@ -207,7 +208,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
    *
    * @return the root path of the configured JSP
    */
-  public String getRealJspRootPath() {
+  public @RUntainted String getRealJspRootPath() {
 
     return m_realJspRootPath;
   }

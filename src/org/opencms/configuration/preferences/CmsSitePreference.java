@@ -35,6 +35,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.site.CmsSite;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Preference for the start site.
@@ -69,7 +70,7 @@ public class CmsSitePreference extends CmsBuiltinPreference {
    * @param locale the locale for the select options
    * @return the options for the site selector
    */
-  public static String getSiteSelectOptionsStatic(CmsObject cms, Locale locale) {
+  public static String getSiteSelectOptionsStatic(CmsObject cms, @RUntainted Locale locale) {
 
     List<CmsSite> sites =
         OpenCms.getSiteManager()

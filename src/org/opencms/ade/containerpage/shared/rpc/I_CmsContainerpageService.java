@@ -48,6 +48,7 @@ import org.opencms.ade.containerpage.shared.CmsRemovedElementStatus;
 import org.opencms.gwt.CmsRpcException;
 import org.opencms.gwt.shared.CmsListElementCreationDialogData;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The RPC service interface used by the container-page editor.
@@ -116,7 +117,7 @@ public interface I_CmsContainerpageService extends RemoteService {
       String clientId,
       String resourceType,
       CmsContainer container,
-      String locale)
+      @RUntainted String locale)
       throws CmsRpcException;
 
   /**
@@ -141,7 +142,7 @@ public interface I_CmsContainerpageService extends RemoteService {
    * @return the structure id of the copy
    * @throws CmsRpcException if something goes wrong
    */
-  CmsUUID copyElement(CmsUUID pageId, CmsUUID originalElementId, String locale)
+  CmsUUID copyElement(CmsUUID pageId, CmsUUID originalElementId, @RUntainted String locale)
       throws CmsRpcException;
 
   /**
@@ -164,7 +165,7 @@ public interface I_CmsContainerpageService extends RemoteService {
       String clientId,
       String resourceType,
       CmsUUID modelResourceStructureId,
-      String locale)
+      @RUntainted String locale)
       throws CmsRpcException;
 
   /**
@@ -241,7 +242,7 @@ public interface I_CmsContainerpageService extends RemoteService {
       Collection<CmsContainer> containers,
       boolean alwaysCopy,
       String dndSource,
-      String locale)
+      @RUntainted String locale)
       throws CmsRpcException;
 
   /**
@@ -262,7 +263,7 @@ public interface I_CmsContainerpageService extends RemoteService {
       String clientId,
       String containerId,
       Collection<CmsContainer> containers,
-      String locale)
+      @RUntainted String locale)
       throws CmsRpcException;
 
   /**
@@ -297,7 +298,7 @@ public interface I_CmsContainerpageService extends RemoteService {
       String clientId,
       Map<String, String> settings,
       Collection<CmsContainer> containers,
-      String locale)
+      @RUntainted String locale)
       throws CmsRpcException;
 
   /**
@@ -316,7 +317,7 @@ public interface I_CmsContainerpageService extends RemoteService {
       CmsUUID pageStructureId,
       CmsUUID detailContentId,
       Collection<CmsContainer> containers,
-      String locale)
+      @RUntainted String locale)
       throws CmsRpcException;
 
   /**
@@ -368,7 +369,7 @@ public interface I_CmsContainerpageService extends RemoteService {
       String reqParams,
       String resourceType,
       Collection<CmsContainer> containers,
-      String locale)
+      @RUntainted String locale)
       throws CmsRpcException;
 
   /**
@@ -401,7 +402,7 @@ public interface I_CmsContainerpageService extends RemoteService {
       CmsUUID pageStructureId,
       CmsUUID detailContentId,
       Collection<CmsContainer> containers,
-      String locale)
+      @RUntainted String locale)
       throws CmsRpcException;
 
   /**
@@ -489,9 +490,9 @@ public interface I_CmsContainerpageService extends RemoteService {
       CmsUUID detailContentId,
       String reqParams,
       String clientId,
-      String replaceId,
+      @RUntainted String replaceId,
       Collection<CmsContainer> containers,
-      String locale)
+      @RUntainted String locale)
       throws CmsRpcException;
 
   /**
@@ -501,7 +502,7 @@ public interface I_CmsContainerpageService extends RemoteService {
    *
    * @param tabIndex the index of the selected clipboard tab
    */
-  void saveClipboardTab(int tabIndex);
+  void saveClipboardTab(@RUntainted int tabIndex);
 
   /**
    * Saves the container-page.
@@ -528,7 +529,7 @@ public interface I_CmsContainerpageService extends RemoteService {
    * @throws CmsRpcException if something goes wrong processing the request
    */
   long saveDetailContainers(
-      CmsUUID detailId, String detailContainerResource, List<CmsContainer> containers)
+      CmsUUID detailId, @RUntainted String detailContainerResource, List<CmsContainer> containers)
       throws CmsRpcException;
 
   /**
@@ -554,7 +555,7 @@ public interface I_CmsContainerpageService extends RemoteService {
       String clientId,
       Map<String, String> settings,
       List<CmsContainer> containers,
-      String locale)
+      @RUntainted String locale)
       throws CmsRpcException;
 
   /**
@@ -588,7 +589,7 @@ public interface I_CmsContainerpageService extends RemoteService {
       String reqParams,
       CmsGroupContainer groupContainer,
       Collection<CmsContainer> containers,
-      String locale)
+      @RUntainted String locale)
       throws CmsRpcException;
 
   /**
@@ -609,7 +610,7 @@ public interface I_CmsContainerpageService extends RemoteService {
       CmsUUID detailContentId,
       CmsInheritanceContainer inheritanceContainer,
       Collection<CmsContainer> containers,
-      String locale)
+      @RUntainted String locale)
       throws CmsRpcException;
 
   /**

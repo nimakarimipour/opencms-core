@@ -40,6 +40,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.springframework.extensions.config.ConfigElement;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is used for authenticating OpenCms users to JLAN.
@@ -110,13 +111,13 @@ public class CmsJlanUsers implements UsersInterface {
    * @param name the user name to translate
    * @return the translated user name
    */
-  public static final String translateUser(String name) {
+  public static final @RUntainted String translateUser(@RUntainted String name) {
 
-    String ouSeparator = (String) (OpenCms.getRuntimeProperty(PARAM_JLAN_OU_SEPARATOR));
+    @RUntainted String ouSeparator = (String) (OpenCms.getRuntimeProperty(PARAM_JLAN_OU_SEPARATOR));
     if (ouSeparator == null) {
       ouSeparator = DEFAULT_OU_SEPARATOR;
     }
-    String result = name;
+    @RUntainted String result = name;
     result = result.replace(ouSeparator, "/");
     return result;
   }

@@ -36,6 +36,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.monitor.CmsMemoryMonitor.CacheType;
 import org.opencms.util.CmsRequestUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Authorization handler which uses a special cookie sent by the user's browser for authorization.
@@ -60,7 +61,7 @@ public class CmsPersistentLoginAuthorizationHandler extends CmsDefaultAuthorizat
    *     org.opencms.security.I_CmsAuthorizationHandler.I_PrivilegedLoginAction)
    */
   @Override
-  public CmsObject initCmsObject(HttpServletRequest request, I_PrivilegedLoginAction loginAction) {
+  public CmsObject initCmsObject(@RUntainted HttpServletRequest request, I_PrivilegedLoginAction loginAction) {
 
     CmsObject cms = initCmsObjectFromToken(request, loginAction);
     if (cms == null) {
@@ -80,7 +81,7 @@ public class CmsPersistentLoginAuthorizationHandler extends CmsDefaultAuthorizat
    *     login token cookie
    */
   public CmsObject initCmsObjectFromToken(
-      HttpServletRequest request, I_PrivilegedLoginAction loginAction) {
+      @RUntainted HttpServletRequest request, I_PrivilegedLoginAction loginAction) {
 
     CmsObject cms = null;
     CmsPersistentLoginTokenHandler tokenHandler = new CmsPersistentLoginTokenHandler();

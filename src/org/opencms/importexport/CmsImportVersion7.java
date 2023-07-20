@@ -87,6 +87,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.xml.CmsXmlEntityResolver;
 import org.opencms.xml.CmsXmlErrorHandler;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Adds the XML handler rules for import and export of resources and accounts.
@@ -303,7 +304,7 @@ public class CmsImportVersion7 implements I_CmsImport {
   private static final Log LOG = CmsLog.getLog(CmsImportVersion7.class);
 
   /** The ACE flags value. */
-  private int m_aceFlags;
+  private @RUntainted int m_aceFlags;
 
   /** The ACE allowed permissions value. */
   private int m_acePermissionsAllowed;
@@ -312,7 +313,7 @@ public class CmsImportVersion7 implements I_CmsImport {
   private int m_acePermissionsDenied;
 
   /** The ACE principal id value. */
-  private CmsUUID m_acePrincipalId;
+  private @RUntainted CmsUUID m_acePrincipalId;
 
   /** The list of ACEs for the current imported resource. */
   private List<CmsAccessControlEntry> m_aces;
@@ -336,10 +337,10 @@ public class CmsImportVersion7 implements I_CmsImport {
   private long m_dateReleased = CmsResource.DATE_RELEASED_DEFAULT;
 
   /** The destination value. */
-  private String m_destination;
+  private @RUntainted String m_destination;
 
   /** The current file counter. */
-  private int m_fileCounter;
+  private @RUntainted int m_fileCounter;
 
   /** The flags value. */
   private int m_flags;
@@ -366,7 +367,7 @@ public class CmsImportVersion7 implements I_CmsImport {
   private List<String> m_ignoredProperties;
 
   /** List of immutable resources. */
-  private List<String> m_immutables;
+  private @RUntainted List<String> m_immutables;
 
   /** The flag to import ACEs. */
   private boolean m_importACEs;
@@ -429,7 +430,7 @@ public class CmsImportVersion7 implements I_CmsImport {
   private CmsUUID m_relationId;
 
   /** The relation path value. */
-  private String m_relationPath;
+  private @RUntainted String m_relationPath;
 
   /**
    * The map of relations to be created, this is a global map, which will be handled at the end of
@@ -450,16 +451,16 @@ public class CmsImportVersion7 implements I_CmsImport {
   private CmsUUID m_resourceId;
 
   /** The source value. */
-  private String m_source;
+  private @RUntainted String m_source;
 
   /** The structure id value. */
-  private CmsUUID m_structureId;
+  private @RUntainted CmsUUID m_structureId;
 
   /** Possible exception during xml parsing. */
   private Throwable m_throwable;
 
   /** The total number of files to import. */
-  private int m_totalFiles;
+  private @RUntainted int m_totalFiles;
 
   /** The type value. */
   private I_CmsResourceType m_type;
@@ -568,7 +569,7 @@ public class CmsImportVersion7 implements I_CmsImport {
    * @param source the path in the zip file
    * @param resourceId
    */
-  public void addContentFile(String source, String resourceId) {
+  public void addContentFile(@RUntainted String source, @RUntainted String resourceId) {
 
     if ((source != null) && (resourceId != null)) {
       try {
@@ -1857,10 +1858,10 @@ public class CmsImportVersion7 implements I_CmsImport {
             I_CmsReport.FORMAT_HEADLINE);
 
     int i = 0;
-    Iterator<Entry<String, List<CmsRelation>>> it = m_relations.entrySet().iterator();
+    Iterator<Entry<@RUntainted String, List<CmsRelation>>> it = m_relations.entrySet().iterator();
     while (it.hasNext()) {
-      Entry<String, List<CmsRelation>> entry = it.next();
-      String resourcePath = entry.getKey();
+      Entry<@RUntainted String, List<CmsRelation>> entry = it.next();
+      @RUntainted String resourcePath = entry.getKey();
       List<CmsRelation> relations = entry.getValue();
 
       if (checkImmutable(resourcePath)) {
@@ -1962,7 +1963,7 @@ public class CmsImportVersion7 implements I_CmsImport {
       }
 
       // apply name translation and import path
-      String translatedName =
+      @RUntainted String translatedName =
           getCms()
               .getRequestContext()
               .addSiteRoot(m_parameters.getDestinationPath() + m_destination);
@@ -2553,7 +2554,7 @@ public class CmsImportVersion7 implements I_CmsImport {
    * @see #N_ACCESSCONTROL_PRINCIPAL
    * @see #addResourceAceRules(Digester, String)
    */
-  public void setAcePrincipalId(String acePrincipalId) {
+  public void setAcePrincipalId(@RUntainted String acePrincipalId) {
 
     try {
       CmsUUID principalId = null;
@@ -2686,7 +2687,7 @@ public class CmsImportVersion7 implements I_CmsImport {
    * @see #N_DESTINATION
    * @see #addResourceAttributesRules(Digester, String)
    */
-  public void setDestination(String destination) {
+  public void setDestination(@RUntainted String destination) {
 
     m_destination = destination;
   }
@@ -2959,7 +2960,7 @@ public class CmsImportVersion7 implements I_CmsImport {
    * @see #N_ID
    * @see #addResourceRelationRules(Digester, String)
    */
-  public void setRelationId(String relationId) {
+  public void setRelationId(@RUntainted String relationId) {
 
     try {
       m_relationId = new CmsUUID(relationId);
@@ -2977,7 +2978,7 @@ public class CmsImportVersion7 implements I_CmsImport {
    * @see #N_PATH
    * @see #addResourceRelationRules(Digester, String)
    */
-  public void setRelationPath(String relationPath) {
+  public void setRelationPath(@RUntainted String relationPath) {
 
     m_relationPath = relationPath;
   }
@@ -3009,7 +3010,7 @@ public class CmsImportVersion7 implements I_CmsImport {
    * @see #N_UUIDRESOURCE
    * @see #addResourceAttributesRules(Digester, String)
    */
-  public void setResourceId(String resourceId) {
+  public void setResourceId(@RUntainted String resourceId) {
 
     try {
       if (!m_type.isFolder()) {
@@ -3031,7 +3032,7 @@ public class CmsImportVersion7 implements I_CmsImport {
    * @see #N_SOURCE
    * @see #addResourceAttributesRules(Digester, String)
    */
-  public void setSource(String source) {
+  public void setSource(@RUntainted String source) {
 
     m_source = source;
   }
@@ -3045,7 +3046,7 @@ public class CmsImportVersion7 implements I_CmsImport {
    * @see #N_UUIDSTRUCTURE
    * @see #addResourceAttributesRules(Digester, String)
    */
-  public void setStructureId(String structureId) {
+  public void setStructureId(@RUntainted String structureId) {
 
     try {
       m_structureId = new CmsUUID(structureId);
@@ -3126,7 +3127,7 @@ public class CmsImportVersion7 implements I_CmsImport {
    * @see #N_USERCREATED
    * @see #addResourceAttributesRules(Digester, String)
    */
-  public void setUserCreated(String userCreated) {
+  public void setUserCreated(@RUntainted String userCreated) {
 
     try {
       String userCreatedName = OpenCms.getImportExportManager().translateUser(userCreated);
@@ -3217,7 +3218,7 @@ public class CmsImportVersion7 implements I_CmsImport {
    * @see #N_USERLASTMODIFIED
    * @see #addResourceAttributesRules(Digester, String)
    */
-  public void setUserLastModified(String userLastModified) {
+  public void setUserLastModified(@RUntainted String userLastModified) {
 
     try {
       String userLastModifiedName =
@@ -3251,7 +3252,7 @@ public class CmsImportVersion7 implements I_CmsImport {
    *
    * @param userName the name to set
    */
-  public void setUserName(String userName) {
+  public void setUserName(@RUntainted String userName) {
 
     m_userName = OpenCms.getImportExportManager().translateUser(userName);
   }
@@ -3457,7 +3458,7 @@ public class CmsImportVersion7 implements I_CmsImport {
    * @param resourceName the name of the resource
    * @return <code>true</code> or <code>false</code>
    */
-  protected boolean checkImmutable(String resourceName) {
+  protected boolean checkImmutable(@RUntainted String resourceName) {
 
     boolean resourceImmutable = false;
     if (getImmutableResources().contains(resourceName)) {
@@ -3709,7 +3710,7 @@ public class CmsImportVersion7 implements I_CmsImport {
 
     sortParseableResources(m_parseables);
     for (CmsResource parsableRes : m_parseables) {
-      String resName = cms.getSitePath(parsableRes);
+      @RUntainted String resName = cms.getSitePath(parsableRes);
 
       report.print(
           org.opencms.report.Messages.get()

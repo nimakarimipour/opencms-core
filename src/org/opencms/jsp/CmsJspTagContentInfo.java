@@ -41,6 +41,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.I_CmsMacroResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to access and display XML content item information from the VFS.
@@ -74,7 +75,7 @@ public class CmsJspTagContentInfo extends CmsJspScopedVarBodyTagSuport
   private static final long serialVersionUID = -1955531050687258685L;
 
   /** The name of the content info's value that should be printed out. */
-  private String m_value;
+  private @RUntainted String m_value;
 
   /** @see javax.servlet.jsp.tagext.Tag#doEndTag() */
   @Override
@@ -132,7 +133,7 @@ public class CmsJspTagContentInfo extends CmsJspScopedVarBodyTagSuport
   }
 
   /** @see org.opencms.util.I_CmsMacroResolver#getMacroValue(java.lang.String) */
-  public String getMacroValue(String macro) {
+  public @RUntainted String getMacroValue(String macro) {
 
     int dotIndex = macro.indexOf('.');
     String beanName = null;
@@ -221,7 +222,7 @@ public class CmsJspTagContentInfo extends CmsJspScopedVarBodyTagSuport
   }
 
   /** @see org.opencms.util.I_CmsMacroResolver#resolveMacros(java.lang.String) */
-  public String resolveMacros(String input) {
+  public String resolveMacros(@RUntainted String input) {
 
     return CmsMacroResolver.resolveMacros(input, this);
   }
@@ -233,7 +234,7 @@ public class CmsJspTagContentInfo extends CmsJspScopedVarBodyTagSuport
    *
    * @param value the name of the content info's value that should be printed out
    */
-  public void setValue(String value) {
+  public void setValue(@RUntainted String value) {
 
     m_value = value;
   }

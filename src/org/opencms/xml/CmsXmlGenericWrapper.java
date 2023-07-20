@@ -33,6 +33,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.QName;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides generic wrappers for XML library methods that do not support Java 5 generic types.
@@ -63,7 +64,7 @@ public final class CmsXmlGenericWrapper {
    *     <p>
    */
   @SuppressWarnings("unchecked")
-  public static List<Node> content(Element element) {
+  public static List<@RUntainted Node> content(@RUntainted Element element) {
 
     return element.content();
   }
@@ -77,7 +78,7 @@ public final class CmsXmlGenericWrapper {
    * @param name the name
    * @return the iterator
    */
-  public static Iterable<Element> elementIterable(final Element element, final String name) {
+  public static Iterable<Element> elementIterable(final @RUntainted Element element, final @RUntainted String name) {
 
     return new Iterable<Element>() {
 
@@ -98,7 +99,7 @@ public final class CmsXmlGenericWrapper {
    *     <p>
    */
   @SuppressWarnings("unchecked")
-  public static Iterator<Element> elementIterator(Element element) {
+  public static Iterator<@RUntainted Element> elementIterator(@RUntainted Element element) {
 
     return element.elementIterator();
   }
@@ -114,7 +115,7 @@ public final class CmsXmlGenericWrapper {
    *     <p>
    */
   @SuppressWarnings("unchecked")
-  public static Iterator<Element> elementIterator(Element element, String name) {
+  public static Iterator<@RUntainted Element> elementIterator(@RUntainted Element element, @RUntainted String name) {
 
     return element.elementIterator(name);
   }

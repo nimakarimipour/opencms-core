@@ -31,6 +31,7 @@ import org.apache.commons.logging.Log;
 import org.opencms.jsp.util.CmsJspDeviceSelectorDesktopMobileTablet;
 import org.opencms.jsp.util.I_CmsJspDeviceSelector;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Flex Cache configuration class.
@@ -48,16 +49,16 @@ public class CmsFlexCacheConfiguration {
   private long m_avgCacheBytes;
 
   /** Indicates if the cache is enabled or not. */
-  private boolean m_cacheEnabled;
+  private @RUntainted boolean m_cacheEnabled;
 
   /** Indicates if offline resources should be cached or not. */
-  private boolean m_cacheOffline;
+  private @RUntainted boolean m_cacheOffline;
 
   /** The device selector. */
   private I_CmsJspDeviceSelector m_deviceSelector;
 
   /** The device selector configuration. */
-  private String m_deviceSelectorConfiguration;
+  private @RUntainted String m_deviceSelectorConfiguration;
 
   /**
    * Sizing parameters for the cached "entries" (ie. pages) in the FlexCache.
@@ -69,7 +70,7 @@ public class CmsFlexCacheConfiguration {
   private long m_maxCacheBytes;
 
   /** The maximum entry bytes. */
-  private int m_maxEntryBytes;
+  private @RUntainted int m_maxEntryBytes;
 
   /** The maximum key. */
   private int m_maxKeys;
@@ -126,7 +127,7 @@ public class CmsFlexCacheConfiguration {
    *
    * @return the maxCacheBytes
    */
-  public long getMaxCacheBytes() {
+  public @RUntainted long getMaxCacheBytes() {
 
     return m_maxCacheBytes;
   }
@@ -138,7 +139,7 @@ public class CmsFlexCacheConfiguration {
    *
    * @return the maxEntryBytes
    */
-  public int getMaxEntryBytes() {
+  public @RUntainted int getMaxEntryBytes() {
 
     return m_maxEntryBytes;
   }
@@ -168,8 +169,8 @@ public class CmsFlexCacheConfiguration {
    * @param maxKeys the max keys
    */
   public void initialize(
-      String enabled,
-      String offline,
+      @RUntainted String enabled,
+      @RUntainted String offline,
       String maxCacheBytes,
       String avgCacheBytes,
       String maxEntryBytes,
@@ -190,7 +191,7 @@ public class CmsFlexCacheConfiguration {
    *
    * @return true if flexcache is enabled; otherwise false
    */
-  public boolean isCacheEnabled() {
+  public @RUntainted boolean isCacheEnabled() {
 
     return m_cacheEnabled;
   }
@@ -202,7 +203,7 @@ public class CmsFlexCacheConfiguration {
    *
    * @return true if cacheoffline is set to true; otherwise false
    */
-  public boolean isCacheOffline() {
+  public @RUntainted boolean isCacheOffline() {
 
     return m_cacheOffline;
   }
@@ -226,7 +227,7 @@ public class CmsFlexCacheConfiguration {
    *
    * @param enabled the enabled to set
    */
-  public void setCacheEnabled(boolean enabled) {
+  public void setCacheEnabled(@RUntainted boolean enabled) {
 
     m_cacheEnabled = enabled;
   }
@@ -238,7 +239,7 @@ public class CmsFlexCacheConfiguration {
    *
    * @param cacheOffline the cacheOffline to set
    */
-  public void setCacheOffline(boolean cacheOffline) {
+  public void setCacheOffline(@RUntainted boolean cacheOffline) {
 
     m_cacheOffline = cacheOffline;
   }
@@ -250,7 +251,7 @@ public class CmsFlexCacheConfiguration {
    *
    * @param deviceSelector the device selector to set
    */
-  public void setDeviceSelectorConfiguration(String deviceSelector) {
+  public void setDeviceSelectorConfiguration(@RUntainted String deviceSelector) {
 
     m_deviceSelectorConfiguration = deviceSelector;
 
@@ -307,7 +308,7 @@ public class CmsFlexCacheConfiguration {
    *
    * @param maxEntryBytes the maxEntryBytes to set
    */
-  public void setMaxEntryBytes(int maxEntryBytes) {
+  public void setMaxEntryBytes(@RUntainted int maxEntryBytes) {
 
     m_maxEntryBytes = maxEntryBytes;
   }

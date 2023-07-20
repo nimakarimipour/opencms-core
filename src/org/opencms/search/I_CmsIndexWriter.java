@@ -29,6 +29,7 @@ package org.opencms.search;
 
 import java.io.IOException;
 import org.opencms.db.CmsPublishedResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstracts the index writer implementation for the most important index manipulation operations.
@@ -87,5 +88,5 @@ public interface I_CmsIndexWriter {
    * @param document the document to update
    * @throws IOException in case something goes wrong
    */
-  void updateDocument(String rootPath, I_CmsSearchDocument document) throws IOException;
+  void updateDocument(@RUntainted String rootPath, I_CmsSearchDocument document) throws IOException;
 }

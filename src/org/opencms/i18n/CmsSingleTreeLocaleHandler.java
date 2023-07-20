@@ -41,6 +41,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.site.CmsSite;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Advanced locale handler allowing single tree localization.
@@ -63,18 +64,18 @@ public class CmsSingleTreeLocaleHandler extends CmsDefaultLocaleHandler {
    * @param sitePath the site path with the locale prefix
    * @return the locale or <code>null</code> if no matching locale was found
    */
-  public static Locale getLocaleFromPath(String sitePath) {
+  public static @RUntainted Locale getLocaleFromPath(@RUntainted String sitePath) {
 
     Locale result = null;
     if (sitePath.indexOf("/") == 0) {
       sitePath = sitePath.substring(1);
     }
     if (sitePath.length() > 1) {
-      String localePrefix;
+      @RUntainted String localePrefix;
       if (!sitePath.contains("/")) {
         // this may be the case for paths pointing to the root folder of a site
         // check for parameters
-        int separator = -1;
+        @RUntainted int separator = -1;
         int param = sitePath.indexOf("?");
         int hash = sitePath.indexOf("#");
         if (param >= 0) {
@@ -110,7 +111,7 @@ public class CmsSingleTreeLocaleHandler extends CmsDefaultLocaleHandler {
    */
   @Override
   public CmsI18nInfo getI18nInfo(
-      HttpServletRequest req, CmsUser user, CmsProject project, String resourceName) {
+      @RUntainted HttpServletRequest req, CmsUser user, CmsProject project, @RUntainted String resourceName) {
 
     CmsSite site = OpenCms.getSiteManager().getSiteForRootPath(resourceName);
     if ((site != null) && CmsSite.LocalizationMode.singleTree.equals(site.getLocalizationMode())) {
@@ -119,7 +120,7 @@ public class CmsSingleTreeLocaleHandler extends CmsDefaultLocaleHandler {
       if (sitePath.startsWith("/")) {
         sitePath = sitePath.substring(1);
       }
-      Locale locale = getLocaleFromPath(sitePath);
+      @RUntainted Locale locale = getLocaleFromPath(sitePath);
 
       if (locale == null) {
         return super.getI18nInfo(req, user, project, resourceName);

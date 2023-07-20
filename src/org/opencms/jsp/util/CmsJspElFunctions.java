@@ -62,6 +62,7 @@ import org.opencms.util.CmsHtmlExtractor;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides utility methods to be used as functions from a JSP with the EL.
@@ -120,7 +121,7 @@ public final class CmsJspElFunctions {
    * @param input the input to create an OpenCms user context from
    * @return an OpenCms user context created from an Object
    */
-  public static CmsObject convertCmsObject(Object input) {
+  public static CmsObject convertCmsObject(@RUntainted Object input) {
 
     CmsObject result;
     if (input instanceof CmsObject) {
@@ -150,7 +151,7 @@ public final class CmsJspElFunctions {
       try {
         result = OpenCms.initCmsObject(OpenCms.getDefaultUsers().getUserGuest());
         // try to set the right site root
-        ServletRequest req = convertRequest(input);
+        @RUntainted ServletRequest req = convertRequest(input);
         if (req instanceof HttpServletRequest) {
           result
               .getRequestContext()
@@ -294,7 +295,7 @@ public final class CmsJspElFunctions {
    * @param input the Object to create a Locale from
    * @return a Locale created from the given Object
    */
-  public static Locale convertLocale(Object input) {
+  public static Locale convertLocale(@RUntainted Object input) {
 
     Locale locale;
     if (input instanceof Locale) {
@@ -326,7 +327,7 @@ public final class CmsJspElFunctions {
    * @return a resource created from the given Object
    * @throws CmsException in case of errors accessing the OpenCms VFS for reading the resource
    */
-  public static CmsResource convertRawResource(CmsObject cms, Object input) throws CmsException {
+  public static CmsResource convertRawResource(CmsObject cms, @RUntainted Object input) throws CmsException {
 
     CmsResource result;
     CmsResourceFilter filter = CmsResourceFilter.ignoreExpirationOffline(cms);
@@ -363,9 +364,9 @@ public final class CmsJspElFunctions {
    * @param input the input object to convert to a request
    * @return a request object, or <code>null</code>
    */
-  public static ServletRequest convertRequest(Object input) {
+  public static @RUntainted ServletRequest convertRequest(@RUntainted Object input) {
 
-    ServletRequest req = null;
+    @RUntainted ServletRequest req = null;
     if (input instanceof ServletRequest) {
       req = (ServletRequest) input;
     } else if (input instanceof PageContext) {
@@ -384,7 +385,7 @@ public final class CmsJspElFunctions {
    * @return a resource wrapper created from the given Object
    * @throws CmsException in case of errors accessing the OpenCms VFS for reading the resource
    */
-  public static CmsJspResourceWrapper convertResource(CmsObject cms, Object input)
+  public static CmsJspResourceWrapper convertResource(CmsObject cms, @RUntainted Object input)
       throws CmsException {
 
     CmsJspResourceWrapper result;
@@ -430,7 +431,7 @@ public final class CmsJspElFunctions {
    * @param input the Object to create a CmsUUID from
    * @return a CmsUUID created from the given Object
    */
-  public static CmsUUID convertUUID(Object input) {
+  public static CmsUUID convertUUID(@RUntainted Object input) {
 
     CmsUUID uuid;
     if (input instanceof CmsUUID) {
@@ -820,7 +821,7 @@ public final class CmsJspElFunctions {
    * @param input the input to Strip from HTML
    * @return the given input with all HTML stripped.
    */
-  public static String stripHtml(Object input) {
+  public static String stripHtml(@RUntainted Object input) {
 
     if (input instanceof CmsJspContentAccessValueWrapper) {
       CmsJspContentAccessValueWrapper wrapper = (CmsJspContentAccessValueWrapper) input;

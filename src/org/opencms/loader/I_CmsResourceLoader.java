@@ -38,6 +38,7 @@ import org.opencms.configuration.I_CmsConfigurationParameterHandler;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface describes a resource loader for OpenCms, a class that can load a resource from the
@@ -136,7 +137,7 @@ public interface I_CmsResourceLoader extends I_CmsConfigurationParameterHandler 
    *
    * @return the id of the ResourceLoader
    */
-  int getLoaderId();
+  @RUntainted int getLoaderId();
 
   /**
    * Returns a String describing the ResourceLoader.

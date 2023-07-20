@@ -42,6 +42,7 @@ import org.opencms.workplace.comparison.CmsElementComparison;
 import org.opencms.workplace.comparison.CmsResourceComparison;
 import org.opencms.workplace.comparison.CmsXmlContentElementComparison;
 import org.opencms.xml.types.CmsXmlDateTimeValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a row of the XML content value comparison table.
@@ -190,7 +191,7 @@ public class CmsValueCompareBean {
    * @return the element name
    */
   @Column(header = Messages.GUI_HISTORY_DIALOG_COL_XPATH_0, order = 30)
-  public String getXPath() {
+  public @RUntainted String getXPath() {
 
     return m_elemComp.getName();
   }

@@ -29,6 +29,7 @@ package org.opencms.widgets;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.
@@ -196,7 +197,7 @@ public final class Messages extends A_CmsMessageBundle {
    * @param gallery name
    * @return Button message key as String
    */
-  public static String getButtonName(String gallery) {
+  public static @RUntainted String getButtonName(String gallery) {
 
     StringBuffer sb = new StringBuffer(GUI_BUTTON_PREF);
     sb.append(gallery.toUpperCase());

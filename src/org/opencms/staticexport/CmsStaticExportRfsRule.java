@@ -35,6 +35,7 @@ import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Help class for storing of rfs-rules.
@@ -55,31 +56,31 @@ public class CmsStaticExportRfsRule {
   private Integer m_exportBackups;
 
   /** Rfs export path. */
-  private String m_exportPath;
+  private @RUntainted String m_exportPath;
 
   /** configured Rfs export path. */
-  private final String m_exportPathConfigured;
+  private final @RUntainted String m_exportPathConfigured;
 
   /** Rfs export work path. */
-  private String m_exportWorkPath;
+  private @RUntainted String m_exportWorkPath;
 
   /** configured Rfs export work path. */
-  private final String m_exportWorkPathConfigured;
+  private final @RUntainted String m_exportWorkPathConfigured;
 
   /** Name of rule. */
-  private String m_name;
+  private @RUntainted String m_name;
 
   /** List of regular expressions to determine related system resources. */
   private List<Pattern> m_relatedSystemResources;
 
   /** configured Url prefix. */
-  private final String m_rfsPreConfigured;
+  private final @RUntainted String m_rfsPreConfigured;
 
   /** Url prefix pattern. */
-  private String m_rfsPrefix;
+  private @RUntainted String m_rfsPrefix;
 
   /** Source regular expression. */
-  private final Pattern m_source;
+  private final @RUntainted Pattern m_source;
 
   /** Relative links value. */
   private Boolean m_useRelativeLinks;
@@ -99,9 +100,9 @@ public class CmsStaticExportRfsRule {
    * @param useRelativeLinks Relative links value
    */
   public CmsStaticExportRfsRule(
-      String name,
+      @RUntainted String name,
       String description,
-      String source,
+      @RUntainted String source,
       String rfsPrefix,
       String exportPath,
       String exportWorkPath,
@@ -135,9 +136,9 @@ public class CmsStaticExportRfsRule {
    * @param relatedSystemRes list of <code>{@link Pattern}</code>s
    */
   public CmsStaticExportRfsRule(
-      String name,
+      @RUntainted String name,
       String description,
-      String source,
+      @RUntainted String source,
       String rfsPrefix,
       String exportPath,
       String exportWorkPath,
@@ -204,7 +205,7 @@ public class CmsStaticExportRfsRule {
    *
    * @return the rfs export Path
    */
-  public String getExportPath() {
+  public @RUntainted String getExportPath() {
 
     if (OpenCms.getStaticExportManager().isUseTempDir()
         && OpenCms.getStaticExportManager().isFullStaticExport()) {
@@ -220,7 +221,7 @@ public class CmsStaticExportRfsRule {
    *
    * @return the configured rfs export Path
    */
-  public String getExportPathConfigured() {
+  public @RUntainted String getExportPathConfigured() {
 
     return m_exportPathConfigured;
   }
@@ -232,7 +233,7 @@ public class CmsStaticExportRfsRule {
    *
    * @return the rfs export Work Path
    */
-  public String getExportWorkPath() {
+  public @RUntainted String getExportWorkPath() {
 
     return m_exportWorkPath;
   }
@@ -244,7 +245,7 @@ public class CmsStaticExportRfsRule {
    *
    * @return the configured rfs export Work Path
    */
-  public String getExportWorkPathConfigured() {
+  public @RUntainted String getExportWorkPathConfigured() {
 
     if (m_exportWorkPathConfigured != null) {
       return m_exportWorkPathConfigured;
@@ -264,7 +265,7 @@ public class CmsStaticExportRfsRule {
    * @param fileSeparator the file separator to use
    * @return the rfs name for the given locale
    */
-  public String getLocalizedRfsName(String rfsName, String fileSeparator) {
+  public String getLocalizedRfsName(@RUntainted String rfsName, String fileSeparator) {
 
     String locRfsName = null;
 
@@ -284,7 +285,7 @@ public class CmsStaticExportRfsRule {
    *
    * @return the name
    */
-  public String getName() {
+  public @RUntainted String getName() {
 
     return m_name;
   }
@@ -308,7 +309,7 @@ public class CmsStaticExportRfsRule {
    *
    * @return the url Prefix
    */
-  public String getRfsPrefix() {
+  public @RUntainted String getRfsPrefix() {
 
     return m_rfsPrefix;
   }
@@ -320,7 +321,7 @@ public class CmsStaticExportRfsRule {
    *
    * @return the configured url Prefix
    */
-  public String getRfsPrefixConfigured() {
+  public @RUntainted String getRfsPrefixConfigured() {
 
     return m_rfsPreConfigured;
   }
@@ -332,7 +333,7 @@ public class CmsStaticExportRfsRule {
    *
    * @return the source regular expression pattern
    */
-  public Pattern getSource() {
+  public @RUntainted Pattern getSource() {
 
     return m_source;
   }
@@ -375,7 +376,7 @@ public class CmsStaticExportRfsRule {
    *
    * @param exportPath the rfs export Path to set
    */
-  public void setExportPath(String exportPath) {
+  public void setExportPath(@RUntainted String exportPath) {
 
     if (exportPath.equals(OpenCms.getSystemInfo().getWebApplicationRfsPath())) {
       // not allowed because a full static export would delete the opencms directory
@@ -392,7 +393,7 @@ public class CmsStaticExportRfsRule {
    *
    * @param exportWorkPath the rfs export Work Path to set
    */
-  public void setExportWorkPath(String exportWorkPath) {
+  public void setExportWorkPath(@RUntainted String exportWorkPath) {
 
     if (exportWorkPath.equals(OpenCms.getSystemInfo().getWebApplicationRfsPath())) {
       // not allowed because a full static export would delete the opencms directory
@@ -409,7 +410,7 @@ public class CmsStaticExportRfsRule {
    *
    * @param rfsPrefix the url Prefix to set
    */
-  public void setRfsPrefix(String rfsPrefix) {
+  public void setRfsPrefix(@RUntainted String rfsPrefix) {
 
     m_rfsPrefix = rfsPrefix;
   }

@@ -31,6 +31,7 @@ import org.apache.commons.digester3.Digester;
 import org.apache.commons.digester3.Rule;
 import org.dom4j.Element;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for parsing an element with no content but several attributes into a subclass of
@@ -90,12 +91,12 @@ public class CmsElementWithAttrsParamConfigHelper {
 
           @SuppressWarnings("synthetic-access")
           @Override
-          public void begin(String namespace, String name, Attributes attributes) throws Exception {
+          public void begin(String namespace, String name, @RUntainted Attributes attributes) throws Exception {
 
             I_CmsConfigurationParameterHandler config =
                 (I_CmsConfigurationParameterHandler) (m_class.newInstance());
-            for (String attr : m_attrs) {
-              String attrValue = attributes.getValue(attr);
+            for (@RUntainted String attr : m_attrs) {
+              @RUntainted String attrValue = attributes.getValue(attr);
               if (attrValue != null) {
                 config.addConfigurationParameter(attr, attrValue);
               }

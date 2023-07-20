@@ -38,6 +38,7 @@ import org.opencms.ui.apps.I_CmsWorkplaceApp;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.apps.dbmanager.CmsDbManagerFolder;
 import org.opencms.ui.components.OpenCmsTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration class for property app.
@@ -90,7 +91,7 @@ public class CmsSqlConsoleAppConfiguration extends A_CmsWorkplaceAppConfiguratio
 
   /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
   @Override
-  public String getName(Locale locale) {
+  public String getName(@RUntainted Locale locale) {
 
     return Messages.get().getBundle(locale).key(Messages.GUI_SQLCONSOLE_APP_TITLE_0);
   }

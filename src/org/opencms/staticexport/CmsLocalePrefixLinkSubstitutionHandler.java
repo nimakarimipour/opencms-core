@@ -38,6 +38,7 @@ import org.opencms.site.CmsSite;
 import org.opencms.util.CmsPair;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Link substitution handler required to render single tree localized sites.
@@ -53,7 +54,7 @@ public class CmsLocalePrefixLinkSubstitutionHandler extends CmsDefaultLinkSubsti
    */
   @Override
   protected CmsPair<String, String> addVfsPrefix(
-      CmsObject cms, String vfsName, CmsSite targetSite, String parameters) {
+      CmsObject cms, String vfsName, CmsSite targetSite, @RUntainted String parameters) {
 
     if (CmsSite.LocalizationMode.singleTree.equals(targetSite.getLocalizationMode())) {
       // check if locale is specified via parameters
@@ -61,9 +62,9 @@ public class CmsLocalePrefixLinkSubstitutionHandler extends CmsDefaultLinkSubsti
       if (null != parameters) {
         Pattern pattern =
             Pattern.compile("(.*)" + CmsLocaleManager.PARAMETER_LOCALE + "=([^&]*)(.*)");
-        Matcher matcher = pattern.matcher(parameters);
+        @RUntainted Matcher matcher = pattern.matcher(parameters);
         if (matcher.find()) {
-          String localeFromParameterString = matcher.group(2);
+          @RUntainted String localeFromParameterString = matcher.group(2);
           if ((localeFromParameterString != null) && !localeFromParameterString.isEmpty()) {
             Locale l = CmsLocaleManager.getLocale(localeFromParameterString);
             if (OpenCms.getLocaleManager().getAvailableLocales(cms, vfsName).contains(l)) {
@@ -123,14 +124,14 @@ public class CmsLocalePrefixLinkSubstitutionHandler extends CmsDefaultLinkSubsti
    */
   @Override
   protected String getRootPathForSite(
-      CmsObject cms, String path, String siteRoot, boolean isRootPath) {
+      CmsObject cms, @RUntainted String path, @RUntainted String siteRoot, boolean isRootPath) {
 
     CmsSite site = OpenCms.getSiteManager().getSiteForSiteRoot(siteRoot);
     if ((site != null) && CmsSite.LocalizationMode.singleTree.equals(site.getLocalizationMode())) {
       if (isRootPath) {
         path = path.substring(site.getSiteRoot().length());
       }
-      Locale locale = CmsSingleTreeLocaleHandler.getLocaleFromPath(path);
+      @RUntainted Locale locale = CmsSingleTreeLocaleHandler.getLocaleFromPath(path);
       if (locale != null) {
         path = path.substring(locale.toString().length() + 1);
       }
@@ -146,7 +147,7 @@ public class CmsLocalePrefixLinkSubstitutionHandler extends CmsDefaultLinkSubsti
    *     java.lang.String, java.lang.String)
    */
   @Override
-  protected String prepareExportParameters(CmsObject cms, String vfsName, String parameters) {
+  protected String prepareExportParameters(CmsObject cms, @RUntainted String vfsName, String parameters) {
 
     CmsSite site =
         OpenCms.getSiteManager().getSiteForSiteRoot(cms.getRequestContext().getSiteRoot());

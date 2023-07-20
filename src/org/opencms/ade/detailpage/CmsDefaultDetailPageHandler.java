@@ -46,6 +46,7 @@ import org.opencms.site.CmsSite;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class uses information from the detail page information stored in the sitemap to
@@ -225,10 +226,10 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
    * @param targetDetailPage the target detail page to use
    * @return the detail page for the content element
    */
-  public String getDetailPage(
+  public @RUntainted String getDetailPage(
       CmsADEManager manager,
       CmsObject cms,
-      String contentRootPath,
+      @RUntainted String contentRootPath,
       String originPath,
       String targetDetailPage) {
 
@@ -276,7 +277,7 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
         contentRootPath)) {
       return null;
     }
-    String result =
+    @RUntainted String result =
         new CmsDetailPageFilter(cms, contentRootPath)
             .filterDetailPages(relevantPages)
             .map(info -> info.getUri())
@@ -309,7 +310,7 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
       // exclude these for performance reasons
       return null;
     }
-    String result = getDetailPage(manager, cms, rootPath, linkSource, targetDetailPage);
+    @RUntainted String result = getDetailPage(manager, cms, rootPath, linkSource, targetDetailPage);
     if (result == null) {
       return null;
     }

@@ -29,6 +29,7 @@ package org.opencms.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A document type specifies which document factory class is used to pull the content of an OpenCms
@@ -45,13 +46,13 @@ import java.util.List;
 public class CmsSearchDocumentType {
 
   /** The name of the document factory class. */
-  private String m_className;
+  private @RUntainted String m_className;
 
   /** The mimetype to trigger the document factory class. */
   private List<String> m_mimeTypes;
 
   /** The logical key/name of this document type. */
-  private String m_name;
+  private @RUntainted String m_name;
 
   /** A list of Cms resource types to trigger the document factory. */
   private List<String> m_resourceTypes;
@@ -98,7 +99,7 @@ public class CmsSearchDocumentType {
    *
    * @return the name of the document factory class
    */
-  public String getClassName() {
+  public @RUntainted String getClassName() {
 
     return m_className;
   }
@@ -122,7 +123,7 @@ public class CmsSearchDocumentType {
    *
    * @return the logical key/name of this document type
    */
-  public String getName() {
+  public @RUntainted String getName() {
 
     return m_name;
   }
@@ -146,7 +147,7 @@ public class CmsSearchDocumentType {
    *
    * @param className the name of the document factory class
    */
-  public void setClassName(String className) {
+  public void setClassName(@RUntainted String className) {
 
     m_className = className;
   }
@@ -170,7 +171,7 @@ public class CmsSearchDocumentType {
    *
    * @param name the logical key/name of this document type
    */
-  public void setName(String name) {
+  public void setName(@RUntainted String name) {
 
     m_name = name;
   }

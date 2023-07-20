@@ -52,6 +52,7 @@ import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsOkCancelActionHandler;
 import org.opencms.ui.components.CmsUserDataFormLayout;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to edit the user data.
@@ -168,7 +169,7 @@ public class CmsUserDataDialog extends CmsBasicDialog implements I_CmsHasTitle {
   }
 
   /** @see org.opencms.ui.dialogs.I_CmsHasTitle#getTitle(java.util.Locale) */
-  public String getTitle(Locale locale) {
+  public String getTitle(@RUntainted Locale locale) {
 
     return org.opencms.ui.components.Messages.get()
         .getBundle(locale)

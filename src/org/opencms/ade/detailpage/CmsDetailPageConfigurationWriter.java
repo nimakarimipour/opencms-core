@@ -40,6 +40,7 @@ import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.types.CmsXmlVfsFileValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for writing detail page information to an XML configuration file.
@@ -171,14 +172,14 @@ public class CmsDetailPageConfigurationWriter {
    * @param infos the list of detail page information bean
    * @param newId the id to use for new pages
    */
-  private void writeDetailPageInfos(List<CmsDetailPageInfo> infos, CmsUUID newId) {
+  private void writeDetailPageInfos(List<CmsDetailPageInfo> infos, @RUntainted CmsUUID newId) {
 
     int i = 0;
     for (CmsDetailPageInfo info : infos) {
       if (info.isInherited()) {
         continue;
       }
-      CmsUUID id = info.getId();
+      @RUntainted CmsUUID id = info.getId();
       if (id == null) {
         id = newId;
       }
@@ -196,7 +197,7 @@ public class CmsDetailPageConfigurationWriter {
    * @param id the page id of the detail page
    * @param index the position at which the detail page info should be added
    */
-  private void writeValue(String type, CmsUUID id, int index) {
+  private void writeValue(@RUntainted String type, @RUntainted CmsUUID id, int index) {
 
     Locale locale = CmsLocaleManager.getLocale("en");
     // todo: check actual locale.

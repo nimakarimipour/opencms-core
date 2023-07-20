@@ -46,6 +46,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to OpenCms and System related information.
@@ -274,7 +275,7 @@ public class CmsJspTagInfo extends TagSupport {
    * @param req the currents request
    * @return the looked up property value
    */
-  public static String infoTagAction(String property, HttpServletRequest req) {
+  public static String infoTagAction(@RUntainted String property, HttpServletRequest req) {
 
     if (property == null) {
       CmsMessageContainer errMsgContainer =

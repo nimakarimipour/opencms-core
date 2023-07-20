@@ -42,6 +42,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.staticexport.CmsLinkManager;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the properties of a resource in the OpenCms VFS .
@@ -113,7 +114,7 @@ public class CmsJspTagProperty extends TagSupport {
      * @param req the current servlet request.
      * @param action the action to perform.
      */
-    public CmsPropertyAction(ServletRequest req, String action) {
+    public CmsPropertyAction(ServletRequest req, @RUntainted String action) {
 
       CmsFlexController controller = CmsFlexController.getController(req);
 
@@ -267,7 +268,7 @@ public class CmsJspTagProperty extends TagSupport {
   private boolean m_escapeHtml;
 
   /** The file to read the property from. */
-  private String m_propertyFile;
+  private @RUntainted String m_propertyFile;
 
   /** The name of the property to read. */
   private String m_propertyName;
@@ -283,7 +284,7 @@ public class CmsJspTagProperty extends TagSupport {
    *     provided)
    * @throws CmsException if something goes wrong
    */
-  public static Map<String, String> propertiesTagAction(String action, ServletRequest req)
+  public static Map<String, String> propertiesTagAction(@RUntainted String action, ServletRequest req)
       throws CmsException {
 
     CmsFlexController controller = CmsFlexController.getController(req);
@@ -315,8 +316,8 @@ public class CmsJspTagProperty extends TagSupport {
    *     provided)
    * @throws CmsException if something goes wrong
    */
-  public static String propertyTagAction(
-      String property, String action, String defaultValue, boolean escape, ServletRequest req)
+  public static @RUntainted String propertyTagAction(
+      String property, @RUntainted String action, String defaultValue, boolean escape, ServletRequest req)
       throws CmsException {
 
     return propertyTagAction(property, action, defaultValue, escape, req, null);
@@ -337,9 +338,9 @@ public class CmsJspTagProperty extends TagSupport {
    *     provided)
    * @throws CmsException if something goes wrong
    */
-  public static String propertyTagAction(
+  public static @RUntainted String propertyTagAction(
       String property,
-      String action,
+      @RUntainted String action,
       String defaultValue,
       boolean escape,
       ServletRequest req,
@@ -437,7 +438,7 @@ public class CmsJspTagProperty extends TagSupport {
    *
    * @return the file name
    */
-  public String getFile() {
+  public @RUntainted String getFile() {
 
     return m_propertyFile != null ? m_propertyFile : "parent";
   }

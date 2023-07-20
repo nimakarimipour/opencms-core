@@ -47,6 +47,7 @@ import org.opencms.xml.CmsXmlException;
 import org.opencms.xml.CmsXmlUtils;
 import org.opencms.xml.content.Messages;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides factory methods to unmarshal (read) an group container object.
@@ -185,7 +186,7 @@ public final class CmsXmlGroupContainerFactory {
    * @return a group container instance unmarshalled from the provided file
    * @throws CmsXmlException if something goes wrong
    */
-  public static CmsXmlGroupContainer unmarshal(CmsObject cms, CmsFile file, boolean keepEncoding)
+  public static @RUntainted CmsXmlGroupContainer unmarshal(CmsObject cms, CmsFile file, @RUntainted boolean keepEncoding)
       throws CmsXmlException {
 
     // check the cache
@@ -243,7 +244,7 @@ public final class CmsXmlGroupContainerFactory {
     // set the file
     content.setFile(file);
     // call prepare for use content handler and return the result
-    CmsXmlGroupContainer xmlGroupContainer =
+    @RUntainted CmsXmlGroupContainer xmlGroupContainer =
         (CmsXmlGroupContainer) content.getHandler().prepareForUse(cms, content);
 
     // set the cache
@@ -272,7 +273,7 @@ public final class CmsXmlGroupContainerFactory {
       throws CmsException {
 
     // check the cache
-    CmsXmlGroupContainer content = getCache(cms, resource, true);
+    @RUntainted CmsXmlGroupContainer content = getCache(cms, resource, true);
     if (content != null) {
       return content;
     }
@@ -340,7 +341,7 @@ public final class CmsXmlGroupContainerFactory {
    * @return a group container instance unmarshalled from the String
    */
   public static CmsXmlGroupContainer unmarshal(
-      CmsObject cms, Document document, String encoding, EntityResolver resolver) {
+      CmsObject cms, @RUntainted Document document, String encoding, EntityResolver resolver) {
 
     CmsXmlGroupContainer content = new CmsXmlGroupContainer(cms, document, encoding, resolver);
     // call prepare for use content handler and return the result
@@ -397,8 +398,8 @@ public final class CmsXmlGroupContainerFactory {
    * @param keepEncoding if to keep the encoding while unmarshalling
    * @return the cached group container, or <code>null</code> if not found
    */
-  private static CmsXmlGroupContainer getCache(
-      CmsObject cms, CmsResource resource, boolean keepEncoding) {
+  private static @RUntainted CmsXmlGroupContainer getCache(
+      CmsObject cms, CmsResource resource, @RUntainted boolean keepEncoding) {
 
     if (resource instanceof I_CmsHistoryResource) {
       return null;
@@ -419,7 +420,7 @@ public final class CmsXmlGroupContainerFactory {
    * @param keepEncoding if the encoding was kept while unmarshalling
    */
   private static void setCache(
-      CmsObject cms, CmsXmlGroupContainer xmlGroupContainer, boolean keepEncoding) {
+      CmsObject cms, @RUntainted CmsXmlGroupContainer xmlGroupContainer, @RUntainted boolean keepEncoding) {
 
     if (xmlGroupContainer.getFile() instanceof I_CmsHistoryResource) {
       return;

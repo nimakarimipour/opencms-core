@@ -41,6 +41,7 @@ import org.apache.lucene.search.SimpleCollector;
 import org.opencms.main.CmsLog;
 import org.opencms.search.fields.CmsSearchField;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Collects category information during a search process.
@@ -111,7 +112,7 @@ public class CmsSearchCategoryCollector extends SimpleCollector {
   private Map<String, CmsCategroyCount> m_categories;
 
   /** The index of the document reader. */
-  private int m_docBase;
+  private @RUntainted int m_docBase;
 
   /** The index searcher used. */
   private IndexSearcher m_searcher;
@@ -158,10 +159,10 @@ public class CmsSearchCategoryCollector extends SimpleCollector {
 
   /** @see org.apache.lucene.search.SimpleCollector#collect(int) */
   @Override
-  public void collect(int id) {
+  public void collect(@RUntainted int id) {
 
     String category = null;
-    int rebasedId = m_docBase + id;
+    @RUntainted int rebasedId = m_docBase + id;
     try {
       Document doc = m_searcher.doc(rebasedId);
       category = doc.get(CmsSearchField.FIELD_CATEGORY);

@@ -38,6 +38,7 @@ import org.opencms.search.I_CmsSearchDocument;
 import org.opencms.search.I_CmsSearchIndex;
 import org.opencms.search.documents.I_CmsDocumentFactory;
 import org.opencms.search.extractors.I_CmsExtractionResult;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for search field configurations used by {@link org.opencms.search.I_CmsSearchIndex} and
@@ -87,7 +88,7 @@ public interface I_CmsSearchFieldConfiguration
    */
   I_CmsSearchDocument createDocument(
       CmsObject cms,
-      CmsResource resource,
+      @RUntainted CmsResource resource,
       I_CmsSearchIndex index,
       I_CmsExtractionResult extractionResult)
       throws CmsException;
@@ -117,7 +118,7 @@ public interface I_CmsSearchFieldConfiguration
    *
    * @return the name of this field configuration
    */
-  String getName();
+  @RUntainted String getName();
 
   /**
    * Initializes this field configuration.

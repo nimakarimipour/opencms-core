@@ -35,6 +35,7 @@ import org.apache.oro.text.perl.MalformedPerl5PatternException;
 import org.apache.oro.text.perl.Perl5Util;
 import org.apache.oro.text.regex.MalformedPatternException;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a resource name / path translation facility.
@@ -109,7 +110,7 @@ public class CmsResourceTranslator {
   private boolean m_continueMatching;
 
   /** Internal array containing the translations from opencms.properties. */
-  private String[] m_translations;
+  private @RUntainted String[] m_translations;
 
   /** Random number generator for randomly choosing Perl5Utils. */
   private Random m_random = new Random(42l);
@@ -121,7 +122,7 @@ public class CmsResourceTranslator {
    * @param continueMatching if <code>true</code>, matching will continue after the first match was
    *     found
    */
-  public CmsResourceTranslator(String[] translations, boolean continueMatching) {
+  public CmsResourceTranslator(@RUntainted String[] translations, boolean continueMatching) {
 
     super();
     m_translations = translations;
@@ -162,7 +163,7 @@ public class CmsResourceTranslator {
    * @param resourceName The resource name to translate
    * @return The translated name of the resource
    */
-  public String translateResource(String resourceName) {
+  public @RUntainted String translateResource(@RUntainted String resourceName) {
 
     if (m_translations.length == 0) {
       // no translations defined
@@ -172,8 +173,8 @@ public class CmsResourceTranslator {
       return null;
     }
 
-    StringBuffer result;
-    String current = resourceName;
+    @RUntainted StringBuffer result;
+    @RUntainted String current = resourceName;
     int size = current.length() * 2;
 
     Perl5Util perl5Util = getPerl5Util();

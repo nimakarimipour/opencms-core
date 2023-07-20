@@ -56,6 +56,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.xml.content.I_CmsXmlContentHandler.DisplayType;
 import org.opencms.xml.types.A_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a OpenCms VFS file selection widget, for use on a widget dialog.
@@ -148,7 +149,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
   private boolean m_projectAware;
 
   /** The type shown in the gallery types tab. */
-  private String m_searchTypes;
+  private @RUntainted String m_searchTypes;
 
   /** The types that may be selected through the gallery widget. */
   private String m_selectableTypes;
@@ -563,7 +564,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
       }
       int searchTypesIndex = configuration.indexOf(CONFIGURATION_SEARCHTYPES);
       if (searchTypesIndex != -1) {
-        String searchTypes =
+        @RUntainted String searchTypes =
             configuration.substring(searchTypesIndex + CONFIGURATION_SEARCHTYPES.length() + 1);
         if (searchTypes.contains("|")) {
           m_searchTypes = searchTypes.substring(0, searchTypes.indexOf("|"));

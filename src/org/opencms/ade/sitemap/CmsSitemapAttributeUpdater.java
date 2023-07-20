@@ -39,6 +39,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.xml.CmsXmlUtils;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Performs attribute changes in a sitemap configuration file CmsXmlContent instance. */
 public class CmsSitemapAttributeUpdater {
@@ -141,7 +142,7 @@ public class CmsSitemapAttributeUpdater {
       m_sitemapConfig.removeValue(CmsConfigurationReader.N_ATTRIBUTE, Locale.ENGLISH, 0);
     }
     CmsObject cms = m_cms;
-    for (Map.Entry<String, String> entry : allValues.entrySet()) {
+    for (Map.Entry<@RUntainted String, @RUntainted String> entry : allValues.entrySet()) {
       I_CmsXmlContentValue newAttrValue =
           m_sitemapConfig.addValue(cms, CmsConfigurationReader.N_ATTRIBUTE, Locale.ENGLISH, 0);
       I_CmsXmlContentValue newKeyValue =

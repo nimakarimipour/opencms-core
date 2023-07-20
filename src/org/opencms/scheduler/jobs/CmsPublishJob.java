@@ -40,6 +40,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.notification.CmsPublishNotification;
 import org.opencms.report.CmsLogReport;
 import org.opencms.scheduler.I_CmsScheduledJob;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Scheduled job for time based publishing.
@@ -74,7 +75,7 @@ public class CmsPublishJob implements I_CmsScheduledJob {
   /**
    * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
    */
-  public synchronized String launch(CmsObject cms, Map<String, String> parameters)
+  public synchronized @RUntainted String launch(CmsObject cms, Map<String, String> parameters)
       throws Exception {
 
     Date jobStart = new Date();

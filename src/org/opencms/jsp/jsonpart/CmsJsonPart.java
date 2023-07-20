@@ -31,6 +31,7 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class used to translate key/value pairs from and to the format which can be processed by
@@ -120,7 +121,7 @@ public class CmsJsonPart {
    *
    * @return the value
    */
-  public String getValue() {
+  public @RUntainted String getValue() {
 
     return m_value;
   }

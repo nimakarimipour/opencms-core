@@ -57,6 +57,7 @@ import org.opencms.xml.types.A_CmsXmlContentValue;
 import org.opencms.xml.types.CmsXmlCategoryValue;
 import org.opencms.xml.types.CmsXmlDynamicCategoryValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for a category based dependent select boxes.
@@ -225,7 +226,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
     // get select box options from default value String
     CmsCategory selected = null;
     try {
-      String name = param.getStringValue(cms);
+      @RUntainted String name = param.getStringValue(cms);
       selected = CmsCategoryService.getInstance().getCategory(cms, name);
     } catch (CmsException e) {
       // ignore
@@ -494,7 +495,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
       I_CmsWidgetParameter param) {
 
     super.setEditorValue(cms, formParameters, widgetDialog, param);
-    String id = param.getStringValue(cms);
+    @RUntainted String id = param.getStringValue(cms);
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(id)) {
       return;
     }
@@ -532,7 +533,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
    * @return html code
    */
   protected String buildSelectBox(
-      String baseId,
+      @RUntainted String baseId,
       int level,
       List<CmsSelectWidgetOption> options,
       String selected,
@@ -587,7 +588,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
    * @param resource the resource path to get the default locale for
    * @return the default locale of the resource
    */
-  protected Locale getDefaultLocale(CmsObject cms, String resource) {
+  protected Locale getDefaultLocale(CmsObject cms, @RUntainted String resource) {
 
     Locale locale = OpenCms.getLocaleManager().getDefaultLocale(cms, resource);
     if (locale == null) {

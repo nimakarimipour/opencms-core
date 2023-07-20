@@ -36,6 +36,7 @@ import org.opencms.search.galleries.CmsGalleryNameMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A change handler that reacts to changes in a field by setting another empty field to a default
@@ -57,7 +58,7 @@ public class CmsDelayedDefaultChangeHandler extends A_CmsXmlContentEditorChangeH
   private String m_relPath;
 
   /** The default value to set. */
-  private String m_default;
+  private @RUntainted String m_default;
 
   /**
    * @see
@@ -65,10 +66,10 @@ public class CmsDelayedDefaultChangeHandler extends A_CmsXmlContentEditorChangeH
    *     org.opencms.xml.content.CmsXmlContent, java.util.Locale, java.util.Collection)
    */
   public CmsXmlContent handleChange(
-      CmsObject cms, CmsXmlContent content, Locale locale, Collection<String> changedPaths) {
+      CmsObject cms, CmsXmlContent content, @RUntainted Locale locale, Collection<String> changedPaths) {
 
     List<String> paths = new ArrayList<String>(changedPaths);
-    for (String changedPath : paths) {
+    for (@RUntainted String changedPath : paths) {
       String fieldPath = resolveRelativePath(changedPath, m_relPath);
       I_CmsXmlContentValue value = content.getValue(fieldPath, locale);
       if ((value != null) && CmsStringUtil.isEmptyOrWhitespaceOnly(value.getStringValue(cms))) {
@@ -86,10 +87,10 @@ public class CmsDelayedDefaultChangeHandler extends A_CmsXmlContentEditorChangeH
    *     org.opencms.ade.contenteditor.A_CmsXmlContentEditorChangeHandler#setConfiguration(java.lang.String)
    */
   @Override
-  public void setConfiguration(String configuration) {
+  public void setConfiguration(@RUntainted String configuration) {
 
     super.setConfiguration(configuration);
-    int pipePos = configuration.indexOf("|");
+    @RUntainted int pipePos = configuration.indexOf("|");
     if ((pipePos < 0) || (pipePos == (configuration.length() - 1))) {
       throw new RuntimeException("Invalid configuration for " + getClass().getName());
     }

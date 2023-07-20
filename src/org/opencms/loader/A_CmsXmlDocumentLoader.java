@@ -44,6 +44,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.xml.I_CmsXmlDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * OpenCms base loader implementation for resources of type <code>
@@ -80,8 +81,8 @@ abstract class A_CmsXmlDocumentLoader
   public byte[] dump(
       CmsObject cms,
       CmsResource resource,
-      String element,
-      Locale selectedLocale,
+      @RUntainted String element,
+      @RUntainted Locale selectedLocale,
       HttpServletRequest req,
       HttpServletResponse res)
       throws CmsException, IOException {
@@ -113,8 +114,8 @@ abstract class A_CmsXmlDocumentLoader
   public String dumpAsString(
       CmsObject cms,
       CmsResource resource,
-      String element,
-      Locale selectedLocale,
+      @RUntainted String element,
+      @RUntainted Locale selectedLocale,
       ServletRequest req,
       ServletResponse res)
       throws CmsException {
@@ -240,7 +241,7 @@ abstract class A_CmsXmlDocumentLoader
       throws IOException, CmsException {
 
     // get the selected element from the parameters
-    String element = req.getParameter(I_CmsResourceLoader.PARAMETER_ELEMENT);
+    @RUntainted String element = req.getParameter(I_CmsResourceLoader.PARAMETER_ELEMENT);
 
     // get the value as a String
     String value =

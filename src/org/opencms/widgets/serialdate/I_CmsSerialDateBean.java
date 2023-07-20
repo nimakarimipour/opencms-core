@@ -29,6 +29,7 @@ package org.opencms.widgets.serialdate;
 
 import java.util.Date;
 import java.util.SortedSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for serial date beans.
@@ -43,7 +44,7 @@ public interface I_CmsSerialDateBean {
    *
    * @return all dates of the whole series as {@link Date} objects, sorted ascendingly.
    */
-  public SortedSet<Date> getDates();
+  public @RUntainted SortedSet<@RUntainted Date> getDates();
 
   /**
    * Returns all dates of the whole series in milliseconds, sorted ascendingly.

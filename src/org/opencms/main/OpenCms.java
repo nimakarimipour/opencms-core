@@ -74,6 +74,7 @@ import org.opencms.workflow.I_CmsWorkflowManager;
 import org.opencms.workplace.CmsWorkplaceManager;
 import org.opencms.xml.CmsXmlContentTypeManager;
 import org.opencms.xml.xml2json.I_CmsApiAuthorizationHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms "operating system" that provides public static methods which can be used by other
@@ -188,7 +189,7 @@ public final class OpenCms {
    * @param type event type
    * @param data event data
    */
-  public static void fireCmsEvent(int type, Map<String, Object> data) {
+  public static void fireCmsEvent(@RUntainted int type, @RUntainted Map<String, @RUntainted Object> data) {
 
     OpenCmsCore.getInstance().getEventManager().fireEvent(type, data);
   }
@@ -276,7 +277,7 @@ public final class OpenCms {
    *
    * @return the configured list of default directory file names
    */
-  public static List<String> getDefaultFiles() {
+  public static @RUntainted List<String> getDefaultFiles() {
 
     return OpenCmsCore.getInstance().getDefaultFiles();
   }
@@ -884,7 +885,7 @@ public final class OpenCms {
    * @see OpenCms#initCmsObject(CmsObject, CmsContextInfo)
    * @see OpenCms#initCmsObject(String)
    */
-  public static CmsObject initCmsObject(String user) throws CmsException {
+  public static CmsObject initCmsObject(@RUntainted String user) throws CmsException {
 
     return OpenCmsCore.getInstance().initCmsObject(user);
   }
@@ -915,7 +916,7 @@ public final class OpenCms {
    *     access permissions
    */
   public static CmsResource initResource(
-      CmsObject cms, String resourceName, HttpServletRequest req, HttpServletResponse res)
+      CmsObject cms, @RUntainted String resourceName, @RUntainted HttpServletRequest req, HttpServletResponse res)
       throws CmsException {
 
     return OpenCmsCore.getInstance().initResource(cms, resourceName, req, res);
@@ -954,7 +955,7 @@ public final class OpenCms {
    *
    * @param clazz the configuration class to write the XML for
    */
-  public static void writeConfiguration(Class<?> clazz) {
+  public static void writeConfiguration(@RUntainted Class<?> clazz) {
 
     OpenCmsCore.getInstance().writeConfiguration(clazz);
   }

@@ -35,6 +35,7 @@ import org.opencms.file.CmsGroup;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsUser;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The configuration for 'user generated content' forms.
@@ -65,7 +66,7 @@ public class CmsUgcConfiguration {
   private String m_namePattern;
 
   /** The parent folder in which contents should be created. */
-  private CmsResource m_contentParentFolder;
+  private @RUntainted CmsResource m_contentParentFolder;
 
   /** The optional parent folder in which uploaded files should be created. */
   private Optional<CmsResource> m_uploadParentFolder;
@@ -118,7 +119,7 @@ public class CmsUgcConfiguration {
       Optional<CmsUser> userForGuests,
       CmsGroup projectGroup,
       String resourceType,
-      CmsResource contentParentFolder,
+      @RUntainted CmsResource contentParentFolder,
       String namePattern,
       Locale locale,
       Optional<CmsResource> uploadParent,
@@ -152,7 +153,7 @@ public class CmsUgcConfiguration {
    *
    * @return the folder for XML contents
    */
-  public CmsResource getContentParentFolder() {
+  public @RUntainted CmsResource getContentParentFolder() {
 
     return m_contentParentFolder;
   }

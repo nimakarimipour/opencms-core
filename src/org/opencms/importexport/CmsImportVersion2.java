@@ -68,6 +68,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.xml.CmsXmlException;
 import org.opencms.xml.CmsXmlUtils;
 import org.opencms.xml.page.CmsXmlPage;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -107,7 +108,7 @@ public class CmsImportVersion2 extends A_CmsImport {
   private List<String> m_folderStorage;
 
   /** page file storage for page file and body co.version. */
-  private List<String> m_pageStorage;
+  private @RUntainted List<@RUntainted String> m_pageStorage;
 
   /**
    * Translates directory Strings from OpenCms 4.x structure to new 5.0 structure.
@@ -122,7 +123,7 @@ public class CmsImportVersion2 extends A_CmsImport {
 
     // get translation rules
     for (int i = 0; i < rules.length; i++) {
-      String actRule = rules[i];
+      @RUntainted String actRule = rules[i];
       // cut String "/default/vfs/" from rule
       actRule = CmsStringUtil.substitute(actRule, "/default/vfs", "");
       // divide rule into search and replace parts and delete regular expressions
@@ -279,7 +280,7 @@ public class CmsImportVersion2 extends A_CmsImport {
    * @return the (prepared) content of the resource
    */
   protected byte[] convertContent(
-      String source, String destination, byte[] content, String resType) {
+      String source, @RUntainted String destination, byte[] content, String resType) {
 
     // if the import is older than version 3, some additional conversions must be made
     if (getVersion() < 3) {
@@ -406,12 +407,12 @@ public class CmsImportVersion2 extends A_CmsImport {
    */
   private List<String> getCompatibilityWebAppNames() {
 
-    List<String> webAppNamesOri = new ArrayList<String>();
+    List<@RUntainted String> webAppNamesOri = new ArrayList<@RUntainted String>();
 
-    String configuredWebAppNames = (String) OpenCms.getRuntimeProperty(COMPATIBILITY_WEBAPPNAMES);
+    @RUntainted String configuredWebAppNames = (String) OpenCms.getRuntimeProperty(COMPATIBILITY_WEBAPPNAMES);
     if ((configuredWebAppNames != null) && (configuredWebAppNames.length() != 0)) {
       // split the comma separated list of web app names
-      StringTokenizer tokenizer = new StringTokenizer(configuredWebAppNames, ",;");
+      @RUntainted StringTokenizer tokenizer = new StringTokenizer(configuredWebAppNames, ",;");
       while (tokenizer.hasMoreTokens()) {
         webAppNamesOri.add(tokenizer.nextToken());
       }
@@ -420,7 +421,7 @@ public class CmsImportVersion2 extends A_CmsImport {
     List<String> webAppNames = new ArrayList<String>();
     for (int i = 0; i < webAppNamesOri.size(); i++) {
       // remove possible white space
-      String name = webAppNamesOri.get(i).trim();
+      @RUntainted String name = webAppNamesOri.get(i).trim();
       if (CmsStringUtil.isNotEmpty(name)) {
         webAppNames.add(name);
         if (LOG.isInfoEnabled()) {
@@ -460,19 +461,19 @@ public class CmsImportVersion2 extends A_CmsImport {
    */
   private void importAllResources() throws CmsImportExportException {
 
-    List<Node> fileNodes = null;
+    @RUntainted List<Node> fileNodes = null;
     List<Node> acentryNodes = null;
     Element currentElement = null, currentEntry = null;
-    String source = null,
+    @RUntainted String source = null,
         destination = null,
         resourceTypeName = null,
         timestamp = null,
         uuid = null,
         uuidresource = null;
     long lastmodified = 0;
-    int resourceTypeId = CmsResourceTypePlain.getStaticTypeId();
+    @RUntainted int resourceTypeId = CmsResourceTypePlain.getStaticTypeId();
     List<CmsProperty> properties = null;
-    boolean old_overwriteCollidingResources = false;
+    @RUntainted boolean old_overwriteCollidingResources = false;
     try {
       m_webAppNames = getCompatibilityWebAppNames();
     } catch (Exception e) {
@@ -504,7 +505,7 @@ public class CmsImportVersion2 extends A_CmsImport {
     List<String> deleteProperties = OpenCms.getImportExportManager().getIgnoredProperties();
 
     // get list of immutable resources
-    List<String> immutableResources = OpenCms.getImportExportManager().getImmutableResources();
+    @RUntainted List<String> immutableResources = OpenCms.getImportExportManager().getImmutableResources();
     if (immutableResources == null) {
       immutableResources = Collections.EMPTY_LIST;
     }
@@ -528,7 +529,7 @@ public class CmsImportVersion2 extends A_CmsImport {
     try {
       // get all file-nodes
       fileNodes = m_docXml.selectNodes("//" + A_CmsImport.N_FILE);
-      int importSize = fileNodes.size();
+      @RUntainted int importSize = fileNodes.size();
 
       // walk through all files in manifest
       for (int i = 0; i < importSize; i++) {
@@ -583,7 +584,7 @@ public class CmsImportVersion2 extends A_CmsImport {
                   .key(Messages.LOG_IMPORTEXPORT_ORIGINAL_RESOURCE_NAME_1, destination));
         }
 
-        String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
+        @RUntainted String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
         if (CmsResourceTypeFolder.RESOURCE_TYPE_NAME.equals(resourceTypeName)) {
           // ensure folders end with a "/"
           if (!CmsResource.isFolder(translatedName)) {
@@ -741,11 +742,11 @@ public class CmsImportVersion2 extends A_CmsImport {
    * @return imported resource
    */
   private CmsResource importResource(
-      String source,
-      String destination,
-      String uuid,
-      String uuidresource,
-      int resourceTypeId,
+      @RUntainted String source,
+      @RUntainted String destination,
+      @RUntainted String uuid,
+      @RUntainted String uuidresource,
+      @RUntainted int resourceTypeId,
       String resourceTypeName,
       long lastmodified,
       List<CmsProperty> properties) {
@@ -769,7 +770,7 @@ public class CmsImportVersion2 extends A_CmsImport {
       }
       // get the required UUIDs
       CmsUUID curUser = m_cms.getRequestContext().getCurrentUser().getId();
-      CmsUUID newUuidstructure = new CmsUUID();
+      @RUntainted CmsUUID newUuidstructure = new CmsUUID();
       CmsUUID newUuidresource = new CmsUUID();
       if (uuid != null) {
         newUuidstructure = new CmsUUID(uuid);
@@ -827,7 +828,7 @@ public class CmsImportVersion2 extends A_CmsImport {
         res = resource;
       } else {
         //  import this resource in the VFS
-        String resName = m_importPath + destination;
+        @RUntainted String resName = m_importPath + destination;
         res = m_cms.importResource(resName, resource, content, properties);
         try {
           m_cms.unlockResource(resName);
@@ -873,7 +874,7 @@ public class CmsImportVersion2 extends A_CmsImport {
    * @throws CmsImportExportException if something goes wrong
    * @throws CmsXmlException if the page file could not be unmarshalled
    */
-  private void mergePageFile(String resourcename) throws CmsXmlException, CmsImportExportException {
+  private void mergePageFile(@RUntainted String resourcename) throws CmsXmlException, CmsImportExportException {
 
     try {
 
@@ -1143,13 +1144,13 @@ public class CmsImportVersion2 extends A_CmsImport {
     }
 
     // iterate through the list of all page controlfiles found during the import process
-    int size = m_pageStorage.size();
+    @RUntainted int size = m_pageStorage.size();
     m_report.println(
         Messages.get().container(Messages.RPT_MERGE_START_0), I_CmsReport.FORMAT_HEADLINE);
-    Iterator<String> i = m_pageStorage.iterator();
+    Iterator<@RUntainted String> i = m_pageStorage.iterator();
     int counter = 1;
     while (i.hasNext()) {
-      String resname = i.next();
+      @RUntainted String resname = i.next();
       // adjust the resourcename if nescessary
       if (!resname.startsWith("/")) {
         resname = "/" + resname;

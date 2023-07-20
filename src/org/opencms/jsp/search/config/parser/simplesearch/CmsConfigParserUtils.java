@@ -58,6 +58,7 @@ import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.content.CmsXmlContentValueLocation;
 import org.opencms.xml.types.CmsXmlVfsFileValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Utils to read and update the list configuration. */
 public final class CmsConfigParserUtils {
@@ -259,7 +260,7 @@ public final class CmsConfigParserUtils {
         }
       }
       result.setDisplayTypes(displayTypes);
-      List<String> folders = new ArrayList<String>();
+      List<@RUntainted String> folders = new ArrayList<@RUntainted String>();
       List<I_CmsXmlContentValue> folderValues = content.getValues(N_SEARCH_FOLDER, locale);
       if (!folderValues.isEmpty()) {
         for (I_CmsXmlContentValue value : folderValues) {
@@ -370,7 +371,7 @@ public final class CmsConfigParserUtils {
     while (content.hasValue(N_BLACKLIST, locale)) {
       content.removeValue(N_BLACKLIST, locale, 0);
     }
-    for (CmsUUID hiddenId : configBean.getBlacklist()) {
+    for (@RUntainted CmsUUID hiddenId : configBean.getBlacklist()) {
       CmsXmlVfsFileValue contentVal;
       contentVal = (CmsXmlVfsFileValue) content.addValue(cms, N_BLACKLIST, locale, count);
       contentVal.setIdValue(cms, hiddenId);

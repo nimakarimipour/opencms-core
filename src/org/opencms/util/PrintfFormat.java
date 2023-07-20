@@ -59,6 +59,7 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Vector;
 import org.opencms.main.CmsIllegalArgumentException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * PrintfFormat allows the formatting of an array of objects embedded within a string. Primitive
@@ -388,7 +389,7 @@ public class PrintfFormat {
     private int m_argumentPositionForPrecision;
 
     /** Control string type. */
-    private char m_conversionCharacter;
+    private @RUntainted char m_conversionCharacter;
 
     /**
      * If the converted value has fewer bytes than the field width, it will be padded with spaces or
@@ -481,7 +482,7 @@ public class PrintfFormat {
      * @exception CmsIllegalArgumentException if the input string is null, zero length, or otherwise
      *     malformed.
      */
-    ConversionSpecification(String fmtArg) throws CmsIllegalArgumentException {
+    ConversionSpecification(@RUntainted String fmtArg) throws CmsIllegalArgumentException {
 
       if (fmtArg == null) {
         throw new NullPointerException();
@@ -3366,7 +3367,7 @@ public class PrintfFormat {
    * @return The formatted String.
    * @exception CmsIllegalArgumentException if the conversion character is neither s nor S.
    */
-  public String sprintf(String x) throws CmsIllegalArgumentException {
+  public @RUntainted String sprintf(String x) throws CmsIllegalArgumentException {
 
     Enumeration<ConversionSpecification> e = m_vFmt.elements();
     ConversionSpecification cs = null;

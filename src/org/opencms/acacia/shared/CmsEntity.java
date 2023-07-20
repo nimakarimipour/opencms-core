@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.opencms.acacia.shared.CmsEntityChangeEvent.ChangeType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Serializable entity implementation.
@@ -75,7 +76,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
   private Map<String, List<CmsEntity>> m_entityAttributes;
 
   /** The entity id. */
-  private String m_id;
+  private @RUntainted String m_id;
 
   /** The simple attribute values. */
   private Map<String, List<String>> m_simpleAttributes;
@@ -100,7 +101,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
    * @param id the entity id/URI
    * @param typeName the entity type name
    */
-  public CmsEntity(String id, String typeName) {
+  public CmsEntity(@RUntainted String id, String typeName) {
 
     this();
     m_id = id;
@@ -484,7 +485,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
    *
    * @return the id
    */
-  public String getId() {
+  public @RUntainted String getId() {
 
     return m_id;
   }

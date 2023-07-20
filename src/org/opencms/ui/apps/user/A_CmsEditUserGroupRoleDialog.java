@@ -56,6 +56,7 @@ import org.opencms.ui.FontOpenCms;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class for dialogs to change role or groups of a given user.
@@ -202,7 +203,7 @@ public abstract class A_CmsEditUserGroupRoleDialog extends CmsBasicDialog {
    *
    * @return String
    */
-  public abstract String getEmptyMessage();
+  public abstract @RUntainted String getEmptyMessage();
 
   /**
    * Further ID for a column.
@@ -286,7 +287,7 @@ public abstract class A_CmsEditUserGroupRoleDialog extends CmsBasicDialog {
    *
    * @return message key
    */
-  public abstract String getWindowCaptionMessageKey();
+  public abstract @RUntainted String getWindowCaptionMessageKey();
 
   /**
    * Remove items represented as strings (see getStringSetValue()).

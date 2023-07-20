@@ -36,6 +36,7 @@ import java.util.Locale;
 import org.opencms.search.fields.CmsLuceneField;
 import org.opencms.search.fields.CmsSearchField;
 import org.opencms.search.fields.I_CmsSearchFieldMapping;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An individual field for the Solr search index.
@@ -50,13 +51,13 @@ public class CmsSolrField extends CmsSearchField {
   private static final long serialVersionUID = -3920245109164517028L;
 
   /** The fields to copy the value of this field to. */
-  private List<String> m_copyFields;
+  private @RUntainted List<String> m_copyFields;
 
   /** The locale of this field. */
-  private Locale m_locale;
+  private @RUntainted Locale m_locale;
 
   /** The name of the field. */
-  private String m_targetField;
+  private @RUntainted String m_targetField;
 
   /**
    * Public constructor.
@@ -68,7 +69,7 @@ public class CmsSolrField extends CmsSearchField {
   public CmsSolrField(CmsLuceneField luceneField) {
 
     super();
-    String name = luceneField.getName();
+    @RUntainted String name = luceneField.getName();
     if (null != luceneField.getType()) {
       name = name + "_" + luceneField.getType();
     }
@@ -91,7 +92,7 @@ public class CmsSolrField extends CmsSearchField {
    * @param defaultValue the default value
    */
   public CmsSolrField(
-      String targetField, List<String> copyFields, Locale locale, String defaultValue) {
+      @RUntainted String targetField, @RUntainted List<String> copyFields, @RUntainted Locale locale, @RUntainted String defaultValue) {
 
     super(targetField, defaultValue);
     m_targetField = targetField;
@@ -107,7 +108,7 @@ public class CmsSolrField extends CmsSearchField {
    * @return the copy fields.
    *     <p>
    */
-  public List<String> getCopyFields() {
+  public @RUntainted List<String> getCopyFields() {
 
     return m_copyFields;
   }
@@ -119,7 +120,7 @@ public class CmsSolrField extends CmsSearchField {
    *
    * @return the locale of this field
    */
-  public Locale getLocale() {
+  public @RUntainted Locale getLocale() {
 
     return m_locale;
   }
@@ -131,7 +132,7 @@ public class CmsSolrField extends CmsSearchField {
    *
    * @return the target field name
    */
-  public String getTargetField() {
+  public @RUntainted String getTargetField() {
 
     return m_targetField;
   }
@@ -143,7 +144,7 @@ public class CmsSolrField extends CmsSearchField {
    *
    * @param copyFields the field name to use as copy fields
    */
-  public void setCopyFields(List<String> copyFields) {
+  public void setCopyFields(@RUntainted List<String> copyFields) {
 
     m_copyFields = copyFields;
   }
@@ -155,7 +156,7 @@ public class CmsSolrField extends CmsSearchField {
    *
    * @param locale the locale to set
    */
-  public void setLocale(Locale locale) {
+  public void setLocale(@RUntainted Locale locale) {
 
     m_locale = locale;
   }
@@ -167,14 +168,14 @@ public class CmsSolrField extends CmsSearchField {
    *
    * @param targetField the name to set
    */
-  public void setTargetField(String targetField) {
+  public void setTargetField(@RUntainted String targetField) {
 
     m_targetField = targetField;
   }
 
   /** @see org.opencms.search.fields.CmsSearchField#toString() */
   @Override
-  public String toString() {
+  public @RUntainted String toString() {
 
     return getName()
         + "["

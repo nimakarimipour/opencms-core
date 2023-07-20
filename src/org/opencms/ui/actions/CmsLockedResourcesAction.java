@@ -41,6 +41,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilitySingleOnly;
 import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action for showing locked resources by opening the GWT lock report.
@@ -70,7 +71,7 @@ public final class CmsLockedResourcesAction extends A_CmsWorkplaceAction impleme
               public void onUpdate(List<String> updatedItems) {
 
                 List<CmsUUID> ids = Lists.newArrayList();
-                for (String item : updatedItems) {
+                for (@RUntainted String item : updatedItems) {
                   ids.add(new CmsUUID(item));
                 }
                 context.finish(ids);

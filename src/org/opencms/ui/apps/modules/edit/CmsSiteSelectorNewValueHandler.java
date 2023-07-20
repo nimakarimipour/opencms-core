@@ -31,6 +31,7 @@ import com.vaadin.v7.data.Container;
 import java.util.Arrays;
 import org.opencms.ui.components.CmsAutoItemCreatingComboBox;
 import org.opencms.util.CmsFileUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class used when new options are automatically added to a site selector combo box.
@@ -60,12 +61,12 @@ public class CmsSiteSelectorNewValueHandler
    *     org.opencms.ui.components.CmsAutoItemCreatingComboBox.I_NewValueHandler#ensureItem(com.vaadin.v7.data.Container,
    *     java.lang.Object)
    */
-  public Object ensureItem(Container cnt, Object id) {
+  public Object ensureItem(Container cnt, @RUntainted Object id) {
 
     if (id == null) {
       return null;
     }
-    String idStr = (String) id;
+    @RUntainted String idStr = (String) id;
     for (String path : Arrays.asList(idStr, CmsFileUtil.toggleTrailingSeparator(idStr))) {
       if (cnt.containsId(path)) {
         return path;

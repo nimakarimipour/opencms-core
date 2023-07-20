@@ -41,6 +41,7 @@ import org.opencms.db.I_CmsHistoryDriver;
 import org.opencms.db.generic.CmsSqlManager;
 import org.opencms.file.CmsDataAccessException;
 import org.opencms.file.history.CmsHistoryProject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * MySQL implementation of the history driver methods.
@@ -53,7 +54,7 @@ public class CmsHistoryDriver extends org.opencms.db.generic.CmsHistoryDriver {
 
   /** @see org.opencms.db.I_CmsHistoryDriver#initSqlManager(String) */
   @Override
-  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
     return CmsSqlManager.getInstance(classname);
   }

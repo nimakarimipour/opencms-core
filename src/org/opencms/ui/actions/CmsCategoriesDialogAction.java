@@ -43,6 +43,7 @@ import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.explorer.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The categories dialog action.
@@ -76,7 +77,7 @@ public class CmsCategoriesDialogAction extends A_CmsWorkplaceAction implements I
                 public void onUpdate(List<String> updatedItems) {
 
                   List<CmsUUID> ids = Lists.newArrayList();
-                  for (String item : updatedItems) {
+                  for (@RUntainted String item : updatedItems) {
                     ids.add(new CmsUUID(item));
                   }
                   context.finish(ids);

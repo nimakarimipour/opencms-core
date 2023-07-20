@@ -30,6 +30,7 @@ package org.opencms.jsp;
 import org.opencms.ade.contenteditor.shared.CmsEditorConstants;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A container to store information about a collector's result.
@@ -148,7 +149,7 @@ public class CmsContentInfoBean {
    *
    * @return the number of pages of browse through the result list
    */
-  public int getPageCount() {
+  public @RUntainted int getPageCount() {
 
     return m_pageCount;
   }
@@ -160,7 +161,7 @@ public class CmsContentInfoBean {
    *
    * @return the index of the current page that gets displayed
    */
-  public int getPageIndex() {
+  public @RUntainted int getPageIndex() {
 
     return m_pageIndex;
   }
@@ -172,7 +173,7 @@ public class CmsContentInfoBean {
    *
    * @return the page index of the first element in the Google-like page navigation
    */
-  public int getPageNavEndIndex() {
+  public @RUntainted int getPageNavEndIndex() {
 
     return m_pageNavEndIndex;
   }
@@ -184,7 +185,7 @@ public class CmsContentInfoBean {
    *
    * @return page index of the last element in the Google-like page navigation
    */
-  public int getPageNavLength() {
+  public @RUntainted int getPageNavLength() {
 
     return m_pageNavLength;
   }
@@ -196,7 +197,7 @@ public class CmsContentInfoBean {
    *
    * @return the page index of the first element in the Google-like page navigation
    */
-  public int getPageNavStartIndex() {
+  public @RUntainted int getPageNavStartIndex() {
 
     return m_pageNavStartIndex;
   }
@@ -208,7 +209,7 @@ public class CmsContentInfoBean {
    *
    * @return the size of a page
    */
-  public int getPageSize() {
+  public @RUntainted int getPageSize() {
 
     return m_pageSize;
   }
@@ -220,7 +221,7 @@ public class CmsContentInfoBean {
    *
    * @return the index of the current resource that gets iterated in the result list
    */
-  public int getResultIndex() {
+  public @RUntainted int getResultIndex() {
 
     return m_resultIndex;
   }
@@ -232,7 +233,7 @@ public class CmsContentInfoBean {
    *
    * @return the total size of the collector's result list
    */
-  public int getResultSize() {
+  public @RUntainted int getResultSize() {
 
     return m_resultSize;
   }

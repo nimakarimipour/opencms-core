@@ -45,6 +45,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.report.I_CmsReport;
 import org.opencms.security.CmsSecurityException;
 import org.opencms.ui.apps.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the SQL console.
@@ -106,7 +107,7 @@ public final class CmsSqlConsoleExecutor {
                 .getBundle(report.getLocale())
                 .key(Messages.ERR_SQLCONSOLE_NOTHING_TO_EXECUTE_0));
       } else {
-        for (String sentence : sentences) {
+        for (@RUntainted String sentence : sentences) {
           if (!checkPermissions(sentence)) {
             writeError(
                 report,
@@ -126,7 +127,7 @@ public final class CmsSqlConsoleExecutor {
                 LOG.info(message);
               }
             } else {
-              CmsSqlConsoleResults res = executeQuery(sentence, pool);
+              @RUntainted CmsSqlConsoleResults res = executeQuery(sentence, pool);
               // writeTable(report, res);
               message =
                   Messages.get()
@@ -186,7 +187,7 @@ public final class CmsSqlConsoleExecutor {
    * @throws SQLException in the case of a error
    */
   @SuppressWarnings("resource")
-  private CmsSqlConsoleResults executeQuery(String sentence, String poolName) throws SQLException {
+  private CmsSqlConsoleResults executeQuery(@RUntainted String sentence, String poolName) throws SQLException {
 
     Connection conn = null;
     PreparedStatement stmt = null;
@@ -244,7 +245,7 @@ public final class CmsSqlConsoleExecutor {
    * @return the number of affected rows
    * @throws SQLException if there is an error
    */
-  private int executeUpdate(String sentence, String poolName) throws SQLException {
+  private int executeUpdate(@RUntainted String sentence, String poolName) throws SQLException {
 
     Connection conn = null;
     PreparedStatement stmt = null;
@@ -284,7 +285,7 @@ public final class CmsSqlConsoleExecutor {
    * @param report the report
    * @param string the string
    */
-  private void write(I_CmsReport report, String string) {
+  private void write(I_CmsReport report, @RUntainted String string) {
 
     report.println(
         org.opencms.report.Messages.get()

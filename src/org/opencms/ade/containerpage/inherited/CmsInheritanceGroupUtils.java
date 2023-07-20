@@ -40,6 +40,7 @@ import org.opencms.file.CmsVfsResourceNotFoundException;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.xml.containerpage.CmsContainerElementBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility methods for inheritance groups which don't fit anywhere else.
@@ -70,7 +71,7 @@ public final class CmsInheritanceGroupUtils {
    * @return the inheritance group resource
    * @throws CmsException if something goes wrong
    */
-  public static CmsResource getInheritanceGroupContentByName(CmsObject cms, String name)
+  public static CmsResource getInheritanceGroupContentByName(CmsObject cms, @RUntainted String name)
       throws CmsException {
 
     String oldSiteRoot = cms.getRequestContext().getSiteRoot();

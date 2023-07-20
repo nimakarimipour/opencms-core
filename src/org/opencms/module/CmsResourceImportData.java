@@ -38,6 +38,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.importexport.CmsImportVersion10.RelationData;
 import org.opencms.security.CmsAccessControlEntry;
 import org.opencms.util.CmsFileUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import data for a single resource.
@@ -65,7 +66,7 @@ public class CmsResourceImportData {
   private CmsResource m_importResource;
 
   /** The path. */
-  private String m_path;
+  private @RUntainted String m_path;
 
   /** The properties. */
   private List<CmsProperty> m_properties;
@@ -96,7 +97,7 @@ public class CmsResourceImportData {
    */
   public CmsResourceImportData(
       CmsResource resource,
-      String path,
+      @RUntainted String path,
       byte[] content,
       List<CmsProperty> properties,
       List<CmsAccessControlEntry> aces,
@@ -205,7 +206,7 @@ public class CmsResourceImportData {
    *
    * @return the path
    */
-  public String getPath() {
+  public @RUntainted String getPath() {
 
     return m_path;
   }

@@ -67,6 +67,7 @@ import org.opencms.search.solr.CmsSolrQuery;
 import org.opencms.search.solr.CmsSolrQueryUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Search configuration parser using a list configuration file as the base configuration with
@@ -243,7 +244,7 @@ public class CmsSimpleSearchConfigurationParser extends CmsJSONSearchConfigurati
    *
    * @return the SOLR query
    */
-  public CmsSolrQuery getInitialQuery() {
+  public @RUntainted CmsSolrQuery getInitialQuery() {
 
     Map<String, String[]> queryParams = new HashMap<String, String[]>();
     if (!m_cms.getRequestContext().getCurrentProject().isOnlineProject()

@@ -66,6 +66,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
 import org.opencms.xml.content.CmsXmlContentProperty;
 import org.opencms.xml.content.CmsXmlContentPropertyHelper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The service implementation for the org.opencms.ade.postupload module.
@@ -138,7 +139,7 @@ public class CmsPostUploadDialogService extends CmsGwtService
       CmsListInfoBean listInfo = CmsVfsService.getPageInfo(getCmsObject(), res);
 
       CmsPostUploadDialogPanelBean result = new CmsPostUploadDialogPanelBean(id, listInfo);
-      String warning =
+      @RUntainted String warning =
           OpenCms.getADEManager().getUploadWarningTable().getMessage(res.getStructureId());
       if (warning != null) {
         Locale wpLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(getCmsObject());
@@ -200,7 +201,7 @@ public class CmsPostUploadDialogService extends CmsGwtService
         propertiesToShow.addAll(propertyConfiguration.keySet());
       }
       Set<String> requiredProperties = getRequiredProperties(getCmsObject(), res);
-      for (String propertyName : propertiesToShow) {
+      for (@RUntainted String propertyName : propertiesToShow) {
         CmsXmlContentProperty propDef = null;
         if (useConfiguration) {
           propDef = propertyConfiguration.get(propertyName);
@@ -256,7 +257,7 @@ public class CmsPostUploadDialogService extends CmsGwtService
         // this dialog is used as upload hook
         String resourcesParam = getRequest().getParameter(I_CmsDialogConstants.PARAM_RESOURCES);
         List<String> resourceUUIDs = CmsStringUtil.splitAsList(resourcesParam, ",");
-        for (String uuidAsString : resourceUUIDs) {
+        for (@RUntainted String uuidAsString : resourceUUIDs) {
           CmsUUID uuid = new CmsUUID(uuidAsString);
           CmsResource res = getCmsObject().readResource(uuid);
           resources.add(res);

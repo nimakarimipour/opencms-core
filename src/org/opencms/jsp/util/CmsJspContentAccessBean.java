@@ -59,6 +59,7 @@ import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.page.CmsXmlPageFactory;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 import org.opencms.xml.xml2json.renderer.CmsJsonRendererXmlContent;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows access to the individual elements of an XML content, usually used inside a loop of a
@@ -83,7 +84,7 @@ public class CmsJspContentAccessBean {
   public class CmsHasLocaleTransformer implements Transformer {
 
     /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
-    public Object transform(Object input) {
+    public Object transform(@RUntainted Object input) {
 
       return Boolean.valueOf(getRawContent().hasLocale(CmsJspElFunctions.convertLocale(input)));
     }
@@ -98,7 +99,7 @@ public class CmsJspContentAccessBean {
   public class CmsHasLocaleValueTransformer implements Transformer {
 
     /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
-    public Object transform(Object input) {
+    public Object transform(@RUntainted Object input) {
 
       Locale locale = CmsJspElFunctions.convertLocale(input);
       Map<String, Boolean> result;
@@ -187,7 +188,7 @@ public class CmsJspContentAccessBean {
   public class CmsLocaleNamesTransformer implements Transformer {
 
     /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
-    public Object transform(Object input) {
+    public Object transform(@RUntainted Object input) {
 
       Locale locale = CmsLocaleManager.getLocale(String.valueOf(input));
 
@@ -204,7 +205,7 @@ public class CmsJspContentAccessBean {
   public class CmsLocaleRdfaTransformer implements Transformer {
 
     /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
-    public Object transform(Object input) {
+    public Object transform(@RUntainted Object input) {
 
       Locale locale = CmsLocaleManager.getLocale(String.valueOf(input));
       Map<String, String> result;
@@ -227,7 +228,7 @@ public class CmsJspContentAccessBean {
   public class CmsLocaleSubValueListTransformer implements Transformer {
 
     /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
-    public Object transform(Object input) {
+    public Object transform(@RUntainted Object input) {
 
       Locale locale = CmsJspElFunctions.convertLocale(input);
       Map<String, List<CmsJspContentAccessValueWrapper>> result;
@@ -249,7 +250,7 @@ public class CmsJspContentAccessBean {
   public class CmsLocaleValueListTransformer implements Transformer {
 
     /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
-    public Object transform(Object input) {
+    public Object transform(@RUntainted Object input) {
 
       Locale locale = CmsJspElFunctions.convertLocale(input);
       Map<String, List<CmsJspContentAccessValueWrapper>> result;
@@ -271,7 +272,7 @@ public class CmsJspContentAccessBean {
   public class CmsLocaleValueTransformer implements Transformer {
 
     /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
-    public Object transform(Object input) {
+    public Object transform(@RUntainted Object input) {
 
       Locale locale = CmsLocaleManager.getLocale(String.valueOf(input));
       Map<String, CmsJspContentAccessValueWrapper> result;

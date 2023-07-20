@@ -35,6 +35,7 @@ import org.apache.jackrabbit.webdav.DavServletRequest;
 import org.apache.jackrabbit.webdav.DavServletResponse;
 import org.apache.jackrabbit.webdav.DavSession;
 import org.apache.jackrabbit.webdav.lock.LockManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** The resource factory. */
 public class CmsDavResourceFactory implements DavResourceFactory {

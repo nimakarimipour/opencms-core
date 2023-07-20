@@ -33,6 +33,7 @@ import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.loader.CmsLoaderException;
 import org.opencms.main.OpenCms;
 import org.opencms.workplace.CmsDialog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines an action to be performed before the workplace editor is opened for the first time.

@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.Set;
 import org.opencms.file.CmsResource;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A filter to retrieve the relations for a given resource.
@@ -339,7 +340,7 @@ public final class CmsRelationFilter implements Cloneable {
    *
    * @return the types to filter
    */
-  public Set<CmsRelationType> getTypes() {
+  public @RUntainted Set<CmsRelationType> getTypes() {
 
     return Collections.unmodifiableSet(m_types);
   }
@@ -420,7 +421,7 @@ public final class CmsRelationFilter implements Cloneable {
 
   /** @see java.lang.Object#toString() */
   @Override
-  public String toString() {
+  public @RUntainted String toString() {
 
     StringBuffer str = new StringBuffer(128);
     str.append("[");

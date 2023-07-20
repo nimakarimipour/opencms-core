@@ -54,6 +54,7 @@ import org.opencms.staticexport.CmsLinkManager;
 import org.opencms.util.CmsCollectionsGenericWrapper;
 import org.opencms.util.CmsParameterEscaper;
 import org.opencms.util.CmsRequestUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for a HttpServletRequest.
@@ -92,10 +93,10 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
   private boolean m_doRecompile;
 
   /** The requested resources element URI in the OpenCms VFS. */
-  private String m_elementUri;
+  private @RUntainted String m_elementUri;
 
   /** The site root of the requested resource. */
-  private String m_elementUriSiteRoot;
+  private @RUntainted String m_elementUriSiteRoot;
 
   /** The parameter escaper. */
   private CmsParameterEscaper m_escaper;
@@ -238,7 +239,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
    * @param controller the controller to use
    * @param resource the target resource that has been requested
    */
-  CmsFlexRequest(HttpServletRequest req, CmsFlexController controller, String resource) {
+  CmsFlexRequest(HttpServletRequest req, CmsFlexController controller, @RUntainted String resource) {
 
     super(req);
     m_controller = controller;
@@ -452,7 +453,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
    *
    * @return the name of the resource currently processed
    */
-  public String getElementUri() {
+  public @RUntainted String getElementUri() {
 
     return m_elementUri;
   }
@@ -563,7 +564,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
    * @return a special RequestDispatcher that allows access to VFS resources
    */
   @Override
-  public javax.servlet.RequestDispatcher getRequestDispatcher(String target) {
+  public javax.servlet.RequestDispatcher getRequestDispatcher(@RUntainted String target) {
 
     String absolutUri =
         CmsLinkManager.getAbsoluteUri(target, m_controller.getCurrentRequest().getElementUri());
@@ -585,7 +586,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
    * @return the constructed CmsFlexRequestDispatcher
    */
   public CmsFlexRequestDispatcher getRequestDispatcherToExternal(
-      String vfs_target, String ext_target) {
+      @RUntainted String vfs_target, @RUntainted String ext_target) {
 
     return new CmsFlexRequestDispatcher(
         m_controller.getTopRequest().getRequestDispatcher(ext_target),

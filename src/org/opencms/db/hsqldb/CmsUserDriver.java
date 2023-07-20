@@ -28,6 +28,7 @@
 package org.opencms.db.hsqldb;
 
 import org.opencms.db.generic.CmsSqlManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * HSQLDB implementation of the user driver methods.

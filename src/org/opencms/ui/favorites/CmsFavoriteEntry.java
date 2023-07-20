@@ -41,6 +41,7 @@ import org.opencms.ui.apps.A_CmsWorkplaceApp;
 import org.opencms.ui.apps.CmsFileExplorerConfiguration;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Represents an entry in the favorite location list. */
 public class CmsFavoriteEntry {
@@ -87,7 +88,7 @@ public class CmsFavoriteEntry {
      *
      * @return the JSON id
      */
-    public String getJsonId() {
+    public @RUntainted String getJsonId() {
 
       return m_jsonId;
     }
@@ -112,19 +113,19 @@ public class CmsFavoriteEntry {
   public static final String JSON_TYPE = "t";
 
   /** The custom title. */
-  private String m_customTitle;
+  private @RUntainted String m_customTitle;
 
   /** The detail id. */
-  private CmsUUID m_detailId;
+  private @RUntainted CmsUUID m_detailId;
 
   /** The project id. */
-  private CmsUUID m_projectId;
+  private @RUntainted CmsUUID m_projectId;
 
   /** The site root. */
-  private String m_siteRoot;
+  private @RUntainted String m_siteRoot;
 
   /** The structure id. */
-  private CmsUUID m_structureId;
+  private @RUntainted CmsUUID m_structureId;
 
   /** The type. */
   private Type m_type;
@@ -158,7 +159,7 @@ public class CmsFavoriteEntry {
    */
   public static CmsUUID readId(JSONObject obj, String key) {
 
-    String strValue = obj.optString(key);
+    @RUntainted String strValue = obj.optString(key);
     if (!CmsUUID.isValidUUID(strValue)) {
       return null;
     }
@@ -200,7 +201,7 @@ public class CmsFavoriteEntry {
    *
    * @return the site root
    */
-  public String getSiteRoot() {
+  public @RUntainted String getSiteRoot() {
 
     return m_siteRoot;
   }
@@ -264,7 +265,7 @@ public class CmsFavoriteEntry {
    *
    * @param siteRoot the site root
    */
-  public void setSiteRoot(String siteRoot) {
+  public void setSiteRoot(@RUntainted String siteRoot) {
 
     if (siteRoot != null) {
       siteRoot = siteRoot.replaceFirst("/$", "");

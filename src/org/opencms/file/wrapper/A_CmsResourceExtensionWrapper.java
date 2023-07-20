@@ -38,6 +38,7 @@ import org.opencms.file.CmsResourceFilter;
 import org.opencms.lock.CmsLock;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract base class which implements {@link I_CmsResourceWrapper} and makes it possible to add
@@ -55,7 +56,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
    */
   @Override
   public boolean copyResource(
-      CmsObject cms, String source, String destination, CmsResourceCopyMode siblingMode)
+      CmsObject cms, @RUntainted String source, @RUntainted String destination, CmsResourceCopyMode siblingMode)
       throws CmsException, CmsIllegalArgumentException {
 
     CmsResource res = getResource(cms, source);
@@ -77,7 +78,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
    */
   @Override
   public CmsResource createResource(
-      CmsObject cms, String resourcename, int type, byte[] content, List<CmsProperty> properties)
+      CmsObject cms, @RUntainted String resourcename, int type, byte[] content, List<CmsProperty> properties)
       throws CmsException, CmsIllegalArgumentException {
 
     if (checkTypeId(type)) {
@@ -98,7 +99,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
    */
   @Override
   public boolean deleteResource(
-      CmsObject cms, String resourcename, CmsResourceDeleteMode siblingMode) throws CmsException {
+      CmsObject cms, @RUntainted String resourcename, CmsResourceDeleteMode siblingMode) throws CmsException {
 
     CmsResource res = getResource(cms, resourcename);
     if (res != null) {
@@ -166,7 +167,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
    *     java.lang.String, java.lang.String)
    */
   @Override
-  public boolean moveResource(CmsObject cms, String source, String destination)
+  public boolean moveResource(CmsObject cms, @RUntainted String source, @RUntainted String destination)
       throws CmsException, CmsIllegalArgumentException {
 
     CmsResource res = getResource(cms, source);
@@ -351,7 +352,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
    * @param filter the resource filter to use while reading
    * @return the resource or null if not found
    */
-  private CmsResource getResource(CmsObject cms, String resourcename, CmsResourceFilter filter) {
+  private CmsResource getResource(CmsObject cms, @RUntainted String resourcename, CmsResourceFilter filter) {
 
     CmsResource res = null;
 

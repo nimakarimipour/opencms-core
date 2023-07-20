@@ -45,6 +45,7 @@ import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.types.CmsXmlNestedContentDefinition;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 import org.opencms.xml.types.I_CmsXmlSchemaType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Tree representation of CmsXmlContent which is suitable for XML-to-JSON transformations. */
 public class CmsXmlContentTree {
@@ -422,7 +423,7 @@ public class CmsXmlContentTree {
           CmsXmlNestedContentDefinition nestedDefType = (CmsXmlNestedContentDefinition) fieldDef;
           nestedDef = nestedDefType.getNestedContentDefinition();
         }
-        String fieldName = fieldDef.getName();
+        @RUntainted String fieldName = fieldDef.getName();
         String fieldPath = CmsXmlUtils.concatXpath(path, fieldName);
         List<I_CmsXmlContentValue> fieldValues = m_content.getValues(fieldPath, m_locale);
         List<Node> fieldChildren = new ArrayList<>();

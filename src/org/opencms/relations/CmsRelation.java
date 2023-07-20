@@ -35,6 +35,7 @@ import org.opencms.file.CmsResourceFilter;
 import org.opencms.file.CmsVfsResourceNotFoundException;
 import org.opencms.main.CmsException;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A relation between two opencms resources.
@@ -76,16 +77,16 @@ public class CmsRelation {
   private final CmsUUID m_sourceId;
 
   /** The path of the source resource. */
-  private final String m_sourcePath;
+  private final @RUntainted String m_sourcePath;
 
   /** The structure id of the target resource. */
-  private final CmsUUID m_targetId;
+  private final @RUntainted CmsUUID m_targetId;
 
   /** The path of the target resource. */
-  private final String m_targetPath;
+  private final @RUntainted String m_targetPath;
 
   /** The relation type. */
-  private final CmsRelationType m_type;
+  private final @RUntainted CmsRelationType m_type;
 
   /**
    * Creates a new relation object of the given type between the given resources.
@@ -119,9 +120,9 @@ public class CmsRelation {
    */
   public CmsRelation(
       CmsUUID sourceId,
-      String sourcePath,
-      CmsUUID targetId,
-      String targetPath,
+      @RUntainted String sourcePath,
+      @RUntainted CmsUUID targetId,
+      @RUntainted String targetPath,
       CmsRelationType type) {
 
     // make sure no value can ever be null
@@ -196,7 +197,7 @@ public class CmsRelation {
    *
    * @return the path of the source resource
    */
-  public String getSourcePath() {
+  public @RUntainted String getSourcePath() {
 
     return m_sourcePath;
   }
@@ -211,7 +212,7 @@ public class CmsRelation {
    * @return the target resource
    * @throws CmsException if something goes wrong
    */
-  public CmsResource getTarget(CmsObject cms, CmsResourceFilter filter) throws CmsException {
+  public @RUntainted CmsResource getTarget(CmsObject cms, CmsResourceFilter filter) throws CmsException {
 
     try {
       // first look up by id
@@ -235,7 +236,7 @@ public class CmsRelation {
    *
    * @return the structure id of the target resource
    */
-  public CmsUUID getTargetId() {
+  public @RUntainted CmsUUID getTargetId() {
 
     return m_targetId;
   }
@@ -247,7 +248,7 @@ public class CmsRelation {
    *
    * @return the path of the target resource
    */
-  public String getTargetPath() {
+  public @RUntainted String getTargetPath() {
 
     return m_targetPath;
   }
@@ -259,7 +260,7 @@ public class CmsRelation {
    *
    * @return the relation type
    */
-  public CmsRelationType getType() {
+  public @RUntainted CmsRelationType getType() {
 
     return m_type;
   }

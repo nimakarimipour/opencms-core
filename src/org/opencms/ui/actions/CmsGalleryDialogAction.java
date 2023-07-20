@@ -38,6 +38,7 @@ import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.explorer.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The gallery dialog action.
@@ -72,7 +73,7 @@ public class CmsGalleryDialogAction extends A_CmsGalleryDialogAction {
                 public void onUpdate(List<String> updatedItems) {
 
                   List<CmsUUID> updatedIds = Lists.newArrayList();
-                  for (String item : updatedItems) {
+                  for (@RUntainted String item : updatedItems) {
                     updatedIds.add(new CmsUUID(item));
                   }
                   context.finish(updatedIds);

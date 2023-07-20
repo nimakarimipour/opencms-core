@@ -53,6 +53,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An immutable object which represents the complete ADE configuration (sitemap and module
@@ -346,7 +347,7 @@ public class CmsADEConfigCacheState {
    * @param rootPath the path of a resource
    * @return the parent folder content type
    */
-  public String getParentFolderType(String rootPath) {
+  public String getParentFolderType(@RUntainted String rootPath) {
 
     String parent = CmsResource.getParentFolder(rootPath);
     if (parent == null) {

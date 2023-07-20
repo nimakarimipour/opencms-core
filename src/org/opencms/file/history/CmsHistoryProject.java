@@ -33,6 +33,7 @@ import org.opencms.file.CmsProject;
 import org.opencms.main.CmsException;
 import org.opencms.security.CmsPrincipal;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes an OpenCms historical project entry.
@@ -75,12 +76,12 @@ public class CmsHistoryProject extends CmsProject {
    */
   public CmsHistoryProject(
       int publishTag,
-      CmsUUID projectId,
-      String name,
+      @RUntainted CmsUUID projectId,
+      @RUntainted String name,
       String description,
       CmsUUID ownerId,
-      CmsUUID groupId,
-      CmsUUID managerGroupId,
+      @RUntainted CmsUUID groupId,
+      @RUntainted CmsUUID managerGroupId,
       long dateCreated,
       CmsProjectType type,
       long datePublished,
@@ -97,7 +98,7 @@ public class CmsHistoryProject extends CmsProject {
 
   /** @see org.opencms.file.CmsProject#clone() */
   @Override
-  public Object clone() {
+  public @RUntainted Object clone() {
 
     return new CmsHistoryProject(
         m_publishTag,

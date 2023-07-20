@@ -64,6 +64,7 @@ import org.opencms.ui.contextmenu.CmsContextMenu;
 import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to show ous in table for account management.
@@ -82,7 +83,7 @@ public class CmsOUTable extends Table implements I_CmsFilterableTable {
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
-    public void executeAction(final Set<String> context) {
+    public void executeAction(final Set<@RUntainted String> context) {
 
       Window window = CmsBasicDialog.prepareWindow();
       CmsDeleteOUDialog dialog =
@@ -355,7 +356,7 @@ public class CmsOUTable extends Table implements I_CmsFilterableTable {
     private Object m_defaultValue;
 
     /** Header Message key. */
-    private String m_headerMessage;
+    private @RUntainted String m_headerMessage;
 
     /** Type of column property. */
     private Class<?> m_type;
@@ -369,7 +370,7 @@ public class CmsOUTable extends Table implements I_CmsFilterableTable {
      * @param type type
      * @param defaultValue value
      */
-    TableProperty(String name, Class<?> type, Object defaultValue) {
+    TableProperty(@RUntainted String name, Class<?> type, Object defaultValue) {
 
       m_headerMessage = name;
       m_type = type;

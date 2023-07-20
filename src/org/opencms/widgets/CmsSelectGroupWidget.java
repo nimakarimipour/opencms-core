@@ -46,6 +46,7 @@ import org.opencms.security.CmsOrganizationalUnit;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.types.A_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for group selection select boxes.
@@ -341,14 +342,14 @@ public class CmsSelectGroupWidget extends CmsSelectWidget {
     String configString = "";
     if (widgetDialog != null) {
       configString = CmsMacroResolver.resolveMacros(getConfiguration(), cms, widgetDialog);
-      Map<String, String> config = CmsStringUtil.splitAsMap(configString, "|", "=");
+      Map<String, @RUntainted String> config = CmsStringUtil.splitAsMap(configString, "|", "=");
       // get the list of group names to show
       String groups = config.get(CONFIGURATION_GROUPS);
       if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(groups)) {
         m_groupNames = CmsStringUtil.splitAsList(groups, ',', true);
       }
       // get the regular expression to filter the groups
-      String filter = config.get(CONFIGURATION_GROUPFILTER);
+      @RUntainted String filter = config.get(CONFIGURATION_GROUPFILTER);
       if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(filter)) {
         try {
           m_groupFilter = Pattern.compile(filter);

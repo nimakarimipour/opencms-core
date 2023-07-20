@@ -26,6 +26,7 @@
  */
 
 package org.opencms.monitor;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes an object that can be memory monitored.
@@ -43,5 +44,5 @@ public interface I_CmsMemoryMonitorable {
    *
    * @return the memory size of the object
    */
-  int getMemorySize();
+  @RUntainted int getMemorySize();
 }

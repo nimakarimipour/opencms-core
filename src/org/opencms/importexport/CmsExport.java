@@ -82,6 +82,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.util.CmsXmlSaxWriter;
 import org.opencms.workplace.CmsWorkplace;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the functionality to export files from the OpenCms VFS to a ZIP file.
@@ -103,7 +104,7 @@ public class CmsExport {
   private CmsObject m_cms;
 
   /** Counter for the export. */
-  private int m_exportCount;
+  private @RUntainted int m_exportCount;
 
   /** Set of all exported files, required for preventing redundant sibling export. */
   private Set<CmsUUID> m_exportedResources;
@@ -968,7 +969,7 @@ public class CmsExport {
   protected void exportFile(CmsFile file)
       throws CmsImportExportException, SAXException, IOException {
 
-    String source = trimResourceName(getCms().getSitePath(file));
+    @RUntainted String source = trimResourceName(getCms().getSitePath(file));
     I_CmsReport report = getReport();
     m_exportCount++;
     report.print(
@@ -1667,7 +1668,7 @@ public class CmsExport {
    * @param resourceName the absolute path of a resource
    * @return the trimmed resource name
    */
-  protected String trimResourceName(String resourceName) {
+  protected @RUntainted String trimResourceName(@RUntainted String resourceName) {
 
     if (resourceName.startsWith("/")) {
       resourceName = resourceName.substring(1);

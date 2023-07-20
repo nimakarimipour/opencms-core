@@ -48,6 +48,7 @@ import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.page.CmsXmlPage;
 import org.opencms.xml.xml2json.I_CmsJsonFormattableValue;
 import org.opencms.xml.xml2json.renderer.CmsJsonRendererXmlContent;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVfsFile".
@@ -99,7 +100,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
    * @param type the type instance to create the value for
    */
   public CmsXmlVfsFileValue(
-      I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
     super(document, element, locale, type);
   }
@@ -113,7 +114,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
    * @param minOccurs minimum number of occurrences of this type according to the XML schema
    * @param maxOccurs maximum number of occurrences of this type according to the XML schema
    */
-  public CmsXmlVfsFileValue(String name, String minOccurs, String maxOccurs) {
+  public CmsXmlVfsFileValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
     super(name, minOccurs, maxOccurs);
   }
@@ -128,7 +129,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
    * @param rootPath the path to use
    * @param type the relation type to use
    */
-  public static void fillEntry(Element element, CmsUUID id, String rootPath, CmsRelationType type) {
+  public static void fillEntry(Element element, @RUntainted CmsUUID id, @RUntainted String rootPath, CmsRelationType type) {
 
     CmsLink link = new CmsLink(CmsXmlVfsFileValue.TYPE_VFS_LINK, type, id, rootPath, true);
     // get xml node
@@ -146,7 +147,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
    *     org.dom4j.Element, Locale)
    */
   public I_CmsXmlContentValue createValue(
-      I_CmsXmlDocument document, Element element, Locale locale) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale) {
 
     return new CmsXmlVfsFileValue(document, element, locale, this);
   }
@@ -157,7 +158,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
    */
   @Override
   public Element generateXml(
-      CmsObject cms, I_CmsXmlDocument document, Element root, Locale locale) {
+      CmsObject cms, I_CmsXmlDocument document, Element root, @RUntainted Locale locale) {
 
     Element element = root.addElement(getName());
 
@@ -184,7 +185,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
 
     Element linkElement = m_element.element(CmsXmlPage.NODE_LINK);
     if (linkElement == null) {
-      String textValue = m_element.getText();
+      @RUntainted String textValue = m_element.getText();
       if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(textValue)) {
         if (CmsUUID.isValidUUID(textValue)) {
           setIdValue(cms, new CmsUUID(textValue));
@@ -277,7 +278,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
    * @param cms the current CMS context
    * @param id the structure id which should be stored in the file value
    */
-  public void setIdValue(CmsObject cms, CmsUUID id) {
+  public void setIdValue(CmsObject cms, @RUntainted CmsUUID id) {
 
     CmsRelationType type = getRelationType(getPath());
     CmsLink link = new CmsLink(TYPE_VFS_LINK, type, id, "@", true);
@@ -291,7 +292,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
    * @see org.opencms.xml.types.A_CmsXmlContentValue#setStringValue(org.opencms.file.CmsObject,
    *     java.lang.String)
    */
-  public void setStringValue(CmsObject cms, String value) throws CmsIllegalArgumentException {
+  public void setStringValue(CmsObject cms, @RUntainted String value) throws CmsIllegalArgumentException {
 
     m_element.clearContent();
     // ensure the String value is re-calculated next time it's needed

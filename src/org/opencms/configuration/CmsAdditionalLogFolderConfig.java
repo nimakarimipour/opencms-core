@@ -28,6 +28,7 @@
 package org.opencms.configuration;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean containing additional log folders available for the log file viewer.

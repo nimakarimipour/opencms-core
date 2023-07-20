@@ -40,6 +40,7 @@ import org.opencms.i18n.CmsEncoder;
 import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation for OpenCms password validation, just checks if a password is at last 4
@@ -83,13 +84,13 @@ public class CmsDefaultPasswordHandler
   private String m_scryptFallback;
 
   /** SCrypt parameter: CPU cost, must be a power of 2. */
-  private int m_scryptN;
+  private @RUntainted int m_scryptN;
 
   /** SCrypt parameter: Parallelization parameter. */
-  private int m_scryptP;
+  private @RUntainted int m_scryptP;
 
   /** SCrypt parameter: Memory cost. */
-  private int m_scryptR;
+  private @RUntainted int m_scryptR;
 
   /**
    * The constructor does not perform any operation.
@@ -153,7 +154,7 @@ public class CmsDefaultPasswordHandler
    * @see org.opencms.security.I_CmsPasswordHandler#digest(java.lang.String, java.lang.String,
    *     java.lang.String)
    */
-  public String digest(String password, String digestType, String inputEncoding)
+  public String digest(String password, @RUntainted String digestType, @RUntainted String inputEncoding)
       throws CmsPasswordEncryptionException {
 
     MessageDigest md;
@@ -267,7 +268,7 @@ public class CmsDefaultPasswordHandler
    * @see
    *     org.opencms.security.I_CmsPasswordSecurityEvaluator#getPasswordSecurityHint(java.util.Locale)
    */
-  public String getPasswordSecurityHint(Locale locale) {
+  public String getPasswordSecurityHint(@RUntainted Locale locale) {
 
     return Messages.get()
         .getBundle(locale)
@@ -297,9 +298,9 @@ public class CmsDefaultPasswordHandler
     m_scryptR = 8; // Memory cost
     m_scryptP = 1; // Parallelization parameter
 
-    String scryptSettings = m_configuration.get(PARAM_SCRYPT_SETTINGS);
+    @RUntainted String scryptSettings = m_configuration.get(PARAM_SCRYPT_SETTINGS);
     if (scryptSettings != null) {
-      String[] settings = CmsStringUtil.splitAsArray(scryptSettings, ',');
+      @RUntainted String[] settings = CmsStringUtil.splitAsArray(scryptSettings, ',');
       if (settings.length == 3) {
         // we just require 3 correct parameters
         m_scryptN = CmsStringUtil.getIntValue(settings[0], m_scryptN, "scryptN using " + m_scryptN);
@@ -315,7 +316,7 @@ public class CmsDefaultPasswordHandler
 
     // Initialize the SCrypt fall back
     m_scryptFallback = DIGEST_TYPE_MD5;
-    String scryptFallback = m_configuration.get(PARAM_SCRYPT_FALLBACK);
+    @RUntainted String scryptFallback = m_configuration.get(PARAM_SCRYPT_FALLBACK);
     if (scryptFallback != null) {
 
       try {

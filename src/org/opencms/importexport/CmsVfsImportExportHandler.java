@@ -39,6 +39,7 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.security.CmsRoleViolationException;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.CmsXmlException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import/export handler implementation for VFS data.
@@ -337,7 +338,7 @@ public class CmsVfsImportExportHandler implements I_CmsImportExportHandler {
   public void setContentAge(long contentAge) {
 
     if (contentAge < 0) {
-      String ageString = Long.toString(contentAge);
+      @RUntainted String ageString = Long.toString(contentAge);
       throw new CmsIllegalArgumentException(
           Messages.get().container(Messages.ERR_BAD_CONTENT_AGE_1, ageString));
     }
@@ -399,7 +400,7 @@ public class CmsVfsImportExportHandler implements I_CmsImportExportHandler {
    * @deprecated use {@link #setExportParams(CmsExportParameters)} instead
    */
   @Deprecated
-  public void setFileName(String fileName) {
+  public void setFileName(@RUntainted String fileName) {
 
     if (CmsStringUtil.isEmpty(fileName) || !fileName.trim().equals(fileName)) {
       throw new CmsIllegalArgumentException(

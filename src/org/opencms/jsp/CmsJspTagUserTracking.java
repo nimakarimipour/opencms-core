@@ -50,6 +50,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:usertracking/&gt;</code> tag.
@@ -134,13 +135,13 @@ public class CmsJspTagUserTracking extends TagSupport {
    */
   public static String userTrackingTagAction(
       String action,
-      String fileName,
+      @RUntainted String fileName,
       boolean subFolder,
       boolean currentUser,
       String userName,
       boolean includeGroups,
       String groupName,
-      HttpServletRequest req)
+      @RUntainted HttpServletRequest req)
       throws JspException {
 
     String result = "";
@@ -237,8 +238,8 @@ public class CmsJspTagUserTracking extends TagSupport {
    * @param groups the groups that should be used
    * @return a unique session key
    */
-  protected static String generateSessionKey(
-      String prefix, String fileName, boolean subFolder, CmsUser user, List<CmsGroup> groups) {
+  protected static @RUntainted String generateSessionKey(
+      String prefix, @RUntainted String fileName, boolean subFolder, CmsUser user, List<CmsGroup> groups) {
 
     StringBuffer result = new StringBuffer(256);
     result.append(prefix);
@@ -276,21 +277,21 @@ public class CmsJspTagUserTracking extends TagSupport {
    */
   protected static boolean isResourceSubscribed(
       CmsObject cms,
-      String fileName,
+      @RUntainted String fileName,
       boolean subFolder,
       CmsUser user,
       List<CmsGroup> groups,
-      HttpServletRequest req)
+      @RUntainted HttpServletRequest req)
       throws CmsException {
 
     CmsResource checkResource = cms.readResource(fileName);
 
-    HttpSession session = req.getSession(true);
-    String sessionKey =
+    @RUntainted HttpSession session = req.getSession(true);
+    @RUntainted String sessionKey =
         generateSessionKey(SESSION_PREFIX_SUBSCRIBED, fileName, subFolder, user, groups);
     // try to get the subscribed resources from a session attribute
     @SuppressWarnings("unchecked")
-    List<CmsResource> subscribedResources = (List<CmsResource>) session.getAttribute(sessionKey);
+    @RUntainted List<CmsResource> subscribedResources = (List<CmsResource>) session.getAttribute(sessionKey);
     if (subscribedResources == null) {
       // first call, read subscribed resources and store them to session attribute
       CmsSubscriptionFilter filter = new CmsSubscriptionFilter();
@@ -320,16 +321,16 @@ public class CmsJspTagUserTracking extends TagSupport {
    * @throws CmsException if something goes wrong
    */
   protected static boolean isResourceVisited(
-      CmsObject cms, String fileName, boolean subFolder, CmsUser user, HttpServletRequest req)
+      CmsObject cms, @RUntainted String fileName, boolean subFolder, CmsUser user, @RUntainted HttpServletRequest req)
       throws CmsException {
 
     CmsResource checkResource = cms.readResource(fileName);
 
     HttpSession session = req.getSession(true);
-    String sessionKey = generateSessionKey(SESSION_PREFIX_VISITED, fileName, subFolder, user, null);
+    @RUntainted String sessionKey = generateSessionKey(SESSION_PREFIX_VISITED, fileName, subFolder, user, null);
     // try to get the visited resources from a session attribute
     @SuppressWarnings("unchecked")
-    List<CmsResource> visitedResources =
+    @RUntainted List<CmsResource> visitedResources =
         (List<CmsResource>) req.getSession(true).getAttribute(sessionKey);
     if (visitedResources == null) {
       // first call, read visited resources and store them to session attribute

@@ -40,6 +40,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.page.CmsXmlPageFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to select various template elements form a JSP template that is included in another file.
@@ -87,7 +88,7 @@ public class CmsJspTagTemplate extends BodyTagSupport {
     if (elementlist != null) {
 
       CmsFlexController controller = CmsFlexController.getController(req);
-      String filename = controller.getCmsObject().getRequestContext().getUri();
+      @RUntainted String filename = controller.getCmsObject().getRequestContext().getUri();
 
       I_CmsXmlDocument content = null;
       try {

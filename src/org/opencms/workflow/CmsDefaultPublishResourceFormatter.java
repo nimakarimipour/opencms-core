@@ -67,6 +67,7 @@ import org.opencms.ui.components.CmsResourceIcon;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.explorer.CmsResourceUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default formatter class for publish resources.
@@ -106,7 +107,7 @@ public class CmsDefaultPublishResourceFormatter implements I_CmsPublishResourceF
       String info;
       CmsPublishResourceInfo.Type infoType;
       CmsPublishResourceInfo infoObj;
-      String publishUser = null;
+      @RUntainted String publishUser = null;
       try {
         String userName = m_cms.readUser(resource.getUserLastModified()).getName();
         publishUser = getOuAwareName(m_cms, userName);
@@ -115,7 +116,7 @@ public class CmsDefaultPublishResourceFormatter implements I_CmsPublishResourceF
         LOG.error(e.getLocalizedMessage(), e);
       }
 
-      Date publishDate = new Date(resource.getDateLastModified());
+      @RUntainted Date publishDate = new Date(resource.getDateLastModified());
       info =
           Messages.get()
               .getBundle(getLocale())
@@ -347,7 +348,7 @@ public class CmsDefaultPublishResourceFormatter implements I_CmsPublishResourceF
    * @param name the fully qualified name to check
    * @return the simple name if the ou is the same as the current user's ou
    */
-  public static String getOuAwareName(CmsObject cms, String name) {
+  public static @RUntainted String getOuAwareName(CmsObject cms, @RUntainted String name) {
 
     String ou = CmsOrganizationalUnit.getParentFqn(name);
     if (ou.equals(cms.getRequestContext().getCurrentUser().getOuFqn())) {
@@ -480,7 +481,7 @@ public class CmsDefaultPublishResourceFormatter implements I_CmsPublishResourceF
    *
    * @return the workplace locale
    */
-  protected Locale getLocale() {
+  protected @RUntainted Locale getLocale() {
 
     return OpenCms.getWorkplaceManager().getWorkplaceLocale(m_cms);
   }

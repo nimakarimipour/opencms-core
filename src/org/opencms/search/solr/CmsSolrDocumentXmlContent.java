@@ -82,6 +82,7 @@ import org.opencms.xml.types.CmsXmlNestedContentDefinition;
 import org.opencms.xml.types.CmsXmlSerialDateValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 import org.opencms.xml.types.I_CmsXmlSchemaType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Special document text extraction factory for Solr index.
@@ -112,7 +113,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
     private String m_defaultTitleValue;
 
     /** Current locale. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** Content value mapped to Description property. */
     private String m_mappedDescriptionValue;
@@ -135,7 +136,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      * @param content the XML content
      * @param locale the locale in the XML content
      */
-    public GalleryNameChooser(CmsObject cms, A_CmsXmlDocument content, Locale locale) {
+    public GalleryNameChooser(CmsObject cms, A_CmsXmlDocument content, @RUntainted Locale locale) {
 
       m_cms = cms;
       m_content = content;
@@ -166,10 +167,10 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      * @return the description
      * @throws CmsException of something goes wrong
      */
-    public String getDescription(Locale locale) throws CmsException {
+    public String getDescription(@RUntainted Locale locale) throws CmsException {
 
       String result = null;
-      for (String resultCandidateWithMacros :
+      for (@RUntainted String resultCandidateWithMacros :
           new String[] {m_mappedGalleryDescriptionValue, m_mappedDescriptionValue}) {
         if (!CmsStringUtil.isEmptyOrWhitespaceOnly(resultCandidateWithMacros)) {
           CmsGalleryNameMacroResolver resolver =
@@ -210,10 +211,10 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      * @return the gallery name
      * @throws CmsException of something goes wrong
      */
-    public String getGalleryName(Locale locale) throws CmsException {
+    public String getGalleryName(@RUntainted Locale locale) throws CmsException {
 
       String result = null;
-      for (String resultCandidateWithMacros :
+      for (@RUntainted String resultCandidateWithMacros :
           new String[] {
             // Prioritize gallery name over title, and actual content values over defaults
             m_mappedGalleryNameValue,
@@ -436,7 +437,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
    */
   public static CmsExtractionResult extractXmlContent(
       CmsObject cms,
-      CmsResource resource,
+      @RUntainted CmsResource resource,
       I_CmsSearchIndex index,
       Locale forceLocale,
       Set<CmsUUID> alreadyExtracted,
@@ -468,7 +469,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
     LinkedHashMap<String, String> localeItems = null;
     GalleryNameChooser galleryNameChooser = null;
     // loop over the locales of the content
-    for (Locale locale : contentLocales) {
+    for (@RUntainted Locale locale : contentLocales) {
       galleryNameChooser = new GalleryNameChooser(cms, xmlContent, locale);
       localeItems = new LinkedHashMap<String, String>();
       StringBuffer textContent = new StringBuffer();
@@ -643,7 +644,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
 
       Set<String> xpaths = Sets.newHashSet();
       collectSchemaXpathsForSimpleValues(cms, xmlContent.getContentDefinition(), "", xpaths);
-      for (String xpath : xpaths) {
+      for (@RUntainted String xpath : xpaths) {
         // mappings always are stored with indexes, so we add them to the xpath
         List<String> mappings =
             xmlContent.getHandler().getMappings(CmsXmlUtils.createXpath(xpath, 1));
@@ -697,7 +698,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
       if (forceLocale != null) {
         items.put(forceLocale, localeItems);
       } else {
-        for (Locale l : OpenCms.getLocaleManager().getAvailableLocales()) {
+        for (@RUntainted Locale l : OpenCms.getLocaleManager().getAvailableLocales()) {
           items.put(l, localeItems);
           if (null != galleryNameChooser) {
             final String galleryTitleFieldKey =
@@ -727,7 +728,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
    */
   @Override
   public I_CmsExtractionResult extractContent(
-      CmsObject cms, CmsResource resource, I_CmsSearchIndex index) throws CmsException {
+      CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index) throws CmsException {
 
     logContentExtraction(resource, index);
 

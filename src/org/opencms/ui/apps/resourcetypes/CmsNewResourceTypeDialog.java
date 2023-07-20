@@ -80,6 +80,7 @@ import org.opencms.xml.content.CmsVfsBundleLoaderXml;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to edit or create resourcetypes.
@@ -93,13 +94,13 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
   public static class XMLPath {
 
     /** Module Config Constant. */
-    private static final String CONFIG_RESOURCETYPE = "ResourceType";
+    private static final @RUntainted String CONFIG_RESOURCETYPE = "ResourceType";
 
     /** Module Config Constant. */
-    private static final String CONFIG_RESOURCETYPE_TYPENAME = "/TypeName";
+    private static final @RUntainted String CONFIG_RESOURCETYPE_TYPENAME = "/TypeName";
 
     /** Module Config Constant. */
-    private static final String CONFIG_RESOURCETYPE_NAMEPATTERN = "/NamePattern";
+    private static final @RUntainted String CONFIG_RESOURCETYPE_NAMEPATTERN = "/NamePattern";
 
     /**
      * Adds the count to the path, e.g., <code>"Title" + num(2)</code> results in <code>"Title[2]"
@@ -108,7 +109,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
      * @param i the count to add to the XPath
      * @return the argument wrapped in square brackets.
      */
-    public static String num(int i) {
+    public static @RUntainted String num(@RUntainted int i) {
 
       return "[" + i + "]";
     }
@@ -207,13 +208,13 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
     private static final long serialVersionUID = 7878441125879949490L;
 
     /** @see com.vaadin.v7.data.Validator#validate(java.lang.Object) */
-    public void validate(Object value) throws InvalidValueException {
+    public void validate(@RUntainted Object value) throws InvalidValueException {
 
       if ((value == null) || ((String) value).isEmpty()) {
         return;
       }
 
-      String resource = (String) value;
+      @RUntainted String resource = (String) value;
       if (!resource.startsWith("/system/")) {
         throw new InvalidValueException(
             CmsVaadinUtils.getMessageText(Messages.GUI_RESOURCETYPE_EDIT_INVALID_RESORUCE_0));
@@ -389,7 +390,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
    * @param xmlPath the path of the (nested) element, for which the parents should be created
    * @param l the locale for which the XML content is edited.
    */
-  protected void createParentXmlElements(CmsXmlContent xmlContent, String xmlPath, Locale l) {
+  protected void createParentXmlElements(CmsXmlContent xmlContent, @RUntainted String xmlPath, Locale l) {
 
     if (CmsXmlUtils.isDeepXpath(xmlPath)) {
       String parentPath = CmsXmlUtils.removeLastXpathElement(xmlPath);
@@ -576,7 +577,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
       setting.setInfo(key);
     }
     if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_typeName.getValue())) {
-      String key =
+      @RUntainted String key =
           String.format(
               MESSAGE_KEY_FORMATTER, m_typeShortName.getValue(), MESSAGE_KEY_FORMATTER_TITLE);
       messages.put(key, m_typeName.getValue());
@@ -776,9 +777,9 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
       }
 
       String formatterPath = m_parentFormatter.getValue() + m_typeShortName.getValue() + ".jsp";
-      String formatterConfigPath =
+      @RUntainted String formatterConfigPath =
           m_parentFormatter.getValue() + m_typeShortName.getValue() + ".xml";
-      String schemaPath = m_parentSchema.getValue() + m_typeShortName.getValue() + ".xsd";
+      @RUntainted String schemaPath = m_parentSchema.getValue() + m_typeShortName.getValue() + ".xsd";
       if (!m_cms.existsResource(formatterPath)) {
         m_cms.copyResource(SAMPLE_FORMATTER, formatterPath);
       }
@@ -967,12 +968,12 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
    *
    * @return String name-pattern
    */
-  private String getNamePattern() {
+  private @RUntainted String getNamePattern() {
 
-    String niceName = m_typeShortName.getValue();
+    @RUntainted String niceName = m_typeShortName.getValue();
     if (m_typeShortName.getValue().contains("-")) {
       int maxLength = 0;
-      String[] nameParts = niceName.split("-");
+      @RUntainted String[] nameParts = niceName.split("-");
       for (int i = 0; i < nameParts.length; i++) {
         if (nameParts[i].length() > maxLength) {
           maxLength = nameParts[i].length();

@@ -31,6 +31,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Immutable bean representing most of the information in a CmsLink. */
 public class CmsLinkInfo {
@@ -52,10 +53,10 @@ public class CmsLinkInfo {
   private String m_query;
 
   /** The structure id. */
-  private CmsUUID m_structureId;
+  private @RUntainted CmsUUID m_structureId;
 
   /** The link target. */
-  private String m_target;
+  private @RUntainted String m_target;
 
   /** Cached toString() result. */
   private transient String m_toStringRepr;
@@ -74,8 +75,8 @@ public class CmsLinkInfo {
    * @param internal true if the link is internal
    */
   public CmsLinkInfo(
-      CmsUUID structureId,
-      String target,
+      @RUntainted CmsUUID structureId,
+      @RUntainted String target,
       String query,
       String anchor,
       CmsRelationType type,
@@ -174,7 +175,7 @@ public class CmsLinkInfo {
    *
    * @return the structure id
    */
-  public CmsUUID getStructureId() {
+  public @RUntainted CmsUUID getStructureId() {
 
     return m_structureId;
   }
@@ -184,7 +185,7 @@ public class CmsLinkInfo {
    *
    * @return the target
    */
-  public String getTarget() {
+  public @RUntainted String getTarget() {
 
     return m_target;
   }
@@ -194,7 +195,7 @@ public class CmsLinkInfo {
    *
    * @return the type
    */
-  public CmsRelationType getType() {
+  public @RUntainted CmsRelationType getType() {
 
     return m_type;
   }

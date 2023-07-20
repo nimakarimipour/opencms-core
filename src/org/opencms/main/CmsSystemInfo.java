@@ -38,6 +38,7 @@ import org.opencms.jsp.util.I_CmsJspDeviceSelector;
 import org.opencms.mail.CmsMailSettings;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to system wide "read only" information about the running OpenCms instance.
@@ -130,7 +131,7 @@ public class CmsSystemInfo {
   public static final String CONFIG_FOLDER_PROPERTY = "opencms.config";
 
   /** Relative path to persistence.xml file. */
-  public static final String FILE_PERSISTENCE =
+  public static final @RUntainted String FILE_PERSISTENCE =
       "classes" + File.separatorChar + "META-INF" + File.separatorChar + "persistence.xml";
 
   /** The name of the opencms.properties file. */
@@ -140,10 +141,10 @@ public class CmsSystemInfo {
   public static final String FILE_TLD = "opencms.tld";
 
   /** Path to the default "config" folder relative to the "WEB-INF" directory of the application. */
-  public static final String FOLDER_CONFIG_DEFAULT = "config" + File.separatorChar;
+  public static final @RUntainted String FOLDER_CONFIG_DEFAULT = "config" + File.separatorChar;
 
   /** The name of the module folder in the package path. */
-  public static final String FOLDER_MODULES = "modules" + File.separatorChar;
+  public static final @RUntainted String FOLDER_MODULES = "modules" + File.separatorChar;
 
   /** Path to the "packages" folder relative to the "WEB-INF" directory of the application. */
   public static final String FOLDER_PACKAGES = "packages" + File.separatorChar;
@@ -177,22 +178,22 @@ public class CmsSystemInfo {
   /**
    * The absolute path to the "opencms.properties" configuration file (in the "real" file system).
    */
-  private String m_configurationFileRfsPath;
+  private @RUntainted String m_configurationFileRfsPath;
 
   /** Default encoding, can be set in opencms-system.xml. */
-  private String m_defaultEncoding;
+  private @RUntainted String m_defaultEncoding;
 
   /** The device selector instance. */
   private I_CmsJspDeviceSelector m_deviceSelector;
 
   /** Indicates if the version history is enabled. */
-  private boolean m_historyEnabled;
+  private @RUntainted boolean m_historyEnabled;
 
   /** The maximum number of entries in the version history (per resource). */
-  private int m_historyVersions;
+  private @RUntainted int m_historyVersions;
 
   /** The maximum number of versions in the VFS version history for deleted resources. */
-  private int m_historyVersionsAfterDeletion;
+  private @RUntainted int m_historyVersionsAfterDeletion;
 
   /** The HTTP basic authentication settings. */
   private CmsHttpAuthenticationSettings m_httpAuthenticationSettings;
@@ -207,7 +208,7 @@ public class CmsSystemInfo {
    * The duration after which responsible resource owners will be notified about out-dated content
    * (in days).
    */
-  private int m_notificationTime;
+  private @RUntainted int m_notificationTime;
 
   /** The absolute path to the "packages" folder (in the "real" file system). */
   private String m_packagesRfsPath;
@@ -219,7 +220,7 @@ public class CmsSystemInfo {
   private boolean m_restrictDetailContents;
 
   /** The name of the OpenCms server. */
-  private String m_serverName;
+  private @RUntainted String m_serverName;
 
   /** The servlet container specific settings. */
   private CmsServletContainerSettings m_servletContainerSettings;
@@ -237,10 +238,10 @@ public class CmsSystemInfo {
   private String m_version;
 
   /** The version ID of this OpenCms installation, usually set by the build system. */
-  private String m_versionId;
+  private @RUntainted String m_versionId;
 
   /** The version number of this OpenCms installation. */
-  private String m_versionNumber;
+  private @RUntainted String m_versionNumber;
 
   /**
    * Creates a new system info container.
@@ -273,7 +274,7 @@ public class CmsSystemInfo {
    * @return an absolute path (to a directory or a file) from a path relative to the web application
    *     folder of OpenCms
    */
-  public String getAbsoluteRfsPathRelativeToWebApplication(String path) {
+  public @RUntainted String getAbsoluteRfsPathRelativeToWebApplication(@RUntainted String path) {
 
     if ((path == null) || (getWebApplicationRfsPath() == null)) {
       return null;
@@ -304,13 +305,13 @@ public class CmsSystemInfo {
    * @return an absolute path (to a directory or a file) from a path relative to the "WEB-INF"
    *     folder
    */
-  public String getAbsoluteRfsPathRelativeToWebInf(String path) {
+  public @RUntainted String getAbsoluteRfsPathRelativeToWebInf(@RUntainted String path) {
 
     if (path == null) {
       return null;
     }
     // check for absolute path is system depended, let's just use the standard check
-    File f = new File(path);
+    @RUntainted File f = new File(path);
     if (f.isAbsolute()) {
       // apparently this is an absolute path already
       return f.getAbsolutePath();
@@ -349,7 +350,7 @@ public class CmsSystemInfo {
    * @param configFile the config file path within /system/config/
    * @return the file path
    */
-  public String getConfigFilePath(CmsObject cms, String configFile) {
+  public @RUntainted String getConfigFilePath(CmsObject cms, String configFile) {
 
     String path = CmsStringUtil.joinPaths(VFS_CONFIG_OVERRIDE_FOLDER, configFile);
     if (!cms.existsResource(path)) {
@@ -367,7 +368,7 @@ public class CmsSystemInfo {
    *
    * @return complete rfs path to the config folder.
    */
-  public String getConfigFolder() {
+  public @RUntainted String getConfigFolder() {
 
     // check if the system property is set and return its value
     if (CmsStringUtil.isNotEmpty(System.getProperty(CONFIG_FOLDER_PROPERTY))) {
@@ -385,7 +386,7 @@ public class CmsSystemInfo {
    *
    * @return the absolute path to the "opencms.properties" configuration file
    */
-  public String getConfigurationFileRfsPath() {
+  public @RUntainted String getConfigurationFileRfsPath() {
 
     if (m_configurationFileRfsPath == null) {
       m_configurationFileRfsPath = getConfigFolder() + FILE_PROPERTIES;
@@ -412,7 +413,7 @@ public class CmsSystemInfo {
    * @see #getServletPath()
    * @see #getOpenCmsContext()
    */
-  public String getContextPath() {
+  public @RUntainted String getContextPath() {
 
     return m_servletContainerSettings.getContextPath();
   }
@@ -427,7 +428,7 @@ public class CmsSystemInfo {
    *
    * @return the default encoding, e.g. "UTF-8" or "ISO-8859-1"
    */
-  public String getDefaultEncoding() {
+  public @RUntainted String getDefaultEncoding() {
 
     return m_defaultEncoding;
   }
@@ -466,7 +467,7 @@ public class CmsSystemInfo {
    * @return the maximum number of versions that are kept per file
    * @see #isHistoryEnabled()
    */
-  public int getHistoryVersions() {
+  public @RUntainted int getHistoryVersions() {
 
     return m_historyVersions;
   }
@@ -480,7 +481,7 @@ public class CmsSystemInfo {
    *
    * @return the number versions in the VFS version history for deleted resources
    */
-  public int getHistoryVersionsAfterDeletion() {
+  public @RUntainted int getHistoryVersionsAfterDeletion() {
 
     return m_historyVersionsAfterDeletion;
   }
@@ -507,7 +508,7 @@ public class CmsSystemInfo {
    *
    * @return the filename of the log file (in the "real" file system)
    */
-  public String getLogFileRfsPath() {
+  public @RUntainted String getLogFileRfsPath() {
 
     return CmsLog.getLogFileRfsPath();
   }
@@ -562,7 +563,7 @@ public class CmsSystemInfo {
    * @return the duration after which responsible resource owners will be notified about out-dated
    *     content
    */
-  public int getNotificationTime() {
+  public @RUntainted int getNotificationTime() {
 
     return m_notificationTime;
   }
@@ -579,7 +580,7 @@ public class CmsSystemInfo {
    * @see #getContextPath()
    * @see #getServletPath()
    */
-  public String getOpenCmsContext() {
+  public @RUntainted String getOpenCmsContext() {
 
     return m_servletContainerSettings.getOpenCmsContext();
   }
@@ -591,7 +592,7 @@ public class CmsSystemInfo {
    *
    * @return the absolute path to the "packages" folder
    */
-  public String getPackagesRfsPath() {
+  public @RUntainted String getPackagesRfsPath() {
 
     if (m_packagesRfsPath == null) {
       m_packagesRfsPath = getAbsoluteRfsPathRelativeToWebInf(CmsSystemInfo.FOLDER_PACKAGES);
@@ -637,7 +638,7 @@ public class CmsSystemInfo {
    *
    * @return the OpenCms server name
    */
-  public String getServerName() {
+  public @RUntainted String getServerName() {
 
     return m_serverName;
   }
@@ -669,7 +670,7 @@ public class CmsSystemInfo {
    * @see #getWebApplicationName()
    * @see #getOpenCmsContext()
    */
-  public String getServletPath() {
+  public @RUntainted String getServletPath() {
 
     return m_servletContainerSettings.getServletPath();
   }
@@ -729,7 +730,7 @@ public class CmsSystemInfo {
    * @return the version ID of this OpenCms system
    * @since 9.5.0
    */
-  public String getVersionId() {
+  public @RUntainted String getVersionId() {
 
     return m_versionId;
   }
@@ -742,7 +743,7 @@ public class CmsSystemInfo {
    * @return the version number of this OpenCms system
    * @since 7.0.2
    */
-  public String getVersionNumber() {
+  public @RUntainted String getVersionNumber() {
 
     return m_versionNumber;
   }
@@ -762,7 +763,7 @@ public class CmsSystemInfo {
    * @see #getServletPath()
    * @see #getOpenCmsContext()
    */
-  public String getWebApplicationName() {
+  public @RUntainted String getWebApplicationName() {
 
     return m_servletContainerSettings.getWebApplicationName();
   }
@@ -774,7 +775,7 @@ public class CmsSystemInfo {
    *
    * @return the OpenCms web application folder in the servlet container
    */
-  public String getWebApplicationRfsPath() {
+  public @RUntainted String getWebApplicationRfsPath() {
 
     return m_servletContainerSettings.getWebApplicationRfsPath();
   }
@@ -786,7 +787,7 @@ public class CmsSystemInfo {
    *
    * @return the OpenCms web application "WEB-INF" directory path
    */
-  public String getWebInfRfsPath() {
+  public @RUntainted String getWebInfRfsPath() {
 
     return m_servletContainerSettings.getWebInfRfsPath();
   }
@@ -803,7 +804,7 @@ public class CmsSystemInfo {
    * @see #getContextPath()
    * @see #WORKPLACE_PATH
    */
-  public String getWorkplaceContext() {
+  public @RUntainted String getWorkplaceContext() {
 
     return getContextPath() + WORKPLACE_PATH;
   }
@@ -815,7 +816,7 @@ public class CmsSystemInfo {
    *
    * @return if the VFS version history is enabled
    */
-  public boolean isHistoryEnabled() {
+  public @RUntainted boolean isHistoryEnabled() {
 
     return m_historyEnabled;
   }
@@ -854,7 +855,7 @@ public class CmsSystemInfo {
    * @param notificationTime the duration after which responsible resource owners will be notified
    *     about out-dated content
    */
-  public void setNotificationTime(int notificationTime) {
+  public void setNotificationTime(@RUntainted int notificationTime) {
 
     m_notificationTime = notificationTime;
   }
@@ -870,7 +871,7 @@ public class CmsSystemInfo {
    *     resources
    */
   public void setVersionHistorySettings(
-      boolean historyEnabled, int historyVersions, int historyVersionsAfterDeletion) {
+      @RUntainted boolean historyEnabled, @RUntainted int historyVersions, @RUntainted int historyVersionsAfterDeletion) {
 
     m_historyEnabled = historyEnabled;
     m_historyVersions = historyVersions;
@@ -900,7 +901,7 @@ public class CmsSystemInfo {
    *
    * @param encoding the default encoding to set
    */
-  protected void setDefaultEncoding(String encoding) {
+  protected void setDefaultEncoding(@RUntainted String encoding) {
 
     m_defaultEncoding = encoding.intern();
     if (CmsLog.INIT.isInfoEnabled()) {
@@ -969,7 +970,7 @@ public class CmsSystemInfo {
    *
    * @param serverName the server name to set
    */
-  protected void setServerName(String serverName) {
+  protected void setServerName(@RUntainted String serverName) {
 
     m_serverName = serverName;
     if (CmsLog.INIT.isInfoEnabled()) {

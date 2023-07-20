@@ -32,6 +32,7 @@ import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a common Thread class for the reports.
@@ -49,7 +50,7 @@ public abstract class A_CmsReportThread extends Thread implements I_CmsReportThr
   private boolean m_doomed;
 
   /** The id of this report. */
-  private CmsUUID m_id;
+  private @RUntainted CmsUUID m_id;
 
   /** The report that belongs to the thread. */
   protected I_CmsReport m_report;
@@ -201,7 +202,7 @@ public abstract class A_CmsReportThread extends Thread implements I_CmsReportThr
    *
    * @return the OpenCms UUID of this report thread
    */
-  public CmsUUID getUUID() {
+  public @RUntainted CmsUUID getUUID() {
 
     return m_id;
   }
@@ -255,7 +256,7 @@ public abstract class A_CmsReportThread extends Thread implements I_CmsReportThr
    *
    * @return the OpenCms context object this Thread is initialized with
    */
-  protected CmsObject getCms() {
+  protected @RUntainted CmsObject getCms() {
 
     return m_cms;
   }

@@ -37,6 +37,7 @@ import org.opencms.file.CmsResourceFilter;
 import org.opencms.gwt.CmsGwtActionElement;
 import org.opencms.gwt.shared.CmsCoreData;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action element class for opening the ADE properties dialog.

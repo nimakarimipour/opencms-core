@@ -57,6 +57,7 @@ import org.opencms.search.extractors.CmsExtractorRtf;
 import org.opencms.search.extractors.I_CmsTextExtractor;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interprets two versions of a resource as text files, and shows a diff view for the two texts.

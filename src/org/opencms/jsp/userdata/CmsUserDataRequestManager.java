@@ -62,6 +62,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager class for user data requests.
@@ -216,7 +217,7 @@ public class CmsUserDataRequestManager {
    *
    * @return the list of all user data domains
    */
-  public List<I_CmsUserDataDomain> getAllDomains() {
+  public @RUntainted List<I_CmsUserDataDomain> getAllDomains() {
 
     return m_allDomains;
   }

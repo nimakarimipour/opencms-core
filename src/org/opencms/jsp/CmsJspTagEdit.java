@@ -53,6 +53,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.editors.directedit.CmsDirectEditButtonSelection;
 import org.opencms.workplace.editors.directedit.CmsDirectEditParams;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** This tag is used to attach an edit provider to a snippet of HTML. */
 public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
@@ -97,7 +98,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
   private String m_uploadFolder;
 
   /** UUID of the content to edit. */
-  private String m_uuid;
+  private @RUntainted String m_uuid;
 
   /**
    * Creates a new resource.
@@ -117,15 +118,15 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
   public static String createResource(
       CmsObject cmsObject,
       String newLink,
-      Locale locale,
+      @RUntainted Locale locale,
       String sitePath,
       String modelFileName,
       String mode,
       String postCreateHandler)
       throws CmsException {
 
-    String[] newLinkParts = newLink.split("\\|");
-    String rootPath = newLinkParts[1];
+    @RUntainted String[] newLinkParts = newLink.split("\\|");
+    @RUntainted String rootPath = newLinkParts[1];
     String typeName = newLinkParts[2];
     CmsFile modelFile = null;
     if (StringUtils.equalsIgnoreCase(mode, CmsEditorConstants.MODE_COPY)) {
@@ -193,7 +194,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
    * @param newLink the newLink parameter
    * @return the resource type name
    */
-  public static String getRootPathFromNewLink(String newLink) {
+  public static @RUntainted String getRootPathFromNewLink(String newLink) {
 
     String result = null;
     if (newLink.startsWith(NEW_LINK_IDENTIFIER) && newLink.contains("|")) {
@@ -478,7 +479,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
    *
    * @param uuid the uuid of the content that should be edited.
    */
-  public void setUuid(final String uuid) {
+  public void setUuid(final @RUntainted String uuid) {
 
     m_uuid = uuid;
   }

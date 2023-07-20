@@ -33,6 +33,7 @@ import org.opencms.file.types.CmsResourceTypeUnknown;
 import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.main.CmsLog;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Factory to create resource type instances from the XML configuration.
@@ -67,10 +68,10 @@ public class CmsDigesterResourceTypeCreationFactory
    * @see org.apache.commons.digester3.ObjectCreationFactory#createObject(org.xml.sax.Attributes)
    */
   @Override
-  public I_CmsResourceType createObject(Attributes attributes) throws Exception {
+  public I_CmsResourceType createObject(@RUntainted Attributes attributes) throws Exception {
 
     // get the class name attribute
-    String className = attributes.getValue(I_CmsXmlConfiguration.A_CLASS);
+    @RUntainted String className = attributes.getValue(I_CmsXmlConfiguration.A_CLASS);
     // create the class instance
     I_CmsResourceType type;
     try {

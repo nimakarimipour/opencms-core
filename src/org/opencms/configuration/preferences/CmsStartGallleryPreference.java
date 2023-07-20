@@ -31,6 +31,7 @@ import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.file.CmsObject;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Start gallery preference.
@@ -126,7 +127,7 @@ public class CmsStartGallleryPreference extends A_CmsPreference {
    *     org.opencms.configuration.preferences.I_CmsPreference#setValue(org.opencms.configuration.CmsDefaultUserSettings,
    *     java.lang.String)
    */
-  public void setValue(CmsDefaultUserSettings settings, String value) {
+  public void setValue(CmsDefaultUserSettings settings, @RUntainted String value) {
 
     if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value)
         && value.contains("/")

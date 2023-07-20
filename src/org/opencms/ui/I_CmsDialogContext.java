@@ -38,6 +38,7 @@ import org.opencms.file.CmsProject;
 import org.opencms.file.CmsResource;
 import org.opencms.ui.components.CmsBasicDialog.DialogWidth;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Context for dialogs opened from the context menu.
@@ -135,7 +136,7 @@ public interface I_CmsDialogContext {
    *
    * @return the CMS context
    */
-  CmsObject getCms();
+  @RUntainted CmsObject getCms();
 
   /**
    * Returns the context type.
@@ -165,7 +166,7 @@ public interface I_CmsDialogContext {
    *
    * @return the list of resources
    */
-  List<CmsResource> getResources();
+  @RUntainted List<CmsResource> getResources();
 
   /**
    * Navigates to the given app.

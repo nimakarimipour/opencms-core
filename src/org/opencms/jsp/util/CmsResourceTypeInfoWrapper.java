@@ -41,6 +41,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.workplace.CmsWorkplaceMessages;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Wrapper for resource type information for use in JSPs. */
 public class CmsResourceTypeInfoWrapper implements I_CmsFormatterInfo {
@@ -98,7 +99,7 @@ public class CmsResourceTypeInfoWrapper implements I_CmsFormatterInfo {
    * @param locale the locale to use
    * @return the type description
    */
-  public String description(Locale locale) {
+  public String description(@RUntainted Locale locale) {
 
     try {
       return CmsWorkplaceMessages.getResourceTypeDescription(locale, m_type.getTypeName());
@@ -202,7 +203,7 @@ public class CmsResourceTypeInfoWrapper implements I_CmsFormatterInfo {
    * @param locale the locale to use
    * @return the nice name for the type
    */
-  public String niceName(Locale locale) {
+  public String niceName(@RUntainted Locale locale) {
 
     try {
       return CmsWorkplaceMessages.getResourceTypeName(locale, m_type.getTypeName());

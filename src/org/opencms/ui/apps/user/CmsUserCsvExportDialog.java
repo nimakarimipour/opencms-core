@@ -40,6 +40,7 @@ import org.opencms.file.CmsUser;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Only export dialog.
@@ -91,10 +92,10 @@ public class CmsUserCsvExportDialog extends A_CmsImportExportUserDialog {
    * @param window window
    */
   CmsUserCsvExportDialog(
-      List<CmsUser> userToExport,
+      @RUntainted List<CmsUser> userToExport,
       String ou,
       I_CmsOuTreeType type,
-      String elementName,
+      @RUntainted String elementName,
       boolean extendedData,
       Window window,
       boolean includeTechnicalFields) {

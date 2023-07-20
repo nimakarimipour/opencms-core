@@ -52,6 +52,7 @@ import org.opencms.workplace.CmsDialog;
 import org.opencms.workplace.CmsWorkplaceSettings;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for the editor copy language dialog.
@@ -87,10 +88,10 @@ public class CmsDialogCopyLanguage extends CmsDialog {
   private Locale m_elementLocale;
 
   /** Element language parameter. */
-  private String m_paramElementlanguage;
+  private @RUntainted String m_paramElementlanguage;
 
   /** The selected languages. */
-  private Set<String> m_paramSelectedLanguages;
+  private Set<@RUntainted String> m_paramSelectedLanguages;
 
   /** Temporary file parameter. */
   private String m_paramTempFile;
@@ -137,8 +138,8 @@ public class CmsDialogCopyLanguage extends CmsDialog {
         CmsXmlContent content = CmsXmlContentFactory.unmarshal(getCms(), file);
 
         List<Locale> toLocales = new ArrayList<Locale>();
-        for (Iterator<String> i = m_paramSelectedLanguages.iterator(); i.hasNext(); ) {
-          String language = i.next();
+        for (Iterator<@RUntainted String> i = m_paramSelectedLanguages.iterator(); i.hasNext(); ) {
+          @RUntainted String language = i.next();
           toLocales.add(CmsLocaleManager.getLocale(language));
         }
 
@@ -261,7 +262,7 @@ public class CmsDialogCopyLanguage extends CmsDialog {
    *
    * @return the current element language
    */
-  public String getParamElementLanguage() {
+  public @RUntainted String getParamElementLanguage() {
 
     return m_paramElementlanguage;
   }
@@ -285,7 +286,7 @@ public class CmsDialogCopyLanguage extends CmsDialog {
    *
    * @param elementLanguage the current element language
    */
-  public void setParamElementLanguage(String elementLanguage) {
+  public void setParamElementLanguage(@RUntainted String elementLanguage) {
 
     m_paramElementlanguage = elementLanguage;
   }
@@ -304,7 +305,7 @@ public class CmsDialogCopyLanguage extends CmsDialog {
         m_paramSelectedLanguages = new HashSet<String>();
       }
       // add all available values here
-      String[] values = getParameterMap().get(PARAM_LANGUAGE);
+      @RUntainted String[] values = getParameterMap().get(PARAM_LANGUAGE);
       for (int i = 0; i < values.length; i++) {
         m_paramSelectedLanguages.add(decodeParamValue(PARAM_LANGUAGE, values[i]));
       }
@@ -330,7 +331,7 @@ public class CmsDialogCopyLanguage extends CmsDialog {
    */
   @Override
   protected void initWorkplaceRequestValues(
-      CmsWorkplaceSettings settings, HttpServletRequest request) {
+      CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
     // fill the parameter values in the get/set methods
     fillParamValues(request);

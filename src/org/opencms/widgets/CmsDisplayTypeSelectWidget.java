@@ -61,6 +61,7 @@ import org.opencms.workplace.CmsWorkplaceMessages;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
 import org.opencms.xml.types.A_CmsXmlContentValue;
 import org.opencms.xml.types.CmsXmlDisplayFormatterValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget to select a type and formatter combination.
@@ -363,7 +364,7 @@ public class CmsDisplayTypeSelectWidget extends CmsSelectWidget {
             }
           }
         }
-        for (String typeName : formatter.getResourceTypeNames()) {
+        for (@RUntainted String typeName : formatter.getResourceTypeNames()) {
           String label =
               formatter.getNiceName(wpLocale)
                   + " ("

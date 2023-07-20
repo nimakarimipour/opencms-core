@@ -28,6 +28,7 @@
 package org.opencms.publish;
 
 import org.opencms.util.A_CmsModeStringEnumeration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class defining the publish engine states.
@@ -57,7 +58,7 @@ public final class CmsPublishEngineState extends A_CmsModeStringEnumeration {
    *
    * @param state the state description
    */
-  private CmsPublishEngineState(String state) {
+  private CmsPublishEngineState(@RUntainted String state) {
 
     super(state);
   }

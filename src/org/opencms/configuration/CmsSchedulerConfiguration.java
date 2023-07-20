@@ -37,6 +37,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.scheduler.CmsScheduleManager;
 import org.opencms.scheduler.CmsScheduledJobInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Scheduled jobs configuration class.
@@ -97,7 +98,7 @@ public class CmsSchedulerConfiguration extends A_CmsXmlConfiguration {
   public static final String N_USERNAME = "user";
 
   /** The list of jobs for the scheduler. */
-  private List<CmsScheduledJobInfo> m_configuredJobs;
+  private @RUntainted List<CmsScheduledJobInfo> m_configuredJobs;
 
   /** The configured schedule manager. */
   private CmsScheduleManager m_scheduleManager;

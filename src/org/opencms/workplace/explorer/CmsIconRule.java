@@ -28,6 +28,7 @@
 package org.opencms.workplace.explorer;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An icon configuration rule for an explorer type.

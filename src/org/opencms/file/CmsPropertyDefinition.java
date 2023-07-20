@@ -32,6 +32,7 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.util.A_CmsModeIntEnumeration;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines a property name, so that <code>{@link CmsProperty}</code> instances can be created with
@@ -320,10 +321,10 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
       new CmsPropertyDefinition(CmsUUID.getNullUUID(), "", TYPE_NORMAL);
 
   /** The id of this property definition. */
-  private CmsUUID m_id;
+  private @RUntainted CmsUUID m_id;
 
   /** The name of this property definition. */
-  private String m_name;
+  private @RUntainted String m_name;
 
   /** The type of this property definition. */
   private CmsPropertyType m_type;
@@ -369,7 +370,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
    * @param name the property name to check
    * @throws CmsIllegalArgumentException if the given property name is not valid
    */
-  public static void checkPropertyName(String name) throws CmsIllegalArgumentException {
+  public static void checkPropertyName(@RUntainted String name) throws CmsIllegalArgumentException {
 
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(name)) {
       throw new CmsIllegalArgumentException(
@@ -434,7 +435,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
    *
    * @return id the id of this Propertydefinition
    */
-  public CmsUUID getId() {
+  public @RUntainted CmsUUID getId() {
 
     return m_id;
   }
@@ -446,7 +447,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
    *
    * @return name The name of this property definition
    */
-  public String getName() {
+  public @RUntainted String getName() {
 
     return m_name;
   }

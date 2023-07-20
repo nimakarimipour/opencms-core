@@ -55,6 +55,7 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.security.CmsAuthentificationException;
 import org.opencms.security.CmsRole;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsible for the publish process.
@@ -72,7 +73,7 @@ public final class CmsPublishEngine {
   private CmsUUID m_adminUserId;
 
   /** The current running publish job. */
-  private CmsPublishThread m_currentPublishThread;
+  private @RUntainted CmsPublishThread m_currentPublishThread;
 
   /** The runtime info factory used during publishing. */
   private final I_CmsDbContextFactory m_dbContextFactory;
@@ -200,7 +201,7 @@ public final class CmsPublishEngine {
       // but something is waiting in the queue
       if (!m_publishQueue.isEmpty()) {
         // start the next waiting publish job
-        CmsPublishJobInfoBean publishJob = m_publishQueue.next();
+        @RUntainted CmsPublishJobInfoBean publishJob = m_publishQueue.next();
         m_currentPublishThread = new CmsPublishThread(this, publishJob);
         m_currentPublishThread.start();
       } else {
@@ -693,11 +694,11 @@ public final class CmsPublishEngine {
     }
 
     // trigger the old event mechanism
-    CmsDbContext dbc =
+    @RUntainted CmsDbContext dbc =
         m_dbContextFactory.getDbContext(publishJob.getCmsObject().getRequestContext());
     try {
       // fire an event that a project has been published
-      Map<String, Object> eventData = new HashMap<String, Object>();
+      Map<String, @RUntainted Object> eventData = new HashMap<String, @RUntainted Object>();
       eventData.put(I_CmsEventListener.KEY_REPORT, publishJob.getPublishReport());
       eventData.put(
           I_CmsEventListener.KEY_PUBLISHID,

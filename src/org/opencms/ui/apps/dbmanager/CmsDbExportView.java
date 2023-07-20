@@ -70,6 +70,7 @@ import org.opencms.ui.components.fileselect.CmsPathSelectField;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.threads.CmsExportThread;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Export dialog.
@@ -188,13 +189,13 @@ public class CmsDbExportView extends VerticalLayout {
   private CmsEditableGroup m_resourcesGroup;
 
   /** vaadin component. */
-  private ComboBox m_site;
+  private @RUntainted ComboBox m_site;
 
   /** vaadin component. */
   private CheckBox m_skipParentFolders;
 
   /** vaadin component. */
-  private ComboBox m_target;
+  private @RUntainted ComboBox m_target;
 
   /**
    * public constructor.

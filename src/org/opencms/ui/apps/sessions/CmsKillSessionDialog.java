@@ -43,6 +43,7 @@ import org.opencms.ui.FontOpenCms;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the dialog to kill sessions.
@@ -99,7 +100,7 @@ public class CmsKillSessionDialog extends CmsBasicDialog {
 
           public void buttonClick(ClickEvent event) {
 
-            for (String sessionId : sessionIds) {
+            for (@RUntainted String sessionId : sessionIds) {
               try {
                 OpenCms.getSessionManager()
                     .killSession(A_CmsUI.getCmsObject(), new CmsUUID(sessionId));

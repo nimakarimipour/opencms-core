@@ -48,6 +48,7 @@ import java.util.TreeMap;
 import org.dom4j.Element;
 import org.opencms.i18n.CmsEncoder;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides convenient access to configuration parameters.
@@ -161,7 +162,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
   protected static class ParameterTokenizer extends StringTokenizer {
 
     /** The property delimiter used while parsing (a comma). */
-    static final String COMMA = ",";
+    static final @RUntainted String COMMA = ",";
 
     /**
      * Constructor.
@@ -183,7 +184,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
      * @return the next token
      */
     @Override
-    public String nextToken() {
+    public @RUntainted String nextToken() {
 
       StringBuffer buffer = new StringBuffer();
 
@@ -215,10 +216,10 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
   private static final long serialVersionUID = 294679648036460877L;
 
   /** The parsed map of parameters where the Strings may have become Objects. */
-  private transient Map<String, Serializable> m_configurationObjects;
+  private transient @RUntainted Map<String, @RUntainted Serializable> m_configurationObjects;
 
   /** The original map of parameters that contains only String values. */
-  private Map<String, String> m_configurationStrings;
+  private Map<String, @RUntainted String> m_configurationStrings;
 
   /**
    * Creates an empty parameter configuration.
@@ -298,7 +299,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
    * @param objects the object map
    */
   private CmsParameterConfiguration(
-      Map<String, String> strings, Map<String, Serializable> objects) {
+      Map<String, @RUntainted String> strings, @RUntainted Map<String, @RUntainted Serializable> objects) {
 
     m_configurationStrings = strings;
     m_configurationObjects = objects;
@@ -366,7 +367,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
    * @param value the value to unescape
    * @return the unescaped String
    */
-  protected static String unescape(String value) {
+  protected static @RUntainted String unescape(@RUntainted String value) {
 
     value = CmsStringUtil.substitute(value, "\\,", ",");
     value = CmsStringUtil.substitute(value, "\\=", "=");
@@ -390,7 +391,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
    * @param key the parameter to add
    * @param value the value to add
    */
-  public void add(String key, String value) {
+  public void add(String key, @RUntainted String value) {
 
     add(key, value, false);
   }
@@ -503,7 +504,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
    * @return the String associated with the given parameter
    */
   @Override
-  public String get(Object key) {
+  public @RUntainted String get(Object key) {
 
     return m_configurationStrings.get(key);
   }
@@ -519,15 +520,15 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
    * @return the boolean associated with the given parameter, or the default value in case there is
    *     no boolean value for this parameter
    */
-  public boolean getBoolean(String key, boolean defaultValue) {
+  public @RUntainted boolean getBoolean(String key, @RUntainted boolean defaultValue) {
 
-    Object value = m_configurationObjects.get(key);
+    @RUntainted Object value = m_configurationObjects.get(key);
 
     if (value instanceof Boolean) {
       return ((Boolean) value).booleanValue();
 
     } else if (value instanceof String) {
-      Boolean b = Boolean.valueOf((String) value);
+      @RUntainted Boolean b = Boolean.valueOf((String) value);
       m_configurationObjects.put(key, b);
       return b.booleanValue();
 
@@ -547,15 +548,15 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
    * @return the integer associated with the given parameter, or the default value in case there is
    *     no integer value for this parameter
    */
-  public int getInteger(String key, int defaultValue) {
+  public @RUntainted int getInteger(String key, @RUntainted int defaultValue) {
 
-    Object value = m_configurationObjects.get(key);
+    @RUntainted Object value = m_configurationObjects.get(key);
 
     if (value instanceof Integer) {
       return ((Integer) value).intValue();
 
     } else if (value instanceof String) {
-      Integer i = new Integer((String) value);
+      @RUntainted Integer i = new Integer((String) value);
       m_configurationObjects.put(key, i);
       return i.intValue();
 
@@ -577,7 +578,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
    * @return the List of Strings associated with the given parameter, or an empty List in case there
    *     is no List of Strings for this parameter
    */
-  public List<String> getList(String key) {
+  public @RUntainted List<@RUntainted String> getList(String key) {
 
     return getList(key, null);
   }
@@ -596,17 +597,17 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
    * @return the List of Strings associated with the given parameter, or the default value in case
    *     there is no List of Strings for this parameter
    */
-  public List<String> getList(String key, List<String> defaultValue) {
+  public @RUntainted List<@RUntainted String> getList(String key, List<@RUntainted String> defaultValue) {
 
     Object value = m_configurationObjects.get(key);
 
     if (value instanceof List) {
       @SuppressWarnings("unchecked")
-      List<String> result = (List<String>) value;
+      List<@RUntainted String> result = (List<String>) value;
       return new ArrayList<String>(result);
 
     } else if (value instanceof String) {
-      ArrayList<String> values = new ArrayList<String>(1);
+      ArrayList<@RUntainted String> values = new ArrayList<@RUntainted String>(1);
       values.add((String) value);
       m_configurationObjects.put(key, values);
       return values;
@@ -690,7 +691,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
    *     there is no value for this parameter.
    *     <p>
    */
-  public String getString(String key, String defaultValue) {
+  public @RUntainted String getString(String key, @RUntainted String defaultValue) {
 
     String result = get(key);
     return result == null ? defaultValue : result;
@@ -739,7 +740,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
 
       if (equalSign > 0) {
         String key = line.substring(0, equalSign).trim();
-        String value = line.substring(equalSign + 1).trim();
+        @RUntainted String value = line.substring(equalSign + 1).trim();
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(value)) {
           continue;
@@ -762,7 +763,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
    * @return the previous String value from the parameter map
    */
   @Override
-  public String put(String key, String value) {
+  public String put(String key, @RUntainted String value) {
 
     String result = remove(key);
     add(key, value, false);
@@ -837,13 +838,13 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
    * @param value the value to add
    * @param tokenize decides if a String value should be tokenized or nor
    */
-  private void add(String key, String value, boolean tokenize) {
+  private void add(String key, @RUntainted String value, boolean tokenize) {
 
     if (tokenize && (value.indexOf(ParameterTokenizer.COMMA) > 0)) {
       // token contains commas, so must be split apart then added
       ParameterTokenizer tokenizer = new ParameterTokenizer(value);
       while (tokenizer.hasMoreTokens()) {
-        String token = tokenizer.nextToken();
+        @RUntainted String token = tokenizer.nextToken();
         addInternal(key, unescape(token));
       }
     } else if (tokenize) {
@@ -862,7 +863,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
    * @param key the parameter to add
    * @param value the value of the parameter
    */
-  private void addInternal(String key, String value) {
+  private void addInternal(String key, @RUntainted String value) {
 
     Object currentObj = m_configurationObjects.get(key);
     String currentStr = get(key);

@@ -58,6 +58,7 @@ import org.opencms.gwt.shared.alias.CmsRewriteAliasTableRow;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class used by a service to edit or import aliases for a whole site.
@@ -280,7 +281,7 @@ public class CmsAliasBulkEditHelper {
    * @param locale the locale for messages
    * @return the message string
    */
-  private String messageDuplicateAliasPath(Locale locale) {
+  private String messageDuplicateAliasPath(@RUntainted Locale locale) {
 
     return Messages.get().getBundle(locale).key(Messages.ERR_ALIAS_DUPLICATE_ALIAS_PATH_0);
   }
@@ -291,7 +292,7 @@ public class CmsAliasBulkEditHelper {
    * @param locale the locale for messages
    * @return the message string
    */
-  private String messageInvalidAliasPath(Locale locale) {
+  private String messageInvalidAliasPath(@RUntainted Locale locale) {
 
     return Messages.get().getBundle(locale).key(Messages.ERR_ALIAS_INVALID_ALIAS_PATH_0);
   }
@@ -302,7 +303,7 @@ public class CmsAliasBulkEditHelper {
    * @param locale the locale for messages
    * @return the message string
    */
-  private String messageResourceNotFound(Locale locale) {
+  private String messageResourceNotFound(@RUntainted Locale locale) {
 
     return Messages.get().getBundle(locale).key(Messages.ERR_ALIAS_RESOURCE_NOT_FOUND_0);
   }

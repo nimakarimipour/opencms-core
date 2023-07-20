@@ -39,6 +39,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for keeping track of which keys map to which formatters, and which formatters are
@@ -77,7 +78,7 @@ public class CmsFormatterIndex {
    */
   public void addFormatter(I_CmsFormatterBean formatter) {
 
-    String id = formatter.getId();
+    @RUntainted String id = formatter.getId();
     if (CmsUUID.isValidUUID(id)) {
       CmsUUID uuid = new CmsUUID(id);
       m_formattersById.put(uuid, formatter);

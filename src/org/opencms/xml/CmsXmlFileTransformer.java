@@ -59,6 +59,7 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.security.CmsRole;
 import org.opencms.util.CmsFileUtil;
 import org.w3c.dom.Document;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Transforms all resources of a given type by */
 public class CmsXmlFileTransformer {
@@ -104,7 +105,7 @@ public class CmsXmlFileTransformer {
    */
   public CmsXmlFileTransformer(
       CmsObject cms,
-      String path,
+      @RUntainted String path,
       String type,
       String xslName,
       InputStream xslStream,
@@ -187,7 +188,7 @@ public class CmsXmlFileTransformer {
    * @param content the message string
    * @return the message container
    */
-  private CmsMessageContainer message(String content) {
+  private CmsMessageContainer message(@RUntainted String content) {
 
     content = CmsXmlFileTransformer.class.getSimpleName() + ": " + content;
     return org.opencms.report.Messages.get()

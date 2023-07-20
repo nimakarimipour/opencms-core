@@ -31,6 +31,7 @@ import org.apache.commons.digester3.Digester;
 import org.apache.commons.digester3.Rule;
 import org.dom4j.Element;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for parsing an element with several sub-elements which are text-valued (i.e. have no
@@ -109,7 +110,7 @@ public class CmsElementWithSubElementsParamConfigHelper {
           new Rule() {
 
             @Override
-            public void body(String namespace, String name, String text) throws Exception {
+            public void body(String namespace, @RUntainted String name, @RUntainted String text) throws Exception {
 
               I_CmsConfigurationParameterHandler handler =
                   (I_CmsConfigurationParameterHandler) (getDigester().peek());

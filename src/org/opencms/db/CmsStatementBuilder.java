@@ -30,6 +30,7 @@ package org.opencms.db;
 import com.google.common.collect.Lists;
 import java.util.Arrays;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A helper class used to accumulate SQL fragments together with the corresponding query parameters.

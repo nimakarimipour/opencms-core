@@ -121,6 +121,7 @@ import org.opencms.xml.containerpage.CmsXmlContainerPageFactory;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.content.CmsXmlContentProperty;
 import org.opencms.xml.page.CmsXmlPageFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A service class for reading the VFS tree.
@@ -222,7 +223,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
    * @param date the date to format
    * @return the formatted date
    */
-  public static String formatDateTime(CmsObject cms, long date) {
+  public static @RUntainted String formatDateTime(CmsObject cms, long date) {
 
     return CmsDateUtil.getDateTime(
         new Date(date), DateFormat.MEDIUM, OpenCms.getWorkplaceManager().getWorkplaceLocale(cms));
@@ -312,10 +313,10 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
    * @param pathWithMacros the file path which may contain macros
    * @return the processed file path
    */
-  public static String prepareFileNameForEditor(
-      CmsObject cms, CmsResource res, String pathWithMacros) {
+  public static @RUntainted String prepareFileNameForEditor(
+      CmsObject cms, CmsResource res, @RUntainted String pathWithMacros) {
 
-    String subsite = OpenCms.getADEManager().getSubSiteRoot(cms, res.getRootPath());
+    @RUntainted String subsite = OpenCms.getADEManager().getSubSiteRoot(cms, res.getRootPath());
     CmsMacroResolver resolver = new CmsMacroResolver();
     if (subsite != null) {
       resolver.addMacro("subsite", cms.getRequestContext().removeSiteRoot(subsite));
@@ -368,7 +369,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
                   Integer.valueOf(resource.getTypeId()));
       throw new CmsConfigurationException(errMsg);
     }
-    String key = cmsExplorerTypeSettings.getKey();
+    @RUntainted String key = cmsExplorerTypeSettings.getKey();
     Locale currentLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
     CmsMessages messages = OpenCms.getWorkplaceManager().getMessages(currentLocale);
     String resTypeNiceName = messages.key(key);
@@ -391,7 +392,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
    *     java.lang.String, java.lang.String, java.lang.String)
    */
   public void createNewExternalLink(
-      String title, String link, String resourceName, String parentFolderPath)
+      @RUntainted String title, String link, String resourceName, String parentFolderPath)
       throws CmsRpcException {
 
     CmsObject cms = getCmsObject();
@@ -583,7 +584,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
    * @see org.opencms.gwt.shared.rpc.I_CmsVfsService#getDetailName(org.opencms.util.CmsUUID,
    *     java.lang.String)
    */
-  public String getDetailName(CmsUUID id, String localeStr) throws CmsRpcException {
+  public String getDetailName(CmsUUID id, @RUntainted String localeStr) throws CmsRpcException {
 
     CmsObject cms = getCmsObject();
     try {
@@ -620,7 +621,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
    *     java.lang.String, org.opencms.gwt.shared.CmsHistoryVersion)
    */
   public CmsPreviewInfo getHistoryPreviewInfo(
-      CmsUUID structureId, String locale, CmsHistoryVersion versionBean) throws CmsRpcException {
+      CmsUUID structureId, @RUntainted String locale, CmsHistoryVersion versionBean) throws CmsRpcException {
 
     try {
       CmsObject cms = getCmsObject();
@@ -694,7 +695,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
    * @see org.opencms.gwt.shared.rpc.I_CmsVfsService#getPreviewInfo(org.opencms.util.CmsUUID,
    *     java.lang.String)
    */
-  public CmsPreviewInfo getPreviewInfo(CmsUUID structureId, String locale) throws CmsRpcException {
+  public CmsPreviewInfo getPreviewInfo(CmsUUID structureId, @RUntainted String locale) throws CmsRpcException {
 
     CmsPreviewInfo result = null;
     try {
@@ -713,7 +714,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
    * @see org.opencms.gwt.shared.rpc.I_CmsVfsService#getPreviewInfo(java.lang.String,
    *     java.lang.String)
    */
-  public CmsPreviewInfo getPreviewInfo(String sitePath, String locale) throws CmsRpcException {
+  public CmsPreviewInfo getPreviewInfo(String sitePath, @RUntainted String locale) throws CmsRpcException {
 
     CmsPreviewInfo result = null;
     try {
@@ -815,7 +816,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
    */
   public CmsResourceStatusBean getResourceStatus(
       CmsUUID structureId,
-      String contentLocale,
+      @RUntainted String contentLocale,
       boolean includeTargets,
       CmsUUID detailContentId,
       Map<String, String> context)
@@ -925,7 +926,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
   }
 
   /** @see org.opencms.gwt.shared.rpc.I_CmsVfsService#getUploadFolderInfo(java.lang.String) */
-  public CmsListInfoBean getUploadFolderInfo(String path) throws CmsRpcException {
+  public CmsListInfoBean getUploadFolderInfo(@RUntainted String path) throws CmsRpcException {
 
     CmsObject cms = getCmsObject();
     try {
@@ -999,7 +1000,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
    * @see org.opencms.gwt.shared.rpc.I_CmsVfsService#prepareEdit(org.opencms.util.CmsUUID,
    *     java.lang.String)
    */
-  public CmsPrepareEditResponse prepareEdit(CmsUUID currentPageId, String pathWithMacros)
+  public CmsPrepareEditResponse prepareEdit(CmsUUID currentPageId, @RUntainted String pathWithMacros)
       throws CmsRpcException {
 
     try {
@@ -1029,7 +1030,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
    * @see org.opencms.gwt.shared.rpc.I_CmsVfsService#renameResource(org.opencms.util.CmsUUID,
    *     java.lang.String)
    */
-  public String renameResource(CmsUUID structureId, String newName) throws CmsRpcException {
+  public String renameResource(CmsUUID structureId, @RUntainted String newName) throws CmsRpcException {
 
     try {
       return renameResourceInternal(structureId, newName);
@@ -1049,7 +1050,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
    * @return either null if the rename was successful, or an error message
    * @throws CmsException if something goes wrong
    */
-  public String renameResourceInternal(CmsUUID structureId, String newName) throws CmsException {
+  public String renameResourceInternal(CmsUUID structureId, @RUntainted String newName) throws CmsException {
 
     newName = newName.trim();
     CmsObject rootCms = OpenCms.initCmsObject(getCmsObject());
@@ -1115,7 +1116,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
    * @see org.opencms.gwt.shared.rpc.I_CmsVfsService#saveExternalLink(org.opencms.util.CmsUUID,
    *     java.lang.String, java.lang.String, java.lang.String)
    */
-  public void saveExternalLink(CmsUUID structureId, String title, String link, String fileName)
+  public void saveExternalLink(CmsUUID structureId, @RUntainted String title, String link, String fileName)
       throws CmsRpcException {
 
     try {
@@ -1191,7 +1192,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
    * @see org.opencms.gwt.shared.rpc.I_CmsVfsService#substituteLinkForRootPath(java.lang.String,
    *     java.lang.String)
    */
-  public String substituteLinkForRootPath(String currentSiteRoot, String rootPath)
+  public String substituteLinkForRootPath(@RUntainted String currentSiteRoot, String rootPath)
       throws CmsRpcException {
 
     String result = null;

@@ -53,6 +53,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.xml.page.CmsXmlPage;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resolves XML entities (e.g. external DTDs) in the OpenCms VFS.
@@ -72,7 +73,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
   public static final String INTERNAL_SCHEME = "internal://";
 
   /** The scheme to identify a file in the OpenCms VFS. */
-  public static final String OPENCMS_SCHEME = "opencms://";
+  public static final @RUntainted String OPENCMS_SCHEME = "opencms://";
 
   /**
    * A list of string pairs used to translate legacy system ids to a new form. The first component
@@ -189,7 +190,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
    * @return true if the given schema id is an internal schema id or translated to an internal
    *     schema id
    */
-  public static boolean isInternalId(String schema) {
+  public static boolean isInternalId(@RUntainted String schema) {
 
     String translatedId = translateLegacySystemId(schema);
     if (translatedId.startsWith(INTERNAL_SCHEME)) {
@@ -278,10 +279,10 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
    * @param systemId the original system id
    * @return the new system id
    */
-  private static String translateLegacySystemId(String systemId) {
+  private static @RUntainted String translateLegacySystemId(@RUntainted String systemId) {
 
-    String result = systemId;
-    for (String[] translation : LEGACY_TRANSLATIONS) {
+    @RUntainted String result = systemId;
+    for (@RUntainted String[] translation : LEGACY_TRANSLATIONS) {
       if (systemId.startsWith(translation[0])) {
         // replace prefix with second component if it matches the first component
         result = translation[1] + systemId.substring(translation[0].length());
@@ -303,9 +304,9 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
    * @param systemId the system id to use as cache key
    * @param contentDefinition the content definition to cache
    */
-  public void cacheContentDefinition(String systemId, CmsXmlContentDefinition contentDefinition) {
+  public void cacheContentDefinition(@RUntainted String systemId, CmsXmlContentDefinition contentDefinition) {
 
-    String cacheKey = getCacheKeyForCurrentProject(systemId);
+    @RUntainted String cacheKey = getCacheKeyForCurrentProject(systemId);
     m_cacheContentDefinitions.put(cacheKey, contentDefinition);
     if (LOG.isDebugEnabled()) {
       LOG.debug(Messages.get().getBundle().key(Messages.LOG_ERR_CACHED_SYSTEM_ID_1, cacheKey));
@@ -370,9 +371,9 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
    * @return the XML content definition found, or null if no definition is cached for the given
    *     system id
    */
-  public CmsXmlContentDefinition getCachedContentDefinition(String systemId) {
+  public CmsXmlContentDefinition getCachedContentDefinition(@RUntainted String systemId) {
 
-    String cacheKey = getCacheKeyForCurrentProject(systemId);
+    @RUntainted String cacheKey = getCacheKeyForCurrentProject(systemId);
     CmsXmlContentDefinition result = m_cacheContentDefinitions.get(cacheKey);
     if ((result != null) && LOG.isDebugEnabled()) {
       LOG.debug(Messages.get().getBundle().key(Messages.LOG_CACHE_LOOKUP_SUCCEEDED_1, cacheKey));
@@ -381,7 +382,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
   }
 
   /** @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String, java.lang.String) */
-  public InputSource resolveEntity(String publicId, String systemId) throws IOException {
+  public InputSource resolveEntity(String publicId, @RUntainted String systemId) throws IOException {
 
     // lookup the system id caches first
     byte[] content;
@@ -428,7 +429,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
 
       // opencms:// VFS reference
       String cacheSystemId = systemId.substring(OPENCMS_SCHEME.length() - 1);
-      String cacheKey =
+      @RUntainted String cacheKey =
           getCacheKey(
               cacheSystemId, m_cms.getRequestContext().getCurrentProject().isOnlineProject());
       // look up temporary cache
@@ -456,7 +457,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
       }
 
     } else if (systemId.startsWith(INTERNAL_SCHEME)) {
-      String location = systemId.substring(INTERNAL_SCHEME.length());
+      @RUntainted String location = systemId.substring(INTERNAL_SCHEME.length());
       try (InputStream stream = getClass().getClassLoader().getResourceAsStream(location)) {
         content = CmsFileUtil.readFully(stream);
         m_cachePermanent.put(systemId, content);
@@ -498,7 +499,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
    *
    * @param systemId the system id (filename) to remove from the cache
    */
-  public void uncacheSystemId(String systemId) {
+  public void uncacheSystemId(@RUntainted String systemId) {
 
     Object o;
     o = m_cacheTemporary.remove(getCacheKey(systemId, false));
@@ -551,7 +552,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
    * @param online indicates if this key is generated for the online project
    * @return the cache key for the system id
    */
-  private String getCacheKey(String systemId, boolean online) {
+  private @RUntainted String getCacheKey(@RUntainted String systemId, boolean online) {
 
     if (online) {
       return "online_".concat(systemId);
@@ -568,7 +569,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
    * @param systemId the system id (filename) to get the cache key for
    * @return the cache key for the system id
    */
-  private String getCacheKeyForCurrentProject(String systemId) {
+  private @RUntainted String getCacheKeyForCurrentProject(@RUntainted String systemId) {
 
     // check the project
     boolean project =

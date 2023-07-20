@@ -30,6 +30,7 @@ package org.opencms.ui.actions;
 import java.util.Locale;
 import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Workplace action interface.
@@ -65,7 +66,7 @@ public interface I_CmsWorkplaceAction extends I_CmsHasMenuItemVisibility {
    * @param locale the user's workplace locale
    * @return the action title
    */
-  String getTitle(Locale locale);
+  String getTitle(@RUntainted Locale locale);
 
   /**
    * Checks whether this action should be active in the given dialog context.

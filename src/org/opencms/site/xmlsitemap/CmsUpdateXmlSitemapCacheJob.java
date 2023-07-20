@@ -37,6 +37,7 @@ import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.scheduler.I_CmsScheduledJob;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Scheduled job for updating the XML sitemap cache.
@@ -51,7 +52,7 @@ public class CmsUpdateXmlSitemapCacheJob implements I_CmsScheduledJob {
   /**
    * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
    */
-  public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  public @RUntainted String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
     long start = System.currentTimeMillis();
     LOG.info("Starting job " + getClass().getName());

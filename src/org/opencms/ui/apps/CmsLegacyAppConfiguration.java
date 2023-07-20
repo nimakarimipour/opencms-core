@@ -36,6 +36,7 @@ import org.opencms.security.CmsRole;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.tools.I_CmsToolHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Holding configuration for legacy admin tools.
@@ -78,7 +79,7 @@ public class CmsLegacyAppConfiguration implements I_CmsWorkplaceAppConfiguration
   }
 
   /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale) */
-  public String getHelpText(Locale locale) {
+  public String getHelpText(@RUntainted Locale locale) {
 
     return CmsMacroResolver.newInstance()
         .setMessages(OpenCms.getWorkplaceManager().getMessages(locale))
@@ -98,7 +99,7 @@ public class CmsLegacyAppConfiguration implements I_CmsWorkplaceAppConfiguration
   }
 
   /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
-  public String getName(Locale locale) {
+  public String getName(@RUntainted Locale locale) {
 
     return CmsMacroResolver.newInstance()
         .setMessages(OpenCms.getWorkplaceManager().getMessages(locale))

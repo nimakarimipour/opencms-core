@@ -33,6 +33,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.I_CmsEventListener;
 import org.opencms.main.OpenCms;
 import org.opencms.monitor.CmsMemoryMonitor;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A singleton memory cache, that stores objects related with keys.
@@ -105,7 +106,7 @@ public final class CmsMemoryObjectCache implements I_CmsEventListener {
    * @param key the key to lookup the object for
    * @return an object from the cache, or <code>null</code> if no object matches the given key
    */
-  public Object getCachedObject(Class<?> owner, String key) {
+  public @RUntainted Object getCachedObject(Class<?> owner, String key) {
 
     key = owner.getName().concat(key);
     return OpenCms.getMemoryMonitor().getCachedMemObject(key);

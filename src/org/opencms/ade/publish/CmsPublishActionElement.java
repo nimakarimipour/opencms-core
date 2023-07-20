@@ -34,6 +34,7 @@ import org.opencms.ade.publish.shared.CmsPublishData;
 import org.opencms.ade.publish.shared.rpc.I_CmsPublishService;
 import org.opencms.gwt.CmsGwtActionElement;
 import org.opencms.gwt.shared.CmsCoreData;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** @since 8.0.0 */
 public class CmsPublishActionElement extends CmsGwtActionElement {

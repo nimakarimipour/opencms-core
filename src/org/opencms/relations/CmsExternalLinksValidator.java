@@ -47,6 +47,7 @@ import org.opencms.report.CmsLogReport;
 import org.opencms.report.I_CmsReport;
 import org.opencms.scheduler.I_CmsScheduledJob;
 import org.opencms.util.CmsUriSplitter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to validate pointer links.
@@ -69,10 +70,10 @@ public class CmsExternalLinksValidator implements I_CmsScheduledJob {
    * @param cms a OpenCms context object
    * @return false if the url could not be accessed
    */
-  public static boolean checkUrl(CmsObject cms, String check) {
+  public static boolean checkUrl(CmsObject cms, @RUntainted String check) {
 
     // first, create an URI from the string representation
-    URI uri = null;
+    @RUntainted URI uri = null;
     try {
       uri = new CmsUriSplitter(check, true).toURI();
     } catch (URISyntaxException exc) {
@@ -110,7 +111,7 @@ public class CmsExternalLinksValidator implements I_CmsScheduledJob {
    * @return the String that is written to the OpenCms log
    * @throws CmsException if something goes wrong
    */
-  public String launch(CmsObject cms, Map<String, String> parameters) throws CmsException {
+  public @RUntainted String launch(CmsObject cms, Map<String, String> parameters) throws CmsException {
 
     if (Boolean.valueOf(parameters.get("writeLog")).booleanValue()) {
       m_report =
@@ -165,7 +166,7 @@ public class CmsExternalLinksValidator implements I_CmsScheduledJob {
 
     for (int i = 1; iterator.hasNext(); i++) {
       CmsFile link = cms.readFile(cms.getSitePath(iterator.next()), filter);
-      String linkUrl = new String(link.getContents());
+      @RUntainted String linkUrl = new String(link.getContents());
 
       // print to the report
       m_report.print(

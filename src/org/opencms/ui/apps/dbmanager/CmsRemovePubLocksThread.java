@@ -54,6 +54,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.report.A_CmsReportThread;
 import org.opencms.report.I_CmsReport;
 import org.opencms.ui.apps.Messages; // TODO move messages
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Remove the publish locks.
@@ -132,14 +133,14 @@ public class CmsRemovePubLocksThread extends A_CmsReportThread {
 
       Iterator<String> it = m_resources.iterator();
       while (it.hasNext()) {
-        String paramResName = it.next();
+        @RUntainted String paramResName = it.next();
         getReport()
             .println(
                 Messages.get().container(Messages.RPT_DB_PUBLOCKS_READLOCKS_1, paramResName),
                 I_CmsReport.FORMAT_NOTE);
         Iterator<String> itResources = cms.getLockedResources(paramResName, filter).iterator();
         while (itResources.hasNext()) {
-          String resName = itResources.next();
+          @RUntainted String resName = itResources.next();
           if (!cms.existsResource(resName, CmsResourceFilter.ALL)) {
             getReport()
                 .println(

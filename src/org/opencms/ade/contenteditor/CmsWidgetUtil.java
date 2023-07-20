@@ -44,6 +44,7 @@ import org.opencms.xml.content.I_CmsXmlContentHandler;
 import org.opencms.xml.content.I_CmsXmlContentHandler.DisplayType;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 import org.opencms.xml.types.I_CmsXmlSchemaType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility methods for getting widget informations out of content definitions.
@@ -63,7 +64,7 @@ public final class CmsWidgetUtil {
     private DisplayType m_displayType;
 
     /** A widget instance. */
-    private I_CmsWidget m_widget;
+    private @RUntainted I_CmsWidget m_widget;
 
     /** The complex widget. */
     private I_CmsComplexWidget m_complexWidget;
@@ -99,7 +100,7 @@ public final class CmsWidgetUtil {
      *
      * @return the widget instance
      */
-    public I_CmsWidget getWidget() {
+    public @RUntainted I_CmsWidget getWidget() {
 
       return m_widget;
     }
@@ -135,7 +136,7 @@ public final class CmsWidgetUtil {
      *
      * @param widget the widget
      */
-    public void setWidget(I_CmsWidget widget) {
+    public void setWidget(@RUntainted I_CmsWidget widget) {
 
       m_widget = widget;
     }
@@ -164,19 +165,19 @@ public final class CmsWidgetUtil {
       String path,
       CmsMessages messages) {
 
-    String widgetConfig = null;
+    @RUntainted String widgetConfig = null;
     DisplayType configuredType = DisplayType.none;
     I_CmsXmlSchemaType schemaType = rootContentDefinition.getSchemaType(path);
 
-    I_CmsWidget widget = null;
+    @RUntainted I_CmsWidget widget = null;
     I_CmsComplexWidget complexWidget = null;
     I_CmsXmlContentHandler contentHandler = schemaType.getContentDefinition().getContentHandler();
     final List<I_CmsWidget> widgets = new ArrayList<>();
-    final List<String> widgetConfigs = new ArrayList<>();
+    final List<@RUntainted String> widgetConfigs = new ArrayList<>();
     final List<DisplayType> configuredDisplayTypes = new ArrayList<>();
     final List<I_CmsComplexWidget> configuredComplexWidgets = new ArrayList<>();
     if (messages == null) {
-      Locale wpLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
+      @RUntainted Locale wpLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
       CmsMultiMessages multi = new CmsMultiMessages(wpLocale);
       multi.addMessages(OpenCms.getWorkplaceManager().getMessages(wpLocale));
       CmsMessages contentHandlerMessages =
@@ -237,11 +238,11 @@ public final class CmsWidgetUtil {
     // defined, so put them at the end of the list
     CollectionUtils.addIgnoreNull(
         configuredComplexWidgets, contentHandler.getDefaultComplexWidget());
-    List<String> complexWidgetConfigs = new ArrayList<>(widgetConfigs);
+    List<@RUntainted String> complexWidgetConfigs = new ArrayList<>(widgetConfigs);
     CollectionUtils.addIgnoreNull(
         complexWidgetConfigs, contentHandler.getDefaultComplexWidgetConfiguration());
     if (!configuredComplexWidgets.isEmpty()) {
-      String config = "";
+      @RUntainted String config = "";
       if (!complexWidgetConfigs.isEmpty()) {
         config = complexWidgetConfigs.get(0);
         config = resolveWidgetConfigMacros(resolver, config);
@@ -280,7 +281,7 @@ public final class CmsWidgetUtil {
    * @param widgetConfig the widget configuration
    * @return the macro resolution result
    */
-  private static String resolveWidgetConfigMacros(CmsMacroResolver resolver, String widgetConfig) {
+  private static @RUntainted String resolveWidgetConfigMacros(CmsMacroResolver resolver, @RUntainted String widgetConfig) {
 
     if (Boolean.parseBoolean(
         (String) OpenCms.getRuntimeProperty("widgets.config.resolveMacros.disabled"))) {

@@ -30,6 +30,7 @@ package org.opencms.staticexport;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Response wrapper for static export requests, required to access the status code of the response.

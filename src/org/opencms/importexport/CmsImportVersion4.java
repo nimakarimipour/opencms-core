@@ -63,6 +63,7 @@ import org.opencms.util.CmsDateUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.CmsXmlException;
 import org.opencms.xml.CmsXmlUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -335,10 +336,10 @@ public class CmsImportVersion4 extends A_CmsImport {
    * @return imported resource
    */
   private CmsResource importResource(
-      String source,
-      String destination,
+      @RUntainted String source,
+      @RUntainted String destination,
       I_CmsResourceType type,
-      String uuidresource,
+      @RUntainted String uuidresource,
       long datelastmodified,
       String userlastmodified,
       long datecreated,
@@ -444,7 +445,7 @@ public class CmsImportVersion4 extends A_CmsImport {
    */
   private void readResourcesFromManifest() throws CmsImportExportException {
 
-    String source = null,
+    @RUntainted String source = null,
         destination = null,
         uuidresource = null,
         userlastmodified = null,
@@ -453,13 +454,13 @@ public class CmsImportVersion4 extends A_CmsImport {
         timestamp = null;
     long datelastmodified = 0, datecreated = 0, datereleased = 0, dateexpired = 0;
 
-    List<Node> fileNodes = null;
+    @RUntainted List<Node> fileNodes = null;
     List<Node> acentryNodes = null;
     Element currentElement = null, currentEntry = null;
     List<CmsProperty> properties = null;
 
     // get list of immutable resources
-    List<String> immutableResources = OpenCms.getImportExportManager().getImmutableResources();
+    @RUntainted List<String> immutableResources = OpenCms.getImportExportManager().getImmutableResources();
     if (immutableResources == null) {
       immutableResources = Collections.emptyList();
     }
@@ -483,7 +484,7 @@ public class CmsImportVersion4 extends A_CmsImport {
     try {
       // get all file-nodes
       fileNodes = m_docXml.selectNodes("//" + A_CmsImport.N_FILE);
-      int importSize = fileNodes.size();
+      @RUntainted int importSize = fileNodes.size();
 
       // walk through all files in manifest
       for (int i = 0; i < fileNodes.size(); i++) {
@@ -565,7 +566,7 @@ public class CmsImportVersion4 extends A_CmsImport {
         flags = getChildElementTextValue(currentElement, A_CmsImport.N_FLAGS);
 
         // apply name translation and import path
-        String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
+        @RUntainted String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
         if (type.isFolder()) {
           // ensure folders end with a "/"
           if (!CmsResource.isFolder(translatedName)) {

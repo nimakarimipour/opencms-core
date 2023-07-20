@@ -46,6 +46,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Basic implementation of the interface {@link I_CmsNewsletter}.
@@ -179,7 +180,7 @@ public class CmsNewsletter implements I_CmsNewsletter {
    * @param recipient the recipient in the message
    * @return the message with the macros replaced
    */
-  private String replaceMacros(String msg, I_CmsNewsletterRecipient recipient) {
+  private String replaceMacros(@RUntainted String msg, I_CmsNewsletterRecipient recipient) {
 
     CmsMacroResolver resolver = CmsMacroResolver.newInstance();
     resolver.addMacro(MACRO_USER_FIRSTNAME, recipient.getFirstname());

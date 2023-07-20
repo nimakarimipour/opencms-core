@@ -30,6 +30,7 @@ package org.opencms.rmi;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Remote interface for executing shell commands.
@@ -57,7 +58,7 @@ public interface I_CmsRemoteShell extends Remote {
    * @return the shell command result
    * @throws RemoteException if RMI stuff goes wrong
    */
-  CmsShellCommandResult executeCommand(String cmd, List<String> params) throws RemoteException;
+  CmsShellCommandResult executeCommand(@RUntainted String cmd, List<String> params) throws RemoteException;
 
   /**
    * Returns the initial prompt to use.

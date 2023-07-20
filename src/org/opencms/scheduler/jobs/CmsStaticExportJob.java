@@ -40,6 +40,7 @@ import org.opencms.report.CmsLogReport;
 import org.opencms.report.I_CmsReport;
 import org.opencms.scheduler.I_CmsScheduledJob;
 import org.opencms.staticexport.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job to write a complete static export (e.g. nightly exports).
@@ -53,14 +54,14 @@ import org.opencms.staticexport.Messages;
 public class CmsStaticExportJob implements I_CmsScheduledJob {
 
   /** @see org.opencms.scheduler.I_CmsScheduledJob#launch(CmsObject, Map) */
-  public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  public @RUntainted String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
     I_CmsReport report = null;
 
     try {
       report = new CmsLogReport(cms.getRequestContext().getLocale(), CmsStaticExportJob.class);
       OpenCms.getStaticExportManager().exportFullStaticRender(true, report);
-      Map<String, Object> eventData = new HashMap<String, Object>();
+      Map<String, @RUntainted Object> eventData = new HashMap<String, @RUntainted Object>();
       eventData.put("purge", Boolean.TRUE);
       eventData.put(I_CmsEventListener.KEY_REPORT, report);
       OpenCms.fireCmsEvent(new CmsEvent(I_CmsEventListener.EVENT_FULLSTATIC_EXPORT, eventData));

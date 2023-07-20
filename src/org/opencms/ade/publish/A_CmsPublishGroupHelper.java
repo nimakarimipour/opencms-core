@@ -38,6 +38,7 @@ import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for splitting a publish list into publish groups.
@@ -88,7 +89,7 @@ public abstract class A_CmsPublishGroupHelper<RESOURCE, GROUP> {
   private static final Log LOG = CmsLog.getLog(A_CmsPublishGroupHelper.class);
 
   /** The current locale. */
-  private Locale m_locale;
+  private @RUntainted Locale m_locale;
 
   /**
    * Creates a new publish group helper for a given locale.
@@ -97,7 +98,7 @@ public abstract class A_CmsPublishGroupHelper<RESOURCE, GROUP> {
    *
    * @param locale the locale to use
    */
-  public A_CmsPublishGroupHelper(Locale locale) {
+  public A_CmsPublishGroupHelper(@RUntainted Locale locale) {
 
     m_locale = locale;
   }
@@ -244,7 +245,7 @@ public abstract class A_CmsPublishGroupHelper<RESOURCE, GROUP> {
    */
   public String getPublishGroupName(List<RESOURCE> resources, GroupAge age) {
 
-    long groupDate = getDateLastModified(resources.get(0));
+    @RUntainted long groupDate = getDateLastModified(resources.get(0));
     String groupName;
     switch (age) {
       case young:
@@ -415,7 +416,7 @@ public abstract class A_CmsPublishGroupHelper<RESOURCE, GROUP> {
    * @param res the resource
    * @return the last modification date of res
    */
-  protected abstract long getDateLastModified(RESOURCE res);
+  protected abstract @RUntainted long getDateLastModified(RESOURCE res);
 
   /**
    * Gets the root path of a resource.

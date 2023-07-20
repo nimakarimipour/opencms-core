@@ -41,6 +41,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsRequestUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Controller for getting access to the CmsObject, should be used as a request attribute.
@@ -203,7 +204,7 @@ public class CmsFlexController {
    * @return the root cause exception or null if no root cause exception is available
    * @see #getThrowable()
    */
-  public static Throwable getThrowable(ServletRequest req) {
+  public static @RUntainted Throwable getThrowable(ServletRequest req) {
 
     CmsFlexController controller = (CmsFlexController) req.getAttribute(ATTRIBUTE_NAME);
     if (controller != null) {
@@ -223,7 +224,7 @@ public class CmsFlexController {
    * @return to URI of a VFS resource that caused an exception, or <code>null</code>
    * @see #getThrowableResourceUri()
    */
-  public static String getThrowableResourceUri(ServletRequest req) {
+  public static @RUntainted String getThrowableResourceUri(ServletRequest req) {
 
     CmsFlexController controller = (CmsFlexController) req.getAttribute(ATTRIBUTE_NAME);
     if (controller != null) {
@@ -512,7 +513,7 @@ public class CmsFlexController {
    *
    * @return the combined "expires" date for all resources read during this request
    */
-  public long getDateExpires() {
+  public @RUntainted long getDateExpires() {
 
     int pos = m_flexContextInfoList.size() - 1;
     if (pos < 0) {
@@ -559,7 +560,7 @@ public class CmsFlexController {
    *
    * @return an exception (Throwable) that was caught during inclusion of sub elements
    */
-  public Throwable getThrowable() {
+  public @RUntainted Throwable getThrowable() {
 
     return m_throwable;
   }
@@ -573,7 +574,7 @@ public class CmsFlexController {
    * @return the URI of a VFS resource that caused the exception that was caught during inclusion of
    *     sub elements
    */
-  public String getThrowableResourceUri() {
+  public @RUntainted String getThrowableResourceUri() {
 
     return m_throwableResourceUri;
   }
@@ -737,7 +738,7 @@ public class CmsFlexController {
    *     if unknown)
    * @return the exception stored in the controller
    */
-  public Throwable setThrowable(Throwable throwable, String resource) {
+  public Throwable setThrowable(Throwable throwable, @RUntainted String resource) {
 
     if (m_throwable == null) {
       m_throwable = throwable;

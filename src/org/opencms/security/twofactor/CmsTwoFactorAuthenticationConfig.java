@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.dom4j.Element;
 import org.opencms.security.twofactor.CmsTwoFactorAuthenticationUserPolicy.CheckType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Represents the configuration for the two-factor authentication feature. */
 public class CmsTwoFactorAuthenticationConfig {
@@ -51,7 +52,7 @@ public class CmsTwoFactorAuthenticationConfig {
   private String m_secret;
 
   /** The setup message. */
-  private String m_setupMessage;
+  private @RUntainted String m_setupMessage;
 
   /**
    * Creates a new configuration from the given XML configuration element.
@@ -66,7 +67,7 @@ public class CmsTwoFactorAuthenticationConfig {
     m_enabled = Boolean.parseBoolean(((Element) element.selectSingleNode("enabled")).getTextTrim());
     m_secret = ((Element) element.selectSingleNode("secret")).getTextTrim();
     m_policy = parsePolicy(element);
-    Element messageElem = (Element) (element.selectSingleNode("setup-message"));
+    @RUntainted Element messageElem = (Element) (element.selectSingleNode("setup-message"));
     if (messageElem != null) {
       m_setupMessage = messageElem.getText();
     }
@@ -118,7 +119,7 @@ public class CmsTwoFactorAuthenticationConfig {
    *
    * @return the setup message
    */
-  public String getSetupMessage() {
+  public @RUntainted String getSetupMessage() {
 
     return m_setupMessage;
   }

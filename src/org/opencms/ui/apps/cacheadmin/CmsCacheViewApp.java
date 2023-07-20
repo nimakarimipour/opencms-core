@@ -58,6 +58,7 @@ import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.CmsInfoButton;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the app which shows the content of caches.
@@ -233,7 +234,7 @@ public class CmsCacheViewApp extends A_CmsWorkplaceApp {
    */
   protected static CmsInfoButton getImageStatisticButton() {
 
-    long size = 0L;
+    @RUntainted long size = 0L;
     if (new File(CmsImageLoader.getImageRepositoryPath()).exists()) {
       size = FileUtils.sizeOfDirectory(new File(CmsImageLoader.getImageRepositoryPath()));
     }

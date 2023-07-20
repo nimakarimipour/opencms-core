@@ -42,6 +42,7 @@ import org.opencms.db.generic.Messages;
 import org.opencms.file.CmsDataAccessException;
 import org.opencms.publish.CmsPublishJobInfoBean;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Oracle/OCI implementation of the project driver methods.
@@ -107,7 +108,7 @@ public class CmsProjectDriver extends org.opencms.db.generic.CmsProjectDriver {
 
   /** @see org.opencms.db.I_CmsProjectDriver#initSqlManager(String) */
   @Override
-  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
     return CmsSqlManager.getInstance(classname);
   }
@@ -137,7 +138,7 @@ public class CmsProjectDriver extends org.opencms.db.generic.CmsProjectDriver {
    * @throws CmsDataAccessException if something goes wrong
    */
   private void internalWritePublishJobData(
-      CmsDbContext dbc, CmsUUID publishJobHistoryId, String queryKey, String fieldName, byte[] data)
+      CmsDbContext dbc, @RUntainted CmsUUID publishJobHistoryId, @RUntainted String queryKey, String fieldName, byte[] data)
       throws CmsDataAccessException {
 
     Connection conn = null;

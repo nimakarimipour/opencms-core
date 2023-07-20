@@ -36,6 +36,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import org.opencms.ui.apps.CmsWorkplaceAppManager.ConfigurationComparator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to displays a nested hierarchy of app categories and apps.
@@ -94,7 +95,7 @@ public class CmsAppHierarchyPanel extends VerticalLayout {
    * @param rootNode the rootNode to render in this panel
    * @param locale the locale to use
    */
-  public void fill(CmsAppCategoryNode rootNode, Locale locale) {
+  public void fill(CmsAppCategoryNode rootNode, @RUntainted Locale locale) {
 
     List<I_CmsHasOrder> configurations = new ArrayList<I_CmsHasOrder>();
     configurations.addAll(rootNode.getAppConfigurations());

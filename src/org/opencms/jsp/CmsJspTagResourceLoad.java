@@ -41,6 +41,7 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:resourceload/&gt;</code> tag, used to access and display
@@ -60,10 +61,10 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport
   protected transient CmsObject m_cms;
 
   /** The name of the collector to use for list building. */
-  protected String m_collector;
+  protected @RUntainted String m_collector;
 
   /** The name of the resource collector used. */
-  protected String m_collectorName;
+  protected @RUntainted String m_collectorName;
 
   /** The parameters of the resource collector uses. */
   protected String m_collectorParam;
@@ -78,16 +79,16 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport
   protected CmsFlexController m_controller;
 
   /** The index of the current page that gets displayed. */
-  protected String m_pageIndex;
+  protected @RUntainted String m_pageIndex;
 
   /** The number of page links in the Google-like page navigation. */
-  protected String m_pageNavLength;
+  protected @RUntainted String m_pageNavLength;
 
   /** The size of a page to be displayed. */
-  protected String m_pageSize;
+  protected @RUntainted String m_pageSize;
 
   /** Parameter used for the collector. */
-  protected String m_param;
+  protected @RUntainted String m_param;
 
   /** Indicates if the collector results should be preloaded. */
   protected boolean m_preload;
@@ -99,7 +100,7 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport
   protected transient CmsResource m_resource;
 
   /** The file name to load the current content value from. */
-  protected String m_resourceName;
+  protected @RUntainted String m_resourceName;
 
   /**
    * Empty constructor, required for JSP tags.
@@ -148,10 +149,10 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport
   public CmsJspTagResourceLoad(
       I_CmsResourceContainer container,
       PageContext context,
-      String collectorName,
-      String collectorParam,
-      String pageIndex,
-      String pageSize)
+      @RUntainted String collectorName,
+      @RUntainted String collectorParam,
+      @RUntainted String pageIndex,
+      @RUntainted String pageSize)
       throws JspException {
 
     setCollector(collectorName);
@@ -283,7 +284,7 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport
    *
    * @return the collector
    */
-  public String getCollector() {
+  public @RUntainted String getCollector() {
 
     return m_collector;
   }
@@ -349,7 +350,7 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport
    *
    * @return the collector parameter
    */
-  public String getParam() {
+  public @RUntainted String getParam() {
 
     return m_param;
   }
@@ -453,7 +454,7 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport
    *
    * @param collector the collector name to set
    */
-  public void setCollector(String collector) {
+  public void setCollector(@RUntainted String collector) {
 
     m_collector = collector;
   }
@@ -465,7 +466,7 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport
    *
    * @param pageIndex the index of the page to be displayed
    */
-  public void setPageIndex(String pageIndex) {
+  public void setPageIndex(@RUntainted String pageIndex) {
 
     m_pageIndex = pageIndex;
   }
@@ -477,7 +478,7 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport
    *
    * @param pageNavLength the number of page links in the Google-like page navigation
    */
-  public void setPageNavLength(String pageNavLength) {
+  public void setPageNavLength(@RUntainted String pageNavLength) {
 
     m_pageNavLength = pageNavLength;
   }
@@ -489,7 +490,7 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport
    *
    * @param pageSize the size of a single page to be displayed
    */
-  public void setPageSize(String pageSize) {
+  public void setPageSize(@RUntainted String pageSize) {
 
     m_pageSize = pageSize;
   }
@@ -501,7 +502,7 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport
    *
    * @param param the collector parameter to set
    */
-  public void setParam(String param) {
+  public void setParam(@RUntainted String param) {
 
     m_param = param;
   }

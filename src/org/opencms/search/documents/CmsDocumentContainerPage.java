@@ -56,6 +56,7 @@ import org.opencms.xml.containerpage.CmsXmlContainerPageFactory;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene document factory class to extract index data from a resource of type <code>
@@ -91,7 +92,7 @@ public class CmsDocumentContainerPage extends A_CmsVfsDocument {
    */
   @Override
   public I_CmsSearchDocument createDocument(
-      CmsObject cms, CmsResource resource, I_CmsSearchIndex index) throws CmsException {
+      CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index) throws CmsException {
 
     // extract the content from the resource
     I_CmsExtractionResult content = null;
@@ -148,7 +149,7 @@ public class CmsDocumentContainerPage extends A_CmsVfsDocument {
               adeConfig.getFormatters(cms, element.getResource());
 
           boolean foundFormatterWithSearchContentByKey = false;
-          String formatterKey =
+          @RUntainted String formatterKey =
               CmsFormatterUtils.getFormatterKey(entry.getValue().getName(), element);
           if (formatterKey != null) {
             I_CmsFormatterBean formatter = adeConfig.findFormatter(formatterKey);

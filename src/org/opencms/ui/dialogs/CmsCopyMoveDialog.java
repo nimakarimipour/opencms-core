@@ -75,6 +75,7 @@ import org.opencms.ui.components.fileselect.CmsPathSelectField;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The copy move dialog.

@@ -55,6 +55,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates scaled images, acting as it's own parameter container.
@@ -192,7 +193,7 @@ public class CmsImageScaler {
   private int m_renderMode;
 
   /** The final (parsed and corrected) scale parameters. */
-  private String m_scaleParameters;
+  private @RUntainted String m_scaleParameters;
 
   /** The target scale type (optional). */
   private int m_type;
@@ -228,7 +229,7 @@ public class CmsImageScaler {
    * @param content the image to calculate the dimensions for
    * @param rootPath the root path of the resource (for error logging)
    */
-  public CmsImageScaler(byte[] content, String rootPath) {
+  public CmsImageScaler(byte[] content, @RUntainted String rootPath) {
 
     init();
     try {
@@ -407,7 +408,7 @@ public class CmsImageScaler {
    * @return dimensions of image
    * @throws IOException if the file is not a known image
    */
-  public static Dimension getImageDimensions(String path, byte[] content) throws IOException {
+  public static Dimension getImageDimensions(@RUntainted String path, byte[] content) throws IOException {
 
     String name = CmsResource.getName(path);
     int pos = name.lastIndexOf(".");
@@ -1190,16 +1191,16 @@ public class CmsImageScaler {
     m_cropWidth = -1;
     m_cropHeight = -1;
 
-    List<String> tokens = CmsStringUtil.splitAsList(parameters, ',');
-    Iterator<String> it = tokens.iterator();
-    String k;
-    String v;
+    List<@RUntainted String> tokens = CmsStringUtil.splitAsList(parameters, ',');
+    Iterator<@RUntainted String> it = tokens.iterator();
+    @RUntainted String k;
+    @RUntainted String v;
     while (it.hasNext()) {
-      String t = it.next();
+      @RUntainted String t = it.next();
       // extract key and value
       k = null;
       v = null;
-      int idx = t.indexOf(':');
+      @RUntainted int idx = t.indexOf(':');
       if (idx >= 0) {
         k = t.substring(0, idx).trim();
         if (t.length() > idx) {
@@ -1274,7 +1275,7 @@ public class CmsImageScaler {
    * @return a scaled version of the given image byte content according to the provided scaler
    *     parameters
    */
-  public byte[] scaleImage(byte[] content, BufferedImage image, String rootPath) {
+  public byte[] scaleImage(byte[] content, BufferedImage image, @RUntainted String rootPath) {
 
     byte[] result = content;
     // flag for processed image
@@ -1500,7 +1501,7 @@ public class CmsImageScaler {
    * @return a scaled version of the given image byte content according to the provided scaler
    *     parameters
    */
-  public byte[] scaleImage(byte[] content, String rootPath) {
+  public byte[] scaleImage(byte[] content, @RUntainted String rootPath) {
 
     return scaleImage(content, (BufferedImage) null, rootPath);
   }
@@ -1537,7 +1538,7 @@ public class CmsImageScaler {
    *
    * @param value the color to set
    */
-  public void setColor(String value) {
+  public void setColor(@RUntainted String value) {
 
     if (COLOR_TRANSPARENT.indexOf(value) == 0) {
       setColor(Simapi.COLOR_TRANSPARENT);
@@ -1765,7 +1766,7 @@ public class CmsImageScaler {
 
   /** @see java.lang.Object#toString() */
   @Override
-  public String toString() {
+  public @RUntainted String toString() {
 
     if (m_scaleParameters != null) {
       return m_scaleParameters;

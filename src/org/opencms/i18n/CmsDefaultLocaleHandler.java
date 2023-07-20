@@ -41,6 +41,7 @@ import org.opencms.file.CmsUser;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation of the locale handler.
@@ -72,11 +73,11 @@ public class CmsDefaultLocaleHandler implements I_CmsLocaleHandler {
    *     org.opencms.file.CmsUser, org.opencms.file.CmsProject, java.lang.String)
    */
   public CmsI18nInfo getI18nInfo(
-      HttpServletRequest req, CmsUser user, CmsProject project, String resourceName) {
+      @RUntainted HttpServletRequest req, CmsUser user, CmsProject project, @RUntainted String resourceName) {
 
     CmsLocaleManager localeManager = OpenCms.getLocaleManager();
-    List<Locale> defaultLocales = null;
-    String encoding = null;
+    List<@RUntainted Locale> defaultLocales = null;
+    @RUntainted String encoding = null;
 
     CmsObject adminCms = null;
     try {
@@ -160,7 +161,7 @@ public class CmsDefaultLocaleHandler implements I_CmsLocaleHandler {
       }
     }
 
-    Locale locale;
+    @RUntainted Locale locale;
     // return the first default locale name
     if ((defaultLocales != null) && (defaultLocales.size() > 0)) {
       locale = defaultLocales.get(0);

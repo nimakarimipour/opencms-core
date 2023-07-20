@@ -29,6 +29,7 @@ package org.opencms.synchronize;
 
 import java.io.Serializable;
 import org.opencms.util.CmsDateUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines the CmsSynchronizeList object, used to store synchronisation data required to synchronize
@@ -50,7 +51,7 @@ public class CmsSynchronizeList implements Serializable {
   private long m_modifiedVfs;
 
   /** Name of the resource stored in the sync list. */
-  private String m_resName;
+  private @RUntainted String m_resName;
 
   /**
    * Name of the translated resource stored in the sync list. Its nescessary to translate the
@@ -67,7 +68,7 @@ public class CmsSynchronizeList implements Serializable {
    * @param modifiedFs last modification date in the Fs
    */
   public CmsSynchronizeList(
-      String resName, String transResName, long modifiedVfs, long modifiedFs) {
+      @RUntainted String resName, String transResName, long modifiedVfs, long modifiedFs) {
 
     m_resName = resName;
     m_transResName = transResName;
@@ -115,7 +116,7 @@ public class CmsSynchronizeList implements Serializable {
    *
    * @return name of the resource
    */
-  public String getResName() {
+  public @RUntainted String getResName() {
 
     return m_resName;
   }

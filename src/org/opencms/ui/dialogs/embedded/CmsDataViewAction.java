@@ -37,6 +37,7 @@ import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.actions.I_CmsWorkplaceAction;
 import org.opencms.ui.components.CmsBasicDialog.DialogWidth;
 import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action for the data view dialog.
@@ -62,7 +63,7 @@ public class CmsDataViewAction implements I_CmsWorkplaceAction {
   }
 
   /** @see org.opencms.ui.actions.I_CmsWorkplaceAction#getTitle(java.util.Locale) */
-  public String getTitle(Locale locale) {
+  public String getTitle(@RUntainted Locale locale) {
 
     return OpenCms.getWorkplaceManager()
         .getMessages(locale)

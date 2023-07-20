@@ -30,6 +30,7 @@ package org.opencms.file.types;
 import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.loader.CmsDumpLoader;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "binary".
@@ -103,7 +104,7 @@ public class CmsResourceTypeBinary extends A_CmsResourceType {
    *     java.lang.String, String)
    */
   @Override
-  public void initConfiguration(String name, String id, String className)
+  public void initConfiguration(String name, @RUntainted String id, @RUntainted String className)
       throws CmsConfigurationException {
 
     if ((OpenCms.getRunLevel() > OpenCms.RUNLEVEL_2_INITIALIZING) && m_staticFrozen) {

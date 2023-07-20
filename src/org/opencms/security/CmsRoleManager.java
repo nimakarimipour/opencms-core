@@ -40,6 +40,7 @@ import org.opencms.file.CmsResourceFilter;
 import org.opencms.file.CmsUser;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This manager provide access to the role related operations.
@@ -349,7 +350,7 @@ public class CmsRoleManager {
   public List<CmsRole> getRolesOfUser(
       CmsObject cms,
       String username,
-      String ouFqn,
+      @RUntainted String ouFqn,
       boolean includeChildOus,
       boolean directRolesOnly,
       boolean recursive)

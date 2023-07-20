@@ -57,6 +57,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.containerpage.CmsFormatterBean;
 import org.opencms.xml.containerpage.CmsFormatterConfiguration;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "jsp".
@@ -295,7 +296,7 @@ public class CmsResourceTypeJsp extends A_CmsResourceTypeLinkParseable {
    *     java.lang.String, String)
    */
   @Override
-  public void initConfiguration(String name, String id, String className)
+  public void initConfiguration(@RUntainted String name, @RUntainted String id, @RUntainted String className)
       throws CmsConfigurationException {
 
     super.initConfiguration(name, id, className);
@@ -322,7 +323,7 @@ public class CmsResourceTypeJsp extends A_CmsResourceTypeLinkParseable {
    */
   @Override
   public void moveResource(
-      CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, String destination)
+      CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, @RUntainted String destination)
       throws CmsException, CmsIllegalArgumentException {
 
     Set<String> references = getReferencingStrongLinks(cms, resource);
@@ -338,7 +339,7 @@ public class CmsResourceTypeJsp extends A_CmsResourceTypeLinkParseable {
 
     CmsJspLinkMacroResolver macroResolver =
         new CmsJspLinkMacroResolver(cms, file.getRootPath(), false);
-    String encoding = CmsLocaleManager.getResourceEncoding(cms, file);
+    @RUntainted String encoding = CmsLocaleManager.getResourceEncoding(cms, file);
     String content = CmsEncoder.createString(file.getContents(), encoding);
     macroResolver.resolveMacros(content); // ignore return value
     return macroResolver.getLinks();
@@ -467,7 +468,7 @@ public class CmsResourceTypeJsp extends A_CmsResourceTypeLinkParseable {
     // actualize the link paths and/or ids
     CmsJspLinkMacroResolver macroResolver =
         new CmsJspLinkMacroResolver(cms, resource.getRootPath(), false);
-    String encoding = CmsLocaleManager.getResourceEncoding(cms, resource);
+    @RUntainted String encoding = CmsLocaleManager.getResourceEncoding(cms, resource);
     String content = CmsEncoder.createString(resource.getContents(), encoding);
     content = macroResolver.resolveMacros(content);
     try {

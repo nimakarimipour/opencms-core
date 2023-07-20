@@ -46,6 +46,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to show a configurable user agreement dialog after a successful workplace login.
@@ -272,7 +273,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
    * @param path the path to get the content value for
    * @return the content value of the given path as String
    */
-  public String getConfigurationContentStringValue(String path) {
+  public @RUntainted String getConfigurationContentStringValue(String path) {
 
     if (getConfigurationContent() != null) {
       return getConfigurationContent().getStringValue(getCms(), path, getLocale());
@@ -317,7 +318,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
   public double getRequiredVersion() {
 
     if (m_requiredVersion == 0) {
-      String versionStr = getConfigurationContentStringValue(NODE_VERSION);
+      @RUntainted String versionStr = getConfigurationContentStringValue(NODE_VERSION);
       try {
         m_requiredVersion = Double.parseDouble(versionStr);
       } catch (Exception e) {
@@ -494,7 +495,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
   protected CmsXmlContent getConfigurationContent() {
 
     if (m_configurationContent == null) {
-      String configFileName = getConfigurationVfsPath();
+      @RUntainted String configFileName = getConfigurationVfsPath();
       if (getCms().existsResource(configFileName)) {
         // configuration file found, check VFS cache for unmarshalled content
         CmsVfsMemoryObjectCache vfsCache = CmsVfsMemoryObjectCache.getVfsMemoryObjectCache();
@@ -547,7 +548,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
    */
   @Override
   protected void initWorkplaceRequestValues(
-      CmsWorkplaceSettings settings, HttpServletRequest request) {
+      CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
     // fill the parameter values in the get/set methods
     fillParamValues(request);

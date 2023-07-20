@@ -26,6 +26,7 @@
  */
 
 package org.opencms.widgets.dataview;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface describing a data item retrieved by an implementation of I_CmsDataView.
@@ -54,7 +55,7 @@ public interface I_CmsDataViewItem {
    *
    * @return the additional data to be stored
    */
-  String getData();
+  @RUntainted String getData();
 
   /**
    * Returns the description to be stored by OpenCms.
@@ -63,7 +64,7 @@ public interface I_CmsDataViewItem {
    *
    * @return the description
    */
-  String getDescription();
+  @RUntainted String getDescription();
 
   /**
    * Gets the ID of the data item.
@@ -75,7 +76,7 @@ public interface I_CmsDataViewItem {
    *
    * @return the ID of the data item
    */
-  String getId();
+  @RUntainted String getId();
 
   /**
    * Gets the URL of the image to be displayed for this data item.
@@ -93,5 +94,5 @@ public interface I_CmsDataViewItem {
    *
    * @return the title
    */
-  String getTitle();
+  @RUntainted String getTitle();
 }

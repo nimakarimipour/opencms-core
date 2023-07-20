@@ -51,6 +51,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.security.CmsSecurityException;
 import org.opencms.util.CmsFileUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows to import resources from the filesystem or a ZIP file into the OpenCms VFS.
@@ -71,19 +72,19 @@ public class CmsImportFolder {
   private List<CmsResource> m_importedResources = new ArrayList<CmsResource>();
 
   /** The name of the import folder to load resources from. */
-  private String m_importFolderName;
+  private @RUntainted String m_importFolderName;
 
   /** The import path in the OpenCms VFS. */
   private String m_importPath;
 
   /** The resource (folder or ZIP file) to import from in the real file system. */
-  private File m_importResource;
+  private @RUntainted File m_importResource;
 
   /** Will be true if the import resource is a valid ZIP file. */
   private boolean m_validZipFile;
 
   /** The import resource ZIP stream to load resources from. */
-  private ZipInputStream m_zipStreamIn;
+  private @RUntainted ZipInputStream m_zipStreamIn;
 
   /**
    * Default Constructor.
@@ -107,7 +108,7 @@ public class CmsImportFolder {
    *     the content of the zip file is created 1:1 inclusive sub folders
    * @throws CmsException if something goes wrong
    */
-  public CmsImportFolder(byte[] content, String importPath, CmsObject cms, boolean noSubFolder)
+  public CmsImportFolder(@RUntainted byte[] content, String importPath, CmsObject cms, boolean noSubFolder)
       throws CmsException {
 
     importZip(content, importPath, cms, noSubFolder);
@@ -151,7 +152,7 @@ public class CmsImportFolder {
    * @param cms a OpenCms context to provide the permissions
    * @throws CmsException if something goes wrong
    */
-  public void importFolder(String importFolderName, String importPath, CmsObject cms)
+  public void importFolder(@RUntainted String importFolderName, @RUntainted String importPath, CmsObject cms)
       throws CmsException {
 
     try {
@@ -197,7 +198,7 @@ public class CmsImportFolder {
    *     the content of the zip file is created 1:1 inclusive sub folders
    * @throws CmsException if something goes wrong
    */
-  public void importZip(byte[] content, String importPath, CmsObject cms, boolean noSubFolder)
+  public void importZip(@RUntainted byte[] content, @RUntainted String importPath, CmsObject cms, boolean noSubFolder)
       throws CmsException {
 
     m_importPath = importPath;
@@ -266,10 +267,10 @@ public class CmsImportFolder {
    * @param importPath the OpenCms VFS import path to import to
    * @throws Exception if something goes wrong during file IO
    */
-  private void importResources(File folder, String importPath) throws Exception {
+  private void importResources(@RUntainted File folder, @RUntainted String importPath) throws Exception {
 
-    String[] diskFiles = folder.list();
-    File currentFile;
+    @RUntainted String[] diskFiles = folder.list();
+    @RUntainted File currentFile;
 
     for (int i = 0; i < diskFiles.length; i++) {
       currentFile = new File(folder, diskFiles[i]);
@@ -314,7 +315,7 @@ public class CmsImportFolder {
    *     the content of the zip file is created 1:1 inclusive sub folders
    * @throws Exception if something goes wrong during file IO
    */
-  private void importZipResource(ZipInputStream zipStreamIn, String importPath, boolean noSubFolder)
+  private void importZipResource(@RUntainted ZipInputStream zipStreamIn, String importPath, boolean noSubFolder)
       throws Exception {
 
     // HACK: this method looks very crude, it should be re-written sometime...
@@ -330,19 +331,19 @@ public class CmsImportFolder {
       j = 0;
       stop = 0;
       // open the entry ...
-      ZipEntry entry = zipStreamIn.getNextEntry();
+      @RUntainted ZipEntry entry = zipStreamIn.getNextEntry();
       if (entry == null) {
         break;
       }
       entries++; // count number of entries in zip
-      String actImportPath = importPath;
+      @RUntainted String actImportPath = importPath;
       String title = CmsResource.getName(entry.getName());
       String filename =
           m_cms.getRequestContext().getFileTranslator().translateResource(entry.getName());
       // separate path in directories an file name ...
       StringTokenizer st = new StringTokenizer(filename, "/\\");
       int count = st.countTokens();
-      String[] path = new String[count];
+      @RUntainted String[] path = new String[count];
 
       if (filename.endsWith("\\") || filename.endsWith("/")) {
         isFolder = true; // last entry is a folder
@@ -413,7 +414,7 @@ public class CmsImportFolder {
             throw sqlExc;
           }
         } else {
-          String newResName = actImportPath + path[path.length - 1];
+          @RUntainted String newResName = actImportPath + path[path.length - 1];
           if (title.lastIndexOf('.') != -1) {
             title = title.substring(0, title.lastIndexOf('.'));
           }

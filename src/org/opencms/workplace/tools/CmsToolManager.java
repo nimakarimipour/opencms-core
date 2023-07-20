@@ -46,6 +46,7 @@ import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsDialog;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the registered tools, actualizing its state every time the workplace is reinitialize.
@@ -232,13 +233,13 @@ public class CmsToolManager {
    * @param wp the jsp page
    * @return the html code
    */
-  public String generateNavBar(String toolPath, CmsWorkplace wp) {
+  public String generateNavBar(@RUntainted String toolPath, CmsWorkplace wp) {
 
     if (toolPath.equals(getBaseToolPath(wp))) {
       return "<div class='pathbar'>&nbsp;</div>\n";
     }
     CmsTool adminTool = resolveAdminTool(getCurrentRoot(wp).getKey(), toolPath);
-    String html =
+    @RUntainted String html =
         A_CmsHtmlIconButton.defaultButtonHtml(
             CmsHtmlIconButtonStyleEnum.SMALL_ICON_TEXT,
             "nav" + adminTool.getId(),
@@ -248,7 +249,7 @@ public class CmsToolManager {
             null,
             null,
             null);
-    String parent = toolPath;
+    @RUntainted String parent = toolPath;
     while (!parent.equals(getBaseToolPath(wp))) {
       parent = getParent(wp, parent);
       adminTool = resolveAdminTool(getCurrentRoot(wp).getKey(), parent);
@@ -285,10 +286,10 @@ public class CmsToolManager {
    * @param wp the workplace object
    * @return the base tool path for the active user
    */
-  public String getBaseToolPath(CmsWorkplace wp) {
+  public @RUntainted String getBaseToolPath(CmsWorkplace wp) {
 
     CmsToolUserData userData = getUserData(wp);
-    String path = TOOLPATH_SEPARATOR;
+    @RUntainted String path = TOOLPATH_SEPARATOR;
     if (userData != null) {
       path = userData.getBaseTool(getCurrentRoot(wp).getKey());
     }
@@ -343,10 +344,10 @@ public class CmsToolManager {
    * @param wp the workplace object
    * @return the current tool path
    */
-  public String getCurrentToolPath(CmsWorkplace wp) {
+  public @RUntainted String getCurrentToolPath(CmsWorkplace wp) {
 
     CmsToolUserData userData = getUserData(wp);
-    String path = getBaseToolPath(wp);
+    @RUntainted String path = getBaseToolPath(wp);
     if (userData != null) {
       path = userData.getCurrentToolPath(getCurrentRoot(wp).getKey());
     }
@@ -364,12 +365,12 @@ public class CmsToolManager {
    * @param toolPath the abstract tool path
    * @return his parent
    */
-  public String getParent(CmsWorkplace wp, String toolPath) {
+  public @RUntainted String getParent(CmsWorkplace wp, @RUntainted String toolPath) {
 
     if (toolPath.equals(getBaseToolPath(wp))) {
       return toolPath;
     }
-    int pos = toolPath.lastIndexOf(TOOLPATH_SEPARATOR);
+    @RUntainted int pos = toolPath.lastIndexOf(TOOLPATH_SEPARATOR);
     return pos <= 0 ? TOOLPATH_SEPARATOR : toolPath.substring(0, pos);
   }
 
@@ -573,7 +574,7 @@ public class CmsToolManager {
    * @param wp the workplace object
    * @param baseToolPath the base tool path to set
    */
-  public void setBaseToolPath(CmsWorkplace wp, String baseToolPath) {
+  public void setBaseToolPath(CmsWorkplace wp, @RUntainted String baseToolPath) {
 
     // use last used base if param empty
     if (CmsStringUtil.isEmpty(baseToolPath) || baseToolPath.trim().equals("null")) {
@@ -593,7 +594,7 @@ public class CmsToolManager {
    * @param wp the workplace context
    * @param key the current user's root key to set
    */
-  public void setCurrentRoot(CmsWorkplace wp, String key) {
+  public void setCurrentRoot(CmsWorkplace wp, @RUntainted String key) {
 
     // use last used root if param empty
     if (CmsStringUtil.isEmpty(key) || key.trim().equals("null")) {
@@ -612,7 +613,7 @@ public class CmsToolManager {
    * @param wp the workplace object
    * @param currentToolPath the current tool path to set
    */
-  public void setCurrentToolPath(CmsWorkplace wp, String currentToolPath) {
+  public void setCurrentToolPath(CmsWorkplace wp, @RUntainted String currentToolPath) {
 
     // use last used path if param empty
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(currentToolPath)
@@ -850,7 +851,7 @@ public class CmsToolManager {
    * @param path the path to repair
    * @return a valid and visible tool path
    */
-  private String repairPath(CmsWorkplace wp, String path) {
+  private @RUntainted String repairPath(CmsWorkplace wp, @RUntainted String path) {
 
     String rootKey = getCurrentRoot(wp).getKey();
     // navigate until to reach a valid path

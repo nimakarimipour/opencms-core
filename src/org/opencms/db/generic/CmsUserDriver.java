@@ -93,6 +93,7 @@ import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsPair;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) database server implementation of the user driver methods.
@@ -139,13 +140,13 @@ public class CmsUserDriver implements I_CmsUserDriver {
   private static Striped<Lock> USER_INFO_LOCKS = Striped.lock(16);
 
   /** A digest to encrypt the passwords. */
-  protected MessageDigest m_digest;
+  protected @RUntainted MessageDigest m_digest;
 
   /** The algorithm used to encode passwords. */
-  protected String m_digestAlgorithm;
+  protected @RUntainted String m_digestAlgorithm;
 
   /** The file.encoding to code passwords after encryption with digest. */
-  protected String m_digestFileEncoding;
+  protected @RUntainted String m_digestFileEncoding;
 
   /** The driver manager. */
   protected CmsDriverManager m_driverManager;
@@ -159,7 +160,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
    *     org.opencms.security.CmsOrganizationalUnit, org.opencms.file.CmsResource)
    */
   public void addResourceToOrganizationalUnit(
-      CmsDbContext dbc, CmsOrganizationalUnit orgUnit, CmsResource resource)
+      CmsDbContext dbc, CmsOrganizationalUnit orgUnit, @RUntainted CmsResource resource)
       throws CmsDataAccessException {
 
     try {
@@ -174,7 +175,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
       }
 
       // read the resource representing the organizational unit
-      CmsResource ouResource =
+      @RUntainted CmsResource ouResource =
           m_driverManager.readResource(
               dbc, ORGUNIT_BASE_FOLDER + orgUnit.getName(), CmsResourceFilter.ALL);
 
@@ -198,7 +199,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
       }
 
       // add the new resource
-      CmsRelation relation = new CmsRelation(ouResource, resource, CmsRelationType.OU_RESOURCE);
+      @RUntainted CmsRelation relation = new CmsRelation(ouResource, resource, CmsRelationType.OU_RESOURCE);
       m_driverManager
           .getVfsDriver(dbc)
           .createRelation(dbc, dbc.currentProject().getUuid(), relation);
@@ -219,7 +220,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
         // ignore
       } finally {
         // fire a resource modification event
-        Map<String, Object> data = new HashMap<String, Object>(2);
+        Map<String, @RUntainted Object> data = new HashMap<String, @RUntainted Object>(2);
         data.put(I_CmsEventListener.KEY_RESOURCE, ouResource);
         data.put(I_CmsEventListener.KEY_CHANGE, new Integer(CmsDriverManager.CHANGED_RESOURCE));
         OpenCms.fireCmsEvent(new CmsEvent(I_CmsEventListener.EVENT_RESOURCE_MODIFIED, data));
@@ -236,7 +237,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
   public long countUsers(CmsDbContext dbc, CmsUserSearchParameters searchParams)
       throws CmsDataAccessException {
 
-    CmsPair<String, List<Object>> queryAndParams = createUserQuery(searchParams, true);
+    CmsPair<@RUntainted String, List<Object>> queryAndParams = createUserQuery(searchParams, true);
     ResultSet res = null;
     PreparedStatement stmt = null;
     Connection conn = null;
@@ -306,10 +307,10 @@ public class CmsUserDriver implements I_CmsUserDriver {
   public CmsGroup createGroup(
       CmsDbContext dbc,
       CmsUUID groupId,
-      String groupFqn,
-      String description,
+      @RUntainted String groupFqn,
+      @RUntainted String description,
       int flags,
-      String parentGroupFqn)
+      @RUntainted String parentGroupFqn)
       throws CmsDataAccessException {
 
     CmsUUID parentId = CmsUUID.getNullUUID();
@@ -365,8 +366,8 @@ public class CmsUserDriver implements I_CmsUserDriver {
    */
   public CmsOrganizationalUnit createOrganizationalUnit(
       CmsDbContext dbc,
-      String name,
-      String description,
+      @RUntainted String name,
+      @RUntainted String description,
       int flags,
       CmsOrganizationalUnit parent,
       String associatedResource)
@@ -524,7 +525,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
   public CmsUser createUser(
       CmsDbContext dbc,
       CmsUUID id,
-      String userFqn,
+      @RUntainted String userFqn,
       String password,
       String firstname,
       String lastname,
@@ -613,7 +614,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
   /**
    * @see org.opencms.db.I_CmsUserDriver#deleteGroup(org.opencms.db.CmsDbContext, java.lang.String)
    */
-  public void deleteGroup(CmsDbContext dbc, String groupFqn) throws CmsDataAccessException {
+  public void deleteGroup(CmsDbContext dbc, @RUntainted String groupFqn) throws CmsDataAccessException {
 
     Connection conn = null;
     PreparedStatement stmt = null;
@@ -665,7 +666,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
   /**
    * @see org.opencms.db.I_CmsUserDriver#deleteUser(org.opencms.db.CmsDbContext, java.lang.String)
    */
-  public void deleteUser(CmsDbContext dbc, String userFqn) throws CmsDataAccessException {
+  public void deleteUser(CmsDbContext dbc, @RUntainted String userFqn) throws CmsDataAccessException {
 
     CmsUser user = readUser(dbc, userFqn);
 
@@ -771,7 +772,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
   /**
    * @see org.opencms.db.I_CmsUserDriver#existsGroup(org.opencms.db.CmsDbContext, java.lang.String)
    */
-  public boolean existsGroup(CmsDbContext dbc, String groupFqn) throws CmsDataAccessException {
+  public boolean existsGroup(CmsDbContext dbc, @RUntainted String groupFqn) throws CmsDataAccessException {
 
     ResultSet res = null;
     PreparedStatement stmt = null;
@@ -812,7 +813,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
   /**
    * @see org.opencms.db.I_CmsUserDriver#existsUser(org.opencms.db.CmsDbContext, java.lang.String)
    */
-  public boolean existsUser(CmsDbContext dbc, String userFqn) throws CmsDataAccessException {
+  public boolean existsUser(CmsDbContext dbc, @RUntainted String userFqn) throws CmsDataAccessException {
 
     PreparedStatement stmt = null;
     ResultSet res = null;
@@ -878,7 +879,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
       throws CmsDataAccessException {
 
     // compose the query
-    String sqlQuery = createRoleQuery("C_GROUPS_GET_GROUPS_0", includeSubOus, readRoles);
+    @RUntainted String sqlQuery = createRoleQuery("C_GROUPS_GET_GROUPS_0", includeSubOus, readRoles);
     // adjust parameter to use with LIKE
     String ouFqn = CmsOrganizationalUnit.SEPARATOR + orgUnit.getName();
     if (includeSubOus) {
@@ -887,7 +888,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
 
     // execute it
     List<CmsGroup> groups = new ArrayList<CmsGroup>();
-    ResultSet res = null;
+    @RUntainted ResultSet res = null;
     PreparedStatement stmt = null;
     Connection conn = null;
     try {
@@ -955,7 +956,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
               dbc, ORGUNIT_BASE_FOLDER + orgUnit.getName(), CmsResourceFilter.ALL);
       Iterator<String> itPaths = internalResourcesForOrgUnit(dbc, ouResource).iterator();
       while (itPaths.hasNext()) {
-        String path = itPaths.next();
+        @RUntainted String path = itPaths.next();
         try {
           result.add(m_driverManager.readResource(dbc, path, CmsResourceFilter.ALL));
         } catch (CmsVfsResourceNotFoundException e) {
@@ -1010,7 +1011,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
 
     CmsParameterConfiguration config = configurationManager.getConfiguration();
 
-    String poolUrl = config.get("db.user.pool");
+    @RUntainted String poolUrl = config.get("db.user.pool");
     String classname = config.get("db.user.sqlmanager");
     m_sqlManager = initSqlManager(classname);
     m_sqlManager.init(I_CmsUserDriver.DRIVER_TYPE_ID, poolUrl);
@@ -1066,7 +1067,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
   }
 
   /** @see org.opencms.db.I_CmsUserDriver#initSqlManager(String) */
-  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
     return CmsSqlManager.getInstance(classname);
   }
@@ -1114,9 +1115,9 @@ public class CmsUserDriver implements I_CmsUserDriver {
       throws CmsDataAccessException {
 
     List<CmsAccessControlEntry> aceList = new ArrayList<CmsAccessControlEntry>();
-    PreparedStatement stmt = null;
+    @RUntainted PreparedStatement stmt = null;
     Connection conn = null;
-    ResultSet res = null;
+    @RUntainted ResultSet res = null;
 
     try {
       conn = m_sqlManager.getConnection(dbc);
@@ -1157,13 +1158,13 @@ public class CmsUserDriver implements I_CmsUserDriver {
    *     org.opencms.file.CmsProject, org.opencms.util.CmsUUID, org.opencms.util.CmsUUID)
    */
   public CmsAccessControlEntry readAccessControlEntry(
-      CmsDbContext dbc, CmsProject project, CmsUUID resource, CmsUUID principal)
+      CmsDbContext dbc, CmsProject project, @RUntainted CmsUUID resource, @RUntainted CmsUUID principal)
       throws CmsDataAccessException {
 
     CmsAccessControlEntry ace = null;
-    PreparedStatement stmt = null;
+    @RUntainted PreparedStatement stmt = null;
     Connection conn = null;
-    ResultSet res = null;
+    @RUntainted ResultSet res = null;
 
     try {
       conn = m_sqlManager.getConnection(dbc);
@@ -1203,7 +1204,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @see org.opencms.db.I_CmsUserDriver#readChildGroups(org.opencms.db.CmsDbContext,
    *     java.lang.String)
    */
-  public List<CmsGroup> readChildGroups(CmsDbContext dbc, String parentGroupFqn)
+  public List<CmsGroup> readChildGroups(CmsDbContext dbc, @RUntainted String parentGroupFqn)
       throws CmsDataAccessException {
 
     List<CmsGroup> children = new ArrayList<CmsGroup>();
@@ -1241,7 +1242,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @see org.opencms.db.I_CmsUserDriver#readGroup(org.opencms.db.CmsDbContext,
    *     org.opencms.util.CmsUUID)
    */
-  public CmsGroup readGroup(CmsDbContext dbc, CmsUUID groupId) throws CmsDataAccessException {
+  public CmsGroup readGroup(CmsDbContext dbc, @RUntainted CmsUUID groupId) throws CmsDataAccessException {
 
     CmsGroup group = null;
     ResultSet res = null;
@@ -1285,9 +1286,9 @@ public class CmsUserDriver implements I_CmsUserDriver {
   /**
    * @see org.opencms.db.I_CmsUserDriver#readGroup(org.opencms.db.CmsDbContext, java.lang.String)
    */
-  public CmsGroup readGroup(CmsDbContext dbc, String groupFqn) throws CmsDataAccessException {
+  public @RUntainted CmsGroup readGroup(CmsDbContext dbc, @RUntainted String groupFqn) throws CmsDataAccessException {
 
-    CmsGroup group = null;
+    @RUntainted CmsGroup group = null;
     ResultSet res = null;
     PreparedStatement stmt = null;
     Connection conn = null;
@@ -1342,7 +1343,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
       throws CmsDataAccessException {
 
     // compose the query
-    String sqlQuery = createRoleQuery("C_GROUPS_GET_GROUPS_OF_USER_1", includeChildOus, readRoles);
+    @RUntainted String sqlQuery = createRoleQuery("C_GROUPS_GET_GROUPS_OF_USER_1", includeChildOus, readRoles);
     // adjust parameter to use with LIKE
     String ouFqnParam = CmsOrganizationalUnit.SEPARATOR + ouFqn;
     if (includeChildOus) {
@@ -1353,7 +1354,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
     List<CmsGroup> groups = new ArrayList<CmsGroup>();
 
     PreparedStatement stmt = null;
-    ResultSet res = null;
+    @RUntainted ResultSet res = null;
     Connection conn = null;
 
     try {
@@ -1384,7 +1385,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
   /**
    * @see org.opencms.db.I_CmsUserDriver#readOrganizationalUnit(org.opencms.db.CmsDbContext, String)
    */
-  public CmsOrganizationalUnit readOrganizationalUnit(CmsDbContext dbc, String ouFqn)
+  public CmsOrganizationalUnit readOrganizationalUnit(CmsDbContext dbc, @RUntainted String ouFqn)
       throws CmsDataAccessException {
 
     try {
@@ -1403,10 +1404,10 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @see org.opencms.db.I_CmsUserDriver#readUser(org.opencms.db.CmsDbContext,
    *     org.opencms.util.CmsUUID)
    */
-  public CmsUser readUser(CmsDbContext dbc, CmsUUID id) throws CmsDataAccessException {
+  public CmsUser readUser(CmsDbContext dbc, @RUntainted CmsUUID id) throws CmsDataAccessException {
 
     PreparedStatement stmt = null;
-    ResultSet res = null;
+    @RUntainted ResultSet res = null;
     CmsUser user = null;
     Connection conn = null;
 
@@ -1439,16 +1440,16 @@ public class CmsUserDriver implements I_CmsUserDriver {
       m_sqlManager.closeAll(dbc, conn, stmt, res);
     }
 
-    Map<String, Object> info = readUserInfos(dbc, user.getId());
+    Map<String, @RUntainted Object> info = readUserInfos(dbc, user.getId());
     user.setAdditionalInfo(info);
     return user;
   }
 
   /** @see org.opencms.db.I_CmsUserDriver#readUser(org.opencms.db.CmsDbContext, java.lang.String) */
-  public CmsUser readUser(CmsDbContext dbc, String userFqn) throws CmsDataAccessException {
+  public CmsUser readUser(CmsDbContext dbc, @RUntainted String userFqn) throws CmsDataAccessException {
 
     PreparedStatement stmt = null;
-    ResultSet res = null;
+    @RUntainted ResultSet res = null;
     CmsUser user = null;
     Connection conn = null;
 
@@ -1484,7 +1485,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
       m_sqlManager.closeAll(dbc, conn, stmt, res);
     }
 
-    Map<String, Object> info = readUserInfos(dbc, user.getId());
+    Map<String, @RUntainted Object> info = readUserInfos(dbc, user.getId());
     user.setAdditionalInfo(info);
     return user;
   }
@@ -1493,11 +1494,11 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @see org.opencms.db.I_CmsUserDriver#readUser(org.opencms.db.CmsDbContext, java.lang.String,
    *     java.lang.String, String)
    */
-  public CmsUser readUser(CmsDbContext dbc, String userFqn, String password, String remoteAddress)
+  public CmsUser readUser(CmsDbContext dbc, @RUntainted String userFqn, String password, String remoteAddress)
       throws CmsDataAccessException {
 
     PreparedStatement stmt = null;
-    ResultSet res = null;
+    @RUntainted ResultSet res = null;
     CmsUser user = null;
     Connection conn = null;
 
@@ -1539,7 +1540,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
     }
 
     @SuppressWarnings("null")
-    Map<String, Object> info = readUserInfos(dbc, user.getId());
+    Map<String, @RUntainted Object> info = readUserInfos(dbc, user.getId());
     user.setAdditionalInfo(info);
     return user;
   }
@@ -1553,8 +1554,8 @@ public class CmsUserDriver implements I_CmsUserDriver {
 
     Map<String, Object> infos = new HashMap<String, Object>();
 
-    ResultSet res = null;
-    PreparedStatement stmt = null;
+    @RUntainted ResultSet res = null;
+    @RUntainted PreparedStatement stmt = null;
     Connection conn = null;
     try {
       // create statement
@@ -1565,9 +1566,9 @@ public class CmsUserDriver implements I_CmsUserDriver {
       res = stmt.executeQuery();
       // read the infos
       while (res.next()) {
-        String key = res.getString(m_sqlManager.readQuery("C_USERDATA_KEY_0"));
-        String type = res.getString(m_sqlManager.readQuery("C_USERDATA_TYPE_0"));
-        byte[] value = m_sqlManager.getBytes(res, m_sqlManager.readQuery("C_USERDATA_VALUE_0"));
+        @RUntainted String key = res.getString(m_sqlManager.readQuery("C_USERDATA_KEY_0"));
+        @RUntainted String type = res.getString(m_sqlManager.readQuery("C_USERDATA_TYPE_0"));
+        @RUntainted byte[] value = m_sqlManager.getBytes(res, m_sqlManager.readQuery("C_USERDATA_VALUE_0"));
         // deserialize
         Object data = null;
         try {
@@ -1615,8 +1616,8 @@ public class CmsUserDriver implements I_CmsUserDriver {
   }
 
   /** @see org.opencms.db.I_CmsUserDriver#readUsersOfGroup(CmsDbContext, String, boolean) */
-  public List<CmsUser> readUsersOfGroup(
-      CmsDbContext dbc, String groupFqn, boolean includeOtherOuUsers)
+  public @RUntainted List<@RUntainted CmsUser> readUsersOfGroup(
+      CmsDbContext dbc, @RUntainted String groupFqn, boolean includeOtherOuUsers)
       throws CmsDataAccessException {
 
     String sqlQuery = "C_GROUPS_GET_USERS_OF_GROUP_2";
@@ -1624,10 +1625,10 @@ public class CmsUserDriver implements I_CmsUserDriver {
       sqlQuery = "C_GROUPS_GET_ALL_USERS_OF_GROUP_2";
     }
 
-    List<CmsUser> users = new ArrayList<CmsUser>();
+    List<@RUntainted CmsUser> users = new ArrayList<@RUntainted CmsUser>();
 
     PreparedStatement stmt = null;
-    ResultSet res = null;
+    @RUntainted ResultSet res = null;
     Connection conn = null;
 
     try {
@@ -1652,7 +1653,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
     }
 
     for (CmsUser user : users) {
-      Map<String, Object> info = readUserInfos(dbc, user.getId());
+      Map<String, @RUntainted Object> info = readUserInfos(dbc, user.getId());
       user.setAdditionalInfo(info);
     }
     return users;
@@ -1829,7 +1830,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
       } catch (CmsDbEntryNotFoundException e) {
         // ignore
       } finally {
-        Map<String, Object> data = new HashMap<String, Object>(2);
+        Map<String, @RUntainted Object> data = new HashMap<String, @RUntainted Object>(2);
         data.put(I_CmsEventListener.KEY_RESOURCE, ouResource);
         data.put(I_CmsEventListener.KEY_CHANGE, new Integer(CmsDriverManager.CHANGED_RESOURCE));
         OpenCms.fireCmsEvent(new CmsEvent(I_CmsEventListener.EVENT_RESOURCE_MODIFIED, data));
@@ -1847,9 +1848,9 @@ public class CmsUserDriver implements I_CmsUserDriver {
       throws CmsDataAccessException {
 
     List<CmsUser> users = new ArrayList<CmsUser>();
-    CmsPair<String, List<Object>> queryAndParams = createUserQuery(searchParams, false);
-    ResultSet res = null;
-    PreparedStatement stmt = null;
+    CmsPair<@RUntainted String, List<Object>> queryAndParams = createUserQuery(searchParams, false);
+    @RUntainted ResultSet res = null;
+    @RUntainted PreparedStatement stmt = null;
     Connection conn = null;
     try {
       conn = m_sqlManager.getConnection(dbc);
@@ -1869,7 +1870,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
       m_sqlManager.closeAll(dbc, conn, stmt, res);
     }
     for (CmsUser user : users) {
-      Map<String, Object> info = readUserInfos(dbc, user.getId());
+      Map<String, @RUntainted Object> info = readUserInfos(dbc, user.getId());
       user.setAdditionalInfo(info);
     }
     return users;
@@ -1927,9 +1928,9 @@ public class CmsUserDriver implements I_CmsUserDriver {
       CmsDbContext dbc, CmsProject project, CmsAccessControlEntry acEntry)
       throws CmsDataAccessException {
 
-    PreparedStatement stmt = null;
+    @RUntainted PreparedStatement stmt = null;
     Connection conn = null;
-    ResultSet res = null;
+    @RUntainted ResultSet res = null;
     CmsAccessControlEntry ace = null;
 
     try {
@@ -2074,7 +2075,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
    *     java.lang.String, java.lang.String, java.lang.String)
    */
   public void writePassword(
-      CmsDbContext dbc, String userFqn, String oldPassword, String newPassword)
+      CmsDbContext dbc, @RUntainted String userFqn, String oldPassword, String newPassword)
       throws CmsDataAccessException, CmsPasswordEncryptionException {
 
     PreparedStatement stmt = null;
@@ -2196,7 +2197,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @param readRoles if groups or roles whould be selected
    * @return a sql query to select groups
    */
-  protected String createRoleQuery(String mainQuery, boolean includeSubOus, boolean readRoles) {
+  protected String createRoleQuery(@RUntainted String mainQuery, boolean includeSubOus, boolean readRoles) {
 
     String sqlQuery = m_sqlManager.readQuery(mainQuery);
     sqlQuery += " ";
@@ -2255,7 +2256,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
    *     database record
    * @throws SQLException if something goes wrong
    */
-  protected CmsAccessControlEntry internalCreateAce(ResultSet res) throws SQLException {
+  protected CmsAccessControlEntry internalCreateAce(@RUntainted ResultSet res) throws SQLException {
 
     return internalCreateAce(
         res, new CmsUUID(res.getString(m_sqlManager.readQuery("C_ACCESS_RESOURCE_ID_0"))));
@@ -2272,7 +2273,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
    *     database record
    * @throws SQLException if something goes wrong
    */
-  protected CmsAccessControlEntry internalCreateAce(ResultSet res, CmsUUID newId)
+  protected CmsAccessControlEntry internalCreateAce(@RUntainted ResultSet res, @RUntainted CmsUUID newId)
       throws SQLException {
 
     return new CmsAccessControlEntry(
@@ -2295,7 +2296,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @throws CmsException if something goes wrong
    */
   protected void internalCreateDefaultGroups(
-      CmsDbContext dbc, String ouFqn, String ouDescription, boolean webuser) throws CmsException {
+      CmsDbContext dbc, @RUntainted String ouFqn, String ouDescription, boolean webuser) throws CmsException {
 
     // create roles
     String rootAdminRole = CmsRole.ROOT_ADMIN.getGroupName();
@@ -2310,7 +2311,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
           // if role is ou independent and not in the root ou
           continue;
         }
-        String groupName = ouFqn + role.getGroupName();
+        @RUntainted String groupName = ouFqn + role.getGroupName();
         int flags = I_CmsPrincipal.FLAG_ENABLED | I_CmsPrincipal.FLAG_GROUP_ROLE;
         if (!existsGroup(dbc, groupName)) {
           createGroup(
@@ -2344,9 +2345,9 @@ public class CmsUserDriver implements I_CmsUserDriver {
     }
 
     // create groups
-    String administratorsGroup = ouFqn + OpenCms.getDefaultUsers().getGroupAdministrators();
+    @RUntainted String administratorsGroup = ouFqn + OpenCms.getDefaultUsers().getGroupAdministrators();
     String guestGroup = ouFqn + OpenCms.getDefaultUsers().getGroupGuests();
-    String usersGroup = ouFqn + OpenCms.getDefaultUsers().getGroupUsers();
+    @RUntainted String usersGroup = ouFqn + OpenCms.getDefaultUsers().getGroupUsers();
     String guestUser = ouFqn + OpenCms.getDefaultUsers().getUserGuest();
     String adminUser = ouFqn + OpenCms.getDefaultUsers().getUserAdmin();
     String exportUser = ouFqn + OpenCms.getDefaultUsers().getUserExport();
@@ -2361,7 +2362,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
       return;
     }
     String parentOu = CmsOrganizationalUnit.getParentFqn(ouFqn);
-    String groupDescription =
+    @RUntainted String groupDescription =
         (CmsStringUtil.isNotEmptyOrWhitespaceOnly(ouDescription)
             ? CmsMacroResolver.localizedKeyMacro(
                 Messages.GUI_DEFAULTGROUP_OU_USERS_DESCRIPTION_1, new String[] {ouDescription})
@@ -2505,9 +2506,9 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @return CmsGroup the new CmsGroup object
    * @throws SQLException in case the result set does not include a requested table attribute
    */
-  protected CmsGroup internalCreateGroup(ResultSet res) throws SQLException {
+  protected @RUntainted CmsGroup internalCreateGroup(@RUntainted ResultSet res) throws SQLException {
 
-    String ou =
+    @RUntainted String ou =
         CmsOrganizationalUnit.removeLeadingSeparator(
             res.getString(m_sqlManager.readQuery("C_GROUPS_GROUP_OU_0")));
     String description = res.getString(m_sqlManager.readQuery("C_GROUPS_GROUP_DESCRIPTION_0"));
@@ -2570,11 +2571,11 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @return the new created offline folder
    * @throws CmsException if something goes wrong
    */
-  protected CmsResource internalCreateResourceForOrgUnit(CmsDbContext dbc, String path, int flags)
+  protected CmsResource internalCreateResourceForOrgUnit(CmsDbContext dbc, @RUntainted String path, @RUntainted int flags)
       throws CmsException {
 
     // create the offline folder
-    CmsResource resource =
+    @RUntainted CmsResource resource =
         new CmsFolder(
             new CmsUUID(),
             new CmsUUID(),
@@ -2634,10 +2635,10 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @return the new CmsUser object
    * @throws SQLException in case the result set does not include a requested table attribute
    */
-  protected CmsUser internalCreateUser(CmsDbContext dbc, ResultSet res) throws SQLException {
+  protected @RUntainted CmsUser internalCreateUser(CmsDbContext dbc, @RUntainted ResultSet res) throws SQLException {
 
-    String userName = res.getString(m_sqlManager.readQuery("C_USERS_USER_NAME_0"));
-    String ou =
+    @RUntainted String userName = res.getString(m_sqlManager.readQuery("C_USERS_USER_NAME_0"));
+    @RUntainted String ou =
         CmsOrganizationalUnit.removeLeadingSeparator(
             res.getString(m_sqlManager.readQuery("C_USERS_USER_OU_0")));
     CmsUUID userId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_USERS_USER_ID_0")));
@@ -2668,7 +2669,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @param resource the resource to delete
    * @throws CmsException if something goes wrong
    */
-  protected void internalDeleteOrgUnitResource(CmsDbContext dbc, CmsResource resource)
+  protected void internalDeleteOrgUnitResource(CmsDbContext dbc, @RUntainted CmsResource resource)
       throws CmsException {
 
     CmsRelationFilter filter = CmsRelationFilter.TARGETS;
@@ -2801,7 +2802,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
       throws CmsDataAccessException {
 
     List<CmsUser> users = new ArrayList<CmsUser>();
-    ResultSet res = null;
+    @RUntainted ResultSet res = null;
     PreparedStatement stmt = null;
     Connection conn = null;
     try {
@@ -2833,7 +2834,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
     }
     if (readAdditionalInfos) {
       for (CmsUser user : users) {
-        Map<String, Object> info = readUserInfos(dbc, user.getId());
+        Map<String, @RUntainted Object> info = readUserInfos(dbc, user.getId());
         user.setAdditionalInfo(info);
       }
     }
@@ -2898,7 +2899,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @param role the role for this group
    * @throws CmsDataAccessException if something goes wrong
    */
-  protected void internalUpdateRoleGroup(CmsDbContext dbc, String groupName, CmsRole role)
+  protected void internalUpdateRoleGroup(CmsDbContext dbc, @RUntainted String groupName, CmsRole role)
       throws CmsDataAccessException {
 
     if (LOG.isDebugEnabled()) {
@@ -2910,14 +2911,14 @@ public class CmsUserDriver implements I_CmsUserDriver {
 
     CmsGroup group = readGroup(dbc, groupName);
     if ((CmsRole.valueOf(group) == null) || !CmsRole.valueOf(group).equals(role)) {
-      CmsGroup roleGroup = readGroup(dbc, role.getGroupName());
+      @RUntainted CmsGroup roleGroup = readGroup(dbc, role.getGroupName());
 
       if (LOG.isDebugEnabled()) {
         LOG.debug(Messages.get().getBundle().key(Messages.LOG_DBG_UPDATE_ROLEGROUP_1, roleGroup));
       }
 
       // copy all users from the group to the role
-      Iterator<CmsUser> it;
+      Iterator<@RUntainted CmsUser> it;
       try {
         // read all users, also indirect assigned
         it = m_driverManager.getUsersOfGroup(dbc, groupName, false, false, false).iterator();
@@ -2928,7 +2929,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
         it = readUsersOfGroup(dbc, groupName, false).iterator();
       }
       while (it.hasNext()) {
-        CmsUser user = it.next();
+        @RUntainted CmsUser user = it.next();
 
         if (LOG.isDebugEnabled()) {
           LOG.debug(Messages.get().getBundle().key(Messages.LOG_DBG_UPDATE_ROLEGROUP_USER_1, user));
@@ -2958,7 +2959,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @param value the value of the additional user info
    * @throws CmsDataAccessException if something goes wrong
    */
-  protected void internalUpdateUserInfo(CmsDbContext dbc, CmsUUID userId, String key, Object value)
+  protected void internalUpdateUserInfo(CmsDbContext dbc, @RUntainted CmsUUID userId, String key, Object value)
       throws CmsDataAccessException {
 
     PreparedStatement stmt = null;
@@ -2998,7 +2999,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @throws CmsException if something goes wrong
    */
   protected void internalValidateResourceForOrgUnit(
-      CmsDbContext dbc, CmsOrganizationalUnit orgUnit, String rootPath) throws CmsException {
+      CmsDbContext dbc, CmsOrganizationalUnit orgUnit, @RUntainted String rootPath) throws CmsException {
 
     CmsResource parentResource =
         m_driverManager.readResource(
@@ -3122,7 +3123,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
    * @param value the value of the additional user info
    * @throws CmsDataAccessException if something goes wrong
    */
-  protected void internalWriteUserInfo(CmsDbContext dbc, CmsUUID userId, String key, Object value)
+  protected void internalWriteUserInfo(CmsDbContext dbc, @RUntainted CmsUUID userId, String key, Object value)
       throws CmsDataAccessException {
 
     PreparedStatement stmt = null;

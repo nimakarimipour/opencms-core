@@ -57,6 +57,7 @@ import org.opencms.xml.containerpage.CmsFunctionFormatterBean;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class used for rendering dynamic functions (v2).
@@ -167,7 +168,7 @@ public class CmsFunctionRenderer {
    * @param path the path to read
    * @return the resource which has been read
    */
-  private static CmsResource getDefaultResource(CmsObject cms, String path) {
+  private static CmsResource getDefaultResource(CmsObject cms, @RUntainted String path) {
 
     CmsResource resource =
         (CmsResource) CmsVfsMemoryObjectCache.getVfsMemoryObjectCache().getCachedObject(cms, path);

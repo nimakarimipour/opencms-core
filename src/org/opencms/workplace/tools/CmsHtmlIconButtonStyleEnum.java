@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.workplace.list.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for the different style of icon buttons.
@@ -96,7 +97,7 @@ public final class CmsHtmlIconButtonStyleEnum {
    * @return the enumeration element
    * @throws CmsIllegalArgumentException if the given instance for the argument is not found
    */
-  public static CmsHtmlIconButtonStyleEnum valueOf(String value)
+  public static CmsHtmlIconButtonStyleEnum valueOf(@RUntainted String value)
       throws CmsIllegalArgumentException {
 
     Iterator<CmsHtmlIconButtonStyleEnum> iter = VALUES.iterator();

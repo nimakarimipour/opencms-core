@@ -31,6 +31,7 @@ import com.vaadin.server.Resource;
 import java.util.Locale;
 import org.opencms.file.CmsObject;
 import org.opencms.security.CmsRole;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The editor app configuration.
@@ -70,7 +71,7 @@ public class CmsEditorConfiguration extends A_CmsWorkplaceAppConfiguration {
 
   /** @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
   @Override
-  public String getName(Locale locale) {
+  public String getName(@RUntainted Locale locale) {
 
     return Messages.get().getBundle(locale).key(Messages.GUI_EDITOR_TITLE_0);
   }

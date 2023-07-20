@@ -35,6 +35,7 @@ import org.apache.lucene.index.Term;
 import org.opencms.db.CmsPublishedResource;
 import org.opencms.main.CmsLog;
 import org.opencms.search.fields.CmsSearchField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Delegates indexing to a standard Lucene IndexWriter.
@@ -159,7 +160,7 @@ public class CmsLuceneIndexWriter implements I_CmsIndexWriter {
    * @see org.opencms.search.I_CmsIndexWriter#updateDocument(java.lang.String,
    *     org.opencms.search.I_CmsSearchDocument)
    */
-  public void updateDocument(String rootPath, I_CmsSearchDocument document) throws IOException {
+  public void updateDocument(@RUntainted String rootPath, I_CmsSearchDocument document) throws IOException {
 
     Term pathTerm = new Term(CmsSearchField.FIELD_PATH, rootPath);
     if ((m_index != null) && LOG.isDebugEnabled()) {

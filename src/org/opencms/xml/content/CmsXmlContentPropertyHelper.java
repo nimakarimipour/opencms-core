@@ -71,6 +71,7 @@ import org.opencms.xml.types.CmsXmlNestedContentDefinition;
 import org.opencms.xml.types.CmsXmlVfsFileValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 import org.opencms.xml.types.I_CmsXmlSchemaType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides common methods on XML property configuration.
@@ -224,7 +225,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
       final Function<String, String> stringtemplateSource,
       final CmsResource containerPage) {
 
-    Locale locale =
+    @RUntainted Locale locale =
         OpenCms.getLocaleManager()
             .getBestAvailableLocaleForXmlContent(cms, content.getFile(), content);
     final CmsGalleryNameMacroResolver resolver =
@@ -232,7 +233,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
 
           @SuppressWarnings("synthetic-access")
           @Override
-          public String getMacroValue(String macro) {
+          public @RUntainted String getMacroValue(@RUntainted String macro) {
 
             if (macro.startsWith(PAGE_PROPERTY_PREFIX)) {
               String remainder = macro.substring(PAGE_PROPERTY_PREFIX.length());
@@ -264,7 +265,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
         };
 
     resolver.setStringTemplateSource(stringtemplateSource);
-    Locale wpLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
+    @RUntainted Locale wpLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
     CmsMultiMessages messages = new CmsMultiMessages(wpLocale);
     messages.addMessages(OpenCms.getWorkplaceManager().getMessages(wpLocale));
     messages.addMessages(content.getContentDefinition().getContentHandler().getMessages(wpLocale));
@@ -371,7 +372,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
    * @param widgetConfiguration the configuration to parse
    * @return the configuration JSON
    */
-  public static JSONObject getWidgetConfigurationAsJSON(String widgetConfiguration) {
+  public static JSONObject getWidgetConfigurationAsJSON(@RUntainted String widgetConfiguration) {
 
     JSONObject result = new JSONObject();
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(widgetConfiguration)) {
@@ -380,7 +381,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
     Map<String, String> confEntries =
         CmsStringUtil.splitAsMap(
             widgetConfiguration, CONF_PARAM_SEPARATOR, CONF_KEYVALUE_SEPARATOR);
-    for (Map.Entry<String, String> entry : confEntries.entrySet()) {
+    for (Map.Entry<String, @RUntainted String> entry : confEntries.entrySet()) {
       try {
         result.put(entry.getKey(), entry.getValue());
       } catch (JSONException e) {
@@ -420,7 +421,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
     if (CmsResourceTypeXmlContent.isXmlContent(resource)) {
       I_CmsFormatterBean formatter = null;
       // check formatter configuration setting
-      for (Entry<String, String> property : properties.entrySet()) {
+      for (Entry<String, @RUntainted String> property : properties.entrySet()) {
         if (property.getKey().startsWith(CmsFormatterConfig.FORMATTER_SETTINGS_KEY)) {
           I_CmsFormatterBean dynamicFmt = config.findFormatter(property.getValue());
           if (dynamicFmt != null) {
@@ -540,7 +541,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
   public static Map<String, String> readProperties(
       CmsXmlContent xmlContent,
       Locale locale,
-      Element element,
+      @RUntainted Element element,
       String elemPath,
       CmsXmlContentDefinition elemDef) {
 
@@ -591,7 +592,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
         val = string.getTextTrim();
       } else {
         // file list value
-        Element valueFileList = value.element(CmsXmlContentProperty.XmlNode.FileList.name());
+        @RUntainted Element valueFileList = value.element(CmsXmlContentProperty.XmlNode.FileList.name());
         if (valueFileList == null) {
           // this can happen when adding the elements node to the xml content
           continue;
@@ -611,15 +612,15 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
 
         List<CmsUUID> idList = new ArrayList<CmsUUID>();
         // files
-        for (Iterator<Element> itFiles =
+        for (Iterator<@RUntainted Element> itFiles =
                 CmsXmlGenericWrapper.elementIterator(
                     valueFileList, CmsXmlContentProperty.XmlNode.Uri.name());
             itFiles.hasNext(); ) {
 
-          Element valueUri = itFiles.next();
+          @RUntainted Element valueUri = itFiles.next();
           xmlContent.addBookmarkForElement(
               valueUri, locale, valueFileList, valueFileListPath, valueFileListDef);
-          Element valueUriLink = valueUri.element(CmsXmlPage.NODE_LINK);
+          @RUntainted Element valueUriLink = valueUri.element(CmsXmlPage.NODE_LINK);
           CmsUUID fileId = null;
           if (valueUriLink == null) {
             // this can happen when adding the elements node to the xml content
@@ -798,7 +799,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
 
     // resource list value
     Element filelistElem = valueElement.addElement(CmsXmlContentProperty.XmlNode.FileList.name());
-    for (String strId :
+    for (@RUntainted String strId :
         CmsStringUtil.splitAsList(propValue, CmsXmlContentProperty.PROP_SEPARATOR)) {
       try {
         Element fileValueElem = filelistElem.addElement(CmsXmlContentProperty.XmlNode.Uri.name());
@@ -834,7 +835,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
     // represent vfslists as lists of path in JSON
     List<String> ids = CmsStringUtil.splitAsList(value, CmsXmlContentProperty.PROP_SEPARATOR);
     List<String> paths = new ArrayList<String>();
-    for (String id : ids) {
+    for (@RUntainted String id : ids) {
       try {
         String path = getUriForId(cms, new CmsUUID(id));
         paths.add(path);
@@ -946,7 +947,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
    * @return a bean containing a root path and an id
    * @throws CmsException if something goes wrong
    */
-  protected static CmsVfsFileValueBean getFileValueForIdOrUri(CmsObject cms, String idOrUri)
+  protected static CmsVfsFileValueBean getFileValueForIdOrUri(CmsObject cms, @RUntainted String idOrUri)
       throws CmsException {
 
     CmsVfsFileValueBean result;

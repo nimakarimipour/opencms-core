@@ -44,6 +44,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.Messages;
 import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.workplace.CmsWorkplaceLoginHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to change the password.
@@ -67,7 +68,7 @@ public class CmsSetPasswordDialog extends CmsChangePasswordDialog {
    * @param user the user
    * @param locale the locale
    */
-  public CmsSetPasswordDialog(final CmsObject cms, CmsUser user, Locale locale) {
+  public CmsSetPasswordDialog(final CmsObject cms, CmsUser user, @RUntainted Locale locale) {
 
     super(cms, user, locale);
     // hide the old password field, it's not required

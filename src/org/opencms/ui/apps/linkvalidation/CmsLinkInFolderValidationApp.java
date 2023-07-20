@@ -64,6 +64,7 @@ import org.opencms.ui.components.CmsToolBar;
 import org.opencms.ui.dialogs.CmsDeleteDialog;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App to check relations of resources in folder to other folder.
@@ -129,7 +130,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp
 
         private static final long serialVersionUID = -7729459896374968941L;
 
-        public void itemClick(ItemClickEvent event) {
+        public void itemClick(@RUntainted ItemClickEvent event) {
 
           if (event.getButton().equals(MouseButton.RIGHT)) {
             return;
@@ -182,7 +183,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp
      *
      * @return key for caption
      */
-    String getCaptionKey() {
+    @RUntainted String getCaptionKey() {
 
       return org.opencms.ui.apps.Messages.GUI_LINKVALIDATION_CHECK_FOLDER_RELATIONS_COLUMN_HEADER_0;
     }
@@ -311,7 +312,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp
       }
       List<String> res = new ArrayList<String>();
 
-      for (String uuidString : resources.split(RESOURCE_SEPERATOR)) {
+      for (@RUntainted String uuidString : resources.split(RESOURCE_SEPERATOR)) {
         try {
           res.add(m_cms.readResource(new CmsUUID(uuidString)).getRootPath());
         } catch (CmsException e) {

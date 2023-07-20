@@ -56,6 +56,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.relations.CmsRelation;
 import org.opencms.relations.CmsRelationFilter;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Virtual project which includes the currently edited resource and all its related resources. */
 public class CmsCurrentPageProject implements I_CmsVirtualProject {
@@ -70,10 +71,10 @@ public class CmsCurrentPageProject implements I_CmsVirtualProject {
    * @see org.opencms.ade.publish.I_CmsVirtualProject#getProjectBean(org.opencms.file.CmsObject,
    *     java.util.Map)
    */
-  public CmsProjectBean getProjectBean(CmsObject cms, Map<String, String> params) {
+  public CmsProjectBean getProjectBean(CmsObject cms, Map<String, @RUntainted String> params) {
 
-    String pageId = params.get(CmsPublishOptions.PARAM_CONTAINERPAGE);
-    String elementId = params.get(CmsPublishOptions.PARAM_CONTENT);
+    @RUntainted String pageId = params.get(CmsPublishOptions.PARAM_CONTAINERPAGE);
+    @RUntainted String elementId = params.get(CmsPublishOptions.PARAM_CONTENT);
     Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
     String title = Messages.get().getBundle(locale).key(Messages.GUI_CURRENTPAGE_PROJECT_0);
     CmsUUID structureIdForTitle;
@@ -91,7 +92,7 @@ public class CmsCurrentPageProject implements I_CmsVirtualProject {
           cms.readResource(structureIdForTitle, CmsResourceFilter.IGNORE_EXPIRATION);
       CmsProperty titleProp =
           cms.readPropertyObject(titleResource, CmsPropertyDefinition.PROPERTY_TITLE, true);
-      String rawName;
+      @RUntainted String rawName;
       if (titleProp.isNullProperty()) {
         rawName = cms.getSitePath(titleResource);
       } else {
@@ -124,7 +125,7 @@ public class CmsCurrentPageProject implements I_CmsVirtualProject {
 
         Map<String, String> params = options.getParameters();
 
-        String pageId = options.getParameters().get(CmsPublishOptions.PARAM_CONTAINERPAGE);
+        @RUntainted String pageId = options.getParameters().get(CmsPublishOptions.PARAM_CONTAINERPAGE);
         String detailId = options.getParameters().get(CmsPublishOptions.PARAM_DETAIL);
 
         Set<CmsResource> result = Sets.newHashSet();
@@ -201,7 +202,7 @@ public class CmsCurrentPageProject implements I_CmsVirtualProject {
           String collectorItemsStr =
               options.getParameters().get(CmsPublishOptions.PARAM_COLLECTOR_ITEMS);
           if (collectorItemsStr != null) {
-            for (String token : collectorItemsStr.split(",")) {
+            for (@RUntainted String token : collectorItemsStr.split(",")) {
               try {
                 if (CmsUUID.isValidUUID(token)) {
                   CmsResource collectorRes =
@@ -233,7 +234,7 @@ public class CmsCurrentPageProject implements I_CmsVirtualProject {
     String elementId = params.get(CmsPublishOptions.PARAM_CONTENT);
     String detailId = params.get(CmsPublishOptions.PARAM_DETAIL);
     Set<CmsResource> resources = new HashSet<CmsResource>();
-    for (String id : new String[] {containerpageId, elementId, detailId}) {
+    for (@RUntainted String id : new String[] {containerpageId, elementId, detailId}) {
       if (CmsUUID.isValidUUID(id)) {
         try {
           CmsResource resource = cms.readResource(new CmsUUID(id), CmsResourceFilter.ALL);

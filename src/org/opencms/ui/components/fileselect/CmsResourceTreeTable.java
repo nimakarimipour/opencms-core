@@ -61,6 +61,7 @@ import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.ui.util.I_CmsItemSorter;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Tree subclass used to display VFS resource trees.
@@ -106,11 +107,11 @@ public class CmsResourceTreeTable extends TreeTable {
             (Boolean) item1.getItemProperty(CmsResourceTableProperty.PROPERTY_IS_FOLDER).getValue();
         Boolean isFolder2 =
             (Boolean) item2.getItemProperty(CmsResourceTableProperty.PROPERTY_IS_FOLDER).getValue();
-        String name1 =
+        @RUntainted String name1 =
             (String)
                 (item1.getItemProperty(CmsResourceTableProperty.PROPERTY_RESOURCE_NAME).getValue());
         name1 = CmsFileUtil.removeTrailingSeparator(name1);
-        String name2 =
+        @RUntainted String name2 =
             (String)
                 (item2.getItemProperty(CmsResourceTableProperty.PROPERTY_RESOURCE_NAME).getValue());
         name2 = CmsFileUtil.removeTrailingSeparator(name2);
@@ -291,7 +292,7 @@ public class CmsResourceTreeTable extends TreeTable {
 
           private static final long serialVersionUID = 1L;
 
-          public void nodeExpand(ExpandEvent event) {
+          public void nodeExpand(@RUntainted ExpandEvent event) {
 
             getTreeContainer().readTreeLevel(m_cms, (CmsUUID) event.getItemId());
             getTreeContainer().updateSort();

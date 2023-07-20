@@ -28,6 +28,7 @@
 package org.opencms.db;
 
 import org.opencms.file.CmsRequestContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface defines a factory to create runtime info objects.

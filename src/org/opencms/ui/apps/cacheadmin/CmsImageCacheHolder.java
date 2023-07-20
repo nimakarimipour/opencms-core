@@ -44,6 +44,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for getting information about cached images.
@@ -90,14 +91,14 @@ public class CmsImageCacheHolder {
     m_filter =
         new FilenameFilter() {
 
-          public boolean accept(File dir, String name) {
+          public boolean accept(@RUntainted File dir, @RUntainted String name) {
 
             String spatt = search.replace("*", "");
             if (new File(dir, name).isDirectory()) {
               return true;
             }
 
-            String fullPath = dir.getAbsolutePath() + "/" + name;
+            @RUntainted String fullPath = dir.getAbsolutePath() + "/" + name;
 
             fullPath = fullPath.substring(CmsImageLoader.getImageRepositoryPath().length() - 1);
             return getVFSName(m_clonedCms, fullPath).contains(spatt);
@@ -172,7 +173,7 @@ public class CmsImageCacheHolder {
    * @param oName Name of cached image file
    * @return vfs resource name (root path)
    */
-  String getVFSName(CmsObject cms, String oName) {
+  @RUntainted String getVFSName(CmsObject cms, @RUntainted String oName) {
 
     oName = CmsStringUtil.substitute(oName, "\\", "/");
     if (!oName.startsWith("/")) {
@@ -183,7 +184,7 @@ public class CmsImageCacheHolder {
       return PATH_TO_VFS_NAME.get(oName);
     }
 
-    String imgName = oName;
+    @RUntainted String imgName = oName;
     CmsResource res = null;
     boolean found = false;
     while (!found) {
@@ -192,7 +193,7 @@ public class CmsImageCacheHolder {
       String ext = CmsFileUtil.getExtension(imgName);
       String nameWoExt = name.substring(0, name.length() - ext.length());
       int pos = nameWoExt.lastIndexOf("_");
-      String newName = path;
+      @RUntainted String newName = path;
       found = (pos < 0);
       if (!found) {
         newName += nameWoExt.substring(0, pos);
@@ -267,10 +268,10 @@ public class CmsImageCacheHolder {
    * @param cms CmsObject
    * @param f a File to be read out
    */
-  private void visitImage(CmsObject cms, File f) {
+  private void visitImage(CmsObject cms, @RUntainted File f) {
 
     f.length();
-    String oName = f.getAbsolutePath().substring(CmsImageLoader.getImageRepositoryPath().length());
+    @RUntainted String oName = f.getAbsolutePath().substring(CmsImageLoader.getImageRepositoryPath().length());
     oName = getVFSName(cms, oName);
 
     List files = (List) m_filePaths.get(oName);

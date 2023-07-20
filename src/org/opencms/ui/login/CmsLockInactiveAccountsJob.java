@@ -42,6 +42,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.scheduler.I_CmsScheduledJob;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Scheduled job for locking user accounts which have not been logged into for longer than the
@@ -57,7 +58,7 @@ public class CmsLockInactiveAccountsJob implements I_CmsScheduledJob {
   /**
    * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
    */
-  public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  public @RUntainted String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
     List<CmsUser> users = OpenCms.getOrgUnitManager().getUsersWithoutAdditionalInfo(cms, "", true);
     List<String> lockedUsers = new ArrayList<String>();

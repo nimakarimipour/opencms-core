@@ -36,6 +36,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Data structure for the collector, parsed from the collector parameters.
@@ -176,7 +177,7 @@ public class CmsCollectorData {
    *
    * @return the file name
    */
-  public String getFileName() {
+  public @RUntainted String getFileName() {
 
     return m_fileName;
   }

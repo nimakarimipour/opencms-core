@@ -52,6 +52,7 @@ import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.ui.components.editablegroup.CmsEditableGroup;
 import org.opencms.ui.components.fileselect.CmsResourceSelectDialog.Options;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract file select field. Used by {@link
@@ -95,7 +96,7 @@ public abstract class A_CmsFileSelectField<T> extends CustomField<T>
   protected boolean m_diableSiteSwitch;
 
   /** The default path to be opened in file select dialog if no path was entered before. */
-  private String m_defaultPath = "";
+  private @RUntainted String m_defaultPath = "";
 
   /** Require the resource to be a folder? */
   private boolean m_requireFolder;
@@ -194,7 +195,7 @@ public abstract class A_CmsFileSelectField<T> extends CustomField<T>
    *
    * @param path to be opened
    */
-  public void setDefaultPath(String path) {
+  public void setDefaultPath(@RUntainted String path) {
 
     m_defaultPath = path;
     if (!m_defaultPath.endsWith("/")) {
@@ -333,7 +334,7 @@ public abstract class A_CmsFileSelectField<T> extends CustomField<T>
       }
       fileSelect.showSitemapView(m_startWithSitemapView);
 
-      T value = getValue();
+      @RUntainted T value = getValue();
       if (value instanceof CmsResource) {
         fileSelect.showStartResource((CmsResource) value);
       } else if (value instanceof String) {

@@ -36,6 +36,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 import org.opencms.i18n.CmsLocaleManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utilities to get and set formated dates in OpenCms.
@@ -50,7 +51,7 @@ public final class CmsDateUtil {
   protected static final TimeZone GMT_TIMEZONE = TimeZone.getTimeZone("GMT");
 
   /** The default format to use when formatting http headers. */
-  protected static final DateFormat HEADER_DEFAULT =
+  protected static final @RUntainted DateFormat HEADER_DEFAULT =
       new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US);
 
   /** The default format to use when formatting old cookies. */
@@ -108,7 +109,7 @@ public final class CmsDateUtil {
    * @param locale the locale to use
    * @return the formatted date
    */
-  public static String getDateTime(Date date, int format, Locale locale) {
+  public static @RUntainted String getDateTime(Date date, int format, Locale locale) {
 
     DateFormat df = DateFormat.getDateInstance(format, locale);
     DateFormat tf = DateFormat.getTimeInstance(format, locale);
@@ -128,7 +129,7 @@ public final class CmsDateUtil {
    * @param time the time value to format as date
    * @return the formatted date
    */
-  public static String getDateTimeShort(long time) {
+  public static @RUntainted String getDateTimeShort(long time) {
 
     return getDateTime(new Date(time), DateFormat.SHORT, CmsLocaleManager.getDefaultLocale());
   }
@@ -141,7 +142,7 @@ public final class CmsDateUtil {
    * @param dateLastModified the date to compute the passed days from
    * @return the number of days passed since a specific date
    */
-  public static int getDaysPassedSince(Date dateLastModified) {
+  public static @RUntainted int getDaysPassedSince(Date dateLastModified) {
 
     GregorianCalendar now = new GregorianCalendar();
     GregorianCalendar lastModified = (GregorianCalendar) now.clone();
@@ -159,7 +160,7 @@ public final class CmsDateUtil {
    * @param time the time value to format as date
    * @return the formatted date
    */
-  public static synchronized String getHeaderDate(long time) {
+  public static synchronized @RUntainted String getHeaderDate(@RUntainted long time) {
 
     if (HEADER_DEFAULT.getTimeZone() != GMT_TIMEZONE) {
       // ensure GMT is used as time zone for the header generation

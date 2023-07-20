@@ -64,6 +64,7 @@ import org.opencms.json.JSONObject;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides String utility functions.
@@ -115,7 +116,7 @@ public final class CmsStringUtil {
   public static final String MACRO_OPENCMS_CONTEXT = "${OpenCmsContext}";
 
   /** Pattern to determine a locale for suffixes like '_de' or '_en_US'. */
-  public static final Pattern PATTERN_LOCALE_SUFFIX =
+  public static final @RUntainted Pattern PATTERN_LOCALE_SUFFIX =
       Pattern.compile("(.*)_([a-z]{2}(?:_[A-Z]{2})?)(?:\\.[^\\.]*)?$");
 
   /** Pattern to determine the document number for suffixes like '_0001'. */
@@ -173,10 +174,10 @@ public final class CmsStringUtil {
   private static final Log LOG = CmsLog.getLog(CmsStringUtil.class);
 
   /** OpenCms context replace String, static for performance reasons. */
-  private static String m_contextReplace;
+  private static @RUntainted String m_contextReplace;
 
   /** OpenCms context search String, static for performance reasons. */
-  private static String m_contextSearch;
+  private static @RUntainted String m_contextSearch;
 
   /** Minute constant. */
   private static final long MINUTES = 1000 * 60;
@@ -296,12 +297,12 @@ public final class CmsStringUtil {
    *     bundle)
    */
   public static void checkName(
-      String name, String constraints, String key, I_CmsMessageBundle bundle)
+      @RUntainted String name, @RUntainted String constraints, String key, I_CmsMessageBundle bundle)
       throws CmsIllegalArgumentException {
 
     int l = name.length();
     for (int i = 0; i < l; i++) {
-      char c = name.charAt(i);
+      @RUntainted char c = name.charAt(i);
       if (((c < 'a') || (c > 'z'))
           && ((c < '0') || (c > '9'))
           && ((c < 'A') || (c > 'Z'))
@@ -323,7 +324,7 @@ public final class CmsStringUtil {
    * @param separator the item separator
    * @return the string representation for the given collection
    */
-  public static String collectionAsString(Collection<?> collection, String separator) {
+  public static @RUntainted String collectionAsString(Collection<?> collection, String separator) {
 
     StringBuffer string = new StringBuffer(128);
     Iterator<?> it = collection.iterator();
@@ -404,7 +405,7 @@ public final class CmsStringUtil {
    * @param source the String to escape
    * @return the escaped String
    */
-  public static String escapeHtml(String source) {
+  public static @RUntainted String escapeHtml(@RUntainted String source) {
 
     if (source == null) {
       return null;
@@ -429,7 +430,7 @@ public final class CmsStringUtil {
    * @param source the String to escape
    * @return the escaped String
    */
-  public static String escapeJavaScript(String source) {
+  public static @RUntainted String escapeJavaScript(@RUntainted String source) {
 
     source = CmsStringUtil.substitute(source, "\\", "\\\\");
     source = CmsStringUtil.substitute(source, "\"", "\\\"");
@@ -456,12 +457,12 @@ public final class CmsStringUtil {
    * @param source the string to escape
    * @return the escaped string
    */
-  public static String escapePattern(String source) {
+  public static @RUntainted String escapePattern(@RUntainted String source) {
 
     if (source == null) {
       return null;
     }
-    StringBuffer result = new StringBuffer(source.length() * 2);
+    @RUntainted StringBuffer result = new StringBuffer(source.length() * 2);
     for (int i = 0; i < source.length(); ++i) {
       char ch = source.charAt(i);
       switch (ch) {
@@ -704,7 +705,7 @@ public final class CmsStringUtil {
    * @param runtime the time to format
    * @return the formatted runtime
    */
-  public static String formatRuntime(long runtime) {
+  public static @RUntainted String formatRuntime(long runtime) {
 
     long seconds = (runtime / SECONDS) % 60;
     long minutes = (runtime / MINUTES) % 60;
@@ -752,7 +753,7 @@ public final class CmsStringUtil {
    * @param key a key to be included in the debug output in case of parse errors
    * @return the int value for the given parameter value String
    */
-  public static Color getColorValue(String value, Color defaultValue, String key) {
+  public static Color getColorValue(@RUntainted String value, Color defaultValue, @RUntainted String key) {
 
     Color result;
     try {
@@ -813,7 +814,7 @@ public final class CmsStringUtil {
    *
    * @return the Ethernet-Address
    */
-  public static String getEthernetAddress() {
+  public static @RUntainted String getEthernetAddress() {
 
     try {
       InetAddress ip = InetAddress.getLocalHost();
@@ -846,9 +847,9 @@ public final class CmsStringUtil {
    * @param key a key to be included in the debug output in case of parse errors
    * @return the int value for the given parameter value String
    */
-  public static int getIntValue(String value, int defaultValue, String key) {
+  public static @RUntainted int getIntValue(@RUntainted String value, @RUntainted int defaultValue, @RUntainted String key) {
 
-    int result;
+    @RUntainted int result;
     try {
       result = Integer.valueOf(value).intValue();
     } catch (Exception e) {
@@ -872,7 +873,7 @@ public final class CmsStringUtil {
    * @param key a key to be included in the debug output in case of parse errors
    * @return the closest int value for the given parameter value String
    */
-  public static int getIntValueRounded(String value, int defaultValue, String key) {
+  public static int getIntValueRounded(@RUntainted String value, int defaultValue, @RUntainted String key) {
 
     int result;
     try {
@@ -904,7 +905,7 @@ public final class CmsStringUtil {
    * @return the locale, or <code>null</code>
    * @see #getLocaleSuffixForName(String)
    */
-  public static Locale getLocaleForName(String name) {
+  public static Locale getLocaleForName(@RUntainted String name) {
 
     String suffix = getLocaleSuffixForName(CmsResource.getName(name));
     if (suffix != null) {
@@ -972,9 +973,9 @@ public final class CmsStringUtil {
    * @param name the resource name to get the locale suffix for
    * @return the locale suffix if found, <code>null</code> otherwise
    */
-  public static String getLocaleSuffixForName(String name) {
+  public static @RUntainted String getLocaleSuffixForName(@RUntainted String name) {
 
-    Matcher matcher = PATTERN_LOCALE_SUFFIX.matcher(name);
+    @RUntainted Matcher matcher = PATTERN_LOCALE_SUFFIX.matcher(name);
     if (matcher.find()) {
       return matcher.group(2);
     }
@@ -993,7 +994,7 @@ public final class CmsStringUtil {
    * @param key a key to be included in the debug output in case of parse errors
    * @return the long value for the given parameter value String
    */
-  public static long getLongValue(String value, long defaultValue, String key) {
+  public static long getLongValue(@RUntainted String value, long defaultValue, @RUntainted String key) {
 
     long result;
     try {
@@ -1268,9 +1269,9 @@ public final class CmsStringUtil {
    * @param paths the array of paths
    * @return the joined path
    */
-  public static String joinPaths(String... paths) {
+  public static @RUntainted String joinPaths(String... paths) {
 
-    StringBuffer result = new StringBuffer(paths.length * 32);
+    @RUntainted StringBuffer result = new StringBuffer(paths.length * 32);
     boolean noSlash = true;
     for (int i = 0; i < paths.length; i++) {
       for (int j = 0; j < paths[i].length(); j++) {
@@ -1374,7 +1375,7 @@ public final class CmsStringUtil {
   public static String mapAsJson(Map<String, String> map) {
 
     JSONObject obj = new JSONObject();
-    for (Map.Entry<String, String> entry : map.entrySet()) {
+    for (Map.Entry<String, @RUntainted String> entry : map.entrySet()) {
       try {
         obj.put(entry.getKey(), entry.getValue());
       } catch (JSONException e) {
@@ -1517,12 +1518,12 @@ public final class CmsStringUtil {
     }
   }
 
-  public static java.util.Optional<String> removePrefixPath(String prefix, String path) {
+  public static java.util.Optional<@RUntainted String> removePrefixPath(@RUntainted String prefix, @RUntainted String path) {
 
     prefix = CmsFileUtil.addTrailingSeparator(prefix);
     path = CmsFileUtil.addTrailingSeparator(path);
     if (path.startsWith(prefix)) {
-      String result = path.substring(prefix.length() - 1);
+      @RUntainted String result = path.substring(prefix.length() - 1);
       if (result.length() > 1) {
         result = CmsFileUtil.removeTrailingSeparator(result);
       }
@@ -1546,8 +1547,8 @@ public final class CmsStringUtil {
    * @return an Optional containing either the string with the replaced prefix, or an absent value
    *     if the prefix could not be replaced
    */
-  public static Optional<String> replacePrefix(
-      String text, String origPrefix, String newPrefix, boolean ignoreCase) {
+  public static Optional<@RUntainted String> replacePrefix(
+      @RUntainted String text, @RUntainted String origPrefix, @RUntainted String newPrefix, boolean ignoreCase) {
 
     String prefixTestString = ignoreCase ? text.toLowerCase() : text;
     origPrefix = ignoreCase ? origPrefix.toLowerCase() : origPrefix;
@@ -1568,7 +1569,7 @@ public final class CmsStringUtil {
    * @param delimiter the delimiter to split at
    * @return the Array of splitted Substrings
    */
-  public static String[] splitAsArray(String source, char delimiter) {
+  public static @RUntainted String[] splitAsArray(String source, char delimiter) {
 
     List<String> result = splitAsList(source, delimiter);
     return result.toArray(new String[result.size()]);
@@ -1600,7 +1601,7 @@ public final class CmsStringUtil {
    * @param delimiter the delimiter to split at
    * @return the List of splitted Substrings
    */
-  public static List<String> splitAsList(String source, char delimiter) {
+  public static @RUntainted List<@RUntainted String> splitAsList(String source, char delimiter) {
 
     return splitAsList(source, delimiter, false);
   }
@@ -1616,12 +1617,12 @@ public final class CmsStringUtil {
    * @param trim flag to indicate if leading and trailing white spaces should be omitted
    * @return the List of splitted Substrings
    */
-  public static List<String> splitAsList(String source, char delimiter, boolean trim) {
+  public static @RUntainted List<@RUntainted String> splitAsList(@RUntainted String source, char delimiter, boolean trim) {
 
-    List<String> result = new ArrayList<String>();
-    int i = 0;
+    List<@RUntainted String> result = new ArrayList<@RUntainted String>();
+    @RUntainted int i = 0;
     int l = source.length();
-    int n = source.indexOf(delimiter);
+    @RUntainted int n = source.indexOf(delimiter);
     while (n != -1) {
       // zero - length items are not seen as tokens at start or end
       if ((i < n) || ((i > 0) && (i < l))) {
@@ -1650,7 +1651,7 @@ public final class CmsStringUtil {
    * @param delimiter the delimiter to split at
    * @return the Array of splitted Substrings
    */
-  public static List<String> splitAsList(String source, String delimiter) {
+  public static @RUntainted List<@RUntainted String> splitAsList(String source, String delimiter) {
 
     return splitAsList(source, delimiter, false);
   }
@@ -1666,7 +1667,7 @@ public final class CmsStringUtil {
    * @param trim flag to indicate if leading and trailing white spaces should be omitted
    * @return the Array of splitted Substrings
    */
-  public static List<String> splitAsList(String source, String delimiter, boolean trim) {
+  public static @RUntainted List<@RUntainted String> splitAsList(String source, String delimiter, boolean trim) {
 
     int dl = delimiter.length();
     if (dl == 1) {
@@ -1674,7 +1675,7 @@ public final class CmsStringUtil {
       return splitAsList(source, delimiter.charAt(0), trim);
     }
 
-    List<String> result = new ArrayList<String>();
+    List<@RUntainted String> result = new ArrayList<@RUntainted String>();
     int i = 0;
     int l = source.length();
     int n = source.indexOf(delimiter);
@@ -1708,18 +1709,18 @@ public final class CmsStringUtil {
    * @param keyValDelim the string to delimit key and value
    * @return a map of splitted key-value pairs
    */
-  public static Map<String, String> splitAsMap(
+  public static @RUntainted Map<String, @RUntainted String> splitAsMap(
       String source, String paramDelim, String keyValDelim) {
 
-    int keyValLen = keyValDelim.length();
+    @RUntainted int keyValLen = keyValDelim.length();
     // use LinkedHashMap to preserve the order of items
-    Map<String, String> params = new LinkedHashMap<String, String>();
+    Map<String, @RUntainted String> params = new LinkedHashMap<String, @RUntainted String>();
     Iterator<String> itParams = CmsStringUtil.splitAsList(source, paramDelim, true).iterator();
     while (itParams.hasNext()) {
-      String param = itParams.next();
-      int pos = param.indexOf(keyValDelim);
+      @RUntainted String param = itParams.next();
+      @RUntainted int pos = param.indexOf(keyValDelim);
       String key = param;
-      String value = "";
+      @RUntainted String value = "";
       if (pos > 0) {
         key = param.substring(0, pos);
         if ((pos + keyValLen) < param.length()) {
@@ -1741,13 +1742,13 @@ public final class CmsStringUtil {
    * @param sub the substitution handler
    * @return the transformed string
    */
-  public static String substitute(Pattern pattern, String text, I_CmsRegexSubstitution sub) {
+  public static @RUntainted String substitute(@RUntainted Pattern pattern, @RUntainted String text, I_CmsRegexSubstitution sub) {
 
     if (text == null) {
       return null;
     }
     StringBuffer buffer = new StringBuffer();
-    Matcher matcher = pattern.matcher(text);
+    @RUntainted Matcher matcher = pattern.matcher(text);
     while (matcher.find()) {
       matcher.appendReplacement(buffer, sub.substituteMatch(text, matcher));
     }
@@ -1766,9 +1767,9 @@ public final class CmsStringUtil {
    * @return the substituted String
    * @see #substitute(String, String, String)
    */
-  public static String substitute(String source, Map<String, String> substitions) {
+  public static String substitute(@RUntainted String source, Map<String, String> substitions) {
 
-    String result = source;
+    @RUntainted String result = source;
     Iterator<Map.Entry<String, String>> it = substitions.entrySet().iterator();
     while (it.hasNext()) {
       Map.Entry<String, String> entry = it.next();
@@ -1792,7 +1793,7 @@ public final class CmsStringUtil {
    * @param replaceString the String which replaces <code>searchString</code>
    * @return the substituted String
    */
-  public static String substitute(String source, String searchString, String replaceString) {
+  public static @RUntainted String substitute(@RUntainted String source, @RUntainted String searchString, @RUntainted String replaceString) {
 
     if (source == null) {
       return null;
@@ -1806,9 +1807,9 @@ public final class CmsStringUtil {
       replaceString = "";
     }
     int len = source.length();
-    int sl = searchString.length();
-    int rl = replaceString.length();
-    int length;
+    @RUntainted int sl = searchString.length();
+    @RUntainted int rl = replaceString.length();
+    @RUntainted int length;
     if (sl == rl) {
       length = len;
     } else {
@@ -1830,7 +1831,7 @@ public final class CmsStringUtil {
     if (e == -1) {
       return source;
     }
-    StringBuffer sb = new StringBuffer(length);
+    @RUntainted StringBuffer sb = new StringBuffer(length);
     while (e != -1) {
       sb.append(source.substring(s, e));
       sb.append(replaceString);
@@ -1852,7 +1853,7 @@ public final class CmsStringUtil {
    * @param context the context path of the server
    * @return the HTML with the replaced context path
    */
-  public static String substituteContextPath(String htmlContent, String context) {
+  public static String substituteContextPath(String htmlContent, @RUntainted String context) {
 
     if (m_contextSearch == null) {
       m_contextSearch = "([^\\w/])" + context;
@@ -1874,9 +1875,9 @@ public final class CmsStringUtil {
    * @return String the substituted String
    */
   public static String substitutePerl(
-      String content, String searchString, String replaceItem, String occurences) {
+      String content, @RUntainted String searchString, @RUntainted String replaceItem, @RUntainted String occurences) {
 
-    String translationRule = "s#" + searchString + "#" + replaceItem + "#" + occurences;
+    @RUntainted String translationRule = "s#" + searchString + "#" + replaceItem + "#" + occurences;
     Perl5Util perlUtil = new Perl5Util();
     try {
       return perlUtil.substitute(translationRule, content);
@@ -1937,7 +1938,7 @@ public final class CmsStringUtil {
    *     the new format
    * @return the new value with the filled place holder with the information in the parameter value
    */
-  public static String transformValues(String oldFormat, String newFormat, String value) {
+  public static @RUntainted String transformValues(String oldFormat, String newFormat, String value) {
 
     if (!oldFormat.contains(CmsStringUtil.PLACEHOLDER_START)
         || !oldFormat.contains(CmsStringUtil.PLACEHOLDER_END)
@@ -2213,7 +2214,7 @@ public final class CmsStringUtil {
    * @param path the path to translate
    * @return the translated path
    */
-  public static String translatePathComponents(CmsResourceTranslator translator, String path) {
+  public static @RUntainted String translatePathComponents(CmsResourceTranslator translator, @RUntainted String path) {
 
     String result =
         substitute(
@@ -2237,7 +2238,7 @@ public final class CmsStringUtil {
    * @param length the maximum length of the string to be returned
    * @return a substring of the source, which is at most length characters long
    */
-  public static String trimToSize(String source, int length) {
+  public static @RUntainted String trimToSize(String source, int length) {
 
     return trimToSize(source, length, length, " ...");
   }
@@ -2256,7 +2257,7 @@ public final class CmsStringUtil {
    * @param suffix the suffix to append in case the String was trimmed
    * @return a substring of the source, which is at most length characters long
    */
-  public static String trimToSize(String source, int length, int area, String suffix) {
+  public static @RUntainted String trimToSize(@RUntainted String source, @RUntainted int length, int area, @RUntainted String suffix) {
 
     if ((source == null) || (source.length() <= length)) {
       // no operation is required
@@ -2281,7 +2282,7 @@ public final class CmsStringUtil {
     // first reduce the String to the maximum allowed length
     String findPointSource = source.substring(modLength - modArea, modLength);
 
-    String result;
+    @RUntainted String result;
     // try to find an "sentence ending" char in the text
     int pos = lastIndexOf(findPointSource, SENTENCE_ENDING_CHARS);
     if (pos >= 0) {

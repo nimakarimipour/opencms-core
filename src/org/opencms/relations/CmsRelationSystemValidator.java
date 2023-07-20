@@ -50,6 +50,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.threads.A_CmsProgressThread;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validates relations of resources in the OpenCms VFS.
@@ -118,7 +119,7 @@ public class CmsRelationSystemValidator {
           Messages.get().container(Messages.RPT_HTMLLINK_VALIDATOR_BEGIN_0),
           I_CmsReport.FORMAT_HEADLINE);
     }
-    List<CmsResource> resources = new ArrayList<CmsResource>();
+    List<@RUntainted CmsResource> resources = new ArrayList<@RUntainted CmsResource>();
     if (publishList == null) {
       CmsResourceFilter filter = CmsResourceFilter.IGNORE_EXPIRATION;
       List<I_CmsResourceType> resTypes = OpenCms.getResourceManager().getResourceTypes();
@@ -205,7 +206,7 @@ public class CmsRelationSystemValidator {
         thread.setProgress(((index * 20) / resources.size()) + 20);
       }
 
-      CmsResource resource = resources.get(index);
+      @RUntainted CmsResource resource = resources.get(index);
       String resourceName = resource.getRootPath();
 
       if (report != null) {
@@ -306,7 +307,7 @@ public class CmsRelationSystemValidator {
       CmsDbContext dbc,
       CmsResource resource,
       CmsRelation relation,
-      String link,
+      @RUntainted String link,
       CmsProject project,
       Map<String, CmsResource> fileLookup) {
 
@@ -386,7 +387,7 @@ public class CmsRelationSystemValidator {
    */
   protected List<CmsRelation> validateLinks(
       CmsDbContext dbc,
-      CmsResource resource,
+      @RUntainted CmsResource resource,
       Map<String, CmsResource> fileLookup,
       CmsProject project,
       I_CmsReport report) {
@@ -440,7 +441,7 @@ public class CmsRelationSystemValidator {
     Iterator<CmsRelation> itRelations = relations.iterator();
     while (itRelations.hasNext()) {
       CmsRelation relation = itRelations.next();
-      String link;
+      @RUntainted String link;
       if (!resource.getState().isDeleted()) {
         link = relation.getTargetPath();
       } else {

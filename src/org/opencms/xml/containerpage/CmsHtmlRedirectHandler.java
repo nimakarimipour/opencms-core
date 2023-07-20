@@ -43,6 +43,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsDefaultXmlContentHandler;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Content handler for HTML redirects.
@@ -65,11 +66,11 @@ public class CmsHtmlRedirectHandler extends CmsDefaultXmlContentHandler {
 
     CmsFile result = super.prepareForWrite(cms, content, file);
     try {
-      String linkStr = getStringValue(cms, content, "Link");
+      @RUntainted String linkStr = getStringValue(cms, content, "Link");
       String typeStr = getStringValue(cms, content, "Type");
 
       if ("sublevel".equals(typeStr)) {
-        Locale locale = OpenCms.getLocaleManager().getDefaultLocale(cms, file);
+        @RUntainted Locale locale = OpenCms.getLocaleManager().getDefaultLocale(cms, file);
         String title =
             org.opencms.xml.containerpage.Messages.get()
                 .getBundle(locale)
@@ -101,7 +102,7 @@ public class CmsHtmlRedirectHandler extends CmsDefaultXmlContentHandler {
     return result;
   }
 
-  private String getStringValue(CmsObject cms, CmsXmlContent content, String node) {
+  private @RUntainted String getStringValue(CmsObject cms, CmsXmlContent content, String node) {
 
     I_CmsXmlContentValue val = content.getValue(node, Locale.ENGLISH);
     if (val == null) {

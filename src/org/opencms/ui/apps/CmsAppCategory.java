@@ -30,6 +30,7 @@ package org.opencms.ui.apps;
 import java.util.Locale;
 import org.opencms.main.OpenCms;
 import org.opencms.workplace.CmsWorkplaceMessages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean representing a category for workplace apps.
@@ -48,7 +49,7 @@ public class CmsAppCategory implements I_CmsAppCategory {
   private int m_order;
 
   /** Category id. */
-  private String m_id;
+  private @RUntainted String m_id;
 
   /** Parent category id. */
   private String m_parentId;
@@ -68,7 +69,7 @@ public class CmsAppCategory implements I_CmsAppCategory {
    * @param order the order
    * @param priority the priority
    */
-  public CmsAppCategory(String id, String parentId, int order, int priority) {
+  public CmsAppCategory(@RUntainted String id, String parentId, int order, int priority) {
 
     super();
     m_id = id;
@@ -84,7 +85,7 @@ public class CmsAppCategory implements I_CmsAppCategory {
   }
 
   /** @see org.opencms.ui.apps.I_CmsAppCategory#getName(java.util.Locale) */
-  public String getName(Locale locale) {
+  public String getName(@RUntainted Locale locale) {
 
     CmsWorkplaceMessages messages = OpenCms.getWorkplaceManager().getMessages(locale);
     String niceName = messages.keyDefault(MESSAGE_PREFIX + m_id, m_id);

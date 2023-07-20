@@ -35,6 +35,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.file.CmsUser;
 import org.opencms.security.I_CmsAuthorizationHandler;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class to grant the needed access to the session manager.
@@ -49,10 +50,10 @@ public abstract class A_CmsAuthorizationHandler implements I_CmsAuthorizationHan
   protected static final Log LOG = CmsLog.getLog(A_CmsAuthorizationHandler.class);
 
   /** Additional parameters. */
-  protected Map<String, String> m_parameters;
+  protected Map<String, @RUntainted String> m_parameters;
 
   /** @see org.opencms.security.I_CmsAuthorizationHandler#setParameters(java.util.Map) */
-  public void setParameters(Map<String, String> parameters) {
+  public void setParameters(Map<String, @RUntainted String> parameters) {
 
     m_parameters = parameters;
   }
@@ -68,7 +69,7 @@ public abstract class A_CmsAuthorizationHandler implements I_CmsAuthorizationHan
    * @return the new initialized cms object
    * @throws CmsException if something goes wrong
    */
-  protected CmsObject initCmsObjectFromSession(HttpServletRequest request) throws CmsException {
+  protected CmsObject initCmsObjectFromSession(@RUntainted HttpServletRequest request) throws CmsException {
 
     // try to get an OpenCms user session info object for this request
     return OpenCmsCore.getInstance().initCmsObjectFromSession(request);
@@ -84,7 +85,7 @@ public abstract class A_CmsAuthorizationHandler implements I_CmsAuthorizationHan
    * @return the updated cms context
    * @throws CmsException if something goes wrong
    */
-  protected CmsObject registerSession(HttpServletRequest request, CmsObject cms)
+  protected CmsObject registerSession(@RUntainted HttpServletRequest request, CmsObject cms)
       throws CmsException {
 
     if (!cms.getRequestContext().getCurrentUser().isGuestUser()) {

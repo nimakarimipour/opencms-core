@@ -84,6 +84,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsTreeNode;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The workplace toolbar.
@@ -538,7 +539,7 @@ public class CmsToolBar extends CssLayout implements BrowserWindowResizeListener
     CmsObject cms = A_CmsUI.getCmsObject();
     String siteRoot = cms.getRequestContext().getSiteRoot();
     CmsSite site = OpenCms.getSiteManager().getSiteForSiteRoot(siteRoot);
-    String siteName = null;
+    @RUntainted String siteName = null;
     if (site != null) {
       siteName = site.getTitle();
     } else {

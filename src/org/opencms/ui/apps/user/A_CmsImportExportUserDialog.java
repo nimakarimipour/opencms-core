@@ -51,6 +51,7 @@ import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to export user.

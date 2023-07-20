@@ -42,6 +42,7 @@ import org.opencms.lock.CmsLockActionRecord.LockChange;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsFileUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Locking utility class.
@@ -104,7 +105,7 @@ public final class CmsLockUtil {
      * @see CmsFileUtil#getEncoding(CmsObject, CmsResource)
      * @return the encoding used for the file.
      */
-    public String getEncoding() {
+    public @RUntainted String getEncoding() {
 
       return CmsFileUtil.getEncoding(m_cms, m_res);
     }

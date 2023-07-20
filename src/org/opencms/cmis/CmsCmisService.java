@@ -56,6 +56,7 @@ import org.apache.chemistry.opencmis.commons.server.CallContext;
 import org.apache.chemistry.opencmis.commons.server.ObjectInfo;
 import org.apache.chemistry.opencmis.commons.spi.Holder;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CMIS service class for OpenCms repositories.
@@ -132,7 +133,7 @@ public class CmsCmisService extends AbstractCmisService {
   public String createDocument(
       String repositoryId,
       Properties properties,
-      String folderId,
+      @RUntainted String folderId,
       ContentStream contentStream,
       VersioningState versioningState,
       List<String> policies,
@@ -164,9 +165,9 @@ public class CmsCmisService extends AbstractCmisService {
   @Override
   public String createDocumentFromSource(
       String repositoryId,
-      String sourceId,
+      @RUntainted String sourceId,
       Properties properties,
-      String folderId,
+      @RUntainted String folderId,
       VersioningState versioningState,
       List<String> policies,
       Acl addAces,
@@ -196,7 +197,7 @@ public class CmsCmisService extends AbstractCmisService {
   public String createFolder(
       String repositoryId,
       Properties properties,
-      String folderId,
+      @RUntainted String folderId,
       List<String> policies,
       Acl addAces,
       Acl removeAces,
@@ -302,7 +303,7 @@ public class CmsCmisService extends AbstractCmisService {
   @Override
   public FailedToDeleteData deleteTree(
       String repositoryId,
-      String folderId,
+      @RUntainted String folderId,
       Boolean allVersions,
       UnfileObject unfileObjects,
       Boolean continueOnFailure,
@@ -404,7 +405,7 @@ public class CmsCmisService extends AbstractCmisService {
   @Override
   public ObjectInFolderList getChildren(
       String repositoryId,
-      String folderId,
+      @RUntainted String folderId,
       String filter,
       String orderBy,
       Boolean includeAllowableActions,
@@ -467,7 +468,7 @@ public class CmsCmisService extends AbstractCmisService {
   @Override
   public ContentStream getContentStream(
       String repositoryId,
-      String objectId,
+      @RUntainted String objectId,
       String streamId,
       BigInteger offset,
       BigInteger length,
@@ -487,7 +488,7 @@ public class CmsCmisService extends AbstractCmisService {
   @Override
   public List<ObjectInFolderContainer> getDescendants(
       String repositoryId,
-      String folderId,
+      @RUntainted String folderId,
       BigInteger depth,
       String filter,
       Boolean includeAllowableActions,
@@ -530,7 +531,7 @@ public class CmsCmisService extends AbstractCmisService {
   @Override
   public List<ObjectInFolderContainer> getFolderTree(
       String repositoryId,
-      String folderId,
+      @RUntainted String folderId,
       BigInteger depth,
       String filter,
       Boolean includeAllowableActions,
@@ -636,7 +637,7 @@ public class CmsCmisService extends AbstractCmisService {
   @Override
   public List<ObjectParentData> getObjectParents(
       String repositoryId,
-      String objectId,
+      @RUntainted String objectId,
       String filter,
       Boolean includeAllowableActions,
       IncludeRelationships includeRelationships,
@@ -657,7 +658,7 @@ public class CmsCmisService extends AbstractCmisService {
   @Override
   public ObjectList getObjectRelationships(
       String repositoryId,
-      String objectId,
+      @RUntainted String objectId,
       Boolean includeSubRelationshipTypes,
       RelationshipDirection relationshipDirection,
       String typeId,
@@ -702,7 +703,7 @@ public class CmsCmisService extends AbstractCmisService {
   @Override
   public List<RenditionData> getRenditions(
       String repositoryId,
-      String objectId,
+      @RUntainted String objectId,
       String renditionFilter,
       BigInteger maxItems,
       BigInteger skipCount,
@@ -798,8 +799,8 @@ public class CmsCmisService extends AbstractCmisService {
   @Override
   public void moveObject(
       String repositoryId,
-      Holder<String> objectId,
-      String targetFolderId,
+      Holder<@RUntainted String> objectId,
+      @RUntainted String targetFolderId,
       String sourceFolderId,
       ExtensionsData extension) {
 
@@ -875,7 +876,7 @@ public class CmsCmisService extends AbstractCmisService {
   @Override
   public void setContentStream(
       String repositoryId,
-      Holder<String> objectId,
+      Holder<@RUntainted String> objectId,
       Boolean overwriteFlag,
       Holder<String> changeToken,
       ContentStream contentStream,
@@ -897,7 +898,7 @@ public class CmsCmisService extends AbstractCmisService {
   @Override
   public void updateProperties(
       String repositoryId,
-      Holder<String> objectId,
+      Holder<@RUntainted String> objectId,
       Holder<String> changeToken,
       Properties properties,
       ExtensionsData extension) {

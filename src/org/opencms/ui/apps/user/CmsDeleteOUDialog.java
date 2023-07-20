@@ -50,6 +50,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.FontOpenCms;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.CmsBasicDialog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for delete of principals and ous.
@@ -98,7 +99,7 @@ public class CmsDeleteOUDialog extends CmsBasicDialog {
    * @param window window showing dialog
    * @param app
    */
-  public CmsDeleteOUDialog(CmsObject cms, String ouName, Window window, CmsAccountsApp app) {
+  public CmsDeleteOUDialog(CmsObject cms, @RUntainted String ouName, Window window, CmsAccountsApp app) {
 
     m_ouName = ouName;
     init(cms, window, app);

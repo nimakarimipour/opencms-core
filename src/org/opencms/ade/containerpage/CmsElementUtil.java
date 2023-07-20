@@ -122,6 +122,7 @@ import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.content.CmsXmlContentProperty;
 import org.opencms.xml.content.CmsXmlContentPropertyHelper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility class to generate the element data objects used within the container-page editor.
@@ -145,10 +146,10 @@ public class CmsElementUtil {
   private CmsObject m_cms;
 
   /** The current page uri. */
-  private String m_currentPageUri;
+  private @RUntainted String m_currentPageUri;
 
   /** The content locale. */
-  private Locale m_locale;
+  private @RUntainted Locale m_locale;
 
   /** The current container page. */
   private CmsResource m_page;
@@ -185,7 +186,7 @@ public class CmsElementUtil {
    */
   public CmsElementUtil(
       CmsObject cms,
-      String currentPageUri,
+      @RUntainted String currentPageUri,
       CmsContainerPageBean containerPage,
       CmsUUID detailContentId,
       HttpServletRequest req,
@@ -234,7 +235,7 @@ public class CmsElementUtil {
    */
   public CmsElementUtil(
       CmsObject cms,
-      String currentPageUri,
+      @RUntainted String currentPageUri,
       CmsUUID detailContentId,
       HttpServletRequest req,
       HttpServletResponse res,
@@ -384,7 +385,7 @@ public class CmsElementUtil {
     }
     if (formatter == null) {
       // check for formatter config id stored for other containers matching the current container
-      for (Entry<String, String> settingsEntry : element.getIndividualSettings().entrySet()) {
+      for (Entry<String, @RUntainted String> settingsEntry : element.getIndividualSettings().entrySet()) {
         if (settingsEntry.getKey().startsWith(CmsFormatterConfig.FORMATTER_SETTINGS_KEY)) {
           formatter = lookupFormatter(config, settingsEntry.getValue(), formatters);
           if (formatter != null) {
@@ -466,7 +467,7 @@ public class CmsElementUtil {
    * @return the formatter with the given key or id
    */
   private static I_CmsFormatterBean lookupFormatter(
-      CmsADEConfigData config, String keyOrId, Map<String, I_CmsFormatterBean> active) {
+      CmsADEConfigData config, @RUntainted String keyOrId, Map<String, I_CmsFormatterBean> active) {
 
     I_CmsFormatterBean dynamicFmt = config.findFormatter(keyOrId);
     if (dynamicFmt != null) {
@@ -709,11 +710,11 @@ public class CmsElementUtil {
     }
     CmsContainerElementData elementData = getBaseElementData(page, element);
 
-    Map<String, String> settingUpdates = new HashMap<>();
-    for (Map.Entry<String, String> entry : elementData.getSettings().entrySet()) {
-      int underscorePos = entry.getKey().indexOf("_");
+    Map<String, @RUntainted String> settingUpdates = new HashMap<>();
+    for (Map.Entry<@RUntainted String, String> entry : elementData.getSettings().entrySet()) {
+      @RUntainted int underscorePos = entry.getKey().indexOf("_");
       if ((underscorePos >= 0) && !isSystemSetting(entry.getKey())) {
-        String prefix = entry.getKey().substring(0, underscorePos);
+        @RUntainted String prefix = entry.getKey().substring(0, underscorePos);
         I_CmsFormatterBean dynamicFmt = adeConfig.findFormatter(prefix);
 
         if (CmsUUID.isValidUUID(prefix)) {
@@ -738,7 +739,7 @@ public class CmsElementUtil {
       }
     }
     for (String key : settingUpdates.keySet()) {
-      String value = settingUpdates.get(key);
+      @RUntainted String value = settingUpdates.get(key);
       if (value == null) {
         elementData.getSettings().remove(key);
       } else {
@@ -765,7 +766,7 @@ public class CmsElementUtil {
       for (CmsContainer cnt : containers) {
         if (cnt.getName().equals(containerId)) {
           CmsFormatterConfigCollection containerFormatters = new CmsFormatterConfigCollection();
-          String foundFormatterKey = null;
+          @RUntainted String foundFormatterKey = null;
           for (String containerName : new String[] {cnt.getName(), ""}) {
             foundFormatterKey =
                 elementData
@@ -872,7 +873,7 @@ public class CmsElementUtil {
                   Integer.valueOf(resource.getTypeId()));
       throw new CmsConfigurationException(errMsg);
     }
-    String key = cmsExplorerTypeSettings.getKey();
+    @RUntainted String key = cmsExplorerTypeSettings.getKey();
     Locale currentLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(m_cms);
     CmsMessages messages = OpenCms.getWorkplaceManager().getMessages(currentLocale);
     String resTypeNiceName = messages.key(key);
@@ -1066,7 +1067,7 @@ public class CmsElementUtil {
     result.setPermissionInfo(permissionInfo);
     result.setReleasedAndNotExpired(elementBean.isReleasedAndNotExpired());
     if (elementBean.isModelGroup()) {
-      String modelId = elementBean.getIndividualSettings().get(CmsContainerElement.MODEL_GROUP_ID);
+      @RUntainted String modelId = elementBean.getIndividualSettings().get(CmsContainerElement.MODEL_GROUP_ID);
       result.setModelGroupId(modelId != null ? new CmsUUID(modelId) : CmsUUID.getNullUUID());
     }
     result.setWasModelGroup(

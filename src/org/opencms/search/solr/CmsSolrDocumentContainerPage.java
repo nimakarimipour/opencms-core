@@ -54,6 +54,7 @@ import org.opencms.xml.containerpage.CmsFormatterConfiguration;
 import org.opencms.xml.containerpage.CmsXmlContainerPage;
 import org.opencms.xml.containerpage.CmsXmlContainerPageFactory;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene document factory class to extract index data from a resource of type <code>
@@ -147,7 +148,7 @@ public class CmsSolrDocumentContainerPage extends CmsSolrDocumentXmlContent {
                   // the content of this element must be included for the container page
                   shouldExtractElement = true;
                 } else if (formatters != null) {
-                  String key = CmsFormatterUtils.getFormatterKey(containerName, element);
+                  @RUntainted String key = CmsFormatterUtils.getFormatterKey(containerName, element);
                   I_CmsFormatterBean formatter = adeConfig.findFormatter(key);
                   if (formatter != null) {
                     shouldExtractElement = formatter.isSearchContent();

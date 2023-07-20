@@ -37,6 +37,7 @@ import org.opencms.gwt.CmsVfsService;
 import org.opencms.main.OpenCms;
 import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action to edit a file given by the file param.
@@ -120,5 +121,5 @@ public abstract class A_CmsEditFileAction extends A_CmsWorkplaceAction implement
    *
    * @return parameter of the file to edit
    */
-  protected abstract String getFileParam();
+  protected abstract @RUntainted String getFileParam();
 }

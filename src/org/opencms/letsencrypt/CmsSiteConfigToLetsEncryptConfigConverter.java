@@ -57,6 +57,7 @@ import org.opencms.site.CmsSite;
 import org.opencms.site.CmsSiteManagerImpl;
 import org.opencms.site.CmsSiteMatcher;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class which converts the OpenCms site configuration to a certificate configuration for the
@@ -95,7 +96,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
 
       try {
         JSONObject result = new JSONObject();
-        for (Set<String> domainGroup : m_domainGroups) {
+        for (@RUntainted Set<String> domainGroup : m_domainGroups) {
           String key = computeName(domainGroup);
           if (key != null) {
             result.put(key, new JSONArray(domainGroup));

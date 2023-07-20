@@ -28,6 +28,7 @@
 package org.opencms.ui.dialogs;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementing classes provide a title.
@@ -44,5 +45,5 @@ public interface I_CmsHasTitle {
    * @param locale the locale
    * @return the title
    */
-  String getTitle(Locale locale);
+  String getTitle(@RUntainted Locale locale);
 }

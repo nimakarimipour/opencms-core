@@ -54,6 +54,7 @@ import org.opencms.search.Messages;
 import org.opencms.search.extractors.I_CmsExtractionResult;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.CmsXmlUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a mapping of a piece of content from an OpenCms VFS resource to a field of a search
@@ -84,7 +85,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
   private int m_hashCode;
 
   /** The parameter for the mapping type. */
-  private String m_param;
+  private @RUntainted String m_param;
 
   /** The mapping type. */
   private CmsSearchFieldMappingType m_type;
@@ -123,7 +124,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
    * @param type the type to use, see {@link #setType(CmsSearchFieldMappingType)}
    * @param param the mapping parameter, see {@link #setParam(String)}
    */
-  public CmsSearchFieldMapping(CmsSearchFieldMappingType type, String param) {
+  public CmsSearchFieldMapping(CmsSearchFieldMappingType type, @RUntainted String param) {
 
     this();
     setType(type);
@@ -189,7 +190,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
   }
 
   /** @see org.opencms.search.fields.I_CmsSearchFieldMapping#getParam() */
-  public String getParam() {
+  public @RUntainted String getParam() {
 
     return m_param;
   }
@@ -228,7 +229,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
         break;
       case 3: // item (retrieve value for the given XPath from the content items)
         if ((extractionResult != null) && CmsStringUtil.isNotEmptyOrWhitespaceOnly(getParam())) {
-          String[] paramParts = getParam().split("\\|");
+          @RUntainted String[] paramParts = getParam().split("\\|");
           Map<String, String> localizedContentItems = null;
           String xpath = null;
           if (paramParts.length > 1) {
@@ -403,7 +404,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
   }
 
   /** @see org.opencms.search.fields.I_CmsSearchFieldMapping#setParam(java.lang.String) */
-  public void setParam(String param) {
+  public void setParam(@RUntainted String param) {
 
     if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(param)) {
       m_param = param.trim();
@@ -422,7 +423,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
   }
 
   /** @see org.opencms.search.fields.I_CmsSearchFieldMapping#setType(java.lang.String) */
-  public void setType(String type) {
+  public void setType(@RUntainted String type) {
 
     CmsSearchFieldMappingType mappingType = CmsSearchFieldMappingType.valueOf(type);
     if (mappingType == null) {

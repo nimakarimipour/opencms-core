@@ -65,6 +65,7 @@ import org.opencms.xml.types.CmsXmlHtmlValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 import org.opencms.xml.types.I_CmsXmlSchemaType;
 import org.xml.sax.InputSource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of a page object used to access and manage xml data.
@@ -110,7 +111,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
   public static final String PROPERTY_ALLOW_RELATIVE = "allowRelativeLinks";
 
   /** The DTD address of the OpenCms xmlpage. */
-  public static final String XMLPAGE_XSD_SYSTEM_ID =
+  public static final @RUntainted String XMLPAGE_XSD_SYSTEM_ID =
       CmsConfigurationManager.DEFAULT_DTD_PREFIX + "xmlpage.xsd";
 
   /** The log object for this class. */
@@ -135,7 +136,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
    * @param document the document to create the CmsXmlPage from
    * @param encoding the encoding of the xml page
    */
-  public CmsXmlPage(Document document, String encoding) {
+  public CmsXmlPage(@RUntainted Document document, @RUntainted String encoding) {
 
     initDocument(document, encoding, getContentDefinition());
   }
@@ -151,7 +152,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
    * @param locale the initial locale of the XML page
    * @param encoding the encoding of the XML page
    */
-  public CmsXmlPage(Locale locale, String encoding) {
+  public CmsXmlPage(Locale locale, @RUntainted String encoding) {
 
     initDocument(CmsXmlPageFactory.createDocument(locale), encoding, getContentDefinition());
   }
@@ -159,7 +160,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
   /**
    * @see org.opencms.xml.I_CmsXmlDocument#addLocale(org.opencms.file.CmsObject, java.util.Locale)
    */
-  public void addLocale(CmsObject cms, Locale locale) throws CmsXmlException {
+  public void addLocale(CmsObject cms, @RUntainted Locale locale) throws CmsXmlException {
 
     if (hasLocale(locale)) {
       throw new CmsXmlException(
@@ -181,7 +182,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
    * @throws CmsIllegalArgumentException if the name contains an index ("[&lt;number&gt;]") or the
    *     value for the given locale already exists in the xmlpage.
    */
-  public void addValue(String name, Locale locale) throws CmsIllegalArgumentException {
+  public void addValue(@RUntainted String name, @RUntainted Locale locale) throws CmsIllegalArgumentException {
 
     if (name.indexOf('[') >= 0) {
       throw new CmsIllegalArgumentException(
@@ -210,7 +211,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
     }
 
     // create the new element
-    Element element;
+    @RUntainted Element element;
     if (page != null) {
       // page for selected language already available
       element = page.addElement(NODE_ELEMENT).addAttribute(ATTRIBUTE_NAME, name);
@@ -372,7 +373,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
    *     value for the given locale already exists in the xmlpage or the the old value does not
    *     exist for the locale in the xmlpage.
    */
-  public void renameValue(String oldValue, String newValue, Locale locale)
+  public void renameValue(@RUntainted String oldValue, @RUntainted String newValue, @RUntainted Locale locale)
       throws CmsIllegalArgumentException {
 
     CmsXmlHtmlValue oldXmlHtmlValue = (CmsXmlHtmlValue) getValue(oldValue, locale);
@@ -440,7 +441,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
    * @param content character data (CDATA) of the element
    * @throws CmsXmlException if something goes wrong
    */
-  public void setStringValue(CmsObject cms, String name, Locale locale, String content)
+  public void setStringValue(CmsObject cms, @RUntainted String name, @RUntainted Locale locale, String content)
       throws CmsXmlException {
 
     CmsXmlHtmlValue value = (CmsXmlHtmlValue) getValue(name, locale);
@@ -467,7 +468,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
    */
   @Override
   protected void initDocument(
-      Document document, String encoding, CmsXmlContentDefinition definition) {
+      @RUntainted Document document, @RUntainted String encoding, CmsXmlContentDefinition definition) {
 
     m_encoding = CmsEncoder.lookupEncoding(encoding, encoding);
     m_document = document;
@@ -484,15 +485,15 @@ public class CmsXmlPage extends A_CmsXmlDocument {
     clearBookmarks();
     Element pages = m_document.getRootElement();
     try {
-      for (Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(pages, NODE_PAGE);
+      for (Iterator<@RUntainted Element> i = CmsXmlGenericWrapper.elementIterator(pages, NODE_PAGE);
           i.hasNext(); ) {
 
-        Element page = i.next();
+        @RUntainted Element page = i.next();
         Locale locale = CmsLocaleManager.getLocale(page.attributeValue(ATTRIBUTE_LANGUAGE));
         for (Iterator<Element> j = CmsXmlGenericWrapper.elementIterator(page, NODE_ELEMENT);
             j.hasNext(); ) {
 
-          Element element = j.next();
+          @RUntainted Element element = j.next();
           String name = element.attributeValue(ATTRIBUTE_NAME);
 
           String elementEnabled = element.attributeValue(ATTRIBUTE_ENABLED);

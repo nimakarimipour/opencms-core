@@ -42,6 +42,7 @@ import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.xml2json.CmsJsonRequest;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerException;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerXmlContent.PathNotFoundException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Class representing a JSON document for a folder. */
 public class CmsJsonDocumentFolder extends A_CmsJsonDocument implements I_CmsJsonDocument {
@@ -84,9 +85,9 @@ public class CmsJsonDocumentFolder extends A_CmsJsonDocument implements I_CmsJso
         m_context.getCms().readResources(target, CmsResourceFilter.DEFAULT, false);
     JSONObject result = new JSONObject(true);
     for (CmsResource resource : children) {
-      JSONObject childEntry = formatResource(resource);
+      @RUntainted JSONObject childEntry = formatResource(resource);
       if (resource.isFolder() && (levelsLeft > 1)) {
-        JSONObject childrenJson = folderListingJson(resource, levelsLeft - 1);
+        @RUntainted JSONObject childrenJson = folderListingJson(resource, levelsLeft - 1);
         childEntry.put("children", childrenJson);
       }
       result.put(resource.getName(), childEntry);

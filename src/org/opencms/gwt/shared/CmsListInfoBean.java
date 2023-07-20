@@ -32,6 +32,7 @@ import java.util.List;
 import org.opencms.db.CmsResourceState;
 import org.opencms.gwt.shared.sort.I_CmsHasTitle;
 import org.opencms.gwt.shared.sort.I_CmsHasType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean holding all info to be displayed in {@link org.opencms.gwt.client.ui.CmsListItemWidget}s.
@@ -110,7 +111,7 @@ public class CmsListInfoBean extends CmsIconBean implements I_CmsHasTitle, I_Cms
   private String m_subTitle;
 
   /** The title. */
-  private String m_title;
+  private @RUntainted String m_title;
 
   /**
    * Default constructor.
@@ -132,7 +133,7 @@ public class CmsListInfoBean extends CmsIconBean implements I_CmsHasTitle, I_Cms
    * @param additionalInfo the additional info
    */
   public CmsListInfoBean(
-      String title, String subtitle, List<CmsAdditionalInfoBean> additionalInfo) {
+      @RUntainted String title, String subtitle, List<CmsAdditionalInfoBean> additionalInfo) {
 
     m_title = title;
     m_subTitle = subtitle;
@@ -274,7 +275,7 @@ public class CmsListInfoBean extends CmsIconBean implements I_CmsHasTitle, I_Cms
    *
    * @return the title
    */
-  public String getTitle() {
+  public @RUntainted String getTitle() {
 
     return m_title;
   }
@@ -427,7 +428,7 @@ public class CmsListInfoBean extends CmsIconBean implements I_CmsHasTitle, I_Cms
    *
    * @param title the title to set
    */
-  public void setTitle(String title) {
+  public void setTitle(@RUntainted String title) {
 
     m_title = title;
   }

@@ -69,6 +69,7 @@ import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.ui.components.codemirror.CmsCodeMirror;
 import org.opencms.ui.components.codemirror.CmsCodeMirror.CodeMirrorLanguage;
 import org.opencms.xml.content.CmsXmlContent;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The plain text editor.
@@ -101,7 +102,7 @@ public class CmsSourceEditor
     boolean m_closeBrackets = true;
 
     /** The font size. */
-    String m_fontSize = "16px";
+    @RUntainted String m_fontSize = "16px";
 
     /** The highlighting flag. */
     boolean m_highlighting = true;

@@ -70,6 +70,7 @@ import org.opencms.ui.components.CmsConfirmationDialog;
 import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Main module manager app class.
@@ -144,10 +145,10 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
      */
     @SuppressWarnings("synthetic-access")
     @Override
-    public void executeAction(final Set<String> context) {
+    public void executeAction(final @RUntainted Set<@RUntainted String> context) {
 
       try {
-        final String moduleName = context.iterator().next();
+        final @RUntainted String moduleName = context.iterator().next();
         final CmsObject cms = OpenCms.initCmsObject(A_CmsUI.getCmsObject());
         final CmsModule module = OpenCms.getModuleManager().getModule(moduleName);
 
@@ -191,7 +192,7 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
                         }
 
                         @Override
-                        public void onSiteSelect(String site) {
+                        public void onSiteSelect(@RUntainted String site) {
 
                           cms.getRequestContext().setSiteRoot(site);
                           openReport(
@@ -343,10 +344,10 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
     @Override
-    public void executeAction(final Set<String> context) {
+    public void executeAction(final @RUntainted Set<@RUntainted String> context) {
 
       final CmsObject cms = A_CmsUI.getCmsObject();
-      final String moduleName = context.iterator().next();
+      final @RUntainted String moduleName = context.iterator().next();
       final String handlerDesc =
           CmsVaadinUtils.getMessageText(Messages.GUI_MODULES_REPORT_EXPORT_1, moduleName);
       final CmsModuleImportExportHandler handler =
@@ -389,7 +390,7 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
               }
 
               @Override
-              public void onSiteSelect(String site) {
+              public void onSiteSelect(@RUntainted String site) {
 
                 cms.getRequestContext().setSiteRoot(site);
                 Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);

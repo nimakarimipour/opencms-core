@@ -12,7 +12,7 @@ buildscript {
 
 plugins {
     id 'org.checkerframework' version '0.6.26'
-    id 'net.ltgt.errorprone' version "3.1.0"
+//    id 'net.ltgt.errorprone' version "3.1.0"
     id 'com.github.sherter.google-java-format' version '0.9'
 }
 
@@ -1668,7 +1668,6 @@ checkerFramework {
     ]
 
     extraJavacArgs = [
-            "-Awarns",
             '-AannotatedPackages=' + 'org.opencms',
             '-AenableCustomCheck=true',
             "-AenableSerialization",
@@ -1676,17 +1675,17 @@ checkerFramework {
     ]
 }
 
-import net.ltgt.gradle.errorprone.CheckSeverity
+//import net.ltgt.gradle.errorprone.CheckSeverity
 tasks.withType(JavaCompile) {
-    // remove the if condition if you want to run NullAway on test code
-    if (!name.toLowerCase().contains("test")) {
-        options.errorprone.disableAllChecks = true
-        options.errorprone.disableAllWarnings = true
-        options.errorprone {
-            check("AnnotatorScanner", CheckSeverity.ERROR)
-            option("AnnotatorScanner:ConfigPath", "/tmp/ucr-tainting/opencms/scanner.xml")
-        }
-    }
+//    // remove the if condition if you want to run NullAway on test code
+//    if (!name.toLowerCase().contains("test")) {
+//        options.errorprone.disableAllChecks = true
+//        options.errorprone.disableAllWarnings = true
+//        options.errorprone {
+//            check("AnnotatorScanner", CheckSeverity.ERROR)
+//            option("AnnotatorScanner:ConfigPath", "/tmp/ucr-tainting/opencms/scanner.xml")
+//        }
+//    }
     options.compilerArgs << "-Xmaxerrs" << "100000"
     options.compilerArgs << "-Xmaxwarns" << "100000"
 }

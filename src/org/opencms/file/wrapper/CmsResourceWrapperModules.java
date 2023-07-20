@@ -58,6 +58,7 @@ import org.opencms.security.CmsRole;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource wrapper used to import/export modules by copying them to/from virtual folders.
@@ -73,13 +74,13 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
   public static final String BASE_PATH = "/modules";
 
   /** The virtual folder which can be used to import modules. */
-  public static final String IMPORT_PATH = BASE_PATH + "/import";
+  public static final @RUntainted String IMPORT_PATH = BASE_PATH + "/import";
 
   /** The virtual folder which can be used to export modules. */
-  public static final String EXPORT_PATH = BASE_PATH + "/export";
+  public static final @RUntainted String EXPORT_PATH = BASE_PATH + "/export";
 
   /** The virtual folder which can be used to provide logs for module operations. */
-  public static final String LOG_PATH = BASE_PATH + "/log";
+  public static final @RUntainted String LOG_PATH = BASE_PATH + "/log";
 
   /** List of virtual folders made available by this resource wrapper. */
   public static final List<String> FOLDERS =
@@ -131,7 +132,7 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
    */
   @Override
   public CmsResource createResource(
-      CmsObject cms, String resourcename, int type, byte[] content, List<CmsProperty> properties)
+      CmsObject cms, @RUntainted String resourcename, int type, byte[] content, List<CmsProperty> properties)
       throws CmsException, CmsIllegalArgumentException {
 
     if (checkAccess(cms) && matchParentPath(IMPORT_PATH, resourcename)) {
@@ -154,7 +155,7 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
    */
   @Override
   public boolean deleteResource(
-      CmsObject cms, String resourcename, CmsResource.CmsResourceDeleteMode siblingMode)
+      CmsObject cms, @RUntainted String resourcename, CmsResource.CmsResourceDeleteMode siblingMode)
       throws CmsException {
 
     if (checkAccess(cms) && matchParentPath(EXPORT_PATH, resourcename)) {
@@ -206,7 +207,7 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
    *     java.lang.String, org.opencms.file.CmsResourceFilter)
    */
   @Override
-  public CmsFile readFile(CmsObject cms, String resourcename, CmsResourceFilter filter)
+  public CmsFile readFile(CmsObject cms, @RUntainted String resourcename, CmsResourceFilter filter)
       throws CmsException {
 
     // this method isn't actually called when using the JLAN repository, because readResource
@@ -222,7 +223,7 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
    *     java.lang.String, org.opencms.file.CmsResourceFilter)
    */
   @Override
-  public CmsResource readResource(CmsObject cms, String resourcepath, CmsResourceFilter filter)
+  public CmsResource readResource(CmsObject cms, @RUntainted String resourcepath, CmsResourceFilter filter)
       throws CmsException {
 
     if (resourcepath.endsWith("desktop.ini")) {
@@ -230,7 +231,7 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
     }
 
     if (checkAccess(cms)) {
-      for (String folder : FOLDERS) {
+      for (@RUntainted String folder : FOLDERS) {
         if (matchPath(resourcepath, folder)) {
           return createFakeFolder(folder);
         }
@@ -326,7 +327,7 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
    * @return the fake resource
    * @throws CmsLoaderException if the binary type is missing
    */
-  protected CmsResource createFakeBinaryFile(String rootPath) throws CmsLoaderException {
+  protected CmsResource createFakeBinaryFile(@RUntainted String rootPath) throws CmsLoaderException {
 
     return createFakeBinaryFile(rootPath, 0);
   }
@@ -341,10 +342,10 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
    * @return the fake resource
    * @throws CmsLoaderException if the binary type is missing
    */
-  protected CmsResource createFakeBinaryFile(String rootPath, long dateLastModified)
+  protected CmsResource createFakeBinaryFile(@RUntainted String rootPath, long dateLastModified)
       throws CmsLoaderException {
 
-    CmsUUID structureId = CmsUUID.getConstantUUID("s-" + rootPath);
+    @RUntainted CmsUUID structureId = CmsUUID.getConstantUUID("s-" + rootPath);
     CmsUUID resourceId = CmsUUID.getConstantUUID("r-" + rootPath);
     @SuppressWarnings("deprecation")
     int type =
@@ -398,13 +399,13 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
    * @return the fake resource
    * @throws CmsLoaderException if the 'folder' type can not be found
    */
-  protected CmsResource createFakeFolder(String rootPath) throws CmsLoaderException {
+  protected CmsResource createFakeFolder(@RUntainted String rootPath) throws CmsLoaderException {
 
     if (rootPath.endsWith("/")) {
       rootPath = CmsFileUtil.removeTrailingSeparator(rootPath);
     }
 
-    CmsUUID structureId = CmsUUID.getConstantUUID("s-" + rootPath);
+    @RUntainted CmsUUID structureId = CmsUUID.getConstantUUID("s-" + rootPath);
     CmsUUID resourceId = CmsUUID.getConstantUUID("r-" + rootPath);
     @SuppressWarnings("deprecation")
     int type =
@@ -591,7 +592,7 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
    * @param path a path
    * @return true if the path is a direct child of expectedParent
    */
-  private boolean matchParentPath(String expectedParent, String path) {
+  private boolean matchParentPath(String expectedParent, @RUntainted String path) {
 
     String parent = CmsResource.getParentFolder(path);
     if (parent == null) {

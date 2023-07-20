@@ -38,6 +38,7 @@ import org.opencms.file.CmsPropertyDefinition;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Filter used to hide folder tree items which are not either navigation items themselves or are
@@ -106,7 +107,7 @@ public class CmsNavigationFilter implements Container.Filter {
    * @param path the path
    * @return the list of ancestor paths
    */
-  List<String> getAncestorPaths(String path) {
+  List<String> getAncestorPaths(@RUntainted String path) {
 
     List<String> result = Lists.newArrayList();
     while (path != null) {

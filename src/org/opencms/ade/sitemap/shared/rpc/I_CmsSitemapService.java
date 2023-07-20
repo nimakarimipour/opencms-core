@@ -52,6 +52,7 @@ import org.opencms.gwt.shared.alias.CmsRewriteAliasValidationReply;
 import org.opencms.gwt.shared.alias.CmsRewriteAliasValidationRequest;
 import org.opencms.gwt.shared.property.CmsPropertyModification;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the sitemap.
@@ -76,7 +77,7 @@ public interface I_CmsSitemapService extends RemoteService {
    * @param name the new name
    * @throws CmsRpcException if something goes wrong
    */
-  void changeCategory(String entryPoint, CmsUUID id, String title, String name)
+  void changeCategory(String entryPoint, CmsUUID id, String title, @RUntainted String name)
       throws CmsRpcException;
 
   /**
@@ -90,7 +91,7 @@ public interface I_CmsSitemapService extends RemoteService {
    * @param name the category name
    * @throws CmsRpcException if something goes wrong
    */
-  void createCategory(String entryPoint, CmsUUID id, String title, String name)
+  void createCategory(String entryPoint, CmsUUID id, @RUntainted String title, @RUntainted String name)
       throws CmsRpcException;
 
   /**
@@ -104,7 +105,7 @@ public interface I_CmsSitemapService extends RemoteService {
    * @return the new gallery folder data
    * @throws CmsRpcException if something goes wrong
    */
-  CmsGalleryFolderEntry createNewGalleryFolder(String parentFolder, String title, int folderTypeId)
+  CmsGalleryFolderEntry createNewGalleryFolder(String parentFolder, @RUntainted String title, int folderTypeId)
       throws CmsRpcException;
 
   /**
@@ -146,7 +147,7 @@ public interface I_CmsSitemapService extends RemoteService {
    * @param disabled the disabled flag
    * @throws CmsRpcException if something goes wrong
    */
-  void disableModelPage(String baseUri, CmsUUID modelPageId, boolean disabled)
+  void disableModelPage(String baseUri, CmsUUID modelPageId, @RUntainted boolean disabled)
       throws CmsRpcException;
 
   /**
@@ -349,7 +350,7 @@ public interface I_CmsSitemapService extends RemoteService {
    */
   void savePropertiesForLocaleCompareMode(
       CmsUUID id,
-      String newUrlName,
+      @RUntainted String newUrlName,
       List<CmsPropertyModification> propertyChanges,
       boolean editedName)
       throws CmsRpcException;

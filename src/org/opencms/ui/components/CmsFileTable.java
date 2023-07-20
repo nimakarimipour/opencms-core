@@ -120,6 +120,7 @@ import org.opencms.ui.contextmenu.I_CmsContextMenuBuilder;
 import org.opencms.ui.util.I_CmsItemSorter;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table for displaying resources.
@@ -322,7 +323,7 @@ public class CmsFileTable extends CmsResourceTable {
      *
      * @param folderId the selected folder id
      */
-    void onFolderSelect(CmsUUID folderId);
+    void onFolderSelect(@RUntainted CmsUUID folderId);
   }
 
   /** The default file table columns. */
@@ -461,7 +462,7 @@ public class CmsFileTable extends CmsResourceTable {
             @SuppressWarnings("unchecked")
             Set<String> selectedIds = (Set<String>) event.getProperty().getValue();
             List<CmsResource> selectedResources = new ArrayList<CmsResource>();
-            for (String id : selectedIds) {
+            for (@RUntainted String id : selectedIds) {
               try {
                 CmsResource resource =
                     A_CmsUI.getCmsObject()
@@ -1135,15 +1136,15 @@ public class CmsFileTable extends CmsResourceTable {
    *
    * @param event the click event
    */
-  void handleFileItemClick(ItemClickEvent event) {
+  void handleFileItemClick(@RUntainted ItemClickEvent event) {
 
     if (isEditing()) {
       stopEdit();
 
     } else if (!event.isCtrlKey() && !event.isShiftKey()) {
       // don't interfere with multi-selection using control key
-      String itemId = (String) event.getItemId();
-      CmsUUID structureId = getUUIDFromItemID(itemId);
+      @RUntainted String itemId = (String) event.getItemId();
+      @RUntainted CmsUUID structureId = getUUIDFromItemID(itemId);
       boolean openedFolder = false;
       if (event.getButton().equals(MouseButton.RIGHT)) {
         handleSelection(itemId);

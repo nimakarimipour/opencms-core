@@ -56,6 +56,7 @@ import org.opencms.xml.types.CmsXmlDynamicCategoryValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 import org.opencms.xml.types.I_CmsXmlSchemaType;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides basic XML document handling functions useful when dealing with XML documents that are
@@ -71,7 +72,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
   protected String m_conversion;
 
   /** The document object of the document. */
-  protected Document m_document;
+  protected @RUntainted Document m_document;
 
   /** Maps element names to available locales. */
   protected Map<String, Set<Locale>> m_elementLocales;
@@ -80,7 +81,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
   protected Map<Locale, Set<String>> m_elementNames;
 
   /** The encoding to use for this XML document. */
-  protected String m_encoding;
+  protected @RUntainted String m_encoding;
 
   /**
    * The file that contains the document data (note: is not set when creating an empty or document
@@ -89,10 +90,10 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
   protected CmsFile m_file;
 
   /** Set of locales contained in this document. */
-  protected Set<Locale> m_locales;
+  protected Set<@RUntainted Locale> m_locales;
 
   /** Reference for named elements in the document. */
-  private Map<String, I_CmsXmlContentValue> m_bookmarks;
+  private Map<String, @RUntainted I_CmsXmlContentValue> m_bookmarks;
 
   /** Cache for temporary data associated with the content. */
   private Map<String, Object> m_tempDataCache = new ConcurrentHashMap<>();
@@ -117,7 +118,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
    * @param locale the element locale
    * @return the bookmark name for a localized element
    */
-  protected static final String getBookmarkName(String name, Locale locale) {
+  protected static final @RUntainted String getBookmarkName(String name, Locale locale) {
 
     StringBuffer result = new StringBuffer(64);
     result.append('/');
@@ -128,7 +129,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
   }
 
   /** @see org.opencms.xml.I_CmsXmlDocument#copyLocale(java.util.List, java.util.Locale) */
-  public void copyLocale(List<Locale> possibleSources, Locale destination) throws CmsXmlException {
+  public void copyLocale(List<Locale> possibleSources, @RUntainted Locale destination) throws CmsXmlException {
 
     if (hasLocale(destination)) {
       throw new CmsXmlException(
@@ -158,7 +159,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
   }
 
   /** @see org.opencms.xml.I_CmsXmlDocument#copyLocale(java.util.Locale, java.util.Locale) */
-  public void copyLocale(Locale source, Locale destination) throws CmsXmlException {
+  public void copyLocale(@RUntainted Locale source, @RUntainted Locale destination) throws CmsXmlException {
 
     if (!hasLocale(source)) {
       throw new CmsXmlException(
@@ -213,12 +214,12 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
   public CmsFile correctXmlStructure(CmsObject cms) throws CmsXmlException {
 
     // apply XSD schema translation
-    Attribute schema =
+    @RUntainted Attribute schema =
         m_document
             .getRootElement()
             .attribute(I_CmsXmlSchemaType.XSI_NAMESPACE_ATTRIBUTE_NO_SCHEMA_LOCATION);
     if (schema != null) {
-      String schemaLocation = schema.getValue();
+      @RUntainted String schemaLocation = schema.getValue();
       String translatedSchema =
           OpenCms.getResourceManager().getXsdTranslator().translateResource(schemaLocation);
       if (!schemaLocation.equals(translatedSchema)) {
@@ -411,7 +412,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
   }
 
   /** @see org.opencms.xml.I_CmsXmlDocument#getEncoding() */
-  public String getEncoding() {
+  public @RUntainted String getEncoding() {
 
     return m_encoding;
   }
@@ -434,7 +435,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
   }
 
   /** @see org.opencms.xml.I_CmsXmlDocument#getLocales() */
-  public List<Locale> getLocales() {
+  public @RUntainted List<@RUntainted Locale> getLocales() {
 
     return new ArrayList<Locale>(m_locales);
   }
@@ -472,7 +473,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
    * @see org.opencms.xml.I_CmsXmlDocument#getStringValue(org.opencms.file.CmsObject,
    *     java.lang.String, java.util.Locale)
    */
-  public String getStringValue(CmsObject cms, String path, Locale locale) {
+  public @RUntainted String getStringValue(CmsObject cms, String path, Locale locale) {
 
     I_CmsXmlContentValue value = getValueInternal(CmsXmlUtils.createXpath(path, 1), locale);
     if (value != null) {
@@ -566,7 +567,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
   public List<I_CmsXmlContentValue> getValues(String path, Locale locale) {
 
     List<I_CmsXmlContentValue> result = new ArrayList<I_CmsXmlContentValue>();
-    String bookmark =
+    @RUntainted String bookmark =
         getBookmarkName(CmsXmlUtils.createXpath(CmsXmlUtils.removeXpathIndex(path), 1), locale);
     I_CmsXmlContentValue value = getBookmark(bookmark);
     if (value != null) {
@@ -658,7 +659,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
   }
 
   /** @see org.opencms.xml.I_CmsXmlDocument#removeLocale(java.util.Locale) */
-  public void removeLocale(Locale locale) throws CmsXmlException {
+  public void removeLocale(@RUntainted Locale locale) throws CmsXmlException {
 
     if (!hasLocale(locale)) {
       throw new CmsXmlException(
@@ -818,7 +819,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
    * @param bookmark the bookmark name to look up
    * @return the bookmarked value for the given bookmark
    */
-  protected I_CmsXmlContentValue getBookmark(String bookmark) {
+  protected @RUntainted I_CmsXmlContentValue getBookmark(String bookmark) {
 
     return m_bookmarks.get(bookmark);
   }
@@ -875,7 +876,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
    * @param contentDefinition the content definition to use
    */
   protected abstract void initDocument(
-      Document document, String encoding, CmsXmlContentDefinition contentDefinition);
+      @RUntainted Document document, @RUntainted String encoding, CmsXmlContentDefinition contentDefinition);
 
   /**
    * Returns <code>true</code> if the auto correction feature is enabled for saving this XML
@@ -1038,7 +1039,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
    * @return a partial deep copy of <code>element</code>
    */
   private Element createDeepElementCopyInternal(
-      String parentPath, Element parent, Element element, Set<String> copyElements) {
+      String parentPath, Element parent, @RUntainted Element element, Set<String> copyElements) {
 
     String elName = element.getName();
     if (parentPath != null) {

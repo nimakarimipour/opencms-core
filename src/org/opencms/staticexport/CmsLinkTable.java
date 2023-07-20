@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.BooleanUtils;
 import org.opencms.relations.CmsLink;
 import org.opencms.relations.CmsRelationType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Maintains a table of links for an element of a CmsXmlPage.
@@ -123,7 +124,7 @@ public class CmsLinkTable {
    * @param internal flag to indicate if the link is a local link
    * @return the new link entry
    */
-  public CmsLink addLink(CmsRelationType type, String targetUri, boolean internal) {
+  public CmsLink addLink(CmsRelationType type, @RUntainted String targetUri, boolean internal) {
 
     CmsLink link = new CmsLink(LINK_PREFIX + m_linkTable.size(), type, targetUri, internal);
     m_linkTable.put(link.getName(), link);

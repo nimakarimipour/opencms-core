@@ -61,6 +61,7 @@ import org.opencms.workplace.comparison.CmsElementComparison;
 import org.opencms.workplace.comparison.CmsXmlDocumentComparison;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays either a diff for the XML file, or a table displaying the differences between individual

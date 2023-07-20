@@ -39,6 +39,7 @@ import org.opencms.gwt.shared.CmsPermissionInfo;
 import org.opencms.gwt.shared.property.CmsClientProperty;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Sitemap entry data.
@@ -140,7 +141,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
   private CmsClientLock m_lock;
 
   /** The entry name. */
-  private String m_name;
+  private @RUntainted String m_name;
 
   /** The nav mode icon style classes. */
   private String m_navModeIcon;
@@ -170,7 +171,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
   private String m_resourceTypeName;
 
   /** The sitemap path. */
-  private String m_sitePath;
+  private @RUntainted String m_sitePath;
 
   /** The children. */
   private List<CmsClientSitemapEntry> m_subEntries;
@@ -374,7 +375,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
    *
    * @return the name
    */
-  public String getName() {
+  public @RUntainted String getName() {
 
     return m_name;
   }
@@ -498,7 +499,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
    *
    * @return the sitemap path
    */
-  public String getSitePath() {
+  public @RUntainted String getSitePath() {
 
     return m_sitePath;
   }
@@ -553,7 +554,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
    *
    * @return the vfs path
    */
-  public String getVfsPath() {
+  public @RUntainted String getVfsPath() {
 
     return m_vfsPath;
   }
@@ -1044,7 +1045,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
    *
    * @param name the name to set
    */
-  public void setName(String name) {
+  public void setName(@RUntainted String name) {
 
     m_name = name;
   }
@@ -1271,7 +1272,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
    * @param sitepath the new site path to set
    * @param controller a sitemap controller instance
    */
-  public void updateSitePath(String sitepath, I_CmsSitemapController controller) {
+  public void updateSitePath(@RUntainted String sitepath, I_CmsSitemapController controller) {
 
     if (!isLeafType() && !sitepath.endsWith("/")) {
       sitepath = sitepath + "/";

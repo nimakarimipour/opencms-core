@@ -29,6 +29,7 @@ package org.opencms.main;
 
 import java.util.List;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface is used to define the session storage implementation provider.
@@ -82,7 +83,7 @@ public interface I_CmsSessionStorageProvider {
    *
    * @return the current number of stored session info objects, or zero if empty
    */
-  int getSize();
+  @RUntainted int getSize();
 
   /**
    * Initializes the storage.

@@ -45,6 +45,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.report.CmsLogReport;
 import org.opencms.report.I_CmsReport;
 import org.opencms.scheduler.I_CmsScheduledJob;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job to calculate image size information.
@@ -81,7 +82,7 @@ public class CmsCreateImageSizeJob implements I_CmsScheduledJob {
   public static final String PARAM_DOWNSCALE = "downscale";
 
   /** @see org.opencms.scheduler.I_CmsScheduledJob#launch(CmsObject, Map) */
-  public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  public @RUntainted String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
     if (!CmsImageLoader.isEnabled()) {
       // scaling functions are not available

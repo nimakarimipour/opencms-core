@@ -45,6 +45,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplaceManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dump loader for binary or other unprocessed resource types.
@@ -133,7 +134,7 @@ public class CmsDumpLoader implements I_CmsResourceLoader {
         String header = i.next();
 
         // set header only if format is "key: value"
-        String[] parts = CmsStringUtil.splitAsArray(header, ':');
+        @RUntainted String[] parts = CmsStringUtil.splitAsArray(header, ':');
         if (parts.length == 2) {
           res.setHeader(parts[0], parts[1]);
         }

@@ -31,6 +31,7 @@ import java.io.Serializable;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A version number for an OpenCms module.
@@ -151,7 +152,7 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
    *
    * @param version the version String to set
    */
-  public void setVersion(String version) {
+  public void setVersion(@RUntainted String version) {
 
     m_number = 0L;
     if ((version == null)
@@ -173,7 +174,7 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
     }
     for (int i = numbers.length - 1; i >= 0; i--) {
       try {
-        int number = Integer.valueOf(numbers[numbers.length - i - 1]).intValue();
+        @RUntainted int number = Integer.valueOf(numbers[numbers.length - i - 1]).intValue();
 
         if ((number > 999) || (number < 0)) {
           throw new CmsIllegalArgumentException(
@@ -192,7 +193,7 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
 
   /** @see java.lang.Object#toString() */
   @Override
-  public String toString() {
+  public @RUntainted String toString() {
 
     return getVersion();
   }

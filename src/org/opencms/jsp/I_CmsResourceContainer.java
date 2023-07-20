@@ -30,6 +30,7 @@ package org.opencms.jsp;
 import java.util.List;
 import javax.servlet.jsp.JspException;
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to a <code>{@link org.opencms.file.CmsResource}</code> object that was previously
@@ -48,7 +49,7 @@ public interface I_CmsResourceContainer {
    *
    * @return the name of the currently used resource collector
    */
-  String getCollectorName();
+  @RUntainted String getCollectorName();
 
   /**
    * Returns the parameters of the currently used resource collector.

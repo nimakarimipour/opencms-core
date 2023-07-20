@@ -29,6 +29,7 @@ package org.opencms.file;
 
 import org.opencms.db.CmsResourceState;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A file resource in the OpenCms VFS.
@@ -48,7 +49,7 @@ public class CmsFile extends CmsResource {
   private static final long serialVersionUID = -5201022482708455620L;
 
   /** The content of this file. */
-  private byte[] m_fileContent;
+  private @RUntainted byte[] m_fileContent;
 
   /**
    * Constructor, creates a new file Object from the given resource with an empty byte array as file
@@ -107,24 +108,24 @@ public class CmsFile extends CmsResource {
    * @param content the binary content data of this file
    */
   public CmsFile(
-      CmsUUID structureId,
+      @RUntainted CmsUUID structureId,
       CmsUUID resourceId,
-      String path,
-      int type,
+      @RUntainted String path,
+      @RUntainted int type,
       int flags,
       CmsUUID projectId,
       CmsResourceState state,
       long dateCreated,
       CmsUUID userCreated,
-      long dateLastModified,
-      CmsUUID userLastModified,
-      long dateReleased,
-      long dateExpired,
+      @RUntainted long dateLastModified,
+      @RUntainted CmsUUID userLastModified,
+      @RUntainted long dateReleased,
+      @RUntainted long dateExpired,
       int linkCount,
       int length,
       long dateContent,
       int version,
-      byte[] content) {
+      @RUntainted byte[] content) {
 
     super(
         structureId,
@@ -162,7 +163,7 @@ public class CmsFile extends CmsResource {
   @Override
   public Object clone() {
 
-    byte[] newContent = new byte[getContents().length];
+    @RUntainted byte[] newContent = new byte[getContents().length];
     System.arraycopy(getContents(), 0, newContent, 0, getContents().length);
 
     CmsFile clone =
@@ -200,7 +201,7 @@ public class CmsFile extends CmsResource {
    *
    * @return the content of this file
    */
-  public byte[] getContents() {
+  public @RUntainted byte[] getContents() {
 
     return m_fileContent;
   }

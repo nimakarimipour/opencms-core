@@ -42,6 +42,7 @@ import org.opencms.xml.containerpage.CmsSchemaFormatterBeanWrapper;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentRootLocation;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to select a formatter to remove.
@@ -163,7 +164,7 @@ public class CmsRemoveFormatterWidget extends A_CmsFormatterWidget {
     List<CmsSelectWidgetOption> result = Lists.newArrayList();
     if (!allRemoved) {
       Set<String> activeTypes = adeConfig.getTypesWithActiveSchemaFormatters();
-      for (String activeType : activeTypes) {
+      for (@RUntainted String activeType : activeTypes) {
         CmsSelectWidgetOption option = getWidgetOptionForType(cms, activeType);
         result.add(option);
       }

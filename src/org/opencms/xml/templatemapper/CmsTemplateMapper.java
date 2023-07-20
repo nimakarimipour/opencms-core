@@ -56,6 +56,7 @@ import org.opencms.xml.containerpage.CmsContainerBean;
 import org.opencms.xml.containerpage.CmsContainerElementBean;
 import org.opencms.xml.containerpage.CmsContainerPageBean;
 import org.opencms.xml.containerpage.CmsGroupContainerBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Responsible for mapping formatters, containers and settings to different formatters, containers
@@ -284,12 +285,12 @@ public final class CmsTemplateMapper {
       settings = new HashMap<>();
     }
     Map<String, String> newSettings = new HashMap<>();
-    for (Map.Entry<String, String> entry : settings.entrySet()) {
+    for (Map.Entry<String, @RUntainted String> entry : settings.entrySet()) {
       String key = entry.getKey();
       if (CmsTemplateContextInfo.SETTING.equals(key)) {
         continue;
       }
-      String value = entry.getValue();
+      @RUntainted String value = entry.getValue();
       if (value == null) {
         continue;
       }
@@ -301,7 +302,7 @@ public final class CmsTemplateMapper {
             newValue = newId;
           }
         } else if (value.startsWith(CmsFormatterConfig.SCHEMA_FORMATTER_ID)) {
-          String schemaFormatterIdStr =
+          @RUntainted String schemaFormatterIdStr =
               value.substring(CmsFormatterConfig.SCHEMA_FORMATTER_ID.length());
           if (CmsUUID.isValidUUID(schemaFormatterIdStr)) {
             CmsUUID schemaFormatterId = new CmsUUID(schemaFormatterIdStr);

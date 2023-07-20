@@ -35,6 +35,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.file.CmsUser;
 import org.opencms.i18n.CmsEncoder;
 import org.opencms.main.CmsException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for dealing with authorization tokens for the 'forgot password' functionality.
@@ -83,7 +84,7 @@ public class CmsTokenValidator {
       throws CmsException {
 
     String randomKey = RandomStringUtils.randomAlphanumeric(8);
-    String value =
+    @RUntainted String value =
         CmsEncoder.encodeStringsAsBase64Parameter(Arrays.asList(randomKey, "" + currentTime));
     user.setAdditionalInfo(ADDINFO_KEY, value);
     cms.writeUser(user);

@@ -35,6 +35,7 @@ import org.opencms.file.CmsUser;
 import org.opencms.file.history.I_CmsHistoryResource;
 import org.opencms.main.CmsException;
 import org.opencms.security.CmsPrincipal;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The interface for drivers handling subscriptions and user tracking.
@@ -97,7 +98,7 @@ public interface I_CmsSubscriptionDriver {
    * @param classname the classname of the SQL manager
    * @return the SQL manager for this driver
    */
-  CmsSqlManager initSqlManager(String classname);
+  CmsSqlManager initSqlManager(@RUntainted String classname);
 
   /**
    * Mark the given resource as visited by the user.

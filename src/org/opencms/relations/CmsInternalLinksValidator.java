@@ -40,6 +40,7 @@ import org.opencms.file.CmsResourceFilter;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Util class to find broken links in a bundle of resources.
@@ -73,7 +74,7 @@ public class CmsInternalLinksValidator {
    * @param cms the cms object
    * @param resourceNames a list of resource names to be deleted
    */
-  public CmsInternalLinksValidator(CmsObject cms, List<String> resourceNames) {
+  public CmsInternalLinksValidator(CmsObject cms, List<@RUntainted String> resourceNames) {
 
     m_cms = cms;
     m_brokenRelations = getBrokenRelations(resourceNames);
@@ -167,16 +168,16 @@ public class CmsInternalLinksValidator {
    * @param resourceNames a list of resource names to be validated
    * @return a map of broken relations
    */
-  private Map<String, List<CmsRelation>> getBrokenRelations(List<String> resourceNames) {
+  private Map<String, List<CmsRelation>> getBrokenRelations(List<@RUntainted String> resourceNames) {
 
     Map<String, List<CmsRelation>> brokenRelations = new HashMap<String, List<CmsRelation>>();
 
     CmsRelationFilter filter =
         CmsRelationFilter.TARGETS.filterIncludeChildren().filterStructureId(CmsUUID.getNullUUID());
 
-    Iterator<String> itFolders = resourceNames.iterator();
+    Iterator<@RUntainted String> itFolders = resourceNames.iterator();
     while (itFolders.hasNext()) {
-      String folderName = itFolders.next();
+      @RUntainted String folderName = itFolders.next();
       List<CmsRelation> relations;
       try {
         relations = m_cms.getRelationsForResource(folderName, filter);

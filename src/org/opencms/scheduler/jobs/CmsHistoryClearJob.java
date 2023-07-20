@@ -34,6 +34,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.report.CmsLogReport;
 import org.opencms.scheduler.I_CmsScheduledJob;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job to clear the history.
@@ -77,7 +78,7 @@ public class CmsHistoryClearJob implements I_CmsScheduledJob {
   /**
    * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
    */
-  public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  public @RUntainted String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
     // read the parameter for the versions to keep
     int keepVersions = Integer.parseInt(parameters.get(PARAM_KEEPVERSIONS));

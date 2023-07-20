@@ -29,6 +29,7 @@ package org.opencms.search;
 
 import java.util.Locale;
 import org.opencms.i18n.CmsLocaleManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An analyzer class is used by Lucene to reduce the content to be indexed with trimmed endings etc.
@@ -40,10 +41,10 @@ import org.opencms.i18n.CmsLocaleManager;
 public class CmsSearchAnalyzer {
 
   /** The class name of the analyzer. */
-  private String m_className;
+  private @RUntainted String m_className;
 
   /** A locale as a key to select the analyzer. */
-  private Locale m_locale;
+  private @RUntainted Locale m_locale;
 
   /**
    * Returns the className.
@@ -52,7 +53,7 @@ public class CmsSearchAnalyzer {
    *
    * @return the className
    */
-  public String getClassName() {
+  public @RUntainted String getClassName() {
 
     return m_className;
   }
@@ -64,7 +65,7 @@ public class CmsSearchAnalyzer {
    *
    * @return the locale
    */
-  public Locale getLocale() {
+  public @RUntainted Locale getLocale() {
 
     return m_locale;
   }
@@ -89,7 +90,7 @@ public class CmsSearchAnalyzer {
    *
    * @param className the class name
    */
-  public void setClassName(String className) {
+  public void setClassName(@RUntainted String className) {
 
     m_className = className;
   }
@@ -101,7 +102,7 @@ public class CmsSearchAnalyzer {
    *
    * @param locale the locale
    */
-  public void setLocale(Locale locale) {
+  public void setLocale(@RUntainted Locale locale) {
 
     m_locale = locale;
   }
@@ -114,7 +115,7 @@ public class CmsSearchAnalyzer {
    * @param locale the locale
    * @see #setLocale(Locale)
    */
-  public void setLocaleString(String locale) {
+  public void setLocaleString(@RUntainted String locale) {
 
     setLocale(CmsLocaleManager.getLocale(locale));
   }

@@ -49,6 +49,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Builds a table based on a given bean class.
@@ -244,8 +245,8 @@ public class CmsBeanTableBuilder<T> {
     List<String> visibleCols = Lists.newArrayList();
     for (ColumnBean column : m_columns) {
       String propName = column.getProperty().getName();
-      String columnHeader = column.getInfo().header();
-      String localizedHeader = CmsVaadinUtils.getMessageText(columnHeader);
+      @RUntainted String columnHeader = column.getInfo().header();
+      @RUntainted String localizedHeader = CmsVaadinUtils.getMessageText(columnHeader);
       if (CmsMessages.isUnknownKey(localizedHeader)) {
         localizedHeader = columnHeader;
       }

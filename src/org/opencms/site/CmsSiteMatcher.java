@@ -32,6 +32,7 @@ import java.net.URI;
 import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A matcher object to compare request data against the configured sites.
@@ -102,13 +103,13 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
   private transient Integer m_hashCode;
 
   /** The hostname (e.g. localhost) which is required to access this site. */
-  private String m_serverName;
+  private @RUntainted String m_serverName;
 
   /** The port (e.g. 80) which is required to access this site. */
-  private int m_serverPort;
+  private @RUntainted int m_serverPort;
 
   /** The protocol (e.g. "http", "https") which is required to access this site. */
-  private String m_serverProtocol;
+  private @RUntainted String m_serverProtocol;
 
   /** The time offset. */
   private long m_timeOffset;
@@ -350,7 +351,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
    *
    * @return the time Offset
    */
-  public long getTimeOffset() {
+  public @RUntainted long getTimeOffset() {
 
     return m_timeOffset;
   }
@@ -362,7 +363,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
    *
    * @return the url, i.e. {protocol}://{servername}[:{port}], port appened only if != 80
    */
-  public String getUrl() {
+  public @RUntainted String getUrl() {
 
     return m_serverProtocol
         + "://"
@@ -428,7 +429,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
    *
    * @param serverName the hostname (e.g. localhost) which is required to access this site
    */
-  protected void setServerName(String serverName) {
+  protected void setServerName(@RUntainted String serverName) {
 
     if (CmsStringUtil.isEmpty(serverName) || (WILDCARD.equals(serverName))) {
       m_serverName = WILDCARD;
@@ -444,7 +445,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
    *
    * @param serverPort the port (e.g. 80) which is required to access this site
    */
-  protected void setServerPort(int serverPort) {
+  protected void setServerPort(@RUntainted int serverPort) {
 
     m_serverPort = serverPort;
     if (m_serverPort < 0) {
@@ -461,12 +462,12 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
    *
    * @param serverProtocol the protocol (e.g. "http", "https") which is required to access this site
    */
-  protected void setServerProtocol(String serverProtocol) {
+  protected void setServerProtocol(@RUntainted String serverProtocol) {
 
     if (CmsStringUtil.isEmpty(serverProtocol) || (WILDCARD.equals(serverProtocol))) {
       m_serverProtocol = WILDCARD;
     } else {
-      int pos = serverProtocol.indexOf("/");
+      @RUntainted int pos = serverProtocol.indexOf("/");
       if (pos > 0) {
         m_serverProtocol = serverProtocol.substring(0, pos).toLowerCase();
       } else {
@@ -497,7 +498,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
    * @param serverPort the port required to access this site
    * @param timeOffset the time offset
    */
-  private void init(String serverProtocol, String serverName, int serverPort, long timeOffset) {
+  private void init(@RUntainted String serverProtocol, @RUntainted String serverName, @RUntainted int serverPort, long timeOffset) {
 
     setServerProtocol(serverProtocol);
     setServerName(serverName);

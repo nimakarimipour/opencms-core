@@ -69,6 +69,7 @@ import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.CmsXmlUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Collection of common used methods for implementing OpenCms Import classes.
@@ -419,13 +420,13 @@ public abstract class A_CmsImport implements I_CmsImport {
   protected boolean m_convertToXmlPage;
 
   /** The xml manifest-file. */
-  protected Document m_docXml;
+  protected @RUntainted Document m_docXml;
 
   /** Groups to create during import are stored here. */
   protected Stack<Map<String, String>> m_groupsToCreate;
 
   /** The import-path to write resources into the cms. */
-  protected String m_importPath;
+  protected @RUntainted String m_importPath;
 
   /** The import-resource (folder) to load resources from. */
   protected File m_importResource;
@@ -437,7 +438,7 @@ public abstract class A_CmsImport implements I_CmsImport {
   protected Map<String, List<CmsProperty>> m_linkPropertyStorage;
 
   /** Storage for all pointers which must be converted into links. */
-  protected Map<String, String> m_linkStorage;
+  protected @RUntainted Map<String, String> m_linkStorage;
 
   /** The object to report the log messages. */
   protected I_CmsReport m_report;
@@ -473,11 +474,11 @@ public abstract class A_CmsImport implements I_CmsImport {
    * @param elementName the child element name
    * @return the value of the child node, or null if something went wrong
    */
-  public String getChildElementTextValue(Element parentElement, String elementName) {
+  public @RUntainted String getChildElementTextValue(Element parentElement, String elementName) {
 
     try {
       // get the first child element matching the specified name
-      Element childElement = (Element) parentElement.selectNodes("./" + elementName).get(0);
+      @RUntainted Element childElement = (Element) parentElement.selectNodes("./" + elementName).get(0);
       // return the value of the child element
       return childElement.getTextTrim();
     } catch (Exception e) {
@@ -534,7 +535,7 @@ public abstract class A_CmsImport implements I_CmsImport {
    * @param immutableResources the list of the immutable resources
    * @return true or false
    */
-  protected boolean checkImmutable(String translatedName, List<String> immutableResources) {
+  protected boolean checkImmutable(@RUntainted String translatedName, List<String> immutableResources) {
 
     boolean resourceNotImmutable = true;
     if (immutableResources.contains(translatedName)) {
@@ -599,15 +600,15 @@ public abstract class A_CmsImport implements I_CmsImport {
   protected void convertPointerToSiblings() {
 
     try {
-      int linksSize = m_linkStorage.size();
+      @RUntainted int linksSize = m_linkStorage.size();
       int i = 0;
-      Iterator<Entry<String, String>> itEntries = m_linkStorage.entrySet().iterator();
+      Iterator<Entry<@RUntainted String, @RUntainted String>> itEntries = m_linkStorage.entrySet().iterator();
       // loop through all links to convert
       while (itEntries.hasNext()) {
-        Entry<String, String> entry = itEntries.next();
+        Entry<@RUntainted String, @RUntainted String> entry = itEntries.next();
 
-        String key = entry.getKey();
-        String link = entry.getValue();
+        @RUntainted String key = entry.getKey();
+        @RUntainted String link = entry.getValue();
         List<CmsProperty> properties = m_linkPropertyStorage.get(key);
         CmsProperty.setAutoCreatePropertyDefinitions(properties, true);
 
@@ -730,7 +731,7 @@ public abstract class A_CmsImport implements I_CmsImport {
    * @param filename the name of the file to read
    * @return a byte array containing the content of the file
    */
-  protected byte[] getFileBytes(String filename) {
+  protected byte[] getFileBytes(@RUntainted String filename) {
 
     try {
       // is this a zip-file?
@@ -789,7 +790,7 @@ public abstract class A_CmsImport implements I_CmsImport {
    * @return the created ACE
    */
   protected CmsAccessControlEntry getImportAccessControlEntry(
-      CmsResource res, String id, String allowed, String denied, String flags) {
+      CmsResource res, @RUntainted String id, String allowed, String denied, @RUntainted String flags) {
 
     return new CmsAccessControlEntry(
         res.getResourceId(),
@@ -808,7 +809,7 @@ public abstract class A_CmsImport implements I_CmsImport {
    * @param properties the properties to check at first
    * @return the locale
    */
-  protected Locale getLocale(String destination, List<CmsProperty> properties) {
+  protected Locale getLocale(@RUntainted String destination, List<CmsProperty> properties) {
 
     String localeName =
         CmsProperty.get(CmsPropertyDefinition.PROPERTY_LOCALE, properties).getValue();

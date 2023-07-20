@@ -37,6 +37,7 @@ import org.dom4j.Element;
 import org.opencms.configuration.I_CmsXmlConfiguration;
 import org.opencms.util.CmsPath;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a mapping rule that selects a different site root based on whether the requested path
@@ -66,7 +67,7 @@ public class CmsAlternativeSiteRootMapping implements Serializable {
   private CmsPath m_siteRoot;
 
   /** Suffix to append to the site title. */
-  private String m_titleSuffix;
+  private @RUntainted String m_titleSuffix;
 
   /**
    * Creates a new instance.
@@ -75,7 +76,7 @@ public class CmsAlternativeSiteRootMapping implements Serializable {
    * @param prefixes the prefixes
    * @param titleSuffix the title suffix
    */
-  public CmsAlternativeSiteRootMapping(String siteRoot, List<String> prefixes, String titleSuffix) {
+  public CmsAlternativeSiteRootMapping(@RUntainted String siteRoot, List<String> prefixes, @RUntainted String titleSuffix) {
 
     super();
     m_siteRoot = new CmsPath(siteRoot);
@@ -144,7 +145,7 @@ public class CmsAlternativeSiteRootMapping implements Serializable {
    *
    * @return the suffix to append to the site title
    */
-  public String getTitleSuffix() {
+  public @RUntainted String getTitleSuffix() {
 
     return m_titleSuffix;
   }

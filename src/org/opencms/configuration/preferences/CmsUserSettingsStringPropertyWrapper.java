@@ -31,6 +31,7 @@ import org.opencms.ade.galleries.CmsGalleryService;
 import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.CmsContextInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean used to access the built-in preferences via reflection.
@@ -867,7 +868,7 @@ public class CmsUserSettingsStringPropertyWrapper {
    *
    * @param s the new locale
    */
-  public void setLocale(String s) {
+  public void setLocale(@RUntainted String s) {
 
     m_settings.setLocale(CmsLocaleManager.getLocale(s));
   }
@@ -1097,7 +1098,7 @@ public class CmsUserSettingsStringPropertyWrapper {
    *
    * @param s the new start project
    */
-  public void setStartProject(String s) {
+  public void setStartProject(@RUntainted String s) {
 
     m_settings.setStartProject(s);
   }

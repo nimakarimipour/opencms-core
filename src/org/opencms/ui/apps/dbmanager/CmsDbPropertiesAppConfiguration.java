@@ -36,6 +36,7 @@ import org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration;
 import org.opencms.ui.apps.I_CmsWorkplaceApp;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.OpenCmsTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration class for property app.
@@ -69,7 +70,7 @@ public class CmsDbPropertiesAppConfiguration extends A_CmsWorkplaceAppConfigurat
 
   /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale) */
   @Override
-  public String getHelpText(Locale locale) {
+  public String getHelpText(@RUntainted Locale locale) {
 
     return Messages.get().getBundle(locale).key(Messages.GUI_DATABASEAPP_PROPERTY_TOOL_NAME_HELP_0);
   }

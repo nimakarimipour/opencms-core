@@ -87,6 +87,7 @@ import org.opencms.xml.containerpage.CmsADECacheSettings;
 import org.opencms.xml.xml2json.I_CmsApiAuthorizationHandler;
 import org.w3c.dom.Document;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * System master configuration class.
@@ -627,7 +628,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
   private Map<String, String> m_authHandlerParams = new HashMap<>();
 
   /** The authorization handler. */
-  private String m_authorizationHandler;
+  private @RUntainted String m_authorizationHandler;
 
   /** The settings of the memory monitor. */
   private CmsCacheSettings m_cacheSettings;
@@ -654,16 +655,16 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
   private I_CmsDetailPageHandler m_detailPageHandler = new CmsDefaultDetailPageHandler();
 
   /** The configured OpenCms event manager. */
-  private CmsEventManager m_eventManager;
+  private @RUntainted CmsEventManager m_eventManager;
 
   /** Indicates if the version history is enabled. */
-  private boolean m_historyEnabled;
+  private @RUntainted boolean m_historyEnabled;
 
   /** The maximum number of historical versions per resource. */
-  private int m_historyVersions;
+  private @RUntainted int m_historyVersions;
 
   /** The maximum number of historical versions for deleted resources. */
-  private int m_historyVersionsAfterDeletion;
+  private @RUntainted int m_historyVersionsAfterDeletion;
 
   /** The HTTP basic authentication settings. */
   private CmsHttpAuthenticationSettings m_httpAuthenticationSettings;
@@ -681,11 +682,11 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
   private CmsMailSettings m_mailSettings;
 
   /** Notification project. */
-  private String m_notificationProject;
+  private @RUntainted String m_notificationProject;
 
   /** The duration after which responsibles will be notified about out-dated content (in days). */
   // It is an Integer object so that it can be distinguished if this optional element was set or not
-  private Integer m_notificationTime;
+  private @RUntainted Integer m_notificationTime;
 
   /** The password handler. */
   private I_CmsPasswordHandler m_passwordHandler;
@@ -700,7 +701,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
   private CmsPublishManager m_publishManager;
 
   /** A list of instantiated request handler classes. */
-  private List<I_CmsRequestHandler> m_requestHandlers;
+  private List<@RUntainted I_CmsRequestHandler> m_requestHandlers;
 
   /** A list of instantiated resource init handler classes. */
   private List<I_CmsResourceInit> m_resourceInitHandlers;
@@ -721,7 +722,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
   private boolean m_saxImplProperties;
 
   /** The configured session storage provider class name. */
-  private String m_sessionStorageProvider;
+  private @RUntainted String m_sessionStorageProvider;
 
   /** The shell server options. */
   private CmsRemoteShellConfiguration m_shellServerOptions;
@@ -730,7 +731,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
   private CmsSubscriptionManager m_subscriptionManager;
 
   /** The temporary file project id. */
-  private int m_tempFileProjectId;
+  private @RUntainted int m_tempFileProjectId;
 
   private Map<String, I_CmsTextEncryption> m_textEncryptions = new LinkedHashMap<>();
 
@@ -743,7 +744,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
   private UserSessionMode m_userSessionMode;
 
   /** The configured validation handler. */
-  private String m_validationHandler;
+  private @RUntainted String m_validationHandler;
 
   /** The configured workflow manager. */
   private I_CmsWorkflowManager m_workflowManager;
@@ -790,7 +791,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    *
    * @param clazz the class name of event manager class to instantiate and add
    */
-  public void addEventManager(String clazz) {
+  public void addEventManager(@RUntainted String clazz) {
 
     try {
       m_eventManager = (CmsEventManager) Class.forName(clazz).newInstance();
@@ -814,9 +815,9 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    *
    * @param clazz the class name of the request handler to instantiate and add
    */
-  public void addRequestHandler(String clazz, CmsParameterConfiguration params) {
+  public void addRequestHandler(@RUntainted String clazz, CmsParameterConfiguration params) {
 
-    Object handler;
+    @RUntainted Object handler;
     try {
       handler = Class.forName(clazz).newInstance();
     } catch (Throwable t) {
@@ -848,7 +849,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    * @param params the parameters set for the resource init handler (parameters need to be copied
    *     out, the object will be modified after use)
    */
-  public void addResourceInitHandler(String clazz, CmsParameterConfiguration params)
+  public void addResourceInitHandler(@RUntainted String clazz, CmsParameterConfiguration params)
       throws CmsConfigurationException {
 
     Object initClass;
@@ -943,10 +944,10 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
         "*/" + N_SYSTEM + "/" + N_RESOURCEINIT + "/" + N_RESOURCEINITHANDLER,
         new Rule() {
 
-          private String m_class;
+          private @RUntainted String m_class;
 
           @Override
-          public void begin(String namespace, String name, Attributes attributes) throws Exception {
+          public void begin(String namespace, String name, @RUntainted Attributes attributes) throws Exception {
 
             m_class = attributes.getValue(A_CLASS);
             resourceHandlerParams[0] = new CmsParameterConfiguration();
@@ -1017,10 +1018,10 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
         "*/" + N_SYSTEM + "/" + N_REQUESTHANDLERS + "/" + N_REQUESTHANDLER,
         new Rule() {
 
-          private String m_class;
+          private @RUntainted String m_class;
 
           @Override
-          public void begin(String namespace, String name, Attributes attributes) throws Exception {
+          public void begin(String namespace, String name, @RUntainted Attributes attributes) throws Exception {
 
             m_class = attributes.getValue(A_CLASS);
             requestHandlerParams[0] = new CmsParameterConfiguration();
@@ -2158,7 +2159,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    *
    * @return the defaultContentEncoding
    */
-  public String getDefaultContentEncoding() {
+  public @RUntainted String getDefaultContentEncoding() {
 
     return m_defaultContentEncoding;
   }
@@ -2201,7 +2202,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    * @return the maximum number of versions that are kept per resource
    * @see #isHistoryEnabled()
    */
-  public int getHistoryVersions() {
+  public @RUntainted int getHistoryVersions() {
 
     return m_historyVersions;
   }
@@ -2217,7 +2218,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    * @return the maximum number of versions that are kept for deleted resources
    * @see #isHistoryEnabled()
    */
-  public int getHistoryVersionsAfterDeletion() {
+  public @RUntainted int getHistoryVersionsAfterDeletion() {
 
     return m_historyVersionsAfterDeletion;
   }
@@ -2316,7 +2317,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    *
    * @return the duration after which responsibles will be notified about out-dated content
    */
-  public int getNotificationTime() {
+  public @RUntainted int getNotificationTime() {
 
     if (m_notificationTime != null) {
       return m_notificationTime.intValue();
@@ -2408,7 +2409,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    *
    * @return the list of instantiated request handler classes
    */
-  public List<I_CmsRequestHandler> getRequestHandlers() {
+  public List<@RUntainted I_CmsRequestHandler> getRequestHandlers() {
 
     return m_requestHandlers;
   }
@@ -2634,7 +2635,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    *
    * @return if the VFS version history is enabled
    */
-  public boolean isHistoryEnabled() {
+  public @RUntainted boolean isHistoryEnabled() {
 
     return m_historyEnabled;
   }
@@ -2683,7 +2684,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    *
    * @param authorizationHandlerClass the authorization handler class to set.
    */
-  public void setAuthorizationHandler(String authorizationHandlerClass) {
+  public void setAuthorizationHandler(@RUntainted String authorizationHandlerClass) {
 
     m_authorizationHandler = authorizationHandlerClass;
   }
@@ -2714,13 +2715,13 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    * @param groupGuests the name of the guests group
    */
   public void setCmsDefaultUsers(
-      String userAdmin,
-      String userGuest,
-      String userExport,
-      String userDeletedResource,
-      String groupAdministrators,
-      String groupUsers,
-      String groupGuests) {
+      @RUntainted String userAdmin,
+      @RUntainted String userGuest,
+      @RUntainted String userExport,
+      @RUntainted String userDeletedResource,
+      @RUntainted String groupAdministrators,
+      @RUntainted String groupUsers,
+      @RUntainted String groupGuests) {
 
     if (CmsLog.INIT.isInfoEnabled()) {
       CmsLog.INIT.info(Messages.get().getBundle().key(Messages.INIT_CHECKING_DEFAULT_USER_NAMES_0));
@@ -2845,7 +2846,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    * @param historyVersionsAfterDeletion the maximum number of versions for deleted resources
    */
   public void setHistorySettings(
-      String historyEnabled, String historyVersions, String historyVersionsAfterDeletion) {
+      @RUntainted String historyEnabled, @RUntainted String historyVersions, @RUntainted String historyVersionsAfterDeletion) {
 
     m_historyEnabled = Boolean.valueOf(historyEnabled).booleanValue();
     m_historyVersions = Integer.valueOf(historyVersions).intValue();
@@ -2919,9 +2920,9 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    * @param logoutUri the alternative logout handler URI (may be null)
    */
   public void setLoginManager(
-      String disableMinutesStr,
-      String maxBadAttemptsStr,
-      String enableSecurityStr,
+      @RUntainted String disableMinutesStr,
+      @RUntainted String maxBadAttemptsStr,
+      @RUntainted String enableSecurityStr,
       String tokenLifetime,
       String maxInactive,
       String passwordChangeInterval,
@@ -2929,19 +2930,19 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
       String requireOrgUnitStr,
       String logoutUri) {
 
-    int disableMinutes;
+    @RUntainted int disableMinutes;
     try {
       disableMinutes = Integer.valueOf(disableMinutesStr).intValue();
     } catch (NumberFormatException e) {
       disableMinutes = CmsLoginManager.DISABLE_MINUTES_DEFAULT;
     }
-    int maxBadAttempts;
+    @RUntainted int maxBadAttempts;
     try {
       maxBadAttempts = Integer.valueOf(maxBadAttemptsStr).intValue();
     } catch (NumberFormatException e) {
       maxBadAttempts = CmsLoginManager.MAX_BAD_ATTEMPTS_DEFAULT;
     }
-    boolean enableSecurity = Boolean.valueOf(enableSecurityStr).booleanValue();
+    @RUntainted boolean enableSecurity = Boolean.valueOf(enableSecurityStr).booleanValue();
     boolean requireOrgUnit = Boolean.valueOf(requireOrgUnitStr).booleanValue();
     m_loginManager =
         new CmsLoginManager(
@@ -2973,7 +2974,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    *
    * @param mailSettings the mail settings to set.
    */
-  public void setMailSettings(CmsMailSettings mailSettings) {
+  public void setMailSettings(@RUntainted CmsMailSettings mailSettings) {
 
     m_mailSettings = mailSettings;
     if (LOG.isDebugEnabled()) {
@@ -2989,7 +2990,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    * @param notificationProject the project in which timestamps for the content notification are
    *     read
    */
-  public void setNotificationProject(String notificationProject) {
+  public void setNotificationProject(@RUntainted String notificationProject) {
 
     m_notificationProject = notificationProject;
     if (CmsLog.INIT.isInfoEnabled()) {
@@ -3008,7 +3009,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    * @param notificationTime the duration after which responsibles will be notified about out-dated
    *     content
    */
-  public void setNotificationTime(String notificationTime) {
+  public void setNotificationTime(@RUntainted String notificationTime) {
 
     try {
       m_notificationTime = new Integer(notificationTime);
@@ -3028,7 +3029,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    *
    * @param passwordHandler the password handler to set
    */
-  public void setPasswordHandler(I_CmsPasswordHandler passwordHandler) {
+  public void setPasswordHandler(@RUntainted I_CmsPasswordHandler passwordHandler) {
 
     m_passwordHandler = passwordHandler;
     if (CmsLog.INIT.isInfoEnabled()) {
@@ -3134,7 +3135,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    *
    * @param className the class name of the configured runtime info factory
    */
-  public void setRuntimeInfoFactory(String className) {
+  public void setRuntimeInfoFactory(@RUntainted String className) {
 
     Object objectInstance;
 
@@ -3182,7 +3183,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    *
    * @param sessionStorageProviderClass the session storage provider class to set.
    */
-  public void setSessionStorageProvider(String sessionStorageProviderClass) {
+  public void setSessionStorageProvider(@RUntainted String sessionStorageProviderClass) {
 
     m_sessionStorageProvider = sessionStorageProviderClass;
   }
@@ -3197,7 +3198,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    */
   public void setShellServerOptions(String enabled, String portStr) {
 
-    int port;
+    @RUntainted int port;
     try {
       port = Integer.parseInt(portStr);
     } catch (NumberFormatException e) {
@@ -3225,7 +3226,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    *
    * @param tempFileProjectId the temporary file project id to set
    */
-  public void setTempFileProjectId(String tempFileProjectId) {
+  public void setTempFileProjectId(@RUntainted String tempFileProjectId) {
 
     try {
       m_tempFileProjectId = Integer.valueOf(tempFileProjectId).intValue();
@@ -3286,7 +3287,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
    *
    * @param validationHandlerClass the validation handler class to set.
    */
-  public void setValidationHandler(String validationHandlerClass) {
+  public void setValidationHandler(@RUntainted String validationHandlerClass) {
 
     m_validationHandler = validationHandlerClass;
   }

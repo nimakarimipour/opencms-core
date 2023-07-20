@@ -43,6 +43,7 @@ import org.opencms.main.CmsShell;
 import org.opencms.main.CmsShellCommandException;
 import org.opencms.main.I_CmsShellCommands;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** RMI object which wraps a CmsShell and can be used for shell command execution. */
 public class CmsRemoteShell extends UnicastRemoteObject implements I_CmsRemoteShell {
@@ -184,7 +185,7 @@ public class CmsRemoteShell extends UnicastRemoteObject implements I_CmsRemoteSh
   }
 
   /** @see org.opencms.rmi.I_CmsRemoteShell#executeCommand(java.lang.String, java.util.List) */
-  public CmsShellCommandResult executeCommand(String cmd, List<String> params) {
+  public CmsShellCommandResult executeCommand(@RUntainted String cmd, List<String> params) {
 
     LOG.debug(m_id + " executing " + cmd + " " + params);
     CmsShellCommandResult result = new CmsShellCommandResult();

@@ -43,6 +43,7 @@ import org.opencms.xml.CmsXmlContentDefinition;
 import org.opencms.xml.CmsXmlGenericWrapper;
 import org.opencms.xml.CmsXmlUtils;
 import org.opencms.xml.I_CmsXmlDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for XML content value implementations.
@@ -63,7 +64,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
   protected I_CmsXmlDocument m_document;
 
   /** The XML element node that contains this value. */
-  protected Element m_element;
+  protected @RUntainted Element m_element;
 
   /** The locale this value was generated for. */
   protected Locale m_locale;
@@ -75,7 +76,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
   protected int m_minOccurs;
 
   /** The configured XML node name of this value. */
-  protected String m_name;
+  protected @RUntainted String m_name;
 
   /** The content definition this schema type belongs to. */
   private CmsXmlContentDefinition m_contentDefinition;
@@ -117,7 +118,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
    * @param type the type instance to create the value for
    */
   protected A_CmsXmlContentValue(
-      I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
     m_element = element;
     m_name = element.getName();
@@ -140,7 +141,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
    * @param minOccurs minimum number of occurrences of this type according to the XML schema
    * @param maxOccurs maximum number of occurrences of this type according to the XML schema
    */
-  protected A_CmsXmlContentValue(String name, String minOccurs, String maxOccurs) {
+  protected A_CmsXmlContentValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
     m_name = name;
     m_minOccurs = 1;
@@ -227,11 +228,11 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
    *     org.opencms.xml.I_CmsXmlDocument, org.dom4j.Element, java.util.Locale)
    */
   public Element generateXml(
-      CmsObject cms, I_CmsXmlDocument document, Element root, Locale locale) {
+      CmsObject cms, I_CmsXmlDocument document, Element root, @RUntainted Locale locale) {
 
     Element element = root.addElement(getName());
     // get the default value from the content handler
-    String defaultValue = document.getHandler().getDefault(cms, this, locale);
+    @RUntainted String defaultValue = document.getHandler().getDefault(cms, this, locale);
     if (defaultValue != null) {
       try {
         I_CmsXmlContentValue value = createValue(document, element, locale);
@@ -262,7 +263,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
   }
 
   /** @see org.opencms.widgets.I_CmsWidgetParameter#getDefault(org.opencms.file.CmsObject) */
-  public String getDefault(CmsObject cms) {
+  public @RUntainted String getDefault(CmsObject cms) {
 
     return m_contentDefinition.getContentHandler().getDefault(cms, this, getLocale());
   }
@@ -286,7 +287,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
   }
 
   /** @see org.opencms.widgets.I_CmsWidgetParameter#getId() */
-  public String getId() {
+  public @RUntainted String getId() {
 
     if (m_element == null) {
       return null;
@@ -330,7 +331,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
   }
 
   /** @see org.opencms.xml.types.I_CmsXmlContentValue#getLocale() */
-  public Locale getLocale() {
+  public @RUntainted Locale getLocale() {
 
     return m_locale;
   }
@@ -379,13 +380,13 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
    *
    * @return the name
    */
-  public String getName() {
+  public @RUntainted String getName() {
 
     return m_name;
   }
 
   /** @see org.opencms.xml.types.I_CmsXmlContentValue#getPath() */
-  public String getPath() {
+  public @RUntainted String getPath() {
 
     if (m_element == null) {
       return "";
@@ -589,7 +590,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
    * @return the loaded XML schema
    * @throws CmsRuntimeException if something goes wrong
    */
-  protected String readSchemaDefinition(String schemaUri) throws CmsRuntimeException {
+  protected String readSchemaDefinition(@RUntainted String schemaUri) throws CmsRuntimeException {
 
     // the schema definition is located in a separate file for easier editing
     String schemaDefinition;

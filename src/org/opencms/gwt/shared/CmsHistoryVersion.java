@@ -30,6 +30,7 @@ package org.opencms.gwt.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.List;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean representing a file version for the history dialog.
@@ -58,7 +59,7 @@ public class CmsHistoryVersion implements IsSerializable {
   private OfflineOnline m_offlineOnline;
 
   /** The version number. */
-  private Integer m_versionNumber;
+  private @RUntainted Integer m_versionNumber;
 
   /**
    * Creates a new instance.
@@ -68,7 +69,7 @@ public class CmsHistoryVersion implements IsSerializable {
    * @param versionNumber the version number
    * @param offlineOnline the offline/online state
    */
-  public CmsHistoryVersion(Integer versionNumber, OfflineOnline offlineOnline) {
+  public CmsHistoryVersion(@RUntainted Integer versionNumber, OfflineOnline offlineOnline) {
 
     m_offlineOnline = offlineOnline;
     m_versionNumber = versionNumber;
@@ -118,7 +119,7 @@ public class CmsHistoryVersion implements IsSerializable {
    *
    * @return the version number
    */
-  public Integer getVersionNumber() {
+  public @RUntainted Integer getVersionNumber() {
 
     return m_versionNumber;
   }

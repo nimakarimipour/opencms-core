@@ -51,6 +51,7 @@ import org.opencms.ugc.shared.CmsUgcException;
 import org.opencms.ugc.shared.rpc.I_CmsUgcEditService;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.content.CmsXmlContentErrorHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The form editing service.
@@ -229,7 +230,7 @@ public class CmsUgcEditService extends CmsGwtService implements I_CmsUgcEditServ
    */
   protected void handleUpload(HttpServletRequest request, HttpServletResponse response) {
 
-    String sessionIdStr = request.getParameter(CmsUgcConstants.PARAM_SESSION_ID);
+    @RUntainted String sessionIdStr = request.getParameter(CmsUgcConstants.PARAM_SESSION_ID);
     CmsUUID sessionId = new CmsUUID(sessionIdStr);
     CmsUgcSession session = CmsUgcSessionFactory.getInstance().getSession(request, sessionId);
     session.getFormUploadHelper().processFormSubmitRequest(request);

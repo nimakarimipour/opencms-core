@@ -67,6 +67,7 @@ import org.opencms.security.CmsPermissionSet;
 import org.opencms.security.CmsSecurityException;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.CmsXmlEntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "image".
@@ -100,7 +101,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
     private List<CmsProperty> m_properties;
 
     /** The image root path. */
-    private String m_rootPath;
+    private @RUntainted String m_rootPath;
 
     /**
      * Creates a new image data container.
@@ -113,7 +114,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
      * @param downScaler the (optional) image scaler that contains the image downscale settings
      */
     public CmsImageAdjuster(
-        byte[] content, String rootPath, List<CmsProperty> properties, CmsImageScaler downScaler) {
+        byte[] content, @RUntainted String rootPath, List<CmsProperty> properties, CmsImageScaler downScaler) {
 
       m_content = content;
       m_rootPath = rootPath;
@@ -235,7 +236,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
      *
      * @return the image VFS root path
      */
-    public String getRootPath() {
+    public @RUntainted String getRootPath() {
 
       return m_rootPath;
     }
@@ -457,7 +458,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
    * @return the downscaler to use, or <code>null</code> if no downscaling is required for the
    *     resource
    */
-  public static CmsImageScaler getDownScaler(CmsObject cms, String rootPath) {
+  public static CmsImageScaler getDownScaler(CmsObject cms, @RUntainted String rootPath) {
 
     if (m_downScaler == null) {
       // downscaling is not configured at all
@@ -523,7 +524,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
   public CmsResource createResource(
       CmsObject cms,
       CmsSecurityManager securityManager,
-      String resourcename,
+      @RUntainted String resourcename,
       byte[] content,
       List<CmsProperty> properties)
       throws CmsException {
@@ -627,7 +628,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
    *     java.lang.String, String)
    */
   @Override
-  public void initConfiguration(String name, String id, String className)
+  public void initConfiguration(String name, @RUntainted String id, @RUntainted String className)
       throws CmsConfigurationException {
 
     if ((OpenCms.getRunLevel() > OpenCms.RUNLEVEL_2_INITIALIZING) && m_staticFrozen) {

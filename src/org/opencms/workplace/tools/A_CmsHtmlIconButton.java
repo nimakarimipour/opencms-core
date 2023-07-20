@@ -32,6 +32,7 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default skeleton for an html icon button.
@@ -123,7 +124,7 @@ public abstract class A_CmsHtmlIconButton implements I_CmsHtmlIconButton {
       String helpText,
       boolean enabled,
       String iconPath,
-      String confirmationMessage,
+      @RUntainted String confirmationMessage,
       String onClick) {
 
     return defaultButtonHtml(
@@ -167,7 +168,7 @@ public abstract class A_CmsHtmlIconButton implements I_CmsHtmlIconButton {
       String helpText,
       boolean enabled,
       String iconPath,
-      String confirmationMessage,
+      @RUntainted String confirmationMessage,
       String onClick,
       boolean singleHelp,
       String rightHtml) {

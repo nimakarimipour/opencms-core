@@ -52,6 +52,7 @@ import org.opencms.gwt.shared.property.CmsPropertiesBean;
 import org.opencms.gwt.shared.property.CmsPropertyChangeSet;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A service interface for retrieving information about the VFS tree.
@@ -204,7 +205,7 @@ public interface I_CmsVfsService extends RemoteService {
    * @return the detail name for the structure id
    * @throws CmsRpcException if something goes wrong
    */
-  String getDetailName(CmsUUID id, String locale) throws CmsRpcException;
+  String getDetailName(CmsUUID id, @RUntainted String locale) throws CmsRpcException;
 
   /**
    * Returns the file replace info.
@@ -229,7 +230,7 @@ public interface I_CmsVfsService extends RemoteService {
    * @throws CmsRpcException if something goes wrong
    */
   CmsPreviewInfo getHistoryPreviewInfo(
-      CmsUUID structureId, String locale, CmsHistoryVersion version) throws CmsRpcException;
+      CmsUUID structureId, @RUntainted String locale, CmsHistoryVersion version) throws CmsRpcException;
 
   /**
    * Returns the lock report info.
@@ -274,7 +275,7 @@ public interface I_CmsVfsService extends RemoteService {
    * @return the preview info
    * @throws CmsRpcException if something goes wrong
    */
-  CmsPreviewInfo getPreviewInfo(CmsUUID structureId, String locale) throws CmsRpcException;
+  CmsPreviewInfo getPreviewInfo(CmsUUID structureId, @RUntainted String locale) throws CmsRpcException;
 
   /**
    * Returns the preview info for the given resource.
@@ -286,7 +287,7 @@ public interface I_CmsVfsService extends RemoteService {
    * @return the preview info
    * @throws CmsRpcException if something goes wrong
    */
-  CmsPreviewInfo getPreviewInfo(String sitePath, String locale) throws CmsRpcException;
+  CmsPreviewInfo getPreviewInfo(String sitePath, @RUntainted String locale) throws CmsRpcException;
 
   /***
    * Gets the information necessary for the rename dialog.<p>
@@ -326,7 +327,7 @@ public interface I_CmsVfsService extends RemoteService {
    */
   CmsResourceStatusBean getResourceStatus(
       CmsUUID structureId,
-      String locale,
+      @RUntainted String locale,
       boolean includeTargets,
       CmsUUID detailContentId,
       Map<String, String> context)
@@ -380,7 +381,7 @@ public interface I_CmsVfsService extends RemoteService {
    * @return the info to display
    * @throws CmsRpcException if something goes wrong
    */
-  CmsListInfoBean getUploadFolderInfo(String path) throws CmsRpcException;
+  CmsListInfoBean getUploadFolderInfo(@RUntainted String path) throws CmsRpcException;
 
   /**
    * Loads the external link info.
@@ -425,7 +426,7 @@ public interface I_CmsVfsService extends RemoteService {
    * @return a bean with more information about the file to edit
    * @throws CmsRpcException if something goes wrong
    */
-  CmsPrepareEditResponse prepareEdit(CmsUUID currentPage, String fileNameWithMacros)
+  CmsPrepareEditResponse prepareEdit(CmsUUID currentPage, @RUntainted String fileNameWithMacros)
       throws CmsRpcException;
 
   /**
@@ -438,7 +439,7 @@ public interface I_CmsVfsService extends RemoteService {
    * @return null or an error message
    * @throws CmsRpcException if something goes wrong
    */
-  String renameResource(CmsUUID structureId, String newName) throws CmsRpcException;
+  String renameResource(CmsUUID structureId, @RUntainted String newName) throws CmsRpcException;
 
   /**
    * Reverts a resource to a previous historic version.
@@ -473,7 +474,7 @@ public interface I_CmsVfsService extends RemoteService {
    * @param fileName the file name
    * @throws CmsRpcException if something goes wrong
    */
-  void saveExternalLink(CmsUUID structureId, String title, String link, String fileName)
+  void saveExternalLink(CmsUUID structureId, @RUntainted String title, String link, String fileName)
       throws CmsRpcException;
 
   /**
@@ -497,7 +498,7 @@ public interface I_CmsVfsService extends RemoteService {
    * @return the absolute link
    * @throws CmsRpcException if something goes wrong processing the request
    */
-  String substituteLinkForRootPath(String currentSiteRoot, String rootPath) throws CmsRpcException;
+  String substituteLinkForRootPath(@RUntainted String currentSiteRoot, String rootPath) throws CmsRpcException;
 
   /**
    * Deletes a resource from the VFS.

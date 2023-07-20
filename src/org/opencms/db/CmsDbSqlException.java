@@ -32,6 +32,7 @@ import org.apache.commons.logging.Log;
 import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to signal sql related issues.
@@ -89,7 +90,7 @@ public class CmsDbSqlException extends CmsDbException {
    * @param stmt the Statement to get the crashed query from
    * @return the crashed query
    */
-  public static String getErrorQuery(Statement stmt) {
+  public static @RUntainted String getErrorQuery(Statement stmt) {
 
     if (stmt != null) {
       // the query that crashed

@@ -41,6 +41,7 @@ import org.opencms.jsp.decorator.CmsHtmlDecorator;
 import org.opencms.jsp.decorator.I_CmsDecoratorConfiguration;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the <code>&lt;cms:decorate&gt;&lt;/cms:decorate&gt;</code> tag to decorate HTML

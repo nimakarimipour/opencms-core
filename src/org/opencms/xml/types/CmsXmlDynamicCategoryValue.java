@@ -40,6 +40,7 @@ import org.opencms.relations.CmsCategoryService;
 import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.xml2json.I_CmsJsonFormattableValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVfsFile".
@@ -86,7 +87,7 @@ public class CmsXmlDynamicCategoryValue extends A_CmsXmlContentValue
    * @param type the type instance to create the value for
    */
   public CmsXmlDynamicCategoryValue(
-      I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
     super(document, element, locale, type);
   }
@@ -100,7 +101,7 @@ public class CmsXmlDynamicCategoryValue extends A_CmsXmlContentValue
    * @param minOccurs minimum number of occurrences of this type according to the XML schema
    * @param maxOccurs maximum number of occurrences of this type according to the XML schema
    */
-  public CmsXmlDynamicCategoryValue(String name, String minOccurs, String maxOccurs) {
+  public CmsXmlDynamicCategoryValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
     super(name, minOccurs, maxOccurs);
   }
@@ -110,7 +111,7 @@ public class CmsXmlDynamicCategoryValue extends A_CmsXmlContentValue
    *     org.dom4j.Element, Locale)
    */
   public I_CmsXmlContentValue createValue(
-      I_CmsXmlDocument document, Element element, Locale locale) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale) {
 
     return new CmsXmlDynamicCategoryValue(document, element, locale, this);
   }

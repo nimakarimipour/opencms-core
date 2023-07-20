@@ -66,6 +66,7 @@ import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsPair;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic implementation of the user tracking and subscription driver interface.
@@ -166,7 +167,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
 
     CmsParameterConfiguration config = configurationManager.getConfiguration();
 
-    String poolUrl = config.get("db.subscription.pool");
+    @RUntainted String poolUrl = config.get("db.subscription.pool");
     String classname = config.get("db.subscription.sqlmanager");
     m_sqlManager = initSqlManager(classname);
     m_sqlManager.init(I_CmsSubscriptionDriver.DRIVER_TYPE_ID, poolUrl);
@@ -188,7 +189,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
   }
 
   /** @see org.opencms.db.I_CmsSubscriptionDriver#initSqlManager(java.lang.String) */
-  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
     return CmsSqlManager.getInstance(classname);
   }
@@ -285,9 +286,9 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
   public List<CmsResource> readAllSubscribedResources(
       CmsDbContext dbc, String poolName, CmsPrincipal principal) throws CmsDataAccessException {
 
-    PreparedStatement stmt = null;
+    @RUntainted PreparedStatement stmt = null;
     Connection conn = null;
-    ResultSet res = null;
+    @RUntainted ResultSet res = null;
     CmsResource currentResource = null;
     List<CmsResource> resources = new ArrayList<CmsResource>();
 
@@ -357,7 +358,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
       }
 
       conn = m_sqlManager.getConnection(poolName);
-      String query = m_sqlManager.readQuery(dbc.currentProject(), "C_VISITED_USER_READ_4");
+      @RUntainted String query = m_sqlManager.readQuery(dbc.currentProject(), "C_VISITED_USER_READ_4");
       query = CmsStringUtil.substitute(query, "%(CONDITIONS)", conditions.toString());
       stmt = m_sqlManager.getPreparedStatementForSql(conn, query);
 
@@ -406,7 +407,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
 
     PreparedStatement stmt = null;
     Connection conn = null;
-    ResultSet res = null;
+    @RUntainted ResultSet res = null;
     List<I_CmsHistoryResource> resources = new ArrayList<I_CmsHistoryResource>();
     Set<CmsUUID> historyIDs = new HashSet<CmsUUID>();
 
@@ -513,7 +514,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
     CmsResource currentResource = null;
     List<CmsResource> resources = new ArrayList<CmsResource>();
 
-    String queryBuf = m_sqlManager.readQuery(dbc.currentProject(), "C_SUBSCRIPTION_FILTER_READ");
+    @RUntainted String queryBuf = m_sqlManager.readQuery(dbc.currentProject(), "C_SUBSCRIPTION_FILTER_READ");
 
     StringBuffer conditions = new StringBuffer(256);
     List<I_CmsPreparedStatementParameter> params = new ArrayList<I_CmsPreparedStatementParameter>();
@@ -994,7 +995,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
    * @return the new {@link CmsVisitEntry} object
    * @throws SQLException if something goes wrong
    */
-  protected CmsVisitEntry internalReadVisitEntry(ResultSet res) throws SQLException {
+  protected CmsVisitEntry internalReadVisitEntry(@RUntainted ResultSet res) throws SQLException {
 
     CmsUUID userId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_VISIT_USER_ID")));
     long date = res.getLong(m_sqlManager.readQuery("C_VISIT_DATE"));

@@ -42,6 +42,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.xml.CmsXmlEntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import helper.
@@ -88,7 +89,7 @@ public class CmsImportHelper {
    *     http://www.opencms.org/dtd/6.0/</code>
    * @see org.opencms.configuration.I_CmsXmlConfiguration
    */
-  public void cacheDtdSystemId(String dtdSystemLocation, String dtdFilename, String dtdUrlPrefix) {
+  public void cacheDtdSystemId(@RUntainted String dtdSystemLocation, @RUntainted String dtdFilename, @RUntainted String dtdUrlPrefix) {
 
     if (dtdSystemLocation != null) {
       try {
@@ -149,7 +150,7 @@ public class CmsImportHelper {
    * @return a byte array containing the content of the file
    * @throws CmsImportExportException if something goes wrong
    */
-  public byte[] getFileBytes(String filename) throws CmsImportExportException {
+  public byte[] getFileBytes(@RUntainted String filename) throws CmsImportExportException {
 
     try {
       // is this a zip-file?
@@ -181,7 +182,7 @@ public class CmsImportHelper {
     }
   }
 
-  public long getFileModification(String filename) throws CmsImportExportException {
+  public long getFileModification(@RUntainted String filename) throws CmsImportExportException {
 
     long modificationTime = 0;
 
@@ -218,11 +219,11 @@ public class CmsImportHelper {
    *
    * @return the name of the import file, without zip extension
    */
-  public String getFileName() {
+  public @RUntainted String getFileName() {
 
-    String fileName = m_params.getPath().replace('\\', '/');
-    String zipName = fileName.substring(fileName.lastIndexOf('/') + 1);
-    String result;
+    @RUntainted String fileName = m_params.getPath().replace('\\', '/');
+    @RUntainted String zipName = fileName.substring(fileName.lastIndexOf('/') + 1);
+    @RUntainted String result;
 
     if (zipName.toLowerCase().endsWith(".zip")) {
       result = zipName.substring(0, zipName.lastIndexOf('.'));
@@ -245,7 +246,7 @@ public class CmsImportHelper {
    * @return an input stream for the content of the file, remember to close it after using
    * @throws CmsImportExportException if something goes wrong
    */
-  public InputStream getFileStream(String fileName) throws CmsImportExportException {
+  public InputStream getFileStream(@RUntainted String fileName) throws CmsImportExportException {
 
     try {
       InputStream stream = null;
@@ -317,7 +318,7 @@ public class CmsImportHelper {
    *
    * @return the RFS zip file to import from
    */
-  public ZipFile getZipFile() {
+  public @RUntainted ZipFile getZipFile() {
 
     return m_zipFile;
   }
@@ -360,7 +361,7 @@ public class CmsImportHelper {
    * @return the zip entry for the file with the provided name
    * @throws ZipException thrown if the file is not in the zip archive
    */
-  protected ZipEntry getZipEntry(String filename) throws ZipException {
+  protected ZipEntry getZipEntry(@RUntainted String filename) throws ZipException {
 
     // yes
     ZipEntry entry = getZipFile().getEntry(filename);

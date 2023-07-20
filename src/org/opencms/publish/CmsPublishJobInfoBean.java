@@ -38,6 +38,7 @@ import org.opencms.main.CmsRuntimeException;
 import org.opencms.main.OpenCms;
 import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish job information bean.
@@ -58,22 +59,22 @@ public final class CmsPublishJobInfoBean {
   private boolean m_directPublish;
 
   /** Time of creation of this object. */
-  private long m_enqueueTime;
+  private @RUntainted long m_enqueueTime;
 
   /** Time the publish job did end. */
   private long m_finishTime;
 
   /** The locale to use for publishing. */
-  private Locale m_locale;
+  private @RUntainted Locale m_locale;
 
   /** Project to use for publishing. */
   private CmsUUID m_projectId;
 
   /** Name of the project used for publishing. */
-  private String m_projectName;
+  private @RUntainted String m_projectName;
 
   /** Publish history id. */
-  private CmsUUID m_publishHistoryId;
+  private @RUntainted CmsUUID m_publishHistoryId;
 
   /** List of resources to publish, will be set to <code>null</code> after publishing. */
   private CmsPublishList m_publishList;
@@ -119,14 +120,14 @@ public final class CmsPublishJobInfoBean {
    * @param finishTime time when the job was finished
    */
   public CmsPublishJobInfoBean(
-      CmsUUID historyId,
+      @RUntainted CmsUUID historyId,
       CmsUUID projectId,
-      String projectName,
+      @RUntainted String projectName,
       CmsUUID userId,
-      String localeName,
+      @RUntainted String localeName,
       int flags,
       int resourceCount,
-      long enqueueTime,
+      @RUntainted long enqueueTime,
       long startTime,
       long finishTime) {
 
@@ -181,7 +182,7 @@ public final class CmsPublishJobInfoBean {
    *
    * @return the time this object has been created
    */
-  public long getEnqueueTime() {
+  public @RUntainted long getEnqueueTime() {
 
     return m_enqueueTime;
   }
@@ -217,7 +218,7 @@ public final class CmsPublishJobInfoBean {
    *
    * @return the locale for this publish job
    */
-  public Locale getLocale() {
+  public @RUntainted Locale getLocale() {
 
     return m_locale;
   }
@@ -251,7 +252,7 @@ public final class CmsPublishJobInfoBean {
    *
    * @return the originally stored project name
    */
-  public String getProjectName() {
+  public @RUntainted String getProjectName() {
 
     return m_projectName;
   }
@@ -263,7 +264,7 @@ public final class CmsPublishJobInfoBean {
    *
    * @return the publish history id
    */
-  public CmsUUID getPublishHistoryId() {
+  public @RUntainted CmsUUID getPublishHistoryId() {
 
     return m_publishHistoryId;
   }
@@ -292,7 +293,7 @@ public final class CmsPublishJobInfoBean {
    * @return the report for this publish job
    * @see CmsPublishJobEnqueued#getReport()
    */
-  public I_CmsReport getPublishReport() {
+  public @RUntainted I_CmsReport getPublishReport() {
 
     if ((m_publishReport == null) && (m_finishTime == 0) && (m_startTime > 0)) {
       m_publishReport = getReport();

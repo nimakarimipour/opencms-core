@@ -57,6 +57,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.editors.CmsXmlContentEditor;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The editor app. Will open the appropriate editor for a resource.
@@ -198,7 +199,7 @@ public class CmsEditor
     // check if the back link targets the workplace UI
     if (backlink.startsWith(current)) {
       // use the navigator to open the target
-      String target = backlink.substring(backlink.indexOf("#") + 1);
+      @RUntainted String target = backlink.substring(backlink.indexOf("#") + 1);
       String decodedTarget = CmsEncoder.decode(target);
       CmsAppWorkplaceUi.get().getNavigator().navigateTo(decodedTarget);
     } else {
@@ -279,7 +280,7 @@ public class CmsEditor
         String typeName = CmsJspTagEdit.getTypeFromNewLink(newLink);
         I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(typeName);
         editor = OpenCms.getWorkplaceAppManager().getEditorForType(type, isPlainText(state));
-        String rootPath = CmsJspTagEdit.getRootPathFromNewLink(newLink);
+        @RUntainted String rootPath = CmsJspTagEdit.getRootPathFromNewLink(newLink);
         CmsADEConfigData data = OpenCms.getADEManager().lookupConfiguration(cms, rootPath);
         CmsResourceTypeConfig typeConfig = data.getResourceType(typeName);
         if (!typeConfig.checkCreatable(cms, rootPath)) {

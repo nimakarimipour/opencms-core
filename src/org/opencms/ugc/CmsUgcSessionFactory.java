@@ -38,6 +38,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.ugc.shared.CmsUgcConstants;
 import org.opencms.ugc.shared.CmsUgcException;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Factory to create the form editing sessions.
@@ -106,7 +107,7 @@ public class CmsUgcSessionFactory {
       CmsObject cms, HttpServletRequest request, CmsUgcConfiguration config)
       throws CmsUgcException {
 
-    CmsUgcSession session = createSession(cms, config);
+    @RUntainted CmsUgcSession session = createSession(cms, config);
     HttpSession httpSession = request.getSession(true);
     httpSession.setAttribute("" + session.getId(), session);
     return session;

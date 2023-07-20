@@ -124,6 +124,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.explorer.CmsResourceUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The file explorer app.
@@ -150,7 +151,7 @@ public class CmsFileExplorer
     final transient I_CmsWorkplaceAction m_copyMoveAction = new CmsCopyDialogAction();
 
     /** @see com.vaadin.event.dd.DropHandler#drop(com.vaadin.event.dd.DragAndDropEvent) */
-    public void drop(DragAndDropEvent dragEvent) {
+    public void drop(@RUntainted DragAndDropEvent dragEvent) {
 
       try {
         CmsExplorerDialogContext context = getContext(dragEvent);
@@ -174,7 +175,7 @@ public class CmsFileExplorer
 
         private static final long serialVersionUID = 1L;
 
-        public boolean accept(DragAndDropEvent dragEvent) {
+        public boolean accept(@RUntainted DragAndDropEvent dragEvent) {
 
           try {
             if (!m_copyMoveAction.isActive(getContext(dragEvent))) {
@@ -204,7 +205,7 @@ public class CmsFileExplorer
       if (dragEvent.getTargetDetails() instanceof AbstractSelectTargetDetails) {
         AbstractSelectTargetDetails target =
             (AbstractSelectTargetDetails) dragEvent.getTargetDetails();
-        Object itemOverId = target.getItemIdOver();
+        @RUntainted Object itemOverId = target.getItemIdOver();
         if (itemOverId instanceof CmsUUID) {
           targetId = (CmsUUID) itemOverId;
         } else if (itemOverId instanceof String) {
@@ -213,7 +214,7 @@ public class CmsFileExplorer
       }
       try {
         CmsObject cms = A_CmsUI.getCmsObject();
-        CmsResource target = cms.readResource(targetId);
+        @RUntainted CmsResource target = cms.readResource(targetId);
         if (target.isFile()) {
           targetId = null;
         }
@@ -263,7 +264,7 @@ public class CmsFileExplorer
      * @return the dialog context
      * @throws CmsException if reading the drag resource fails
      */
-    CmsExplorerDialogContext getContext(DragAndDropEvent dragEvent) throws CmsException {
+    CmsExplorerDialogContext getContext(@RUntainted DragAndDropEvent dragEvent) throws CmsException {
 
       List<CmsResource> resources;
       if ((dragEvent.getTransferable().getSourceComponent() instanceof Table)
@@ -322,10 +323,10 @@ public class CmsFileExplorer
   static class StateBean {
 
     /** Current folder. */
-    private String m_folder;
+    private @RUntainted String m_folder;
 
     /** Project id. */
-    private String m_projectId;
+    private @RUntainted String m_projectId;
 
     /** selected resource. */
     private String m_selectedResource;
@@ -342,7 +343,7 @@ public class CmsFileExplorer
      * @param folder the folder
      * @param projectId the project id
      */
-    public StateBean(String siteRoot, String folder, String projectId) {
+    public StateBean(String siteRoot, @RUntainted String folder, String projectId) {
 
       m_siteRoot = siteRoot;
       m_folder = folder;
@@ -366,7 +367,7 @@ public class CmsFileExplorer
       if (fields.size() >= 3) {
         String projectId = fields.get(0);
         String siteRoot = fields.get(1);
-        String folder = fields.get(2);
+        @RUntainted String folder = fields.get(2);
         StateBean ret = new StateBean(siteRoot, folder, projectId);
         if (fields.size() == 4) {
           ret.setSelectedResource(fields.get(3));
@@ -403,7 +404,7 @@ public class CmsFileExplorer
      *
      * @return the folderId
      */
-    public String getFolder() {
+    public @RUntainted String getFolder() {
 
       return m_folder;
     }
@@ -415,7 +416,7 @@ public class CmsFileExplorer
      *
      * @return the projectId
      */
-    public String getProjectId() {
+    public @RUntainted String getProjectId() {
 
       return m_projectId;
     }
@@ -559,7 +560,7 @@ public class CmsFileExplorer
   private CssLayout m_crumbs;
 
   /** The currently viewed folder. */
-  private CmsUUID m_currentFolder;
+  private @RUntainted CmsUUID m_currentFolder;
 
   /** The current app state. */
   private String m_currentState;
@@ -598,7 +599,7 @@ public class CmsFileExplorer
   private Button m_specialUploadButton;
 
   /** The folder tree data container. */
-  private HierarchicalContainer m_treeContainer;
+  private @RUntainted HierarchicalContainer m_treeContainer;
 
   /** Upload action for the current folder. */
   private String m_uploadAction;
@@ -741,7 +742,7 @@ public class CmsFileExplorer
 
           private static final long serialVersionUID = 1L;
 
-          public void itemClick(ItemClickEvent event) {
+          public void itemClick(@RUntainted ItemClickEvent event) {
 
             handleFileTreeClick(event);
           }
@@ -813,7 +814,7 @@ public class CmsFileExplorer
 
           private static final long serialVersionUID = 1L;
 
-          public void buttonClick(ClickEvent event) {
+          public void buttonClick(@RUntainted ClickEvent event) {
 
             openPath((String) event.getButton().getData());
           }
@@ -846,7 +847,7 @@ public class CmsFileExplorer
     }
     if (m_locationCache.getFileExplorerLocation(startSite) == null) {
       // add the configured start folder for the start site
-      String startFolder =
+      @RUntainted String startFolder =
           CmsAppWorkplaceUi.get().getWorkplaceSettings().getUserSettings().getStartFolder();
       m_locationCache.setFileExplorerLocation(startSite, startFolder);
     }
@@ -883,7 +884,7 @@ public class CmsFileExplorer
    * @param siteRoot the site root
    * @param path the path inside the site
    */
-  public void changeSite(String siteRoot, String path) {
+  public void changeSite(@RUntainted String siteRoot, @RUntainted String path) {
 
     changeSite(siteRoot, path, false);
   }
@@ -897,7 +898,7 @@ public class CmsFileExplorer
    * @param path the folder path to open
    * @param force force the path change, even if we are currently in the same site
    */
-  public void changeSite(String siteRoot, String path, boolean force) {
+  public void changeSite(@RUntainted String siteRoot, @RUntainted String path, boolean force) {
 
     CmsObject cms = A_CmsUI.getCmsObject();
     String currentSiteRoot = cms.getRequestContext().getSiteRoot();
@@ -1038,7 +1039,7 @@ public class CmsFileExplorer
    * @see
    *     org.opencms.ui.components.CmsFileTable.I_FolderSelectHandler#onFolderSelect(org.opencms.util.CmsUUID)
    */
-  public void onFolderSelect(CmsUUID itemId) {
+  public void onFolderSelect(@RUntainted CmsUUID itemId) {
 
     expandCurrentFolder();
     if (m_fileTree.getItem(itemId) != null) {
@@ -1073,7 +1074,7 @@ public class CmsFileExplorer
    * @param project the project
    * @param siteRoot the site root
    */
-  public void onSiteOrProjectChange(CmsProject project, String siteRoot) {
+  public void onSiteOrProjectChange(CmsProject project, @RUntainted String siteRoot) {
 
     if ((siteRoot != null) && !siteRoot.equals(getSiteRootFromState())) {
       changeSite(siteRoot, null, true);
@@ -1091,8 +1092,8 @@ public class CmsFileExplorer
     if ((m_currentState == null) || !m_currentState.equals(state)) {
       m_currentState = state;
       CmsObject cms = A_CmsUI.getCmsObject();
-      String siteRoot = getSiteRootFromState();
-      String path = getPathFromState();
+      @RUntainted String siteRoot = getSiteRootFromState();
+      @RUntainted String path = getPathFromState();
 
       CmsUUID projectId = getProjectIdFromState();
       if ((projectId != null)
@@ -1328,7 +1329,7 @@ public class CmsFileExplorer
    * @param folderId the folder id
    * @throws CmsException in case reading the folder fails
    */
-  protected void readFolder(CmsUUID folderId) throws CmsException {
+  protected void readFolder(@RUntainted CmsUUID folderId) throws CmsException {
 
     readFolder(folderId, true);
   }
@@ -1342,7 +1343,7 @@ public class CmsFileExplorer
    * @param clearFilter <code>true</code> to clear the search filter
    * @throws CmsException in case reading the folder fails
    */
-  protected void readFolder(CmsUUID folderId, boolean clearFilter) throws CmsException {
+  protected void readFolder(@RUntainted CmsUUID folderId, boolean clearFilter) throws CmsException {
 
     CmsObject cms = A_CmsUI.getCmsObject();
     if (clearFilter) {
@@ -1461,7 +1462,7 @@ public class CmsFileExplorer
    *
    * @param event the event
    */
-  void handleFileTreeClick(ItemClickEvent event) {
+  void handleFileTreeClick(@RUntainted ItemClickEvent event) {
 
     Item resourceItem = m_treeContainer.getItem(event.getItemId());
     if ((resourceItem.getItemProperty(CmsResourceTableProperty.PROPERTY_DISABLED).getValue()
@@ -1539,7 +1540,7 @@ public class CmsFileExplorer
    *
    * @param path the path
    */
-  void openPath(String path) {
+  void openPath(@RUntainted String path) {
 
     openPath(path, false);
   }
@@ -1552,7 +1553,7 @@ public class CmsFileExplorer
    * @param path the path
    * @param initTree <code>true</code> in case the tree needs to be initialized
    */
-  void openPath(String path, boolean initTree) {
+  void openPath(@RUntainted String path, boolean initTree) {
 
     CmsObject cms = A_CmsUI.getCmsObject();
     if (path == null) {
@@ -1603,7 +1604,7 @@ public class CmsFileExplorer
           "Illeagal state, folder tree has " + rootItems.size() + " children");
     }
 
-    CmsUUID folderId = (CmsUUID) rootItems.iterator().next();
+    @RUntainted CmsUUID folderId = (CmsUUID) rootItems.iterator().next();
     if (initTree) {
       if (existsPath) {
         m_expandListener.setOpenPathFragment(pathItems[0]);
@@ -1616,9 +1617,9 @@ public class CmsFileExplorer
       if (CmsStringUtil.isEmptyOrWhitespaceOnly(pathItems[i])) {
         continue;
       }
-      CmsUUID level = null;
+      @RUntainted CmsUUID level = null;
       if (children != null) {
-        for (Object id : children) {
+        for (@RUntainted Object id : children) {
           if (m_treeContainer
               .getItem(id)
               .getItemProperty(CmsResourceTableProperty.PROPERTY_RESOURCE_NAME)
@@ -1725,7 +1726,7 @@ public class CmsFileExplorer
    */
   void showParentFolder() {
 
-    CmsUUID parentId = (CmsUUID) m_treeContainer.getParent(m_currentFolder);
+    @RUntainted CmsUUID parentId = (CmsUUID) m_treeContainer.getParent(m_currentFolder);
     if (parentId != null) {
       Item resourceItem = m_treeContainer.getItem(parentId);
       if ((resourceItem.getItemProperty(CmsResourceTableProperty.PROPERTY_DISABLED).getValue()
@@ -1943,7 +1944,7 @@ public class CmsFileExplorer
    *
    * @return the site path
    */
-  private String getPathFromState() {
+  private @RUntainted String getPathFromState() {
 
     return StateBean.parse(m_currentState).getFolder();
   }
@@ -1957,7 +1958,7 @@ public class CmsFileExplorer
    */
   private CmsUUID getProjectIdFromState() {
 
-    String projectIdStr = StateBean.parse(m_currentState).getProjectId();
+    @RUntainted String projectIdStr = StateBean.parse(m_currentState).getProjectId();
     if (CmsUUID.isValidUUID(projectIdStr)) {
       return new CmsUUID(projectIdStr);
     }

@@ -44,6 +44,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.search.fields.CmsSearchField;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the search parameters for a call to <code>
@@ -262,7 +263,7 @@ public class CmsSearchParameters {
   protected int m_matchesPerPage;
 
   /** If <code>true</code>, the category count is calculated for all search results. */
-  private boolean m_calculateCategories;
+  private @RUntainted boolean m_calculateCategories;
 
   /** The list of categories to limit the search to. */
   private List<String> m_categories;
@@ -301,10 +302,10 @@ public class CmsSearchParameters {
   private int m_page;
 
   /** The pre-parsed query. */
-  private String m_parsedQuery;
+  private @RUntainted String m_parsedQuery;
 
   /** The search query to use. */
-  private String m_query;
+  private @RUntainted String m_query;
 
   /** The minimum length of the search query. */
   private int m_queryLength;
@@ -319,7 +320,7 @@ public class CmsSearchParameters {
   private List<String> m_roots;
 
   /** The sort order for the search. */
-  private Sort m_sort;
+  private @RUntainted Sort m_sort;
 
   /**
    * Creates a new search parameter instance with no search query and default values for the
@@ -347,7 +348,7 @@ public class CmsSearchParameters {
    *
    * @param query the query to search for
    */
-  public CmsSearchParameters(String query) {
+  public CmsSearchParameters(@RUntainted String query) {
 
     this(query, null, null, null, null, false, null);
   }
@@ -368,7 +369,7 @@ public class CmsSearchParameters {
    * @param sort the sort order for the search
    */
   public CmsSearchParameters(
-      String query,
+      @RUntainted String query,
       List<String> fields,
       List<String> roots,
       List<String> categories,
@@ -516,7 +517,7 @@ public class CmsSearchParameters {
    *
    * @return the name of the index for the search
    */
-  public String getIndex() {
+  public @RUntainted String getIndex() {
 
     return m_index.getName();
   }
@@ -599,7 +600,7 @@ public class CmsSearchParameters {
    *
    * @return the parsed query
    */
-  public String getParsedQuery() {
+  public @RUntainted String getParsedQuery() {
 
     return m_parsedQuery;
   }
@@ -611,7 +612,7 @@ public class CmsSearchParameters {
    *
    * @return the search query to use
    */
-  public String getQuery() {
+  public @RUntainted String getQuery() {
 
     return m_query;
   }
@@ -623,7 +624,7 @@ public class CmsSearchParameters {
    *
    * @return the minimum search query length
    */
-  public int getQueryLength() {
+  public @RUntainted int getQueryLength() {
 
     return m_queryLength;
   }
@@ -812,7 +813,7 @@ public class CmsSearchParameters {
    * @param restriction the parameters to restrict this parameters with
    * @return the restricted parameters
    */
-  public CmsSearchParameters restrict(CmsSearchParameters restriction) {
+  public @RUntainted CmsSearchParameters restrict(CmsSearchParameters restriction) {
 
     // append queries
     StringBuffer query = new StringBuffer(256);
@@ -839,7 +840,7 @@ public class CmsSearchParameters {
     }
 
     // restrict fields
-    List<String> fields = null;
+    @RUntainted List<String> fields = null;
     if ((m_fields != null) && (m_fields.size() > 0)) {
       if ((restriction.getFields() != null) && (restriction.getFields().size() > 0)) {
         fields = ListUtils.intersection(m_fields, restriction.getFields());
@@ -851,7 +852,7 @@ public class CmsSearchParameters {
     }
 
     // restrict roots
-    List<String> roots = null;
+    @RUntainted List<String> roots = null;
     if ((m_roots != null) && (m_roots.size() > 0)) {
       if ((restriction.getRoots() != null) && (restriction.getRoots().size() > 0)) {
         roots = ListUtils.intersection(m_roots, restriction.getRoots());
@@ -866,7 +867,7 @@ public class CmsSearchParameters {
     }
 
     // restrict categories
-    List<String> categories = null;
+    @RUntainted List<String> categories = null;
     if ((m_categories != null) && (m_categories.size() > 0)) {
       if ((restriction.getCategories() != null) && (restriction.getCategories().size() > 0)) {
         categories = ListUtils.intersection(m_categories, restriction.getCategories());
@@ -878,7 +879,7 @@ public class CmsSearchParameters {
     }
 
     // restrict resource types
-    List<String> resourceTypes = null;
+    @RUntainted List<String> resourceTypes = null;
     if ((m_resourceTypes != null) && (m_resourceTypes.size() > 0)) {
       if ((restriction.getResourceTypes() != null) && (restriction.getResourceTypes().size() > 0)) {
         resourceTypes = ListUtils.intersection(m_resourceTypes, restriction.getResourceTypes());
@@ -890,7 +891,7 @@ public class CmsSearchParameters {
     }
 
     // create the new search parameters
-    CmsSearchParameters result =
+    @RUntainted CmsSearchParameters result =
         new CmsSearchParameters(
             query.toString(),
             fields,
@@ -990,7 +991,7 @@ public class CmsSearchParameters {
    *
    * @param indexName the name of the index
    */
-  public void setIndex(String indexName) {
+  public void setIndex(@RUntainted String indexName) {
 
     CmsSearchIndex index;
     if (CmsStringUtil.isNotEmpty(indexName)) {
@@ -1087,7 +1088,7 @@ public class CmsSearchParameters {
    *
    * @param parsedQuery the parsed query to set
    */
-  public void setParsedQuery(String parsedQuery) {
+  public void setParsedQuery(@RUntainted String parsedQuery) {
 
     m_parsedQuery = parsedQuery;
   }
@@ -1105,7 +1106,7 @@ public class CmsSearchParameters {
    *
    * @param query the query to search for to set
    */
-  public void setQuery(String query) {
+  public void setQuery(@RUntainted String query) {
 
     // for use with widgets the exception is thrown here to enforce the error message next to the
     // widget

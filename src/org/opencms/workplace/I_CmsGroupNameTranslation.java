@@ -26,6 +26,7 @@
  */
 
 package org.opencms.workplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for transforming group names into a more human-readable form.
@@ -45,5 +46,5 @@ public interface I_CmsGroupNameTranslation {
    * @param keepOu if true, the OU will be prepended to the resulting name
    * @return the translated group name
    */
-  String translateGroupName(String groupFqn, boolean keepOu);
+  @RUntainted String translateGroupName(@RUntainted String groupFqn, boolean keepOu);
 }

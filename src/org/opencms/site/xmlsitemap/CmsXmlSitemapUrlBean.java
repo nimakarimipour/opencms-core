@@ -34,6 +34,7 @@ import java.util.Locale;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.opencms.file.CmsResource;
 import org.opencms.i18n.CmsEncoder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean which represents an entry in an XML sitemap for SEO purposes.
@@ -67,7 +68,7 @@ public class CmsXmlSitemapUrlBean {
   private String m_subsite;
 
   /** The URL. */
-  private String m_url;
+  private @RUntainted String m_url;
 
   /**
    * Creates a new instance.
@@ -80,7 +81,7 @@ public class CmsXmlSitemapUrlBean {
    * @param priority the priority
    */
   public CmsXmlSitemapUrlBean(
-      String url, long lastModified, String changeFrequency, double priority) {
+      @RUntainted String url, long lastModified, String changeFrequency, double priority) {
 
     m_url = url;
 
@@ -210,7 +211,7 @@ public class CmsXmlSitemapUrlBean {
    *
    * @return the page URL
    */
-  public String getUrl() {
+  public @RUntainted String getUrl() {
 
     return m_url;
   }

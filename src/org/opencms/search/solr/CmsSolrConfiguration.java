@@ -47,6 +47,7 @@ import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The Solr configuration class.
@@ -79,7 +80,7 @@ public class CmsSolrConfiguration {
   public static final long SOLR_DEFAULT_COMMIT_MS = 10000;
 
   /** The default name of the Solr home directory. */
-  public static final String SOLR_HOME_DEFAULT = "solr" + File.separatorChar;
+  public static final @RUntainted String SOLR_HOME_DEFAULT = "solr" + File.separatorChar;
 
   /** The system property name for the Solr home directory. */
   public static final String SOLR_HOME_PROPERTY = "solr.solr.home";
@@ -100,10 +101,10 @@ public class CmsSolrConfiguration {
   private boolean m_enabled;
 
   /** The Solr home. */
-  private String m_home;
+  private @RUntainted String m_home;
 
   /** The configured path to the Solr home. */
-  private String m_homeFolderPath;
+  private @RUntainted String m_homeFolderPath;
 
   /** The schema file. */
   private IndexSchema m_schema;
@@ -115,13 +116,13 @@ public class CmsSolrConfiguration {
   private SolrConfig m_solrConfig;
 
   /** The Solr configuration file "solr.xml". */
-  private File m_solrFile;
+  private @RUntainted File m_solrFile;
 
   /** The file name of the Solr configuration. */
-  private String m_solrFileName;
+  private @RUntainted String m_solrFileName;
 
   /** The maximal number of results to be processed in a search request to a Solr index. */
-  private int m_maxProcessedResults = DEFAULT_MAX_PROCESSED_RESULTS;
+  private @RUntainted int m_maxProcessedResults = DEFAULT_MAX_PROCESSED_RESULTS;
 
   /**
    * Default constructor.
@@ -140,7 +141,7 @@ public class CmsSolrConfiguration {
    *
    * @return the home directory of Solr as String
    */
-  public String getHome() {
+  public @RUntainted String getHome() {
 
     if (m_homeFolderPath == null) {
       if (CmsStringUtil.isNotEmpty(System.getProperty(SOLR_HOME_PROPERTY))) {
@@ -177,7 +178,7 @@ public class CmsSolrConfiguration {
    *
    * @return the maximal number of results processed when querying a Solr index.
    */
-  public int getMaxProcessedResults() {
+  public @RUntainted int getMaxProcessedResults() {
 
     return m_maxProcessedResults;
   }
@@ -189,7 +190,7 @@ public class CmsSolrConfiguration {
    *
    * @return the external servers URL
    */
-  public String getServerUrl() {
+  public @RUntainted String getServerUrl() {
 
     return m_serverUrl;
   }
@@ -251,7 +252,7 @@ public class CmsSolrConfiguration {
    *
    * @return the solr configuration file
    */
-  public File getSolrConfigFile() {
+  public @RUntainted File getSolrConfigFile() {
 
     return new File(
         getHome() + DEFAULT_CONFIGSET_FOLDER + CONF_FOLDER + SolrConfig.DEFAULT_CONF_FILE);
@@ -264,10 +265,10 @@ public class CmsSolrConfiguration {
    *
    * @return the Solr xml file
    */
-  public File getSolrFile() {
+  public @RUntainted File getSolrFile() {
 
     if (m_solrFile == null) {
-      String solrFileName = m_solrFileName != null ? m_solrFileName : SOLR_CONFIG_FILE;
+      @RUntainted String solrFileName = m_solrFileName != null ? m_solrFileName : SOLR_CONFIG_FILE;
       m_solrFile = new File(getHome() + File.separator + solrFileName);
     }
     return m_solrFile;
@@ -331,7 +332,7 @@ public class CmsSolrConfiguration {
    *
    * @return the Solr index schema file
    */
-  public File getSolrSchemaFile() {
+  public @RUntainted File getSolrSchemaFile() {
 
     final String dir = getHome() + DEFAULT_CONFIGSET_FOLDER + CONF_FOLDER;
     // SOLR7 Schema took a new name, also removed the file extension.
@@ -377,7 +378,7 @@ public class CmsSolrConfiguration {
    *
    * @param homeFolderPath the Solr home folder to set
    */
-  public void setHomeFolderPath(String homeFolderPath) {
+  public void setHomeFolderPath(@RUntainted String homeFolderPath) {
 
     m_homeFolderPath = homeFolderPath;
   }
@@ -389,7 +390,7 @@ public class CmsSolrConfiguration {
    *
    * @param maxProcessedResults the maximal number of results processed for a query to a Solr index.
    */
-  public void setMaxProcessedResults(String maxProcessedResults) {
+  public void setMaxProcessedResults(@RUntainted String maxProcessedResults) {
 
     try {
       m_maxProcessedResults = Integer.parseInt(maxProcessedResults);
@@ -439,7 +440,7 @@ public class CmsSolrConfiguration {
    *
    * @param name the file name to set
    */
-  public void setSolrFileName(String name) {
+  public void setSolrFileName(@RUntainted String name) {
 
     m_solrFileName = name;
   }

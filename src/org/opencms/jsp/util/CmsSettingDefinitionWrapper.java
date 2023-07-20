@@ -47,6 +47,7 @@ import org.opencms.widgets.CmsSelectWidgetOption;
 import org.opencms.xml.content.CmsXmlContentProperty;
 import org.opencms.xml.content.CmsXmlContentProperty.Visibility;
 import org.opencms.xml.content.CmsXmlContentPropertyHelper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Wrapper used to access element setting definition information in JSP code. */
 public class CmsSettingDefinitionWrapper {
@@ -78,7 +79,7 @@ public class CmsSettingDefinitionWrapper {
 
     /** @see org.opencms.util.CmsMacroResolver#getMacroValue(java.lang.String) */
     @Override
-    public String getMacroValue(String macro) {
+    public @RUntainted String getMacroValue(@RUntainted String macro) {
 
       if (macro.startsWith(CmsMacroResolver.KEY_LOCALIZED_PREFIX)) {
         String key = macro.substring(CmsMacroResolver.KEY_LOCALIZED_PREFIX.length());
@@ -93,11 +94,11 @@ public class CmsSettingDefinitionWrapper {
 
     /** @see org.opencms.util.CmsMacroResolver#resolveMacros(java.lang.String) */
     @Override
-    public String resolveMacros(String input) {
+    public @RUntainted String resolveMacros(@RUntainted String input) {
 
       String processedInput = super.resolveMacros(input);
       @SuppressWarnings("synthetic-access")
-      String result =
+      @RUntainted String result =
           CmsStringUtil.substitute(
               UUID_PATTERN,
               processedInput,
@@ -232,7 +233,7 @@ public class CmsSettingDefinitionWrapper {
    */
   public List<CmsSelectWidgetOption> getParsedSelectOptions() {
 
-    String widgetConfig = getWidgetConfig();
+    @RUntainted String widgetConfig = getWidgetConfig();
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(widgetConfig)) {
       // passing an empty/null configuration to parseOptions would result in an empty list, not
       // null, and we want null here
@@ -300,7 +301,7 @@ public class CmsSettingDefinitionWrapper {
    *
    * @return the widget config
    */
-  public String getWidgetConfig() {
+  public @RUntainted String getWidgetConfig() {
 
     return m_resolvedDefinition.getWidgetConfiguration();
   }

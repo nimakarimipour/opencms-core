@@ -26,6 +26,7 @@
  */
 
 package org.opencms.main;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implement this interface in case your class has to react to CmsEvents that are thrown by system.
@@ -463,10 +464,10 @@ public interface I_CmsEventListener {
   String KEY_REPORT = "report";
 
   /** Key name for passing a {@link org.opencms.file.CmsResource} in the data map. */
-  String KEY_RESOURCE = "resource";
+  @RUntainted String KEY_RESOURCE = "resource";
 
   /** Key name for passing a List of {@link org.opencms.file.CmsResource} in the data map. */
-  String KEY_RESOURCES = "resources";
+  @RUntainted String KEY_RESOURCES = "resources";
 
   /** Key name for skipping searchindexing. */
   String KEY_SKIPINDEX = "skipindex";

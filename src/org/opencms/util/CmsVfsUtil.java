@@ -38,6 +38,7 @@ import org.opencms.file.types.CmsResourceTypeFolder;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides Vfs utility functions.
@@ -70,12 +71,12 @@ public final class CmsVfsUtil {
    * @param rootPath the folder root path
    * @throws CmsException if something goes wrong
    */
-  public static void createFolder(CmsObject cms, String rootPath) throws CmsException {
+  public static void createFolder(CmsObject cms, @RUntainted String rootPath) throws CmsException {
 
     CmsObject rootCms = OpenCms.initCmsObject(cms);
     rootCms.getRequestContext().setSiteRoot("");
     List<String> parents = new ArrayList<String>();
-    String currentPath = rootPath;
+    @RUntainted String currentPath = rootPath;
     while (currentPath != null) {
       if (rootCms.existsResource(currentPath)) {
         break;
@@ -84,7 +85,7 @@ public final class CmsVfsUtil {
       currentPath = CmsResource.getParentFolder(currentPath);
     }
     parents = Lists.reverse(parents);
-    for (String parent : parents) {
+    for (@RUntainted String parent : parents) {
       try {
         rootCms.createResource(
             parent,

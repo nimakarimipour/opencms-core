@@ -37,6 +37,7 @@ import org.opencms.jsp.search.config.parser.simplesearch.preconfiguredrestrictio
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.types.CmsXmlDisplayFormatterValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The list configuration data.
@@ -107,7 +108,7 @@ public class CmsConfigurationBean {
   private CmsGeoFilterBean m_geoFilter;
 
   /** The folders. */
-  private List<String> m_folders;
+  private List<@RUntainted String> m_folders;
 
   /** Search parameters by configuration node name. */
   private Map<String, String> m_parameterFields;
@@ -257,7 +258,7 @@ public class CmsConfigurationBean {
    *
    * @return the folders
    */
-  public List<String> getFolders() {
+  public List<@RUntainted String> getFolders() {
 
     return m_folders;
   }
@@ -486,7 +487,7 @@ public class CmsConfigurationBean {
    *
    * @param folders the folders
    */
-  public void setFolders(List<String> folders) {
+  public void setFolders(List<@RUntainted String> folders) {
 
     m_folders = folders;
   }

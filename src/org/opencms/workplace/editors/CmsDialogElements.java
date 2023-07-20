@@ -51,6 +51,7 @@ import org.opencms.workplace.CmsDialog;
 import org.opencms.workplace.CmsWorkplaceSettings;
 import org.opencms.xml.page.CmsXmlPage;
 import org.opencms.xml.page.CmsXmlPageFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for the editor elements dialog.
@@ -93,13 +94,13 @@ public class CmsDialogElements extends CmsDialog {
 
   // Special parameters used by this dialog
   /** The element language parameter. */
-  private String m_paramElementlanguage;
+  private @RUntainted String m_paramElementlanguage;
 
   /** The element name parameter. */
   private String m_paramElementname;
 
   /** The temporary file parameter. */
-  private String m_paramTempFile;
+  private @RUntainted String m_paramTempFile;
 
   /**
    * Public constructor.
@@ -230,7 +231,7 @@ public class CmsDialogElements extends CmsDialog {
    *     mandatory flag
    */
   public static List<CmsDialogElement> computeElements(
-      CmsObject cms, String xmlPageUri, Locale locale) {
+      CmsObject cms, @RUntainted String xmlPageUri, Locale locale) {
 
     CmsXmlPage page = null;
     try {
@@ -431,7 +432,7 @@ public class CmsDialogElements extends CmsDialog {
    *
    * @return the current element language
    */
-  public String getParamElementlanguage() {
+  public @RUntainted String getParamElementlanguage() {
 
     return m_paramElementlanguage;
   }
@@ -455,7 +456,7 @@ public class CmsDialogElements extends CmsDialog {
    *
    * @return the name of the temporary file
    */
-  public String getParamTempfile() {
+  public @RUntainted String getParamTempfile() {
 
     return m_paramTempFile;
   }
@@ -467,7 +468,7 @@ public class CmsDialogElements extends CmsDialog {
    *
    * @param elementLanguage the current element language
    */
-  public void setParamElementlanguage(String elementLanguage) {
+  public void setParamElementlanguage(@RUntainted String elementLanguage) {
 
     m_paramElementlanguage = elementLanguage;
   }
@@ -491,7 +492,7 @@ public class CmsDialogElements extends CmsDialog {
    *
    * @param fileName the name of the temporary file
    */
-  public void setParamTempfile(String fileName) {
+  public void setParamTempfile(@RUntainted String fileName) {
 
     m_paramTempFile = fileName;
   }
@@ -503,7 +504,7 @@ public class CmsDialogElements extends CmsDialog {
    */
   @Override
   protected void initWorkplaceRequestValues(
-      CmsWorkplaceSettings settings, HttpServletRequest request) {
+      CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
     // fill the parameter values in the get/set methods
     fillParamValues(request);

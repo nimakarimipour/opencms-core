@@ -48,6 +48,7 @@ import org.opencms.workplace.editors.directedit.CmsDirectEditJspIncludeProvider;
 import org.opencms.workplace.editors.directedit.CmsDirectEditMode;
 import org.opencms.workplace.editors.directedit.CmsDirectEditParams;
 import org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:editable/&gt;</code> tag.
@@ -88,13 +89,13 @@ public class CmsJspTagEditable extends BodyTagSupport {
   private static final long serialVersionUID = 4137789622146499225L;
 
   /** File with editable elements. */
-  protected String m_file;
+  protected @RUntainted String m_file;
 
   /** Indicates which direct edit mode is active. */
   protected transient CmsDirectEditMode m_mode;
 
   /** Class name of the direct edit provider. */
-  protected String m_provider;
+  protected @RUntainted String m_provider;
 
   /** The edit empty tag attribute. */
   private boolean m_editEmpty;
@@ -120,7 +121,7 @@ public class CmsJspTagEditable extends BodyTagSupport {
    * @throws JspException in case something goes wrong
    */
   public static void editableTagAction(
-      PageContext context, String provider, CmsDirectEditMode mode, String fileName)
+      PageContext context, @RUntainted String provider, CmsDirectEditMode mode, @RUntainted String fileName)
       throws JspException {
 
     ServletRequest req = context.getRequest();
@@ -246,7 +247,7 @@ public class CmsJspTagEditable extends BodyTagSupport {
       String createParam =
           collector.getCreateParam(
               cms, container.getCollectorName(), container.getCollectorParam());
-      String createLink =
+      @RUntainted String createLink =
           collector.getCreateLink(cms, container.getCollectorName(), container.getCollectorParam());
       if ((createParam != null)
           && (collector.getCreateTypeId(
@@ -534,7 +535,7 @@ public class CmsJspTagEditable extends BodyTagSupport {
    *
    * @param file the file to set
    */
-  public void setFile(String file) {
+  public void setFile(@RUntainted String file) {
 
     m_file = file;
   }
@@ -558,7 +559,7 @@ public class CmsJspTagEditable extends BodyTagSupport {
    *
    * @param provider the class name of the direct edit provider to set
    */
-  public void setProvider(String provider) {
+  public void setProvider(@RUntainted String provider) {
 
     m_provider = provider;
   }

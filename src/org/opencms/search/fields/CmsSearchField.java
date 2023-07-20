@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.solr.uninverting.UninvertingReader.Type;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A abstract implementation for a search field.
@@ -102,10 +103,10 @@ public class CmsSearchField implements Serializable {
   public static final String FIELD_DYNAMIC_EXACT = "_exact";
 
   /** Name of the dynamic property field (searched properties). */
-  public static final String FIELD_DYNAMIC_PROPERTIES = "_prop";
+  public static final @RUntainted String FIELD_DYNAMIC_PROPERTIES = "_prop";
 
   /** Name of the dynamic property field (non-searched properties). */
-  public static final String FIELD_DYNAMIC_PROPERTIES_DIRECT = "_dprop";
+  public static final @RUntainted String FIELD_DYNAMIC_PROPERTIES_DIRECT = "_dprop";
 
   /**
    * The name of the dynamic field that stores the shortened value of the content field in order to
@@ -156,25 +157,25 @@ public class CmsSearchField implements Serializable {
   public static final String FIELD_POSTFIX_STRING = "_s";
 
   /** The default (single-valued) date field postfix. */
-  public static final String FIELD_POSTFIX_DATE = "_dt";
+  public static final @RUntainted String FIELD_POSTFIX_DATE = "_dt";
 
   /** The default (multi-valued) dates field postfix. */
   public static final String FIELD_POSTFIX_DATES = "_dts";
 
   /** The default (single-valued) date range field postfix. */
-  public static final String FIELD_POSTFIX_DATE_RANGE = "_dr";
+  public static final @RUntainted String FIELD_POSTFIX_DATE_RANGE = "_dr";
 
   /** The default (multi-valued) date range field postfix. */
   public static final String FIELD_POSTFIX_DATE_RANGES = "_drs";
 
   /** The default int field postfix. */
-  public static final String FIELD_POSTFIX_INT = "_i";
+  public static final @RUntainted String FIELD_POSTFIX_INT = "_i";
 
   /** The default local field postfix. */
   public static final String FIELD_POSTFIX_LOC = "_loc";
 
   /** The default field postfix for alpha-numeric sorting. */
-  public static final String FIELD_POSTFIX_SORT = "_sort";
+  public static final @RUntainted String FIELD_POSTFIX_SORT = "_sort";
 
   /**
    * Name of the field that contains the (optional) document priority, which can be used to boost
@@ -234,7 +235,7 @@ public class CmsSearchField implements Serializable {
   public static final String FIELD_ADDITIONAL_INFO = "additional_info";
 
   public static final String FIELD_PLACE = "place";
-  public static final String FIELD_SPELL = "spell";
+  public static final @RUntainted String FIELD_SPELL = "spell";
   // TODO: concat those field names; "text" + locale, where needed like content fields or exceprt
   // fields
   public static final String FIELD_TEXT_EN = "text_en";
@@ -250,13 +251,13 @@ public class CmsSearchField implements Serializable {
    * The field PREFIX of the fields that contain the display title (without locale and postfix
    * "_s").
    */
-  public static final String FIELD_DISPTITLE = "disptitle";
+  public static final @RUntainted String FIELD_DISPTITLE = "disptitle";
 
   /**
    * The field PREFIX of the fields that contain the display order (without locale and postfix
    * "_i").
    */
-  public static final String FIELD_DISPORDER = "disporder";
+  public static final @RUntainted String FIELD_DISPORDER = "disporder";
 
   /** Name of the field that contains Geo coordinates. */
   public static final String FIELD_GEOCOORDS = "geocoords" + FIELD_POSTFIX_LOC;
@@ -265,7 +266,7 @@ public class CmsSearchField implements Serializable {
    * The field PREFIX where the start date for the single entry of a serial date entry set is
    * stored.
    */
-  public static final String FIELD_INSTANCEDATE = "instancedate";
+  public static final @RUntainted String FIELD_INSTANCEDATE = "instancedate";
 
   /**
    * The field PREFIX where the end date for the single entry of a serial date entry set is stored.
@@ -276,13 +277,13 @@ public class CmsSearchField implements Serializable {
    * The field PREFIX where the date until which the single entry of a serial date entry should be
    * treated as "current" is stored.
    */
-  public static final String FIELD_INSTANCEDATE_CURRENT_TILL = "instancedatecurrenttill";
+  public static final @RUntainted String FIELD_INSTANCEDATE_CURRENT_TILL = "instancedatecurrenttill";
 
   /**
    * The field PREFIX where the start date and the end date of the single entry of a serial date
    * entry is stored as a date range.
    */
-  public static final String FIELD_INSTANCEDATE_RANGE = "instancedaterange";
+  public static final @RUntainted String FIELD_INSTANCEDATE_RANGE = "instancedaterange";
 
   /** The field where the dates for a serial date are stored. */
   public static final String FIELD_SERIESDATES = "seriesdates" + FIELD_POSTFIX_DATES;
@@ -322,7 +323,7 @@ public class CmsSearchField implements Serializable {
   private static final long serialVersionUID = 3185631015824549119L;
 
   /** A default value for the field in case the content does not provide the value. */
-  private String m_defaultValue;
+  private @RUntainted String m_defaultValue;
 
   /** Indicates if this field should be used for generating the excerpt. */
   private boolean m_excerpt;
@@ -334,7 +335,7 @@ public class CmsSearchField implements Serializable {
   private List<I_CmsSearchFieldMapping> m_mappings;
 
   /** The name of the field. */
-  private String m_name;
+  private @RUntainted String m_name;
 
   /** Indicates if the content of this field should be stored. */
   private boolean m_stored;
@@ -357,7 +358,7 @@ public class CmsSearchField implements Serializable {
    * @param name the name of the field, see {@link #setName(String)}
    * @param defaultValue the default value to use, see {@link #setDefaultValue(String)}
    */
-  public CmsSearchField(String name, String defaultValue) {
+  public CmsSearchField(@RUntainted String name, @RUntainted String defaultValue) {
 
     this();
     m_name = name;
@@ -455,7 +456,7 @@ public class CmsSearchField implements Serializable {
    *
    * @return the default value to use if no content for this field was collected
    */
-  public String getDefaultValue() {
+  public @RUntainted String getDefaultValue() {
 
     return m_defaultValue;
   }
@@ -493,7 +494,7 @@ public class CmsSearchField implements Serializable {
    *
    * @return the name of this field in the Lucene search index
    */
-  public String getName() {
+  public @RUntainted String getName() {
 
     return m_name;
   }
@@ -558,7 +559,7 @@ public class CmsSearchField implements Serializable {
    *
    * @param defaultValue the default value to set
    */
-  public void setDefaultValue(String defaultValue) {
+  public void setDefaultValue(@RUntainted String defaultValue) {
 
     if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(defaultValue)) {
       m_defaultValue = defaultValue.trim();
@@ -598,7 +599,7 @@ public class CmsSearchField implements Serializable {
    *
    * @param fieldName the name to set
    */
-  public void setName(String fieldName) {
+  public void setName(@RUntainted String fieldName) {
 
     m_name = fieldName;
   }

@@ -35,6 +35,7 @@ import org.opencms.i18n.CmsEncoder;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report update formatter for the Javascript-based report update format, which was used in the old
@@ -48,7 +49,7 @@ public class CmsClassicJavascriptReportUpdateFormatter implements I_CmsReportUpd
   private static final Log LOG = CmsLog.getLog(CmsClassicJavascriptReportUpdateFormatter.class);
 
   /** The locale. */
-  private Locale m_locale;
+  private @RUntainted Locale m_locale;
 
   /**
    * Creates a new instance.
@@ -88,8 +89,8 @@ public class CmsClassicJavascriptReportUpdateFormatter implements I_CmsReportUpd
     StringBuffer buf = new StringBuffer();
     buf.append("aT('");
     buf.append(Messages.get().getBundle(m_locale).key(Messages.RPT_EXCEPTION_0));
-    String exception = CmsEncoder.escapeXml(CmsException.getStackTraceAsString(throwable));
-    StringBuffer excBuffer = new StringBuffer(exception.length() + 50);
+    @RUntainted String exception = CmsEncoder.escapeXml(CmsException.getStackTraceAsString(throwable));
+    @RUntainted StringBuffer excBuffer = new StringBuffer(exception.length() + 50);
     StringTokenizer tok = new StringTokenizer(exception, "\r\n");
     while (tok.hasMoreTokens()) {
       excBuffer.append(tok.nextToken());

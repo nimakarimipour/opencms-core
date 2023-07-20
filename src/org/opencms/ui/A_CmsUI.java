@@ -57,6 +57,7 @@ import org.opencms.ui.util.CmsDisplayType;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.workplace.CmsWorkplaceManager;
 import org.opencms.workplace.CmsWorkplaceSettings;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract UI class providing access to the OpenCms context.
@@ -102,7 +103,7 @@ public abstract class A_CmsUI extends UI {
    *
    * @return the current UI
    */
-  public static A_CmsUI get() {
+  public static @RUntainted A_CmsUI get() {
 
     return (A_CmsUI) (UI.getCurrent());
   }
@@ -146,7 +147,7 @@ public abstract class A_CmsUI extends UI {
    *
    * @param siteRoot the site to change to
    */
-  public void changeSite(String siteRoot) {
+  public void changeSite(@RUntainted String siteRoot) {
 
     if (!getCmsObject().getRequestContext().getSiteRoot().equals(siteRoot)) {
       getCmsObject().getRequestContext().setSiteRoot(siteRoot);

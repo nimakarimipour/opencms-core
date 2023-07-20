@@ -33,6 +33,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An option of a select type widget.
@@ -125,7 +126,7 @@ public class CmsSelectWidgetOption {
   private int m_hashcode;
 
   /** The (optional) help text of this select option. */
-  private String m_help;
+  private @RUntainted String m_help;
 
   /** The (optional) display text of this select option. */
   private String m_option;
@@ -186,7 +187,7 @@ public class CmsSelectWidgetOption {
    * @param helpText the (optional) help text of this select option
    */
   public CmsSelectWidgetOption(
-      String value, boolean isDefault, String optionText, String helpText) {
+      String value, boolean isDefault, String optionText, @RUntainted String helpText) {
 
     m_default = isDefault;
     m_value = value;
@@ -205,7 +206,7 @@ public class CmsSelectWidgetOption {
    * @param options the list of select options to create the configuration String for
    * @return a select widget configuration String created from the given list of select options
    */
-  public static String createConfigurationString(List<CmsSelectWidgetOption> options) {
+  public static @RUntainted String createConfigurationString(List<CmsSelectWidgetOption> options) {
 
     if ((options == null) || (options.size() == 0)) {
       return "";
@@ -297,7 +298,7 @@ public class CmsSelectWidgetOption {
    * @param input the widget input string to parse
    * @return a List of <code>{@link CmsSelectWidgetOption}</code> elements
    */
-  public static List<CmsSelectWidgetOption> parseOptions(String input) {
+  public static List<CmsSelectWidgetOption> parseOptions(@RUntainted String input) {
 
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(input)) {
       // default result for empty input
@@ -515,7 +516,7 @@ public class CmsSelectWidgetOption {
    *
    * @return the (optional) help text of this select option
    */
-  public String getHelp() {
+  public @RUntainted String getHelp() {
 
     return m_help;
   }

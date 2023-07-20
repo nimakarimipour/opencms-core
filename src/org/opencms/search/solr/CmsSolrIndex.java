@@ -100,6 +100,7 @@ import org.opencms.security.CmsRoleViolationException;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the search within an Solr index.
@@ -215,22 +216,22 @@ public class CmsSolrIndex extends CmsSearchIndex {
   private static final String QUERY_PARAM_EXPAND = "expand";
 
   /** The embedded Solr client for this index. */
-  transient SolrClient m_solr;
+  transient @RUntainted SolrClient m_solr;
 
   /** The post document manipulator. */
   private transient I_CmsSolrPostSearchProcessor m_postProcessor;
 
   /** The core name for the index. */
-  private transient String m_coreName;
+  private transient @RUntainted String m_coreName;
 
   /** The list of allowed fields to return. */
   private String[] m_handlerAllowedFields;
 
   /** The number of maximally allowed results per page when using the handler. */
-  private int m_handlerMaxAllowedResultsPerPage = -1;
+  private @RUntainted int m_handlerMaxAllowedResultsPerPage = -1;
 
   /** The number of maximally allowed results at all when using the handler. */
-  private int m_handlerMaxAllowedResultsAtAll = -1;
+  private @RUntainted int m_handlerMaxAllowedResultsAtAll = -1;
 
   /** Flag, indicating if the handler only works in debug mode. */
   private boolean m_handlerSelectDisabled;
@@ -245,7 +246,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
   private boolean m_handlerSpellDisabled;
 
   /** The maximal number of results to process for search queries. */
-  int m_maxProcessedResults = -2; // special value for not initialized.
+  @RUntainted int m_maxProcessedResults = -2; // special value for not initialized.
 
   /** Server URL to use specific for the index. If set, it overwrites all other server settings. */
   private String m_serverUrl;
@@ -269,7 +270,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
    *     <p>
    * @throws CmsIllegalArgumentException if something goes wrong
    */
-  public CmsSolrIndex(String name) throws CmsIllegalArgumentException {
+  public CmsSolrIndex(@RUntainted String name) throws CmsIllegalArgumentException {
 
     super(name);
   }
@@ -301,7 +302,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
    *     java.lang.String)
    */
   @Override
-  public void addConfigurationParameter(String key, String value) {
+  public void addConfigurationParameter(@RUntainted String key, @RUntainted String value) {
 
     switch (key) {
       case POST_PROCESSOR:
@@ -527,7 +528,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
    *
    * @return the name of the core of the index.
    */
-  public String getCoreName() {
+  public @RUntainted String getCoreName() {
 
     return m_coreName;
   }
@@ -614,7 +615,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
    *
    * @return the maximal number of results (start + rows) that are processed for a search query.
    */
-  public int getMaxProcessedResults() {
+  public @RUntainted int getMaxProcessedResults() {
 
     return m_maxProcessedResults;
   }
@@ -638,7 +639,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
    * @return the Solr server URL to connect to for this specific index, or <code>null</code> if no
    *     specific URL is configured.
    */
-  public String getServerUrl() {
+  public @RUntainted String getServerUrl() {
 
     return m_serverUrl;
   }
@@ -700,7 +701,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
    * @throws CmsSearchException if something goes wrong
    * @see #search(CmsObject, String)
    */
-  public CmsSolrResultList search(CmsObject cms, CmsSolrQuery query) throws CmsSearchException {
+  public CmsSolrResultList search(CmsObject cms, @RUntainted CmsSolrQuery query) throws CmsSearchException {
 
     return search(cms, query, false);
   }
@@ -750,7 +751,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
    * @see org.opencms.search.I_CmsSearchDocument
    * @see org.opencms.search.solr.CmsSolrQuery
    */
-  public CmsSolrResultList search(CmsObject cms, final CmsSolrQuery query, boolean ignoreMaxRows)
+  public CmsSolrResultList search(CmsObject cms, final @RUntainted CmsSolrQuery query, boolean ignoreMaxRows)
       throws CmsSearchException {
 
     return search(cms, query, ignoreMaxRows, null, false, null);
@@ -770,7 +771,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
    */
   public CmsSolrResultList search(
       CmsObject cms,
-      final CmsSolrQuery query,
+      final @RUntainted CmsSolrQuery query,
       boolean ignoreMaxRows,
       final CmsResourceFilter filter)
       throws CmsSearchException {
@@ -798,7 +799,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
    */
   public CmsSolrResultList search(
       CmsObject cms,
-      final CmsSolrQuery query,
+      final @RUntainted CmsSolrQuery query,
       boolean ignoreMaxRows,
       ServletResponse response,
       boolean ignoreSearchExclude,
@@ -857,12 +858,12 @@ public class CmsSolrIndex extends CmsSearchIndex {
   @SuppressWarnings("unchecked")
   public CmsSolrResultList search(
       CmsObject cms,
-      final CmsSolrQuery query,
+      final @RUntainted CmsSolrQuery query,
       boolean ignoreMaxRows,
       ServletResponse response,
       boolean ignoreSearchExclude,
       CmsResourceFilter filter,
-      int maxNumResults)
+      @RUntainted int maxNumResults)
       throws CmsSearchException {
 
     CmsSolrResultList result = null;
@@ -930,7 +931,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
 
     // Correct the rows parameter
     // Set the default rows, if rows are not set in the original query.
-    int rows =
+    @RUntainted int rows =
         null == query.getRows() ? CmsSolrQuery.DEFAULT_ROWS.intValue() : query.getRows().intValue();
 
     // Restrict the rows, such that the maximal number of queryable results is not exceeded.
@@ -977,8 +978,8 @@ public class CmsSolrIndex extends CmsSearchIndex {
 
     float maxScore = 0;
 
-    LocalSolrQueryRequest solrQueryRequest = null;
-    SolrCore core = null;
+    @RUntainted LocalSolrQueryRequest solrQueryRequest = null;
+    @RUntainted SolrCore core = null;
     String[] sortParamValues = query.getParams(QUERY_SORT_NAME);
     boolean sortByScoreDesc =
         (null == sortParamValues)
@@ -996,7 +997,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       // Clone the query and keep the original one
-      CmsSolrQuery checkQuery = query.clone();
+      @RUntainted CmsSolrQuery checkQuery = query.clone();
       // Initialize rows, offset, end and the current page.
       int end = start + rows;
       int itemsToCheck =
@@ -1073,7 +1074,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
       processedResults += checkQueryResponse.getResults().size();
 
       if ((resultSolrIds.size() < rows) && (processedResults < maxToProcess)) {
-        CmsSolrQuery secondCheckQuery = checkQuery.clone();
+        @RUntainted CmsSolrQuery secondCheckQuery = checkQuery.clone();
         // disable all features not necessary, since results are present from the first check query.
         secondCheckQuery.setFacet(false);
         secondCheckQuery.setMoreLikeThis(false);
@@ -1151,7 +1152,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
       }
 
       // build the query for getting the results
-      SolrQuery queryForResults = query.clone();
+      @RUntainted SolrQuery queryForResults = query.clone();
       // we add an additional filter, such that we can only find the documents we want to retrieve,
       // as we figured out in the check query.
       if (!resultSolrIds.isEmpty()) {
@@ -1282,7 +1283,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
               startTime,
               System.currentTimeMillis());
       if (LOG.isDebugEnabled()) {
-        Object[] logParams =
+        @RUntainted Object[] logParams =
             new Object[] {
               new Long(System.currentTimeMillis() - startTime),
               new Long(result.getNumFound()),
@@ -1341,7 +1342,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
    * @throws CmsSearchException if something goes wrong
    * @see #search(CmsObject, String)
    */
-  public CmsSolrResultList search(CmsObject cms, SolrQuery query) throws CmsSearchException {
+  public CmsSolrResultList search(CmsObject cms, @RUntainted SolrQuery query) throws CmsSearchException {
 
     return search(cms, CmsEncoder.decode(query.toString()));
   }
@@ -1376,7 +1377,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
    * @throws Exception if there is no embedded server
    */
   public void select(
-      ServletResponse response, CmsObject cms, CmsSolrQuery query, boolean ignoreMaxRows)
+      ServletResponse response, CmsObject cms, @RUntainted CmsSolrQuery query, boolean ignoreMaxRows)
       throws Exception {
 
     throwExceptionIfSafetyRestrictionsAreViolated(cms, query, false);
@@ -1396,7 +1397,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
    *     another search index
    */
   @Override
-  public void setName(String name) throws CmsIllegalArgumentException {
+  public void setName(@RUntainted String name) throws CmsIllegalArgumentException {
 
     super.setName(name);
     updateCoreName();
@@ -1421,7 +1422,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
    *
    * @param client the server to set
    */
-  public void setSolrServer(SolrClient client) {
+  public void setSolrServer(@RUntainted SolrClient client) {
 
     m_solr = client;
   }
@@ -1436,12 +1437,12 @@ public class CmsSolrIndex extends CmsSearchIndex {
    * @param q the query
    * @throws CmsSearchException if something goes wrong
    */
-  public void spellCheck(ServletResponse res, CmsObject cms, CmsSolrQuery q)
+  public void spellCheck(ServletResponse res, CmsObject cms, @RUntainted CmsSolrQuery q)
       throws CmsSearchException {
 
     throwExceptionIfSafetyRestrictionsAreViolated(cms, q, true);
-    SolrCore core = null;
-    LocalSolrQueryRequest solrQueryRequest = null;
+    @RUntainted SolrCore core = null;
+    @RUntainted LocalSolrQueryRequest solrQueryRequest = null;
     try {
       q.setRequestHandler("/spell");
       q.setRows(Integer.valueOf(0));
@@ -1511,7 +1512,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
 
   /** @see org.opencms.search.CmsSearchIndex#createIndexBackup() */
   @Override
-  protected String createIndexBackup() {
+  protected @RUntainted String createIndexBackup() {
 
     if (!isBackupReindexing()) {
       // if no backup is generated we don't need to do anything
@@ -1611,7 +1612,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
    * @param name the index name.
    * @return the core name
    */
-  private String generateCoreName(final String name) {
+  private @RUntainted String generateCoreName(final @RUntainted String name) {
 
     if (name != null) {
       return name.replace(" ", "-");
@@ -1675,8 +1676,8 @@ public class CmsSolrIndex extends CmsSearchIndex {
           throw new CmsSearchException(
               Messages.get().container(Messages.GUI_HANDLER_REQUEST_NOT_ALLOWED_0));
         }
-        int start = null != query.getStart() ? query.getStart().intValue() : 0;
-        int rows =
+        @RUntainted int start = null != query.getStart() ? query.getStart().intValue() : 0;
+        @RUntainted int rows =
             null != query.getRows()
                 ? query.getRows().intValue()
                 : CmsSolrQuery.DEFAULT_ROWS.intValue();
@@ -1703,7 +1704,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
           if (query.getFields().equals(CmsSolrQuery.ALL_RETURN_FIELDS)) {
             query.setFields(m_handlerAllowedFields);
           } else {
-            for (String requestedField : query.getFields().split(",")) {
+            for (@RUntainted String requestedField : query.getFields().split(",")) {
               if (Stream.of(m_handlerAllowedFields)
                   .noneMatch(allowedField -> allowedField.equals(requestedField))) {
                 throw new CmsSearchException(
@@ -1738,16 +1739,16 @@ public class CmsSolrIndex extends CmsSearchIndex {
    * @throws UnsupportedEncodingException if sth. goes wrong
    */
   private void writeResp(
-      ServletResponse response, SolrQueryRequest queryRequest, SolrQueryResponse queryResponse)
+      ServletResponse response, @RUntainted SolrQueryRequest queryRequest, @RUntainted SolrQueryResponse queryResponse)
       throws IOException, UnsupportedEncodingException {
 
     if (m_solr instanceof EmbeddedSolrServer) {
-      SolrCore core = ((EmbeddedSolrServer) m_solr).getCoreContainer().getCore(getCoreName());
+      @RUntainted SolrCore core = ((EmbeddedSolrServer) m_solr).getCoreContainer().getCore(getCoreName());
       Writer out = null;
       try {
-        QueryResponseWriter responseWriter = core.getQueryResponseWriter(queryRequest);
+        @RUntainted QueryResponseWriter responseWriter = core.getQueryResponseWriter(queryRequest);
 
-        final String ct = responseWriter.getContentType(queryRequest, queryResponse);
+        final @RUntainted String ct = responseWriter.getContentType(queryRequest, queryResponse);
         if (null != ct) {
           response.setContentType(ct);
         }

@@ -75,6 +75,7 @@ import org.opencms.search.solr.CmsSolrResultList;
 import org.opencms.ui.FontOpenCms;
 import org.opencms.ui.components.extensions.CmsAutoGrowingTextArea;
 import org.tepi.filtertable.FilterTable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Types and helper classes used by the message bundle editor. */
 public final class CmsMessageBundleEditorTypes {
@@ -95,7 +96,7 @@ public final class CmsMessageBundleEditorTypes {
      * @return The bundle type for the resource type name, or null, if the resource has no bundle
      *     type.
      */
-    public static BundleType toBundleType(String value) {
+    public static @RUntainted BundleType toBundleType(String value) {
 
       if (null == value) {
         return null;
@@ -295,7 +296,7 @@ public final class CmsMessageBundleEditorTypes {
     /** The value before it was edited. */
     private String m_oldValue;
     /** The value after it was edited. */
-    private String m_newValue;
+    private @RUntainted String m_newValue;
 
     /**
      * Default constructor.
@@ -331,7 +332,7 @@ public final class CmsMessageBundleEditorTypes {
      *
      * @return the value after it was edited.
      */
-    public String getNewValue() {
+    public @RUntainted String getNewValue() {
 
       return m_newValue;
     }

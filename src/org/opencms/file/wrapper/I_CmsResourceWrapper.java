@@ -38,6 +38,7 @@ import org.opencms.file.CmsResourceFilter;
 import org.opencms.lock.CmsLock;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface which is used by the {@link CmsObjectWrapper} to create a different view to the
@@ -306,7 +307,7 @@ public interface I_CmsResourceWrapper {
    * @param res the resource where to rewrite the path
    * @return the rewritten path or null if the wrapper is not responsible
    */
-  String rewriteLink(CmsObject cms, CmsResource res);
+  @RUntainted String rewriteLink(CmsObject cms, CmsResource res);
 
   /**
    * Unlocks a resource.

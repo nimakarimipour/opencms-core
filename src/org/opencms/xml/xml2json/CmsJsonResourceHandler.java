@@ -58,6 +58,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.xml2json.handler.CmsExceptionSafeHandlerWrapper;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerContext;
 import org.opencms.xml.xml2json.handler.I_CmsJsonHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Handles /json requests. */
 public class CmsJsonResourceHandler implements I_CmsResourceInit, I_CmsNeedsAdminCmsObject {
@@ -125,7 +126,7 @@ public class CmsJsonResourceHandler implements I_CmsResourceInit, I_CmsNeedsAdmi
    * @param res the resource to link to
    * @return the link to the resource
    */
-  public static String link(CmsObject cms, CmsResource res) {
+  public static @RUntainted String link(CmsObject cms, CmsResource res) {
 
     I_CmsCustomLinkRenderer linkRenderer = getLinkRenderer(cms);
     if (linkRenderer != null) {

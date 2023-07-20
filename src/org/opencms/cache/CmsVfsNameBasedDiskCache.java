@@ -35,6 +35,7 @@ import org.apache.commons.logging.Log;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsFileUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements a name based RFS file based disk cache, that handles parameter based versions of VFS

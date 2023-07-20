@@ -55,6 +55,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.security.CmsUserLog;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.workplace.CmsWorkplaceMessages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements two-factor authentication for OpenCms users via TOTP.
@@ -170,9 +171,9 @@ public class CmsTwoFactorAuthenticationHandler {
    * @param locale the locale
    * @return the message
    */
-  public String getSetupMessage(Locale locale) {
+  public String getSetupMessage(@RUntainted Locale locale) {
 
-    String rawMessage = m_config.getSetupMessage();
+    @RUntainted String rawMessage = m_config.getSetupMessage();
     CmsMacroResolver resolver = new CmsMacroResolver();
     CmsWorkplaceMessages messages = OpenCms.getWorkplaceManager().getMessages(locale);
     resolver.setMessages(messages);
@@ -245,7 +246,7 @@ public class CmsTwoFactorAuthenticationHandler {
       throws CmsSecondFactorSetupException {
 
     checkEnabled();
-    String secret = code.getSecret();
+    @RUntainted String secret = code.getSecret();
     if (secret == null) {
       throw new CmsSecondFactorSetupException("Secret must not be null.");
     }

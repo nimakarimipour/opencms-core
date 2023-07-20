@@ -37,6 +37,7 @@ import org.opencms.flex.CmsFlexController;
 import org.opencms.i18n.CmsMessages;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the labels stored in the language files of the OpenCms workplace.
@@ -65,7 +66,7 @@ public class CmsJspTagLabel extends BodyTagSupport {
    * @param req the current request
    * @return String the value of the selected label
    */
-  public static String wpLabelTagAction(String label, ServletRequest req) {
+  public static String wpLabelTagAction(@RUntainted String label, ServletRequest req) {
 
     CmsObject cms = CmsFlexController.getCmsObject(req);
     CmsMessages messages =

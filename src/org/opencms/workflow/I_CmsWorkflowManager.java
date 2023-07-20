@@ -40,6 +40,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Workflow manager interface.
@@ -148,7 +149,7 @@ public interface I_CmsWorkflowManager {
    *
    * @return the resource limit
    */
-  int getResourceLimit();
+  @RUntainted int getResourceLimit();
 
   /**
    * Gets the workflow id which should be used for a given workflow project.

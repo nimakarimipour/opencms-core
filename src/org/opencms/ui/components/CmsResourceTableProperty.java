@@ -62,6 +62,7 @@ import org.opencms.file.CmsPropertyDefinition;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class whose instances contain the static data needed for a table column.
@@ -343,7 +344,7 @@ public class CmsResourceTableProperty implements Serializable {
   private float m_expandRatio;
 
   /** The message key for the column header. */
-  private String m_headerKey;
+  private @RUntainted String m_headerKey;
 
   /** The column id. */
   private String m_id;
@@ -365,7 +366,7 @@ public class CmsResourceTableProperty implements Serializable {
       String id,
       Class<?> columnType,
       Object defaultValue,
-      String headerKey,
+      @RUntainted String headerKey,
       boolean collapsible,
       float expandRation,
       int columnWidth) {
@@ -391,7 +392,7 @@ public class CmsResourceTableProperty implements Serializable {
       String id,
       Class<?> columnType,
       Object defaultValue,
-      String headerKey,
+      @RUntainted String headerKey,
       boolean collapsible,
       float expandRation,
       int columnWidth,
@@ -426,7 +427,7 @@ public class CmsResourceTableProperty implements Serializable {
       String editPropertyId,
       Class<?> columnType,
       Object defaultValue,
-      String headerKey,
+      @RUntainted String headerKey,
       boolean collapsible,
       float expandRation,
       int columnWidth) {
@@ -573,7 +574,7 @@ public class CmsResourceTableProperty implements Serializable {
    *
    * @return the headerKey
    */
-  public String getHeaderKey() {
+  public @RUntainted String getHeaderKey() {
 
     return m_headerKey;
   }
@@ -585,7 +586,7 @@ public class CmsResourceTableProperty implements Serializable {
    *
    * @return the id
    */
-  public String getId() {
+  public @RUntainted String getId() {
 
     return m_id;
   }

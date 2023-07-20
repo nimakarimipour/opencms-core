@@ -58,6 +58,7 @@ import org.opencms.xml.containerpage.CmsXmlContainerPage;
 import org.opencms.xml.containerpage.CmsXmlContainerPageFactory;
 import org.opencms.xml.types.CmsXmlVfsFileValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "containerpage".
@@ -242,7 +243,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
   public CmsResource createResource(
       CmsObject cms,
       CmsSecurityManager securityManager,
-      String resourcename,
+      @RUntainted String resourcename,
       byte[] content,
       List<CmsProperty> properties)
       throws CmsException {
@@ -306,7 +307,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
    *     java.lang.String, String)
    */
   @Override
-  public void initConfiguration(String name, String id, String className)
+  public void initConfiguration(@RUntainted String name, @RUntainted String id, @RUntainted String className)
       throws CmsConfigurationException {
 
     if (!RESOURCE_TYPE_NAME.equals(name) && !MODEL_GROUP_TYPE_NAME.equals(name)) {

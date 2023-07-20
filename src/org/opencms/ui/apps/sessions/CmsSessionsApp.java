@@ -62,6 +62,7 @@ import org.opencms.ui.components.CmsResourceInfo;
 import org.opencms.ui.components.CmsToolBar;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the broadcast app.
@@ -116,7 +117,7 @@ public class CmsSessionsApp extends A_CmsWorkplaceApp {
 
     List<CmsResourceInfo> ret = new ArrayList<CmsResourceInfo>();
     try {
-      for (String id : ids) {
+      for (@RUntainted String id : ids) {
         CmsUser user =
             A_CmsUI.getCmsObject()
                 .readUser(OpenCms.getSessionManager().getSessionInfo(new CmsUUID(id)).getUserId());
@@ -137,11 +138,11 @@ public class CmsSessionsApp extends A_CmsWorkplaceApp {
    * @param andLocalized String
    * @return user names as string
    */
-  protected static String getUserNames(Set<String> ids, String andLocalized) {
+  protected static @RUntainted String getUserNames(Set<String> ids, @RUntainted String andLocalized) {
 
-    List<String> userNames = new ArrayList<String>();
+    List<@RUntainted String> userNames = new ArrayList<@RUntainted String>();
 
-    for (String id : ids) {
+    for (@RUntainted String id : ids) {
       CmsSessionInfo session = OpenCms.getSessionManager().getSessionInfo(new CmsUUID(id));
       try {
         String name = A_CmsUI.getCmsObject().readUser(session.getUserId()).getName();
@@ -153,9 +154,9 @@ public class CmsSessionsApp extends A_CmsWorkplaceApp {
       }
     }
 
-    Iterator<String> iterator = userNames.iterator();
+    Iterator<@RUntainted String> iterator = userNames.iterator();
 
-    String res = "";
+    @RUntainted String res = "";
 
     while (iterator.hasNext()) {
       res += iterator.next();
@@ -163,7 +164,7 @@ public class CmsSessionsApp extends A_CmsWorkplaceApp {
         res += ", ";
       }
     }
-    int lastPosSeperation = res.lastIndexOf(", ");
+    @RUntainted int lastPosSeperation = res.lastIndexOf(", ");
 
     return lastPosSeperation == -1
         ? res

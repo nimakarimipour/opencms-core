@@ -44,6 +44,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A resource collector that collects resources changed in a given time frame and supports flexible
@@ -181,7 +182,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
   protected List<CmsResource> allChangedInFolderDate(
       CmsObject cms, String param, boolean tree, boolean asc, int numResults) throws CmsException {
 
-    Map<String, String> params = getParameters(param);
+    Map<String, @RUntainted String> params = getParameters(param);
 
     String foldername = "/";
     if (params.containsKey(PARAM_KEY_RESOURCE)) {
@@ -313,7 +314,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
    * @param param the collector parameter
    * @return the collector parameters
    */
-  private Map<String, String> getParameters(String param) {
+  private Map<String, @RUntainted String> getParameters(String param) {
 
     if (CmsStringUtil.isNotEmpty(param)) {
       return CmsStringUtil.splitAsMap(param, "|", "=");

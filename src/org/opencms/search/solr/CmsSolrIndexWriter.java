@@ -47,6 +47,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.search.CmsSearchUtil;
 import org.opencms.search.I_CmsSearchDocument;
 import org.opencms.search.fields.CmsSearchField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the index writer for the Solr server used by OpenCms.

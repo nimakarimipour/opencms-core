@@ -41,6 +41,7 @@ import org.opencms.json.JSONObject;
 import org.opencms.jsp.util.CmsJspElFunctions;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Server-side implementation of {@link org.opencms.acacia.shared.I_CmsSerialDateValue}. */
 public class CmsSerialDateValue extends A_CmsSerialDateValue {
@@ -109,7 +110,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
       if (isWholeDay()) {
         result.put(JsonKey.WHOLE_DAY, true);
       }
-      JSONObject pattern = patternToJson();
+      @RUntainted JSONObject pattern = patternToJson();
       result.put(JsonKey.PATTERN, pattern);
       SortedSet<Date> exceptions = getExceptions();
       if (!exceptions.isEmpty()) {
@@ -141,7 +142,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
 
   /** @see java.lang.Object#toString() */
   @Override
-  public String toString() {
+  public @RUntainted String toString() {
 
     JSONObject json;
     json = toJson();
@@ -187,7 +188,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
    * @param individualDates the list to convert.
    * @return Json array with long values of dates as string
    */
-  private JSONArray datesToJson(Collection<Date> individualDates) {
+  private @RUntainted JSONArray datesToJson(Collection<Date> individualDates) {
 
     if (null != individualDates) {
       JSONArray result = new JSONArray();
@@ -205,7 +206,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
    * @param d the date to convert
    * @return the String representation we use in the JSON.
    */
-  private String dateToJson(Date d) {
+  private @RUntainted String dateToJson(Date d) {
 
     return Long.toString(d.getTime());
   }
@@ -392,7 +393,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
    *     JSON object.
    * @return the string or the default value if reading the string fails.
    */
-  private String readOptionalString(JSONObject json, String key, String defaultValue) {
+  private @RUntainted String readOptionalString(JSONObject json, String key, String defaultValue) {
 
     try {
       String str = json.getString(key);
@@ -415,7 +416,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
    */
   private CmsUUID readOptionalUUID(JSONObject json, String key) {
 
-    String id = readOptionalString(json, key, null);
+    @RUntainted String id = readOptionalString(json, key, null);
     if (null != id) {
       try {
         CmsUUID uuid = CmsUUID.valueOf(id);

@@ -28,6 +28,7 @@
 package org.opencms.xml.content;
 
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a configured tab to be used in the XML content editor for better usability.
@@ -40,16 +41,16 @@ public class CmsXmlContentTab {
   private boolean m_collapsed;
 
   /** The name for the tab ID, generated from the start name. */
-  private String m_idName;
+  private @RUntainted String m_idName;
 
   /** The XML element name where this tab starts. */
-  private String m_startName;
+  private @RUntainted String m_startName;
 
   /** Description of this tab. */
-  private String m_description;
+  private @RUntainted String m_description;
 
   /** The name to display on the tab. */
-  private String m_tabName;
+  private @RUntainted String m_tabName;
 
   /**
    * Constructor with the start element name.
@@ -61,7 +62,7 @@ public class CmsXmlContentTab {
    *
    * @param startName the XML element name where this tab starts
    */
-  public CmsXmlContentTab(String startName) {
+  public CmsXmlContentTab(@RUntainted String startName) {
 
     this(startName, true, startName, null);
   }
@@ -76,7 +77,7 @@ public class CmsXmlContentTab {
    * @param tabName the name to display on the tab
    * @param description the tab description HTML
    */
-  public CmsXmlContentTab(String startName, boolean collapsed, String tabName, String description) {
+  public CmsXmlContentTab(String startName, boolean collapsed, @RUntainted String tabName, @RUntainted String description) {
 
     m_startName = startName;
     m_collapsed = collapsed;
@@ -104,7 +105,7 @@ public class CmsXmlContentTab {
    *
    * @return the tab description HTML
    */
-  public String getDescription() {
+  public @RUntainted String getDescription() {
 
     return m_description;
   }
@@ -135,7 +136,7 @@ public class CmsXmlContentTab {
    *
    * @return the XML element name where this tab starts
    */
-  public String getStartName() {
+  public @RUntainted String getStartName() {
 
     return m_startName;
   }
@@ -147,7 +148,7 @@ public class CmsXmlContentTab {
    *
    * @return the name to display on the tab
    */
-  public String getTabName() {
+  public @RUntainted String getTabName() {
 
     return m_tabName;
   }

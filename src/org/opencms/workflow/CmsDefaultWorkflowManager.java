@@ -64,6 +64,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.security.CmsOrganizationalUnit;
 import org.opencms.security.CmsRole;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The default implementation of the workflow manager interface, which offers only publish
@@ -152,7 +153,7 @@ public class CmsDefaultWorkflowManager extends A_CmsWorkflowManager {
    * @param name the fully qualified name to check
    * @return the simple name if the ou is the same as the current user's ou
    */
-  protected static String getOuAwareName(CmsObject cms, String name) {
+  protected static @RUntainted String getOuAwareName(CmsObject cms, @RUntainted String name) {
 
     String ou = CmsOrganizationalUnit.getParentFqn(name);
     if (ou.equals(cms.getRequestContext().getCurrentUser().getOuFqn())) {
@@ -224,7 +225,7 @@ public class CmsDefaultWorkflowManager extends A_CmsWorkflowManager {
    * @param key the localization key
    * @return the localized label
    */
-  public String getLabel(CmsObject cms, String key) {
+  public String getLabel(CmsObject cms, @RUntainted String key) {
 
     CmsMessages messages = Messages.get().getBundle(getLocale(cms));
     return messages.key(key);
@@ -321,7 +322,7 @@ public class CmsDefaultWorkflowManager extends A_CmsWorkflowManager {
             .setAttribute(
                 CmsDefaultWorkflowManager.ATTR_CHECK_PUBLISH_RESOURCE_LIMIT, Boolean.TRUE);
       }
-      List<CmsResource> rawResourceList = new ArrayList<CmsResource>();
+      @RUntainted List<CmsResource> rawResourceList = new ArrayList<CmsResource>();
       I_CmsVirtualProject projectHandler = null;
       projectHandler = getRealOrVirtualProject(options.getProjectId());
       if (projectHandler != null) {

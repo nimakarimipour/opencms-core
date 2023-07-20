@@ -33,6 +33,7 @@ import org.opencms.importexport.CmsImportParameters;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.report.A_CmsReportThread;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Imports an OpenCms export file into the VFS.
@@ -61,7 +62,7 @@ public class CmsDatabaseImportThread extends A_CmsReportThread {
    * @param importFile the file to import
    * @param keepPermissions if set, the permissions set on existing resources will not be modified
    */
-  public CmsDatabaseImportThread(CmsObject cms, String importFile, boolean keepPermissions) {
+  public CmsDatabaseImportThread(CmsObject cms, @RUntainted String importFile, boolean keepPermissions) {
 
     super(cms, Messages.get().getBundle().key(Messages.GUI_DB_IMPORT_THREAD_NAME_1, importFile));
     m_importFile = importFile;

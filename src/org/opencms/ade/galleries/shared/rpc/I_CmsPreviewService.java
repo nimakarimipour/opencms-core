@@ -32,6 +32,7 @@ import java.util.Map;
 import org.opencms.ade.galleries.shared.CmsImageInfoBean;
 import org.opencms.ade.galleries.shared.CmsResourceInfoBean;
 import org.opencms.gwt.CmsRpcException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles the common RPC services related to the gallery preview dialog.
@@ -55,7 +56,7 @@ public interface I_CmsPreviewService extends RemoteService {
    * @return the image resource data
    * @throws CmsRpcException if something goes wrong
    */
-  CmsImageInfoBean getImageInfo(String resourcePath, String locale) throws CmsRpcException;
+  CmsImageInfoBean getImageInfo(String resourcePath, @RUntainted String locale) throws CmsRpcException;
 
   /**
    * Returns the data to be displayed in the preview dialog.
@@ -67,7 +68,7 @@ public interface I_CmsPreviewService extends RemoteService {
    * @return the preview data
    * @throws CmsRpcException if something goes wrong
    */
-  CmsResourceInfoBean getResourceInfo(String resourcePath, String locale) throws CmsRpcException;
+  CmsResourceInfoBean getResourceInfo(String resourcePath, @RUntainted String locale) throws CmsRpcException;
 
   /**
    * Saves the given properties to the resource and returns the data to be displayed in the preview
@@ -82,7 +83,7 @@ public interface I_CmsPreviewService extends RemoteService {
    * @throws CmsRpcException if something goes wrong
    */
   CmsImageInfoBean updateImageProperties(
-      String resourcePath, String locale, Map<String, String> properties) throws CmsRpcException;
+      String resourcePath, @RUntainted String locale, Map<String, String> properties) throws CmsRpcException;
 
   /**
    * Saves the given properties to the resource and returns the data to be displayed in the preview
@@ -97,5 +98,5 @@ public interface I_CmsPreviewService extends RemoteService {
    * @throws CmsRpcException if something goes wrong
    */
   CmsResourceInfoBean updateResourceProperties(
-      String resourcePath, String locale, Map<String, String> properties) throws CmsRpcException;
+      String resourcePath, @RUntainted String locale, Map<String, String> properties) throws CmsRpcException;
 }

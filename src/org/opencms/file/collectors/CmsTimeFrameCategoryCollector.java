@@ -48,6 +48,7 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A collector that allows to collect resources within a time range based upon a configurable
@@ -305,7 +306,7 @@ public class CmsTimeFrameCategoryCollector extends A_CmsResourceCollector {
      * @return the file name
      */
     @Override
-    public String getFileName() {
+    public @RUntainted String getFileName() {
 
       return m_fileName;
     }

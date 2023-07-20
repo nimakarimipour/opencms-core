@@ -62,6 +62,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report thread to save site configurations.
@@ -113,10 +114,10 @@ public class CmsCreateSiteThread extends A_CmsReportThread {
   private ByteArrayOutputStream m_os;
 
   /** Parent OU. */
-  private String m_parentOU;
+  private @RUntainted String m_parentOU;
 
   /** Selected OU. */
-  private String m_selectedOU;
+  private @RUntainted String m_selectedOU;
 
   /** Site to save. */
   private CmsSite m_site;
@@ -125,7 +126,7 @@ public class CmsCreateSiteThread extends A_CmsReportThread {
   private String m_source;
 
   /** Template to set as property for the site. */
-  private String m_template;
+  private @RUntainted String m_template;
 
   /**
    * Constructor for Class.
@@ -322,7 +323,7 @@ public class CmsCreateSiteThread extends A_CmsReportThread {
    * @throws CmsIllegalArgumentException exception
    * @throws CmsException exception
    */
-  private void createIndexHTML(String siteRoot) throws CmsIllegalArgumentException, CmsException {
+  private void createIndexHTML(@RUntainted String siteRoot) throws CmsIllegalArgumentException, CmsException {
 
     if (!m_cms.existsResource(siteRoot + INDEX_HTML)) {
       // Create index.html
@@ -346,7 +347,7 @@ public class CmsCreateSiteThread extends A_CmsReportThread {
    * @throws CmsLoaderException if something goes wrong
    */
   private void createSitemapContentFolder(
-      CmsObject cms, CmsResource subSitemapFolder, String contentFolder)
+      CmsObject cms, CmsResource subSitemapFolder, @RUntainted String contentFolder)
       throws CmsException, CmsLoaderException {
 
     CmsResource configFile = null;
@@ -430,7 +431,7 @@ public class CmsCreateSiteThread extends A_CmsReportThread {
    * @return site root folder
    * @throws CmsException exception
    */
-  private CmsResource createSiteRootIfNeeded(String siteRoot) throws CmsException {
+  private CmsResource createSiteRootIfNeeded(@RUntainted String siteRoot) throws CmsException {
 
     CmsResource siteRootResource = null;
 
@@ -576,7 +577,7 @@ public class CmsCreateSiteThread extends A_CmsReportThread {
    *
    * @param siteRoot site root of considered site.
    */
-  private void saveFavIcon(String siteRoot) {
+  private void saveFavIcon(@RUntainted String siteRoot) {
 
     if (m_os == null) {
       return;

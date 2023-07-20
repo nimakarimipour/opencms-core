@@ -28,6 +28,7 @@
 package org.opencms.widgets;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parameter value wrapper used by the OpenCms workplace widgets.
@@ -48,7 +49,7 @@ public interface I_CmsWidgetParameter {
    * @param cms an initialized instance of an OpenCms user context
    * @return the default value of this parameter
    */
-  String getDefault(CmsObject cms);
+  @RUntainted String getDefault(CmsObject cms);
 
   /**
    * Returns the form id of this parameter.
@@ -57,7 +58,7 @@ public interface I_CmsWidgetParameter {
    *
    * @return the form id of this parameter
    */
-  String getId();
+  @RUntainted String getId();
 
   /**
    * Returns the index of this widget parameter, starting with 0.
@@ -105,7 +106,7 @@ public interface I_CmsWidgetParameter {
    *
    * @return the name of this parameter
    */
-  String getName();
+  @RUntainted String getName();
 
   /**
    * Returns the value of this parameter.
@@ -115,7 +116,7 @@ public interface I_CmsWidgetParameter {
    * @param cms an initialized instance of an OpenCms user context
    * @return the value of this parameter
    */
-  String getStringValue(CmsObject cms);
+  @RUntainted String getStringValue(CmsObject cms);
 
   /**
    * Returns <code>true</code> if this widgets value contains an error.

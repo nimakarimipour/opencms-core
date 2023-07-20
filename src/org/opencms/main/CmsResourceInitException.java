@@ -28,6 +28,7 @@
 package org.opencms.main;
 
 import org.opencms.i18n.CmsMessageContainer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This exeption is thrown by a class which implements org.opencms.main.I_CmsResourceInit. When this
@@ -52,7 +53,7 @@ public class CmsResourceInitException extends CmsException {
    *
    * @param cls the resource init handler class
    */
-  public CmsResourceInitException(Class<? extends I_CmsResourceInit> cls) {
+  public CmsResourceInitException(@RUntainted Class<? extends I_CmsResourceInit> cls) {
 
     this(Messages.get().container(Messages.ERR_RESOURCE_INIT_ABORTED_1, cls.getName()));
   }

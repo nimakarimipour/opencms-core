@@ -31,6 +31,7 @@ import org.opencms.configuration.I_CmsConfigurationParameterHandler;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.util.CmsResourceTranslator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a repository.
@@ -60,7 +61,7 @@ public interface I_CmsRepository extends I_CmsConfigurationParameterHandler {
    *
    * @return the name of the repository
    */
-  String getName();
+  @RUntainted String getName();
 
   /**
    * Gets the repository-specific file translations.

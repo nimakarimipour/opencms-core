@@ -53,6 +53,7 @@ import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplaceManager;
 import org.opencms.workplace.CmsWorkplaceSettings;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines default authorization methods.
@@ -375,7 +376,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
       LOG.debug("initStartSettings = " + initStartSettings);
       OpenCms.getSiteManager().isWorkplaceRequest(req);
       if (initStartSettings) {
-        CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(cms);
+        @RUntainted CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(cms);
         session.setAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS, settings);
       }
 

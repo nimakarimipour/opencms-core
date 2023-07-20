@@ -28,6 +28,7 @@
 package org.opencms.i18n;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience base class to access the localized messages of an OpenCms package.
@@ -120,13 +121,13 @@ public abstract class A_CmsMessageBundle implements I_CmsMessageBundle {
   }
 
   /** @see org.opencms.i18n.I_CmsMessageBundle#container(java.lang.String) */
-  public CmsMessageContainer container(String key) {
+  public CmsMessageContainer container(@RUntainted String key) {
 
     return container(key, null);
   }
 
   /** @see org.opencms.i18n.I_CmsMessageBundle#container(java.lang.String, java.lang.Object) */
-  public CmsMessageContainer container(String key, Object arg0) {
+  public CmsMessageContainer container(@RUntainted String key, @RUntainted Object arg0) {
 
     return container(key, new Object[] {arg0});
   }
@@ -135,7 +136,7 @@ public abstract class A_CmsMessageBundle implements I_CmsMessageBundle {
    * @see org.opencms.i18n.I_CmsMessageBundle#container(java.lang.String, java.lang.Object,
    *     java.lang.Object)
    */
-  public CmsMessageContainer container(String key, Object arg0, Object arg1) {
+  public CmsMessageContainer container(@RUntainted String key, @RUntainted Object arg0, @RUntainted Object arg1) {
 
     return container(key, new Object[] {arg0, arg1});
   }
@@ -144,13 +145,13 @@ public abstract class A_CmsMessageBundle implements I_CmsMessageBundle {
    * @see org.opencms.i18n.I_CmsMessageBundle#container(java.lang.String, java.lang.Object,
    *     java.lang.Object, java.lang.Object)
    */
-  public CmsMessageContainer container(String key, Object arg0, Object arg1, Object arg2) {
+  public CmsMessageContainer container(@RUntainted String key, @RUntainted Object arg0, @RUntainted Object arg1, @RUntainted Object arg2) {
 
     return container(key, new Object[] {arg0, arg1, arg2});
   }
 
   /** @see org.opencms.i18n.I_CmsMessageBundle#container(java.lang.String, java.lang.Object[]) */
-  public CmsMessageContainer container(String message, Object[] args) {
+  public CmsMessageContainer container(@RUntainted String message, @RUntainted Object[] args) {
 
     return new CmsMessageContainer(this, message, args);
   }
@@ -166,7 +167,7 @@ public abstract class A_CmsMessageBundle implements I_CmsMessageBundle {
   }
 
   /** @see org.opencms.i18n.I_CmsMessageBundle#getBundle(java.util.Locale) */
-  public CmsMessages getBundle(Locale locale) {
+  public CmsMessages getBundle(@RUntainted Locale locale) {
 
     return new CmsMessages(getBundleName(), locale);
   }

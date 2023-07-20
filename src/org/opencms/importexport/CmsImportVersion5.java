@@ -67,6 +67,7 @@ import org.opencms.util.CmsDateUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.CmsXmlException;
 import org.opencms.xml.CmsXmlUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -372,11 +373,11 @@ public class CmsImportVersion5 extends A_CmsImport {
    * @return imported resource
    */
   protected CmsResource importResource(
-      String source,
-      String destination,
+      @RUntainted String source,
+      @RUntainted String destination,
       I_CmsResourceType type,
-      String uuidstructure,
-      String uuidresource,
+      @RUntainted String uuidstructure,
+      @RUntainted String uuidresource,
       long datelastmodified,
       String userlastmodified,
       long datecreated,
@@ -420,7 +421,7 @@ public class CmsImportVersion5 extends A_CmsImport {
       }
 
       // get UUID for the structure
-      CmsUUID newUuidstructure = null;
+      @RUntainted CmsUUID newUuidstructure = null;
       if (uuidstructure != null) {
         // create a UUID from the provided string
         newUuidstructure = new CmsUUID(uuidstructure);
@@ -525,7 +526,7 @@ public class CmsImportVersion5 extends A_CmsImport {
   @SuppressWarnings("unchecked")
   protected void readResourcesFromManifest() throws CmsImportExportException {
 
-    String source = null,
+    @RUntainted String source = null,
         destination = null,
         uuidstructure = null,
         uuidresource = null,
@@ -535,12 +536,12 @@ public class CmsImportVersion5 extends A_CmsImport {
         timestamp = null;
     long datelastmodified = 0, datecreated = 0, datereleased = 0, dateexpired = 0;
 
-    List<Node> fileNodes = null, acentryNodes = null;
-    Element currentElement = null, currentEntry = null;
+    @RUntainted List<@RUntainted Node> fileNodes = null, acentryNodes = null;
+    @RUntainted Element currentElement = null, currentEntry = null;
     List<CmsProperty> properties = null;
 
     // get list of immutable resources
-    List<String> immutableResources = OpenCms.getImportExportManager().getImmutableResources();
+    @RUntainted List<String> immutableResources = OpenCms.getImportExportManager().getImmutableResources();
     if (immutableResources == null) {
       immutableResources = Collections.emptyList();
     }
@@ -564,7 +565,7 @@ public class CmsImportVersion5 extends A_CmsImport {
     try {
       // get all file-nodes
       fileNodes = m_docXml.selectNodes("//" + A_CmsImport.N_FILE);
-      int importSize = fileNodes.size();
+      @RUntainted int importSize = fileNodes.size();
 
       // walk through all files in manifest
       for (int i = 0; i < fileNodes.size(); i++) {
@@ -655,7 +656,7 @@ public class CmsImportVersion5 extends A_CmsImport {
         flags = getChildElementTextValue(currentElement, A_CmsImport.N_FLAGS);
 
         // apply name translation and import path
-        String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
+        @RUntainted String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
         if (type.isFolder()) {
           // ensure folders end with a "/"
           if (!CmsResource.isFolder(translatedName)) {
@@ -713,7 +714,7 @@ public class CmsImportVersion5 extends A_CmsImport {
                 currentEntry = (Element) acentryNodes.get(j);
 
                 // get the data of the access control entry
-                String id =
+                @RUntainted String id =
                     getChildElementTextValue(currentEntry, A_CmsImport.N_ACCESSCONTROL_PRINCIPAL);
                 String principalId = new CmsUUID().toString();
                 String principal = id.substring(id.indexOf('.') + 1, id.length());

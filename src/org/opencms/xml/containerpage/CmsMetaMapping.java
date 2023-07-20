@@ -26,6 +26,7 @@
  */
 
 package org.opencms.xml.containerpage;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration bean for meta mappings.
@@ -35,7 +36,7 @@ package org.opencms.xml.containerpage;
 public class CmsMetaMapping {
 
   /** The mapping key. */
-  private String m_key;
+  private @RUntainted String m_key;
 
   /** The mapped element xpath. */
   private String m_element;
@@ -44,7 +45,7 @@ public class CmsMetaMapping {
   private int m_order;
 
   /** The mapping default value. */
-  private String m_defaultValue;
+  private @RUntainted String m_defaultValue;
 
   /**
    * Constructor.
@@ -56,7 +57,7 @@ public class CmsMetaMapping {
    * @param order the mapping order
    * @param defaultValue the mapping default value
    */
-  public CmsMetaMapping(String key, String element, int order, String defaultValue) {
+  public CmsMetaMapping(@RUntainted String key, String element, int order, @RUntainted String defaultValue) {
     m_key = key;
     m_element = element;
     m_order = order;
@@ -70,7 +71,7 @@ public class CmsMetaMapping {
    *
    * @return the mapping default value
    */
-  public String getDefaultValue() {
+  public @RUntainted String getDefaultValue() {
 
     return m_defaultValue;
   }
@@ -94,7 +95,7 @@ public class CmsMetaMapping {
    *
    * @return the mapping key
    */
-  public String getKey() {
+  public @RUntainted String getKey() {
 
     return m_key;
   }

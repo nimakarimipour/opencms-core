@@ -75,6 +75,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.CmsXmlErrorHandler;
 import org.opencms.xml.CmsXmlException;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import/export handler implementation for Cms modules.
@@ -107,7 +108,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
    *
    * <p>
    */
-  private String m_fileName;
+  private @RUntainted String m_fileName;
 
   /** The module imported with the digester. */
   private CmsModule m_importedModule;
@@ -120,7 +121,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
    *
    * <p>
    */
-  private String m_moduleName;
+  private @RUntainted String m_moduleName;
 
   /**
    * Creates a new Cms module import/export handler.
@@ -210,7 +211,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
    * @return the imported module
    * @throws CmsConfigurationException if the module could not be imported
    */
-  public static CmsModule readModuleFromImport(String importResource)
+  public static CmsModule readModuleFromImport(@RUntainted String importResource)
       throws CmsConfigurationException {
 
     // instantiate Digester and enable XML validation
@@ -369,7 +370,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
    * @param report the report to write to
    * @param modulePackageName the module name
    */
-  public static void reportBeginImport(I_CmsReport report, String modulePackageName) {
+  public static void reportBeginImport(I_CmsReport report, @RUntainted String modulePackageName) {
 
     report.print(
         Messages.get().container(Messages.RPT_IMPORT_MODULE_BEGIN_0), I_CmsReport.FORMAT_HEADLINE);
@@ -513,7 +514,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
    *
    * @return the name of the export file in the real file system
    */
-  public String getFileName() {
+  public @RUntainted String getFileName() {
 
     CmsMacroResolver resolver = new CmsMacroResolver();
     resolver.addMacro(
@@ -540,7 +541,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
    *
    * @return the (package) name of the module to be exported
    */
-  public String getModuleName() {
+  public @RUntainted String getModuleName() {
 
     return m_moduleName;
   }
@@ -565,7 +566,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
     CmsProject previousProject = cms.getRequestContext().getCurrentProject();
     try {
       CmsProject importProject = null;
-      String modulePackageName = null;
+      @RUntainted String modulePackageName = null;
       String storedSiteRoot = cms.getRequestContext().getSiteRoot();
       CmsImportHelper helper = new CmsImportHelper(parameters);
       try {
@@ -680,7 +681,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
    *
    * @param fileName the name of the export file in the real file system
    */
-  public void setFileName(String fileName) {
+  public void setFileName(@RUntainted String fileName) {
 
     m_fileName = fileName;
   }
@@ -716,7 +717,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
    *
    * @param moduleName the (package) name of the module to be exported
    */
-  public void setModuleName(String moduleName) {
+  public void setModuleName(@RUntainted String moduleName) {
 
     m_moduleName = moduleName;
   }
@@ -748,7 +749,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
    * @throws CmsException if errors occur reading the module data
    */
   private synchronized CmsModule importModule(
-      CmsObject cms, I_CmsReport report, CmsImportParameters parameters)
+      @RUntainted CmsObject cms, I_CmsReport report, CmsImportParameters parameters)
       throws CmsSecurityException, CmsConfigurationException, CmsException {
 
     // check if the user has the required permissions
@@ -831,7 +832,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
 
     // import the module resources
     CmsObject importCms = OpenCms.initCmsObject(cms);
-    String importSite = importedModule.getImportSite();
+    @RUntainted String importSite = importedModule.getImportSite();
     if (!CmsStringUtil.isEmptyOrWhitespaceOnly(importSite)) {
       importCms.getRequestContext().setSiteRoot(importSite);
     } else {

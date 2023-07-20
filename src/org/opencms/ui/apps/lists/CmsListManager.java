@@ -147,6 +147,7 @@ import org.opencms.workplace.explorer.CmsResourceUtil;
 import org.opencms.xml.containerpage.CmsContainerElementBean;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager for list configuration files.
@@ -297,7 +298,7 @@ public class CmsListManager extends A_CmsWorkplaceApp
     void deleteForOption(
         CmsResource resource,
         CmsContainerElementBean elementBean,
-        String deleteOption,
+        @RUntainted String deleteOption,
         I_CmsEditHandler editHandler,
         I_CmsDialogContext context) {
 
@@ -383,7 +384,7 @@ public class CmsListManager extends A_CmsWorkplaceApp
     void editForOption(
         CmsResource resource,
         CmsContainerElementBean elementBean,
-        String editOption,
+        @RUntainted String editOption,
         I_CmsEditHandler editHandler,
         I_CmsDialogContext context) {
 
@@ -459,7 +460,7 @@ public class CmsListManager extends A_CmsWorkplaceApp
           145);
 
   /** The available sort options. */
-  protected static final String[][] SORT_OPTIONS =
+  protected static final @RUntainted String[][] SORT_OPTIONS =
       new String[][] {
         {
           SortOption.DATE_ASC.toString(),
@@ -593,7 +594,7 @@ public class CmsListManager extends A_CmsWorkplaceApp
     }
     if ((resource instanceof CmsSearchResource)
         && (resourceItem.getItemProperty(CmsListManager.INFO_PROPERTY_LABEL) != null)) {
-      String seriesType =
+      @RUntainted String seriesType =
           ((CmsSearchResource) resource).getField(CmsSearchField.FIELD_SERIESDATES_TYPE);
       resourceItem
           .getItemProperty(CmsListManager.INFO_PROPERTY_LABEL)
@@ -1185,7 +1186,7 @@ public class CmsListManager extends A_CmsWorkplaceApp
       m_currentConfigParser.setSortOption((String) m_resultSorter.getValue());
     }
 
-    CmsSolrQuery query = m_currentConfigParser.getInitialQuery();
+    @RUntainted CmsSolrQuery query = m_currentConfigParser.getInitialQuery();
     CmsSearchController controller =
         new CmsSearchController(
             new CmsSearchConfiguration(m_currentConfigParser, A_CmsUI.getCmsObject()));
@@ -1234,7 +1235,7 @@ public class CmsListManager extends A_CmsWorkplaceApp
       crumbs.put(
           CmsListManagerConfiguration.APP_ID,
           CmsVaadinUtils.getMessageText(Messages.GUI_LISTMANAGER_TITLE_0));
-      String title = "";
+      @RUntainted String title = "";
       try {
         title =
             A_CmsUI.getCmsObject()
@@ -1264,7 +1265,7 @@ public class CmsListManager extends A_CmsWorkplaceApp
             new CmsUUID(A_CmsWorkplaceApp.getParamFromState(state, CmsEditor.RESOURCE_ID_PREFIX));
         CmsResource res = cms.readResource(id, CmsResourceFilter.ONLY_VISIBLE_NO_DELETED);
         m_currentConfig = CmsConfigParserUtils.parseListConfiguration(A_CmsUI.getCmsObject(), res);
-        String localeString = A_CmsWorkplaceApp.getParamFromState(state, PARAM_LOCALE);
+        @RUntainted String localeString = A_CmsWorkplaceApp.getParamFromState(state, PARAM_LOCALE);
         Locale locale;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(localeString)) {
           locale = CmsLocaleManager.getLocale(localeString);
@@ -1565,7 +1566,7 @@ public class CmsListManager extends A_CmsWorkplaceApp
     if (m_currentResource != null) {
       result.add(m_currentResource);
       CmsObject cms = A_CmsUI.getCmsObject();
-      CmsSolrQuery query = m_currentConfigParser.getInitialQuery();
+      @RUntainted CmsSolrQuery query = m_currentConfigParser.getInitialQuery();
       CmsSearchController controller =
           new CmsSearchController(
               new CmsSearchConfiguration(m_currentConfigParser, A_CmsUI.getCmsObject()));
@@ -1741,7 +1742,7 @@ public class CmsListManager extends A_CmsWorkplaceApp
   void updateItems(List<String> updatedItems) {
 
     Set<CmsUUID> ids = new HashSet<CmsUUID>();
-    for (String id : updatedItems) {
+    for (@RUntainted String id : updatedItems) {
       ids.add(new CmsUUID(id));
     }
     m_resultTable.update(ids, false);
@@ -1778,7 +1779,7 @@ public class CmsListManager extends A_CmsWorkplaceApp
    * @param controller the search controller
    * @param query the SOLR query
    */
-  private void executeSearch(CmsSearchController controller, CmsSolrQuery query) {
+  private void executeSearch(CmsSearchController controller, @RUntainted CmsSolrQuery query) {
 
     CmsObject cms = A_CmsUI.getCmsObject();
     I_CmsSearchConfigurationCommon commonConfig = controller.getCommon().getConfig();

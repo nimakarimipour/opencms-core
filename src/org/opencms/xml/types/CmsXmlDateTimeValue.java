@@ -35,6 +35,7 @@ import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.xml2json.I_CmsJsonFormattableValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsDateTime".
@@ -82,7 +83,7 @@ public class CmsXmlDateTimeValue extends A_CmsXmlValueTextBase
    * @param type the type instance to create the value for
    */
   public CmsXmlDateTimeValue(
-      I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
     super(document, element, locale, type);
     try {

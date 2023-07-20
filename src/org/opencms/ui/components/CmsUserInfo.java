@@ -66,6 +66,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsAccountInfo;
 import org.opencms.workplace.CmsAccountInfo.Field;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays the current user info.
@@ -330,7 +331,7 @@ public class CmsUserInfo extends VerticalLayout {
    * @param locale the locale
    * @return the user info details
    */
-  private String generateInfoDetails(CmsObject cms, Locale locale) {
+  private String generateInfoDetails(CmsObject cms, @RUntainted Locale locale) {
 
     StringBuffer infoHtml = new StringBuffer(128);
     if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_user.getEmail())) {
@@ -343,7 +344,7 @@ public class CmsUserInfo extends VerticalLayout {
       if (!info.getField().equals(Field.firstname)
           && !info.getField().equals(Field.lastname)
           && !Field.email.equals(info.getField())) {
-        String value = info.getValue(m_user);
+        @RUntainted String value = info.getValue(m_user);
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value)) {
           infoHtml.append(CmsStringUtil.escapeHtml(value)).append(LINE_BREAK);
         }

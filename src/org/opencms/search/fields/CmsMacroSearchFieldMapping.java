@@ -42,6 +42,7 @@ import org.opencms.search.galleries.CmsGalleryNameMacroResolver;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Field mapping to resolve macros as for gallery names.
@@ -72,7 +73,7 @@ public class CmsMacroSearchFieldMapping implements I_CmsSearchFieldMapping {
   protected static final Log LOG = CmsLog.getLog(CmsMacroSearchFieldMapping.class);
 
   /** The configuration parameter as handed over to the mapping. */
-  private String m_param;
+  private @RUntainted String m_param;
 
   /** The mapping type. */
   private CmsSearchFieldMappingType m_type;
@@ -81,7 +82,7 @@ public class CmsMacroSearchFieldMapping implements I_CmsSearchFieldMapping {
   private String m_defaultValue = null;
 
   /** The content locale to index for. */
-  private Locale m_locale = null;
+  private @RUntainted Locale m_locale = null;
 
   /**
    * Public constructor for a new search field mapping.
@@ -102,7 +103,7 @@ public class CmsMacroSearchFieldMapping implements I_CmsSearchFieldMapping {
    * @param type the type to use, see {@link #setType(CmsSearchFieldMappingType)}
    * @param param the mapping parameter, see {@link #setParam(String)}
    */
-  public CmsMacroSearchFieldMapping(CmsSearchFieldMappingType type, String param) {
+  public CmsMacroSearchFieldMapping(CmsSearchFieldMappingType type, @RUntainted String param) {
 
     this();
     setParam(param);
@@ -167,14 +168,14 @@ public class CmsMacroSearchFieldMapping implements I_CmsSearchFieldMapping {
 
   /** @see org.opencms.search.fields.I_CmsSearchFieldMapping#setLocale(java.util.Locale) */
   @Override
-  public void setLocale(Locale locale) {
+  public void setLocale(@RUntainted Locale locale) {
 
     m_locale = locale;
   }
 
   /** @see org.opencms.search.fields.I_CmsSearchFieldMapping#setParam(java.lang.String) */
   @Override
-  public void setParam(String param) {
+  public void setParam(@RUntainted String param) {
 
     m_param = param;
   }

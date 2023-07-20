@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to write export points to the "real" file system.
@@ -187,7 +188,7 @@ public class CmsExportPointDriver implements I_CmsExportPointDriver {
    * @param exportpoint the name of the export point
    * @return the File for the given export point resource
    */
-  protected File getExportPointFile(String rootPath, String exportpoint) {
+  protected @RUntainted File getExportPointFile(String rootPath, String exportpoint) {
 
     StringBuffer exportpath = new StringBuffer(128);
     exportpath.append(m_exportpointLookupMap.get(exportpoint));
@@ -203,10 +204,10 @@ public class CmsExportPointDriver implements I_CmsExportPointDriver {
    * @param file the RFS file location
    * @param content the file content
    */
-  protected void writeResource(File file, byte[] content) {
+  protected void writeResource(@RUntainted File file, byte[] content) {
 
     try {
-      File folder;
+      @RUntainted File folder;
       if (content == null) {
         // a folder is to be created
         folder = file;
@@ -250,7 +251,7 @@ public class CmsExportPointDriver implements I_CmsExportPointDriver {
    */
   protected void writeResource(String resourceName, String exportpoint, byte[] content) {
 
-    File file = getExportPointFile(resourceName, exportpoint);
+    @RUntainted File file = getExportPointFile(resourceName, exportpoint);
     writeResource(file, content);
   }
 }

@@ -48,6 +48,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsResourceInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for deleting Sites.
@@ -138,7 +139,7 @@ public class CmsDeleteSiteDialog extends CmsBasicDialog {
    */
   protected VerticalLayout getContent() {
 
-    String message;
+    @RUntainted String message;
 
     if (m_sitesToDelete.size() == 1) {
       message =

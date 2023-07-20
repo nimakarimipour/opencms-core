@@ -47,6 +47,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A role is used in the OpenCms security system to check if a user has access to a certain system
@@ -198,22 +199,22 @@ public final class CmsRole {
   private List<String> m_distictGroupNames = new ArrayList<String>();
 
   /** The name of the group this role is mapped to in the OpenCms database. */
-  private final String m_groupName;
+  private final @RUntainted String m_groupName;
 
   /** The id of the role, does not differentiate for organizational units. */
-  private final CmsUUID m_id;
+  private final @RUntainted CmsUUID m_id;
 
   /** Indicates if this role is organizational unit dependent. */
   private boolean m_ouDependent;
 
   /** The organizational unit this role applies to. */
-  private String m_ouFqn;
+  private @RUntainted String m_ouFqn;
 
   /** The parent role of this role. */
   private final CmsRole m_parentRole;
 
   /** The name of this role. */
-  private final String m_roleName;
+  private final @RUntainted String m_roleName;
 
   /** Indicates if this role is a system role or a user defined role. */
   private boolean m_systemRole;
@@ -228,7 +229,7 @@ public final class CmsRole {
    * @param parentRole the parent role of this role
    * @param ouDependent if the role is organizational unit dependent
    */
-  public CmsRole(String roleName, CmsRole parentRole, String groupName, boolean ouDependent) {
+  public CmsRole(@RUntainted String roleName, CmsRole parentRole, String groupName, boolean ouDependent) {
 
     this(roleName, parentRole, groupName);
     m_ouDependent = ouDependent;
@@ -264,7 +265,7 @@ public final class CmsRole {
    * @param parentRole the parent role of this role
    * @param groupName the related group name
    */
-  private CmsRole(String roleName, CmsRole parentRole, String groupName) {
+  private CmsRole(@RUntainted String roleName, CmsRole parentRole, String groupName) {
 
     m_roleName = roleName;
     m_id = CmsUUID.getConstantUUID(m_roleName);
@@ -398,7 +399,7 @@ public final class CmsRole {
    * @param groupName a group name to check for role representation
    * @return the role for the given group name
    */
-  public static CmsRole valueOfGroupName(String groupName) {
+  public static CmsRole valueOfGroupName(@RUntainted String groupName) {
 
     String groupOu = CmsOrganizationalUnit.getParentFqn(groupName);
     Iterator<CmsRole> it = SYSTEM_ROLES.iterator();
@@ -446,7 +447,7 @@ public final class CmsRole {
    * @param roleName a role name to check for role representation
    * @return the role for the given role name
    */
-  public static CmsRole valueOfRoleName(String roleName) {
+  public static CmsRole valueOfRoleName(@RUntainted String roleName) {
 
     String roleOu = CmsOrganizationalUnit.getParentFqn(roleName);
     Iterator<CmsRole> it = SYSTEM_ROLES.iterator();
@@ -498,7 +499,7 @@ public final class CmsRole {
    *     role
    */
   public CmsRoleViolationException createRoleViolationExceptionForOrgUnit(
-      CmsRequestContext requestContext, String orgUnitFqn) {
+      CmsRequestContext requestContext, @RUntainted String orgUnitFqn) {
 
     return new CmsRoleViolationException(
         Messages.get()
@@ -619,7 +620,7 @@ public final class CmsRole {
    * @param locale the locale
    * @return the localized role description
    */
-  public String getDescription(Locale locale) {
+  public String getDescription(@RUntainted Locale locale) {
 
     if (m_systemRole) {
       // localize role names for system roles
@@ -639,7 +640,7 @@ public final class CmsRole {
    * @return the display name of this role including the organizational unit
    * @throws CmsException if the organizational unit could not be read
    */
-  public String getDisplayName(CmsObject cms, Locale locale) throws CmsException {
+  public String getDisplayName(CmsObject cms, @RUntainted Locale locale) throws CmsException {
 
     return Messages.get()
         .getBundle(locale)
@@ -672,7 +673,7 @@ public final class CmsRole {
    *
    * @return the fqn of this role
    */
-  public String getFqn() {
+  public @RUntainted String getFqn() {
 
     if (getOuFqn() == null) {
       return getRoleName();
@@ -689,7 +690,7 @@ public final class CmsRole {
    *
    * @return the name of the group this role is mapped to in the OpenCms database
    */
-  public String getGroupName() {
+  public @RUntainted String getGroupName() {
 
     if ((m_ouFqn == null) || isOrganizationalUnitIndependent()) {
       return m_groupName;
@@ -706,7 +707,7 @@ public final class CmsRole {
    *
    * @return the id of this role
    */
-  public CmsUUID getId() {
+  public @RUntainted CmsUUID getId() {
 
     return m_id;
   }
@@ -719,7 +720,7 @@ public final class CmsRole {
    * @param locale the locale
    * @return the localized role name
    */
-  public String getName(Locale locale) {
+  public @RUntainted String getName(@RUntainted Locale locale) {
 
     if (m_systemRole) {
       // localize role names for system roles
@@ -736,7 +737,7 @@ public final class CmsRole {
    *
    * @return the fully qualified name of the organizational unit
    */
-  public String getOuFqn() {
+  public @RUntainted String getOuFqn() {
 
     return CmsOrganizationalUnit.removeLeadingSeparator(m_ouFqn);
   }
@@ -763,7 +764,7 @@ public final class CmsRole {
    *
    * @return the name of the role
    */
-  public String getRoleName() {
+  public @RUntainted String getRoleName() {
 
     return m_roleName;
   }
@@ -816,7 +817,7 @@ public final class CmsRole {
 
   /** @see java.lang.Object#toString() */
   @Override
-  public String toString() {
+  public @RUntainted String toString() {
 
     StringBuffer result = new StringBuffer();
 

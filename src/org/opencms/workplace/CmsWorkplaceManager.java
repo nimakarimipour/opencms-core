@@ -114,6 +114,7 @@ import org.opencms.workplace.explorer.CmsExplorerTypeAccess;
 import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
 import org.opencms.workplace.galleries.A_CmsAjaxGallery;
 import org.opencms.workplace.tools.CmsToolManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the global OpenCms workplace settings for all users.
@@ -187,7 +188,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
   public static final String MANIFEST_RESOURCE_NAME = "META-INF/MANIFEST.MF";
 
   /** The id of the "requestedResource" parameter for the OpenCms login form. */
-  public static final String PARAM_LOGIN_REQUESTED_RESOURCE = "requestedResource";
+  public static final @RUntainted String PARAM_LOGIN_REQUESTED_RESOURCE = "requestedResource";
 
   /** Key name for the session workplace settings. */
   public static final String SESSION_WORKPLACE_SETTINGS = "__CmsWorkplace.WORKPLACE_SETTINGS";
@@ -231,19 +232,19 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
   private CmsExplorerTypeAccess m_defaultAccess;
 
   /** The configured default locale of the workplace. */
-  private Locale m_defaultLocale;
+  private @RUntainted Locale m_defaultLocale;
 
   /** The default property setting for setting new property values. */
   private boolean m_defaultPropertiesOnStructure;
 
   /** The default user settings. */
-  private CmsDefaultUserSettings m_defaultUserSettings;
+  private @RUntainted CmsDefaultUserSettings m_defaultUserSettings;
 
   /** The configured dialog handlers. */
   private Map<String, I_CmsDialogHandler> m_dialogHandler;
 
   /** The configured direct edit provider. */
-  private I_CmsDirectEditProvider m_directEditProvider;
+  private @RUntainted I_CmsDirectEditProvider m_directEditProvider;
 
   /**
    * A flag, indicating if the categories should be displayed separated by repository in the
@@ -258,7 +259,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
   private boolean m_displayCategorySelectionCollapsed;
 
   /** The edit action handler. */
-  private I_CmsEditorActionHandler m_editorAction;
+  private @RUntainted I_CmsEditorActionHandler m_editorAction;
 
   /** The editor CSS handlers. */
   private List<I_CmsEditorCssHandler> m_editorCssHandlers;
@@ -267,7 +268,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
   private CmsEditorDisplayOptions m_editorDisplayOptions;
 
   /** The editor handler. */
-  private I_CmsEditorHandler m_editorHandler;
+  private @RUntainted I_CmsEditorHandler m_editorHandler;
 
   /** The editor manager. */
   private CmsWorkplaceEditorManager m_editorManager;
@@ -279,7 +280,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
   private boolean m_enableAdvancedPropertyTabs;
 
   /** The configured encoding of the workplace. */
-  private String m_encoding;
+  private @RUntainted String m_encoding;
 
   /** The explorer type settings. */
   private List<CmsExplorerTypeSettings> m_explorerTypeSettings;
@@ -300,7 +301,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
   private Set<CmsExportPoint> m_exportPoints;
 
   /** Maximum size of an upload file. */
-  private int m_fileMaxUploadSize;
+  private @RUntainted int m_fileMaxUploadSize;
 
   /** The instance used for reading portions of lines of a file to choose. */
   private CmsRfsFileViewer m_fileViewSettings;
@@ -344,7 +345,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
   private List<I_CmsPreEditorActionDefinition> m_preEditorConditionDefinitions;
 
   /** The repository folder handler. */
-  private I_CmsRepositoryFolderHandler m_repositoryFolderHandler;
+  private @RUntainted I_CmsRepositoryFolderHandler m_repositoryFolderHandler;
 
   /** Indicates if the user management icon should be displayed in the workplace. */
   private boolean m_showUserGroupIcon;
@@ -475,7 +476,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    * @param addInfoKey the additional info key
    * @param editable the editable flag
    */
-  public void addAccountInfo(String field, String addInfoKey, String editable) {
+  public void addAccountInfo(String field, @RUntainted String addInfoKey, String editable) {
 
     addAccountInfo(new CmsAccountInfo(field, addInfoKey, editable));
   }
@@ -487,7 +488,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @param clazz the instantiated dialog handler to add
    */
-  public void addDialogHandler(I_CmsDialogHandler clazz) {
+  public void addDialogHandler(@RUntainted I_CmsDialogHandler clazz) {
 
     m_dialogHandler.put(clazz.getDialogHandler(), clazz);
     if (CmsLog.INIT.isInfoEnabled()) {
@@ -508,7 +509,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @param editorCssHandlerClassName full class name of the css handler class
    */
-  public void addEditorCssHandler(String editorCssHandlerClassName) {
+  public void addEditorCssHandler(@RUntainted String editorCssHandlerClassName) {
 
     try {
       I_CmsEditorCssHandler editorCssHandler =
@@ -536,7 +537,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @param editorCssHandlerClassName full class name of the css handler class
    */
-  public void addEditorCssHandlerToHead(String editorCssHandlerClassName) {
+  public void addEditorCssHandlerToHead(@RUntainted String editorCssHandlerClassName) {
 
     try {
       I_CmsEditorCssHandler editorCssHandler =
@@ -619,7 +620,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    * @param uri the export point uri
    * @param destination the export point destination
    */
-  public void addExportPoint(String uri, String destination) {
+  public void addExportPoint(@RUntainted String uri, @RUntainted String destination) {
 
     CmsExportPoint point = new CmsExportPoint(uri, destination);
     m_exportPoints.add(point);
@@ -638,7 +639,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @param uri the folder uri to add
    */
-  public void addLabeledFolder(String uri) {
+  public void addLabeledFolder(@RUntainted String uri) {
 
     m_labelSiteFolders.add(uri);
     if (CmsLog.INIT.isInfoEnabled()) {
@@ -653,7 +654,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @param uri a new folder to add to the list of localized workplace folders
    */
-  public void addLocalizedFolder(String uri) {
+  public void addLocalizedFolder(@RUntainted String uri) {
 
     m_localizedFolders.add(uri);
     if (CmsLog.INIT.isInfoEnabled()) {
@@ -668,7 +669,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @param preEditorCondition the initialized condition definition class
    */
-  public void addPreEditorConditionDefinition(I_CmsPreEditorActionDefinition preEditorCondition) {
+  public void addPreEditorConditionDefinition(@RUntainted I_CmsPreEditorActionDefinition preEditorCondition) {
 
     m_preEditorConditionDefinitions.add(preEditorCondition);
     if (CmsLog.INIT.isInfoEnabled()) {
@@ -692,7 +693,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    * @param preEditorConditionDefinitionClassName full class name of the condition definition class
    */
   public void addPreEditorConditionDefinition(
-      String resourceTypeName, String preEditorConditionDefinitionClassName) {
+      @RUntainted String resourceTypeName, @RUntainted String preEditorConditionDefinitionClassName) {
 
     try {
       I_CmsPreEditorActionDefinition preEditorCondition =
@@ -725,7 +726,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @param pattern a java regex to applied on the file name
    */
-  public void addSynchronizeExcludePattern(String pattern) {
+  public void addSynchronizeExcludePattern(@RUntainted String pattern) {
 
     try {
       m_synchronizeExcludePatterns.add(Pattern.compile(pattern));
@@ -822,7 +823,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    * @throws CmsException if something goes wrong
    */
   public synchronized String createTempFile(
-      CmsObject cms, String resourceName, CmsUUID currentProjectId) throws CmsException {
+      CmsObject cms, @RUntainted String resourceName, CmsUUID currentProjectId) throws CmsException {
 
     // check that the current user has write permissions
     if (!cms.hasPermissions(
@@ -997,7 +998,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @return the Workplace default locale
    */
-  public Locale getDefaultLocale() {
+  public @RUntainted Locale getDefaultLocale() {
 
     return m_defaultLocale;
   }
@@ -1382,7 +1383,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
   public CmsI18nInfo getI18nInfo(
       HttpServletRequest req, CmsUser user, CmsProject project, String resource) {
 
-    Locale locale = null;
+    @RUntainted Locale locale = null;
     // try to read locale from session
     if (req != null) {
       // set the request character encoding
@@ -1482,7 +1483,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    * @param locale the locale to get the messages for
    * @return the {@link CmsWorkplaceMessages} for the given locale
    */
-  public CmsWorkplaceMessages getMessages(Locale locale) {
+  public CmsWorkplaceMessages getMessages(@RUntainted Locale locale) {
 
     CmsWorkplaceMessages result = m_messages.get(locale);
     if (result != null) {
@@ -1753,7 +1754,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    * @param cms the current cms object
    * @return the workplace locale
    */
-  public Locale getWorkplaceLocale(CmsObject cms) {
+  public @RUntainted Locale getWorkplaceLocale(CmsObject cms) {
 
     return getWorkplaceLocale(cms.getRequestContext());
   }
@@ -1766,9 +1767,9 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    * @param requestContext the request context
    * @return the workplace locale for the request context
    */
-  public Locale getWorkplaceLocale(CmsRequestContext requestContext) {
+  public @RUntainted Locale getWorkplaceLocale(CmsRequestContext requestContext) {
 
-    Locale wpLocale = new CmsUserSettings(requestContext.getCurrentUser()).getLocale();
+    @RUntainted Locale wpLocale = new CmsUserSettings(requestContext.getCurrentUser()).getLocale();
     if (wpLocale == null) {
       // fall back
       wpLocale = getDefaultLocale();
@@ -1786,7 +1787,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    * @param user the user to get the workplace locale for.
    * @return the workplace locale for the user.
    */
-  public Locale getWorkplaceLocale(CmsUser user) {
+  public @RUntainted Locale getWorkplaceLocale(CmsUser user) {
 
     Locale wpLocale = new CmsUserSettings(user).getLocale();
     if (wpLocale == null) {
@@ -2149,7 +2150,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @param locale the locale to set
    */
-  public void setDefaultLocale(String locale) {
+  public void setDefaultLocale(@RUntainted String locale) {
 
     try {
       m_defaultLocale = CmsLocaleManager.getLocale(locale);
@@ -2192,7 +2193,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @param defaultUserSettings the user settings to set
    */
-  public void setDefaultUserSettings(CmsDefaultUserSettings defaultUserSettings) {
+  public void setDefaultUserSettings(@RUntainted CmsDefaultUserSettings defaultUserSettings) {
 
     m_defaultUserSettings = defaultUserSettings;
 
@@ -2213,7 +2214,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @param clazz the direct edit provider to set
    */
-  public void setDirectEditProvider(I_CmsDirectEditProvider clazz) {
+  public void setDirectEditProvider(@RUntainted I_CmsDirectEditProvider clazz) {
 
     m_directEditProvider = clazz;
     if (CmsLog.INIT.isInfoEnabled()) {
@@ -2232,7 +2233,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @param clazz the editor action class to set
    */
-  public void setEditorAction(I_CmsEditorActionHandler clazz) {
+  public void setEditorAction(@RUntainted I_CmsEditorActionHandler clazz) {
 
     m_editorAction = clazz;
     if (CmsLog.INIT.isInfoEnabled()) {
@@ -2268,7 +2269,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @param clazz the editor handler class to set
    */
-  public void setEditorHandler(I_CmsEditorHandler clazz) {
+  public void setEditorHandler(@RUntainted I_CmsEditorHandler clazz) {
 
     m_editorHandler = clazz;
     if (CmsLog.INIT.isInfoEnabled()) {
@@ -2323,7 +2324,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @param value the value (in kb) for the maximum file upload size
    */
-  public void setFileMaxUploadSize(String value) {
+  public void setFileMaxUploadSize(@RUntainted String value) {
 
     try {
       m_fileMaxUploadSize = Integer.valueOf(value).intValue();
@@ -2428,7 +2429,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    *
    * @param clazz the repository folder handler
    */
-  public void setRepositoryFolderHandler(I_CmsRepositoryFolderHandler clazz) {
+  public void setRepositoryFolderHandler(@RUntainted I_CmsRepositoryFolderHandler clazz) {
 
     m_repositoryFolderHandler = clazz;
     if (CmsLog.INIT.isInfoEnabled()) {
@@ -2600,7 +2601,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
    * @param keepOu if true, the OU will be appended to the translated name
    * @return the translated group name
    */
-  public String translateGroupName(String groupName, boolean keepOu) {
+  public String translateGroupName(@RUntainted String groupName, boolean keepOu) {
 
     I_CmsGroupNameTranslation translation = getGroupNameTranslation();
     return translation.translateGroupName(groupName, keepOu);
@@ -2663,7 +2664,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
 
     return new I_CmsGroupNameTranslation() {
 
-      public String translateGroupName(String group, boolean keepOu) {
+      public @RUntainted String translateGroupName(@RUntainted String group, boolean keepOu) {
 
         return keepOu ? group : CmsOrganizationalUnit.getSimpleName(group);
       }
@@ -2788,13 +2789,13 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
     }
     // collect locales from JAR manifests
     try {
-      Enumeration<URL> resources = getClass().getClassLoader().getResources(MANIFEST_RESOURCE_NAME);
+      Enumeration<@RUntainted URL> resources = getClass().getClassLoader().getResources(MANIFEST_RESOURCE_NAME);
 
       while (resources.hasMoreElements()) {
-        URL resUrl = resources.nextElement();
+        @RUntainted URL resUrl = resources.nextElement();
         try {
-          Manifest manifest = new Manifest(resUrl.openStream());
-          String localeString = manifest.getMainAttributes().getValue(LOCALIZATION_ATTRIBUTE_NAME);
+          @RUntainted Manifest manifest = new Manifest(resUrl.openStream());
+          @RUntainted String localeString = manifest.getMainAttributes().getValue(LOCALIZATION_ATTRIBUTE_NAME);
           if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(localeString)) {
             Locale locale = CmsLocaleManager.getLocale(localeString);
             // add locale
@@ -2857,7 +2858,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
     for (int i = 0; i < viewFolders.size(); i++) {
       // loop through all view folders
       CmsFolder folder = (CmsFolder) viewFolders.get(i);
-      String folderPath = cms.getSitePath(folder);
+      @RUntainted String folderPath = cms.getSitePath(folder);
       try {
         // get view information from folder properties
         String order =

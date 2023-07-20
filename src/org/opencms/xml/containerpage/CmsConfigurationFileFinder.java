@@ -36,6 +36,7 @@ import org.opencms.main.CmsIllegalStateException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for locating configuration files by looking up their location in properties of
@@ -51,7 +52,7 @@ public class CmsConfigurationFileFinder {
   private static final Log LOG = CmsLog.getLog(CmsConfigurationFileFinder.class);
 
   /** The name of the property which should contain the configuration file path. */
-  private String m_propertyName;
+  private @RUntainted String m_propertyName;
 
   /**
    * Creates a new configuration file finder which expects the location of configuration files to be
@@ -61,7 +62,7 @@ public class CmsConfigurationFileFinder {
    *
    * @param propertyName the name of the property which should contain the configuration file path
    */
-  public CmsConfigurationFileFinder(String propertyName) {
+  public CmsConfigurationFileFinder(@RUntainted String propertyName) {
 
     m_propertyName = propertyName;
   }
@@ -75,7 +76,7 @@ public class CmsConfigurationFileFinder {
    * @param containerPageUri the container page uri
    * @return the configuration file to use, or <code>null</code> if not found
    */
-  public CmsResource getConfigurationFile(CmsObject cms, String containerPageUri) {
+  public CmsResource getConfigurationFile(CmsObject cms, @RUntainted String containerPageUri) {
 
     String cfgPath = null;
     try {

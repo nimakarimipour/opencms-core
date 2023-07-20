@@ -34,6 +34,7 @@ import org.opencms.module.CmsModule;
 import org.opencms.module.CmsModuleDependency;
 import org.opencms.module.CmsModuleImportExportHandler;
 import org.opencms.module.CmsModuleManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean representing a module zip file to be imported.
@@ -46,7 +47,7 @@ public class CmsModuleImportFile {
   private CmsModule m_module;
 
   /** The path of the zip fiile. */
-  private String m_path;
+  private @RUntainted String m_path;
 
   /**
    * Creates a new instance.
@@ -55,7 +56,7 @@ public class CmsModuleImportFile {
    *
    * @param path the path of the module zip file to import
    */
-  public CmsModuleImportFile(String path) {
+  public CmsModuleImportFile(@RUntainted String path) {
     m_path = path;
   }
 

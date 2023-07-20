@@ -36,6 +36,7 @@ import org.opencms.json.JSONException;
 import org.opencms.json.JSONObject;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration options for the VFS image widget.
@@ -228,7 +229,7 @@ public class CmsVfsImageWidgetConfiguration extends CmsGalleryWidgetConfiguratio
    */
   @Override
   protected void init(
-      CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param, String configuration) {
+      CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param, @RUntainted String configuration) {
 
     if (configuration == null) {
       // no configuration String found, return
@@ -259,7 +260,7 @@ public class CmsVfsImageWidgetConfiguration extends CmsGalleryWidgetConfiguratio
     setShowFormat(jsonObj.optBoolean(CONFIG_KEY_USEFORMAT));
     if (isShowFormat()) {
       // only parse options if the format select box should be shown
-      String optionsStr = (String) jsonObj.opt(CONFIG_KEY_FORMATNAMES);
+      @RUntainted String optionsStr = (String) jsonObj.opt(CONFIG_KEY_FORMATNAMES);
       setSelectFormatString(optionsStr);
       setSelectFormat(CmsSelectWidgetOption.parseOptions(optionsStr));
       // get the corresponding format values as well

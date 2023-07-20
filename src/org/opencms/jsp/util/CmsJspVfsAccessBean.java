@@ -54,6 +54,7 @@ import org.opencms.security.CmsPermissionSet;
 import org.opencms.security.CmsPermissionViolationException;
 import org.opencms.util.CmsCollectionsGenericWrapper;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides utility methods that allow convenient access to the OpenCms VFS, indented to be used
@@ -198,7 +199,7 @@ public final class CmsJspVfsAccessBean {
   public class CmsResourceLoaderTransformer implements Transformer {
 
     /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
-    public Object transform(Object input) {
+    public Object transform(@RUntainted Object input) {
 
       CmsJspResourceWrapper result;
       try {
@@ -302,7 +303,7 @@ public final class CmsJspVfsAccessBean {
   public class CmsVfsLinkTransformer implements Transformer {
 
     /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
-    public Object transform(Object input) {
+    public Object transform(@RUntainted Object input) {
 
       return A_CmsJspValueWrapper.substituteLink(getCmsObject(), String.valueOf(input));
     }
@@ -704,7 +705,7 @@ public final class CmsJspVfsAccessBean {
    * @see CmsResource#getParentFolder(String)
    * @see org.opencms.jsp.CmsJspResourceWrapper#getSitePathParentFolder()
    */
-  public String getParentFolder(Object obj) {
+  public String getParentFolder(@RUntainted Object obj) {
 
     String result;
     if (obj instanceof CmsResource) {
@@ -1088,7 +1089,7 @@ public final class CmsJspVfsAccessBean {
    * @see CmsResource#getExtension(String)
    * @see org.opencms.jsp.CmsJspResourceWrapper#getResourceExtension()
    */
-  public String getResourceExtension(Object obj) {
+  public String getResourceExtension(@RUntainted Object obj) {
 
     String result;
     if (obj instanceof CmsResource) {
@@ -1115,7 +1116,7 @@ public final class CmsJspVfsAccessBean {
    * @see CmsResource#getName()
    * @see org.opencms.jsp.CmsJspResourceWrapper#getResourceName()
    */
-  public String getResourceName(Object obj) {
+  public String getResourceName(@RUntainted Object obj) {
 
     String result;
     if (obj instanceof CmsResource) {

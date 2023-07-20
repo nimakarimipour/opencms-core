@@ -48,6 +48,7 @@ import org.opencms.search.fields.CmsSearchField;
 import org.opencms.util.CmsPair;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A Solr search query.
@@ -244,9 +245,9 @@ public class CmsSolrQuery extends SolrQuery {
 
   /** @see java.lang.Object#clone() */
   @Override
-  public CmsSolrQuery clone() {
+  public @RUntainted CmsSolrQuery clone() {
 
-    CmsSolrQuery sq =
+    @RUntainted CmsSolrQuery sq =
         new CmsSolrQuery(null, CmsRequestUtil.createParameterMap(toString(), true, null));
     if (m_ignoreExpiration) {
       sq.removeExpiration();

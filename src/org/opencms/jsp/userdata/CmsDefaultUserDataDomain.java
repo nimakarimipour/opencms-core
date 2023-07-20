@@ -36,6 +36,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.ui.dialogs.Messages;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplaceMessages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * User data domain that only matches users requesting their information via user name and password.
@@ -144,7 +145,7 @@ public class CmsDefaultUserDataDomain implements I_CmsUserDataDomain {
    * @param key the key
    * @param value the value
    */
-  private boolean addField(CmsObject cms, Element dl, String key, String value) {
+  private boolean addField(CmsObject cms, Element dl, @RUntainted String key, String value) {
 
     CmsWorkplaceMessages messages =
         OpenCms.getWorkplaceManager().getMessages(cms.getRequestContext().getLocale());

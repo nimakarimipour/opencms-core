@@ -36,6 +36,7 @@ import org.opencms.gwt.shared.property.CmsClientProperty;
 import org.opencms.gwt.shared.property.CmsClientTemplateBean;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Sitemap initialization data bean for prefetching.
@@ -134,7 +135,7 @@ public class CmsSitemapData implements IsSerializable {
   private String m_noEditReason;
 
   /** The path at which the sitemap should be opened, or null. */
-  private String m_openPath;
+  private @RUntainted String m_openPath;
 
   /** The properties of the root's parent. */
   private Map<String, CmsClientProperty> m_parentProperties;
@@ -237,7 +238,7 @@ public class CmsSitemapData implements IsSerializable {
       CmsSitemapInfo sitemapInfo,
       String parentSitemap,
       CmsClientSitemapEntry root,
-      String openPath,
+      @RUntainted String openPath,
       int maxDepth,
       CmsDetailPageTable detailPageTable,
       List<CmsNewResourceInfo> resourceTypeInfos,
@@ -502,7 +503,7 @@ public class CmsSitemapData implements IsSerializable {
    *
    * @return the path at which the sitemap should be opened
    */
-  public String getOpenPath() {
+  public @RUntainted String getOpenPath() {
 
     return m_openPath;
   }

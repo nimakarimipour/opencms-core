@@ -30,6 +30,7 @@ package org.opencms.ade.contenteditor;
 import org.opencms.file.CmsResource;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract implementation of the content editor change handler.
@@ -66,7 +67,7 @@ public abstract class A_CmsXmlContentEditorChangeHandler
    * @param target the target path
    * @return the resolved path
    */
-  public String resolveRelativePath(String source, String target) {
+  public @RUntainted String resolveRelativePath(@RUntainted String source, String target) {
 
     String result = null;
     if (target.startsWith(".")) {
@@ -88,7 +89,7 @@ public abstract class A_CmsXmlContentEditorChangeHandler
    * @see
    *     org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler#setConfiguration(java.lang.String)
    */
-  public void setConfiguration(String configuration) {
+  public void setConfiguration(@RUntainted String configuration) {
 
     m_configuration = configuration;
   }

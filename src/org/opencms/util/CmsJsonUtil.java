@@ -31,6 +31,7 @@ import java.util.function.Function;
 import org.opencms.json.JSONArray;
 import org.opencms.json.JSONException;
 import org.opencms.json.JSONObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Utility class for JSON-related functions. */
 public class CmsJsonUtil {
@@ -70,7 +71,7 @@ public class CmsJsonUtil {
     JSONObject result = new JSONObject();
     for (String key : obj.keySet()) {
       Object val = obj.opt(key);
-      Object val2 = mapJson(val, func);
+      @RUntainted Object val2 = mapJson(val, func);
       result.put(key, val2);
     }
     return result;

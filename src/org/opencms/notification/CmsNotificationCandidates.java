@@ -51,6 +51,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The basic class for the content notification feature in OpenCms. Collects all resources that
@@ -186,7 +187,7 @@ public class CmsNotificationCandidates {
    * @return a string listing all responsibles that a notification was sent to
    * @throws CmsException if something goes wrong
    */
-  public String notifyResponsibles() throws CmsException {
+  public @RUntainted String notifyResponsibles() throws CmsException {
 
     Iterator<CmsContentNotification> notifications =
         filterConfirmedResources(getContentNotifications()).iterator();

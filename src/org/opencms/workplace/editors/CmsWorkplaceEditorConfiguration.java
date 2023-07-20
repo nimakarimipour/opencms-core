@@ -41,6 +41,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.CmsXmlException;
 import org.opencms.xml.CmsXmlUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Single editor configuration object.
@@ -325,7 +326,7 @@ public class CmsWorkplaceEditorConfiguration {
    * @param currentBrowser the users browser String to test
    * @return true if the browser matches the configuration, otherwise false
    */
-  public boolean matchesBrowser(String currentBrowser) {
+  public boolean matchesBrowser(@RUntainted String currentBrowser) {
 
     if (currentBrowser == null) {
       return false;
@@ -367,12 +368,12 @@ public class CmsWorkplaceEditorConfiguration {
    * @param editorUri the editor workplace URI
    */
   @SuppressWarnings("unchecked")
-  private void initialize(Document document, String editorUri) {
+  private void initialize(@RUntainted Document document, String editorUri) {
 
     m_parameters.clear();
 
     // get the root element of the configuration
-    Element rootElement = document.getRootElement();
+    @RUntainted Element rootElement = document.getRootElement();
 
     // set the label of the editor
     setEditorLabel(rootElement.elementText(N_LABEL));
@@ -387,7 +388,7 @@ public class CmsWorkplaceEditorConfiguration {
     setEditorUri(editorUri);
 
     // create the map of valid resource types
-    Iterator<Element> i = rootElement.element(N_RESOURCETYPES).elementIterator(N_TYPE);
+    Iterator<@RUntainted Element> i = rootElement.element(N_RESOURCETYPES).elementIterator(N_TYPE);
     Map<String, String[]> resTypes = new HashMap<String, String[]>();
     while (i.hasNext()) {
       Element currentType = i.next();
@@ -414,8 +415,8 @@ public class CmsWorkplaceEditorConfiguration {
     // add the additional resource types
     i = rootElement.element(N_RESOURCETYPES).elementIterator(N_CLASS);
     while (i.hasNext()) {
-      Element currentClass = i.next();
-      String name = currentClass.elementText(N_NAME);
+      @RUntainted Element currentClass = i.next();
+      @RUntainted String name = currentClass.elementText(N_NAME);
       List<String> assignedTypes = new ArrayList<String>();
       try {
         // get the editor type matcher class
@@ -453,8 +454,8 @@ public class CmsWorkplaceEditorConfiguration {
     List<Pattern> pattern = new ArrayList<Pattern>();
     List<String> userAgents = new ArrayList<String>();
     while (i.hasNext()) {
-      Element currentAgent = i.next();
-      String agentName = currentAgent.getText();
+      @RUntainted Element currentAgent = i.next();
+      @RUntainted String agentName = currentAgent.getText();
       if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(agentName)) {
         userAgents.add(agentName);
         try {
@@ -491,7 +492,7 @@ public class CmsWorkplaceEditorConfiguration {
    * @param message the message specifying the configuration error
    * @param t the Throwable object or null
    */
-  private void logConfigurationError(String message, Throwable t) {
+  private void logConfigurationError(@RUntainted String message, Throwable t) {
 
     setValidConfiguration(false);
     if (LOG.isErrorEnabled()) {

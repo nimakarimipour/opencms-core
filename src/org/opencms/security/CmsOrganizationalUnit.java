@@ -32,6 +32,7 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An organizational unit in OpenCms.
@@ -52,10 +53,10 @@ public class CmsOrganizationalUnit {
   public static final int FLAG_WEBUSERS = 8;
 
   /** The character used to separate each level in a fully qualified name. */
-  public static final String SEPARATOR = "/";
+  public static final @RUntainted String SEPARATOR = "/";
 
   /** The description of this organizational unit. */
-  private String m_description;
+  private @RUntainted String m_description;
 
   /** The flags of this organizational unit. */
   private int m_flags;
@@ -64,7 +65,7 @@ public class CmsOrganizationalUnit {
   private final CmsUUID m_id;
 
   /** The fully qualified name of this organizational unit. */
-  private final String m_name;
+  private final @RUntainted String m_name;
 
   /** The id of the related default project. */
   private final CmsUUID m_projectId;
@@ -79,7 +80,7 @@ public class CmsOrganizationalUnit {
    * @param projectId the id of the related default project
    */
   public CmsOrganizationalUnit(
-      CmsUUID id, String fqn, String description, int flags, CmsUUID projectId) {
+      CmsUUID id, @RUntainted String fqn, @RUntainted String description, int flags, CmsUUID projectId) {
 
     m_id = id;
     m_name = fqn;
@@ -98,13 +99,13 @@ public class CmsOrganizationalUnit {
    * @param fqn the fully qualified name to get the parent from
    * @return the parent fully qualified name
    */
-  public static final String getParentFqn(String fqn) {
+  public static final @RUntainted String getParentFqn(@RUntainted String fqn) {
 
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(fqn)) {
       // in case of the root ou
       return null;
     }
-    int pos;
+    @RUntainted int pos;
     if (fqn.endsWith(CmsOrganizationalUnit.SEPARATOR)) {
       pos = fqn.substring(0, fqn.length() - 1).lastIndexOf(CmsOrganizationalUnit.SEPARATOR);
     } else {
@@ -125,9 +126,9 @@ public class CmsOrganizationalUnit {
    * @param fqn the fully qualified name to get the last name from
    * @return the last name of the given fully qualified name
    */
-  public static final String getSimpleName(String fqn) {
+  public static final @RUntainted String getSimpleName(@RUntainted String fqn) {
 
-    String parentFqn = getParentFqn(fqn);
+    @RUntainted String parentFqn = getParentFqn(fqn);
     if (parentFqn != null) {
       fqn = fqn.substring(parentFqn.length());
     }
@@ -163,7 +164,7 @@ public class CmsOrganizationalUnit {
    * @param fqn the fully qualified name to fix
    * @return the given fully qualified name without leading separator
    */
-  public static String removeLeadingSeparator(String fqn) {
+  public static @RUntainted String removeLeadingSeparator(@RUntainted String fqn) {
 
     if ((fqn != null) && fqn.startsWith(CmsOrganizationalUnit.SEPARATOR)) {
       return fqn.substring(1);
@@ -215,7 +216,7 @@ public class CmsOrganizationalUnit {
    *
    * @return the description of this organizational unit
    */
-  public String getDescription() {
+  public @RUntainted String getDescription() {
 
     return m_description;
   }
@@ -228,7 +229,7 @@ public class CmsOrganizationalUnit {
    * @param locale the locale
    * @return the description of this organizational unit
    */
-  public String getDescription(Locale locale) {
+  public @RUntainted String getDescription(@RUntainted Locale locale) {
 
     CmsMacroResolver macroResolver = new CmsMacroResolver();
     macroResolver.setMessages(org.opencms.db.generic.Messages.get().getBundle(locale));
@@ -243,7 +244,7 @@ public class CmsOrganizationalUnit {
    * @param locale the locale
    * @return the display name for this organizational unit
    */
-  public String getDisplayName(Locale locale) {
+  public @RUntainted String getDisplayName(@RUntainted Locale locale) {
 
     if (getParentFqn() == null) {
       // for the root ou
@@ -289,7 +290,7 @@ public class CmsOrganizationalUnit {
    *
    * @return the fully qualified name of this organizational unit
    */
-  public String getName() {
+  public @RUntainted String getName() {
 
     return m_name;
   }
@@ -384,7 +385,7 @@ public class CmsOrganizationalUnit {
    *
    * @param description the principal organizational unit to set
    */
-  public void setDescription(String description) {
+  public void setDescription(@RUntainted String description) {
 
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(description)) {
       throw new CmsIllegalArgumentException(

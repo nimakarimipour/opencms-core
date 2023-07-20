@@ -66,6 +66,7 @@ import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** This tag is used to easily create a search form for a Solr search within a JSP. */
 public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport
@@ -105,7 +106,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport
   private Integer m_addContentInfoForEntries;
 
   /** The "configFile" tag attribute. */
-  private Object m_configFile;
+  private @RUntainted Object m_configFile;
 
   /** The "configString" tag attribute. */
   private String m_configString;
@@ -144,7 +145,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport
         OpenCms.getSearchManager().getIndexSolr(CmsSolrIndex.DEFAULT_INDEX_NAME_OFFLINE);
     Set<CmsResource> result = new HashSet<CmsResource>();
     try {
-      Map<String, String[]> searchParams =
+      @RUntainted Map<String, String[]> searchParams =
           CmsRequestUtil.createParameterMap(info.getCollectorParams(), true, null);
       // use "complicated" constructor to allow more than 50 results -> set ignoreMaxResults to true
       // adjust the CmsObject to prevent unintended filtering of resources
@@ -157,7 +158,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport
       for (CmsSearchResource offlineResult : offlineResults) {
         offlineIds.add(offlineResult.getField(CmsSearchField.FIELD_ID));
       }
-      for (String id : offlineIds) {
+      for (@RUntainted String id : offlineIds) {
         CmsResource resource = cms.readResource(new CmsUUID(id));
         if (!(resource.getState().isUnchanged())) {
           result.add(resource);
@@ -175,7 +176,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport
           deletedIds.add(uuid);
         }
       }
-      for (String uuid : deletedIds) {
+      for (@RUntainted String uuid : deletedIds) {
         CmsResource resource = cms.readResource(new CmsUUID(uuid), CmsResourceFilter.ALL);
         if (!(resource.getState().isUnchanged())) {
           result.add(resource);
@@ -278,7 +279,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport
    *
    * @param fileName Name of the configuration file to use for the search.
    */
-  public void setConfigFile(Object fileName) {
+  public void setConfigFile(@RUntainted Object fileName) {
 
     m_configFile = fileName;
   }

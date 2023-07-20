@@ -50,6 +50,7 @@ import org.opencms.search.documents.CmsDocumentDependency;
 import org.opencms.search.fields.CmsSearchField;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A search document implementation for Solr indexes.
@@ -197,7 +198,7 @@ public class CmsSolrDocument implements I_CmsSearchDocument {
   }
 
   /** @see org.opencms.search.I_CmsSearchDocument#addPathField(java.lang.String) */
-  public void addPathField(String rootPath) {
+  public void addPathField(@RUntainted String rootPath) {
 
     String folderName = CmsResource.getFolderPath(rootPath);
     for (int i = 0; i < folderName.length(); i++) {

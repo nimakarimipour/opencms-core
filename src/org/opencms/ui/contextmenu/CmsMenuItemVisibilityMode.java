@@ -28,6 +28,7 @@
 package org.opencms.ui.contextmenu;
 
 import org.opencms.util.A_CmsModeIntEnumeration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The visibility modes of a context menu item in the explorer view.
@@ -54,7 +55,7 @@ public final class CmsMenuItemVisibilityMode extends A_CmsModeIntEnumeration {
   private static final long serialVersionUID = 2526260041565757791L;
 
   /** The name of the message key for the visibility mode. */
-  private String m_messageKey;
+  private @RUntainted String m_messageKey;
 
   /** The prioritization flag. */
   private boolean m_prioritized;
@@ -137,7 +138,7 @@ public final class CmsMenuItemVisibilityMode extends A_CmsModeIntEnumeration {
    * @param messageKey the name of the message key for the visibility mode
    * @return an extended visibility mode containing the message key
    */
-  public CmsMenuItemVisibilityMode addMessageKey(String messageKey) {
+  public CmsMenuItemVisibilityMode addMessageKey(@RUntainted String messageKey) {
 
     CmsMenuItemVisibilityMode mode = clone();
     mode.m_messageKey = messageKey;
@@ -153,7 +154,7 @@ public final class CmsMenuItemVisibilityMode extends A_CmsModeIntEnumeration {
    *
    * @return the name of the message key for the visibility mode
    */
-  public String getMessageKey() {
+  public @RUntainted String getMessageKey() {
 
     return m_messageKey;
   }

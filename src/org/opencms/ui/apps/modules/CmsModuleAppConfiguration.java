@@ -37,6 +37,7 @@ import org.opencms.ui.apps.CmsAppVisibilityStatus;
 import org.opencms.ui.apps.CmsWorkplaceAppManager;
 import org.opencms.ui.apps.I_CmsWorkplaceApp;
 import org.opencms.ui.apps.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App configuration for the module maanger app.
@@ -82,7 +83,7 @@ public class CmsModuleAppConfiguration extends A_CmsWorkplaceAppConfiguration {
 
   /** @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
   @Override
-  public String getName(Locale locale) {
+  public String getName(@RUntainted Locale locale) {
 
     return org.opencms.ui.apps.Messages.get()
         .getBundle(locale)

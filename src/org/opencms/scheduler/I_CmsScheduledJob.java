@@ -29,6 +29,7 @@ package org.opencms.scheduler;
 
 import java.util.Map;
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Identifies a class that can be scheduled with the OpenCms scheduler.
@@ -61,5 +62,5 @@ public interface I_CmsScheduledJob {
    * @see CmsScheduledJobInfo
    * @see CmsScheduledJobInfo#setReuseInstance(boolean)
    */
-  String launch(CmsObject cms, Map<String, String> parameters) throws Exception;
+  @RUntainted String launch(CmsObject cms, @RUntainted Map<String, @RUntainted String> parameters) throws Exception;
 }

@@ -36,6 +36,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.security.CmsPermissionViolationException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource wrapper class which is used to prevent resources with names matching a given regex from
@@ -61,7 +62,7 @@ public class CmsResourceWrapperPreventCreateNameRegex extends A_CmsResourceWrapp
    */
   @Override
   public CmsResource createResource(
-      CmsObject cms, String resourcepath, int type, byte[] content, List<CmsProperty> properties)
+      CmsObject cms, @RUntainted String resourcepath, int type, byte[] content, List<CmsProperty> properties)
       throws CmsIllegalArgumentException {
 
     String name = CmsResource.getName(resourcepath);
@@ -89,7 +90,7 @@ public class CmsResourceWrapperPreventCreateNameRegex extends A_CmsResourceWrapp
    *     java.lang.String, java.lang.String)
    */
   @Override
-  public boolean moveResource(CmsObject cms, String source, String destination)
+  public boolean moveResource(CmsObject cms, String source, @RUntainted String destination)
       throws CmsException, CmsIllegalArgumentException {
 
     String name = CmsResource.getName(destination);

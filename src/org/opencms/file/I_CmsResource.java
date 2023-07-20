@@ -30,6 +30,7 @@ package org.opencms.file;
 import java.util.Comparator;
 import org.opencms.db.CmsResourceState;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common ancestor interface for {@link CmsFile} and {@link CmsFolder} as well as for {@link
@@ -245,7 +246,7 @@ public interface I_CmsResource {
    *
    * @return the expiration date of this resource
    */
-  long getDateExpired();
+  @RUntainted long getDateExpired();
 
   /**
    * Returns the date of the last modification of this resource.
@@ -254,7 +255,7 @@ public interface I_CmsResource {
    *
    * @return the date of the last modification of this resource
    */
-  long getDateLastModified();
+  @RUntainted long getDateLastModified();
 
   /**
    * Returns the release date this resource.
@@ -263,7 +264,7 @@ public interface I_CmsResource {
    *
    * @return the release date of this resource
    */
-  long getDateReleased();
+  @RUntainted long getDateReleased();
 
   /**
    * Returns the flags of this resource.
@@ -294,7 +295,7 @@ public interface I_CmsResource {
    *
    * @return the file name of this resource without parent folders
    */
-  String getName();
+  @RUntainted String getName();
 
   /**
    * Returns the id of the {@link CmsProject} where this resource has been last modified.
@@ -323,7 +324,7 @@ public interface I_CmsResource {
    *
    * @return name of this resource with it's full path from the top level root folder
    */
-  String getRootPath();
+  @RUntainted String getRootPath();
 
   /**
    * Returns the number of siblings of this resource, also counting this resource.
@@ -362,7 +363,7 @@ public interface I_CmsResource {
    *
    * @return the resource type id of this resource
    */
-  int getTypeId();
+  @RUntainted int getTypeId();
 
   /**
    * Returns the id of the {@link CmsUser} who created this resource.

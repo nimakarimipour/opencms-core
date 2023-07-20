@@ -43,6 +43,7 @@ import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the published resources dialog.
@@ -70,7 +71,7 @@ public class CmsPublishResources extends VerticalLayout {
    *
    * @param id job-id
    */
-  public CmsPublishResources(String id) {
+  public CmsPublishResources(@RUntainted String id) {
 
     CmsVaadinUtils.readAndLocalizeDesign(
         this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);

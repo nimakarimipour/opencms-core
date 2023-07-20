@@ -34,6 +34,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.security.CmsPrincipal;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A historical version of a file in the OpenCms VFS resource history.
@@ -137,7 +138,7 @@ public class CmsHistoryFile extends CmsFile implements I_CmsHistoryResource {
       int publishTag,
       CmsUUID structureId,
       CmsUUID resourceId,
-      String path,
+      @RUntainted String path,
       int type,
       int flags,
       CmsUUID projectId,
@@ -276,7 +277,7 @@ public class CmsHistoryFile extends CmsFile implements I_CmsHistoryResource {
 
   /** @see org.opencms.file.CmsResource#toString() */
   @Override
-  public String toString() {
+  public @RUntainted String toString() {
 
     StringBuffer result = new StringBuffer();
 

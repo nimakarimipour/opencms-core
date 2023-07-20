@@ -45,6 +45,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.report.I_CmsReport;
 import org.opencms.search.documents.CmsDocumentDependency;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A VFS indexer that resolves locale dependent documents.
@@ -126,11 +127,11 @@ public class CmsDependencyIndexer extends CmsVfsIndexer {
       CmsIndexingThreadManager threadManager,
       CmsSearchIndexSource source) {
 
-    List<String> resourceNames = source.getResourcesNames();
-    Iterator<String> i = resourceNames.iterator();
+    List<@RUntainted String> resourceNames = source.getResourcesNames();
+    Iterator<@RUntainted String> i = resourceNames.iterator();
     while (i.hasNext()) {
       // read the resources from all configured source folders
-      String resourceName = i.next();
+      @RUntainted String resourceName = i.next();
       List<CmsResource> resources = null;
       try {
         // read all resources (only files) below the given path

@@ -29,6 +29,7 @@ package org.opencms.configuration;
 
 import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract base implementation for xml configurations.
@@ -60,7 +61,7 @@ public abstract class A_CmsXmlConfiguration implements I_CmsXmlConfiguration {
    *     org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String,
    *     java.lang.String)
    */
-  public void addConfigurationParameter(String paramName, String paramValue) {
+  public void addConfigurationParameter(@RUntainted String paramName, @RUntainted String paramValue) {
 
     // simple default configuration does not support parameters
     if (LOG.isDebugEnabled()) {

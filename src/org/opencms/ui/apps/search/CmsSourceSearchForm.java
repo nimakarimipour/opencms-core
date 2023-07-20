@@ -65,6 +65,7 @@ import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.fileselect.CmsPathSelectField;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The source search form.
@@ -176,7 +177,7 @@ public class CmsSourceSearchForm extends VerticalLayout {
   private CheckBox m_ignoreSubSites;
 
   /** The search locale select. */
-  private ComboBox m_locale;
+  private @RUntainted ComboBox m_locale;
 
   /** Vaadin component. */
   private TextField m_newName;
@@ -218,7 +219,7 @@ public class CmsSourceSearchForm extends VerticalLayout {
   private ComboBox m_searchType;
 
   /** The site select. */
-  private ComboBox m_siteSelect;
+  private @RUntainted ComboBox m_siteSelect;
 
   /** The SOLR query field. */
   private TextField m_solrQuery;

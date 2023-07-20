@@ -34,6 +34,7 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.I_CmsXmlDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for XML content value implementations that require only a simple XML cdata text node.
@@ -45,7 +46,7 @@ import org.opencms.xml.I_CmsXmlDocument;
 public abstract class A_CmsXmlValueCdataBase extends A_CmsXmlContentValue {
 
   /** The String value of the element node. */
-  protected String m_stringValue;
+  protected @RUntainted String m_stringValue;
 
   /**
    * Default constructor for a xml content type that initializes some internal values.
@@ -68,7 +69,7 @@ public abstract class A_CmsXmlValueCdataBase extends A_CmsXmlContentValue {
    * @param type the type instance to create the value for
    */
   protected A_CmsXmlValueCdataBase(
-      I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
     super(document, element, locale, type);
     m_stringValue = element.getText();
@@ -83,7 +84,7 @@ public abstract class A_CmsXmlValueCdataBase extends A_CmsXmlContentValue {
    * @param minOccurs minimum number of occurrences of this type according to the XML schema
    * @param maxOccurs maximum number of occurrences of this type according to the XML schema
    */
-  protected A_CmsXmlValueCdataBase(String name, String minOccurs, String maxOccurs) {
+  protected A_CmsXmlValueCdataBase(@RUntainted String name, String minOccurs, String maxOccurs) {
 
     super(name, minOccurs, maxOccurs);
   }
@@ -96,7 +97,7 @@ public abstract class A_CmsXmlValueCdataBase extends A_CmsXmlContentValue {
   }
 
   /** @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(CmsObject) */
-  public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+  public @RUntainted String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
     return m_stringValue;
   }
@@ -105,7 +106,7 @@ public abstract class A_CmsXmlValueCdataBase extends A_CmsXmlContentValue {
    * @see org.opencms.xml.types.I_CmsXmlContentValue#setStringValue(org.opencms.file.CmsObject,
    *     java.lang.String)
    */
-  public void setStringValue(CmsObject cms, String value) throws CmsIllegalArgumentException {
+  public void setStringValue(CmsObject cms, @RUntainted String value) throws CmsIllegalArgumentException {
 
     m_element.clearContent();
     if (CmsStringUtil.isNotEmpty(value)) {

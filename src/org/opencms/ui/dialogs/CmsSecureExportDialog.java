@@ -61,6 +61,7 @@ import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsOkCancelActionHandler;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsWorkplaceMessages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to change resource modification times.
@@ -207,7 +208,7 @@ public class CmsSecureExportDialog extends CmsBasicDialog {
       Map<String, CmsProperty> inheritedPropMap = CmsProperty.toObjectMap(inheritedPropList);
       String secureValue =
           convertPropertyToFieldValue(propMap.get(CmsPropertyDefinition.PROPERTY_SECURE));
-      String inheritedSecureValue =
+      @RUntainted String inheritedSecureValue =
           convertPropertyToFieldValue(inheritedPropMap.get(CmsPropertyDefinition.PROPERTY_SECURE));
 
       String exportValue =
@@ -257,9 +258,9 @@ public class CmsSecureExportDialog extends CmsBasicDialog {
       try {
         actionRecord = CmsLockUtil.ensureLock(m_context.getCms(), resource);
 
-        String secureValue = (String) m_secureField.getValue();
-        String exportValue = (String) m_exportField.getValue();
-        String exportname = m_exportNameField.getValue();
+        @RUntainted String secureValue = (String) m_secureField.getValue();
+        @RUntainted String exportValue = (String) m_exportField.getValue();
+        @RUntainted String exportname = m_exportNameField.getValue();
         CmsProperty secureProp =
             new CmsProperty(CmsPropertyDefinition.PROPERTY_SECURE, secureValue, null);
         CmsProperty exportProp =
@@ -316,7 +317,7 @@ public class CmsSecureExportDialog extends CmsBasicDialog {
    * @param prop the property to convert
    * @return the field value
    */
-  private String convertPropertyToFieldValue(CmsProperty prop) {
+  private @RUntainted String convertPropertyToFieldValue(CmsProperty prop) {
 
     if (prop == null) {
       return "";

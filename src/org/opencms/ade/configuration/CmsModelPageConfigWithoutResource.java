@@ -28,6 +28,7 @@
 package org.opencms.ade.configuration;
 
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class contains the model page configuration for a sitemap region, without the actual
@@ -39,7 +40,7 @@ public class CmsModelPageConfigWithoutResource {
   private CmsUUID m_structureId;
 
   /** True if this is a default model page. */
-  private boolean m_isDefault;
+  private @RUntainted boolean m_isDefault;
 
   /** True if this bean disables a model page rather than adding one. */
   private boolean m_isDisabled;
@@ -78,7 +79,7 @@ public class CmsModelPageConfigWithoutResource {
    *
    * @return true if this is a default model page
    */
-  public boolean isDefault() {
+  public @RUntainted boolean isDefault() {
 
     return m_isDefault;
   }

@@ -60,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A JSONArray is an ordered sequence of values. Its external text form is a string wrapped in
@@ -295,9 +296,9 @@ public class JSONArray {
    * @return an object value
    * @throws JSONException if there is no value for the index
    */
-  public Object get(int index) throws JSONException {
+  public @RUntainted Object get(int index) throws JSONException {
 
-    Object o = opt(index);
+    @RUntainted Object o = opt(index);
     if (o == null) {
       throw new JSONException("JSONArray[" + index + "] not found.");
     }
@@ -425,7 +426,7 @@ public class JSONArray {
    * @return a string value
    * @throws JSONException if there is no value for the index
    */
-  public String getString(int index) throws JSONException {
+  public @RUntainted String getString(int index) throws JSONException {
 
     return get(index).toString();
   }
@@ -490,7 +491,7 @@ public class JSONArray {
    * @param index the index must be between 0 and length() - 1
    * @return an object value, or null if there is no object at that index
    */
-  public Object opt(int index) {
+  public @RUntainted Object opt(int index) {
 
     return ((index < 0) || (index >= length())) ? null : m_myArrayList.get(index);
   }
@@ -937,7 +938,7 @@ public class JSONArray {
    *     JSONObject, Long, or String, or the JSONObject.NULL object
    * @return this
    */
-  public JSONArray put(Object value) {
+  public @RUntainted JSONArray put(Object value) {
 
     m_myArrayList.add(value);
     return this;
@@ -978,7 +979,7 @@ public class JSONArray {
    * @return a printable, displayable, transmittable representation of the array
    */
   @Override
-  public String toString() {
+  public @RUntainted String toString() {
 
     try {
       return '[' + join(",") + ']';

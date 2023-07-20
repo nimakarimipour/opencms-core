@@ -32,6 +32,7 @@ import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.apache.commons.logging.Log;
 import org.opencms.file.CmsUser;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Account info bean.
@@ -74,13 +75,13 @@ public class CmsAccountInfo {
   private static final Log LOG = CmsLog.getLog(CmsAccountInfo.class);
 
   /** The additional info key. */
-  private String m_addInfoKey;
+  private @RUntainted String m_addInfoKey;
 
   /** The editable flag. */
   private boolean m_editable;
 
   /** The field. */
-  private Field m_field;
+  private @RUntainted Field m_field;
 
   /**
    * Constructor.
@@ -91,7 +92,7 @@ public class CmsAccountInfo {
    * @param addInfoKey the additional info key
    * @param editable the editable flag
    */
-  public CmsAccountInfo(Field field, String addInfoKey, boolean editable) {
+  public CmsAccountInfo(@RUntainted Field field, @RUntainted String addInfoKey, boolean editable) {
     m_field = field;
     m_addInfoKey = addInfoKey;
     m_editable = editable;
@@ -106,7 +107,7 @@ public class CmsAccountInfo {
    * @param addInfoKey the additional info key
    * @param editable the editable flag
    */
-  public CmsAccountInfo(String field, String addInfoKey, String editable) {
+  public CmsAccountInfo(String field, @RUntainted String addInfoKey, String editable) {
     m_field = Field.valueOf(field);
     m_addInfoKey = addInfoKey;
     m_editable = Boolean.parseBoolean(editable);
@@ -119,7 +120,7 @@ public class CmsAccountInfo {
    *
    * @return the additional info key
    */
-  public String getAddInfoKey() {
+  public @RUntainted String getAddInfoKey() {
 
     return m_addInfoKey;
   }
@@ -131,7 +132,7 @@ public class CmsAccountInfo {
    *
    * @return the field
    */
-  public Field getField() {
+  public @RUntainted Field getField() {
 
     return m_field;
   }
@@ -144,7 +145,7 @@ public class CmsAccountInfo {
    * @param user the user
    * @return the value
    */
-  public String getValue(CmsUser user) {
+  public @RUntainted String getValue(CmsUser user) {
 
     String value = null;
     if (isAdditionalInfo()) {

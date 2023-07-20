@@ -52,6 +52,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.editors.directedit.CmsDirectEditJspIncludeProvider;
 import org.opencms.workplace.editors.directedit.CmsDirectEditMode;
 import org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean to be used in JSP scriptlet code that provides direct access to the functionality offered by
@@ -137,7 +138,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @param filename file with scriptlet code
    * @throws JspException if something goes wrong
    */
-  public void editable(boolean isEditable, String filename) throws JspException {
+  public void editable(boolean isEditable, @RUntainted String filename) throws JspException {
 
     if (isEditable) {
       CmsJspTagEditable.editableTagAction(
@@ -159,7 +160,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @param filename file with scriptlet code (may be <code>null</code>)
    * @throws JspException if something goes wrong
    */
-  public void editable(String provider, String mode, String filename) throws JspException {
+  public void editable(@RUntainted String provider, String mode, @RUntainted String filename) throws JspException {
 
     CmsJspTagEditable.editableTagAction(
         getJspContext(), provider, CmsDirectEditMode.valueOf(mode), filename);
@@ -220,7 +221,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @param target the target to process
    * @return the processed output of an OpenCms resource in a String
    */
-  public String getContent(String target) {
+  public String getContent(@RUntainted String target) {
 
     return getContent(target, null, null);
   }
@@ -235,7 +236,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @param locale locale of the element
    * @return the processed output
    */
-  public String getContent(String target, String element, Locale locale) {
+  public String getContent(@RUntainted String target, String element, Locale locale) {
 
     I_CmsResourceLoader loader;
     CmsFile file;
@@ -280,7 +281,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @param locale the locale to use for localization
    * @return CmsMessages a message bundle initialized with the provided values
    */
-  public CmsMessages getMessages(String bundleName, Locale locale) {
+  public CmsMessages getMessages(@RUntainted String bundleName, @RUntainted Locale locale) {
 
     return new CmsMessages(bundleName, locale);
   }
@@ -295,7 +296,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @param language language identifier for the locale of the bundle
    * @return CmsMessages a message bundle initialized with the provided values
    */
-  public CmsMessages getMessages(String bundleName, String language) {
+  public CmsMessages getMessages(@RUntainted String bundleName, @RUntainted String language) {
 
     return getMessages(bundleName, language, "", "", null);
   }
@@ -312,7 +313,7 @@ public class CmsJspActionElement extends CmsJspBean {
    *     String "", and defaultLanguage is not null
    * @return CmsMessages a message bundle initialized with the provided values
    */
-  public CmsMessages getMessages(String bundleName, String language, String defaultLanguage) {
+  public CmsMessages getMessages(@RUntainted String bundleName, @RUntainted String language, @RUntainted String defaultLanguage) {
 
     return getMessages(bundleName, language, "", "", defaultLanguage);
   }
@@ -334,7 +335,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @see org.opencms.i18n.CmsMessages
    */
   public CmsMessages getMessages(
-      String bundleName, String language, String country, String variant, String defaultLanguage) {
+      @RUntainted String bundleName, @RUntainted String language, @RUntainted String country, @RUntainted String variant, @RUntainted String defaultLanguage) {
 
     try {
       if ((defaultLanguage != null) && CmsStringUtil.isEmpty(language)) {
@@ -399,7 +400,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @return the HTML for an <code>&lt;img src&gt;</code> tag that includes the given image scaling
    *     parameters
    */
-  public String img(String target, CmsImageScaler scaler, Map<String, String> attributes) {
+  public String img(@RUntainted String target, CmsImageScaler scaler, Map<String, String> attributes) {
 
     return img(target, scaler, attributes, false);
   }
@@ -419,7 +420,7 @@ public class CmsJspActionElement extends CmsJspBean {
    *     parameters
    */
   public String img(
-      String target, CmsImageScaler scaler, Map<String, String> attributes, boolean partialTag) {
+      @RUntainted String target, CmsImageScaler scaler, Map<String, String> attributes, boolean partialTag) {
 
     try {
       return CmsJspTagImage.imageTagAction(target, scaler, attributes, partialTag, getRequest());
@@ -476,7 +477,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @throws JspException in case there were problems including the target
    * @see org.opencms.jsp.CmsJspTagInclude
    */
-  public void include(String target, String element, boolean editable) throws JspException {
+  public void include(@RUntainted String target, String element, boolean editable) throws JspException {
 
     include(target, element, editable, null);
   }
@@ -504,7 +505,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @see org.opencms.jsp.CmsJspTagInclude
    */
   public void include(
-      String target,
+      @RUntainted String target,
       String element,
       boolean editable,
       boolean cacheable,
@@ -572,7 +573,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @throws JspException in case there were problems including the target
    * @see org.opencms.jsp.CmsJspTagInclude
    */
-  public void include(String target, String element, boolean editable, Map<String, ?> parameterMap)
+  public void include(@RUntainted String target, String element, boolean editable, Map<String, ?> parameterMap)
       throws JspException {
 
     include(target, element, editable, true, parameterMap);
@@ -590,7 +591,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @throws JspException in case there were problems including the target
    * @see org.opencms.jsp.CmsJspTagInclude
    */
-  public void include(String target, String element, Map<String, ?> parameterMap)
+  public void include(@RUntainted String target, String element, Map<String, ?> parameterMap)
       throws JspException {
 
     include(target, element, false, parameterMap);
@@ -630,7 +631,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @param element the element (template selector) to display from the target
    * @param editable flag to indicate if direct edit should be enabled for the element
    */
-  public void includeSilent(String target, String element, boolean editable) {
+  public void includeSilent(@RUntainted String target, String element, boolean editable) {
 
     try {
       include(target, element, editable, null);
@@ -654,7 +655,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @param parameterMap a map of the request parameters
    */
   public void includeSilent(
-      String target, String element, boolean editable, Map<String, Object> parameterMap) {
+      @RUntainted String target, String element, boolean editable, Map<String, Object> parameterMap) {
 
     try {
       include(target, element, editable, parameterMap);
@@ -698,7 +699,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @return String the value of the system property
    * @see org.opencms.jsp.CmsJspTagInfo
    */
-  public String info(String property) {
+  public @RUntainted String info(@RUntainted String property) {
 
     try {
       return CmsJspTagInfo.infoTagAction(property, getRequest());
@@ -722,7 +723,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @return label the value of the label
    * @see org.opencms.jsp.CmsJspTagLabel
    */
-  public String label(String label) {
+  public String label(@RUntainted String label) {
 
     if (isNotInitialized()) {
       return getMessage(NOT_INITIALIZED);
@@ -755,7 +756,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @see org.opencms.jsp.CmsJspTagLink
    * @see #link(String, String)
    */
-  public String link(String target) {
+  public @RUntainted String link(String target) {
 
     return link(target, null);
   }
@@ -780,7 +781,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @see org.opencms.jsp.CmsJspTagLink
    * @see #link(String)
    */
-  public String link(String target, String baseUri) {
+  public String link(@RUntainted String target, String baseUri) {
 
     if (isNotInitialized()) {
       return getMessage(NOT_INITIALIZED);
@@ -820,7 +821,7 @@ public class CmsJspActionElement extends CmsJspBean {
    *     file)
    * @see org.opencms.jsp.CmsJspTagProperty
    */
-  public Map<String, String> properties(String file) {
+  public Map<String, String> properties(@RUntainted String file) {
 
     Map<String, String> props = new HashMap<String, String>();
     if (isNotInitialized()) {
@@ -884,7 +885,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @see #property(String, String, String, boolean)
    * @see org.opencms.jsp.CmsJspTagProperty
    */
-  public String property(String name, String file, String defaultValue) {
+  public @RUntainted String property(String name, String file, @RUntainted String defaultValue) {
 
     return property(name, file, defaultValue, false);
   }
@@ -907,7 +908,7 @@ public class CmsJspActionElement extends CmsJspBean {
    *     be found
    * @see org.opencms.jsp.CmsJspTagProperty
    */
-  public String property(String name, String file, String defaultValue, boolean escapeHtml) {
+  public @RUntainted String property(@RUntainted String name, @RUntainted String file, @RUntainted String defaultValue, boolean escapeHtml) {
 
     if (isNotInitialized()) {
       return getMessage(NOT_INITIALIZED);
@@ -1000,7 +1001,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @param target the relative URI to convert
    * @return the target URI converted to an absolute one
    */
-  public String toAbsolute(String target) {
+  public @RUntainted String toAbsolute(@RUntainted String target) {
 
     if (isNotInitialized()) {
       return getMessage(NOT_INITIALIZED);
@@ -1020,7 +1021,7 @@ public class CmsJspActionElement extends CmsJspBean {
    * @return the value of the selected user property
    * @see org.opencms.jsp.CmsJspTagUser
    */
-  public String user(String property) {
+  public String user(@RUntainted String property) {
 
     if (isNotInitialized()) {
       return getMessage(NOT_INITIALIZED);

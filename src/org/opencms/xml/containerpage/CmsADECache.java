@@ -39,6 +39,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.monitor.CmsMemoryMonitor;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.content.CmsXmlContent;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Cache object instance for simultaneously cache online and offline items.
@@ -57,16 +58,16 @@ public final class CmsADECache extends CmsVfsCache {
   private static final Log LOG = CmsLog.getLog(CmsADECache.class);
 
   /** Cache for offline container pages. */
-  private Map<String, CmsXmlContainerPage> m_containerPagesOffline;
+  private Map<String, @RUntainted CmsXmlContainerPage> m_containerPagesOffline;
 
   /** Cache for online container pages. */
-  private Map<String, CmsXmlContainerPage> m_containerPagesOnline;
+  private Map<String, @RUntainted CmsXmlContainerPage> m_containerPagesOnline;
 
   /** Cache for offline group containers. */
-  private Map<String, CmsXmlGroupContainer> m_groupContainersOffline;
+  private Map<String, @RUntainted CmsXmlGroupContainer> m_groupContainersOffline;
 
   /** Cache for online group containers. */
-  private Map<String, CmsXmlGroupContainer> m_groupContainersOnline;
+  private Map<String, @RUntainted CmsXmlGroupContainer> m_groupContainersOnline;
 
   /**
    * Read-write lock to ensure that the cache maps aren't accessed while we iterate through them to
@@ -140,11 +141,11 @@ public final class CmsADECache extends CmsVfsCache {
    * @param online if cached in online or offline project
    * @return the cached container page or <code>null</code> if not found
    */
-  public CmsXmlContainerPage getCacheContainerPage(String key, boolean online) {
+  public @RUntainted CmsXmlContainerPage getCacheContainerPage(@RUntainted String key, boolean online) {
 
     try {
       m_lock.readLock().lock();
-      CmsXmlContainerPage retValue;
+      @RUntainted CmsXmlContainerPage retValue;
       if (online) {
         retValue = m_containerPagesOnline.get(key);
         if (LOG.isDebugEnabled()) {
@@ -196,11 +197,11 @@ public final class CmsADECache extends CmsVfsCache {
    * @param online if cached in online or offline project
    * @return the cached group container or <code>null</code> if not found
    */
-  public CmsXmlGroupContainer getCacheGroupContainer(String key, boolean online) {
+  public @RUntainted CmsXmlGroupContainer getCacheGroupContainer(@RUntainted String key, boolean online) {
 
     try {
       m_lock.readLock().lock();
-      CmsXmlGroupContainer retValue;
+      @RUntainted CmsXmlGroupContainer retValue;
       if (online) {
         retValue = m_groupContainersOnline.get(key);
         if (LOG.isDebugEnabled()) {
@@ -249,7 +250,7 @@ public final class CmsADECache extends CmsVfsCache {
    * @param keepEncoding if to keep the encoding while unmarshalling
    * @return the cache key for the given container page and parameters
    */
-  public String getCacheKey(CmsUUID structureId, boolean keepEncoding) {
+  public @RUntainted String getCacheKey(CmsUUID structureId, @RUntainted boolean keepEncoding) {
 
     return structureId.toString() + "_" + keepEncoding;
   }
@@ -263,7 +264,7 @@ public final class CmsADECache extends CmsVfsCache {
    * @param containerPage the object to cache
    * @param online if to cache in online or offline project
    */
-  public void setCacheContainerPage(String key, CmsXmlContainerPage containerPage, boolean online) {
+  public void setCacheContainerPage(@RUntainted String key, @RUntainted CmsXmlContainerPage containerPage, boolean online) {
 
     try {
       m_lock.writeLock().lock();
@@ -301,7 +302,7 @@ public final class CmsADECache extends CmsVfsCache {
    * @param online if to cache in online or offline project
    */
   public void setCacheGroupContainer(
-      String key, CmsXmlGroupContainer groupContainer, boolean online) {
+      @RUntainted String key, @RUntainted CmsXmlGroupContainer groupContainer, boolean online) {
 
     try {
       m_lock.writeLock().lock();

@@ -29,6 +29,7 @@ package org.opencms.ade.galleries.shared;
 
 import java.util.List;
 import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryMode;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The gallery configuration interface.
@@ -62,7 +63,7 @@ public interface I_CmsGalleryConfiguration {
    *
    * @return the start gallery path
    */
-  String getGalleryPath();
+  @RUntainted String getGalleryPath();
 
   /**
    * Gets the prefix for the key used to store the last selected gallery.
@@ -161,7 +162,7 @@ public interface I_CmsGalleryConfiguration {
    *
    * @return the start site
    */
-  String getStartSite();
+  @RUntainted String getStartSite();
 
   /**
    * Gets the tab configuration.

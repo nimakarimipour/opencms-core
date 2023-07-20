@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.opencms.file.CmsObject;
 import org.opencms.util.CmsMacroResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for a standard HTML form select box.
@@ -153,7 +154,7 @@ public class CmsSelectWidget extends A_CmsSelectWidget {
       CmsObject cms, I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
 
     String result = super.getWidgetStringValue(cms, widgetDialog, param);
-    String configuration =
+    @RUntainted String configuration =
         CmsMacroResolver.resolveMacros(getConfiguration(), cms, widgetDialog.getMessages());
     if (configuration == null) {
       configuration = param.getDefault(cms);

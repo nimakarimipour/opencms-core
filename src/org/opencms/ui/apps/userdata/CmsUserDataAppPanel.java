@@ -74,6 +74,7 @@ import org.opencms.ui.dialogs.permissions.CmsPrincipalSelectDialog;
 import org.opencms.ui.report.CmsReportOverlay;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The GUI form for the user data app.

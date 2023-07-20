@@ -35,6 +35,7 @@ import org.opencms.json.JSONArray;
 import org.opencms.json.JSONException;
 import org.opencms.json.JSONObject;
 import org.opencms.jsp.util.CmsJspJsonWrapper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract superclass that handles the common behavior of the jsonarray/jsonobject/jsonvalue tags.
@@ -230,7 +231,7 @@ public abstract class A_CmsJspJsonTag extends BodyTagSupport {
    * @param key the key to set the value, required in case the target is a JSONObject
    * @throws JspException in case the value could not be added to the target
    */
-  protected void addToTarget(Object target, Object val, String key) throws JspException {
+  protected void addToTarget(Object target, @RUntainted Object val, String key) throws JspException {
 
     if (target instanceof JSONObject) {
       if (key == null) {

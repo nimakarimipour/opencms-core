@@ -43,6 +43,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.xml.content.CmsVfsBundleLoaderXml;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource bundle which loads its data from a VFS resource.
@@ -195,7 +196,7 @@ public class CmsVfsResourceBundle extends ResourceBundle implements I_CmsResourc
    *
    * @return the root path of the file containing the message data
    */
-  protected String getFilePath() {
+  protected @RUntainted String getFilePath() {
 
     return m_parameters.getBasePath();
   }

@@ -47,6 +47,7 @@ import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.page.CmsXmlPage;
 import org.opencms.xml.xml2json.I_CmsJsonFormattableValue;
 import org.opencms.xml.xml2json.renderer.CmsJsonRendererXmlContent;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVarLink".

@@ -34,6 +34,7 @@ import org.apache.commons.logging.Log;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 import org.opencms.xml.content.CmsXmlContent;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Class used to keep track of optional dynamic category fields for a content. */
 public class CmsDynamicCategoryFieldList {
@@ -81,7 +82,7 @@ public class CmsDynamicCategoryFieldList {
    */
   public void ensureFields(CmsObject cms, CmsXmlContent content, Locale locale) {
 
-    for (String path : m_paths) {
+    for (@RUntainted String path : m_paths) {
       if (!content.hasValue(path, locale)) {
         try {
           content.addValue(cms, path, locale, 0);

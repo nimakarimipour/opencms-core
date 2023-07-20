@@ -57,6 +57,7 @@ import org.opencms.ui.dialogs.permissions.CmsPrincipalSelect;
 import org.opencms.ui.dialogs.permissions.CmsPrincipalSelect.WidgetType;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for delete multiple principal.
@@ -132,7 +133,7 @@ public class CmsDeleteMultiplePrincipalDialog extends CmsBasicDialog {
     m_groupIDs = new HashSet<CmsUUID>();
     m_userIDs = new HashSet<CmsUUID>();
     List<CmsResourceInfo> infos = new ArrayList<CmsResourceInfo>();
-    for (String id : m_ids) {
+    for (@RUntainted String id : m_ids) {
       try {
         CmsPrincipal principal = (CmsPrincipal) CmsPrincipal.readPrincipal(cms, new CmsUUID(id));
         if (OpenCms.getDefaultUsers().isDefaultUser(principal.getName())

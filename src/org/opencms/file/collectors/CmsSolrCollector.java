@@ -48,6 +48,7 @@ import org.opencms.search.solr.CmsSolrIndex;
 import org.opencms.search.solr.CmsSolrQuery;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A Solr collector.
@@ -187,17 +188,17 @@ public class CmsSolrCollector extends A_CmsResourceCollector {
    * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject,
    *     java.lang.String, java.lang.String)
    */
-  public List<CmsResource> getResults(CmsObject cms, String name, String param, int numResults)
+  public List<CmsResource> getResults(@RUntainted CmsObject cms, String name, String param, int numResults)
       throws CmsException {
 
     name = name == null ? COLLECTORS[1] : name;
     Map<String, String> paramsAsMap = getParamsAsMap(param);
-    Map<String, String[]> pm =
+    @RUntainted Map<String, String[]> pm =
         CmsRequestUtil.createParameterMap(
             paramsAsMap.get(SOLR_PART),
             Boolean.valueOf(paramsAsMap.get(PARAM_DECODE_URL)).booleanValue(),
             cms.getRequestContext().getEncoding());
-    CmsSolrQuery q =
+    @RUntainted CmsSolrQuery q =
         COLLECTORS_LIST.indexOf(name) == 0 ? new CmsSolrQuery(null, pm) : new CmsSolrQuery(cms, pm);
     boolean excludeTimerange =
         !cms.getRequestContext().getCurrentProject().isOnlineProject()

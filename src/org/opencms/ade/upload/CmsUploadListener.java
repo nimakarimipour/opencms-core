@@ -34,6 +34,7 @@ import org.opencms.gwt.shared.CmsUploadProgessInfo;
 import org.opencms.gwt.shared.CmsUploadProgessInfo.UPLOAD_STATE;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the upload listener for the upload widget.
@@ -146,7 +147,7 @@ public class CmsUploadListener implements ProgressListener, Serializable {
    *
    * @return the listeners UUID
    */
-  public CmsUUID getId() {
+  public @RUntainted CmsUUID getId() {
 
     return m_id;
   }
@@ -248,7 +249,7 @@ public class CmsUploadListener implements ProgressListener, Serializable {
 
   /** @see java.lang.Object#toString() */
   @Override
-  public String toString() {
+  public @RUntainted String toString() {
 
     return "UUID="
         + getId()

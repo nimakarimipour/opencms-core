@@ -69,6 +69,7 @@ import org.opencms.util.CmsFileUtil.FileWalkState;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.CmsXmlEntityResolver;
 import org.opencms.xml.CmsXmlUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The class provides methods to automatically export modules from OpenCms and check in the
@@ -817,7 +818,7 @@ public class CmsGitCheckin {
    * @throws CmsException if soemthing goes wrong
    * @return true if there were no errors during the import
    */
-  private boolean importModule(File file) throws CmsException {
+  private boolean importModule(@RUntainted File file) throws CmsException {
 
     m_logStream.println("Trying to import module from " + file.getAbsolutePath());
     I_CmsReport report =
@@ -905,7 +906,7 @@ public class CmsGitCheckin {
         }
         try {
           m_logStream.println("Creating temp file for module " + moduleName);
-          File outputFile = File.createTempFile(moduleName + "-", ".zip");
+          @RUntainted File outputFile = File.createTempFile(moduleName + "-", ".zip");
           FileOutputStream fos = new FileOutputStream(outputFile);
           m_logStream.println("Zipping module structure to " + outputFile.getAbsolutePath());
           zipRfsFolder(dirEntry, fos);

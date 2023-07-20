@@ -42,6 +42,7 @@ import org.opencms.relations.CmsLinkInfo;
 import org.opencms.xml.content.I_CmsXmlContentLocation;
 import org.opencms.xml.content.I_CmsXmlContentValueLocation;
 import org.opencms.xml.types.CmsXmlVarLinkValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean representing a template plugin.
@@ -118,7 +119,7 @@ public class CmsTemplatePlugin {
    * @return the list of parsed template plugins
    */
   public static List<CmsTemplatePlugin> parsePlugins(
-      CmsObject cms, I_CmsXmlContentLocation parent, String subName) {
+      CmsObject cms, I_CmsXmlContentLocation parent, @RUntainted String subName) {
 
     List<CmsTemplatePlugin> result = new ArrayList<>();
     for (I_CmsXmlContentValueLocation pluginLoc : parent.getSubValues(subName)) {

@@ -30,6 +30,7 @@ package org.opencms.xml.content;
 import java.util.Collection;
 import java.util.Locale;
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles changes during the xml content editor session.

@@ -67,6 +67,7 @@ import org.opencms.xml.containerpage.CmsFormatterConfiguration;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
 import org.opencms.xml.types.CmsXmlDisplayFormatterValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The 'display' tag can be used to display a single resource using a formatter. It also allows to
@@ -86,7 +87,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
   private static final long serialVersionUID = 2285680951218629093L;
 
   /** The base URI. */
-  private String m_baseUri;
+  private @RUntainted String m_baseUri;
 
   /** True if the display formatter include should go through the flex cache. */
   private Boolean m_cacheable;
@@ -104,7 +105,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
   private String m_creationSiteMap;
 
   /** The display formatter ids. */
-  private Map<String, String> m_displayFormatterIds;
+  private Map<String, @RUntainted String> m_displayFormatterIds;
 
   /** The display formatter paths. */
   private Map<String, String> m_displayFormatterPaths;
@@ -128,7 +129,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
   private String m_uploadFolder;
 
   /** The site path to the resource to display. */
-  private String m_value;
+  private @RUntainted String m_value;
 
   /**
    * Constructor.
@@ -326,17 +327,17 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
    * @return the remaining setting name suffix
    */
   public static String getSettingKeyForMatchingFormatterPrefix(
-      CmsADEConfigData config, I_CmsFormatterBean formatter, String settingKey) {
+      CmsADEConfigData config, I_CmsFormatterBean formatter, @RUntainted String settingKey) {
 
     if (CmsElementUtil.isSystemSetting(settingKey)) {
       return null;
     }
 
-    int underscoreIndex = settingKey.indexOf("_");
+    @RUntainted int underscoreIndex = settingKey.indexOf("_");
     if (underscoreIndex < 0) {
       return null;
     }
-    String prefix = settingKey.substring(0, underscoreIndex);
+    @RUntainted String prefix = settingKey.substring(0, underscoreIndex);
     String suffix = settingKey.substring(underscoreIndex + 1);
     I_CmsFormatterBean dynamicFmt = config.findFormatter(prefix);
     if (dynamicFmt == null) {
@@ -535,7 +536,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
    *
    * @param uri the base URI
    */
-  public void setBaseUri(String uri) {
+  public void setBaseUri(@RUntainted String uri) {
 
     m_baseUri = uri;
   }
@@ -713,7 +714,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
    *
    * @param value the value to set
    */
-  public void setValue(String value) {
+  public void setValue(@RUntainted String value) {
 
     m_value = value;
   }
@@ -731,7 +732,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
     if (val instanceof CmsXmlDisplayFormatterValue) {
       CmsXmlDisplayFormatterValue value = (CmsXmlDisplayFormatterValue) val;
       String type = value.getDisplayType();
-      String formatterId = value.getFormatterId();
+      @RUntainted String formatterId = value.getFormatterId();
       if (formatterId != null) {
         m_displayFormatterIds.put(type, formatterId);
       }

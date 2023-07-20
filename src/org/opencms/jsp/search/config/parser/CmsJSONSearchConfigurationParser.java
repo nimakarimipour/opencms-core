@@ -68,6 +68,7 @@ import org.opencms.jsp.search.config.I_CmsSearchConfigurationSorting;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.search.solr.CmsSolrIndex;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Search configuration parser reading JSON. */
 public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfigurationParser {
@@ -283,7 +284,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
    * @return The value from the JSON.
    * @throws JSONException thrown when parsing fails.
    */
-  protected static List<String> parseMandatoryStringValues(JSONObject json, String key)
+  protected static List<String> parseMandatoryStringValues(JSONObject json, @RUntainted String key)
       throws JSONException {
 
     List<String> list = null;
@@ -310,7 +311,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
    * @return The value from the JSON, or <code>null</code> if the value does not exist, or is no
    *     Boolean.
    */
-  protected static Boolean parseOptionalBooleanValue(JSONObject json, String key) {
+  protected static Boolean parseOptionalBooleanValue(JSONObject json, @RUntainted String key) {
 
     try {
       return Boolean.valueOf(json.getBoolean(key));
@@ -328,7 +329,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
    * @return The value from the JSON, or <code>null</code> if the value does not exist, or is no
    *     Integer.
    */
-  protected static Integer parseOptionalIntValue(JSONObject json, String key) {
+  protected static Integer parseOptionalIntValue(JSONObject json, @RUntainted String key) {
 
     try {
       return Integer.valueOf(json.getInt(key));
@@ -345,7 +346,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
    * @param key The key of the value to read.
    * @return The value from the JSON, or <code>null</code> if the value does not exist.
    */
-  protected static String parseOptionalStringValue(JSONObject json, String key) {
+  protected static String parseOptionalStringValue(JSONObject json, @RUntainted String key) {
 
     try {
       return json.getString(key);
@@ -363,7 +364,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
    * @param key The key of the value to read.
    * @return The value from the JSON, or <code>null</code> if the value does not exist.
    */
-  protected static List<String> parseOptionalStringValues(JSONObject json, String key) {
+  protected static List<String> parseOptionalStringValues(JSONObject json, @RUntainted String key) {
 
     List<String> list = null;
     try {
@@ -881,7 +882,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
       return Collections.singletonList(Integer.valueOf(m_configObject.getInt(JSON_KEY_PAGESIZE)));
     } catch (JSONException e) {
       List<Integer> result = null;
-      String pageSizesString = null;
+      @RUntainted String pageSizesString = null;
       try {
         pageSizesString = m_configObject.getString(JSON_KEY_PAGESIZE);
         String[] pageSizesArray = pageSizesString.split("-");
@@ -1131,7 +1132,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
       List<I_CmsSearchConfigurationFacetRange.Other> other = null;
       if (sother != null) {
         other = new ArrayList<I_CmsSearchConfigurationFacetRange.Other>(sother.size());
-        for (String so : sother) {
+        for (@RUntainted String so : sother) {
           try {
             I_CmsSearchConfigurationFacetRange.Other o =
                 I_CmsSearchConfigurationFacetRange.Other.valueOf(so);

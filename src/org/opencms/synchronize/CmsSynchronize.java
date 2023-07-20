@@ -53,6 +53,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsFileUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains all methods to synchronize the VFS with the "real" FS.
@@ -86,10 +87,10 @@ public class CmsSynchronize {
   private CmsObject m_cms;
 
   /** Counter for logging. */
-  private int m_count;
+  private @RUntainted int m_count;
 
   /** The path in the "real" file system where the resources have to be synchronized to. */
-  private String m_destinationPathInRfs;
+  private @RUntainted String m_destinationPathInRfs;
 
   /** Hash map for the new synchronization list of the current sync process. */
   private HashMap<String, CmsSynchronizeList> m_newSyncList;
@@ -150,7 +151,7 @@ public class CmsSynchronize {
       m_syncList = readSyncList();
       m_newSyncList = new HashMap<String, CmsSynchronizeList>();
 
-      Iterator<String> i = settings.getSourceListInVfs().iterator();
+      Iterator<@RUntainted String> i = settings.getSourceListInVfs().iterator();
       while (i.hasNext()) {
         // iterate all source folders
         String sourcePathInVfs = i.next();
@@ -208,17 +209,17 @@ public class CmsSynchronize {
    * @param folder the folder in the VFS to be synchronized with the FS
    * @throws CmsException if something goes wrong
    */
-  private void copyFromRfs(String folder) throws CmsException {
+  private void copyFromRfs(@RUntainted String folder) throws CmsException {
 
     // get the corresponding folder in the FS
-    File[] res;
-    File fsFile = getFileInRfs(folder);
+    @RUntainted File[] res;
+    @RUntainted File fsFile = getFileInRfs(folder);
     // first of all, test if this folder existis in the VFS. If not, create it
     try {
       m_cms.readFolder(translate(folder), CmsResourceFilter.IGNORE_EXPIRATION);
     } catch (CmsException e) {
       // the folder could not be read, so create it
-      String foldername = translate(folder);
+      @RUntainted String foldername = translate(folder);
       m_report.print(
           org.opencms.report.Messages.get()
               .container(org.opencms.report.Messages.RPT_SUCCESSION_1, String.valueOf(m_count++)),
@@ -273,7 +274,7 @@ public class CmsSynchronize {
           continue;
         }
         // get the relative filename
-        String resname = res[i].getAbsolutePath();
+        @RUntainted String resname = res[i].getAbsolutePath();
         resname = resname.substring(m_destinationPathInRfs.length());
         // translate the folder separator if necessary
         resname = resname.replace(File.separatorChar, '/');
@@ -300,7 +301,7 @@ public class CmsSynchronize {
    * @param newFile the file that has to be created
    * @throws CmsException if something goes wrong
    */
-  private void createNewLocalFile(File newFile) throws CmsException {
+  private void createNewLocalFile(@RUntainted File newFile) throws CmsException {
 
     if (newFile.exists()) {
       throw new CmsSynchronizeException(
@@ -387,7 +388,7 @@ public class CmsSynchronize {
 
     CmsFile vfsFile;
     File fsFile;
-    String resourcename;
+    @RUntainted String resourcename;
     // to get the name of the file in the FS, we must look it up in the
     // sync list. This is necessary, since the VFS could use a translated
     // filename.
@@ -519,10 +520,10 @@ public class CmsSynchronize {
    * @param res path to the resource inside the VFS
    * @return the corresponding file in the FS
    */
-  private File getFileInRfs(String res) {
+  private @RUntainted File getFileInRfs(String res) {
 
-    String path = m_destinationPathInRfs + res.substring(0, res.lastIndexOf("/"));
-    String fileName = res.substring(res.lastIndexOf("/") + 1);
+    @RUntainted String path = m_destinationPathInRfs + res.substring(0, res.lastIndexOf("/"));
+    @RUntainted String fileName = res.substring(res.lastIndexOf("/") + 1);
     return new File(path, fileName);
   }
 
@@ -534,9 +535,9 @@ public class CmsSynchronize {
    * @param res the resource in the FS
    * @return the corresponding filename in the VFS
    */
-  private String getFilenameInVfs(File res) {
+  private @RUntainted String getFilenameInVfs(@RUntainted File res) {
 
-    String resname = res.getAbsolutePath();
+    @RUntainted String resname = res.getAbsolutePath();
     if (res.isDirectory()) {
       resname += "/";
     }
@@ -555,14 +556,14 @@ public class CmsSynchronize {
    * @param folder the folder to import the file into
    * @throws CmsException if something goes wrong
    */
-  private void importToVfs(File fsFile, String resName, String folder) throws CmsException {
+  private void importToVfs(@RUntainted File fsFile, @RUntainted String resName, @RUntainted String folder) throws CmsException {
 
     try {
       // get the content of the FS file
       byte[] content = CmsFileUtil.readFile(fsFile);
 
       // create the file
-      String filename = translate(fsFile.getName());
+      @RUntainted String filename = translate(fsFile.getName());
 
       m_report.print(
           org.opencms.report.Messages.get()
@@ -631,7 +632,7 @@ public class CmsSynchronize {
    * @param file the file to check
    * @return <code>true</code> if the file should be excluded from synchronization
    */
-  private boolean isExcluded(File file) {
+  private boolean isExcluded(@RUntainted File file) {
 
     ArrayList<Pattern> excludes = OpenCms.getWorkplaceManager().getSynchronizeExcludePatterns();
     for (Pattern pattern : excludes) {
@@ -684,8 +685,8 @@ public class CmsSynchronize {
           // extract the data and create a CmsSychroizedList object
           //  from it
           if (line != null) {
-            StringTokenizer tok = new StringTokenizer(line, ":");
-            String resName = tok.nextToken();
+            @RUntainted StringTokenizer tok = new StringTokenizer(line, ":");
+            @RUntainted String resName = tok.nextToken();
             String tranResName = tok.nextToken();
             long modifiedVfs = new Long(tok.nextToken()).longValue();
             long modifiedFs = new Long(tok.nextToken()).longValue();
@@ -726,7 +727,7 @@ public class CmsSynchronize {
   private void removeFromRfs(String folder) throws CmsException {
 
     // get the corresponding folder in the FS
-    File[] res;
+    @RUntainted File[] res;
     File rfsFile = new File(folder);
     // get all resources in this folder
     res = rfsFile.listFiles();
@@ -736,7 +737,7 @@ public class CmsSynchronize {
         continue;
       }
       // get the corresponding name in the VFS
-      String vfsFile = getFilenameInVfs(res[i]);
+      @RUntainted String vfsFile = getFilenameInVfs(res[i]);
       // recurse if it is an directory, we must go depth first to delete
       // files
       if (res[i].isDirectory()) {
@@ -946,7 +947,7 @@ public class CmsSynchronize {
    * @param name the resource name to be translated
    * @return the translated resource name
    */
-  private String translate(String name) {
+  private @RUntainted String translate(@RUntainted String name) {
 
     String translation = null;
     // test if an external translation should be used

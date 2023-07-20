@@ -75,6 +75,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to create Vaadin Table object with all available sites.
@@ -164,7 +165,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
     private Object m_defaultValue;
 
     /** Header Message key. */
-    private String m_headerMessage;
+    private @RUntainted String m_headerMessage;
 
     /** Type of column property. */
     private Class<?> m_type;
@@ -178,7 +179,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
      * @param type type
      * @param defaultValue value
      */
-    TableProperty(String name, Class<?> type, Object defaultValue) {
+    TableProperty(@RUntainted String name, Class<?> type, Object defaultValue) {
 
       m_headerMessage = name;
       m_type = type;
@@ -268,9 +269,9 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
-    public void executeAction(Set<String> data) {
+    public void executeAction(Set<@RUntainted String> data) {
 
-      String siteRoot = data.iterator().next();
+      @RUntainted String siteRoot = data.iterator().next();
       A_CmsUI.getCmsObject().getRequestContext().setSiteRoot(siteRoot);
       CmsAppWorkplaceUi.get()
           .showApp(
@@ -282,7 +283,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
     }
 
     /** @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getTitle(java.util.Locale) */
-    public String getTitle(Locale locale) {
+    public String getTitle(@RUntainted Locale locale) {
 
       return Messages.get().getBundle(locale).key(Messages.GUI_EXPLORER_TITLE_0);
     }
@@ -342,9 +343,9 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
-    public void executeAction(Set<String> data) {
+    public void executeAction(Set<@RUntainted String> data) {
 
-      String siteRoot = data.iterator().next();
+      @RUntainted String siteRoot = data.iterator().next();
       A_CmsUI.get().changeSite(siteRoot);
 
       CmsPageEditorConfiguration pageeditorApp = new CmsPageEditorConfiguration();
@@ -392,9 +393,9 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
-    public void executeAction(Set<String> data) {
+    public void executeAction(Set<@RUntainted String> data) {
 
-      String siteRoot = data.iterator().next();
+      @RUntainted String siteRoot = data.iterator().next();
       A_CmsUI.get().changeSite(siteRoot);
 
       CmsSitemapEditorConfiguration sitemapApp = new CmsSitemapEditorConfiguration();

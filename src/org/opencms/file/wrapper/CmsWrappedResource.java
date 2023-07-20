@@ -29,6 +29,7 @@ package org.opencms.file.wrapper;
 
 import org.opencms.file.CmsFile;
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to create "virtual" resources not existing in the vfs which are based on existing
@@ -54,10 +55,10 @@ public class CmsWrappedResource {
   private int m_length;
 
   /** The root path of the virtual resource. */
-  private String m_rootPath;
+  private @RUntainted String m_rootPath;
 
   /** The type id of the virtual resource. */
-  private int m_typeId;
+  private @RUntainted int m_typeId;
 
   /**
    * Creates a new virtual resource.
@@ -225,7 +226,7 @@ public class CmsWrappedResource {
    *
    * @param rootPath the rootPath to set
    */
-  public void setRootPath(String rootPath) {
+  public void setRootPath(@RUntainted String rootPath) {
 
     m_rootPath = rootPath;
   }

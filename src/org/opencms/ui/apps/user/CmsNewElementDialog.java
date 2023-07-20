@@ -48,6 +48,7 @@ import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsResourceInfo;
 import org.opencms.ui.components.OpenCmsTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Dialog to create new element. (User, Group or OU). */
 public class CmsNewElementDialog extends CmsBasicDialog {

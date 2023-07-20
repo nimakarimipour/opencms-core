@@ -33,6 +33,7 @@ import org.opencms.scheduler.CmsScheduledJobInfo;
 import org.opencms.ui.CmsCssIcon;
 import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Don't use CmsScheduledJobInfo directly, so we don't need to change it if we want to change how
@@ -127,7 +128,7 @@ public class CmsJobBean {
    *
    * @return the job name
    */
-  public String getName() {
+  public @RUntainted String getName() {
 
     return m_jobInfo.getJobName();
   }

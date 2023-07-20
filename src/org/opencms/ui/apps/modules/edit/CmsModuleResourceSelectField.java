@@ -51,6 +51,7 @@ import org.opencms.ui.components.fileselect.CmsPathSelectField;
 import org.opencms.ui.components.fileselect.CmsResourceSelectDialog;
 import org.opencms.ui.components.fileselect.CmsResourceSelectDialog.Options;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A widget for selecting a module resource.
@@ -103,7 +104,7 @@ public class CmsModuleResourceSelectField extends CmsPathSelectField {
    *
    * @param siteRoot the site root
    */
-  public void updateSite(String siteRoot) {
+  public void updateSite(@RUntainted String siteRoot) {
 
     try {
       CmsObject cloneCms = OpenCms.initCmsObject(m_cms);

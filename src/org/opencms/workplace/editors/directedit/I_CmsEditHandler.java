@@ -35,6 +35,7 @@ import org.opencms.file.collectors.I_CmsCollectorPostCreateHandler;
 import org.opencms.main.CmsException;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.containerpage.CmsContainerElementBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Edit handlers are optional and can be configured within the XSD-schema of a resource type.
@@ -114,7 +115,7 @@ public interface I_CmsEditHandler {
   void handleDelete(
       CmsObject cms,
       CmsContainerElementBean elementBean,
-      String deleteOption,
+      @RUntainted String deleteOption,
       CmsUUID pageContextId,
       Map<String, String[]> requestParams)
       throws CmsException;
@@ -167,7 +168,7 @@ public interface I_CmsEditHandler {
   CmsUUID prepareForEdit(
       CmsObject cms,
       CmsContainerElementBean elementBean,
-      String editOption,
+      @RUntainted String editOption,
       CmsUUID pageContextId,
       Map<String, String[]> requestParams)
       throws CmsException;

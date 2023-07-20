@@ -40,6 +40,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.site.CmsSite;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Original detail page handler implementing the detail page logic from OpenCms versions up to 11.0.
@@ -64,12 +65,12 @@ public class CmsPermissiveDetailPageHandler implements I_CmsDetailPageHandler {
    * @param targetDetailPage the target detail page to use
    * @return the detail page for the content element
    */
-  public static String getDetailPage(
+  public static @RUntainted String getDetailPage(
       CmsADEManager manager,
       CmsObject cms,
-      String pageRootPath,
+      @RUntainted String pageRootPath,
       String originPath,
-      String targetDetailPage) {
+      @RUntainted String targetDetailPage) {
 
     boolean online = cms.getRequestContext().getCurrentProject().isOnlineProject();
     String resType = manager.getParentFolderType(online, pageRootPath);
@@ -92,7 +93,7 @@ public class CmsPermissiveDetailPageHandler implements I_CmsDetailPageHandler {
     for (CmsADEConfigData config : configs) {
       CmsDetailPageFilter filter = new CmsDetailPageFilter(cms, pageRootPath);
       List<CmsDetailPageInfo> pageInfo = config.getDetailPagesForType(resType);
-      String uri =
+      @RUntainted String uri =
           filter
               .filterDetailPages(pageInfo)
               .map(detailPage -> detailPage.getUri())
@@ -152,7 +153,7 @@ public class CmsPermissiveDetailPageHandler implements I_CmsDetailPageHandler {
       // exclude these for performance reasons
       return null;
     }
-    String result = getDetailPage(manager, cms, rootPath, linkSource, targetDetailPage);
+    @RUntainted String result = getDetailPage(manager, cms, rootPath, linkSource, targetDetailPage);
     if (result == null) {
       return null;
     }

@@ -33,6 +33,7 @@ import org.opencms.json.JSONException;
 import org.opencms.json.JSONObject;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration options for the gallery widget (e.g. DownloadGalleryWidget).
@@ -186,7 +187,7 @@ public class CmsGalleryWidgetConfiguration {
    * @param configuration the widget configuration string
    */
   protected void init(
-      CmsObject cms, CmsMessages messages, I_CmsWidgetParameter param, String configuration) {
+      CmsObject cms, CmsMessages messages, I_CmsWidgetParameter param, @RUntainted String configuration) {
 
     if (configuration == null) {
       // no configuration String found, return

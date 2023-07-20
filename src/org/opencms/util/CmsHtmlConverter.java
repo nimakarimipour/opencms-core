@@ -43,6 +43,7 @@ import org.opencms.i18n.CmsEncoder;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * HTML cleaner and pretty printer.
@@ -289,10 +290,10 @@ public class CmsHtmlConverter {
     }
 
     // second: convert the content with all found converter classes
-    for (Iterator<Entry<String, List<String>>> i = converters.entrySet().iterator();
+    for (Iterator<Entry<@RUntainted String, List<String>>> i = converters.entrySet().iterator();
         i.hasNext(); ) {
-      Entry<String, List<String>> entry = i.next();
-      String className = entry.getKey();
+      Entry<@RUntainted String, List<String>> entry = i.next();
+      @RUntainted String className = entry.getKey();
       List<String> modes = entry.getValue();
       try {
         I_CmsHtmlConverter converter = (I_CmsHtmlConverter) Class.forName(className).newInstance();

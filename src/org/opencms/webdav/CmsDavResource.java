@@ -76,6 +76,7 @@ import org.opencms.repository.I_CmsRepositorySession;
 import org.opencms.security.CmsPermissionViolationException;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a resource in the WebDav repository (may not actually correspond to an actual OpenCms
@@ -91,7 +92,7 @@ public class CmsDavResource implements DavResource {
   private CmsDavResourceFactory m_factory;
 
   /** The resource locator for this resource. */
-  private DavResourceLocator m_locator;
+  private @RUntainted DavResourceLocator m_locator;
 
   /** The Webdav session object. */
   private CmsDavSession m_session;
@@ -114,7 +115,7 @@ public class CmsDavResource implements DavResource {
    * @param lockManager the lock manager
    */
   public CmsDavResource(
-      DavResourceLocator loc,
+      @RUntainted DavResourceLocator loc,
       CmsDavResourceFactory factory,
       CmsDavSession session,
       LockManager lockManager) {
@@ -142,7 +143,7 @@ public class CmsDavResource implements DavResource {
   public void addMember(DavResource dres, InputContext inputContext) throws DavException {
 
     I_CmsRepositorySession session = getRepositorySession();
-    String childPath = ((CmsDavResource) dres).getCmsPath();
+    @RUntainted String childPath = ((CmsDavResource) dres).getCmsPath();
     String method = ((CmsDavInputContext) inputContext).getMethod();
     InputStream stream = inputContext.getInputStream();
     if (method.equals(DavMethods.METHOD_MKCOL) && (stream != null)) {
@@ -300,7 +301,7 @@ public class CmsDavResource implements DavResource {
   /** @see org.apache.jackrabbit.webdav.DavResource#getHref() */
   public String getHref() {
 
-    String href = m_locator.getHref(true);
+    @RUntainted String href = m_locator.getHref(true);
     String result = CmsFileUtil.removeTrailingSeparator(href);
     return result;
   }
@@ -622,11 +623,11 @@ public class CmsDavResource implements DavResource {
    *
    * @return the OpenCms path
    */
-  private String getCmsPath() {
+  private @RUntainted String getCmsPath() {
 
     String path = m_locator.getResourcePath();
     String workspace = m_locator.getWorkspacePath();
-    Optional<String> remainingPath = CmsStringUtil.removePrefixPath(workspace, path);
+    Optional<@RUntainted String> remainingPath = CmsStringUtil.removePrefixPath(workspace, path);
     return remainingPath.orElse(null);
   }
 

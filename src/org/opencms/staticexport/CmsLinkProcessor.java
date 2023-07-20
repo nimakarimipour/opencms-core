@@ -48,6 +48,7 @@ import org.opencms.util.CmsHtmlParser;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the HTML parser node visitor pattern to exchange all links on the page.
@@ -200,7 +201,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
    * @param source the String to unescape
    * @return the unescaped String
    */
-  public static String unescapeLink(String source) {
+  public static String unescapeLink(@RUntainted String source) {
 
     if (source == null) {
       return null;
@@ -338,7 +339,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
    * @param attr the attribute
    * @param type the link type
    */
-  protected void processLink(Tag tag, String attr, CmsRelationType type) {
+  protected void processLink(@RUntainted Tag tag, @RUntainted String attr, CmsRelationType type) {
 
     if (tag.getAttribute(attr) == null) {
       return;
@@ -369,9 +370,9 @@ public class CmsLinkProcessor extends CmsHtmlParser {
         break;
       case REPLACE_LINKS:
         // links are replaced with macros
-        String targetUri = tag.getAttribute(attr);
+        @RUntainted String targetUri = tag.getAttribute(attr);
         if (CmsStringUtil.isNotEmpty(targetUri)) {
-          String internalUri = null;
+          @RUntainted String internalUri = null;
           if (!CmsMacroResolver.isMacro(targetUri)) {
             m_cms
                 .getRequestContext()
@@ -496,7 +497,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
    * @param internalUri the internal URI to restore
    * @return the restored URI
    */
-  private String rewriteUri(String internalUri) {
+  private @RUntainted String rewriteUri(@RUntainted String internalUri) {
 
     // if an object wrapper is used, rewrite the uri
     if (m_cms != null) {

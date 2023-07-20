@@ -45,6 +45,7 @@ import org.opencms.gwt.shared.CmsUserSettingsBean;
 import org.opencms.gwt.shared.CmsValidationQuery;
 import org.opencms.gwt.shared.CmsValidationResult;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides general core services.
@@ -173,7 +174,7 @@ public interface I_CmsCoreService extends RemoteService {
    * @return the link for the return code
    * @throws CmsRpcException if something goes wrong
    */
-  CmsReturnLinkInfo getLinkForReturnCode(String returnCode) throws CmsRpcException;
+  CmsReturnLinkInfo getLinkForReturnCode(@RUntainted String returnCode) throws CmsRpcException;
 
   /**
    * Gets the resource state for a resource with a given path.
@@ -196,7 +197,7 @@ public interface I_CmsCoreService extends RemoteService {
    * @return the unique file name
    * @throws CmsRpcException if something goes wrong
    */
-  String getUniqueFileName(String parentFolder, String baseName) throws CmsRpcException;
+  String getUniqueFileName(String parentFolder, @RUntainted String baseName) throws CmsRpcException;
 
   /**
    * Returns the user info.
@@ -230,7 +231,7 @@ public interface I_CmsCoreService extends RemoteService {
    * @return the workplace link for the path
    * @throws CmsRpcException if something goes wrong
    */
-  String getWorkplaceLinkForPath(String path) throws CmsRpcException;
+  String getWorkplaceLinkForPath(@RUntainted String path) throws CmsRpcException;
 
   /**
    * Loads the user settings for the current user.
@@ -254,7 +255,7 @@ public interface I_CmsCoreService extends RemoteService {
    * @return <code>null</code> if successful, an error message if not
    * @throws CmsRpcException if something goes wrong
    */
-  String lockIfExists(String sitePath) throws CmsRpcException;
+  String lockIfExists(@RUntainted String sitePath) throws CmsRpcException;
 
   /**
    * Locks the given resource with a temporary lock if it exists.
@@ -269,7 +270,7 @@ public interface I_CmsCoreService extends RemoteService {
    * @return <code>null</code> if successful, an error message if not
    * @throws CmsRpcException if something goes wrong
    */
-  String lockIfExists(String sitePath, long loadTime) throws CmsRpcException;
+  String lockIfExists(@RUntainted String sitePath, long loadTime) throws CmsRpcException;
 
   /**
    * Locks the given resource with a temporary lock.

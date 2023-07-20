@@ -55,6 +55,7 @@ import org.opencms.i18n.CmsMessages;
 import org.opencms.ui.FontOpenCms;
 import org.opencms.ui.editors.messagebundle.CmsMessageBundleEditorTypes.EditMode;
 import org.opencms.ui.editors.messagebundle.CmsMessageBundleEditorTypes.I_OptionListener;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * View of the message bundle editor options, i.e., language/mode switcher, file name display and
@@ -208,7 +209,7 @@ public class CmsMessageBundleEditorOptions {
    */
   void handleAddKey() {
 
-    String key = m_addKeyInput.getValue();
+    @RUntainted String key = m_addKeyInput.getValue();
     if (m_listener.handleAddKey(key)) {
       Notification.show(
           key.isEmpty()

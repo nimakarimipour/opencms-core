@@ -60,6 +60,7 @@ import org.opencms.ui.dialogs.permissions.CmsPrincipalSelectDialog;
 import org.opencms.ui.shared.rpc.I_CmsEmbeddingServerRpc;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Separate UI for VAADIN based dialog embedded into a GWT module.

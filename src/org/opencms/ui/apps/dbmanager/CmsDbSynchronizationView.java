@@ -54,6 +54,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.CmsRemovableFormRow;
 import org.opencms.ui.components.fileselect.CmsPathSelectField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Synchronization layout class.
@@ -73,9 +74,9 @@ public class CmsDbSynchronizationView extends VerticalLayout {
     private static final long serialVersionUID = -1513193444185009615L;
 
     /** @see com.vaadin.data.Validator#validate(java.lang.Object) */
-    public void validate(Object value) throws InvalidValueException {
+    public void validate(@RUntainted Object value) throws InvalidValueException {
 
-      String resourceName = (String) value;
+      @RUntainted String resourceName = (String) value;
       if (synchroEnabled() & (resourceName == null)) {
         throw new InvalidValueException(
             CmsVaadinUtils.getMessageText(

@@ -59,6 +59,7 @@ import org.opencms.relations.CmsRelationFilter;
 import org.opencms.security.CmsSecurityException;
 import org.opencms.util.CmsCollectionsGenericWrapper;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper subclass of CmsResource with some convenience methods.
@@ -141,7 +142,7 @@ public class CmsJspResourceWrapper extends CmsResource {
   private Map<String, String> m_propertiesSearch;
 
   /** The calculated site path of the resource. */
-  private String m_sitePath;
+  private @RUntainted String m_sitePath;
 
   /** The type name of the resource. */
   private String m_typeName;
@@ -840,7 +841,7 @@ public class CmsJspResourceWrapper extends CmsResource {
    * @return the current site path to this resource
    * @see org.opencms.file.CmsRequestContext#getSitePath(CmsResource)
    */
-  public String getSitePath() {
+  public @RUntainted String getSitePath() {
 
     if (m_sitePath == null) {
       m_sitePath = m_cms.getRequestContext().getSitePath(this);

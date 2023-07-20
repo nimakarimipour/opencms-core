@@ -38,6 +38,7 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.I_CmsXmlDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVfsImage".
@@ -98,7 +99,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
    * @param type the type instance to create the value for
    */
   public CmsXmlVfsImageValue(
-      I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
     super(document, element, locale, type);
   }
@@ -302,7 +303,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
    *     java.lang.String)
    */
   @Override
-  public void setStringValue(CmsObject cms, String value) throws CmsIllegalArgumentException {
+  public void setStringValue(CmsObject cms, @RUntainted String value) throws CmsIllegalArgumentException {
 
     // call the super implementation to set the value
     super.setStringValue(cms, value);
@@ -417,7 +418,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
     } else if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value)) {
       m_parameters.put(key, new String[] {value});
     }
-    String result = CmsRequestUtil.getRequestLink(getStringValue(cms));
+    @RUntainted String result = CmsRequestUtil.getRequestLink(getStringValue(cms));
     result = CmsRequestUtil.appendParameters(result, m_parameters, false);
     setStringValue(cms, result);
   }

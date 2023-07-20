@@ -46,6 +46,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.Messages;
 import org.opencms.ui.dialogs.history.CmsHistoryRow;
 import org.opencms.workplace.comparison.CmsHistoryListUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides buttons for showing the two versions being compared.

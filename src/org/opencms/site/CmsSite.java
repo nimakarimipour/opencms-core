@@ -47,6 +47,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsPath;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a configured site in OpenCms.
@@ -115,7 +116,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
   private LocalizationMode m_localizationMode;
 
   /** The site parameters. */
-  private SortedMap<String, String> m_parameters;
+  private @RUntainted SortedMap<String, @RUntainted String> m_parameters;
 
   /** This value defines a relative sorting order. */
   private float m_position;
@@ -127,7 +128,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
   private CmsSiteMatcher m_siteMatcher;
 
   /** Root directory of this site in the OpenCms VFS. */
-  private String m_siteRoot;
+  private @RUntainted String m_siteRoot;
 
   /** UUID of this site's root directory in the OpenCms VFS. */
   private CmsUUID m_siteRootUUID;
@@ -139,7 +140,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
   private boolean m_subsiteSelectionEnabled;
 
   /** Display title of this site. */
-  private String m_title;
+  private @RUntainted String m_title;
 
   /** True if permanent redirects should be used when redirecting to the secure URL of this site. */
   private boolean m_usesPermanentRedirects;
@@ -162,7 +163,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    * @param siteRoot root directory of this site in the OpenCms VFS
    * @param siteMatcher the site matcher for this site
    */
-  public CmsSite(String siteRoot, CmsSiteMatcher siteMatcher) {
+  public CmsSite(@RUntainted String siteRoot, CmsSiteMatcher siteMatcher) {
 
     this(siteRoot, CmsUUID.getNullUUID(), siteRoot, siteMatcher, "");
   }
@@ -177,7 +178,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    * @param siteRootUUID UUID of this site's root directory in the OpenCms VFS
    * @param title display name of this site
    */
-  public CmsSite(String siteRoot, CmsUUID siteRootUUID, String title) {
+  public CmsSite(String siteRoot, CmsUUID siteRootUUID, @RUntainted String title) {
 
     this(siteRoot, siteRootUUID, title, CmsSiteMatcher.DEFAULT_MATCHER, "");
   }
@@ -194,9 +195,9 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    * @param position the sorting position
    */
   public CmsSite(
-      String siteRoot,
+      @RUntainted String siteRoot,
       CmsUUID siteRootUUID,
-      String title,
+      @RUntainted String title,
       CmsSiteMatcher siteMatcher,
       String position) {
 
@@ -234,9 +235,9 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    * @param subsiteSelection enable/disable subsite selection for this site
    */
   public CmsSite(
-      String siteRoot,
+      @RUntainted String siteRoot,
       CmsUUID siteRootUUID,
-      String title,
+      @RUntainted String title,
       CmsSiteMatcher siteMatcher,
       String position,
       String errorPage,
@@ -278,7 +279,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    * @param siteRoot root directory of this site in the OpenCms VFS
    * @param siteURL the URL to create the site matcher for this site from
    */
-  public CmsSite(String siteRoot, String siteURL) {
+  public CmsSite(@RUntainted String siteRoot, String siteURL) {
 
     this(siteRoot, new CmsSiteMatcher(siteURL));
   }
@@ -477,8 +478,8 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    */
   public Locale getMainTranslationLocale(Locale defaultValue) {
 
-    Map<String, String> params = getParameters();
-    String value = params.get(PARAM_MAIN_LOCALE);
+    Map<String, @RUntainted String> params = getParameters();
+    @RUntainted String value = params.get(PARAM_MAIN_LOCALE);
     if (!CmsStringUtil.isEmpty(value)) {
       return CmsLocaleManager.getLocale(value);
     } else {
@@ -493,7 +494,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    *
    * @return the parameters
    */
-  public SortedMap<String, String> getParameters() {
+  public @RUntainted SortedMap<String, @RUntainted String> getParameters() {
 
     return m_parameters;
   }
@@ -524,7 +525,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
     String value = params.get(PARAM_SECONDARY_LOCALES);
     if (!CmsStringUtil.isEmpty(value)) {
       String[] tokens = value.trim().split(" *, *");
-      for (String token : tokens) {
+      for (@RUntainted String token : tokens) {
         Locale locale = CmsLocaleManager.getLocale(token);
         if (!result.contains(locale)) {
           result.add(locale);
@@ -553,7 +554,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    *
    * @return the secure server url
    */
-  public String getSecureUrl() {
+  public @RUntainted String getSecureUrl() {
 
     if (m_secureServer != null) {
       return m_secureServer.getUrl();
@@ -662,7 +663,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    *
    * @return the path of this site's root directory in the OpenCms VFS without tailing slash
    */
-  public String getSiteRoot() {
+  public @RUntainted String getSiteRoot() {
 
     return m_siteRoot;
   }
@@ -698,7 +699,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    *
    * @return the display title of this site
    */
-  public String getTitle() {
+  public @RUntainted String getTitle() {
 
     return m_title;
   }
@@ -734,7 +735,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    *
    * @return the server url
    */
-  public String getUrl() {
+  public @RUntainted String getUrl() {
 
     if (m_siteMatcher == null) {
       return null;
@@ -850,13 +851,13 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    * @param path the path from the request
    * @return true if the alternative site root mapping matches the path
    */
-  public boolean matchAlternativeSiteRoot(String path) {
+  public boolean matchAlternativeSiteRoot(@RUntainted String path) {
 
     Optional<CmsAlternativeSiteRootMapping> optMapping = getAlternativeSiteRootMapping();
     if (optMapping.isPresent()) {
       CmsAlternativeSiteRootMapping extConfig = optMapping.get();
       if (getLocalizationMode() == LocalizationMode.singleTree) {
-        Locale locale = CmsSingleTreeLocaleHandler.getLocaleFromPath(path);
+        @RUntainted Locale locale = CmsSingleTreeLocaleHandler.getLocaleFromPath(path);
         if (locale != null) {
           path = path.substring(locale.toString().length() + 1);
         }
@@ -935,7 +936,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    *
    * @param parameters the parameters to set
    */
-  public void setParameters(SortedMap<String, String> parameters) {
+  public void setParameters(SortedMap<String, @RUntainted String> parameters) {
 
     m_parameters = new TreeMap<String, String>(parameters);
   }
@@ -947,7 +948,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    *
    * @param siteRoot the server URL prefix to which this site is mapped
    */
-  public void setSiteRoot(String siteRoot) {
+  public void setSiteRoot(@RUntainted String siteRoot) {
 
     // site roots must never end with a "/"
     siteRoot = siteRoot.trim();
@@ -1007,7 +1008,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
 
   /** @see java.lang.Object#toString() */
   @Override
-  public String toString() {
+  public @RUntainted String toString() {
 
     StringBuffer result = new StringBuffer(128);
     result.append("server: ");
@@ -1132,7 +1133,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
    *
    * @param name the display title of this site
    */
-  protected void setTitle(String name) {
+  protected void setTitle(@RUntainted String name) {
 
     m_title = name;
   }

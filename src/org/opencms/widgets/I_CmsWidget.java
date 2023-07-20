@@ -29,6 +29,7 @@ package org.opencms.widgets;
 
 import java.util.Map;
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes an editor widget for use in the OpenCms workplace.
@@ -168,7 +169,7 @@ public interface I_CmsWidget {
    *
    * @return a duplicate of this widget instance
    */
-  I_CmsWidget newInstance();
+  @RUntainted I_CmsWidget newInstance();
 
   /**
    * Sets the configuration of this widget.

@@ -29,6 +29,7 @@ package org.opencms.xml.content;
 
 import java.io.Serializable;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes both VFS properties and Container Page Element settings, used by the GWT client.

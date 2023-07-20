@@ -45,6 +45,7 @@ import org.opencms.main.I_CmsEventListener;
 import org.opencms.main.OpenCms;
 import org.opencms.scheduler.jobs.CmsImageCacheCleanupJob;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loader for images from the OpenCms VSF with integrated image scaling and processing capabilities.
@@ -95,7 +96,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
   public static final String IMAGE_REPOSITORY_DEFAULT = "/WEB-INF/imagecache/";
 
   /** Clear event parameter. */
-  public static final String PARAM_CLEAR_IMAGES_CACHE = "_IMAGES_CACHE_";
+  public static final @RUntainted String PARAM_CLEAR_IMAGES_CACHE = "_IMAGES_CACHE_";
 
   /** The id of this loader. */
   public static final int RESOURCE_LOADER_ID_IMAGE_LOADER = 2;
@@ -107,7 +108,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
   protected static String m_downScaleParams;
 
   /** Indicates if image scaling is active. */
-  protected static boolean m_enabled;
+  protected static @RUntainted boolean m_enabled;
 
   /**
    * The maximum image size (width * height) to apply image blurring when down scaling (setting this
@@ -140,7 +141,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
    *
    * @return the path of the image cache repository folder in the RFS
    */
-  public static String getImageRepositoryPath() {
+  public static @RUntainted String getImageRepositoryPath() {
 
     return m_vfsDiskCache.getRepositoryPath();
   }
@@ -183,7 +184,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
   }
 
   /** The name of the configured image cache repository. */
-  protected String m_imageRepositoryFolder;
+  protected @RUntainted String m_imageRepositoryFolder;
 
   /**
    * The maximum image size (width or height) to allow when up scaling an image using request
@@ -207,7 +208,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
    *     java.lang.String)
    */
   @Override
-  public void addConfigurationParameter(String paramName, String paramValue) {
+  public void addConfigurationParameter(@RUntainted String paramName, @RUntainted String paramValue) {
 
     if (CmsStringUtil.isNotEmpty(paramName) && CmsStringUtil.isNotEmpty(paramValue)) {
       if (CONFIGURATION_SCALING_ENABLED.equals(paramName)) {

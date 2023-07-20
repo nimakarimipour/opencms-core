@@ -31,6 +31,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.Messages;
 import org.opencms.ui.util.table.Column;
 import org.opencms.workplace.comparison.CmsAttributeComparison;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a row in an attribute comparison table.

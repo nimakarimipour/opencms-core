@@ -36,6 +36,7 @@ import org.opencms.i18n.CmsEncoder;
 import org.opencms.i18n.CmsMessages;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for XML editor widgets.
@@ -177,10 +178,10 @@ public abstract class A_CmsWidget implements I_CmsWidget {
   }
 
   /** Postfix for melp message locale. */
-  public static final String HELP_POSTFIX = ".help";
+  public static final @RUntainted String HELP_POSTFIX = ".help";
 
   /** Prefix for message locales. */
-  public static final String LABEL_PREFIX = "label.";
+  public static final @RUntainted String LABEL_PREFIX = "label.";
 
   /** The configuration options of this widget. */
   private String m_configuration;
@@ -215,7 +216,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
    * @param param the widget parameter to return the localized help key for
    * @return the localized help key for the provided widget parameter
    */
-  public static String getHelpKey(I_CmsWidgetParameter param) {
+  public static @RUntainted String getHelpKey(I_CmsWidgetParameter param) {
 
     // calculate the key
     StringBuffer result = new StringBuffer(64);
@@ -234,7 +235,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
    * @param param the widget parameter to return the localized label key for
    * @return the localized label key for the provided widget parameter
    */
-  public static String getLabelKey(I_CmsWidgetParameter param) {
+  public static @RUntainted String getLabelKey(I_CmsWidgetParameter param) {
 
     // calculate the key
     StringBuffer result = new StringBuffer(64);
@@ -264,7 +265,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
    *
    * @return the configuration string
    */
-  public String getConfiguration() {
+  public @RUntainted String getConfiguration() {
 
     return m_configuration;
   }
@@ -314,7 +315,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
       CmsObject cms, I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
 
     StringBuffer result = new StringBuffer(128);
-    String locKey = getHelpKey(param);
+    @RUntainted String locKey = getHelpKey(param);
     String locValue = widgetDialog.getMessages().key(locKey, true);
     if (!widgetDialog.useNewStyle()) {
       // use real ID for XML contents to avoid display issues
@@ -354,7 +355,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
   /** @see org.opencms.widgets.I_CmsWidget#getHelpText(I_CmsWidgetDialog, I_CmsWidgetParameter) */
   public String getHelpText(I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
 
-    String helpId = getHelpKey(param);
+    @RUntainted String helpId = getHelpKey(param);
     Set<String> helpIdsShown = widgetDialog.getHelpMessageIds();
     if (helpIdsShown.contains(helpId)) {
       // help hey has already been included in output
@@ -423,7 +424,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
    */
   public void setEditorValue(
       CmsObject cms,
-      Map<String, String[]> formParameters,
+      Map<String, @RUntainted String[]> formParameters,
       I_CmsWidgetDialog widgetDialog,
       I_CmsWidgetParameter param) {
 

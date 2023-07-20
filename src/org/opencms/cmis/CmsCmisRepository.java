@@ -124,6 +124,7 @@ import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsResourceTranslator;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Repository instance for CMIS repositories.
@@ -281,7 +282,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
   public synchronized String createDocument(
       CmsCmisCallContext context,
       Properties propertiesObj,
-      String folderId,
+      @RUntainted String folderId,
       ContentStream contentStream,
       VersioningState versioningState,
       List<String> policies,
@@ -301,7 +302,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
     try {
       CmsObject cms = getCmsObject(context);
       Map<String, PropertyData<?>> properties = propertiesObj.getProperties();
-      String newDocName = (String) properties.get(PropertyIds.NAME).getFirstValue();
+      @RUntainted String newDocName = (String) properties.get(PropertyIds.NAME).getFirstValue();
       String defaultType =
           OpenCms.getResourceManager().getDefaultTypeForName(newDocName).getTypeName();
       String resTypeName = getResourceTypeFromProperties(properties, defaultType);
@@ -342,9 +343,9 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    */
   public synchronized String createDocumentFromSource(
       CmsCmisCallContext context,
-      String sourceId,
+      @RUntainted String sourceId,
       Properties propertiesObj,
-      String folderId,
+      @RUntainted String folderId,
       VersioningState versioningState,
       List<String> policies,
       Acl addAces,
@@ -370,7 +371,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
       String sourcePath = source.getRootPath();
 
       PropertyData<?> nameProp = properties.get(PropertyIds.NAME);
-      String newDocName;
+      @RUntainted String newDocName;
       if (nameProp != null) {
         newDocName = (String) nameProp.getFirstValue();
         checkResourceName(newDocName);
@@ -421,7 +422,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
   public synchronized String createFolder(
       CmsCmisCallContext context,
       Properties propertiesObj,
-      String folderId,
+      @RUntainted String folderId,
       List<String> policies,
       Acl addAces,
       Acl removeAces) {
@@ -442,7 +443,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
         throw new CmisConstraintException("Invalid folder type: " + resTypeName);
       }
       List<CmsProperty> cmsProperties = getOpenCmsProperties(properties);
-      String newFolderName = (String) properties.get(PropertyIds.NAME).getFirstValue();
+      @RUntainted String newFolderName = (String) properties.get(PropertyIds.NAME).getFirstValue();
       checkResourceName(newFolderName);
       CmsUUID parentFolderId = new CmsUUID(folderId);
       CmsResource parentFolder = cms.readResource(parentFolderId);
@@ -478,8 +479,8 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
     try {
       CmsObject cms = getCmsObject(context);
       Map<String, PropertyData<?>> propertyMap = properties.getProperties();
-      String sourceProp = (String) (propertyMap.get(PropertyIds.SOURCE_ID).getFirstValue());
-      String targetProp = (String) (propertyMap.get(PropertyIds.TARGET_ID).getFirstValue());
+      @RUntainted String sourceProp = (String) (propertyMap.get(PropertyIds.SOURCE_ID).getFirstValue());
+      @RUntainted String targetProp = (String) (propertyMap.get(PropertyIds.TARGET_ID).getFirstValue());
       String typeId = (String) (propertyMap.get(PropertyIds.OBJECT_TYPE_ID).getFirstValue());
       if (!typeId.startsWith("opencms:")) {
         throw new CmisConstraintException("Can't create this relationship type.");
@@ -526,7 +527,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    *     java.lang.String, boolean)
    */
   public synchronized void deleteObject(
-      CmsCmisCallContext context, String objectId, boolean allVersions) {
+      CmsCmisCallContext context, @RUntainted String objectId, boolean allVersions) {
 
     checkWriteAccess();
     getHelper(objectId).deleteObject(context, objectId, allVersions);
@@ -539,7 +540,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    */
   public synchronized FailedToDeleteData deleteTree(
       CmsCmisCallContext context,
-      String folderId,
+      @RUntainted String folderId,
       boolean allVersions,
       UnfileObject unfileObjects,
       boolean continueOnFailure) {
@@ -570,7 +571,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    *     java.lang.String, boolean)
    */
   public synchronized Acl getAcl(
-      CmsCmisCallContext context, String objectId, boolean onlyBasicPermissions) {
+      CmsCmisCallContext context, @RUntainted String objectId, boolean onlyBasicPermissions) {
 
     return getHelper(objectId).getAcl(context, objectId, onlyBasicPermissions);
   }
@@ -581,7 +582,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    *     java.lang.String)
    */
   public synchronized AllowableActions getAllowableActions(
-      CmsCmisCallContext context, String objectId) {
+      CmsCmisCallContext context, @RUntainted String objectId) {
 
     return getHelper(objectId).getAllowableActions(context, objectId);
   }
@@ -617,7 +618,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    */
   public synchronized ObjectInFolderList getChildren(
       CmsCmisCallContext context,
-      String folderId,
+      @RUntainted String folderId,
       String filter,
       String orderBy,
       boolean includeAllowableActions,
@@ -704,7 +705,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    */
   public synchronized ContentStream getContentStream(
       CmsCmisCallContext context,
-      String objectId,
+      @RUntainted String objectId,
       String streamId,
       BigInteger offset,
       BigInteger length) {
@@ -747,7 +748,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    */
   public synchronized List<ObjectInFolderContainer> getDescendants(
       CmsCmisCallContext context,
-      String folderId,
+      @RUntainted String folderId,
       BigInteger depth,
       String filter,
       boolean includeAllowableActions,
@@ -825,7 +826,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    *     java.lang.String, java.lang.String)
    */
   public synchronized ObjectData getFolderParent(
-      CmsCmisCallContext context, String folderId, String filter) {
+      CmsCmisCallContext context, @RUntainted String folderId, String filter) {
 
     List<ObjectParentData> parents = getObjectParents(context, folderId, filter, false, false);
     if (parents.size() == 0) {
@@ -854,7 +855,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    */
   public synchronized ObjectData getObject(
       CmsCmisCallContext context,
-      String objectId,
+      @RUntainted String objectId,
       String filter,
       boolean includeAllowableActions,
       IncludeRelationships includeRelationships,
@@ -925,7 +926,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    */
   public synchronized List<ObjectParentData> getObjectParents(
       CmsCmisCallContext context,
-      String objectId,
+      @RUntainted String objectId,
       String filter,
       boolean includeAllowableActions,
       boolean includeRelativePathSegment) {
@@ -985,7 +986,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    */
   public synchronized ObjectList getObjectRelationships(
       CmsCmisCallContext context,
-      String objectId,
+      @RUntainted String objectId,
       boolean includeSubRelationshipTypes,
       RelationshipDirection relationshipDirection,
       String typeId,
@@ -1041,7 +1042,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    */
   public synchronized List<RenditionData> getRenditions(
       CmsCmisCallContext context,
-      String objectId,
+      @RUntainted String objectId,
       String renditionFilter,
       BigInteger maxItems,
       BigInteger skipCount) {
@@ -1247,8 +1248,8 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    */
   public synchronized void moveObject(
       CmsCmisCallContext context,
-      Holder<String> objectId,
-      String targetFolderId,
+      Holder<@RUntainted String> objectId,
+      @RUntainted String targetFolderId,
       String sourceFolderId) {
 
     checkWriteAccess();
@@ -1343,7 +1344,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    */
   public synchronized void setContentStream(
       CmsCmisCallContext context,
-      Holder<String> objectId,
+      Holder<@RUntainted String> objectId,
       boolean overwriteFlag,
       Holder<String> changeToken,
       ContentStream contentStream) {
@@ -1409,7 +1410,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
    */
   public synchronized void updateProperties(
       CmsCmisCallContext context,
-      Holder<String> objectId,
+      Holder<@RUntainted String> objectId,
       Holder<String> changeToken,
       Properties properties) {
 
@@ -1426,10 +1427,10 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
       try {
         cms.writePropertyObjects(resource, cmsProperties);
         @SuppressWarnings("unchecked")
-        PropertyData<String> nameProperty =
+        PropertyData<@RUntainted String> nameProperty =
             (PropertyData<String>) propertyMap.get(PropertyIds.NAME);
         if (nameProperty != null) {
-          String newName = nameProperty.getFirstValue();
+          @RUntainted String newName = nameProperty.getFirstValue();
           checkResourceName(newName);
           String parentFolder = CmsResource.getParentFolder(resource.getRootPath());
           String newPath = CmsStringUtil.joinPaths(parentFolder, newName);

@@ -46,6 +46,7 @@ import org.opencms.main.I_CmsEventListener;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages message bundles loaded from the VFS.
@@ -162,7 +163,7 @@ public class CmsVfsBundleManager implements I_CmsEventListener {
     String fileName = bundleRes.getName();
     if (TYPE_PROPERTIES_BUNDLE.equals(
         OpenCms.getResourceManager().getResourceType(bundleRes).getTypeName())) {
-      String localeSuffix = CmsStringUtil.getLocaleSuffixForName(fileName);
+      @RUntainted String localeSuffix = CmsStringUtil.getLocaleSuffixForName(fileName);
       if (localeSuffix == null) {
         return new NameAndLocale(fileName, null);
       } else {

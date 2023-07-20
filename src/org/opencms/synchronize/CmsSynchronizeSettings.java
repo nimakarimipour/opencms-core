@@ -37,6 +37,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the settings for the synchronization.
@@ -51,13 +52,13 @@ public class CmsSynchronizeSettings implements Serializable {
   private static final long serialVersionUID = 3713893787290111758L;
 
   /** The destination path of the synchronization in the "real" file system. */
-  private String m_destinationPathInRfs;
+  private @RUntainted String m_destinationPathInRfs;
 
   /** Indicates if the synchronization is enabled or not. */
   private boolean m_enabled;
 
   /** The source path list of the synchronization in the OpenCms VFS. */
-  private List<String> m_sourceListInVfs;
+  private List<@RUntainted String> m_sourceListInVfs;
 
   /**
    * Empty constructor, called from the configuration.
@@ -111,7 +112,7 @@ public class CmsSynchronizeSettings implements Serializable {
    *
    * @return the destination path of the synchronization in the "real" file system
    */
-  public String getDestinationPathInRfs() {
+  public @RUntainted String getDestinationPathInRfs() {
 
     return m_destinationPathInRfs;
   }
@@ -123,7 +124,7 @@ public class CmsSynchronizeSettings implements Serializable {
    *
    * @return the source path list of the synchronization in the OpenCms VFS
    */
-  public List<String> getSourceListInVfs() {
+  public @RUntainted List<@RUntainted String> getSourceListInVfs() {
 
     return m_sourceListInVfs;
   }
@@ -135,7 +136,7 @@ public class CmsSynchronizeSettings implements Serializable {
    *
    * @return the enabled flag
    */
-  public boolean isEnabled() {
+  public @RUntainted boolean isEnabled() {
 
     return m_enabled;
   }
@@ -165,7 +166,7 @@ public class CmsSynchronizeSettings implements Serializable {
    */
   public void setDestinationPathInRfs(String destinationPathInRfs) {
 
-    String destination;
+    @RUntainted String destination;
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(destinationPathInRfs)) {
       destination = null;
     } else {
@@ -257,7 +258,7 @@ public class CmsSynchronizeSettings implements Serializable {
    * @param sourceListInVfs the list of VFS resources to optimize
    * @return the optimized result list
    */
-  protected List<String> optimizeSourceList(List<String> sourceListInVfs) {
+  protected List<@RUntainted String> optimizeSourceList(List<String> sourceListInVfs) {
 
     // input should be sorted but may be immutable
     List<String> input = new ArrayList<String>(sourceListInVfs);

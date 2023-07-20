@@ -38,6 +38,7 @@ import org.opencms.main.CmsLog;
 import org.safehaus.uuid.EthernetAddress;
 import org.safehaus.uuid.UUID;
 import org.safehaus.uuid.UUIDGenerator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generates a UUID using spatial and temporal uniqueness.
@@ -68,21 +69,21 @@ public final class CmsUUID extends Object
   private static final Log LOG = CmsLog.getLog(CmsUUID.class);
 
   /** Ethernet address of the server machine. */
-  private static EthernetAddress m_ethernetAddress;
+  private static @RUntainted EthernetAddress m_ethernetAddress;
 
   /** OpenCms UUID (name based uuid of "www.opencms.org" in the dns name space). */
-  private static UUID m_opencmsUUID =
+  private static @RUntainted UUID m_opencmsUUID =
       UUIDGenerator.getInstance()
           .generateNameBasedUUID(new UUID(UUID.NAMESPACE_DNS), "www.opencms.org");
 
   /** Constant for the null UUID. */
-  private static final CmsUUID NULL_UUID = new CmsUUID(UUID.getNullUUID());
+  private static final @RUntainted CmsUUID NULL_UUID = new CmsUUID(UUID.getNullUUID());
 
   /** Serial version UID required for safe serialization. */
   private static final long serialVersionUID = 1736324454709298676L;
 
   /** Internal UUID implementation. */
-  private transient UUID m_uuid;
+  private transient @RUntainted UUID m_uuid;
 
   /**
    * Creates a new UUID.
@@ -110,7 +111,7 @@ public final class CmsUUID extends Object
    *
    * @param data a binary data array representing a UUID
    */
-  public CmsUUID(byte[] data) {
+  public CmsUUID(@RUntainted byte[] data) {
 
     m_uuid = new UUID(data);
   }
@@ -123,7 +124,7 @@ public final class CmsUUID extends Object
    * @param uuid a String representing a UUID
    * @throws NumberFormatException in case uuid is not a valid UUID
    */
-  public CmsUUID(String uuid) throws NumberFormatException {
+  public CmsUUID(@RUntainted String uuid) throws NumberFormatException {
 
     m_uuid = new UUID(uuid);
   }
@@ -135,7 +136,7 @@ public final class CmsUUID extends Object
    *
    * @param uuid the UUID to clone
    */
-  private CmsUUID(UUID uuid) {
+  private CmsUUID(@RUntainted UUID uuid) {
 
     m_uuid = uuid;
   }
@@ -149,7 +150,7 @@ public final class CmsUUID extends Object
    * @param canBeNull only if flag is set, <code>null</code> is accepted
    * @see #isNullUUID()
    */
-  public static void checkId(CmsUUID id, boolean canBeNull) {
+  public static void checkId(@RUntainted CmsUUID id, boolean canBeNull) {
 
     if (canBeNull && (id == null)) {
       return;
@@ -166,7 +167,7 @@ public final class CmsUUID extends Object
    * @param name the name to derive the uuid from
    * @return name based UUID of the given name
    */
-  public static CmsUUID getConstantUUID(String name) {
+  public static @RUntainted CmsUUID getConstantUUID(@RUntainted String name) {
 
     return new CmsUUID(UUIDGenerator.getInstance().generateNameBasedUUID(m_opencmsUUID, name));
   }
@@ -178,7 +179,7 @@ public final class CmsUUID extends Object
    *
    * @return a String representing a dummy (random based) ethernet address
    */
-  public static String getDummyEthernetAddress() {
+  public static @RUntainted String getDummyEthernetAddress() {
 
     return UUIDGenerator.getInstance().getDummyAddress().toString();
   }
@@ -190,7 +191,7 @@ public final class CmsUUID extends Object
    *
    * @return a null UUID
    */
-  public static CmsUUID getNullUUID() {
+  public static @RUntainted CmsUUID getNullUUID() {
 
     return NULL_UUID;
   }
@@ -215,7 +216,7 @@ public final class CmsUUID extends Object
    * @param ethernetAddress the ethernet address of the server machine
    * @throws CmsInitException in case the ethernetAddress String is not a valid ethernet address
    */
-  public static void init(String ethernetAddress) throws CmsInitException {
+  public static void init(@RUntainted String ethernetAddress) throws CmsInitException {
 
     try {
       m_ethernetAddress = new EthernetAddress(ethernetAddress);
@@ -252,7 +253,7 @@ public final class CmsUUID extends Object
    * @return the given String transformed to a UUID in case the String is a valid UUID
    * @throws NumberFormatException in case the String is no valid UUID
    */
-  public static CmsUUID valueOf(String uuid) throws NumberFormatException {
+  public static CmsUUID valueOf(@RUntainted String uuid) throws NumberFormatException {
 
     return new CmsUUID(UUID.valueOf(uuid));
   }
@@ -265,7 +266,7 @@ public final class CmsUUID extends Object
    * @return a clone of this CmsUUID
    */
   @Override
-  public Object clone() {
+  public @RUntainted Object clone() {
 
     if (this == NULL_UUID) {
       return NULL_UUID;
@@ -281,7 +282,7 @@ public final class CmsUUID extends Object
 
   /** @see java.lang.Object#equals(java.lang.Object) */
   @Override
-  public boolean equals(Object obj) {
+  public @RUntainted boolean equals(Object obj) {
 
     if (obj == this) {
       return true;
@@ -301,7 +302,7 @@ public final class CmsUUID extends Object
    *
    * @return the String representation of this UUID
    */
-  public String getStringValue() {
+  public @RUntainted String getStringValue() {
 
     return toString();
   }
@@ -335,9 +336,9 @@ public final class CmsUUID extends Object
   }
 
   /** @see java.io.Externalizable#readExternal(java.io.ObjectInput) */
-  public void readExternal(ObjectInput in) {
+  public void readExternal(@RUntainted ObjectInput in) {
 
-    Object o = null;
+    @RUntainted Object o = null;
     try {
       o = in.readObject();
     } catch (Throwable e) {
@@ -385,7 +386,7 @@ public final class CmsUUID extends Object
 
   /** @see java.lang.Object#toString() */
   @Override
-  public String toString() {
+  public @RUntainted String toString() {
 
     return m_uuid.toString();
   }

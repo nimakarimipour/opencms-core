@@ -29,6 +29,7 @@ package org.opencms.gwt;
 
 import org.opencms.file.CmsObject;
 import org.opencms.gwt.shared.CmsValidationResult;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface is the server-side counterpart to the <code>
@@ -52,5 +53,5 @@ public interface I_CmsValidationService {
    * @param config the configuration string for the validator
    * @return the result of the validation
    */
-  CmsValidationResult validate(CmsObject cms, String value, String config);
+  CmsValidationResult validate(CmsObject cms, @RUntainted String value, String config);
 }

@@ -38,6 +38,7 @@ import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.CmsException;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsDecoratorConfiguration initalizes and stores the text decorations.
@@ -89,7 +90,7 @@ public class CmsDecoratorConfiguration implements I_CmsDecoratorConfiguration {
   private String m_configFile;
 
   /** The locale for extracting the configuration data. */
-  private Locale m_configurationLocale = CmsLocaleManager.getLocale("en");
+  private @RUntainted Locale m_configurationLocale = CmsLocaleManager.getLocale("en");
 
   /** Map of configured decorations. */
   private CmsDecorationBundle m_decorations;
@@ -101,7 +102,7 @@ public class CmsDecoratorConfiguration implements I_CmsDecoratorConfiguration {
   private List<String> m_excludeattr;
 
   /** The locale for to build the configuration for. */
-  private Locale m_locale;
+  private @RUntainted Locale m_locale;
 
   /** The list of already used decorations. */
   private List<String> m_usedDecorations;
@@ -182,7 +183,7 @@ public class CmsDecoratorConfiguration implements I_CmsDecoratorConfiguration {
    * @param locale to locale to build this configuration for
    * @throws CmsException if something goes wrong
    */
-  public CmsDecoratorConfiguration(CmsObject cms, String configFile, Locale locale)
+  public CmsDecoratorConfiguration(CmsObject cms, String configFile, @RUntainted Locale locale)
       throws CmsException {
 
     m_decorations = new CmsDecorationBundle();
@@ -392,7 +393,7 @@ public class CmsDecoratorConfiguration implements I_CmsDecoratorConfiguration {
    * @see org.opencms.jsp.decorator.I_CmsDecoratorConfiguration#init(org.opencms.file.CmsObject,
    *     java.lang.String, java.util.Locale)
    */
-  public void init(CmsObject cms, String configFile, Locale locale) throws CmsException {
+  public void init(CmsObject cms, String configFile, @RUntainted Locale locale) throws CmsException {
 
     m_cms = cms;
     m_locale = cms.getRequestContext().getLocale();
@@ -533,7 +534,7 @@ public class CmsDecoratorConfiguration implements I_CmsDecoratorConfiguration {
    *
    * @param configurationLocale the configurationLocale to set
    */
-  public void setConfigurationLocale(Locale configurationLocale) {
+  public void setConfigurationLocale(@RUntainted Locale configurationLocale) {
 
     m_configurationLocale = configurationLocale;
   }
@@ -593,7 +594,7 @@ public class CmsDecoratorConfiguration implements I_CmsDecoratorConfiguration {
    *
    * @param locale the locale to set
    */
-  public void setLocale(Locale locale) {
+  public void setLocale(@RUntainted Locale locale) {
 
     m_locale = locale;
   }

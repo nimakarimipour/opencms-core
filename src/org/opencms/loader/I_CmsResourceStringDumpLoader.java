@@ -35,6 +35,7 @@ import javax.servlet.ServletResponse;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource loaders that implement this method can easily provide the contents of a selected targe
@@ -71,8 +72,8 @@ public interface I_CmsResourceStringDumpLoader {
   String dumpAsString(
       CmsObject cms,
       CmsResource resource,
-      String element,
-      Locale locale,
+      @RUntainted String element,
+      @RUntainted Locale locale,
       ServletRequest req,
       ServletResponse res)
       throws ServletException, IOException, CmsException;

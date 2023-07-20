@@ -40,6 +40,7 @@ import org.opencms.report.CmsStringBufferReport;
 import org.opencms.report.I_CmsReport;
 import org.opencms.scheduler.I_CmsScheduledJob;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job to validate internal relations.
@@ -73,7 +74,7 @@ public class CmsInternalRelationsValidationJob implements I_CmsScheduledJob {
   public static final String PARAM_FROM = "from";
 
   /** @see org.opencms.scheduler.I_CmsScheduledJob#launch(CmsObject, Map) */
-  public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  public @RUntainted String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
     I_CmsReport report = null;
     String msg = null;

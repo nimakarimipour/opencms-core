@@ -30,6 +30,7 @@ package org.opencms.widgets;
 import java.util.Locale;
 import java.util.Set;
 import org.opencms.i18n.CmsMessages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a widget enabled dialog.

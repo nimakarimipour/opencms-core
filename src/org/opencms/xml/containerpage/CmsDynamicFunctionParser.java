@@ -49,6 +49,7 @@ import org.opencms.xml.content.CmsXmlContentProperty;
 import org.opencms.xml.content.CmsXmlContentRootLocation;
 import org.opencms.xml.content.I_CmsXmlContentLocation;
 import org.opencms.xml.content.I_CmsXmlContentValueLocation;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The parser class for creating dynamic function beans from XML contents.
@@ -321,7 +322,7 @@ public class CmsDynamicFunctionParser {
    * @return the parsed map of parameters
    */
   protected Map<String, String> parseParameters(
-      CmsObject cms, I_CmsXmlContentLocation location, String name) {
+      CmsObject cms, I_CmsXmlContentLocation location, @RUntainted String name) {
 
     List<I_CmsXmlContentValueLocation> locations = location.getSubValues(name);
     Map<String, String> result = new LinkedHashMap<String, String>();

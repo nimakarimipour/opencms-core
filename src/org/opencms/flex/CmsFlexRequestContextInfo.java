@@ -28,6 +28,7 @@
 package org.opencms.flex;
 
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains information about the OpenCms request context required by the Flex implementation.
@@ -43,7 +44,7 @@ import org.opencms.file.CmsResource;
 public class CmsFlexRequestContextInfo {
 
   /** The currently calculated "expires" date for this request context . */
-  private long m_dateExpires;
+  private @RUntainted long m_dateExpires;
 
   /** The currently calculated "last modified" date for this request context. */
   private long m_dateLastModified;
@@ -66,7 +67,7 @@ public class CmsFlexRequestContextInfo {
    *
    * @return the "expires" date for this context
    */
-  public long getDateExpires() {
+  public @RUntainted long getDateExpires() {
 
     return m_dateExpires;
   }
@@ -103,7 +104,7 @@ public class CmsFlexRequestContextInfo {
    *
    * @param dateExpires the value to update the "expires" date with
    */
-  public void updateDateExpires(long dateExpires) {
+  public void updateDateExpires(@RUntainted long dateExpires) {
 
     if (dateExpires > System.currentTimeMillis()) {
       if (dateExpires < m_dateExpires) {

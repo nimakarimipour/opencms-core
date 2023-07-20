@@ -30,6 +30,7 @@ package org.opencms.ade.publish.shared;
 import java.io.Serializable;
 import java.util.Map;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean encapsulating all ADE publish options.
@@ -90,7 +91,7 @@ public class CmsPublishOptions implements Serializable {
   private boolean m_includeSiblings;
 
   /** The additional publish parameters. */
-  private Map<String, String> m_params;
+  private Map<String, @RUntainted String> m_params;
 
   /** The id of the project to publish. */
   private CmsUUID m_projectId;
@@ -141,7 +142,7 @@ public class CmsPublishOptions implements Serializable {
    *
    * @return the additional publish parameters
    */
-  public Map<String, String> getParameters() {
+  public @RUntainted Map<String, @RUntainted String> getParameters() {
 
     return m_params;
   }

@@ -47,6 +47,7 @@ import org.opencms.ui.apps.modules.edit.CmsSiteSelectorNewValueHandler;
 import org.opencms.ui.components.CmsAutoItemCreatingComboBox;
 import org.opencms.ui.components.CmsErrorDialog;
 import org.opencms.ui.report.CmsReportWidget;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract superclass for the module import forms.
@@ -192,7 +193,7 @@ public abstract class A_CmsModuleImportForm extends CssLayout {
    *
    * @return the site selector
    */
-  protected abstract CmsAutoItemCreatingComboBox getSiteSelector();
+  protected abstract @RUntainted CmsAutoItemCreatingComboBox getSiteSelector();
 
   /**
    * Takes the file name given in the upload and processes it to return the file name under which

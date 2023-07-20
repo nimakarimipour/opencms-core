@@ -78,6 +78,7 @@ import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.CmsWorkplaceLoginHandler;
 import org.opencms.workplace.CmsWorkplaceManager;
 import org.slf4j.bridge.SLF4JBridgeHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Servlet for workplace UI requests.
@@ -174,12 +175,12 @@ public class CmsUIServlet extends VaadinServlet
         private static final long serialVersionUID = 1L;
 
         public boolean handleRequest(
-            VaadinSession session, VaadinRequest request, VaadinResponse response)
+            VaadinSession session, @RUntainted VaadinRequest request, VaadinResponse response)
             throws IOException {
 
           if (shouldShowLogin() && !isLoginUIRequest(request)) {
 
-            String link =
+            @RUntainted String link =
                 OpenCms.getLinkManager()
                     .substituteLinkForUnknownTarget(
                         ((CmsUIServlet) getCurrent()).getCmsObject(),
@@ -276,9 +277,9 @@ public class CmsUIServlet extends VaadinServlet
    * @see
    *     com.vaadin.server.SystemMessagesProvider#getSystemMessages(com.vaadin.server.SystemMessagesInfo)
    */
-  public SystemMessages getSystemMessages(SystemMessagesInfo systemMessagesInfo) {
+  public SystemMessages getSystemMessages(@RUntainted SystemMessagesInfo systemMessagesInfo) {
 
-    Locale locale = systemMessagesInfo.getLocale();
+    @RUntainted Locale locale = systemMessagesInfo.getLocale();
     if (!m_systemMessages.containsKey(locale)) {
       m_systemMessages.put(locale, createSystemMessages(locale));
     }
@@ -336,7 +337,7 @@ public class CmsUIServlet extends VaadinServlet
    *     javax.servlet.http.HttpServletResponse)
    */
   @Override
-  protected void service(HttpServletRequest request, HttpServletResponse response)
+  protected void service(@RUntainted HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
     CmsRequestUtil.disableCrossSiteFrameEmbedding(response);
@@ -447,7 +448,7 @@ public class CmsUIServlet extends VaadinServlet
    * @param locale the locale
    * @return the system messages
    */
-  private SystemMessages createSystemMessages(Locale locale) {
+  private SystemMessages createSystemMessages(@RUntainted Locale locale) {
 
     CmsMessages messages = Messages.get().getBundle(locale);
     CustomizedSystemMessages systemMessages = new CustomizedSystemMessages();

@@ -34,12 +34,13 @@ import org.opencms.module.CmsModule;
 import org.opencms.module.CmsModuleDependency;
 import org.opencms.module.CmsModuleImportExportHandler;
 import org.opencms.module.CmsModuleManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** */
 public class CmsImportFile {
 
   /** Path of the file (on the server). */
-  private String m_path;
+  private @RUntainted String m_path;
 
   /** Module in OpenCms. */
   private CmsModule m_module;
@@ -51,7 +52,7 @@ public class CmsImportFile {
    *
    * @param path of the file
    */
-  public CmsImportFile(String path) {
+  public CmsImportFile(@RUntainted String path) {
     m_path = path;
   }
 
@@ -74,7 +75,7 @@ public class CmsImportFile {
    *
    * @return the server path
    */
-  public String getPath() {
+  public @RUntainted String getPath() {
 
     return m_path;
   }

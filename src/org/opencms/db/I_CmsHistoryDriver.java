@@ -37,6 +37,7 @@ import org.opencms.file.history.CmsHistoryProject;
 import org.opencms.file.history.I_CmsHistoryResource;
 import org.opencms.security.I_CmsPrincipal;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Definitions of all required history driver methods.
@@ -147,7 +148,7 @@ public interface I_CmsHistoryDriver {
    * @param classname the classname of the SQL manager
    * @return the SQL manager for this driver
    */
-  CmsSqlManager initSqlManager(String classname);
+  CmsSqlManager initSqlManager(@RUntainted String classname);
 
   /**
    * Reads all file headers of the resource with the given structure id.

@@ -32,6 +32,7 @@ import org.opencms.gwt.shared.sort.I_CmsHasPath;
 import org.opencms.gwt.shared.sort.I_CmsHasTitle;
 import org.opencms.relations.CmsCategory;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A specific bean holding all info to be displayed in the categories tab.

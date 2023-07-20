@@ -56,6 +56,7 @@ import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsOkCancelActionHandler;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.explorer.CmsResourceUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to change resource modification times.
@@ -110,9 +111,9 @@ public class CmsUndoDialog extends CmsBasicDialog {
     if (context.getResources().size() == 1) {
       CmsResource singleRes = context.getResources().get(0);
       CmsResourceUtil resUtil = new CmsResourceUtil(context.getCms(), singleRes);
-      String fileName = CmsResource.getName(singleRes.getRootPath());
-      String date = CmsVfsService.formatDateTime(context.getCms(), singleRes.getDateLastModified());
-      String user = resUtil.getUserLastModified();
+      @RUntainted String fileName = CmsResource.getName(singleRes.getRootPath());
+      @RUntainted String date = CmsVfsService.formatDateTime(context.getCms(), singleRes.getDateLastModified());
+      @RUntainted String user = resUtil.getUserLastModified();
       String key = org.opencms.workplace.commons.Messages.GUI_UNDO_LASTMODIFIED_INFO_3;
       String message = CmsVaadinUtils.getMessageText(key, fileName, date, user);
       m_modifiedText.setVisible(true);
@@ -293,7 +294,7 @@ public class CmsUndoDialog extends CmsBasicDialog {
    * @param hasFolder true if the selection contains a foldr
    * @return the message key for the given input parameters
    */
-  private String key(String prefix, boolean multi, boolean hasFolder) {
+  private @RUntainted String key(@RUntainted String prefix, boolean multi, boolean hasFolder) {
 
     return prefix + (multi ? "MULTI" : "SINGLE") + "_" + (hasFolder ? "FOLDER" : "FILE") + "_0";
   }

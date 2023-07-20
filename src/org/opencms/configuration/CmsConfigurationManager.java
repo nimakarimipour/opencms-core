@@ -70,6 +70,7 @@ import org.opencms.xml.CmsXmlErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration manager for digesting the OpenCms XML configuration.
@@ -111,7 +112,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
   protected static final String N_CONFIGURATION = "configuration";
 
   /** Date format for the backup file time prefix. */
-  private static final SimpleDateFormat BACKUP_DATE_FORMAT =
+  private static final @RUntainted SimpleDateFormat BACKUP_DATE_FORMAT =
       new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss_");
 
   /** The log object for this class. */
@@ -121,13 +122,13 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
   private static final long MAX_BACKUP_DAYS = 15;
 
   /** The folder where to store the backup files of the configuration. */
-  private File m_backupFolder;
+  private @RUntainted File m_backupFolder;
 
   /** The base folder where the configuration files are located. */
-  private File m_baseFolder;
+  private @RUntainted File m_baseFolder;
 
   /** The initialized configuration classes. */
-  private List<I_CmsXmlConfiguration> m_configurations;
+  private List<@RUntainted I_CmsXmlConfiguration> m_configurations;
 
   /** The digester for reading the XML configuration. */
   private Digester m_digester;
@@ -145,7 +146,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
    *
    * @param baseFolder base folder where XML configurations to load are located
    */
-  public CmsConfigurationManager(String baseFolder) {
+  public CmsConfigurationManager(@RUntainted String baseFolder) {
 
     m_baseFolder = new File(baseFolder);
     if (!m_baseFolder.exists()) {
@@ -187,7 +188,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
    *
    * @param configuration the configuration to add
    */
-  public void addConfiguration(I_CmsXmlConfiguration configuration) {
+  public void addConfiguration(@RUntainted I_CmsXmlConfiguration configuration) {
 
     if (LOG.isDebugEnabled()) {
       LOG.debug(Messages.get().getBundle().key(Messages.LOG_ADD_CONFIG_1, configuration));
@@ -295,10 +296,10 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
    * @param clazz the configuration class that should be returned
    * @return the initialized configuration class instance, or <code>null</code> if this is not found
    */
-  public I_CmsXmlConfiguration getConfiguration(Class<?> clazz) {
+  public @RUntainted I_CmsXmlConfiguration getConfiguration(Class<?> clazz) {
 
     for (int i = 0; i < m_configurations.size(); i++) {
-      I_CmsXmlConfiguration configuration = m_configurations.get(i);
+      @RUntainted I_CmsXmlConfiguration configuration = m_configurations.get(i);
       if (clazz.equals(configuration.getClass())) {
         return configuration;
       }
@@ -361,7 +362,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
    */
   public void loadXmlConfiguration() throws SAXException, IOException {
 
-    URL baseUrl = m_baseFolder.toURI().toURL();
+    @RUntainted URL baseUrl = m_baseFolder.toURI().toURL();
     if (LOG.isDebugEnabled()) {
       LOG.debug(Messages.get().getBundle().key(Messages.LOG_BASE_URL_1, baseUrl));
     }
@@ -422,16 +423,16 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
    * @throws IOException in case of I/O errors while writing
    * @throws CmsConfigurationException if the given class is not a valid configuration class
    */
-  public void writeConfiguration(Class<?> clazz) throws IOException, CmsConfigurationException {
+  public void writeConfiguration(@RUntainted Class<?> clazz) throws IOException, CmsConfigurationException {
 
-    I_CmsXmlConfiguration configuration = getConfiguration(clazz);
+    @RUntainted I_CmsXmlConfiguration configuration = getConfiguration(clazz);
     if (configuration == null) {
       throw new CmsConfigurationException(
           Messages.get().container(Messages.ERR_CONFIG_WITH_UNKNOWN_CLASS_1, clazz.getName()));
     }
 
     // generate the file URL for the XML input
-    File file = new File(m_baseFolder, configuration.getXmlFileName());
+    @RUntainted File file = new File(m_baseFolder, configuration.getXmlFileName());
     if (LOG.isDebugEnabled()) {
       LOG.debug(
           Messages.get()
@@ -492,7 +493,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
    *
    * @return the path to the XSLT transformation
    */
-  String getTransformationPath() {
+  @RUntainted String getTransformationPath() {
 
     String path = System.getProperty("opencms.config.transform");
     if (path == null) {
@@ -510,7 +511,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
    */
   boolean hasTransformation() {
 
-    String transformationPath = getTransformationPath();
+    @RUntainted String transformationPath = getTransformationPath();
     boolean result = (transformationPath != null) && new File(transformationPath).exists();
     if (result) {
       CmsLog.INIT.info(
@@ -602,10 +603,10 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
    */
   private void backupXmlConfiguration(I_CmsXmlConfiguration configuration) {
 
-    String fromName =
+    @RUntainted String fromName =
         m_baseFolder.getAbsolutePath() + File.separatorChar + configuration.getXmlFileName();
-    String toDatePrefix = BACKUP_DATE_FORMAT.format(new Date());
-    String toName =
+    @RUntainted String toDatePrefix = BACKUP_DATE_FORMAT.format(new Date());
+    @RUntainted String toName =
         m_backupFolder.getAbsolutePath()
             + File.separatorChar
             + toDatePrefix
@@ -675,11 +676,11 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
    * @throws SAXException in case of XML parse errors
    * @throws IOException in case of file IO errors
    */
-  private void loadXmlConfiguration(URL url, I_CmsXmlConfiguration configuration)
+  private void loadXmlConfiguration(@RUntainted URL url, I_CmsXmlConfiguration configuration)
       throws SAXException, IOException {
 
     // generate the file URL for the XML input
-    URL fileUrl = new URL(url, configuration.getXmlFileName());
+    @RUntainted URL fileUrl = new URL(url, configuration.getXmlFileName());
     CmsLog.INIT.info(Messages.get().getBundle().key(Messages.INIT_LOAD_CONFIG_XMLFILE_1, fileUrl));
     // Check transformation rule here so we have the XML file / XSLT file log output together
     boolean hasTransformation = hasTransformation();
@@ -729,9 +730,9 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
   private void removeOldBackups(long daysToKeep) {
 
     long maxAge = (System.currentTimeMillis() - (daysToKeep * 24 * 60 * 60 * 1000));
-    File[] files = m_backupFolder.listFiles();
+    @RUntainted File[] files = m_backupFolder.listFiles();
     for (int i = 0; i < files.length; i++) {
-      File file = files[i];
+      @RUntainted File file = files[i];
       long lastMod = file.lastModified();
       if ((lastMod < maxAge)
           & (!file.getAbsolutePath().endsWith(CmsConfigurationManager.POSTFIX_ORI))) {

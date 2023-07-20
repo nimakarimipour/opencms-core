@@ -45,6 +45,7 @@ import org.opencms.loader.I_CmsResourceLoader;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>{@link javax.servlet.RequestDispatcher}</code> interface to allow
@@ -71,13 +72,13 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
    * The external target that will be included by the RequestDispatcher, needed if this is not a
    * dispatcher to a cms resource.
    */
-  private String m_extTarget;
+  private @RUntainted String m_extTarget;
 
   /** The "real" RequestDispatcher, used when a true include (to the file system) is needed. */
   private RequestDispatcher m_rd;
 
   /** The OpenCms VFS target that will be included by the RequestDispatcher. */
-  private String m_vfsTarget;
+  private @RUntainted String m_vfsTarget;
 
   /**
    * Creates a new instance of CmsFlexRequestDispatcher.
@@ -88,7 +89,7 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
    * @param vfs_target the cms resource that represents the external target
    * @param ext_target the external target that the request will be dispatched to
    */
-  public CmsFlexRequestDispatcher(RequestDispatcher rd, String vfs_target, String ext_target) {
+  public CmsFlexRequestDispatcher(RequestDispatcher rd, @RUntainted String vfs_target, @RUntainted String ext_target) {
 
     m_rd = rd;
     m_vfsTarget = vfs_target;
@@ -139,7 +140,7 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
    * @throws ServletException in case something goes wrong
    * @throws IOException in case something goes wrong
    */
-  public void include(ServletRequest req, ServletResponse res)
+  public void include(ServletRequest req, @RUntainted ServletResponse res)
       throws ServletException, IOException {
 
     if (LOG.isDebugEnabled()) {
@@ -279,7 +280,7 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
    */
   private void includeInternalWithCache(
       ServletRequest req,
-      ServletResponse res,
+      @RUntainted ServletResponse res,
       CmsFlexController controller,
       CmsObject cms,
       CmsResource resource)
@@ -365,7 +366,7 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
             w_res.setCmsCacheKey(res_key);
           } else {
             // cache key is unknown, read key from properties
-            String cacheProperty = null;
+            @RUntainted String cacheProperty = null;
             try {
               // read caching property from requested VFS resource
               if (resource == null) {
@@ -430,7 +431,7 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
         // the target is not cached (or caching off), so load it with the internal resource loader
         I_CmsResourceLoader loader = null;
 
-        String variation = null;
+        @RUntainted String variation = null;
         // check cache keys to see if the result can be cached
         if (w_req.isCacheable()) {
           variation = w_res.getCmsCacheKey().matchRequestKey(w_req.getCmsCacheKey());
@@ -511,7 +512,7 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
       if (f_res.hasIncludeList()) {
         // special case: this indicates that the output was not yet displayed
         Map<String, List<String>> headers = w_res.getHeaders();
-        byte[] result = w_res.getWriterBytes();
+        @RUntainted byte[] result = w_res.getWriterBytes();
         if (LOG.isDebugEnabled()) {
           LOG.debug(
               Messages.get()

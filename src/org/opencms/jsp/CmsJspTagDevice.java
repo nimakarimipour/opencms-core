@@ -36,6 +36,7 @@ import org.opencms.jsp.util.I_CmsJspDeviceSelector;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class provides a <code>&lt;cms:device type="..."&gt;</code>-Tag with the attribute <code>
@@ -100,7 +101,7 @@ public class CmsJspTagDevice extends BodyTagSupport {
     List<String> selectedDevices = CmsStringUtil.splitAsList(m_type, ",", true);
 
     // check if the selected device is in the list of supported devices
-    for (String selectedDevice : selectedDevices) {
+    for (@RUntainted String selectedDevice : selectedDevices) {
       if (supportedDevices.contains(selectedDevice)) {
         // get the current device from the request
         HttpServletRequest req = controller.getTopRequest();

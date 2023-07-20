@@ -31,6 +31,7 @@ import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "folder".
@@ -96,7 +97,7 @@ public class CmsResourceTypeFolder extends A_CmsResourceTypeFolderBase {
    *
    * @return the static type name of this (default) resource type
    */
-  public static String getStaticTypeName() {
+  public static @RUntainted String getStaticTypeName() {
 
     return RESOURCE_TYPE_NAME;
   }
@@ -106,7 +107,7 @@ public class CmsResourceTypeFolder extends A_CmsResourceTypeFolderBase {
    *     java.lang.String)
    */
   @Override
-  public void addConfigurationParameter(String paramName, String paramValue) {
+  public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
     super.addConfigurationParameter(paramName, paramValue);
     if (CmsStringUtil.isNotEmpty(paramName) && CmsStringUtil.isNotEmpty(paramValue)) {
@@ -148,7 +149,7 @@ public class CmsResourceTypeFolder extends A_CmsResourceTypeFolderBase {
    *     java.lang.String, String)
    */
   @Override
-  public void initConfiguration(String name, String id, String className)
+  public void initConfiguration(String name, @RUntainted String id, @RUntainted String className)
       throws CmsConfigurationException {
 
     if ((OpenCms.getRunLevel() > OpenCms.RUNLEVEL_2_INITIALIZING) && m_staticFrozen) {

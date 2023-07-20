@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Set;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the GUI to rebuild indexes.
@@ -81,7 +82,7 @@ public class CmsSearchindexRebuild extends VerticalLayout {
    * @param app instance
    * @param data indexes to be updated
    */
-  public CmsSearchindexRebuild(CmsSearchindexApp app, Set<String> data) {
+  public CmsSearchindexRebuild(CmsSearchindexApp app, Set<@RUntainted String> data) {
 
     CmsVaadinUtils.readAndLocalizeDesign(
         this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
@@ -132,10 +133,10 @@ public class CmsSearchindexRebuild extends VerticalLayout {
    * @param data list of indexes seperated by CmsSearchindexApp.SEPERATOR_INDEXNAMES
    * @return string representation of indexes
    */
-  private String getCommaSeperatedIndexes(Set<String> data) {
+  private @RUntainted String getCommaSeperatedIndexes(Set<@RUntainted String> data) {
 
-    Iterator<String> it = data.iterator();
-    String res = it.next();
+    Iterator<@RUntainted String> it = data.iterator();
+    @RUntainted String res = it.next();
     if (data.size() == 1) {
       return res;
     }

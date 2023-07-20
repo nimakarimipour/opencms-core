@@ -53,6 +53,7 @@ import org.opencms.site.CmsSite;
 import org.opencms.site.CmsSiteMatcher;
 import org.opencms.ui.apps.Messages;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Executes a script file.
@@ -82,13 +83,13 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
   private String m_scriptPath;
 
   /** The template to be used for secure site configurations. */
-  private String m_secureTemplate;
+  private @RUntainted String m_secureTemplate;
 
   /** The target path. */
   private String m_targetPath;
 
   /** The template path. */
-  private String m_templatePath;
+  private @RUntainted String m_templatePath;
 
   /** The files that have been written. */
   private List<String> m_writtenFiles = new ArrayList<String>();
@@ -168,10 +169,10 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
   private void createAllWebserverConfigs() throws IOException {
 
     List<CmsSite> sites = OpenCms.getSiteManager().getAvailableSites(getCms(), true);
-    for (CmsSite site : sites) {
+    for (@RUntainted CmsSite site : sites) {
       if ((site.getSiteMatcher() != null) && site.isWebserver()) {
 
-        String filename =
+        @RUntainted String filename =
             m_targetPath
                 + m_filePrefix
                 + "_"
@@ -180,13 +181,13 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
             .println(
                 Messages.get().container(Messages.RPT_CREATING_CONFIG_FOR_SITE_2, filename, site),
                 I_CmsReport.FORMAT_OK);
-        File newFile = new File(filename);
+        @RUntainted File newFile = new File(filename);
         if (!newFile.exists()) {
           newFile.getParentFile().mkdirs();
           newFile.createNewFile();
         }
 
-        String content =
+        @RUntainted String content =
             createConfigForSite(site, FileUtils.readFileToString(new File(m_templatePath)));
         if (site.hasSecureServer()) {
           content +=
@@ -282,7 +283,7 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
                   return false;
                 }
               });
-      for (File f : configFiles) {
+      for (@RUntainted File f : configFiles) {
         getReport()
             .println(
                 Messages.get().container(Messages.RPT_DELETING_FILE_1, f), I_CmsReport.FORMAT_OK);

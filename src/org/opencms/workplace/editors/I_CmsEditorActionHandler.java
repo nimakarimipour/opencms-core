@@ -33,6 +33,7 @@ import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.workplace.editors.directedit.CmsDirectEditButtonSelection;
 import org.opencms.workplace.editors.directedit.CmsDirectEditJspIncludeProvider;
 import org.opencms.workplace.editors.directedit.CmsDirectEditPermissions;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a method for performing an individual action if the user pressed a special button in the
@@ -201,7 +202,7 @@ public interface I_CmsEditorActionHandler {
    *
    * @return the key name of the button
    */
-  String getButtonName();
+  @RUntainted String getButtonName();
 
   /**
    * Returns the URL of the button displayed in the editor.

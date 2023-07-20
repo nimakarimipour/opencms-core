@@ -36,6 +36,7 @@ import org.opencms.i18n.CmsEncoder;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsHtmlExtractor;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * {@link org.opencms.widgets.CmsInputWidget} that strips HTML Tags from the input before storing

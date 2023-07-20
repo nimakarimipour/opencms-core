@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Set;
 import org.opencms.ade.configuration.formatters.CmsSettingConfiguration;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Formatter configuration for flex formatters.
@@ -97,8 +98,8 @@ public class CmsFlexFormatterBean extends CmsFormatterBean {
       int maxWidth,
       boolean searchContent,
       String location,
-      String niceName,
-      String description,
+      @RUntainted String niceName,
+      @RUntainted String description,
       Collection<String> resourceTypeNames,
       int rank,
       String id,

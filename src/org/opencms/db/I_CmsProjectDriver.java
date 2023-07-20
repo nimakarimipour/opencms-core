@@ -46,6 +46,7 @@ import org.opencms.main.CmsException;
 import org.opencms.publish.CmsPublishJobInfoBean;
 import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Definitions of all required project driver methods.
@@ -93,13 +94,13 @@ public interface I_CmsProjectDriver {
    * @return the created <code>{@link CmsProject}</code> instance
    * @throws CmsDataAccessException if something goes wrong
    */
-  CmsProject createProject(
+  @RUntainted CmsProject createProject(
       CmsDbContext dbc,
       CmsUUID id,
       CmsUser owner,
       CmsGroup group,
       CmsGroup managergroup,
-      String name,
+      @RUntainted String name,
       String description,
       int flags,
       CmsProjectType type)
@@ -115,7 +116,7 @@ public interface I_CmsProjectDriver {
    * @param resourceName The resource to be written to the Cms
    * @throws CmsDataAccessException if something goes wrong
    */
-  void createProjectResource(CmsDbContext dbc, CmsUUID projectId, String resourceName)
+  void createProjectResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String resourceName)
       throws CmsDataAccessException;
 
   /**
@@ -316,7 +317,7 @@ public interface I_CmsProjectDriver {
    * @param classname the classname of the SQL manager
    * @return the SQL manager for this driver
    */
-  CmsSqlManager initSqlManager(String classname);
+  CmsSqlManager initSqlManager(@RUntainted String classname);
 
   /**
    * Logs the given log entries.
@@ -347,10 +348,10 @@ public interface I_CmsProjectDriver {
   void publishDeletedFolder(
       CmsDbContext dbc,
       I_CmsReport report,
-      int m,
-      int n,
+      @RUntainted int m,
+      @RUntainted int n,
       CmsProject onlineProject,
-      CmsFolder offlineFolder,
+      @RUntainted CmsFolder offlineFolder,
       CmsUUID publishHistoryId,
       int publishTag)
       throws CmsDataAccessException;
@@ -374,10 +375,10 @@ public interface I_CmsProjectDriver {
   void publishFile(
       CmsDbContext dbc,
       I_CmsReport report,
-      int m,
-      int n,
+      @RUntainted int m,
+      @RUntainted int n,
       CmsProject onlineProject,
-      CmsResource offlineResource,
+      @RUntainted CmsResource offlineResource,
       Set<CmsUUID> publishedContentIds,
       CmsUUID publishHistoryId,
       int publishTag)
@@ -432,10 +433,10 @@ public interface I_CmsProjectDriver {
   void publishFolder(
       CmsDbContext dbc,
       I_CmsReport report,
-      int m,
-      int n,
+      @RUntainted int m,
+      @RUntainted int n,
       CmsProject onlineProject,
-      CmsFolder currentFolder,
+      @RUntainted CmsFolder currentFolder,
       CmsUUID publishHistoryId,
       int publishTag)
       throws CmsDataAccessException;
@@ -507,7 +508,7 @@ public interface I_CmsProjectDriver {
    * @return the project with the given name
    * @throws CmsDataAccessException if something goes wrong
    */
-  CmsProject readProject(CmsDbContext dbc, String name) throws CmsDataAccessException;
+  CmsProject readProject(CmsDbContext dbc, @RUntainted String name) throws CmsDataAccessException;
 
   /**
    * Reads the project resource path for a given project and resource path, to validate if a

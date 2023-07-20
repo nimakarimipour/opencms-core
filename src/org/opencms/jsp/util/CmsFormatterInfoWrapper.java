@@ -45,6 +45,7 @@ import org.opencms.xml.containerpage.CmsFormatterBean;
 import org.opencms.xml.containerpage.CmsFunctionFormatterBean;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Wrapper class for accessing formatter information from JSPs. */
 public class CmsFormatterInfoWrapper implements I_CmsFormatterInfo {
@@ -89,7 +90,7 @@ public class CmsFormatterInfoWrapper implements I_CmsFormatterInfo {
 
     final CmsMacroResolver resolver = new CmsMacroResolver();
     resolver.setCmsObject(cms);
-    Locale wpLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
+    @RUntainted Locale wpLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
     CmsMultiMessages messages = new CmsMultiMessages(wpLocale);
     messages.addMessages(OpenCms.getWorkplaceManager().getMessages(wpLocale));
     for (String type : formatter.getResourceTypeNames()) {
@@ -122,7 +123,7 @@ public class CmsFormatterInfoWrapper implements I_CmsFormatterInfo {
    */
   public String description(Locale locale) {
 
-    String result = m_formatter.getDescription(locale);
+    @RUntainted String result = m_formatter.getDescription(locale);
     result = m_macroResolver.resolveMacros(result);
     return result;
   }
@@ -145,7 +146,7 @@ public class CmsFormatterInfoWrapper implements I_CmsFormatterInfo {
   public String getDescription() {
 
     Locale locale = m_cms.getRequestContext().getLocale();
-    String result = m_formatter.getDescription(locale);
+    @RUntainted String result = m_formatter.getDescription(locale);
     result = m_macroResolver.resolveMacros(result);
     return result;
   }

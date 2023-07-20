@@ -38,6 +38,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.components.CmsBasicDialog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The dialog for selecting a site when exporting / deleting a module without a module site.
@@ -67,7 +68,7 @@ public class CmsSiteSelectDialog extends CmsBasicDialog {
      *
      * @param site the selected site root
      */
-    void onSiteSelect(String site);
+    void onSiteSelect(@RUntainted String site);
   }
 
   /** The property id for the caption. */
@@ -150,7 +151,7 @@ public class CmsSiteSelectDialog extends CmsBasicDialog {
             callback.onCancel();
           }
 
-          public void onSiteSelect(String site) {
+          public void onSiteSelect(@RUntainted String site) {
 
             window.close();
             callback.onSiteSelect(site);
@@ -166,7 +167,7 @@ public class CmsSiteSelectDialog extends CmsBasicDialog {
    *
    * @return the selected site
    */
-  public String getSite() {
+  public @RUntainted String getSite() {
 
     return (String) (m_siteSelector.getValue());
   }

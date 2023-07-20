@@ -46,6 +46,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.search.CmsSearchParameters.CmsSearchFieldQuery;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to access the search facility within a jsp.
@@ -92,7 +93,7 @@ public class CmsSearch {
   /**
    * The search parameters used for searching, build out of the given individual parameter values.
    */
-  protected CmsSearchParameters m_parameters;
+  protected @RUntainted CmsSearchParameters m_parameters;
 
   /** The URL which leads to the previous result page. */
   protected String m_prevUrl;
@@ -471,7 +472,7 @@ public class CmsSearch {
    * @return the search parameters used for searching, build out of the given individual parameter
    *     values
    */
-  public CmsSearchParameters getParameters() {
+  public @RUntainted CmsSearchParameters getParameters() {
 
     if (m_parameterRestriction != null) {
       m_parameters = m_parameters.restrict(m_parameterRestriction);
@@ -529,7 +530,7 @@ public class CmsSearch {
    *
    * @return the minimum search query length
    */
-  public int getQueryLength() {
+  public @RUntainted int getQueryLength() {
 
     return m_parameters.getQueryLength();
   }
@@ -839,7 +840,7 @@ public class CmsSearch {
    *
    * @param indexName the name of the index
    */
-  public void setIndex(String indexName) {
+  public void setIndex(@RUntainted String indexName) {
 
     resetLastResult();
     if (CmsStringUtil.isNotEmpty(indexName)) {
@@ -881,7 +882,7 @@ public class CmsSearch {
    *
    * @param maxDateCreated the maximum creation date to set
    */
-  public void setMaxDateCreated(String maxDateCreated) {
+  public void setMaxDateCreated(@RUntainted String maxDateCreated) {
 
     m_parameters.setMaxDateCreated(
         CmsStringUtil.getLongValue(maxDateCreated, Long.MAX_VALUE, "maxDateCreated"));
@@ -895,7 +896,7 @@ public class CmsSearch {
    *
    * @param maxDateLastModified the maximum last modification date to set
    */
-  public void setMaxDateLastModified(String maxDateLastModified) {
+  public void setMaxDateLastModified(@RUntainted String maxDateLastModified) {
 
     m_parameters.setMaxDateLastModified(
         CmsStringUtil.getLongValue(maxDateLastModified, Long.MAX_VALUE, "maxDateLastModified"));
@@ -908,7 +909,7 @@ public class CmsSearch {
    *
    * @param minDateCreated the minimum creation date to set
    */
-  public void setMinDateCreated(String minDateCreated) {
+  public void setMinDateCreated(@RUntainted String minDateCreated) {
 
     m_parameters.setMinDateCreated(
         CmsStringUtil.getLongValue(minDateCreated, Long.MIN_VALUE, "minDateCreated"));
@@ -922,7 +923,7 @@ public class CmsSearch {
    *
    * @param minDateLastModified he minimum last modification date to set
    */
-  public void setMinDateLastModified(String minDateLastModified) {
+  public void setMinDateLastModified(@RUntainted String minDateLastModified) {
 
     m_parameters.setMinDateLastModified(
         CmsStringUtil.getLongValue(minDateLastModified, Long.MIN_VALUE, "minDateLastModified"));
@@ -935,7 +936,7 @@ public class CmsSearch {
    *
    * @param parameters the parameters to use for the search if a non null instance is provided
    */
-  public void setParameters(CmsSearchParameters parameters) {
+  public void setParameters(@RUntainted CmsSearchParameters parameters) {
 
     if (parameters != null) {
       m_parameters = parameters;
@@ -956,7 +957,7 @@ public class CmsSearch {
    *
    * @param parsedQuery the parsed query to set
    */
-  public void setParsedQuery(String parsedQuery) {
+  public void setParsedQuery(@RUntainted String parsedQuery) {
 
     try {
       m_parsedQuerySet = true;
@@ -976,7 +977,7 @@ public class CmsSearch {
    *
    * @param query the search query (escaped format)
    */
-  public void setQuery(String query) {
+  public void setQuery(@RUntainted String query) {
 
     try {
       m_parameters.setQuery(CmsEncoder.decodeParameter(query));

@@ -38,6 +38,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.CmsXmlUtils;
 import org.opencms.xml.I_CmsXmlDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to check the availablity of an XML content item for conditional display.
@@ -85,7 +86,7 @@ public class CmsJspTagContentCheck extends TagSupport {
       Locale locale) {
 
     boolean found = false;
-    String[] elements = CmsStringUtil.splitAsArray(elementList, ',');
+    @RUntainted String[] elements = CmsStringUtil.splitAsArray(elementList, ',');
     for (int i = (elements.length - 1); i >= 0; i--) {
 
       String element = CmsXmlUtils.concatXpath(prefix, elements[i].trim());
@@ -296,7 +297,7 @@ public class CmsJspTagContentCheck extends TagSupport {
    *
    * @param locale the locale to set
    */
-  public void setLocale(String locale) {
+  public void setLocale(@RUntainted String locale) {
 
     if (CmsStringUtil.isEmpty(locale)) {
       m_locale = null;

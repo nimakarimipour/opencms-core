@@ -34,6 +34,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.i18n.CmsMessages;
 import org.opencms.xml.content.I_CmsXmlContentHandler.DisplayType;
 import org.opencms.xml.types.A_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widgets to be used with the new XML content editor are required to implement this interface.
@@ -106,7 +107,7 @@ public interface I_CmsADEWidget extends I_CmsWidget {
    *
    * @return the class name
    */
-  String getWidgetName();
+  @RUntainted String getWidgetName();
 
   /**
    * Returns if this is an internal widget.

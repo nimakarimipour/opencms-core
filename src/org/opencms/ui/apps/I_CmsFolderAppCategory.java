@@ -30,6 +30,7 @@ package org.opencms.ui.apps;
 import com.vaadin.server.Resource;
 import java.util.Locale;
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Displays a sub menu in the app launch pad. */
 public interface I_CmsFolderAppCategory extends I_CmsAppCategory {
@@ -51,7 +52,7 @@ public interface I_CmsFolderAppCategory extends I_CmsAppCategory {
    * @param locale the locale to use
    * @return the help text
    */
-  String getHelpText(Locale locale);
+  String getHelpText(@RUntainted Locale locale);
 
   /**
    * Returns the app icon resource.

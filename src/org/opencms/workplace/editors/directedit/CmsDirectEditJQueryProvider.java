@@ -35,6 +35,7 @@ import org.opencms.main.CmsException;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.editors.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provider for the OpenCms graphical "direct edit" buttons.
@@ -73,7 +74,7 @@ public class CmsDirectEditJQueryProvider extends CmsDirectEditDefaultProvider {
    *     org.opencms.workplace.editors.directedit.CmsDirectEditMode, java.lang.String)
    */
   @Override
-  public void init(CmsObject cms, CmsDirectEditMode mode, String fileName) {
+  public void init(CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName) {
 
     if (CmsStringUtil.isEmpty(fileName)) {
       fileName = INCLUDE_FILE_JQUERY;
@@ -241,7 +242,7 @@ public class CmsDirectEditJQueryProvider extends CmsDirectEditDefaultProvider {
    * @param path the root path of a Javascript file
    * @return the content of the Javascript file
    */
-  private String readFile(String path) {
+  private String readFile(@RUntainted String path) {
 
     String result =
         (String) CmsVfsMemoryObjectCache.getVfsMemoryObjectCache().getCachedObject(m_cms, path);

@@ -39,6 +39,7 @@ import org.opencms.search.fields.CmsSearchField;
 import org.opencms.search.solr.CmsSolrIndex;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the functions for the gallery search.
@@ -223,7 +224,7 @@ public class CmsGallerySearch {
    * @param indexName the name of the index
    * @throws CmsException if the index was not found
    */
-  public void setIndex(String indexName) throws CmsException {
+  public void setIndex(@RUntainted String indexName) throws CmsException {
 
     if (CmsStringUtil.isEmpty(indexName)) {
       throw new CmsException(

@@ -36,6 +36,7 @@ import java.util.List;
 import org.opencms.db.CmsResourceState;
 import org.opencms.file.CmsResource;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A resource implementation that combines the Solr document together with a OpenCms VFS resource.
@@ -109,19 +110,19 @@ public class CmsSearchResource extends CmsResource {
    * @param doc the search document
    */
   public CmsSearchResource(
-      CmsUUID structureId,
+      @RUntainted CmsUUID structureId,
       CmsUUID resourceId,
-      String path,
-      int type,
+      @RUntainted String path,
+      @RUntainted int type,
       int flags,
       CmsUUID projectId,
       CmsResourceState state,
       long dateCreated,
       CmsUUID userCreated,
-      long dateLastModified,
-      CmsUUID userLastModified,
-      long dateReleased,
-      long dateExpired,
+      @RUntainted long dateLastModified,
+      @RUntainted CmsUUID userLastModified,
+      @RUntainted long dateReleased,
+      @RUntainted long dateExpired,
       int linkCount,
       int length,
       long dateContent,
@@ -184,7 +185,7 @@ public class CmsSearchResource extends CmsResource {
    * @param fieldName the field name to get the value for
    * @return the value
    */
-  public String getField(String fieldName) {
+  public @RUntainted String getField(String fieldName) {
 
     return m_doc.getFieldValueAsString(fieldName);
   }

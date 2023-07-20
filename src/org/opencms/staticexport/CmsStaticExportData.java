@@ -28,6 +28,7 @@
 package org.opencms.staticexport;
 
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a data structure for the result of an export request.
@@ -48,10 +49,10 @@ public class CmsStaticExportData {
   private CmsResource m_resource;
 
   /** The uri to export in the rfs. */
-  private String m_rfsName;
+  private @RUntainted String m_rfsName;
 
   /** The uri in the vfs. */
-  private String m_vfsName;
+  private @RUntainted String m_vfsName;
 
   /**
    * Creates a new static export data object.
@@ -64,7 +65,7 @@ public class CmsStaticExportData {
    * @param parameters the parameter string of a resource
    */
   public CmsStaticExportData(
-      String vfsName, String rfsName, CmsResource resource, String parameters) {
+      @RUntainted String vfsName, @RUntainted String rfsName, CmsResource resource, String parameters) {
 
     m_vfsName = vfsName;
     m_rfsName = rfsName;
@@ -103,7 +104,7 @@ public class CmsStaticExportData {
    *
    * @return the rfs name of the resource to export
    */
-  public String getRfsName() {
+  public @RUntainted String getRfsName() {
 
     return m_rfsName;
   }
@@ -115,7 +116,7 @@ public class CmsStaticExportData {
    *
    * @return the vfs name of the resource to export
    */
-  public String getVfsName() {
+  public @RUntainted String getVfsName() {
 
     return m_vfsName;
   }
@@ -181,7 +182,7 @@ public class CmsStaticExportData {
    *
    * @param rfsName the RFS name to set
    */
-  protected void setRfsName(String rfsName) {
+  protected void setRfsName(@RUntainted String rfsName) {
 
     m_rfsName = rfsName;
   }

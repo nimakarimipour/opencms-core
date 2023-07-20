@@ -33,6 +33,7 @@ import java.util.ResourceBundle;
 import org.apache.commons.logging.Log;
 import org.opencms.i18n.CmsResourceBundleLoader;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for getting localized messages for the 'lock inactive users' feature.
@@ -55,7 +56,7 @@ public class CmsInactiveUserMessages {
    * @param locale the locale
    * @return the localized text
    */
-  public static String getLockoutText(Locale locale) {
+  public static String getLockoutText(@RUntainted Locale locale) {
 
     return getMessage("inactiveusers.lockout.text", locale);
   }
@@ -69,7 +70,7 @@ public class CmsInactiveUserMessages {
    * @param locale the locale
    * @return the localized text
    */
-  public static String getMessage(String key, Locale locale) {
+  public static String getMessage(String key, @RUntainted Locale locale) {
 
     ResourceBundle bundle = null;
     try {
@@ -90,7 +91,7 @@ public class CmsInactiveUserMessages {
    * @param locale the locale
    * @return the localized text
    */
-  public static String getReportHeader(Locale locale) {
+  public static String getReportHeader(@RUntainted Locale locale) {
 
     return getMessage("inactiveusers.report.header", locale);
   }
@@ -103,7 +104,7 @@ public class CmsInactiveUserMessages {
    * @param locale the locale
    * @return the localized text
    */
-  public static String getReportSubject(Locale locale) {
+  public static String getReportSubject(@RUntainted Locale locale) {
 
     return getMessage("inactiveusers.report.subject", locale);
   }

@@ -42,6 +42,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import org.opencms.util.CmsFileUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource bundle loader for property based resource bundles from OpenCms that has a flushable
@@ -154,7 +155,7 @@ public final class CmsResourceBundleLoader {
   }
 
   /** The resource bundle cache. */
-  private static Map<BundleKey, ResourceBundle> m_bundleCache;
+  private static Map<BundleKey, @RUntainted ResourceBundle> m_bundleCache;
 
   /** The last default Locale we saw, if this ever changes then we have to reset our caches. */
   private static Locale m_lastDefaultLocale;
@@ -242,9 +243,9 @@ public final class CmsResourceBundleLoader {
       synchronized (m_bundleCache) {
 
         // first check and clear the bundle cache
-        Map<BundleKey, ResourceBundle> bundleCacheNew =
-            new ConcurrentHashMap<BundleKey, ResourceBundle>(m_bundleCache.size());
-        for (Map.Entry<BundleKey, ResourceBundle> entry : m_bundleCache.entrySet()) {
+        Map<BundleKey, @RUntainted ResourceBundle> bundleCacheNew =
+            new ConcurrentHashMap<BundleKey, @RUntainted ResourceBundle>(m_bundleCache.size());
+        for (Map.Entry<BundleKey, @RUntainted ResourceBundle> entry : m_bundleCache.entrySet()) {
           if (!entry.getKey().isSameBase(baseName)) {
             // entry has a different base name, keep it
             bundleCacheNew.put(entry.getKey(), entry.getValue());
@@ -319,7 +320,7 @@ public final class CmsResourceBundleLoader {
    */
   // This method is synchronized so that the cache is properly
   // handled.
-  public static ResourceBundle getBundle(String baseName, Locale locale) {
+  public static @RUntainted ResourceBundle getBundle(@RUntainted String baseName, @RUntainted Locale locale) {
 
     // If the default locale changed since the last time we were called,
     // all cache entries are invalidated.
@@ -336,7 +337,7 @@ public final class CmsResourceBundleLoader {
     // This will throw NullPointerException if any arguments are null.
     BundleKey m_lookupKey = new BundleKey(baseName, locale);
 
-    Object obj = m_bundleCache.get(m_lookupKey);
+    @RUntainted Object obj = m_bundleCache.get(m_lookupKey);
 
     if (obj instanceof ResourceBundle) {
       return (ResourceBundle) obj;
@@ -352,7 +353,7 @@ public final class CmsResourceBundleLoader {
         // First, look for a bundle for the specified locale. We don't want
         // the base bundle this time.
         boolean wantBase = locale.equals(m_lastDefaultLocale);
-        ResourceBundle bundle = tryBundle(baseName, locale, wantBase);
+        @RUntainted ResourceBundle bundle = tryBundle(baseName, locale, wantBase);
 
         // Try the default locale if necessary
         if ((bundle == null) && !locale.equals(m_lastDefaultLocale)) {
@@ -379,7 +380,7 @@ public final class CmsResourceBundleLoader {
    * @param localizedName the name
    * @return the resource bundle if it was loaded, otherwise the backup
    */
-  private static I_CmsResourceBundle tryBundle(String localizedName) {
+  private static @RUntainted I_CmsResourceBundle tryBundle(String localizedName) {
 
     I_CmsResourceBundle result = null;
 
@@ -437,9 +438,9 @@ public final class CmsResourceBundleLoader {
    *     information attached) should be returned.
    * @return the resource bundle if it was loaded, otherwise the backup
    */
-  private static ResourceBundle tryBundle(String baseName, Locale locale, boolean wantBase) {
+  private static @RUntainted ResourceBundle tryBundle(String baseName, Locale locale, boolean wantBase) {
 
-    I_CmsResourceBundle first = null; // The most specialized bundle.
+    @RUntainted I_CmsResourceBundle first = null; // The most specialized bundle.
     I_CmsResourceBundle last = null; // The least specialized bundle.
 
     List<String> bundleNames = CmsLocaleManager.getLocaleVariants(baseName, locale, true, true);
@@ -448,7 +449,7 @@ public final class CmsResourceBundleLoader {
       if (bundleName.equals(baseName) && !wantBase && (first == null)) {
         break;
       }
-      I_CmsResourceBundle foundBundle = tryBundle(bundleName);
+      @RUntainted I_CmsResourceBundle foundBundle = tryBundle(bundleName);
       if (foundBundle != null) {
         if (first == null) {
           first = foundBundle;

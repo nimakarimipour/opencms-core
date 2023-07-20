@@ -55,6 +55,7 @@ import org.opencms.ui.components.editablegroup.I_CmsEditableGroupRow;
 import org.opencms.util.CmsDataTypeUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Additional User info dialog.
@@ -298,7 +299,7 @@ public class CmsAdditionalInfosDialog extends CmsBasicDialog {
    * @param key string
    * @param value string
    */
-  private void saveAddInfo(String key, String value) {
+  private void saveAddInfo(String key, @RUntainted String value) {
 
     int pos = key.indexOf("@");
 

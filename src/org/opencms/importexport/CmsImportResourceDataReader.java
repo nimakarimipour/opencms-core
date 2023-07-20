@@ -39,6 +39,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.module.CmsModuleImportData;
 import org.opencms.module.CmsResourceImportData;
 import org.opencms.report.I_CmsReport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Subclass which doesn't actually import anything, but just reads the module data into a data

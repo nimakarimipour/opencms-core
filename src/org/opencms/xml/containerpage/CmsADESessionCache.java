@@ -49,6 +49,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.xml.content.CmsXmlContent;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * ADE's session cache.
@@ -189,7 +190,7 @@ public final class CmsADESessionCache {
     // XML content cache, used during XML content edit
     m_xmlContents = new ConcurrentHashMap<CmsUUID, CmsXmlContent>();
 
-    String elementView = null;
+    @RUntainted String elementView = null;
     // within the test cases the request will be null
     if (request != null) {
       elementView =
@@ -365,7 +366,7 @@ public final class CmsADESessionCache {
     if (formatterKeys != null) {
       Set<String> types =
           new HashSet<String>(Arrays.asList(container.getType().trim().split(" *, *")));
-      for (String key : formatterKeys) {
+      for (@RUntainted String key : formatterKeys) {
         I_CmsFormatterBean formatter = config.findFormatter(key);
         if ((formatter != null)
             && CmsUUID.isValidUUID(formatter.getId())

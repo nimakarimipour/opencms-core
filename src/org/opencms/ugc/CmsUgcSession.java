@@ -64,6 +64,7 @@ import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentErrorHandler;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A form editing session is required to create and edit contents from the web front-end.
@@ -253,13 +254,13 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
    * @return the newly created resource
    * @throws CmsUgcException if creating the resource fails
    */
-  public CmsResource createUploadResource(String fieldName, String rawFileName, byte[] content)
+  public CmsResource createUploadResource(String fieldName, @RUntainted String rawFileName, byte[] content)
       throws CmsUgcException {
 
     CmsResource result = null;
     CmsUgcSessionSecurityUtil.checkCreateUpload(
         m_cms, m_configuration, rawFileName, content.length);
-    String baseName = rawFileName;
+    @RUntainted String baseName = rawFileName;
 
     // if the given name is a path, make sure we only get the last segment
 
@@ -409,7 +410,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
    *
    * @return the session id
    */
-  public CmsUUID getId() {
+  public @RUntainted CmsUUID getId() {
 
     return getProject().getUuid();
   }
@@ -592,7 +593,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
    * @param path the value XPath
    * @param value the value
    */
-  protected void addContentValue(CmsXmlContent content, Locale locale, String path, String value) {
+  protected void addContentValue(CmsXmlContent content, Locale locale, String path, @RUntainted String value) {
 
     boolean hasValue = content.hasValue(path, locale);
     if (!hasValue) {

@@ -28,6 +28,7 @@
 package org.opencms.db.db2;
 
 import org.opencms.db.generic.CmsSqlManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * DB2 implementation of the project driver methods.

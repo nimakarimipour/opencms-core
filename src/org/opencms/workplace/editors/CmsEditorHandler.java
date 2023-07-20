@@ -38,6 +38,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsRequestUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This editor handler class returns the editor URI depending on various factors.
@@ -66,7 +67,7 @@ public class CmsEditorHandler implements I_CmsEditorHandler {
    *     java.lang.String, java.lang.String, boolean)
    */
   public String getEditorUri(
-      CmsObject cms, String resourceType, String userAgent, boolean loadDefault) {
+      CmsObject cms, String resourceType, @RUntainted String userAgent, boolean loadDefault) {
 
     // get the editor URI from the editor manager
     String editorUri = null;
@@ -145,7 +146,7 @@ public class CmsEditorHandler implements I_CmsEditorHandler {
     resourceType = OpenCms.getResourceManager().getResourceType(resTypeId).getTypeName();
 
     // get the browser identification from the request
-    String userAgent = jsp.getRequest().getHeader(CmsRequestUtil.HEADER_USER_AGENT);
+    @RUntainted String userAgent = jsp.getRequest().getHeader(CmsRequestUtil.HEADER_USER_AGENT);
 
     return getEditorUri(jsp.getCmsObject(), resourceType, userAgent, loadDefault);
   }

@@ -48,6 +48,7 @@ import org.opencms.db.generic.Messages;
 import org.opencms.file.CmsDataAccessException;
 import org.opencms.util.CmsDataTypeUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Oracle implementation of the user driver methods.
@@ -128,7 +129,7 @@ public class CmsUserDriver extends org.opencms.db.generic.CmsUserDriver {
 
   /** @see org.opencms.db.I_CmsUserDriver#initSqlManager(String) */
   @Override
-  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
     return CmsSqlManager.getInstance(classname);
   }
@@ -187,7 +188,7 @@ public class CmsUserDriver extends org.opencms.db.generic.CmsUserDriver {
    * @throws CmsDataAccessException if something goes wrong
    */
   protected void internalUpdateUserInfoData(
-      CmsDbContext dbc, CmsUUID userId, String key, Object value) throws CmsDataAccessException {
+      CmsDbContext dbc, @RUntainted CmsUUID userId, String key, Object value) throws CmsDataAccessException {
 
     PreparedStatement stmt = null;
     PreparedStatement commit = null;

@@ -39,6 +39,7 @@ import java.util.SortedMap;
 import javax.servlet.http.HttpSession;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.components.CmsBasicDialog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the log file view settings dialog.
@@ -51,7 +52,7 @@ public class CmsLogFileViewSettings extends CmsBasicDialog {
   private static final long serialVersionUID = 3564444938636162445L;
 
   /** Vaadin component. */
-  ComboBox m_charset;
+  @RUntainted ComboBox m_charset;
 
   /** Vaadin component. */
   TextField m_size;

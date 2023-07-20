@@ -68,6 +68,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the table to show all current sessions.
@@ -86,12 +87,12 @@ public class CmsSessionsTable extends Table {
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
-    public void executeAction(Set<String> data) {
+    public void executeAction(Set<@RUntainted String> data) {
 
       try {
-        String sessionId = data.iterator().next();
+        @RUntainted String sessionId = data.iterator().next();
         CmsSessionInfo session = OpenCms.getSessionManager().getSessionInfo(new CmsUUID(sessionId));
-        String siteRoot = session.getSiteRoot();
+        @RUntainted String siteRoot = session.getSiteRoot();
         A_CmsUI.getCmsObject().getRequestContext().setSiteRoot(siteRoot);
         A_CmsUI.getCmsObject()
             .getRequestContext()
@@ -111,7 +112,7 @@ public class CmsSessionsTable extends Table {
     }
 
     /** @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getTitle(java.util.Locale) */
-    public String getTitle(Locale locale) {
+    public String getTitle(@RUntainted Locale locale) {
 
       return Messages.get().getBundle(locale).key(Messages.GUI_EXPLORER_TITLE_0);
     }
@@ -179,12 +180,12 @@ public class CmsSessionsTable extends Table {
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
-    public void executeAction(Set<String> data) {
+    public void executeAction(Set<@RUntainted String> data) {
 
       try {
-        String sessionId = data.iterator().next();
+        @RUntainted String sessionId = data.iterator().next();
         CmsSessionInfo session = OpenCms.getSessionManager().getSessionInfo(new CmsUUID(sessionId));
-        String siteRoot = session.getSiteRoot();
+        @RUntainted String siteRoot = session.getSiteRoot();
         A_CmsUI.get().changeSite(siteRoot);
         A_CmsUI.get().changeProject(A_CmsUI.getCmsObject().readProject(session.getProject()));
 
@@ -204,12 +205,12 @@ public class CmsSessionsTable extends Table {
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
      */
-    public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+    public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> data) {
 
       if ((data == null) || (data.size() > 1)) {
         return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
       }
-      String sessionId = data.iterator().next();
+      @RUntainted String sessionId = data.iterator().next();
       CmsSessionInfo session = OpenCms.getSessionManager().getSessionInfo(new CmsUUID(sessionId));
       String siteRoot = session.getSiteRoot();
       if (CmsStringUtil.isEmptyOrWhitespaceOnly(siteRoot)
@@ -293,7 +294,7 @@ public class CmsSessionsTable extends Table {
     private Object m_defaultValue;
 
     /** Header Message key. */
-    private String m_headerMessage;
+    private @RUntainted String m_headerMessage;
 
     /** Type of column property. */
     private Class<?> m_type;
@@ -306,7 +307,7 @@ public class CmsSessionsTable extends Table {
      * @param defaultValue of column
      * @param collapsable should this column be collapsable?
      */
-    TableProperty(String headerMessage, Class<?> type, Object defaultValue, boolean collapsable) {
+    TableProperty(@RUntainted String headerMessage, Class<?> type, Object defaultValue, boolean collapsable) {
 
       m_headerMessage = headerMessage;
       m_type = type;
@@ -553,7 +554,7 @@ public class CmsSessionsTable extends Table {
 
               if (TableProperty.IS_ACTIVE.equals(propertyId)) {
 
-                String[] ret =
+                @RUntainted String[] ret =
                     CmsSessionInfo.getHourMinuteSecondTimeString(
                         ((Long)
                                 ((Table) source)
@@ -727,7 +728,7 @@ public class CmsSessionsTable extends Table {
    *
    * @param data sessionid to be shown user off
    */
-  protected void showUserInfoWindow(String data) {
+  protected void showUserInfoWindow(@RUntainted String data) {
 
     CmsUserInfoDialog.showUserInfo(OpenCms.getSessionManager().getSessionInfo(data));
   }

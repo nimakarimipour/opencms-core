@@ -41,6 +41,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "folder".
@@ -93,7 +94,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
       CmsObject cms,
       CmsSecurityManager securityManager,
       CmsResource source,
-      String destination,
+      @RUntainted String destination,
       CmsResource.CmsResourceCopyMode siblingMode)
       throws CmsIllegalArgumentException, CmsException {
 
@@ -128,7 +129,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
   public CmsResource createResource(
       CmsObject cms,
       CmsSecurityManager securityManager,
-      String resourcename,
+      @RUntainted String resourcename,
       byte[] content,
       List<CmsProperty> properties)
       throws CmsException {
@@ -158,10 +159,10 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
    */
   @Override
   public void moveResource(
-      CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, String destination)
+      CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, @RUntainted String destination)
       throws CmsException, CmsIllegalArgumentException {
 
-    String dest = cms.getRequestContext().addSiteRoot(destination);
+    @RUntainted String dest = cms.getRequestContext().addSiteRoot(destination);
     if (!CmsResource.isFolder(dest)) {
       // ensure folder name end's with a / (required for the following comparison)
       dest = dest.concat("/");
@@ -458,7 +459,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
    * @return the validated folder name
    * @throws CmsIllegalArgumentException if the folder name is empty or <code>null</code>
    */
-  private String validateFoldername(String resourcename) throws CmsIllegalArgumentException {
+  private @RUntainted String validateFoldername(@RUntainted String resourcename) throws CmsIllegalArgumentException {
 
     if (CmsStringUtil.isEmpty(resourcename)) {
       throw new CmsIllegalArgumentException(

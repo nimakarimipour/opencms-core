@@ -57,6 +57,7 @@ import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.ui.contextmenu.CmsContextMenu;
 import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the vaadin table to show the indexes.
@@ -75,7 +76,7 @@ public class CmsSearchIndexTable extends Table {
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
-    public void executeAction(Set<String> data) {
+    public void executeAction(Set<@RUntainted String> data) {
 
       final Window window = CmsBasicDialog.prepareWindow(DialogWidth.max);
       CmsBasicDialog dialog = new CmsBasicDialog();
@@ -128,9 +129,9 @@ public class CmsSearchIndexTable extends Table {
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
-    public void executeAction(Set<String> data) {
+    public void executeAction(Set<@RUntainted String> data) {
 
-      String resource = data.iterator().next();
+      @RUntainted String resource = data.iterator().next();
       showSourcesWindow(resource);
     }
 
@@ -189,7 +190,7 @@ public class CmsSearchIndexTable extends Table {
     private Object m_defaultValue;
 
     /** Header Message key. */
-    private String m_headerMessage;
+    private @RUntainted String m_headerMessage;
 
     /** Type of column property. */
     private Class<?> m_type;
@@ -202,7 +203,7 @@ public class CmsSearchIndexTable extends Table {
      * @param defaultValue of column
      * @param collapsable should this column be collapsable?
      */
-    TableProperty(String headerMessage, Class<?> type, Object defaultValue, boolean collapsable) {
+    TableProperty(@RUntainted String headerMessage, Class<?> type, Object defaultValue, boolean collapsable) {
 
       m_headerMessage = headerMessage;
       m_type = type;
@@ -430,7 +431,7 @@ public class CmsSearchIndexTable extends Table {
    *
    * @param resource to show variations for
    */
-  void showSourcesWindow(String resource) {
+  void showSourcesWindow(@RUntainted String resource) {
 
     final Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
     CmsSourceDialog sourceDialog =

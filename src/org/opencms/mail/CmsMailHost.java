@@ -26,6 +26,7 @@
  */
 
 package org.opencms.mail;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the configuration of an individual mail host.
@@ -121,7 +122,7 @@ public class CmsMailHost implements Comparable<CmsMailHost> {
    *
    * @return the host name
    */
-  public String getHostname() {
+  public @RUntainted String getHostname() {
 
     return m_hostname;
   }
@@ -193,7 +194,7 @@ public class CmsMailHost implements Comparable<CmsMailHost> {
    *
    * @return the user name used for authentication
    */
-  public String getUsername() {
+  public @RUntainted String getUsername() {
 
     return m_username;
   }

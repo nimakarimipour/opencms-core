@@ -29,6 +29,7 @@ package org.opencms.jsp;
 
 import java.util.Locale;
 import org.opencms.xml.I_CmsXmlDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to a <code>{@link org.opencms.xml.I_CmsXmlDocument}</code> document that was
@@ -56,7 +57,7 @@ public interface I_CmsXmlContentContainer extends I_CmsResourceContainer {
    *
    * @return the currently selected element name in the loaded XML content document
    */
-  String getXmlDocumentElement();
+  @RUntainted String getXmlDocumentElement();
 
   /**
    * Returns the currently selected locale used for acessing the content in the loaded XML content

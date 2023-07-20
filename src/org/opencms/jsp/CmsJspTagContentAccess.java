@@ -39,6 +39,7 @@ import org.opencms.jsp.util.CmsJspContentAccessBean;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.I_CmsXmlDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to access XML content item information from the current open <code>&lt;cms:contentload&gt;
@@ -161,7 +162,7 @@ public class CmsJspTagContentAccess extends CmsJspScopedVarBodyTagSuport {
    *
    * @param locale the locale to set
    */
-  public void setLocale(String locale) {
+  public void setLocale(@RUntainted String locale) {
 
     if (CmsStringUtil.isEmpty(locale)) {
       m_locale = null;

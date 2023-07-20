@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for sub site map folder types.
@@ -103,7 +104,7 @@ public class CmsResourceTypeFolderSubSitemap extends CmsResourceTypeFolderExtend
    *     java.lang.String, String)
    */
   @Override
-  public void initConfiguration(String name, String id, String className)
+  public void initConfiguration(@RUntainted String name, @RUntainted String id, @RUntainted String className)
       throws CmsConfigurationException {
 
     super.initConfiguration(name, id, className);

@@ -40,6 +40,7 @@ import org.opencms.main.I_CmsThrowable;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to display the error dialog.
@@ -74,7 +75,7 @@ public class CmsErrorBean {
   private String m_hiddenParams;
 
   /** The locale for the errorpage. */
-  private Locale m_locale;
+  private @RUntainted Locale m_locale;
 
   /** Messages container. */
   private CmsMessages m_messages;
@@ -144,7 +145,7 @@ public class CmsErrorBean {
    *
    * @return the error message to be displayed
    */
-  public String getErrorMessage() {
+  public @RUntainted String getErrorMessage() {
 
     StringBuffer result = new StringBuffer(512);
 

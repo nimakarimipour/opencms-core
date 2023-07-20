@@ -26,6 +26,7 @@
  */
 
 package org.opencms.configuration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used for classes that are configurable using <code>&lt;param name="name"&gt;value&lt;/param&gt;
@@ -52,7 +53,7 @@ public interface I_CmsConfigurationParameterHandler {
    * @param paramName the name of the parameter
    * @param paramValue the value for the parameter
    */
-  void addConfigurationParameter(String paramName, String paramValue);
+  void addConfigurationParameter(@RUntainted String paramName, @RUntainted String paramValue);
 
   /**
    * Returns the parameters of this configurable class instance, or <code>null</code> if the class

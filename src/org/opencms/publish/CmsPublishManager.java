@@ -54,6 +54,7 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.security.CmsRole;
 import org.opencms.security.CmsSecurityException;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This manager provide access to the publish engine runtime information.
@@ -105,7 +106,7 @@ public class CmsPublishManager {
   private CmsPublishEngine m_publishEngine;
 
   /** The maximum size of the publish history. */
-  private int m_publishHistorySize;
+  private @RUntainted int m_publishHistorySize;
 
   /** The publish list remove mode. */
   private CmsPublishManager.PublishListRemoveMode m_publishListRemoveMode;
@@ -142,7 +143,7 @@ public class CmsPublishManager {
    * @param queuePersistance indicates if the queue is re-initialized on startup
    * @param queueShutdowntime the amount of time to wait for a publish job during shutdown
    */
-  public CmsPublishManager(int historySize, boolean queuePersistance, int queueShutdowntime) {
+  public CmsPublishManager(@RUntainted int historySize, boolean queuePersistance, int queueShutdowntime) {
 
     m_publishEngine = null;
     m_publishHistorySize = historySize;
@@ -360,7 +361,7 @@ public class CmsPublishManager {
    *
    * @return the publish History Size
    */
-  public int getPublishHistorySize() {
+  public @RUntainted int getPublishHistorySize() {
 
     return m_publishHistorySize;
   }
@@ -835,7 +836,7 @@ public class CmsPublishManager {
    *
    * @param publishHistorySize the publish History Size to set
    */
-  public void setPublishHistorySize(String publishHistorySize) {
+  public void setPublishHistorySize(@RUntainted String publishHistorySize) {
 
     if (m_frozen) {
       throw new CmsRuntimeException(Messages.get().container(Messages.ERR_CONFIG_FROZEN_0));

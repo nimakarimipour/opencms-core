@@ -59,6 +59,7 @@ import org.opencms.repository.I_CmsRepository;
 import org.opencms.util.CmsResourceTranslator;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsXmlContent;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Repository class for configuring repositories for Alfresco JLAN.

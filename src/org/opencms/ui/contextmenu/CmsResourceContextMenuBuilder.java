@@ -39,6 +39,7 @@ import org.opencms.ui.contextmenu.CmsContextMenu.ContextMenuItemClickEvent;
 import org.opencms.ui.contextmenu.CmsContextMenu.ContextMenuItemClickListener;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsTreeNode;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Context menu builder for resource items.
@@ -144,7 +145,7 @@ public class CmsResourceContextMenuBuilder implements I_CmsContextMenuBuilder {
     }
     if (m_treeBuilder.getVisibility(data).isInActive()) {
       guiMenuItem.setEnabled(false);
-      String key = m_treeBuilder.getVisibility(data).getMessageKey();
+      @RUntainted String key = m_treeBuilder.getVisibility(data).getMessageKey();
       if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(key)) {
         guiMenuItem.setDescription(CmsVaadinUtils.getMessageText(key));
       }

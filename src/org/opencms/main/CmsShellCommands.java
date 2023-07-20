@@ -103,6 +103,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.xml.CmsXmlFileTransformer;
 import org.opencms.xml.content.CmsXmlContent;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides additional commands for the CmsShell.
@@ -147,7 +148,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param project the name of the project
    * @throws Exception if something goes wrong
    */
-  public void addBookmark(String user, String siteRoot, String sitePath, String project)
+  public void addBookmark(String user, @RUntainted String siteRoot, String sitePath, String project)
       throws Exception {
 
     CmsObject cms = OpenCms.initCmsObject(m_cms);
@@ -215,13 +216,13 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @throws Exception if something goes wrong
    * @see org.opencms.file.CmsRequestContext#setUri(String)
    */
-  public void cd(String target) throws Exception {
+  public void cd(@RUntainted String target) throws Exception {
 
     String folder = CmsResource.getFolderPath(m_cms.getRequestContext().getUri());
     if (!target.endsWith("/")) {
       target += "/";
     }
-    String resolvedTarget = CmsLinkManager.getAbsoluteUri(target, folder);
+    @RUntainted String resolvedTarget = CmsLinkManager.getAbsoluteUri(target, folder);
     CmsResource res = m_cms.readResource(resolvedTarget);
     if (!res.isFolder()) {
       throw new CmsIllegalArgumentException(
@@ -248,7 +249,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @see CmsObject#chacc(String, String, String, String)
    */
   public void chacc(
-      String resourceName, String principalType, String principalName, String permissionString)
+      String resourceName, String principalType, @RUntainted String principalName, String permissionString)
       throws CmsException {
 
     m_cms.lockResource(resourceName);
@@ -275,7 +276,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @throws CmsException thrown if user can't be read or settings can't be saved.
    */
   public void changeUserSettingsStartParameters(
-      String username, String startProject, String startSite, String startFolder, String startView)
+      String username, @RUntainted String startProject, String startSite, String startFolder, String startView)
       throws CmsException {
 
     CmsUser user = m_cms.readUser(username);
@@ -376,7 +377,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @throws Exception if somthing goes wrong
    */
   @SuppressWarnings("deprecation")
-  public CmsResource createFolder(String targetFolder, String folderName) throws Exception {
+  public CmsResource createFolder(@RUntainted String targetFolder, @RUntainted String folderName) throws Exception {
 
     if (m_cms.existsResource(targetFolder + folderName)) {
       m_shell
@@ -454,7 +455,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @see CmsObject#createUser(String, String, String, java.util.Map)
    * @return the created user
    */
-  public CmsUser createUser(String name, String password, String description) throws Exception {
+  public CmsUser createUser(@RUntainted String name, String password, String description) throws Exception {
 
     if (existsUser(name)) {
       m_shell.getOut().println(getMessages().key(Messages.GUI_SHELL_USER_ALREADY_EXISTS_1, name));
@@ -479,12 +480,12 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @see CmsObject#createUser(String, String, String, java.util.Map)
    */
   public CmsUser createUser(
-      String name,
+      @RUntainted String name,
       String password,
       String description,
       String firstname,
       String lastname,
-      String email)
+      @RUntainted String email)
       throws Exception {
 
     if (existsUser(name)) {
@@ -507,7 +508,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param hideLogin flag, indicating if the OU should be hidden from the login form.
    * @return the created OU, or <code>null</code> if creation fails.
    */
-  public CmsOrganizationalUnit createWebOU(String ouFqn, String description, boolean hideLogin) {
+  public CmsOrganizationalUnit createWebOU(@RUntainted String ouFqn, @RUntainted String description, boolean hideLogin) {
 
     try {
       return OpenCms.getOrgUnitManager()
@@ -558,7 +559,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param moduleName the name of the module
    * @throws Exception if something goes wrong
    */
-  public void deleteModule(String moduleName) throws Exception {
+  public void deleteModule(@RUntainted String moduleName) throws Exception {
 
     OpenCms.getModuleManager()
         .deleteModule(
@@ -715,7 +716,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param moduleName the name of the module to export
    * @throws Exception if something goes wrong
    */
-  public void exportModule(String moduleName) throws Exception {
+  public void exportModule(@RUntainted String moduleName) throws Exception {
 
     CmsModule module = OpenCms.getModuleManager().getModule(moduleName);
 
@@ -932,7 +933,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param moduleName the name of the module
    * @throws Exception if something goes wrong
    */
-  public void forceDeleteModule(String moduleName) throws Exception {
+  public void forceDeleteModule(@RUntainted String moduleName) throws Exception {
 
     OpenCms.getModuleManager()
         .deleteModule(
@@ -1000,7 +1001,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    *
    * @param command the help command to execute
    */
-  public void help(String command) {
+  public void help(@RUntainted String command) {
 
     if ("*".equalsIgnoreCase(command)) {
       m_shell.help(null);
@@ -1040,9 +1041,9 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @see org.opencms.importexport.CmsImportExportManager#importData(CmsObject, I_CmsReport,
    *     CmsImportParameters)
    */
-  public void importModuleFromDefault(String importFile) throws Exception {
+  public void importModuleFromDefault(@RUntainted String importFile) throws Exception {
 
-    String exportPath = OpenCms.getSystemInfo().getPackagesRfsPath();
+    @RUntainted String exportPath = OpenCms.getSystemInfo().getPackagesRfsPath();
     String fileName =
         OpenCms.getSystemInfo()
             .getAbsoluteRfsPathRelativeToWebInf(
@@ -1073,7 +1074,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param importPath the name (absolute Path) of folder in which should be imported
    * @throws Exception if something goes wrong
    */
-  public void importResources(String importFile, String importPath) throws Exception {
+  public void importResources(@RUntainted String importFile, String importPath) throws Exception {
 
     CmsImportParameters params =
         new CmsImportParameters(
@@ -1095,7 +1096,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param keepPermissions if set, the permissions set on existing resources will not be modified
    * @throws Exception if something goes wrong
    */
-  public void importResources(String importFile, String importPath, boolean keepPermissions)
+  public void importResources(@RUntainted String importFile, String importPath, boolean keepPermissions)
       throws Exception {
 
     CmsImportParameters params =
@@ -1165,7 +1166,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    */
   public void listModules() throws Exception {
 
-    Set<String> modules = OpenCms.getModuleManager().getModuleNames();
+    @RUntainted Set<String> modules = OpenCms.getModuleManager().getModuleNames();
     m_shell
         .getOut()
         .println(
@@ -1188,7 +1189,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param username the name of the user to log in
    * @param password the password of the user
    */
-  public void login(String username, String password) {
+  public void login(@RUntainted String username, String password) {
 
     username = OpenCms.getImportExportManager().translateUser(username);
     try {
@@ -1216,8 +1217,8 @@ class CmsShellCommands implements I_CmsShellCommands {
    */
   public void ls() throws Exception {
 
-    String folder = CmsResource.getFolderPath(m_cms.getRequestContext().getUri());
-    List<CmsResource> resources =
+    @RUntainted String folder = CmsResource.getFolderPath(m_cms.getRequestContext().getUri());
+    @RUntainted List<CmsResource> resources =
         m_cms.getResourcesInFolder(folder, CmsResourceFilter.IGNORE_EXPIRATION);
     m_shell
         .getOut()
@@ -1427,7 +1428,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @throws CmsException if something goes wrong
    * @return the selected files contents
    */
-  public String readFileContent(String filename) throws CmsException {
+  public String readFileContent(@RUntainted String filename) throws CmsException {
 
     filename =
         CmsLinkManager.getAbsoluteUri(
@@ -1515,10 +1516,10 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param reindexRelated true if related resources should be reindexed
    * @throws CmsException if something goes wrong
    */
-  public void reindexResources(String path, boolean reindexRelated) throws CmsException {
+  public void reindexResources(String path, @RUntainted boolean reindexRelated) throws CmsException {
 
     CmsObject cms = OpenCms.initCmsObject(m_cms);
-    Map<String, Object> eventData = new HashMap<>(3);
+    Map<String, @RUntainted Object> eventData = new HashMap<>(3);
     boolean online = cms.getRequestContext().getCurrentProject().isOnlineProject();
     if (!online) {
       eventData.put(
@@ -1655,7 +1656,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param importFile the name of the import file
    * @throws Exception if something goes wrong
    */
-  public void replaceModule(String importFile) throws Exception {
+  public void replaceModule(@RUntainted String importFile) throws Exception {
 
     OpenCms.getModuleManager()
         .replaceModule(
@@ -1671,7 +1672,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param importFile the name of the import file
    * @throws Exception if something goes wrong
    */
-  public void replaceModule(String moduleName, String importFile) throws Exception {
+  public void replaceModule(@RUntainted String moduleName, @RUntainted String importFile) throws Exception {
 
     CmsModule module = CmsModuleImportExportHandler.readModuleFromImport(importFile);
     if (moduleName.equals(module.getName())) {
@@ -1694,7 +1695,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param importFile the name of the import file
    * @throws Exception if something goes wrong
    */
-  public void replaceModuleFromDefault(String importFile) throws Exception {
+  public void replaceModuleFromDefault(@RUntainted String importFile) throws Exception {
 
     CmsModule module = CmsModuleImportExportHandler.readModuleFromImport(importFile);
     String moduleName = module.getName();
@@ -1710,7 +1711,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param importFile the name of the import file
    * @throws Exception if something goes wrong
    */
-  public void replaceModuleFromDefault(String moduleName, String importFile) throws Exception {
+  public void replaceModuleFromDefault(@RUntainted String moduleName, String importFile) throws Exception {
 
     if (OpenCms.getModuleManager().getModule(moduleName) != null) {
       OpenCms.getModuleManager()
@@ -1803,9 +1804,9 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param localeName the full locale name
    * @throws CmsException if something goes wrong
    */
-  public void setLocale(String localeName) throws CmsException {
+  public void setLocale(@RUntainted String localeName) throws CmsException {
 
-    Locale locale = CmsLocaleManager.getLocale(localeName);
+    @RUntainted Locale locale = CmsLocaleManager.getLocale(localeName);
     m_shell
         .getOut()
         .println(
@@ -1828,7 +1829,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param loginDisabled true if login should be disabled
    * @throws CmsRoleViolationException when this is not called with the correct privileges
    */
-  public void setLoginMessage(String messageText, boolean loginDisabled)
+  public void setLoginMessage(String messageText, @RUntainted boolean loginDisabled)
       throws CmsRoleViolationException {
 
     CmsLoginMessage message = new CmsLoginMessage(0, 0, messageText, loginDisabled);
@@ -1845,7 +1846,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param key the parameter key
    * @param value the parameter value
    */
-  public void setSiteParam(String siteRoot, String key, String value) {
+  public void setSiteParam(String siteRoot, String key, @RUntainted String value) {
 
     CmsSite site = OpenCms.getSiteManager().getSiteForRootPath(siteRoot);
     if (site == null) {
@@ -1864,7 +1865,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param value the additional info value
    * @throws CmsException if something goes wrong
    */
-  public void setUserInfo(String username, String infoName, String value) throws CmsException {
+  public void setUserInfo(String username, String infoName, @RUntainted String value) throws CmsException {
 
     CmsUser user = m_cms.readUser(username);
     user.setAdditionalInfo(infoName, value);
@@ -2007,7 +2008,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param transform the RFS path to the XSL transformation
    * @throws Exception if something goes wrong
    */
-  public void transformXmlContents(String path, String typeName, String transform)
+  public void transformXmlContents(String path, String typeName, @RUntainted String transform)
       throws Exception {
 
     String timestamp =
@@ -2049,7 +2050,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param importFile the name of the import file
    * @throws Exception if something goes wrong
    */
-  public void updateModule(String importFile) throws Exception {
+  public void updateModule(@RUntainted String importFile) throws Exception {
 
     CmsModule module = CmsModuleImportExportHandler.readModuleFromImport(importFile);
     String moduleName = module.getName();
@@ -2078,9 +2079,9 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param importFile the name of the import file
    * @throws Exception if something goes wrong
    */
-  public void updateModuleFromDefault(String importFile) throws Exception {
+  public void updateModuleFromDefault(@RUntainted String importFile) throws Exception {
 
-    String exportPath = OpenCms.getSystemInfo().getPackagesRfsPath();
+    @RUntainted String exportPath = OpenCms.getSystemInfo().getPackagesRfsPath();
     String fileName =
         OpenCms.getSystemInfo()
             .getAbsoluteRfsPathRelativeToWebInf(
@@ -2108,7 +2109,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @throws CmsIllegalArgumentException if the concatenation of String arguments <code>folder
    *     </code> and <code>localfile</code> is of length 0
    */
-  public CmsResource uploadFile(String localfile, String folder, String filename, String type)
+  public CmsResource uploadFile(String localfile, @RUntainted String folder, @RUntainted String filename, String type)
       throws Exception, CmsIllegalArgumentException {
 
     I_CmsResourceType t = OpenCms.getResourceManager().getResourceType(type);
@@ -2165,7 +2166,7 @@ class CmsShellCommands implements I_CmsShellCommands {
    * @param value the value to write
    * @throws CmsException if something goes wrong
    */
-  public void writeProperty(String resourceName, String propertyName, String value)
+  public void writeProperty(String resourceName, String propertyName, @RUntainted String value)
       throws CmsException {
 
     m_cms.lockResource(resourceName);

@@ -37,6 +37,7 @@ import org.opencms.ade.configuration.CmsADEConfigData;
 import org.opencms.ade.configuration.plugins.CmsTemplatePlugin;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface representing a configured formatter.
@@ -98,7 +99,7 @@ public interface I_CmsFormatterBean {
    * @param locale the locale (may be null)
    * @return the formatter description
    */
-  String getDescription(Locale locale);
+  @RUntainted String getDescription(@RUntainted Locale locale);
 
   /**
    * The display type of this formatter or <code>null</code> in case this is not a display
@@ -120,7 +121,7 @@ public interface I_CmsFormatterBean {
    *
    * @return the formatter id
    */
-  String getId();
+  @RUntainted String getId();
 
   /**
    * Gets the inline CSS snippets.
@@ -157,7 +158,7 @@ public interface I_CmsFormatterBean {
    * @return the root path of the formatter JSP in the OpenCms VFS.
    *     <p>
    */
-  String getJspRootPath();
+  @RUntainted String getJspRootPath();
 
   /**
    * Returns the structure id of the JSP resource for this formatter.
@@ -179,14 +180,14 @@ public interface I_CmsFormatterBean {
    *
    * @return the formatter key, or null
    */
-  String getKey();
+  @RUntainted String getKey();
 
   /**
    * Helper method for getting either the key, if it exists, or the ID (as a string) if it does not.
    *
    * @return the formatter key or id
    */
-  default String getKeyOrId() {
+  default @RUntainted String getKeyOrId() {
 
     if (getKey() != null) {
       return getKey();
@@ -204,7 +205,7 @@ public interface I_CmsFormatterBean {
    *
    * @return the location this formatter was defined in
    */
-  String getLocation();
+  @RUntainted String getLocation();
 
   /**
    * Returns the maximum formatter width.
@@ -245,7 +246,7 @@ public interface I_CmsFormatterBean {
    * @param locale the locale
    * @return the nice name for this formatter
    */
-  String getNiceName(Locale locale);
+  String getNiceName(@RUntainted Locale locale);
 
   /**
    * Gets the rank.

@@ -48,6 +48,7 @@ import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class to create a notfication which will be send as a html mail to a user in OpenCms.
@@ -78,7 +79,7 @@ public abstract class A_CmsNotification extends CmsHtmlMail {
   protected CmsObject m_cms;
 
   /** The locale of the receiver of the content notification. */
-  protected Locale m_locale;
+  protected @RUntainted Locale m_locale;
 
   /** The macro resolver used. */
   protected CmsNotificationMacroResolver m_macroResolver;
@@ -133,7 +134,7 @@ public abstract class A_CmsNotification extends CmsHtmlMail {
    *
    * @return the locale
    */
-  public Locale getLocale() {
+  public @RUntainted Locale getLocale() {
 
     return m_locale;
   }
@@ -177,7 +178,7 @@ public abstract class A_CmsNotification extends CmsHtmlMail {
           CmsXmlContentFactory.unmarshal(m_cms, m_cms.readFile(getNotificationContent()));
 
       // detect locale
-      List<Locale> locales = m_mailContent.getLocales();
+      List<@RUntainted Locale> locales = m_mailContent.getLocales();
       Locale userLocale = new CmsUserSettings(m_receiver).getLocale();
       if (locales.contains(userLocale)) {
         // mail is localized in the user locale, use that

@@ -31,6 +31,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 import org.dom4j.Element;
 import org.opencms.xml.I_CmsXmlDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsColor".
@@ -72,7 +73,7 @@ public class CmsXmlColorValue extends A_CmsXmlValueTextBase {
    * @param type the type instance to create the value for
    */
   public CmsXmlColorValue(
-      I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
     super(document, element, locale, type);
   }

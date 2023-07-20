@@ -40,6 +40,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.xml.CmsXmlException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides utility functions for XSLT transformations.
@@ -240,10 +241,10 @@ public final class CmsXsltUtil {
       xml.append("<tr>\n");
 
       // must use tokenizer with delimiters include in order to handle empty cells appropriately
-      StringTokenizer t = new StringTokenizer(line, delimiter, true);
+      @RUntainted StringTokenizer t = new StringTokenizer(line, delimiter, true);
       boolean hasValue = false;
       while (t.hasMoreElements()) {
-        String item = (String) t.nextElement();
+        @RUntainted String item = (String) t.nextElement();
         if (!hasValue) {
           xml.append("\t<td>");
           hasValue = true;
@@ -305,9 +306,9 @@ public final class CmsXsltUtil {
    * @param key the key (including delimiters)
    * @return the key without delimiters
    */
-  private static String removeStringDelimiters(String key) {
+  private static @RUntainted String removeStringDelimiters(@RUntainted String key) {
 
-    String k = key.trim();
+    @RUntainted String k = key.trim();
     if (CmsStringUtil.isNotEmpty(k)) {
       if (k.charAt(0) == TEXT_DELIMITER) {
         k = k.substring(1);

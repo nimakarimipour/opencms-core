@@ -48,6 +48,7 @@ import org.opencms.xml.CmsXmlException;
 import org.opencms.xml.CmsXmlUtils;
 import org.opencms.xml.content.Messages;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides factory methods to unmarshal (read) an container page object.
@@ -106,7 +107,7 @@ public final class CmsXmlContainerPageFactory {
    * @return the created container page
    */
   public static CmsXmlContainerPage createDocument(
-      CmsObject cms, Locale locale, String encoding, CmsXmlContentDefinition contentDefinition) {
+      CmsObject cms, Locale locale, @RUntainted String encoding, CmsXmlContentDefinition contentDefinition) {
 
     // create the XML content
     CmsXmlContainerPage content = new CmsXmlContainerPage(cms, locale, encoding, contentDefinition);
@@ -185,7 +186,7 @@ public final class CmsXmlContainerPageFactory {
    * @return a container page instance unmarshalled from the provided file
    * @throws CmsXmlException if something goes wrong
    */
-  public static CmsXmlContainerPage unmarshal(CmsObject cms, CmsFile file, boolean keepEncoding)
+  public static @RUntainted CmsXmlContainerPage unmarshal(CmsObject cms, CmsFile file, @RUntainted boolean keepEncoding)
       throws CmsXmlException {
 
     return unmarshal(cms, file, keepEncoding, false);
@@ -214,8 +215,8 @@ public final class CmsXmlContainerPageFactory {
    * @return a container page instance unmarshalled from the provided file
    * @throws CmsXmlException if something goes wrong
    */
-  public static CmsXmlContainerPage unmarshal(
-      CmsObject cms, CmsFile file, boolean keepEncoding, boolean noCache) throws CmsXmlException {
+  public static @RUntainted CmsXmlContainerPage unmarshal(
+      CmsObject cms, CmsFile file, @RUntainted boolean keepEncoding, boolean noCache) throws CmsXmlException {
 
     // check the cache
     CmsXmlContainerPage content = null;
@@ -280,7 +281,7 @@ public final class CmsXmlContainerPageFactory {
     content.initDocument(cms);
 
     // call prepare for use content handler and return the result
-    CmsXmlContainerPage xmlCntPage =
+    @RUntainted CmsXmlContainerPage xmlCntPage =
         (CmsXmlContainerPage) content.getHandler().prepareForUse(cms, content);
 
     // set the cache
@@ -311,7 +312,7 @@ public final class CmsXmlContainerPageFactory {
       throws CmsException {
 
     // check the cache
-    CmsXmlContainerPage content = getCache(cms, resource, true);
+    @RUntainted CmsXmlContainerPage content = getCache(cms, resource, true);
     if (content != null) {
       return content;
     }
@@ -386,7 +387,7 @@ public final class CmsXmlContainerPageFactory {
    * @return a container page instance unmarshalled from the String
    */
   public static CmsXmlContainerPage unmarshal(
-      CmsObject cms, Document document, String encoding, EntityResolver resolver) {
+      CmsObject cms, @RUntainted Document document, @RUntainted String encoding, EntityResolver resolver) {
 
     CmsXmlContainerPage content = new CmsXmlContainerPage(cms, document, encoding, resolver);
     // call prepare for use content handler and return the result
@@ -443,8 +444,8 @@ public final class CmsXmlContainerPageFactory {
    * @param keepEncoding if to keep the encoding while unmarshalling
    * @return the cached container page, or <code>null</code> if not found
    */
-  private static CmsXmlContainerPage getCache(
-      CmsObject cms, CmsResource resource, boolean keepEncoding) {
+  private static @RUntainted CmsXmlContainerPage getCache(
+      CmsObject cms, CmsResource resource, @RUntainted boolean keepEncoding) {
 
     if (resource instanceof I_CmsHistoryResource) {
       return null;
@@ -465,7 +466,7 @@ public final class CmsXmlContainerPageFactory {
    * @param keepEncoding if the encoding was kept while unmarshalling
    */
   private static void setCache(
-      CmsObject cms, CmsXmlContainerPage xmlCntPage, boolean keepEncoding) {
+      CmsObject cms, @RUntainted CmsXmlContainerPage xmlCntPage, @RUntainted boolean keepEncoding) {
 
     if (xmlCntPage.getFile() instanceof I_CmsHistoryResource) {
       return;

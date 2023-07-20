@@ -77,6 +77,7 @@ import org.opencms.xml.types.CmsXmlVarLinkValue;
 import org.opencms.xml.types.CmsXmlVfsFileValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 import org.opencms.xml.types.I_CmsXmlContentValue.SearchContentType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "xmlcontent".
@@ -106,7 +107,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
   private static final long serialVersionUID = 2271469830431937731L;
 
   /** The (optional) schema of this resource. */
-  private String m_schema;
+  private @RUntainted String m_schema;
 
   /**
    * Returns the possible model files for the new resource.
@@ -119,7 +120,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
    * @return the possible model files for the new resource
    */
   public static List<CmsResource> getModelFiles(
-      CmsObject cms, String currentFolder, String newResourceTypeName) {
+      CmsObject cms, @RUntainted String currentFolder, String newResourceTypeName) {
 
     try {
 
@@ -127,7 +128,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
       I_CmsPreEditorActionDefinition preEditorAction =
           OpenCms.getWorkplaceManager().getPreEditorConditionDefinition(resType);
       // get the global master folder if configured
-      String masterFolder =
+      @RUntainted String masterFolder =
           preEditorAction
               .getConfiguration()
               .getString(CmsDefaultXmlContentHandler.APPINFO_MODELFOLDER, null);
@@ -137,7 +138,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
       CmsXmlContentDefinition contentDefinition = CmsXmlContentDefinition.unmarshal(cms, schema);
       // get the content handler for the resource type to create
       I_CmsXmlContentHandler handler = contentDefinition.getContentHandler();
-      String individualModelFolder = handler.getModelFolder();
+      @RUntainted String individualModelFolder = handler.getModelFolder();
       if (CmsStringUtil.isNotEmpty(individualModelFolder)) {
         masterFolder = individualModelFolder;
       }
@@ -176,7 +177,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
    *
    * @return the static type name of this (default) resource type
    */
-  public static String getStaticTypeName() {
+  public static @RUntainted String getStaticTypeName() {
 
     return RESOURCE_TYPE_NAME;
   }
@@ -209,7 +210,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
    *     java.lang.String)
    */
   @Override
-  public void addConfigurationParameter(String paramName, String paramValue) {
+  public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
     super.addConfigurationParameter(paramName, paramValue);
     if (CONFIGURATION_SCHEMA.equalsIgnoreCase(paramName)) {
@@ -225,7 +226,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
   public CmsResource createResource(
       CmsObject cms,
       CmsSecurityManager securityManager,
-      String resourcename,
+      @RUntainted String resourcename,
       byte[] content,
       List<CmsProperty> properties)
       throws CmsException {
@@ -343,7 +344,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
    */
   public I_CmsEditHandler getEditHandler(CmsObject cms) {
 
-    String schema = getSchema();
+    @RUntainted String schema = getSchema();
 
     try {
       CmsXmlContentDefinition contentDefinition = CmsXmlContentDefinition.unmarshal(cms, schema);
@@ -411,7 +412,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
    *
    * @return the configured xsd schema uri, or <code>null</code> if not set
    */
-  public String getSchema() {
+  public @RUntainted String getSchema() {
 
     return m_schema;
   }
@@ -448,7 +449,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
    */
   @Override
   public void moveResource(
-      CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, String destination)
+      CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, @RUntainted String destination)
       throws CmsException, CmsIllegalArgumentException {
 
     super.moveResource(cms, securityManager, resource, destination);
@@ -682,7 +683,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
   protected Locale getLocaleForNewContent(
       CmsObject cms,
       CmsSecurityManager securityManager,
-      String resourcename,
+      @RUntainted String resourcename,
       List<CmsProperty> properties) {
 
     Locale locale =
@@ -765,7 +766,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
       CmsObject cms,
       CmsResource resource,
       CmsMappingResolutionContext.AttributeType attr,
-      long date)
+      @RUntainted long date)
       throws CmsException {
 
     Object obj = cms.getRequestContext().getAttribute(ATTR_REVERSE_AVAILABILITY_MAPPING);

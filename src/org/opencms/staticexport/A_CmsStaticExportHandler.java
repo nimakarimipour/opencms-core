@@ -58,6 +58,7 @@ import org.opencms.security.CmsSecurityException;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract base implementation for the <code>{@link I_CmsStaticExportHandler}</code> interface.
@@ -89,9 +90,9 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
      *
      * @param baseFile the base file to compare with.
      */
-    public PrefixFileFilter(File baseFile) {
+    public PrefixFileFilter(@RUntainted File baseFile) {
 
-      String fileName = baseFile.getName();
+      @RUntainted String fileName = baseFile.getName();
       m_baseExtension = CmsFileUtil.getExtension(fileName);
       m_baseName = fileName + "_";
     }
@@ -127,7 +128,7 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
    *     org.opencms.staticexport.I_CmsStaticExportHandler#performEventPublishProject(org.opencms.util.CmsUUID,
    *     org.opencms.report.I_CmsReport)
    */
-  public abstract void performEventPublishProject(CmsUUID publishHistoryId, I_CmsReport report);
+  public abstract void performEventPublishProject(@RUntainted CmsUUID publishHistoryId, I_CmsReport report);
 
   /**
    * Scrubs all files from the export folder that might have been changed, so that the export is
@@ -138,7 +139,7 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
    * @param publishHistoryId id of the last published project
    * @return the list of {@link CmsPublishedResource} objects to export
    */
-  public List<CmsPublishedResource> scrubExportFolders(CmsUUID publishHistoryId) {
+  public List<CmsPublishedResource> scrubExportFolders(@RUntainted CmsUUID publishHistoryId) {
 
     if (LOG.isDebugEnabled()) {
       LOG.debug(
@@ -299,7 +300,7 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
    * @param resPath the path of the resource to get the siblings for
    * @return a list containing the root paths of all siblings of a resource
    */
-  protected List<String> getSiblingsList(CmsObject cms, String resPath) {
+  protected List<String> getSiblingsList(CmsObject cms, @RUntainted String resPath) {
 
     List<String> siblings = new ArrayList<String>();
     try {
@@ -340,7 +341,7 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
    */
   protected void purgeFile(String rfsFilePath, String vfsName) {
 
-    File rfsFile = new File(rfsFilePath);
+    @RUntainted File rfsFile = new File(rfsFilePath);
 
     // first delete the base file
     deleteFile(rfsFile, vfsName);
@@ -387,10 +388,10 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
       String resPath = cms.getRequestContext().removeSiteRoot(res.getRootPath());
       List<String> siblings = getSiblingsList(cms, resPath);
 
-      for (String vfsName : siblings) {
+      for (@RUntainted String vfsName : siblings) {
 
         // get the link name for the published file
-        String rfsName = OpenCms.getStaticExportManager().getRfsName(cms, vfsName);
+        @RUntainted String rfsName = OpenCms.getStaticExportManager().getRfsName(cms, vfsName);
         if (LOG.isDebugEnabled()) {
           LOG.debug(
               Messages.get()
@@ -403,7 +404,7 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
 
           if (res.isFolder()) {
             if (res.getState().isDeleted()) {
-              String exportFolderName =
+              @RUntainted String exportFolderName =
                   CmsFileUtil.normalizePath(
                       OpenCms.getStaticExportManager().getExportPath(vfsName)
                           + rfsName.substring(
@@ -651,7 +652,7 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
       Collection<String> detailpages =
           OpenCms.getADEManager().getDetailPageHandler().getAllDetailPages(cms, res.getType());
       for (String urlName : urlNames) {
-        for (String detailPage : detailpages) {
+        for (@RUntainted String detailPage : detailpages) {
           String rfsName =
               CmsStringUtil.joinPaths(
                   OpenCms.getStaticExportManager().getRfsName(cms, detailPage),
@@ -726,10 +727,10 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
    * @param vfsName the VFS name of the file, the root path!
    * @return the export file name starting from the OpenCms webapp folder
    */
-  private String getRfsName(File file, String vfsName) {
+  private @RUntainted String getRfsName(@RUntainted File file, String vfsName) {
 
     CmsStaticExportManager manager = OpenCms.getStaticExportManager();
-    String filePath = file.getAbsolutePath();
+    @RUntainted String filePath = file.getAbsolutePath();
     String result =
         CmsFileUtil.normalizePath(
             manager.getRfsPrefix(vfsName)
@@ -749,7 +750,7 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
    */
   private void purgeFiles(List<File> files, String vfsName, Set<String> scrubbedFiles) {
 
-    for (File file : files) {
+    for (@RUntainted File file : files) {
       purgeFile(file.getAbsolutePath(), vfsName);
       String rfsName =
           CmsFileUtil.normalizePath(

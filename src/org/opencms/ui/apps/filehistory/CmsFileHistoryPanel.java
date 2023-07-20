@@ -58,6 +58,7 @@ import org.opencms.ui.components.CmsErrorDialog;
 import org.opencms.ui.report.CmsReportDialog;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the clear file history dialog and execution.
@@ -124,7 +125,7 @@ public class CmsFileHistoryPanel extends VerticalLayout {
      *
      * @return int value
      */
-    public int getValue() {
+    public @RUntainted int getValue() {
 
       return m_val;
     }
@@ -267,15 +268,15 @@ public class CmsFileHistoryPanel extends VerticalLayout {
   boolean saveOptions() {
 
     // Enable history?
-    boolean enabled =
+    @RUntainted boolean enabled =
         ((ComboBoxVersionsBean) m_numberVersions.getValue()).getValue()
             != CmsFileHistoryApp.NUMBER_VERSIONS_DISABLED;
 
     // Maximal count of versions for current resources.
-    int versions = ((ComboBoxVersionsBean) m_numberVersions.getValue()).getValue();
+    @RUntainted int versions = ((ComboBoxVersionsBean) m_numberVersions.getValue()).getValue();
 
     // Maximal count of versions for deleted resources.
-    int versionsDeleted = versions;
+    @RUntainted int versionsDeleted = versions;
 
     if (m_mode.getValue().equals(CmsFileHistoryApp.MODE_DISABLED)) {
       versionsDeleted = 0;
@@ -449,10 +450,10 @@ public class CmsFileHistoryPanel extends VerticalLayout {
    */
   private void setupVersionSettingsLabel() {
 
-    int numberHistoryVersions = OpenCms.getSystemInfo().getHistoryVersions();
+    @RUntainted int numberHistoryVersions = OpenCms.getSystemInfo().getHistoryVersions();
 
     // Convert int number to readable Text
-    String numberString = String.valueOf(numberHistoryVersions);
+    @RUntainted String numberString = String.valueOf(numberHistoryVersions);
     if (numberHistoryVersions == CmsFileHistoryApp.NUMBER_VERSIONS_DISABLED) {
       numberString =
           CmsVaadinUtils.getMessageText(Messages.GUI_FILEHISTORY_SETTINGS_VERSIONS_DISABLED_0);
@@ -495,7 +496,7 @@ public class CmsFileHistoryPanel extends VerticalLayout {
 
           private static final long serialVersionUID = -1962380117946789444L;
 
-          public void addNewItem(String newItemCaption) {
+          public void addNewItem(@RUntainted String newItemCaption) {
 
             int num =
                 CmsStringUtil.getIntValue(

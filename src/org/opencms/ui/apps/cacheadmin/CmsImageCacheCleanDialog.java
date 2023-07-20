@@ -43,6 +43,7 @@ import org.opencms.ui.FontOpenCms;
 import org.opencms.ui.apps.cacheadmin.CmsFlushCache.I_CloseableDialog;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsDateField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to clean Image Cache.
@@ -140,7 +141,7 @@ public class CmsImageCacheCleanDialog extends CmsBasicDialog implements I_Closea
    */
   void flushCache() {
 
-    float age =
+    @RUntainted float age =
         (System.currentTimeMillis() - m_dateField.getDate().getTime()) / (60f * 60f * 1000f);
     OpenCms.fireCmsEvent(
         new CmsEvent(

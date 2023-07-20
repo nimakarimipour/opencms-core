@@ -38,6 +38,7 @@ import com.vaadin.v7.ui.Label;
 import java.util.List;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Set of buttons allowing the user to navigate between pages in a paged list.
@@ -70,7 +71,7 @@ public class CmsPagingControls extends HorizontalLayout {
   private List<I_PagingCallback> m_callbacks = Lists.newArrayList();
 
   /** The page number. */
-  private int m_page;
+  private @RUntainted int m_page;
 
   /** Button to go to the next page. */
   private Button m_forward = new Button(FontAwesome.FORWARD);
@@ -91,13 +92,13 @@ public class CmsPagingControls extends HorizontalLayout {
   private Label m_resultsLabel = new Label();
 
   /** The index of the last page. */
-  private int m_lastPage;
+  private @RUntainted int m_lastPage;
 
   /** The page size. */
-  private int m_pageSize;
+  private @RUntainted int m_pageSize;
 
   /** The result count. */
-  private int m_resultCount;
+  private @RUntainted int m_resultCount;
 
   /**
    * Creates a new instance.
@@ -228,7 +229,7 @@ public class CmsPagingControls extends HorizontalLayout {
    * @param pageSize size of a page
    * @param fireChanged true if the listeners should be notified
    */
-  public void reset(int resultCount, int pageSize, boolean fireChanged) {
+  public void reset(@RUntainted int resultCount, @RUntainted int pageSize, boolean fireChanged) {
 
     m_lastPage = resultCount == 0 ? 0 : (resultCount - 1) / pageSize;
     m_resultCount = resultCount;
@@ -248,12 +249,12 @@ public class CmsPagingControls extends HorizontalLayout {
    * @param page the page index
    * @param fireChanged true if the registered listeners should be notified
    */
-  public void setPage(int page, boolean fireChanged) {
+  public void setPage(@RUntainted int page, boolean fireChanged) {
 
     m_page = page;
     m_label.setValue("( " + (1 + m_page) + " / " + (m_lastPage + 1) + " )");
-    int start = (m_page * m_pageSize) + 1;
-    int end = Math.min((start + m_pageSize) - 1, m_resultCount);
+    @RUntainted int start = (m_page * m_pageSize) + 1;
+    @RUntainted int end = Math.min((start + m_pageSize) - 1, m_resultCount);
     String resultsMsg =
         CmsVaadinUtils.getMessageText(
             Messages.GUI_DATAVIEW_RESULTS_3, "" + start, "" + end, "" + m_resultCount);

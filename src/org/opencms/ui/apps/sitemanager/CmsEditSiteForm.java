@@ -118,6 +118,7 @@ import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsPath;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Form to edit or add a site.
@@ -189,9 +190,9 @@ public class CmsEditSiteForm extends CmsBasicDialog {
     private static final long serialVersionUID = 9014118214418269697L;
 
     /** @see com.vaadin.v7.data.Validator#validate(java.lang.Object) */
-    public void validate(Object value) throws InvalidValueException {
+    public void validate(@RUntainted Object value) throws InvalidValueException {
 
-      String enteredServer = (String) value;
+      @RUntainted String enteredServer = (String) value;
       if (enteredServer == null) {
         return;
       }
@@ -274,9 +275,9 @@ public class CmsEditSiteForm extends CmsBasicDialog {
     private static final long serialVersionUID = 2269520781911597613L;
 
     /** @see com.vaadin.data.Validator#validate(java.lang.Object) */
-    public void validate(Object value) throws InvalidValueException {
+    public void validate(@RUntainted Object value) throws InvalidValueException {
 
-      String enteredName = (String) value;
+      @RUntainted String enteredName = (String) value;
       if (FORBIDDEN_FOLDER_NAMES.contains(enteredName)) {
         throw new InvalidValueException(
             CmsVaadinUtils.getMessageText(Messages.GUI_SITE_FOLDERNAME_FORBIDDEN_1, enteredName));
@@ -449,9 +450,9 @@ public class CmsEditSiteForm extends CmsBasicDialog {
     private static final long serialVersionUID = 9014118214418269697L;
 
     /** @see com.vaadin.data.Validator#validate(java.lang.Object) */
-    public void validate(Object value) throws InvalidValueException {
+    public void validate(@RUntainted Object value) throws InvalidValueException {
 
-      String enteredServer = (String) value;
+      @RUntainted String enteredServer = (String) value;
       if (enteredServer.isEmpty()) {
         throw new InvalidValueException(
             CmsVaadinUtils.getMessageText(Messages.GUI_SITE_SERVER_EMPTY_0));
@@ -475,7 +476,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
 
     /** @see com.vaadin.v7.data.Validator#validate(java.lang.Object) */
     @Deprecated
-    public void validate(Object value) throws InvalidValueException {
+    public void validate(@RUntainted Object value) throws InvalidValueException {
 
       CmsSite parentSite =
           m_manager.getElement(CmsFileUtil.removeTrailingSeparator((String) value));
@@ -1272,7 +1273,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
    *
    * @return title as string.
    */
-  String getFieldTitle() {
+  @RUntainted String getFieldTitle() {
 
     return m_simpleFieldTitle.getValue();
   }
@@ -1284,7 +1285,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
    *
    * @return parent folder as string
    */
-  String getParentFolder() {
+  @RUntainted String getParentFolder() {
 
     return m_simpleFieldParentFolderName.getValue();
   }
@@ -1679,7 +1680,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
 
       m_altSiteRoot.addValidator(
           fieldValue -> {
-            String path = (String) fieldValue;
+            @RUntainted String path = (String) fieldValue;
             if (path == null) {
               return;
             }
@@ -1996,7 +1997,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
    */
   private CmsSite getSiteFromForm() {
 
-    String siteRoot = getSiteRoot();
+    @RUntainted String siteRoot = getSiteRoot();
     CmsSiteMatcher matcher =
         (CmsStringUtil.isNotEmpty(m_fieldSecureServer.getValue())
                 & m_simpleFieldEncryption.getValue().equals(CmsSSLMode.SECURE_SERVER))

@@ -87,6 +87,7 @@ import org.opencms.xml.containerpage.CmsXmlDynamicFunctionHandler;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class which represents the accessible configuration data at a given point in a sitemap.
@@ -469,7 +470,7 @@ public class CmsADEConfigData {
    * @param name a formatter name (key or ID)
    * @return the best formatter for that name, or null if no formatter could be found
    */
-  public I_CmsFormatterBean findFormatter(String name) {
+  public @RUntainted I_CmsFormatterBean findFormatter(@RUntainted String name) {
 
     if (name == null) {
       return null;
@@ -670,7 +671,7 @@ public class CmsADEConfigData {
    * @param defaultValue the value to return if no attribute with the given name is found
    * @return the attribute value
    */
-  public String getAttribute(String key, String defaultValue) {
+  public @RUntainted String getAttribute(String key, @RUntainted String defaultValue) {
 
     AttributeValue value = getAttributes().get(key);
     if (value != null) {
@@ -745,7 +746,7 @@ public class CmsADEConfigData {
    *
    * @return the base path of the configuration
    */
-  public String getBasePath() {
+  public @RUntainted String getBasePath() {
 
     return m_data.getBasePath();
   }
@@ -820,7 +821,7 @@ public class CmsADEConfigData {
    * @return the list of creatable resource type
    * @throws CmsException if something goes wrong
    */
-  public List<CmsResourceTypeConfig> getCreatableTypes(CmsObject cms, String pageFolderRootPath)
+  public List<CmsResourceTypeConfig> getCreatableTypes(CmsObject cms, @RUntainted String pageFolderRootPath)
       throws CmsException {
 
     List<CmsResourceTypeConfig> result = new ArrayList<CmsResourceTypeConfig>();
@@ -1800,7 +1801,7 @@ public class CmsADEConfigData {
   protected void createContentDirectory() throws CmsException {
 
     if (!isModuleConfiguration()) {
-      String contentFolder = getContentFolderPath();
+      @RUntainted String contentFolder = getContentFolderPath();
       if (!getCms().existsResource(contentFolder)) {
         getCms()
             .createResource(
@@ -1872,7 +1873,7 @@ public class CmsADEConfigData {
     CmsObject cms = OpenCms.initCmsObject(getCms());
     if (m_data.isModuleConfig()) {
       Set<String> siteRoots = OpenCms.getSiteManager().getSiteRoots();
-      for (String siteRoot : siteRoots) {
+      for (@RUntainted String siteRoot : siteRoots) {
         cms.getRequestContext().setSiteRoot(siteRoot);
         for (CmsResourceTypeConfig config : getResourceTypes()) {
           if (!config.isDetailPagesDisabled()) {
@@ -2070,7 +2071,7 @@ public class CmsADEConfigData {
     for (CmsDetailPageInfo page : detailPages) {
       CmsUUID structureId = page.getId();
       try {
-        String rootPath =
+        @RUntainted String rootPath =
             OpenCms.getADEManager()
                 .getRootPath(
                     structureId,

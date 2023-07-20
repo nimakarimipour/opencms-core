@@ -55,6 +55,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Download dialog.
@@ -177,7 +178,7 @@ public class CmsLogDownloadDialog extends CmsBasicDialog {
   private CheckBox m_donwloadAll;
 
   /** Vaadin component. */
-  private ComboBox m_file;
+  private @RUntainted ComboBox m_file;
 
   /** Vaadin component. */
   private Button m_ok;
@@ -253,7 +254,7 @@ public class CmsLogDownloadDialog extends CmsBasicDialog {
    */
   protected Resource getDownloadResource() {
 
-    String pathToDownload = (String) m_file.getValue();
+    @RUntainted String pathToDownload = (String) m_file.getValue();
     if (pathToDownload == null) {
       return null;
     }

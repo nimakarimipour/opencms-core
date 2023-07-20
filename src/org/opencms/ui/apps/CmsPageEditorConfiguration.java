@@ -46,6 +46,7 @@ import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsCssIcon;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The page editor app configuration.
@@ -86,7 +87,7 @@ public class CmsPageEditorConfiguration extends A_CmsWorkplaceAppConfiguration
 
   /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale) */
   @Override
-  public String getHelpText(Locale locale) {
+  public String getHelpText(@RUntainted Locale locale) {
 
     return Messages.get().getBundle(locale).key(Messages.GUI_PAGEEDITOR_HELP_0);
   }
@@ -105,7 +106,7 @@ public class CmsPageEditorConfiguration extends A_CmsWorkplaceAppConfiguration
 
   /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
   @Override
-  public String getName(Locale locale) {
+  public String getName(@RUntainted Locale locale) {
 
     return Messages.get().getBundle(locale).key(Messages.GUI_PAGEEDITOR_TITLE_0);
   }

@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProject;
 import org.opencms.file.CmsUser;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A locale handler returns the locale name to use for the given request context.
@@ -56,7 +57,7 @@ public interface I_CmsLocaleHandler {
    * @return the i18n information to use for the given request context
    */
   CmsI18nInfo getI18nInfo(
-      HttpServletRequest req, CmsUser user, CmsProject project, String resource);
+      HttpServletRequest req, CmsUser user, CmsProject project, @RUntainted String resource);
 
   /**
    * Will be called during system startup.

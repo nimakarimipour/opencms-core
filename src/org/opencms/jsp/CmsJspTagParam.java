@@ -91,6 +91,7 @@ import javax.servlet.jsp.tagext.Tag;
 import org.opencms.i18n.CmsEncoder;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A handler for &lt;param&gt; that accepts attributes as Strings and evaluates them as expressions
@@ -112,10 +113,10 @@ public class CmsJspTagParam extends BodyTagSupport {
   protected boolean m_encode;
 
   /** The name of the parameter. */
-  protected String m_name;
+  protected @RUntainted String m_name;
 
   /** The value of the parameter. */
-  protected String m_value;
+  protected @RUntainted String m_value;
 
   /**
    * Public constructor.
@@ -153,7 +154,7 @@ public class CmsJspTagParam extends BodyTagSupport {
 
     // send the parameter to the appropriate ancestor
     I_CmsJspTagParamParent parent = (I_CmsJspTagParamParent) t;
-    String value = m_value;
+    @RUntainted String value = m_value;
     if (value == null) {
       if ((bodyContent == null) || (bodyContent.getString() == null)) {
         value = "";

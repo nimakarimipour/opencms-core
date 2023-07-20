@@ -34,6 +34,7 @@ import java.util.Locale;
 import java.util.Map;
 import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.i18n.I_CmsMessageContainer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A template context is basically a named path to a template JSP, which has both an internal name
@@ -149,7 +150,7 @@ public class CmsTemplateContext {
    * @param locale the locale for which we want the name
    * @return the localized name
    */
-  public String getLocalizedName(Locale locale) {
+  public String getLocalizedName(@RUntainted Locale locale) {
 
     if (m_messageContainer != null) {
       return m_messageContainer.key(locale);

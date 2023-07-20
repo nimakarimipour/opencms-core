@@ -72,6 +72,7 @@ import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.ui.shared.rpc.I_CmsGwtContextMenuServerRpc;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.commons.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for deleting resources.
@@ -291,7 +292,7 @@ public class CmsDeleteDialog extends CmsBasicDialog {
     I_CmsGwtContextMenuServerRpc rpc =
         new I_CmsGwtContextMenuServerRpc() {
 
-          public void refresh(String id) {
+          public void refresh(@RUntainted String id) {
 
             if (id != null) {
               m_context.finish(Arrays.asList(new CmsUUID(id)));

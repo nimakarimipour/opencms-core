@@ -3,6 +3,7 @@ package org.opencms.jsp;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import org.opencms.loader.CmsImageScaler;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract parent for all JSP tags dealing with image scaling, defines some common image scaler
@@ -41,7 +42,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
   protected transient CmsImageScaler m_scaler;
 
   /** The image source. */
-  protected String m_src;
+  protected @RUntainted String m_src;
 
   /**
    * Initializes a CmsImageScaler to be used by derived classes. The CmsImageScaler is recreated
@@ -207,7 +208,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
    *
    * @param value the scaling height for the image to set
    */
-  public void setHeight(String value) {
+  public void setHeight(@RUntainted String value) {
 
     m_scaler.setHeight(CmsStringUtil.getIntValueRounded(value, 0, SCALE_ATTR_HEIGHT));
   }
@@ -221,7 +222,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
    *
    * @param value the maximum scaling height for the image to set
    */
-  public void setMaxHeight(String value) {
+  public void setMaxHeight(@RUntainted String value) {
 
     m_scaler.setMaxHeight(CmsStringUtil.getIntValueRounded(value, -1, SCALE_ATTR_MAXHEIGHT));
   }
@@ -235,7 +236,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
    *
    * @param value the maximum scaling width for the image to set
    */
-  public void setMaxWidth(String value) {
+  public void setMaxWidth(@RUntainted String value) {
 
     m_scaler.setMaxWidth(CmsStringUtil.getIntValueRounded(value, -1, SCALE_ATTR_MAXWIDTH));
   }
@@ -247,7 +248,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
    *
    * @param value the background color to set
    */
-  public void setScaleColor(String value) {
+  public void setScaleColor(@RUntainted String value) {
 
     m_scaler.setColor(value);
   }
@@ -271,7 +272,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
    *
    * @param value the position to set
    */
-  public void setScalePosition(String value) {
+  public void setScalePosition(@RUntainted String value) {
 
     m_scaler.setPosition(CmsStringUtil.getIntValue(value, 0, SCALE_ATTR_POSITION));
   }
@@ -283,7 +284,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
    *
    * @param value the quality to set
    */
-  public void setScaleQuality(String value) {
+  public void setScaleQuality(@RUntainted String value) {
 
     m_scaler.setQuality(CmsStringUtil.getIntValue(value, 0, SCALE_ATTR_QUALITY));
   }
@@ -295,7 +296,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
    *
    * @param value the render mode to set
    */
-  public void setScaleRendermode(String value) {
+  public void setScaleRendermode(@RUntainted String value) {
 
     m_scaler.setRenderMode(CmsStringUtil.getIntValue(value, 0, SCALE_ATTR_RENDERMODE));
   }
@@ -309,7 +310,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
    *
    * @param value the scaling type for the image to set
    */
-  public void setScaleType(String value) {
+  public void setScaleType(@RUntainted String value) {
 
     m_scaler.setType(CmsStringUtil.getIntValue(value, 0, SCALE_ATTR_TYPE));
   }
@@ -324,7 +325,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
    *
    * @param value the image source to set
    */
-  public void setSrc(String value) {
+  public void setSrc(@RUntainted String value) {
 
     m_src = value;
   }
@@ -338,7 +339,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
    *
    * @param value the scaling width for the image to set
    */
-  public void setWidth(String value) {
+  public void setWidth(@RUntainted String value) {
 
     m_scaler.setWidth(CmsStringUtil.getIntValueRounded(value, 0, SCALE_ATTR_WIDTH));
   }

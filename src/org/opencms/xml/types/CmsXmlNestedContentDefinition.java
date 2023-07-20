@@ -33,6 +33,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.xml.CmsXmlContentDefinition;
 import org.opencms.xml.I_CmsXmlDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A nested content XML definition that is included by another XML content definition.
@@ -60,7 +61,7 @@ public class CmsXmlNestedContentDefinition extends A_CmsXmlContentValue {
   public CmsXmlNestedContentDefinition(
       CmsXmlContentDefinition contentDefinition,
       I_CmsXmlDocument document,
-      Element element,
+      @RUntainted Element element,
       Locale locale,
       I_CmsXmlSchemaType type) {
 
@@ -79,7 +80,7 @@ public class CmsXmlNestedContentDefinition extends A_CmsXmlContentValue {
    * @param maxOccurs maximum number of occurrences of this type according to the XML schema
    */
   public CmsXmlNestedContentDefinition(
-      CmsXmlContentDefinition contentDefinition, String name, String minOccurs, String maxOccurs) {
+      CmsXmlContentDefinition contentDefinition, @RUntainted String name, String minOccurs, String maxOccurs) {
 
     super(name, minOccurs, maxOccurs);
     m_nestedContentDefinition = contentDefinition;
@@ -90,7 +91,7 @@ public class CmsXmlNestedContentDefinition extends A_CmsXmlContentValue {
    *     Locale)
    */
   public I_CmsXmlContentValue createValue(
-      I_CmsXmlDocument document, Element element, Locale locale) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale) {
 
     return new CmsXmlNestedContentDefinition(
         m_nestedContentDefinition, document, element, locale, this);

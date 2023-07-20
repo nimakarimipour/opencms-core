@@ -30,6 +30,7 @@ package org.opencms.report;
 import java.util.List;
 import java.util.Locale;
 import org.opencms.i18n.CmsMessageContainer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the interface for the report classes which are used for the output during operations that
@@ -90,7 +91,7 @@ public interface I_CmsReport {
    *
    * @return the runtime formatted as "hh:mm:ss"
    */
-  String formatRuntime();
+  @RUntainted String formatRuntime();
 
   /**
    * Returns a list of all errors that occurred during the report.
@@ -99,7 +100,7 @@ public interface I_CmsReport {
    *
    * @return an error list that occurred during the report
    */
-  List<Object> getErrors();
+  @RUntainted List<Object> getErrors();
 
   /**
    * Returns the time of last report entry.
@@ -119,7 +120,7 @@ public interface I_CmsReport {
    *
    * @return the locale this report was initialized with
    */
-  Locale getLocale();
+  @RUntainted Locale getLocale();
 
   /**
    * Updates this report, this processes all new output added since the last call to this method.
@@ -169,7 +170,7 @@ public interface I_CmsReport {
    *
    * @return a warning list that occurred during the report
    */
-  List<Object> getWarnings();
+  @RUntainted List<Object> getWarnings();
 
   /**
    * Returns if the report generated an error output.
@@ -288,7 +289,7 @@ public interface I_CmsReport {
    * @return the resource name adjusted for the report site root
    * @see org.opencms.file.CmsRequestContext#removeSiteRoot(String)
    */
-  String removeSiteRoot(String resourcename);
+  @RUntainted String removeSiteRoot(String resourcename);
 
   /**
    * Resets the runtime to 0 milliseconds.

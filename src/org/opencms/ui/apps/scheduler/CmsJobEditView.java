@@ -73,6 +73,7 @@ import org.opencms.ui.components.fileselect.CmsPathSelectField;
 import org.opencms.ui.util.CmsComboNullToEmptyConverter;
 import org.opencms.ui.util.CmsNullToEmptyConverter;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Form used to edit a scheduled job.
@@ -121,10 +122,10 @@ public class CmsJobEditView extends CmsBasicDialog {
     private static final long serialVersionUID = 1L;
 
     /** @see com.vaadin.data.Validator#validate(java.lang.Object) */
-    public void validate(Object value) throws InvalidValueException {
+    public void validate(@RUntainted Object value) throws InvalidValueException {
 
       CmsScheduledJobInfo info = new CmsScheduledJobInfo();
-      String stringValue = (String) value;
+      @RUntainted String stringValue = (String) value;
 
       // Job name may be needed in exception
       try {
@@ -151,10 +152,10 @@ public class CmsJobEditView extends CmsBasicDialog {
     private static final long serialVersionUID = 1L;
 
     /** @see com.vaadin.data.Validator#validate(java.lang.Object) */
-    public void validate(Object value) throws InvalidValueException {
+    public void validate(@RUntainted Object value) throws InvalidValueException {
 
       CmsScheduledJobInfo info = new CmsScheduledJobInfo();
-      String name = (String) value;
+      @RUntainted String name = (String) value;
       try {
         info.setJobName(name);
       } catch (CmsIllegalArgumentException e) {
@@ -464,7 +465,7 @@ public class CmsJobEditView extends CmsBasicDialog {
    * @param field the component
    * @param property the bean property
    */
-  void bindField(AbstractField<?> field, String property) {
+  void bindField(AbstractField<?> field, @RUntainted String property) {
 
     m_group.bind(field, property);
 

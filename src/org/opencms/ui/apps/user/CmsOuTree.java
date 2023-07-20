@@ -48,6 +48,7 @@ import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsCssIcon;
 import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the OU Tree.
@@ -132,7 +133,7 @@ public class CmsOuTree extends Tree {
 
           private static final long serialVersionUID = -6475529853027436127L;
 
-          public void itemClick(ItemClickEvent event) {
+          public void itemClick(@RUntainted ItemClickEvent event) {
 
             handleItemClick(event.getItemId());
           }
@@ -221,7 +222,7 @@ public class CmsOuTree extends Tree {
    *
    * @param itemId item which was clicked
    */
-  protected void handleItemClick(Object itemId) {
+  protected void handleItemClick(@RUntainted Object itemId) {
 
     Item item = getItem(itemId);
     I_CmsOuTreeType type = (I_CmsOuTreeType) getItem(itemId).getItemProperty(PROP_TYPE).getValue();
@@ -235,7 +236,7 @@ public class CmsOuTree extends Tree {
       idInItem = true;
     }
     if (type.equals(CmsOuTreeType.ROLE)) {
-      String ou = getOuFromItem(itemId, CmsOuTreeType.ROLE);
+      @RUntainted String ou = getOuFromItem(itemId, CmsOuTreeType.ROLE);
       boolean isRoot = ou.isEmpty();
       if (isRoot) {
         ou = "/";
@@ -489,7 +490,7 @@ public class CmsOuTree extends Tree {
    * @param type of given item
    * @return name of ou
    */
-  private String getOuFromItem(Object itemId, I_CmsOuTreeType type) {
+  private @RUntainted String getOuFromItem(Object itemId, I_CmsOuTreeType type) {
 
     if (type.equals(CmsOuTreeType.OU)) {
       return ((CmsOrganizationalUnit) itemId).getName();

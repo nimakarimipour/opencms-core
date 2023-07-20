@@ -30,6 +30,7 @@ package org.opencms.db;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.security.CmsOrganizationalUnit;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the names of the OpenCms default users and groups.
@@ -62,25 +63,25 @@ public class CmsDefaultUsers {
   protected static final String DEFAULT_USER_GUEST = "Guest";
 
   /** Administrators group name. */
-  private String m_groupAdministrators;
+  private @RUntainted String m_groupAdministrators;
 
   /** Guests group name. */
-  private String m_groupGuests;
+  private @RUntainted String m_groupGuests;
 
   /** System Users group name. */
-  private String m_groupUsers;
+  private @RUntainted String m_groupUsers;
 
   /** Administrator user name. */
-  private String m_userAdmin;
+  private @RUntainted String m_userAdmin;
 
   /** Deleted resource user name. */
-  private String m_userDeletedResource;
+  private @RUntainted String m_userDeletedResource;
 
   /** Export user name. */
-  private String m_userExport;
+  private @RUntainted String m_userExport;
 
   /** Guest user name. */
-  private String m_userGuest;
+  private @RUntainted String m_userGuest;
 
   /**
    * Constructor that initializes all names with default values.
@@ -114,13 +115,13 @@ public class CmsDefaultUsers {
    * @param groupGuests the name of the guests group
    */
   public CmsDefaultUsers(
-      String userAdmin,
-      String userGuest,
-      String userExport,
-      String userDeletedResource,
-      String groupAdministrators,
-      String groupUsers,
-      String groupGuests) {
+      @RUntainted String userAdmin,
+      @RUntainted String userGuest,
+      @RUntainted String userExport,
+      @RUntainted String userDeletedResource,
+      @RUntainted String groupAdministrators,
+      @RUntainted String groupUsers,
+      @RUntainted String groupGuests) {
 
     init(
         userAdmin,
@@ -139,7 +140,7 @@ public class CmsDefaultUsers {
    *
    * @return the name of the administrators group
    */
-  public String getGroupAdministrators() {
+  public @RUntainted String getGroupAdministrators() {
 
     return m_groupAdministrators;
   }
@@ -151,7 +152,7 @@ public class CmsDefaultUsers {
    *
    * @return the name of the guests group
    */
-  public String getGroupGuests() {
+  public @RUntainted String getGroupGuests() {
 
     return m_groupGuests;
   }
@@ -180,7 +181,7 @@ public class CmsDefaultUsers {
    *
    * @return the name of the users group
    */
-  public String getGroupUsers() {
+  public @RUntainted String getGroupUsers() {
 
     return m_groupUsers;
   }
@@ -192,7 +193,7 @@ public class CmsDefaultUsers {
    *
    * @return the name of the default administrator user
    */
-  public String getUserAdmin() {
+  public @RUntainted String getUserAdmin() {
 
     return m_userAdmin;
   }
@@ -204,7 +205,7 @@ public class CmsDefaultUsers {
    *
    * @return the name of the default deleted resource user
    */
-  public String getUserDeletedResource() {
+  public @RUntainted String getUserDeletedResource() {
 
     return m_userDeletedResource;
   }
@@ -216,7 +217,7 @@ public class CmsDefaultUsers {
    *
    * @return the name of the user used to generate the static export
    */
-  public String getUserExport() {
+  public @RUntainted String getUserExport() {
 
     return m_userExport;
   }
@@ -228,7 +229,7 @@ public class CmsDefaultUsers {
    *
    * @return the name of the default guest user
    */
-  public String getUserGuest() {
+  public @RUntainted String getUserGuest() {
 
     return m_userGuest;
   }
@@ -379,13 +380,13 @@ public class CmsDefaultUsers {
    * @param groupGuests the name of the guests group
    */
   protected void init(
-      String userAdmin,
-      String userGuest,
-      String userExport,
-      String userDeletedResource,
-      String groupAdministrators,
-      String groupUsers,
-      String groupGuests) {
+      @RUntainted String userAdmin,
+      @RUntainted String userGuest,
+      @RUntainted String userExport,
+      @RUntainted String userDeletedResource,
+      @RUntainted String groupAdministrators,
+      @RUntainted String groupUsers,
+      @RUntainted String groupGuests) {
 
     // check if all required user and group names are not null or empty
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(userAdmin)

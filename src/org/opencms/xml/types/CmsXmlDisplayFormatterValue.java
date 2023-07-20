@@ -37,6 +37,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
 import org.opencms.xml.content.CmsXmlContent;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * XML value type for display formatters.
@@ -72,7 +73,7 @@ public class CmsXmlDisplayFormatterValue extends A_CmsXmlValueTextBase {
    * @param type the type instance to create the value for
    */
   public CmsXmlDisplayFormatterValue(
-      I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
     super(document, element, locale, type);
   }
@@ -146,7 +147,7 @@ public class CmsXmlDisplayFormatterValue extends A_CmsXmlValueTextBase {
 
   /** @see org.opencms.xml.types.A_CmsXmlValueTextBase#getStringValue(org.opencms.file.CmsObject) */
   @Override
-  public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+  public @RUntainted String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
     // always try to return the value with the formatter key (rather than id) if possible
     // (this matches the handling of options in the display formatter widget)
@@ -158,11 +159,11 @@ public class CmsXmlDisplayFormatterValue extends A_CmsXmlValueTextBase {
         CmsADEConfigData config =
             OpenCms.getADEManager()
                 .lookupConfigurationWithCache(cms, content.getFile().getRootPath());
-        String internalValue = super.getStringValue(cms);
+        @RUntainted String internalValue = super.getStringValue(cms);
         if (internalValue == null) {
           return null;
         }
-        int colonPos = internalValue.indexOf(':');
+        @RUntainted int colonPos = internalValue.indexOf(':');
         if (colonPos == -1) {
           return internalValue;
         }
@@ -196,7 +197,7 @@ public class CmsXmlDisplayFormatterValue extends A_CmsXmlValueTextBase {
    *     java.lang.String)
    */
   @Override
-  public void setStringValue(CmsObject cms, String value) {
+  public void setStringValue(CmsObject cms, @RUntainted String value) {
 
     I_CmsXmlDocument doc = getDocument();
     if (!CmsStringUtil.isEmpty(value)) {
@@ -206,9 +207,9 @@ public class CmsXmlDisplayFormatterValue extends A_CmsXmlValueTextBase {
           CmsADEConfigData config =
               OpenCms.getADEManager()
                   .lookupConfigurationWithCache(cms, content.getFile().getRootPath());
-          int colonPos = value.indexOf(":");
+          @RUntainted int colonPos = value.indexOf(":");
           if (colonPos > -1) {
-            String keyOrId = value.substring(colonPos + 1);
+            @RUntainted String keyOrId = value.substring(colonPos + 1);
             I_CmsFormatterBean formatter = config.findFormatter(keyOrId);
             if (formatter != null) {
               String newId =

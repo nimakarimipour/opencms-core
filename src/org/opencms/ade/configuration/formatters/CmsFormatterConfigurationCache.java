@@ -64,6 +64,7 @@ import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.content.CmsXmlContentProperty;
 import org.opencms.xml.content.CmsXmlContentRootLocation;
 import org.opencms.xml.content.I_CmsXmlContentValueLocation;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A cache object which holds a collection of formatter configuration beans read from the VFS.
@@ -410,7 +411,7 @@ public class CmsFormatterConfigurationCache implements I_CmsGlobalConfigurationC
    * @param path the path of the formatter
    * @param resourceType the resource type
    */
-  private void checkIfUpdateIsNeeded(CmsUUID structureId, String path, int resourceType) {
+  private void checkIfUpdateIsNeeded(CmsUUID structureId, @RUntainted String path, int resourceType) {
 
     if (CmsResource.isTemporaryFileName(path)) {
       return;

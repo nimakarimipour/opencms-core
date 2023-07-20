@@ -38,6 +38,7 @@ import org.opencms.report.CmsPrintStreamReport;
 import org.opencms.report.I_CmsReport;
 import org.opencms.report.I_CmsReportUpdateFormatter;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report class used for the publish operations.
@@ -160,7 +161,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
 
   /** @see org.opencms.report.A_CmsReport#getErrors() */
   @Override
-  public List<Object> getErrors() {
+  public @RUntainted List<Object> getErrors() {
 
     if (m_report != null) {
       return m_report.getErrors();
@@ -170,7 +171,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
 
   /** @see org.opencms.report.CmsPrintStreamReport#getReportUpdate() */
   @Override
-  public synchronized String getReportUpdate() {
+  public synchronized @RUntainted String getReportUpdate() {
 
     if (m_report != null) {
       return m_report.getReportUpdate();
@@ -193,7 +194,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
 
   /** @see org.opencms.report.A_CmsReport#getWarnings() */
   @Override
-  public List<Object> getWarnings() {
+  public @RUntainted List<Object> getWarnings() {
 
     if (m_report != null) {
       return m_report.getWarnings();

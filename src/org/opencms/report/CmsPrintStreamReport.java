@@ -32,6 +32,7 @@ import java.util.Locale;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stream report where the output is streamed to the given print stream instance.
@@ -104,7 +105,7 @@ public class CmsPrintStreamReport extends CmsHtmlReport {
 
   /** @see org.opencms.report.A_CmsReport#print(java.lang.String, int) */
   @Override
-  public synchronized void print(String value, int format) {
+  public synchronized void print(@RUntainted String value, int format) {
 
     if (m_writeHtml) {
       super.print(value, format);

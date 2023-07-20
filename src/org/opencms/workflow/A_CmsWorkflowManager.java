@@ -32,6 +32,7 @@ import java.util.Locale;
 import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class which provides common functionality for workflow managers, like initialization of
@@ -88,7 +89,7 @@ public abstract class A_CmsWorkflowManager implements I_CmsWorkflowManager {
    * @param userCms the CMS context
    * @return the locale to use
    */
-  protected Locale getLocale(CmsObject userCms) {
+  protected @RUntainted Locale getLocale(CmsObject userCms) {
 
     return OpenCms.getWorkplaceManager().getWorkplaceLocale(userCms);
   }

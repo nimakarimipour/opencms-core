@@ -59,6 +59,7 @@ import org.opencms.xml.content.CmsXmlContentPropertyHelper;
 import org.opencms.xml.content.CmsXmlContentRootLocation;
 import org.opencms.xml.content.I_CmsXmlContentLocation;
 import org.opencms.xml.content.I_CmsXmlContentValueLocation;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A parser class which reads data from inherited container configuration files.
@@ -206,7 +207,7 @@ public class CmsContainerConfigurationParser {
       String key = keyLoc.asString(m_cms).trim();
       I_CmsXmlContentValueLocation actualElementLoc = elementLoc.getSubValue(N_ELEMENT);
       I_CmsXmlContentValueLocation uriLoc = actualElementLoc.getSubValue(N_URI);
-      CmsUUID structureId = uriLoc.asId(m_cms);
+      @RUntainted CmsUUID structureId = uriLoc.asId(m_cms);
       if (structureId != null) {
         Map<String, String> settings =
             CmsXmlContentPropertyHelper.readProperties(m_cms, actualElementLoc);

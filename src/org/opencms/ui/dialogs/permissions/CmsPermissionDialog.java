@@ -77,6 +77,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.commons.Messages;
 import org.opencms.workplace.explorer.CmsResourceUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The permission dialog.
@@ -123,7 +124,7 @@ public class CmsPermissionDialog extends CmsBasicDialog
   private Button m_okButton;
 
   /** The cms context. */
-  private CmsObject m_cms;
+  private @RUntainted CmsObject m_cms;
 
   /** The dialog context. */
   private I_CmsDialogContext m_context;
@@ -147,7 +148,7 @@ public class CmsPermissionDialog extends CmsBasicDialog
   private CmsResource m_resource;
 
   /** Parent path map. */
-  private Map<CmsUUID, String> m_parents;
+  private @RUntainted Map<CmsUUID, @RUntainted String> m_parents;
 
   /** The resource permissions panel. */
   private VerticalLayout m_resourcePermissions;
@@ -507,12 +508,12 @@ public class CmsPermissionDialog extends CmsBasicDialog
    * @param inheritedRes boolean
    */
   private void addEntryTableToLayout(
-      List<CmsAccessControlEntry> entries,
+      @RUntainted List<CmsAccessControlEntry> entries,
       VerticalLayout layout,
-      boolean editable,
-      boolean inheritedRes) {
+      @RUntainted boolean editable,
+      @RUntainted boolean inheritedRes) {
 
-    final CmsPermissionViewTable table =
+    final @RUntainted CmsPermissionViewTable table =
         new CmsPermissionViewTable(m_cms, entries, editable, inheritedRes, m_parents, this);
     HorizontalLayout hl = new HorizontalLayout();
     Label label =
@@ -561,7 +562,7 @@ public class CmsPermissionDialog extends CmsBasicDialog
    * @return String with HTML code of the form
    */
   private CmsPermissionView buildPermissionEntryForm(
-      CmsUUID id, CmsPermissionSet curSet, boolean editable, boolean extendedView) {
+      @RUntainted CmsUUID id, CmsPermissionSet curSet, boolean editable, boolean extendedView) {
 
     String fileName = m_cms.getSitePath(m_resource);
     int flags = 0;

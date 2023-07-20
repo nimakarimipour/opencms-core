@@ -91,6 +91,7 @@ import org.opencms.search.fields.CmsSearchField;
 import org.opencms.search.fields.CmsSearchFieldConfiguration;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract search index implementation.
@@ -186,7 +187,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
   private static final long serialVersionUID = 8461682478204452718L;
 
   /** The configured Lucene analyzer used for this index. */
-  private transient Analyzer m_analyzer;
+  private transient @RUntainted Analyzer m_analyzer;
 
   /** Indicates if backup re-indexing is used by this index. */
   private boolean m_backupReindexing;
@@ -213,7 +214,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
   private boolean m_ignoreExpiration;
 
   /** The Lucene index searcher to use. */
-  private transient IndexSearcher m_indexSearcher;
+  private transient @RUntainted IndexSearcher m_indexSearcher;
 
   /** The Lucene index RAM buffer size, see {@link IndexWriterConfig#setRAMBufferSizeMB(double)}. */
   private Double m_luceneRAMBufferSizeMB;
@@ -257,7 +258,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
    * @throws CmsIllegalArgumentException if the given name is null, empty or already taken by
    *     another search index
    */
-  public CmsSearchIndex(String name) throws CmsIllegalArgumentException {
+  public CmsSearchIndex(@RUntainted String name) throws CmsIllegalArgumentException {
 
     this();
     setName(name);
@@ -416,7 +417,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
    * @param value the value of the parameter
    */
   @Override
-  public void addConfigurationParameter(String key, String value) {
+  public void addConfigurationParameter(@RUntainted String key, @RUntainted String value) {
 
     if (PERMISSIONS.equals(key)) {
       m_checkPermissions = Boolean.valueOf(value).booleanValue();
@@ -499,7 +500,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
    *
    * @return the Lucene analyzer used for this index
    */
-  public Analyzer getAnalyzer() {
+  public @RUntainted Analyzer getAnalyzer() {
 
     return m_analyzer;
   }
@@ -696,7 +697,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
    * @return the path where this index stores it's data in the "real" file system
    */
   @Override
-  public String getPath() {
+  public @RUntainted String getPath() {
 
     if (super.getPath() == null) {
       setPath(generateIndexDirectory());
@@ -723,7 +724,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
    *
    * @return the Lucene index searcher used for this search index
    */
-  public IndexSearcher getSearcher() {
+  public @RUntainted IndexSearcher getSearcher() {
 
     return m_indexSearcher;
   }
@@ -894,7 +895,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
    * @return the List of results found or an empty list
    * @throws CmsSearchException if something goes wrong
    */
-  public CmsSearchResultList search(CmsObject cms, CmsSearchParameters params)
+  public CmsSearchResultList search(CmsObject cms, @RUntainted CmsSearchParameters params)
       throws CmsSearchException {
 
     long timeTotal = -System.currentTimeMillis();
@@ -945,19 +946,19 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
           appendDateCreatedFilter(builder, params.getMinDateCreated(), params.getMaxDateCreated());
 
       // the search query to use, will be constructed in the next lines
-      Query query = null;
+      @RUntainted Query query = null;
       // store separate fields query for excerpt highlighting
-      Query fieldsQuery = null;
+      @RUntainted Query fieldsQuery = null;
 
       // get an index searcher that is certainly up to date
       indexSearcherUpdate();
-      IndexSearcher searcher = getSearcher();
+      @RUntainted IndexSearcher searcher = getSearcher();
 
       if (!params.isIgnoreQuery()) {
         // since OpenCms 8 the query can be empty in which case only filters are used for the result
         if (params.getParsedQuery() != null) {
           // the query was already build, re-use it
-          QueryParser p = new QueryParser(CmsSearchField.FIELD_CONTENT, getAnalyzer());
+          @RUntainted QueryParser p = new QueryParser(CmsSearchField.FIELD_CONTENT, getAnalyzer());
           fieldsQuery = p.parse(params.getParsedQuery());
         } else if (params.getFieldQueries() != null) {
           // each field has an individual query
@@ -1148,7 +1149,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
 
     if (LOG.isDebugEnabled()) {
       timeTotal += System.currentTimeMillis();
-      Object[] logParams =
+      @RUntainted Object[] logParams =
           new Object[] {
             new Long(hits == null ? 0 : hits.totalHits.value),
             new Long(timeTotal),
@@ -1168,7 +1169,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
    *
    * @param analyzer the Lucene analyzer to set
    */
-  public void setAnalyzer(Analyzer analyzer) {
+  public void setAnalyzer(@RUntainted Analyzer analyzer) {
 
     m_analyzer = analyzer;
   }
@@ -1482,7 +1483,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
    *
    * @return the path to the backup folder, or <code>null</code> in case no backup was created
    */
-  protected String createIndexBackup() {
+  protected @RUntainted String createIndexBackup() {
 
     if (!isBackupReindexing()) {
       // if no backup is generated we don't need to do anything
@@ -1495,7 +1496,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
       // index does not exist yet, so we can't backup it
       return null;
     }
-    String backupPath = getPath() + "_backup";
+    @RUntainted String backupPath = getPath() + "_backup";
     FSDirectory oldDir = null;
     FSDirectory newDir = null;
     try {
@@ -1624,7 +1625,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
    *
    * @return the directory on the RFS for this index
    */
-  protected String generateIndexDirectory() {
+  protected @RUntainted String generateIndexDirectory() {
 
     return OpenCms.getSystemInfo()
         .getAbsoluteRfsPathRelativeToWebInf(
@@ -1849,7 +1850,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
     try {
       indexDirectory = FSDirectory.open(Paths.get(path));
       if (DirectoryReader.indexExists(indexDirectory)) {
-        IndexReader reader =
+        @RUntainted IndexReader reader =
             UninvertingReader.wrap(DirectoryReader.open(indexDirectory), createUninvertingMap());
         if (m_indexSearcher != null) {
           // store old searcher instance to close it later
@@ -2029,7 +2030,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
    *
    * @param path the backup folder to remove
    */
-  protected void removeIndexBackup(String path) {
+  protected void removeIndexBackup(@RUntainted String path) {
 
     if (!isBackupReindexing()) {
       // if no backup is generated we don't need to do anything

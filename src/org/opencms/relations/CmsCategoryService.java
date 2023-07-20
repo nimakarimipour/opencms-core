@@ -50,6 +50,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides several simplified methods for manipulating category relations.
@@ -202,7 +203,7 @@ public class CmsCategoryService {
   public CmsCategory createCategory(
       CmsObject cms,
       CmsCategory parent,
-      String name,
+      @RUntainted String name,
       String title,
       String description,
       String referencePath)
@@ -216,7 +217,7 @@ public class CmsCategoryService {
       properties.add(
           new CmsProperty(CmsPropertyDefinition.PROPERTY_DESCRIPTION, description, null));
     }
-    String folderPath = "";
+    @RUntainted String folderPath = "";
     if (parent != null) {
       folderPath += parent.getRootPath();
     } else {
@@ -307,7 +308,7 @@ public class CmsCategoryService {
    * @return a category object
    * @throws CmsException if something goes wrong
    */
-  public CmsCategory getCategory(CmsObject cms, String categoryRootPath) throws CmsException {
+  public CmsCategory getCategory(CmsObject cms, @RUntainted String categoryRootPath) throws CmsException {
 
     CmsResource resource =
         cms.readResource(cms.getRequestContext().removeSiteRoot(categoryRootPath));
@@ -330,14 +331,14 @@ public class CmsCategoryService {
       ret.add(CmsCategoryService.CENTRALIZED_REPOSITORY);
       return ret;
     }
-    String path = referencePath;
+    @RUntainted String path = referencePath;
     if (!CmsResource.isFolder(path)) {
       path = CmsResource.getParentFolder(path);
     }
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(path)) {
       path = "/";
     }
-    String categoryBase = getRepositoryBaseFolderName(cms);
+    @RUntainted String categoryBase = getRepositoryBaseFolderName(cms);
     do {
       String repositoryPath = internalCategoryRootPath(path, categoryBase);
       if (cms.existsResource(repositoryPath)) {
@@ -485,7 +486,7 @@ public class CmsCategoryService {
    * @throws CmsException if something goes wrong
    */
   public void moveCategory(
-      CmsObject cms, String oldCatPath, String newCatPath, String referencePath)
+      CmsObject cms, String oldCatPath, @RUntainted String newCatPath, String referencePath)
       throws CmsException {
 
     CmsCategory category = readCategory(cms, oldCatPath, referencePath);
@@ -565,7 +566,7 @@ public class CmsCategoryService {
       boolean includeRepositories)
       throws CmsException {
 
-    String catPath = parentCategoryPath;
+    @RUntainted String catPath = parentCategoryPath;
     if (catPath == null) {
       catPath = "";
     }
@@ -576,7 +577,7 @@ public class CmsCategoryService {
     // traverse in reverse order, to ensure the set will contain most global categories
     Iterator<String> it = repositories.iterator();
     while (it.hasNext()) {
-      String repository = it.next();
+      @RUntainted String repository = it.next();
       try {
         if (includeRepositories) {
           CmsCategory repo = getCategory(cms, cms.readResource(repository));
@@ -609,13 +610,13 @@ public class CmsCategoryService {
    *     given path
    * @throws CmsException if something goes wrong
    */
-  public CmsCategory readCategory(CmsObject cms, String categoryPath, String referencePath)
+  public CmsCategory readCategory(CmsObject cms, @RUntainted String categoryPath, String referencePath)
       throws CmsException {
 
     // iterate all possible category repositories, starting with the most global one
     Iterator<String> it = getCategoryRepositories(cms, referencePath).iterator();
     while (it.hasNext()) {
-      String repository = it.next();
+      @RUntainted String repository = it.next();
       try {
         return getCategory(cms, internalCategoryRootPath(repository, categoryPath));
       } catch (CmsVfsResourceNotFoundException e) {
@@ -827,7 +828,7 @@ public class CmsCategoryService {
    * @param categoryPath the category path
    * @return the category root path
    */
-  private String internalCategoryRootPath(String basePath, String categoryPath) {
+  private @RUntainted String internalCategoryRootPath(@RUntainted String basePath, @RUntainted String categoryPath) {
 
     if (categoryPath.startsWith("/") && basePath.endsWith("/")) {
       // one slash too much
@@ -951,7 +952,7 @@ public class CmsCategoryService {
    * @throws CmsException if something goes wrong
    */
   private List<CmsCategory> internalReadSubCategories(
-      CmsObject cms, String rootPath, boolean includeSubCats) throws CmsException {
+      CmsObject cms, @RUntainted String rootPath, boolean includeSubCats) throws CmsException {
 
     List<CmsCategory> categories = new ArrayList<CmsCategory>();
     List<CmsResource> resources =

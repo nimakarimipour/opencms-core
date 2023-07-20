@@ -45,6 +45,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Adds a folder in every existing folder with the name "__properties" which contains property files
@@ -90,7 +91,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
   public List<CmsResource> addResourcesToFolder(
       CmsObject cms, String resourcename, CmsResourceFilter filter) throws CmsException {
 
-    String path = resourcename;
+    @RUntainted String path = resourcename;
     if (!path.endsWith("/")) {
       path += "/";
     }
@@ -150,7 +151,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
    */
   @Override
   public CmsResource createResource(
-      CmsObject cms, String resourcename, int type, byte[] content, List<CmsProperty> properties)
+      CmsObject cms, @RUntainted String resourcename, int type, byte[] content, List<CmsProperty> properties)
       throws CmsException, CmsIllegalArgumentException {
 
     CmsResource res = getResource(cms, resourcename, CmsResourceFilter.DEFAULT);
@@ -200,7 +201,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
    */
   @Override
   public boolean deleteResource(
-      CmsObject cms, String resourcename, CmsResourceDeleteMode siblingMode) throws CmsException {
+      CmsObject cms, @RUntainted String resourcename, CmsResourceDeleteMode siblingMode) throws CmsException {
 
     CmsResource res = getResource(cms, resourcename, CmsResourceFilter.DEFAULT);
     if (res != null) {
@@ -249,7 +250,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
    *     java.lang.String, boolean)
    */
   @Override
-  public boolean lockResource(CmsObject cms, String resourcename, boolean temporary)
+  public boolean lockResource(CmsObject cms, @RUntainted String resourcename, boolean temporary)
       throws CmsException {
 
     CmsResource res = getResource(cms, resourcename, CmsResourceFilter.DEFAULT);
@@ -271,7 +272,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
    *     java.lang.String, org.opencms.file.CmsResourceFilter)
    */
   @Override
-  public CmsFile readFile(CmsObject cms, String resourcename, CmsResourceFilter filter)
+  public CmsFile readFile(CmsObject cms, @RUntainted String resourcename, CmsResourceFilter filter)
       throws CmsException {
 
     if (!resourcename.endsWith(PROPERTY_DIR)) {
@@ -300,7 +301,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
    *     java.lang.String, org.opencms.file.CmsResourceFilter)
    */
   @Override
-  public CmsResource readResource(CmsObject cms, String resourcename, CmsResourceFilter filter)
+  public CmsResource readResource(CmsObject cms, @RUntainted String resourcename, CmsResourceFilter filter)
       throws CmsException {
 
     CmsResource res = getResource(cms, resourcename, filter);
@@ -341,7 +342,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
    *     java.lang.String)
    */
   @Override
-  public String restoreLink(CmsObject cms, String uri) {
+  public String restoreLink(CmsObject cms, @RUntainted String uri) {
 
     try {
       CmsResource res = getResource(cms, uri, CmsResourceFilter.DEFAULT);
@@ -360,7 +361,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
    *     java.lang.String)
    */
   @Override
-  public boolean unlockResource(CmsObject cms, String resourcename) throws CmsException {
+  public boolean unlockResource(CmsObject cms, @RUntainted String resourcename) throws CmsException {
 
     CmsResource res = getResource(cms, resourcename, CmsResourceFilter.DEFAULT);
     if (res != null) {
@@ -494,7 +495,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
    * @return the resource for the property file or null if not found
    * @throws CmsException if something goes wrong
    */
-  private CmsResource getResource(CmsObject cms, String resourcename, CmsResourceFilter filter)
+  private CmsResource getResource(CmsObject cms, @RUntainted String resourcename, CmsResourceFilter filter)
       throws CmsException {
 
     // the path without trailing slash

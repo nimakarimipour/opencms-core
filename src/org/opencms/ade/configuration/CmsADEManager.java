@@ -113,6 +113,7 @@ import org.opencms.xml.content.CmsXmlContentProperty.Visibility;
 import org.opencms.xml.content.CmsXmlContentPropertyHelper;
 import org.opencms.xml.content.I_CmsXmlContentHandler;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the main class used to access the ADE configuration and also accomplish some other
@@ -796,14 +797,14 @@ public class CmsADEManager {
     if (CmsResourceTypeXmlContent.isXmlContent(res)) {
       CmsResourceTypeXmlContent type =
           (CmsResourceTypeXmlContent) OpenCms.getResourceManager().getResourceType(res);
-      String schema = type.getSchema();
+      @RUntainted String schema = type.getSchema();
       try {
         CmsXmlContentDefinition contentDefinition = CmsXmlContentDefinition.unmarshal(cms, schema);
         // get the content handler for the resource type to create
         I_CmsXmlContentHandler handler = contentDefinition.getContentHandler();
         if (handler.hasNestedFormatters()) {
           result = new ArrayList<I_CmsFormatterBean>();
-          for (String formatterId : handler.getNestedFormatters(cms, res, locale, req)) {
+          for (@RUntainted String formatterId : handler.getNestedFormatters(cms, res, locale, req)) {
             I_CmsFormatterBean formatter = config.findFormatter(formatterId);
             if (formatter != null) {
               result.add(formatter);
@@ -846,7 +847,7 @@ public class CmsADEManager {
    * @param rootPath the root path of a content
    * @return the parent folder type name, or null if none is defined
    */
-  public String getParentFolderType(boolean online, String rootPath) {
+  public String getParentFolderType(boolean online, @RUntainted String rootPath) {
 
     return getCacheState(online).getParentFolderType(rootPath);
   }
@@ -1061,7 +1062,7 @@ public class CmsADEManager {
    * @param rootPath the root path for which the subsite root should be found
    * @return the subsite root
    */
-  public String getSubSiteRoot(CmsObject cms, String rootPath) {
+  public @RUntainted String getSubSiteRoot(CmsObject cms, String rootPath) {
 
     CmsADEConfigData configData = lookupConfiguration(cms, rootPath);
     String basePath = configData.getBasePath();
@@ -1496,7 +1497,7 @@ public class CmsADEManager {
    * @param showHelp the show help flag
    * @throws CmsException if writing the user info fails
    */
-  public void setShowEditorHelp(CmsObject cms, boolean showHelp) throws CmsException {
+  public void setShowEditorHelp(CmsObject cms, @RUntainted boolean showHelp) throws CmsException {
 
     CmsUser user = cms.getRequestContext().getCurrentUser();
     user.setAdditionalInfo(ADDINFO_ADE_SHOW_EDITOR_HELP, String.valueOf(showHelp));
@@ -1588,7 +1589,7 @@ public class CmsADEManager {
         data.put(FavListProp.FORMATTER.name().toLowerCase(), element.getFormatterId().toString());
       }
       JSONObject properties = new JSONObject();
-      for (Map.Entry<String, String> entry : element.getIndividualSettings().entrySet()) {
+      for (Map.Entry<String, @RUntainted String> entry : element.getIndividualSettings().entrySet()) {
         String settingKey = entry.getKey();
         if (!excludeSettings.contains(settingKey)) {
           properties.put(entry.getKey(), entry.getValue());
@@ -1673,7 +1674,7 @@ public class CmsADEManager {
    * @return the root path for the given structure id
    * @throws CmsException if something goes wrong
    */
-  protected String getRootPath(CmsUUID structureId, boolean online) throws CmsException {
+  protected @RUntainted String getRootPath(CmsUUID structureId, boolean online) throws CmsException {
 
     CmsConfigurationCache cache = online ? m_onlineCache : m_offlineCache;
     return cache.getPathForStructureId(structureId);

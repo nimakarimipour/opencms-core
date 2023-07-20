@@ -35,6 +35,7 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A folder resource in the OpenCms VFS.
@@ -100,19 +101,19 @@ public class CmsFolder extends CmsResource {
    * @param version the version number of this resource
    */
   public CmsFolder(
-      CmsUUID structureId,
+      @RUntainted CmsUUID structureId,
       CmsUUID resourceId,
-      String path,
-      int type,
+      @RUntainted String path,
+      @RUntainted int type,
       int flags,
       CmsUUID projectId,
       CmsResourceState state,
       long dateCreated,
       CmsUUID userCreated,
-      long dateLastModified,
-      CmsUUID userLastModified,
-      long dateReleased,
-      long dateExpired,
+      @RUntainted long dateLastModified,
+      @RUntainted CmsUUID userLastModified,
+      @RUntainted long dateReleased,
+      @RUntainted long dateExpired,
       int version) {
 
     super(
@@ -160,7 +161,7 @@ public class CmsFolder extends CmsResource {
    * @return true if the given resource type id describes a folder type or false if it is no folder
    *     or an unknown type.
    */
-  public static final boolean isFolderType(int typeId) {
+  public static final boolean isFolderType(@RUntainted int typeId) {
 
     try {
       return OpenCms.getResourceManager().getResourceType(typeId).isFolder();
@@ -184,7 +185,7 @@ public class CmsFolder extends CmsResource {
    * @param typeName the resource type name to check
    * @return true if the given resource type name describes a folder type
    */
-  public static final boolean isFolderType(String typeName) {
+  public static final boolean isFolderType(@RUntainted String typeName) {
 
     try {
       return OpenCms.getResourceManager().getResourceType(typeName).isFolder();

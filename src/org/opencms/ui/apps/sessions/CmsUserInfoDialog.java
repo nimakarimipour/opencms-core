@@ -57,6 +57,7 @@ import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsUserInfo;
 import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.util.CmsDateUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to show user information and to switch to user session.
@@ -224,7 +225,7 @@ public class CmsUserInfoDialog extends CmsBasicDialog {
   private List<String> getFurtherInfoLines(CmsSessionInfo currentSession) {
 
     boolean neverActive = false;
-    Long inacTime = new Long(0L);
+    @RUntainted Long inacTime = new Long(0L);
     List<String> res = new ArrayList<String>();
     if (currentSession == null) {
       inacTime = new Long(System.currentTimeMillis() - m_user.getLastlogin());
@@ -233,7 +234,7 @@ public class CmsUserInfoDialog extends CmsBasicDialog {
       inacTime = new Long(System.currentTimeMillis() - currentSession.getTimeLastAction());
     }
 
-    String[] inactiveTime = CmsSessionInfo.getHourMinuteSecondTimeString(inacTime.longValue());
+    @RUntainted String[] inactiveTime = CmsSessionInfo.getHourMinuteSecondTimeString(inacTime.longValue());
 
     if (!neverActive) {
       if (currentSession != null) {
@@ -278,9 +279,9 @@ public class CmsUserInfoDialog extends CmsBasicDialog {
    * @param inacTime time since last login in milli sec
    * @return HTML String
    */
-  private String getLastLoginMessage(Long inacTime) {
+  private String getLastLoginMessage(@RUntainted Long inacTime) {
 
-    int days = (int) (inacTime.longValue() / (1000 * 60 * 60 * 24));
+    @RUntainted int days = (int) (inacTime.longValue() / (1000 * 60 * 60 * 24));
     if (days == 0) {
       return CmsVaadinUtils.getMessageText(Messages.GUI_USER_INFO_LAST_LOGIN_LESS_A_DAY_0);
     }

@@ -30,6 +30,7 @@ package org.opencms.util;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.apache.http.client.utils.URIBuilder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Splits an URI String into separate components.
@@ -40,10 +41,10 @@ import org.apache.http.client.utils.URIBuilder;
 public class CmsUriSplitter {
 
   /** Empty (non null) StringBuffer constant. */
-  private static final StringBuffer EMPTY_BUFFER = new StringBuffer(0);
+  private static final @RUntainted StringBuffer EMPTY_BUFFER = new StringBuffer(0);
 
   /** The anchor part of the URI, for example <code>someanchor</code>. */
-  private String m_anchor;
+  private @RUntainted String m_anchor;
 
   /** Indicates if 'strict' URI parsing did produce an error. */
   private boolean m_errorFree;
@@ -55,16 +56,16 @@ public class CmsUriSplitter {
   private String m_protocol;
 
   /** The prefix part of the URI, for example <code>http://www.opencms.org/some/path/</code>. */
-  private String m_prefix;
+  private @RUntainted String m_prefix;
 
   /** The query part of the URI, for example <code>a=b&c=d</code>. */
-  private String m_query;
+  private @RUntainted String m_query;
 
   /** The suffix part of the uri. */
   private String m_suffix;
 
   /** The original URI String that was split. */
-  private String m_uri;
+  private @RUntainted String m_uri;
 
   /**
    * Creates a splitted URI using the strict parsing mode.
@@ -73,7 +74,7 @@ public class CmsUriSplitter {
    *
    * @param uri the URI to split
    */
-  public CmsUriSplitter(String uri) {
+  public CmsUriSplitter(@RUntainted String uri) {
 
     this(uri, true);
   }
@@ -92,7 +93,7 @@ public class CmsUriSplitter {
    * @param strict if <code>true</code>, then 'strict' parsing mode is used, otherwise a relaxed URI
    *     parsing is done
    */
-  public CmsUriSplitter(String uri, boolean strict) {
+  public CmsUriSplitter(@RUntainted String uri, boolean strict) {
 
     m_uri = uri;
     m_errorFree = true;
@@ -100,9 +101,9 @@ public class CmsUriSplitter {
     // use strict parsing
     if (strict) {
       try {
-        URI u = new URI(uri);
+        @RUntainted URI u = new URI(uri);
         m_protocol = u.getScheme();
-        URI tempUri = new URIBuilder(u).setCustomQuery(null).setFragment(null).build();
+        @RUntainted URI tempUri = new URIBuilder(u).setCustomQuery(null).setFragment(null).build();
         m_prefix = tempUri.toASCIIString();
         m_anchor = u.getRawFragment();
         m_query = u.getRawQuery();
@@ -114,9 +115,9 @@ public class CmsUriSplitter {
     }
     if (!strict && (uri != null)) {
       // use simple parsing
-      StringBuffer prefix = new StringBuffer(uri.length());
-      StringBuffer query = EMPTY_BUFFER;
-      StringBuffer anchor = EMPTY_BUFFER;
+      @RUntainted StringBuffer prefix = new StringBuffer(uri.length());
+      @RUntainted StringBuffer query = EMPTY_BUFFER;
+      @RUntainted StringBuffer anchor = EMPTY_BUFFER;
       int len = uri.length();
       int cur = 0;
       for (int i = 0; i < len; i++) {
@@ -222,7 +223,7 @@ public class CmsUriSplitter {
    *
    * @return the anchor part of the uri
    */
-  public String getAnchor() {
+  public @RUntainted String getAnchor() {
 
     return m_anchor;
   }
@@ -235,7 +236,7 @@ public class CmsUriSplitter {
    *
    * @return the prefix part of the uri
    */
-  public String getPrefix() {
+  public @RUntainted String getPrefix() {
 
     return m_prefix;
   }
@@ -260,7 +261,7 @@ public class CmsUriSplitter {
    *
    * @return the query part of the uri
    */
-  public String getQuery() {
+  public @RUntainted String getQuery() {
 
     return m_query;
   }
@@ -345,7 +346,7 @@ public class CmsUriSplitter {
    * @return an URI object created from the original input String
    * @throws URISyntaxException in case no URI object can be created from the original input String
    */
-  public URI toURI() throws URISyntaxException {
+  public @RUntainted URI toURI() throws URISyntaxException {
 
     if (m_isStrict && m_errorFree) {
       // we have already verified that the URI contains no errors

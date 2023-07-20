@@ -40,6 +40,7 @@ import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.explorer.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The direct publish dialog action.
@@ -69,7 +70,7 @@ public class CmsDirectPublishDialogAction extends A_CmsWorkplaceAction {
                 public void onUpdate(List<String> updatedItems) {
 
                   List<CmsUUID> updatedIds = Lists.newArrayList();
-                  for (String item : updatedItems) {
+                  for (@RUntainted String item : updatedItems) {
                     updatedIds.add(new CmsUUID(item));
                   }
                   context.finish(updatedIds);

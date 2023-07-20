@@ -38,6 +38,7 @@ import org.opencms.publish.CmsPublishJobRunning;
 import org.opencms.publish.CmsPublishManager;
 import org.opencms.report.A_CmsReportThread;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms "Grim Reaper" thread store were all system Threads are maintained.
@@ -73,7 +74,7 @@ public final class CmsThreadStore extends Thread {
   private CmsSecurityManager m_securityManager;
 
   /** A map to store all system Threads in. */
-  private Map<CmsUUID, A_CmsReportThread> m_threads;
+  private @RUntainted Map<CmsUUID, @RUntainted A_CmsReportThread> m_threads;
 
   /**
    * Hides the public constructor.
@@ -101,7 +102,7 @@ public final class CmsThreadStore extends Thread {
    *
    * @param thread the Thread to add
    */
-  public void addThread(A_CmsReportThread thread) {
+  public void addThread(@RUntainted A_CmsReportThread thread) {
 
     m_threads.put(thread.getUUID(), thread);
     if (LOG.isDebugEnabled()) {
@@ -217,7 +218,7 @@ public final class CmsThreadStore extends Thread {
       // first collect all doomed Threads
       while (i.hasNext()) {
         CmsUUID key = i.next();
-        A_CmsReportThread thread = m_threads.get(key);
+        @RUntainted A_CmsReportThread thread = m_threads.get(key);
         if (thread.isDoomed()) {
           doomed.add(key);
           if (LOG.isDebugEnabled()) {

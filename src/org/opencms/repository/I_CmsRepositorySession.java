@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import org.opencms.main.CmsException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A repository session which provides basic file and folder operations to the resources in the VFS
@@ -55,7 +56,7 @@ public interface I_CmsRepositorySession {
    *     contents
    * @throws CmsException if something goes wrong
    */
-  void copy(String src, String dest, boolean overwrite, boolean shallow) throws CmsException;
+  void copy(@RUntainted String src, @RUntainted String dest, boolean overwrite, boolean shallow) throws CmsException;
 
   /**
    * Creates a new item at the given path.
@@ -67,7 +68,7 @@ public interface I_CmsRepositorySession {
    * @param path the complete path of the new collection
    * @throws CmsException if something goes wrong
    */
-  void create(String path) throws CmsException;
+  void create(@RUntainted String path) throws CmsException;
 
   /**
    * Deletes the item at the given path.
@@ -77,7 +78,7 @@ public interface I_CmsRepositorySession {
    * @param path the complete path of the item to delete
    * @throws CmsException if something goes wrong
    */
-  void delete(String path) throws CmsException;
+  void delete(@RUntainted String path) throws CmsException;
 
   /**
    * Returns if an item exists at the given path.
@@ -98,7 +99,7 @@ public interface I_CmsRepositorySession {
    * @return the item found at the path
    * @throws CmsException if something goes wrong
    */
-  I_CmsRepositoryItem getItem(String path) throws CmsException;
+  I_CmsRepositoryItem getItem(@RUntainted String path) throws CmsException;
 
   /**
    * Returns the lock for the resource at the given path.
@@ -128,7 +129,7 @@ public interface I_CmsRepositorySession {
    * @return a list with {@link I_CmsRepositoryItem} found in the path
    * @throws CmsException if something goes wrong
    */
-  List<I_CmsRepositoryItem> list(String path) throws CmsException;
+  List<I_CmsRepositoryItem> list(@RUntainted String path) throws CmsException;
 
   /**
    * Creates a new lock on the item at the path with the given information in the lock info.
@@ -140,7 +141,7 @@ public interface I_CmsRepositorySession {
    * @return if the lock was successfully
    * @throws CmsException if something goes wrong
    */
-  boolean lock(String path, CmsRepositoryLockInfo lock) throws CmsException;
+  boolean lock(@RUntainted String path, CmsRepositoryLockInfo lock) throws CmsException;
 
   /**
    * Moves an item from a source path to a destination path.
@@ -152,7 +153,7 @@ public interface I_CmsRepositorySession {
    * @param overwrite should any existing item should be overwritten
    * @throws CmsException if something goes wrong
    */
-  void move(String src, String dest, boolean overwrite) throws CmsException;
+  void move(@RUntainted String src, @RUntainted String dest, boolean overwrite) throws CmsException;
 
   /**
    * Saves an item at the given path.
@@ -167,7 +168,7 @@ public interface I_CmsRepositorySession {
    * @throws CmsException if something goes wrong
    * @throws IOException if a write error occurs
    */
-  void save(String path, InputStream inputStream, boolean overwrite)
+  void save(@RUntainted String path, InputStream inputStream, boolean overwrite)
       throws CmsException, IOException;
 
   /**
@@ -177,7 +178,7 @@ public interface I_CmsRepositorySession {
    *
    * @param path The complete path of the item to unlock
    */
-  void unlock(String path);
+  void unlock(@RUntainted String path);
 
   /**
    * Updates the properties for the given path.

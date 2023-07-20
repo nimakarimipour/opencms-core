@@ -48,6 +48,7 @@ import org.opencms.xml.CmsXmlGenericWrapper;
 import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.page.CmsXmlPage;
 import org.opencms.xml.xml2json.I_CmsJsonFormattableValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsHtml".
@@ -77,7 +78,7 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
   private String m_plainTextValue;
 
   /** The String value of the element node. */
-  private String m_stringValue;
+  private @RUntainted String m_stringValue;
 
   /**
    * Creates a new, empty schema type descriptor of type "OpenCmsHtml".
@@ -98,7 +99,7 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
    * @param element the XML element that contains this value
    * @param locale the locale this value is created for
    */
-  public CmsXmlHtmlValue(I_CmsXmlDocument document, Element element, Locale locale) {
+  public CmsXmlHtmlValue(I_CmsXmlDocument document, @RUntainted Element element, Locale locale) {
 
     super(document, element, locale, TYPE_BASE);
   }
@@ -114,7 +115,7 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
    * @param type the type instance to create the value for
    */
   public CmsXmlHtmlValue(
-      I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
     super(document, element, locale, type);
   }
@@ -128,7 +129,7 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
    * @param minOccurs minimum number of occurrences of this type according to the XML schema
    * @param maxOccurs maximum number of occurrences of this type according to the XML schema
    */
-  public CmsXmlHtmlValue(String name, String minOccurs, String maxOccurs) {
+  public CmsXmlHtmlValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
     super(name, minOccurs, maxOccurs);
   }
@@ -138,7 +139,7 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
    *     org.dom4j.Element, Locale)
    */
   public I_CmsXmlContentValue createValue(
-      I_CmsXmlDocument document, Element element, Locale locale) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale) {
 
     return new CmsXmlHtmlValue(document, element, locale, this);
   }
@@ -149,7 +150,7 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
    */
   @Override
   public Element generateXml(
-      CmsObject cms, I_CmsXmlDocument document, Element root, Locale locale) {
+      CmsObject cms, I_CmsXmlDocument document, Element root, @RUntainted Locale locale) {
 
     Element element = root.addElement(getName());
     int index = element.getParent().elements(element.getQName()).indexOf(element);
@@ -158,7 +159,7 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
     element.addElement(CmsXmlPage.NODE_CONTENT);
 
     // get the default value from the content handler
-    String defaultValue = document.getHandler().getDefault(cms, this, locale);
+    @RUntainted String defaultValue = document.getHandler().getDefault(cms, this, locale);
     if (defaultValue != null) {
       try {
         I_CmsXmlContentValue value = createValue(document, element, locale);
@@ -188,9 +189,9 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
     CmsLinkTable linkTable = new CmsLinkTable();
     Element links = m_element.element(CmsXmlPage.NODE_LINKS);
     if (links != null) {
-      Iterator<Element> itLinks = CmsXmlGenericWrapper.elementIterator(links, CmsXmlPage.NODE_LINK);
+      Iterator<@RUntainted Element> itLinks = CmsXmlGenericWrapper.elementIterator(links, CmsXmlPage.NODE_LINK);
       while (itLinks.hasNext()) {
-        Element lelem = itLinks.next();
+        @RUntainted Element lelem = itLinks.next();
         linkTable.addLink(new CmsLink(lelem));
       }
     }
@@ -226,7 +227,7 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
   }
 
   /** @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(org.opencms.file.CmsObject) */
-  public String getStringValue(CmsObject cms) {
+  public @RUntainted String getStringValue(CmsObject cms) {
 
     if (m_stringValue == null) {
       m_stringValue = createStringValue(cms, m_document);
@@ -353,7 +354,7 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
    * @param document the XML document this value belongs to
    * @return the String value for this HTML value element
    */
-  private String createStringValue(CmsObject cms, I_CmsXmlDocument document) {
+  private @RUntainted String createStringValue(CmsObject cms, I_CmsXmlDocument document) {
 
     Element data = m_element.element(CmsXmlPage.NODE_CONTENT);
     if (data == null) {

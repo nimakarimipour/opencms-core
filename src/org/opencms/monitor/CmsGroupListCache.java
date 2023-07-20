@@ -43,6 +43,7 @@ import org.opencms.file.CmsUser;
 import org.opencms.main.CmsLog;
 import org.opencms.security.CmsRole;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Cache for users' groups and data derived from those groups, like role membership.
@@ -60,13 +61,13 @@ public class CmsGroupListCache implements I_CmsMemoryMonitorable {
   class Entry implements I_CmsMemoryMonitorable {
 
     /** Bare roles, with no OU information. */
-    private volatile List<CmsRole> m_bareRoles;
+    private volatile @RUntainted List<CmsRole> m_bareRoles;
 
     /** Cache for group lists. */
-    private Map<String, List<CmsGroup>> m_groupCache = createLRUCacheMap(GROUP_LISTS_PER_USER);
+    private @RUntainted Map<String, List<CmsGroup>> m_groupCache = createLRUCacheMap(GROUP_LISTS_PER_USER);
 
     /** Cache for role memberships. */
-    private Map<String, Boolean> m_hasRoleCache = new ConcurrentHashMap<>();
+    private @RUntainted Map<String, Boolean> m_hasRoleCache = new ConcurrentHashMap<>();
 
     /**
      * Gets the cached bare roles (with no OU information).
@@ -99,7 +100,7 @@ public class CmsGroupListCache implements I_CmsMemoryMonitorable {
     }
 
     /** @see org.opencms.monitor.I_CmsMemoryMonitorable#getMemorySize() */
-    public int getMemorySize() {
+    public @RUntainted int getMemorySize() {
 
       return (int)
           (CmsMemoryMonitor.getValueSize(m_groupCache)
@@ -248,7 +249,7 @@ public class CmsGroupListCache implements I_CmsMemoryMonitorable {
   }
 
   /** @see org.opencms.monitor.I_CmsMemoryMonitorable#getMemorySize() */
-  public int getMemorySize() {
+  public @RUntainted int getMemorySize() {
 
     return (int) CmsMemoryMonitor.getValueSize(m_internalCache.asMap());
   }

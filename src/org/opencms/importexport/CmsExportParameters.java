@@ -36,6 +36,7 @@ import org.dom4j.Element;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.module.CmsModule.ExportMode;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Export parameters.
@@ -85,7 +86,7 @@ public class CmsExportParameters {
   private String m_overrideSiteRoot;
 
   /** The file path, should be a zip file. */
-  private String m_path;
+  private @RUntainted String m_path;
 
   /** If the resources should be recursively exported. */
   private boolean m_recursive = true;
@@ -134,7 +135,7 @@ public class CmsExportParameters {
    * @param exportMode the export mode to use
    */
   public CmsExportParameters(
-      String exportFile,
+      @RUntainted String exportFile,
       Element moduleElement,
       boolean exportResourceData,
       boolean exportUserdata,
@@ -185,7 +186,7 @@ public class CmsExportParameters {
    *     resourcesToExport.
    */
   public CmsExportParameters(
-      String exportFile,
+      @RUntainted String exportFile,
       Element moduleElement,
       boolean exportResourceData,
       boolean exportUserdata,
@@ -283,7 +284,7 @@ public class CmsExportParameters {
    *
    * @return the file path
    */
-  public String getPath() {
+  public @RUntainted String getPath() {
 
     // ensure the export file name ends with ".zip" in case of ZIP file export
     if ((m_path != null) && !isExportAsFiles() && !m_path.toLowerCase().endsWith(".zip")) {
@@ -474,7 +475,7 @@ public class CmsExportParameters {
   public void setContentAge(long contentAge) {
 
     if (contentAge < 0) {
-      String ageString = Long.toString(contentAge);
+      @RUntainted String ageString = Long.toString(contentAge);
       throw new CmsIllegalArgumentException(
           Messages.get().container(Messages.ERR_BAD_CONTENT_AGE_1, ageString));
     }
@@ -596,7 +597,7 @@ public class CmsExportParameters {
    *
    * @param path the file path
    */
-  public void setPath(String path) {
+  public void setPath(@RUntainted String path) {
 
     if (CmsStringUtil.isEmpty(path) || !path.trim().equals(path)) {
       throw new CmsIllegalArgumentException(

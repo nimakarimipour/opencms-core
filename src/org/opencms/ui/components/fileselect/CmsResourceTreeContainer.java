@@ -56,6 +56,7 @@ import org.opencms.ui.components.CmsResourceTableProperty;
 import org.opencms.ui.util.I_CmsItemSorter;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.explorer.CmsResourceUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The data container for the sitmeap folder selection tree.
@@ -160,7 +161,7 @@ public class CmsResourceTreeContainer extends HierarchicalContainer {
    * @param cms the CMS context
    * @param parentId the parent id
    */
-  public void readTreeLevel(CmsObject cms, CmsUUID parentId) {
+  public void readTreeLevel(CmsObject cms, @RUntainted CmsUUID parentId) {
 
     try {
       CmsResource parent = cms.readResource(parentId, m_filter);

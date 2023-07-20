@@ -64,6 +64,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.util.CmsWaitHandle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the internal cache class used for storing configuration data. It is not public because it
@@ -198,7 +199,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
    * @param siteConfigFile the root path of the sitemap configuration file
    * @return the base path for the sitemap configuration file
    */
-  public static String getBasePath(String siteConfigFile) {
+  public static String getBasePath(@RUntainted String siteConfigFile) {
 
     if (siteConfigFile.endsWith(CmsADEManager.CONFIG_SUFFIX)) {
       return CmsResource.getParentFolder(CmsResource.getParentFolder(siteConfigFile));
@@ -492,7 +493,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
    * @param rootPath the root path
    * @return <code>true</code> in case of a macro or flex formatter
    */
-  protected boolean isMacroOrFlexFormatter(int type, String rootPath) {
+  protected boolean isMacroOrFlexFormatter(int type, @RUntainted String rootPath) {
 
     boolean result = false;
     try {
@@ -712,7 +713,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
    * @param rootPath the resource root path
    * @param type the resource type
    */
-  protected void remove(CmsUUID structureId, String rootPath, int type) {
+  protected void remove(CmsUUID structureId, @RUntainted String rootPath, int type) {
 
     if (CmsResource.isTemporaryFileName(rootPath)) {
       return;
@@ -743,7 +744,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
    * @param type the type id of the resource
    * @param resState the state of the resource
    */
-  protected void update(CmsUUID structureId, String rootPath, int type, CmsResourceState resState) {
+  protected void update(CmsUUID structureId, @RUntainted String rootPath, int type, CmsResourceState resState) {
 
     if (CmsResource.isTemporaryFileName(rootPath)) {
       return;

@@ -34,6 +34,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.staticexport.CmsAfterPublishStaticExportHandler;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish job information bean.
@@ -78,8 +79,8 @@ public final class CmsPublishListenerCollection extends Vector<I_CmsPublishEvent
     if (LOG.isDebugEnabled()) {
       LOG.debug(Messages.get().getBundle().key(Messages.LOG_PUBLISH_JOB_ABORT_0));
     }
-    for (Iterator<I_CmsPublishEventListener> it = iterator(); it.hasNext(); ) {
-      I_CmsPublishEventListener listener = it.next();
+    for (Iterator<@RUntainted I_CmsPublishEventListener> it = iterator(); it.hasNext(); ) {
+      @RUntainted I_CmsPublishEventListener listener = it.next();
       try {
         listener.onAbort(userId, publishJob);
       } catch (Throwable t) {
@@ -123,8 +124,8 @@ public final class CmsPublishListenerCollection extends Vector<I_CmsPublishEvent
     if (LOG.isDebugEnabled()) {
       LOG.debug(Messages.get().getBundle().key(Messages.LOG_PUBLISH_JOB_ENQUEUE_0));
     }
-    for (Iterator<I_CmsPublishEventListener> it = iterator(); it.hasNext(); ) {
-      I_CmsPublishEventListener listener = it.next();
+    for (Iterator<@RUntainted I_CmsPublishEventListener> it = iterator(); it.hasNext(); ) {
+      @RUntainted I_CmsPublishEventListener listener = it.next();
       try {
         listener.onEnqueue(publishJob);
       } catch (Throwable t) {
@@ -155,8 +156,8 @@ public final class CmsPublishListenerCollection extends Vector<I_CmsPublishEvent
     if (LOG.isDebugEnabled()) {
       LOG.debug(Messages.get().getBundle().key(Messages.LOG_PUBLISH_JOB_FINISH_0));
     }
-    for (Iterator<I_CmsPublishEventListener> it = iterator(); it.hasNext(); ) {
-      I_CmsPublishEventListener listener = it.next();
+    for (Iterator<@RUntainted I_CmsPublishEventListener> it = iterator(); it.hasNext(); ) {
+      @RUntainted I_CmsPublishEventListener listener = it.next();
       try {
         listener.onFinish(publishJob);
       } catch (Throwable t) {
@@ -183,7 +184,7 @@ public final class CmsPublishListenerCollection extends Vector<I_CmsPublishEvent
               .key(Messages.GUI_PUBLISH_JOB_FINISHED_1, new Long(publishJob.getEnqueueTime()));
     } else {
       hasError = true;
-      Object[] params =
+      @RUntainted Object[] params =
           new Object[] {
             new Long(publishJob.getEnqueueTime()),
             new Integer(publishJob.getReport().getErrors().size()),
@@ -209,8 +210,8 @@ public final class CmsPublishListenerCollection extends Vector<I_CmsPublishEvent
     if (LOG.isDebugEnabled()) {
       LOG.debug(Messages.get().getBundle().key(Messages.LOG_PUBLISH_JOB_REMOVE_0));
     }
-    for (Iterator<I_CmsPublishEventListener> it = iterator(); it.hasNext(); ) {
-      I_CmsPublishEventListener listener = it.next();
+    for (Iterator<@RUntainted I_CmsPublishEventListener> it = iterator(); it.hasNext(); ) {
+      @RUntainted I_CmsPublishEventListener listener = it.next();
       try {
         listener.onRemove(publishJob);
       } catch (Throwable t) {
@@ -241,8 +242,8 @@ public final class CmsPublishListenerCollection extends Vector<I_CmsPublishEvent
     if (LOG.isDebugEnabled()) {
       LOG.debug(Messages.get().getBundle().key(Messages.LOG_PUBLISH_JOB_START_0));
     }
-    for (Iterator<I_CmsPublishEventListener> it = iterator(); it.hasNext(); ) {
-      I_CmsPublishEventListener listener = it.next();
+    for (Iterator<@RUntainted I_CmsPublishEventListener> it = iterator(); it.hasNext(); ) {
+      @RUntainted I_CmsPublishEventListener listener = it.next();
       try {
         listener.onStart(publishJob);
       } catch (Throwable t) {

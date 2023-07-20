@@ -52,6 +52,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.security.CmsRole;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generates user ident-icons.
@@ -278,7 +279,7 @@ public class CmsUserIconHelper {
    * @param uploadedFile the uploaded file
    * @return <code>true</code> in case the image was set successfully
    */
-  public boolean handleImageUpload(CmsObject cms, CmsUser user, String uploadedFile) {
+  public boolean handleImageUpload(CmsObject cms, CmsUser user, @RUntainted String uploadedFile) {
 
     boolean result = false;
     try {
@@ -327,7 +328,7 @@ public class CmsUserIconHelper {
    * @param rootPath the image root path
    * @throws CmsException in case anything goes wrong
    */
-  public void setUserImage(CmsObject cms, CmsUser user, String rootPath) throws CmsException {
+  public void setUserImage(CmsObject cms, CmsUser user, @RUntainted String rootPath) throws CmsException {
 
     CmsFile tempFile = cms.readFile(cms.getRequestContext().removeSiteRoot(rootPath));
     CmsImageScaler scaler = new CmsImageScaler(tempFile.getContents(), tempFile.getRootPath());
@@ -338,7 +339,7 @@ public class CmsUserIconHelper {
       scaler.setWidth(192);
       byte[] content = scaler.scaleImage(tempFile);
       String previousImage = (String) user.getAdditionalInfo(CmsUserIconHelper.USER_IMAGE_INFO);
-      String newFileName =
+      @RUntainted String newFileName =
           USER_IMAGE_FOLDER
               + user.getId().toString()
               + "_"
@@ -450,7 +451,7 @@ public class CmsUserIconHelper {
    * @param fileName the file name
    * @return the suffix
    */
-  private String getSuffix(String fileName) {
+  private @RUntainted String getSuffix(String fileName) {
 
     int index = fileName.lastIndexOf(".");
     if (index > 0) {

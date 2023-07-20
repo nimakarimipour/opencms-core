@@ -34,6 +34,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.report.A_CmsReportThread;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Replaces a module.
@@ -63,7 +64,7 @@ public class CmsModuleReplaceThread extends A_CmsReportThread {
   private String m_reportContent;
 
   /** The zip file name. */
-  private String m_zipName;
+  private @RUntainted String m_zipName;
 
   /**
    * Creates the module replace thread.
@@ -74,14 +75,14 @@ public class CmsModuleReplaceThread extends A_CmsReportThread {
    * @param moduleName the name of the module
    * @param zipName the name of the module ZIP file
    */
-  public CmsModuleReplaceThread(CmsObject cms, String moduleName, String zipName) {
+  public CmsModuleReplaceThread(CmsObject cms, @RUntainted String moduleName, @RUntainted String zipName) {
 
     super(
         cms, Messages.get().getBundle().key(Messages.GUI_REPLACE_MODULE_THREAD_NAME_1, moduleName));
     m_moduleName = moduleName;
     m_zipName = zipName;
 
-    List<String> modules = new ArrayList<String>();
+    List<@RUntainted String> modules = new ArrayList<@RUntainted String>();
     modules.add(m_moduleName);
     m_deleteThread = new CmsModuleDeleteThread(getCms(), modules, true);
     m_importThread = new CmsDatabaseImportThread(getCms(), m_zipName, true);

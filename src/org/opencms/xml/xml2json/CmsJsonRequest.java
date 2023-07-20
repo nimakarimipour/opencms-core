@@ -41,6 +41,7 @@ import org.opencms.xml.xml2json.handler.CmsJsonHandlerList;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerResource;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerXmlContent;
 import org.opencms.xml.xml2json.handler.I_CmsJsonHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Class representing a JSON request. Provides utility functions for parameter validation. */
 public class CmsJsonRequest {
@@ -202,9 +203,9 @@ public class CmsJsonRequest {
    *
    * @return the levels parameter as integer
    */
-  public String getParamLocale() {
+  public @RUntainted String getParamLocale() {
 
-    String paramLocale = m_context.getParameters().get(PARAM_LOCALE);
+    @RUntainted String paramLocale = m_context.getParameters().get(PARAM_LOCALE);
     return paramLocale;
   }
 

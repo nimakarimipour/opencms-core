@@ -44,6 +44,7 @@ import org.opencms.jsp.CmsJspTagInclude;
 import org.opencms.loader.I_CmsResourceLoader;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Direct edit provider that uses the same JSP include based logic that has been the default before
@@ -127,7 +128,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
    */
   public static String includeDirectEditElement(
       PageContext context,
-      String jspIncludeFile,
+      @RUntainted String jspIncludeFile,
       String element,
       String editTarget,
       String editElement,
@@ -213,7 +214,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
    *     org.opencms.workplace.editors.directedit.CmsDirectEditMode, java.lang.String)
    */
   @Override
-  public void init(CmsObject cms, CmsDirectEditMode mode, String fileName) {
+  public void init(CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName) {
 
     m_cms = cms;
     m_fileName = fileName;

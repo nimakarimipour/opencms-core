@@ -40,6 +40,7 @@ import org.opencms.ade.configuration.formatters.CmsSettingConfiguration;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Formatter configuration for macro formatters.
@@ -109,8 +110,8 @@ public class CmsMacroFormatterBean extends CmsFormatterBean {
       int maxWidth,
       boolean searchContent,
       String location,
-      String niceName,
-      String description,
+      @RUntainted String niceName,
+      @RUntainted String description,
       Collection<String> resourceTypeNames,
       int rank,
       String id,

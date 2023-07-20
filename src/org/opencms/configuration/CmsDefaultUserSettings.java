@@ -58,6 +58,7 @@ import org.opencms.util.A_CmsModeStringEnumeration;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplaceManager;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default user workplace settings, used as default values for worklace settings in the user
@@ -102,7 +103,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      *
      * @param mode string representation
      */
-    private CmsPublishRelatedResourcesMode(String mode) {
+    private CmsPublishRelatedResourcesMode(@RUntainted String mode) {
 
       super(mode);
     }
@@ -1041,7 +1042,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
    *
    * @param locale the workplace language default
    */
-  public void setLocale(String locale) {
+  public void setLocale(@RUntainted String locale) {
 
     // set the language
     setLocale(CmsLocaleManager.getLocale(locale));

@@ -37,6 +37,7 @@ import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsDateUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Reads localized resource Strings from a <code>java.util.ResourceBundle</code> and provides

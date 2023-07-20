@@ -32,6 +32,7 @@ import org.opencms.file.CmsDataAccessException;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A collector that generates list of {@link org.opencms.file.CmsResource} objects from the VFS.
@@ -53,7 +54,7 @@ public interface I_CmsResourceCollector
    *
    * @return a list of all collector names this collector implementation supports
    */
-  List<String> getCollectorNames();
+  List<@RUntainted String> getCollectorNames();
 
   /**
    * Returns the link that must be executed when a user clicks on the direct edit "new" button on a
@@ -93,7 +94,7 @@ public interface I_CmsResourceCollector
    *     invalid
    * @see #getCreateParam(CmsObject, String, String)
    */
-  String getCreateLink(CmsObject cms, String collectorName, String param)
+  @RUntainted String getCreateLink(CmsObject cms, String collectorName, String param)
       throws CmsException, CmsDataAccessException;
 
   /**

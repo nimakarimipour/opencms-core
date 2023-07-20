@@ -66,6 +66,7 @@ import org.opencms.security.CmsPrincipal;
 import org.opencms.security.CmsRole;
 import org.opencms.security.CmsSecurityException;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility class for operations which are frequently used by CMIS service methods.
@@ -433,7 +434,7 @@ public final class CmsCmisUtil {
    *
    * @param name the name to check
    */
-  public static void checkResourceName(String name) {
+  public static void checkResourceName(@RUntainted String name) {
 
     try {
       CmsResource.checkResourceName(name);

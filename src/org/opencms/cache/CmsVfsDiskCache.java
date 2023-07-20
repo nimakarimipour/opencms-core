@@ -32,6 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements a RFS file based disk cache, that handles parameter based versions of VFS files,
@@ -54,7 +55,7 @@ public class CmsVfsDiskCache {
    * @param basepath the base path for the cache in the RFS
    * @param foldername the folder name for this cache, to be used a subfolder for the base folder
    */
-  public CmsVfsDiskCache(String basepath, String foldername) {
+  public CmsVfsDiskCache(@RUntainted String basepath, @RUntainted String foldername) {
 
     // normalize the given folder name
     m_rfsRepository = CmsFileUtil.normalizePath(basepath + foldername + File.separatorChar);

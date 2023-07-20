@@ -66,6 +66,7 @@ import org.opencms.search.solr.CmsSolrIndex;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentValueSequence;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Search configuration parser reading XML. */
 public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfigurationParser {
@@ -500,7 +501,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
    *     </code> if the XML was not correctly structured.
    * @return The read configuration, or <code>null</code> if the XML was not correctly structured.
    */
-  protected I_CmsSearchConfigurationFacetField parseFieldFacet(final String pathPrefix) {
+  protected I_CmsSearchConfigurationFacetField parseFieldFacet(final @RUntainted String pathPrefix) {
 
     try {
       final String field = parseMandatoryStringValue(pathPrefix + XML_ELEMENT_FACET_FIELD);
@@ -558,7 +559,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
    * @return The Boolean value stored in the XML, or <code>null</code> if the value could not be
    *     read.
    */
-  protected Boolean parseOptionalBooleanValue(final String path) {
+  protected Boolean parseOptionalBooleanValue(final @RUntainted String path) {
 
     final I_CmsXmlContentValue value = m_xml.getValue(path, m_locale);
     if (value == null) {
@@ -582,7 +583,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
    * @return The Integer value stored in the XML, or <code>null</code> if the value could not be
    *     read.
    */
-  protected Integer parseOptionalIntValue(final String path) {
+  protected Integer parseOptionalIntValue(final @RUntainted String path) {
 
     final I_CmsXmlContentValue value = m_xml.getValue(path, m_locale);
     if (value == null) {
@@ -606,7 +607,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
    * @return The String value stored in the XML, or <code>null</code> if the value could not be
    *     read.
    */
-  protected String parseOptionalStringValue(final String path) {
+  protected @RUntainted String parseOptionalStringValue(final String path) {
 
     final I_CmsXmlContentValue value = m_xml.getValue(path, m_locale);
     if (value == null) {
@@ -643,7 +644,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
    *     </code> if the XML was not correctly structured.
    * @return The read configuration, or <code>null</code> if the XML was not correctly structured.
    */
-  protected I_CmsSearchConfigurationFacetRange parseRangeFacet(String pathPrefix) {
+  protected I_CmsSearchConfigurationFacetRange parseRangeFacet(@RUntainted String pathPrefix) {
 
     try {
       final String range = parseMandatoryStringValue(pathPrefix + XML_ELEMENT_RANGE_FACET_RANGE);
@@ -658,7 +659,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
       if (sother != null) {
         final List<String> sothers = Arrays.asList(sother.split(","));
         other = new ArrayList<I_CmsSearchConfigurationFacetRange.Other>(sothers.size());
-        for (String so : sothers) {
+        for (@RUntainted String so : sothers) {
           try {
             I_CmsSearchConfigurationFacetRange.Other o =
                 I_CmsSearchConfigurationFacetRange.Other.valueOf(so);
@@ -886,7 +887,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
    */
   private List<Integer> getPageSizes() {
 
-    final String pageSizes = parseOptionalStringValue(XML_ELEMENT_PAGESIZE);
+    final @RUntainted String pageSizes = parseOptionalStringValue(XML_ELEMENT_PAGESIZE);
     if (pageSizes != null) {
       String[] pageSizesArray = pageSizes.split("-");
       if (pageSizesArray.length > 0) {

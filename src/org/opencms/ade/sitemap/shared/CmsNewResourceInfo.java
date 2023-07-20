@@ -29,6 +29,7 @@ package org.opencms.ade.sitemap.shared;
 
 import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean representing a resource type for use in the detail page creation menu.
@@ -88,7 +89,7 @@ public class CmsNewResourceInfo extends CmsListInfoBean {
   public CmsNewResourceInfo(
       int id,
       String typeName,
-      String title,
+      @RUntainted String title,
       String description,
       CmsUUID copyResourceId,
       boolean editable,

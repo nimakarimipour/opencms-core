@@ -38,6 +38,7 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.search.documents.I_CmsDocumentFactory;
 import org.opencms.search.extractors.I_CmsExtractionResult;
 import org.opencms.search.fields.I_CmsSearchFieldConfiguration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for search indizes that should be handled by the {@link
@@ -241,7 +242,7 @@ public interface I_CmsSearchIndex extends I_CmsConfigurationParameterHandler, Se
    *
    * @return the language locale of this index, for example "en"
    */
-  Locale getLocale();
+  @RUntainted Locale getLocale();
 
   /**
    * Gets the name of this index.
@@ -250,7 +251,7 @@ public interface I_CmsSearchIndex extends I_CmsConfigurationParameterHandler, Se
    *
    * @return the name of the index
    */
-  String getName();
+  @RUntainted String getName();
 
   /**
    * Returns the path where this index stores it's data in the "real" file system.
@@ -259,7 +260,7 @@ public interface I_CmsSearchIndex extends I_CmsConfigurationParameterHandler, Se
    *
    * @return the path where this index stores it's data in the "real" file system
    */
-  String getPath();
+  @RUntainted String getPath();
 
   /**
    * Gets the project of this index.
@@ -268,7 +269,7 @@ public interface I_CmsSearchIndex extends I_CmsConfigurationParameterHandler, Se
    *
    * @return the project of the index, i.e. "online"
    */
-  String getProject();
+  @RUntainted String getProject();
 
   /**
    * Get the rebuild mode of this index.
@@ -349,7 +350,7 @@ public interface I_CmsSearchIndex extends I_CmsConfigurationParameterHandler, Se
    * @param locale the locale to index resources
    * @see #setLocale(Locale)
    */
-  void setLocaleString(String locale);
+  void setLocaleString(@RUntainted String locale);
 
   /**
    * Sets the logical key/name of this search index.
@@ -360,7 +361,7 @@ public interface I_CmsSearchIndex extends I_CmsConfigurationParameterHandler, Se
    * @throws CmsIllegalArgumentException if the given name is null, empty or already taken by
    *     another search index
    */
-  void setName(String name) throws CmsIllegalArgumentException;
+  void setName(@RUntainted String name) throws CmsIllegalArgumentException;
 
   /**
    * Sets the name of the project used to index resources.
@@ -369,7 +370,7 @@ public interface I_CmsSearchIndex extends I_CmsConfigurationParameterHandler, Se
    *
    * @param project the name of the project used to index resources
    */
-  void setProject(String project);
+  void setProject(@RUntainted String project);
 
   /**
    * Sets the rebuild mode of this search index.

@@ -44,6 +44,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.page.CmsXmlPage;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVfsFile".
@@ -92,7 +93,7 @@ public class CmsXmlCategoryValue extends A_CmsXmlContentValue {
    * @param type the type instance to create the value for
    */
   public CmsXmlCategoryValue(
-      I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
     super(document, element, locale, type);
   }
@@ -106,7 +107,7 @@ public class CmsXmlCategoryValue extends A_CmsXmlContentValue {
    * @param minOccurs minimum number of occurrences of this type according to the XML schema
    * @param maxOccurs maximum number of occurrences of this type according to the XML schema
    */
-  public CmsXmlCategoryValue(String name, String minOccurs, String maxOccurs) {
+  public CmsXmlCategoryValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
     super(name, minOccurs, maxOccurs);
   }
@@ -121,7 +122,7 @@ public class CmsXmlCategoryValue extends A_CmsXmlContentValue {
    * @param rootPath the path to use
    * @param type the relation type to use
    */
-  public static void fillEntry(Element element, CmsUUID id, String rootPath, CmsRelationType type) {
+  public static void fillEntry(Element element, @RUntainted CmsUUID id, @RUntainted String rootPath, CmsRelationType type) {
 
     CmsLink link = new CmsLink(CmsXmlCategoryValue.TYPE_VFS_LINK, type, id, rootPath, true);
     // get xml node
@@ -139,7 +140,7 @@ public class CmsXmlCategoryValue extends A_CmsXmlContentValue {
    *     org.dom4j.Element, Locale)
    */
   public I_CmsXmlContentValue createValue(
-      I_CmsXmlDocument document, Element element, Locale locale) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale) {
 
     return new CmsXmlCategoryValue(document, element, locale, this);
   }
@@ -150,7 +151,7 @@ public class CmsXmlCategoryValue extends A_CmsXmlContentValue {
    */
   @Override
   public Element generateXml(
-      CmsObject cms, I_CmsXmlDocument document, Element root, Locale locale) {
+      CmsObject cms, I_CmsXmlDocument document, Element root, @RUntainted Locale locale) {
 
     Element element = root.addElement(getName());
 
@@ -178,7 +179,7 @@ public class CmsXmlCategoryValue extends A_CmsXmlContentValue {
 
     @SuppressWarnings("unchecked")
     List<Element> linkElements = m_element.elements(CmsXmlPage.NODE_LINK);
-    for (Element linkElement : linkElements) {
+    for (@RUntainted Element linkElement : linkElements) {
       if (linkElement == null) {
         String uri = m_element.getText();
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(uri)) {
@@ -253,7 +254,7 @@ public class CmsXmlCategoryValue extends A_CmsXmlContentValue {
    * @param cms the current CMS context
    * @param id the structure id which should be stored in the category value
    */
-  public void setIdValue(CmsObject cms, CmsUUID id) {
+  public void setIdValue(CmsObject cms, @RUntainted CmsUUID id) {
 
     CmsRelationType type = CmsRelationType.CATEGORY;
     CmsLink link = new CmsLink(TYPE_VFS_LINK, type, id, "@", true);
@@ -277,7 +278,7 @@ public class CmsXmlCategoryValue extends A_CmsXmlContentValue {
       return;
     }
     String[] pathes = value.split(",");
-    for (String path : pathes) {
+    for (@RUntainted String path : pathes) {
       if (cms != null) {
         String siteRoot = OpenCms.getSiteManager().getSiteRoot(path);
         String oldSite = cms.getRequestContext().getSiteRoot();

@@ -74,6 +74,7 @@ import org.opencms.ui.util.CmsComponentField;
 import org.opencms.ui.util.CmsLogicalCheckboxGroup;
 import org.opencms.ui.util.table.CmsBeanTableBuilder;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to change resource modification times.

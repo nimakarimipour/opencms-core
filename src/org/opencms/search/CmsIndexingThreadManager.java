@@ -35,6 +35,7 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsLog;
 import org.opencms.report.CmsLogReport;
 import org.opencms.report.I_CmsReport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the management of indexing threads.
@@ -49,7 +50,7 @@ public class CmsIndexingThreadManager {
   private static final Log LOG = CmsLog.getLog(CmsIndexingThreadManager.class);
 
   /** Number of threads abandoned. */
-  private int m_abandonedCounter;
+  private @RUntainted int m_abandonedCounter;
 
   /** The time the last error was written to the log. */
   private long m_lastLogErrorTime;
@@ -61,10 +62,10 @@ public class CmsIndexingThreadManager {
   private int m_maxModificationsBeforeCommit;
 
   /** Number of thread returned. */
-  private int m_returnedCounter;
+  private @RUntainted int m_returnedCounter;
 
   /** Overall number of threads started. */
-  private int m_startedCounter;
+  private @RUntainted int m_startedCounter;
 
   /** Timeout for abandoning threads. */
   private long m_timeout;

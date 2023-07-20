@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import org.opencms.i18n.I_CmsMessageBundle;
 import org.opencms.report.I_CmsReport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper for writing reports.

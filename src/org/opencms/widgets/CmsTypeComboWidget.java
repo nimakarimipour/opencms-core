@@ -39,6 +39,7 @@ import org.opencms.i18n.CmsMessages;
 import org.opencms.loader.CmsResourceManager;
 import org.opencms.main.OpenCms;
 import org.opencms.xml.types.A_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** A widget for selecting resource types which are direct editable. */
 public class CmsTypeComboWidget extends CmsComboWidget {
@@ -134,7 +135,7 @@ public class CmsTypeComboWidget extends CmsComboWidget {
    *
    * @return the configuration string
    */
-  private String createConfiguration() {
+  private @RUntainted String createConfiguration() {
 
     CmsResourceManager resManager = OpenCms.getResourceManager();
     if (resManager == null) {

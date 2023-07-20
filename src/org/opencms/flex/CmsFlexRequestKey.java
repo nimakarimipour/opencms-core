@@ -45,6 +45,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsCollectionsGenericWrapper;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the caching behaviour (or caching options) for a Flex request.
@@ -203,7 +204,7 @@ public class CmsFlexRequestKey {
   private HttpServletRequest m_request;
 
   /** The OpenCms resource that this key is used for. */
-  private String m_resource;
+  private @RUntainted String m_resource;
 
   /**
    * This constructor is used when building a cache key from a request.

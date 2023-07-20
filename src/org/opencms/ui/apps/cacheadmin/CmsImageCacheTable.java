@@ -68,6 +68,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.explorer.CmsResourceUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table to show entries of image cache.
@@ -88,9 +89,9 @@ public class CmsImageCacheTable extends Table {
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
-    public void executeAction(Set<String> data) {
+    public void executeAction(Set<@RUntainted String> data) {
 
-      String resource = data.iterator().next();
+      @RUntainted String resource = data.iterator().next();
       showVariationsWindow(resource);
     }
 
@@ -139,7 +140,7 @@ public class CmsImageCacheTable extends Table {
     }
 
     /** @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getTitle(java.util.Locale) */
-    public String getTitle(Locale locale) {
+    public String getTitle(@RUntainted Locale locale) {
 
       return Messages.get().getBundle(locale).key(Messages.GUI_EXPLORER_TITLE_0);
     }
@@ -406,7 +407,7 @@ public class CmsImageCacheTable extends Table {
    * @param rootPath to be opened
    * @param uuid to be selected
    */
-  void openExplorerForParent(String rootPath, String uuid) {
+  void openExplorerForParent(@RUntainted String rootPath, String uuid) {
 
     String parentPath = CmsResource.getParentFolder(rootPath);
     CmsAppWorkplaceUi.get()
@@ -430,7 +431,7 @@ public class CmsImageCacheTable extends Table {
    *
    * @param resource to show variations for
    */
-  void showVariationsWindow(String resource) {
+  void showVariationsWindow(@RUntainted String resource) {
 
     final Window window = CmsBasicDialog.prepareWindow(DialogWidth.max);
     CmsVariationsDialog variationsDialog =

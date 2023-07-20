@@ -48,6 +48,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.security.CmsRole;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates a repository session to access OpenCms.
@@ -155,7 +156,7 @@ public class CmsRepository extends A_CmsRepository {
       }
     }
     String project = configuredProject;
-    String site = configuredSite;
+    @RUntainted String site = configuredSite;
     if (origCms != null) {
       cms = OpenCms.initCmsObject(origCms);
     } else {

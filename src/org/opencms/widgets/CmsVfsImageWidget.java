@@ -45,6 +45,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsDialog;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.xml.types.CmsXmlVfsImageValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for an extended image selection using the advanced gallery dialog.
@@ -378,7 +379,7 @@ public class CmsVfsImageWidget extends CmsAdeImageGalleryWidget {
       CmsObject cms, I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
 
     String result = super.getWidgetStringValue(cms, widgetDialog, param);
-    String configuration =
+    @RUntainted String configuration =
         CmsMacroResolver.resolveMacros(getConfiguration(), cms, widgetDialog.getMessages());
     if (configuration == null) {
       configuration = param.getDefault(cms);

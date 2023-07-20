@@ -34,6 +34,7 @@ import org.dom4j.QName;
 import org.opencms.file.CmsObject;
 import org.opencms.xml.CmsXmlContentDefinition;
 import org.opencms.xml.I_CmsXmlDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a type in an OpenCms XML schema based content definition.
@@ -148,7 +149,7 @@ public interface I_CmsXmlSchemaType extends Comparable<I_CmsXmlSchemaType> {
    * @see org.opencms.xml.content.I_CmsXmlContentHandler#getDefault(CmsObject, I_CmsXmlContentValue,
    *     Locale)
    */
-  String getDefault(Locale locale);
+  @RUntainted String getDefault(Locale locale);
 
   /**
    * Returns the maximum occurrences of this type in the current schema.
@@ -157,7 +158,7 @@ public interface I_CmsXmlSchemaType extends Comparable<I_CmsXmlSchemaType> {
    *
    * @return the maximum occurrences of this type in the current schema
    */
-  int getMaxOccurs();
+  @RUntainted int getMaxOccurs();
 
   /**
    * Returns the minimum occurrences of this type in the current schema.
@@ -166,7 +167,7 @@ public interface I_CmsXmlSchemaType extends Comparable<I_CmsXmlSchemaType> {
    *
    * @return the minimum occurrences of this type in the current schema
    */
-  int getMinOccurs();
+  @RUntainted int getMinOccurs();
 
   /**
    * Returns the XML element node name of this type in the current schema.
@@ -179,7 +180,7 @@ public interface I_CmsXmlSchemaType extends Comparable<I_CmsXmlSchemaType> {
    *
    * @return the XML node name of this type in the current schema
    */
-  String getName();
+  @RUntainted String getName();
 
   /**
    * Returns a String representation of the XML definition for this schema type.
@@ -202,7 +203,7 @@ public interface I_CmsXmlSchemaType extends Comparable<I_CmsXmlSchemaType> {
    *
    * @return the schema type name
    */
-  String getTypeName();
+  @RUntainted String getTypeName();
 
   /**
    * Returns <code>true</code> if this type is an option inside of a choice sequence.

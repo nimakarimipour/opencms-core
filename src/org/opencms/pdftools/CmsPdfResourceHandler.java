@@ -48,6 +48,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.security.CmsSecurityException;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This resource handler handles URLs of the form /pdflink/{locale}/{formatter-id}/{detailname} and
@@ -65,7 +66,7 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
   public static final String IMAGE_MIMETYPECONFIG = "png:image/png|gif:image/gif|jpg:image/jpeg";
 
   /** Map of mime types for different file extensions. */
-  public static final Map<String, String> IMAGE_MIMETYPES =
+  public static final Map<String, @RUntainted String> IMAGE_MIMETYPES =
       Collections.unmodifiableMap(CmsStringUtil.splitAsMap(IMAGE_MIMETYPECONFIG, "|", ":"));
 
   /** The logger instance for this class. */
@@ -161,14 +162,14 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
    * @throws CmsResourceInitException if the resource initialization is cancelled
    */
   protected void handlePdfLink(
-      CmsObject cms, HttpServletRequest request, HttpServletResponse response, String uri)
+      CmsObject cms, HttpServletRequest request, HttpServletResponse response, @RUntainted String uri)
       throws Exception {
 
     CmsPdfLink linkObj = new CmsPdfLink(cms, uri);
     CmsResource formatter = linkObj.getFormatter();
     CmsResource content = linkObj.getContent();
     LOG.info("Trying to render " + content.getRootPath() + " using " + formatter.getRootPath());
-    Locale locale = linkObj.getLocale();
+    @RUntainted Locale locale = linkObj.getLocale();
     CmsObject cmsForJspExecution = OpenCms.initCmsObject(cms);
     cmsForJspExecution.getRequestContext().setLocale(locale);
     cmsForJspExecution.getRequestContext().setSiteRoot("");

@@ -51,6 +51,7 @@ import org.opencms.ui.components.CmsBasicDialog.DialogWidth;
 import org.opencms.ui.components.CmsErrorDialog;
 import org.opencms.ui.components.CmsToolBar;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The scheduled jobs manager app.
@@ -109,7 +110,7 @@ public class CmsJobManagerApp extends A_CmsWorkplaceApp
   public void deleteElements(List<String> jobIds) {
 
     try {
-      for (String jobId : jobIds) {
+      for (@RUntainted String jobId : jobIds) {
         OpenCms.getScheduleManager().unscheduleJob(A_CmsUI.getCmsObject(), jobId);
       }
       OpenCms.writeConfiguration(CmsSchedulerConfiguration.class);

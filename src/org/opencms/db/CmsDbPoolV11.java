@@ -42,6 +42,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.security.I_CmsCredentialsResolver;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Database connection pool class using HikariCP. */
 public final class CmsDbPoolV11 {
@@ -114,10 +115,10 @@ public final class CmsDbPoolV11 {
   }
 
   /** The opencms pool url. */
-  private String m_poolUrl;
+  private @RUntainted String m_poolUrl;
 
   /** The HikariCP data source. */
-  private HikariDataSource m_dataSource;
+  private @RUntainted HikariDataSource m_dataSource;
 
   /**
    * Default constructor.
@@ -128,9 +129,9 @@ public final class CmsDbPoolV11 {
    * @param key the name of the pool (without the opencms: prefix)
    * @throws Exception if something goes wrong
    */
-  public CmsDbPoolV11(CmsParameterConfiguration config, String key) throws Exception {
+  public CmsDbPoolV11(CmsParameterConfiguration config, @RUntainted String key) throws Exception {
 
-    HikariConfig hikariConf = createHikariConfig(config, key);
+    @RUntainted HikariConfig hikariConf = createHikariConfig(config, key);
     m_poolUrl = OPENCMS_URL_PREFIX + key;
     m_dataSource = new HikariDataSource(hikariConf);
     Connection con = null;
@@ -138,7 +139,7 @@ public final class CmsDbPoolV11 {
     int connectionTests = 0;
     int connectionAttempts =
         config.getInteger(KEY_DATABASE_POOL + '.' + key + '.' + KEY_CONNECT_ATTEMTS, 10);
-    int connectionsWait =
+    @RUntainted int connectionsWait =
         config.getInteger(KEY_DATABASE_POOL + '.' + key + '.' + KEY_CONNECT_WAITS, 5000);
 
     // try to connect once to the database to ensure it can be connected to at all
@@ -190,7 +191,7 @@ public final class CmsDbPoolV11 {
    * @param key the pool name (without the opencms prefix)
    * @return the HikariCP configuration for the pool
    */
-  public static HikariConfig createHikariConfig(CmsParameterConfiguration config, String key) {
+  public static @RUntainted HikariConfig createHikariConfig(CmsParameterConfiguration config, String key) {
 
     Map<String, String> poolMap = Maps.newHashMap();
     for (Map.Entry<String, String> entry : config.entrySet()) {
@@ -307,7 +308,7 @@ public final class CmsDbPoolV11 {
    *
    * @return the number of active connections
    */
-  public int getActiveConnections() {
+  public @RUntainted int getActiveConnections() {
 
     return m_dataSource.getHikariPoolMXBean().getActiveConnections();
   }
@@ -337,7 +338,7 @@ public final class CmsDbPoolV11 {
    *
    * @return the number of idle connections
    */
-  public int getIdleConnections() {
+  public @RUntainted int getIdleConnections() {
 
     return m_dataSource.getHikariPoolMXBean().getIdleConnections();
   }
@@ -349,7 +350,7 @@ public final class CmsDbPoolV11 {
    *
    * @return the pool url
    */
-  public String getPoolUrl() {
+  public @RUntainted String getPoolUrl() {
 
     return m_poolUrl;
   }

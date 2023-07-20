@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class used for matching rewrite aliases to incoming request URIs.
@@ -54,7 +55,7 @@ public class CmsRewriteAliasMatcher {
     private CmsRewriteAlias m_alias;
 
     /** The path resulting from the rewrite. */
-    private String m_newPath;
+    private @RUntainted String m_newPath;
 
     /**
      * Creates a new instance.
@@ -89,7 +90,7 @@ public class CmsRewriteAliasMatcher {
      *
      * @return the new path
      */
-    public String getNewPath() {
+    public @RUntainted String getNewPath() {
 
       return m_newPath;
     }

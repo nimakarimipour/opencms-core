@@ -55,6 +55,7 @@ import org.opencms.ui.I_CmsHasButtons;
 import org.opencms.ui.Messages;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplaceLoginHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to request a password reset link if you forgot your passsword.
@@ -91,7 +92,7 @@ public class CmsForgotPasswordDialog extends VerticalLayout implements I_CmsHasB
    *
    * @param startOu the organizational unit that should be preselected
    */
-  public CmsForgotPasswordDialog(String startOu) {
+  public CmsForgotPasswordDialog(@RUntainted String startOu) {
 
     Locale locale = A_CmsUI.get().getLocale();
     CmsVaadinUtils.readAndLocalizeDesign(

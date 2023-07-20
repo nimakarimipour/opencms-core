@@ -35,6 +35,7 @@ import org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration;
 import org.opencms.ui.apps.CmsWorkplaceAppManager;
 import org.opencms.ui.apps.I_CmsWorkplaceApp;
 import org.opencms.ui.components.OpenCmsTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** App configuration for the 'user data' app. */
 public class CmsUserDataAppConfiguration extends A_CmsWorkplaceAppConfiguration {
@@ -78,7 +79,7 @@ public class CmsUserDataAppConfiguration extends A_CmsWorkplaceAppConfiguration 
 
   /** @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
   @Override
-  public String getName(Locale locale) {
+  public String getName(@RUntainted Locale locale) {
 
     return org.opencms.ui.apps.Messages.get()
         .getBundle(locale)

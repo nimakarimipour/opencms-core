@@ -37,6 +37,7 @@ import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.apps.CmsAppWorkplaceUi;
 import org.opencms.ui.shared.rpc.I_CmsJSPBrowserFrameRpc;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Vaadin extension class for a BrowserFrame to display a JSP.
@@ -121,7 +122,7 @@ public class CmsJSPBrowserFrameExtension extends AbstractExtension
   private Set<CmsUUID> getSetFromUUIDStrings(String[] uuids) {
 
     Set<CmsUUID> res = new HashSet<CmsUUID>();
-    for (String uuid : uuids) {
+    for (@RUntainted String uuid : uuids) {
       res.add(new CmsUUID(uuid));
     }
     return res;

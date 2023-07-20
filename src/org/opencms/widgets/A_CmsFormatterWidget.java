@@ -55,6 +55,7 @@ import org.opencms.xml.containerpage.I_CmsFormatterBean;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.types.A_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract superclass for widgets used to enable or disable formatters.
@@ -123,9 +124,9 @@ public abstract class A_CmsFormatterWidget extends CmsSelectWidget {
    * @param typeName the type for which we want a widget option
    * @return the created widget option
    */
-  public static CmsSelectWidgetOption getWidgetOptionForType(CmsObject cms, String typeName) {
+  public static CmsSelectWidgetOption getWidgetOptionForType(CmsObject cms, @RUntainted String typeName) {
 
-    String niceTypeName = typeName;
+    @RUntainted String niceTypeName = typeName;
     try {
       Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
       niceTypeName = CmsWorkplaceMessages.getResourceTypeName(locale, typeName);
@@ -152,7 +153,7 @@ public abstract class A_CmsFormatterWidget extends CmsSelectWidget {
    * @param args the message arguments
    * @return the message string
    */
-  static String getMessage(CmsObject cms, String message, Object... args) {
+  static String getMessage(CmsObject cms, @RUntainted String message, @RUntainted Object... args) {
 
     Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
     return Messages.get().getBundle(locale).key(message, args);
@@ -294,7 +295,7 @@ public abstract class A_CmsFormatterWidget extends CmsSelectWidget {
         CmsXmlContent xmlContent = CmsXmlContentFactory.unmarshal(cms, contentFile);
         CmsConfigurationReader reader = new CmsConfigurationReader(cms);
         Set<String> selected = getSelectedInFile(reader, xmlContent);
-        for (String formatterKey : selected) {
+        for (@RUntainted String formatterKey : selected) {
           if (CmsUUID.isValidUUID(formatterKey)) {
             CmsFormatterConfigurationCacheState cacheState =
                 OpenCms.getADEManager()

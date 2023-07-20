@@ -98,6 +98,7 @@ import org.opencms.ui.login.CmsLoginController;
 import org.opencms.ui.login.CmsPasswordForm;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the dialog to edit user settings.
@@ -330,7 +331,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
   CmsPasswordForm m_pw;
 
   /** vaadin component. */
-  ComboBox m_site;
+  @RUntainted ComboBox m_site;
 
   /** vaadin component. */
   CmsPathSelectField m_startfolder;
@@ -369,7 +370,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
   private CheckBox m_resetTwoFactorAuthentication;
 
   /** vaadin component. */
-  private ComboBox m_language;
+  private @RUntainted ComboBox m_language;
 
   /** vaadin component. */
   private TextField m_loginname;
@@ -387,7 +388,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
   private Label m_ou;
 
   /** vaadin component. */
-  private ComboBox m_project;
+  private @RUntainted ComboBox m_project;
 
   /** vaadin component. */
   private ComboBox m_role;
@@ -1100,7 +1101,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
    * @param siteRoot to be used
    * @return CmsObject
    */
-  CmsObject getCmsObjectWithSite(String siteRoot) {
+  CmsObject getCmsObjectWithSite(@RUntainted String siteRoot) {
 
     if (siteRoot == null) {
       siteRoot = "/";

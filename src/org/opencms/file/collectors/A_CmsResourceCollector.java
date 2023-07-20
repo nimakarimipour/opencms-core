@@ -51,6 +51,7 @@ import org.opencms.util.CmsPair;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides some helpful base implementations for resource collector classes.
@@ -109,7 +110,7 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
    * @return the new file name
    * @throws CmsException if something goes wrong
    */
-  public static String createResourceForCollector(
+  public static @RUntainted String createResourceForCollector(
       CmsObject cms,
       String newLink,
       Locale locale,

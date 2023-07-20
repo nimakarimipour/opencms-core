@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import org.opencms.i18n.I_CmsMessageContainer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean that represents a client variant of a template context.
@@ -99,7 +100,7 @@ public class CmsClientVariant {
    * @param locale the locale
    * @return the nice name
    */
-  public String getNiceName(Locale locale) {
+  public String getNiceName(@RUntainted Locale locale) {
 
     return m_message.key(locale);
   }

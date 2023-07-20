@@ -40,6 +40,7 @@ import org.opencms.ade.galleries.shared.CmsSitemapEntryBean;
 import org.opencms.ade.galleries.shared.CmsVfsEntryBean;
 import org.opencms.gwt.CmsRpcException;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the gallery dialog.
@@ -103,7 +104,7 @@ public interface I_CmsGalleryService extends RemoteService {
    * @return the resource info
    * @throws CmsRpcException if something goes wrong
    */
-  CmsResultItemBean getInfoForResource(String path, String locale) throws CmsRpcException;
+  CmsResultItemBean getInfoForResource(@RUntainted String path, @RUntainted String locale) throws CmsRpcException;
 
   /**
    * Returns the initial data for the given gallery mode.
@@ -150,7 +151,7 @@ public interface I_CmsGalleryService extends RemoteService {
    * @return the sub entries
    * @throws CmsRpcException if something goes wrong
    */
-  List<CmsSitemapEntryBean> getSubEntries(String rootPath, boolean isRoot, String filter)
+  List<CmsSitemapEntryBean> getSubEntries(@RUntainted String rootPath, boolean isRoot, String filter)
       throws CmsRpcException;
 
   /**
@@ -194,7 +195,7 @@ public interface I_CmsGalleryService extends RemoteService {
    * @param openItems the set of structure ids of open tree items
    * @throws CmsRpcException if something goes wrong
    */
-  void saveTreeOpenState(String treeName, String treeToken, String siteRoot, Set<CmsUUID> openItems)
+  void saveTreeOpenState(@RUntainted String treeName, @RUntainted String treeToken, @RUntainted String siteRoot, @RUntainted Set<CmsUUID> openItems)
       throws CmsRpcException;
 
   /**

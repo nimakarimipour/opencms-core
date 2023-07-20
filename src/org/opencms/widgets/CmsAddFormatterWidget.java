@@ -48,6 +48,7 @@ import org.opencms.xml.containerpage.CmsSchemaFormatterBeanWrapper;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentRootLocation;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to select a formatter to add.
@@ -126,7 +127,7 @@ public class CmsAddFormatterWidget extends A_CmsFormatterWidget {
    * @return the select widget options for the external formatters
    */
   protected static List<CmsSelectWidgetOption> getFormatterOptionsStatic(
-      CmsObject cms, CmsADEConfigData config, String rootPath, boolean allRemoved) {
+      CmsObject cms, CmsADEConfigData config, @RUntainted String rootPath, boolean allRemoved) {
 
     Map<CmsUUID, I_CmsFormatterBean> inactiveFormatters = config.getInactiveFormatters();
     List<CmsSelectWidgetOption> result = Lists.newArrayList();
@@ -191,7 +192,7 @@ public class CmsAddFormatterWidget extends A_CmsFormatterWidget {
       Set<String> activeTypes = adeConfig.getTypesWithActiveSchemaFormatters();
       inactiveTypes.removeAll(activeTypes);
     }
-    for (String inactiveType : inactiveTypes) {
+    for (@RUntainted String inactiveType : inactiveTypes) {
       CmsSelectWidgetOption option = getWidgetOptionForType(cms, inactiveType);
       result.add(option);
     }

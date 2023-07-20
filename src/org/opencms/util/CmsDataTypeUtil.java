@@ -38,6 +38,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.apache.commons.codec.binary.Base64;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utilities to handle basic data types.
@@ -69,7 +70,7 @@ public final class CmsDataTypeUtil {
    * @throws IOException if the inputstream fails
    * @throws ClassNotFoundException if the serialized object fails
    */
-  public static Object dataDeserialize(byte[] data, String type)
+  public static Object dataDeserialize(@RUntainted byte[] data, String type)
       throws IOException, ClassNotFoundException {
 
     // check the type of the stored data
@@ -120,7 +121,7 @@ public final class CmsDataTypeUtil {
    * @throws ClassNotFoundException if something goes wrong
    * @throws IOException if something goes wrong
    */
-  public static Object dataImport(String value, String type)
+  public static Object dataImport(@RUntainted String value, String type)
       throws ClassNotFoundException, IOException {
 
     Class<?> clazz = Class.forName(type);
@@ -360,7 +361,7 @@ public final class CmsDataTypeUtil {
    * @param clazz the data type
    * @return the value of the given data
    */
-  public static Object parse(String data, Class<?> clazz) {
+  public static @RUntainted Object parse(@RUntainted String data, Class<?> clazz) {
 
     if (data == null) {
       return null;
@@ -523,7 +524,7 @@ public final class CmsDataTypeUtil {
    * @param data the data to parse
    * @return the converted data value
    */
-  public static CmsUUID parseUUID(String data) {
+  public static CmsUUID parseUUID(@RUntainted String data) {
 
     return new CmsUUID(data);
   }

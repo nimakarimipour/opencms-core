@@ -89,6 +89,7 @@ import org.opencms.xml.containerpage.CmsContainerElementBean;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to generate all the data which is necessary for the resource status dialog(s).
@@ -304,7 +305,7 @@ public class CmsDefaultResourceStatusProvider {
       HttpServletRequest request,
       CmsObject cms,
       CmsUUID structureId,
-      String contentLocale,
+      @RUntainted String contentLocale,
       boolean includeTargets,
       CmsUUID detailContentId,
       List<CmsUUID> additionalStructureIds,
@@ -336,7 +337,7 @@ public class CmsDefaultResourceStatusProvider {
     if (dateReleased != CmsResource.DATE_RELEASED_DEFAULT) {
       result.setDateReleased(CmsVfsService.formatDateTime(cms, dateReleased));
     }
-    String lastProject = resourceUtil.getLockedInProjectName();
+    @RUntainted String lastProject = resourceUtil.getLockedInProjectName();
     if ("".equals(lastProject)) {
       lastProject = null;
     }
@@ -630,7 +631,7 @@ public class CmsDefaultResourceStatusProvider {
    * @throws CmsException if something goes wrong
    */
   protected List<CmsResourceStatusRelationBean> getSiblings(
-      CmsObject cms, String locale, CmsResource resource) throws CmsException {
+      CmsObject cms, @RUntainted String locale, CmsResource resource) throws CmsException {
 
     List<CmsResourceStatusRelationBean> result = new ArrayList<CmsResourceStatusRelationBean>();
     for (CmsResource sibling : cms.readSiblings(resource, CmsResourceFilter.ALL)) {
@@ -667,7 +668,7 @@ public class CmsDefaultResourceStatusProvider {
    * @throws TooManyRelationsException if too many relations are found
    */
   protected List<CmsResourceStatusRelationBean> getTargets(
-      CmsObject cms, String locale, CmsResource resource, List<CmsUUID> additionalStructureIds)
+      CmsObject cms, @RUntainted String locale, CmsResource resource, List<CmsUUID> additionalStructureIds)
       throws CmsException, TooManyRelationsException {
 
     CmsRelationTargetListBean listBean =
@@ -703,7 +704,7 @@ public class CmsDefaultResourceStatusProvider {
    * @throws CmsException if something goes wrong
    */
   CmsResourceStatusRelationBean createRelationBean(
-      CmsObject cms, String locale, CmsResource relationResource, CmsPermissionInfo permissionInfo)
+      CmsObject cms, @RUntainted String locale, CmsResource relationResource, CmsPermissionInfo permissionInfo)
       throws CmsException {
 
     CmsListInfoBean sourceBean = CmsVfsService.getPageInfo(cms, relationResource);
@@ -804,7 +805,7 @@ public class CmsDefaultResourceStatusProvider {
         pageService.setCms(cms);
         pageService.setRequest(request);
         CmsContainerElementBean elementBean = pageService.getCachedElement(elementId, pageRootPath);
-        String displayFormatterKey =
+        @RUntainted String displayFormatterKey =
             elementBean.getSettings().get(CmsJspTagDisplay.DISPLAY_FORMATTER_SETTING);
         boolean foundFormatterInfo = false;
         if (displayFormatterKey != null) {
@@ -818,7 +819,7 @@ public class CmsDefaultResourceStatusProvider {
           }
         }
         if (!foundFormatterInfo) {
-          CmsUUID formatterId = elementBean.getFormatterId();
+          @RUntainted CmsUUID formatterId = elementBean.getFormatterId();
           try {
             CmsResource formatterRes =
                 cms.readResource(formatterId, CmsResourceFilter.IGNORE_EXPIRATION);

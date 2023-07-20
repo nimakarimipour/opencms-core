@@ -44,6 +44,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.module.CmsModule;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class defines text decoration to be made by the postprocessor.
@@ -58,7 +59,7 @@ public class CmsDecorationDefintion {
   private static final Log LOG = CmsLog.getLog(CmsDecorationDefintion.class);
 
   /** The name of the configuration file holding all word substitutions. */
-  private String m_configurationFile;
+  private @RUntainted String m_configurationFile;
 
   /** Flag, signaling if the first occurance of a word must be marked differntly. */
   private boolean m_markFirst;
@@ -114,7 +115,7 @@ public class CmsDecorationDefintion {
       String preTextFirst,
       String postTextFirst,
       boolean markFrist,
-      String configurationFile) {
+      @RUntainted String configurationFile) {
 
     m_configurationFile = configurationFile;
     m_markFirst = markFrist;
@@ -169,11 +170,11 @@ public class CmsDecorationDefintion {
    * @return CmsDecorationBundle including all decoration lists that match the locale
    * @throws CmsException if something goes wrong
    */
-  public CmsDecorationBundle createDecorationBundle(CmsObject cms, Locale locale)
+  public CmsDecorationBundle createDecorationBundle(CmsObject cms, @RUntainted Locale locale)
       throws CmsException {
 
     // get configfile basename and the list of all decoration map files
-    List<CmsResource> decorationMapFiles = getDecorationMapFiles(cms);
+    @RUntainted List<CmsResource> decorationMapFiles = getDecorationMapFiles(cms);
     if (LOG.isDebugEnabled()) {
       LOG.debug(
           Messages.get()
@@ -182,7 +183,7 @@ public class CmsDecorationDefintion {
     }
 
     // create decoration maps
-    List<CmsDecorationMap> decorationMaps = getDecorationMaps(cms, decorationMapFiles);
+    @RUntainted List<CmsDecorationMap> decorationMaps = getDecorationMaps(cms, decorationMapFiles);
     if (LOG.isDebugEnabled()) {
       LOG.debug(
           Messages.get()
@@ -210,7 +211,7 @@ public class CmsDecorationDefintion {
    * @return CmsDecorationBundle including all decoration lists that match the locale
    */
   public CmsDecorationBundle createDecorationBundle(
-      List<CmsDecorationMap> decorationMaps, Locale locale) {
+      List<CmsDecorationMap> decorationMaps, @RUntainted Locale locale) {
 
     CmsDecorationBundle decorationBundle = new CmsDecorationBundle(locale);
     // sort the bundles
@@ -332,7 +333,7 @@ public class CmsDecorationDefintion {
    *
    * @param configurationFile the configurationFile to set
    */
-  public void setConfigurationFile(String configurationFile) {
+  public void setConfigurationFile(@RUntainted String configurationFile) {
 
     m_configurationFile = configurationFile;
   }
@@ -442,7 +443,7 @@ public class CmsDecorationDefintion {
    * @return list of CmsResources of the decoration map files
    * @throws CmsException if something goes wrong.
    */
-  private List<CmsResource> getDecorationMapFiles(CmsObject cms) throws CmsException {
+  private @RUntainted List<CmsResource> getDecorationMapFiles(CmsObject cms) throws CmsException {
 
     List<CmsResource> files = new ArrayList<CmsResource>();
 
@@ -497,7 +498,7 @@ public class CmsDecorationDefintion {
    * @param decorationListFiles the list of decoration files
    * @return list of decoration map objects
    */
-  private List<CmsDecorationMap> getDecorationMaps(
+  private @RUntainted List<CmsDecorationMap> getDecorationMaps(
       CmsObject cms, List<CmsResource> decorationListFiles) {
 
     List<CmsDecorationMap> decorationMaps = new ArrayList<CmsDecorationMap>();

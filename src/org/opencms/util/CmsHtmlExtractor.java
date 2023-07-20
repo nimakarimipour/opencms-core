@@ -36,6 +36,7 @@ import org.htmlparser.lexer.Lexer;
 import org.htmlparser.lexer.Page;
 import org.htmlparser.util.ParserException;
 import org.opencms.staticexport.CmsLinkProcessor;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extracts plain text from HTML.
@@ -67,7 +68,7 @@ public final class CmsHtmlExtractor {
    * @throws ParserException if the parsing of the HTML failed
    * @throws UnsupportedEncodingException if the given encoding is not supported
    */
-  public static String extractText(InputStream in, String encoding)
+  public static @RUntainted String extractText(InputStream in, String encoding)
       throws ParserException, UnsupportedEncodingException {
 
     Parser parser = new Parser();
@@ -94,7 +95,7 @@ public final class CmsHtmlExtractor {
    * @throws ParserException if the parsing of the HTML failed
    * @throws UnsupportedEncodingException if the given encoding is not supported
    */
-  public static String extractText(String content, String encoding)
+  public static @RUntainted String extractText(@RUntainted String content, String encoding)
       throws ParserException, UnsupportedEncodingException {
 
     if (CmsStringUtil.isEmpty(content)) {

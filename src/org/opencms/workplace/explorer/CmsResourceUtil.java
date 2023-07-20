@@ -66,6 +66,7 @@ import org.opencms.util.A_CmsModeIntEnumeration;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides {@link CmsResource} utility functions.
@@ -309,7 +310,7 @@ public final class CmsResourceUtil {
    * @return the icon resource
    */
   public static Resource getBigIconResource(
-      CmsExplorerTypeSettings explorerType, String resourceName) {
+      CmsExplorerTypeSettings explorerType, @RUntainted String resourceName) {
 
     if (explorerType == null) {
       explorerType =
@@ -348,7 +349,7 @@ public final class CmsResourceUtil {
    * @return the icon resource
    */
   public static Resource getSmallIconResource(
-      CmsExplorerTypeSettings explorerType, String resourceName) {
+      CmsExplorerTypeSettings explorerType, @RUntainted String resourceName) {
 
     if (explorerType == null) {
       explorerType =
@@ -467,7 +468,7 @@ public final class CmsResourceUtil {
    *
    * @return the full path
    */
-  public String getFullPath() {
+  public @RUntainted String getFullPath() {
 
     String path = m_resource.getRootPath();
     if ((m_siteMode != SITE_MODE_ROOT) && (m_cms != null)) {
@@ -671,9 +672,9 @@ public final class CmsResourceUtil {
    *
    * @return the user name who owns the lock for the given resource
    */
-  public String getLockedByName() {
+  public @RUntainted String getLockedByName() {
 
-    String lockedBy = "";
+    @RUntainted String lockedBy = "";
     if (!getLock().isNullLock()) {
       // user
       lockedBy = getLock().getUserId().toString();
@@ -719,7 +720,7 @@ public final class CmsResourceUtil {
    *
    * @return the the project name that locked the current resource's
    */
-  public String getLockedInProjectName() {
+  public @RUntainted String getLockedInProjectName() {
 
     try {
       CmsUUID pId = getLockedInProjectId();
@@ -813,7 +814,7 @@ public final class CmsResourceUtil {
    * @return an empty string if editable, or a localized string with the reason
    * @throws CmsException if something goes wrong
    */
-  public String getNoEditReason(Locale locale) throws CmsException {
+  public String getNoEditReason(@RUntainted Locale locale) throws CmsException {
 
     return getNoEditReason(locale, false);
   }
@@ -828,7 +829,7 @@ public final class CmsResourceUtil {
    * @return an empty string if editable, or a localized string with the reason
    * @throws CmsException if something goes wrong
    */
-  public String getNoEditReason(Locale locale, boolean ignoreExpiration) throws CmsException {
+  public String getNoEditReason(@RUntainted Locale locale, boolean ignoreExpiration) throws CmsException {
 
     String reason = "";
     if (m_resource instanceof I_CmsHistoryResource) {
@@ -1128,7 +1129,7 @@ public final class CmsResourceUtil {
    *
    * @return the site path
    */
-  public String getSite() {
+  public @RUntainted String getSite() {
 
     String site = null;
     if ((m_siteMode == SITE_MODE_MATCHING) || (m_cms == null)) {
@@ -1164,7 +1165,7 @@ public final class CmsResourceUtil {
    */
   public String getSiteTitle() {
 
-    String title = getSite();
+    @RUntainted String title = getSite();
     String rootSite = getCms().getRequestContext().getSiteRoot();
     try {
       getCms().getRequestContext().setSiteRoot("");
@@ -1374,7 +1375,7 @@ public final class CmsResourceUtil {
    *
    * @return the title for that resource
    */
-  public String getTitle() {
+  public @RUntainted String getTitle() {
 
     String title = "";
     try {
@@ -1435,7 +1436,7 @@ public final class CmsResourceUtil {
    *
    * @return the name of the user who last modified the given resource
    */
-  public String getUserLastModified() {
+  public @RUntainted String getUserLastModified() {
 
     String user = m_resource.getUserLastModified().toString();
     try {
@@ -1622,7 +1623,7 @@ public final class CmsResourceUtil {
    * @param name the fully qualified name to check
    * @return the simple name if the ou is the same as the current user's ou
    */
-  private String getCurrentOuRelativeName(String name) {
+  private @RUntainted String getCurrentOuRelativeName(@RUntainted String name) {
 
     if (m_request == null) {
       return CmsOrganizationalUnit.SEPARATOR + name;

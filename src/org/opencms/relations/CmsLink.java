@@ -47,6 +47,7 @@ import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.util.CmsUriSplitter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A single link entry in the link table.
@@ -70,7 +71,7 @@ public class CmsLink {
   public static final String DEFAULT_NAME = "ref";
 
   /** Default link type. */
-  public static final CmsRelationType DEFAULT_TYPE = CmsRelationType.XML_WEAK;
+  public static final @RUntainted CmsRelationType DEFAULT_TYPE = CmsRelationType.XML_WEAK;
 
   /** A dummy uri. */
   public static final String DUMMY_URI = "@@@";
@@ -118,16 +119,16 @@ public class CmsLink {
   private String m_siteRoot;
 
   /** The structure id of the linked resource. */
-  private CmsUUID m_structureId;
+  private @RUntainted CmsUUID m_structureId;
 
   /** The link target (destination). */
-  private String m_target;
+  private @RUntainted String m_target;
 
   /** The type of the link. */
-  private CmsRelationType m_type;
+  private @RUntainted CmsRelationType m_type;
 
   /** The raw uri. */
-  private String m_uri;
+  private @RUntainted String m_uri;
 
   /** The resource the link points to. */
   private CmsResource m_resource;
@@ -156,7 +157,7 @@ public class CmsLink {
    *
    * @param element the XML node containing the link information
    */
-  public CmsLink(Element element) {
+  public CmsLink(@RUntainted Element element) {
 
     m_element = element;
     Attribute attrName = element.attribute(ATTRIBUTE_NAME);
@@ -178,8 +179,8 @@ public class CmsLink {
       m_internal = true;
     }
 
-    Element uuid = element.element(NODE_UUID);
-    Element target = element.element(NODE_TARGET);
+    @RUntainted Element uuid = element.element(NODE_UUID);
+    @RUntainted Element target = element.element(NODE_TARGET);
     Element anchor = element.element(NODE_ANCHOR);
     Element query = element.element(NODE_QUERY);
 
@@ -204,7 +205,7 @@ public class CmsLink {
    * @param internal indicates if the link is internal within OpenCms
    */
   public CmsLink(
-      String name, CmsRelationType type, CmsUUID structureId, String uri, boolean internal) {
+      String name, @RUntainted CmsRelationType type, @RUntainted CmsUUID structureId, @RUntainted String uri, boolean internal) {
 
     m_element = null;
     m_name = name;
@@ -226,7 +227,7 @@ public class CmsLink {
    * @param uri the link uri
    * @param internal indicates if the link is internal within OpenCms
    */
-  public CmsLink(String name, CmsRelationType type, String uri, boolean internal) {
+  public CmsLink(String name, CmsRelationType type, @RUntainted String uri, boolean internal) {
 
     this(name, type, null, uri, internal);
   }
@@ -419,7 +420,7 @@ public class CmsLink {
       }
       checkConsistency(cms);
       String target = m_target;
-      String uri = computeUri(target, m_query, m_anchor);
+      @RUntainted String uri = computeUri(target, m_query, m_anchor);
 
       CmsObjectWrapper wrapper =
           (CmsObjectWrapper) cms.getRequestContext().getAttribute(CmsObjectWrapper.ATTRIBUTE_NAME);
@@ -600,7 +601,7 @@ public class CmsLink {
    * @param cms the CMS context
    * @return the site path
    */
-  public String getSitePath(CmsObject cms) {
+  public @RUntainted String getSitePath(CmsObject cms) {
 
     return cms.getRequestContext().removeSiteRoot(m_uri);
   }
@@ -630,7 +631,7 @@ public class CmsLink {
    *
    * @return structure id of the linked resource
    */
-  public CmsUUID getStructureId() {
+  public @RUntainted CmsUUID getStructureId() {
 
     return m_structureId;
   }
@@ -642,7 +643,7 @@ public class CmsLink {
    *
    * @return the target the target (destination) of this link
    */
-  public String getTarget() {
+  public @RUntainted String getTarget() {
 
     return m_target;
   }
@@ -664,7 +665,7 @@ public class CmsLink {
    *
    * @return the type of this link
    */
-  public CmsRelationType getType() {
+  public @RUntainted CmsRelationType getType() {
 
     return m_type;
   }
@@ -676,7 +677,7 @@ public class CmsLink {
    *
    * @return the uri
    */
-  public String getUri() {
+  public @RUntainted String getUri() {
 
     return m_uri;
   }
@@ -747,7 +748,7 @@ public class CmsLink {
    *
    * @param uri the uri to update this link with <code>scheme://authority/path#anchor?query</code>
    */
-  public void updateLink(String uri) {
+  public void updateLink(@RUntainted String uri) {
 
     // set the uri
     m_uri = uri;
@@ -775,7 +776,7 @@ public class CmsLink {
    * @param anchor the anchor or null if undefined
    * @param query the query or null if undefined
    */
-  public void updateLink(String target, String anchor, String query) {
+  public void updateLink(@RUntainted String target, String anchor, @RUntainted String query) {
 
     // set the components
     m_target = target;
@@ -820,7 +821,7 @@ public class CmsLink {
    * @param anchor the uri anchor component
    * @return the uri
    */
-  private String computeUri(String target, String query, String anchor) {
+  private @RUntainted String computeUri(String target, String query, String anchor) {
 
     StringBuffer uri = new StringBuffer(64);
     uri.append(target);
@@ -856,7 +857,7 @@ public class CmsLink {
    *
    * @param query the query to set.
    */
-  private void setQuery(String query) {
+  private void setQuery(@RUntainted String query) {
 
     m_query = CmsLinkProcessor.unescapeLink(query);
     m_parameters = null;

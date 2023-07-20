@@ -31,6 +31,7 @@ import java.util.List;
 import org.opencms.ade.publish.shared.CmsWorkflow;
 import org.opencms.file.CmsResource;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Set of workflow resources, and an optional workflow.
@@ -43,13 +44,13 @@ public class CmsWorkflowResources {
   private CmsWorkflow m_overrideWorkflow;
 
   /** The workflow resources. */
-  private List<CmsResource> m_workflowResources;
+  private @RUntainted List<CmsResource> m_workflowResources;
 
   /**
    * If set, there are too many resources, and the value contains the approximate amount of
    * resources.
    */
-  private Integer m_tooManyCount;
+  private @RUntainted Integer m_tooManyCount;
 
   /**
    * Creates new instance.
@@ -62,7 +63,7 @@ public class CmsWorkflowResources {
    *     resource count
    */
   public CmsWorkflowResources(
-      List<CmsResource> workflowResources, CmsWorkflow overrideWorkflow, Integer tooManyCount) {
+      @RUntainted List<CmsResource> workflowResources, CmsWorkflow overrideWorkflow, @RUntainted Integer tooManyCount) {
 
     m_workflowResources = workflowResources;
     m_overrideWorkflow = overrideWorkflow;
@@ -75,7 +76,7 @@ public class CmsWorkflowResources {
    *
    * @return a lower bound for the number of publish resources
    */
-  public int getLowerBoundForSize() {
+  public @RUntainted int getLowerBoundForSize() {
 
     if (m_tooManyCount != null) {
       return m_tooManyCount.intValue();

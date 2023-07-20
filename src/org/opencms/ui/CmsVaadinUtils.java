@@ -117,6 +117,7 @@ import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.CmsWorkplaceMessages;
 import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
 import org.opencms.workplace.explorer.CmsResourceUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Vaadin utility functions.
@@ -624,7 +625,7 @@ public final class CmsVaadinUtils {
    * @param messageString Message to be displayed
    * @return layout
    */
-  public static VerticalLayout getInfoLayout(String messageString) {
+  public static VerticalLayout getInfoLayout(@RUntainted String messageString) {
 
     VerticalLayout ret = new VerticalLayout();
     ret.setMargin(true);
@@ -678,7 +679,7 @@ public final class CmsVaadinUtils {
    * @param args the message arguments
    * @return the message text for the current locale
    */
-  public static String getMessageText(I_CmsMessageBundle messages, String key, Object... args) {
+  public static String getMessageText(I_CmsMessageBundle messages, @RUntainted String key, @RUntainted Object... args) {
 
     return messages.getBundle(A_CmsUI.get().getLocale()).key(key, args);
   }
@@ -692,7 +693,7 @@ public final class CmsVaadinUtils {
    * @param args the message arguments
    * @return the message text for the current locale
    */
-  public static String getMessageText(String key, Object... args) {
+  public static @RUntainted String getMessageText(@RUntainted String key, @RUntainted Object... args) {
 
     return getWpMessagesForCurrentLocale().key(key, args);
   }
@@ -1034,7 +1035,7 @@ public final class CmsVaadinUtils {
    *
    * @return the link to the workplace
    */
-  public static String getWorkplaceLink() {
+  public static @RUntainted String getWorkplaceLink() {
 
     return OpenCms.getSystemInfo().getWorkplaceContext();
   }
@@ -1181,7 +1182,7 @@ public final class CmsVaadinUtils {
    * @param baseString the string to localize
    * @return the localized string
    */
-  public static String localizeString(String baseString) {
+  public static String localizeString(@RUntainted String baseString) {
 
     if (baseString == null) {
       return null;
@@ -1305,7 +1306,7 @@ public final class CmsVaadinUtils {
         new CmsMacroResolver() {
 
           @Override
-          public String getMacroValue(String macro) {
+          public @RUntainted String getMacroValue(@RUntainted String macro) {
 
             return CmsEncoder.escapeXml(super.getMacroValue(macro));
           }
@@ -1539,14 +1540,14 @@ public final class CmsVaadinUtils {
       Map<String, String> macros) {
 
     try {
-      byte[] designBytes = CmsFileUtil.readFully(designStream, true);
+      @RUntainted byte[] designBytes = CmsFileUtil.readFully(designStream, true);
       final String encoding = "UTF-8";
-      String design = new String(designBytes, encoding);
+      @RUntainted String design = new String(designBytes, encoding);
       CmsMacroResolver resolver =
           new CmsMacroResolver() {
 
             @Override
-            public String getMacroValue(String macro) {
+            public @RUntainted String getMacroValue(@RUntainted String macro) {
 
               String result = super.getMacroValue(macro);
               // The macro may contain quotes or angle brackets, so we need to escape the values for

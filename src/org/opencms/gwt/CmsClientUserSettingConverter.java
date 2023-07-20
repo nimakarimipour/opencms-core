@@ -45,6 +45,7 @@ import org.opencms.util.CmsMacroResolver;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.xml.content.CmsXmlContentProperty;
 import org.opencms.xml.content.CmsXmlContentPropertyHelper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to deal with loading and saving user preferences from the ADE user interface.
@@ -125,7 +126,7 @@ public class CmsClientUserSettingConverter {
     m_request = request;
     m_currentPreferences = new CmsDefaultUserSettings();
     m_currentPreferences.init(cms.getRequestContext().getCurrentUser());
-    Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
+    @RUntainted Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
     CmsMultiMessages messages = new CmsMultiMessages(locale);
     messages.addMessages(OpenCms.getWorkplaceManager().getMessages(locale));
     messages.addMessages(org.opencms.workplace.commons.Messages.get().getBundle(locale));

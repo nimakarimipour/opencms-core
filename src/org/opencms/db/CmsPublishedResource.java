@@ -30,6 +30,7 @@ package org.opencms.db;
 import java.io.Serializable;
 import org.opencms.file.CmsResource;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents the state of a published resource *before* it got published.
@@ -135,7 +136,7 @@ public class CmsPublishedResource implements Serializable, Comparable<CmsPublish
    *
    * <p>
    */
-  private String m_rootPath;
+  private @RUntainted String m_rootPath;
 
   /** The count of siblings of the published resource. */
   private int m_siblingCount;
@@ -214,7 +215,7 @@ public class CmsPublishedResource implements Serializable, Comparable<CmsPublish
       CmsUUID structureId,
       CmsUUID resourceId,
       int publishTag,
-      String rootPath,
+      @RUntainted String rootPath,
       int resourceType,
       boolean isFolder,
       CmsResourceState resourceState,
@@ -316,7 +317,7 @@ public class CmsPublishedResource implements Serializable, Comparable<CmsPublish
    *
    * @return the root path of the published resource
    */
-  public String getRootPath() {
+  public @RUntainted String getRootPath() {
 
     return m_rootPath;
   }

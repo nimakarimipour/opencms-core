@@ -45,6 +45,7 @@ import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsLockManager is used by the Cms application to detect the lock state of a resource.
@@ -455,7 +456,7 @@ public final class CmsLockManager {
    * @param source the source root path
    * @param destination the destination root path
    */
-  public void moveResource(String source, String destination) {
+  public void moveResource(String source, @RUntainted String destination) {
 
     CmsLock lock = OpenCms.getMemoryMonitor().getCachedLock(source);
     if (lock != null) {
@@ -505,7 +506,7 @@ public final class CmsLockManager {
    * @param resourceName the root path of the deleted resource
    * @throws CmsException if something goes wrong
    */
-  public void removeDeletedResource(CmsDbContext dbc, String resourceName) throws CmsException {
+  public void removeDeletedResource(CmsDbContext dbc, @RUntainted String resourceName) throws CmsException {
 
     try {
       m_driverManager
@@ -824,7 +825,7 @@ public final class CmsLockManager {
    * @param resourcename the name of the resource
    * @return the inherited lock or the null lock
    */
-  private CmsLock getParentLock(String resourcename) {
+  private CmsLock getParentLock(@RUntainted String resourcename) {
 
     CmsLock parentFolderLock = getParentFolderLock(resourcename);
     if (!parentFolderLock.isNullLock()) {
@@ -846,7 +847,7 @@ public final class CmsLockManager {
    * @param resourcename the name of the resource
    * @return the indirect lock of the resource or the null lock
    */
-  private CmsLock getSiblingsLock(List<CmsResource> siblings, String resourcename) {
+  private CmsLock getSiblingsLock(List<CmsResource> siblings, @RUntainted String resourcename) {
 
     for (int i = 0; i < siblings.size(); i++) {
       CmsResource sibling = siblings.get(i);
@@ -869,10 +870,10 @@ public final class CmsLockManager {
    * @param locks during reading the locks from db we need to operate on an extra map
    * @throws CmsLockException if the lock is not compatible with the current lock
    */
-  private void internalLockResource(CmsLock lock, Map<String, CmsLock> locks)
+  private void internalLockResource(@RUntainted CmsLock lock, Map<String, CmsLock> locks)
       throws CmsLockException {
 
-    CmsLock currentLock = null;
+    @RUntainted CmsLock currentLock = null;
     if (locks == null) {
       currentLock = OpenCms.getMemoryMonitor().getCachedLock(lock.getResourceName());
     } else {
@@ -940,7 +941,7 @@ public final class CmsLockManager {
    * @param siblingName the siblings name
    * @return the shared lock
    */
-  private CmsLock internalSiblingLock(CmsLock exclusiveLock, String siblingName) {
+  private CmsLock internalSiblingLock(CmsLock exclusiveLock, @RUntainted String siblingName) {
 
     CmsLock lock = null;
     if (!exclusiveLock.getSystemLock().isUnlocked()) {

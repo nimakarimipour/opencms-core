@@ -46,6 +46,7 @@ import org.opencms.report.CmsWorkplaceReport;
 import org.opencms.scheduler.CmsScheduledJobInfo;
 import org.opencms.scheduler.I_CmsScheduledJob;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Scheduled job for time based publishing.
@@ -87,7 +88,7 @@ public class CmsPublishScheduledJob implements I_CmsScheduledJob {
   /**
    * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
    */
-  public synchronized String launch(CmsObject cms, Map<String, String> parameters)
+  public synchronized @RUntainted String launch(CmsObject cms, Map<String, String> parameters)
       throws Exception {
 
     Date jobStart = new Date();
@@ -135,7 +136,7 @@ public class CmsPublishScheduledJob implements I_CmsScheduledJob {
       // publish dialog
       String unlockList = parameters.get(PARAM_UNLOCK_LIST);
       if (unlockList != null) {
-        for (String idStr : unlockList.split(",")) {
+        for (@RUntainted String idStr : unlockList.split(",")) {
           try {
             CmsResource resource =
                 cms.readResource(new CmsUUID(idStr), CmsResourceFilter.IGNORE_EXPIRATION);
@@ -169,7 +170,7 @@ public class CmsPublishScheduledJob implements I_CmsScheduledJob {
 
       // delete the job
       // the job id
-      String jobId = "";
+      @RUntainted String jobId = "";
       // iterate over all jobs to find the current one
       Iterator<CmsScheduledJobInfo> iter = OpenCms.getScheduleManager().getJobs().iterator();
       while (iter.hasNext()) {

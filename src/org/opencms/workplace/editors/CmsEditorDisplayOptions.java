@@ -44,6 +44,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsCollectionsGenericWrapper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to determine the display options of a workplace editor for the current user.
@@ -120,7 +121,7 @@ public class CmsEditorDisplayOptions {
    *
    * <p>
    */
-  private Map<Object, Object> m_userMappings;
+  private Map<Object, @RUntainted Object> m_userMappings;
 
   /**
    * Constructor that initializes the editor display options for the workplace.
@@ -183,13 +184,13 @@ public class CmsEditorDisplayOptions {
   public Properties getDisplayOptions(CmsObject cms) {
 
     // get the configuration file name for the current user
-    String mappedConfigFile =
+    @RUntainted String mappedConfigFile =
         (String) m_userMappings.get(cms.getRequestContext().getCurrentUser().getName());
     Properties displayOptions;
     if (mappedConfigFile == null) {
       // no configuration file name stored for user, get the navigation items of the configuration
       // folder
-      String configFolder =
+      @RUntainted String configFolder =
           OpenCms.getSystemInfo().getConfigFilePath(cms, FOLDER_EDITORCONFIGURATION);
       List<CmsJspNavElement> items = new CmsJspNavBuilder(cms).getNavigationForFolder(configFolder);
       if (items.size() > 0) {

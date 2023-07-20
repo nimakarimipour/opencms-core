@@ -57,6 +57,7 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class contains a subset of the methods of {@link CmsObject} and uses the configured resource
@@ -189,7 +190,7 @@ public class CmsObjectWrapper {
    *     length 0
    */
   public CmsResource createResource(
-      String resourcename, int type, byte[] content, List<CmsProperty> properties)
+      @RUntainted String resourcename, int type, byte[] content, List<CmsProperty> properties)
       throws CmsException, CmsIllegalArgumentException {
 
     CmsResource res = null;
@@ -519,7 +520,7 @@ public class CmsObjectWrapper {
    * @param destination the destination resource name (full path)
    * @throws CmsException if something goes wrong
    */
-  public void moveResource(String source, String destination) throws CmsException {
+  public void moveResource(String source, @RUntainted String destination) throws CmsException {
 
     boolean exec = false;
 
@@ -727,7 +728,7 @@ public class CmsObjectWrapper {
    * @param path the path to the resource
    * @return the path for the resource which exists in the VFS
    */
-  public String restoreLink(String path) {
+  public @RUntainted String restoreLink(@RUntainted String path) {
 
     if ((path != null) && (path.startsWith("#"))) {
       return path;
@@ -772,14 +773,14 @@ public class CmsObjectWrapper {
    * @param path the full path where to find the resource
    * @return the rewritten link for the resource
    */
-  public String rewriteLink(String path) {
+  public @RUntainted String rewriteLink(@RUntainted String path) {
 
     CmsResource res = null;
 
     try {
       res = readResource(m_cms.getRequestContext().removeSiteRoot(path), CmsResourceFilter.ALL);
       if (res != null) {
-        String ret = null;
+        @RUntainted String ret = null;
 
         // iterate through all wrappers and call "rewriteLink" till one does not return null
         List<I_CmsResourceWrapper> wrappers = getWrappers();

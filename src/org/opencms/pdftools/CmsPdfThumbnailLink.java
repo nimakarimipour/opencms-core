@@ -39,6 +39,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.staticexport.CmsDefaultLinkSubstitutionHandler;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to generate or parse a link to a PDF thumbnail.

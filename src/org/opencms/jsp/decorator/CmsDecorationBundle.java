@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * CmsDecorationBundle, contains a map of merged CmsDEcorationMaps.
@@ -47,7 +48,7 @@ import java.util.Set;
 public class CmsDecorationBundle {
 
   /** The bundle map. */
-  private Map<String, CmsDecorationObject> m_bundle;
+  private @RUntainted Map<String, @RUntainted CmsDecorationObject> m_bundle;
 
   /** The locale of this bundle. */
   private Locale m_locale;
@@ -84,7 +85,7 @@ public class CmsDecorationBundle {
    * @param key the key of the object ot get
    * @return the value matching the key or null.
    */
-  public Object get(Object key) {
+  public @RUntainted Object get(Object key) {
 
     return m_bundle.get(adjustKey(key.toString()));
   }
@@ -96,7 +97,7 @@ public class CmsDecorationBundle {
    *
    * @return map of all decoarion bundle entries
    */
-  public Map<String, CmsDecorationObject> getAll() {
+  public Map<String, @RUntainted CmsDecorationObject> getAll() {
 
     return m_bundle;
   }
@@ -133,7 +134,7 @@ public class CmsDecorationBundle {
    * @param key the key of the object to store
    * @param value the value of the object to store
    */
-  public void put(String key, CmsDecorationObject value) {
+  public void put(String key, @RUntainted CmsDecorationObject value) {
 
     m_bundle.put(key, value);
   }
@@ -145,7 +146,7 @@ public class CmsDecorationBundle {
    *
    * @param map the map to put into the bundle
    */
-  public void putAll(Map<String, CmsDecorationObject> map) {
+  public void putAll(Map<String, @RUntainted CmsDecorationObject> map) {
 
     m_bundle.putAll(map);
   }

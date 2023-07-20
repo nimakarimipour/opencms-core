@@ -45,6 +45,7 @@ import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsLockedResourcesList;
 import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract workplace actions class providing helper methods.

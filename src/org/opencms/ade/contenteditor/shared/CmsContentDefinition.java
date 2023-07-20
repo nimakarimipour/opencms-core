@@ -39,6 +39,7 @@ import org.opencms.acacia.shared.CmsTabInfo;
 import org.opencms.acacia.shared.CmsType;
 import org.opencms.gwt.shared.CmsModelResourceInfo;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains all information needed for editing an XMLContent.
@@ -96,7 +97,7 @@ public class CmsContentDefinition extends org.opencms.acacia.shared.CmsContentDe
   private String m_resourceType;
 
   /** The site path. */
-  private String m_sitePath;
+  private @RUntainted String m_sitePath;
 
   /** The paths to skip during locale synchronization. */
   private Collection<String> m_skipPaths;
@@ -172,7 +173,7 @@ public class CmsContentDefinition extends org.opencms.acacia.shared.CmsContentDe
       Map<String, String> syncValues,
       Collection<String> skipPaths,
       String title,
-      String sitePath,
+      @RUntainted String sitePath,
       String resourceType,
       String iconClasses,
       boolean performedAutocorrection,
@@ -215,7 +216,7 @@ public class CmsContentDefinition extends org.opencms.acacia.shared.CmsContentDe
    * @param entityId the entity id
    * @return the entity id
    */
-  public static CmsUUID entityIdToUuid(String entityId) {
+  public static CmsUUID entityIdToUuid(@RUntainted String entityId) {
 
     if (entityId.startsWith(ENTITY_ID_PREFIX)) {
       entityId = entityId.substring(entityId.lastIndexOf("/") + 1);
@@ -231,7 +232,7 @@ public class CmsContentDefinition extends org.opencms.acacia.shared.CmsContentDe
    * @param entityId the entity id
    * @return the locale
    */
-  public static String getLocaleFromId(String entityId) {
+  public static @RUntainted String getLocaleFromId(@RUntainted String entityId) {
 
     if (entityId.startsWith(ENTITY_ID_PREFIX)) {
       return entityId.substring(ENTITY_ID_PREFIX.length(), entityId.lastIndexOf("/"));
@@ -552,7 +553,7 @@ public class CmsContentDefinition extends org.opencms.acacia.shared.CmsContentDe
    *
    * @return the site path
    */
-  public String getSitePath() {
+  public @RUntainted String getSitePath() {
 
     return m_sitePath;
   }

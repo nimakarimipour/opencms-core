@@ -51,6 +51,7 @@ import org.opencms.security.CmsRoleViolationException;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes an OpenCms module.
@@ -104,7 +105,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
   private String m_actionClass;
 
   /** Initialized module action instance. */
-  private transient I_CmsModuleAction m_actionInstance;
+  private transient @RUntainted I_CmsModuleAction m_actionInstance;
 
   /** The email of the author of this module. */
   private String m_authorEmail;
@@ -152,10 +153,10 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
   private transient boolean m_createTemplateFolder;
 
   /** The date this module was created by the author. */
-  private long m_dateCreated;
+  private @RUntainted long m_dateCreated;
 
   /** The date this module was installed. */
-  private long m_dateInstalled;
+  private @RUntainted long m_dateInstalled;
 
   /** List of dependencies of this module. */
   private List<CmsModuleDependency> m_dependencies;
@@ -176,7 +177,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
   private ExportMode m_exportMode;
 
   /** List of export points added by this module. */
-  private List<CmsExportPoint> m_exportPoints;
+  private List<@RUntainted CmsExportPoint> m_exportPoints;
 
   /**
    * The export version (this is only used for module objects which have been read from a zip file).
@@ -196,7 +197,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
   private String m_importScript;
 
   /** The name of this module, must be a valid Java package name. */
-  private String m_name;
+  private @RUntainted String m_name;
 
   /** The "nice" display name of this module. */
   private String m_niceName;
@@ -211,10 +212,10 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
   private List<String> m_resources;
 
   /** The list of additional resource types. */
-  private transient List<I_CmsResourceType> m_resourceTypes;
+  private transient @RUntainted List<I_CmsResourceType> m_resourceTypes;
 
   /** The module site. */
-  private String m_site;
+  private @RUntainted String m_site;
 
   /** The name of the user who installed this module. */
   private String m_userInstalled;
@@ -267,23 +268,23 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    * @param parameters the parameters for this module
    */
   public CmsModule(
-      String name,
+      @RUntainted String name,
       String niceName,
       String group,
       String actionClass,
       String importScript,
-      String site,
+      @RUntainted String site,
       boolean isImportSite,
       ExportMode exportMode,
       String description,
       CmsModuleVersion version,
       String authorName,
       String authorEmail,
-      long dateCreated,
+      @RUntainted long dateCreated,
       String userInstalled,
-      long dateInstalled,
+      @RUntainted long dateInstalled,
       List<CmsModuleDependency> dependencies,
-      List<CmsExportPoint> exportPoints,
+      List<@RUntainted CmsExportPoint> exportPoints,
       List<String> resources,
       List<String> excluderesources,
       Map<String, String> parameters) {
@@ -645,7 +646,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
       result.setDependencies(new ArrayList<CmsModuleDependency>(getDependencies()));
     }
     if (getExportPoints() != null) {
-      List<CmsExportPoint> exps = new ArrayList<CmsExportPoint>();
+      List<@RUntainted CmsExportPoint> exps = new ArrayList<@RUntainted CmsExportPoint>();
       for (CmsExportPoint exp : getExportPoints()) {
         exps.add((CmsExportPoint) exp.clone());
       }
@@ -723,7 +724,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @return the module action instance of this module
    */
-  public I_CmsModuleAction getActionInstance() {
+  public @RUntainted I_CmsModuleAction getActionInstance() {
 
     return m_actionInstance;
   }
@@ -791,7 +792,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @return the date this module was created by the author
    */
-  public long getDateCreated() {
+  public @RUntainted long getDateCreated() {
 
     return m_dateCreated;
   }
@@ -803,7 +804,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @return the date this module was uploaded
    */
-  public long getDateInstalled() {
+  public @RUntainted long getDateInstalled() {
 
     return m_dateInstalled;
   }
@@ -876,7 +877,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @return the list of export point added by this module
    */
-  public List<CmsExportPoint> getExportPoints() {
+  public @RUntainted List<@RUntainted CmsExportPoint> getExportPoints() {
 
     return m_exportPoints;
   }
@@ -939,7 +940,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @return the import site
    */
-  public String getImportSite() {
+  public @RUntainted String getImportSite() {
 
     if (m_hasImportSite) {
       return m_site;
@@ -957,7 +958,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @return the name of this module
    */
-  public String getName() {
+  public @RUntainted String getName() {
 
     return m_name;
   }
@@ -1046,7 +1047,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @return the list of additional resource types that belong to this module
    */
-  public List<I_CmsResourceType> getResourceTypes() {
+  public @RUntainted List<I_CmsResourceType> getResourceTypes() {
 
     return m_resourceTypes;
   }
@@ -1058,7 +1059,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @return the site of the module
    */
-  public String getSite() {
+  public @RUntainted String getSite() {
 
     return m_site;
   }
@@ -1082,7 +1083,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @return the version of this module
    */
-  public CmsModuleVersion getVersion() {
+  public @RUntainted CmsModuleVersion getVersion() {
 
     return m_version;
   }
@@ -1128,7 +1129,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
   public boolean hasModuleResourcesWithUndefinedSite() {
 
     if (getSite() == null) {
-      for (String modRes : getResources()) {
+      for (@RUntainted String modRes : getResources()) {
         if (!CmsStringUtil.isPrefixPath("/system/", modRes)
             && !OpenCms.getSiteManager().startsWithShared(modRes)) {
           return true;
@@ -1147,7 +1148,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    */
   public boolean hasOnlySystemAndSharedResources() {
 
-    for (String modRes : getResources()) {
+    for (@RUntainted String modRes : getResources()) {
       if (!CmsStringUtil.isPrefixPath("/system/", modRes)
           && !OpenCms.getSiteManager().startsWithShared(modRes)) {
         return false;
@@ -1341,7 +1342,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @param value the class name of this modules (optional) action class to set
    */
-  public void setActionClass(String value) {
+  public void setActionClass(@RUntainted String value) {
 
     checkFrozen();
     if (CmsStringUtil.isEmpty(value)) {
@@ -1525,7 +1526,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @param value the date created to set
    */
-  public void setDateCreated(long value) {
+  public void setDateCreated(@RUntainted long value) {
 
     checkFrozen();
     m_dateCreated = value;
@@ -1541,7 +1542,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @param value the installation date this module
    */
-  public void setDateInstalled(long value) {
+  public void setDateInstalled(@RUntainted long value) {
 
     checkFrozen();
     m_dateInstalled = value;
@@ -1611,7 +1612,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @param exportPoints the export points of this module.
    */
-  public void setExportPoints(List<CmsExportPoint> exportPoints) {
+  public void setExportPoints(List<@RUntainted CmsExportPoint> exportPoints) {
 
     m_exportPoints = exportPoints;
   }
@@ -1676,7 +1677,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @param importSite the import site
    */
-  public void setImportSite(String importSite) {
+  public void setImportSite(@RUntainted String importSite) {
 
     checkFrozen();
     if (importSite != null) {
@@ -1698,7 +1699,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @param value the module name to set
    */
-  public void setName(String value) {
+  public void setName(@RUntainted String value) {
 
     checkFrozen();
     if (!CmsStringUtil.isValidJavaClassName(value)) {
@@ -1788,7 +1789,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @param siteRoot the module site root
    */
-  public void setSite(String siteRoot) {
+  public void setSite(@RUntainted String siteRoot) {
 
     if (siteRoot == null) {
       m_hasImportSite = false;
@@ -1916,7 +1917,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
    *
    * @param actionInstance the module action instance for this module
    */
-  /*package*/ void setActionInstance(I_CmsModuleAction actionInstance) {
+  /*package*/ void setActionInstance(@RUntainted I_CmsModuleAction actionInstance) {
 
     m_actionInstance = actionInstance;
   }

@@ -38,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles the requests for static resources located in the classpath.
@@ -191,7 +192,7 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
    * @see org.opencms.main.I_CmsRequestHandler#handle(javax.servlet.http.HttpServletRequest,
    *     javax.servlet.http.HttpServletResponse, java.lang.String)
    */
-  public void handle(HttpServletRequest request, HttpServletResponse response, String name)
+  public void handle(@RUntainted HttpServletRequest request, HttpServletResponse response, String name)
       throws IOException {
 
     String path = OpenCmsCore.getInstance().getPathInfo(request);
@@ -326,7 +327,7 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
     }
 
     // Set type mime type if we can determine it based on the filename
-    String mimetype = OpenCms.getResourceManager().getMimeType(filename, "UTF-8");
+    @RUntainted String mimetype = OpenCms.getResourceManager().getMimeType(filename, "UTF-8");
     if (mimetype != null) {
       response.setContentType(mimetype);
     }

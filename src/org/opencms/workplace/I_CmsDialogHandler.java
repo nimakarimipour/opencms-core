@@ -29,6 +29,7 @@ package org.opencms.workplace;
 
 import org.opencms.configuration.I_CmsConfigurationParameterHandler;
 import org.opencms.jsp.CmsJspActionElement;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a method for selecting an individual jsp dialog.
@@ -52,7 +53,7 @@ public interface I_CmsDialogHandler extends I_CmsConfigurationParameterHandler {
    *
    * @return the name of the dialog handler
    */
-  String getDialogHandler();
+  @RUntainted String getDialogHandler();
 
   /**
    * Returns the dialog URI in the OpenCms VFS to the dialog selector class.

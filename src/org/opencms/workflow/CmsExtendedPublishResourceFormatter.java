@@ -44,6 +44,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish resource formatter for the extended workflow manager.
@@ -162,7 +163,7 @@ public class CmsExtendedPublishResourceFormatter extends CmsDefaultPublishResour
    * @param args the message parameters
    * @return the message from the message bundle
    */
-  protected String getMessage(String key, String... args) {
+  protected String getMessage(@RUntainted String key, @RUntainted String... args) {
 
     return Messages.get().getBundle(m_cms.getRequestContext().getLocale()).key(key, args);
   }

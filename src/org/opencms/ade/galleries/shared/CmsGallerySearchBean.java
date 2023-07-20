@@ -38,6 +38,7 @@ import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryTab
 import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.SortParams;
 import org.opencms.gwt.shared.CmsGalleryContainerInfo;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This bean represents the current search object.
@@ -109,7 +110,7 @@ public class CmsGallerySearchBean implements IsSerializable {
   private int m_lastPage;
 
   /** The selected locale for search. */
-  private String m_locale;
+  private @RUntainted String m_locale;
 
   /** The number of search results to be display pro page. */
   private int m_matchesPerPage;
@@ -127,7 +128,7 @@ public class CmsGallerySearchBean implements IsSerializable {
   private String m_query;
 
   /** The gallery reference path. */
-  private String m_referencePath;
+  private @RUntainted String m_referencePath;
 
   /** True if the search results were replaced. */
   private boolean m_replacedResults;
@@ -487,7 +488,7 @@ public class CmsGallerySearchBean implements IsSerializable {
    *
    * @return the locale
    */
-  public String getLocale() {
+  public @RUntainted String getLocale() {
 
     return m_locale;
   }
@@ -562,7 +563,7 @@ public class CmsGallerySearchBean implements IsSerializable {
    *
    * @return the gallery reference path
    */
-  public String getReferencePath() {
+  public @RUntainted String getReferencePath() {
 
     return m_referencePath;
   }
@@ -1129,7 +1130,7 @@ public class CmsGallerySearchBean implements IsSerializable {
    *
    * @param referencePath the gallery reference path
    */
-  public void setReferencePath(String referencePath) {
+  public void setReferencePath(@RUntainted String referencePath) {
 
     m_referencePath = referencePath;
   }

@@ -40,6 +40,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsDialog;
 import org.opencms.xml.content.I_CmsXmlContentHandler.DisplayType;
 import org.opencms.xml.types.A_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for select widgets.
@@ -120,7 +121,7 @@ public abstract class A_CmsSelectWidget extends A_CmsWidget implements I_CmsADEW
 
   /** @see org.opencms.widgets.A_CmsWidget#getConfiguration() */
   @Override
-  public String getConfiguration() {
+  public @RUntainted String getConfiguration() {
 
     if (super.getConfiguration() != null) {
       return super.getConfiguration();
@@ -352,7 +353,7 @@ public abstract class A_CmsSelectWidget extends A_CmsWidget implements I_CmsADEW
       CmsObject cms, I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
 
     if (m_selectOptions == null) {
-      String configuration = getConfiguration();
+      @RUntainted String configuration = getConfiguration();
       if (configuration == null) {
         // workaround: use the default value to parse the options
         configuration = param.getDefault(cms);

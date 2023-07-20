@@ -37,6 +37,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.search.extractors.CmsExtractionResult;
 import org.opencms.search.extractors.I_CmsExtractionResult;
 import org.opencms.util.CmsFileUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements a disk cache that stores text extraction results in the RFS.
@@ -67,7 +68,7 @@ public class CmsExtractionResultCache {
   private static final Log LOG = CmsLog.getLog(CmsExtractionResultCache.class);
 
   /** The name of the cache base repository folder in the RFS. */
-  private String m_rfsRepository;
+  private @RUntainted String m_rfsRepository;
 
   /**
    * Creates a new disk cache.
@@ -77,7 +78,7 @@ public class CmsExtractionResultCache {
    * @param basepath the base path for the cache in the RFS
    * @param foldername the folder name for this cache, to be used a subfolder for the base folder
    */
-  public CmsExtractionResultCache(String basepath, String foldername) {
+  public CmsExtractionResultCache(@RUntainted String basepath, @RUntainted String foldername) {
 
     // normalize the given folder name
     m_rfsRepository = CmsFileUtil.normalizePath(basepath + foldername + File.separatorChar);
@@ -96,14 +97,14 @@ public class CmsExtractionResultCache {
 
     // calculate oldest possible date for the cache files
     long expireDate = System.currentTimeMillis() - (long) (maxAge * 60.0f * 60.0f * 1000.0f);
-    File basedir = new File(m_rfsRepository);
+    @RUntainted File basedir = new File(m_rfsRepository);
     // perform the cache cleanup
     int count = 0;
     if (basedir.canRead() && basedir.isDirectory()) {
-      File[] files = basedir.listFiles();
+      @RUntainted File[] files = basedir.listFiles();
       if (files != null) {
         for (int i = 0; i < files.length; i++) {
-          File f = files[i];
+          @RUntainted File f = files[i];
           if (f.canWrite()) {
             if (f.lastModified() < expireDate) {
               try {

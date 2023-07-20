@@ -34,6 +34,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.A_CmsWorkplaceApp;
 import org.opencms.ui.apps.Messages;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App for the history settings and clearing of history.
@@ -52,7 +53,7 @@ public class CmsFileHistoryApp extends A_CmsWorkplaceApp {
   static final String MODE_WITHVERSIONS = "withversions";
 
   /** Version disabled option. */
-  static final int NUMBER_VERSIONS_DISABLED = -2;
+  static final @RUntainted int NUMBER_VERSIONS_DISABLED = -2;
 
   /** Version unlimited option. */
   static final int NUMBER_VERSIONS_UNLIMITED = -1;

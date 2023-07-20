@@ -123,6 +123,7 @@ import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.content.CmsXmlContentProperty;
 import org.opencms.xml.templatemapper.CmsTemplateMapper;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows convenient access to the most important OpenCms functions on a JSP page, indented to be
@@ -197,14 +198,14 @@ public final class CmsJspStandardContextBean {
 
     /** @see org.opencms.xml.containerpage.CmsContainerElementBean#getId() */
     @Override
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
       return m_wrappedElement.getId();
     }
 
     /** @see org.opencms.xml.containerpage.CmsContainerElementBean#getIndividualSettings() */
     @Override
-    public Map<String, String> getIndividualSettings() {
+    public @RUntainted Map<String, @RUntainted String> getIndividualSettings() {
 
       return m_wrappedElement.getIndividualSettings();
     }
@@ -218,7 +219,7 @@ public final class CmsJspStandardContextBean {
 
     /** @see org.opencms.xml.containerpage.CmsContainerElementBean#getInstanceId() */
     @Override
-    public String getInstanceId() {
+    public @RUntainted String getInstanceId() {
 
       return m_wrappedElement.getInstanceId();
     }
@@ -297,7 +298,7 @@ public final class CmsJspStandardContextBean {
 
     /** @see org.opencms.xml.containerpage.CmsContainerElementBean#getSitePath() */
     @Override
-    public String getSitePath() {
+    public @RUntainted String getSitePath() {
 
       return m_wrappedElement.getSitePath();
     }
@@ -657,7 +658,7 @@ public final class CmsJspStandardContextBean {
     /** @see org.apache.commons.collections.Transformer#transform(java.lang.Object) */
     public Object transform(Object arg0) {
 
-      String result = null;
+      @RUntainted String result = null;
       if ((m_metaMappings != null) && m_metaMappings.containsKey(arg0)) {
         MetaMapping mapping = m_metaMappings.get(arg0);
         CmsGalleryNameMacroResolver resolver = null;
@@ -695,7 +696,7 @@ public final class CmsJspStandardContextBean {
     CmsUUID m_contentId;
 
     /** The default value. */
-    String m_defaultValue;
+    @RUntainted String m_defaultValue;
 
     /** The mapping value xpath. */
     String m_elementXPath;
@@ -1049,7 +1050,7 @@ public final class CmsJspStandardContextBean {
    *     A_CmsJspCustomContextBean}.
    * @return an instance of the provided class with the current context already set.
    */
-  public Object getBean(String className) {
+  public Object getBean(@RUntainted String className) {
 
     try {
       Class<?> clazz = Class.forName(className);
@@ -1078,12 +1079,12 @@ public final class CmsJspStandardContextBean {
   public String getBinaryUploadFolder(CmsJspContentAccessBean content) {
 
     String keyToFind = CmsADEConfigData.ATTR_BINARY_UPLOAD_TARGET;
-    String baseValue = null;
+    @RUntainted String baseValue = null;
     if (content != null) {
       for (CmsJspContentAccessValueWrapper wrapper :
           content.getValueList().get(CmsConfigParserUtils.N_PARAMETER)) {
         String paramKey = wrapper.getValue().get(CmsConfigParserUtils.N_KEY).getToString();
-        String paramValue = wrapper.getValue().get(CmsConfigParserUtils.N_VALUE).getToString();
+        @RUntainted String paramValue = wrapper.getValue().get(CmsConfigParserUtils.N_VALUE).getToString();
         if (paramKey.equals(keyToFind)) {
           LOG.debug("Found upload folder in configuration: " + paramValue);
           baseValue = paramValue;
@@ -1208,7 +1209,7 @@ public final class CmsJspStandardContextBean {
    *     bundle for the key could not be found.
    */
   public String getBundleEditorLink(
-      String messageKey, String backLinkAnchor, String backLinkParams, String bundleName) {
+      String messageKey, String backLinkAnchor, String backLinkParams, @RUntainted String bundleName) {
 
     if (!m_cms.getRequestContext().getCurrentProject().isOnlineProject()) {
       String filePath = null;
@@ -1363,7 +1364,7 @@ public final class CmsJspStandardContextBean {
    *     content is requested.
    *     <p>
    */
-  public CmsUUID getDetailContentId() {
+  public @RUntainted CmsUUID getDetailContentId() {
 
     return m_detailContentResource == null ? null : m_detailContentResource.getStructureId();
   }
@@ -1544,7 +1545,7 @@ public final class CmsJspStandardContextBean {
    * @param formatterKey a formatter key
    * @return the formatter information for the formatter key, or null if no formatter was found
    */
-  public CmsFormatterInfoWrapper getFormatterInfo(String formatterKey) {
+  public CmsFormatterInfoWrapper getFormatterInfo(@RUntainted String formatterKey) {
 
     CmsObject cms = m_cms;
     CmsADEConfigData config = m_config;
@@ -1781,7 +1782,7 @@ public final class CmsJspStandardContextBean {
    *
    * @return the current locale
    */
-  public Locale getLocale() {
+  public @RUntainted Locale getLocale() {
 
     return getRequestContext().getLocale();
   }
@@ -1863,7 +1864,7 @@ public final class CmsJspStandardContextBean {
    * @param locale the content locale as locale or string
    * @return the container page bean
    */
-  public CmsContainerPageBean getPage(Object page, Object locale) {
+  public CmsContainerPageBean getPage(@RUntainted Object page, @RUntainted Object locale) {
 
     CmsResource pageResource = null;
     CmsContainerPageBean result = null;
@@ -2147,7 +2148,7 @@ public final class CmsJspStandardContextBean {
           CmsCollectionsGenericWrapper.createLazyMap(
               new Transformer() {
 
-                public Object transform(Object categoryPath) {
+                public Object transform(@RUntainted Object categoryPath) {
 
                   try {
                     CmsCategoryService catService = CmsCategoryService.getInstance();
@@ -2224,7 +2225,7 @@ public final class CmsJspStandardContextBean {
           CmsCollectionsGenericWrapper.createLazyMap(
               new Transformer() {
 
-                public Object transform(Object resourceName) {
+                public Object transform(@RUntainted Object resourceName) {
 
                   try {
                     CmsResource resource =
@@ -2334,7 +2335,7 @@ public final class CmsJspStandardContextBean {
           CmsCollectionsGenericWrapper.createLazyMap(
               new Transformer() {
 
-                public Object transform(Object rootPath) {
+                public Object transform(@RUntainted Object rootPath) {
 
                   if (rootPath instanceof String) {
                     return getRequestContext().removeSiteRoot((String) rootPath);
@@ -2353,7 +2354,7 @@ public final class CmsJspStandardContextBean {
    *
    * @return the subsite path
    */
-  public String getSubSitePath() {
+  public @RUntainted String getSubSitePath() {
 
     return m_cms
         .getRequestContext()
@@ -2840,9 +2841,9 @@ public final class CmsJspStandardContextBean {
     }
     if (container != null) {
       String containerName = container.getName();
-      Map<String, String> settings = element.getSettings();
+      Map<String, @RUntainted String> settings = element.getSettings();
       if (settings != null) {
-        String formatterConfigId =
+        @RUntainted String formatterConfigId =
             settings.get(CmsFormatterConfig.getSettingsKeyForContainer(containerName));
         I_CmsFormatterBean dynamicFmt = m_config.findFormatter(formatterConfigId);
         if (dynamicFmt != null) {
@@ -2999,7 +3000,7 @@ public final class CmsJspStandardContextBean {
 
     if ((formatterBean != null) && (formatterBean.getMetaMappings() != null)) {
       for (CmsMetaMapping map : formatterBean.getMetaMappings()) {
-        String key = map.getKey();
+        @RUntainted String key = map.getKey();
         key = resolver.resolveMacros(key);
         // the detail content mapping overrides other mappings
         if (isDetailContent
@@ -3132,7 +3133,7 @@ public final class CmsJspStandardContextBean {
         for (CmsContainerBean container : m_page.getContainers().values()) {
           for (CmsContainerElementBean element : container.getElements()) {
             String settingsKey = CmsFormatterConfig.getSettingsKeyForContainer(container.getName());
-            String formatterConfigId =
+            @RUntainted String formatterConfigId =
                 element.getSettings() != null ? element.getSettings().get(settingsKey) : null;
             I_CmsFormatterBean formatterBean = null;
             formatterBean = m_config.findFormatter(formatterConfigId);

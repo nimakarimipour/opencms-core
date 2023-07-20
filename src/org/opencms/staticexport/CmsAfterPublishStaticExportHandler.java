@@ -59,6 +59,7 @@ import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation for the <code>{@link I_CmsStaticExportHandler}</code> interface.
@@ -105,7 +106,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
     // this will always use the root site
     CmsObject cmsExportObject = OpenCms.initCmsObject(OpenCms.getDefaultUsers().getUserExport());
 
-    List<CmsPublishedResource> resourcesToExport = getRelatedResources(cmsExportObject, resources);
+    @RUntainted List<CmsPublishedResource> resourcesToExport = getRelatedResources(cmsExportObject, resources);
     // first export all non-template resources
     templatesFound = exportNonTemplateResources(cmsExportObject, resourcesToExport, report);
     LOG.warn("finished exporting non-template resources. ");
@@ -122,7 +123,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
       }
 
       long timestamp = 0;
-      List<String> publishedTemplateResources;
+      @RUntainted List<@RUntainted String> publishedTemplateResources;
       boolean newTemplateLinksFound;
       int linkMode = CmsStaticExportManager.EXPORT_LINK_WITHOUT_PARAMETER;
       do {
@@ -176,7 +177,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
    * @return all resources within the current OpenCms site that are not marked as internal
    * @throws CmsException if something goes wrong
    */
-  public List<CmsPublishedResource> getAllResources(CmsObject cms) throws CmsException {
+  public @RUntainted List<CmsPublishedResource> getAllResources(CmsObject cms) throws CmsException {
 
     if (LOG.isDebugEnabled()) {
       LOG.debug(Messages.get().getBundle().key(Messages.LOG_GET_ALL_RESOURCES_0));
@@ -184,12 +185,12 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
     // TODO: to improve performance, get here only the resources to render from the configuration
 
     // read all from the root path, exclude resources flagged as internal
-    List<CmsResource> vfsResources =
+    @RUntainted List<CmsResource> vfsResources =
         cms.readResources("/", CmsResourceFilter.ALL.addExcludeFlags(CmsResource.FLAG_INTERNAL));
 
     CmsExportFolderMatcher matcher = OpenCms.getStaticExportManager().getExportFolderMatcher();
     // loop through the list and create the list of CmsPublishedResources
-    List<CmsPublishedResource> resources = new ArrayList<CmsPublishedResource>(vfsResources.size());
+    @RUntainted List<CmsPublishedResource> resources = new ArrayList<CmsPublishedResource>(vfsResources.size());
     Iterator<CmsResource> i = vfsResources.iterator();
     while (i.hasNext()) {
       CmsResource resource = i.next();
@@ -220,7 +221,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
    *     org.opencms.report.I_CmsReport)
    */
   @Override
-  public void performEventPublishProject(CmsUUID publishHistoryId, I_CmsReport report) {
+  public void performEventPublishProject(@RUntainted CmsUUID publishHistoryId, I_CmsReport report) {
 
     try {
       m_busy = true;
@@ -251,12 +252,12 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
    * @throws IOException in case of errors writing to the export output stream
    * @throws ServletException in case of errors accessing the servlet
    */
-  protected void exportAfterPublish(CmsUUID publishHistoryId, I_CmsReport report)
+  protected void exportAfterPublish(@RUntainted CmsUUID publishHistoryId, I_CmsReport report)
       throws CmsException, IOException, ServletException {
 
     // first check if the test resource was published already
     // if not, we must do a complete export of all static resources
-    String rfsName =
+    @RUntainted String rfsName =
         CmsFileUtil.normalizePath(
             OpenCms.getStaticExportManager()
                     .getExportPath(OpenCms.getStaticExportManager().getTestResource())
@@ -302,7 +303,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
    * @throws ServletException in case of errors accessing the servlet
    */
   protected boolean exportNonTemplateResources(
-      CmsObject cms, List<CmsPublishedResource> publishedResources, I_CmsReport report)
+      CmsObject cms, @RUntainted List<CmsPublishedResource> publishedResources, I_CmsReport report)
       throws CmsException, IOException, ServletException {
 
     report.println(
@@ -317,7 +318,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
     }
 
     CmsStaticExportManager manager = OpenCms.getStaticExportManager();
-    List<CmsStaticExportData> resourcesToExport = new ArrayList<CmsStaticExportData>();
+    List<@RUntainted CmsStaticExportData> resourcesToExport = new ArrayList<@RUntainted CmsStaticExportData>();
     boolean templatesFound =
         readNonTemplateResourcesToExport(cms, publishedResources, resourcesToExport);
 
@@ -327,9 +328,9 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
       LOG.debug(Messages.get().getBundle().key(Messages.LOG_NUM_EXPORT_1, new Integer(size)));
     }
     // now do the export
-    Iterator<CmsStaticExportData> i = resourcesToExport.iterator();
+    Iterator<@RUntainted CmsStaticExportData> i = resourcesToExport.iterator();
     while (i.hasNext()) {
-      CmsStaticExportData exportData = i.next();
+      @RUntainted CmsStaticExportData exportData = i.next();
       if (LOG.isDebugEnabled()) {
         LOG.debug(
             Messages.get()
@@ -350,7 +351,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
               .container(org.opencms.report.Messages.RPT_ARGUMENT_1, exportData.getVfsName()));
       report.print(
           org.opencms.report.Messages.get().container(org.opencms.report.Messages.RPT_DOTS_0));
-      int status = -1;
+      @RUntainted int status = -1;
       try {
         status = manager.export(null, null, cms, exportData);
         if (status == HttpServletResponse.SC_OK) {
@@ -371,7 +372,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
       }
 
       if (LOG.isInfoEnabled()) {
-        Object[] arguments =
+        @RUntainted Object[] arguments =
             new Object[] {exportData.getVfsName(), exportData.getRfsName(), new Integer(status)};
         LOG.info(Messages.get().getBundle().key(Messages.LOG_EXPORT_FILE_STATUS_3, arguments));
       }
@@ -536,14 +537,14 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
    * @return the status of the http request used to perform the export
    * @throws IOException if the http request fails
    */
-  protected int exportTemplateResource(CmsStaticExportData data, StringBuffer cookies)
+  protected int exportTemplateResource(CmsStaticExportData data, @RUntainted StringBuffer cookies)
       throws IOException {
 
     String vfsName = data.getVfsName();
-    String rfsName = data.getRfsName();
+    @RUntainted String rfsName = data.getRfsName();
     CmsStaticExportManager manager = OpenCms.getStaticExportManager();
 
-    String exportUrlStr;
+    @RUntainted String exportUrlStr;
     if (rfsName.contains(manager.getRfsPrefix(vfsName))) {
       LOG.info("rfsName " + rfsName + " contains rfsPrefix " + manager.getRfsPrefix(vfsName));
       exportUrlStr = manager.getExportUrl() + rfsName;
@@ -579,9 +580,9 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
     }
 
     // get the last modified date and add it to the request
-    String exportFileName = CmsFileUtil.normalizePath(manager.getExportPath(vfsName) + rfsName);
-    File exportFile = new File(exportFileName);
-    long dateLastModified = exportFile.lastModified();
+    @RUntainted String exportFileName = CmsFileUtil.normalizePath(manager.getExportPath(vfsName) + rfsName);
+    @RUntainted File exportFile = new File(exportFileName);
+    @RUntainted long dateLastModified = exportFile.lastModified();
     // system folder case
     if (vfsName.startsWith(CmsWorkplace.VFS_PATH_SYSTEM)
         || OpenCms.getSiteManager().startsWithShared(vfsName)) {
@@ -615,7 +616,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
 
     // now perform the request
     urlcon.connect();
-    int status = urlcon.getResponseCode();
+    @RUntainted int status = urlcon.getResponseCode();
 
     if (cookies.length() == 0) {
       // Now retrieve the cookies. The jsessionid is here
@@ -645,10 +646,10 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
    *     log file
    */
   protected void exportTemplateResources(
-      CmsObject cms, List<String> publishedTemplateResources, I_CmsReport report) {
+      CmsObject cms, @RUntainted List<@RUntainted String> publishedTemplateResources, I_CmsReport report) {
 
     CmsStaticExportManager manager = OpenCms.getStaticExportManager();
-    int size = publishedTemplateResources.size();
+    @RUntainted int size = publishedTemplateResources.size();
     int count = 1;
 
     if (LOG.isDebugEnabled()) {
@@ -660,9 +661,9 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
 
     StringBuffer cookies = new StringBuffer();
     // now loop through all of them and request them from the server
-    Iterator<String> i = publishedTemplateResources.iterator();
+    Iterator<@RUntainted String> i = publishedTemplateResources.iterator();
     while (i.hasNext()) {
-      String rfsName = i.next();
+      @RUntainted String rfsName = i.next();
       CmsStaticExportData data = null;
       try {
         data = manager.getVfsNameInternal(cms, rfsName);
@@ -708,7 +709,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
         try {
           Collection<String> detailPages =
               CmsDetailPageUtil.getAllDetailPagesWithUrlName(cms, resource);
-          for (String detailPageUri : detailPages) {
+          for (@RUntainted String detailPageUri : detailPages) {
             String altRfsName = manager.getRfsName(cms, detailPageUri);
             CmsStaticExportData detailData =
                 new CmsStaticExportData(
@@ -780,7 +781,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
    * @return list of CmsPulishedResource objects containing all resources of the VFS tree
    * @throws CmsException in case of errors accessing the VFS
    */
-  protected List<CmsPublishedResource> getRelatedResources(
+  protected @RUntainted List<CmsPublishedResource> getRelatedResources(
       CmsObject cms, List<CmsPublishedResource> publishedResources) throws CmsException {
 
     String storedSiteRoot = cms.getRequestContext().getSiteRoot();

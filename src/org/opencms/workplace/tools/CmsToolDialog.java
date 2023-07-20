@@ -39,6 +39,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsDialog;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.CmsWorkplaceSettings;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class that encapsulates all the code for the "new" style of the administration dialogs.
@@ -76,16 +77,16 @@ public class CmsToolDialog extends CmsWorkplace {
   public static final String PARAM_ADMIN_PROJECT = "adminProject";
 
   /** Base parameter value. */
-  private String m_paramBase;
+  private @RUntainted String m_paramBase;
 
   /** Force parameter value. */
   private String m_paramForce;
 
   /** Path parameter value. */
-  private String m_paramPath;
+  private @RUntainted String m_paramPath;
 
   /** Root parameter value. */
-  private String m_paramRoot;
+  private @RUntainted String m_paramRoot;
 
   /** Style parameter value. */
   private String m_paramStyle;
@@ -202,7 +203,7 @@ public class CmsToolDialog extends CmsWorkplace {
    *
    * @return the current tool path
    */
-  public String getCurrentToolPath() {
+  public @RUntainted String getCurrentToolPath() {
 
     return getToolManager().getCurrentToolPath(this);
   }
@@ -214,7 +215,7 @@ public class CmsToolDialog extends CmsWorkplace {
    *
    * @return the value for the base parameter
    */
-  public String getParamBase() {
+  public @RUntainted String getParamBase() {
 
     return m_paramBase;
   }
@@ -238,7 +239,7 @@ public class CmsToolDialog extends CmsWorkplace {
    *
    * @return the path parameter value
    */
-  public String getParamPath() {
+  public @RUntainted String getParamPath() {
 
     return m_paramPath;
   }
@@ -250,7 +251,7 @@ public class CmsToolDialog extends CmsWorkplace {
    *
    * @return the root parameter value
    */
-  public String getParamRoot() {
+  public @RUntainted String getParamRoot() {
 
     return m_paramRoot;
   }
@@ -525,7 +526,7 @@ public class CmsToolDialog extends CmsWorkplace {
    *
    * @param paramBase the value of the base parameter to set
    */
-  public void setParamBase(String paramBase) {
+  public void setParamBase(@RUntainted String paramBase) {
 
     m_paramBase = paramBase;
   }
@@ -549,7 +550,7 @@ public class CmsToolDialog extends CmsWorkplace {
    *
    * @param paramPath the path parameter value to set
    */
-  public void setParamPath(String paramPath) {
+  public void setParamPath(@RUntainted String paramPath) {
 
     m_paramPath = paramPath;
   }
@@ -622,7 +623,7 @@ public class CmsToolDialog extends CmsWorkplace {
    */
   @Override
   protected void initWorkplaceRequestValues(
-      CmsWorkplaceSettings settings, HttpServletRequest request) {
+      CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
     fillParamValues(request);
   }

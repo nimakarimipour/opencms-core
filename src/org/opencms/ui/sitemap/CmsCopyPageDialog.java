@@ -53,6 +53,7 @@ import org.opencms.ui.components.CmsErrorDialog;
 import org.opencms.ui.components.fileselect.CmsPathSelectField;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to copy container pages including their elements.
@@ -86,7 +87,7 @@ public class CmsCopyPageDialog extends CmsBasicDialog {
      * @param path the target path to analyze
      */
     @SuppressWarnings("synthetic-access")
-    public TargetInfo(CmsObject cms, String path) {
+    public TargetInfo(CmsObject cms, @RUntainted String path) {
       try {
         if (CmsStringUtil.isPrefixPath(CmsResource.VFS_FOLDER_SITES, path)
             || (OpenCms.getSiteManager().getSiteForRootPath(path) != null)) {

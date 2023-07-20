@@ -39,6 +39,7 @@ import org.opencms.security.CmsPersistentLoginAuthorizationHandler;
 import org.opencms.security.CmsPersistentLoginTokenHandler;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsRequestUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Login bean which sets a cookie that can be used by {@link CmsPersistentLoginAuthorizationHandler}
@@ -52,7 +53,7 @@ public class CmsJspLoginPersistingBean extends CmsJspLoginBean {
   private long m_tokenLifetime = CmsPersistentLoginTokenHandler.DEFAULT_LIFETIME;
 
   /** The cookie path. */
-  private String m_cookiePath = "%(CONTEXT_NAME)%(SERVLET_NAME)";
+  private @RUntainted String m_cookiePath = "%(CONTEXT_NAME)%(SERVLET_NAME)";
 
   /** True if the token has been set. */
   private boolean m_isTokenSet;
@@ -68,9 +69,9 @@ public class CmsJspLoginPersistingBean extends CmsJspLoginBean {
    * @param resolveMacros if true, macros should be resolved
    * @return the authorization cookie path
    */
-  public String getCookiePath(boolean resolveMacros) {
+  public @RUntainted String getCookiePath(boolean resolveMacros) {
 
-    String result = m_cookiePath;
+    @RUntainted String result = m_cookiePath;
     if (resolveMacros) {
       CmsMacroResolver resolver = new CmsMacroResolver();
       // add special mappings for macros
@@ -98,7 +99,7 @@ public class CmsJspLoginPersistingBean extends CmsJspLoginBean {
    *     java.lang.String)
    */
   @Override
-  public void login(String userName, String password, String projectName) {
+  public void login(@RUntainted String userName, String password, String projectName) {
 
     super.login(userName, password, projectName);
     if (isLoginSuccess()) {
@@ -164,7 +165,7 @@ public class CmsJspLoginPersistingBean extends CmsJspLoginBean {
    *
    * @param cookiePath the cookie path, possibly including macros
    */
-  public void setCookiePath(String cookiePath) {
+  public void setCookiePath(@RUntainted String cookiePath) {
 
     m_cookiePath = cookiePath;
   }

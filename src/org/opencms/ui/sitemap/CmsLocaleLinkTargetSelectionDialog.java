@@ -51,6 +51,7 @@ import org.opencms.ui.components.fileselect.CmsResourceSelectDialog;
 import org.opencms.ui.components.fileselect.CmsResourceTreeContainer;
 import org.opencms.ui.components.fileselect.I_CmsSelectionHandler;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to select a resource which should be linked to a locale group.
@@ -104,8 +105,8 @@ public class CmsLocaleLinkTargetSelectionDialog extends CmsResourceSelectDialog 
     CmsLocaleGroup localeGroup = localeContext.getLocaleGroup();
     Map<Locale, CmsResource> resourcesByLocale = localeGroup.getResourcesByLocale();
     int index = 0;
-    for (Map.Entry<Locale, CmsResource> entry : resourcesByLocale.entrySet()) {
-      Locale localeKey = entry.getKey();
+    for (Map.Entry<@RUntainted Locale, CmsResource> entry : resourcesByLocale.entrySet()) {
+      @RUntainted Locale localeKey = entry.getKey();
       CmsResource resourceValue = entry.getValue();
       String folderPath = null;
       if (resourceValue.isFile()) {

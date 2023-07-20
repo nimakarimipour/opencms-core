@@ -39,6 +39,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is a utility class which provides convenience methods for finding detail page names for
@@ -123,7 +124,7 @@ public final class CmsDetailPageUtil {
    * @return the resource with the given uri
    * @throws CmsException if something goes wrong
    */
-  public static CmsResource lookupPage(CmsObject cms, String uri) throws CmsException {
+  public static CmsResource lookupPage(CmsObject cms, @RUntainted String uri) throws CmsException {
 
     try {
       CmsResource res = cms.readResource(uri);

@@ -33,6 +33,7 @@ import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.security.CmsSecurityException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface checks the requested resource from the OpenCms request context and returns it to
@@ -90,6 +91,6 @@ public interface I_CmsResourceInit {
    *     and the security exception should be escalated
    */
   CmsResource initResource(
-      CmsResource resource, CmsObject cms, HttpServletRequest req, HttpServletResponse res)
+      CmsResource resource, CmsObject cms, @RUntainted HttpServletRequest req, HttpServletResponse res)
       throws CmsResourceInitException, CmsSecurityException;
 }

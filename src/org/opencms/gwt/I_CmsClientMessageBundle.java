@@ -29,6 +29,7 @@ package org.opencms.gwt;
 
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenient client message bundle interface.
@@ -58,7 +59,7 @@ public interface I_CmsClientMessageBundle {
    * @param locale the locale to export
    * @return the JSON code
    */
-  String export(Locale locale);
+  String export(@RUntainted Locale locale);
 
   /**
    * Returns the JSON code for this resource bundle and given locale.
@@ -69,7 +70,7 @@ public interface I_CmsClientMessageBundle {
    * @param wrapScript <code>true</code> to wrap the data in a script tag
    * @return the JSON code
    */
-  String export(Locale locale, boolean wrapScript);
+  String export(@RUntainted Locale locale, boolean wrapScript);
 
   /**
    * Returns the JSON code for this resource bundle and given locale.
@@ -79,7 +80,7 @@ public interface I_CmsClientMessageBundle {
    * @param localeName the name of the locale to export
    * @return the JSON code
    */
-  String export(String localeName);
+  String export(@RUntainted String localeName);
 
   /**
    * Returns the bundle name for this OpenCms package.

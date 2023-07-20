@@ -88,6 +88,7 @@ import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.CmsWorkplaceLoginHandler;
 import org.opencms.workplace.CmsWorkplaceManager;
 import org.opencms.workplace.CmsWorkplaceSettings;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Controller class which actually handles the login dialog logic.
@@ -358,7 +359,7 @@ public class CmsLoginController {
    * @param cms the current cms context
    * @return the login form link
    */
-  public static String getFormLink(CmsObject cms) {
+  public static @RUntainted String getFormLink(CmsObject cms) {
 
     return OpenCms.getLinkManager()
         .substituteLinkForUnknownTarget(cms, CmsWorkplaceLoginHandler.LOGIN_HANDLER, false);
@@ -375,7 +376,7 @@ public class CmsLoginController {
    * @return the login target
    * @throws CmsException in case the user has insufficient permissions to access the login target
    */
-  public static String getLoginTarget(
+  public static @RUntainted String getLoginTarget(
       CmsObject currentCms, CmsWorkplaceSettings settings, String requestedResource)
       throws CmsException {
 
@@ -861,7 +862,7 @@ public class CmsLoginController {
    * @param user the user being logged in
    * @param e the error
    */
-  protected void handleError(CmsObject currentCms, String user, Exception e) {
+  protected void handleError(CmsObject currentCms, @RUntainted String user, Exception e) {
 
     CmsMessageContainer message = null;
 

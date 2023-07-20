@@ -45,6 +45,7 @@ import org.opencms.loader.CmsLoaderException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the specific constants, members and helper methods to generate the content of the image
@@ -278,7 +279,7 @@ public class CmsAjaxImageGallery extends A_CmsAjaxGallery {
       // 6: image structure id hash code
       jsonObj.put("hash", res.getStructureId().hashCode());
       // 7: image copyright
-      String copyright = getJsp().property(PROPERTY_COPYRIGHT, sitePath, "");
+      @RUntainted String copyright = getJsp().property(PROPERTY_COPYRIGHT, sitePath, "");
       jsonObj.put("copyright", CmsStringUtil.escapeJavaScript(copyright));
 
     } catch (JSONException e) {

@@ -44,6 +44,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loads/saves favorites.
@@ -156,7 +157,7 @@ public class CmsFavoriteDAO {
         array.put(entry.toJson());
       }
       json.put(BASE_KEY, array);
-      String data = json.toString();
+      @RUntainted String data = json.toString();
       CmsUser user = readUser();
       user.setAdditionalInfo(ADDINFO_KEY, data);
       m_cms.writeUser(user);

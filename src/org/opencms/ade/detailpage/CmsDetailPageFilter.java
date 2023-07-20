@@ -44,6 +44,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.relations.CmsCategory;
 import org.opencms.relations.CmsCategoryService;
 import org.opencms.util.CmsPath;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Filters and sorts a list of detail pages based on whether they are suitable detail pages for a
@@ -173,7 +174,7 @@ public class CmsDetailPageFilter {
    * @param qualifier the qualifier to check
    * @return true if the qualifier matches the detail resource
    */
-  protected boolean checkQualifier(String qualifier) {
+  protected boolean checkQualifier(@RUntainted String qualifier) {
 
     // shouldn't happen, test anyway
     if (qualifier == null) {
@@ -181,7 +182,7 @@ public class CmsDetailPageFilter {
     }
     qualifier = qualifier.trim();
     if (qualifier.startsWith(PREFIX_CATEGORY)) {
-      String categoryStr = qualifier.substring(PREFIX_CATEGORY.length());
+      @RUntainted String categoryStr = qualifier.substring(PREFIX_CATEGORY.length());
       // use CmsPath to normalize leading/trailing slashes
       CmsPath categoryPath = new CmsPath(categoryStr);
       return getCategories().contains(categoryPath);

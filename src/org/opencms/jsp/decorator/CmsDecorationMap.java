@@ -40,6 +40,7 @@ import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsDecorationMap is the object representation of a single decoartion file.
@@ -61,16 +62,16 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
   private static final Log LOG = CmsLog.getLog(CmsDecorationMap.class);
 
   /** The map to store all elements in. */
-  private Map<String, CmsDecorationObject> m_decorationMap;
+  private Map<String, @RUntainted CmsDecorationObject> m_decorationMap;
 
   /** The decorator defintion to be used for this decoration map. */
-  private CmsDecorationDefintion m_decoratorDefinition;
+  private @RUntainted CmsDecorationDefintion m_decoratorDefinition;
 
   /** The locale of this decoration map. */
-  private Locale m_locale;
+  private @RUntainted Locale m_locale;
 
   /** The name of the decoration map. */
-  private String m_name;
+  private @RUntainted String m_name;
 
   /**
    * Constructor, creates a new, empty CmsDecorationMap.
@@ -81,7 +82,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
    * @param name The name of the decoration map
    * @param locale the locale for this decoration map
    */
-  public CmsDecorationMap(CmsDecorationDefintion decDef, String name, Locale locale) {
+  public CmsDecorationMap(@RUntainted CmsDecorationDefintion decDef, @RUntainted String name, @RUntainted Locale locale) {
 
     m_decoratorDefinition = decDef;
     m_name = name;
@@ -99,7 +100,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
    * @param decDef the CmsDecorationDefintion to be used in this decoration map
    * @throws CmsException if something goes wrong
    */
-  public CmsDecorationMap(CmsObject cms, CmsResource res, CmsDecorationDefintion decDef)
+  public CmsDecorationMap(CmsObject cms, CmsResource res, @RUntainted CmsDecorationDefintion decDef)
       throws CmsException {
 
     m_decoratorDefinition = decDef;
@@ -134,7 +135,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
    *
    * @return the decorationMap
    */
-  public Map<String, CmsDecorationObject> getDecorationMap() {
+  public Map<String, @RUntainted CmsDecorationObject> getDecorationMap() {
 
     return m_decorationMap;
   }
@@ -158,7 +159,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
    *
    * @return the name
    */
-  public String getName() {
+  public @RUntainted String getName() {
 
     return m_name;
   }
@@ -205,7 +206,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
    *
    * @return locale extraced form filename or null
    */
-  private Locale extractLocale() {
+  private @RUntainted Locale extractLocale() {
 
     Locale loc = null;
     int underscore = m_name.lastIndexOf("_");
@@ -265,7 +266,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
                   CmsStringUtil.escapeJavaScript(delimiter)));
     }
 
-    List<String> entries = CmsStringUtil.splitAsList(unparsedContent, delimiter);
+    @RUntainted List<@RUntainted String> entries = CmsStringUtil.splitAsList(unparsedContent, delimiter);
 
     if (LOG.isDebugEnabled()) {
       LOG.debug(
@@ -273,18 +274,18 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
               .getBundle()
               .key(Messages.LOG_DECORATION_MAP_FILL_MAP_SPLIT_LIST_2, res.getName(), entries));
     }
-    Iterator<String> i = entries.iterator();
+    Iterator<@RUntainted String> i = entries.iterator();
     while (i.hasNext()) {
       try {
-        String entry = i.next();
+        @RUntainted String entry = i.next();
         // extract key and value
         if (CmsStringUtil.isNotEmpty(entry)) {
-          int speratator = entry.indexOf(CSV_SEPERATOR);
+          @RUntainted int speratator = entry.indexOf(CSV_SEPERATOR);
           if (speratator > -1) {
-            String key = entry.substring(0, speratator).trim();
-            String value = entry.substring(speratator + 1).trim();
+            @RUntainted String key = entry.substring(0, speratator).trim();
+            @RUntainted String value = entry.substring(speratator + 1).trim();
             if (CmsStringUtil.isNotEmpty(key) && CmsStringUtil.isNotEmpty(value)) {
-              CmsDecorationObject decObj =
+              @RUntainted CmsDecorationObject decObj =
                   new CmsDecorationObject(key, value, m_decoratorDefinition, m_locale);
               decMap.put(key, decObj);
               if (LOG.isDebugEnabled()) {

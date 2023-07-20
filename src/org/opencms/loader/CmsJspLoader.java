@@ -88,6 +88,7 @@ import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.I_CmsRegexSubstitution;
 import org.opencms.workplace.CmsWorkplaceManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The JSP loader which enables the execution of JSP in OpenCms.
@@ -170,10 +171,10 @@ public class CmsJspLoader
       CmsMemoryMonitor.createLRUCacheMap(10000);
 
   /** The directory to store the generated JSP pages in (absolute path). */
-  private static String m_jspRepository;
+  private static @RUntainted String m_jspRepository;
 
   /** The directory to store the generated JSP pages in (relative path in web application). */
-  private static String m_jspWebAppRepository;
+  private static @RUntainted String m_jspWebAppRepository;
 
   /** The CmsFlexCache used to store generated cache entries in. */
   private CmsFlexCache m_cache;
@@ -182,7 +183,7 @@ public class CmsJspLoader
   private CmsParameterConfiguration m_configuration;
 
   /** Flag to indicate if error pages are marked as "committed". */
-  private boolean m_errorPagesAreNotCommitted;
+  private @RUntainted boolean m_errorPagesAreNotCommitted;
 
   /** The offline JSPs. */
   private Map<String, Boolean> m_offlineJsps;
@@ -266,7 +267,7 @@ public class CmsJspLoader
       String element,
       Locale locale,
       HttpServletRequest req,
-      HttpServletResponse res)
+      @RUntainted HttpServletResponse res)
       throws ServletException, IOException {
 
     // get the current Flex controller
@@ -326,7 +327,7 @@ public class CmsJspLoader
    *     javax.servlet.http.HttpServletResponse)
    */
   public byte[] export(
-      CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+      CmsObject cms, CmsResource resource, HttpServletRequest req, @RUntainted HttpServletResponse res)
       throws ServletException, IOException {
 
     // get the Flex controller
@@ -428,7 +429,7 @@ public class CmsJspLoader
     }
     m_jspRepository = CmsFileUtil.normalizePath(m_jspRepository + m_jspWebAppRepository);
 
-    String maxAge = m_configuration.get(PARAM_CLIENT_CACHE_MAXAGE);
+    @RUntainted String maxAge = m_configuration.get(PARAM_CLIENT_CACHE_MAXAGE);
     if (maxAge == null) {
       m_clientCacheMaxAge = -1;
     } else {
@@ -438,7 +439,7 @@ public class CmsJspLoader
     // get the "error pages are committed or not" flag from the configuration
     m_errorPagesAreNotCommitted = m_configuration.getBoolean(PARAM_JSP_ERRORPAGE_COMMITTED, true);
 
-    int cacheSize = m_configuration.getInteger(PARAM_JSP_CACHE_SIZE, -1);
+    @RUntainted int cacheSize = m_configuration.getInteger(PARAM_JSP_CACHE_SIZE, -1);
     if (cacheSize > 0) {
       initCaches(cacheSize);
     }
@@ -501,7 +502,7 @@ public class CmsJspLoader
    *     org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest,
    *     javax.servlet.http.HttpServletResponse)
    */
-  public void load(CmsObject cms, CmsResource file, HttpServletRequest req, HttpServletResponse res)
+  public void load(CmsObject cms, CmsResource file, HttpServletRequest req, @RUntainted HttpServletResponse res)
       throws ServletException, IOException, CmsException {
 
     CmsRequestContext context = cms.getRequestContext();
@@ -567,7 +568,7 @@ public class CmsJspLoader
    * @return the transformed JSP text
    */
   @Deprecated
-  public String processTaglibAttributes(String content) {
+  public @RUntainted String processTaglibAttributes(@RUntainted String content) {
 
     // matches a whole page directive
     final Pattern directivePattern = Pattern.compile("(?sm)<%@\\s*page.*?%>");
@@ -584,7 +585,7 @@ public class CmsJspLoader
 
           public String substituteMatch(String string, Matcher matcher) {
 
-            String match = string.substring(matcher.start(), matcher.end());
+            @RUntainted String match = string.substring(matcher.start(), matcher.end());
             I_CmsRegexSubstitution taglibSub =
                 new I_CmsRegexSubstitution() {
 
@@ -606,7 +607,7 @@ public class CmsJspLoader
             return result;
           }
         };
-    String substituted = CmsStringUtil.substitute(directivePattern, content, directiveSub);
+    @RUntainted String substituted = CmsStringUtil.substitute(directivePattern, content, directiveSub);
     // insert taglib inclusion
     substituted = substituted.replaceAll(marker, generateTaglibInclusions(taglibs));
     // remove empty page directives
@@ -752,7 +753,7 @@ public class CmsJspLoader
    * @throws IOException might be thrown in the process of including the JSP
    * @throws CmsLoaderException if the resource type can not be read
    */
-  public String updateJsp(
+  public @RUntainted String updateJsp(
       CmsResource resource, CmsFlexController controller, Set<String> updatedFiles)
       throws IOException, ServletException, CmsLoaderException {
 
@@ -771,7 +772,7 @@ public class CmsJspLoader
       isHardInclude = (loaderId != CmsJspLoader.RESOURCE_LOADER_ID);
     }
 
-    String jspTargetName =
+    @RUntainted String jspTargetName =
         CmsFileUtil.getRepositoryName(
             m_jspWebAppRepository,
             jspVfsName + extension,
@@ -783,7 +784,7 @@ public class CmsJspLoader
       return jspTargetName;
     }
 
-    String jspPath =
+    @RUntainted String jspPath =
         CmsFileUtil.getRepositoryName(
             m_jspRepository, jspVfsName + extension, controller.getCurrentRequest().isOnline());
 
@@ -803,7 +804,7 @@ public class CmsJspLoader
     try {
       // get a read lock for this jsp
       readWriteLock.readLock().lock();
-      File jspFile = new File(jspPath);
+      @RUntainted File jspFile = new File(jspPath);
       // check if the JSP must be updated
       boolean mustUpdate = false;
       long jspModificationDate = 0;
@@ -857,7 +858,7 @@ public class CmsJspLoader
           // for the write lock
           if (!jspFile.exists() || (jspModificationDate == jspFile.lastModified())) {
             updatedFiles.add(jspTargetName);
-            byte[] contents;
+            @RUntainted byte[] contents;
             String encoding;
             try {
               CmsObject cms = controller.getCmsObject();
@@ -1152,7 +1153,7 @@ public class CmsJspLoader
    * @param taglibs the taglib identifiers
    * @return a string containing taglib directives
    */
-  protected String generateTaglibInclusions(Collection<String> taglibs) {
+  protected @RUntainted String generateTaglibInclusions(Collection<String> taglibs) {
 
     StringBuffer buffer = new StringBuffer();
     for (String taglib : taglibs) {
@@ -1181,7 +1182,7 @@ public class CmsJspLoader
       CmsObject cms,
       CmsResource resource,
       HttpServletRequest req,
-      HttpServletResponse res,
+      @RUntainted HttpServletResponse res,
       boolean streaming,
       boolean top) {
 
@@ -1237,14 +1238,14 @@ public class CmsJspLoader
    *     &lt;%@ include file="..." &gt;</code>
    * @return the modified JSP content
    */
-  protected byte[] parseJsp(
-      byte[] byteContent,
-      String encoding,
+  protected @RUntainted byte[] parseJsp(
+      @RUntainted byte[] byteContent,
+      @RUntainted String encoding,
       CmsFlexController controller,
       Set<String> updatedFiles,
       boolean isHardInclude) {
 
-    String content;
+    @RUntainted String content;
     // make sure encoding is set correctly
     try {
       content = new String(byteContent, encoding);
@@ -1294,18 +1295,18 @@ public class CmsJspLoader
    * @param updatedFiles a set of already updated jsp files
    * @return the parsed JSP content
    */
-  protected String parseJspCmsTag(
-      String content, CmsFlexController controller, Set<String> updatedFiles) {
+  protected @RUntainted String parseJspCmsTag(
+      @RUntainted String content, CmsFlexController controller, Set<String> updatedFiles) {
 
     // check if a JSP directive occurs in the file
-    int i1 = content.indexOf(DIRECTIVE_START);
+    @RUntainted int i1 = content.indexOf(DIRECTIVE_START);
     if (i1 < 0) {
       // no directive occurs
       return content;
     }
 
     StringBuffer buf = new StringBuffer(content.length());
-    int p0 = 0, i2 = 0, slen = DIRECTIVE_START.length(), elen = DIRECTIVE_END.length();
+    @RUntainted int p0 = 0, i2 = 0, slen = DIRECTIVE_START.length(), elen = DIRECTIVE_END.length();
 
     while (i1 >= 0) {
       // parse the file and replace JSP filename references
@@ -1314,7 +1315,7 @@ public class CmsJspLoader
         // wrong syntax (missing end directive) - let the JSP compiler produce the error message
         return content;
       } else if (i2 > i1) {
-        String directive = content.substring(i1 + slen, i2);
+        @RUntainted String directive = content.substring(i1 + slen, i2);
         if (LOG.isDebugEnabled()) {
           LOG.debug(
               Messages.get()
@@ -1330,7 +1331,7 @@ public class CmsJspLoader
         while (directive.charAt(t1) == ' ') {
           t1++;
         }
-        String argument = null;
+        @RUntainted String argument = null;
         if (directive.startsWith("cms", t1)) {
           if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_X_DIRECTIVE_DETECTED_1, "cms"));
@@ -1359,7 +1360,7 @@ public class CmsJspLoader
 
         if (argument != null) {
           //  try to update the referenced file
-          String jspname = updateJsp(argument, controller, updatedFiles);
+          @RUntainted String jspname = updateJsp(argument, controller, updatedFiles);
           if (jspname != null) {
             directive = jspname;
             if (LOG.isDebugEnabled()) {
@@ -1408,10 +1409,10 @@ public class CmsJspLoader
    *     &lt;%@ include file="..." &gt;</code>
    * @return the parsed JSP content
    */
-  protected String parseJspEncoding(String content, String encoding, boolean isHardInclude) {
+  protected @RUntainted String parseJspEncoding(@RUntainted String content, @RUntainted String encoding, boolean isHardInclude) {
 
     // check if a JSP directive occurs in the file
-    int i1 = content.indexOf(DIRECTIVE_START);
+    @RUntainted int i1 = content.indexOf(DIRECTIVE_START);
     if (i1 < 0) {
       // no directive occurs
       if (isHardInclude) {
@@ -1420,7 +1421,7 @@ public class CmsJspLoader
     }
 
     StringBuffer buf = new StringBuffer(content.length() + 64);
-    int p0 = 0, i2 = 0, slen = DIRECTIVE_START.length();
+    @RUntainted int p0 = 0, i2 = 0, slen = DIRECTIVE_START.length();
     boolean found = false;
 
     if (i1 < 0) {
@@ -1435,7 +1436,7 @@ public class CmsJspLoader
         // wrong syntax (missing end directive) - let the JSP compiler produce the error message
         return content;
       } else if (i2 > i1) {
-        String directive = content.substring(i1 + slen, i2);
+        @RUntainted String directive = content.substring(i1 + slen, i2);
         if (LOG.isDebugEnabled()) {
           LOG.debug(
               Messages.get()
@@ -1451,7 +1452,7 @@ public class CmsJspLoader
         while (directive.charAt(t1) == ' ') {
           t1++;
         }
-        String argument = null;
+        @RUntainted String argument = null;
         if (directive.startsWith("page", t1)) {
           if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_X_DIRECTIVE_DETECTED_1, "page"));
@@ -1539,18 +1540,18 @@ public class CmsJspLoader
    * @param updatedFiles a set of already updated files
    * @return the parsed JSP content
    */
-  protected String parseJspIncludes(
-      String content, CmsFlexController controller, Set<String> updatedFiles) {
+  protected @RUntainted String parseJspIncludes(
+      @RUntainted String content, CmsFlexController controller, Set<String> updatedFiles) {
 
     // check if a JSP directive occurs in the file
-    int i1 = content.indexOf(DIRECTIVE_START);
+    @RUntainted int i1 = content.indexOf(DIRECTIVE_START);
     if (i1 < 0) {
       // no directive occurs
       return content;
     }
 
     StringBuffer buf = new StringBuffer(content.length());
-    int p0 = 0, i2 = 0, slen = DIRECTIVE_START.length();
+    @RUntainted int p0 = 0, i2 = 0, slen = DIRECTIVE_START.length();
 
     while (i1 >= 0) {
       // parse the file and replace JSP filename references
@@ -1559,7 +1560,7 @@ public class CmsJspLoader
         // wrong syntax (missing end directive) - let the JSP compiler produce the error message
         return content;
       } else if (i2 > i1) {
-        String directive = content.substring(i1 + slen, i2);
+        @RUntainted String directive = content.substring(i1 + slen, i2);
         if (LOG.isDebugEnabled()) {
           LOG.debug(
               Messages.get()
@@ -1575,7 +1576,7 @@ public class CmsJspLoader
         while (directive.charAt(t1) == ' ') {
           t1++;
         }
-        String argument = null;
+        @RUntainted String argument = null;
         if (directive.startsWith("include", t1)) {
           if (LOG.isDebugEnabled()) {
             LOG.debug(
@@ -1614,7 +1615,7 @@ public class CmsJspLoader
           String pre = directive.substring(0, t2 + t3 + t5);
           String suf = directive.substring(t2 + t3 + t5 + argument.length());
           // now try to update the referenced file
-          String jspname = updateJsp(argument, controller, updatedFiles);
+          @RUntainted String jspname = updateJsp(argument, controller, updatedFiles);
           if (jspname != null) {
             // only change something in case no error had occurred
             directive = pre + jspname + suf;
@@ -1654,7 +1655,7 @@ public class CmsJspLoader
    * @param controller the request controller
    * @return the parsed content
    */
-  protected String parseJspLinkMacros(String content, CmsFlexController controller) {
+  protected @RUntainted String parseJspLinkMacros(@RUntainted String content, CmsFlexController controller) {
 
     CmsJspLinkMacroResolver macroResolver =
         new CmsJspLinkMacroResolver(controller.getCmsObject(), null, true);
@@ -1730,15 +1731,15 @@ public class CmsJspLoader
    * @param updatedFiles a Set containing all JSP pages that have been already updated
    * @return the file name of the updated JSP in the "real" FS
    */
-  protected String updateJsp(
-      String vfsName, CmsFlexController controller, Set<String> updatedFiles) {
+  protected @RUntainted String updateJsp(
+      @RUntainted String vfsName, CmsFlexController controller, Set<String> updatedFiles) {
 
-    String jspVfsName =
+    @RUntainted String jspVfsName =
         CmsLinkManager.getAbsoluteUri(vfsName, controller.getCurrentRequest().getElementRootPath());
     if (LOG.isDebugEnabled()) {
       LOG.debug(Messages.get().getBundle().key(Messages.LOG_UPDATE_JSP_1, jspVfsName));
     }
-    String jspRfsName;
+    @RUntainted String jspRfsName;
     try {
       CmsResource includeResource;
       try {

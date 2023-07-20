@@ -51,6 +51,7 @@ import org.opencms.search.solr.CmsSolrQuery;
 import org.opencms.util.CmsPair;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.containerpage.CmsXmlDynamicFunctionHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parameters used for the gallery search index.

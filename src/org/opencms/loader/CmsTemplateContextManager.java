@@ -53,6 +53,7 @@ import org.opencms.util.CmsDefaultSet;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager class for template context providers.
@@ -350,7 +351,7 @@ public class CmsTemplateContextManager {
    * @return the property value
    */
   public String readPropertyFromTemplate(
-      CmsObject cms, CmsResource res, String propertyName, String fallbackValue) {
+      CmsObject cms, CmsResource res, String propertyName, @RUntainted String fallbackValue) {
 
     try {
       CmsProperty templateProp =
@@ -397,7 +398,7 @@ public class CmsTemplateContextManager {
    * @return the setting definition
    */
   protected CmsXmlContentProperty createTemplateContextsPropertyDefinition(
-      I_CmsTemplateContextProvider contextProvider, Locale locale) {
+      I_CmsTemplateContextProvider contextProvider, @RUntainted Locale locale) {
 
     if (contextProvider == null) {
       return null;

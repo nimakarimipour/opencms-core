@@ -35,6 +35,7 @@ import org.opencms.json.JSONObject;
 import org.opencms.widgets.serialdate.CmsSerialDateValue;
 import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.xml2json.I_CmsJsonFormattableValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsSerialDate".
@@ -70,7 +71,7 @@ public class CmsXmlSerialDateValue extends A_CmsXmlValueTextBase
    * @param type the type instance to create the value for
    */
   public CmsXmlSerialDateValue(
-      I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
     super(document, element, locale, type);
   }

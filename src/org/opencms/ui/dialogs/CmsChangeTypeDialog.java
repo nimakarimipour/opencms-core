@@ -44,6 +44,7 @@ import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for changing the resource type.
@@ -147,7 +148,7 @@ public class CmsChangeTypeDialog extends CmsNewDialog {
     CmsExplorerTypeSettings explorerType =
         OpenCms.getWorkplaceManager().getExplorerTypeSetting(type.getType());
     if (explorerType != null) {
-      String explorerInfo = explorerType.getInfo();
+      @RUntainted String explorerInfo = explorerType.getInfo();
       if (explorerInfo != null) {
         return CmsVaadinUtils.getMessageText(explorerInfo);
       }

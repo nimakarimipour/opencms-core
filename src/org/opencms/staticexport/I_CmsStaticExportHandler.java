@@ -29,6 +29,7 @@ package org.opencms.staticexport;
 
 import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a method for scrubbing files from the export folder that might have been changed, so
@@ -58,5 +59,5 @@ public interface I_CmsStaticExportHandler {
    * @param report an <code>{@link I_CmsReport}</code> instance to print output message, or <code>
    *     null</code> to write messages to the log file
    */
-  void performEventPublishProject(CmsUUID publishHistoryId, I_CmsReport report);
+  void performEventPublishProject(@RUntainted CmsUUID publishHistoryId, I_CmsReport report);
 }

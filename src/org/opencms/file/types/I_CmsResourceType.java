@@ -42,6 +42,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.report.I_CmsReport;
 import org.opencms.xml.containerpage.CmsFormatterConfiguration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptors for all resources in the VFS.
@@ -164,7 +165,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
    *
    * @param mapping the file extension mapped to the resource type
    */
-  void addMappingType(String mapping);
+  void addMappingType(@RUntainted String mapping);
 
   /**
    * Changes the lock of a resource to the current user, that is "steals" the lock from another
@@ -338,7 +339,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
   CmsResource createResource(
       CmsObject cms,
       CmsSecurityManager securityManager,
-      String resourcename,
+      @RUntainted String resourcename,
       byte[] content,
       List<CmsProperty> properties)
       throws CmsException, CmsIllegalArgumentException;
@@ -421,7 +422,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
    * @see org.opencms.flex.CmsFlexCache
    * @see org.opencms.flex.CmsFlexCacheKey
    */
-  String getCachePropertyDefault();
+  @RUntainted String getCachePropertyDefault();
 
   /**
    * Returns the class name configured for this resource type.
@@ -462,7 +463,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
    *
    * @return a list of file extensions mappings for this resource type in an unmodifiable List
    */
-  List<String> getConfiguredMappings();
+  @RUntainted List<@RUntainted String> getConfiguredMappings();
 
   /**
    * Returns the formatter configuration for the given resource.
@@ -511,7 +512,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
    * @return the module name if this is an additional resource type which is defined in a module, or
    *     <code>null</code>
    */
-  String getModuleName();
+  @RUntainted String getModuleName();
 
   /**
    * Returns the type id of this resource type.
@@ -524,7 +525,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
    *     type references will be discontinued in a future OpenCms release.
    */
   @Deprecated
-  int getTypeId();
+  @RUntainted int getTypeId();
 
   /**
    * Returns the name of this resource type.
@@ -533,7 +534,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
    *
    * @return the name of this resource type
    */
-  String getTypeName();
+  @RUntainted String getTypeName();
 
   /**
    * Imports a resource to the OpenCms VFS.
@@ -595,7 +596,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
    * @param className the class name of the resource type (read from the XML configuration)
    * @throws CmsConfigurationException if the configuration is invalid
    */
-  void initConfiguration(String name, String id, String className) throws CmsConfigurationException;
+  void initConfiguration(@RUntainted String name, @RUntainted String id, @RUntainted String className) throws CmsConfigurationException;
 
   /**
    * Initializes this resource type.
@@ -702,7 +703,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
    *     CmsResource.CmsResourceDeleteMode)
    */
   void moveResource(
-      CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, String destination)
+      CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, @RUntainted String destination)
       throws CmsException, CmsIllegalArgumentException;
 
   /**
@@ -815,7 +816,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
    *
    * @param adjustLinksFolder the folder for which links should be adjusted
    */
-  void setAdjustLinksFolder(String adjustLinksFolder);
+  void setAdjustLinksFolder(@RUntainted String adjustLinksFolder);
 
   /**
    * Changes the "expire" date of a resource.

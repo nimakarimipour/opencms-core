@@ -32,6 +32,7 @@ import org.jsoup.nodes.Element;
 import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsUser;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Shows email address / user name as a header. */
 public class CmsUserDataHeader implements I_CmsUserDataDomain {

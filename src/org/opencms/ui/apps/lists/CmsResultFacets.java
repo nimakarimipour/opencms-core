@@ -66,6 +66,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays search result facets.
@@ -274,7 +275,7 @@ public class CmsResultFacets extends VerticalLayout {
    * @param categoryPath the category
    * @return the label
    */
-  private String getCategoryLabel(String categoryPath) {
+  private String getCategoryLabel(@RUntainted String categoryPath) {
 
     CmsObject cms = A_CmsUI.getCmsObject();
     String result = "";
@@ -289,9 +290,9 @@ public class CmsResultFacets extends VerticalLayout {
         // cut last slash
         categoryPath = categoryPath.substring(0, categoryPath.length() - 1);
 
-        String currentPath = "";
+        @RUntainted String currentPath = "";
         boolean isFirst = true;
-        for (String part : categoryPath.split("/")) {
+        for (@RUntainted String part : categoryPath.split("/")) {
           currentPath += part + "/";
           CmsCategory cat =
               catService.localizeCategory(
@@ -325,7 +326,7 @@ public class CmsResultFacets extends VerticalLayout {
    * @param path The folder path
    * @return the label
    */
-  private String getFolderLabel(String path) {
+  private String getFolderLabel(@RUntainted String path) {
 
     CmsObject cms = A_CmsUI.getCmsObject();
     return cms.getRequestContext().removeSiteRoot(path);
@@ -353,7 +354,7 @@ public class CmsResultFacets extends VerticalLayout {
             .get(CmsSimpleSearchConfigurationParser.FIELD_CATEGORIES);
     if ((categoryFacets != null) && (categoryFacets.getValueCount() > 0)) {
       VerticalLayout catLayout = new VerticalLayout();
-      for (final Count value : categoryFacets.getValues()) {
+      for (final @RUntainted Count value : categoryFacets.getValues()) {
         Button cat = new Button(getCategoryLabel(value.getName()) + " (" + value.getCount() + ")");
         cat.addStyleName(ValoTheme.BUTTON_TINY);
         cat.addStyleName(ValoTheme.BUTTON_BORDERLESS);
@@ -497,7 +498,7 @@ public class CmsResultFacets extends VerticalLayout {
             .get(CmsSimpleSearchConfigurationParser.FIELD_PARENT_FOLDERS);
     if ((folderFacets != null) && (folderFacets.getValueCount() > 0)) {
       VerticalLayout folderLayout = new VerticalLayout();
-      for (final Count value : filterFolderFacets(folderFacets.getValues())) {
+      for (final @RUntainted Count value : filterFolderFacets(folderFacets.getValues())) {
         Button folder = new Button(getFolderLabel(value.getName()) + " (" + value.getCount() + ")");
         folder.addStyleName(ValoTheme.BUTTON_TINY);
         folder.addStyleName(ValoTheme.BUTTON_BORDERLESS);

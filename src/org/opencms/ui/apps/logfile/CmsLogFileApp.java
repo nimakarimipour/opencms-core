@@ -82,6 +82,7 @@ import org.opencms.util.CmsLog4jUtil;
 import org.opencms.util.CmsRfsException;
 import org.opencms.util.CmsRfsFileViewer;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Main class of Log management app.
@@ -442,7 +443,7 @@ public class CmsLogFileApp extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Log
    * @throws CmsRfsException exception
    * @throws CmsRuntimeException exception
    */
-  public String getLogFilePortion(CmsRfsFileViewer logView, String currentFile)
+  public String getLogFilePortion(CmsRfsFileViewer logView, @RUntainted String currentFile)
       throws CmsRfsException, CmsRuntimeException {
 
     logView.setFilePath(currentFile);

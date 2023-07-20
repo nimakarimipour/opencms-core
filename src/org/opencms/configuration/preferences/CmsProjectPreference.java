@@ -39,6 +39,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Preference subclass for selecting the start project.
@@ -125,7 +126,7 @@ public class CmsProjectPreference extends CmsBuiltinPreference {
    * @param locale the locale
    * @return the options for the project selector
    */
-  private String getProjectSelectOptions(CmsObject cms, Locale locale) {
+  private String getProjectSelectOptions(CmsObject cms, @RUntainted Locale locale) {
 
     List<CmsProject> allProjects;
     try {

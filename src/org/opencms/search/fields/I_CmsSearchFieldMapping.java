@@ -38,6 +38,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProperty;
 import org.opencms.file.CmsResource;
 import org.opencms.search.extractors.I_CmsExtractionResult;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a mapping of a piece of content from an OpenCms VFS resource to a field of a search
@@ -118,7 +119,7 @@ public interface I_CmsSearchFieldMapping extends Serializable {
    *
    * @param locale the locale of the index field that is filled by the mapping.
    */
-  default void setLocale(Locale locale) {
+  default void setLocale(@RUntainted Locale locale) {
 
     return;
   }
@@ -133,7 +134,7 @@ public interface I_CmsSearchFieldMapping extends Serializable {
    *
    * @param param the parameter to set
    */
-  void setParam(String param);
+  void setParam(@RUntainted String param);
 
   /**
    * Sets the mapping type.
@@ -151,5 +152,5 @@ public interface I_CmsSearchFieldMapping extends Serializable {
    *
    * @param type the name of the type to set
    */
-  void setType(String type);
+  void setType(@RUntainted String type);
 }

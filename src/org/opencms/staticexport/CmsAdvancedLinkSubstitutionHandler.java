@@ -41,6 +41,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Advanced link substitution behavior.
@@ -83,7 +84,7 @@ public class CmsAdvancedLinkSubstitutionHandler extends CmsDefaultLinkSubstituti
    *     java.lang.String, java.lang.String)
    */
   @Override
-  public String getRootPath(CmsObject cms, String targetUri, String basePath) {
+  public String getRootPath(CmsObject cms, @RUntainted String targetUri, String basePath) {
 
     if (cms == null) {
       // required by unit test cases

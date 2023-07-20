@@ -71,6 +71,7 @@ import org.opencms.ui.dialogs.CmsEmbeddedDialogContext;
 import org.opencms.ui.dialogs.permissions.CmsPrincipalSelect.I_PrincipalSelectHandler;
 import org.opencms.ui.dialogs.permissions.CmsPrincipalSelect.PrincipalType;
 import org.opencms.ui.dialogs.permissions.CmsPrincipalSelect.WidgetType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the dialog to show the principal table.

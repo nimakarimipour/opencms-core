@@ -49,6 +49,7 @@ import org.opencms.workplace.editors.directedit.CmsDirectEditMode;
 import org.opencms.workplace.editors.directedit.CmsDirectEditParams;
 import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:contentload/&gt;</code> tag, used to access and display XML
@@ -166,8 +167,8 @@ public class CmsJspTagContentLoad extends CmsJspTagResourceLoad
       PageContext context,
       String collectorName,
       String collectorParam,
-      String pageIndex,
-      String pageSize,
+      @RUntainted String pageIndex,
+      @RUntainted String pageSize,
       Locale locale,
       boolean editable)
       throws JspException {
@@ -201,10 +202,10 @@ public class CmsJspTagContentLoad extends CmsJspTagResourceLoad
   public CmsJspTagContentLoad(
       I_CmsXmlContentContainer container,
       PageContext context,
-      String collectorName,
-      String collectorParam,
-      String pageIndex,
-      String pageSize,
+      @RUntainted String collectorName,
+      @RUntainted String collectorParam,
+      @RUntainted String pageIndex,
+      @RUntainted String pageSize,
       Locale locale,
       CmsDirectEditMode editMode)
       throws JspException {
@@ -438,7 +439,7 @@ public class CmsJspTagContentLoad extends CmsJspTagResourceLoad
    *
    * @param locale the locale to set
    */
-  public void setLocale(String locale) {
+  public void setLocale(@RUntainted String locale) {
 
     if (CmsStringUtil.isEmpty(locale)) {
       m_locale = null;

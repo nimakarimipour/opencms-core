@@ -30,6 +30,7 @@ package org.opencms.gwt.shared.property;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.Map;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class which represents a property modification.
@@ -53,7 +54,7 @@ public class CmsPropertyModification implements IsSerializable {
   private String m_name;
 
   /** The new value. */
-  private String m_value;
+  private @RUntainted String m_value;
 
   /**
    * Copy constructor.
@@ -81,7 +82,7 @@ public class CmsPropertyModification implements IsSerializable {
    * @param isStructureValue flag which indicates whether the structure value changed
    */
   public CmsPropertyModification(
-      CmsUUID resourceId, String propertyName, String value, boolean isStructureValue) {
+      CmsUUID resourceId, String propertyName, @RUntainted String value, boolean isStructureValue) {
 
     m_id = resourceId;
     m_name = propertyName;
@@ -98,10 +99,10 @@ public class CmsPropertyModification implements IsSerializable {
    *     for resource
    * @param value the new property value
    */
-  public CmsPropertyModification(String path, String value) {
+  public CmsPropertyModification(@RUntainted String path, @RUntainted String value) {
 
-    String[] pathComponents = path.split("/");
-    String idStr = pathComponents[0];
+    @RUntainted String[] pathComponents = path.split("/");
+    @RUntainted String idStr = pathComponents[0];
     String propName = pathComponents[1];
     String mode = pathComponents[2];
     CmsUUID id = new CmsUUID(idStr);
@@ -152,7 +153,7 @@ public class CmsPropertyModification implements IsSerializable {
    *
    * @return the new value
    */
-  public String getValue() {
+  public @RUntainted String getValue() {
 
     return m_value;
   }

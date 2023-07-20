@@ -41,6 +41,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.CmsResourceInitException;
 import org.opencms.main.I_CmsResourceInit;
 import org.opencms.util.CmsRequestUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler that loads historical versions of resources.
@@ -152,17 +153,17 @@ public class CmsHistoryResourceHandler implements I_CmsResourceInit {
    *     javax.servlet.http.HttpServletResponse)
    */
   public CmsResource initResource(
-      CmsResource resource, CmsObject cms, HttpServletRequest req, HttpServletResponse res)
+      CmsResource resource, CmsObject cms, @RUntainted HttpServletRequest req, HttpServletResponse res)
       throws CmsResourceInitException {
 
     // we only have to check for history resources if the handler was called
     // during a real request and NOT during a dummy-request while doing
     // a static export
     if (req != null) {
-      String uri = cms.getRequestContext().getUri();
+      @RUntainted String uri = cms.getRequestContext().getUri();
       // check if the resource starts with the HISTORY_HANDLER
       if (uri.startsWith(HISTORY_HANDLER)) {
-        String version = req.getParameter(PARAM_VERSION);
+        @RUntainted String version = req.getParameter(PARAM_VERSION);
 
         // only do something if the resource was not found and there was a "versionid" parameter
         // included

@@ -43,6 +43,7 @@ import org.opencms.security.CmsRoleViolationException;
 import org.opencms.security.CmsUserDisabledException;
 import org.opencms.security.Messages;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides functions used to check the validity of a user login.
@@ -71,10 +72,10 @@ public class CmsLoginManager {
   private class CmsUserData {
 
     /** The start time this account was disabled. */
-    private long m_disableTimeStart;
+    private @RUntainted long m_disableTimeStart;
 
     /** The count of the failed attempts. */
-    private int m_invalidLoginCount;
+    private @RUntainted int m_invalidLoginCount;
 
     /**
      * Creates a new user data instance.
@@ -94,7 +95,7 @@ public class CmsLoginManager {
      *
      * @return the bad attempt count for this user
      */
-    protected Integer getInvalidLoginCount() {
+    protected @RUntainted Integer getInvalidLoginCount() {
 
       return new Integer(m_invalidLoginCount);
     }
@@ -106,7 +107,7 @@ public class CmsLoginManager {
      *
      * @return the date this disabled user is released again
      */
-    protected Date getReleaseDate() {
+    protected @RUntainted Date getReleaseDate() {
 
       return new Date(m_disableTimeStart + m_disableMillis + 1);
     }
@@ -183,7 +184,7 @@ public class CmsLoginManager {
   private static final Log LOG = CmsLog.getLog(CmsLoginManager.class);
 
   /** The milliseconds to disable an account if the threshold is reached. */
-  protected int m_disableMillis;
+  protected @RUntainted int m_disableMillis;
 
   /** The minutes to disable an account if the threshold is reached. */
   protected int m_disableMinutes;
@@ -339,7 +340,7 @@ public class CmsLoginManager {
    * @throws CmsAuthentificationException in case the threshold of invalid login attempts has been
    *     reached
    */
-  public void checkInvalidLogins(String userName, String remoteAddress)
+  public void checkInvalidLogins(@RUntainted String userName, @RUntainted String remoteAddress)
       throws CmsAuthentificationException {
 
     if (m_maxBadAttempts < 0) {

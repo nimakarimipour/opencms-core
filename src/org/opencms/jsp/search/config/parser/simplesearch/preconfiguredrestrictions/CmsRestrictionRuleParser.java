@@ -34,6 +34,7 @@ import org.opencms.jsp.search.config.parser.simplesearch.Messages;
 import org.opencms.jsp.search.config.parser.simplesearch.preconfiguredrestrictions.CmsRestrictionRule.MatchType;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Parser for restriction rules. */
 public final class CmsRestrictionRuleParser {
@@ -63,7 +64,7 @@ public final class CmsRestrictionRuleParser {
    * @return the parsed rule.
    * @throws CmsException thrown if the rule cannot be parsed.
    */
-  public static CmsRestrictionRule parseRule(String rule) throws CmsException {
+  public static CmsRestrictionRule parseRule(@RUntainted String rule) throws CmsException {
 
     if ((rule != null) && (rule.length() > 0)) {
       String[] ruleParts = rule.split(",");

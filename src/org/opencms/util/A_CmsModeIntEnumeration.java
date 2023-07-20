@@ -28,6 +28,7 @@
 package org.opencms.util;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for all integer mode enumeration classes.
@@ -85,7 +86,7 @@ public abstract class A_CmsModeIntEnumeration implements Serializable {
    *
    * @return the mode
    */
-  public int getMode() {
+  public @RUntainted int getMode() {
 
     return m_mode;
   }

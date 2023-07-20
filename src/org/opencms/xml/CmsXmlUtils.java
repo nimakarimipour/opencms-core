@@ -62,6 +62,7 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides some basic XML handling utilities.
@@ -146,7 +147,7 @@ public final class CmsXmlUtils {
    * @param suffix the suffix Xpath
    * @return the concatenated Xpath build from prefix and suffix
    */
-  public static String concatXpath(String prefix, String suffix) {
+  public static @RUntainted String concatXpath(String prefix, @RUntainted String suffix) {
 
     if (suffix == null) {
       // ensure suffix is not null
@@ -211,11 +212,11 @@ public final class CmsXmlUtils {
    * @param index the index to append (if required)
    * @return the simplified Xpath for the given name
    */
-  public static String createXpath(String path, int index) {
+  public static @RUntainted String createXpath(String path, int index) {
 
     if (path.indexOf('/') > -1) {
       // this is a complex path over more then 1 node
-      StringBuffer result = new StringBuffer(path.length() + 32);
+      @RUntainted StringBuffer result = new StringBuffer(path.length() + 32);
 
       // split the path into sub elements
       List<String> elements = CmsStringUtil.splitAsList(path, '/');
@@ -248,9 +249,9 @@ public final class CmsXmlUtils {
    * @param index the index to append
    * @return the simplified Xpath for the given name
    */
-  public static String createXpathElement(String path, int index) {
+  public static @RUntainted String createXpathElement(@RUntainted String path, int index) {
 
-    StringBuffer result = new StringBuffer(path.length() + 5);
+    @RUntainted StringBuffer result = new StringBuffer(path.length() + 5);
     result.append(path);
     result.append('[');
     result.append(index);
@@ -273,7 +274,7 @@ public final class CmsXmlUtils {
    * @param index the index to append (if required)
    * @return the simplified Xpath for the given name
    */
-  public static String createXpathElementCheck(String path, int index) {
+  public static @RUntainted String createXpathElementCheck(String path, int index) {
 
     if (path.charAt(path.length() - 1) == ']') {
       // path is already in the form "title[1]"
@@ -299,7 +300,7 @@ public final class CmsXmlUtils {
    * @param path the path to get the first Xpath element from
    * @return the first Xpath element from the provided path
    */
-  public static String getFirstXpathElement(String path) {
+  public static @RUntainted String getFirstXpathElement(String path) {
 
     int pos = path.indexOf('/');
     if (pos >= 0) {
@@ -323,7 +324,7 @@ public final class CmsXmlUtils {
    * @param path the path to get the last Xpath element from
    * @return the last Xpath element from the provided path
    */
-  public static String getLastXpathElement(String path) {
+  public static @RUntainted String getLastXpathElement(String path) {
 
     int pos = path.lastIndexOf('/');
     if (pos >= 0) {
@@ -536,7 +537,7 @@ public final class CmsXmlUtils {
    * @return the marshalled XML document
    * @throws CmsXmlException if something goes wrong
    */
-  public static String marshal(Document document, String encoding) throws CmsXmlException {
+  public static @RUntainted String marshal(Document document, @RUntainted String encoding) throws CmsXmlException {
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     marshal(document, out, encoding);
@@ -683,9 +684,9 @@ public final class CmsXmlUtils {
    * @param path the Xpath to remove the last element from
    * @return the path with the last element removed
    */
-  public static String removeLastXpathElement(String path) {
+  public static @RUntainted String removeLastXpathElement(@RUntainted String path) {
 
-    int pos = path.lastIndexOf('/');
+    @RUntainted int pos = path.lastIndexOf('/');
     if (pos < 0) {
       return path;
     }
@@ -745,10 +746,10 @@ public final class CmsXmlUtils {
    * @param path the path to remove the Xpath index from
    * @return the path with the last Xpath index removed
    */
-  public static String removeXpathIndex(String path) {
+  public static @RUntainted String removeXpathIndex(@RUntainted String path) {
 
     int pos1 = path.lastIndexOf('/');
-    int pos2 = path.lastIndexOf('[');
+    @RUntainted int pos2 = path.lastIndexOf('[');
     if ((pos2 < 0) || (pos1 > pos2)) {
       return path;
     }
@@ -812,7 +813,7 @@ public final class CmsXmlUtils {
    * @throws CmsXmlException if something goes wrong
    * @see CmsXmlUtils#unmarshalHelper(InputSource, EntityResolver)
    */
-  public static Document unmarshalHelper(byte[] xmlData, EntityResolver resolver)
+  public static @RUntainted Document unmarshalHelper(byte[] xmlData, EntityResolver resolver)
       throws CmsXmlException {
 
     return CmsXmlUtils.unmarshalHelper(
@@ -857,7 +858,7 @@ public final class CmsXmlUtils {
    * @return the unmarshalled XML document
    * @throws CmsXmlException if something goes wrong
    */
-  public static Document unmarshalHelper(InputSource source, EntityResolver resolver)
+  public static @RUntainted Document unmarshalHelper(InputSource source, EntityResolver resolver)
       throws CmsXmlException {
 
     return unmarshalHelper(source, resolver, false);
@@ -881,8 +882,8 @@ public final class CmsXmlUtils {
    * @return the unmarshalled XML document
    * @throws CmsXmlException if something goes wrong
    */
-  public static Document unmarshalHelper(
-      InputSource source, EntityResolver resolver, boolean validate) throws CmsXmlException {
+  public static @RUntainted Document unmarshalHelper(
+      @RUntainted InputSource source, EntityResolver resolver, boolean validate) throws CmsXmlException {
 
     if (null == source) {
       throw new CmsXmlException(
@@ -910,7 +911,7 @@ public final class CmsXmlUtils {
               .container(Messages.ERR_UNMARSHALLING_XML_DOC_1, "(systemId = " + systemId + ")"),
           e);
     } catch (SAXException e) {
-      String systemId = source != null ? source.getSystemId() : "???";
+      @RUntainted String systemId = source != null ? source.getSystemId() : "???";
       throw new CmsXmlException(
           Messages.get()
               .container(Messages.ERR_UNMARSHALLING_XML_DOC_1, "(systemId = " + systemId + ")"),

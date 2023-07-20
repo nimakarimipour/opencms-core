@@ -41,6 +41,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.editors.CmsEditor;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The content editor action element.
@@ -138,7 +139,7 @@ public class CmsContentEditorActionElement extends CmsGwtActionElement {
     }
     CmsContentDefinition definition = CmsContentService.prefetch(getRequest());
     StringBuffer sb = new StringBuffer();
-    String backlink = getRequest().getParameter(CmsEditor.PARAM_BACKLINK);
+    @RUntainted String backlink = getRequest().getParameter(CmsEditor.PARAM_BACKLINK);
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(backlink)
         || !CmsRequestUtil.checkBacklink(backlink, getRequest())) {
       backlink = CmsVaadinUtils.getWorkplaceLink();

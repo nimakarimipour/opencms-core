@@ -53,6 +53,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.editors.CmsPreEditorAction;
 import org.opencms.workplace.tools.CmsToolDialog;
 import org.opencms.workplace.tools.CmsToolManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for building the dialog windows of OpenCms.
@@ -1250,7 +1251,7 @@ public class CmsDialog extends CmsToolDialog {
    *
    * @return the value of the close link parameter
    */
-  public String getParamCloseLink() {
+  public @RUntainted String getParamCloseLink() {
 
     if ((m_paramCloseLink == null) || "null".equals(m_paramCloseLink)) {
       return null;

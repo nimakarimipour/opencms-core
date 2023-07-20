@@ -55,6 +55,7 @@ import org.opencms.xml.xml2json.handler.CmsJsonHandlerException;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerXmlContent.PathNotFoundException;
 import org.opencms.xml.xml2json.renderer.CmsJsonRendererXmlContent;
 import org.opencms.xml.xml2json.renderer.I_CmsJsonRendererXmlContent;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Class representing a JSON document for an XML content. */
 public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
@@ -138,7 +139,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
     try {
       CmsFile file = m_context.getCms().readFile(resource);
       CmsXmlContent xmlContent = CmsXmlContentFactory.unmarshal(m_context.getCms(), file);
-      Object value = null;
+      @RUntainted Object value = null;
       if (CmsResourceTypeXmlContainerPage.isContainerPage(resource) && m_embedLinkedModelgroup) {
         CmsJsonDocumentContainerPage document =
             new CmsJsonDocumentContainerPage(m_jsonRequest, xmlContent, false);
@@ -306,7 +307,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
     } else {
       m_renderer =
           (I_CmsJsonRendererXmlContent) Class.forName(settings.getClassName()).newInstance();
-      for (Map.Entry<String, String> entry : settings.getParameters().entrySet()) {
+      for (Map.Entry<@RUntainted String, @RUntainted String> entry : settings.getParameters().entrySet()) {
         m_renderer.addConfigurationParameter(entry.getKey(), entry.getValue());
       }
       m_renderer.initConfiguration();
@@ -360,7 +361,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
    */
   private void insertJsonContentLocale() throws JSONException, PathNotFoundException {
 
-    String paramLocale = m_jsonRequest.getParamLocale();
+    @RUntainted String paramLocale = m_jsonRequest.getParamLocale();
     Locale locale = CmsLocaleManager.getLocale(paramLocale);
     Locale selectedLocale =
         OpenCms.getLocaleManager()
@@ -369,11 +370,11 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
     if ((selectedLocale == null) || !m_xmlContent.hasLocale(selectedLocale)) {
       localeExists = false;
     }
-    JSONObject jsonObject = new JSONObject(true);
+    @RUntainted JSONObject jsonObject = new JSONObject(true);
     if (localeExists) {
       jsonObject = (JSONObject) m_renderer.render(m_xmlContent, selectedLocale);
     } else if (isShowFallbackLocaleRequest()) {
-      List<Locale> localeList = m_xmlContent.getLocales();
+      List<@RUntainted Locale> localeList = m_xmlContent.getLocales();
       if (!localeList.isEmpty()) {
         jsonObject = (JSONObject) m_renderer.render(m_xmlContent, localeList.get(0));
         m_json.put("localeFallback", localeList.get(0).toString());

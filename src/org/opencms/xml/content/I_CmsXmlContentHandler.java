@@ -56,6 +56,7 @@ import org.opencms.xml.content.CmsDefaultXmlContentHandler.InvalidRelationAction
 import org.opencms.xml.types.I_CmsXmlContentValue;
 import org.opencms.xml.types.I_CmsXmlContentValue.SearchContentType;
 import org.opencms.xml.types.I_CmsXmlSchemaType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles special XML content livetime events, and also provides XML content editor rendering
@@ -192,7 +193,7 @@ public interface I_CmsXmlContentHandler {
       CmsXmlContent content,
       CmsMappingResolutionContext.AttributeType attr,
       List<Locale> locales,
-      long value)
+      @RUntainted long value)
       throws CmsException;
 
   /**
@@ -251,7 +252,7 @@ public interface I_CmsXmlContentHandler {
    * @param remainingPath a sub-path
    * @return the widget configuration for the given sub-path
    */
-  String getConfiguration(String remainingPath);
+  @RUntainted String getConfiguration(String remainingPath);
 
   /**
    * Gets the configured display type for a given path.
@@ -299,8 +300,8 @@ public interface I_CmsXmlContentHandler {
    * @return the default String value for the given XML content value object
    * @see org.opencms.xml.types.I_CmsXmlSchemaType#getDefault(Locale)
    */
-  String getDefault(
-      CmsObject cms, CmsResource resource, I_CmsXmlSchemaType type, String path, Locale locale);
+  @RUntainted String getDefault(
+      CmsObject cms, CmsResource resource, I_CmsXmlSchemaType type, String path, @RUntainted Locale locale);
 
   /**
    * Returns the default String value for the given XML content schema type object in the given XML
@@ -314,7 +315,7 @@ public interface I_CmsXmlContentHandler {
    * @return the default String value for the given XML content value object
    * @see org.opencms.xml.types.I_CmsXmlSchemaType#getDefault(Locale)
    */
-  String getDefault(CmsObject cms, I_CmsXmlContentValue value, Locale locale);
+  @RUntainted String getDefault(CmsObject cms, I_CmsXmlContentValue value, @RUntainted Locale locale);
 
   /**
    * Gets the default complex widget to be used for this type.
@@ -341,7 +342,7 @@ public interface I_CmsXmlContentHandler {
    *
    * @return the default complex widget configuration string
    */
-  String getDefaultComplexWidgetConfiguration();
+  @RUntainted String getDefaultComplexWidgetConfiguration();
 
   /**
    * Returns if the widget for this type should be displayed in compact view.
@@ -472,7 +473,7 @@ public interface I_CmsXmlContentHandler {
    * @return the {@link CmsMessages} that are used to resolve localized keys for the given locale in
    *     this content handler
    */
-  CmsMessages getMessages(Locale locale);
+  CmsMessages getMessages(@RUntainted Locale locale);
 
   /**
    * Returns the folder name that contains eventual XML content model files to use for this resource
@@ -482,7 +483,7 @@ public interface I_CmsXmlContentHandler {
    *
    * @return the folder name containing eventual XML content master files
    */
-  String getModelFolder();
+  @RUntainted String getModelFolder();
 
   /**
    * Returns the nested formatters for the given resource.
@@ -520,7 +521,7 @@ public interface I_CmsXmlContentHandler {
    * @param resourcename the name in the VFS of the resource that is currently edited
    * @return the preview URI for the given XML content value object to be displayed in the editor
    */
-  String getPreview(CmsObject cms, CmsXmlContent content, String resourcename);
+  @RUntainted String getPreview(CmsObject cms, CmsXmlContent content, String resourcename);
 
   /**
    * Returns the relation type for the given value.
@@ -649,7 +650,7 @@ public interface I_CmsXmlContentHandler {
    * @param locale the locale to get the title mapping for
    * @return the "Title" mapping set for the given XML content document in the given Locale
    */
-  String getTitleMapping(CmsObject cms, CmsXmlContent document, Locale locale);
+  String getTitleMapping(CmsObject cms, CmsXmlContent document, @RUntainted Locale locale);
 
   /**
    * Gets the version transformation VFS path.
@@ -830,7 +831,7 @@ public interface I_CmsXmlContentHandler {
    * @param content the XML content to be used as read from the VFS
    * @return the prepared content to be used
    */
-  CmsXmlContent prepareForUse(CmsObject cms, CmsXmlContent content);
+  @RUntainted CmsXmlContent prepareForUse(CmsObject cms, CmsXmlContent content);
 
   /**
    * Prepares the given XML content to be written to the OpenCms VFS.

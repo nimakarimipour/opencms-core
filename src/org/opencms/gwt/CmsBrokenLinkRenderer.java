@@ -47,6 +47,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.relations.CmsRelation;
 import org.opencms.relations.CmsRelationFilter;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A helper class used to generate the necessary information for displaying links which will be
@@ -334,7 +335,7 @@ public class CmsBrokenLinkRenderer {
    *
    * @return the workplace locale
    */
-  private Locale getLocale() {
+  private @RUntainted Locale getLocale() {
 
     return OpenCms.getWorkplaceManager().getWorkplaceLocale(m_cms);
   }

@@ -77,6 +77,7 @@ import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Master class for the JSP based workplace which provides default methods and session handling for
@@ -293,13 +294,13 @@ public abstract class CmsWorkplace {
   private List<FileItem> m_multiPartFileItems;
 
   /** The map of parameters read from the current request. */
-  private Map<String, String[]> m_parameterMap;
+  private @RUntainted Map<String, @RUntainted String[]> m_parameterMap;
 
   /** The current resource URI. */
   private String m_resourceUri;
 
   /** The current OpenCms users http session. */
-  private HttpSession m_session;
+  private @RUntainted HttpSession m_session;
 
   /** The current OpenCms users workplace settings. */
   private CmsWorkplaceSettings m_settings;
@@ -605,9 +606,9 @@ public abstract class CmsWorkplace {
    * @param userSettings the user settings
    * @return the start site root
    */
-  public static String getStartSiteRoot(CmsObject cms, CmsUserSettings userSettings) {
+  public static @RUntainted String getStartSiteRoot(CmsObject cms, CmsUserSettings userSettings) {
 
-    String startSiteRoot = userSettings.getStartSite();
+    @RUntainted String startSiteRoot = userSettings.getStartSite();
     if (startSiteRoot.endsWith("/")) {
       // remove trailing slash
       startSiteRoot = startSiteRoot.substring(0, startSiteRoot.length() - 1);
@@ -651,7 +652,7 @@ public abstract class CmsWorkplace {
    * @param settings the workplace settings
    * @return the start site root
    */
-  public static String getStartSiteRoot(CmsObject cms, CmsWorkplaceSettings settings) {
+  public static @RUntainted String getStartSiteRoot(CmsObject cms, CmsWorkplaceSettings settings) {
 
     return getStartSiteRoot(cms, settings.getUserSettings());
   }
@@ -758,7 +759,7 @@ public abstract class CmsWorkplace {
    * @see CmsResource#isTemporaryFileName(String)
    * @see #isTemporaryFile(CmsResource)
    */
-  public static String getTemporaryFileName(String resourceName) {
+  public static String getTemporaryFileName(@RUntainted String resourceName) {
 
     if (resourceName == null) {
       return null;
@@ -803,7 +804,7 @@ public abstract class CmsWorkplace {
    *     explorerRootPath.
    */
   public static String getWorkplaceExplorerLink(
-      final CmsObject cms, final String explorerRootPath) {
+      final CmsObject cms, final @RUntainted String explorerRootPath) {
 
     // split the root site:
     String targetSiteRoot = OpenCms.getSiteManager().getSiteRoot(explorerRootPath);
@@ -887,7 +888,7 @@ public abstract class CmsWorkplace {
    * @return the current users workplace settings
    * @see #initWorkplaceSettings(CmsObject, CmsWorkplaceSettings, boolean)
    */
-  public static CmsWorkplaceSettings initUserSettings(
+  public static @RUntainted CmsWorkplaceSettings initUserSettings(
       CmsObject cms, CmsWorkplaceSettings settings, boolean update) {
 
     if (settings == null) {
@@ -935,8 +936,8 @@ public abstract class CmsWorkplace {
    * @return the current users initialized workplace settings
    * @see #initUserSettings(CmsObject, CmsWorkplaceSettings, boolean)
    */
-  public static synchronized CmsWorkplaceSettings initWorkplaceSettings(
-      CmsObject cms, CmsWorkplaceSettings settings, boolean update) {
+  public static synchronized @RUntainted CmsWorkplaceSettings initWorkplaceSettings(
+      CmsObject cms, @RUntainted CmsWorkplaceSettings settings, boolean update) {
 
     // init the workplace user settings
     settings = initUserSettings(cms, settings, update);
@@ -948,7 +949,7 @@ public abstract class CmsWorkplace {
     settings.setSite(currentSite);
 
     // switch to users preferred site
-    String startSiteRoot = getStartSiteRoot(cms, settings);
+    @RUntainted String startSiteRoot = getStartSiteRoot(cms, settings);
 
     try {
       CmsObject cloneCms = OpenCms.initCmsObject(cms);
@@ -1010,7 +1011,7 @@ public abstract class CmsWorkplace {
    * @param locale the localel
    * @return the locale specific site title
    */
-  public static String substituteSiteTitleStatic(String title, Locale locale) {
+  public static @RUntainted String substituteSiteTitleStatic(@RUntainted String title, @RUntainted Locale locale) {
 
     if (title.equals(CmsSiteManagerImpl.SHARED_FOLDER_TITLE)) {
       return Messages.get().getBundle(locale).key(Messages.GUI_SHARED_TITLE_0);
@@ -1032,7 +1033,7 @@ public abstract class CmsWorkplace {
     if (session == null) {
       return;
     }
-    CmsWorkplaceSettings settings =
+    @RUntainted CmsWorkplaceSettings settings =
         (CmsWorkplaceSettings) session.getAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS);
     if (settings == null) {
       return;
@@ -1073,7 +1074,7 @@ public abstract class CmsWorkplace {
     Map<String, Object> params = allParamValues();
     Iterator<Entry<String, Object>> i = params.entrySet().iterator();
     while (i.hasNext()) {
-      Entry<String, Object> entry = i.next();
+      Entry<String, @RUntainted Object> entry = i.next();
       result.append("<input type=\"hidden\" name=\"");
       result.append(entry.getKey());
       result.append("\" value=\"");
@@ -1103,7 +1104,7 @@ public abstract class CmsWorkplace {
     Iterator<String> paramNames = request.getParameterMap().keySet().iterator();
     while (paramNames.hasNext()) {
       String paramName = paramNames.next();
-      String paramValue = request.getParameter(paramName);
+      @RUntainted String paramValue = request.getParameter(paramName);
       retValue.append(
           paramName
               + "="
@@ -1185,7 +1186,7 @@ public abstract class CmsWorkplace {
    * @param type 0: image only (default), 1: image and text, 2: text only
    * @return a button for the OpenCms workplace
    */
-  public String button(String href, String target, String image, String label, int type) {
+  public String button(String href, String target, String image, @RUntainted String label, int type) {
 
     return button(href, target, image, label, type, getSkinUri() + "buttons/");
   }
@@ -1205,7 +1206,7 @@ public abstract class CmsWorkplace {
    * @return a button for the OpenCms workplace
    */
   public String button(
-      String href, String target, String image, String label, int type, String imagePath) {
+      String href, String target, String image, @RUntainted String label, int type, String imagePath) {
 
     StringBuffer result = new StringBuffer(256);
 
@@ -1385,7 +1386,7 @@ public abstract class CmsWorkplace {
    * @param label the label to show
    * @return a button bar label
    */
-  public String buttonBarLabel(String label) {
+  public String buttonBarLabel(@RUntainted String label) {
 
     return buttonBarLabel(label, "norm");
   }
@@ -1399,7 +1400,7 @@ public abstract class CmsWorkplace {
    * @param className the css class name for the formatting
    * @return a button bar label
    */
-  public String buttonBarLabel(String label, String className) {
+  public String buttonBarLabel(@RUntainted String label, String className) {
 
     StringBuffer result = new StringBuffer(128);
     result.append("<td><span class=\"");
@@ -1526,7 +1527,7 @@ public abstract class CmsWorkplace {
    * @param type indicates the mode {@link CmsLockType#EXCLUSIVE} or {@link CmsLockType#TEMPORARY}
    * @throws CmsException if reading or locking the resource fails
    */
-  public void checkLock(String resource, CmsLockType type) throws CmsException {
+  public void checkLock(@RUntainted String resource, CmsLockType type) throws CmsException {
 
     CmsResource res = getCms().readResource(resource, CmsResourceFilter.ALL);
     CmsLock lock = getCms().getLock(res);
@@ -1562,7 +1563,7 @@ public abstract class CmsWorkplace {
    * @param settings the workplace settings
    * @param request the current request
    */
-  public void fillParamValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+  public void fillParamValues(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
     initSettings(settings, request);
     fillParamValues(request);
@@ -1580,7 +1581,7 @@ public abstract class CmsWorkplace {
    *
    * @param request the current JSP request
    */
-  public void fillParamValues(HttpServletRequest request) {
+  public void fillParamValues(@RUntainted HttpServletRequest request) {
 
     m_parameterMap = null;
     // ensure a multipart request is parsed only once (for "forward" scenarios with reports)
@@ -1600,13 +1601,13 @@ public abstract class CmsWorkplace {
       m_parameterMap = request.getParameterMap();
     }
 
-    List<Method> methods = paramSetMethods();
-    Iterator<Method> i = methods.iterator();
+    List<@RUntainted Method> methods = paramSetMethods();
+    Iterator<@RUntainted Method> i = methods.iterator();
     while (i.hasNext()) {
-      Method m = i.next();
+      @RUntainted Method m = i.next();
       String name = m.getName().substring(8).toLowerCase();
-      String[] values = m_parameterMap.get(name);
-      String value = null;
+      @RUntainted String[] values = m_parameterMap.get(name);
+      @RUntainted String value = null;
       if (values != null) {
         // get the parameter value from the map
         value = values[0];
@@ -1767,7 +1768,7 @@ public abstract class CmsWorkplace {
    *
    * @return the current users workplace locale setting
    */
-  public Locale getLocale() {
+  public @RUntainted Locale getLocale() {
 
     return getSettings().getUserSettings().getLocale();
   }
@@ -1849,7 +1850,7 @@ public abstract class CmsWorkplace {
    *
    * @return the current user http session
    */
-  public HttpSession getSession() {
+  public @RUntainted HttpSession getSession() {
 
     return m_session;
   }
@@ -1916,10 +1917,10 @@ public abstract class CmsWorkplace {
    * @param request the current request
    * @return true, if a reload of the main body frame is required
    */
-  public boolean initSettings(CmsWorkplaceSettings settings, HttpServletRequest request) {
+  public boolean initSettings(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
     // check if the user requested a project change
-    String project = request.getParameter(PARAM_WP_PROJECT);
+    @RUntainted String project = request.getParameter(PARAM_WP_PROJECT);
     boolean reloadRequired = false;
     if (project != null) {
       reloadRequired = true;
@@ -1940,7 +1941,7 @@ public abstract class CmsWorkplace {
     }
 
     // check if the user requested a site change
-    String site = request.getParameter(PARAM_WP_SITE);
+    @RUntainted String site = request.getParameter(PARAM_WP_SITE);
     if (site != null) {
       reloadRequired = true;
       m_cms.getRequestContext().setSiteRoot(site);
@@ -2011,7 +2012,7 @@ public abstract class CmsWorkplace {
    * @return the resource string for the given key
    * @see CmsMessages#key(String)
    */
-  public String key(String keyName) {
+  public @RUntainted String key(@RUntainted String keyName) {
 
     return getMessages().key(keyName);
   }
@@ -2031,7 +2032,7 @@ public abstract class CmsWorkplace {
    * @return the resource string for the given key
    * @see CmsMessages#key(String)
    */
-  public String key(String keyName, Object[] params) {
+  public String key(@RUntainted String keyName, @RUntainted Object[] params) {
 
     return getMessages().key(keyName, params);
   }
@@ -2049,7 +2050,7 @@ public abstract class CmsWorkplace {
    * @return the resource string for the given key it it exists, or the given default if not
    * @see CmsMessages#keyDefault(String, String)
    */
-  public String keyDefault(String keyName, String defaultValue) {
+  public @RUntainted String keyDefault(@RUntainted String keyName, @RUntainted String defaultValue) {
 
     return getMessages().keyDefault(keyName, defaultValue);
   }
@@ -2185,7 +2186,7 @@ public abstract class CmsWorkplace {
     Map<String, Object> params = paramValues();
     Iterator<Entry<String, Object>> i = params.entrySet().iterator();
     while (i.hasNext()) {
-      Entry<String, Object> entry = i.next();
+      Entry<String, @RUntainted Object> entry = i.next();
       String param = entry.getKey();
       if ((excludes == null) || (!excludes.contains(param))) {
         result.append("<input type=\"hidden\" name=\"");
@@ -2227,7 +2228,7 @@ public abstract class CmsWorkplace {
     Map<String, Object> params = paramValues();
     Iterator<Entry<String, Object>> i = params.entrySet().iterator();
     while (i.hasNext()) {
-      Entry<String, Object> entry = i.next();
+      Entry<String, @RUntainted Object> entry = i.next();
       result.append(entry.getKey());
       result.append("=");
       result.append(
@@ -2256,7 +2257,7 @@ public abstract class CmsWorkplace {
    * @return the resolved String
    * @see CmsMacroResolver#resolveMacros(String)
    */
-  public String resolveMacros(String input) {
+  public @RUntainted String resolveMacros(@RUntainted String input) {
 
     // resolve the macros
     return getMacroResolver().resolveMacros(input);
@@ -2270,7 +2271,7 @@ public abstract class CmsWorkplace {
    * @param location the location the response is redirected to
    * @throws IOException in case redirection fails
    */
-  public void sendCmsRedirect(String location) throws IOException {
+  public void sendCmsRedirect(@RUntainted String location) throws IOException {
 
     // TOOD: IBM Websphere v5 has problems here, use forward instead (which has other problems)
     getJsp().getResponse().sendRedirect(OpenCms.getSystemInfo().getOpenCmsContext() + location);
@@ -2316,7 +2317,7 @@ public abstract class CmsWorkplace {
    * @param keyName name of the key
    * @return a localized short key value
    */
-  public String shortKey(String keyName) {
+  public String shortKey(@RUntainted String keyName) {
 
     String value = keyDefault(keyName + CmsMessages.KEY_SHORT_SUFFIX, (String) null);
     if (value == null) {
@@ -2347,7 +2348,7 @@ public abstract class CmsWorkplace {
    *
    * @param bundleName the resource bundle name to add
    */
-  protected void addMessages(String bundleName) {
+  protected void addMessages(@RUntainted String bundleName) {
 
     addMessages(new CmsMessages(bundleName, getLocale()));
   }
@@ -2413,7 +2414,7 @@ public abstract class CmsWorkplace {
    * @param paramValue the unencoded value of the parameter
    * @return the encoded value of the parameter
    */
-  protected String decodeParamValue(String paramName, String paramValue) {
+  protected @RUntainted String decodeParamValue(String paramName, @RUntainted String paramValue) {
 
     if ((paramName != null) && (paramValue != null)) {
       return CmsEncoder.decode(paramValue, getCms().getRequestContext().getEncoding());
@@ -2466,7 +2467,7 @@ public abstract class CmsWorkplace {
    */
   protected void initTimeWarp(CmsUserSettings settings, HttpSession session) {
 
-    long timeWarpConf = settings.getTimeWarp();
+    @RUntainted long timeWarpConf = settings.getTimeWarp();
     Long timeWarpSetLong = (Long) session.getAttribute(CmsContextInfo.ATTRIBUTE_REQUEST_TIME);
     long timeWarpSet =
         (timeWarpSetLong != null) ? timeWarpSetLong.longValue() : CmsContextInfo.CURRENT_TIME;
@@ -2511,7 +2512,7 @@ public abstract class CmsWorkplace {
    * @param cms the user context
    * @param session the session
    */
-  protected void initWorkplaceMembers(CmsObject cms, HttpSession session) {
+  protected void initWorkplaceMembers(CmsObject cms, @RUntainted HttpSession session) {
 
     m_cms = cms;
     m_session = session;
@@ -2562,7 +2563,7 @@ public abstract class CmsWorkplace {
    * @param request the current request
    */
   protected abstract void initWorkplaceRequestValues(
-      CmsWorkplaceSettings settings, HttpServletRequest request);
+      CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request);
 
   /**
    * Returns the values of all parameter methods of this workplace class instance.
@@ -2607,7 +2608,7 @@ public abstract class CmsWorkplace {
    * @param title the site title
    * @return the new site title
    */
-  protected String substituteSiteTitle(String title) {
+  protected String substituteSiteTitle(@RUntainted String title) {
 
     return substituteSiteTitleStatic(title, getSettings().getUserSettings().getLocale());
   }
@@ -2724,13 +2725,13 @@ public abstract class CmsWorkplace {
    * @return a list of all methods of the current class instance that start with "setParam" and have
    *     exactly one String parameter
    */
-  private List<Method> paramSetMethods() {
+  private List<@RUntainted Method> paramSetMethods() {
 
-    List<Method> list = new ArrayList<Method>();
+    List<@RUntainted Method> list = new ArrayList<@RUntainted Method>();
     Method[] methods = getClass().getMethods();
     int length = methods.length;
     for (int i = 0; i < length; i++) {
-      Method method = methods[i];
+      @RUntainted Method method = methods[i];
       if (method.getName().startsWith("setParam")
           && (method.getParameterTypes().length == 1)
           && (method.getParameterTypes()[0].equals(java.lang.String.class))) {

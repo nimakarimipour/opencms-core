@@ -38,6 +38,7 @@ import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsbile for creating and parsing links to generated PDFs.
@@ -75,7 +76,7 @@ public class CmsPdfLink {
           + "\\.pdf/?";
 
   /** Compiled regular expression for parsing PDF links. */
-  public static final Pattern PDF_LINK_REGEX_COMPILED = Pattern.compile(PDF_LINK_REGEX);
+  public static final @RUntainted Pattern PDF_LINK_REGEX_COMPILED = Pattern.compile(PDF_LINK_REGEX);
 
   /** The content resource of the PDF link. */
   private CmsResource m_content;
@@ -136,12 +137,12 @@ public class CmsPdfLink {
    * @throws CmsPdfLinkParseException if the given link is not a PDF link
    * @throws CmsException if something else goes wrong
    */
-  public CmsPdfLink(CmsObject cms, String link) throws CmsPdfLinkParseException, CmsException {
+  public CmsPdfLink(CmsObject cms, @RUntainted String link) throws CmsPdfLinkParseException, CmsException {
 
-    Matcher matcher = PDF_LINK_REGEX_COMPILED.matcher(link);
+    @RUntainted Matcher matcher = PDF_LINK_REGEX_COMPILED.matcher(link);
     m_link = link;
     if (matcher.find()) {
-      String localeStr = matcher.group(1);
+      @RUntainted String localeStr = matcher.group(1);
       String formatterId = matcher.group(2);
       String detailName = matcher.group(3);
       CmsUUID id = cms.readIdForUrlName(detailName);

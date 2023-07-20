@@ -62,6 +62,7 @@ import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsWorkplaceLoginHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to change the password.
@@ -83,7 +84,7 @@ public class CmsChangePasswordDialog extends CmsBasicDialog {
   CmsObject m_cms;
 
   /** The locale. */
-  Locale m_locale;
+  @RUntainted Locale m_locale;
 
   /** The user. */
   CmsUser m_user;
@@ -106,7 +107,7 @@ public class CmsChangePasswordDialog extends CmsBasicDialog {
    * @param user the user
    * @param locale the locale
    */
-  public CmsChangePasswordDialog(CmsObject cms, CmsUser user, Locale locale) {
+  public CmsChangePasswordDialog(CmsObject cms, CmsUser user, @RUntainted Locale locale) {
 
     super();
     m_locale = locale;

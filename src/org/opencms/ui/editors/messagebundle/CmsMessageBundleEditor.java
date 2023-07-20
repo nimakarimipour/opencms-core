@@ -85,6 +85,7 @@ import org.opencms.ui.editors.messagebundle.CmsMessageBundleEditorTypes.ItemDele
 import org.opencms.ui.editors.messagebundle.CmsMessageBundleEditorTypes.TableProperty;
 import org.opencms.ui.editors.messagebundle.CmsMessageBundleEditorTypes.TranslateTableFieldFactory;
 import org.tepi.filtertable.FilterTable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Controller for the VAADIN UI of the Message Bundle Editor. */
 @Theme("opencms")

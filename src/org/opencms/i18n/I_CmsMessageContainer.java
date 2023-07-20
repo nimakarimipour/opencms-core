@@ -28,6 +28,7 @@
 package org.opencms.i18n;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface which represents a message independent of the locale.
@@ -44,5 +45,5 @@ public interface I_CmsMessageContainer {
    * @param locale the locale
    * @return the message for the given locale
    */
-  String key(Locale locale);
+  String key(@RUntainted Locale locale);
 }

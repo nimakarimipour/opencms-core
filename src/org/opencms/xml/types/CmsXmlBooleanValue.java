@@ -36,6 +36,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.widgets.I_CmsWidgetParameter;
 import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.xml2json.I_CmsJsonFormattableValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsBoolean".
@@ -56,7 +57,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
   private static final Pattern TYPE_PATTERN = Pattern.compile(TYPE_RULE);
 
   /** The boolean value of the element node. */
-  private boolean m_boolean;
+  private @RUntainted boolean m_boolean;
 
   /**
    * Creates a new, empty schema type descriptor of type "OpenCmsBoolean".
@@ -79,7 +80,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
    * @param type the type instance to create the value for
    */
   public CmsXmlBooleanValue(
-      I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+      I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
     super(document, element, locale, type);
     m_boolean = getBooleanValue(m_stringValue);

@@ -60,6 +60,7 @@ import org.opencms.site.CmsSiteMatcher;
 import org.opencms.site.CmsSiteMatcher.RedirectMode;
 import org.w3c.dom.NodeList;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to read and write the OpenCms site configuration.
@@ -287,8 +288,8 @@ public class CmsSitesConfiguration extends A_CmsXmlConfiguration
             @Override
             public void end(String namespace, String name) throws Exception {
 
-              org.w3c.dom.Element elem = (org.w3c.dom.Element) digester.peek();
-              String uri = elem.getAttribute(I_CmsXmlConfiguration.A_URI);
+              org.w3c.dom.@RUntainted Element elem = (org.w3c.dom.Element) digester.peek();
+              @RUntainted String uri = elem.getAttribute(I_CmsXmlConfiguration.A_URI);
               String titlePrefix = elem.getAttribute(CmsAlternativeSiteRootMapping.A_TITLE_SUFFIX);
               NodeList nodes = elem.getElementsByTagName(CmsAlternativeSiteRootMapping.N_PATH);
               List<String> paths = new ArrayList<>();

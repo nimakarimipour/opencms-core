@@ -28,6 +28,7 @@
 package org.opencms.util;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Simple data holder class which stores a path in a normalized form.

@@ -77,6 +77,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.CmsWorkplaceManager;
 import org.opencms.workplace.CmsWorkplaceSettings;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The UI class for the Vaadin-based login dialog.
@@ -230,7 +231,7 @@ public class CmsLoginUI extends A_CmsUI {
    * @throws CmsException in case the user has not the required role
    */
   public static String displayVaadinLoginDialog(
-      HttpServletRequest request, HttpServletResponse response) throws IOException, CmsException {
+      @RUntainted HttpServletRequest request, HttpServletResponse response) throws IOException, CmsException {
 
     CmsFlexController controller = CmsFlexController.getController(request);
     if (controller == null) {
@@ -257,7 +258,7 @@ public class CmsLoginUI extends A_CmsUI {
 
     if (!cms.getRequestContext().getCurrentUser().isGuestUser()) {
       String encryptedTarget = request.getParameter(CmsGwtConstants.PARAM_LOGIN_REDIRECT);
-      String target = null;
+      @RUntainted String target = null;
       if (CmsStringUtil.isEmptyOrWhitespaceOnly(encryptedTarget)) {
         target =
             CmsLoginController.getLoginTarget(
@@ -273,15 +274,15 @@ public class CmsLoginUI extends A_CmsUI {
       response.sendRedirect(target);
       return null;
     }
-    CmsLoginHelper.LoginParameters params = CmsLoginHelper.getLoginParameters(cms, request, false);
+    CmsLoginHelper.@RUntainted LoginParameters params = CmsLoginHelper.getLoginParameters(cms, request, false);
     request.getSession().setAttribute(CmsLoginUI.INIT_DATA_SESSION_ATTR, params);
     try {
-      byte[] pageBytes =
+      @RUntainted byte[] pageBytes =
           CmsFileUtil.readFully(
               Thread.currentThread()
                   .getContextClassLoader()
                   .getResourceAsStream("org/opencms/ui/login/login-page.html"));
-      String page = new String(pageBytes, "UTF-8");
+      @RUntainted String page = new String(pageBytes, "UTF-8");
       CmsMacroResolver resolver = new CmsMacroResolver();
       String context = OpenCms.getSystemInfo().getContextPath();
       String vaadinDir = CmsStringUtil.joinPaths(context, "VAADIN/");
@@ -350,7 +351,7 @@ public class CmsLoginUI extends A_CmsUI {
     LoginParameters parameters =
         CmsLoginHelper.getLoginParameters(cms, (HttpServletRequest) request, true);
     request.getWrappedSession().setAttribute(CmsLoginUI.INIT_DATA_SESSION_ATTR, parameters);
-    byte[] pageBytes;
+    @RUntainted byte[] pageBytes;
 
     pageBytes =
         CmsFileUtil.readFully(
@@ -358,7 +359,7 @@ public class CmsLoginUI extends A_CmsUI {
                 .getContextClassLoader()
                 .getResourceAsStream("org/opencms/ui/login/login-fragment.html"));
 
-    String html = new String(pageBytes, "UTF-8");
+    @RUntainted String html = new String(pageBytes, "UTF-8");
     String autocomplete =
         ((parameters.getPcType() == null)
                 || parameters.getPcType().equals(CmsLoginHelper.PCTYPE_PRIVATE))
@@ -401,9 +402,9 @@ public class CmsLoginUI extends A_CmsUI {
    * @param session the session
    * @return the settings
    */
-  private static CmsWorkplaceSettings getWorkplaceSettings(CmsObject cms, HttpSession session) {
+  private static CmsWorkplaceSettings getWorkplaceSettings(CmsObject cms, @RUntainted HttpSession session) {
 
-    CmsWorkplaceSettings settings =
+    @RUntainted CmsWorkplaceSettings settings =
         (CmsWorkplaceSettings) session.getAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS);
     if (settings == null) {
       settings = CmsLoginHelper.initSiteAndProject(cms);
@@ -580,7 +581,7 @@ public class CmsLoginUI extends A_CmsUI {
    *
    * @param preselectedOu a potential preselected OU
    */
-  public void showLoginView(String preselectedOu) {
+  public void showLoginView(@RUntainted String preselectedOu) {
 
     VerticalLayout content = new VerticalLayout();
     content.setSizeFull();
@@ -603,7 +604,7 @@ public class CmsLoginUI extends A_CmsUI {
    *
    * @param orgUnit the OU that should be preselected
    */
-  public void showPasswordResetDialog(String orgUnit) {
+  public void showPasswordResetDialog(@RUntainted String orgUnit) {
 
     String caption = CmsVaadinUtils.getMessageText(Messages.GUI_PWCHANGE_FORGOT_PASSWORD_0);
     A_CmsUI r = A_CmsUI.get();

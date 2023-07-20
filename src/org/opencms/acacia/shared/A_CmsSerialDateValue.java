@@ -32,6 +32,7 @@ import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** The base class for implementations of serial date values. */
 public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
@@ -207,13 +208,13 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
   }
 
   /** @see org.opencms.acacia.shared.I_CmsSerialDateValue#getMonth() */
-  public final Month getMonth() {
+  public final @RUntainted Month getMonth() {
 
     return m_month;
   }
 
   /** @see org.opencms.acacia.shared.I_CmsSerialDateValue#getOccurrences() */
-  public final int getOccurrences() {
+  public final @RUntainted int getOccurrences() {
 
     return m_seriesOccurrences;
   }

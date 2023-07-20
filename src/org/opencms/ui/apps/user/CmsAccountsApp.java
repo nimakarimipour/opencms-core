@@ -92,6 +92,7 @@ import org.opencms.ui.dialogs.permissions.CmsPrincipalSelectDialog;
 import org.opencms.ui.dialogs.permissions.I_CmsPrincipalSelect;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App for the OU Management.
@@ -703,7 +704,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
     String filter = "";
     I_CmsOuTreeType type = CmsOuTreeType.OU;
     CmsUUID groupId = null;
-    List<String> fields = CmsStringUtil.splitAsList(state, STATE_SEPERATOR);
+    List<@RUntainted String> fields = CmsStringUtil.splitAsList(state, STATE_SEPERATOR);
     if (!fields.isEmpty()) {
       if (fields.size() > 1) {
         path = fields.get(1);
@@ -1074,7 +1075,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
    * @param stateBean to be read out
    * @return Name
    */
-  protected String getElementName(CmsStateBean stateBean) {
+  protected @RUntainted String getElementName(CmsStateBean stateBean) {
 
     if (stateBean.getType().equals(CmsOuTreeType.USER)) {
       try {
@@ -1105,7 +1106,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
    * @param users user list
    * @return List of user
    */
-  protected List<CmsUser> getFullUser(List<CmsUser> users) {
+  protected @RUntainted List<CmsUser> getFullUser(List<CmsUser> users) {
 
     List<CmsUser> res = new ArrayList<CmsUser>();
     for (CmsUser user : users) {

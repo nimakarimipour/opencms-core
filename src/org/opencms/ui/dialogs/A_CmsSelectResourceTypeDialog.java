@@ -83,6 +83,7 @@ import org.opencms.ui.components.CmsResourceInfo;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
 import org.opencms.workplace.explorer.CmsResourceUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 public abstract class A_CmsSelectResourceTypeDialog extends CmsBasicDialog {
 
@@ -148,7 +149,7 @@ public abstract class A_CmsSelectResourceTypeDialog extends CmsBasicDialog {
         this,
         new Predicate<Component>() {
 
-          public boolean apply(Component component) {
+          public boolean apply(@RUntainted Component component) {
 
             component.setCaption(CmsVaadinUtils.localizeString(component.getCaption()));
             return true;
@@ -162,7 +163,7 @@ public abstract class A_CmsSelectResourceTypeDialog extends CmsBasicDialog {
     if (initViewId == null) {
       try {
         CmsUserSettings settings = new CmsUserSettings(A_CmsUI.getCmsObject());
-        String viewSettingStr =
+        @RUntainted String viewSettingStr =
             settings.getAdditionalPreference(
                 CmsElementViewPreference.EXPLORER_PREFERENCE_NAME, true);
         if ((viewSettingStr != null) && CmsUUID.isValidUUID(viewSettingStr)) {
@@ -390,7 +391,7 @@ public abstract class A_CmsSelectResourceTypeDialog extends CmsBasicDialog {
       subtitle = CmsVaadinUtils.getMessageText(explorerType.getInfo());
     }
     if (useDefault && (type.getOrigin() == Origin.config) && (type.getCreatePath() != null)) {
-      String path = type.getCreatePath();
+      @RUntainted String path = type.getCreatePath();
       CmsObject cms = A_CmsUI.getCmsObject();
       path = cms.getRequestContext().removeSiteRoot(path);
       subtitle = CmsVaadinUtils.getMessageText(Messages.GUI_NEW_CREATE_IN_PATH_1, path);

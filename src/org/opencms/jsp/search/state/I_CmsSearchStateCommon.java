@@ -28,6 +28,7 @@
 package org.opencms.jsp.search.state;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Class for keeping the state of the common search options. */
 public interface I_CmsSearchStateCommon {
@@ -37,7 +38,7 @@ public interface I_CmsSearchStateCommon {
    *
    * @return The map from the additional request parameters to their values.
    */
-  Map<String, String> getAdditionalParameters();
+  Map<String, @RUntainted String> getAdditionalParameters();
 
   /**
    * Getter for the flag indicating if the search is called the first time, or reloaded.

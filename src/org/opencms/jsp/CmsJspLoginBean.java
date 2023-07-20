@@ -46,6 +46,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.security.CmsAuthentificationException;
 import org.opencms.security.CmsUserLog;
 import org.opencms.security.twofactor.CmsSecondFactorInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides convenient wrappers useful to create user login pages.
@@ -108,7 +109,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
    * @param currentLoginException the exception to log
    */
   public static void logLoginException(
-      CmsRequestContext requestContext, String userName, CmsException currentLoginException) {
+      CmsRequestContext requestContext, @RUntainted String userName, CmsException currentLoginException) {
 
     if (currentLoginException instanceof CmsAuthentificationException) {
 
@@ -160,7 +161,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
           == currentLoginException.getMessageContainer().getKey()) {
 
         // logins have been disabled by the administration
-        long endTime = CmsLoginMessage.DEFAULT_TIME_END;
+        @RUntainted long endTime = CmsLoginMessage.DEFAULT_TIME_END;
         if (OpenCms.getLoginManager().getLoginMessage() != null) {
           endTime = OpenCms.getLoginManager().getLoginMessage().getTimeEnd();
         }
@@ -215,7 +216,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
    *
    * @return the link to the form that contains the login element
    */
-  public String getFormLink() {
+  public @RUntainted String getFormLink() {
 
     return link(getRequestContext().getUri());
   }
@@ -290,7 +291,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
    * @param userName the users name
    * @param password the password
    */
-  public void login(String userName, String password) {
+  public void login(@RUntainted String userName, String password) {
 
     login(userName, password, null);
   }
@@ -307,7 +308,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
    * @param password the password
    * @param projectName the project to switch to after login (if null project is not switched)
    */
-  public void login(String userName, String password, String projectName) {
+  public void login(@RUntainted String userName, String password, String projectName) {
 
     HttpSession session = null;
     m_loginException = null;
@@ -387,7 +388,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
    * @param redirectUri the URI to redirect to after login (if null the current URI is used)
    * @throws IOException in case redirect after login was not successful
    */
-  public void login(String userName, String password, String projectName, String redirectUri)
+  public void login(@RUntainted String userName, String password, String projectName, String redirectUri)
       throws IOException {
 
     login(userName, password, projectName);

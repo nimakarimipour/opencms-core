@@ -69,6 +69,7 @@ import org.opencms.xml.CmsXmlException;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.content.CmsXmlContentValueSequence;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resolves macros in the form of <code>%(key)</code> or <code>${key}</code> in an input String.
@@ -215,13 +216,13 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
   private static final Log LOG = CmsLog.getLog(CmsMacroResolver.class);
 
   /** A map of additional values provided by the calling class. */
-  protected Map<String, String> m_additionalMacros;
+  protected Map<String, @RUntainted String> m_additionalMacros;
 
   /** The OpenCms user context to use for resolving macros. */
   protected CmsObject m_cms;
 
   /** The JSP's page context to use for resolving macros. */
-  protected PageContext m_jspPageContext;
+  protected @RUntainted PageContext m_jspPageContext;
 
   /** Indicates if unresolved macros should be kept "as is" or replaced by an empty String. */
   protected boolean m_keepEmptyMacros;
@@ -305,7 +306,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
    */
   public static void copyAndResolveMacro(
       CmsObject cms,
-      String source,
+      @RUntainted String source,
       String destination,
       Map<String, String> keyValue,
       boolean adjustLinks,
@@ -381,9 +382,9 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
    * @param input the input to format as a macro
    * @return the input formatted as a macro
    */
-  public static String formatMacro(String input) {
+  public static @RUntainted String formatMacro(@RUntainted String input) {
 
-    StringBuffer result = new StringBuffer(input.length() + 4);
+    @RUntainted StringBuffer result = new StringBuffer(input.length() + 4);
     result.append(I_CmsMacroResolver.MACRO_DELIMITER);
     result.append(I_CmsMacroResolver.MACRO_START);
     result.append(input);
@@ -486,7 +487,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
    * @param params the optional parameter array
    * @return a macro for the given localization key with the given parameters
    */
-  public static String localizedKeyMacro(String keyName, Object[] params) {
+  public static @RUntainted String localizedKeyMacro(String keyName, Object[] params) {
 
     String parameters = "";
     if ((params != null) && (params.length > 0)) {
@@ -556,7 +557,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
    * @param messages the message resource bundle to use when resolving macros
    * @return the input with the macros resolved
    */
-  public static String resolveMacros(String input, CmsObject cms, CmsMessages messages) {
+  public static @RUntainted String resolveMacros(@RUntainted String input, CmsObject cms, CmsMessages messages) {
 
     CmsMacroResolver resolver = new CmsMacroResolver();
     resolver.m_cms = cms;
@@ -582,7 +583,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
    * @param resolver the macro resolver to use
    * @return the input with all macros resolved
    */
-  public static String resolveMacros(final String input, I_CmsMacroResolver resolver) {
+  public static @RUntainted String resolveMacros(final @RUntainted String input, I_CmsMacroResolver resolver) {
 
     if ((input == null) || (input.length() < 3)) {
       // macro must have at last 3 chars "${}" or "%()"
@@ -598,9 +599,9 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
     }
 
     int len = input.length();
-    StringBuffer result = new StringBuffer(len << 1);
+    @RUntainted StringBuffer result = new StringBuffer(len << 1);
     int np, pp1, pp2, e;
-    String macro, value;
+    @RUntainted String macro, value;
     boolean keep = resolver.isKeepEmptyMacros();
     boolean resolvedNone = true;
     char ds, de;
@@ -725,7 +726,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
    * @return the validated folder name
    * @throws CmsIllegalArgumentException if the folder name is empty or <code>null</code>
    */
-  private static String ensureFoldername(String resourcename) throws CmsIllegalArgumentException {
+  private static String ensureFoldername(@RUntainted String resourcename) throws CmsIllegalArgumentException {
 
     if (CmsStringUtil.isEmpty(resourcename)) {
       throw new CmsIllegalArgumentException(
@@ -853,7 +854,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
   }
 
   /** @see org.opencms.util.I_CmsMacroResolver#getMacroValue(java.lang.String) */
-  public String getMacroValue(String macro) {
+  public @RUntainted String getMacroValue(@RUntainted String macro) {
 
     if (m_messages != null) {
       if (macro.startsWith(CmsMacroResolver.KEY_LOCALIZED_PREFIX)) {
@@ -876,7 +877,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
         if (macro.startsWith(CmsMacroResolver.KEY_REQUEST_PARAM)) {
           // the key is a request parameter
           macro = macro.substring(CmsMacroResolver.KEY_REQUEST_PARAM.length());
-          String result = null;
+          @RUntainted String result = null;
           if (m_parameterMap != null) {
             String[] param = m_parameterMap.get(macro);
             if ((param != null) && (param.length >= 1)) {
@@ -923,7 +924,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
       if (macro.startsWith(CmsMacroResolver.KEY_PAGE_CONTEXT)) {
         // the key is a page context object
         macro = macro.substring(CmsMacroResolver.KEY_PAGE_CONTEXT.length());
-        int scope = m_jspPageContext.getAttributesScope(macro);
+        @RUntainted int scope = m_jspPageContext.getAttributesScope(macro);
         return m_jspPageContext.getAttribute(macro, scope).toString();
       }
     }
@@ -956,7 +957,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
       if (macro.startsWith(CmsMacroResolver.KEY_ATTRIBUTE)) {
         // the key is an OpenCms runtime attribute
         macro = macro.substring(CmsMacroResolver.KEY_ATTRIBUTE.length());
-        Object attribute = m_cms.getRequestContext().getAttribute(macro);
+        @RUntainted Object attribute = m_cms.getRequestContext().getAttribute(macro);
         if (attribute != null) {
           return attribute.toString();
         }
@@ -970,7 +971,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
         String originalKey = macro;
         macro = macro.substring(CmsMacroResolver.KEY_OPENCMS.length());
         int index = VALUE_NAMES.indexOf(macro);
-        String value = null;
+        @RUntainted String value = null;
 
         switch (index) {
           case 0:
@@ -1060,7 +1061,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
         }
         CmsADEConfigData config =
             OpenCms.getADEManager().lookupConfigurationWithCache(m_cms, adeContext);
-        String val = config.getAttribute(key, defaultValue);
+        @RUntainted String val = config.getAttribute(key, defaultValue);
         if (val == null) {
           LOG.warn("Sitemap attribute not defined: " + key);
         }
@@ -1253,9 +1254,9 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
    *
    * @see org.opencms.util.I_CmsMacroResolver#resolveMacros(java.lang.String)
    */
-  public String resolveMacros(String input) {
+  public @RUntainted String resolveMacros(@RUntainted String input) {
 
-    String result = input;
+    @RUntainted String result = input;
 
     if (input != null) {
       String lastResult;
@@ -1392,7 +1393,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
 
     return new Function<String, String>() {
 
-      public String apply(String input) {
+      public String apply(@RUntainted String input) {
 
         return resolveMacros(input);
       }

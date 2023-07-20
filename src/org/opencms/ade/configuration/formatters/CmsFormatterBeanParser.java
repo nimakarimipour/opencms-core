@@ -70,6 +70,7 @@ import org.opencms.xml.content.I_CmsXmlContentValueLocation;
 import org.opencms.xml.types.CmsXmlVarLinkValue;
 import org.opencms.xml.types.CmsXmlVfsFileValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parses formatter beans from formatter configuration XML contents.
@@ -308,7 +309,7 @@ public class CmsFormatterBeanParser {
   private int m_maxWidth;
 
   /** Parsed field. */
-  private String m_niceName;
+  private @RUntainted String m_niceName;
 
   /** Parsed field. */
   private boolean m_preview;
@@ -317,7 +318,7 @@ public class CmsFormatterBeanParser {
   private int m_rank;
 
   /** Parsed field. */
-  private Set<String> m_resourceType;
+  private @RUntainted Set<String> m_resourceType;
 
   /** Setting configurations read from content. * */
   private List<CmsXmlContentProperty> m_settingList = new ArrayList<>();
@@ -347,7 +348,7 @@ public class CmsFormatterBeanParser {
    * @param components the xpath componentns
    * @return the composed xpath
    */
-  public static String path(String... components) {
+  public static @RUntainted String path(String... components) {
 
     return CmsStringUtil.joinPaths(components);
   }
@@ -364,7 +365,7 @@ public class CmsFormatterBeanParser {
    * @throws ParseException if parsing goes wrong
    * @throws CmsException if something else goes wrong
    */
-  public I_CmsFormatterBean parse(CmsXmlContent content, String location, String id)
+  public I_CmsFormatterBean parse(CmsXmlContent content, @RUntainted String location, String id)
       throws CmsException, ParseException {
 
     I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(content.getFile());
@@ -446,7 +447,7 @@ public class CmsFormatterBeanParser {
     String isStrictContainersStr = getString(root, N_STRICT_CONTAINERS, "false");
     boolean isStrictContainers = Boolean.parseBoolean(isStrictContainersStr);
 
-    String description = getString(root, N_DESCRIPTION, null);
+    @RUntainted String description = getString(root, N_DESCRIPTION, null);
 
     String autoEnabled = getString(root, N_AUTO_ENABLED, "false");
     m_autoEnabled = Boolean.parseBoolean(autoEnabled);
@@ -666,7 +667,7 @@ public class CmsFormatterBeanParser {
    * @param defaultValue the default value to use if no value was found
    * @return the found value
    */
-  private String getString(I_CmsXmlContentLocation val, String path, String defaultValue) {
+  private @RUntainted String getString(I_CmsXmlContentLocation val, @RUntainted String path, String defaultValue) {
 
     if ((val != null)) {
       I_CmsXmlContentValueLocation subVal = val.getSubValue(path);
@@ -686,7 +687,7 @@ public class CmsFormatterBeanParser {
    * @param path the path of the sub-values
    * @return a set of string values
    */
-  private Set<String> getStringSet(I_CmsXmlContentLocation val, String path) {
+  private @RUntainted Set<String> getStringSet(I_CmsXmlContentLocation val, @RUntainted String path) {
 
     Set<String> valueSet = new HashSet<String>();
     if ((val != null)) {
@@ -819,7 +820,7 @@ public class CmsFormatterBeanParser {
     for (I_CmsXmlContentValueLocation mappingLoc : formatterLoc.getSubValues(N_META_MAPPING)) {
       String key = CmsConfigurationReader.getString(m_cms, mappingLoc.getSubValue(N_KEY));
       String element = CmsConfigurationReader.getString(m_cms, mappingLoc.getSubValue(N_ELEMENT));
-      String defaultValue =
+      @RUntainted String defaultValue =
           CmsConfigurationReader.getString(m_cms, mappingLoc.getSubValue(N_DEFAULT));
       String orderStr = CmsConfigurationReader.getString(m_cms, mappingLoc.getSubValue(N_ORDER));
       int order = 1000;

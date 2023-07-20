@@ -57,6 +57,7 @@ import org.opencms.site.CmsSite;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for manipulating locale groups.
@@ -147,7 +148,7 @@ public class CmsLocaleGroupService {
       if (!CmsStringUtil.isEmptyOrWhitespaceOnly(propValue)) {
         List<Locale> restrictionLocales = Lists.newArrayList();
         String[] tokens = propValue.trim().split(" *, *"); // $NON-NLS-1$
-        for (String token : tokens) {
+        for (@RUntainted String token : tokens) {
           OpenCms.getLocaleManager();
           Locale localeForToken = CmsLocaleManager.getLocale(token);
           restrictionLocales.add(localeForToken);
@@ -423,15 +424,15 @@ public class CmsLocaleGroupService {
     if (site == null) {
       return null;
     }
-    String siteroot = site.getSiteRoot();
-    List<String> ancestors = Lists.newArrayList();
+    @RUntainted String siteroot = site.getSiteRoot();
+    List<@RUntainted String> ancestors = Lists.newArrayList();
     while ((currentPath != null) && CmsStringUtil.isPrefixPath(siteroot, currentPath)) {
       ancestors.add(currentPath);
       currentPath = CmsResource.getParentFolder(currentPath);
     }
-    Iterator<String> iter = ancestors.iterator();
+    Iterator<@RUntainted String> iter = ancestors.iterator();
     while (iter.hasNext()) {
-      String path = iter.next();
+      @RUntainted String path = iter.next();
       if (CmsFileUtil.removeTrailingSeparator(path)
           .equals(CmsFileUtil.removeTrailingSeparator(siteroot))) {
         LOG.debug("keeping path because it is the site root: " + path);

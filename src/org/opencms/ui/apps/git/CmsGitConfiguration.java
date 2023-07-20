@@ -37,6 +37,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import org.opencms.main.CmsSystemInfo;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Access to a single git configuration file. */
 public class CmsGitConfiguration {

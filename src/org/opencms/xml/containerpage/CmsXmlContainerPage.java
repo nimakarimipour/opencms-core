@@ -79,6 +79,7 @@ import org.opencms.xml.types.CmsXmlVfsFileValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 import org.opencms.xml.types.I_CmsXmlSchemaType;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of a object used to access and manage the xml data of a container page.
@@ -168,7 +169,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
    * @param resolver the XML entity resolver to use
    */
   protected CmsXmlContainerPage(
-      CmsObject cms, Document document, String encoding, EntityResolver resolver) {
+      CmsObject cms, @RUntainted Document document, @RUntainted String encoding, EntityResolver resolver) {
 
     // must set document first to be able to get the content definition
     m_document = document;
@@ -233,12 +234,12 @@ public class CmsXmlContainerPage extends CmsXmlContent {
    * @param contentDefinition the content definition to create the content for
    */
   protected CmsXmlContainerPage(
-      CmsObject cms, Locale locale, String encoding, CmsXmlContentDefinition contentDefinition) {
+      CmsObject cms, Locale locale, @RUntainted String encoding, CmsXmlContentDefinition contentDefinition) {
 
     // content definition must be set here since it's used during document creation
     m_contentDefinition = contentDefinition;
     // create the XML document according to the content definition
-    Document document =
+    @RUntainted Document document =
         m_contentDefinition.createDocument(cms, this, CmsLocaleManager.MASTER_LOCALE);
     // initialize the XML content structure
     initDocument(cms, document, encoding, m_contentDefinition);
@@ -519,7 +520,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
    */
   @Override
   protected void initDocument(
-      CmsObject cms, Document document, String encoding, CmsXmlContentDefinition definition) {
+      CmsObject cms, @RUntainted Document document, @RUntainted String encoding, CmsXmlContentDefinition definition) {
 
     m_document = document;
     m_contentDefinition = definition;
@@ -535,10 +536,10 @@ public class CmsXmlContainerPage extends CmsXmlContent {
     }
 
     // initialize the bookmarks
-    for (Iterator<Element> itCntPages =
+    for (Iterator<@RUntainted Element> itCntPages =
             CmsXmlGenericWrapper.elementIterator(m_document.getRootElement());
         itCntPages.hasNext(); ) {
-      Element cntPage = itCntPages.next();
+      @RUntainted Element cntPage = itCntPages.next();
 
       try {
         Locale locale =
@@ -551,7 +552,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
         for (Iterator<Element> itCnts =
                 CmsXmlGenericWrapper.elementIterator(cntPage, XmlNode.Containers.name());
             itCnts.hasNext(); ) {
-          Element container = itCnts.next();
+          @RUntainted Element container = itCnts.next();
 
           // container itself
           int cntIndex = CmsXmlUtils.getXpathIndexInt(container.getUniquePath(cntPage));
@@ -587,7 +588,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
           for (Iterator<Element> itElems =
                   CmsXmlGenericWrapper.elementIterator(container, XmlNode.Elements.name());
               itElems.hasNext(); ) {
-            Element element = itElems.next();
+            @RUntainted Element element = itElems.next();
 
             // element itself
             int elemIndex = CmsXmlUtils.getXpathIndexInt(element.getUniquePath(container));
@@ -613,11 +614,11 @@ public class CmsXmlContainerPage extends CmsXmlContent {
             }
 
             // uri
-            Element uri = element.element(XmlNode.Uri.name());
-            CmsUUID elementId = null;
+            @RUntainted Element uri = element.element(XmlNode.Uri.name());
+            @RUntainted CmsUUID elementId = null;
             if (uri != null) {
               addBookmarkForElement(uri, locale, element, elemPath, elemDef);
-              Element uriLink = uri.element(CmsXmlPage.NODE_LINK);
+              @RUntainted Element uriLink = uri.element(CmsXmlPage.NODE_LINK);
               if (uriLink == null) {
                 // this can happen when adding the elements node to the xml content
                 // it is not dangerous since the link has to be set before saving
@@ -638,11 +639,11 @@ public class CmsXmlContainerPage extends CmsXmlContent {
                     && Boolean.parseBoolean(createNewElement.getStringValue());
 
             // formatter
-            Element formatter = element.element(XmlNode.Formatter.name());
+            @RUntainted Element formatter = element.element(XmlNode.Formatter.name());
             CmsUUID formatterId = null;
             if (formatter != null) {
               addBookmarkForElement(formatter, locale, element, elemPath, elemDef);
-              Element formatterLink = formatter.element(CmsXmlPage.NODE_LINK);
+              @RUntainted Element formatterLink = formatter.element(CmsXmlPage.NODE_LINK);
 
               if (formatterLink == null) {
                 // this can happen when adding the elements node to the xml content
@@ -657,7 +658,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
             }
 
             // the properties
-            Map<String, String> propertiesMap =
+            Map<String, @RUntainted String> propertiesMap =
                 CmsXmlContentPropertyHelper.readProperties(
                     this, locale, element, elemPath, elemDef);
             propertiesMap = translateMapKeys(propertiesMap, this::translateSettingNameForLoad);
@@ -674,7 +675,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
               String key1 = CmsFormatterConfig.FORMATTER_SETTINGS_KEY + containerName;
               String key2 = CmsFormatterConfig.FORMATTER_SETTINGS_KEY;
               for (String key : new String[] {key1, key2}) {
-                String value = propertiesMap.get(key);
+                @RUntainted String value = propertiesMap.get(key);
                 if (value != null) {
                   I_CmsFormatterBean dynFmt = config.findFormatter(value);
                   if (dynFmt != null) {
@@ -703,7 +704,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
             if (config != null) {
               // in the new container page format, new dynamic functions are not stored with their
               // URIs in the page
-              String key = CmsFormatterUtils.getFormatterKey(containerName, propertiesMap);
+              @RUntainted String key = CmsFormatterUtils.getFormatterKey(containerName, propertiesMap);
               I_CmsFormatterBean dynFmt = config.findFormatter(key);
               if (dynFmt instanceof CmsFunctionFormatterBean) {
                 elementId = new CmsUUID(dynFmt.getId());
@@ -748,7 +749,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
    */
   @Override
   protected void initDocument(
-      Document document, String encoding, CmsXmlContentDefinition definition) {
+      @RUntainted Document document, @RUntainted String encoding, CmsXmlContentDefinition definition) {
 
     initDocument(null, document, encoding, definition);
   }
@@ -820,13 +821,13 @@ public class CmsXmlContainerPage extends CmsXmlContent {
 
     Map<String, String> result = new HashMap<>();
     for (Map.Entry<String, String> entry : propertiesMap.entrySet()) {
-      String key = entry.getKey();
+      @RUntainted String key = entry.getKey();
 
       // replace structure ids, fallback keys or alias keys with the main key if possible
 
-      int underscorePos = key.indexOf("_");
+      @RUntainted int underscorePos = key.indexOf("_");
       if (underscorePos >= 0) {
-        String prefix = key.substring(0, underscorePos);
+        @RUntainted String prefix = key.substring(0, underscorePos);
         I_CmsFormatterBean formatter = config.findFormatter(prefix);
         if (formatter != null) {
           key = formatter.getKeyOrId() + key.substring(underscorePos);
@@ -849,9 +850,9 @@ public class CmsXmlContainerPage extends CmsXmlContent {
       CmsADEConfigData config, Map<String, String> settings) {
 
     Map<String, String> result = new LinkedHashMap<>();
-    for (Map.Entry<String, String> entry : settings.entrySet()) {
-      String key = entry.getKey();
-      String value = entry.getValue();
+    for (Map.Entry<String, @RUntainted String> entry : settings.entrySet()) {
+      @RUntainted String key = entry.getKey();
+      @RUntainted String value = entry.getValue();
       if (key.startsWith(CmsFormatterConfig.FORMATTER_SETTINGS_KEY)) {
         if (!CmsUUID.isValidUUID(value)) {
           I_CmsFormatterBean dynamicFmt = config.findFormatter(value);
@@ -861,9 +862,9 @@ public class CmsXmlContainerPage extends CmsXmlContent {
         }
       } else {
         // nested formatters
-        int underscorePos = key.indexOf("_");
+        @RUntainted int underscorePos = key.indexOf("_");
         if (underscorePos != -1) {
-          String partBeforeUnderscore = key.substring(0, underscorePos);
+          @RUntainted String partBeforeUnderscore = key.substring(0, underscorePos);
           String partAfterUnderscore = key.substring(underscorePos + 1);
           I_CmsFormatterBean dynamicFmt = config.findFormatter(partBeforeUnderscore);
           if ((dynamicFmt != null)
@@ -893,9 +894,9 @@ public class CmsXmlContainerPage extends CmsXmlContent {
 
     Map<String, String> result = new LinkedHashMap<>();
 
-    for (Map.Entry<String, String> entry : settings.entrySet()) {
+    for (Map.Entry<String, @RUntainted String> entry : settings.entrySet()) {
       String key = entry.getKey();
-      String value = entry.getValue();
+      @RUntainted String value = entry.getValue();
       if (key.startsWith(CmsFormatterConfig.FORMATTER_SETTINGS_KEY)) {
         if (CmsUUID.isValidUUID(value)) {
           I_CmsFormatterBean dynamicFmt = config.findFormatter(value);
@@ -1019,7 +1020,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
           instanceIdElem.addText(instanceId);
         }
 
-        String formatterKey = CmsFormatterUtils.removeFormatterKey(containerName, properties);
+        @RUntainted String formatterKey = CmsFormatterUtils.removeFormatterKey(containerName, properties);
         I_CmsFormatterBean formatter = null;
         if (formatterKey != null) {
           Element formatterKeyElem = elemElement.addElement(XmlNode.FormatterKey.name());

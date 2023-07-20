@@ -37,6 +37,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to common object types through wrappers.
@@ -58,7 +59,7 @@ public final class CmsJspObjectValueWrapper extends A_CmsJspValueWrapper {
   private int m_hashCode;
 
   /** The wrapped XML content value. */
-  private Object m_object;
+  private @RUntainted Object m_object;
 
   /**
    * Private constructor, used for creation of NULL constant value, use factory method to create
@@ -82,7 +83,7 @@ public final class CmsJspObjectValueWrapper extends A_CmsJspValueWrapper {
    * @param cms the current users OpenCms context
    * @param value the object to warp
    */
-  private CmsJspObjectValueWrapper(CmsObject cms, Object value) {
+  private CmsJspObjectValueWrapper(CmsObject cms, @RUntainted Object value) {
 
     // a null value is used for constant generation
     m_cms = cms;
@@ -101,7 +102,7 @@ public final class CmsJspObjectValueWrapper extends A_CmsJspValueWrapper {
    * @return a new content value wrapper instance, or <code>null</code> if any parameter is <code>
    *     null</code>
    */
-  public static CmsJspObjectValueWrapper createWrapper(CmsObject cms, Object value) {
+  public static CmsJspObjectValueWrapper createWrapper(CmsObject cms, @RUntainted Object value) {
 
     if ((value != null) && (cms != null)) {
       return new CmsJspObjectValueWrapper(cms, value);
@@ -197,7 +198,7 @@ public final class CmsJspObjectValueWrapper extends A_CmsJspValueWrapper {
    * @return the wrapped object value
    */
   @Override
-  public Object getObjectValue() {
+  public @RUntainted Object getObjectValue() {
 
     return m_object;
   }

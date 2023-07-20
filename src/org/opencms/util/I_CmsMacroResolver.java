@@ -26,6 +26,7 @@
  */
 
 package org.opencms.util;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a macro mapper, which is used to efficiently resolve macros in the form of <code>%(key)
@@ -70,7 +71,7 @@ public interface I_CmsMacroResolver {
    * @param macro the macro to resolve
    * @return the resolved macro or <code>null</code> if the macro could not be resolved
    */
-  String getMacroValue(String macro);
+  @RUntainted String getMacroValue(@RUntainted String macro);
 
   /**
    * Returns <code>true</code> if macros that could not be resolved are kept "as is" in the input
@@ -92,5 +93,5 @@ public interface I_CmsMacroResolver {
    * @param input the input to resolve the macros in
    * @return the input with all macros resolved
    */
-  String resolveMacros(String input);
+  String resolveMacros(@RUntainted String input);
 }

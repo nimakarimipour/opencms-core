@@ -63,6 +63,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.xml.CmsXmlException;
 import org.opencms.xml.CmsXmlUtils;
 import org.opencms.xml.page.CmsXmlPage;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -240,7 +241,7 @@ public class CmsImportVersion3 extends A_CmsImport {
       deleteProperties = new ArrayList<String>();
     }
     // get list of immutable resources
-    List<String> immutableResources = OpenCms.getImportExportManager().getImmutableResources();
+    @RUntainted List<String> immutableResources = OpenCms.getImportExportManager().getImmutableResources();
     if (immutableResources == null) {
       immutableResources = Collections.EMPTY_LIST;
     }
@@ -303,7 +304,7 @@ public class CmsImportVersion3 extends A_CmsImport {
         // <flags>
         flags = getChildElementTextValue(currentElement, A_CmsImport.N_FLAGS);
 
-        String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
+        @RUntainted String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
         if (CmsResourceTypeFolder.RESOURCE_TYPE_NAME.equals(type)) {
           translatedName += "/";
         }
@@ -434,10 +435,10 @@ public class CmsImportVersion3 extends A_CmsImport {
    * @return imported resource
    */
   private CmsResource importResource(
-      String source,
-      String destination,
+      @RUntainted String source,
+      @RUntainted String destination,
       String type,
-      String uuidresource,
+      @RUntainted String uuidresource,
       long datelastmodified,
       String userlastmodified,
       long datecreated,

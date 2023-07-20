@@ -49,6 +49,7 @@ import org.opencms.security.CmsAccessControlEntry;
 import org.opencms.security.CmsPrincipal;
 import org.opencms.security.CmsRole;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract repository superclass.
@@ -369,7 +370,7 @@ public abstract class A_CmsCmisRepository implements I_CmsCmisRepository {
       String propId = entry.getKey();
       if (propId.startsWith(CmsCmisTypeManager.PROPERTY_PREFIX)) {
         String propName = propId.substring(CmsCmisTypeManager.PROPERTY_PREFIX.length());
-        String value = (String) entry.getValue().getFirstValue();
+        @RUntainted String value = (String) entry.getValue().getFirstValue();
         if (value == null) {
           value = "";
         }

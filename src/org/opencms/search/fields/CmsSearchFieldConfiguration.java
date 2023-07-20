@@ -49,6 +49,7 @@ import org.opencms.search.I_CmsSearchDocument;
 import org.opencms.search.I_CmsSearchIndex;
 import org.opencms.search.extractors.I_CmsExtractionResult;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract implementation for OpenCms search field configurations.
@@ -95,7 +96,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
    * @param locale the locale
    * @return the locale extended name for the given lookup String
    */
-  public static final String getLocaleExtendedName(String lookup, Locale locale) {
+  public static final @RUntainted String getLocaleExtendedName(@RUntainted String lookup, Locale locale) {
 
     if (locale == null) {
       return lookup;
@@ -112,7 +113,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
    * @param locale the locale
    * @return the locale extended name for the given lookup String
    */
-  public static final String getLocaleExtendedName(String lookup, String locale) {
+  public static final @RUntainted String getLocaleExtendedName(String lookup, String locale) {
 
     StringBuffer result = new StringBuffer(32);
     result.append(lookup);
@@ -129,7 +130,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
    * @param rootPath the root path to get the parent folder list for
    * @return a space separated list of all parent folders of the given root path
    */
-  public static String getParentFolderTokens(String rootPath) {
+  public static String getParentFolderTokens(@RUntainted String rootPath) {
 
     if (CmsStringUtil.isEmpty(rootPath)) {
       return "/";
@@ -184,7 +185,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
    * @throws CmsException if something goes wrong
    */
   public I_CmsSearchDocument createDocument(
-      CmsObject cms, CmsResource resource, I_CmsSearchIndex index, I_CmsExtractionResult extraction)
+      CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index, I_CmsExtractionResult extraction)
       throws CmsException {
 
     m_index = (CmsSearchIndex) index;
@@ -473,7 +474,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
   protected I_CmsSearchDocument appendLocales(
       I_CmsSearchDocument document,
       CmsObject cms,
-      CmsResource resource,
+      @RUntainted CmsResource resource,
       I_CmsExtractionResult extraction,
       List<CmsProperty> properties,
       List<CmsProperty> propertiesSearched) {

@@ -45,6 +45,7 @@ import org.opencms.util.CmsCollectionsGenericWrapper;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.containerpage.CmsXmlContainerPage;
 import org.opencms.xml.containerpage.CmsXmlContainerPageFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common value wrapper class that provides generic functions.
@@ -163,7 +164,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
   private CmsJspResourceWrapper m_resource;
 
   /** String representation of the wrapped value. */
-  private String m_string;
+  private @RUntainted String m_string;
 
   /** String representation of the wrapped value with HTML stripped off. */
   private String m_stripHtml;
@@ -180,7 +181,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
    * @param target the link target
    * @return the substituted link
    */
-  protected static String substituteLink(CmsObject cms, String target) {
+  protected static String substituteLink(CmsObject cms, @RUntainted String target) {
 
     if (cms != null) {
       return OpenCms.getLinkManager()
@@ -363,7 +364,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
    *
    * @return the raw instance of the wrapped value
    */
-  public abstract Object getObjectValue();
+  public abstract @RUntainted Object getObjectValue();
 
   /**
    * Returns the String value for the wrapped content value.
@@ -634,7 +635,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
    *
    * @return the wrapped value as a String
    */
-  public String getToString() {
+  public @RUntainted String getToString() {
 
     if (m_string == null) {
       m_string = toString();

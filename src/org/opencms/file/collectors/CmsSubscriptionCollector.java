@@ -48,6 +48,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A collector that returns visited or subscribed resources depending on the current user and
@@ -233,9 +234,9 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
   protected List<CmsResource> getSubscribedDeletedResources(
       CmsObject cms, String param, int numResults) throws CmsException {
 
-    Map<String, String> params = getParameters(param);
+    Map<String, @RUntainted String> params = getParameters(param);
     CmsSubscriptionFilter filter = getSubscriptionFilter(cms, params);
-    String parentPath = filter.getParentPath();
+    @RUntainted String parentPath = filter.getParentPath();
     if (CmsStringUtil.isNotEmpty(parentPath)) {
       parentPath = cms.getRequestContext().removeSiteRoot(parentPath);
     }
@@ -296,7 +297,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
    * @return the configured subscription filter to use
    * @throws CmsException if something goes wrong
    */
-  protected CmsSubscriptionFilter getSubscriptionFilter(CmsObject cms, Map<String, String> params)
+  protected CmsSubscriptionFilter getSubscriptionFilter(CmsObject cms, Map<String, @RUntainted String> params)
       throws CmsException {
 
     CmsSubscriptionFilter filter = new CmsSubscriptionFilter();
@@ -376,7 +377,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
   protected CmsVisitedByFilter getVisitedByFilter(CmsObject cms, String param) throws CmsException {
 
     CmsVisitedByFilter filter = new CmsVisitedByFilter();
-    Map<String, String> params = getParameters(param);
+    Map<String, @RUntainted String> params = getParameters(param);
 
     // initialize the filter
     initVisitedByFilter(filter, cms, params, true);
@@ -419,7 +420,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
    * @param defaultTime the default time is used if there were errors calculating the resulting time
    * @return the calculated time
    */
-  private long getCalculatedTime(long baseTime, String deltaDays, String key, long defaultTime) {
+  private long getCalculatedTime(long baseTime, @RUntainted String deltaDays, @RUntainted String key, long defaultTime) {
 
     try {
       long days = Long.parseLong(deltaDays);
@@ -446,7 +447,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
    * @param param the collector parameter
    * @return the collector parameters
    */
-  private Map<String, String> getParameters(String param) {
+  private Map<String, @RUntainted String> getParameters(String param) {
 
     if (CmsStringUtil.isNotEmpty(param)) {
       return CmsStringUtil.splitAsMap(param, "|", "=");
@@ -467,7 +468,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
    * @throws CmsException if something goes wrong
    */
   private void initVisitedByFilter(
-      CmsVisitedByFilter filter, CmsObject cms, Map<String, String> params, boolean forceSetUser)
+      CmsVisitedByFilter filter, CmsObject cms, Map<String, @RUntainted String> params, boolean forceSetUser)
       throws CmsException {
 
     // determine the user to set in the filter

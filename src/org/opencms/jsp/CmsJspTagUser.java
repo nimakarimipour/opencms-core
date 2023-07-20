@@ -38,6 +38,7 @@ import org.opencms.file.CmsUser;
 import org.opencms.flex.CmsFlexController;
 import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the data of the currently logged in user.
@@ -86,7 +87,7 @@ public class CmsJspTagUser extends TagSupport {
    * @param req the current request
    * @return String the value of the selected user property
    */
-  public static String userTagAction(String property, ServletRequest req) {
+  public static String userTagAction(@RUntainted String property, ServletRequest req) {
 
     CmsFlexController controller = CmsFlexController.getController(req);
 

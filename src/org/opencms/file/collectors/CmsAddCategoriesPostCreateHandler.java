@@ -35,6 +35,7 @@ import org.opencms.lock.CmsLockUtil;
 import org.opencms.main.CmsException;
 import org.opencms.relations.CmsCategory;
 import org.opencms.relations.CmsCategoryService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A post create handler that adds categories to newly created resources (that are not a copy of an
@@ -93,7 +94,7 @@ public class CmsAddCategoriesPostCreateHandler implements I_CmsCollectorPostCrea
       try {
         try (AutoCloseable c = CmsLockUtil.withLockedResources(cms, createdResource)) {
           String sitePath = cms.getRequestContext().getSitePath(createdResource);
-          for (String catPath : cats) {
+          for (@RUntainted String catPath : cats) {
             if (!catPath.isEmpty()) {
               try {
                 CmsCategory cat;

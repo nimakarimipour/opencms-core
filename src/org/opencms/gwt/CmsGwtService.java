@@ -54,6 +54,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.security.CmsRole;
 import org.opencms.security.CmsRoleViolationException;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper for GWT services served through OpenCms.
@@ -154,7 +155,7 @@ public class CmsGwtService extends RemoteServiceServlet {
    * @return the current request
    * @see #getThreadLocalRequest()
    */
-  public HttpServletRequest getRequest() {
+  public @RUntainted HttpServletRequest getRequest() {
 
     return getThreadLocalRequest();
   }
@@ -225,7 +226,7 @@ public class CmsGwtService extends RemoteServiceServlet {
    *     javax.servlet.ServletResponse)
    */
   @Override
-  public void service(ServletRequest request, ServletResponse response)
+  public void service(@RUntainted ServletRequest request, ServletResponse response)
       throws ServletException, IOException {
 
     try {

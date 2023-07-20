@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for template context providers.
@@ -116,6 +117,6 @@ public interface I_CmsTemplateContextProvider {
    * @return the common property value
    * @throws CmsException if something goes wrong
    */
-  String readCommonProperty(CmsObject cms, String propertyName, String fallbackValue)
+  String readCommonProperty(CmsObject cms, String propertyName, @RUntainted String fallbackValue)
       throws CmsException;
 }

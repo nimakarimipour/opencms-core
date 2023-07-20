@@ -52,6 +52,7 @@ import org.opencms.search.extractors.I_CmsExtractionResult;
 import org.opencms.search.fields.CmsSearchFieldConfiguration;
 import org.opencms.search.fields.I_CmsSearchFieldConfiguration;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract base class for search indexes. It provides default implementations that should fit most
@@ -90,7 +91,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
   private I_CmsSearchFieldConfiguration m_fieldConfiguration;
 
   /** The name of the search field configuration used by this index. */
-  private String m_fieldConfigurationName;
+  private @RUntainted String m_fieldConfigurationName;
 
   /** The index writer to use. */
   private transient I_CmsIndexWriter m_indexWriter;
@@ -102,13 +103,13 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
   private Locale m_locale;
 
   /** The name of this index. */
-  private String m_name;
+  private @RUntainted String m_name;
 
   /** The path where this index stores it's data in the "real" file system. */
-  private String m_path;
+  private @RUntainted String m_path;
 
   /** The project of this index. */
-  private String m_project;
+  private @RUntainted String m_project;
 
   /** The rebuild mode for this index. */
   private String m_rebuild;
@@ -144,7 +145,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
    * @throws CmsIllegalArgumentException if the given name is null, empty or already taken by
    *     another search index
    */
-  public A_CmsSearchIndex(String name) throws CmsIllegalArgumentException {
+  public A_CmsSearchIndex(@RUntainted String name) throws CmsIllegalArgumentException {
 
     this();
     setName(name);
@@ -154,7 +155,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
    * @see org.opencms.search.I_CmsSearchIndex#addConfigurationParameter(java.lang.String,
    *     java.lang.String)
    */
-  public void addConfigurationParameter(String key, String value) {
+  public void addConfigurationParameter(@RUntainted String key, @RUntainted String value) {
 
     // by default no parameters are excepted
 
@@ -421,19 +422,19 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
   }
 
   /** @see org.opencms.search.I_CmsSearchIndex#getName() */
-  public String getName() {
+  public @RUntainted String getName() {
 
     return m_name;
   }
 
   /** @see org.opencms.search.I_CmsSearchIndex#getPath() */
-  public String getPath() {
+  public @RUntainted String getPath() {
 
     return m_path;
   }
 
   /** @see org.opencms.search.I_CmsSearchIndex#getProject() */
-  public String getProject() {
+  public @RUntainted String getProject() {
 
     return m_project;
   }
@@ -485,7 +486,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
       return;
     }
 
-    String sourceName = null;
+    @RUntainted String sourceName = null;
     CmsSearchIndexSource indexSource = null;
     List<String> searchIndexSourceDocumentTypes = null;
     List<String> resourceNames = null;
@@ -642,13 +643,13 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
   }
 
   /** @see org.opencms.search.I_CmsSearchIndex#setLocaleString(java.lang.String) */
-  public void setLocaleString(String locale) {
+  public void setLocaleString(@RUntainted String locale) {
 
     setLocale(CmsLocaleManager.getLocale(locale));
   }
 
   /** @see org.opencms.search.I_CmsSearchIndex#setName(java.lang.String) */
-  public void setName(String name) throws CmsIllegalArgumentException {
+  public void setName(@RUntainted String name) throws CmsIllegalArgumentException {
 
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(name)) {
       throw new CmsIllegalArgumentException(
@@ -679,13 +680,13 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
    *
    * @param path to the index/core.
    */
-  public void setPath(String path) {
+  public void setPath(@RUntainted String path) {
 
     m_path = path;
   }
 
   /** @see org.opencms.search.I_CmsSearchIndex#setProject(java.lang.String) */
-  public void setProject(String project) {
+  public void setProject(@RUntainted String project) {
 
     m_project = project;
   }

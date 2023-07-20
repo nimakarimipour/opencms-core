@@ -80,6 +80,7 @@ import org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
 import org.opencms.workplace.explorer.CmsResourceUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table for resource types on the system.
@@ -293,7 +294,7 @@ public class CmsResourceTypesTable extends Table {
         I_CmsResourceType type =
             OpenCms.getResourceManager().getResourceType(data.iterator().next());
         window.setContent(new CmsMoveResourceTypeDialog(window, type));
-        String moduleName = type.getModuleName();
+        @RUntainted String moduleName = type.getModuleName();
         window.setCaption(
             CmsVaadinUtils.getMessageText(
                 Messages.GUI_RESOURCETYPE_MOVE_WINDOW_CAPTION_1, moduleName));
@@ -490,7 +491,7 @@ public class CmsResourceTypesTable extends Table {
     private Object m_defaultValue;
 
     /** Header Message key. */
-    private String m_headerMessage;
+    private @RUntainted String m_headerMessage;
 
     /** Type of column property. */
     private Class<?> m_type;
@@ -503,7 +504,7 @@ public class CmsResourceTypesTable extends Table {
      * @param defaultValue of column
      * @param collapsable should this column be collapsable?
      */
-    TableProperty(String headerMessage, Class<?> type, Object defaultValue, boolean collapsable) {
+    TableProperty(@RUntainted String headerMessage, Class<?> type, Object defaultValue, boolean collapsable) {
 
       m_headerMessage = headerMessage;
       m_type = type;

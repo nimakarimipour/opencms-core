@@ -48,6 +48,7 @@ import org.opencms.report.CmsLogReport;
 import org.opencms.report.I_CmsReport;
 import org.opencms.scheduler.I_CmsScheduledJob;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job to delete expired resources.
@@ -124,7 +125,7 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
   /**
    * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
    */
-  public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  public @RUntainted String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
     // this job requires a higher runlevel than is allowed for all jobs:
     if (OpenCms.getRunLevel() == OpenCms.RUNLEVEL_4_SERVLET_ACCESS) {
@@ -226,7 +227,7 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
       final CmsObject cms,
       final I_CmsReport report,
       final List<CmsResource> resources,
-      final int expirationdays,
+      final @RUntainted int expirationdays,
       final long currenttime) {
 
     int result = 0;
@@ -235,7 +236,7 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
     CmsProperty property;
     String propertyValue;
     long expirationdate;
-    int expirationDaysPropertyOverride;
+    @RUntainted int expirationDaysPropertyOverride;
     Iterator<CmsResource> it = resources.iterator();
     String resourcePath;
     while (it.hasNext()) {

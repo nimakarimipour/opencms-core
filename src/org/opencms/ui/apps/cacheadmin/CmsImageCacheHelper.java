@@ -45,6 +45,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Image Cache helper.
@@ -297,16 +298,16 @@ public class CmsImageCacheHelper {
    * @param statsOnly boolean
    */
   private void visitImage(
-      CmsObject cms, File f, boolean withVariations, boolean showSize, boolean statsOnly) {
+      CmsObject cms, @RUntainted File f, boolean withVariations, boolean showSize, boolean statsOnly) {
 
     m_variationsCount++;
     m_variationsSize += f.length();
-    String oName = f.getAbsolutePath().substring(CmsImageLoader.getImageRepositoryPath().length());
+    @RUntainted String oName = f.getAbsolutePath().substring(CmsImageLoader.getImageRepositoryPath().length());
     oName = CmsStringUtil.substitute(oName, "\\", "/");
     if (!oName.startsWith("/")) {
       oName = "/" + oName;
     }
-    String imgName = oName;
+    @RUntainted String imgName = oName;
     CmsResource res = null;
     boolean found = false;
     while (!found) {
@@ -315,7 +316,7 @@ public class CmsImageCacheHelper {
       String ext = CmsFileUtil.getExtension(imgName);
       String nameWoExt = name.substring(0, name.length() - ext.length());
       int pos = nameWoExt.lastIndexOf("_");
-      String newName = path;
+      @RUntainted String newName = path;
       found = (pos < 0);
       if (!found) {
         newName += nameWoExt.substring(0, pos);
@@ -366,7 +367,7 @@ public class CmsImageCacheHelper {
     oName += " (";
     if (showSize) {
       try {
-        BufferedImage img = Simapi.read(f);
+        @RUntainted BufferedImage img = Simapi.read(f);
         oName += "" + img.getWidth() + " x " + img.getHeight() + "px - ";
       } catch (Throwable e) {
         // ignore
@@ -395,7 +396,7 @@ public class CmsImageCacheHelper {
     }
     File[] files = directory.listFiles();
     for (int i = 0; i < files.length; i++) {
-      File f = files[i];
+      @RUntainted File f = files[i];
       if (f.isDirectory()) {
         visitImages(cms, f, withVariations, showSize, statsOnly);
         continue;

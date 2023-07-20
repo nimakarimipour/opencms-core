@@ -67,6 +67,7 @@ import org.opencms.ui.components.CmsOkCancelActionHandler;
 import org.opencms.util.CmsDateUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.commons.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The publish schedule dialog.
@@ -194,7 +195,7 @@ public class CmsPublishScheduledDialog extends CmsBasicDialog {
     //            return;
     //        }
     long current = System.currentTimeMillis();
-    Date dateValue = m_dateField.getDate();
+    @RUntainted Date dateValue = m_dateField.getDate();
     long publishTime = dateValue.getTime();
     if (current > publishTime) {
       m_context.error(
@@ -353,11 +354,11 @@ public class CmsPublishScheduledDialog extends CmsBasicDialog {
    * @param date the publish date
    * @return the publish project name
    */
-  private String computeProjectName(String rootPath, Date date) {
+  private String computeProjectName(@RUntainted String rootPath, Date date) {
 
     // create the temporary project, which is deleted after publishing
     // the publish scheduled date in project name
-    String dateTime = CmsDateUtil.getDateTime(date, DateFormat.SHORT, getLocale());
+    @RUntainted String dateTime = CmsDateUtil.getDateTime(date, DateFormat.SHORT, getLocale());
     // the resource name to publish scheduled
     String projectName =
         CmsVaadinUtils.getMessageText(

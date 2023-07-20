@@ -47,6 +47,7 @@ import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.CmsXmlUtils;
 import org.opencms.xml.I_CmsXmlDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to access and display XML content item information from the VFS.
@@ -64,7 +65,7 @@ public class CmsJspTagContentShow extends TagSupport {
   private static final long serialVersionUID = -6776067180965738432L;
 
   /** Name of the content node element to show. */
-  private String m_element;
+  private @RUntainted String m_element;
 
   /** Indicates if HTML should be escaped. */
   private boolean m_escapeHtml;
@@ -87,7 +88,7 @@ public class CmsJspTagContentShow extends TagSupport {
   public static String contentShowTagAction(
       I_CmsXmlContentContainer container,
       PageContext context,
-      String element,
+      @RUntainted String element,
       Locale locale,
       boolean escape) {
 
@@ -203,7 +204,7 @@ public class CmsJspTagContentShow extends TagSupport {
    *
    * @return the name of the content node element to show
    */
-  public String getElement() {
+  public @RUntainted String getElement() {
 
     return (m_element != null) ? m_element : "";
   }
@@ -236,7 +237,7 @@ public class CmsJspTagContentShow extends TagSupport {
    *
    * @param element the name of the content node element to show
    */
-  public void setElement(String element) {
+  public void setElement(@RUntainted String element) {
 
     m_element = element;
   }
@@ -265,7 +266,7 @@ public class CmsJspTagContentShow extends TagSupport {
    *
    * @param locale the locale to set
    */
-  public void setLocale(String locale) {
+  public void setLocale(@RUntainted String locale) {
 
     if (CmsStringUtil.isEmpty(locale)) {
       m_locale = null;

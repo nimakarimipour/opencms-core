@@ -45,6 +45,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.sessions.CmsSessionsApp.MessageValidator;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsRichTextArea;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the dialiog to send broadcasts.
@@ -151,7 +152,7 @@ public class CmsSendBroadcastDialog extends CmsBasicDialog {
               m_repeat.getValue().booleanValue(),
               ContentMode.html));
     } else {
-      for (String id : sessionIds) {
+      for (@RUntainted String id : sessionIds) {
         OpenCms.getSessionManager()
             .sendBroadcast(
                 A_CmsUI.getCmsObject(),
@@ -176,7 +177,7 @@ public class CmsSendBroadcastDialog extends CmsBasicDialog {
       }
       return;
     }
-    for (String sessionId : sessionIds) {
+    for (@RUntainted String sessionId : sessionIds) {
       OpenCms.getSessionManager().getBroadcastQueue(sessionId).clear();
     }
   }

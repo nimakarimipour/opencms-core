@@ -103,6 +103,7 @@ import org.opencms.util.CmsDateUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.explorer.CmsResourceUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a dialog for optimizing galleries.
@@ -135,7 +136,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
     }
 
     /** @see org.opencms.ui.shared.rpc.I_CmsGwtContextMenuServerRpc#refresh(java.lang.String) */
-    public void refresh(String uuid) {
+    public void refresh(@RUntainted String uuid) {
 
       if (uuid != null) {
         try {
@@ -188,7 +189,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
     private FileDeleteComposite m_compositeFileDelete;
 
     /** The copyright information of this editable gallery item. */
-    private String m_copyright;
+    private @RUntainted String m_copyright;
 
     /** Date when this editable gallery item was last modified. */
     private Long m_dateLastModified;
@@ -197,7 +198,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
     private Boolean m_deleteFlag = Boolean.valueOf(false);
 
     /** The description of this editable gallery item. */
-    private String m_description;
+    private @RUntainted String m_description;
 
     /** Whether this editable gallery item is used. */
     private Boolean m_isUsed;
@@ -215,7 +216,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
     private CmsResourceUtil m_resourceUtil;
 
     /** The title of this editable gallery item. */
-    private String m_title;
+    private @RUntainted String m_title;
 
     /**
      * Creates a new editable gallery item for a given CMS resource.
@@ -749,7 +750,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
      *
      * @param index the page index
      */
-    public void selectPage(int index) {
+    public void selectPage(@RUntainted int index) {
 
       m_selectPage.setValue(null);
       handlePageChange(index, false);
@@ -801,13 +802,13 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
 
       NativeSelect<Integer> selectPage = new NativeSelect<Integer>();
       selectPage.setWidthUndefined();
-      int numPages = m_pageHandler.getNumPages();
+      @RUntainted int numPages = m_pageHandler.getNumPages();
       selectPage.setItemCaptionGenerator(
           new ItemCaptionGenerator<Integer>() {
 
             private static final long serialVersionUID = 1L;
 
-            public String apply(Integer item) {
+            public String apply(@RUntainted Integer item) {
 
               return CmsVaadinUtils.getMessageText(
                   Messages.GUI_GALLERY_OPTIMIZE_SELECTED_PAGE_2,
@@ -827,7 +828,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
       selectPage.addValueChangeListener(
           event -> {
             if (event.isUserOriginated()) {
-              int index = event.getValue() != null ? event.getValue().intValue() : 0;
+              @RUntainted int index = event.getValue() != null ? event.getValue().intValue() : 0;
               handlePageChange(index, true);
             }
           });
@@ -916,7 +917,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
      * @param display whether to re-render the data item list
      */
     @SuppressWarnings("synthetic-access")
-    private void handlePageChange(int index, boolean display) {
+    private void handlePageChange(@RUntainted int index, boolean display) {
 
       m_pageHandler.setCurrentPage(index);
       Label label = createLabelPageInfo();
@@ -1348,8 +1349,8 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
      */
     private Label createDisplayResourceDate() {
 
-      String lastModified = formatDateTime(m_dataItem.getDateLastModified().longValue());
-      String lastModifiedBy = m_dataItem.getResourceUtil().getUserLastModified();
+      @RUntainted String lastModified = formatDateTime(m_dataItem.getDateLastModified().longValue());
+      @RUntainted String lastModifiedBy = m_dataItem.getResourceUtil().getUserLastModified();
       String message =
           CmsVaadinUtils.getMessageText(
               Messages.GUI_GALLERY_OPTIMIZE_LASTMODIFIED_BY_2, lastModified, lastModifiedBy);
@@ -1421,7 +1422,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
      * @param date the date to format
      * @return the formatted date
      */
-    private String formatDateTime(long date) {
+    private @RUntainted String formatDateTime(long date) {
 
       return CmsDateUtil.getDateTime(
           new Date(date),
@@ -1437,7 +1438,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
     public static final int LIMIT = 50;
 
     /** The index of the page currently selected by the user. */
-    private int m_currentPage = 0;
+    private @RUntainted int m_currentPage = 0;
 
     /**
      * Creates a new page handler.
@@ -1466,7 +1467,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
      *
      * @return the number of the first item currently selected
      */
-    public int getNumFirstItem() {
+    public @RUntainted int getNumFirstItem() {
 
       return (LIMIT * m_currentPage) + 1;
     }
@@ -1477,9 +1478,9 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
      *
      * @return the number of the last item currently selected
      */
-    public int getNumLastItem() {
+    public @RUntainted int getNumLastItem() {
 
-      int lastItem = ((LIMIT * m_currentPage) + LIMIT);
+      @RUntainted int lastItem = ((LIMIT * m_currentPage) + LIMIT);
       int sizeItem = getSizeItem();
       if (lastItem > sizeItem) {
         lastItem = sizeItem;
@@ -1494,7 +1495,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
      *
      * @return the number of available pages
      */
-    public int getNumPages() {
+    public @RUntainted int getNumPages() {
 
       return (int) Math.ceil((double) getSizeItem() / PageHandler.LIMIT);
     }
@@ -1520,7 +1521,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
      * @return the total number of items
      */
     @SuppressWarnings("synthetic-access")
-    public int getSizeItem() {
+    public @RUntainted int getSizeItem() {
 
       return m_provider.size(m_filterHandler);
     }
@@ -1542,7 +1543,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
      *
      * @param index the page index to set
      */
-    public void setCurrentPage(int index) {
+    public void setCurrentPage(@RUntainted int index) {
 
       m_currentPage = index;
     }
@@ -1625,7 +1626,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
 
     /** @see com.vaadin.data.provider.ListDataProvider#getItems() */
     @Override
-    public List<DataItem> getItems() {
+    public @RUntainted List<DataItem> getItems() {
 
       return (List<DataItem>) super.getItems();
     }
@@ -1636,9 +1637,9 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
      * @param filterHandler the filter handler
      * @return the size
      */
-    public int size(FilterHandler filterHandler) {
+    public @RUntainted int size(FilterHandler filterHandler) {
 
-      Query<DataItem, SerializablePredicate<DataItem>> filterQuery =
+      @RUntainted Query<DataItem, SerializablePredicate<DataItem>> filterQuery =
           composeFilterQuery(filterHandler);
       return filterQuery == null ? getItems().size() : super.size(filterQuery);
     }
@@ -1651,10 +1652,10 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
      * @param filterHandler the given filter handler
      * @return the provider query
      */
-    private Query<DataItem, SerializablePredicate<DataItem>> composeFilterQuery(
+    private @RUntainted Query<DataItem, SerializablePredicate<DataItem>> composeFilterQuery(
         FilterHandler filterHandler) {
 
-      Query<DataItem, SerializablePredicate<DataItem>> filterQuery = null;
+      @RUntainted Query<DataItem, SerializablePredicate<DataItem>> filterQuery = null;
       if (!CmsStringUtil.isEmptyOrWhitespaceOnly(filterHandler.getQuery())) {
         filterQuery =
             new Query<DataItem, SerializablePredicate<DataItem>>(
@@ -2104,7 +2105,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
     icon.setContentMode(ContentMode.HTML);
     icon.setWidthUndefined();
     icon.setStyleName("o-warning-icon");
-    String galleryTitle = getGalleryTitle();
+    @RUntainted String galleryTitle = getGalleryTitle();
     Label message =
         new Label(
             CmsVaadinUtils.getMessageText(Messages.GUI_GALLERY_DIRECTLY_USED_1, galleryTitle));
@@ -2293,7 +2294,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
    * @return the title
    * @throws CmsException the CMS exception
    */
-  private String getGalleryTitle() throws CmsException {
+  private @RUntainted String getGalleryTitle() throws CmsException {
 
     String galleryTitle =
         getCms()

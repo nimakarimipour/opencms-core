@@ -50,6 +50,7 @@ import org.opencms.ui.actions.CmsReindexDialogAction;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.components.CmsOkCancelActionHandler;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to change resource modification times.
@@ -154,7 +155,7 @@ public class CmsReindexDialog extends CmsBasicDialog {
   protected void reindex() {
 
     CmsObject cms = A_CmsUI.getCmsObject();
-    Map<String, Object> eventData = new HashMap<>(3);
+    Map<String, @RUntainted Object> eventData = new HashMap<>(3);
     if (!m_isOnline) {
       eventData.put(
           I_CmsEventListener.KEY_PROJECTID, cms.getRequestContext().getCurrentProject().getId());
@@ -164,7 +165,7 @@ public class CmsReindexDialog extends CmsBasicDialog {
         I_CmsEventListener.KEY_REPORT,
         new CmsLogReport(CmsLocaleManager.getDefaultLocale(), CmsReindexDialogAction.class));
     eventData.put(I_CmsEventListener.KEY_USER_ID, cms.getRequestContext().getCurrentUser().getId());
-    Boolean reindexRelated = m_reindexRelated.getValue();
+    @RUntainted Boolean reindexRelated = m_reindexRelated.getValue();
     eventData.put(I_CmsEventListener.KEY_REINDEX_RELATED, reindexRelated);
     CmsEvent reindexEvent =
         new CmsEvent(

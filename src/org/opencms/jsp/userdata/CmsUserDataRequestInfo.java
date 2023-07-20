@@ -32,6 +32,7 @@ import org.apache.commons.logging.Log;
 import org.opencms.json.JSONException;
 import org.opencms.json.JSONObject;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The stored information about a user data request.
@@ -288,7 +289,7 @@ public class CmsUserDataRequestInfo {
    * @param key the attribute name
    * @param value the value
    */
-  private void setString(String key, String value) {
+  private void setString(String key, @RUntainted String value) {
 
     try {
       m_json.put(key, value);

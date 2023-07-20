@@ -46,6 +46,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a parsed sitemap or module configuration.
@@ -66,7 +67,7 @@ public class CmsADEConfigDataInternal {
     private String m_origin;
 
     /** The value of the attribute. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /**
      * Creates a new instance.
@@ -96,7 +97,7 @@ public class CmsADEConfigDataInternal {
      *
      * @return the attribute value
      */
-    public String getValue() {
+    public @RUntainted String getValue() {
 
       return m_value;
     }
@@ -152,7 +153,7 @@ public class CmsADEConfigDataInternal {
   private Map<String, AttributeValue> m_attributes = Collections.emptyMap();
 
   /** The base path of this configuration. */
-  private String m_basePath;
+  private @RUntainted String m_basePath;
 
   /** The CMS context. */
   private CmsObject m_cms;
@@ -262,7 +263,7 @@ public class CmsADEConfigDataInternal {
       CmsObject cms,
       CmsResource resource,
       boolean isModuleConfig,
-      String basePath,
+      @RUntainted String basePath,
       List<CmsUUID> masterConfigs,
       List<CmsResourceTypeConfig> resourceTypeConfig,
       CmsGalleryDisabledTypesMode galleryDisabledTypesMode,
@@ -349,7 +350,7 @@ public class CmsADEConfigDataInternal {
    *
    * @param basePath the base path
    */
-  public CmsADEConfigDataInternal(String basePath) {
+  public CmsADEConfigDataInternal(@RUntainted String basePath) {
 
     m_basePath = basePath;
   }
@@ -382,7 +383,7 @@ public class CmsADEConfigDataInternal {
   protected CmsADEConfigDataInternal(
       CmsResource resource,
       boolean isModuleConfig,
-      String basePath,
+      @RUntainted String basePath,
       List<CmsUUID> masterConfigs,
       List<CmsResourceTypeConfig> resourceTypeConfig,
       boolean discardInheritedTypes,
@@ -433,7 +434,7 @@ public class CmsADEConfigDataInternal {
    * @param basePath the base path
    * @return the empty configuration object
    */
-  public static CmsADEConfigDataInternal emptyConfiguration(String basePath) {
+  public static CmsADEConfigDataInternal emptyConfiguration(@RUntainted String basePath) {
 
     return new CmsADEConfigDataInternal(basePath);
   }
@@ -485,7 +486,7 @@ public class CmsADEConfigDataInternal {
    *
    * @return the base path
    */
-  public String getBasePath() {
+  public @RUntainted String getBasePath() {
 
     return m_basePath;
   }

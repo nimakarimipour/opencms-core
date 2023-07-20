@@ -31,6 +31,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import java.util.concurrent.TimeUnit;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A table to temporarily store warnings that should be displayed for uploaded files.
@@ -40,7 +41,7 @@ import org.opencms.util.CmsUUID;
 public class CmsUploadWarningTable {
 
   /** The internal cache. */
-  private Cache<CmsUUID, String> m_cache;
+  private Cache<CmsUUID, @RUntainted String> m_cache;
 
   /** Creates a new instance. */
   public CmsUploadWarningTable() {
@@ -64,7 +65,7 @@ public class CmsUploadWarningTable {
    * @param id a resource structure id
    * @return the warning message (or null if there is no message)
    */
-  public String getMessage(CmsUUID id) {
+  public @RUntainted String getMessage(CmsUUID id) {
 
     return m_cache.getIfPresent(id);
   }
@@ -75,7 +76,7 @@ public class CmsUploadWarningTable {
    * @param id the structure id of a resource
    * @param message the message to store
    */
-  public void setMessage(CmsUUID id, String message) {
+  public void setMessage(CmsUUID id, @RUntainted String message) {
 
     if (message != null) {
       m_cache.put(id, message);

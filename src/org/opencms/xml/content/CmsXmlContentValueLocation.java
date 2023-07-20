@@ -41,6 +41,7 @@ import org.opencms.xml.CmsXmlUtils;
 import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.types.CmsXmlVfsFileValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents the concrete location of an XML content value.
@@ -71,7 +72,7 @@ public class CmsXmlContentValueLocation implements I_CmsXmlContentValueLocation 
   }
 
   /** @see org.opencms.xml.content.I_CmsXmlContentValueLocation#asId(org.opencms.file.CmsObject) */
-  public CmsUUID asId(CmsObject cms) {
+  public @RUntainted CmsUUID asId(CmsObject cms) {
 
     CmsLink link = ((CmsXmlVfsFileValue) m_value).getLink(cms);
     if (link == null) {
@@ -101,7 +102,7 @@ public class CmsXmlContentValueLocation implements I_CmsXmlContentValueLocation 
   }
 
   /** @see org.opencms.xml.content.I_CmsXmlContentLocation#getSubValue(java.lang.String) */
-  public CmsXmlContentValueLocation getSubValue(String subPath) {
+  public CmsXmlContentValueLocation getSubValue(@RUntainted String subPath) {
 
     Locale locale = m_value.getLocale();
 
@@ -114,7 +115,7 @@ public class CmsXmlContentValueLocation implements I_CmsXmlContentValueLocation 
   }
 
   /** @see org.opencms.xml.content.I_CmsXmlContentLocation#getSubValues(java.lang.String) */
-  public List<I_CmsXmlContentValueLocation> getSubValues(String subPath) {
+  public List<I_CmsXmlContentValueLocation> getSubValues(@RUntainted String subPath) {
 
     List<I_CmsXmlContentValueLocation> result = new ArrayList<I_CmsXmlContentValueLocation>();
     String requiredLastElement = CmsXmlUtils.getLastXpathElement(subPath);

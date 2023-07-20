@@ -42,6 +42,7 @@ import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.ui.components.CmsAutoItemCreatingComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The form for importing a module from the application server.
@@ -102,7 +103,7 @@ public class CmsServerModuleImportForm extends A_CmsModuleImportForm {
 
           public void valueChange(ValueChangeEvent event) {
 
-            String path = (String) (event.getProperty().getValue());
+            @RUntainted String path = (String) (event.getProperty().getValue());
             m_importFile = new CmsModuleImportFile(path);
             m_ok.setEnabled(false);
             validateModuleFile();

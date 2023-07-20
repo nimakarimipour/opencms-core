@@ -30,6 +30,7 @@ package org.opencms.ui.apps;
 import com.vaadin.server.Resource;
 import java.util.Locale;
 import org.opencms.ui.CmsCssIcon;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The app hierarchy configuration.
@@ -66,7 +67,7 @@ public class CmsAppHierarchyConfiguration extends A_CmsWorkplaceAppConfiguration
 
   /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale) */
   @Override
-  public String getHelpText(Locale locale) {
+  public String getHelpText(@RUntainted Locale locale) {
 
     return Messages.get().getBundle(locale).key(Messages.GUI_LAUNCHPAD_HELP_0);
   }
@@ -85,7 +86,7 @@ public class CmsAppHierarchyConfiguration extends A_CmsWorkplaceAppConfiguration
 
   /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
   @Override
-  public String getName(Locale locale) {
+  public String getName(@RUntainted Locale locale) {
 
     return Messages.get().getBundle(locale).key(Messages.GUI_LAUNCHPAD_TITLE_0);
   }

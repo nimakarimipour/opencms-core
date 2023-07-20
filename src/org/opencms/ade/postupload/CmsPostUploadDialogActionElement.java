@@ -38,6 +38,7 @@ import org.opencms.gwt.CmsRpcException;
 import org.opencms.gwt.shared.CmsCoreData;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action element class used by the upload hook JSP from the org.opencms.ade.postupload module.

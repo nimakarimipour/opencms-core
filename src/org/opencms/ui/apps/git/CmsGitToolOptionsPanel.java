@@ -72,6 +72,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.components.CmsResourceInfo;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Main widget for the Git check-in tool.

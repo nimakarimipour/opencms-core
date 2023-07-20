@@ -39,6 +39,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.Messages;
 import org.opencms.ui.util.table.CmsTableUtil;
 import org.opencms.ui.util.table.Column;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a row of the file history table.
@@ -88,11 +89,11 @@ public class CmsHistoryRow {
    * @param bean the history resource bean
    * @return the formatted version
    */
-  public static String formatVersion(CmsHistoryResourceBean bean) {
+  public static @RUntainted String formatVersion(CmsHistoryResourceBean bean) {
 
     CmsHistoryVersion hVersion = bean.getVersion();
-    Integer v = hVersion.getVersionNumber();
-    String result = "" + (v != null ? v.toString() : "-");
+    @RUntainted Integer v = hVersion.getVersionNumber();
+    @RUntainted String result = "" + (v != null ? v.toString() : "-");
     String suffix = "";
     if (hVersion.isOnline()) {
       suffix = " (Online)";
@@ -156,7 +157,7 @@ public class CmsHistoryRow {
       view = "wide")
   public String getPath() {
 
-    String rootPath = m_bean.getRootPath();
+    @RUntainted String rootPath = m_bean.getRootPath();
     CmsObject cms = A_CmsUI.getCmsObject();
     String result = cms.getRequestContext().removeSiteRoot(rootPath);
     return result;

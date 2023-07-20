@@ -53,6 +53,7 @@ import org.opencms.xml.CmsXmlContentDefinition;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.content.CmsXmlContentPropertyHelper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * One element of a container in a container page.
@@ -935,3 +936,14 @@ public class CmsContainerElementBean implements Cloneable {
     }
   }
 }
+
+/*
+ *private void setSettings(Map<String, ings){
+        *
+        *if(settings==null){
+        *m_settings=null;
+        *}else{
+        *m_settings=new CmsNullIgnoringConcurrentMap<String, String>(settings);
+        *}
+        *}
+ */

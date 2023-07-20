@@ -41,6 +41,7 @@ import org.opencms.gwt.shared.CmsUploadProgessInfo.UPLOAD_STATE;
 import org.opencms.gwt.shared.rpc.I_CmsUploadService;
 import org.opencms.main.CmsException;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the upload dialog.
@@ -93,7 +94,7 @@ public class CmsUploadService extends CmsGwtService implements I_CmsUploadServic
         == null) {
 
       // check for existing files
-      for (String fileName : fileNames) {
+      for (@RUntainted String fileName : fileNames) {
 
         try {
           Streams.checkFileName(fileName);

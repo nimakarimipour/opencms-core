@@ -46,6 +46,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.content.CmsXmlContentProperty;
 import org.opencms.xml.content.I_CmsXmlContentHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for formatter beans which delegates all methods to the wrapped formatter bean

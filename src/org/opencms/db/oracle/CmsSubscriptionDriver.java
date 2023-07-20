@@ -42,6 +42,7 @@ import org.opencms.file.CmsDataAccessException;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsUser;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Oracle implementation of the subscription driver.
@@ -54,7 +55,7 @@ public class CmsSubscriptionDriver extends org.opencms.db.generic.CmsSubscriptio
 
   /** @see org.opencms.db.generic.CmsSubscriptionDriver#initSqlManager(java.lang.String) */
   @Override
-  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
     return CmsSqlManager.getInstance(classname);
   }

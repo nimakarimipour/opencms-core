@@ -50,6 +50,7 @@ import org.opencms.main.I_CmsEventListener;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsCollectionsGenericWrapper;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class contains the data that should be cached for a specific service class.
@@ -70,7 +71,7 @@ public class CmsGwtServiceContext implements I_CmsEventListener {
   private String m_name;
 
   /** The serialization policy path. */
-  private String m_serializationPolicyPath;
+  private @RUntainted String m_serializationPolicyPath;
 
   /** The offline serialization policy. */
   private SerializationPolicy m_serPolicyOffline;

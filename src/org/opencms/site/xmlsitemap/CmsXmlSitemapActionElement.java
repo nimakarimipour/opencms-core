@@ -43,6 +43,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action element class for displaying the XML sitemap from a JSP.
@@ -84,7 +85,7 @@ public class CmsXmlSitemapActionElement extends CmsJspActionElement {
    * @throws CmsException if something goes wrong
    */
   public static CmsXmlSitemapGenerator createSitemapGenerator(
-      String className, String folderRootPath) throws CmsException {
+      String className, @RUntainted String folderRootPath) throws CmsException {
 
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(className)) {
       className = (String) (OpenCms.getRuntimeProperty(PARAM_DEFAULT_SITEMAP_GENERATOR));
@@ -132,10 +133,10 @@ public class CmsXmlSitemapActionElement extends CmsJspActionElement {
       xmlSitemapGenerator.setComputeContainerPageDates(
           config.shouldComputeContainerPageModificationDates());
       CmsPathIncludeExcludeSet inexcludeSet = xmlSitemapGenerator.getIncludeExcludeSet();
-      for (String include : config.getIncludes()) {
+      for (@RUntainted String include : config.getIncludes()) {
         inexcludeSet.addInclude(include);
       }
-      for (String exclude : config.getExcludes()) {
+      for (@RUntainted String exclude : config.getExcludes()) {
         inexcludeSet.addExclude(exclude);
       }
       xmlSitemapGenerator.setServerUrl(config.getServerUrl());

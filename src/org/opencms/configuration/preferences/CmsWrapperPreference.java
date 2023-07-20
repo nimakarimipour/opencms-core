@@ -31,6 +31,7 @@ import org.dom4j.Element;
 import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper used for built-in preferene which have also been configured in opencms-workplace.xml.

@@ -61,6 +61,7 @@ import org.opencms.ui.contextmenu.CmsContextMenu;
 import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the table containing all property definitions in the system.
@@ -81,7 +82,7 @@ public class CmsPropertyTable extends Table {
     private Object m_defaultValue;
 
     /** Header Message key. */
-    private String m_headerMessage;
+    private @RUntainted String m_headerMessage;
 
     /** Type of column property. */
     private Class<?> m_type;
@@ -93,7 +94,7 @@ public class CmsPropertyTable extends Table {
      * @param type to property
      * @param defaultValue of column
      */
-    TableColumn(String headerMessage, Class<?> type, Object defaultValue) {
+    TableColumn(@RUntainted String headerMessage, Class<?> type, Object defaultValue) {
 
       m_headerMessage = headerMessage;
       m_type = type;

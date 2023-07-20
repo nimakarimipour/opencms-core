@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.opencms.jsp.util.CmsJspStatusBean;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This the error handler servlet of the OpenCms system.
@@ -71,11 +72,11 @@ public class OpenCmsServletErrorHandler extends OpenCmsServlet {
    *     javax.servlet.http.HttpServletResponse)
    */
   @Override
-  public void doGet(HttpServletRequest req, HttpServletResponse res)
+  public void doGet(@RUntainted HttpServletRequest req, HttpServletResponse res)
       throws IOException, ServletException {
 
     // check the error status
-    Integer errorStatus = (Integer) req.getAttribute(CmsJspStatusBean.ERROR_STATUS_CODE);
+    @RUntainted Integer errorStatus = (Integer) req.getAttribute(CmsJspStatusBean.ERROR_STATUS_CODE);
     if (errorStatus != null) {
       // only use super method if an error status code is set
       if (OpenCmsCore.getInstance().getRunLevel() > OpenCms.RUNLEVEL_3_SHELL_ACCESS) {
@@ -83,7 +84,7 @@ public class OpenCmsServletErrorHandler extends OpenCmsServlet {
         super.doGet(req, res);
       } else {
         // otherwise display a simple error page
-        String errorMessage = (String) req.getAttribute(CmsJspStatusBean.ERROR_MESSAGE);
+        @RUntainted String errorMessage = (String) req.getAttribute(CmsJspStatusBean.ERROR_MESSAGE);
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(errorMessage)) {
           errorMessage = "";
         }

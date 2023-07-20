@@ -40,6 +40,7 @@ import org.opencms.jsp.search.controller.I_CmsSearchControllerFacetQuery;
 import org.opencms.jsp.search.controller.I_CmsSearchControllerFacetRange;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsCollectionsGenericWrapper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * State parameter wrapper that allows to manipulate the request parameters representing the state
@@ -129,7 +130,7 @@ public class CmsSearchStateParameters implements I_CmsSearchStateParameters {
               new Transformer() {
 
                 @Override
-                public Object transform(final Object facet) {
+                public Object transform(final @RUntainted Object facet) {
 
                   final Map<String, String[]> parameters = new HashMap<String, String[]>(m_params);
                   String facetParamKey = null;
@@ -168,7 +169,7 @@ public class CmsSearchStateParameters implements I_CmsSearchStateParameters {
               new Transformer() {
 
                 @Override
-                public Object transform(final Object facet) {
+                public Object transform(final @RUntainted Object facet) {
 
                   Map<String, I_CmsSearchStateParameters> m_checkEntries =
                       CmsCollectionsGenericWrapper.createLazyMap(
@@ -243,7 +244,7 @@ public class CmsSearchStateParameters implements I_CmsSearchStateParameters {
               new Transformer() {
 
                 @Override
-                public Object transform(final Object facet) {
+                public Object transform(final @RUntainted Object facet) {
 
                   final Map<String, String[]> parameters = new HashMap<String, String[]>(m_params);
                   String facetParamKey = null;
@@ -316,7 +317,7 @@ public class CmsSearchStateParameters implements I_CmsSearchStateParameters {
               new Transformer() {
 
                 @Override
-                public Object transform(final Object facet) {
+                public Object transform(final @RUntainted Object facet) {
 
                   final Map<String, String[]> parameters = new HashMap<String, String[]>(m_params);
                   String facetParamKey = getFacetParamKey((String) facet);
@@ -428,7 +429,7 @@ public class CmsSearchStateParameters implements I_CmsSearchStateParameters {
               new Transformer() {
 
                 @Override
-                public Object transform(final Object facet) {
+                public Object transform(final @RUntainted Object facet) {
 
                   Map<String, I_CmsSearchStateParameters> m_uncheckEntries =
                       CmsCollectionsGenericWrapper.createLazyMap(
@@ -509,7 +510,7 @@ public class CmsSearchStateParameters implements I_CmsSearchStateParameters {
    * @param facet the facet's name.
    * @return the parameter key for the facet.
    */
-  String getFacetParamKey(String facet) {
+  String getFacetParamKey(@RUntainted String facet) {
 
     I_CmsSearchControllerFacetField fieldFacet =
         m_result.getController().getFieldFacets().getFieldFacetController().get(facet);

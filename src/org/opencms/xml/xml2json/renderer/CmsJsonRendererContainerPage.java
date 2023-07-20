@@ -56,6 +56,7 @@ import org.opencms.xml.containerpage.CmsContainerPageBean;
 import org.opencms.xml.containerpage.CmsXmlContainerPage;
 import org.opencms.xml.containerpage.CmsXmlContainerPageFactory;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Used for rendering container pages as a JSON structure. */
 public class CmsJsonRendererContainerPage {
@@ -114,7 +115,7 @@ public class CmsJsonRendererContainerPage {
      *
      * @return the container name
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
       return m_container.getName();
     }
@@ -124,7 +125,7 @@ public class CmsJsonRendererContainerPage {
      *
      * @return the container type
      */
-    public String getType() {
+    public @RUntainted String getType() {
 
       return m_container.getType();
     }
@@ -361,12 +362,12 @@ public class CmsJsonRendererContainerPage {
     if (elementNode.getElement() != null) {
       result.put("path", elementNode.getElement().getResource().getRootPath());
       // new container page format has property formatterKey
-      String formatterKey =
+      @RUntainted String formatterKey =
           CmsFormatterUtils.getFormatterKey(
               elementNode.getParentContainerNode().getName(), elementNode.getElement());
       result.put("formatterKey", formatterKey);
       JSONObject settings = new JSONObject();
-      for (Map.Entry<String, String> entry : elementNode.getElement().getSettings().entrySet()) {
+      for (Map.Entry<String, @RUntainted String> entry : elementNode.getElement().getSettings().entrySet()) {
         // formatterSettings and element_instance_id setting have become obsolete in the new
         // container page format
         if (entry.getKey().startsWith("formatterSettings")
@@ -422,7 +423,7 @@ public class CmsJsonRendererContainerPage {
     String forKeyWithContainer =
         settings.get(CmsFormatterConfig.FORMATTER_SETTINGS_KEY + container.getName());
     String forKeyWithoutContainer = settings.get(CmsFormatterConfig.FORMATTER_SETTINGS_KEY);
-    for (String formatterId : new String[] {forKeyWithContainer, forKeyWithoutContainer}) {
+    for (@RUntainted String formatterId : new String[] {forKeyWithContainer, forKeyWithoutContainer}) {
       if (CmsUUID.isValidUUID(formatterId)) {
         result = formatters.get(new CmsUUID(formatterId));
         break;

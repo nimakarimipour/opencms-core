@@ -28,6 +28,7 @@
 package org.opencms.util;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for all string mode enumeration classes.

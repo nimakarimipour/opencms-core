@@ -59,6 +59,7 @@ import org.opencms.ui.components.extensions.CmsEmbeddedDialogExtension;
 import org.opencms.ui.shared.rpc.I_CmsEmbeddedDialogClientRPC;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Context for dialogs embedded into plain GWT modules.
@@ -92,7 +93,7 @@ public class CmsEmbeddedDialogContext implements I_CmsDialogContext {
   private CmsEmbeddedDialogExtension m_extension;
 
   /** The parameters. */
-  private Map<String, String> m_parameters;
+  private Map<String, @RUntainted String> m_parameters;
 
   /**
    * Constructor.
@@ -280,7 +281,7 @@ public class CmsEmbeddedDialogContext implements I_CmsDialogContext {
   }
 
   /** @see org.opencms.ui.I_CmsDialogContext#getParameters() */
-  public Map<String, String> getParameters() {
+  public @RUntainted Map<String, @RUntainted String> getParameters() {
 
     return Collections.unmodifiableMap(m_parameters);
   }

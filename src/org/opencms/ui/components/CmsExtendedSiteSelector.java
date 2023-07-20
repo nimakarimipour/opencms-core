@@ -54,6 +54,7 @@ import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsPath;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.explorer.CmsResourceUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Site selector widget which also optionally offers subsite options. */
 public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
@@ -65,10 +66,10 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
     private String m_label;
 
     /** The path in the site (may be null). */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The site root. */
-    private String m_site;
+    private @RUntainted String m_site;
 
     /**
      * Creates a new instance.
@@ -77,7 +78,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
      * @param path the path in the site (may be null)
      * @param label the option label
      */
-    public SiteSelectorOption(String site, String path, String label) {
+    public SiteSelectorOption(@RUntainted String site, @RUntainted String path, String label) {
 
       m_site = normalizePath(site);
       m_path = normalizePath(path);
@@ -116,7 +117,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
      *
      * @return the path to jump to
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
       return m_path;
     }
@@ -126,7 +127,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
      *
      * @return the site root
      */
-    public String getSite() {
+    public @RUntainted String getSite() {
 
       return m_site;
     }
@@ -148,7 +149,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
      * @param path a path
      * @return the normalized path
      */
-    private String normalizePath(String path) {
+    private @RUntainted String normalizePath(@RUntainted String path) {
 
       if (path == null) {
         return null;
@@ -218,7 +219,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
       try {
         CmsObject titleCms = OpenCms.initCmsObject(cms);
         titleCms.getRequestContext().setSiteRoot("");
-        for (String subsite : subsites) {
+        for (@RUntainted String subsite : subsites) {
           CmsSite site = OpenCms.getSiteManager().getSiteForRootPath(subsite);
           if ((site != null)
               && site
@@ -228,7 +229,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
             CmsPath siteRootPath = new CmsPath(site.getSiteRoot());
             if (!siteRootPath.equals(
                 new CmsPath(subsite))) { // Don't allow the site itself as a subsite
-              Optional<String> remainingPath =
+              Optional<@RUntainted String> remainingPath =
                   CmsStringUtil.removePrefixPath(site.getSiteRoot(), subsite);
               if (remainingPath.isPresent()) {
                 try {
@@ -257,7 +258,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
       }
     }
     List<SiteSelectorOption> result = new ArrayList<>();
-    for (Map.Entry<String, String> entry : siteOptions.entrySet()) {
+    for (Map.Entry<@RUntainted String, String> entry : siteOptions.entrySet()) {
       result.add(new SiteSelectorOption(entry.getKey(), null, entry.getValue()));
       result.addAll(subsitesForSite.get(new CmsPath(entry.getKey())));
     }
@@ -284,7 +285,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
    *
    * @param siteRoot the site root
    */
-  public void selectSite(String siteRoot) {
+  public void selectSite(@RUntainted String siteRoot) {
 
     setValue(new SiteSelectorOption(siteRoot, null, null));
   }

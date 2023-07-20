@@ -33,6 +33,7 @@ import com.vaadin.v7.ui.ComboBox;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.components.fileselect.CmsPathSelectField;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to edit a module export point.
@@ -48,7 +49,7 @@ public class CmsExportPointWidget extends FormLayout {
   private CmsPathSelectField m_source;
 
   /** The target. */
-  private ComboBox m_target;
+  private @RUntainted ComboBox m_target;
 
   /**
    * Creates a new instance.
@@ -80,7 +81,7 @@ public class CmsExportPointWidget extends FormLayout {
    *
    * @return the export point target
    */
-  public String getDestination() {
+  public @RUntainted String getDestination() {
 
     return (String) (m_target.getValue());
   }
@@ -92,7 +93,7 @@ public class CmsExportPointWidget extends FormLayout {
    *
    * @return the export point source
    */
-  public String getUri() {
+  public @RUntainted String getUri() {
 
     return m_source.getValue();
   }

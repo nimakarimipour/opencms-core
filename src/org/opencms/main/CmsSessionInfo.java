@@ -33,6 +33,7 @@ import org.apache.commons.collections.BufferUtils;
 import org.apache.commons.collections.buffer.UnboundedFifoBuffer;
 import org.opencms.file.CmsRequestContext;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores information about a user that has authenticated himself the OpenCms security system.
@@ -75,7 +76,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
   private CmsUUID m_sessionId;
 
   /** The current site of the user. */
-  private String m_siteRoot;
+  private @RUntainted String m_siteRoot;
 
   /** The time this session info was created. */
   private long m_timeCreated;
@@ -84,7 +85,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
   private long m_timeUpdated;
 
   /** The time of the last user action. */
-  private long m_timeLastAction;
+  private @RUntainted long m_timeLastAction;
 
   /** The id of user to which this session info belongs. */
   private CmsUUID m_userId;
@@ -116,11 +117,11 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
    * @param time as timestamp
    * @return string array containing string for hours, minutes, seconds
    */
-  public static String[] getHourMinuteSecondTimeString(long time) {
+  public static @RUntainted String[] getHourMinuteSecondTimeString(@RUntainted long time) {
 
-    int hours = (int) time / (1000 * 60 * 60);
-    int min = (int) (time - (hours * 1000 * 60 * 60)) / (1000 * 60);
-    int sec = (int) (time - (hours * 1000 * 60 * 60) - (min * 1000 * 60)) / 1000;
+    @RUntainted int hours = (int) time / (1000 * 60 * 60);
+    @RUntainted int min = (int) (time - (hours * 1000 * 60 * 60)) / (1000 * 60);
+    @RUntainted int sec = (int) (time - (hours * 1000 * 60 * 60) - (min * 1000 * 60)) / 1000;
 
     return new String[] {
       getTwoDigitsString(hours), getTwoDigitsString(min), getTwoDigitsString(sec)
@@ -135,7 +136,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
    * @param number to be formatted
    * @return the string representation
    */
-  private static String getTwoDigitsString(int number) {
+  private static @RUntainted String getTwoDigitsString(@RUntainted int number) {
 
     return number < 10 ? "0" + number : String.valueOf(number);
   }
@@ -257,7 +258,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
    *
    * @return the current site root of the user
    */
-  public String getSiteRoot() {
+  public @RUntainted String getSiteRoot() {
 
     return m_siteRoot;
   }
@@ -294,7 +295,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
    *
    * @return the list user action time
    */
-  public long getTimeLastAction() {
+  public @RUntainted long getTimeLastAction() {
 
     return m_timeLastAction;
   }

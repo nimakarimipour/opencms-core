@@ -104,6 +104,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.CmsWorkplaceLoginHandler;
 import org.opencms.xml.containerpage.CmsADESessionCache;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides general core services.
@@ -395,8 +396,8 @@ public class CmsCoreService extends CmsGwtService implements I_CmsCoreService {
           Map<String, String> params = ((I_CmsADEAction) item).getParams();
           if (params != null) {
             params = new HashMap<String, String>(params);
-            for (Entry<String, String> param : params.entrySet()) {
-              String value =
+            for (Entry<String, @RUntainted String> param : params.entrySet()) {
+              @RUntainted String value =
                   CmsVfsService.prepareFileNameForEditor(cms, resource, param.getValue());
               param.setValue(value);
             }
@@ -495,7 +496,7 @@ public class CmsCoreService extends CmsGwtService implements I_CmsCoreService {
    * @param resourceRootFolder the resource folder root path
    * @return the workplace link
    */
-  public static String getVaadinWorkplaceLink(CmsObject cms, String resourceRootFolder) {
+  public static String getVaadinWorkplaceLink(CmsObject cms, @RUntainted String resourceRootFolder) {
 
     CmsSite site = OpenCms.getSiteManager().getSiteForRootPath(resourceRootFolder);
     String siteRoot =
@@ -518,7 +519,7 @@ public class CmsCoreService extends CmsGwtService implements I_CmsCoreService {
    * @return the validation service
    * @throws CmsException if something goes wrong
    */
-  public static I_CmsValidationService getValidationService(String name) throws CmsException {
+  public static I_CmsValidationService getValidationService(@RUntainted String name) throws CmsException {
 
     try {
       Class<?> cls = Class.forName(name, false, I_CmsValidationService.class.getClassLoader());
@@ -553,7 +554,7 @@ public class CmsCoreService extends CmsGwtService implements I_CmsCoreService {
    * @return a new instance of the class
    * @throws CmsException if the instantiation fails
    */
-  public static <T> T instantiate(Class<T> anInterface, String className) throws CmsException {
+  public static <T> T instantiate(@RUntainted Class<T> anInterface, @RUntainted String className) throws CmsException {
 
     try {
       Class<?> cls = Class.forName(className, false, anInterface.getClassLoader());
@@ -591,7 +592,7 @@ public class CmsCoreService extends CmsGwtService implements I_CmsCoreService {
    * @return the link for the return code
    * @throws CmsException if something goes wrong
    */
-  public static CmsReturnLinkInfo internalGetLinkForReturnCode(CmsObject cms, String returnCode)
+  public static CmsReturnLinkInfo internalGetLinkForReturnCode(CmsObject cms, @RUntainted String returnCode)
       throws CmsException {
 
     if (CmsUUID.isValidUUID(returnCode)) {
@@ -607,8 +608,8 @@ public class CmsCoreService extends CmsGwtService implements I_CmsCoreService {
     } else {
       int colonIndex = returnCode.indexOf(':');
       if (colonIndex >= 0) {
-        String before = returnCode.substring(0, colonIndex);
-        String after = returnCode.substring(colonIndex + 1);
+        @RUntainted String before = returnCode.substring(0, colonIndex);
+        @RUntainted String after = returnCode.substring(colonIndex + 1);
 
         if (CmsUUID.isValidUUID(before) && CmsUUID.isValidUUID(after)) {
           try {
@@ -617,7 +618,7 @@ public class CmsCoreService extends CmsGwtService implements I_CmsCoreService {
             CmsResource pageRes = cms.readResource(pageId);
             CmsResource folder =
                 pageRes.isFolder() ? pageRes : cms.readParentFolder(pageRes.getStructureId());
-            String pageLink = OpenCms.getLinkManager().substituteLink(cms, folder);
+            @RUntainted String pageLink = OpenCms.getLinkManager().substituteLink(cms, folder);
             CmsResource detailRes = cms.readResource(detailId);
             String detailName =
                 cms.getDetailName(
@@ -888,7 +889,7 @@ public class CmsCoreService extends CmsGwtService implements I_CmsCoreService {
   }
 
   /** @see org.opencms.gwt.shared.rpc.I_CmsCoreService#getLinkForReturnCode(java.lang.String) */
-  public CmsReturnLinkInfo getLinkForReturnCode(String returnCode) throws CmsRpcException {
+  public CmsReturnLinkInfo getLinkForReturnCode(@RUntainted String returnCode) throws CmsRpcException {
 
     try {
       return internalGetLinkForReturnCode(getCmsObject(), returnCode);
@@ -921,7 +922,7 @@ public class CmsCoreService extends CmsGwtService implements I_CmsCoreService {
    * @see org.opencms.gwt.shared.rpc.I_CmsCoreService#getUniqueFileName(java.lang.String,
    *     java.lang.String)
    */
-  public String getUniqueFileName(String parentFolder, String baseName) {
+  public String getUniqueFileName(String parentFolder, @RUntainted String baseName) {
 
     return OpenCms.getResourceManager()
         .getNameGenerator()
@@ -971,7 +972,7 @@ public class CmsCoreService extends CmsGwtService implements I_CmsCoreService {
   }
 
   /** @see org.opencms.gwt.shared.rpc.I_CmsCoreService#getWorkplaceLinkForPath(java.lang.String) */
-  public String getWorkplaceLinkForPath(String path) throws CmsRpcException {
+  public String getWorkplaceLinkForPath(@RUntainted String path) throws CmsRpcException {
 
     CmsObject cms = getCmsObject();
     try {
@@ -1012,7 +1013,7 @@ public class CmsCoreService extends CmsGwtService implements I_CmsCoreService {
   }
 
   /** @see org.opencms.gwt.shared.rpc.I_CmsCoreService#lockIfExists(java.lang.String) */
-  public String lockIfExists(String sitePath) throws CmsRpcException {
+  public String lockIfExists(@RUntainted String sitePath) throws CmsRpcException {
 
     CmsObject cms = getCmsObject();
     String errorMessage = null;
@@ -1053,7 +1054,7 @@ public class CmsCoreService extends CmsGwtService implements I_CmsCoreService {
   }
 
   /** @see org.opencms.gwt.shared.rpc.I_CmsCoreService#lockIfExists(java.lang.String, long) */
-  public String lockIfExists(String sitePath, long loadTime) throws CmsRpcException {
+  public String lockIfExists(@RUntainted String sitePath, long loadTime) throws CmsRpcException {
 
     CmsObject cms = getCmsObject();
     String errorMessage = null;
@@ -1465,7 +1466,7 @@ public class CmsCoreService extends CmsGwtService implements I_CmsCoreService {
    * @return the result of the validation
    * @throws Exception if something goes wrong
    */
-  private CmsValidationResult validate(String validator, String value, String config)
+  private CmsValidationResult validate(String validator, @RUntainted String value, String config)
       throws Exception {
 
     I_CmsValidationService validationService = getValidationService(validator);

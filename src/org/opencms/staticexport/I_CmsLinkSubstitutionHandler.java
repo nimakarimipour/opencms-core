@@ -28,6 +28,7 @@
 package org.opencms.staticexport;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows to configure customized link substitution behavior.
@@ -103,7 +104,7 @@ public interface I_CmsLinkSubstitutionHandler {
    *     VFS resource indicated by the given <code>link</code> and <code>siteRoot</code>
    * @see #getRootPath(CmsObject, String, String) for the reverse function, which creates a VFS
    */
-  String getLink(CmsObject cms, String link, String siteRoot, boolean forceSecure);
+  String getLink(CmsObject cms, @RUntainted String link, String siteRoot, boolean forceSecure);
 
   /**
    * Returns a link <i>from</i> the URI stored in the provided OpenCms user context <i>to</i> the
@@ -146,7 +147,7 @@ public interface I_CmsLinkSubstitutionHandler {
    * @see #getRootPath(CmsObject, String, String) for the reverse function, which creates a VFS
    */
   String getLink(
-      CmsObject cms, String link, String siteRoot, String targetDetailPage, boolean forceSecure);
+      CmsObject cms, @RUntainted String link, String siteRoot, String targetDetailPage, boolean forceSecure);
 
   /**
    * Returns the resource root path in the OpenCms VFS for the given target URI link, or <code>null
@@ -185,5 +186,5 @@ public interface I_CmsLinkSubstitutionHandler {
    * @see #getLink(CmsObject, String, String, boolean) for the reverse function, which creates a
    *     link form a VFS resource path
    */
-  String getRootPath(CmsObject cms, String targetUri, String basePath);
+  @RUntainted String getRootPath(CmsObject cms, @RUntainted String targetUri, String basePath);
 }

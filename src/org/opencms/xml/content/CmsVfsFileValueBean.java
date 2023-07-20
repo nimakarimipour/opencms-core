@@ -28,6 +28,7 @@
 package org.opencms.xml.content;
 
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean class containing both a path and a UUID which should be stored in an XML file value.
@@ -39,10 +40,10 @@ import org.opencms.util.CmsUUID;
 public class CmsVfsFileValueBean {
 
   /** The UUID. */
-  private CmsUUID m_id;
+  private @RUntainted CmsUUID m_id;
 
   /** The path. */
-  private String m_path;
+  private @RUntainted String m_path;
 
   /**
    * Constructor.
@@ -52,7 +53,7 @@ public class CmsVfsFileValueBean {
    * @param path the path
    * @param id the UUID
    */
-  public CmsVfsFileValueBean(String path, CmsUUID id) {
+  public CmsVfsFileValueBean(String path, @RUntainted CmsUUID id) {
 
     super();
     m_path = path;
@@ -66,7 +67,7 @@ public class CmsVfsFileValueBean {
    *
    * @return a UUID
    */
-  public CmsUUID getId() {
+  public @RUntainted CmsUUID getId() {
 
     return m_id;
   }
@@ -78,7 +79,7 @@ public class CmsVfsFileValueBean {
    *
    * @return a path
    */
-  public String getPath() {
+  public @RUntainted String getPath() {
 
     return m_path;
   }

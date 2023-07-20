@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Locale;
 import org.opencms.relations.CmsCategory;
 import org.opencms.search.fields.CmsSearchField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The interface for search documents.
@@ -110,7 +111,7 @@ public interface I_CmsSearchDocument {
    *
    * @param rootPath the given path into this document
    */
-  void addPathField(String rootPath);
+  void addPathField(@RUntainted String rootPath);
 
   /**
    * Adds the locales of the resource to this document.
@@ -205,7 +206,7 @@ public interface I_CmsSearchDocument {
    * @param fieldName the name of the field to get the String value for
    * @return the String value or <code>null</code> if empty
    */
-  String getFieldValueAsString(String fieldName);
+  @RUntainted String getFieldValueAsString(String fieldName);
 
   /**
    * Returns the values of a multi-valued field as list of strings.

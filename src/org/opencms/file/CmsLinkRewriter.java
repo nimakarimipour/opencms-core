@@ -68,6 +68,7 @@ import org.opencms.xml.CmsXmlUtils;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.content.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class used to rewrite links and relations in one subtree such that relations from that subtree
@@ -119,7 +120,7 @@ public class CmsLinkRewriter {
   public CmsLinkRewriter(CmsObject cms, List<String> sources, String target) {
 
     m_sourceTargetPairs = new ArrayList<CmsPair<String, String>>();
-    for (String source : sources) {
+    for (@RUntainted String source : sources) {
       checkNotSubPath(source, target);
       String targetSub = CmsStringUtil.joinPaths(target, CmsResource.getName(source));
       m_sourceTargetPairs.add(CmsPair.create(source, targetSub));
@@ -375,7 +376,7 @@ public class CmsLinkRewriter {
   protected CmsPair<String, String> decode(CmsFile file) throws CmsException {
 
     String content = null;
-    String encoding = getConfiguredEncoding(m_cms, file);
+    @RUntainted String encoding = getConfiguredEncoding(m_cms, file);
     I_CmsResourceType resType = OpenCms.getResourceManager().getResourceType(file.getTypeId());
     if (resType instanceof CmsResourceTypeJsp) {
       content = decode(file.getContents(), encoding);
@@ -461,7 +462,7 @@ public class CmsLinkRewriter {
    * @throws CmsException if something goes wrong
    */
   protected List<CmsPair<CmsResource, CmsResource>> getMatchingResources(
-      String source, String target) throws CmsException {
+      @RUntainted String source, @RUntainted String target) throws CmsException {
 
     List<CmsResource> sourceResources = readTree(source);
     Map<String, CmsResource> sourceRelative = getResourcesByRelativePath(sourceResources, source);
@@ -612,7 +613,7 @@ public class CmsLinkRewriter {
    * @return the list of resources from the subtree
    * @throws CmsException if something goes wrong
    */
-  protected List<CmsResource> readTree(String rootPath) throws CmsException {
+  protected List<CmsResource> readTree(@RUntainted String rootPath) throws CmsException {
 
     rootPath = CmsFileUtil.removeTrailingSeparator(rootPath);
     CmsResource base = m_cms.readResource(rootPath);
@@ -699,7 +700,7 @@ public class CmsLinkRewriter {
 
           public String substituteMatch(String text, Matcher matcher) {
 
-            String uuidString = text.substring(matcher.start(), matcher.end());
+            @RUntainted String uuidString = text.substring(matcher.start(), matcher.end());
             CmsUUID uuid = new CmsUUID(uuidString);
             String result = uuidString;
             if (m_translationsById.containsKey(uuid)) {

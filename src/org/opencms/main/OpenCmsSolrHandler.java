@@ -49,6 +49,7 @@ import org.opencms.search.solr.CmsSolrQuery;
 import org.opencms.site.CmsSite;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms Solr handler.
@@ -77,10 +78,10 @@ public class OpenCmsSolrHandler extends HttpServlet implements I_CmsRequestHandl
     public CmsSolrIndex m_index;
 
     /** The request parameters. */
-    public Map<String, String[]> m_params;
+    public Map<String, @RUntainted String[]> m_params;
 
     /** The Solr query. */
-    public CmsSolrQuery m_query;
+    public @RUntainted CmsSolrQuery m_query;
   }
 
   /**
@@ -144,7 +145,7 @@ public class OpenCmsSolrHandler extends HttpServlet implements I_CmsRequestHandl
    *     javax.servlet.http.HttpServletResponse)
    */
   @Override
-  public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
+  public void doGet(@RUntainted HttpServletRequest req, HttpServletResponse res) throws IOException {
 
     handle(req, res, HANDLER_NAMES.SolrSelect.toString());
   }
@@ -174,7 +175,7 @@ public class OpenCmsSolrHandler extends HttpServlet implements I_CmsRequestHandl
    * @see org.opencms.main.I_CmsRequestHandler#handle(javax.servlet.http.HttpServletRequest,
    *     javax.servlet.http.HttpServletResponse, java.lang.String)
    */
-  public void handle(HttpServletRequest req, HttpServletResponse res, String name)
+  public void handle(@RUntainted HttpServletRequest req, HttpServletResponse res, String name)
       throws IOException {
 
     final HANDLER_NAMES handlerName = HANDLER_NAMES.valueOf(name);
@@ -226,7 +227,7 @@ public class OpenCmsSolrHandler extends HttpServlet implements I_CmsRequestHandl
    * @return the CMS object
    * @throws CmsException if something goes wrong
    */
-  protected CmsObject getCmsObject(HttpServletRequest req) throws CmsException {
+  protected CmsObject getCmsObject(@RUntainted HttpServletRequest req) throws CmsException {
 
     CmsObject cms = OpenCmsCore.getInstance().initCmsObjectFromSession(req);
     // use the guest user as fall back
@@ -235,7 +236,7 @@ public class OpenCmsSolrHandler extends HttpServlet implements I_CmsRequestHandl
       String siteRoot = OpenCmsCore.getInstance().getSiteManager().matchRequest(req).getSiteRoot();
       cms.getRequestContext().setSiteRoot(siteRoot);
     }
-    String baseUri = getBaseUri(req, cms);
+    @RUntainted String baseUri = getBaseUri(req, cms);
     if (baseUri != null) {
       cms.getRequestContext().setUri(baseUri);
     }
@@ -255,15 +256,15 @@ public class OpenCmsSolrHandler extends HttpServlet implements I_CmsRequestHandl
    * @throws CmsSearchException if something goes wrong
    * @throws IOException if something goes wrong
    */
-  protected Context initializeRequest(HttpServletRequest req, HttpServletResponse res)
+  protected Context initializeRequest(@RUntainted HttpServletRequest req, HttpServletResponse res)
       throws CmsException, Exception, CmsSearchException, IOException {
 
     Context context = new Context();
     context.m_cms = getCmsObject(req);
     context.m_params = CmsRequestUtil.createParameterMap(req.getParameterMap());
-    String[] wtValues = context.m_params.get(CommonParams.WT);
+    @RUntainted String[] wtValues = context.m_params.get(CommonParams.WT);
     if ((null != wtValues) && (wtValues.length > 0)) {
-      String origWtValue = wtValues[0];
+      @RUntainted String origWtValue = wtValues[0];
       if (wtValues.length > 1) {
         context.m_params.put(CommonParams.WT, new String[] {origWtValue});
         if (LOG.isDebugEnabled()) {
@@ -290,7 +291,7 @@ public class OpenCmsSolrHandler extends HttpServlet implements I_CmsRequestHandl
     } else {
       res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       if (LOG.isInfoEnabled()) {
-        String indexName =
+        @RUntainted String indexName =
             context.m_params.get(PARAM_CORE) != null
                 ? context.m_params.get(PARAM_CORE)[0]
                 : (context.m_params.get(PARAM_INDEX) != null
@@ -312,7 +313,7 @@ public class OpenCmsSolrHandler extends HttpServlet implements I_CmsRequestHandl
    * @param cms the CmsObject
    * @return the base URI
    */
-  private String getBaseUri(HttpServletRequest req, CmsObject cms) {
+  private @RUntainted String getBaseUri(HttpServletRequest req, CmsObject cms) {
 
     String baseUri = req.getParameter(PARAM_BASE_URI);
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(baseUri)) {

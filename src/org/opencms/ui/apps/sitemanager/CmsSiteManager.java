@@ -70,6 +70,7 @@ import org.opencms.ui.components.CmsErrorDialog;
 import org.opencms.ui.components.CmsInfoButton;
 import org.opencms.ui.components.CmsToolBar;
 import org.opencms.ui.components.OpenCmsTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Manager class for the Site manager app. */
 public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<CmsSite> {
@@ -78,7 +79,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
   public static final String BUNDLE_NAME = "siteMacroBundle";
 
   /** Constant. */
-  public static final String FAVICON = "favicon.ico";
+  public static final @RUntainted String FAVICON = "favicon.ico";
 
   /** Name of the macros folder for site templates. */
   public static final String MACRO_FOLDER = ".macros";
@@ -241,7 +242,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
   }
 
   /** @see org.opencms.ui.apps.I_CmsCRUDApp#getElement(java.lang.String) */
-  public CmsSite getElement(String elementId) {
+  public CmsSite getElement(@RUntainted String elementId) {
 
     return OpenCms.getSiteManager().getSiteForSiteRoot(elementId);
   }

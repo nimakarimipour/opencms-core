@@ -54,6 +54,7 @@ import org.opencms.xml.CmsXmlEntityResolver;
 import org.opencms.xml.CmsXmlException;
 import org.opencms.xml.page.CmsXmlPage;
 import org.opencms.xml.page.CmsXmlPageFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "xmlpage".
@@ -105,7 +106,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
    *
    * @return the static type id of this (default) resource type
    */
-  public static int getStaticTypeId() {
+  public static @RUntainted int getStaticTypeId() {
 
     return m_staticTypeId;
   }
@@ -151,7 +152,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
   public CmsResource createResource(
       CmsObject cms,
       CmsSecurityManager securityManager,
-      String resourcename,
+      @RUntainted String resourcename,
       byte[] content,
       List<CmsProperty> properties)
       throws CmsException {
@@ -188,7 +189,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
    *     java.lang.String, String)
    */
   @Override
-  public void initConfiguration(String name, String id, String className)
+  public void initConfiguration(@RUntainted String name, @RUntainted String id, @RUntainted String className)
       throws CmsConfigurationException {
 
     super.initConfiguration(name, id, className);

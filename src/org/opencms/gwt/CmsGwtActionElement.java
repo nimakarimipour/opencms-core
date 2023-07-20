@@ -45,6 +45,7 @@ import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Sitemap action used to generate the sitemap editor.
@@ -375,7 +376,7 @@ public class CmsGwtActionElement extends CmsJspActionElement {
    *
    * @return the workplace locale
    */
-  public Locale getWorkplaceLocale() {
+  public @RUntainted Locale getWorkplaceLocale() {
 
     return OpenCms.getWorkplaceManager().getWorkplaceLocale(getCmsObject());
   }

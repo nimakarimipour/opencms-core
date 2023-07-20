@@ -42,6 +42,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.CmsVaadinUtils.PropertyId;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the database statistic view.
@@ -75,7 +76,7 @@ public class CmsResourceTypeStatsView extends VerticalLayout {
   Panel m_results;
 
   /** Vaadin component. */
-  ComboBox m_siteSelect;
+  @RUntainted ComboBox m_siteSelect;
 
   /**
    * public constructor.

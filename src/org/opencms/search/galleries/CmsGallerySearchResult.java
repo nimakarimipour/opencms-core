@@ -51,6 +51,7 @@ import org.opencms.search.fields.CmsSearchField;
 import org.opencms.search.fields.CmsSearchFieldConfiguration;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains a single search result from the gallery search index.
@@ -99,7 +100,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
   protected List<String> m_locales;
 
   /** The resource path of this search result. */
-  protected String m_path;
+  protected @RUntainted String m_path;
 
   /** The resource type of the search result. */
   protected String m_resourceType;
@@ -111,10 +112,10 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
   protected int m_state;
 
   /** The structure UUID of the resource. */
-  protected String m_structureId;
+  protected @RUntainted String m_structureId;
 
   /** The title of this search result. */
-  protected String m_title;
+  protected @RUntainted String m_title;
 
   /** The user who created the search result resource. */
   protected String m_userCreated;
@@ -132,11 +133,11 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
    * @param title optional value that can be used to override the title (if null, the title is not
    *     overridden)
    */
-  public CmsGallerySearchResult(CmsObject cms, CmsResource res, String title) {
+  public CmsGallerySearchResult(CmsObject cms, CmsResource res, @RUntainted String title) {
 
     m_title = title;
     try {
-      Map<String, String> props =
+      Map<String, @RUntainted String> props =
           CmsProperty.toMap(
               cms.readPropertyObjects(res, CmsResourceTypeXmlContainerPage.isContainerPage(res)));
       if (m_title == null) {
@@ -525,7 +526,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
    * @return the resource root path
    * @see org.opencms.file.CmsResource#getRootPath()
    */
-  public String getPath() {
+  public @RUntainted String getPath() {
 
     return m_path;
   }
@@ -575,7 +576,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
    *
    * @return the structure id of the resource
    */
-  public String getStructureId() {
+  public @RUntainted String getStructureId() {
 
     return m_structureId;
   }
@@ -587,7 +588,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
    *
    * @return the title of the resource
    */
-  public String getTitle() {
+  public @RUntainted String getTitle() {
 
     return m_title;
   }
@@ -646,7 +647,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
    * @param title the new title
    * @return the shallow copy with the changed title
    */
-  public CmsGallerySearchResult withTitle(String title) {
+  public CmsGallerySearchResult withTitle(@RUntainted String title) {
 
     try {
       CmsGallerySearchResult res = (CmsGallerySearchResult) clone();

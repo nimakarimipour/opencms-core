@@ -30,6 +30,7 @@ package org.opencms.db.mssql;
 import com.google.common.base.Joiner;
 import org.opencms.db.generic.CmsSqlManager;
 import org.opencms.db.generic.CmsUserQueryBuilder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * MS SQL implementation of the user driver methods.
@@ -98,7 +99,7 @@ public class CmsUserDriver extends org.opencms.db.generic.CmsUserDriver {
 
   /** @see org.opencms.db.I_CmsUserDriver#initSqlManager(String) */
   @Override
-  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
     return CmsSqlManager.getInstance(classname);
   }

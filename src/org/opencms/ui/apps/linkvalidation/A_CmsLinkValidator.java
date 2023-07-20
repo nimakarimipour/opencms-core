@@ -37,6 +37,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.ui.components.CmsResourceTable.I_ResourcePropertyProvider;
 import org.opencms.ui.components.CmsResourceTableProperty;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validator for links.
@@ -78,7 +79,7 @@ public abstract class A_CmsLinkValidator implements I_ResourcePropertyProvider {
    * @param resources to check
    * @return List of failed resources
    */
-  public abstract List<CmsResource> failedResources(List<String> resources);
+  public abstract List<CmsResource> failedResources(List<@RUntainted String> resources);
 
   /**
    * Get fail message for resource.

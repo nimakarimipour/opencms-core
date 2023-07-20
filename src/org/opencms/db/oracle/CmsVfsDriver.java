@@ -43,6 +43,7 @@ import org.opencms.file.CmsDataAccessException;
 import org.opencms.file.CmsProject;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Oracle implementation of the VFS driver methods.
@@ -157,7 +158,7 @@ public class CmsVfsDriver extends org.opencms.db.generic.CmsVfsDriver {
 
   /** @see org.opencms.db.I_CmsVfsDriver#initSqlManager(String) */
   @Override
-  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
     return CmsSqlManager.getInstance(classname);
   }
@@ -183,7 +184,7 @@ public class CmsVfsDriver extends org.opencms.db.generic.CmsVfsDriver {
    * @throws CmsDataAccessException if something goes wrong
    */
   protected void internalWriteContent(
-      CmsDbContext dbc, CmsUUID projectId, CmsUUID resourceId, byte[] contents, int publishTag)
+      CmsDbContext dbc, CmsUUID projectId, @RUntainted CmsUUID resourceId, byte[] contents, int publishTag)
       throws CmsDataAccessException {
 
     PreparedStatement stmt = null;

@@ -28,6 +28,7 @@
 package org.opencms.util;
 
 import java.util.regex.Matcher;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for generating a substitution for a pattern in a string.
@@ -47,5 +48,5 @@ public interface I_CmsRegexSubstitution {
    * @param matcher the matcher which is currently being used
    * @return the substitution which should be used for the current match of the matcher
    */
-  String substituteMatch(String string, Matcher matcher);
+  String substituteMatch(@RUntainted String string, @RUntainted Matcher matcher);
 }

@@ -28,6 +28,7 @@
 package org.opencms.workplace.editors.directedit;
 
 import org.opencms.xml.containerpage.CmsContainerElementBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A parameter set to start a direct edit element, for internal use only.
@@ -60,7 +61,7 @@ public class CmsDirectEditParams {
   protected CmsDirectEditButtonSelection m_options;
 
   /** The edit target VFS resource name. */
-  protected String m_resourceName;
+  protected @RUntainted String m_resourceName;
 
   /** The upload folder. */
   protected String m_uploadFolder;
@@ -103,7 +104,7 @@ public class CmsDirectEditParams {
    * @param mode the direct edit mode to use
    */
   public CmsDirectEditParams(
-      String resourceName,
+      @RUntainted String resourceName,
       CmsDirectEditButtonSelection options,
       CmsDirectEditMode mode,
       String linkForNew) {
@@ -125,7 +126,7 @@ public class CmsDirectEditParams {
    * @param resourceName the edit target VFS resource name
    * @param element the selected element in the target content
    */
-  public CmsDirectEditParams(String resourceName, String element) {
+  public CmsDirectEditParams(@RUntainted String resourceName, String element) {
 
     m_resourceName = resourceName;
     m_options = CmsDirectEditButtonSelection.EDIT;
@@ -190,7 +191,7 @@ public class CmsDirectEditParams {
    *
    * @return the selected element in the target content
    */
-  public String getElement() {
+  public @RUntainted String getElement() {
 
     return m_element;
   }
@@ -202,7 +203,7 @@ public class CmsDirectEditParams {
    *
    * @return the id
    */
-  public String getId() {
+  public @RUntainted String getId() {
 
     return m_id;
   }
@@ -274,7 +275,7 @@ public class CmsDirectEditParams {
    *
    * @return the post-create handler class name
    */
-  public String getPostCreateHandler() {
+  public @RUntainted String getPostCreateHandler() {
 
     return m_postCreateHandler;
   }
@@ -286,7 +287,7 @@ public class CmsDirectEditParams {
    *
    * @return the edit target VFS resource name
    */
-  public String getResourceName() {
+  public @RUntainted String getResourceName() {
 
     return m_resourceName;
   }

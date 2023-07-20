@@ -29,6 +29,7 @@ package org.opencms.ade.galleries.shared;
 
 import java.util.ArrayList;
 import org.opencms.gwt.shared.CmsListInfoBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean representing resource type information.
@@ -64,7 +65,7 @@ public class CmsResourceTypeBean extends CmsListInfoBean {
   private boolean m_creatableType;
 
   /** The creation path. */
-  private String m_createPath;
+  private @RUntainted String m_createPath;
 
   /** The deactivated flag. */
   private boolean m_deactivated;
@@ -94,7 +95,7 @@ public class CmsResourceTypeBean extends CmsListInfoBean {
    *
    * @return the creation path
    */
-  public String getCreatePath() {
+  public @RUntainted String getCreatePath() {
 
     return m_createPath;
   }
@@ -227,7 +228,7 @@ public class CmsResourceTypeBean extends CmsListInfoBean {
    *
    * @param createPath the creation path
    */
-  public void setCreatePath(String createPath) {
+  public void setCreatePath(@RUntainted String createPath) {
 
     m_createPath = createPath;
   }

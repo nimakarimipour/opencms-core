@@ -75,6 +75,7 @@ import org.opencms.xml.containerpage.CmsContainerPageBean;
 import org.opencms.xml.containerpage.CmsXmlContainerPage;
 import org.opencms.xml.containerpage.CmsXmlContainerPageFactory;
 import org.opencms.xml.content.I_CmsXmlContentHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The search field implementation for Solr.
@@ -328,7 +329,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
     // append field mappings directly stored in the extraction result
     if (null != extractionResult) {
       Map<String, String> fieldMappings = extractionResult.getFieldMappings();
-      for (String fieldName : fieldMappings.keySet()) {
+      for (@RUntainted String fieldName : fieldMappings.keySet()) {
         String value = fieldMappings.get(fieldName);
         CmsSolrField f = new CmsSolrField(fieldName, null, null, null);
         document.addSearchField(f, value);
@@ -456,7 +457,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
   protected I_CmsSearchDocument appendLocales(
       I_CmsSearchDocument document,
       CmsObject cms,
-      CmsResource resource,
+      @RUntainted CmsResource resource,
       I_CmsExtractionResult extraction,
       List<CmsProperty> properties,
       List<CmsProperty> propertiesSearched) {
@@ -508,7 +509,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
             final String lang = locale.getLanguage();
             // Don't proceed if a field has already written for this locale.
             if (!resourceLocales.contains(lang)) {
-              final String effFieldName =
+              final @RUntainted String effFieldName =
                   CmsSearchFieldConfiguration.getLocaleExtendedName(
                           CmsSearchField.FIELD_TITLE_UNSTORED, locale)
                       + "_s";
@@ -606,7 +607,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
    * @return the determined locales for the given resource
    */
   protected List<Locale> getContentLocales(
-      CmsObject cms, CmsResource resource, I_CmsExtractionResult extraction) {
+      CmsObject cms, @RUntainted CmsResource resource, I_CmsExtractionResult extraction) {
 
     // try to detect locale by filename
     Locale detectedLocale = CmsStringUtil.getLocaleForName(resource.getRootPath());
@@ -711,7 +712,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
     solrField.addMapping(
         new CmsSearchFieldMapping(CmsSearchFieldMappingType.CONTENT, CmsSearchField.FIELD_CONTENT));
     m_solrFields.put(solrField.getName(), solrField);
-    for (Locale locale : OpenCms.getLocaleManager().getAvailableLocales()) {
+    for (@RUntainted Locale locale : OpenCms.getLocaleManager().getAvailableLocales()) {
       solrField =
           new CmsSolrField(
               CmsSearchFieldConfiguration.getLocaleExtendedName(
@@ -827,7 +828,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
 
     // add non-localized fields
     // add instance date
-    String fieldName = CmsSearchField.FIELD_INSTANCEDATE + CmsSearchField.FIELD_POSTFIX_DATE;
+    @RUntainted String fieldName = CmsSearchField.FIELD_INSTANCEDATE + CmsSearchField.FIELD_POSTFIX_DATE;
     Date instanceDate = document.getFieldValueAsDate(fieldName);
     if ((null == instanceDate) || (instanceDate.getTime() == 0)) {
       String instanceDateCopyField =
@@ -898,7 +899,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
     }
 
     // add localized fields
-    for (String locale :
+    for (@RUntainted String locale :
         document.getMultivaluedFieldAsStringList(CmsSearchField.FIELD_CONTENT_LOCALES)) {
       // instance date
       fieldName =
@@ -994,7 +995,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
     document.addSearchField(
         new CmsSolrField(CmsSearchField.FIELD_SPELL, null, null, null),
         document.getFieldValueAsString(CmsSearchField.FIELD_CONTENT) + "\n" + title);
-    for (Locale locale : OpenCms.getLocaleManager().getAvailableLocales()) {
+    for (@RUntainted Locale locale : OpenCms.getLocaleManager().getAvailableLocales()) {
       document.addSearchField(
           new CmsSolrField(locale + "_" + CmsSearchField.FIELD_SPELL, null, locale, null),
           document.getFieldValueAsString(

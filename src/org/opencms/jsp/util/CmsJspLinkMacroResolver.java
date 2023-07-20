@@ -42,6 +42,7 @@ import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.util.I_CmsMacroResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resolves link macros for jsp pages.
@@ -83,7 +84,7 @@ public class CmsJspLinkMacroResolver implements I_CmsMacroResolver {
   private boolean m_forRfs;
 
   /** The jsp root path. */
-  private String m_jspRootPath;
+  private @RUntainted String m_jspRootPath;
 
   /** The list of links. */
   private List<CmsLink> m_links = new ArrayList<CmsLink>();
@@ -98,7 +99,7 @@ public class CmsJspLinkMacroResolver implements I_CmsMacroResolver {
    *     relative links
    * @param forRfs Only if <code>true</code> the macros get really resolved to valid vfs paths
    */
-  public CmsJspLinkMacroResolver(CmsObject cms, String jspRootPath, boolean forRfs) {
+  public CmsJspLinkMacroResolver(CmsObject cms, @RUntainted String jspRootPath, boolean forRfs) {
 
     m_cms = cms;
     m_forRfs = forRfs;
@@ -118,15 +119,15 @@ public class CmsJspLinkMacroResolver implements I_CmsMacroResolver {
   }
 
   /** @see org.opencms.util.I_CmsMacroResolver#getMacroValue(java.lang.String) */
-  public String getMacroValue(String macro) {
+  public @RUntainted String getMacroValue(@RUntainted String macro) {
 
-    String path = null;
-    String id = null;
+    @RUntainted String path = null;
+    @RUntainted String id = null;
 
     // validate macro command
-    Iterator<String> it = VALUE_NAMES.iterator();
+    Iterator<@RUntainted String> it = VALUE_NAMES.iterator();
     while (it.hasNext()) {
-      String cmd = it.next().toString();
+      @RUntainted String cmd = it.next().toString();
       if (macro.startsWith(cmd)) {
         // a macro was found
         path = macro.substring(cmd.length());
@@ -149,7 +150,7 @@ public class CmsJspLinkMacroResolver implements I_CmsMacroResolver {
     }
 
     // check the id
-    CmsUUID uuid = null;
+    @RUntainted CmsUUID uuid = null;
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(id)) {
       if (path != null) {
         // try to use the path as an id (in case there is only an id)
@@ -230,7 +231,7 @@ public class CmsJspLinkMacroResolver implements I_CmsMacroResolver {
    *
    * @see org.opencms.util.I_CmsMacroResolver#resolveMacros(java.lang.String)
    */
-  public String resolveMacros(String input) {
+  public @RUntainted String resolveMacros(@RUntainted String input) {
 
     // clear the list of links
     m_links.clear();

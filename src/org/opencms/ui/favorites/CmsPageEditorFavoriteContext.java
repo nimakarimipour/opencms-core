@@ -44,6 +44,7 @@ import org.opencms.ui.dialogs.CmsSiteSelectDialog;
 import org.opencms.ui.favorites.CmsFavoriteEntry.Type;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Favorite dialog context for the case where the dialog is opened from the page editor, in an
@@ -88,7 +89,7 @@ public class CmsPageEditorFavoriteContext implements I_CmsFavoriteContext {
    * @param uuid the potential UUID string
    * @return the UUID, or null if conversion is not possible
    */
-  private static CmsUUID toUuid(String uuid) {
+  private static CmsUUID toUuid(@RUntainted String uuid) {
 
     if ("null".equals(uuid) || CmsStringUtil.isEmpty(uuid)) {
       return null;

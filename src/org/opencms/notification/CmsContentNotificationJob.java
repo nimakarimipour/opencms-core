@@ -30,6 +30,7 @@ package org.opencms.notification;
 import java.util.Map;
 import org.opencms.file.CmsObject;
 import org.opencms.scheduler.I_CmsScheduledJob;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Scheduled job that checks the system for resources that will shortly expire, be released, or will
@@ -42,7 +43,7 @@ public class CmsContentNotificationJob implements I_CmsScheduledJob {
   /**
    * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
    */
-  public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  public @RUntainted String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
     CmsNotificationCandidates candidates = new CmsNotificationCandidates(cms);
     return candidates.notifyResponsibles();

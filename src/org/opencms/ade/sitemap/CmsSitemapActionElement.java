@@ -43,6 +43,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.util.CmsRequestUtil;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Sitemap action used to generate the sitemap editor.
@@ -146,7 +147,7 @@ public class CmsSitemapActionElement extends CmsGwtActionElement {
   public String getTitle() {
 
     CmsSitemapData data = getSitemapData();
-    String folderTitle = "";
+    @RUntainted String folderTitle = "";
     if (data != null) {
       folderTitle = getSitemapData().getOpenPath();
       CmsClientSitemapEntry root = getSitemapData().getRoot();

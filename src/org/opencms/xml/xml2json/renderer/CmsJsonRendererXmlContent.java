@@ -47,6 +47,7 @@ import org.opencms.xml.xml2json.CmsXmlContentTree.Field;
 import org.opencms.xml.xml2json.CmsXmlContentTree.Node;
 import org.opencms.xml.xml2json.I_CmsJsonFormattableValue;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Converts an XML content to JSON by creating a CmsXmlContentTree and then recursively processing
@@ -96,7 +97,7 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
    * @return the link-and-path object
    * @throws JSONException if something goes wrong
    */
-  public static JSONObject linkAndPath(String link, String path, CmsObject cms)
+  public static JSONObject linkAndPath(@RUntainted String link, @RUntainted String path, CmsObject cms)
       throws JSONException {
 
     JSONObject result = new JSONObject();
@@ -127,7 +128,7 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
     List<Locale> locales = content.getLocales();
     JSONObject result = new JSONObject(true);
     for (Locale locale : locales) {
-      Object jsonForLocale = renderer.render(content, locale);
+      @RUntainted Object jsonForLocale = renderer.render(content, locale);
       result.put(locale.toString(), jsonForLocale);
     }
     return result;
@@ -193,7 +194,7 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
    *     java.util.Locale)
    */
   @Override
-  public Object render(CmsXmlContent content, Locale locale) throws JSONException {
+  public Object render(CmsXmlContent content, @RUntainted Locale locale) throws JSONException {
 
     CmsXmlContentTree tree = new CmsXmlContentTree(content, locale);
     m_cms.getRequestContext().setLocale(locale);
@@ -226,7 +227,7 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
         JSONArray array = new JSONArray();
         for (Field field : node.getFields()) {
 
-          SimpleEntry<String, Object> keyAndValue = renderField(field);
+          SimpleEntry<String, @RUntainted Object> keyAndValue = renderField(field);
           if (keyAndValue != null) {
             JSONObject choiceObj = new JSONObject(true);
             choiceObj.put(keyAndValue.getKey(), keyAndValue.getValue());

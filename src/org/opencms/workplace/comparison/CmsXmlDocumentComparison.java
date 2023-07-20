@@ -42,6 +42,7 @@ import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.content.I_CmsXmlContentValueVisitor;
 import org.opencms.xml.page.CmsXmlPageFactory;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A comparison of properties, attributes and elements of xml documents.
@@ -219,7 +220,7 @@ public class CmsXmlDocumentComparison extends CmsResourceComparison {
       Locale locale = locales.next();
       Iterator<String> elementNames = xmlPage.getNames(locale).iterator();
       while (elementNames.hasNext()) {
-        String elementName = elementNames.next();
+        @RUntainted String elementName = elementNames.next();
         elements.add(new CmsElementComparison(locale, elementName));
       }
     }

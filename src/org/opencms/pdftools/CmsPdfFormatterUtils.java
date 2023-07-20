@@ -36,6 +36,7 @@ import org.opencms.jsp.util.CmsJspStandardContextBean;
 import org.opencms.loader.CmsTemplateLoaderFacade;
 import org.opencms.main.OpenCms;
 import org.opencms.xml.containerpage.CmsContainerElementBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility class for PDF formatting.

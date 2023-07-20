@@ -46,6 +46,7 @@ import org.opencms.ui.apps.CmsFileExplorerConfiguration;
 import org.opencms.ui.apps.CmsPageEditorConfiguration;
 import org.opencms.ui.apps.Messages;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the import user thread.
@@ -58,7 +59,7 @@ public class CmsImportUserThread extends A_CmsReportThread {
   private static final Log LOG = CmsLog.getLog(CmsImportUserThread.class);
 
   /** List of user. */
-  private List<CmsUser> m_userList;
+  private @RUntainted List<CmsUser> m_userList;
 
   /** List of roles. */
   private List<CmsRole> m_roleList;

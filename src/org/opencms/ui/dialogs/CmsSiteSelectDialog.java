@@ -49,6 +49,7 @@ import org.opencms.ui.components.CmsExtendedSiteSelector;
 import org.opencms.ui.components.CmsOkCancelActionHandler;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The site select dialog.
@@ -203,7 +204,7 @@ public class CmsSiteSelectDialog extends CmsBasicDialog {
    * @param captionKey the caption message key
    * @return the combo box
    */
-  private CmsExtendedSiteSelector prepareSiteSelector(String captionKey) {
+  private CmsExtendedSiteSelector prepareSiteSelector(@RUntainted String captionKey) {
 
     CmsExtendedSiteSelector result = new CmsExtendedSiteSelector();
     String caption = CmsVaadinUtils.getWpMessagesForCurrentLocale().key(captionKey);

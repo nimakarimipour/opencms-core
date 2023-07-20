@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines general authorization methods.
@@ -80,7 +81,7 @@ public interface I_CmsAuthorizationHandler {
      * @return a cms object initialized for the principal
      * @throws CmsException if the login action fails
      */
-    CmsObject doLogin(HttpServletRequest request, String principal) throws CmsException;
+    CmsObject doLogin(HttpServletRequest request, @RUntainted String principal) throws CmsException;
   }
 
   /**
@@ -93,7 +94,7 @@ public interface I_CmsAuthorizationHandler {
    * @param callbackURL the call-back URL to redirect after a successful login
    * @return the full URL used to call a login form
    */
-  String getLoginFormURL(String loginFormURL, String params, String callbackURL);
+  @RUntainted String getLoginFormURL(String loginFormURL, String params, String callbackURL);
 
   /**
    * Creates a new cms object from the given request object.
@@ -106,7 +107,7 @@ public interface I_CmsAuthorizationHandler {
    * @param request the HTTP request to authenticate
    * @return the cms context object associated to the current session
    */
-  CmsObject initCmsObject(HttpServletRequest request);
+  CmsObject initCmsObject(@RUntainted HttpServletRequest request);
 
   /**
    * Creates a new cms object from the given request object.
@@ -135,7 +136,7 @@ public interface I_CmsAuthorizationHandler {
    * @return the cms context object associated to the given user
    * @throws CmsException if something goes wrong
    */
-  CmsObject initCmsObject(HttpServletRequest request, String userName, String pwd)
+  CmsObject initCmsObject(@RUntainted HttpServletRequest request, String userName, String pwd)
       throws CmsException;
 
   /**
@@ -149,7 +150,7 @@ public interface I_CmsAuthorizationHandler {
    * @param loginFormURL the full URL used for form based authentication
    * @throws IOException if something goes wrong
    */
-  void requestAuthorization(HttpServletRequest req, HttpServletResponse res, String loginFormURL)
+  void requestAuthorization(@RUntainted HttpServletRequest req, HttpServletResponse res, @RUntainted String loginFormURL)
       throws IOException;
 
   /**

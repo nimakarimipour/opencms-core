@@ -59,6 +59,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table for the roles.
@@ -79,7 +80,7 @@ public class CmsRoleTable extends Table implements I_CmsFilterableTable {
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
-    public void executeAction(Set<String> context) {
+    public void executeAction(Set<@RUntainted String> context) {
 
       updateApp(CmsRole.valueOfId(new CmsUUID(context.iterator().next())));
     }

@@ -43,6 +43,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.report.CmsReportWidget;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Vertical Layout showing a publish report of a publish job.
@@ -76,7 +77,7 @@ public class CmsPublishReport extends VerticalLayout {
    *
    * @param jobId of chosen job
    */
-  public CmsPublishReport(String jobId) {
+  public CmsPublishReport(@RUntainted String jobId) {
 
     CmsVaadinUtils.readAndLocalizeDesign(
         this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);

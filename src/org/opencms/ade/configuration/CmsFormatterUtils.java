@@ -34,6 +34,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.opencms.ade.containerpage.shared.CmsFormatterConfig;
 import org.opencms.xml.containerpage.CmsContainerElementBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Helper class for formatter-related functionality. */
 public class CmsFormatterUtils {
@@ -63,7 +64,7 @@ public class CmsFormatterUtils {
    * @param element the element from which to get the formatter key
    * @return the formatter key
    */
-  public static String getFormatterKey(String containerName, CmsContainerElementBean element) {
+  public static @RUntainted String getFormatterKey(String containerName, CmsContainerElementBean element) {
 
     Map<String, String> settings = element.getSettings();
     return getFormatterKey(containerName, settings);
@@ -76,7 +77,7 @@ public class CmsFormatterUtils {
    * @param settings the settings from which to get the formatter key
    * @return the formatter key
    */
-  public static String getFormatterKey(String containerName, Map<String, String> settings) {
+  public static @RUntainted String getFormatterKey(String containerName, Map<String, String> settings) {
 
     String key1 = settings.get(CmsFormatterConfig.FORMATTER_SETTINGS_KEY + containerName);
     String key2 = settings.get(CmsFormatterConfig.FORMATTER_SETTINGS_KEY);
@@ -95,7 +96,7 @@ public class CmsFormatterUtils {
    * @param settings the settings from which to remove the formatter key
    * @return the formatter key
    */
-  public static String removeFormatterKey(String containerName, Map<String, String> settings) {
+  public static @RUntainted String removeFormatterKey(String containerName, Map<String, String> settings) {
 
     String result = null;
     for (String mapKey :

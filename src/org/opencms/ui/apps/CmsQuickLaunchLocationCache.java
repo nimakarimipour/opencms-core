@@ -41,6 +41,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.site.CmsSite;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores the last opened locations for file explorer, page editor and sitemap editor.
@@ -62,7 +63,7 @@ public class CmsQuickLaunchLocationCache implements Serializable {
   private Map<String, String> m_sitemapEditorLocations;
 
   /** The file explorer locations. */
-  private Map<String, String> m_fileExplorerLocations;
+  private Map<String, @RUntainted String> m_fileExplorerLocations;
 
   /**
    * Constructor.
@@ -103,7 +104,7 @@ public class CmsQuickLaunchLocationCache implements Serializable {
    * @param siteRoot the site root
    * @return the location
    */
-  public String getFileExplorerLocation(String siteRoot) {
+  public @RUntainted String getFileExplorerLocation(String siteRoot) {
 
     return m_fileExplorerLocations.get(siteRoot);
   }
@@ -185,7 +186,7 @@ public class CmsQuickLaunchLocationCache implements Serializable {
    * @param siteRoot the site root
    * @param location the location
    */
-  public void setFileExplorerLocation(String siteRoot, String location) {
+  public void setFileExplorerLocation(String siteRoot, @RUntainted String location) {
 
     m_fileExplorerLocations.put(siteRoot, location);
   }

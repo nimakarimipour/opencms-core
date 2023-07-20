@@ -102,6 +102,7 @@ import org.opencms.staticexport.CmsStaticExportManager;
 import org.opencms.util.CmsPair;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) implementation of the project driver methods.
@@ -127,7 +128,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     private CmsUUID m_projectId;
 
     /** The resource path. */
-    private String m_resourcePath;
+    private @RUntainted String m_resourcePath;
 
     /** The user id. */
     private CmsUUID m_userId;
@@ -182,7 +183,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
      *
      * @return the resourcePath
      */
-    public String getResourcePath() {
+    public @RUntainted String getResourcePath() {
 
       return m_resourcePath;
     }
@@ -235,7 +236,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
           rowsAffected = stmt.executeUpdate();
           break;
         case allUnreferenced:
-          String statementText = m_sqlManager.readQuery("C_CLEANUP_PUBLISH_HISTORY_ALL");
+          @RUntainted String statementText = m_sqlManager.readQuery("C_CLEANUP_PUBLISH_HISTORY_ALL");
           if (filter.getExceptions().size() > 0) {
             List<String> parts = new ArrayList<>();
             // it's safe to construct the clause as a string here because UUIDs can only contain
@@ -275,11 +276,11 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
    */
   public CmsProject createProject(
       CmsDbContext dbc,
-      CmsUUID id,
+      @RUntainted CmsUUID id,
       CmsUser owner,
       CmsGroup group,
       CmsGroup managergroup,
-      String projectFqn,
+      @RUntainted String projectFqn,
       String description,
       int flags,
       CmsProject.CmsProjectType type)
@@ -351,7 +352,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
    * @see org.opencms.db.I_CmsProjectDriver#createProjectResource(org.opencms.db.CmsDbContext,
    *     CmsUUID, java.lang.String)
    */
-  public void createProjectResource(CmsDbContext dbc, CmsUUID projectId, String resourcePath)
+  public void createProjectResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String resourcePath)
       throws CmsDataAccessException {
 
     // do not create entries for online-project
@@ -978,7 +979,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
       CmsDriverManager driverManager) {
 
     CmsParameterConfiguration configuration = configurationManager.getConfiguration();
-    String poolUrl = configuration.get("db.project.pool");
+    @RUntainted String poolUrl = configuration.get("db.project.pool");
     String classname = configuration.get("db.project.sqlmanager");
     m_sqlManager = initSqlManager(classname);
     m_sqlManager.init(I_CmsProjectDriver.DRIVER_TYPE_ID, poolUrl);
@@ -1000,7 +1001,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
   }
 
   /** @see org.opencms.db.I_CmsProjectDriver#initSqlManager(String) */
-  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
     return CmsSqlManager.getInstance(classname);
   }
@@ -1056,10 +1057,10 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
   public void publishDeletedFolder(
       CmsDbContext dbc,
       I_CmsReport report,
-      int m,
-      int n,
+      @RUntainted int m,
+      @RUntainted int n,
       CmsProject onlineProject,
-      CmsFolder currentFolder,
+      @RUntainted CmsFolder currentFolder,
       CmsUUID publishHistoryId,
       int publishTag)
       throws CmsDataAccessException {
@@ -1279,10 +1280,10 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
   public void publishFile(
       CmsDbContext dbc,
       I_CmsReport report,
-      int m,
-      int n,
+      @RUntainted int m,
+      @RUntainted int n,
       CmsProject onlineProject,
-      CmsResource offlineResource,
+      @RUntainted CmsResource offlineResource,
       Set<CmsUUID> publishedContentIds,
       CmsUUID publishHistoryId,
       int publishTag)
@@ -1467,7 +1468,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
       throw new CmsDataAccessException(e.getMessageContainer(), e);
     } finally {
       // notify the app. that the published file and it's properties have been modified offline
-      Map<String, Object> data = new HashMap<String, Object>(2);
+      Map<String, @RUntainted Object> data = new HashMap<String, @RUntainted Object>(2);
       data.put(I_CmsEventListener.KEY_RESOURCE, offlineResource);
       data.put(I_CmsEventListener.KEY_SKIPINDEX, new Boolean(true));
 
@@ -1583,10 +1584,10 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
   public void publishFolder(
       CmsDbContext dbc,
       I_CmsReport report,
-      int m,
-      int n,
+      @RUntainted int m,
+      @RUntainted int n,
       CmsProject onlineProject,
-      CmsFolder offlineFolder,
+      @RUntainted CmsFolder offlineFolder,
       CmsUUID publishHistoryId,
       int publishTag)
       throws CmsDataAccessException {
@@ -1854,7 +1855,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
       }
 
       publishedFolderCount = 0;
-      int foldersSize = publishList.getFolderList().size();
+      @RUntainted int foldersSize = publishList.getFolderList().size();
       if (foldersSize > 0) {
         report.println(
             Messages.get().container(Messages.RPT_PUBLISH_FOLDERS_BEGIN_0),
@@ -1957,7 +1958,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
       // publish changed/new/deleted files
 
       publishedFileCount = 0;
-      int filesSize = publishList.getFileList().size();
+      @RUntainted int filesSize = publishList.getFileList().size();
 
       if (filesSize > 0) {
         report.println(
@@ -1978,9 +1979,9 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
           Sets.intersection(deletedResourceIds, changedResourceIds);
       dbc.setAttribute(CmsDriverManager.KEY_CHANGED_AND_DELETED, changedAndDeletedResourceIds);
 
-      Iterator<CmsResource> itFiles = publishList.getFileList().iterator();
+      Iterator<@RUntainted CmsResource> itFiles = publishList.getFileList().iterator();
       while (itFiles.hasNext()) {
-        CmsResource currentResource = itFiles.next();
+        @RUntainted CmsResource currentResource = itFiles.next();
         try {
           // bounce the current publish task through all project drivers
           projectDriver.publishFile(
@@ -2038,22 +2039,22 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
       ////////////////////////////////////////////////////////////////////////////////////////
 
       // publish deleted folders
-      List<CmsResource> deletedFolders = publishList.getDeletedFolderList();
+      List<@RUntainted CmsResource> deletedFolders = publishList.getDeletedFolderList();
       if (deletedFolders.isEmpty()) {
         return;
       }
 
       deletedFolderCount = 0;
-      int deletedFoldersSize = deletedFolders.size();
+      @RUntainted int deletedFoldersSize = deletedFolders.size();
       if (deletedFoldersSize > 0) {
         report.println(
             Messages.get().container(Messages.RPT_DELETE_FOLDERS_BEGIN_0),
             I_CmsReport.FORMAT_HEADLINE);
       }
 
-      Iterator<CmsResource> itDeletedFolders = deletedFolders.iterator();
+      Iterator<@RUntainted CmsResource> itDeletedFolders = deletedFolders.iterator();
       while (itDeletedFolders.hasNext()) {
-        CmsResource currentFolder = itDeletedFolders.next();
+        @RUntainted CmsResource currentFolder = itDeletedFolders.next();
 
         try {
           // bounce the current publish task through all project drivers
@@ -2120,7 +2121,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     } finally {
       // reset vfs driver internal info after publishing
       m_driverManager.getVfsDriver(dbc).publishVersions(dbc, null, false);
-      Object[] msgArgs =
+      @RUntainted Object[] msgArgs =
           new Object[] {
             String.valueOf(publishedFileCount),
             String.valueOf(publishedFolderCount),
@@ -2243,7 +2244,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
   }
 
   /** @see org.opencms.db.I_CmsProjectDriver#readProject(org.opencms.db.CmsDbContext, CmsUUID) */
-  public CmsProject readProject(CmsDbContext dbc, CmsUUID id) throws CmsDataAccessException {
+  public CmsProject readProject(CmsDbContext dbc, @RUntainted CmsUUID id) throws CmsDataAccessException {
 
     PreparedStatement stmt = null;
     CmsProject project = null;
@@ -2282,7 +2283,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
    * @see org.opencms.db.I_CmsProjectDriver#readProject(org.opencms.db.CmsDbContext,
    *     java.lang.String)
    */
-  public CmsProject readProject(CmsDbContext dbc, String projectFqn) throws CmsDataAccessException {
+  public CmsProject readProject(CmsDbContext dbc, @RUntainted String projectFqn) throws CmsDataAccessException {
 
     PreparedStatement stmt = null;
     CmsProject project = null;
@@ -2323,7 +2324,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
    * @see org.opencms.db.I_CmsProjectDriver#readProjectResource(org.opencms.db.CmsDbContext,
    *     CmsUUID, java.lang.String)
    */
-  public String readProjectResource(CmsDbContext dbc, CmsUUID projectId, String resourcePath)
+  public String readProjectResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String resourcePath)
       throws CmsDataAccessException {
 
     PreparedStatement stmt = null;
@@ -2586,7 +2587,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
 
     Connection conn = null;
     PreparedStatement stmt = null;
-    ResultSet res = null;
+    @RUntainted ResultSet res = null;
     List<CmsPublishedResource> publishedResources = new ArrayList<CmsPublishedResource>();
 
     try {
@@ -2600,7 +2601,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
         CmsUUID resourceId = new CmsUUID(res.getString("RESOURCE_ID"));
         String rootPath = res.getString("RESOURCE_PATH");
         int resourceState = res.getInt("RESOURCE_STATE");
-        int resourceType = res.getInt("RESOURCE_TYPE");
+        @RUntainted int resourceType = res.getInt("RESOURCE_TYPE");
         int siblingCount = res.getInt("SIBLING_COUNT");
         int publishTag = res.getInt("PUBLISH_TAG");
 
@@ -2714,7 +2715,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
    * @see org.opencms.db.I_CmsProjectDriver#readPublishList(org.opencms.db.CmsDbContext,
    *     org.opencms.util.CmsUUID)
    */
-  public CmsPublishList readPublishList(CmsDbContext dbc, CmsUUID publishHistoryId)
+  public CmsPublishList readPublishList(CmsDbContext dbc, @RUntainted CmsUUID publishHistoryId)
       throws CmsDataAccessException {
 
     Connection conn = null;
@@ -2917,11 +2918,11 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
   public void writeLocks(CmsDbContext dbc, List<CmsLock> locks) throws CmsDataAccessException {
 
     Connection conn = null;
-    PreparedStatement stmt = null;
+    @RUntainted PreparedStatement stmt = null;
     try {
       conn = m_sqlManager.getConnection(dbc);
       stmt = m_sqlManager.getPreparedStatement(conn, "C_RESOURCE_LOCKS_DELETEALL");
-      int deleted = stmt.executeUpdate();
+      @RUntainted int deleted = stmt.executeUpdate();
       if (LOG.isDebugEnabled()) {
         LOG.debug(
             Messages.get().getBundle().key(Messages.LOG_DBG_CLEAR_LOCKS_1, new Integer(deleted)));
@@ -3203,7 +3204,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
    * @return an initialized <code>CmsPublishJobInfoBean</code>
    * @throws SQLException if something goes wrong
    */
-  protected CmsPublishJobInfoBean createPublishJobInfoBean(ResultSet res) throws SQLException {
+  protected CmsPublishJobInfoBean createPublishJobInfoBean(@RUntainted ResultSet res) throws SQLException {
 
     return new CmsPublishJobInfoBean(
         new CmsUUID(res.getString("HISTORY_ID")),
@@ -3327,7 +3328,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
 
     Connection conn = null;
     PreparedStatement stmt = null;
-    ResultSet res = null;
+    @RUntainted ResultSet res = null;
 
     List<CmsResource> result = null;
     try {
@@ -3343,7 +3344,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
       while (res.next()) {
         CmsResource resource =
             m_driverManager.getVfsDriver(dbc).createResource(res, dbc.currentProject().getUuid());
-        long date = res.getLong(m_sqlManager.readQuery("C_LOG_DATE"));
+        @RUntainted long date = res.getLong(m_sqlManager.readQuery("C_LOG_DATE"));
         resource.setDateLastModified(date);
         result.add(resource);
       }
@@ -3367,9 +3368,9 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
    * @return the new project
    * @throws SQLException is something goes wrong
    */
-  protected CmsProject internalCreateProject(ResultSet res) throws SQLException {
+  protected CmsProject internalCreateProject(@RUntainted ResultSet res) throws SQLException {
 
-    String ou =
+    @RUntainted String ou =
         CmsOrganizationalUnit.removeLeadingSeparator(
             res.getString(m_sqlManager.readQuery("C_PROJECTS_PROJECT_OU_0")));
     return new CmsProject(
@@ -3412,14 +3413,14 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
    * @return the new {@link CmsLogEntry} object
    * @throws SQLException if something goes wrong
    */
-  protected CmsLogEntry internalReadLogEntry(ResultSet res) throws SQLException {
+  protected CmsLogEntry internalReadLogEntry(@RUntainted ResultSet res) throws SQLException {
 
     CmsUUID userId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_LOG_USER_ID")));
     long date = res.getLong(m_sqlManager.readQuery("C_LOG_DATE"));
     CmsUUID structureId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_LOG_STRUCTURE_ID")));
     CmsLogEntryType type =
         CmsLogEntryType.valueOf(res.getInt(m_sqlManager.readQuery("C_LOG_TYPE")));
-    String[] data =
+    @RUntainted String[] data =
         CmsStringUtil.splitAsArray(res.getString(m_sqlManager.readQuery("C_LOG_DATA")), '|');
     return new CmsLogEntry(userId, date, structureId, type, data);
   }

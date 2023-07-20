@@ -45,6 +45,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.quartz.CronExpression;
 import org.quartz.Trigger;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a scheduled job for the OpenCms scheduler.
@@ -308,7 +309,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
   private boolean m_active;
 
   /** The name of the class to schedule. */
-  private String m_className;
+  private @RUntainted String m_className;
 
   /** The context information for the user to execute the job with. */
   private CmsContextInfo m_context;
@@ -320,19 +321,19 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
   private boolean m_frozen;
 
   /** The id of this job. */
-  private String m_id;
+  private @RUntainted String m_id;
 
   /** Instance object of the scheduled job (only required when instance is re-used). */
-  private transient I_CmsScheduledJob m_jobInstance;
+  private transient @RUntainted I_CmsScheduledJob m_jobInstance;
 
   /** The name of the job (for information purposes). */
-  private String m_jobName;
+  private @RUntainted String m_jobName;
 
   /** Stores the next execution time. */
-  private Date m_nextFireTime;
+  private @RUntainted Date m_nextFireTime;
 
   /** The parameters used for this job entry. */
-  private SortedMap<String, String> m_parameters;
+  private @RUntainted SortedMap<String, @RUntainted String> m_parameters;
 
   /** Stores the last job execution time. */
   private Date m_previousFireTime;
@@ -341,7 +342,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
   private boolean m_reuseInstance;
 
   /** The (cron) trigger used for scheduling this job. */
-  private Trigger m_trigger;
+  private @RUntainted Trigger m_trigger;
 
   /**
    * Default constructor.
@@ -374,9 +375,9 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    * @param parameters the job parameters
    */
   public CmsScheduledJobInfo(
-      String id,
-      String jobName,
-      String className,
+      @RUntainted String id,
+      @RUntainted String jobName,
+      @RUntainted String className,
       CmsContextInfo context,
       String cronExpression,
       boolean reuseInstance,
@@ -402,7 +403,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    *     org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String,
    *     java.lang.String)
    */
-  public void addConfigurationParameter(String paramName, String paramValue) {
+  public void addConfigurationParameter(@RUntainted String paramName, @RUntainted String paramValue) {
 
     checkFrozen();
     // add the configured parameter
@@ -475,7 +476,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    *
    * @return the name of the class to schedule
    */
-  public String getClassName() {
+  public @RUntainted String getClassName() {
 
     return m_className;
   }
@@ -519,7 +520,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    *
    * @return the cron expression for this job entry
    */
-  public String getCronExpression() {
+  public @RUntainted String getCronExpression() {
 
     return m_cronExpression;
   }
@@ -553,7 +554,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    *
    * @return the next time at which this job will be executed
    */
-  public Date getExecutionTimeNext() {
+  public @RUntainted Date getExecutionTimeNext() {
 
     if (!m_active || (m_trigger == null)) {
       // if the job is not active, no time can be calculated
@@ -561,7 +562,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
     }
     if (m_nextFireTime == null) {
       // in case next time is not set, check if the trigger supplies a valid next fire time
-      Date next = m_trigger.getNextFireTime();
+      @RUntainted Date next = m_trigger.getNextFireTime();
       if (System.currentTimeMillis() < next.getTime()) {
         m_nextFireTime = next;
       }
@@ -596,7 +597,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    *
    * @return the internal id of this job in the scheduler
    */
-  public String getId() {
+  public @RUntainted String getId() {
 
     return m_id;
   }
@@ -626,7 +627,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
       return m_jobInstance;
     }
 
-    I_CmsScheduledJob job = null;
+    @RUntainted I_CmsScheduledJob job = null;
 
     try {
       // create an instance of the OpenCms job class
@@ -665,7 +666,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    *
    * @return the job name
    */
-  public String getJobName() {
+  public @RUntainted String getJobName() {
 
     return m_jobName;
   }
@@ -677,7 +678,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    *
    * @return the parameters
    */
-  public SortedMap<String, String> getParameters() {
+  public @RUntainted SortedMap<String, @RUntainted String> getParameters() {
 
     return m_parameters;
   }
@@ -748,7 +749,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    *
    * @param className the class name to set
    */
-  public void setClassName(String className) {
+  public void setClassName(@RUntainted String className) {
 
     checkFrozen();
     if (className != null) {
@@ -826,7 +827,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    * @param cronExpression the cron expression to set
    */
   @SuppressWarnings("unused")
-  public void setCronExpression(String cronExpression) {
+  public void setCronExpression(@RUntainted String cronExpression) {
 
     checkFrozen();
 
@@ -849,7 +850,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    *
    * @param jobName the job name to set
    */
-  public void setJobName(String jobName) {
+  public void setJobName(@RUntainted String jobName) {
 
     checkFrozen();
     if (CmsStringUtil.isEmpty(jobName) || !jobName.trim().equals(jobName)) {
@@ -866,7 +867,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    *
    * @param parameters the parameters to set
    */
-  public void setParameters(SortedMap<String, String> parameters) {
+  public void setParameters(SortedMap<String, @RUntainted String> parameters) {
 
     checkFrozen();
     if (parameters == null) {
@@ -955,7 +956,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    *
    * @param id the id to set
    */
-  protected void setId(String id) {
+  protected void setId(@RUntainted String id) {
 
     checkFrozen();
     m_id = id;
@@ -968,7 +969,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    *
    * @param nextFire the next execution time
    */
-  protected void setNextFireTime(Date nextFire) {
+  protected void setNextFireTime(@RUntainted Date nextFire) {
 
     m_nextFireTime = nextFire;
   }
@@ -995,7 +996,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
    *
    * @param trigger the Quartz trigger to set
    */
-  protected void setTrigger(Trigger trigger) {
+  protected void setTrigger(@RUntainted Trigger trigger) {
 
     checkFrozen();
     m_trigger = trigger;

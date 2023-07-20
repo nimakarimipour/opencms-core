@@ -39,6 +39,7 @@ import org.opencms.monitor.CmsMemoryMonitor;
 import org.opencms.monitor.I_CmsMemoryMonitorable;
 import org.opencms.search.fields.CmsSearchField;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the data of a single item in a search result.
@@ -50,28 +51,28 @@ import org.opencms.util.CmsStringUtil;
 public class CmsSearchResult implements I_CmsMemoryMonitorable, Comparable<CmsSearchResult> {
 
   /** The creation date of this search result. */
-  protected Date m_dateCreated;
+  protected @RUntainted Date m_dateCreated;
 
   /** The last modification date of this search result. */
-  protected Date m_dateLastModified;
+  protected @RUntainted Date m_dateLastModified;
 
   /** The document type of the search result. */
   protected String m_documentType;
 
   /** The excerpt of this search result. */
-  protected String m_excerpt;
+  protected @RUntainted String m_excerpt;
 
   /** Holds the values of the search result fields. */
   protected Map<String, String> m_fields;
 
   /** The resource path of this search result. */
-  protected String m_path;
+  protected @RUntainted String m_path;
 
   /** The score of this search result. */
   protected int m_score;
 
   /** Contains the pre-calculated memory size. */
-  private int m_memorySize;
+  private @RUntainted int m_memorySize;
 
   /**
    * Creates a new search result.
@@ -83,7 +84,7 @@ public class CmsSearchResult implements I_CmsMemoryMonitorable, Comparable<CmsSe
    *     etc. pp.
    * @param excerpt the excerpt of the search result's content
    */
-  public CmsSearchResult(int score, Document doc, String excerpt) {
+  public CmsSearchResult(int score, Document doc, @RUntainted String excerpt) {
 
     m_score = score;
     m_excerpt = excerpt;
@@ -104,7 +105,7 @@ public class CmsSearchResult implements I_CmsMemoryMonitorable, Comparable<CmsSe
       }
     }
 
-    IndexableField f = doc.getField(CmsSearchField.FIELD_PATH);
+    @RUntainted IndexableField f = doc.getField(CmsSearchField.FIELD_PATH);
     if (f != null) {
       m_path = f.stringValue();
     } else {
@@ -278,7 +279,7 @@ public class CmsSearchResult implements I_CmsMemoryMonitorable, Comparable<CmsSe
   }
 
   /** @see org.opencms.monitor.I_CmsMemoryMonitorable#getMemorySize() */
-  public int getMemorySize() {
+  public @RUntainted int getMemorySize() {
 
     if (m_memorySize == 0) {
       int result = 8;
@@ -292,9 +293,9 @@ public class CmsSearchResult implements I_CmsMemoryMonitorable, Comparable<CmsSe
         result += CmsMemoryMonitor.getMemorySize(m_path);
       }
       if (m_fields != null) {
-        Iterator<Map.Entry<String, String>> entries = m_fields.entrySet().iterator();
+        Iterator<Map.Entry<@RUntainted String, @RUntainted String>> entries = m_fields.entrySet().iterator();
         while (entries.hasNext()) {
-          Map.Entry<String, String> entry = entries.next();
+          Map.Entry<@RUntainted String, @RUntainted String> entry = entries.next();
           result += CmsMemoryMonitor.getMemorySize(entry.getKey());
           result += CmsMemoryMonitor.getMemorySize(entry.getValue());
         }

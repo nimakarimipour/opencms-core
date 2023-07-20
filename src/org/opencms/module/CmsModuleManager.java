@@ -63,6 +63,7 @@ import org.opencms.security.CmsRole;
 import org.opencms.security.CmsRoleViolationException;
 import org.opencms.security.CmsSecurityException;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the modules of an OpenCms installation.
@@ -90,7 +91,7 @@ public class CmsModuleManager {
   private Set<CmsExportPoint> m_moduleExportPoints;
 
   /** The map of configured modules. */
-  private Map<String, CmsModule> m_modules;
+  private @RUntainted Map<String, CmsModule> m_modules;
 
   /**
    * Whether incremental module updates are allowed (rather than deleting / reimporting the module).
@@ -263,13 +264,13 @@ public class CmsModuleManager {
     if (rfsAbsPath == null) {
       return modules;
     }
-    File folder = new File(rfsAbsPath);
+    @RUntainted File folder = new File(rfsAbsPath);
     if (folder.exists()) {
       // list all child resources in the given folder
-      File[] folderFiles = folder.listFiles();
+      @RUntainted File[] folderFiles = folder.listFiles();
       if (folderFiles != null) {
         for (int i = 0; i < folderFiles.length; i++) {
-          File moduleFile = folderFiles[i];
+          @RUntainted File moduleFile = folderFiles[i];
           if (moduleFile.isFile()
               && !(moduleFile.getAbsolutePath().toLowerCase().endsWith(".zip"))) {
             // skip non-ZIP files
@@ -306,11 +307,11 @@ public class CmsModuleManager {
    * @return a sorted list of module names
    * @throws CmsConfigurationException if something goes wrong
    */
-  public static List<String> topologicalSort(List<String> moduleNames, String rfsAbsPath)
+  public static @RUntainted List<@RUntainted String> topologicalSort(List<String> moduleNames, String rfsAbsPath)
       throws CmsConfigurationException {
 
-    List<String> modules = new ArrayList<String>(moduleNames);
-    List<String> retList = new ArrayList<String>();
+    @RUntainted List<String> modules = new ArrayList<String>(moduleNames);
+    List<@RUntainted String> retList = new ArrayList<@RUntainted String>();
     Map<String, List<String>> moduleDependencies =
         buildDepsForModulelist(moduleNames, rfsAbsPath, true);
     boolean finished = false;
@@ -373,10 +374,10 @@ public class CmsModuleManager {
     m_modules.put(module.getName(), module);
 
     try {
-      I_CmsModuleAction moduleAction = module.getActionInstance();
+      @RUntainted I_CmsModuleAction moduleAction = module.getActionInstance();
       String className = module.getActionClass();
       if ((moduleAction == null) && (className != null)) {
-        Class<?> actionClass = Class.forName(className, false, getClass().getClassLoader());
+        @RUntainted Class<?> actionClass = Class.forName(className, false, getClass().getClassLoader());
         if (I_CmsModuleAction.class.isAssignableFrom(actionClass)) {
           moduleAction = ((Class<? extends I_CmsModuleAction>) actionClass).newInstance();
           module.setActionInstance(moduleAction);
@@ -420,7 +421,7 @@ public class CmsModuleManager {
    * @param mode the dependency check mode
    * @return a list of dependencies that are not fulfilled, if empty all dependencies are fulfilled
    */
-  public List<CmsModuleDependency> checkDependencies(CmsModule module, int mode) {
+  public List<CmsModuleDependency> checkDependencies(CmsModule module, @RUntainted int mode) {
 
     List<CmsModuleDependency> result = new ArrayList<CmsModuleDependency>();
 
@@ -482,10 +483,10 @@ public class CmsModuleManager {
     Map<String, List<String>> moduleDependencies = buildDepsForAllModules(rfsAbsPath, forDeletion);
     Iterator<String> itMods = moduleNames.iterator();
     while (itMods.hasNext()) {
-      String moduleName = itMods.next();
+      @RUntainted String moduleName = itMods.next();
       List<String> dependencies = moduleDependencies.get(moduleName);
       if (dependencies != null) {
-        List<String> depModules = new ArrayList<String>(dependencies);
+        @RUntainted List<String> depModules = new ArrayList<String>(dependencies);
         depModules.removeAll(moduleNames);
         if (!depModules.isEmpty()) {
           throw new CmsIllegalArgumentException(
@@ -516,7 +517,7 @@ public class CmsModuleManager {
    * @throws CmsLockException if the module resources can not be locked
    */
   public synchronized void deleteModule(
-      CmsObject cms, String moduleName, boolean replace, boolean preserveLibs, I_CmsReport report)
+      CmsObject cms, @RUntainted String moduleName, boolean replace, boolean preserveLibs, I_CmsReport report)
       throws CmsRoleViolationException, CmsConfigurationException, CmsLockException {
 
     // check for module manager role permissions
@@ -703,7 +704,7 @@ public class CmsModuleManager {
 
       // move through all module resources and delete them
       for (CmsResource resource : moduleResources) {
-        String sitePath = cms.getSitePath(resource);
+        @RUntainted String sitePath = cms.getSitePath(resource);
         try {
           if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_DEL_MOD_RESOURCE_1, sitePath));
@@ -790,7 +791,7 @@ public class CmsModuleManager {
    * @throws CmsLockException if the module resources can not be locked
    */
   public synchronized void deleteModule(
-      CmsObject cms, String moduleName, boolean replace, I_CmsReport report)
+      CmsObject cms, @RUntainted String moduleName, boolean replace, I_CmsReport report)
       throws CmsRoleViolationException, CmsConfigurationException, CmsLockException {
 
     deleteModule(cms, moduleName, replace, false, report);
@@ -854,7 +855,7 @@ public class CmsModuleManager {
    *
    * @return the set of names of all the installed modules
    */
-  public Set<String> getModuleNames() {
+  public @RUntainted Set<String> getModuleNames() {
 
     synchronized (m_modules) {
       return new HashSet<String>(m_modules.keySet());
@@ -901,7 +902,7 @@ public class CmsModuleManager {
 
       if (module.getActionClass() != null) {
         // create module instance class
-        I_CmsModuleAction moduleAction = module.getActionInstance();
+        @RUntainted I_CmsModuleAction moduleAction = module.getActionInstance();
         if (module.getActionClass() != null) {
           try {
             moduleAction = (I_CmsModuleAction) Class.forName(module.getActionClass()).newInstance();
@@ -963,7 +964,7 @@ public class CmsModuleManager {
    * @return the module replacement status
    * @throws CmsException if something goes wrong
    */
-  public CmsReplaceModuleInfo replaceModule(CmsObject cms, String importFile, I_CmsReport report)
+  public CmsReplaceModuleInfo replaceModule(CmsObject cms, @RUntainted String importFile, I_CmsReport report)
       throws CmsException {
 
     CmsModule module = CmsModuleImportExportHandler.readModuleFromImport(importFile);
@@ -1020,7 +1021,7 @@ public class CmsModuleManager {
         continue;
       }
       // get the module action instance
-      I_CmsModuleAction moduleAction = module.getActionInstance();
+      @RUntainted I_CmsModuleAction moduleAction = module.getActionInstance();
       if (moduleAction == null) {
         continue;
       }
@@ -1142,9 +1143,9 @@ public class CmsModuleManager {
     Iterator<CmsModule> i = m_modules.values().iterator();
     while (i.hasNext()) {
       CmsModule module = i.next();
-      List<CmsExportPoint> moduleExportPoints = module.getExportPoints();
+      List<@RUntainted CmsExportPoint> moduleExportPoints = module.getExportPoints();
       for (int j = 0; j < moduleExportPoints.size(); j++) {
-        CmsExportPoint point = moduleExportPoints.get(j);
+        @RUntainted CmsExportPoint point = moduleExportPoints.get(j);
         if (exportPoints.contains(point)) {
           if (LOG.isWarnEnabled()) {
             LOG.warn(

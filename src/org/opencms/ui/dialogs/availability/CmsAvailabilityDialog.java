@@ -74,6 +74,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.CmsWorkplaceSettings;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Availability dialog.
@@ -197,7 +198,7 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
       if (!responsibles.isEmpty()) {
         m_responsiblesPanel.setVisible(true);
         m_notificationPanel.setVisible(true);
-        for (Map.Entry<CmsPrincipalBean, String> entry : responsibles.entrySet()) {
+        for (Map.Entry<CmsPrincipalBean, @RUntainted String> entry : responsibles.entrySet()) {
           CmsPrincipalBean principal = entry.getKey();
           String icon =
               principal.isGroup()
@@ -578,8 +579,8 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
   private void performSingleResourceNotification(
       CmsObject cms,
       String resName,
-      boolean enableNotification,
-      int notificationInterval,
+      @RUntainted boolean enableNotification,
+      @RUntainted int notificationInterval,
       boolean modifySiblings)
       throws CmsException {
 
@@ -628,7 +629,7 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
    * @throws CmsException if something goes wrong
    */
   private void writeProperty(
-      CmsObject cms, CmsResource resource, String propertyName, String propertyValue)
+      CmsObject cms, CmsResource resource, String propertyName, @RUntainted String propertyValue)
       throws CmsException {
 
     if (CmsStringUtil.isEmpty(propertyValue)) {

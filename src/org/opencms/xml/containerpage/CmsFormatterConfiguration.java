@@ -55,6 +55,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.security.CmsRole;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a formatter configuration.
@@ -327,7 +328,7 @@ public final class CmsFormatterConfiguration {
    * @param containerWidth the container width
    * @return the matching formatter, or <code>null</code> if none was found
    */
-  public I_CmsFormatterBean getDefaultFormatter(
+  public @RUntainted I_CmsFormatterBean getDefaultFormatter(
       final String containerTypes, final int containerWidth) {
 
     Optional<I_CmsFormatterBean> result =
@@ -485,7 +486,7 @@ public final class CmsFormatterConfiguration {
    * @param key a formatter key or id
    * @return the list of formatters for the given key
    */
-  public List<I_CmsFormatterBean> getFormattersForKey(String key) {
+  public List<I_CmsFormatterBean> getFormattersForKey(@RUntainted String key) {
 
     if (key == null) {
       return new ArrayList<>();
@@ -493,7 +494,7 @@ public final class CmsFormatterConfiguration {
     List<I_CmsFormatterBean> result = new ArrayList<>();
 
     if (key.startsWith(CmsFormatterConfig.SCHEMA_FORMATTER_ID)) {
-      String idStr = key.substring(CmsFormatterConfig.SCHEMA_FORMATTER_ID.length());
+      @RUntainted String idStr = key.substring(CmsFormatterConfig.SCHEMA_FORMATTER_ID.length());
       try {
         CmsUUID id = new CmsUUID(idStr);
         for (I_CmsFormatterBean formatter : m_allFormatters) {

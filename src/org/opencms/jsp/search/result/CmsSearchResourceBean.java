@@ -36,6 +36,7 @@ import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.jsp.util.CmsJspContentAccessBean;
 import org.opencms.search.CmsSearchResource;
 import org.opencms.util.CmsCollectionsGenericWrapper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** JSP EL friendly wrapper class for a single search result (document). */
 public class CmsSearchResourceBean implements I_CmsSearchResourceBean {
@@ -153,7 +154,7 @@ public class CmsSearchResourceBean implements I_CmsSearchResourceBean {
               new Transformer() {
 
                 @Override
-                public Object transform(final Object locale) {
+                public Object transform(final @RUntainted Object locale) {
 
                   CmsJspContentAccessBean accessBean = null;
                   try {

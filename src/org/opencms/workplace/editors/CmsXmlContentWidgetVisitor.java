@@ -40,6 +40,7 @@ import org.opencms.widgets.I_CmsWidget;
 import org.opencms.widgets.Messages;
 import org.opencms.xml.content.I_CmsXmlContentValueVisitor;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Visitor implementation that collects the different widgets for all visited values and all widgets
@@ -155,7 +156,7 @@ public class CmsXmlContentWidgetVisitor implements I_CmsXmlContentValueVisitor {
    * @see
    *     org.opencms.xml.content.I_CmsXmlContentValueVisitor#visit(org.opencms.xml.types.I_CmsXmlContentValue)
    */
-  public void visit(I_CmsXmlContentValue value) {
+  public void visit(@RUntainted I_CmsXmlContentValue value) {
 
     if (LOG.isDebugEnabled()) {
       LOG.debug(

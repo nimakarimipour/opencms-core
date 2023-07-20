@@ -56,6 +56,7 @@ import org.opencms.security.I_CmsPrincipal;
 import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.workplace.commons.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays the permission settings for a single principal.
@@ -521,7 +522,7 @@ public class CmsPermissionView extends CssLayout {
     result.addContainerProperty(PROPERTY_DISPLAY_ALLOWED, Label.class, null);
     result.addContainerProperty(PROPERTY_DENIED, Boolean.class, Boolean.FALSE);
     result.addContainerProperty(PROPERTY_DISPLAY_DENIED, Label.class, null);
-    for (String key : CmsPermissionSet.getPermissionKeys()) {
+    for (@RUntainted String key : CmsPermissionSet.getPermissionKeys()) {
       int flag = CmsPermissionSet.getPermissionValue(key);
       Item entry = result.addItem(key);
       entry.getItemProperty(PROPERTY_LABEL).setValue(CmsVaadinUtils.getMessageText(key));

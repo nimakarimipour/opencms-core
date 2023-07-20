@@ -44,6 +44,7 @@ import org.opencms.jlan.CmsJlanUsers;
 import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.CmsShell;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The RepositoryManager keeps a list with all configured {@link I_CmsRepository} and can be used to
@@ -134,11 +135,11 @@ public class CmsRepositoryManager {
     List<I_CmsResourceWrapper> wrapperObjects = Lists.newArrayList();
     if (config.containsKey(paramName)) {
       List<String> wrappers = config.getList(paramName);
-      for (String wrapperString : wrappers) {
+      for (@RUntainted String wrapperString : wrappers) {
         wrapperString = wrapperString.trim();
-        String className;
+        @RUntainted String className;
         String configString = null;
-        int separatorPos = wrapperString.indexOf(WRAPPER_CONFIG_SEPARATOR);
+        @RUntainted int separatorPos = wrapperString.indexOf(WRAPPER_CONFIG_SEPARATOR);
         if (separatorPos < 0) {
           className = wrapperString;
         } else {
@@ -158,7 +159,7 @@ public class CmsRepositoryManager {
           break;
         }
 
-        I_CmsResourceWrapper wrapper;
+        @RUntainted I_CmsResourceWrapper wrapper;
         try {
           wrapper = (I_CmsResourceWrapper) nameClazz.newInstance();
           if (configString != null) {
@@ -310,7 +311,7 @@ public class CmsRepositoryManager {
    */
   public void initConfiguration() throws CmsConfigurationException {
 
-    for (I_CmsRepository rep : m_repositoryList) {
+    for (@RUntainted I_CmsRepository rep : m_repositoryList) {
       if (CmsLog.INIT.isInfoEnabled()) {
         CmsLog.INIT.info(
             Messages.get()

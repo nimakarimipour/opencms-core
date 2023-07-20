@@ -38,6 +38,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.logging.Log;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the localized messages for several resource bundles simultaneously.
@@ -68,7 +69,7 @@ public class CmsMultiMessages extends CmsMessages {
      * @param key the original key
      * @return the fallback key
      */
-    Optional<String> getFallbackKey(String key);
+    Optional<@RUntainted String> getFallbackKey(String key);
   }
 
   /** Constant for the multi bundle name. */
@@ -90,7 +91,7 @@ public class CmsMultiMessages extends CmsMessages {
   private Map<String, Integer> m_lastBundleIndexForKey = new ConcurrentHashMap<>();
 
   /** A cache for the messages to prevent multiple lookups in many bundles. */
-  private Map<String, String> m_messageCache;
+  private Map<String, @RUntainted String> m_messageCache;
 
   /** List of resource bundles from the installed modules. */
   private List<CmsMessages> m_messages;
@@ -102,7 +103,7 @@ public class CmsMultiMessages extends CmsMessages {
    *
    * @param locale the locale to use for localization of the messages
    */
-  public CmsMultiMessages(Locale locale) {
+  public CmsMultiMessages(@RUntainted Locale locale) {
 
     super();
     // set the bundle name and the locale
@@ -150,7 +151,7 @@ public class CmsMultiMessages extends CmsMessages {
       // not the same locale, try to change the locale if this is a simple CmsMessage object
       if (!(messages instanceof CmsMultiMessages)) {
         // match locale of multi bundle
-        String bundleName = messages.getBundleName();
+        @RUntainted String bundleName = messages.getBundleName();
         messages = new CmsMessages(bundleName, getLocale());
       } else {
         // multi bundles with wrong locales can't be added this way
@@ -205,7 +206,7 @@ public class CmsMultiMessages extends CmsMessages {
 
   /** @see org.opencms.i18n.CmsMessages#getString(java.lang.String) */
   @Override
-  public String getString(String keyName) {
+  public @RUntainted String getString(@RUntainted String keyName) {
 
     return resolveKeyWithFallback(keyName);
   }
@@ -219,10 +220,10 @@ public class CmsMultiMessages extends CmsMessages {
 
   /** @see org.opencms.i18n.CmsMessages#key(java.lang.String, boolean) */
   @Override
-  public String key(String keyName, boolean allowNull) {
+  public @RUntainted String key(@RUntainted String keyName, boolean allowNull) {
 
     // special implementation since we uses several bundles for the messages
-    String result = resolveKeyWithFallback(keyName);
+    @RUntainted String result = resolveKeyWithFallback(keyName);
     if ((result == null) && !allowNull) {
       result = formatUnknownKey(keyName);
     }
@@ -252,13 +253,13 @@ public class CmsMultiMessages extends CmsMessages {
    * @param keyName the key for the desired string
    * @return the resource string for the given key or null if not found
    */
-  private String resolveKey(String keyName) {
+  private @RUntainted String resolveKey(@RUntainted String keyName) {
 
     if (LOG.isDebugEnabled()) {
       LOG.debug(Messages.get().getBundle().key(Messages.LOG_RESOLVE_MESSAGE_KEY_1, keyName));
     }
 
-    String result = m_messageCache.get(keyName);
+    @RUntainted String result = m_messageCache.get(keyName);
     if (result == NULL_STRING) {
       // key was already checked and not found
       return null;
@@ -336,11 +337,11 @@ public class CmsMultiMessages extends CmsMessages {
    * @param keyName the key to resolve
    * @return the resolved key
    */
-  private String resolveKeyWithFallback(String keyName) {
+  private @RUntainted String resolveKeyWithFallback(@RUntainted String keyName) {
 
-    String result = resolveKey(keyName);
+    @RUntainted String result = resolveKey(keyName);
     if ((result == null) && (m_keyFallbackHandler != null)) {
-      Optional<String> fallback = m_keyFallbackHandler.getFallbackKey(keyName);
+      Optional<@RUntainted String> fallback = m_keyFallbackHandler.getFallbackKey(keyName);
       if (fallback.isPresent()) {
         result = resolveKey(fallback.get());
       }

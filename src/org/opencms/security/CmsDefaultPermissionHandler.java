@@ -45,6 +45,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsInitException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic base driver interface.
@@ -242,7 +243,7 @@ public class CmsDefaultPermissionHandler implements I_CmsPermissionHandler {
 
     CmsCacheSettings settings = systemConfiguration.getCacheSettings();
 
-    String className = settings.getCacheKeyGenerator();
+    @RUntainted String className = settings.getCacheKeyGenerator();
     try {
       // initialize the key generator
       m_keyGenerator = (I_CmsCacheKey) Class.forName(className).newInstance();

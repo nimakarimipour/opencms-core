@@ -51,6 +51,7 @@ import org.opencms.security.CmsPermissionViolationException;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.xml2json.I_CmsApiAuthorizationHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler that provides an alternative way of serving static files like images or

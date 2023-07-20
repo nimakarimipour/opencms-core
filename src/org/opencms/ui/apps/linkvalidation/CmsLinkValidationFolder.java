@@ -37,6 +37,7 @@ import org.opencms.ui.apps.CmsAppVisibilityStatus;
 import org.opencms.ui.apps.CmsWorkplaceAppManager;
 import org.opencms.ui.apps.I_CmsFolderAppCategory;
 import org.opencms.ui.apps.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the folder for the link validation tools.
@@ -58,7 +59,7 @@ public class CmsLinkValidationFolder implements I_CmsFolderAppCategory {
   }
 
   /** @see org.opencms.ui.apps.I_CmsFolderAppCategory#getHelpText(java.util.Locale) */
-  public String getHelpText(Locale locale) {
+  public String getHelpText(@RUntainted Locale locale) {
 
     return Messages.get().getBundle(locale).key(Messages.GUI_LINKVALIDATION_ADMIN_TOOL_NAME_HELP_0);
   }
@@ -76,7 +77,7 @@ public class CmsLinkValidationFolder implements I_CmsFolderAppCategory {
   }
 
   /** @see org.opencms.ui.apps.I_CmsAppCategory#getName(java.util.Locale) */
-  public String getName(Locale locale) {
+  public String getName(@RUntainted Locale locale) {
 
     return Messages.get().getBundle(locale).key(Messages.GUI_LINKVALIDATION_ADMIN_TOOL_NAME_0);
   }

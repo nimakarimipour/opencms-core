@@ -37,6 +37,7 @@ import org.opencms.ade.publish.shared.CmsWorkflowAction;
 import org.opencms.ade.publish.shared.CmsWorkflowActionParams;
 import org.opencms.ade.publish.shared.CmsWorkflowResponse;
 import org.opencms.gwt.CmsRpcException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The synchronous publish list interface.
@@ -84,7 +85,7 @@ public interface I_CmsPublishService extends RemoteService {
    * @throws CmsRpcException if something goes wrong
    */
   CmsPublishGroupList getResourceGroups(
-      CmsWorkflow workflow, CmsPublishOptions options, boolean projectChanged)
+      CmsWorkflow workflow, @RUntainted CmsPublishOptions options, boolean projectChanged)
       throws CmsRpcException;
 
   /**

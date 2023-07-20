@@ -56,6 +56,7 @@ import org.opencms.search.Messages;
 import org.opencms.security.CmsPermissionViolationException;
 import org.opencms.security.CmsRole;
 import org.opencms.security.CmsRoleViolationException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * CmsSolrSpellchecker is used to perform spellchecking in OpenCms by using Solr. The JSON-formatted
@@ -268,7 +269,7 @@ public final class CmsSolrSpellchecker {
       if (!ignoreWord) {
         try {
           // Get suggestions as List
-          final List<String> l = solrSuggestions.get(key).getAlternatives();
+          final @RUntainted List<String> l = solrSuggestions.get(key).getAlternatives();
           suggestions.put(key, l);
         } catch (JSONException e) {
           LOG.debug("Exception while converting Solr spellcheckresponse to JSON. ", e);

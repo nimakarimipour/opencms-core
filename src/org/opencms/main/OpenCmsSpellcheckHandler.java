@@ -36,6 +36,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.search.solr.spellchecking.CmsSolrSpellchecker;
 import org.opencms.site.CmsSite;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles spell check requests.
@@ -96,7 +97,7 @@ public class OpenCmsSpellcheckHandler extends HttpServlet implements I_CmsReques
    * @see org.opencms.main.I_CmsRequestHandler#handle(javax.servlet.http.HttpServletRequest,
    *     javax.servlet.http.HttpServletResponse, java.lang.String)
    */
-  public void handle(HttpServletRequest req, HttpServletResponse res, String name)
+  public void handle(@RUntainted HttpServletRequest req, HttpServletResponse res, String name)
       throws IOException {
 
     CmsObject cms;
@@ -121,7 +122,7 @@ public class OpenCmsSpellcheckHandler extends HttpServlet implements I_CmsReques
    * @return the CMS object
    * @throws CmsException if something goes wrong
    */
-  protected CmsObject getCmsObject(HttpServletRequest req) throws CmsException {
+  protected CmsObject getCmsObject(@RUntainted HttpServletRequest req) throws CmsException {
 
     CmsObject cms = OpenCmsCore.getInstance().initCmsObjectFromSession(req);
     // use the guest user as fall back
@@ -130,7 +131,7 @@ public class OpenCmsSpellcheckHandler extends HttpServlet implements I_CmsReques
       String siteRoot = OpenCmsCore.getInstance().getSiteManager().matchRequest(req).getSiteRoot();
       cms.getRequestContext().setSiteRoot(siteRoot);
     }
-    String baseUri = getBaseUri(req, cms);
+    @RUntainted String baseUri = getBaseUri(req, cms);
     if (baseUri != null) {
       cms.getRequestContext().setUri(baseUri);
     }
@@ -146,7 +147,7 @@ public class OpenCmsSpellcheckHandler extends HttpServlet implements I_CmsReques
    * @param cms the CmsObject
    * @return the base URI
    */
-  private String getBaseUri(HttpServletRequest req, CmsObject cms) {
+  private @RUntainted String getBaseUri(HttpServletRequest req, CmsObject cms) {
 
     String baseUri = req.getParameter(PARAM_BASE_URI);
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(baseUri)) {

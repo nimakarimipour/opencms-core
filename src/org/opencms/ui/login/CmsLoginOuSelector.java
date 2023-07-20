@@ -36,6 +36,7 @@ import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.Messages;
 import org.opencms.util.CmsFileUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to allow the user to search and select an organizational unit.
@@ -85,7 +86,7 @@ public class CmsLoginOuSelector extends CustomComponent {
    * @param ou the OU to check
    * @return true if the OU is available
    */
-  public boolean hasOrgUnit(String ou) {
+  public boolean hasOrgUnit(@RUntainted String ou) {
 
     return m_ouSelect.getContainerDataSource().getItem(normalizeOuName(ou)) != null;
   }
@@ -135,7 +136,7 @@ public class CmsLoginOuSelector extends CustomComponent {
    *
    * @param value the OU to select
    */
-  public void setValue(String value) {
+  public void setValue(@RUntainted String value) {
 
     m_ouSelect.setValue(normalizeOuName(value));
   }
@@ -148,7 +149,7 @@ public class CmsLoginOuSelector extends CustomComponent {
    * @param ou the OU name
    * @return the normalized version
    */
-  String normalizeOuName(String ou) {
+  String normalizeOuName(@RUntainted String ou) {
 
     ou = CmsFileUtil.removeLeadingSeparator(ou);
     ou = CmsFileUtil.removeTrailingSeparator(ou);

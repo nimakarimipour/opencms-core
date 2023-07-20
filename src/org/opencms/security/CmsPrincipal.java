@@ -39,6 +39,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.I_CmsGroupNameTranslation;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common methods shared among user and group principals, also contains several utility functions to
@@ -54,16 +55,16 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
   private static final long serialVersionUID = -323281048875786320L;
 
   /** The description of this principal. */
-  protected String m_description;
+  protected @RUntainted String m_description;
 
   /** The flags of this principal. */
-  protected int m_flags;
+  protected @RUntainted int m_flags;
 
   /** The unique id of this principal. */
-  protected CmsUUID m_id;
+  protected @RUntainted CmsUUID m_id;
 
   /** The fully qualified name of this principal. */
-  protected String m_name;
+  protected @RUntainted String m_name;
 
   /**
    * Empty constructor for subclassing.
@@ -248,7 +249,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
    * @return the principal read from the OpenCms database
    * @throws CmsException in case the principal could not be read
    */
-  public static I_CmsPrincipal readPrefixedPrincipal(CmsObject cms, String name)
+  public static I_CmsPrincipal readPrefixedPrincipal(CmsObject cms, @RUntainted String name)
       throws CmsException {
 
     if (CmsGroup.hasPrefix(name)) {
@@ -274,7 +275,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
    * @return the principal read from the OpenCms database
    * @throws CmsException in case the principal could not be read
    */
-  public static I_CmsPrincipal readPrincipal(CmsObject cms, CmsUUID id) throws CmsException {
+  public static I_CmsPrincipal readPrincipal(CmsObject cms, @RUntainted CmsUUID id) throws CmsException {
 
     try {
       // first try to read the principal as a user
@@ -304,7 +305,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
    * @return the principal read from the OpenCms database
    * @throws CmsException in case the principal could not be read
    */
-  public static I_CmsPrincipal readPrincipal(CmsObject cms, String name) throws CmsException {
+  public static I_CmsPrincipal readPrincipal(CmsObject cms, @RUntainted String name) throws CmsException {
 
     try {
       // first try to read the principal as a user
@@ -338,7 +339,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
    * @return the principal read from the OpenCms database
    * @throws CmsException in case the principal could not be read
    */
-  public static I_CmsPrincipal readPrincipal(CmsObject cms, String type, String name)
+  public static I_CmsPrincipal readPrincipal(CmsObject cms, @RUntainted String type, @RUntainted String name)
       throws CmsException {
 
     if (CmsStringUtil.isNotEmpty(type)) {
@@ -367,7 +368,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
    * @return the principal read from the OpenCms database
    * @throws CmsException in case the principal could not be read
    */
-  public static I_CmsPrincipal readPrincipalIncludingHistory(CmsObject cms, CmsUUID id)
+  public static I_CmsPrincipal readPrincipalIncludingHistory(CmsObject cms, @RUntainted CmsUUID id)
       throws CmsException {
 
     try {
@@ -418,7 +419,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
   }
 
   /** @see org.opencms.security.I_CmsPrincipal#getDescription() */
-  public String getDescription() {
+  public @RUntainted String getDescription() {
 
     return m_description;
   }
@@ -433,7 +434,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
    * @return the display name of this principal including the organizational unit
    * @throws CmsException if the organizational unit could not be read
    */
-  public String getDisplayName(CmsObject cms, Locale locale) throws CmsException {
+  public String getDisplayName(CmsObject cms, @RUntainted Locale locale) throws CmsException {
 
     return Messages.get()
         .getBundle(locale)
@@ -457,7 +458,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
    * @return the translated display name
    * @throws CmsException if something goes wrong
    */
-  public String getDisplayName(CmsObject cms, Locale locale, I_CmsGroupNameTranslation translation)
+  public String getDisplayName(CmsObject cms, @RUntainted Locale locale, I_CmsGroupNameTranslation translation)
       throws CmsException {
 
     if (!isGroup() || (translation == null)) {
@@ -480,7 +481,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
   }
 
   /** @see org.opencms.security.I_CmsPrincipal#getId() */
-  public CmsUUID getId() {
+  public @RUntainted CmsUUID getId() {
 
     return m_id;
   }
@@ -493,7 +494,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
    * @return the fully qualified name of this principal
    * @see java.security.Principal#getName()
    */
-  public String getName() {
+  public @RUntainted String getName() {
 
     return m_name;
   }
@@ -505,7 +506,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
    *
    * @return the fully qualified name of the associated organizational unit
    */
-  public String getOuFqn() {
+  public @RUntainted String getOuFqn() {
 
     return CmsOrganizationalUnit.getParentFqn(m_name);
   }
@@ -526,7 +527,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
    *
    * @return the simple name of this organizational unit.
    */
-  public String getSimpleName() {
+  public @RUntainted String getSimpleName() {
 
     return CmsOrganizationalUnit.getSimpleName(m_name);
   }
@@ -560,7 +561,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
   }
 
   /** @see org.opencms.security.I_CmsPrincipal#setDescription(java.lang.String) */
-  public void setDescription(String description) {
+  public void setDescription(@RUntainted String description) {
 
     m_description = description;
   }
@@ -581,7 +582,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
   }
 
   /** @see org.opencms.security.I_CmsPrincipal#setName(java.lang.String) */
-  public void setName(String name) {
+  public void setName(@RUntainted String name) {
 
     checkName(CmsOrganizationalUnit.getSimpleName(name));
     m_name = name;

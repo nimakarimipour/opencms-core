@@ -32,6 +32,7 @@ import org.htmlparser.Remark;
 import org.htmlparser.Tag;
 import org.htmlparser.Text;
 import org.htmlparser.util.ParserException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for a combination of a visitor of HTML documents along with the hook to start the
@@ -129,7 +130,7 @@ public interface I_CmsHtmlNodeVisitor {
    * @param text the text that is visited.
    * @see org.htmlparser.visitors.NodeVisitor#visitStringNode(org.htmlparser.Text)
    */
-  void visitStringNode(Text text);
+  void visitStringNode(@RUntainted Text text);
 
   /**
    * Visitor method (callback) invoked when a starting Tag (HTML comment) is encountered.

@@ -64,6 +64,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the table containing groups of a ou.
@@ -202,7 +203,7 @@ public class CmsGroupTable extends Table implements I_CmsFilterableTable, I_CmsT
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
-    public void executeAction(Set<String> context) {
+    public void executeAction(Set<@RUntainted String> context) {
 
       Window window = CmsBasicDialog.prepareWindow();
       window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_EDIT_GROUP_0));
@@ -242,7 +243,7 @@ public class CmsGroupTable extends Table implements I_CmsFilterableTable, I_CmsT
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
-    public void executeAction(Set<String> context) {
+    public void executeAction(Set<@RUntainted String> context) {
 
       updateApp(context.iterator().next());
     }
@@ -285,7 +286,7 @@ public class CmsGroupTable extends Table implements I_CmsFilterableTable, I_CmsT
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
-    public void executeAction(Set<String> context) {
+    public void executeAction(Set<@RUntainted String> context) {
 
       Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
       window.setCaption(
@@ -323,7 +324,7 @@ public class CmsGroupTable extends Table implements I_CmsFilterableTable, I_CmsT
     /**
      * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
      */
-    public void executeAction(Set<String> context) {
+    public void executeAction(Set<@RUntainted String> context) {
 
       boolean includeTechnicalFields = false;
       try {
@@ -638,7 +639,7 @@ public class CmsGroupTable extends Table implements I_CmsFilterableTable, I_CmsT
    *
    * @param uuid of current group
    */
-  protected void updateApp(String uuid) {
+  protected void updateApp(@RUntainted String uuid) {
 
     try {
       CmsGroup group = m_cms.readGroup(new CmsUUID(uuid));

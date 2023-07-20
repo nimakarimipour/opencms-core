@@ -71,6 +71,7 @@ import org.opencms.security.CmsAccessControlEntry;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class used for updating modules.
@@ -156,7 +157,7 @@ public class CmsModuleUpdater {
    * @throws CmsException if something goes wrong
    */
   public static Optional<CmsModuleUpdater> create(
-      CmsObject cms, String importFile, I_CmsReport report) throws CmsException {
+      CmsObject cms, @RUntainted String importFile, I_CmsReport report) throws CmsException {
 
     CmsModuleImportData moduleData = readModuleData(cms, importFile, report);
     if (moduleData.checkUpdatable(cms)) {
@@ -221,13 +222,13 @@ public class CmsModuleUpdater {
    * @throws CmsException if something goes wrong
    */
   public static CmsModuleImportData readModuleData(
-      CmsObject cms, String importFile, I_CmsReport report) throws CmsException {
+      CmsObject cms, @RUntainted String importFile, I_CmsReport report) throws CmsException {
 
     CmsModuleImportData result = new CmsModuleImportData();
     CmsModule module = CmsModuleImportExportHandler.readModuleFromImport(importFile);
     cms = OpenCms.initCmsObject(cms);
 
-    String importSite = module.getImportSite();
+    @RUntainted String importSite = module.getImportSite();
     if (!CmsStringUtil.isEmptyOrWhitespaceOnly(importSite)) {
       cms.getRequestContext().setSiteRoot(importSite);
     } else {
@@ -551,7 +552,7 @@ public class CmsModuleUpdater {
    * @param resData the resource data from the module import
    * @param index index of the current import resource
    */
-  protected void processImportResource(CmsObject cms, CmsResourceImportData resData, int index) {
+  protected void processImportResource(CmsObject cms, CmsResourceImportData resData, @RUntainted int index) {
 
     boolean changed = false;
     m_report.print(
@@ -665,7 +666,7 @@ public class CmsModuleUpdater {
    * @param cms the CMS context to use
    * @param module the module for which to run the script
    */
-  protected void runImportScript(CmsObject cms, CmsModule module) {
+  protected void runImportScript(@RUntainted CmsObject cms, CmsModule module) {
 
     LOG.info("Executing import script for module " + module.getName());
     m_report.println(

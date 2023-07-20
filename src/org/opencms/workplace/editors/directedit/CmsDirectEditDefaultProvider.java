@@ -42,6 +42,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.editors.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provider for the OpenCms default graphical "direct edit" buttons.
@@ -64,7 +65,7 @@ public class CmsDirectEditDefaultProvider extends A_CmsDirectEditProvider {
   protected int m_lastPermissionMode;
 
   /** The include file used by this provider. */
-  private String m_headerInclude;
+  private @RUntainted String m_headerInclude;
 
   /**
    * Returns the end HTML for a disabled direct edit button.
@@ -110,7 +111,7 @@ public class CmsDirectEditDefaultProvider extends A_CmsDirectEditProvider {
    *     org.opencms.workplace.editors.directedit.CmsDirectEditMode, java.lang.String)
    */
   @Override
-  public void init(CmsObject cms, CmsDirectEditMode mode, String fileName) {
+  public void init(CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName) {
 
     super.init(cms, mode, fileName);
 
@@ -478,11 +479,11 @@ public class CmsDirectEditDefaultProvider extends A_CmsDirectEditProvider {
    * @return the file content as a string
    * @throws CmsException if something goes wrong
    */
-  protected String getContentAsString(CmsFile file) throws CmsException {
+  protected @RUntainted String getContentAsString(CmsFile file) throws CmsException {
 
     CmsProperty p =
         m_cms.readPropertyObject(file, CmsPropertyDefinition.PROPERTY_CONTENT_ENCODING, true);
-    String e = p.getValue();
+    @RUntainted String e = p.getValue();
     if (e == null) {
       e = OpenCms.getSystemInfo().getDefaultEncoding();
     }

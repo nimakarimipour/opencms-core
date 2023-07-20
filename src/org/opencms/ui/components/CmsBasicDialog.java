@@ -53,6 +53,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.Messages;
 import org.opencms.ui.components.extensions.CmsMaxHeightExtension;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Basic dialog class with a content panel and button bar.
@@ -380,7 +381,7 @@ public class CmsBasicDialog extends VerticalLayout {
    * @param resources to show info for
    * @param messageKey of the panel
    */
-  public void displayResourceInfo(List<CmsResource> resources, String messageKey) {
+  public void displayResourceInfo(List<CmsResource> resources, @RUntainted String messageKey) {
 
     m_infoResources = Lists.newArrayList(resources);
     if (m_infoComponent != null) {

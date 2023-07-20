@@ -70,6 +70,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The projects table.
@@ -105,7 +106,7 @@ public class CmsProjectsTable extends Table {
     public void executeAction(final Set<CmsUUID> data) {
 
       List<CmsResourceInfo> projectInfos = new ArrayList<CmsResourceInfo>();
-      String message;
+      @RUntainted String message;
       CmsCssIcon projectIcon = new CmsCssIcon(OpenCmsTheme.ICON_PROJECT);
       if (data.size() == 1) {
         Item item = m_container.getItem(data.iterator().next());
@@ -500,8 +501,8 @@ public class CmsProjectsTable extends Table {
 
     dialog.setContent(layout);
     Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
-    String ou = "" + item.getItemProperty(PROP_ORG_UNIT).getValue();
-    String project = "" + item.getItemProperty(PROP_NAME).getValue();
+    @RUntainted String ou = "" + item.getItemProperty(PROP_ORG_UNIT).getValue();
+    @RUntainted String project = "" + item.getItemProperty(PROP_NAME).getValue();
     String caption =
         CmsVaadinUtils.getMessageText(
             org.opencms.ui.apps.Messages.GUI_PROJECTS_RESOURCES_POPUP_CAPTION_2, project, ou);

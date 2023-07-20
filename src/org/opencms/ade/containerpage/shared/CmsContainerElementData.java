@@ -38,6 +38,7 @@ import org.opencms.gwt.shared.CmsGwtConstants;
 import org.opencms.gwt.shared.CmsTemplateContextInfo;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean holding all element information including it's formatted contents.
@@ -334,7 +335,7 @@ public class CmsContainerElementData extends CmsContainerElement {
    *
    * @return a map of settings
    */
-  public Map<String, String> getSettings() {
+  public Map<String, @RUntainted String> getSettings() {
 
     return m_settings;
   }

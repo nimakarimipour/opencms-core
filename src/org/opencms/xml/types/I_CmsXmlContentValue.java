@@ -31,6 +31,7 @@ import java.util.Locale;
 import org.dom4j.Element;
 import org.opencms.file.CmsObject;
 import org.opencms.xml.I_CmsXmlDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the value of a specific XML content node.
@@ -119,7 +120,7 @@ public interface I_CmsXmlContentValue extends I_CmsXmlSchemaType {
    *
    * @return the locale of this XML content value was generated for
    */
-  Locale getLocale();
+  @RUntainted Locale getLocale();
 
   /**
    * Returns the total number of XML elements of this type that currently exist in the source
@@ -139,7 +140,7 @@ public interface I_CmsXmlContentValue extends I_CmsXmlSchemaType {
    *
    * @return the path of this XML content value in the source document
    */
-  String getPath();
+  @RUntainted String getPath();
 
   /**
    * Returns the value of this XML content node as a plain text String.
@@ -174,7 +175,7 @@ public interface I_CmsXmlContentValue extends I_CmsXmlSchemaType {
    * @param cms an initialized instance of a CmsObject
    * @return the value of this XML content node as a String
    */
-  String getStringValue(CmsObject cms);
+  @RUntainted String getStringValue(CmsObject cms);
 
   /**
    * Returns the node index of this XML content value in the source XML document, starting with 0,
@@ -230,5 +231,5 @@ public interface I_CmsXmlContentValue extends I_CmsXmlSchemaType {
    * @param cms an initialized instance of a CmsObject
    * @param value the value to set
    */
-  void setStringValue(CmsObject cms, String value);
+  void setStringValue(CmsObject cms, @RUntainted String value);
 }

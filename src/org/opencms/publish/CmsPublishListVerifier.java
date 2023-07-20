@@ -33,6 +33,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Performs some additional checks on publish lists to prevent inconsistent VFS states.
@@ -74,7 +75,7 @@ public class CmsPublishListVerifier {
      *
      * @return the reason
      */
-    public String getReason() {
+    public @RUntainted String getReason() {
 
       return m_reason;
     }
@@ -86,7 +87,7 @@ public class CmsPublishListVerifier {
      *
      * @return the rootPath
      */
-    public String getRootPath() {
+    public @RUntainted String getRootPath() {
 
       return m_rootPath;
     }

@@ -43,6 +43,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to build easily other admin tool handlers.
@@ -128,7 +129,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
   private String m_name;
 
   /** Needed parameters. */
-  private String m_parameters;
+  private @RUntainted String m_parameters;
 
   /** Tool path to install in. */
   private String m_path;
@@ -342,7 +343,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
    *
    * @param paramString the parameter string to set
    */
-  public void setParameterString(String paramString) {
+  public void setParameterString(@RUntainted String paramString) {
 
     m_parameters = paramString;
   }
@@ -587,7 +588,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
     try {
       CmsProperty prop = cms.readPropertyObject(resourcePath, ARGS_PROPERTY_DEFINITION, false);
       if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(prop.getValue())) {
-        Map<String, String> argsMap = new HashMap<String, String>();
+        Map<String, @RUntainted String> argsMap = new HashMap<String, @RUntainted String>();
         Iterator<String> itArgs =
             CmsStringUtil.splitAsList(prop.getValue(), ARGUMENT_SEPARATOR).iterator();
         while (itArgs.hasNext()) {

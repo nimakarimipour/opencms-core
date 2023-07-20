@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Memory Monitor configuration class.
@@ -45,22 +46,22 @@ public class CmsMemoryMonitorConfiguration {
   private String m_className;
 
   /** The interval to use for sending emails. */
-  private int m_emailInterval;
+  private @RUntainted int m_emailInterval;
 
   /** Receivers for status emails. */
-  private List<String> m_emailReceiver;
+  private List<@RUntainted String> m_emailReceiver;
 
   /** Sender for status emails. */
-  private String m_emailSender;
+  private @RUntainted String m_emailSender;
 
   /** The interval to use for the logging. */
-  private int m_logInterval;
+  private @RUntainted int m_logInterval;
 
   /** Memory limit that triggers a warning. */
-  private int m_maxUsagePercent;
+  private @RUntainted int m_maxUsagePercent;
 
   /** The interval to use for warnings if status is disabled. */
-  private int m_warningInterval;
+  private @RUntainted int m_warningInterval;
 
   /**
    * Constructor with default values.
@@ -79,7 +80,7 @@ public class CmsMemoryMonitorConfiguration {
    *
    * @param emailReceiver the emailReceiver to set
    */
-  public void addEmailReceiver(String emailReceiver) {
+  public void addEmailReceiver(@RUntainted String emailReceiver) {
 
     m_emailReceiver.add(emailReceiver);
   }
@@ -91,7 +92,7 @@ public class CmsMemoryMonitorConfiguration {
    *
    * @return the name of the memory monitor class
    */
-  public String getClassName() {
+  public @RUntainted String getClassName() {
 
     return m_className;
   }
@@ -103,7 +104,7 @@ public class CmsMemoryMonitorConfiguration {
    *
    * @return the intervalEmail
    */
-  public int getEmailInterval() {
+  public @RUntainted int getEmailInterval() {
 
     return m_emailInterval;
   }
@@ -115,7 +116,7 @@ public class CmsMemoryMonitorConfiguration {
    *
    * @return a List of receiver
    */
-  public List<String> getEmailReceiver() {
+  public @RUntainted List<@RUntainted String> getEmailReceiver() {
 
     Collections.sort(m_emailReceiver);
     return m_emailReceiver;
@@ -128,7 +129,7 @@ public class CmsMemoryMonitorConfiguration {
    *
    * @return the emailSender
    */
-  public String getEmailSender() {
+  public @RUntainted String getEmailSender() {
 
     return m_emailSender;
   }
@@ -140,7 +141,7 @@ public class CmsMemoryMonitorConfiguration {
    *
    * @return the intervalLog
    */
-  public int getLogInterval() {
+  public @RUntainted int getLogInterval() {
 
     return m_logInterval;
   }
@@ -152,7 +153,7 @@ public class CmsMemoryMonitorConfiguration {
    *
    * @return the maxUsagePercent
    */
-  public int getMaxUsagePercent() {
+  public @RUntainted int getMaxUsagePercent() {
 
     return m_maxUsagePercent;
   }
@@ -164,7 +165,7 @@ public class CmsMemoryMonitorConfiguration {
    *
    * @return the intervalWarning
    */
-  public int getWarningInterval() {
+  public @RUntainted int getWarningInterval() {
 
     return m_warningInterval;
   }
@@ -182,10 +183,10 @@ public class CmsMemoryMonitorConfiguration {
    */
   public void initialize(
       String className,
-      String maxUsagePercent,
-      String logInterval,
-      String emailInterval,
-      String warningInterval) {
+      @RUntainted String maxUsagePercent,
+      @RUntainted String logInterval,
+      @RUntainted String emailInterval,
+      @RUntainted String warningInterval) {
 
     m_className = className;
     m_maxUsagePercent = Integer.parseInt(maxUsagePercent);
@@ -208,7 +209,7 @@ public class CmsMemoryMonitorConfiguration {
    *
    * @param emailSender the emailSender to set
    */
-  public void setEmailSender(String emailSender) {
+  public void setEmailSender(@RUntainted String emailSender) {
 
     m_emailSender = emailSender;
   }

@@ -54,6 +54,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The editor manager stores information about all available configured editors in OpenCms.
@@ -265,7 +266,7 @@ public class CmsWorkplaceEditorManager {
    */
   public String getEditorParameter(CmsObject cms, String editor, String param) {
 
-    String path =
+    @RUntainted String path =
         OpenCms.getSystemInfo().getConfigFilePath(cms, "editors/" + editor + ".properties");
     CmsVfsMemoryObjectCache cache = CmsVfsMemoryObjectCache.getVfsMemoryObjectCache();
     CmsParameterConfiguration config = (CmsParameterConfiguration) cache.getCachedObject(cms, path);
@@ -297,7 +298,7 @@ public class CmsWorkplaceEditorManager {
    * @param userAgent the user agent String that identifies the browser
    * @return a valid editor URI for the resource type or null, if no editor matches
    */
-  public String getWidgetEditor(CmsRequestContext context, String userAgent) {
+  public String getWidgetEditor(CmsRequestContext context, @RUntainted String userAgent) {
 
     // step 1: check if the user specified a preferred editor for the resource type xmlpage
     CmsUserSettings settings = new CmsUserSettings(context.getCurrentUser());
@@ -378,7 +379,7 @@ public class CmsWorkplaceEditorManager {
    * @return a valid default editor URI for the resource type or null, if no editor matches
    */
   protected String getDefaultEditorUri(
-      CmsRequestContext context, String resourceType, String userAgent) {
+      CmsRequestContext context, String resourceType, @RUntainted String userAgent) {
 
     SortedMap<Float, CmsWorkplaceEditorConfiguration> filteredEditors =
         filterEditorsForResourceType(resourceType);
@@ -423,7 +424,7 @@ public class CmsWorkplaceEditorManager {
    * @param userAgent the user agent String that identifies the browser
    * @return a valid editor URI for the resource type or null, if no editor matches
    */
-  protected String getEditorUri(CmsRequestContext context, String resourceType, String userAgent) {
+  protected String getEditorUri(CmsRequestContext context, String resourceType, @RUntainted String userAgent) {
 
     // step 1: check if the user specified a preferred editor for the given resource type
     CmsUserSettings settings = new CmsUserSettings(context.getCurrentUser());

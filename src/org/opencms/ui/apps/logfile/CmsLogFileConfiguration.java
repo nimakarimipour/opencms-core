@@ -35,6 +35,7 @@ import org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration;
 import org.opencms.ui.apps.CmsWorkplaceAppManager;
 import org.opencms.ui.apps.I_CmsWorkplaceApp;
 import org.opencms.ui.apps.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration class for Log management app.
@@ -71,7 +72,7 @@ public class CmsLogFileConfiguration extends A_CmsWorkplaceAppConfiguration {
 
   /** @see org.opencms.ui.apps.I_CmsFolderAppCategory#getHelpText(java.util.Locale) */
   @Override
-  public String getHelpText(Locale locale) {
+  public String getHelpText(@RUntainted Locale locale) {
 
     return Messages.get().getBundle(locale).key(Messages.GUI_LOGFILE_ADMIN_TOOL_NAME_HELP_0);
   }
@@ -90,7 +91,7 @@ public class CmsLogFileConfiguration extends A_CmsWorkplaceAppConfiguration {
 
   /** @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale) */
   @Override
-  public String getName(Locale locale) {
+  public String getName(@RUntainted Locale locale) {
 
     return Messages.get().getBundle(locale).key(Messages.GUI_LOGFILE_ADMIN_TOOL_NAME_0);
   }

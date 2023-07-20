@@ -36,6 +36,7 @@ import org.apache.commons.logging.Log;
 import org.opencms.db.CmsDbContext;
 import org.opencms.db.generic.Messages;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Oracle implementation of the SQL manager.
@@ -142,9 +143,9 @@ public class CmsSqlManager extends org.opencms.db.generic.CmsSqlManager {
 
   /** @see org.opencms.db.generic.CmsSqlManager#getBytes(java.sql.ResultSet, java.lang.String) */
   @Override
-  public byte[] getBytes(ResultSet res, String attributeName) throws SQLException {
+  public @RUntainted byte[] getBytes(@RUntainted ResultSet res, @RUntainted String attributeName) throws SQLException {
 
-    Blob blob = res.getBlob(attributeName);
+    @RUntainted Blob blob = res.getBlob(attributeName);
     return blob.getBytes(1, (int) blob.length());
   }
 }

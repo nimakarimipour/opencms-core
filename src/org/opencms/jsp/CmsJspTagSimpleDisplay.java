@@ -50,6 +50,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.containerpage.CmsContainerElementBean;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The 'simpledisplay' tag can be used to display a single resource using a formatter. It also
@@ -86,7 +87,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
   private boolean m_editable;
 
   /** The formatter key. */
-  private String m_formatterKey;
+  private @RUntainted String m_formatterKey;
 
   /** Stores the formatter path. */
   private String m_formatterPath;
@@ -107,7 +108,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
   private String m_uploadFolder;
 
   /** The site path to the resource to display. */
-  private String m_value;
+  private @RUntainted String m_value;
 
   /**
    * Constructor.
@@ -374,7 +375,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
    *
    * @param formatterKey the formatter key
    */
-  public void setFormatterKey(String formatterKey) {
+  public void setFormatterKey(@RUntainted String formatterKey) {
 
     m_formatterKey = formatterKey;
   }
@@ -431,7 +432,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
    *
    * @param value the value to set
    */
-  public void setValue(String value) {
+  public void setValue(@RUntainted String value) {
 
     m_value = value;
   }

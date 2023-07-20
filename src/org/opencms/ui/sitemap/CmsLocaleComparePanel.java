@@ -59,6 +59,7 @@ import org.opencms.ui.components.CmsErrorDialog;
 import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.util.CmsUUID;
 import org.opencms.workplace.explorer.CmsResourceUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * View used to compare sitemaps across locales.
@@ -104,7 +105,7 @@ public class CmsLocaleComparePanel extends VerticalLayout implements I_CmsLocale
    *
    * @param id the id of a sitemap entry
    */
-  public CmsLocaleComparePanel(String id) {
+  public CmsLocaleComparePanel(@RUntainted String id) {
 
     super();
     Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(A_CmsUI.getCmsObject());

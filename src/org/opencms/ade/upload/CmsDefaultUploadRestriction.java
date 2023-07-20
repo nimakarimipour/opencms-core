@@ -35,6 +35,7 @@ import org.opencms.gwt.shared.CmsUploadRestrictionInfo;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.security.CmsRole;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation for upload restrictions uses restriction entries from

@@ -58,6 +58,7 @@ import org.opencms.util.CmsCollectionsGenericWrapper;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.xml.A_CmsXmlDocument;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Macro resolver used to resolve macros for the gallery name mapping.
@@ -139,7 +140,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
    * @param content the content to use for macro value lookup
    * @param locale the locale to use for macro value lookup
    */
-  public CmsGalleryNameMacroResolver(CmsObject cms, A_CmsXmlDocument content, Locale locale) {
+  public CmsGalleryNameMacroResolver(CmsObject cms, A_CmsXmlDocument content, @RUntainted Locale locale) {
 
     setCmsObject(cms);
     CmsMultiMessages message = new CmsMultiMessages(locale);
@@ -152,7 +153,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
 
   /** @see org.opencms.util.CmsMacroResolver#getMacroValue(java.lang.String) */
   @Override
-  public String getMacroValue(String macro) {
+  public @RUntainted String getMacroValue(@RUntainted String macro) {
 
     if (macro.startsWith(PREFIX_VALUE)) {
       String path = macro.substring(PREFIX_VALUE.length());
@@ -189,7 +190,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
 
   /** @see org.opencms.util.CmsMacroResolver#resolveMacros(java.lang.String) */
   @Override
-  public String resolveMacros(String input) {
+  public @RUntainted String resolveMacros(@RUntainted String input) {
 
     if (input == null) {
       return null;
@@ -224,7 +225,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
    *
    * @return the site path of the page the resource is on, iff it is on exactly one page per locale.
    */
-  protected String getContainerPagePath(boolean isSitePath) {
+  protected @RUntainted String getContainerPagePath(boolean isSitePath) {
 
     Collection<CmsResource> pages = getContainerPages();
     if (pages.isEmpty()) {
@@ -270,7 +271,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
    * @param propName the property name to look up
    * @return the value of the named property on the container page, or an empty string
    */
-  protected String getContainerPageProperty(String propName) {
+  protected @RUntainted String getContainerPageProperty(String propName) {
 
     Collection<CmsResource> pages = getContainerPages();
     if (pages.isEmpty()) {
@@ -368,7 +369,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
    * @param content the macro content
    * @return the macro value
    */
-  private String resolveIsDetailPage(String content) {
+  private @RUntainted String resolveIsDetailPage(String content) {
 
     int colonPos = content.indexOf(":");
     if (colonPos != -1) {
@@ -390,7 +391,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
    * @param stMacro the contents of the macro after the stringtemplate: prefix
    * @return the StringTemplate evaluation result
    */
-  private String resolveStringTemplate(String stMacro) {
+  private @RUntainted String resolveStringTemplate(String stMacro) {
 
     String template = m_stringTemplateSource.apply(stMacro.trim());
     if (template == null) {

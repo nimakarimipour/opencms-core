@@ -50,6 +50,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsFileUtil;
 import org.opencms.util.CmsPathMap;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Sitemap generator class which tries to eliminate duplicate detail pages for the same content and
@@ -83,13 +84,13 @@ public class CmsDetailPageDuplicateEliminatingSitemapGenerator extends CmsXmlSit
    * @param sitemapPath the sitemap path
    * @throws CmsException if something goes wrong
    */
-  public CmsDetailPageDuplicateEliminatingSitemapGenerator(String sitemapPath) throws CmsException {
+  public CmsDetailPageDuplicateEliminatingSitemapGenerator(@RUntainted String sitemapPath) throws CmsException {
 
     super(sitemapPath);
     List<DetailInfo> rawDetailInfo = OpenCms.getADEManager().getDetailInfo(m_guestCms);
     List<DetailInfo> filteredDetailInfo = Lists.newArrayList();
     for (DetailInfo item : rawDetailInfo) {
-      String path = item.getFolderPath();
+      @RUntainted String path = item.getFolderPath();
       if (OpenCms.getSiteManager().startsWithShared(path)
           || CmsStringUtil.isPrefixPath(m_siteRoot, path)) {
         filteredDetailInfo.add(item);
@@ -164,7 +165,7 @@ public class CmsDetailPageDuplicateEliminatingSitemapGenerator extends CmsXmlSit
             .getDetailPageHandler()
             .isValidDetailPage(m_guestCms, containerPage, detailRes)) {
           List<CmsProperty> detailProps = m_guestCms.readPropertyObjects(detailRes, true);
-          String detailLink = getDetailLink(containerPage, detailRes, locale);
+          @RUntainted String detailLink = getDetailLink(containerPage, detailRes, locale);
           detailLink = CmsFileUtil.removeTrailingSeparator(detailLink);
           CmsXmlSitemapUrlBean detailUrlBean =
               new CmsXmlSitemapUrlBean(

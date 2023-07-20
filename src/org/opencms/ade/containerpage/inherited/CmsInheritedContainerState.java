@@ -42,6 +42,7 @@ import java.util.Set;
 import org.opencms.ade.containerpage.shared.CmsInheritanceInfo;
 import org.opencms.file.CmsResource;
 import org.opencms.xml.containerpage.CmsContainerElementBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The state of an inherited container at a given point in the VFS tree.
@@ -72,9 +73,9 @@ public class CmsInheritedContainerState {
    * @param name the name of the container configuration
    */
   public void addConfigurations(
-      CmsContainerConfigurationCache cache, String rootPath, String name) {
+      CmsContainerConfigurationCache cache, @RUntainted String rootPath, String name) {
 
-    String currentPath = rootPath;
+    @RUntainted String currentPath = rootPath;
     List<CmsContainerConfiguration> configurations = new ArrayList<CmsContainerConfiguration>();
     CmsContainerConfigurationCacheState state = cache.getState();
     while (currentPath != null) {

@@ -39,6 +39,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.search.I_CmsSearchDocument;
 import org.opencms.search.I_CmsSearchIndex;
 import org.opencms.search.extractors.I_CmsExtractionResult;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base document factory class for a VFS <code>{@link org.opencms.file.CmsResource}</code>, just
@@ -116,7 +117,7 @@ public abstract class A_CmsVfsDocument implements I_CmsDocumentFactory {
    *     I_CmsSearchIndex)
    */
   public I_CmsSearchDocument createDocument(
-      CmsObject cms, CmsResource resource, I_CmsSearchIndex index) throws CmsException {
+      CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index) throws CmsException {
 
     // extract the content from the resource
     I_CmsExtractionResult content = null;

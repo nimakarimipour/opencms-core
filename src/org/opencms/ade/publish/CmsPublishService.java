@@ -72,6 +72,7 @@ import org.opencms.workflow.I_CmsPublishResourceFormatter;
 import org.opencms.workflow.I_CmsWorkflowManager;
 import org.opencms.workplace.CmsDialog;
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The implementation of the publish service.
@@ -134,7 +135,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
    * @param name the project name
    * @return the message for the given project name
    */
-  public static String wrapProjectName(CmsObject cms, String name) {
+  public static String wrapProjectName(CmsObject cms, @RUntainted String name) {
 
     return Messages.get()
         .getBundle(OpenCms.getWorkplaceManager().getWorkplaceLocale(cms))
@@ -217,7 +218,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
       CmsObject cms,
       HashMap<String, String> params,
       String workflowId,
-      String projectParam,
+      @RUntainted String projectParam,
       List<String> pathList,
       String closeLink,
       boolean confirm)
@@ -247,7 +248,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
 
     boolean useCurrentPageAsDefault =
         params.containsKey(CmsPublishOptions.PARAM_START_WITH_CURRENT_PAGE);
-    CmsPublishOptions options = getCachedOptions();
+    @RUntainted CmsPublishOptions options = getCachedOptions();
     List<CmsProjectBean> projects = OpenCms.getWorkflowManager().getManageableProjects(cms, params);
     Set<CmsUUID> availableProjectIds = Sets.newHashSet();
     for (CmsProjectBean projectBean : projects) {
@@ -340,7 +341,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
    *     org.opencms.ade.publish.shared.CmsPublishOptions, boolean)
    */
   public CmsPublishGroupList getResourceGroups(
-      CmsWorkflow workflow, CmsPublishOptions options, boolean projectChanged)
+      CmsWorkflow workflow, @RUntainted CmsPublishOptions options, boolean projectChanged)
       throws CmsRpcException {
 
     List<CmsPublishGroup> results = null;
@@ -465,7 +466,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
    *
    * @return the cached publish options
    */
-  private CmsPublishOptions getCachedOptions() {
+  private @RUntainted CmsPublishOptions getCachedOptions() {
 
     CmsPublishOptions cache =
         (CmsPublishOptions) getRequest().getSession().getAttribute(SESSION_ATTR_ADE_PUB_OPTS_CACHE);
@@ -573,7 +574,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
    *
    * @param options the options to save
    */
-  private void setCachedOptions(CmsPublishOptions options) {
+  private void setCachedOptions(@RUntainted CmsPublishOptions options) {
 
     getRequest().getSession().setAttribute(SESSION_ATTR_ADE_PUB_OPTS_CACHE, options);
   }
@@ -586,7 +587,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
    * @param workflowId the workflow id
    * @throws CmsException if something goes wrong writing the user object
    */
-  private void setLastWorkflowForUser(String workflowId) throws CmsException {
+  private void setLastWorkflowForUser(@RUntainted String workflowId) throws CmsException {
 
     CmsUser user = getCmsObject().getRequestContext().getCurrentUser();
     user.setAdditionalInfo(PARAM_WORKFLOW_ID, workflowId);

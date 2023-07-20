@@ -26,6 +26,7 @@
  */
 
 package org.opencms.jsp.search.config.parser.simplesearch.daterestrictions;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for date restrictions used in list configurations.

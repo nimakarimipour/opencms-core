@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extended after publish static export handler, supporting multi-language exports.

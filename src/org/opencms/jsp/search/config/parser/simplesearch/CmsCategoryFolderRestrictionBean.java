@@ -30,6 +30,7 @@ package org.opencms.jsp.search.config.parser.simplesearch;
 import java.util.Collections;
 import java.util.List;
 import org.opencms.jsp.search.config.parser.simplesearch.CmsConfigurationBean.CombinationMode;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Wrapper for a combined category and folder restriction. */
 public class CmsCategoryFolderRestrictionBean {

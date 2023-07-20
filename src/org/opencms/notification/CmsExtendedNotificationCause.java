@@ -29,6 +29,7 @@ package org.opencms.notification;
 
 import java.util.Date;
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to encapsulate a resource and the cause of its notification.
@@ -53,7 +54,7 @@ public class CmsExtendedNotificationCause implements Comparable<CmsExtendedNotif
   private int m_cause;
 
   /** The date when the event (e.g. release or expiration) will happen. */
-  private Date m_date;
+  private @RUntainted Date m_date;
 
   /** The resource. */
   private CmsResource m_resource;
@@ -67,7 +68,7 @@ public class CmsExtendedNotificationCause implements Comparable<CmsExtendedNotif
    * @param cause that the resource occures in the notification
    * @param date when the event will happen
    */
-  public CmsExtendedNotificationCause(CmsResource resource, int cause, Date date) {
+  public CmsExtendedNotificationCause(CmsResource resource, int cause, @RUntainted Date date) {
 
     m_resource = resource;
     m_cause = cause;
@@ -124,7 +125,7 @@ public class CmsExtendedNotificationCause implements Comparable<CmsExtendedNotif
    *
    * @return the date
    */
-  public Date getDate() {
+  public @RUntainted Date getDate() {
 
     return m_date;
   }
@@ -160,7 +161,7 @@ public class CmsExtendedNotificationCause implements Comparable<CmsExtendedNotif
    *
    * @param date the date to set
    */
-  public void setDate(Date date) {
+  public void setDate(@RUntainted Date date) {
 
     m_date = date;
   }

@@ -62,6 +62,7 @@ import org.opencms.workplace.CmsWorkplaceLoginHandler;
 import org.opencms.workplace.CmsWorkplaceManager;
 import org.opencms.workplace.CmsWorkplaceSettings;
 import org.opencms.workplace.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility to login users to the OpenCms workplace.
@@ -588,9 +589,9 @@ public class CmsLoginHelper extends CmsJspLoginBean {
    * @param response the current response
    */
   public static void setCookieData(
-      String pcType,
-      String username,
-      String oufqn,
+      @RUntainted String pcType,
+      @RUntainted String username,
+      @RUntainted String oufqn,
       HttpServletRequest request,
       HttpServletResponse response) {
 

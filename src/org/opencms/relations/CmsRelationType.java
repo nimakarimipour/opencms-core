@@ -39,6 +39,7 @@ import org.opencms.i18n.CmsMessages;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.CmsInitException;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for the different types of relations.
@@ -190,7 +191,7 @@ public final class CmsRelationType implements Serializable {
   private final int m_id;
 
   /** Some name for this relation type, ie. for &lt;link&gt; tag representation. */
-  private final String m_name;
+  private final @RUntainted String m_name;
 
   /** Flag to indicate if the relations of this type are strong or weak. */
   private final boolean m_strong;
@@ -204,7 +205,7 @@ public final class CmsRelationType implements Serializable {
    * @param name the name of the relation
    * @param type the type of relation type, strong or weak
    */
-  public CmsRelationType(int id, String name, String type) {
+  public CmsRelationType(int id, @RUntainted String name, String type) {
 
     m_name = name.toUpperCase();
     if (OpenCms.getRunLevel() > OpenCms.RUNLEVEL_2_INITIALIZING) {
@@ -229,7 +230,7 @@ public final class CmsRelationType implements Serializable {
    * @param copyBehavior the copy behavior of the content
    */
   private CmsRelationType(
-      int id, String name, boolean strong, boolean defInContent, CopyBehavior copyBehavior) {
+      int id, @RUntainted String name, boolean strong, boolean defInContent, CopyBehavior copyBehavior) {
 
     m_id = id;
     m_name = name;
@@ -462,7 +463,7 @@ public final class CmsRelationType implements Serializable {
    * @throws CmsIllegalArgumentException if the given value could not be matched against a <code>
    *     {@link CmsRelationType}</code> object.
    */
-  public static CmsRelationType valueOf(int id) throws CmsIllegalArgumentException {
+  public static CmsRelationType valueOf(@RUntainted int id) throws CmsIllegalArgumentException {
 
     if ((id > 0) && (id <= VALUE_ARRAY.length)) {
       return VALUE_ARRAY[id - 1];
@@ -491,7 +492,7 @@ public final class CmsRelationType implements Serializable {
    * @see #valueOfXml(String)
    * @see #valueOfJsp(String)
    */
-  public static CmsRelationType valueOf(String name) throws CmsIllegalArgumentException {
+  public static CmsRelationType valueOf(@RUntainted String name) throws CmsIllegalArgumentException {
 
     CmsRelationType result = valueOfInternal(name);
     if (result == null) {
@@ -539,7 +540,7 @@ public final class CmsRelationType implements Serializable {
    * @return the XML enumeration element
    * @see #valueOf(String)
    */
-  public static CmsRelationType valueOfXml(String name) {
+  public static @RUntainted CmsRelationType valueOfXml(String name) {
 
     CmsRelationType result = valueOfInternal(name);
     if (result == null) {
@@ -630,7 +631,7 @@ public final class CmsRelationType implements Serializable {
    */
   public String getLocalizedName(CmsMessages messages) {
 
-    String nameKey = "GUI_RELATION_TYPE_" + getName() + "_0";
+    @RUntainted String nameKey = "GUI_RELATION_TYPE_" + getName() + "_0";
     return messages.key(nameKey);
   }
 
@@ -642,7 +643,7 @@ public final class CmsRelationType implements Serializable {
    * @param locale the locale
    * @return a localized name
    */
-  public String getLocalizedName(Locale locale) {
+  public @RUntainted String getLocalizedName(@RUntainted Locale locale) {
 
     return getLocalizedName(Messages.get().getBundle(locale));
   }
@@ -655,7 +656,7 @@ public final class CmsRelationType implements Serializable {
    * @return the type name
    * @see CmsRelationType#valueOf(String)
    */
-  public String getName() {
+  public @RUntainted String getName() {
 
     return m_name;
   }

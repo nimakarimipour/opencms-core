@@ -58,6 +58,7 @@ import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.types.CmsXmlSerialDateValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Special edit handler for contents that define multiple instances in a date series. */
 public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
@@ -90,7 +91,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
     private CmsFile m_file;
 
     /** The date of the current instance of the series. */
-    private Date m_instanceDate;
+    private @RUntainted Date m_instanceDate;
 
     /** UUID of the container page we currently act on. */
     private CmsUUID m_pageContextId;
@@ -152,11 +153,11 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
     public CmsDialogOptions getDeleteOptions() {
 
       if (null != m_instanceDate) {
-        Locale wpl = OpenCms.getWorkplaceManager().getWorkplaceLocale(m_cms);
+        @RUntainted Locale wpl = OpenCms.getWorkplaceManager().getWorkplaceLocale(m_cms);
         CmsMessages messages = Messages.get().getBundle(wpl);
         if (!m_value.getPatternType().equals(PatternType.NONE)) {
           List<Option> options = new ArrayList<>(2);
-          String instanceDate =
+          @RUntainted String instanceDate =
               DateFormat.getDateInstance(DateFormat.LONG, wpl).format(m_instanceDate);
           Option oInstance =
               new Option(
@@ -195,11 +196,11 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
     public CmsDialogOptions getEditOptions(boolean isListElement) {
 
       if (null != m_instanceDate) {
-        Locale wpl = OpenCms.getWorkplaceManager().getWorkplaceLocale(m_cms);
+        @RUntainted Locale wpl = OpenCms.getWorkplaceManager().getWorkplaceLocale(m_cms);
         CmsMessages messages = Messages.get().getBundle(wpl);
         if (!m_value.getPatternType().equals(PatternType.NONE)) {
           List<Option> options = new ArrayList<>(2);
-          String instanceDate =
+          @RUntainted String instanceDate =
               DateFormat.getDateInstance(DateFormat.LONG, wpl).format(m_instanceDate);
           Option oInstance;
           if (!isListElement && !isContainerPageLockable()) {
@@ -246,7 +247,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
      * @param deleteOption the delete option.
      * @throws CmsException thrown if deletion fails.
      */
-    public void handleDelete(String deleteOption) throws CmsException {
+    public void handleDelete(@RUntainted String deleteOption) throws CmsException {
 
       if (Objects.equals(deleteOption, OPTION_INSTANCE)) {
         addExceptionForInstance();
@@ -267,7 +268,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
      * @return the structure id of the content that should be edited.
      * @throws CmsException thrown if preparing the edit operation fails.
      */
-    public CmsUUID prepareForEdit(String editOption) throws CmsException {
+    public CmsUUID prepareForEdit(@RUntainted String editOption) throws CmsException {
 
       if (Objects.equals(OPTION_INSTANCE, editOption)) {
         return extractDate();
@@ -291,7 +292,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
         try {
           m_cms.lockResource(m_file);
           m_value.addException(m_instanceDate);
-          String stringValue = m_value.toString();
+          @RUntainted String stringValue = m_value.toString();
           for (Locale l : m_content.getLocales()) {
             I_CmsXmlContentValue contentValue = getSerialDateContentValue(m_content, l);
             contentValue.setStringValue(m_cms, stringValue);
@@ -330,7 +331,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
                   .lookupConfiguration(m_cms, page.getRootPath())
                   .getResourceType(
                       OpenCms.getResourceManager().getResourceType(m_file).getTypeName());
-          String pattern = typeConfig.getNamePattern(true);
+          @RUntainted String pattern = typeConfig.getNamePattern(true);
           String newSitePath =
               OpenCms.getResourceManager()
                   .getNameGenerator()
@@ -349,7 +350,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
           newValue.setParentSeriesId(m_file.getStructureId());
           newValue.setWholeDay(Boolean.valueOf(m_value.isWholeDay()));
           newValue.setPatternType(PatternType.NONE);
-          String newValueString = newValue.toString();
+          @RUntainted String newValueString = newValue.toString();
           for (Locale l : newContent.getLocales()) {
             I_CmsXmlContentValue newContentValue = getSerialDateContentValue(newContent, l);
             newContentValue.setStringValue(m_cms, newValueString);
@@ -401,7 +402,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
      * @param l the locale to show the title in.
      * @return the gallery title of the series content.
      */
-    private String getTitle(Locale l) {
+    private @RUntainted String getTitle(Locale l) {
 
       CmsGallerySearchResult result;
       try {
@@ -436,20 +437,20 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
     /** Sets the date of the currently edited instance of the series. */
     private void setInstanceDate() {
 
-      String sl = null;
-      Map<String, String> settings = m_elementBean.getSettings();
+      @RUntainted String sl = null;
+      Map<String, @RUntainted String> settings = m_elementBean.getSettings();
       if (settings.containsKey(PARAM_INSTANCEDATE)) {
         sl = settings.get(PARAM_INSTANCEDATE);
       } else if (m_requestParameters.containsKey(PARAM_INSTANCEDATE)) {
-        String[] sls = m_requestParameters.get(PARAM_INSTANCEDATE);
+        @RUntainted String[] sls = m_requestParameters.get(PARAM_INSTANCEDATE);
         if ((sls != null) && (sls.length > 0)) {
           sl = sls[0];
         }
       }
       if (sl != null) {
         try {
-          long l = Long.parseLong(sl);
-          Date d = new Date(l);
+          @RUntainted long l = Long.parseLong(sl);
+          @RUntainted Date d = new Date(l);
           if (m_series.getDates().contains(d)) {
             m_instanceDate = d;
           } else {
@@ -537,7 +538,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
   public void handleDelete(
       CmsObject cms,
       CmsContainerElementBean elementBean,
-      String deleteOption,
+      @RUntainted String deleteOption,
       CmsUUID pageContextId,
       Map<String, String[]> requestParams)
       throws CmsException {
@@ -580,7 +581,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
   public CmsUUID prepareForEdit(
       CmsObject cms,
       CmsContainerElementBean elementBean,
-      String editOption,
+      @RUntainted String editOption,
       CmsUUID pageContextId,
       Map<String, String[]> requestParams)
       throws CmsException {

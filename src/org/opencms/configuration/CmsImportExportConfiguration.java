@@ -55,6 +55,7 @@ import org.opencms.staticexport.CmsStaticExportRfsRule;
 import org.opencms.util.CmsResourceTranslator;
 import org.opencms.util.CmsStringUtil;
 import org.w3c.dom.NodeList;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import / export master configuration class.
@@ -772,12 +773,12 @@ public class CmsImportExportConfiguration extends A_CmsXmlConfiguration {
             @Override
             public void end(String namespace, String name) throws Exception {
 
-              org.w3c.dom.Element elem = (org.w3c.dom.Element) digester.pop();
+              org.w3c.dom.@RUntainted Element elem = (org.w3c.dom.Element) digester.pop();
               boolean enabled = Boolean.parseBoolean(elem.getAttribute(A_ENABLED));
-              NodeList translationElements = elem.getElementsByTagName(N_TRANSLATION);
-              String[] translationStrings = new String[translationElements.getLength()];
+              @RUntainted NodeList translationElements = elem.getElementsByTagName(N_TRANSLATION);
+              @RUntainted String[] translationStrings = new String[translationElements.getLength()];
               for (int i = 0; i < translationElements.getLength(); i++) {
-                org.w3c.dom.Element translationElem =
+                org.w3c.dom.@RUntainted Element translationElem =
                     (org.w3c.dom.Element) translationElements.item(i);
                 translationStrings[i] = translationElem.getTextContent();
               }

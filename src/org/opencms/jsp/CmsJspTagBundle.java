@@ -43,6 +43,7 @@ import org.apache.taglibs.standard.tag.common.fmt.BundleSupport;
 import org.apache.taglibs.standard.tag.common.fmt.SetLocaleSupport;
 import org.apache.taglibs.standard.tag.el.fmt.BundleTag;
 import org.opencms.i18n.CmsResourceBundleLoader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides tag access to OpenCms resource bundles.
@@ -89,7 +90,7 @@ public class CmsJspTagBundle extends BundleTag {
    * @param basename the bas name of the bundle
    * @return the initialized localization context
    */
-  public static LocalizationContext getLocalizationContext(PageContext pc, String basename) {
+  public static LocalizationContext getLocalizationContext(PageContext pc, @RUntainted String basename) {
 
     LocalizationContext locCtxt = null;
     ResourceBundle bundle = null;
@@ -99,7 +100,7 @@ public class CmsJspTagBundle extends BundleTag {
     }
 
     // Try preferred locales
-    Locale pref = getLocale(pc, javax.servlet.jsp.jstl.core.Config.FMT_LOCALE);
+    @RUntainted Locale pref = getLocale(pc, javax.servlet.jsp.jstl.core.Config.FMT_LOCALE);
     if (pref != null) {
       // Preferred locale is application-based
       bundle = findMatch(basename, pref);
@@ -135,9 +136,9 @@ public class CmsJspTagBundle extends BundleTag {
    *     or <tt>null</tt> if no scoped attribute or configuration parameter with the given name
    *     exists
    */
-  static Locale getLocale(PageContext pageContext, String name) {
+  static @RUntainted Locale getLocale(PageContext pageContext, String name) {
 
-    Locale loc = null;
+    @RUntainted Locale loc = null;
 
     Object obj = javax.servlet.jsp.jstl.core.Config.find(pageContext, name);
     if (obj != null) {
@@ -188,7 +189,7 @@ public class CmsJspTagBundle extends BundleTag {
    * @param pref the preferred locale
    * @return the resource bundle.
    */
-  private static ResourceBundle findMatch(String basename, Locale pref) {
+  private static ResourceBundle findMatch(@RUntainted String basename, @RUntainted Locale pref) {
 
     ResourceBundle match = null;
     try {

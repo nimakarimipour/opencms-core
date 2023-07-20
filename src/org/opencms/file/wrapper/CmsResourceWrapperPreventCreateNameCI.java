@@ -38,6 +38,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.security.CmsPermissionViolationException;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource wrapper class which is used to prevent resources with a certain name from being created.
@@ -73,7 +74,7 @@ public class CmsResourceWrapperPreventCreateNameCI extends A_CmsResourceWrapper 
    */
   @Override
   public CmsResource createResource(
-      CmsObject cms, String resourcepath, int type, byte[] content, List<CmsProperty> properties)
+      CmsObject cms, @RUntainted String resourcepath, int type, byte[] content, List<CmsProperty> properties)
       throws CmsIllegalArgumentException {
 
     String name = CmsResource.getName(resourcepath);
@@ -101,7 +102,7 @@ public class CmsResourceWrapperPreventCreateNameCI extends A_CmsResourceWrapper 
    *     java.lang.String, java.lang.String)
    */
   @Override
-  public boolean moveResource(CmsObject cms, String source, String destination)
+  public boolean moveResource(CmsObject cms, String source, @RUntainted String destination)
       throws CmsException, CmsIllegalArgumentException {
 
     String name = CmsResource.getName(destination);

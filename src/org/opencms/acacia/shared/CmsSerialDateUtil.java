@@ -26,6 +26,7 @@
  */
 
 package org.opencms.acacia.shared;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Utility methods for the serial date widget. */
 public final class CmsSerialDateUtil {

@@ -29,6 +29,7 @@ package org.opencms.ade.contenteditor.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Data which needs to be passed to the edit handler when using the 'new' button for an editable
@@ -122,7 +123,7 @@ public class CmsEditHandlerData implements IsSerializable {
    *
    * @return the string with the request parameters from the URL
    */
-  public String getRequestParams() {
+  public @RUntainted String getRequestParams() {
 
     return m_requestParams;
   }

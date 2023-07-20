@@ -41,6 +41,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.xml2json.CmsJsonAccessPolicy;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides context information to JSON handlers.
@@ -128,7 +129,7 @@ public class CmsJsonHandlerContext {
   private CmsParameterConfiguration m_handlerConfig;
 
   /** The request parameters from the resource init handler call. */
-  private Map<String, String> m_parameters;
+  private Map<String, @RUntainted String> m_parameters;
 
   /** The path below the JSON handler prefix. */
   private String m_path;
@@ -158,7 +159,7 @@ public class CmsJsonHandlerContext {
       CmsObject rootCms,
       String path,
       CmsResource resource,
-      Map<String, String> params,
+      Map<String, @RUntainted String> params,
       CmsParameterConfiguration handlerConfig,
       CmsJsonAccessPolicy policy) {
 
@@ -254,7 +255,7 @@ public class CmsJsonHandlerContext {
    *
    * @return the request parameters
    */
-  public Map<String, String> getParameters() {
+  public Map<String, @RUntainted String> getParameters() {
 
     return Collections.unmodifiableMap(m_parameters);
   }

@@ -34,6 +34,7 @@ import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.v7.ui.ComboBox;
 import java.io.File;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class for the import from a folder on the server.
@@ -54,7 +55,7 @@ public abstract class A_CmsServerImportForm extends A_CmsImportForm {
    * @param pathToServer path where the files should be read
    * @param validate indicates if file gets validated (only possible for modules)
    */
-  public A_CmsServerImportForm(I_CmsReportApp app, String pathToServer, final boolean validate) {
+  public A_CmsServerImportForm(I_CmsReportApp app, @RUntainted String pathToServer, final boolean validate) {
     super(app);
     IndexedContainer options = new IndexedContainer();
     options.addContainerProperty("label", String.class, "");
@@ -80,7 +81,7 @@ public abstract class A_CmsServerImportForm extends A_CmsImportForm {
 
               public void valueChange(ValueChangeEvent event) {
 
-                String path = (String) (event.getProperty().getValue());
+                @RUntainted String path = (String) (event.getProperty().getValue());
                 m_importFile = new CmsImportFile(path);
                 if (validate) {
                   getOkButton().setEnabled(false);

@@ -28,6 +28,7 @@
 package org.opencms.ui.contextmenu;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for generic context menu entris.
@@ -62,7 +63,7 @@ public interface I_CmsSimpleContextMenuEntry<T> {
    *
    * @param context the item data
    */
-  void executeAction(T context);
+  void executeAction(@RUntainted T context);
 
   /**
    * Returns the entry title for the given locale.
@@ -72,7 +73,7 @@ public interface I_CmsSimpleContextMenuEntry<T> {
    * @param locale the locale
    * @return the title
    */
-  String getTitle(Locale locale);
+  String getTitle(@RUntainted Locale locale);
 
   /**
    * Returns the entry visibility matching the given item data.

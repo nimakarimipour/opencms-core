@@ -41,6 +41,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An indexer indexing {@link CmsResource} based content from the OpenCms VFS.
@@ -205,11 +206,11 @@ public class CmsVfsIndexer implements I_CmsIndexer {
       CmsIndexingThreadManager threadManager,
       CmsSearchIndexSource source) {
 
-    List<String> resourceNames = source.getResourcesNames();
-    Iterator<String> i = resourceNames.iterator();
+    List<@RUntainted String> resourceNames = source.getResourcesNames();
+    Iterator<@RUntainted String> i = resourceNames.iterator();
     while (i.hasNext()) {
       // read the resources from all configured source folders
-      String resourceName = i.next();
+      @RUntainted String resourceName = i.next();
       List<CmsResource> resources = null;
       try {
         // read all resources (only files) below the given path
@@ -413,7 +414,7 @@ public class CmsVfsIndexer implements I_CmsIndexer {
    * @param doc the new document for the resource
    */
   protected void updateResource(
-      I_CmsIndexWriter indexWriter, String rootPath, I_CmsSearchDocument doc) {
+      I_CmsIndexWriter indexWriter, @RUntainted String rootPath, I_CmsSearchDocument doc) {
 
     try {
       indexWriter.updateDocument(rootPath, doc);

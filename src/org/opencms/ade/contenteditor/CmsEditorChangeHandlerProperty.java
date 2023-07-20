@@ -37,6 +37,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles editor content changes to read OpenCms resource properties and insert their values into
@@ -65,7 +66,7 @@ public class CmsEditorChangeHandlerProperty extends A_CmsXmlContentEditorChangeH
 
     if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_propertyName)
         && CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_targetField)) {
-      for (String path : changedPaths) {
+      for (@RUntainted String path : changedPaths) {
         I_CmsXmlContentValue value = content.getValue(path, locale);
         if (value != null) {
           String val = value.getStringValue(cms);
@@ -74,7 +75,7 @@ public class CmsEditorChangeHandlerProperty extends A_CmsXmlContentEditorChangeH
               CmsProperty prop = cms.readPropertyObject(val, m_propertyName, false);
 
               if (!prop.isNullProperty()) {
-                String target = resolveRelativePath(path, m_targetField);
+                @RUntainted String target = resolveRelativePath(path, m_targetField);
                 if (content.hasValue(target, locale)) {
                   content.getValue(target, locale).setStringValue(cms, prop.getValue());
                 } else {

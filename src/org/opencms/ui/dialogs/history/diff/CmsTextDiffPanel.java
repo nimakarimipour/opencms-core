@@ -46,6 +46,7 @@ import org.opencms.util.CmsHtml2TextConverter;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.comparison.CmsDiffViewMode;
 import org.opencms.workplace.comparison.CmsHtmlDifferenceConfiguration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to display a colorized diff view for two texts.
@@ -70,7 +71,7 @@ public class CmsTextDiffPanel extends VerticalLayout {
   private OptionGroup m_diffModeSelect;
 
   /** First text used for comparison. */
-  private String m_text1;
+  private @RUntainted String m_text1;
 
   /** Second text used for comparison. */
   private String m_text2;
@@ -94,7 +95,7 @@ public class CmsTextDiffPanel extends VerticalLayout {
    *     all the lines should be displayed
    */
   public CmsTextDiffPanel(
-      String text1, String text2, boolean selectTextOrHtml, boolean selectDiffMode) {
+      @RUntainted String text1, String text2, boolean selectTextOrHtml, boolean selectDiffMode) {
     CmsVaadinUtils.readAndLocalizeDesign(
         this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
     m_text1 = text1;

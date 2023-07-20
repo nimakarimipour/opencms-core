@@ -44,6 +44,7 @@ import org.opencms.util.I_CmsMacroResolver;
 import org.opencms.xml.content.I_CmsXmlContentHandler.DisplayType;
 import org.opencms.xml.types.A_CmsXmlContentValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a standard HTML form input widget for overwriting localized values of a resource bundle,
@@ -90,10 +91,10 @@ public class CmsLocalizationWidget extends A_CmsWidget implements I_CmsADEWidget
   private static Pattern PATTERN_MESSAGEARGUMENT = Pattern.compile(".*(\\{)(\\d*)(\\}).*");
 
   /** The bundle key (optional, if not equal to the element name). */
-  private String m_bundleKey;
+  private @RUntainted String m_bundleKey;
 
   /** The locale to get the value for. */
-  private Locale m_locale;
+  private @RUntainted Locale m_locale;
 
   /** The localized bundle to get the value from. */
   private CmsMessages m_messages;
@@ -279,10 +280,10 @@ public class CmsLocalizationWidget extends A_CmsWidget implements I_CmsADEWidget
       // initialize messages, the optional bundle key name and the optional locale from
       // configuration String
       String bundleName = "";
-      List<String> configs = CmsStringUtil.splitAsList(getConfiguration(), '|');
-      Iterator<String> i = configs.iterator();
+      List<@RUntainted String> configs = CmsStringUtil.splitAsList(getConfiguration(), '|');
+      Iterator<@RUntainted String> i = configs.iterator();
       while (i.hasNext()) {
-        String config = i.next();
+        @RUntainted String config = i.next();
         if (config.startsWith(OPTION_KEY)) {
           m_bundleKey = config.substring(OPTION_KEY.length());
         } else if (config.startsWith(OPTION_LOCALE)) {
@@ -326,10 +327,10 @@ public class CmsLocalizationWidget extends A_CmsWidget implements I_CmsADEWidget
       // initialize messages, the optional bundle key name and the optional locale from
       // configuration String
       String bundleName = "";
-      List<String> configs = CmsStringUtil.splitAsList(getConfiguration(), '|');
-      Iterator<String> i = configs.iterator();
+      List<@RUntainted String> configs = CmsStringUtil.splitAsList(getConfiguration(), '|');
+      Iterator<@RUntainted String> i = configs.iterator();
       while (i.hasNext()) {
-        String config = i.next();
+        @RUntainted String config = i.next();
         if (config.startsWith(OPTION_KEY)) {
           m_bundleKey = config.substring(OPTION_KEY.length());
         } else if (config.startsWith(OPTION_LOCALE)) {

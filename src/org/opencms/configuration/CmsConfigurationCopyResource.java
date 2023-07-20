@@ -32,6 +32,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResource.CmsResourceCopyMode;
 import org.opencms.file.types.A_CmsResourceType;
 import org.opencms.util.CmsMacroResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a resource to copy during the creation of a new resource.

@@ -54,6 +54,7 @@ import org.opencms.workplace.CmsWorkplace;
 import org.opencms.workplace.editors.directedit.CmsAdvancedDirectEditProvider;
 import org.opencms.workplace.editors.directedit.CmsDirectEditMode;
 import org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;enable-ade/&gt;</code> tag.
@@ -194,7 +195,7 @@ public class CmsJspTagEnableAde extends BodyTagSupport {
             .setAttribute(CmsGwtConstants.PARAM_DISABLE_DIRECT_EDIT, Boolean.TRUE);
         String buttonLeft = request.getParameter(CmsGwtConstants.PARAM_BUTTON_LEFT);
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(buttonLeft)) {
-          Integer left = null;
+          @RUntainted Integer left = null;
           try {
             left = Integer.valueOf(buttonLeft);
             if (left.intValue() > 0) {
@@ -223,7 +224,7 @@ public class CmsJspTagEnableAde extends BodyTagSupport {
    * @param titleMessage the title attribute of the "Editor mode" button rendered by the include
    * @return the preview mode include
    */
-  private static String getPreviewInclude(String buttonLeft, String titleMessage) {
+  private static String getPreviewInclude(@RUntainted String buttonLeft, String titleMessage) {
 
     StringBuffer buffer = new StringBuffer();
     buffer

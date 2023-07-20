@@ -28,6 +28,7 @@
 package org.opencms.gwt.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A simple bean class which represents a validation request for a single form field.
@@ -45,7 +46,7 @@ public class CmsValidationQuery implements IsSerializable {
   private String m_validatorId;
 
   /** The value which should be validated. */
-  private String m_value;
+  private @RUntainted String m_value;
 
   /**
    * Constructor.
@@ -56,7 +57,7 @@ public class CmsValidationQuery implements IsSerializable {
    * @param value the value to validate
    * @param config the configuration string for the server-side validator
    */
-  public CmsValidationQuery(String validator, String value, String config) {
+  public CmsValidationQuery(String validator, @RUntainted String value, String config) {
 
     m_validatorId = validator;
     m_value = value;
@@ -104,7 +105,7 @@ public class CmsValidationQuery implements IsSerializable {
    *
    * @return the value which should be validated
    */
-  public String getValue() {
+  public @RUntainted String getValue() {
 
     return m_value;
   }

@@ -28,6 +28,7 @@
 package org.opencms.security;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Password handler implementing this interface allow the password security to be evaluated.
@@ -67,5 +68,5 @@ public interface I_CmsPasswordSecurityEvaluator {
    * @param locale the locale
    * @return the password security hint
    */
-  String getPasswordSecurityHint(Locale locale);
+  String getPasswordSecurityHint(@RUntainted Locale locale);
 }

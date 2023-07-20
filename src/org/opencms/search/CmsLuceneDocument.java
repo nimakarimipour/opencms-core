@@ -44,6 +44,7 @@ import org.opencms.relations.CmsCategory;
 import org.opencms.search.fields.CmsLuceneField;
 import org.opencms.search.fields.CmsSearchField;
 import org.opencms.search.fields.CmsSearchFieldConfiguration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A Lucene search document implementation.
@@ -217,7 +218,7 @@ public class CmsLuceneDocument implements I_CmsSearchDocument {
   }
 
   /** @see org.opencms.search.I_CmsSearchDocument#addPathField(java.lang.String) */
-  public void addPathField(String rootPath) {
+  public void addPathField(@RUntainted String rootPath) {
 
     String parentFolders = CmsSearchFieldConfiguration.getParentFolderTokens(rootPath);
     Field field =
@@ -242,7 +243,7 @@ public class CmsLuceneDocument implements I_CmsSearchDocument {
    *     org.opencms.search.I_CmsSearchDocument#addSearchField(org.opencms.search.fields.CmsSearchField,
    *     java.lang.String)
    */
-  public void addSearchField(CmsSearchField field, String value) {
+  public void addSearchField(@RUntainted CmsSearchField field, String value) {
 
     if (field instanceof CmsLuceneField) {
       add(((CmsLuceneField) field).createField(value));

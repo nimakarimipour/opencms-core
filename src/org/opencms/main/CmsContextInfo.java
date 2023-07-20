@@ -37,6 +37,7 @@ import org.opencms.i18n.CmsEncoder;
 import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.security.CmsOrganizationalUnit;
 import org.opencms.site.CmsSiteMatcher;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains user information for automated creation of a {@link org.opencms.file.CmsRequestContext}
@@ -92,10 +93,10 @@ public class CmsContextInfo implements Serializable {
   private String m_projectName;
 
   /** The remote ip address to create the context with. */
-  private String m_remoteAddr;
+  private @RUntainted String m_remoteAddr;
 
   /** The request URI to create the context with. */
-  private String m_requestedUri;
+  private @RUntainted String m_requestedUri;
 
   /**
    * the matcher for the current request, that is the host part of the URI from the original http
@@ -104,16 +105,16 @@ public class CmsContextInfo implements Serializable {
   private CmsSiteMatcher m_requestMatcher;
 
   /** The time for the request, used for resource publication and expiration dates. */
-  private long m_requestTime;
+  private @RUntainted long m_requestTime;
 
   /** The site root to create the context with. */
-  private String m_siteRoot;
+  private @RUntainted String m_siteRoot;
 
   /** The user to create the context with. */
   private CmsUser m_user;
 
   /** The user name to create the context with. */
-  private String m_userName;
+  private @RUntainted String m_userName;
 
   /**
    * Creates a new instance, initializing the variables with some reasonable default values.
@@ -210,8 +211,8 @@ public class CmsContextInfo implements Serializable {
       String siteRoot,
       boolean isSecureRequest,
       Locale locale,
-      String encoding,
-      String remoteAddr,
+      @RUntainted String encoding,
+      @RUntainted String remoteAddr,
       long requestTime,
       String ouFqn,
       boolean isForceAbsoluteLinks) {
@@ -241,7 +242,7 @@ public class CmsContextInfo implements Serializable {
    * @param userName the user name to create the context with
    * @see #CmsContextInfo()
    */
-  public CmsContextInfo(String userName) {
+  public CmsContextInfo(@RUntainted String userName) {
 
     this();
     setUserName(userName);
@@ -321,7 +322,7 @@ public class CmsContextInfo implements Serializable {
    * @return the locale
    * @see CmsRequestContext#getLocale()
    */
-  public Locale getLocale() {
+  public @RUntainted Locale getLocale() {
 
     return m_locale;
   }
@@ -389,7 +390,7 @@ public class CmsContextInfo implements Serializable {
    * @return the remote ip address
    * @see CmsRequestContext#getRemoteAddress()
    */
-  public String getRemoteAddr() {
+  public @RUntainted String getRemoteAddr() {
 
     return m_remoteAddr;
   }
@@ -402,7 +403,7 @@ public class CmsContextInfo implements Serializable {
    * @return the requested uri
    * @see CmsRequestContext#getUri()
    */
-  public String getRequestedUri() {
+  public @RUntainted String getRequestedUri() {
 
     return m_requestedUri;
   }
@@ -429,7 +430,7 @@ public class CmsContextInfo implements Serializable {
    * @return the request time used for validation of resource publication and expiration dates
    * @see CmsRequestContext#getRequestTime()
    */
-  public long getRequestTime() {
+  public @RUntainted long getRequestTime() {
 
     return m_requestTime;
   }
@@ -442,7 +443,7 @@ public class CmsContextInfo implements Serializable {
    * @return the siteroot
    * @see CmsRequestContext#getSiteRoot()
    */
-  public String getSiteRoot() {
+  public @RUntainted String getSiteRoot() {
 
     return m_siteRoot;
   }
@@ -472,7 +473,7 @@ public class CmsContextInfo implements Serializable {
    * @see #getUser()
    * @see CmsRequestContext#getCurrentUser()
    */
-  public String getUserName() {
+  public @RUntainted String getUserName() {
 
     return m_userName;
   }
@@ -519,7 +520,7 @@ public class CmsContextInfo implements Serializable {
    * @param encoding the encoding to set
    * @see CmsRequestContext#setEncoding(String)
    */
-  public void setEncoding(String encoding) {
+  public void setEncoding(@RUntainted String encoding) {
 
     checkFrozen();
     m_encoding = CmsEncoder.lookupEncoding(encoding, OpenCms.getSystemInfo().getDefaultEncoding());
@@ -579,7 +580,7 @@ public class CmsContextInfo implements Serializable {
    * @see #setLocale(Locale)
    * @see CmsRequestContext#getLocale()
    */
-  public void setLocaleName(String localeName) {
+  public void setLocaleName(@RUntainted String localeName) {
 
     checkFrozen();
     m_localeName = localeName;
@@ -621,7 +622,7 @@ public class CmsContextInfo implements Serializable {
    * @param remoteAddr the remote ip address
    * @see CmsRequestContext#getRemoteAddress()
    */
-  public void setRemoteAddr(String remoteAddr) {
+  public void setRemoteAddr(@RUntainted String remoteAddr) {
 
     checkFrozen();
     m_remoteAddr = remoteAddr;
@@ -694,7 +695,7 @@ public class CmsContextInfo implements Serializable {
    * @param userName the username to set
    * @see CmsRequestContext#getCurrentUser()
    */
-  public void setUserName(String userName) {
+  public void setUserName(@RUntainted String userName) {
 
     checkFrozen();
     m_userName = userName;

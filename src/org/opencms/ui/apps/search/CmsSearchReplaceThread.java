@@ -71,6 +71,7 @@ import org.opencms.xml.containerpage.CmsXmlContainerPageFactory;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Searches in sources.
@@ -91,16 +92,16 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
   public static final long ABANDON_TIMEOUT = TimeUnit.MINUTES.toMillis(5);
 
   /** Number of errors while searching. */
-  private int m_errorSearch;
+  private @RUntainted int m_errorSearch;
 
   /** Number of errors while updating. */
-  private int m_errorUpdate;
+  private @RUntainted int m_errorUpdate;
 
   /** Number of locked files during updating. */
-  private int m_lockedFiles;
+  private @RUntainted int m_lockedFiles;
 
   /** The found resources. */
-  private Set<CmsResource> m_matchedResources = new LinkedHashSet<CmsResource>();
+  private @RUntainted Set<CmsResource> m_matchedResources = new LinkedHashSet<CmsResource>();
 
   /** The replace flag. */
   private boolean m_replace;
@@ -227,7 +228,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
       // iterate over the paths
       Iterator<String> iter = m_settings.getPaths().iterator();
       while (iter.hasNext()) {
-        String path = iter.next();
+        @RUntainted String path = iter.next();
         report.println(
             Messages.get().container(Messages.RPT_SOURCESEARCH_PARAMETERS_RESOURCE_PATH_1, path),
             I_CmsReport.FORMAT_NOTE);
@@ -302,7 +303,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
 
     // search the resources and replace the patterns
     if (!isError) {
-      List<CmsResource> resources = searchResources();
+      @RUntainted List<CmsResource> resources = searchResources();
 
       if (resources.isEmpty()) {
         // no resources found, so search is not possible
@@ -488,7 +489,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
    * @throws Exception in case unmarshalling of the container page fails
    */
   private byte[] renameNestedContainers(
-      CmsFile targetContainerPage, CmsResource layoutResource, String oldName, String newName)
+      CmsFile targetContainerPage, CmsResource layoutResource, @RUntainted String oldName, @RUntainted String newName)
       throws Exception {
 
     byte[] contents = targetContainerPage.getContents();
@@ -505,7 +506,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
       if (replaceElementIds.size() > 0) {
         String encoding = CmsLocaleManager.getResourceEncoding(getCms(), targetContainerPage);
         String content = new String(contents, encoding);
-        for (String instanceId : replaceElementIds) {
+        for (@RUntainted String instanceId : replaceElementIds) {
           Pattern patt =
               Pattern.compile(CmsJspTagContainer.getNestedContainerName(oldName, instanceId, null));
           Matcher m = patt.matcher(content);
@@ -635,7 +636,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
                 matched = true;
                 m_matchedResources.add(cmsFile);
                 if (m_replace) {
-                  String newVal = matcher.replaceAll(m_settings.getReplacepattern());
+                  @RUntainted String newVal = matcher.replaceAll(m_settings.getReplacepattern());
                   if (!oldVal.equals(newVal)) {
                     value.setStringValue(getCms(), newVal);
                     modified = true;
@@ -709,7 +710,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
    * @param resCount the total resource count
    * @param resource the file to get the content for
    */
-  private void report(I_CmsReport report, int counter, int resCount, CmsResource resource) {
+  private void report(I_CmsReport report, @RUntainted int counter, @RUntainted int resCount, CmsResource resource) {
 
     // report entries
     report.print(
@@ -736,7 +737,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
    *
    * @param nrOfFiles the total number of files
    */
-  private void reportResults(int nrOfFiles) {
+  private void reportResults(@RUntainted int nrOfFiles) {
 
     I_CmsReport report = getReport();
     // report entries
@@ -901,7 +902,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
     if (m_settings.isSolrSearch()) {
       CmsSolrIndex index = OpenCms.getSearchManager().getIndexSolr(m_settings.getSource());
       if (index != null) {
-        CmsSolrQuery query =
+        @RUntainted CmsSolrQuery query =
             new CmsSolrQuery(
                 null, CmsRequestUtil.createParameterMap(m_settings.getQuery() + "&fl=path,type"));
         List<String> rootPaths = new ArrayList<>(m_settings.getPaths().size());
@@ -949,7 +950,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
         filter = filter.addRequireFile();
       }
       while (iterPaths.hasNext()) {
-        String path = iterPaths.next();
+        @RUntainted String path = iterPaths.next();
         try {
           if (m_settings.getType().isPropertySearch()) {
             resources.addAll(

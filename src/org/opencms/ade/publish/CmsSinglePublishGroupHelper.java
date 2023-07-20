@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Locale;
 import org.opencms.ade.publish.shared.CmsPublishGroup;
 import org.opencms.ade.publish.shared.CmsPublishResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish group helper which only puts all publish resources into a single group.
@@ -52,7 +53,7 @@ public class CmsSinglePublishGroupHelper
    * @param locale the locale to use
    * @param title the title to use for the single group
    */
-  public CmsSinglePublishGroupHelper(Locale locale, String title) {
+  public CmsSinglePublishGroupHelper(@RUntainted Locale locale, String title) {
 
     super(locale);
     m_title = title;

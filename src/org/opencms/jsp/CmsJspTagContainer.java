@@ -88,6 +88,7 @@ import org.opencms.xml.containerpage.CmsXmlGroupContainerFactory;
 import org.opencms.xml.containerpage.CmsXmlInheritGroupContainerHandler;
 import org.opencms.xml.containerpage.I_CmsFormatterBean;
 import org.opencms.xml.templatemapper.CmsTemplateMapper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the page container elements.
@@ -136,7 +137,7 @@ public class CmsJspTagContainer extends BodyTagSupport
   private boolean m_detailView;
 
   /** The editable by tag attribute. A comma separated list of OpenCms principals. */
-  private String m_editableBy;
+  private @RUntainted String m_editableBy;
 
   /** Indicating that the container page editor is active for the current request. */
   private boolean m_editableRequest;
@@ -148,13 +149,13 @@ public class CmsJspTagContainer extends BodyTagSupport
   private String m_maxElements;
 
   /** The name attribute value. */
-  private String m_name;
+  private @RUntainted String m_name;
 
   /**
    * The container name prefix to use for nested container names. If empty the element instance id
    * of the parent element will be used.
    */
-  private String m_namePrefix;
+  private @RUntainted String m_namePrefix;
 
   /** The optional container parameter. */
   private String m_param;
@@ -178,7 +179,7 @@ public class CmsJspTagContainer extends BodyTagSupport
   private String m_tagClass;
 
   /** The type attribute value. */
-  private String m_type;
+  private @RUntainted String m_type;
 
   /** The container width as a string. */
   private String m_width;
@@ -197,7 +198,7 @@ public class CmsJspTagContainer extends BodyTagSupport
    * @return the formatter configuration bean, may be <code>null</code> if no formatter available or
    *     a schema formatter is used
    */
-  public static I_CmsFormatterBean ensureValidFormatterSettings(
+  public static @RUntainted I_CmsFormatterBean ensureValidFormatterSettings(
       CmsObject cms,
       CmsContainerElementBean element,
       CmsADEConfigData adeConfig,
@@ -205,7 +206,7 @@ public class CmsJspTagContainer extends BodyTagSupport
       String containerType,
       int containerWidth) {
 
-    I_CmsFormatterBean formatterBean =
+    @RUntainted I_CmsFormatterBean formatterBean =
         getFormatterConfigurationForElement(
             cms, element, adeConfig, containerName, containerType, containerWidth);
     String settingsKey = CmsFormatterConfig.getSettingsKeyForContainer(containerName);
@@ -234,7 +235,7 @@ public class CmsJspTagContainer extends BodyTagSupport
    * @param containerWidth the container width
    * @return the formatter configuration
    */
-  public static I_CmsFormatterBean getFormatterConfigurationForElement(
+  public static @RUntainted I_CmsFormatterBean getFormatterConfigurationForElement(
       CmsObject cms,
       CmsContainerElementBean element,
       CmsADEConfigData adeConfig,
@@ -242,14 +243,14 @@ public class CmsJspTagContainer extends BodyTagSupport
       String containerType,
       int containerWidth) {
 
-    I_CmsFormatterBean formatterBean = null;
+    @RUntainted I_CmsFormatterBean formatterBean = null;
     String settingsKey = CmsFormatterConfig.getSettingsKeyForContainer(containerName);
-    String formatterSetting = element.getSettings().get(settingsKey);
+    @RUntainted String formatterSetting = element.getSettings().get(settingsKey);
     CmsFormatterConfiguration formatterConfig = null;
     if (formatterSetting != null) {
       formatterConfig = adeConfig.getFormatters(cms, element.getResource());
       // getFormattersForKey also works for the schema_formaterXXXXXX setting values
-      List<I_CmsFormatterBean> candidates = formatterConfig.getFormattersForKey(formatterSetting);
+      List<@RUntainted I_CmsFormatterBean> candidates = formatterConfig.getFormattersForKey(formatterSetting);
       if (candidates.size() > 0) {
         formatterBean = candidates.get(0);
       } else {
@@ -264,7 +265,7 @@ public class CmsJspTagContainer extends BodyTagSupport
         formatterConfig = adeConfig.getFormatters(cms, element.getResource());
       }
 
-      for (I_CmsFormatterBean formatter :
+      for (@RUntainted I_CmsFormatterBean formatter :
           adeConfig
               .getFormatters(cms, element.getResource())
               .getAllMatchingFormatters(containerType, containerWidth)) {
@@ -304,7 +305,7 @@ public class CmsJspTagContainer extends BodyTagSupport
    * @throws CmsException if something goes wrong
    */
   public static List<CmsContainerElementBean> getGroupContainerElements(
-      CmsObject cms, CmsContainerElementBean element, ServletRequest req, String containerType)
+      CmsObject cms, CmsContainerElementBean element, ServletRequest req, @RUntainted String containerType)
       throws CmsException {
 
     List<CmsContainerElementBean> subElements;
@@ -361,10 +362,10 @@ public class CmsJspTagContainer extends BodyTagSupport
    * @param namePrefix the name prefix attribute
    * @return the nested container name
    */
-  public static String getNestedContainerName(
-      String name, String parentIstanceId, String namePrefix) {
+  public static @RUntainted String getNestedContainerName(
+      @RUntainted String name, @RUntainted String parentIstanceId, @RUntainted String namePrefix) {
 
-    String prefix;
+    @RUntainted String prefix;
     if (CmsStringUtil.isEmptyOrWhitespaceOnly(namePrefix)) {
       prefix = parentIstanceId + "-";
     } else if ("none".equals(namePrefix)) {
@@ -479,7 +480,7 @@ public class CmsJspTagContainer extends BodyTagSupport
       try {
         CmsFlexController controller = CmsFlexController.getController(req);
         CmsObject cms = controller.getCmsObject();
-        String requestUri = cms.getRequestContext().getUri();
+        @RUntainted String requestUri = cms.getRequestContext().getUri();
         Locale locale = cms.getRequestContext().getLocale();
         CmsJspStandardContextBean standardContext = CmsJspStandardContextBean.getInstance(req);
         standardContext.initPage();
@@ -718,7 +719,7 @@ public class CmsJspTagContainer extends BodyTagSupport
    *
    * @return the maxElements attribute value
    */
-  public String getMaxElements() {
+  public @RUntainted String getMaxElements() {
 
     return CmsStringUtil.isEmptyOrWhitespaceOnly(m_maxElements)
         ? DEFAULT_MAX_ELEMENTS
@@ -732,7 +733,7 @@ public class CmsJspTagContainer extends BodyTagSupport
    *
    * @return String the container name
    */
-  public String getName() {
+  public @RUntainted String getName() {
 
     if (isNested()) {
       return getNestedContainerName(m_name, m_parentElement.getInstanceId(), m_namePrefix);
@@ -800,7 +801,7 @@ public class CmsJspTagContainer extends BodyTagSupport
    *
    * @return the type attribute value
    */
-  public String getType() {
+  public @RUntainted String getType() {
 
     return CmsStringUtil.isEmptyOrWhitespaceOnly(m_type) ? getName() : m_type;
   }
@@ -885,7 +886,7 @@ public class CmsJspTagContainer extends BodyTagSupport
    *
    * @param name the name value to set
    */
-  public void setName(String name) {
+  public void setName(@RUntainted String name) {
 
     m_name = name;
   }
@@ -897,7 +898,7 @@ public class CmsJspTagContainer extends BodyTagSupport
    *
    * @param namePrefix the name prefix to set
    */
-  public void setNameprefix(String namePrefix) {
+  public void setNameprefix(@RUntainted String namePrefix) {
 
     m_namePrefix = namePrefix;
   }
@@ -1045,12 +1046,12 @@ public class CmsJspTagContainer extends BodyTagSupport
 
     boolean result = false;
     if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_editableBy)) {
-      String[] principals = m_editableBy.split(",");
+      @RUntainted String[] principals = m_editableBy.split(",");
       List<CmsGroup> groups = null;
       for (int i = 0; i < principals.length; i++) {
-        String key = principals[i];
+        @RUntainted String key = principals[i];
         // get the principal name from the principal String
-        String principal = key.substring(key.indexOf('.') + 1, key.length());
+        @RUntainted String principal = key.substring(key.indexOf('.') + 1, key.length());
 
         if (CmsGroup.hasPrefix(key)) {
           // read the group
@@ -1210,7 +1211,7 @@ public class CmsJspTagContainer extends BodyTagSupport
 
       if (formatter != null) {
         // use structure id as the instance id to enable use of nested containers
-        Map<String, String> settings = new HashMap<String, String>();
+        Map<String, @RUntainted String> settings = new HashMap<String, @RUntainted String>();
         for (CmsContainerElementBean el : container.getElements()) {
           try {
             el.initResource(cms);
@@ -1225,7 +1226,7 @@ public class CmsJspTagContainer extends BodyTagSupport
 
         String formatterKey = CmsFormatterConfig.getSettingsKeyForContainer(container.getName());
         if (settings.containsKey(formatterKey)) {
-          String formatterConfigId = settings.get(formatterKey);
+          @RUntainted String formatterConfigId = settings.get(formatterKey);
           I_CmsFormatterBean dynamicFmt = config.findFormatter(formatterConfigId);
           if (dynamicFmt != null) {
             formatter = dynamicFmt;
@@ -1332,9 +1333,9 @@ public class CmsJspTagContainer extends BodyTagSupport
    * @param requestUri the requested URI
    * @return the maximum number of elements of the container
    */
-  private int getMaxElements(String requestUri) {
+  private int getMaxElements(@RUntainted String requestUri) {
 
-    String containerMaxElements = getMaxElements();
+    @RUntainted String containerMaxElements = getMaxElements();
 
     int maxElements = -1;
     if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(containerMaxElements)) {
@@ -1407,7 +1408,7 @@ public class CmsJspTagContainer extends BodyTagSupport
    * @throws IOException if something goes wrong writing to response out
    */
   private void printElementErrorTag(
-      String elementSitePath, String formatterSitePath, Exception exception) throws IOException {
+      @RUntainted String elementSitePath, @RUntainted String formatterSitePath, Exception exception) throws IOException {
 
     if (m_editableRequest) {
       String stacktrace = CmsException.getStackTraceAsString(exception);
@@ -1549,7 +1550,7 @@ public class CmsJspTagContainer extends BodyTagSupport
               && (!shouldShowSubElementInContext || !subelement.isReleasedAndNotExpired())) {
             continue;
           }
-          I_CmsFormatterBean subElementFormatterConfig =
+          @RUntainted I_CmsFormatterBean subElementFormatterConfig =
               ensureValidFormatterSettings(
                   cms, subelement, adeConfig, getName(), containerType, containerWidth);
           subelement.initSettings(
@@ -1640,7 +1641,7 @@ public class CmsJspTagContainer extends BodyTagSupport
           printElementWrapperTagEnd(false);
         }
       } else {
-        String formatter = null;
+        @RUntainted String formatter = null;
         try {
           if (formatterConfig != null) {
             try {

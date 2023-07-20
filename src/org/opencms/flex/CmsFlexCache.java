@@ -54,6 +54,7 @@ import org.opencms.security.CmsRole;
 import org.opencms.util.CmsCollectionsGenericWrapper;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class implements the FlexCache.
@@ -112,7 +113,7 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
     public CmsFlexCacheKey m_key;
 
     /** Maps variations to CmsFlexCacheEntries. */
-    public Map<String, I_CmsLruCacheObject> m_map;
+    public @RUntainted Map<String, I_CmsLruCacheObject> m_map;
 
     /**
      * Generates a new instance of CmsFlexCacheVariation.
@@ -187,7 +188,7 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
   }
 
   /** Constant for distinguish cache action. */
-  public static final String CACHE_ACTION = "action";
+  public static final @RUntainted String CACHE_ACTION = "action";
 
   /** Suffix to append to online cache entries. */
   public static final String CACHE_OFFLINESUFFIX = " [offline]";
@@ -240,19 +241,19 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
   private CmsFlexBucketConfiguration m_bucketConfiguration;
 
   /** Indicates if offline resources should be cached or not. */
-  private boolean m_cacheOffline;
+  private @RUntainted boolean m_cacheOffline;
 
   /** The CMS object used for VFS operations. */
   private CmsObject m_cmsObject;
 
   /** Indicates if the cache is enabled or not. */
-  private boolean m_enabled;
+  private @RUntainted boolean m_enabled;
 
   /** Map to store the entries for fast lookup. */
   private Map<String, CmsFlexCacheVariation> m_keyCache;
 
   /** Counter for the size. */
-  private int m_size;
+  private @RUntainted int m_size;
 
   /**
    * Constructor for class CmsFlexCache.
@@ -270,9 +271,9 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
     m_enabled = configuration.isCacheEnabled();
     m_cacheOffline = configuration.isCacheOffline();
 
-    long maxCacheBytes = configuration.getMaxCacheBytes();
+    @RUntainted long maxCacheBytes = configuration.getMaxCacheBytes();
     long avgCacheBytes = configuration.getAvgCacheBytes();
-    int maxEntryBytes = configuration.getMaxEntryBytes();
+    @RUntainted int maxEntryBytes = configuration.getMaxEntryBytes();
     int maxKeys = configuration.getMaxKeys();
 
     m_variationCache = new CmsLruCache(maxCacheBytes, avgCacheBytes, maxEntryBytes);
@@ -715,7 +716,7 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
    * @param resource the resource name for which to look up the key for
    * @return the CmsFlexCacheKey data structure found for the resource
    */
-  CmsFlexCacheKey getKey(String resource) {
+  CmsFlexCacheKey getKey(@RUntainted String resource) {
 
     if (!isEnabled()) {
       return null;
@@ -768,7 +769,7 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
   boolean put(
       CmsFlexCacheKey key,
       CmsFlexCacheEntry entry,
-      String variation,
+      @RUntainted String variation,
       CmsFlexRequestKey requestKey) {
 
     if (!isEnabled()) {
@@ -873,7 +874,7 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
    * @param entriesOnly if <code>true</code>, only entries will be cleared, otherwise the entries
    *     and the keys will be cleared
    */
-  private synchronized void clearAccordingToSuffix(String suffix, boolean entriesOnly) {
+  private synchronized void clearAccordingToSuffix(@RUntainted String suffix, @RUntainted boolean entriesOnly) {
 
     Set<String> keys = synchronizedCopyKeys(m_keyCache);
     Iterator<String> i = keys.iterator();
@@ -1154,7 +1155,7 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
    * @param theCacheEntry the entry to cache
    * @param variation the variation string
    */
-  private void put(CmsFlexCacheKey key, CmsFlexCacheEntry theCacheEntry, String variation) {
+  private void put(CmsFlexCacheKey key, CmsFlexCacheEntry theCacheEntry, @RUntainted String variation) {
 
     CmsFlexCacheVariation o = m_keyCache.get(key.getResource());
     if (key.getTimeout() > 0) {

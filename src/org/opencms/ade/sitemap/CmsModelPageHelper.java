@@ -69,6 +69,7 @@ import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 import org.opencms.xml.types.CmsXmlVfsFileValue;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for model page operations in the sitemap editor.
@@ -90,7 +91,7 @@ public class CmsModelPageHelper {
   private CmsResource m_rootResource;
 
   /** The site root. */
-  private String m_siteRoot;
+  private @RUntainted String m_siteRoot;
 
   /**
    * Creates a new instance.
@@ -125,7 +126,7 @@ public class CmsModelPageHelper {
    * @throws CmsException if something goes wrong
    */
   public void addModelPageToSitemapConfiguration(
-      CmsResource sitemapConfig, CmsResource modelPage, boolean disabled) throws CmsException {
+      CmsResource sitemapConfig, CmsResource modelPage, @RUntainted boolean disabled) throws CmsException {
 
     CmsFile sitemapConfigFile = m_cms.readFile(sitemapConfig);
     CmsXmlContent content = CmsXmlContentFactory.unmarshal(m_cms, sitemapConfigFile);
@@ -134,7 +135,7 @@ public class CmsModelPageHelper {
     List<CmsModelPageConfigWithoutResource> modelPageConfigs = reader.getModelPageConfigs();
 
     int i = 0;
-    boolean isDefault = false;
+    @RUntainted boolean isDefault = false;
     for (CmsModelPageConfigWithoutResource config : modelPageConfigs) {
       if (config.getStructureId().equals(modelPage.getStructureId())) {
         isDefault = config.isDefault();
@@ -170,7 +171,7 @@ public class CmsModelPageHelper {
    * @return the new resource
    * @throws CmsException in case something goes wrong
    */
-  public CmsResource createModelGroupPage(String name, String description, CmsUUID copyId)
+  public CmsResource createModelGroupPage(@RUntainted String name, @RUntainted String description, CmsUUID copyId)
       throws CmsException {
 
     CmsResource newPage = null;
@@ -206,12 +207,12 @@ public class CmsModelPageHelper {
    * @return the created resource
    * @throws CmsException if something goes wrong
    */
-  public CmsResource createPageInModelFolder(String name, String description, CmsUUID copyId)
+  public CmsResource createPageInModelFolder(@RUntainted String name, @RUntainted String description, CmsUUID copyId)
       throws CmsException {
 
     CmsResource modelFolder = ensureModelFolder(m_rootResource);
     String pattern = "templatemodel_%(number).html";
-    String newFilePath =
+    @RUntainted String newFilePath =
         OpenCms.getResourceManager()
             .getNameGenerator()
             .getNewFileName(m_cms, CmsStringUtil.joinPaths(modelFolder.getRootPath(), pattern), 4);
@@ -248,7 +249,7 @@ public class CmsModelPageHelper {
    * @param disabled <code>true</code> to disabe the entry
    * @throws CmsException if something goes wrong
    */
-  public void disableModelPage(CmsResource sitemapConfig, CmsUUID structureId, boolean disabled)
+  public void disableModelPage(CmsResource sitemapConfig, CmsUUID structureId, @RUntainted boolean disabled)
       throws CmsException {
 
     CmsFile sitemapConfigFile = m_cms.readFile(sitemapConfig);

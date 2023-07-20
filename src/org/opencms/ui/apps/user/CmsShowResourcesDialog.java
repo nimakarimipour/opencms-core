@@ -43,6 +43,7 @@ import org.opencms.ui.A_CmsUI;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to show resources with permissions for principle.
@@ -87,7 +88,7 @@ public class CmsShowResourcesDialog extends CmsBasicDialog {
    * @param id of principal
    * @param window holding dialog
    */
-  public CmsShowResourcesDialog(String id, final Window window) {
+  public CmsShowResourcesDialog(@RUntainted String id, final Window window) {
 
     CmsVaadinUtils.readAndLocalizeDesign(
         this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);

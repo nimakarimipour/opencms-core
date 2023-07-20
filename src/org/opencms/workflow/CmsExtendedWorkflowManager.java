@@ -60,6 +60,7 @@ import org.opencms.publish.CmsPublishJobRunning;
 import org.opencms.security.CmsPermissionSet;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The default workflow manager implementation, which supports 2 basic actions, Release and Publish.
@@ -198,12 +199,12 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
 
     String workflowKey = workflow.getId();
     String overrideId = null;
-    Integer tooManyCount = null;
+    @RUntainted Integer tooManyCount = null;
     if (WORKFLOW_RELEASE.equals(workflowKey)) {
       boolean tooMany = false;
       CmsWorkflowResources workflowResourcesBean =
           super.getWorkflowResources(cms, workflow, options, canOverrideWorkflow, ignoreLimit);
-      List<CmsResource> result = workflowResourcesBean.getWorkflowResources();
+      @RUntainted List<CmsResource> result = workflowResourcesBean.getWorkflowResources();
       tooMany = workflowResourcesBean.isTooMany();
       if (tooMany) {
         tooManyCount = workflowResourcesBean.getTooManyCount();
@@ -501,8 +502,8 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
     Locale locale = CmsLocaleManager.getDefaultLocale();
     long time = System.currentTimeMillis();
     Date date = new Date(time);
-    DateFormat format = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM, locale);
-    String dateString = format.format(date);
+    @RUntainted DateFormat format = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM, locale);
+    @RUntainted String dateString = format.format(date);
     String result =
         Messages.get()
             .getBundle(locale)
@@ -543,10 +544,10 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
     Date date = new Date(time);
     OpenCms.getLocaleManager();
     Locale locale = CmsLocaleManager.getDefaultLocale();
-    DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, locale);
-    DateFormat timeFormat =
+    @RUntainted DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, locale);
+    @RUntainted DateFormat timeFormat =
         DateFormat.getTimeInstance(shortTime ? DateFormat.SHORT : DateFormat.MEDIUM, locale);
-    String dateStr = dateFormat.format(date) + " " + timeFormat.format(date);
+    @RUntainted String dateStr = dateFormat.format(date) + " " + timeFormat.format(date);
     String username = user.getName();
     String result =
         Messages.get()
@@ -717,7 +718,7 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
       List<CmsResource> resources) {
 
     try {
-      String linkHref =
+      @RUntainted String linkHref =
           OpenCms.getLinkManager()
               .getServerLink(
                   userCms,

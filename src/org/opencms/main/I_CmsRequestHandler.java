@@ -32,6 +32,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.opencms.configuration.CmsParameterConfiguration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes an OpenCms request handler.
@@ -71,7 +72,7 @@ public interface I_CmsRequestHandler {
    *
    * @return the handler name
    */
-  String[] getHandlerNames();
+  @RUntainted String[] getHandlerNames();
 
   /**
    * Handles an OpenCms request.
@@ -84,7 +85,7 @@ public interface I_CmsRequestHandler {
    * @throws ServletException in case an error occurs
    * @throws IOException in case an error occurs
    */
-  void handle(HttpServletRequest req, HttpServletResponse res, String name)
+  void handle(@RUntainted HttpServletRequest req, HttpServletResponse res, @RUntainted String name)
       throws IOException, ServletException;
 
   /**

@@ -39,6 +39,7 @@ import org.bouncycastle.crypto.params.HKDFParameters;
 import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.file.CmsObject;
 import org.opencms.main.CmsLog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default text encryption class using AES, where the encryption key is generated from a string

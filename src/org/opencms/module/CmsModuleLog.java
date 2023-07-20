@@ -37,6 +37,7 @@ import org.apache.commons.logging.Log;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsFileUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsible for reading and writing module import/export log messages, to be used
@@ -100,7 +101,7 @@ public class CmsModuleLog {
    * @param moduleName the module
    * @return the log file
    */
-  public File getLogFile(String moduleName) {
+  public File getLogFile(@RUntainted String moduleName) {
 
     return new File(
         OpenCms.getSystemInfo()

@@ -36,6 +36,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the OpenCms system with information from the servlet context.
@@ -116,7 +117,7 @@ public class OpenCmsListener implements ServletContextListener, HttpSessionListe
   /**
    * @see javax.servlet.http.HttpSessionListener#sessionCreated(javax.servlet.http.HttpSessionEvent)
    */
-  public void sessionCreated(HttpSessionEvent event) {
+  public void sessionCreated(@RUntainted HttpSessionEvent event) {
 
     try {
       // inform the OpenCms session manager
@@ -135,7 +136,7 @@ public class OpenCmsListener implements ServletContextListener, HttpSessionListe
    * @see
    *     javax.servlet.http.HttpSessionListener#sessionDestroyed(javax.servlet.http.HttpSessionEvent)
    */
-  public void sessionDestroyed(HttpSessionEvent event) {
+  public void sessionDestroyed(@RUntainted HttpSessionEvent event) {
 
     try {
       // inform the OpenCms session manager
@@ -159,9 +160,9 @@ public class OpenCmsListener implements ServletContextListener, HttpSessionListe
 
     // This manually deregisters JDBC driver, which prevents Tomcat 7 from complaining about memory
     // leaks
-    Enumeration<Driver> drivers = DriverManager.getDrivers();
+    Enumeration<@RUntainted Driver> drivers = DriverManager.getDrivers();
     while (drivers.hasMoreElements()) {
-      Driver driver = drivers.nextElement();
+      @RUntainted Driver driver = drivers.nextElement();
       try {
         DriverManager.deregisterDriver(driver);
       } catch (Throwable e) {

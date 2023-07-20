@@ -90,6 +90,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.util.PrintfFormat;
 import org.opencms.xml.CmsXmlContentDefinition;
 import org.opencms.xml.CmsXmlEntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Monitors OpenCms memory consumption.
@@ -184,13 +185,13 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
   private Map<String, Boolean> m_cacheHasRoles;
 
   /** A cache for accelerated locale lookup. */
-  private Map<String, Locale> m_cacheLocale;
+  private Map<String, @RUntainted Locale> m_cacheLocale;
 
   /** Cache for the resource locks. */
   private Map<String, CmsLock> m_cacheLock;
 
   /** The memory object cache map. */
-  private Map<String, Object> m_cacheMemObject;
+  private Map<String, @RUntainted Object> m_cacheMemObject;
 
   /** Cache for organizational units. */
   private Map<String, CmsOrganizationalUnit> m_cacheOrgUnit;
@@ -247,13 +248,13 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
   private Map<CacheType, Boolean> m_disabled = new HashMap<CacheType, Boolean>();
 
   /** Interval in which emails are send. */
-  private int m_intervalEmail;
+  private @RUntainted int m_intervalEmail;
 
   /** Interval in which the log is written. */
-  private int m_intervalLog;
+  private @RUntainted int m_intervalLog;
 
   /** Interval between 2 warnings. */
-  private int m_intervalWarning;
+  private @RUntainted int m_intervalWarning;
 
   /** The time the caches were last cleared. */
   private long m_lastClearCache;
@@ -271,10 +272,10 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
   private long m_lastLogWarning;
 
   /** The number of times the log entry was written. */
-  private int m_logCount;
+  private @RUntainted int m_logCount;
 
   /** Memory percentage to reach to go to warning level. */
-  private int m_maxUsagePercent;
+  private @RUntainted int m_maxUsagePercent;
 
   /** Cache for resource OU data. */
   private LoadingCache<ResourceOUCacheKey, ResourceOUMap> m_resourceOuCache;
@@ -292,7 +293,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
   private Buffer m_publishHistory;
 
   /** Buffer for publish jobs. */
-  private Buffer m_publishQueue;
+  private @RUntainted Buffer m_publishQueue;
 
   /** Flag for memory warning mail send. */
   private boolean m_warningLoggedSinceLastStatus;
@@ -352,7 +353,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
    * @param obj the object
    * @return the size of the object
    */
-  public static int getMemorySize(Object obj) {
+  public static @RUntainted int getMemorySize(@RUntainted Object obj) {
 
     if (obj instanceof I_CmsMemoryMonitorable) {
       return ((I_CmsMemoryMonitorable) obj).getMemorySize();
@@ -452,14 +453,14 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
    * @param depth the max recursion depth for calculation the size
    * @return the size of the list object
    */
-  public static long getValueSize(List<?> listValue, int depth) {
+  public static @RUntainted long getValueSize(List<?> listValue, int depth) {
 
     long totalSize = 0;
     try {
-      Object[] values = listValue.toArray();
+      @RUntainted Object[] values = listValue.toArray();
       for (int i = 0, s = values.length; i < s; i++) {
 
-        Object obj = values[i];
+        @RUntainted Object obj = values[i];
 
         if (obj instanceof CmsAccessControlList) {
           obj = ((CmsAccessControlList) obj).getPermissionMap();
@@ -502,14 +503,14 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
    * @param depth the max recursion depth for calculation the size
    * @return the size of the map object
    */
-  public static long getValueSize(Map<?, ?> mapValue, int depth) {
+  public static @RUntainted long getValueSize(Map<?, ?> mapValue, int depth) {
 
     long totalSize = 0;
     try {
-      Object[] values = mapValue.values().toArray();
+      @RUntainted Object[] values = mapValue.values().toArray();
       for (int i = 0, s = values.length; i < s; i++) {
 
-        Object obj = values[i];
+        @RUntainted Object obj = values[i];
 
         if (obj instanceof CmsAccessControlList) {
           obj = ((CmsAccessControlList) obj).getPermissionMap();
@@ -551,7 +552,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
    * @param obj the object
    * @return the value sizes of value objects or "-"-fields
    */
-  public static long getValueSize(Object obj) {
+  public static @RUntainted long getValueSize(@RUntainted Object obj) {
 
     if (obj instanceof CmsLruCache) {
       return ((CmsLruCache) obj).size();
@@ -628,7 +629,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
    * @param key the cache key
    * @param locale the locale to cache
    */
-  public void cacheLocale(String key, Locale locale) {
+  public void cacheLocale(String key, @RUntainted Locale locale) {
 
     if (m_cacheLocale != null) {
       if (m_disabled.get(CacheType.LOCALE) != null) {
@@ -1627,7 +1628,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
    * @param key the cache key to look for
    * @return the locale cached with the given cache key
    */
-  public Locale getCachedLocale(String key) {
+  public @RUntainted Locale getCachedLocale(String key) {
 
     if (m_cacheLocale == null) {
       // this may be accessed before initialization
@@ -1657,7 +1658,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
    * @param key the cache key to look for
    * @return the memory object cached with the given cache key
    */
-  public Object getCachedMemObject(String key) {
+  public @RUntainted Object getCachedMemObject(String key) {
 
     return m_cacheMemObject.get(key);
   }
@@ -1886,7 +1887,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
    * @param key the cache key to look for
    * @return the user groups list cached with the given cache key
    */
-  public List<CmsUser> getCachedUserList(String key) {
+  public List<@RUntainted CmsUser> getCachedUserList(String key) {
 
     return m_cacheUserList.get(key);
   }
@@ -1951,7 +1952,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
    *
    * @return the next publish job
    */
-  public CmsPublishJobInfoBean getFirstCachedPublishJob() {
+  public @RUntainted CmsPublishJobInfoBean getFirstCachedPublishJob() {
 
     synchronized (m_publishQueue) {
       if (!m_publishQueue.isEmpty()) {
@@ -2071,7 +2072,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
             Messages.get()
                 .getBundle()
                 .key(Messages.LOG_MM_EMAIL_SENDER_1, m_configuration.getEmailSender()));
-        Iterator<String> i = m_configuration.getEmailReceiver().iterator();
+        Iterator<@RUntainted String> i = m_configuration.getEmailReceiver().iterator();
         int n = 0;
         while (i.hasNext()) {
           CmsLog.INIT.info(
@@ -2144,7 +2145,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
     register(CmsDriverManager.class.getName() + ".projectResourcesCache", m_cacheProjectResources);
 
     // publish history
-    int size = configuration.getPublishManager().getPublishHistorySize();
+    @RUntainted int size = configuration.getPublishManager().getPublishHistorySize();
     Buffer buffer = CmsPublishHistory.getQueue(size);
     m_publishHistory = SynchronizedBuffer.decorate(buffer);
     register(CmsPublishHistory.class.getName() + ".publishHistory", buffer);
@@ -2288,7 +2289,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
   }
 
   /** @see org.opencms.scheduler.I_CmsScheduledJob#launch(CmsObject, Map) */
-  public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+  public @RUntainted String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
     CmsMemoryMonitor monitor = OpenCms.getMemoryMonitor();
 
@@ -2623,7 +2624,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
    * @param obj the object
    * @return the cache costs or "-"
    */
-  protected long getCosts(Object obj) {
+  protected @RUntainted long getCosts(Object obj) {
 
     long costs = 0;
     if (obj instanceof CmsLruCache) {
@@ -2671,9 +2672,9 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
    * @param depth the max recursion depth for calculation the size
    * @return total size of key strings
    */
-  protected long getKeySize(Map<?, ?> map, int depth) {
+  protected @RUntainted long getKeySize(Map<?, ?> map, int depth) {
 
-    long keySize = 0;
+    @RUntainted long keySize = 0;
     try {
       Object[] values = map.values().toArray();
       for (int i = 0, s = values.length; i < s; i++) {
@@ -2690,10 +2691,10 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
       Object[] keys = map.keySet().toArray();
       for (int i = 0, s = keys.length; i < s; i++) {
 
-        Object obj = keys[i];
+        @RUntainted Object obj = keys[i];
 
         if (obj instanceof String) {
-          String st = (String) obj;
+          @RUntainted String st = (String) obj;
           keySize += (st.length() * 2);
         }
       }
@@ -2719,7 +2720,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
    * @param obj the object
    * @return the total size of key strings
    */
-  protected long getKeySize(Object obj) {
+  protected @RUntainted long getKeySize(Object obj) {
 
     if (obj instanceof Map) {
       return getKeySize((Map<?, ?>) obj, 1);
@@ -2849,7 +2850,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
       String[] shortKeys = key.split("\\.");
       String shortKey = shortKeys[shortKeys.length - 2] + '.' + shortKeys[shortKeys.length - 1];
       PrintfFormat form = new PrintfFormat("%9s");
-      Object obj = m_monitoredObjects.get(key);
+      @RUntainted Object obj = m_monitoredObjects.get(key);
 
       long size = getKeySize(obj) + getValueSize(obj) + getCosts(obj);
       totalSize += size;
@@ -2970,12 +2971,12 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
 
       List<String> keyList = new ArrayList<String>(m_monitoredObjects.keySet());
       Collections.sort(keyList);
-      long totalSize = 0;
+      @RUntainted long totalSize = 0;
       for (Iterator<String> keys = keyList.iterator(); keys.hasNext(); ) {
         String key = keys.next();
-        Object obj = m_monitoredObjects.get(key);
+        @RUntainted Object obj = m_monitoredObjects.get(key);
 
-        long size = getKeySize(obj) + getValueSize(obj) + getCosts(obj);
+        @RUntainted long size = getKeySize(obj) + getValueSize(obj) + getCosts(obj);
         totalSize += size;
 
         PrintfFormat name1 = new PrintfFormat("%-80s");
@@ -3038,8 +3039,8 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
       }
       sm = null;
 
-      for (Iterator<String> i = OpenCms.getSqlManager().getDbPoolUrls().iterator(); i.hasNext(); ) {
-        String poolname = i.next();
+      for (Iterator<@RUntainted String> i = OpenCms.getSqlManager().getDbPoolUrls().iterator(); i.hasNext(); ) {
+        @RUntainted String poolname = i.next();
         try {
           LOG.info(
               Messages.get()

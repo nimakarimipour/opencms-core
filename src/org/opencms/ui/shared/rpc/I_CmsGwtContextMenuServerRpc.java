@@ -28,6 +28,7 @@
 package org.opencms.ui.shared.rpc;
 
 import com.vaadin.shared.communication.ServerRpc;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Server side RPC interface for the GWT based context menu buttons. */
 public interface I_CmsGwtContextMenuServerRpc extends ServerRpc {
@@ -37,5 +38,5 @@ public interface I_CmsGwtContextMenuServerRpc extends ServerRpc {
    *
    * @param id the structure id of the resource
    */
-  void refresh(String id);
+  void refresh(@RUntainted String id);
 }

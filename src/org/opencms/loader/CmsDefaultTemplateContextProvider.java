@@ -49,6 +49,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Example implementation of a template context provider for deciding between a desktop template and
@@ -107,7 +108,7 @@ public class CmsDefaultTemplateContextProvider implements I_CmsTemplateContextPr
    *
    * @return the absolute VFS path where the configuration property file is stored
    */
-  public String getConfigurationPropertyPath() {
+  public @RUntainted String getConfigurationPropertyPath() {
 
     if (m_params.containsKey(PARAM_CONFIGURATION)) {
       return m_params.get(PARAM_CONFIGURATION);
@@ -181,7 +182,7 @@ public class CmsDefaultTemplateContextProvider implements I_CmsTemplateContextPr
    *     org.opencms.loader.I_CmsTemplateContextProvider#readCommonProperty(org.opencms.file.CmsObject,
    *     java.lang.String, java.lang.String)
    */
-  public String readCommonProperty(CmsObject cms, String propertyName, String fallbackValue)
+  public String readCommonProperty(CmsObject cms, String propertyName, @RUntainted String fallbackValue)
       throws CmsException {
 
     String templatePath = getAllContexts().get("desktop").getTemplatePath();
@@ -227,7 +228,7 @@ public class CmsDefaultTemplateContextProvider implements I_CmsTemplateContextPr
     String path = getConfigurationPropertyPath();
     CmsResource resource = m_cms.readResource(path);
     CmsFile file = m_cms.readFile(resource);
-    String fileContent = new String(file.getContents(), "UTF-8");
+    @RUntainted String fileContent = new String(file.getContents(), "UTF-8");
     CmsMacroResolver resolver = new CmsMacroResolver();
     resolver.setCmsObject(m_cms);
     for (Map.Entry<String, String> param : m_params.entrySet()) {

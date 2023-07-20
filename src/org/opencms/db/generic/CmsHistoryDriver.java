@@ -68,6 +68,7 @@ import org.opencms.security.CmsOrganizationalUnit;
 import org.opencms.security.I_CmsPrincipal;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) database server implementation of the history driver methods.
@@ -417,7 +418,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
 
     CmsParameterConfiguration configuration = configurationManager.getConfiguration();
 
-    String poolUrl;
+    @RUntainted String poolUrl;
     if (configuration.get("db.history.pool") != null) {
       poolUrl = configuration.get("db.history.pool").toString();
     } else {
@@ -453,7 +454,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
   }
 
   /** @see org.opencms.db.I_CmsHistoryDriver#initSqlManager(String) */
-  public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+  public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
     return CmsSqlManager.getInstance(classname);
   }
@@ -870,7 +871,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
    * @see org.opencms.db.I_CmsHistoryDriver#readPrincipal(org.opencms.db.CmsDbContext,
    *     org.opencms.util.CmsUUID)
    */
-  public CmsHistoryPrincipal readPrincipal(CmsDbContext dbc, CmsUUID principalId)
+  public CmsHistoryPrincipal readPrincipal(CmsDbContext dbc, @RUntainted CmsUUID principalId)
       throws CmsDataAccessException {
 
     Connection conn = null;
@@ -884,8 +885,8 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
       stmt.setString(1, principalId.toString());
       res = stmt.executeQuery();
       if (res.next()) {
-        String userName = res.getString(m_sqlManager.readQuery("C_PRINCIPALS_HISTORY_NAME"));
-        String ou =
+        @RUntainted String userName = res.getString(m_sqlManager.readQuery("C_PRINCIPALS_HISTORY_NAME"));
+        @RUntainted String ou =
             CmsOrganizationalUnit.removeLeadingSeparator(
                 res.getString(m_sqlManager.readQuery("C_PRINCIPALS_HISTORY_OU")));
         historyPrincipal =
@@ -917,7 +918,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
   }
 
   /** @see org.opencms.db.I_CmsHistoryDriver#readProject(org.opencms.db.CmsDbContext, CmsUUID) */
-  public CmsHistoryProject readProject(CmsDbContext dbc, CmsUUID projectId)
+  public CmsHistoryProject readProject(CmsDbContext dbc, @RUntainted CmsUUID projectId)
       throws CmsDataAccessException {
 
     PreparedStatement stmt = null;
@@ -960,7 +961,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
   }
 
   /** @see org.opencms.db.I_CmsHistoryDriver#readProject(org.opencms.db.CmsDbContext, int) */
-  public CmsHistoryProject readProject(CmsDbContext dbc, int publishTag)
+  public CmsHistoryProject readProject(CmsDbContext dbc, @RUntainted int publishTag)
       throws CmsDataAccessException {
 
     PreparedStatement stmt = null;
@@ -1153,7 +1154,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
    * @see org.opencms.db.I_CmsHistoryDriver#readPropertyDefinition(org.opencms.db.CmsDbContext,
    *     java.lang.String)
    */
-  public CmsPropertyDefinition readPropertyDefinition(CmsDbContext dbc, String name)
+  public CmsPropertyDefinition readPropertyDefinition(CmsDbContext dbc, @RUntainted String name)
       throws CmsDataAccessException {
 
     CmsPropertyDefinition propDef = null;
@@ -1224,7 +1225,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
   }
 
   /** @see org.opencms.db.I_CmsHistoryDriver#readResource(CmsDbContext, CmsUUID, int) */
-  public I_CmsHistoryResource readResource(CmsDbContext dbc, CmsUUID structureId, int version)
+  public I_CmsHistoryResource readResource(CmsDbContext dbc, @RUntainted CmsUUID structureId, int version)
       throws CmsDataAccessException {
 
     I_CmsHistoryResource resource = null;
@@ -1597,9 +1598,9 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
   protected void internalAddToPropMap(
       Map<String, CmsProperty> propertyMap,
       I_CmsHistoryResource resource,
-      String propertyKey,
-      String propertyValue,
-      int mappingType)
+      @RUntainted String propertyKey,
+      @RUntainted String propertyValue,
+      @RUntainted int mappingType)
       throws CmsDbConsistencyException {
 
     CmsProperty property = propertyMap.get(propertyKey);
@@ -1762,10 +1763,10 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
    * @return the historical project
    * @throws SQLException if something goes wrong
    */
-  protected CmsHistoryProject internalCreateProject(ResultSet res, List<String> resources)
+  protected CmsHistoryProject internalCreateProject(@RUntainted ResultSet res, List<String> resources)
       throws SQLException {
 
-    String ou =
+    @RUntainted String ou =
         CmsOrganizationalUnit.removeLeadingSeparator(
             res.getString(m_sqlManager.readQuery("C_PROJECTS_PROJECT_OU_0")));
     CmsUUID publishedById =
@@ -1796,7 +1797,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
    * @return the new historical resource instance
    * @throws SQLException if a requested attribute was not found in the result set
    */
-  protected I_CmsHistoryResource internalCreateResource(ResultSet res) throws SQLException {
+  protected I_CmsHistoryResource internalCreateResource(@RUntainted ResultSet res) throws SQLException {
 
     int resourceVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_VERSION"));
     int structureVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_STRUCTURE_VERSION"));
@@ -1887,7 +1888,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
    * @throws SQLException if something goes wrong
    */
   protected I_CmsHistoryResource internalMergeResource(
-      I_CmsHistoryResource histRes, ResultSet res, int versionOffset) throws SQLException {
+      I_CmsHistoryResource histRes, @RUntainted ResultSet res, int versionOffset) throws SQLException {
 
     int resourceVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_VERSION"));
     int structureVersion = histRes.getStructureVersion() - versionOffset;

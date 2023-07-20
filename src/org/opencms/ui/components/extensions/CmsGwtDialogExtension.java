@@ -59,6 +59,7 @@ import org.opencms.ui.components.CmsErrorDialog;
 import org.opencms.ui.shared.components.I_CmsGwtDialogClientRpc;
 import org.opencms.ui.shared.components.I_CmsGwtDialogServerRpc;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extension used to open existing GWT based dialogs (from ADE, etc.) from the server side, for use

@@ -60,6 +60,7 @@ import org.opencms.ui.components.CmsFileTable;
 import org.opencms.ui.components.CmsResourceTableProperty;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Link validation app.
@@ -82,7 +83,7 @@ public class CmsLinkValidationApp extends A_CmsWorkplaceApp {
      * @see org.opencms.ui.apps.linkvalidation.A_CmsLinkValidator#failedResources(java.util.List)
      */
     @Override
-    public List<CmsResource> failedResources(List<String> resources) {
+    public List<CmsResource> failedResources(List<@RUntainted String> resources) {
 
       validator = new CmsInternalLinksValidator(A_CmsUI.getCmsObject(), resources);
       return validator.getResourcesWithBrokenLinks();
@@ -114,7 +115,7 @@ public class CmsLinkValidationApp extends A_CmsWorkplaceApp {
 
         private static final long serialVersionUID = -7729459896374968941L;
 
-        public void itemClick(ItemClickEvent event) {
+        public void itemClick(@RUntainted ItemClickEvent event) {
 
           if (event.getButton().equals(MouseButton.RIGHT)) {
             return;
@@ -172,7 +173,7 @@ public class CmsLinkValidationApp extends A_CmsWorkplaceApp {
      *
      * @return key for caption
      */
-    String getCaptionKey() {
+    @RUntainted String getCaptionKey() {
 
       return org.opencms.ui.apps.Messages.GUI_LINKVALIDATION_BROKENLINKS_DETAIL_LINKS_NAME_0;
     }
@@ -201,7 +202,7 @@ public class CmsLinkValidationApp extends A_CmsWorkplaceApp {
      * @param rootPath to get Broken links for.
      * @return broken link string
      */
-    private String getBrokenLinkString(String rootPath) {
+    private String getBrokenLinkString(@RUntainted String rootPath) {
 
       String ret = "";
 
@@ -211,8 +212,8 @@ public class CmsLinkValidationApp extends A_CmsWorkplaceApp {
 
         rootCms.getRequestContext().setSiteRoot("");
 
-        String siteRoot = OpenCms.getSiteManager().getSiteRoot(rootPath);
-        String siteName = siteRoot;
+        @RUntainted String siteRoot = OpenCms.getSiteManager().getSiteRoot(rootPath);
+        @RUntainted String siteName = siteRoot;
         if (siteRoot != null) {
           try {
 

@@ -34,6 +34,7 @@ import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.gwt.shared.CmsPermissionInfo;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A publish resource.
@@ -91,8 +92,8 @@ public class CmsPublishResource extends CmsListInfoBean {
    */
   public CmsPublishResource(
       CmsUUID id,
-      String name,
-      String title,
+      @RUntainted String name,
+      @RUntainted String title,
       String resourceType,
       CmsResourceState state,
       CmsPermissionInfo permissionInfo,

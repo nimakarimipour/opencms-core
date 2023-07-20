@@ -34,6 +34,7 @@ import org.opencms.security.I_CmsPrincipal;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A group principal in the OpenCms permission system.
@@ -66,7 +67,7 @@ public class CmsGroup extends CmsPrincipal {
    * @param description the description of the group
    * @param flags the flags of the group
    */
-  public CmsGroup(CmsUUID id, CmsUUID parentId, String name, String description, int flags) {
+  public CmsGroup(@RUntainted CmsUUID id, CmsUUID parentId, @RUntainted String name, @RUntainted String description, int flags) {
 
     m_id = id;
     m_name = name;
@@ -158,7 +159,7 @@ public class CmsGroup extends CmsPrincipal {
    * @param locale the locale
    * @return the description of this organizational unit
    */
-  public String getDescription(Locale locale) {
+  public String getDescription(@RUntainted Locale locale) {
 
     CmsMacroResolver macroResolver = new CmsMacroResolver();
     macroResolver.setMessages(org.opencms.db.generic.Messages.get().getBundle(locale));

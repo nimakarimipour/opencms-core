@@ -32,6 +32,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.file.CmsUser;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides filters for getting resources visited by a user in a specified time range.
@@ -49,7 +50,7 @@ public class CmsVisitedByFilter {
   private boolean m_includeSubFolders;
 
   /** The parent path to read visited resources from. */
-  private String m_parentPath;
+  private @RUntainted String m_parentPath;
 
   /** The date specifying the end point in time to which a resource was visited. */
   private long m_toDate;
@@ -115,7 +116,7 @@ public class CmsVisitedByFilter {
    *
    * @return the parent root path to read visited resources from
    */
-  public String getParentPath() {
+  public @RUntainted String getParentPath() {
 
     return m_parentPath;
   }
@@ -190,7 +191,7 @@ public class CmsVisitedByFilter {
    *
    * @param parentPath the parent path to read visited resources from
    */
-  public void setParentPath(String parentPath) {
+  public void setParentPath(@RUntainted String parentPath) {
 
     m_parentPath = parentPath;
   }
@@ -257,7 +258,7 @@ public class CmsVisitedByFilter {
    * @see java.lang.Object#toString()
    */
   @Override
-  public String toString() {
+  public @RUntainted String toString() {
 
     StringBuffer result = new StringBuffer(256);
     result.append("From: ").append(new Date(getFromDate()).toString());

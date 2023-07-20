@@ -43,6 +43,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 import org.opencms.monitor.CmsMemoryMonitor;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This queue contains all not jet started publish jobs.
@@ -297,9 +298,9 @@ public class CmsPublishQueue {
    *
    * @return the next publish job to be published
    */
-  protected CmsPublishJobInfoBean next() {
+  protected @RUntainted CmsPublishJobInfoBean next() {
 
-    CmsPublishJobInfoBean publishJob = OpenCms.getMemoryMonitor().getFirstCachedPublishJob();
+    @RUntainted CmsPublishJobInfoBean publishJob = OpenCms.getMemoryMonitor().getFirstCachedPublishJob();
     if (publishJob != null) {
       OpenCms.getMemoryMonitor().uncachePublishJob(publishJob);
     }
