@@ -1537,18 +1537,18 @@ tasks.withType(GenerateModuleMetadata) {
 // Annotator scripts
 def checker_config = project.rootDir.toString() + "/annotator-out/checker.xml"
 def scanner_config = project.rootDir.toString() + "/annotator-out/scanner.xml"
-//checkerFramework {
-//    checkers = [
-//            'edu.ucr.cs.riple.taint.ucrtainting.UCRTaintingChecker',
-//    ]
-//
-//    extraJavacArgs = [
-//            '-AannotatedPackages=' + 'org.opencms',
-//            '-AenableLibraryCheck=true',
-//            "-AenableSerialization",
-//            "-AserializationConfigPath=" + checker_config,
-//    ]
-//}
+checkerFramework {
+    checkers = [
+            'edu.ucr.cs.riple.taint.ucrtainting.UCRTaintingChecker',
+    ]
+
+    extraJavacArgs = [
+            '-AannotatedPackages=' + 'org.opencms',
+            '-AenableLibraryCheck=true',
+            "-AenableSerialization",
+            "-AserializationConfigPath=" + checker_config,
+    ]
+}
 
 import net.ltgt.gradle.errorprone.CheckSeverity
 
@@ -1556,10 +1556,6 @@ tasks.withType(JavaCompile) {
     // remove the if condition if you want to run NullAway on test code
     if (!name.toLowerCase().contains("test")) {
         options.errorprone.disableAllChecks = true
-        options.errorprone{
-            check("AnnotatorScanner", CheckSeverity.ERROR)
-            option("AnnotatorScanner:ConfigPath", scanner_config)
-        }
     }
     options.compilerArgs << "-Xmaxerrs" << "100000"
     options.compilerArgs << "-Xmaxwarns" << "100000"
