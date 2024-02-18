@@ -1,20 +1,29 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
-apply plugin: 'eclipse'
-
 buildscript {
     dependencies {
         classpath group: 'com.liferay', name: 'com.liferay.gradle.plugins.tlddoc.builder', version: '2.0.1'
+        classpath group: 'net.ltgt.gradle', name: 'gradle-errorprone-plugin', version: '3.1.0'
+
     }
     repositories {
         mavenLocal()
         mavenCentral()
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
     }
 }
+
+plugins{
+    id 'org.checkerframework' version '0.6.37'
+}
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+apply plugin: 'eclipse'
 apply plugin: 'com.liferay.tlddoc.builder'
+apply plugin: 'net.ltgt.errorprone'
 
 buildDir = build_directory
 
@@ -84,6 +93,7 @@ repositories {
 }
 
 if (!project.hasProperty('max_heap_size')){
+    println("max_heap_size not set, using default value")
     project.ext.max_heap_size='1024m'
 }
 
@@ -224,7 +234,7 @@ configurations {
 
 // We want no transitive dependencies
 configurations.all {
-    transitive = false;
+    transitive = true;
 }
 
 
@@ -1524,3 +1534,36 @@ tasks.withType(GenerateModuleMetadata) {
     enabled = false
 }
 
+// Annotator scripts
+def checker_config = project.rootDir.toString() + "/annotator-out/checker.xml"
+def scanner_config = project.rootDir.toString() + "/annotator-out/scanner.xml"
+//checkerFramework {
+//    checkers = [
+//            'edu.ucr.cs.riple.taint.ucrtainting.UCRTaintingChecker',
+//    ]
+//
+//    extraJavacArgs = [
+//            '-AannotatedPackages=' + 'org.opencms',
+//            '-AenableLibraryCheck=true',
+//            "-AenableSerialization",
+//            "-AserializationConfigPath=" + checker_config,
+//    ]
+//}
+
+import net.ltgt.gradle.errorprone.CheckSeverity
+
+tasks.withType(JavaCompile) {
+    // remove the if condition if you want to run NullAway on test code
+    if (!name.toLowerCase().contains("test")) {
+        options.errorprone.disableAllChecks = true
+        options.errorprone{
+            check("AnnotatorScanner", CheckSeverity.ERROR)
+            option("AnnotatorScanner:ConfigPath", scanner_config)
+        }
+    }
+    options.compilerArgs << "-Xmaxerrs" << "100000"
+    options.compilerArgs << "-Xmaxwarns" << "100000"
+    options.compilerArgs += '-nowarn'
+    options.fork = true
+    options.forkOptions.memoryMaximumSize = '32g'
+}
