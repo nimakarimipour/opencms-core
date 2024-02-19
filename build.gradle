@@ -1544,7 +1544,9 @@ checkerFramework {
 
     extraJavacArgs = [
             '-AannotatedPackages=' + 'org.opencms',
-            '-AenableLibraryCheck=true',
+            "-AenableLibraryCheck=$System.env.ANNOTATOR_LIBRARY",
+            "-AenablePolyTaintInference=$System.env.ANNOTATOR_POLY",
+            "-AenableTypeArgumentInference=$System.env.ANNOTATOR_TYPE_ARG",
             "-AenableSerialization",
             "-AserializationConfigPath=" + checker_config,
     ]

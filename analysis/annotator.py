@@ -1,9 +1,8 @@
 import subprocess
 import os
-import shutil
 from pathlib import Path
 
-VERSION = '1.3.9-LOGISIM-SNAPSHOT'
+VERSION = '1.3.9-TAINT-SNAPSHOT'
 REPO = subprocess.check_output(['git', 'rev-parse', '--show-toplevel']).strip().decode('utf-8')
 OUT_DIR = '{}/annotator-out/'.format(REPO)
 ANNOTATOR_JAR = "{}/.m2/repository/edu/ucr/cs/riple/annotator/annotator-core/{}/annotator-core-{}.jar".format(str(Path.home()), VERSION, VERSION)
@@ -20,7 +19,7 @@ def run_annotator():
     commands = []
     commands += ["java", "-jar", ANNOTATOR_JAR]
     commands += ['-d', OUT_DIR]
-    commands += ['-bc', 'cd {} && ./gradlew compileJava --rerun-tasks'.format(REPO)]
+    commands += ['-bc', 'cd {} && ./annotator-command.sh'.format(REPO)]
     commands += ['-cp', '{}/paths.tsv'.format(OUT_DIR)]
     commands += ['-i', 'edu.ucr.Initializer']
     commands += ['-n', 'edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted']

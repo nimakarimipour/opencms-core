@@ -315,6 +315,6 @@ dependencies {
     errorprone "edu.ucr.cs.riple.annotator:annotator-scanner:1.3.12"
 
     // UCR Tainting checker
-    annotationProcessor "edu.ucr.cs.riple.taint:ucrtainting-checker:0.1-alpha-3-SNAPSHOT"
-    compileOnly "edu.ucr.cs.riple.taint:ucrtainting-checker-qual:0.1-alpha-3-SNAPSHOT"
+    annotationProcessor "edu.ucr.cs.riple.taint:ucrtainting-checker:$System.env.UCRT_VERSION"
+    compileOnly "edu.ucr.cs.riple.taint:ucrtainting-checker-qual:$System.env.UCRT_VERSION"
 }
